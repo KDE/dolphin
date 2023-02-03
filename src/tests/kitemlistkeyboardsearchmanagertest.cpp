@@ -6,9 +6,9 @@
 
 #include "kitemviews/private/kitemlistkeyboardsearchmanager.h"
 
-#include <QTest>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTest>
 
 class KItemListKeyboardSearchManagerTest : public QObject
 {

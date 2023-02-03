@@ -13,17 +13,17 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 
-StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent),
-    m_showStatusBar(nullptr),
-    m_showZoomSlider(nullptr),
-    m_showSpaceInfo(nullptr)
+StatusBarSettingsPage::StatusBarSettingsPage(QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_showStatusBar(nullptr)
+    , m_showZoomSlider(nullptr)
+    , m_showSpaceInfo(nullptr)
 {
     m_showStatusBar = new QCheckBox(i18nc("@option:check", "Show status bar"), this);
     m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), this);
     m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);
 
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
     topLayout->addWidget(m_showStatusBar);
     topLayout->addWidget(m_showZoomSlider);
     topLayout->addWidget(m_showSpaceInfo);
@@ -50,7 +50,7 @@ void StatusBarSettingsPage::onShowStatusBarToggled()
 
 void StatusBarSettingsPage::applySettings()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->setShowStatusBar(m_showStatusBar->isChecked());
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
@@ -59,7 +59,7 @@ void StatusBarSettingsPage::applySettings()
 
 void StatusBarSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -73,4 +73,3 @@ void StatusBarSettingsPage::loadSettings()
 
     onShowStatusBarToggled();
 }
-

@@ -11,12 +11,12 @@
 
 #include "placespanel.h"
 
-#include "dolphinplacesmodelsingleton.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_placespanelsettings.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "global.h"
-#include "views/draganddrophelper.h"
 #include "settings/dolphinsettingsdialog.h"
+#include "views/draganddrophelper.h"
 
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
@@ -31,12 +31,11 @@
 
 #include <Solid/StorageAccess>
 
-PlacesPanel::PlacesPanel(QWidget* parent)
+PlacesPanel::PlacesPanel(QWidget *parent)
     : KFilePlacesView(parent)
 {
     setDropOnPlaceEnabled(true);
-    connect(this, &PlacesPanel::urlsDropped,
-            this, &PlacesPanel::slotUrlsDropped);
+    connect(this, &PlacesPanel::urlsDropped, this, &PlacesPanel::slotUrlsDropped);
 
     setAutoResizeItemsEnabled(false);
 
@@ -57,7 +56,7 @@ PlacesPanel::PlacesPanel(QWidget* parent)
             // Don't store 0 size, let's keep -1 for default/small/automatic
             iconSize = -1;
         }
-        PlacesPanelSettings* settings = PlacesPanelSettings::self();
+        PlacesPanelSettings *settings = PlacesPanelSettings::self();
         settings->setIconSize(iconSize);
         settings->save();
     });
@@ -73,7 +72,7 @@ void PlacesPanel::setUrl(const QUrl &url)
     KFilePlacesView::setUrl(url);
 }
 
-QList<QAction*> PlacesPanel::customContextMenuActions() const
+QList<QAction *> PlacesPanel::customContextMenuActions() const
 {
     return m_customContextMenuActions;
 }
@@ -105,7 +104,7 @@ void PlacesPanel::readSettings()
     setIconSize(QSize(iconSize, iconSize));
 }
 
-void PlacesPanel::showEvent(QShowEvent* event)
+void PlacesPanel::showEvent(QShowEvent *event)
 {
     if (!event->spontaneous() && !model()) {
         readSettings();
@@ -163,13 +162,13 @@ void PlacesPanel::slotConfigureTrash()
 {
     const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
 
-    DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
+    DolphinSettingsDialog *settingsDialog = new DolphinSettingsDialog(url, this);
     settingsDialog->setCurrentPage(settingsDialog->trashSettings);
     settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
     settingsDialog->show();
 }
 
-void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
+void PlacesPanel::slotUrlsDropped(const QUrl &dest, QDropEvent *event, QWidget *parent)
 {
     KIO::DropJob *job = DragAndDropHelper::dropUrls(dest, event, parent);
     if (job) {
@@ -225,7 +224,7 @@ void PlacesPanel::slotTearDownRequested(const QModelIndex &index)
 void PlacesPanel::slotTearDownRequestedExternally(const QString &udi)
 {
     Q_UNUSED(udi);
-    auto *storageAccess = static_cast<Solid::StorageAccess*>(sender());
+    auto *storageAccess = static_cast<Solid::StorageAccess *>(sender());
 
     Q_EMIT storageTearDownExternallyRequested(storageAccess->filePath());
 }

@@ -19,7 +19,6 @@ public:
     QString name() const override;
     QString description() const override;
     QVariant data() override;
-
 };
 
 #endif // PLACESDATASOURCE_H

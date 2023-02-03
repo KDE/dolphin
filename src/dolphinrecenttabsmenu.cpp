@@ -12,8 +12,8 @@
 
 #include <QMenu>
 
-DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
-    KActionMenu(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Recently Closed Tabs"), parent)
+DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject *parent)
+    : KActionMenu(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Recently Closed Tabs"), parent)
 {
     setPopupMode(QToolButton::InstantPopup);
     setEnabled(false);
@@ -24,13 +24,12 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
 
     addSeparator();
 
-    connect(menu(), &QMenu::triggered,
-            this, &DolphinRecentTabsMenu::handleAction);
+    connect(menu(), &QMenu::triggered, this, &DolphinRecentTabsMenu::handleAction);
 }
 
-void DolphinRecentTabsMenu::rememberClosedTab(const QUrl& url, const QByteArray& state)
+void DolphinRecentTabsMenu::rememberClosedTab(const QUrl &url, const QByteArray &state)
 {
-    QAction* action = new QAction(menu());
+    QAction *action = new QAction(menu());
     action->setText(url.path());
     action->setData(state);
     const QString iconName = KIO::iconNameForUrl(url);
@@ -59,12 +58,12 @@ void DolphinRecentTabsMenu::undoCloseTab()
     handleAction(menu()->actions().at(2));
 }
 
-void DolphinRecentTabsMenu::handleAction(QAction* action)
+void DolphinRecentTabsMenu::handleAction(QAction *action)
 {
     if (action == m_clearListAction) {
         // Clear all actions except the "Empty Recently Closed Tabs"
         // action and the separator
-        QList<QAction*> actions = menu()->actions();
+        QList<QAction *> actions = menu()->actions();
         const int count = actions.size();
         for (int i = count - 1; i >= 2; i--) {
             removeAction(actions.at(i));

@@ -12,10 +12,7 @@ class KFileItemList;
 class QFontMetrics;
 class QString;
 
-enum ItemsState {
-    None,
-    Selected
-};
+enum ItemsState { None, Selected };
 
 /**
  * @brief Generates a textual representation of the given list of KFileItems.

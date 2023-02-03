@@ -20,14 +20,14 @@ public:
      * @arg scaledSize is assumed to be the scaled to the same device pixel ratio as the source pixmap
      * @arg scaledSize is in device pixels
      */
-    static void scale(QPixmap& pixmap, const QSize& scaledSize);
+    static void scale(QPixmap &pixmap, const QSize &scaledSize);
 
     /**
      * Resize and paint a frame round an icon
      * @arg scaledSize is in device-independent pixels
      * The returned image will be scaled by the application devicePixelRatio
      */
-    static void applyFrame(QPixmap& icon, const QSize& scaledSize);
+    static void applyFrame(QPixmap &icon, const QSize &scaledSize);
 
     /**
      * return and paint a frame round an icon
@@ -35,9 +35,7 @@ public:
      * @return is in device-independent pixels
      */
 
-    static QSize sizeInsideFrame(const QSize& frameSize);
+    static QSize sizeInsideFrame(const QSize &frameSize);
 };
 
 #endif
-
-

@@ -27,14 +27,13 @@ class DOLPHIN_EXPORT KItemListKeyboardSearchManager : public QObject
     Q_OBJECT
 
 public:
-
-    explicit KItemListKeyboardSearchManager(QObject* parent = nullptr);
+    explicit KItemListKeyboardSearchManager(QObject *parent = nullptr);
     ~KItemListKeyboardSearchManager() override;
 
     /**
      * Add \a keys to the text buffer used for searching.
      */
-    void addKeys(const QString& keys);
+    void addKeys(const QString &keys);
     /**
      * @returns true if the next call to addKeys() will trigger a new search.
      *          Returns false if the next added key char will be added to the search string that was used previously.
@@ -55,7 +54,7 @@ public:
 public Q_SLOTS:
 
     void slotCurrentChanged(int current, int previous);
-    void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
+    void slotSelectionChanged(const KItemSet &current, const KItemSet &previous);
 
 Q_SIGNALS:
     /**
@@ -67,7 +66,7 @@ Q_SIGNALS:
      */
     // TODO: Think about getting rid of the bool parameter
     // (see https://doc.qt.io/archives/qq/qq13-apis.html#thebooleanparametertrap)
-    void changeCurrentItem(const QString& string, bool searchFromNextItem);
+    void changeCurrentItem(const QString &string, bool searchFromNextItem);
 
 private:
     bool shouldClearSearchIfInputTimeReached();
@@ -82,5 +81,3 @@ private:
 };
 
 #endif
-
-

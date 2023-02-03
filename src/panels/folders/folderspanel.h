@@ -27,7 +27,7 @@ class FoldersPanel : public Panel
     Q_OBJECT
 
 public:
-    explicit FoldersPanel(QWidget* parent = nullptr);
+    explicit FoldersPanel(QWidget *parent = nullptr);
     ~FoldersPanel() override;
 
     void setShowHiddenFiles(bool show);
@@ -38,31 +38,31 @@ public:
     void setAutoScrolling(bool enable);
     bool autoScrolling() const;
 
-    void rename(const KFileItem& item);
+    void rename(const KFileItem &item);
 
 Q_SIGNALS:
-    void folderActivated(const QUrl& url);
+    void folderActivated(const QUrl &url);
     void folderInNewTab(const QUrl &url);
     void folderInNewActiveTab(const QUrl &url);
-    void errorMessage(const QString& error);
+    void errorMessage(const QString &error);
 
 protected:
     /** @see Panel::urlChanged() */
     bool urlChanged() override;
 
     /** @see QWidget::showEvent() */
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
 
     /** @see QWidget::keyPressEvent() */
-    void keyPressEvent(QKeyEvent* event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private Q_SLOTS:
     void slotItemActivated(int index);
     void slotItemMiddleClicked(int index);
-    void slotItemContextMenuRequested(int index, const QPointF& pos);
-    void slotViewContextMenuRequested(const QPointF& pos);
-    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
-    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void slotItemContextMenuRequested(int index, const QPointF &pos);
+    void slotViewContextMenuRequested(const QPointF &pos);
+    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
+    void slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
     void slotLoadingCompleted();
 
@@ -72,14 +72,13 @@ private Q_SLOTS:
      */
     void startFadeInAnimation();
 
-
 private:
     /**
      * Indicate if it is allowed to leave current location.
      */
     enum NavigationBehaviour {
-      StayWhereYouAre,  ///< Don't leave current location.
-      AllowJumpHome     ///< Go Home only when context menu option got checked.
+        StayWhereYouAre, ///< Don't leave current location.
+        AllowJumpHome ///< Go Home only when context menu option got checked.
     };
     /**
      * Initializes the base URL of the tree and expands all
@@ -87,7 +86,7 @@ private:
      * @param url  URL of the leaf directory that should get expanded.
      * @param navigationBehaviour Navigation behaviour \see NavigationBehaviour
      */
-    void loadTree(const QUrl& url, NavigationBehaviour navigationBehaviour = StayWhereYouAre);
+    void loadTree(const QUrl &url, NavigationBehaviour navigationBehaviour = StayWhereYouAre);
 
     void reloadTree();
 
@@ -99,8 +98,8 @@ private:
 
 private:
     bool m_updateCurrentItem;
-    KItemListController* m_controller;
-    KFileItemModel* m_model;
+    KItemListController *m_controller;
+    KFileItemModel *m_model;
 };
 
 #endif // FOLDERSPANEL_H

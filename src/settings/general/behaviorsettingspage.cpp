@@ -17,43 +17,40 @@
 #include <QRadioButton>
 #include <QSpacerItem>
 
-BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
-    SettingsPageBase(parent),
-    m_url(url),
-    m_localViewProps(nullptr),
-    m_globalViewProps(nullptr),
-    m_showToolTips(nullptr),
-    m_showSelectionToggle(nullptr),
-    m_naturalSorting(nullptr),
-    m_caseSensitiveSorting(nullptr),
-    m_caseInsensitiveSorting(nullptr),
-    m_renameInline(nullptr),
-    m_useTabForSplitViewSwitch(nullptr)
+BehaviorSettingsPage::BehaviorSettingsPage(const QUrl &url, QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_url(url)
+    , m_localViewProps(nullptr)
+    , m_globalViewProps(nullptr)
+    , m_showToolTips(nullptr)
+    , m_showSelectionToggle(nullptr)
+    , m_naturalSorting(nullptr)
+    , m_caseSensitiveSorting(nullptr)
+    , m_caseInsensitiveSorting(nullptr)
+    , m_renameInline(nullptr)
+    , m_useTabForSplitViewSwitch(nullptr)
 {
-    QFormLayout* topLayout = new QFormLayout(this);
-
+    QFormLayout *topLayout = new QFormLayout(this);
 
     // View properties
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common display style for all folders"));
     m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember display style for each folder"));
     m_localViewProps->setToolTip(i18nc("@info", "Dolphin will create a hidden .directory file in each folder you change view properties for."));
 
-    QButtonGroup* viewGroup = new QButtonGroup(this);
+    QButtonGroup *viewGroup = new QButtonGroup(this);
     viewGroup->addButton(m_globalViewProps);
     viewGroup->addButton(m_localViewProps);
     topLayout->addRow(i18nc("@title:group", "View: "), m_globalViewProps);
     topLayout->addRow(QString(), m_localViewProps);
 
-
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-
 
     // Sorting properties
     m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural"));
     m_caseInsensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case insensitive"));
     m_caseSensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case sensitive"));
 
-    QButtonGroup* sortingModeGroup = new QButtonGroup(this);
+    QButtonGroup *sortingModeGroup = new QButtonGroup(this);
     sortingModeGroup->addButton(m_naturalSorting);
     sortingModeGroup->addButton(m_caseInsensitiveSorting);
     sortingModeGroup->addButton(m_caseSensitiveSorting);
@@ -61,9 +58,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     topLayout->addRow(QString(), m_caseInsensitiveSorting);
     topLayout->addRow(QString(), m_caseSensitiveSorting);
 
-
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-
 
 #if HAVE_BALOO
     // 'Show tooltips'
@@ -114,8 +109,8 @@ BehaviorSettingsPage::~BehaviorSettingsPage()
 
 void BehaviorSettingsPage::applySettings()
 {
-    GeneralSettings* settings = GeneralSettings::self();
-    ViewProperties props(m_url);  // read current view properties
+    GeneralSettings *settings = GeneralSettings::self();
+    ViewProperties props(m_url); // read current view properties
 
     const bool useGlobalViewProps = m_globalViewProps->isChecked();
     settings->setGlobalViewProps(useGlobalViewProps);
@@ -141,7 +136,7 @@ void BehaviorSettingsPage::applySettings()
 
 void BehaviorSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);

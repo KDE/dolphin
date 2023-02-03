@@ -18,8 +18,8 @@
 #include <QGraphicsView>
 #include <QMimeDatabase>
 
-KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
-    KStandardItemListWidgetInformant()
+KFileItemListWidgetInformant::KFileItemListWidgetInformant()
+    : KStandardItemListWidgetInformant()
 {
 }
 
@@ -27,26 +27,25 @@ KFileItemListWidgetInformant::~KFileItemListWidgetInformant()
 {
 }
 
-QString KFileItemListWidgetInformant::itemText(int index, const KItemListView* view) const
+QString KFileItemListWidgetInformant::itemText(int index, const KItemListView *view) const
 {
-    Q_ASSERT(qobject_cast<KFileItemModel*>(view->model()));
-    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(view->model());
+    Q_ASSERT(qobject_cast<KFileItemModel *>(view->model()));
+    KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(view->model());
 
     const KFileItem item = fileItemModel->fileItem(index);
     return item.text();
 }
 
-bool KFileItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
+bool KFileItemListWidgetInformant::itemIsLink(int index, const KItemListView *view) const
 {
-    Q_ASSERT(qobject_cast<KFileItemModel*>(view->model()));
-    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(view->model());
+    Q_ASSERT(qobject_cast<KFileItemModel *>(view->model()));
+    KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(view->model());
 
     const KFileItem item = fileItemModel->fileItem(index);
     return item.isLink();
 }
 
-QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
-                                               const QHash<QByteArray, QVariant>& values) const
+QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const
 {
     QString text;
     const QVariant roleValue = values.value(role);
@@ -56,7 +55,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
     // Implementation note: In case if more roles require a custom handling
     // use a hash + switch for a linear runtime.
 
-    auto formatDate = [formatter, local](const QDateTime& time) {
+    auto formatDate = [formatter, local](const QDateTime &time) {
         if (DetailsModeSettings::useShortRelativeDates()) {
             return formatter.formatRelativeDateTime(time, QLocale::ShortFormat);
         } else {
@@ -83,12 +82,12 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
             text = formatter.formatByteSize(size);
         }
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
-            bool ok;
-            const long long time = roleValue.toLongLong(&ok);
-            if (ok && time != -1) {
-                const QDateTime dateTime = QDateTime::fromSecsSinceEpoch(time);
-                text = formatDate(dateTime);
-            }
+        bool ok;
+        const long long time = roleValue.toLongLong(&ok);
+        if (ok && time != -1) {
+            const QDateTime dateTime = QDateTime::fromSecsSinceEpoch(time);
+            text = formatDate(dateTime);
+        }
     } else if (role == "deletiontime" || role == "imageDateTime") {
         const QDateTime dateTime = roleValue.toDateTime();
         if (dateTime.isValid()) {
@@ -106,7 +105,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
     return text;
 }
 
-QFont KFileItemListWidgetInformant::customizedFontForLinks(const QFont& baseFont) const
+QFont KFileItemListWidgetInformant::customizedFontForLinks(const QFont &baseFont) const
 {
     // The customized font should be italic if the file is a symbolic link.
     QFont font(baseFont);
@@ -114,8 +113,8 @@ QFont KFileItemListWidgetInformant::customizedFontForLinks(const QFont& baseFont
     return font;
 }
 
-KFileItemListWidget::KFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    KStandardItemListWidget(informant, parent)
+KFileItemListWidget::KFileItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent)
+    : KStandardItemListWidget(informant, parent)
 {
 }
 
@@ -123,12 +122,12 @@ KFileItemListWidget::~KFileItemListWidget()
 {
 }
 
-KItemListWidgetInformant* KFileItemListWidget::createInformant()
+KItemListWidgetInformant *KFileItemListWidget::createInformant()
 {
     return new KFileItemListWidgetInformant();
 }
 
-bool KFileItemListWidget::isRoleRightAligned(const QByteArray& role) const
+bool KFileItemListWidget::isRoleRightAligned(const QByteArray &role) const
 {
     return role == "size";
 }
@@ -138,7 +137,7 @@ bool KFileItemListWidget::isHidden() const
     return data().value("isHidden").toBool();
 }
 
-QFont KFileItemListWidget::customizedFont(const QFont& baseFont) const
+QFont KFileItemListWidget::customizedFont(const QFont &baseFont) const
 {
     // The customized font should be italic if the file is a symbolic link.
     QFont font(baseFont);
@@ -146,14 +145,14 @@ QFont KFileItemListWidget::customizedFont(const QFont& baseFont) const
     return font;
 }
 
-int KFileItemListWidget::selectionLength(const QString& text) const
+int KFileItemListWidget::selectionLength(const QString &text) const
 {
     // Select the text without MIME-type extension
     int selectionLength = text.length();
 
     // If item is a directory, use the whole text length for
     // selection (ignore all points)
-    if(data().value("isDir").toBool()) {
+    if (data().value("isDir").toBool()) {
         return selectionLength;
     }
 
@@ -179,7 +178,7 @@ int KFileItemListWidget::selectionLength(const QString& text) const
 
 void KFileItemListWidget::hoverSequenceStarted()
 {
-    KFileItemListView* view = listView();
+    KFileItemListView *view = listView();
 
     if (!view) {
         return;
@@ -192,7 +191,7 @@ void KFileItemListWidget::hoverSequenceStarted()
 
 void KFileItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
 {
-    KFileItemListView* view = listView();
+    KFileItemListView *view = listView();
 
     if (!view) {
         return;
@@ -209,7 +208,7 @@ void KFileItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
 
 void KFileItemListWidget::hoverSequenceEnded()
 {
-    KFileItemListView* view = listView();
+    KFileItemListView *view = listView();
 
     if (!view) {
         return;
@@ -218,8 +217,7 @@ void KFileItemListWidget::hoverSequenceEnded()
     view->setHoverSequenceState(QUrl(), 0);
 }
 
-KFileItemListView* KFileItemListWidget::listView()
+KFileItemListView *KFileItemListWidget::listView()
 {
-    return dynamic_cast<KFileItemListView*>(parentItem());
+    return dynamic_cast<KFileItemListView *>(parentItem());
 }
-

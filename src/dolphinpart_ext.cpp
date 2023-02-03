@@ -9,11 +9,10 @@
 #include "dolphinpart.h"
 #include "views/dolphinview.h"
 
-DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart* part)
-    :KParts::BrowserExtension( part )
-    ,m_part(part)
+DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart *part)
+    : KParts::BrowserExtension(part)
+    , m_part(part)
 {
-
 }
 
 void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
@@ -43,7 +42,7 @@ void DolphinPartBrowserExtension::paste()
     m_part->view()->paste();
 }
 
-void DolphinPartBrowserExtension::pasteTo(const QUrl&)
+void DolphinPartBrowserExtension::pasteTo(const QUrl &)
 {
     m_part->view()->pasteIntoFolder();
 }
@@ -53,10 +52,9 @@ void DolphinPartBrowserExtension::reparseConfiguration()
     m_part->view()->readSettings();
 }
 
-
-DolphinPartFileInfoExtension::DolphinPartFileInfoExtension(DolphinPart* part)
-    :KParts::FileInfoExtension(part)
-    ,m_part(part)
+DolphinPartFileInfoExtension::DolphinPartFileInfoExtension(DolphinPart *part)
+    : KParts::FileInfoExtension(part)
+    , m_part(part)
 {
 }
 
@@ -75,26 +73,26 @@ KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::
     KFileItemList list;
 
     if (mode == KParts::FileInfoExtension::None)
-      return list;
+        return list;
 
     if (!(supportedQueryModes() & mode))
-      return list;
+        return list;
 
     switch (mode) {
-      case KParts::FileInfoExtension::SelectedItems:
-          if (hasSelection())
-              return m_part->view()->selectedItems();
-          break;
-      case KParts::FileInfoExtension::AllItems:
-          return m_part->view()->items();
-      default:
-          break;
+    case KParts::FileInfoExtension::SelectedItems:
+        if (hasSelection())
+            return m_part->view()->selectedItems();
+        break;
+    case KParts::FileInfoExtension::AllItems:
+        return m_part->view()->items();
+    default:
+        break;
     }
 
     return list;
 }
 
-DolphinPartListingFilterExtension::DolphinPartListingFilterExtension(DolphinPart* part)
+DolphinPartListingFilterExtension::DolphinPartListingFilterExtension(DolphinPart *part)
     : KParts::ListingFilterExtension(part)
     , m_part(part)
 {
@@ -102,9 +100,7 @@ DolphinPartListingFilterExtension::DolphinPartListingFilterExtension(DolphinPart
 
 KParts::ListingFilterExtension::FilterModes DolphinPartListingFilterExtension::supportedFilterModes() const
 {
-    return (KParts::ListingFilterExtension::MimeType |
-            KParts::ListingFilterExtension::SubString |
-            KParts::ListingFilterExtension::WildCard);
+    return (KParts::ListingFilterExtension::MimeType | KParts::ListingFilterExtension::SubString | KParts::ListingFilterExtension::WildCard);
 }
 
 bool DolphinPartListingFilterExtension::supportsMultipleFilters(KParts::ListingFilterExtension::FilterMode mode) const
@@ -134,7 +130,7 @@ QVariant DolphinPartListingFilterExtension::filter(KParts::ListingFilterExtensio
     return result;
 }
 
-void DolphinPartListingFilterExtension::setFilter(KParts::ListingFilterExtension::FilterMode mode, const QVariant& filter)
+void DolphinPartListingFilterExtension::setFilter(KParts::ListingFilterExtension::FilterMode mode, const QVariant &filter)
 {
     switch (mode) {
     case KParts::ListingFilterExtension::MimeType:
@@ -151,24 +147,22 @@ void DolphinPartListingFilterExtension::setFilter(KParts::ListingFilterExtension
 
 ////
 
-DolphinPartListingNotificationExtension::DolphinPartListingNotificationExtension(DolphinPart* part)
+DolphinPartListingNotificationExtension::DolphinPartListingNotificationExtension(DolphinPart *part)
     : KParts::ListingNotificationExtension(part)
 {
 }
 
 KParts::ListingNotificationExtension::NotificationEventTypes DolphinPartListingNotificationExtension::supportedNotificationEventTypes() const
 {
-    return (KParts::ListingNotificationExtension::ItemsAdded |
-            KParts::ListingNotificationExtension::ItemsDeleted);
+    return (KParts::ListingNotificationExtension::ItemsAdded | KParts::ListingNotificationExtension::ItemsDeleted);
 }
 
-void DolphinPartListingNotificationExtension::slotNewItems(const KFileItemList& items)
+void DolphinPartListingNotificationExtension::slotNewItems(const KFileItemList &items)
 {
     Q_EMIT listingEvent(KParts::ListingNotificationExtension::ItemsAdded, items);
 }
 
-void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemList& items)
+void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemList &items)
 {
     Q_EMIT listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
-

@@ -8,10 +8,10 @@
 
 #include "dolphinfilemetadatawidget.h"
 
+#include <Baloo/FileMetaDataWidget>
 #include <KColorScheme>
 #include <KSeparator>
 #include <KStringHandler>
-#include <Baloo/FileMetaDataWidget>
 
 #include <QLabel>
 #include <QStyleOptionFrame>
@@ -20,11 +20,11 @@
 #include <QTextLayout>
 #include <QVBoxLayout>
 
-DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
-    QWidget(parent),
-    m_preview(nullptr),
-    m_name(nullptr),
-    m_fileMetaDataWidget(nullptr)
+DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget *parent)
+    : QWidget(parent)
+    , m_preview(nullptr)
+    , m_name(nullptr)
+    , m_fileMetaDataWidget(nullptr)
 {
     // Create widget for file preview
     m_preview = new QLabel(this);
@@ -45,14 +45,12 @@ DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
 
     // Create widget for the meta data
     m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
-    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished,
-            this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
-    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
-            this, &DolphinFileMetaDataWidget::urlActivated);
+    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished, this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
+    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::urlActivated, this, &DolphinFileMetaDataWidget::urlActivated);
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
 
-    QVBoxLayout* textLayout = new QVBoxLayout();
+    QVBoxLayout *textLayout = new QVBoxLayout();
     textLayout->addWidget(m_name);
     textLayout->addWidget(new KSeparator());
     textLayout->addWidget(m_fileMetaDataWidget);
@@ -64,7 +62,7 @@ DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
     // (see bug #241608)
     textLayout->addStretch();
 
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(m_preview);
     layout->addSpacing(layout->contentsMargins().left());
     layout->addLayout(textLayout);
@@ -74,7 +72,7 @@ DolphinFileMetaDataWidget::~DolphinFileMetaDataWidget()
 {
 }
 
-void DolphinFileMetaDataWidget::setPreview(const QPixmap& pixmap)
+void DolphinFileMetaDataWidget::setPreview(const QPixmap &pixmap)
 {
     m_preview->setPixmap(pixmap);
 }
@@ -88,7 +86,7 @@ QPixmap DolphinFileMetaDataWidget::preview() const
     return QPixmap();
 }
 
-void DolphinFileMetaDataWidget::setName(const QString& name)
+void DolphinFileMetaDataWidget::setName(const QString &name)
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -124,7 +122,7 @@ QString DolphinFileMetaDataWidget::name() const
     return m_name->text();
 }
 
-void DolphinFileMetaDataWidget::setItems(const KFileItemList& items)
+void DolphinFileMetaDataWidget::setItems(const KFileItemList &items)
 {
     m_fileMetaDataWidget->setItems(items);
 }
@@ -133,4 +131,3 @@ KFileItemList DolphinFileMetaDataWidget::items() const
 {
     return m_fileMetaDataWidget->items();
 }
-

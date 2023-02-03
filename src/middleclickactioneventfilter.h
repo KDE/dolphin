@@ -33,5 +33,4 @@ protected:
 
 private:
     QPointer<QAction> m_lastMiddlePressedAction;
-
 };

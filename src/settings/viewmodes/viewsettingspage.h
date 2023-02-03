@@ -22,7 +22,7 @@ class ViewSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ViewSettingsPage(QWidget* parent);
+    explicit ViewSettingsPage(QWidget *parent);
     ~ViewSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -32,7 +32,7 @@ public:
     void restoreDefaults() override;
 
 private:
-    QList<ViewSettingsTab*> m_tabs;
+    QList<ViewSettingsTab *> m_tabs;
 };
 
 #endif

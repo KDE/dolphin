@@ -51,8 +51,7 @@ void DolphinPlacesModel::setPanelsLocked(bool locked)
 QStringList DolphinPlacesModel::mimeTypes() const
 {
     QStringList types = KFilePlacesModel::mimeTypes();
-    types << DragAndDropHelper::arkDndServiceMimeType()
-          << DragAndDropHelper::arkDndPathMimeType();
+    types << DragAndDropHelper::arkDndServiceMimeType() << DragAndDropHelper::arkDndPathMimeType();
     return types;
 }
 
@@ -121,7 +120,6 @@ bool DolphinPlacesModel::isTrash(const QModelIndex &index) const
 DolphinPlacesModelSingleton::DolphinPlacesModelSingleton()
     : m_placesModel(new DolphinPlacesModel(KAboutData::applicationData().componentName() + applicationNameSuffix()))
 {
-
 }
 
 DolphinPlacesModelSingleton &DolphinPlacesModelSingleton::instance()

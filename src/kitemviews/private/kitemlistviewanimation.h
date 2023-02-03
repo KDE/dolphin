@@ -28,16 +28,9 @@ class DOLPHIN_EXPORT KItemListViewAnimation : public QObject
     Q_OBJECT
 
 public:
-    enum AnimationType {
-        MovingAnimation,
-        CreateAnimation,
-        DeleteAnimation,
-        ResizeAnimation,
-        IconResizeAnimation,
-        AnimationTypeCount
-    };
+    enum AnimationType { MovingAnimation, CreateAnimation, DeleteAnimation, ResizeAnimation, IconResizeAnimation, AnimationTypeCount };
 
-    explicit KItemListViewAnimation(QObject* parent = nullptr);
+    explicit KItemListViewAnimation(QObject *parent = nullptr);
     ~KItemListViewAnimation() override;
 
     void setScrollOrientation(Qt::Orientation orientation);
@@ -51,17 +44,17 @@ public:
      * of the type is already running, this animation will be stopped before starting
      * the new animation.
      */
-    void start(QGraphicsWidget* widget, AnimationType type, const QVariant& endValue = QVariant());
+    void start(QGraphicsWidget *widget, AnimationType type, const QVariant &endValue = QVariant());
 
     /**
      * Stops the animation of the type \a type for the widget \a widget.
      */
-    void stop(QGraphicsWidget* widget, AnimationType type);
+    void stop(QGraphicsWidget *widget, AnimationType type);
 
     /**
      * Stops all animations that have been applied to the widget \a widget.
      */
-    void stop(QGraphicsWidget* widget);
+    void stop(QGraphicsWidget *widget);
 
     /**
      * @return True if the animation of the type \a type has been started
@@ -72,10 +65,10 @@ public:
     /**
      * @return True if any animation has been started for the widget.
      */
-    bool isStarted(QGraphicsWidget* widget) const;
+    bool isStarted(QGraphicsWidget *widget) const;
 
 Q_SIGNALS:
-    void finished(QGraphicsWidget* widget, KItemListViewAnimation::AnimationType type);
+    void finished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type);
 
 private Q_SLOTS:
     void slotFinished();
@@ -83,9 +76,7 @@ private Q_SLOTS:
 private:
     Qt::Orientation m_scrollOrientation;
     qreal m_scrollOffset;
-    QHash<QGraphicsWidget*, QPropertyAnimation*> m_animation[AnimationTypeCount];
+    QHash<QGraphicsWidget *, QPropertyAnimation *> m_animation[AnimationTypeCount];
 };
 
 #endif
-
-

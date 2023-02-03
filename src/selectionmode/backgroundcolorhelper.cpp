@@ -23,11 +23,10 @@ BackgroundColorHelper *BackgroundColorHelper::instance()
     return s_instance;
 }
 
-
 void setBackgroundColorForWidget(QWidget *widget, QColor color)
 {
     QPalette palette;
-    palette.setBrush(QPalette::Active,   QPalette::Window, color);
+    palette.setBrush(QPalette::Active, QPalette::Window, color);
     palette.setBrush(QPalette::Inactive, QPalette::Window, color);
     palette.setBrush(QPalette::Disabled, QPalette::Window, color);
     widget->setAutoFillBackground(true);
@@ -38,7 +37,8 @@ void BackgroundColorHelper::controlBackgroundColor(QWidget *widget)
 {
     setBackgroundColorForWidget(widget, m_backgroundColor);
 
-    Q_ASSERT_X(std::find(m_colorControlledWidgets.begin(), m_colorControlledWidgets.end(), widget) == m_colorControlledWidgets.end(), "controlBackgroundColor",
+    Q_ASSERT_X(std::find(m_colorControlledWidgets.begin(), m_colorControlledWidgets.end(), widget) == m_colorControlledWidgets.end(),
+               "controlBackgroundColor",
                "Duplicate insertion is not necessary because the background color should already automatically update itself on paletteChanged");
     m_colorControlledWidgets.emplace_back(widget);
 }
@@ -46,7 +46,9 @@ void BackgroundColorHelper::controlBackgroundColor(QWidget *widget)
 BackgroundColorHelper::BackgroundColorHelper()
 {
     updateBackgroundColor();
-    QObject::connect(qApp, &QGuiApplication::paletteChanged, [=](){ slotPaletteChanged(); });
+    QObject::connect(qApp, &QGuiApplication::paletteChanged, [=]() {
+        slotPaletteChanged();
+    });
 }
 
 void BackgroundColorHelper::slotPaletteChanged()
@@ -77,9 +79,7 @@ void BackgroundColorHelper::updateBackgroundColor()
     if (std::abs(hueDifference) > 80) {
         newHue = (activeBackgroundColor.hue() + positiveBackgroundColor.hue()) / 2;
     } else {
-        newHue = hueDifference > 0 ?
-            activeBackgroundColor.hue() + 40 :
-            activeBackgroundColor.hue() - 40;
+        newHue = hueDifference > 0 ? activeBackgroundColor.hue() + 40 : activeBackgroundColor.hue() - 40;
         newHue %= 360; // hue needs to be between 0 and 359 per Qt documentation.
     }
 

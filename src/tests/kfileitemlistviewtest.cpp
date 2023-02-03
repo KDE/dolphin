@@ -11,9 +11,9 @@
 #include <KDirLister>
 
 #include <QGraphicsView>
-#include <QTest>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTest>
 
 class KFileItemListViewTest : public QObject
 {
@@ -26,10 +26,10 @@ private Q_SLOTS:
     void testGroupedItemChanges();
 
 private:
-    KFileItemListView* m_listView;
-    KFileItemModel* m_model;
-    TestDir* m_testDir;
-    QGraphicsView* m_graphicsView;
+    KFileItemListView *m_listView;
+    KFileItemModel *m_model;
+    TestDir *m_testDir;
+    QGraphicsView *m_graphicsView;
 };
 
 void KFileItemListViewTest::initTestCase()

@@ -65,8 +65,7 @@ public:
      * Notify this widget of changes in geometry of the ViewContainers it tries to be
      * aligned with.
      */
-    void followViewContainersGeometry(QWidget *primaryViewContainer,
-                                      QWidget *secondaryViewContainer = nullptr);
+    void followViewContainersGeometry(QWidget *primaryViewContainer, QWidget *secondaryViewContainer = nullptr);
 
     bool isInToolbar() const;
 
@@ -104,10 +103,7 @@ private:
     /**
      * In Left-to-right languages the Primary side will be the left one.
      */
-    enum Side {
-        Primary,
-        Secondary
-    };
+    enum Side { Primary, Secondary };
     /**
      * Used to create the navigatorWidgets for both sides of the QSplitter.
      */
@@ -142,10 +138,7 @@ private:
      */
     QPushButton *newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
 
-    enum Position {
-        Leading,
-        Trailing
-    };
+    enum Position { Leading, Trailing };
     /**
      * Used to retrieve both the leading and trailing spacing for the navigatorWidgets
      * on both sides. A secondary leading spacing does not exist.
@@ -191,8 +184,7 @@ private:
         /**
          * Sets the ViewContainers whose geometry is obtained when viewGeometries() is called.
          */
-        void setViewContainers(QWidget *primaryViewContainer,
-                               QWidget *secondaryViewContainer = nullptr);
+        void setViewContainers(QWidget *primaryViewContainer, QWidget *secondaryViewContainer = nullptr);
 
         struct Geometries {
             int globalXOfNavigatorsWidget;

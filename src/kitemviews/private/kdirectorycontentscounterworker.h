@@ -17,11 +17,7 @@ class KDirectoryContentsCounterWorker : public QObject
     Q_OBJECT
 
 public:
-    enum Option {
-        NoOptions = 0x0,
-        CountHiddenFiles = 0x1,
-        CountDirectoriesOnly = 0x2
-    };
+    enum Option { NoOptions = 0x0, CountHiddenFiles = 0x1, CountDirectoriesOnly = 0x2 };
     Q_DECLARE_FLAGS(Options, Option)
 
     struct CountResult {
@@ -32,7 +28,7 @@ public:
         long size;
     };
 
-    explicit KDirectoryContentsCounterWorker(QObject* parent = nullptr);
+    explicit KDirectoryContentsCounterWorker(QObject *parent = nullptr);
 
     /**
      * Counts the items inside the directory \a path using the options
@@ -40,13 +36,13 @@ public:
      *
      * @return The number of items.
      */
-    static CountResult subItemsCount(const QString& path, Options options);
+    static CountResult subItemsCount(const QString &path, Options options);
 
 Q_SIGNALS:
     /**
      * Signals that the directory \a path contains \a count items and optionally the size of its content.
      */
-    void result(const QString& path, int count, long size);
+    void result(const QString &path, int count, long size);
 
 public Q_SLOTS:
     /**
@@ -56,7 +52,7 @@ public Q_SLOTS:
     // Note that the full type name KDirectoryContentsCounterWorker::Options
     // is needed here. Just using 'Options' is OK for the compiler, but
     // confuses moc.
-    void countDirectoryContents(const QString& path, KDirectoryContentsCounterWorker::Options options);
+    void countDirectoryContents(const QString &path, KDirectoryContentsCounterWorker::Options options);
 };
 
 Q_DECLARE_METATYPE(KDirectoryContentsCounterWorker::Options)

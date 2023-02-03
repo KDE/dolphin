@@ -20,7 +20,7 @@ class DolphinPartBrowserExtension : public KParts::BrowserExtension
 {
     Q_OBJECT
 public:
-    explicit DolphinPartBrowserExtension( DolphinPart* part );
+    explicit DolphinPartBrowserExtension(DolphinPart *part);
     void restoreState(QDataStream &stream) override;
     void saveState(QDataStream &stream) override;
 
@@ -32,7 +32,7 @@ public Q_SLOTS:
     void reparseConfiguration();
 
 private:
-    DolphinPart* m_part;
+    DolphinPart *m_part;
 };
 
 class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
@@ -40,7 +40,7 @@ class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
     Q_OBJECT
 
 public:
-    explicit DolphinPartFileInfoExtension(DolphinPart* part);
+    explicit DolphinPartFileInfoExtension(DolphinPart *part);
 
     QueryModes supportedQueryModes() const override;
     bool hasSelection() const override;
@@ -48,7 +48,7 @@ public:
     KFileItemList queryFor(QueryMode mode) const override;
 
 private:
-    DolphinPart* m_part;
+    DolphinPart *m_part;
 };
 
 class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
@@ -56,14 +56,14 @@ class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
     Q_OBJECT
 
 public:
-    explicit DolphinPartListingFilterExtension(DolphinPart* part);
+    explicit DolphinPartListingFilterExtension(DolphinPart *part);
     FilterModes supportedFilterModes() const override;
     bool supportsMultipleFilters(FilterMode mode) const override;
     QVariant filter(FilterMode mode) const override;
-    void setFilter(FilterMode mode, const QVariant& filter) override;
+    void setFilter(FilterMode mode, const QVariant &filter) override;
 
 private:
-    DolphinPart* m_part;
+    DolphinPart *m_part;
 };
 
 class DolphinPartListingNotificationExtension : public KParts::ListingNotificationExtension
@@ -71,12 +71,12 @@ class DolphinPartListingNotificationExtension : public KParts::ListingNotificati
     Q_OBJECT
 
 public:
-    explicit DolphinPartListingNotificationExtension(DolphinPart* part);
+    explicit DolphinPartListingNotificationExtension(DolphinPart *part);
     NotificationEventTypes supportedNotificationEventTypes() const override;
 
 public Q_SLOTS:
-    void slotNewItems(const KFileItemList&);
-    void slotItemsDeleted(const KFileItemList&);
+    void slotNewItems(const KFileItemList &);
+    void slotItemsDeleted(const KFileItemList &);
 };
 
 #endif

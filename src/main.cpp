@@ -6,23 +6,23 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include "config-dolphin.h"
 #include "dbusinterface.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_version.h"
 #include "dolphindebug.h"
 #include "dolphinmainwindow.h"
 #include "global.h"
-#include "config-dolphin.h"
 #if HAVE_KUSERFEEDBACK
 #include "userfeedback/dolphinfeedbackprovider.h"
 #endif
 
 #include <KAboutData>
+#include <KConfigGui>
 #include <KCrash>
 #include <KDBusService>
-#include <KLocalizedString>
-#include <KConfigGui>
 #include <KIO/PreviewJob>
+#include <KLocalizedString>
 #include <KWindowSystem>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -54,12 +54,10 @@ int main(int argc, char **argv)
     // Prohibit using sudo or kdesu (but allow using the root user directly)
     if (getuid() == 0) {
         if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Running Dolphin with sudo can cause bugs and expose you to security vulnerabilities."
-                      << std::endl;
+            std::cout << "Running Dolphin with sudo can cause bugs and expose you to security vulnerabilities." << std::endl;
             return EXIT_FAILURE;
         } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Running Dolphin with kdesu can cause bugs and expose you to security vulnerabilities."
-                      << std::endl;
+            std::cout << "Running Dolphin with kdesu can cause bugs and expose you to security vulnerabilities." << std::endl;
             return EXIT_FAILURE;
         }
     }
@@ -88,7 +86,9 @@ int main(int argc, char **argv)
 
     KLocalizedString::setApplicationDomain("dolphin");
 
-    KAboutData aboutData(QStringLiteral("dolphin"), i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
+    KAboutData aboutData(QStringLiteral("dolphin"),
+                         i18n("Dolphin"),
+                         QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
                          i18nc("@info:credit", "(C) 2006-2022 The Dolphin Developers"));
@@ -111,30 +111,14 @@ int main(int argc, char **argv)
     aboutData.addAuthor(i18nc("@info:credit", "Peter Penz"),
                         i18nc("@info:credit", "Maintainer and developer (2006-2012)"),
                         QStringLiteral("peter.penz19@gmail.com"));
-    aboutData.addAuthor(i18nc("@info:credit", "Sebastian Trüg"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("trueg@kde.org"));
-    aboutData.addAuthor(i18nc("@info:credit", "David Faure"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("faure@kde.org"));
-    aboutData.addAuthor(i18nc("@info:credit", "Aaron J. Seigo"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("aseigo@kde.org"));
-    aboutData.addAuthor(i18nc("@info:credit", "Rafael Fernández López"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("ereslibre@kde.org"));
-    aboutData.addAuthor(i18nc("@info:credit", "Kevin Ottens"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("ervin@kde.org"));
-    aboutData.addAuthor(i18nc("@info:credit", "Holger Freyther"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("freyther@gmx.net"));
-    aboutData.addAuthor(i18nc("@info:credit", "Max Blazejak"),
-                        i18nc("@info:credit", "Developer"),
-                        QStringLiteral("m43ksrocks@gmail.com"));
-    aboutData.addAuthor(i18nc("@info:credit", "Michael Austin"),
-                        i18nc("@info:credit", "Documentation"),
-                        QStringLiteral("tuxedup@users.sourceforge.net"));
+    aboutData.addAuthor(i18nc("@info:credit", "Sebastian Trüg"), i18nc("@info:credit", "Developer"), QStringLiteral("trueg@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "David Faure"), i18nc("@info:credit", "Developer"), QStringLiteral("faure@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Aaron J. Seigo"), i18nc("@info:credit", "Developer"), QStringLiteral("aseigo@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Rafael Fernández López"), i18nc("@info:credit", "Developer"), QStringLiteral("ereslibre@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Kevin Ottens"), i18nc("@info:credit", "Developer"), QStringLiteral("ervin@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Holger Freyther"), i18nc("@info:credit", "Developer"), QStringLiteral("freyther@gmx.net"));
+    aboutData.addAuthor(i18nc("@info:credit", "Max Blazejak"), i18nc("@info:credit", "Developer"), QStringLiteral("m43ksrocks@gmail.com"));
+    aboutData.addAuthor(i18nc("@info:credit", "Michael Austin"), i18nc("@info:credit", "Documentation"), QStringLiteral("tuxedup@users.sourceforge.net"));
 
     KAboutData::setApplicationData(aboutData);
 
@@ -142,11 +126,14 @@ int main(int argc, char **argv)
     aboutData.setupCommandLine(&parser);
 
     // command line options
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("select"), i18nc("@info:shell", "The files and folders passed as arguments "
-                                                                                        "will be selected.")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("select"),
+                                        i18nc("@info:shell",
+                                              "The files and folders passed as arguments "
+                                              "will be selected.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("new-window"), i18nc("@info:shell", "Dolphin will explicitly open in a new window.")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface).")));
+    parser.addOption(
+        QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface).")));
     parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
@@ -158,7 +145,6 @@ int main(int argc, char **argv)
     QList<QUrl> urls = Dolphin::validateUris(args);
     // We later mutate urls, so we need to store if it was empty originally
     const bool startedWithURLs = !urls.isEmpty();
-
 
     if (parser.isSet(QStringLiteral("daemon"))) {
         // Disable session management for the daemonized version
@@ -180,7 +166,6 @@ int main(int argc, char **argv)
     }
 
     if (!parser.isSet(QStringLiteral("new-window"))) {
-
         QString token;
         if (KWindowSystem::isPlatformWayland()) {
             token = qEnvironmentVariable("XDG_ACTIVATION_TOKEN");
@@ -207,7 +192,7 @@ int main(int argc, char **argv)
         urls.append(urls.last());
     }
 
-    DolphinMainWindow* mainWindow = new DolphinMainWindow();
+    DolphinMainWindow *mainWindow = new DolphinMainWindow();
 
     if (openFiles) {
         mainWindow->openFiles(urls, splitView);
@@ -234,9 +219,7 @@ int main(int argc, char **argv)
     // 2. The "remember state" setting is enabled or session restoration after
     //    reboot is in use
     // 3. There is a session available to restore
-    if (!parser.isSet(QStringLiteral("new-window"))
-        && (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs())
-    ) {
+    if (!parser.isSet(QStringLiteral("new-window")) && (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs())) {
         // Get saved state data for the last-closed Dolphin instance
         const QString serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
         if (Dolphin::dolphinGuiInstances(serviceName).size() > 0) {

@@ -13,13 +13,13 @@
 #include <QPainter>
 #include <QStyle>
 
-PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
-    QWidget(parent),
-    m_animatedImage(nullptr),
-    m_transition(transition),
-    m_animationStep(0),
-    m_sizeHint(),
-    m_hasAnimatedImage(false)
+PixmapViewer::PixmapViewer(QWidget *parent, Transition transition)
+    : QWidget(parent)
+    , m_animatedImage(nullptr)
+    , m_transition(transition)
+    , m_animationStep(0)
+    , m_sizeHint()
+    , m_hasAnimatedImage(false)
 {
     setMinimumWidth(KIconLoader::SizeEnormous);
     setMinimumHeight(KIconLoader::SizeEnormous);
@@ -37,7 +37,7 @@ PixmapViewer::~PixmapViewer()
 {
 }
 
-void PixmapViewer::setPixmap(const QPixmap& pixmap)
+void PixmapViewer::setPixmap(const QPixmap &pixmap)
 {
     if (pixmap.isNull()) {
         return;
@@ -61,8 +61,7 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
     m_pixmap = pixmap;
     update();
 
-    const bool animateTransition = (m_transition != NoTransition) &&
-                                   (m_pixmap.size() != m_oldPixmap.size());
+    const bool animateTransition = (m_transition != NoTransition) && (m_pixmap.size() != m_oldPixmap.size());
     if (animateTransition) {
         m_animation.start();
     } else if (m_hasAnimatedImage) {
@@ -75,7 +74,7 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
     }
 }
 
-void PixmapViewer::setSizeHint(const QSize& size)
+void PixmapViewer::setSizeHint(const QSize &size)
 {
     if (m_animatedImage && size != m_sizeHint) {
         m_animatedImage->stop();
@@ -105,7 +104,6 @@ void PixmapViewer::setAnimatedImageFileName(const QString &fileName)
     m_hasAnimatedImage = m_animatedImage->isValid() && (m_animatedImage->frameCount() > 1);
 }
 
-
 QString PixmapViewer::animatedImageFileName() const
 {
     if (!m_hasAnimatedImage) {
@@ -114,7 +112,7 @@ QString PixmapViewer::animatedImageFileName() const
     return m_animatedImage->fileName();
 }
 
-void PixmapViewer::paintEvent(QPaintEvent* event)
+void PixmapViewer::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
 
@@ -122,17 +120,13 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
 
     if (m_transition != NoTransition || (m_hasAnimatedImage && m_animatedImage->state() != QMovie::Running)) {
         const float value = m_animation.currentValue();
-        const int scaledWidth  = static_cast<int>((m_oldPixmap.width()  * (1.0 - value)) + (m_pixmap.width()  * value));
+        const int scaledWidth = static_cast<int>((m_oldPixmap.width() * (1.0 - value)) + (m_pixmap.width() * value));
         const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
 
-        const bool useOldPixmap = (m_transition == SizeTransition) &&
-                                  (m_oldPixmap.width() > m_pixmap.width());
-        const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
+        const bool useOldPixmap = (m_transition == SizeTransition) && (m_oldPixmap.width() > m_pixmap.width());
+        const QPixmap &largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
         if (!largePixmap.isNull()) {
-            const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
-                                                            scaledHeight,
-                                                            Qt::IgnoreAspectRatio,
-                                                            Qt::FastTransformation);
+            const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth, scaledHeight, Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
             style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
         }
@@ -159,7 +153,7 @@ void PixmapViewer::checkPendingPixmaps()
 
 void PixmapViewer::updateAnimatedImageFrame()
 {
-    Q_ASSERT (m_animatedImage);
+    Q_ASSERT(m_animatedImage);
 
     m_pixmap = m_animatedImage->currentPixmap();
     update();
@@ -176,6 +170,7 @@ void PixmapViewer::stopAnimatedImage()
 bool PixmapViewer::isAnimatedMimeType(const QString &mimeType)
 {
     const QList<QByteArray> imageFormats = QImageReader::imageFormatsForMimeType(mimeType.toUtf8());
-    return std::any_of(imageFormats.begin(), imageFormats.end(),
-                       [](const QByteArray &format){ return QMovie::supportedFormats().contains(format); });
+    return std::any_of(imageFormats.begin(), imageFormats.end(), [](const QByteArray &format) {
+        return QMovie::supportedFormats().contains(format);
+    });
 }

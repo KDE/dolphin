@@ -28,17 +28,17 @@ class DOLPHIN_EXPORT KItemListGroupHeader : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    explicit KItemListGroupHeader(QGraphicsWidget* parent = nullptr);
+    explicit KItemListGroupHeader(QGraphicsWidget *parent = nullptr);
     ~KItemListGroupHeader() override;
 
-    void setRole(const QByteArray& role);
+    void setRole(const QByteArray &role);
     QByteArray role() const;
 
-    void setData(const QVariant& data);
+    void setData(const QVariant &data);
     QVariant data() const;
 
-    void setStyleOption(const KItemListStyleOption& option);
-    const KItemListStyleOption& styleOption() const;
+    void setStyleOption(const KItemListStyleOption &option);
+    const KItemListStyleOption &styleOption() const;
 
     /**
      * Sets the scroll orientation that is used by the KItemListView.
@@ -51,29 +51,29 @@ public:
     void setItemIndex(int index);
     int itemIndex() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 protected:
-    virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) = 0;
-    virtual void paintSeparator(QPainter* painter, const QColor& color) = 0;
+    virtual void paintRole(QPainter *painter, const QRectF &roleBounds, const QColor &color) = 0;
+    virtual void paintSeparator(QPainter *painter, const QColor &color) = 0;
 
     /**
      * Is called after the role has been changed and allows the derived class
      * to react on this change.
      */
-    virtual void roleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void roleChanged(const QByteArray &current, const QByteArray &previous);
 
     /**
      * Is called after the role has been changed and allows the derived class
      * to react on this change.
      */
-    virtual void dataChanged(const QVariant& current, const QVariant& previous);
+    virtual void dataChanged(const QVariant &current, const QVariant &previous);
 
     /**
      * Is called after the style option has been changed and allows the derived class
      * to react on this change.
      */
-    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous);
 
     /**
      * Is called after the scroll orientation has been changed and allows the derived class
@@ -87,7 +87,7 @@ protected:
      */
     virtual void itemIndexChanged(int current, int previous);
 
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 
     virtual QPalette::ColorRole normalTextColorRole() const;
     virtual QPalette::ColorRole normalBaseColorRole() const;
@@ -96,7 +96,7 @@ private:
     void updateCache();
     void updateSize();
 
-    static QColor mixedColor(const QColor& c1, const QColor& c2, int c1Percent = 50);
+    static QColor mixedColor(const QColor &c1, const QColor &c2, int c1Percent = 50);
 
     QColor textColor() const;
     QColor baseColor() const;
@@ -114,5 +114,3 @@ private:
     QRectF m_roleBounds;
 };
 #endif
-
-

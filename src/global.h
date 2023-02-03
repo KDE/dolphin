@@ -14,51 +14,46 @@
 class KConfigGroup;
 class OrgKdeDolphinMainWindowInterface;
 
-namespace Dolphin {
-    QList<QUrl> validateUris(const QStringList& uriList);
+namespace Dolphin
+{
+QList<QUrl> validateUris(const QStringList &uriList);
 
-    /**
-     * Returns the home url which is defined in General Settings
-     */
-    QUrl homeUrl();
+/**
+ * Returns the home url which is defined in General Settings
+ */
+QUrl homeUrl();
 
-    enum class OpenNewWindowFlag {
-        None = 0,
-        Select = 1<<1
-    };
-    Q_DECLARE_FLAGS(OpenNewWindowFlags, OpenNewWindowFlag)
+enum class OpenNewWindowFlag { None = 0, Select = 1 << 1 };
+Q_DECLARE_FLAGS(OpenNewWindowFlags, OpenNewWindowFlag)
 
-    /**
-     * Opens a new Dolphin window
-     */
-    void openNewWindow(const QList<QUrl> &urls = {}, QWidget *window = nullptr, const OpenNewWindowFlags &flags = OpenNewWindowFlag::None);
+/**
+ * Opens a new Dolphin window
+ */
+void openNewWindow(const QList<QUrl> &urls = {}, QWidget *window = nullptr, const OpenNewWindowFlags &flags = OpenNewWindowFlag::None);
 
-    /**
-     * Attaches URLs to an existing Dolphin instance if possible.
-     * If @p preferredService is a valid dbus service, it will be tried first.
-     * @p preferredService needs to support the org.kde.dolphin.MainWindow dbus interface with the /dolphin/Dolphin_1 path.
-     * Returns true if the URLs were successfully attached.
-     */
-    bool attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService, const QString &activationToken);
+/**
+ * Attaches URLs to an existing Dolphin instance if possible.
+ * If @p preferredService is a valid dbus service, it will be tried first.
+ * @p preferredService needs to support the org.kde.dolphin.MainWindow dbus interface with the /dolphin/Dolphin_1 path.
+ * Returns true if the URLs were successfully attached.
+ */
+bool attachToExistingInstance(const QList<QUrl> &inputUrls, bool openFiles, bool splitView, const QString &preferredService, const QString &activationToken);
 
-    /**
-     * Returns a QVector with all GUI-capable Dolphin instances
-     */
-    QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString& preferredService);
+/**
+ * Returns a QVector with all GUI-capable Dolphin instances
+ */
+QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString &preferredService);
 
-    QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
+QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
 
-    /**
-     * TODO: Move this somewhere global to all KDE apps, not just Dolphin
-     */
-    const int VERTICAL_SPACER_HEIGHT = 12;
-    const int LAYOUT_SPACING_SMALL = 2;
+/**
+ * TODO: Move this somewhere global to all KDE apps, not just Dolphin
+ */
+const int VERTICAL_SPACER_HEIGHT = 12;
+const int LAYOUT_SPACING_SMALL = 2;
 }
 
-enum Animated {
-    WithAnimation,
-    WithoutAnimation
-};
+enum Animated { WithAnimation, WithoutAnimation };
 
 class GlobalConfig : public QObject
 {

@@ -30,7 +30,7 @@ class DolphinStatusBar : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinStatusBar(QWidget* parent);
+    explicit DolphinStatusBar(QWidget *parent);
     ~DolphinStatusBar() override;
 
     QString text() const;
@@ -40,7 +40,7 @@ public:
      * DolphinStatusBar::setProgress() should be invoked
      * afterwards each time the progress changes.
      */
-    void setProgressText(const QString& text);
+    void setProgressText(const QString &text);
     QString progressText() const;
 
     /**
@@ -63,7 +63,7 @@ public:
      * Sets the default text, which is shown if the status bar
      * is rest by DolphinStatusBar::resetToDefaultText().
      */
-    void setDefaultText(const QString& text);
+    void setDefaultText(const QString &text);
     QString defaultText() const;
 
     QUrl url() const;
@@ -80,8 +80,8 @@ public:
     void updateSpaceInfo();
 
 public Q_SLOTS:
-    void setText(const QString& text);
-    void setUrl(const QUrl& url);
+    void setText(const QString &text);
+    void setUrl(const QUrl &url);
     void setZoomLevel(int zoomLevel);
 
 Q_SIGNALS:
@@ -93,7 +93,7 @@ Q_SIGNALS:
     void zoomLevelChanged(int zoomLevel);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 private Q_SLOTS:
     void showZoomSliderToolTip(int zoomLevel);
@@ -123,19 +123,19 @@ private:
 private:
     QString m_text;
     QString m_defaultText;
-    KSqueezedTextLabel* m_label;
-    QLabel* m_zoomLabel;
-    StatusBarSpaceInfo* m_spaceInfo;
+    KSqueezedTextLabel *m_label;
+    QLabel *m_zoomLabel;
+    StatusBarSpaceInfo *m_spaceInfo;
 
-    QSlider* m_zoomSlider;
+    QSlider *m_zoomSlider;
 
-    QLabel* m_progressTextLabel;
-    QProgressBar* m_progressBar;
-    QToolButton* m_stopButton;
+    QLabel *m_progressTextLabel;
+    QProgressBar *m_progressBar;
+    QToolButton *m_stopButton;
     int m_progress;
-    QTimer* m_showProgressBarTimer;
+    QTimer *m_showProgressBarTimer;
 
-    QTimer* m_delayUpdateTimer;
+    QTimer *m_delayUpdateTimer;
     QTime m_textTimestamp;
 };
 

@@ -6,7 +6,6 @@
 
 #include "kitemset.h"
 
-
 KItemSet::iterator KItemSet::insert(int i)
 {
     if (m_itemRanges.empty()) {
@@ -128,7 +127,7 @@ KItemSet::iterator KItemSet::erase(iterator it)
     }
 }
 
-KItemSet KItemSet::operator+(const KItemSet& other) const
+KItemSet KItemSet::operator+(const KItemSet &other) const
 {
     KItemSet sum;
 
@@ -170,8 +169,7 @@ KItemSet KItemSet::operator+(const KItemSet& other) const
                     count = qMax(count, it2->index + it2->count - index);
                     ++it2;
                 }
-            } while ((it1 != end1 && it1->index <= index + count)
-                    || (it2 != end2 && it2->index <= index + count));
+            } while ((it1 != end1 && it1->index <= index + count) || (it2 != end2 && it2->index <= index + count));
 
             sum.m_itemRanges.append(KItemRange(index, count));
         }
@@ -180,7 +178,7 @@ KItemSet KItemSet::operator+(const KItemSet& other) const
     return sum;
 }
 
-KItemSet KItemSet::operator^(const KItemSet& other) const
+KItemSet KItemSet::operator^(const KItemSet &other) const
 {
     // We are looking for all ints which are either in *this or in other,
     // but not in both.
@@ -197,14 +195,14 @@ KItemSet KItemSet::operator^(const KItemSet& other) const
     const QVector<int>::iterator end = rangeBoundaries.end();
     QVector<int>::iterator it = begin;
 
-    for (const KItemRange& range : qAsConst(m_itemRanges)) {
+    for (const KItemRange &range : qAsConst(m_itemRanges)) {
         *it++ = range.index;
         *it++ = range.index + range.count;
     }
 
     const QVector<int>::iterator middle = it;
 
-    for (const KItemRange& range : qAsConst(other.m_itemRanges)) {
+    for (const KItemRange &range : qAsConst(other.m_itemRanges)) {
         *it++ = range.index;
         *it++ = range.index + range.count;
     }

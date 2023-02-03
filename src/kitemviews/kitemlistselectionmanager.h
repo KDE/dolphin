@@ -24,25 +24,18 @@ class DOLPHIN_EXPORT KItemListSelectionManager : public QObject
 {
     Q_OBJECT
 
-    enum RangesRemovingBehaviour {
-        DiscardRemovedIndex,
-        AdjustRemovedIndex
-    };
+    enum RangesRemovingBehaviour { DiscardRemovedIndex, AdjustRemovedIndex };
 
 public:
-    enum SelectionMode {
-        Select,
-        Deselect,
-        Toggle
-    };
+    enum SelectionMode { Select, Deselect, Toggle };
 
-    explicit KItemListSelectionManager(QObject* parent = nullptr);
+    explicit KItemListSelectionManager(QObject *parent = nullptr);
     ~KItemListSelectionManager() override;
 
     void setCurrentItem(int current);
     int currentItem() const;
 
-    void setSelectedItems(const KItemSet& items);
+    void setSelectedItems(const KItemSet &items);
     KItemSet selectedItems() const;
     bool isSelected(int index) const;
     bool hasSelection() const;
@@ -61,24 +54,23 @@ public:
     void endAnchoredSelection();
     bool isAnchoredSelectionActive() const;
 
-    KItemModelBase* model() const;
+    KItemModelBase *model() const;
 
 Q_SIGNALS:
     void currentChanged(int current, int previous);
-    void selectionChanged(const KItemSet& current, const KItemSet& previous);
+    void selectionChanged(const KItemSet &current, const KItemSet &previous);
 
 private:
-    void setModel(KItemModelBase* model);
-    void itemsInserted(const KItemRangeList& itemRanges);
-    void itemsRemoved(const KItemRangeList& itemRanges);
-    void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
-
+    void setModel(KItemModelBase *model);
+    void itemsInserted(const KItemRangeList &itemRanges);
+    void itemsRemoved(const KItemRangeList &itemRanges);
+    void itemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes);
 
     /**
      * Helper method for itemsRemoved. Returns the changed index after removing
      * the given range. If the index is part of the range, -1 will be returned.
      */
-    int indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges, const RangesRemovingBehaviour behaviour) const;
+    int indexAfterRangesRemoving(int index, const KItemRangeList &itemRanges, const RangesRemovingBehaviour behaviour) const;
 
 private:
     int m_currentItem;
@@ -86,10 +78,10 @@ private:
     KItemSet m_selectedItems;
     bool m_isAnchoredSelectionActive;
 
-    KItemModelBase* m_model;
+    KItemModelBase *m_model;
 
     friend class KItemListController; // Calls setModel()
-    friend class KItemListView;       // Calls itemsInserted(), itemsRemoved() and itemsMoved()
+    friend class KItemListView; // Calls itemsInserted(), itemsRemoved() and itemsMoved()
     friend class KItemListSelectionManagerTest;
 };
 

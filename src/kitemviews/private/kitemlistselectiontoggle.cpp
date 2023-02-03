@@ -11,10 +11,10 @@
 #include <QIcon>
 #include <QPainter>
 
-KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
-    QGraphicsWidget(parent),
-    m_checked(false),
-    m_hovered(false)
+KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem *parent)
+    : QGraphicsWidget(parent)
+    , m_checked(false)
+    , m_hovered(false)
 {
 }
 
@@ -45,7 +45,7 @@ void KItemListSelectionToggle::setHovered(bool hovered)
     }
 }
 
-void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KItemListSelectionToggle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -54,12 +54,12 @@ void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphi
         updatePixmap();
     }
 
-    const qreal x = (size().width()  - qreal(m_pixmap.width() / m_pixmap.devicePixelRatioF()))  / 2;
+    const qreal x = (size().width() - qreal(m_pixmap.width() / m_pixmap.devicePixelRatioF())) / 2;
     const qreal y = (size().height() - qreal(m_pixmap.height() / m_pixmap.devicePixelRatioF())) / 2;
     painter->drawPixmap(x, y, m_pixmap);
 }
 
-void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     QGraphicsWidget::resizeEvent(event);
 
@@ -99,4 +99,3 @@ int KItemListSelectionToggle::iconSize() const
 
     return iconSize;
 }
-

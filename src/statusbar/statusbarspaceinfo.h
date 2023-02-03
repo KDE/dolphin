@@ -25,22 +25,22 @@ class StatusBarSpaceInfo : public KCapacityBar
     Q_OBJECT
 
 public:
-    explicit StatusBarSpaceInfo(QWidget* parent = nullptr);
+    explicit StatusBarSpaceInfo(QWidget *parent = nullptr);
     ~StatusBarSpaceInfo() override;
 
     /**
      * Use this to set the widget visibility as it can hide itself
      */
     void setShown(bool);
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
     QUrl url() const;
 
     void update();
 
 protected:
-    void showEvent(QShowEvent* event) override;
-    void hideEvent(QHideEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 private Q_SLOTS:
     void slotValuesChanged();

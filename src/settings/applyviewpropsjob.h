@@ -47,16 +47,16 @@ public:
      * @param viewProps View properties for the directory \a dir including its
      *                  sub directories.
      */
-    ApplyViewPropsJob(const QUrl& dir, const ViewProperties& viewProps);
+    ApplyViewPropsJob(const QUrl &dir, const ViewProperties &viewProps);
     ~ApplyViewPropsJob() override;
     int progress() const;
 
 private Q_SLOTS:
-    void slotResult(KJob* job) override;
-    void slotEntries(KIO::Job*, const KIO::UDSEntryList&);
+    void slotResult(KJob *job) override;
+    void slotEntries(KIO::Job *, const KIO::UDSEntryList &);
 
 private:
-    ViewProperties* m_viewProps;
+    ViewProperties *m_viewProps;
     int m_progress;
     QUrl m_dir;
 };

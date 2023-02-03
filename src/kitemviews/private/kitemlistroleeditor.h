@@ -11,15 +11,14 @@
 
 #include <KTextEdit>
 
-enum EditResultDirection{
+enum EditResultDirection {
     EditDone,
     EditNext,
     EditPrevious,
 };
 Q_DECLARE_METATYPE(EditResultDirection)
 
-struct EditResult
-{
+struct EditResult {
     QString newName;
     EditResultDirection direction;
 };
@@ -39,22 +38,22 @@ class DOLPHIN_EXPORT KItemListRoleEditor : public KTextEdit
     Q_OBJECT
 
 public:
-    explicit KItemListRoleEditor(QWidget* parent);
+    explicit KItemListRoleEditor(QWidget *parent);
     ~KItemListRoleEditor() override;
 
-    void setRole(const QByteArray& role);
+    void setRole(const QByteArray &role);
     QByteArray role() const;
 
     void setAllowUpDownKeyChainEdit(bool allowChainEdit);
-    bool eventFilter(QObject* watched, QEvent* event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:
-    void roleEditingFinished(const QByteArray& role, const QVariant& value);
-    void roleEditingCanceled(const QByteArray& role, const QVariant& value);
+    void roleEditingFinished(const QByteArray &role, const QVariant &value);
+    void roleEditingCanceled(const QByteArray &role, const QVariant &value);
 
 protected:
-    bool event(QEvent* event) override;
-    void keyPressEvent(QKeyEvent* event) override;
+    bool event(QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private Q_SLOTS:
     /**

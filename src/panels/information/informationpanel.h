@@ -14,7 +14,7 @@
 class InformationPanelContent;
 namespace KIO
 {
-    class Job;
+class Job;
 }
 
 /**
@@ -25,18 +25,18 @@ class InformationPanel : public Panel
     Q_OBJECT
 
 public:
-    explicit InformationPanel(QWidget* parent = nullptr);
+    explicit InformationPanel(QWidget *parent = nullptr);
     ~InformationPanel() override;
 
 Q_SIGNALS:
-    void urlActivated(const QUrl& url);
+    void urlActivated(const QUrl &url);
 
 public Q_SLOTS:
     /**
      * This is invoked to inform the panel that the user has selected a new
      * set of items.
      */
-    void setSelection(const KFileItemList& selection);
+    void setSelection(const KFileItemList &selection);
 
     /**
      * Does a delayed request of information for the item \a item.
@@ -44,7 +44,7 @@ public Q_SLOTS:
      * are invoked, then the request will be skipped. Requesting a delayed item information
      * makes sense when hovering items.
      */
-    void requestDelayedItemInfo(const KFileItem& item);
+    void requestDelayedItemInfo(const KFileItem &item);
 
     void slotFilesItemChanged(const KFileItemList &changedFileItems);
 
@@ -53,13 +53,13 @@ protected:
     bool urlChanged() override;
 
     /** @see QWidget::showEvent() */
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
 
     /** @see QWidget::resizeEvent() */
-    void resizeEvent(QResizeEvent* event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
     /** @see QWidget::contextMenuEvent() */
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 private Q_SLOTS:
     /**
@@ -72,7 +72,7 @@ private Q_SLOTS:
      * Shows the information for the currently displayed folder as a result from
      * a stat job issued in showItemInfo().
      */
-    void slotFolderStatFinished(KJob* job);
+    void slotFolderStatFinished(KJob *job);
 
     /**
      * Triggered if the request for item information has timed out.
@@ -87,12 +87,12 @@ private Q_SLOTS:
      */
     void reset();
 
-    void slotFileRenamed(const QString& source, const QString& dest);
-    void slotFilesAdded(const QString& directory);
-    void slotFilesChanged(const QStringList& files);
-    void slotFilesRemoved(const QStringList& files);
-    void slotEnteredDirectory(const QString& directory);
-    void slotLeftDirectory(const QString& directory);
+    void slotFileRenamed(const QString &source, const QString &dest);
+    void slotFilesAdded(const QString &directory);
+    void slotFilesChanged(const QStringList &files);
+    void slotFilesRemoved(const QStringList &files);
+    void slotEnteredDirectory(const QString &directory);
+    void slotLeftDirectory(const QString &directory);
 
 private:
     /** Assures that any pending item information request is cancelled. */
@@ -101,7 +101,7 @@ private:
     /**
      * Returns true, if \a url is equal to the shown URL m_shownUrl.
      */
-    bool isEqualToShownUrl(const QUrl& url) const;
+    bool isEqualToShownUrl(const QUrl &url) const;
 
     /**
      * Marks the URL as invalid and will reset the Information Panel
@@ -121,9 +121,9 @@ private:
 
 private:
     bool m_initialized;
-    QTimer* m_infoTimer;
-    QTimer* m_urlChangedTimer;
-    QTimer* m_resetUrlTimer;
+    QTimer *m_infoTimer;
+    QTimer *m_urlChangedTimer;
+    QTimer *m_resetUrlTimer;
 
     // URL that is currently shown in the Information Panel.
     QUrl m_shownUrl;
@@ -141,9 +141,9 @@ private:
     KFileItem m_hoveredItem;
     KFileItemList m_selection;
 
-    KIO::Job* m_folderStatJob;
+    KIO::Job *m_folderStatJob;
 
-    InformationPanelContent* m_content;
+    InformationPanelContent *m_content;
     bool m_inConfigurationMode = false;
 };
 

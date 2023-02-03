@@ -29,29 +29,31 @@ class DolphinPart : public KParts::ReadOnlyPart
     // Used by konqueror. Technically it means "we want undo enabled if
     // there are things in the undo history and the current part is a dolphin part".
     // Even though it's konqueror doing the undo...
-    Q_PROPERTY( bool supportsUndo READ supportsUndo )
+    Q_PROPERTY(bool supportsUndo READ supportsUndo)
 
-    Q_PROPERTY( QString currentViewMode READ currentViewMode WRITE setCurrentViewMode )
+    Q_PROPERTY(QString currentViewMode READ currentViewMode WRITE setCurrentViewMode)
 
     // Used by konqueror when typing something like /home/dfaure/*.diff in the location bar
-    Q_PROPERTY( QString nameFilter READ nameFilter WRITE setNameFilter )
+    Q_PROPERTY(QString nameFilter READ nameFilter WRITE setNameFilter)
 
     // Used by konqueror to implement the --select command-line option
-    Q_PROPERTY( QList<QUrl> filesToSelect READ filesToSelect WRITE setFilesToSelect )
+    Q_PROPERTY(QList<QUrl> filesToSelect READ filesToSelect WRITE setFilesToSelect)
 
 public:
-    explicit DolphinPart(QWidget* parentWidget, QObject* parent,
-                         const KPluginMetaData& metaData, const QVariantList& args);
+    explicit DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &args);
     ~DolphinPart() override;
 
     /**
      * Standard KParts::ReadOnlyPart openUrl method.
      * Called by Konqueror to view a directory in DolphinPart.
      */
-    bool openUrl(const QUrl& url) override;
+    bool openUrl(const QUrl &url) override;
 
     /// see the supportsUndo property
-    bool supportsUndo() const { return true; }
+    bool supportsUndo() const
+    {
+        return true;
+    }
 
     /**
      * Used by konqueror for setting the view mode
@@ -59,7 +61,7 @@ public:
      * Those names come from the Actions line in dolphinpart.desktop,
      * and have to match the name of the KActions.
      */
-    void setCurrentViewMode(const QString& viewModeName);
+    void setCurrentViewMode(const QString &viewModeName);
 
     /**
      * Used by konqueror for displaying the current view mode.
@@ -68,23 +70,32 @@ public:
     QString currentViewMode() const;
 
     /// Returns the view owned by this part; used by DolphinPartBrowserExtension
-    DolphinView* view() { return m_view; }
+    DolphinView *view()
+    {
+        return m_view;
+    }
 
     /**
      * Sets a name filter, like *.diff
      */
-    void setNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString &nameFilter);
 
     /**
      * Returns the current name filter. Used by konqueror to show it in the URL.
      */
-    QString nameFilter() const { return m_nameFilter; }
+    QString nameFilter() const
+    {
+        return m_nameFilter;
+    }
 
 protected:
     /**
      * We reimplement openUrl so no need to implement openFile.
      */
-    bool openFile() override { return true; }
+    bool openFile() override
+    {
+        return true;
+    }
 
 Q_SIGNALS:
     /**
@@ -92,28 +103,27 @@ Q_SIGNALS:
      */
     void viewModeChanged();
 
-
     /**
      * Emitted whenever the current URL is about to be changed.
      */
     void aboutToOpenURL();
 
 private Q_SLOTS:
-    void slotMessage(const QString& msg);
-    void slotErrorMessage(const QString& msg);
+    void slotMessage(const QString &msg);
+    void slotErrorMessage(const QString &msg);
     /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
      */
-    void slotRequestItemInfo(const KFileItem& item);
+    void slotRequestItemInfo(const KFileItem &item);
     /**
      * Handles clicking on an item
      */
-    void slotItemActivated(const KFileItem& item);
+    void slotItemActivated(const KFileItem &item);
     /**
      * Handles activation of multiple items
      */
-    void slotItemsActivated(const KFileItemList& items);
+    void slotItemsActivated(const KFileItemList &items);
     /**
      * Creates a new window showing the content of \a url.
      */
@@ -135,13 +145,13 @@ private Q_SLOTS:
      * Testcase 1: fish://localhost
      * Testcase 2: showing a directory that is being renamed by another window (#180156)
      */
-    void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
+    void slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits
      * the signal selectionChanged().
      */
-    void slotSelectionChanged(const KFileItemList& selection);
+    void slotSelectionChanged(const KFileItemList &selection);
 
     /**
      * Updates the text of the paste action dependent from
@@ -152,7 +162,7 @@ private Q_SLOTS:
     /**
      * Connected to all "Go" menu actions provided by DolphinPart
      */
-    void slotGoTriggered(QAction* action);
+    void slotGoTriggered(QAction *action);
 
     /**
      * Connected to the "editMimeType" action
@@ -193,9 +203,9 @@ private Q_SLOTS:
      */
     void updateStatusBar();
 
-   /**
-    * Notify container of folder loading progress.
-    */
+    /**
+     * Notify container of folder loading progress.
+     */
     void updateProgress(int percent);
 
     void createDirectory();
@@ -204,31 +214,31 @@ private Q_SLOTS:
      * Called by konqueror --select
      */
     void setFilesToSelect(const QList<QUrl> &files);
-    QList<QUrl> filesToSelect() const { return QList<QUrl>(); } // silence moc
+    QList<QUrl> filesToSelect() const
+    {
+        return QList<QUrl>();
+    } // silence moc
 
-    bool eventFilter(QObject*, QEvent*) override;
+    bool eventFilter(QObject *, QEvent *) override;
 
 private:
     void createActions();
-    void createGoAction(const char* name, const char* iconName,
-                        const QString& text, const QString& url,
-                        QActionGroup* actionGroup);
+    void createGoAction(const char *name, const char *iconName, const QString &text, const QString &url, QActionGroup *actionGroup);
 
-    void openSelectionDialog(const QString& title, const QString& text,
-                             bool selectItems);
+    void openSelectionDialog(const QString &title, const QString &text, bool selectItems);
     QString urlToLocalFilePath(const QUrl &url);
     QString localFilePathOrHome() const;
 
 private:
-    DolphinView* m_view;
-    DolphinViewActionHandler* m_actionHandler;
-    DolphinRemoteEncoding* m_remoteEncoding;
-    DolphinPartBrowserExtension* m_extension;
-    DolphinNewFileMenu* m_newFileMenu;
-    QAction* m_findFileAction;
-    QAction* m_openTerminalAction;
+    DolphinView *m_view;
+    DolphinViewActionHandler *m_actionHandler;
+    DolphinRemoteEncoding *m_remoteEncoding;
+    DolphinPartBrowserExtension *m_extension;
+    DolphinNewFileMenu *m_newFileMenu;
+    QAction *m_findFileAction;
+    QAction *m_openTerminalAction;
     QString m_nameFilter;
-    DolphinRemoveAction* m_removeAction;
+    DolphinRemoveAction *m_removeAction;
     Q_DISABLE_COPY(DolphinPart)
 };
 

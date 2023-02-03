@@ -24,17 +24,13 @@ class DOLPHIN_EXPORT DolphinItemListView : public KFileItemListView
     Q_OBJECT
 
 public:
-    explicit DolphinItemListView(QGraphicsWidget* parent = nullptr);
+    explicit DolphinItemListView(QGraphicsWidget *parent = nullptr);
     ~DolphinItemListView() override;
 
     void setZoomLevel(int level);
     int zoomLevel() const;
 
-    enum SelectionTogglesEnabled {
-        True,
-        False,
-        FollowSetting
-    };
+    enum SelectionTogglesEnabled { True, False, FollowSetting };
     /**
      * Sets whether the items in this view should show a small selection toggle area on mouse hover.
      * The default for this view is to follow the "showSelectionToggle" setting but this method can
@@ -46,15 +42,14 @@ public:
     void writeSettings();
 
 protected:
-    KItemListWidgetCreatorBase* defaultWidgetCreator() const override;
+    KItemListWidgetCreatorBase *defaultWidgetCreator() const override;
     /** Overwriting in the Dolphin-specific class because we want this to be user-configurable.
      * @see KStandardItemListView::itemLayoutHighlightEntireRow */
     bool itemLayoutHighlightEntireRow(ItemLayout layout) const override;
     bool itemLayoutSupportsItemExpanding(ItemLayout layout) const override;
     void onItemLayoutChanged(ItemLayout current, ItemLayout previous) override;
     void onPreviewsShownChanged(bool shown) override;
-    void onVisibleRolesChanged(const QList<QByteArray>& current,
-                                       const QList<QByteArray>& previous) override;
+    void onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous) override;
 
     void updateFont() override;
 

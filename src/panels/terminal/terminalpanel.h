@@ -18,12 +18,14 @@ class KMessageWidget;
 class QVBoxLayout;
 class QWidget;
 
-namespace KIO {
-    class StatJob;
+namespace KIO
+{
+class StatJob;
 }
 
-namespace KParts {
-    class ReadOnlyPart;
+namespace KParts
+{
+class ReadOnlyPart;
 }
 class KJob;
 /**
@@ -35,7 +37,7 @@ class TerminalPanel : public Panel
     Q_OBJECT
 
 public:
-    explicit TerminalPanel(QWidget* parent = nullptr);
+    explicit TerminalPanel(QWidget *parent = nullptr);
     ~TerminalPanel() override;
 
     /**
@@ -60,35 +62,33 @@ Q_SIGNALS:
     /**
      * Is emitted if the an URL change is requested.
      */
-    void changeUrl(const QUrl& url);
+    void changeUrl(const QUrl &url);
 
 protected:
     bool urlChanged() override;
 
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
 
 private Q_SLOTS:
-    void slotMostLocalUrlResult(KJob* job);
-    void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
+    void slotMostLocalUrlResult(KJob *job);
+    void slotKonsolePartCurrentDirectoryChanged(const QString &dir);
 
 private:
-    enum class HistoryPolicy {
-        AddToHistory,
-        SkipHistory
-    };
+    enum class HistoryPolicy { AddToHistory, SkipHistory };
 
-    void changeDir(const QUrl& url);
-    void sendCdToTerminal(const QString& path, HistoryPolicy addToHistory = HistoryPolicy::AddToHistory);
+    void changeDir(const QUrl &url);
+    void sendCdToTerminal(const QString &path, HistoryPolicy addToHistory = HistoryPolicy::AddToHistory);
     void sendCdToTerminalKIOFuse(const QUrl &url);
+
 private:
     bool m_clearTerminal;
-    KIO::StatJob* m_mostLocalUrlJob;
+    KIO::StatJob *m_mostLocalUrlJob;
 
-    QVBoxLayout* m_layout;
-    TerminalInterface* m_terminal;
-    QWidget* m_terminalWidget;
-    KMessageWidget* m_konsolePartMissingMessage;
-    KParts::ReadOnlyPart* m_konsolePart;
+    QVBoxLayout *m_layout;
+    TerminalInterface *m_terminal;
+    QWidget *m_terminalWidget;
+    KMessageWidget *m_konsolePartMissingMessage;
+    KParts::ReadOnlyPart *m_konsolePart;
     QString m_konsolePartCurrentDirectory;
     QQueue<QString> m_sendCdToTerminalHistory;
     org::kde::KIOFuse::VFS m_kiofuseInterface;

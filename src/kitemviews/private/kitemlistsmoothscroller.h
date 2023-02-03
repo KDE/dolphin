@@ -25,17 +25,16 @@ class DOLPHIN_EXPORT KItemListSmoothScroller : public QObject
     Q_OBJECT
 
 public:
-    explicit KItemListSmoothScroller(QScrollBar* scrollBar,
-                                     QObject* parent = nullptr);
+    explicit KItemListSmoothScroller(QScrollBar *scrollBar, QObject *parent = nullptr);
     ~KItemListSmoothScroller() override;
 
-    void setScrollBar(QScrollBar* scrollBar);
-    QScrollBar* scrollBar() const;
+    void setScrollBar(QScrollBar *scrollBar);
+    QScrollBar *scrollBar() const;
 
-    void setTargetObject(QObject* target);
-    QObject* targetObject() const;
+    void setTargetObject(QObject *target);
+    QObject *targetObject() const;
 
-    void setPropertyName(const QByteArray& propertyName);
+    void setPropertyName(const QByteArray &propertyName);
     QByteArray propertyName() const;
 
     /**
@@ -67,27 +66,25 @@ public:
     /**
      * Forwards wheel events to the scrollbar, ensuring smooth and proper scrolling
      */
-    void handleWheelEvent(QWheelEvent* event);
+    void handleWheelEvent(QWheelEvent *event);
 
 Q_SIGNALS:
     /**
      * Emitted when the scrolling animation has finished
      */
     void scrollingStopped();
+
 protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private Q_SLOTS:
-    void slotAnimationStateChanged(QAbstractAnimation::State newState,
-                                   QAbstractAnimation::State oldState);
+    void slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
 
 private:
     bool m_scrollBarPressed;
     bool m_smoothScrolling;
-    QScrollBar* m_scrollBar;
-    QPropertyAnimation* m_animation;
+    QScrollBar *m_scrollBar;
+    QPropertyAnimation *m_animation;
 };
 
 #endif
-
-

@@ -14,25 +14,23 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
-DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
-    QWidget(parent),
-    m_modeCombo(nullptr),
-    m_chooseFontButton(nullptr),
-    m_mode(SystemFont),
-    m_customFont()
+DolphinFontRequester::DolphinFontRequester(QWidget *parent)
+    : QWidget(parent)
+    , m_modeCombo(nullptr)
+    , m_chooseFontButton(nullptr)
+    , m_mode(SystemFont)
+    , m_customFont()
 {
-    QHBoxLayout* topLayout = new QHBoxLayout(this);
+    QHBoxLayout *topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_modeCombo = new QComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
-    connect(m_modeCombo, &QComboBox::activated,
-            this, &DolphinFontRequester::changeMode);
+    connect(m_modeCombo, &QComboBox::activated, this, &DolphinFontRequester::changeMode);
 
     m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose..."), this);
-    connect(m_chooseFontButton, &QPushButton::clicked,
-            this, &DolphinFontRequester::openFontDialog);
+    connect(m_chooseFontButton, &QPushButton::clicked, this, &DolphinFontRequester::openFontDialog);
 
     changeMode(m_modeCombo->currentIndex());
 
@@ -61,7 +59,7 @@ QFont DolphinFontRequester::currentFont() const
     return (m_mode == CustomFont) ? m_customFont : QFontDatabase::systemFont(QFontDatabase::GeneralFont);
 }
 
-void DolphinFontRequester::setCustomFont(const QFont& font)
+void DolphinFontRequester::setCustomFont(const QFont &font)
 {
     m_customFont = font;
 }
@@ -87,4 +85,3 @@ void DolphinFontRequester::changeMode(int index)
     setMode((index == CustomFont) ? CustomFont : SystemFont);
     Q_EMIT changed();
 }
-

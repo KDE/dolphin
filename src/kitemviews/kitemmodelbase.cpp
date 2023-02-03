@@ -8,19 +8,19 @@
 
 #include "kitemmodelbase.h"
 
-KItemModelBase::KItemModelBase(QObject* parent) :
-    QObject(parent),
-    m_groupedSorting(false),
-    m_sortRole(),
-    m_sortOrder(Qt::AscendingOrder)
+KItemModelBase::KItemModelBase(QObject *parent)
+    : QObject(parent)
+    , m_groupedSorting(false)
+    , m_sortRole()
+    , m_sortOrder(Qt::AscendingOrder)
 {
 }
 
-KItemModelBase::KItemModelBase(const QByteArray& sortRole, QObject* parent) :
-    QObject(parent),
-    m_groupedSorting(false),
-    m_sortRole(sortRole),
-    m_sortOrder(Qt::AscendingOrder)
+KItemModelBase::KItemModelBase(const QByteArray &sortRole, QObject *parent)
+    : QObject(parent)
+    , m_groupedSorting(false)
+    , m_sortRole(sortRole)
+    , m_sortOrder(Qt::AscendingOrder)
 {
 }
 
@@ -49,7 +49,7 @@ bool KItemModelBase::groupedSorting() const
     return m_groupedSorting;
 }
 
-void KItemModelBase::setSortRole(const QByteArray& role, bool resortItems)
+void KItemModelBase::setSortRole(const QByteArray &role, bool resortItems)
 {
     if (role != m_sortRole) {
         const QByteArray previous = m_sortRole;
@@ -74,14 +74,14 @@ void KItemModelBase::setSortOrder(Qt::SortOrder order)
     }
 }
 
-QString KItemModelBase::roleDescription(const QByteArray& role) const
+QString KItemModelBase::roleDescription(const QByteArray &role) const
 {
     return role;
 }
 
-QList<QPair<int, QVariant> > KItemModelBase::groups() const
+QList<QPair<int, QVariant>> KItemModelBase::groups() const
 {
-    return QList<QPair<int, QVariant> >();
+    return QList<QPair<int, QVariant>>();
 }
 
 bool KItemModelBase::setExpanded(int index, bool expanded)
@@ -109,13 +109,13 @@ int KItemModelBase::expandedParentsCount(int index) const
     return 0;
 }
 
-QMimeData* KItemModelBase::createMimeData(const KItemSet& indexes) const
+QMimeData *KItemModelBase::createMimeData(const KItemSet &indexes) const
 {
     Q_UNUSED(indexes)
     return nullptr;
 }
 
-int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromIndex) const
+int KItemModelBase::indexForKeyboardSearch(const QString &text, int startFromIndex) const
 {
     Q_UNUSED(text)
     Q_UNUSED(startFromIndex)
@@ -138,7 +138,7 @@ void KItemModelBase::onGroupedSortingChanged(bool current)
     Q_UNUSED(current)
 }
 
-void KItemModelBase::onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems)
+void KItemModelBase::onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)

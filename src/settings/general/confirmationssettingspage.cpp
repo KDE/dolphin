@@ -13,61 +13,55 @@
 
 #include <QCheckBox>
 #include <QComboBox>
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QVBoxLayout>
 
-namespace {
-    enum ScriptExecution
-    {
-        AlwaysAsk = 0,
-        Open = 1,
-        Execute = 2
-    };
+namespace
+{
+enum ScriptExecution { AlwaysAsk = 0, Open = 1, Execute = 2 };
 
-    const bool ConfirmEmptyTrash = true;
-    const bool ConfirmTrash = false;
-    const bool ConfirmDelete = true;
-    const int  ConfirmScriptExecution = ScriptExecution::AlwaysAsk;
+const bool ConfirmEmptyTrash = true;
+const bool ConfirmTrash = false;
+const bool ConfirmDelete = true;
+const int ConfirmScriptExecution = ScriptExecution::AlwaysAsk;
 }
 
-ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent),
-    m_confirmMoveToTrash(nullptr),
-    m_confirmEmptyTrash(nullptr),
-    m_confirmDelete(nullptr),
+ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_confirmMoveToTrash(nullptr)
+    , m_confirmEmptyTrash(nullptr)
+    , m_confirmDelete(nullptr)
+    ,
 
 #if HAVE_TERMINAL
-    m_confirmClosingTerminalRunningProgram(nullptr),
+    m_confirmClosingTerminalRunningProgram(nullptr)
+    ,
 #endif
 
     m_confirmClosingMultipleTabs(nullptr)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
 
-    QLabel* confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
+    QLabel *confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
     confirmLabelKde->setWordWrap(true);
 
-    m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                               "Moving files or folders to trash"), this);
-    m_confirmEmptyTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                              "Emptying trash"), this);
-    m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                          "Deleting files or folders"), this);
+    m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Moving files or folders to trash"), this);
+    m_confirmEmptyTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Emptying trash"), this);
+    m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when", "Deleting files or folders"), this);
 
-    QLabel* confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation in Dolphin when:"), this);
+    QLabel *confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation in Dolphin when:"), this);
     confirmLabelDolphin->setWordWrap(true);
 
-    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when",
-                                                       "Closing windows with multiple tabs"), this);
+    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Closing windows with multiple tabs"), this);
 
 #if HAVE_TERMINAL
-    m_confirmClosingTerminalRunningProgram = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                                       "Closing windows with a program running in the Terminal panel"), this);
+    m_confirmClosingTerminalRunningProgram =
+        new QCheckBox(i18nc("@option:check Ask for confirmation when", "Closing windows with a program running in the Terminal panel"), this);
 #endif
 
-    QHBoxLayout* executableScriptLayout = new QHBoxLayout();
-    QLabel* executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
+    QHBoxLayout *executableScriptLayout = new QHBoxLayout();
+    QLabel *executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
     confirmLabelKde->setWordWrap(true);
     executableScriptLayout->addWidget(executableScriptLabel);
 
@@ -132,7 +126,7 @@ void ConfirmationsSettingsPage::applySettings()
     }
     kioConfig->sync();
 
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
 
 #if HAVE_TERMINAL
@@ -144,7 +138,7 @@ void ConfirmationsSettingsPage::applySettings()
 
 void ConfirmationsSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -179,4 +173,3 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
 #endif
 }
-

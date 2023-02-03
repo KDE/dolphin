@@ -14,8 +14,8 @@
 #include "settings/viewmodes/viewmodesettings.h"
 #include "views/zoomlevelinfo.h"
 
-#include <KLocalizedString>
 #include <KFormat>
+#include <KLocalizedString>
 
 #include <QApplication>
 #include <QButtonGroup>
@@ -26,20 +26,20 @@
 #include <QRadioButton>
 #include <QSpinBox>
 
-ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
-    QWidget(parent),
-    m_mode(mode),
-    m_defaultSizeSlider(nullptr),
-    m_previewSizeSlider(nullptr),
-    m_fontRequester(nullptr),
-    m_widthBox(nullptr),
-    m_maxLinesBox(nullptr),
-    m_expandableFolders(nullptr),
-    m_recursiveDirectorySizeLimit(nullptr),
-    m_useRelatetiveDates(nullptr),
-    m_useShortDates(nullptr)
+ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
+    : QWidget(parent)
+    , m_mode(mode)
+    , m_defaultSizeSlider(nullptr)
+    , m_previewSizeSlider(nullptr)
+    , m_fontRequester(nullptr)
+    , m_widthBox(nullptr)
+    , m_maxLinesBox(nullptr)
+    , m_expandableFolders(nullptr)
+    , m_recursiveDirectorySizeLimit(nullptr)
+    , m_useRelatetiveDates(nullptr)
+    , m_useShortDates(nullptr)
 {
-    QFormLayout* topLayout = new QFormLayout(this);
+    QFormLayout *topLayout = new QFormLayout(this);
 
     // Create "Icon Size" section
     const int minRange = ZoomLevelInfo::minimumLevel();
@@ -49,21 +49,17 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_defaultSizeSlider->setRange(minRange, maxRange);
-    connect(m_defaultSizeSlider, &QSlider::valueChanged,
-            this, &ViewSettingsTab::slotDefaultSliderMoved);
+    connect(m_defaultSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::slotDefaultSliderMoved);
     topLayout->addRow(i18nc("@label:listbox", "Default icon size:"), m_defaultSizeSlider);
 
     m_previewSizeSlider = new QSlider(Qt::Horizontal);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_previewSizeSlider->setRange(minRange, maxRange);
-    connect(m_previewSizeSlider, &QSlider::valueChanged,
-            this, &ViewSettingsTab::slotPreviewSliderMoved);
+    connect(m_previewSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::slotPreviewSliderMoved);
     topLayout->addRow(i18nc("@label:listbox", "Preview icon size:"), m_previewSizeSlider);
 
-
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-
 
     // Create "Label" section
     m_fontRequester = new DolphinFontRequester(this);
@@ -109,17 +105,18 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         itemActivationAreaGroup->addButton(m_entireRow);
         itemActivationAreaGroup->addButton(m_iconAndNameOnly);
 
+        // clang-format off
         // i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
         topLayout->addRow(i18nc("@title:group", "Open files and folders:"), m_entireRow);
+        // clang-format on
         topLayout->addRow(QString(), m_iconAndNameOnly);
-
 
 #ifndef Q_OS_WIN
         // Sorting properties
         m_numberOfItems = new QRadioButton(i18nc("option:radio", "Number of items"));
         m_sizeOfContents = new QRadioButton(i18nc("option:radio", "Size of contents, up to "));
 
-        QButtonGroup* sortingModeGroup = new QButtonGroup(this);
+        QButtonGroup *sortingModeGroup = new QButtonGroup(this);
         sortingModeGroup->addButton(m_numberOfItems);
         sortingModeGroup->addButton(m_sizeOfContents);
 
@@ -142,14 +139,12 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         QLocale local;
         KFormat formatter(local);
 
-        m_useRelatetiveDates = new QRadioButton(i18nc(
-            "option:radio as in relative date", "Relative (e.g. '%1')", formatter.formatRelativeDateTime(thirtyMinutesAgo, QLocale::ShortFormat))
-        );
-        m_useShortDates = new QRadioButton(
-            i18nc("option:radio as in absolute date", "Absolute (e.g. '%1')", local.toString(thirtyMinutesAgo, QLocale::ShortFormat))
-        );
+        m_useRelatetiveDates = new QRadioButton(
+            i18nc("option:radio as in relative date", "Relative (e.g. '%1')", formatter.formatRelativeDateTime(thirtyMinutesAgo, QLocale::ShortFormat)));
+        m_useShortDates =
+            new QRadioButton(i18nc("option:radio as in absolute date", "Absolute (e.g. '%1')", local.toString(thirtyMinutesAgo, QLocale::ShortFormat)));
 
-        QButtonGroup* dateFormatGroup = new QButtonGroup(this);
+        QButtonGroup *dateFormatGroup = new QButtonGroup(this);
         dateFormatGroup->addButton(m_useRelatetiveDates);
         dateFormatGroup->addButton(m_useShortDates);
 
@@ -271,16 +266,16 @@ void ViewSettingsTab::loadSettings()
         m_entireRow->setChecked(DetailsModeSettings::highlightEntireRow());
         m_iconAndNameOnly->setChecked(!m_entireRow->isChecked());
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
-        #ifndef Q_OS_WIN
-            if (DetailsModeSettings::directorySizeCount()) {
-                    m_numberOfItems->setChecked(true);
-                    m_recursiveDirectorySizeLimit->setEnabled(false);
-            } else {
-                m_sizeOfContents->setChecked(true);
-                m_recursiveDirectorySizeLimit->setEnabled(true);
-            }
-            m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
-        #endif
+#ifndef Q_OS_WIN
+        if (DetailsModeSettings::directorySizeCount()) {
+            m_numberOfItems->setChecked(true);
+            m_recursiveDirectorySizeLimit->setEnabled(false);
+        } else {
+            m_sizeOfContents->setChecked(true);
+            m_recursiveDirectorySizeLimit->setEnabled(true);
+        }
+        m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
+#endif
         m_useRelatetiveDates->setChecked(DetailsModeSettings::useShortRelativeDates());
         m_useShortDates->setChecked(!DetailsModeSettings::useShortRelativeDates());
         break;
@@ -296,9 +291,7 @@ void ViewSettingsTab::loadSettings()
     const QSize previewSize(settings.previewSize(), settings.previewSize());
     m_previewSizeSlider->setValue(ZoomLevelInfo::zoomLevelForIconSize(previewSize));
 
-    m_fontRequester->setMode(settings.useSystemFont()
-                             ? DolphinFontRequester::SystemFont
-                             : DolphinFontRequester::CustomFont);
+    m_fontRequester->setMode(settings.useSystemFont() ? DolphinFontRequester::SystemFont : DolphinFontRequester::CustomFont);
 
     QFont font(settings.viewFont());
     m_fontRequester->setCustomFont(font);
@@ -314,7 +307,7 @@ void ViewSettingsTab::slotPreviewSliderMoved(int value)
     showToolTip(m_previewSizeSlider, value);
 }
 
-void ViewSettingsTab::showToolTip(QSlider* slider, int value)
+void ViewSettingsTab::showToolTip(QSlider *slider, int value)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(value);
     slider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
@@ -326,4 +319,3 @@ void ViewSettingsTab::showToolTip(QSlider* slider, int value)
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
     QApplication::sendEvent(slider, &toolTipEvent);
 }
-

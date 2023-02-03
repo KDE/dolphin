@@ -29,10 +29,10 @@ private:
     void reparseConfiguration();
 
 private Q_SLOTS:
-   void viewModeChanged();
+    void viewModeChanged();
 
 private:
-    QList<ViewSettingsTab*> m_tabs;
+    QList<ViewSettingsTab *> m_tabs;
 };
 
 #endif

@@ -31,24 +31,19 @@ class DOLPHIN_EXPORT KStandardItemListView : public KItemListView
     Q_OBJECT
 
 public:
-    enum ItemLayout
-    {
-        IconsLayout,
-        CompactLayout,
-        DetailsLayout
-    };
+    enum ItemLayout { IconsLayout, CompactLayout, DetailsLayout };
 
-    explicit KStandardItemListView(QGraphicsWidget* parent = nullptr);
+    explicit KStandardItemListView(QGraphicsWidget *parent = nullptr);
     ~KStandardItemListView() override;
 
     void setItemLayout(ItemLayout layout);
     ItemLayout itemLayout() const;
 
 protected:
-    KItemListWidgetCreatorBase* defaultWidgetCreator() const override;
-    KItemListGroupHeaderCreatorBase* defaultGroupHeaderCreator() const override;
-    void initializeItemListWidget(KItemListWidget* item) override;
-    bool itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const override;
+    KItemListWidgetCreatorBase *defaultWidgetCreator() const override;
+    KItemListGroupHeaderCreatorBase *defaultGroupHeaderCreator() const override;
+    void initializeItemListWidget(KItemListWidget *item) override;
+    bool itemSizeHintUpdateRequired(const QSet<QByteArray> &changedRoles) const override;
     virtual bool itemLayoutSupportsItemExpanding(ItemLayout layout) const;
     /** To be overriden by sub-classes to specify when full row highlighting should be enabled. */
     virtual bool itemLayoutHighlightEntireRow(ItemLayout layout) const;
@@ -66,5 +61,3 @@ private:
 };
 
 #endif
-
-

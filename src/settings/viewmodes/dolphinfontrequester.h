@@ -21,13 +21,9 @@ class DolphinFontRequester : public QWidget
     Q_OBJECT
 
 public:
-    enum Mode
-    {
-        SystemFont = 0,
-        CustomFont = 1
-    };
+    enum Mode { SystemFont = 0, CustomFont = 1 };
 
-    explicit DolphinFontRequester(QWidget* parent);
+    explicit DolphinFontRequester(QWidget *parent);
     ~DolphinFontRequester() override;
 
     void setMode(Mode mode);
@@ -40,7 +36,7 @@ public:
      */
     QFont currentFont() const;
 
-    void setCustomFont(const QFont& font);
+    void setCustomFont(const QFont &font);
     QFont customFont() const;
 
 Q_SIGNALS:
@@ -52,8 +48,8 @@ private Q_SLOTS:
     void changeMode(int index);
 
 private:
-    QComboBox* m_modeCombo;
-    QPushButton* m_chooseFontButton;
+    QComboBox *m_modeCombo;
+    QPushButton *m_chooseFontButton;
 
     Mode m_mode;
     QFont m_customFont;

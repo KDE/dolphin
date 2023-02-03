@@ -38,7 +38,7 @@ class ViewPropertySettings;
 class DOLPHIN_EXPORT ViewProperties
 {
 public:
-    explicit ViewProperties(const QUrl& url);
+    explicit ViewProperties(const QUrl &url);
     virtual ~ViewProperties();
 
     void setViewMode(DolphinView::Mode mode);
@@ -53,7 +53,7 @@ public:
     void setGroupedSorting(bool grouped);
     bool groupedSorting() const;
 
-    void setSortRole(const QByteArray& role);
+    void setSortRole(const QByteArray &role);
     QByteArray sortRole() const;
 
     void setSortOrder(Qt::SortOrder sortOrder);
@@ -70,7 +70,7 @@ public:
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    void setVisibleRoles(const QList<QByteArray>& info);
+    void setVisibleRoles(const QList<QByteArray> &info);
 
     /**
      * Returns the additional information for the current set view-mode.
@@ -79,7 +79,7 @@ public:
      */
     QList<QByteArray> visibleRoles() const;
 
-    void setHeaderColumnWidths(const QList<int>& widths);
+    void setHeaderColumnWidths(const QList<int> &widths);
     QList<int> headerColumnWidths() const;
 
     /**
@@ -87,7 +87,7 @@ public:
      * show hidden files, sorting and sort order like
      * set in \a props.
      */
-    void setDirProperties(const ViewProperties& props);
+    void setDirProperties(const ViewProperties &props);
 
     /**
      * If \a autoSave is true, the properties are automatically
@@ -122,7 +122,7 @@ private:
      * properties are stored. \a subDir specifies the used sub
      * directory.
      */
-    QString destinationDir(const QString& subDir) const;
+    QString destinationDir(const QString &subDir) const;
 
     /**
      * Returns the view-mode prefix when storing additional properties for
@@ -153,7 +153,7 @@ private:
     /**
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
      */
-    static bool isPartOfHome(const QString& filePath);
+    static bool isPartOfHome(const QString &filePath);
 
     /**
      * @return A hash-value for an URL that can be used as directory name.
@@ -167,7 +167,7 @@ private:
     bool m_changedProps;
     bool m_autoSave;
     QString m_filePath;
-    ViewPropertySettings* m_node;
+    ViewPropertySettings *m_node;
 };
 
 #endif

@@ -16,10 +16,10 @@ class DolphinFeedbackProvider : public KUserFeedback::Provider
 public:
     static DolphinFeedbackProvider *instance();
 
-    DolphinFeedbackProvider(const DolphinFeedbackProvider&) = delete;
-    DolphinFeedbackProvider(DolphinFeedbackProvider&&) = delete;
-    DolphinFeedbackProvider& operator=(const DolphinFeedbackProvider&) = delete;
-    DolphinFeedbackProvider& operator=(DolphinFeedbackProvider&&) = delete;
+    DolphinFeedbackProvider(const DolphinFeedbackProvider &) = delete;
+    DolphinFeedbackProvider(DolphinFeedbackProvider &&) = delete;
+    DolphinFeedbackProvider &operator=(const DolphinFeedbackProvider &) = delete;
+    DolphinFeedbackProvider &operator=(DolphinFeedbackProvider &&) = delete;
 
 private:
     DolphinFeedbackProvider();

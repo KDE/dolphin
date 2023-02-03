@@ -11,9 +11,9 @@
 #include "global.h"
 
 #include <QPointer>
+#include <QSplitter>
 #include <QUrl>
 #include <QWidget>
-#include <QSplitter>
 
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
@@ -26,7 +26,7 @@ class DolphinTabPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl(), QWidget* parent = nullptr);
+    explicit DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl(), QWidget *parent = nullptr);
 
     /**
      * @return True if primary view is the active view in this tab.
@@ -54,17 +54,17 @@ public:
     /**
      * @return The primary view container.
      */
-    DolphinViewContainer* primaryViewContainer() const;
+    DolphinViewContainer *primaryViewContainer() const;
 
     /**
      * @return The secondary view container, can be 0 if split view is disabled.
      */
-    DolphinViewContainer* secondaryViewContainer() const;
+    DolphinViewContainer *secondaryViewContainer() const;
 
     /**
      * @return DolphinViewContainer of the active view
      */
-    DolphinViewContainer* activeViewContainer() const;
+    DolphinViewContainer *activeViewContainer() const;
 
     /**
      * Returns the selected items. The list is empty if no item has been
@@ -105,7 +105,7 @@ public:
      * Marks the item indicated by \p url to be scrolled to and as the
      * current item after directory DolphinView::url() has been loaded.
      */
-    void markUrlAsCurrent(const QUrl& url);
+    void markUrlAsCurrent(const QUrl &url);
 
     /**
      * Refreshes the views of the main window by recreating them according to
@@ -124,7 +124,7 @@ public:
      * Restores all tab related properties (urls, splitter layout, ...) from
      * the given \a state.
      */
-    void restoreState(const QByteArray& state);
+    void restoreState(const QByteArray &state);
 
     /**
      * Set whether the tab page is active
@@ -133,8 +133,8 @@ public:
     void setActive(bool active);
 
 Q_SIGNALS:
-    void activeViewChanged(DolphinViewContainer* viewContainer);
-    void activeViewUrlChanged(const QUrl& url);
+    void activeViewChanged(DolphinViewContainer *viewContainer);
+    void activeViewUrlChanged(const QUrl &url);
     void splitterMoved(int pos, int index);
 
 private Q_SLOTS:
@@ -162,7 +162,7 @@ private Q_SLOTS:
      *
      * It emits the activeViewUrlChanged signal with the url \a newUrl.
      */
-    void slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl);
+    void slotViewUrlRedirection(const QUrl &oldUrl, const QUrl &newUrl);
 
     void switchActiveView();
 
@@ -170,7 +170,7 @@ private:
     /**
      * Creates a new view container and does the default initialization.
      */
-    DolphinViewContainer* createViewContainer(const QUrl& url) const;
+    DolphinViewContainer *createViewContainer(const QUrl &url) const;
 
     /**
      * Starts an animation that transitions between split view mode states.
@@ -224,7 +224,7 @@ public:
     explicit DolphinTabPageSplitter(Qt::Orientation orientation, QWidget *parent);
 
 protected:
-    QSplitterHandle* createHandle() override;
+    QSplitterHandle *createHandle() override;
 };
 
 #endif // DOLPHIN_TAB_PAGE_H

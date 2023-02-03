@@ -29,12 +29,9 @@ class ToolTipManager : public QObject
     Q_OBJECT
 
 public:
-    enum class HideBehavior {
-        Instantly,
-        Later
-    };
+    enum class HideBehavior { Instantly, Later };
 
-    explicit ToolTipManager(QWidget* parent);
+    explicit ToolTipManager(QWidget *parent);
     ~ToolTipManager() override;
 
     /**
@@ -43,7 +40,7 @@ public:
      * The tooltip manager takes care that the tooltip is shown
      * slightly delayed and with a proper \p transientParent.
      */
-    void showToolTip(const KFileItem& item, const QRectF& itemRect, QWindow *transientParent);
+    void showToolTip(const KFileItem &item, const QRectF &itemRect, QWindow *transientParent);
 
     /**
      * Hides the currently shown tooltip.
@@ -55,11 +52,11 @@ Q_SIGNALS:
      * Is emitted when the user clicks a tag or a link
      * in the metadata widget.
      */
-    void urlActivated(const QUrl& url);
+    void urlActivated(const QUrl &url);
 
 private Q_SLOTS:
     void startContentRetrieval();
-    void setPreviewPix(const KFileItem& item, const QPixmap& pix);
+    void setPreviewPix(const KFileItem &item, const QPixmap &pix);
     void previewFailed();
     void slotMetaDataRequestFinished();
     void showToolTip();
@@ -67,14 +64,14 @@ private Q_SLOTS:
 private:
     /// Timeout from requesting a tooltip until the tooltip
     /// should be shown
-    QTimer* m_showToolTipTimer;
+    QTimer *m_showToolTipTimer;
 
     /// Timeout from requesting a tooltip until the retrieving of
     /// the tooltip content like preview and meta data gets started.
-    QTimer* m_contentRetrievalTimer;
+    QTimer *m_contentRetrievalTimer;
 
     /// Transient parent of the tooltip, mandatory on Wayland.
-    QWindow* m_transientParent;
+    QWindow *m_transientParent;
 
     QScopedPointer<KToolTipWidget> m_tooltipWidget;
     DolphinFileMetaDataWidget *m_fileMetaDataWidget = nullptr;

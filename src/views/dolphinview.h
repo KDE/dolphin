@@ -8,13 +8,13 @@
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
-#include "dolphintabwidget.h"
 #include "dolphin_export.h"
+#include "dolphintabwidget.h"
 #include "tooltips/tooltipmanager.h"
 
+#include "config-dolphin.h"
 #include <KFileItem>
 #include <KIO/Job>
-#include "config-dolphin.h"
 #include <kio/fileundomanager.h>
 #include <kparts/part.h>
 
@@ -62,8 +62,7 @@ public:
      * view mode is automatically updated if the directory itself
      * defines a view mode (see class ViewProperties for details).
      */
-    enum Mode
-    {
+    enum Mode {
         /**
          * The items are shown as icons with a name-label below.
          */
@@ -86,7 +85,7 @@ public:
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    DolphinView(const QUrl& url, QWidget* parent);
+    DolphinView(const QUrl &url, QWidget *parent);
 
     ~DolphinView() override;
 
@@ -179,7 +178,7 @@ public:
      * Marks the item indicated by \p url to be scrolled to and as the
      * current item after directory DolphinView::url() has been loaded.
      */
-    void markUrlAsCurrent(const QUrl& url);
+    void markUrlAsCurrent(const QUrl &url);
 
     /**
      * All items that match the regular expression \a regexp will get selected
@@ -206,7 +205,7 @@ public:
      */
     void resetZoomLevel();
 
-    void setSortRole(const QByteArray& role);
+    void setSortRole(const QByteArray &role);
     QByteArray sortRole() const;
 
     void setSortOrder(Qt::SortOrder order);
@@ -221,7 +220,7 @@ public:
     bool sortHiddenLast() const;
 
     /** Sets the additional information which should be shown for the items. */
-    void setVisibleRoles(const QList<QByteArray>& roles);
+    void setVisibleRoles(const QList<QByteArray> &roles);
 
     /** Returns the additional information which should be shown for the items. */
     QList<QByteArray> visibleRoles() const;
@@ -243,7 +242,7 @@ public:
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void setNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString &nameFilter);
     QString nameFilter() const;
 
     /**
@@ -251,7 +250,7 @@ public:
      * whose content-type matches those given by the list of filters
      * will be shown.
      */
-    void setMimeTypeFilters(const QStringList& filters);
+    void setMimeTypeFilters(const QStringList &filters);
     QStringList mimeTypeFilters() const;
 
     /**
@@ -267,7 +266,7 @@ public:
      * Returns the version control actions that are provided for the items \p items.
      * Usually the actions are presented in the context menu.
      */
-    QList<QAction*> versionControlActions(const KFileItemList& items) const;
+    QList<QAction *> versionControlActions(const KFileItemList &items) const;
 
     /**
      * Returns the state of the paste action:
@@ -301,12 +300,12 @@ public:
     /**
      * Restores the view state (current item, contents position, details view expansion state)
      */
-    void restoreState(QDataStream& stream);
+    void restoreState(QDataStream &stream);
 
     /**
      * Saves the view state (current item, contents position, details view expansion state)
      */
-    void saveState(QDataStream& stream);
+    void saveState(QDataStream &stream);
 
     /**
      * Returns the root item which represents the current URL.
@@ -320,7 +319,7 @@ public:
      * makes sense if specific types of URLs (e.g. search-URLs) should
      * share common view-properties.
      */
-    void setViewPropertiesContext(const QString& context);
+    void setViewPropertiesContext(const QString &context);
     QString viewPropertiesContext() const;
 
     /**
@@ -329,7 +328,7 @@ public:
      * @return a valid and adjusted url if the item can be opened as folder,
      * otherwise return an empty url.
      */
-    static QUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
+    static QUrl openItemAsFolderUrl(const KFileItem &item, const bool browseThroughArchives = true);
 
     /**
      * Hides tooltip displayed over element.
@@ -341,7 +340,7 @@ public Q_SLOTS:
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).
      */
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
 
     /**
      * Selects all items.
@@ -428,7 +427,7 @@ public Q_SLOTS:
     void updateViewState();
 
     /** Activates the view if the item list container gets focus. */
-    bool eventFilter(QObject* watched, QEvent* event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:
     /**
@@ -437,7 +436,7 @@ Q_SIGNALS:
     void activated();
 
     /** Is emitted if the URL of the view has been changed to \a url. */
-    void urlChanged(const QUrl& url);
+    void urlChanged(const QUrl &url);
 
     /**
      * Is emitted when clicking on an item with the left mouse button.
@@ -458,7 +457,7 @@ Q_SIGNALS:
     /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
-    void tabRequested(const QUrl& url);
+    void tabRequested(const QUrl &url);
 
     /**
      * Is emitted if a new tab should be opened for the URL \a url and set as active.
@@ -490,7 +489,7 @@ Q_SIGNALS:
     void statusBarTextChanged(QString statusBarText);
 
     /** Is emitted if the sorting by name, size or date has been changed. */
-    void sortRoleChanged(const QByteArray& role);
+    void sortRoleChanged(const QByteArray &role);
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
@@ -507,8 +506,7 @@ Q_SIGNALS:
     void sortHiddenLastChanged(bool hiddenLast);
 
     /** Is emitted if the additional information shown for this view has been changed. */
-    void visibleRolesChanged(const QList<QByteArray>& current,
-                             const QList<QByteArray>& previous);
+    void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
 
     /** Is emitted if the zoom level has been changed by zooming in or out. */
     void zoomLevelChanged(int current, int previous);
@@ -517,40 +515,37 @@ Q_SIGNALS:
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
      * If item is null, no item information request is pending.
      */
-    void requestItemInfo(const KFileItem& item);
+    void requestItemInfo(const KFileItem &item);
 
     /**
      * Is emitted whenever the selection has been changed.
      */
-    void selectionChanged(const KFileItemList& selection);
+    void selectionChanged(const KFileItemList &selection);
 
     /**
      * Is emitted if a context menu is requested for the item \a item,
      * which is part of \a url. If the item is null, the context menu
      * for the URL should be shown.
      */
-    void requestContextMenu(const QPoint& pos,
-                            const KFileItem& item,
-                            const KFileItemList &selectedItems,
-                            const QUrl& url);
+    void requestContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url);
 
     /**
      * Is emitted if an information message with the content \a msg
      * should be shown.
      */
-    void infoMessage(const QString& msg);
+    void infoMessage(const QString &msg);
 
     /**
      * Is emitted if an error message with the content \a msg
      * should be shown.
      */
-    void errorMessage(const QString& msg);
+    void errorMessage(const QString &msg);
 
     /**
      * Is emitted if an "operation completed" message with the content \a msg
      * should be shown.
      */
-    void operationCompletedMessage(const QString& msg);
+    void operationCompletedMessage(const QString &msg);
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and
@@ -588,13 +583,13 @@ Q_SIGNALS:
      * Emitted when the file-item-model emits redirection.
      * Testcase: fish://localhost
      */
-    void redirection(const QUrl& oldUrl, const QUrl& newUrl);
+    void redirection(const QUrl &oldUrl, const QUrl &newUrl);
 
     /**
      * Is emitted when the URL set by DolphinView::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const QUrl& url);
+    void urlIsFileError(const QUrl &url);
 
     /**
      * Is emitted when the write state of the folder has been changed. The application
@@ -631,7 +626,7 @@ Q_SIGNALS:
      * Is emitted when the user clicks a tag or a link
      * in the metadata widget of a tooltip.
      */
-    void urlActivated(const QUrl& url);
+    void urlActivated(const QUrl &url);
 
     void goUpRequested();
 
@@ -644,10 +639,10 @@ Q_SIGNALS:
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
-    void wheelEvent(QWheelEvent* event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
-    void hideEvent(QHideEvent* event) override;
-    bool event(QEvent* event) override;
+    void hideEvent(QHideEvent *event) override;
+    bool event(QEvent *event) override;
 
 private Q_SLOTS:
     /**
@@ -659,17 +654,17 @@ private Q_SLOTS:
     void slotItemActivated(int index);
     void slotItemsActivated(const KItemSet &indexes);
     void slotItemMiddleClicked(int index);
-    void slotItemContextMenuRequested(int index, const QPointF& pos);
-    void slotViewContextMenuRequested(const QPointF& pos);
-    void slotHeaderContextMenuRequested(const QPointF& pos);
-    void slotHeaderColumnWidthChangeFinished(const QByteArray& role, qreal current);
+    void slotItemContextMenuRequested(int index, const QPointF &pos);
+    void slotViewContextMenuRequested(const QPointF &pos);
+    void slotHeaderContextMenuRequested(const QPointF &pos);
+    void slotHeaderColumnWidthChangeFinished(const QByteArray &role, qreal current);
     void slotSidePaddingWidthChanged(qreal width);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
-    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
-    void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
+    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
+    void slotModelChanged(KItemModelBase *current, KItemModelBase *previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
-    void slotRenameDialogRenamingFinished(const QList<QUrl>& urls);
+    void slotRenameDialogRenamingFinished(const QList<QUrl> &urls);
     void slotSelectedItemTextPressed(int index);
     void slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to);
     void slotIncreaseZoom();
@@ -692,7 +687,7 @@ private Q_SLOTS:
      * the signal is emitted only after no selection change has been done
      * within a small delay.
      */
-    void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
+    void slotSelectionChanged(const KItemSet &current, const KItemSet &previous);
 
     /**
      * Is called by emitDelayedSelectionChangedSignal() and emits the
@@ -713,7 +708,7 @@ private Q_SLOTS:
      * Updates the view properties of the current URL to the
      * sorting given by \a role.
      */
-    void updateSortRole(const QByteArray& role);
+    void updateSortRole(const QByteArray &role);
 
     /**
      * Updates the view properties of the current URL to the
@@ -737,18 +732,18 @@ private Q_SLOTS:
      * Indicates in the status bar that the delete operation
      * of the job \a job has been finished.
      */
-    void slotDeleteFileFinished(KJob* job);
+    void slotDeleteFileFinished(KJob *job);
 
     /**
      * Indicates in the status bar that the trash operation
      * of the job \a job has been finished.
      */
-    void slotTrashFileFinished(KJob* job);
+    void slotTrashFileFinished(KJob *job);
 
     /**
      * Invoked when the rename job is done, for error handling.
      */
-    void slotRenamingResult(KJob* job);
+    void slotRenamingResult(KJob *job);
 
     /**
      * Invoked when the file item model has started the loading
@@ -783,17 +778,16 @@ private Q_SLOTS:
      * Is invoked when the sort role has been changed by the user by clicking
      * on a header item. The view properties of the directory will get updated.
      */
-    void slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous);
+    void slotSortRoleChangedByHeader(const QByteArray &current, const QByteArray &previous);
 
     /**
      * Is invoked when the visible roles have been changed by the user by dragging
      * a header item. The view properties of the directory will get updated.
      */
-    void slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
-                                         const QList<QByteArray>& previous);
+    void slotVisibleRolesChangedByHeader(const QList<QByteArray> &current, const QList<QByteArray> &previous);
 
     void slotRoleEditingCanceled();
-    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
     /**
      * Observes the item with the URL \a url. As soon as the directory
@@ -806,12 +800,12 @@ private Q_SLOTS:
      * Called when a redirection happens.
      * Testcase: fish://localhost
      */
-    void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
+    void slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl);
 
     void slotTwoClicksRenamingTimerTimeout();
 
 private:
-    void loadDirectory(const QUrl& url, bool reload = false);
+    void loadDirectory(const QUrl &url, bool reload = false);
 
     /**
      * Applies the view properties which are defined by the current URL
@@ -824,7 +818,7 @@ private:
     /**
      * Applies the given view properties to the DolphinView.
      */
-    void applyViewProperties(const ViewProperties& props);
+    void applyViewProperties(const ViewProperties &props);
 
     /**
      * Applies the m_mode property to the corresponding
@@ -832,10 +826,7 @@ private:
      */
     void applyModeToView();
 
-    enum Selection {
-        HasSelection,
-        NoSelection
-    };
+    enum Selection { HasSelection, NoSelection };
     /**
      * Helper method for DolphinView::requestStatusBarText().
      * Generates the status bar text from the parameters and
@@ -844,14 +835,13 @@ private:
      * @param selection     if HasSelection is passed, the emitted status bar text will say
      *                      that the folders and files which are counted here are selected.
      */
-    void emitStatusBarText(const int folderCount, const int fileCount,
-                           KIO::filesize_t totalFileSize, const Selection selection);
+    void emitStatusBarText(const int folderCount, const int fileCount, KIO::filesize_t totalFileSize, const Selection selection);
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
      */
-    void pasteToUrl(const QUrl& url);
+    void pasteToUrl(const QUrl &url);
 
     /**
      * Returns a list of URLs for all selected items. The list is
@@ -863,7 +853,7 @@ private:
     /**
      * Returns the MIME data for all selected items.
      */
-    QMimeData* selectionMimeData() const;
+    QMimeData *selectionMimeData() const;
 
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by
@@ -885,13 +875,13 @@ private:
      * @param current URL to be set as current
      * @param selected list of selected items
      */
-    void forceUrlsSelection(const QUrl& current, const QList<QUrl>& selected);
+    void forceUrlsSelection(const QUrl &current, const QList<QUrl> &selected);
 
     void abortTwoClicksRenaming();
 
     void updatePlaceholderLabel();
 
-    void tryShowNameToolTip(QHelpEvent* event);
+    void tryShowNameToolTip(QHelpEvent *event);
 
 private:
     void updatePalette();
@@ -904,12 +894,7 @@ private:
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
                      // tooltip may be shown when hovering an item.
 
-    enum class LoadingState {
-        Idle,
-        Loading,
-        Canceled,
-        Completed
-    };
+    enum class LoadingState { Idle, Loading, Canceled, Completed };
     LoadingState m_loadingState = LoadingState::Idle;
 
     QUrl m_url;
@@ -919,15 +904,15 @@ private:
 
     QPointer<KIO::StatJob> m_statJobForStatusBarText;
 
-    QVBoxLayout* m_topLayout;
+    QVBoxLayout *m_topLayout;
 
-    KFileItemModel* m_model;
-    DolphinItemListView* m_view;
-    KItemListContainer* m_container;
+    KFileItemModel *m_model;
+    DolphinItemListView *m_view;
+    KItemListContainer *m_container;
 
-    ToolTipManager* m_toolTipManager;
+    ToolTipManager *m_toolTipManager;
 
-    QTimer* m_selectionChangedTimer;
+    QTimer *m_selectionChangedTimer;
 
     QUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
     bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
@@ -937,12 +922,12 @@ private:
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;
 
-    VersionControlObserver* m_versionControlObserver;
+    VersionControlObserver *m_versionControlObserver;
 
-    QTimer* m_twoClicksRenamingTimer;
+    QTimer *m_twoClicksRenamingTimer;
     QUrl m_twoClicksRenamingItemUrl;
-    QLabel* m_placeholderLabel;
-    QTimer* m_showLoadingPlaceholderTimer;
+    QLabel *m_placeholderLabel;
+    QTimer *m_showLoadingPlaceholderTimer;
 
     /// Used for selection mode. @see setSelectionMode()
     std::unique_ptr<QProxyStyle> m_proxyStyle;
@@ -951,7 +936,7 @@ private:
     friend class TestBase;
     friend class DolphinDetailsViewTest;
     friend class DolphinMainWindowTest;
-    friend class DolphinPart;                   // Accesses m_model
+    friend class DolphinPart; // Accesses m_model
 };
 
 /// Allow using DolphinView::Mode in QVariant

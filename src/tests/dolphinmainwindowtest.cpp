@@ -40,7 +40,6 @@ private Q_SLOTS:
     void testGoActions();
     void cleanupTestCase();
 
-
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
@@ -58,13 +57,13 @@ void DolphinMainWindowTest::init()
 // See https://bugs.kde.org/show_bug.cgi?id=379135
 void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     // Without this call the searchbox doesn't get FocusIn events.
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
 
     // Show search box on first tab.
@@ -88,12 +87,12 @@ void DolphinMainWindowTest::testActiveViewAfterClosingSplitView_data()
 
 void DolphinMainWindowTest::testActiveViewAfterClosingSplitView()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
     QVERIFY(tabWidget->currentTabPage()->primaryViewContainer());
     QVERIFY(!tabWidget->currentTabPage()->secondaryViewContainer());
@@ -133,12 +132,12 @@ void DolphinMainWindowTest::testActiveViewAfterClosingSplitView()
 // Test case for bug #385111
 void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
     QVERIFY(tabWidget->currentTabPage()->primaryViewContainer());
     QVERIFY(!tabWidget->currentTabPage()->secondaryViewContainer());
@@ -174,12 +173,12 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 // Test case for bug #402641
 void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
 
     // Open split view.
@@ -204,12 +203,12 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 // Test case for bug #397910
 void DolphinMainWindowTest::testOpenInNewTabTitle()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
 
     tabWidget->openNewTab(QUrl::fromLocalFile(QDir::tempPath()));
@@ -234,12 +233,12 @@ void DolphinMainWindowTest::testNewFileMenuEnabled_data()
 void DolphinMainWindowTest::testNewFileMenuEnabled()
 {
     QFETCH(QUrl, activeViewUrl);
-    m_mainWindow->openDirectories({ activeViewUrl }, false);
+    m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu*>("new_menu");
+    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu *>("new_menu");
     QVERIFY(newFileMenu);
 
     QFETCH(bool, expectedEnabled);
@@ -260,7 +259,7 @@ void DolphinMainWindowTest::testWindowTitle_data()
 void DolphinMainWindowTest::testWindowTitle()
 {
     QFETCH(QUrl, activeViewUrl);
-    m_mainWindow->openDirectories({ activeViewUrl }, false);
+    m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
@@ -275,14 +274,19 @@ void DolphinMainWindowTest::testWindowTitle()
  */
 void DolphinMainWindowTest::testPlacesPanelWidthResistance()
 {
-    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     m_mainWindow->resize(800, m_mainWindow->height()); // make sure the size is sufficient so a places panel resize shouldn't be necessary.
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
-    QVERIFY2(QTest::qWaitFor([&](){ return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0; }, 5000), "The test couldn't be initialised properly. The places panel should be visible.");
+    QVERIFY2(QTest::qWaitFor(
+                 [&]() {
+                     return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0;
+                 },
+                 5000),
+             "The test couldn't be initialised properly. The places panel should be visible.");
     QTest::qWait(100);
     const int initialPlacesPanelWidth = placesPanel->width();
 
@@ -296,7 +300,8 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     // Make all selection mode bars appear and test for each that this doesn't affect the places panel's width.
     // One of the bottom bars (SelectionMode::BottomBar::GeneralContents) only shows up when at least one item is selected so we do that before we begin iterating.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::SelectAll))->trigger();
-    for (int selectionModeStates = SelectionMode::BottomBar::CopyContents; selectionModeStates != SelectionMode::BottomBar::RenameContents; selectionModeStates++) {
+    for (int selectionModeStates = SelectionMode::BottomBar::CopyContents; selectionModeStates != SelectionMode::BottomBar::RenameContents;
+         selectionModeStates++) {
         const auto contents = static_cast<SelectionMode::BottomBar::Contents>(selectionModeStates);
         m_mainWindow->slotSetSelectionMode(true, contents);
         QTest::qWait(20); // give time for a paint/resize
@@ -345,7 +350,7 @@ void DolphinMainWindowTest::testGoActions()
     testDir->createFile("b/b-2");
     testDir->createDir("c");
     QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
-    m_mainWindow->openDirectories({ childDirUrl }, false); // Open "b" dir
+    m_mainWindow->openDirectories({childDirUrl}, false); // Open "b" dir
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
@@ -358,7 +363,9 @@ void DolphinMainWindowTest::testGoActions()
      */
     QSignalSpy spyDirectoryLoadingCompleted(m_mainWindow->m_activeViewContainer->view(), &DolphinView::directoryLoadingCompleted);
     QVERIFY(spyDirectoryLoadingCompleted.wait());
-    QVERIFY(QTest::qWaitFor([&](){ return !m_mainWindow->actionCollection()->action(QStringLiteral("stop"))->isEnabled(); })); // "Stop" command should be disabled because it finished loading
+    QVERIFY(QTest::qWaitFor([&]() {
+        return !m_mainWindow->actionCollection()->action(QStringLiteral("stop"))->isEnabled();
+    })); // "Stop" command should be disabled because it finished loading
     QTest::qWait(500); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
     const QUrl parentDirUrl = m_mainWindow->activeViewContainer()->url();
     QVERIFY(parentDirUrl != childDirUrl);
@@ -428,7 +435,6 @@ void DolphinMainWindowTest::cleanupTestCase()
     // Quit Dolphin to save the hiding of panels and make sure that normal Quit doesn't crash.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Quit))->trigger();
 }
-
 
 QTEST_MAIN(DolphinMainWindowTest)
 

@@ -28,20 +28,18 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-TerminalPanel::TerminalPanel(QWidget* parent) :
-    Panel(parent),
-    m_clearTerminal(true),
-    m_mostLocalUrlJob(nullptr),
-    m_layout(nullptr),
-    m_terminal(nullptr),
-    m_terminalWidget(nullptr),
-    m_konsolePartMissingMessage(nullptr),
-    m_konsolePart(nullptr),
-    m_konsolePartCurrentDirectory(),
-    m_sendCdToTerminalHistory(),
-    m_kiofuseInterface(QStringLiteral("org.kde.KIOFuse"),
-                       QStringLiteral("/org/kde/KIOFuse"),
-                       QDBusConnection::sessionBus())
+TerminalPanel::TerminalPanel(QWidget *parent)
+    : Panel(parent)
+    , m_clearTerminal(true)
+    , m_mostLocalUrlJob(nullptr)
+    , m_layout(nullptr)
+    , m_terminal(nullptr)
+    , m_terminalWidget(nullptr)
+    , m_konsolePartMissingMessage(nullptr)
+    , m_konsolePart(nullptr)
+    , m_konsolePartCurrentDirectory()
+    , m_sendCdToTerminalHistory()
+    , m_kiofuseInterface(QStringLiteral("org.kde.KIOFuse"), QStringLiteral("/org/kde/KIOFuse"), QDBusConnection::sessionBus())
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -72,8 +70,7 @@ void TerminalPanel::terminalExited()
 
 bool TerminalPanel::isHiddenInVisibleWindow() const
 {
-    return parentWidget()
-        && parentWidget()->isHidden();
+    return parentWidget() && parentWidget()->isHidden();
 }
 
 void TerminalPanel::dockVisibilityChanged()
@@ -82,8 +79,7 @@ void TerminalPanel::dockVisibilityChanged()
     // respond when e.g. Dolphin is minimized.
     if (isHiddenInVisibleWindow() && m_terminal && !hasProgramRunning()) {
         // Make sure that the following "cd /" command will not affect the view.
-        disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
-                   this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
+        disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)), this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
 
         // Make sure this terminal does not prevent unmounting any removable drives
         changeDir(QUrl::fromLocalFile(QStringLiteral("/")));
@@ -135,7 +131,7 @@ bool TerminalPanel::urlChanged()
     return true;
 }
 
-void TerminalPanel::showEvent(QShowEvent* event)
+void TerminalPanel::showEvent(QShowEvent *event)
 {
     if (event->spontaneous()) {
         Panel::showEvent(event);
@@ -154,7 +150,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
             if (m_konsolePartMissingMessage) {
                 m_layout->removeWidget(m_konsolePartMissingMessage);
             }
-            m_terminal = qobject_cast<TerminalInterface*>(m_konsolePart);
+            m_terminal = qobject_cast<TerminalInterface *>(m_konsolePart);
 
             // needed to collect the correct KonsolePart actionCollection
             // namely the one of the single inner terminal and not the outer KonsolePart
@@ -174,8 +170,9 @@ void TerminalPanel::showEvent(QShowEvent* event)
 
         } else if (!m_konsolePartMissingMessage) {
             const auto konsoleInstallUrl = QUrl("appstream://org.kde.konsole.desktop");
-            const auto konsoleNotInstalledText = i18n("Terminal cannot be shown because Konsole is not installed. "
-                                                      "Please install it and then reopen the panel.");
+            const auto konsoleNotInstalledText = i18n(
+                "Terminal cannot be shown because Konsole is not installed. "
+                "Please install it and then reopen the panel.");
             m_konsolePartMissingMessage = new KMessageWidget(konsoleNotInstalledText, this);
             m_konsolePartMissingMessage->setCloseButtonVisible(false);
             m_konsolePartMissingMessage->hide();
@@ -195,18 +192,17 @@ void TerminalPanel::showEvent(QShowEvent* event)
     }
     if (m_terminal) {
         m_terminal->showShellInDir(url().toLocalFile());
-        if(!hasProgramRunning()) {
+        if (!hasProgramRunning()) {
             changeDir(url());
         }
         m_terminalWidget->setFocus();
-        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
-                this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
+        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)), this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
     }
 
     Panel::showEvent(event);
 }
 
-void TerminalPanel::changeDir(const QUrl& url)
+void TerminalPanel::changeDir(const QUrl &url)
 {
     delete m_mostLocalUrlJob;
     m_mostLocalUrlJob = nullptr;
@@ -230,9 +226,9 @@ void TerminalPanel::changeDir(const QUrl& url)
     sendCdToTerminalKIOFuse(url);
 }
 
-void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHistory)
+void TerminalPanel::sendCdToTerminal(const QString &dir, HistoryPolicy addToHistory)
 {
-    if (dir == m_konsolePartCurrentDirectory   // We are already there
+    if (dir == m_konsolePartCurrentDirectory // We are already there
         && m_sendCdToTerminalHistory.isEmpty() // …and that is not because the terminal couldn't keep up
     ) {
         m_clearTerminal = false;
@@ -259,13 +255,14 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
     }
 }
 
-void TerminalPanel::sendCdToTerminalKIOFuse(const QUrl &url) {
+void TerminalPanel::sendCdToTerminalKIOFuse(const QUrl &url)
+{
     // URL isn't local, only hope for the terminal to be in sync with the
     // DolphinView is to mount the remote URL in KIOFuse and point to it.
     // If we can't do that for any reason, silently fail.
     auto reply = m_kiofuseInterface.mountUrl(url.toString());
-    QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
-    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=](QDBusPendingCallWatcher *watcher) {
         watcher->deleteLater();
         if (!reply.isError()) {
             // Successfully mounted, point to the KIOFuse equivalent path.
@@ -274,9 +271,9 @@ void TerminalPanel::sendCdToTerminalKIOFuse(const QUrl &url) {
     });
 }
 
-void TerminalPanel::slotMostLocalUrlResult(KJob* job)
+void TerminalPanel::slotMostLocalUrlResult(KJob *job)
 {
-    KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
+    KIO::StatJob *statJob = static_cast<KIO::StatJob *>(job);
     const QUrl url = statJob->mostLocalUrl();
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
@@ -287,7 +284,7 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
     m_mostLocalUrlJob = nullptr;
 }
 
-void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
+void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString &dir)
 {
     m_konsolePartCurrentDirectory = QDir(dir).canonicalPath();
 
@@ -312,8 +309,8 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
     }
 
     auto reply = m_kiofuseInterface.remoteUrl(m_konsolePartCurrentDirectory);
-    QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
-    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=](QDBusPendingCallWatcher *watcher) {
         watcher->deleteLater();
         if (reply.isError()) {
             // KIOFuse errored out... just show the normal URL

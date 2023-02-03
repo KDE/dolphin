@@ -11,12 +11,11 @@
 
 #include "views/viewproperties.h"
 
-ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
-                                     const ViewProperties& viewProps) :
-    KIO::Job(),
-    m_viewProps(nullptr),
-    m_progress(0),
-    m_dir(dir)
+ApplyViewPropsJob::ApplyViewPropsJob(const QUrl &dir, const ViewProperties &viewProps)
+    : KIO::Job()
+    , m_viewProps(nullptr)
+    , m_progress(0)
+    , m_dir(dir)
 {
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setViewMode(viewProps.viewMode());
@@ -25,21 +24,20 @@ ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
     m_viewProps->setSortRole(viewProps.sortRole());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
-    KIO::ListJob* listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);
-    connect(listJob, &KIO::ListJob::entries,
-            this, &ApplyViewPropsJob::slotEntries);
+    KIO::ListJob *listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);
+    connect(listJob, &KIO::ListJob::entries, this, &ApplyViewPropsJob::slotEntries);
     addSubjob(listJob);
 }
 
 ApplyViewPropsJob::~ApplyViewPropsJob()
 {
-    delete m_viewProps;  // the properties are written by the destructor
+    delete m_viewProps; // the properties are written by the destructor
     m_viewProps = nullptr;
 }
 
-void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
+void ApplyViewPropsJob::slotEntries(KIO::Job *, const KIO::UDSEntryList &list)
 {
-    for (const KIO::UDSEntry& entry : list) {
+    for (const KIO::UDSEntry &entry : list) {
         const QString name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
         if (name != QLatin1Char('.') && name != QLatin1String("..") && entry.isDir()) {
             ++m_progress;
@@ -56,7 +54,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
     }
 }
 
-void ApplyViewPropsJob::slotResult(KJob* job)
+void ApplyViewPropsJob::slotResult(KJob *job)
 {
     if (job->error()) {
         setError(job->error());
@@ -64,4 +62,3 @@ void ApplyViewPropsJob::slotResult(KJob* job)
     }
     emitResult();
 }
-

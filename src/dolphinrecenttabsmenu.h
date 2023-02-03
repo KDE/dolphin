@@ -18,21 +18,21 @@ class DolphinRecentTabsMenu : public KActionMenu
     Q_OBJECT
 
 public:
-    explicit DolphinRecentTabsMenu(QObject* parent);
+    explicit DolphinRecentTabsMenu(QObject *parent);
 
 public Q_SLOTS:
-    void rememberClosedTab(const QUrl& url, const QByteArray& state);
+    void rememberClosedTab(const QUrl &url, const QByteArray &state);
     void undoCloseTab();
 
 Q_SIGNALS:
-    void restoreClosedTab(const QByteArray& state);
+    void restoreClosedTab(const QByteArray &state);
     void closedTabsCountChanged(unsigned int count);
 
 private Q_SLOTS:
-    void handleAction(QAction* action);
+    void handleAction(QAction *action);
 
 private:
-    QAction* m_clearListAction;
+    QAction *m_clearListAction;
 };
 
 #endif

@@ -42,10 +42,7 @@ public:
     void textsWhenNothingIsSelectedEnabled(bool enabled);
 
 private:
-    enum TextState {
-        TextWhenNothingIsSelected,
-        TextWhenSomethingIsSelected
-    };
+    enum TextState { TextWhenNothingIsSelected, TextWhenSomethingIsSelected };
 
     /**
      * Utility struct to allow switching back and forth between registered actions showing their
@@ -53,16 +50,15 @@ private:
      * An example is "Copy" or "Copy…". The latter one is used when nothing is selected and signifies
      * that it will trigger SelectionMode so items can be selected and then copied.
      */
-    struct RegisteredActionTextChange {            
+    struct RegisteredActionTextChange {
         QPointer<QAction> action;
         QString registeredText;
         TextState textStateOfRegisteredText;
 
-        RegisteredActionTextChange(QAction *action, QString registeredText, TextState state) :
-            action{action},
-            registeredText{registeredText},
-            textStateOfRegisteredText{state}
-        {   };
+        RegisteredActionTextChange(QAction *action, QString registeredText, TextState state)
+            : action{action}
+            , registeredText{registeredText}
+            , textStateOfRegisteredText{state} {};
     };
 
     /**

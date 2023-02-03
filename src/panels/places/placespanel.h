@@ -11,8 +11,8 @@
 
 #include "panels/panel.h"
 
-#include <QUrl>
 #include <KFilePlacesView>
+#include <QUrl>
 
 #include <Solid/SolidNamespace> // Solid::ErrorType
 
@@ -30,15 +30,15 @@ class PlacesPanel : public KFilePlacesView
     Q_OBJECT
 
 public:
-    explicit PlacesPanel(QWidget* parent);
+    explicit PlacesPanel(QWidget *parent);
     ~PlacesPanel() override;
 
     void setUrl(const QUrl &url); // override
 
     // for compatibility with Panel, actions that are shown
     // on the view's context menu
-    QList<QAction*> customContextMenuActions() const;
-    void setCustomContextMenuActions(const QList<QAction*>& actions);
+    QList<QAction *> customContextMenuActions() const;
+    void setCustomContextMenuActions(const QList<QAction *> &actions);
 
     void requestTearDown();
     void proceedWithTearDown();
@@ -47,18 +47,18 @@ public Q_SLOTS:
     void readSettings();
 
 Q_SIGNALS:
-    void errorMessage(const QString& error);
-    void storageTearDownRequested(const QString& mountPath);
-    void storageTearDownExternallyRequested(const QString& mountPath);
+    void errorMessage(const QString &error);
+    void storageTearDownRequested(const QString &mountPath);
+    void storageTearDownExternallyRequested(const QString &mountPath);
     void storageTearDownSuccessful();
 
 protected:
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
 
 private Q_SLOTS:
     void slotConfigureTrash();
-    void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
+    void slotUrlsDropped(const QUrl &dest, QDropEvent *event, QWidget *parent);
     void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
     void slotTearDownRequested(const QModelIndex &index);
     void slotTearDownRequestedExternally(const QString &udi);
@@ -70,7 +70,7 @@ private:
     void connectDeviceSignals(const QModelIndex &idx);
 
     QUrl m_url; // only used for initial setUrl
-    QList<QAction*> m_customContextMenuActions;
+    QList<QAction *> m_customContextMenuActions;
 
     QPersistentModelIndex m_indexToTearDown;
 

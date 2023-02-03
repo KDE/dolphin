@@ -27,28 +27,28 @@ KItemListWidgetInformant::~KItemListWidgetInformant()
 {
 }
 
-KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    QGraphicsWidget(parent),
-    m_informant(informant),
-    m_index(-1),
-    m_selected(false),
-    m_current(false),
-    m_hovered(false),
-    m_expansionAreaHovered(false),
-    m_alternateBackground(false),
-    m_enabledSelectionToggle(false),
-    m_data(),
-    m_visibleRoles(),
-    m_columnWidths(),
-    m_styleOption(),
-    m_siblingsInfo(),
-    m_hoverOpacity(0),
-    m_hoverCache(nullptr),
-    m_hoverAnimation(nullptr),
-    m_hoverSequenceIndex(0),
-    m_selectionToggle(nullptr),
-    m_editedRole(),
-    m_iconSize(-1)
+KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent)
+    : QGraphicsWidget(parent)
+    , m_informant(informant)
+    , m_index(-1)
+    , m_selected(false)
+    , m_current(false)
+    , m_hovered(false)
+    , m_expansionAreaHovered(false)
+    , m_alternateBackground(false)
+    , m_enabledSelectionToggle(false)
+    , m_data()
+    , m_visibleRoles()
+    , m_columnWidths()
+    , m_styleOption()
+    , m_siblingsInfo()
+    , m_hoverOpacity(0)
+    , m_hoverCache(nullptr)
+    , m_hoverAnimation(nullptr)
+    , m_hoverSequenceIndex(0)
+    , m_selectionToggle(nullptr)
+    , m_editedRole()
+    , m_iconSize(-1)
 {
     connect(&m_hoverSequenceTimer, &QTimer::timeout, this, &KItemListWidget::slotHoverSequenceTimerTimeout);
 }
@@ -79,15 +79,14 @@ int KItemListWidget::index() const
     return m_index;
 }
 
-void KItemListWidget::setData(const QHash<QByteArray, QVariant>& data,
-                              const QSet<QByteArray>& roles)
+void KItemListWidget::setData(const QHash<QByteArray, QVariant> &data, const QSet<QByteArray> &roles)
 {
     clearHoverCache();
     if (roles.isEmpty()) {
         m_data = data;
         dataChanged(m_data);
     } else {
-        for (const QByteArray& role : roles) {
+        for (const QByteArray &role : roles) {
             m_data[role] = data[role];
         }
         dataChanged(m_data, roles);
@@ -100,7 +99,7 @@ QHash<QByteArray, QVariant> KItemListWidget::data() const
     return m_data;
 }
 
-void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
 
@@ -112,10 +111,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     if (m_selected && m_editedRole.isEmpty()) {
         const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
-        drawItemStyleOption(painter, widget, activeState |
-                                             QStyle::State_Enabled |
-                                             QStyle::State_Selected |
-                                             QStyle::State_Item);
+        drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
     }
 
     if (m_current && m_editedRole.isEmpty()) {
@@ -139,10 +135,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
             QPainter pixmapPainter(m_hoverCache);
             const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
-            drawItemStyleOption(&pixmapPainter, widget, activeState |
-                                                        QStyle::State_Enabled |
-                                                        QStyle::State_MouseOver |
-                                                        QStyle::State_Item);
+            drawItemStyleOption(&pixmapPainter, widget, activeState | QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item);
         }
 
         const qreal opacity = painter->opacity();
@@ -152,7 +145,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     }
 }
 
-void KItemListWidget::setVisibleRoles(const QList<QByteArray>& roles)
+void KItemListWidget::setVisibleRoles(const QList<QByteArray> &roles)
 {
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
@@ -166,8 +159,7 @@ QList<QByteArray> KItemListWidget::visibleRoles() const
     return m_visibleRoles;
 }
 
-
-void KItemListWidget::setColumnWidth(const QByteArray& role, qreal width)
+void KItemListWidget::setColumnWidth(const QByteArray &role, qreal width)
 {
     const qreal previousWidth = m_columnWidths.value(role);
     if (previousWidth != width) {
@@ -177,24 +169,26 @@ void KItemListWidget::setColumnWidth(const QByteArray& role, qreal width)
     }
 }
 
-qreal KItemListWidget::columnWidth(const QByteArray& role) const
+qreal KItemListWidget::columnWidth(const QByteArray &role) const
 {
     return m_columnWidths.value(role);
 }
 
-qreal KItemListWidget::sidePadding() const {
+qreal KItemListWidget::sidePadding() const
+{
     return m_sidePadding;
 }
 
-void KItemListWidget::setSidePadding(qreal width) {
-    if (m_sidePadding != width){
+void KItemListWidget::setSidePadding(qreal width)
+{
+    if (m_sidePadding != width) {
         m_sidePadding = width;
         sidePaddingChanged(width);
         update();
     }
 }
 
-void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
+void KItemListWidget::setStyleOption(const KItemListStyleOption &option)
 {
     if (m_styleOption == option) {
         return;
@@ -207,7 +201,7 @@ void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
     update();
 }
 
-const KItemListStyleOption& KItemListWidget::styleOption() const
+const KItemListStyleOption &KItemListWidget::styleOption() const
 {
     return m_styleOption;
 }
@@ -308,7 +302,7 @@ bool KItemListWidget::expansionAreaHovered() const
     return m_expansionAreaHovered;
 }
 
-void KItemListWidget::setHoverPosition(const QPointF& pos)
+void KItemListWidget::setHoverPosition(const QPointF &pos)
 {
     if (m_selectionToggle) {
         m_selectionToggle->setHovered(selectionToggleRect().contains(pos));
@@ -353,7 +347,7 @@ bool KItemListWidget::enabledSelectionToggle() const
     return m_enabledSelectionToggle;
 }
 
-void KItemListWidget::setSiblingsInformation(const QBitArray& siblings)
+void KItemListWidget::setSiblingsInformation(const QBitArray &siblings)
 {
     const QBitArray previous = m_siblingsInfo;
     m_siblingsInfo = siblings;
@@ -366,7 +360,7 @@ QBitArray KItemListWidget::siblingsInformation() const
     return m_siblingsInfo;
 }
 
-void KItemListWidget::setEditedRole(const QByteArray& role)
+void KItemListWidget::setEditedRole(const QByteArray &role)
 {
     if (m_editedRole != role) {
         const QByteArray previous = m_editedRole;
@@ -394,16 +388,13 @@ int KItemListWidget::iconSize() const
     return m_iconSize;
 }
 
-bool KItemListWidget::contains(const QPointF& point) const
+bool KItemListWidget::contains(const QPointF &point) const
 {
     if (!QGraphicsWidget::contains(point)) {
         return false;
     }
 
-    return iconRect().contains(point) ||
-           textRect().contains(point) ||
-           expansionToggleRect().contains(point) ||
-           selectionToggleRect().contains(point);
+    return iconRect().contains(point) || textRect().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
 }
 
 QRectF KItemListWidget::textFocusRect() const
@@ -421,8 +412,7 @@ QRectF KItemListWidget::expansionToggleRect() const
     return QRectF();
 }
 
-QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option,
-                                          QWidget* widget)
+QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPixmap pixmap(size().toSize() * widget->devicePixelRatio());
     pixmap.setDevicePixelRatio(widget->devicePixelRatio());
@@ -446,23 +436,19 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option
     return pixmap;
 }
 
-void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
-                                  const QSet<QByteArray>& roles)
+void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(current)
     Q_UNUSED(roles)
 }
 
-void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
-                                          const QList<QByteArray>& previous)
+void KItemListWidget::visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListWidget::columnWidthChanged(const QByteArray& role,
-                                         qreal current,
-                                         qreal previous)
+void KItemListWidget::columnWidthChanged(const QByteArray &role, qreal current, qreal previous)
 {
     Q_UNUSED(role)
     Q_UNUSED(current)
@@ -474,8 +460,7 @@ void KItemListWidget::sidePaddingChanged(qreal width)
     Q_UNUSED(width)
 }
 
-void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
-                                         const KItemListStyleOption& previous)
+void KItemListWidget::styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous)
 {
     Q_UNUSED(previous)
 
@@ -505,13 +490,13 @@ void KItemListWidget::alternateBackgroundChanged(bool enabled)
     Q_UNUSED(enabled)
 }
 
-void KItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
+void KItemListWidget::siblingsInformationChanged(const QBitArray &current, const QBitArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemListWidget::editedRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -523,13 +508,13 @@ void KItemListWidget::iconSizeChanged(int current, int previous)
     Q_UNUSED(previous)
 }
 
-void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     QGraphicsWidget::resizeEvent(event);
     clearHoverCache();
 
     if (m_selectionToggle) {
-        const QRectF& toggleRect = selectionToggleRect();
+        const QRectF &toggleRect = selectionToggleRect();
         m_selectionToggle->setPos(toggleRect.topLeft());
         m_selectionToggle->resize(toggleRect.size());
     }
@@ -608,7 +593,7 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = nullptr;
 }
 
-void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)
+void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
     initStyleOption(&viewItemOption);
@@ -618,4 +603,3 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.rect = selectionRect().toRect();
     style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
-

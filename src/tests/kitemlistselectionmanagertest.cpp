@@ -5,12 +5,12 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "kitemviews/kitemmodelbase.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/kitemmodelbase.h"
 
-#include <QTest>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTest>
 
 class DummyModel : public KItemModelBase
 {
@@ -25,9 +25,9 @@ private:
     int m_count;
 };
 
-DummyModel::DummyModel() :
-    KItemModelBase(),
-    m_count(100)
+DummyModel::DummyModel()
+    : KItemModelBase()
+    , m_count(100)
 {
 }
 
@@ -46,7 +46,6 @@ QHash<QByteArray, QVariant> DummyModel::data(int index) const
     Q_UNUSED(index)
     return QHash<QByteArray, QVariant>();
 }
-
 
 class KItemListSelectionManagerTest : public QObject
 {
@@ -72,10 +71,10 @@ private Q_SLOTS:
     void testAnchoredSelectionAfterMovingItems();
 
 private:
-    void verifySelectionChange(QSignalSpy& spy, const KItemSet& currentSelection, const KItemSet& previousSelection) const;
+    void verifySelectionChange(QSignalSpy &spy, const KItemSet &currentSelection, const KItemSet &previousSelection) const;
 
-    KItemListSelectionManager* m_selectionManager;
-    DummyModel* m_model;
+    KItemListSelectionManager *m_selectionManager;
+    DummyModel *m_model;
 };
 
 void KItemListSelectionManagerTest::initTestCase()
@@ -139,10 +138,7 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QVERIFY(m_selectionManager->hasSelection());
 
     // Inserting items should update current item and anchor item.
-    m_selectionManager->itemsInserted(KItemRangeList() <<
-                                      KItemRange(0, 1) <<
-                                      KItemRange(2, 2) <<
-                                      KItemRange(6, 3));
+    m_selectionManager->itemsInserted(KItemRangeList() << KItemRange(0, 1) << KItemRange(2, 2) << KItemRange(6, 3));
 
     QCOMPARE(m_selectionManager->currentItem(), 5);
     QCOMPARE(spyCurrent.count(), 1);
@@ -156,10 +152,7 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QVERIFY(m_selectionManager->hasSelection());
 
     // Removing items should update current item and anchor item.
-    m_selectionManager->itemsRemoved(KItemRangeList() <<
-                                     KItemRange(0, 2) <<
-                                     KItemRange(2, 1) <<
-                                     KItemRange(9, 2));
+    m_selectionManager->itemsRemoved(KItemRangeList() << KItemRange(0, 2) << KItemRange(2, 1) << KItemRange(9, 2));
 
     QCOMPARE(m_selectionManager->currentItem(), 2);
     QCOMPARE(spyCurrent.count(), 1);
@@ -224,10 +217,7 @@ void KItemListSelectionManagerTest::testItemsInserted()
     QVERIFY(selectedItems.contains(17));
 
     // Insert 3 items between the selections
-    m_selectionManager->itemsInserted(KItemRangeList() <<
-                                      KItemRange(15, 1) <<
-                                      KItemRange(16, 1) <<
-                                      KItemRange(17, 1));
+    m_selectionManager->itemsInserted(KItemRangeList() << KItemRange(15, 1) << KItemRange(16, 1) << KItemRange(17, 1));
     selectedItems = m_selectionManager->selectedItems();
     QCOMPARE(selectedItems.count(), 3);
     QVERIFY(selectedItems.contains(16));
@@ -254,10 +244,7 @@ void KItemListSelectionManagerTest::testItemsRemoved()
     }
 
     // Remove the items 6 , 8 and 10
-    m_selectionManager->itemsRemoved(KItemRangeList() <<
-                                     KItemRange(6, 1) <<
-                                     KItemRange(8, 1) <<
-                                     KItemRange(10, 1));
+    m_selectionManager->itemsRemoved(KItemRangeList() << KItemRange(6, 1) << KItemRange(8, 1) << KItemRange(10, 1));
     selectedItems = m_selectionManager->selectedItems();
     QCOMPARE(selectedItems.count(), 3);
     QVERIFY(selectedItems.contains(5));
@@ -306,15 +293,9 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
     QCOMPARE(m_selectionManager->selectedItems(), KItemSet() << 5 << 6 << 7 << 9 << 10);
 }
 
-namespace {
-    enum ChangeType {
-        NoChange,
-        InsertItems,
-        RemoveItems,
-        MoveItems,
-        EndAnchoredSelection,
-        SetSelected
-    };
+namespace
+{
+enum ChangeType { NoChange, InsertItems, RemoveItems, MoveItems, EndAnchoredSelection, SetSelected };
 }
 
 Q_DECLARE_METATYPE(KItemSet)
@@ -356,77 +337,38 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
     QTest::addColumn<int>("current");
     QTest::addColumn<KItemSet>("expectedSelection");
     QTest::addColumn<ChangeType>("changeType");
-    QTest::addColumn<QList<QVariant> >("data");
+    QTest::addColumn<QList<QVariant>>("data");
     QTest::addColumn<KItemSet>("finalSelection");
 
-    QTest::newRow("No change")
-        << (KItemSet() << 5 << 6)
-        << 2 << 3
-        << (KItemSet() << 2 << 3 << 5 << 6)
-        << NoChange
-        << QList<QVariant>{}
-        << (KItemSet() << 2 << 3 << 5 << 6);
+    QTest::newRow("No change") << (KItemSet() << 5 << 6) << 2 << 3 << (KItemSet() << 2 << 3 << 5 << 6) << NoChange << QList<QVariant>{}
+                               << (KItemSet() << 2 << 3 << 5 << 6);
 
-    QTest::newRow("Insert Items")
-        << (KItemSet() << 5 << 6)
-        << 2 << 3
-        << (KItemSet() << 2 << 3 << 5 << 6)
-        << InsertItems
-        << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5))}
-        << (KItemSet() << 3 << 4 << 8 << 9);
+    QTest::newRow("Insert Items") << (KItemSet() << 5 << 6) << 2 << 3 << (KItemSet() << 2 << 3 << 5 << 6) << InsertItems
+                                  << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5))}
+                                  << (KItemSet() << 3 << 4 << 8 << 9);
 
-    QTest::newRow("Remove Items")
-        << (KItemSet() << 5 << 6)
-        << 2 << 3
-        << (KItemSet() << 2 << 3 << 5 << 6)
-        << RemoveItems
-        << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))}
-        << (KItemSet() << 1 << 2 << 3 << 4);
+    QTest::newRow("Remove Items") << (KItemSet() << 5 << 6) << 2 << 3 << (KItemSet() << 2 << 3 << 5 << 6) << RemoveItems
+                                  << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))}
+                                  << (KItemSet() << 1 << 2 << 3 << 4);
 
-    QTest::newRow("Empty Anchored Selection")
-        << KItemSet()
-        << 2 << 2
-        << KItemSet()
-        << EndAnchoredSelection
-        << QList<QVariant>{}
-        << KItemSet();
+    QTest::newRow("Empty Anchored Selection") << KItemSet() << 2 << 2 << KItemSet() << EndAnchoredSelection << QList<QVariant>{} << KItemSet();
 
-    QTest::newRow("Toggle selection")
-        << (KItemSet() << 1 << 3 << 4)
-        << 6 << 8
-        << (KItemSet() << 1 << 3 << 4 << 6 << 7 << 8)
-        << SetSelected
-        << QList<QVariant>{0, 10, QVariant::fromValue(KItemListSelectionManager::Toggle)}
-        << (KItemSet() << 0 << 2 << 5 << 9);
+    QTest::newRow("Toggle selection") << (KItemSet() << 1 << 3 << 4) << 6 << 8 << (KItemSet() << 1 << 3 << 4 << 6 << 7 << 8) << SetSelected
+                                      << QList<QVariant>{0, 10, QVariant::fromValue(KItemListSelectionManager::Toggle)} << (KItemSet() << 0 << 2 << 5 << 9);
 
     // Swap items 2, 3 and 4, 5
-    QTest::newRow("Move items")
-        << (KItemSet() << 0 << 1 << 2 << 3)
-        << -1 << -1
-        << (KItemSet() << 0 << 1 << 2 << 3)
-        << MoveItems
-        << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)),
-                           QVariant::fromValue(QList<int>{4, 5, 2, 3})}
-        << (KItemSet() << 0 << 1 << 4 << 5);
+    QTest::newRow("Move items") << (KItemSet() << 0 << 1 << 2 << 3) << -1 << -1 << (KItemSet() << 0 << 1 << 2 << 3) << MoveItems
+                                << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)), QVariant::fromValue(QList<int>{4, 5, 2, 3})}
+                                << (KItemSet() << 0 << 1 << 4 << 5);
 
     QTest::newRow("Move items with active anchored selection")
-        << KItemSet()
-        << 0 << 3
-        << (KItemSet() << 0 << 1 << 2 << 3)
-        << MoveItems
-        << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)),
-                           QVariant::fromValue(QList<int>{4, 5, 2, 3})}
-        << (KItemSet() << 0 << 1 << 4 << 5);
+        << KItemSet() << 0 << 3 << (KItemSet() << 0 << 1 << 2 << 3) << MoveItems
+        << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)), QVariant::fromValue(QList<int>{4, 5, 2, 3})} << (KItemSet() << 0 << 1 << 4 << 5);
 
     // Revert sort order
-    QTest::newRow("Revert sort order")
-        << (KItemSet() << 0 << 1)
-        << 3 << 4
-        << (KItemSet() << 0 << 1 << 3 << 4)
-        << MoveItems
-        << QList<QVariant>{QVariant::fromValue(KItemRange(0, 10)),
-                           QVariant::fromValue(QList<int>{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})}
-        << (KItemSet() << 5 << 6 << 8 << 9);
+    QTest::newRow("Revert sort order") << (KItemSet() << 0 << 1) << 3 << 4 << (KItemSet() << 0 << 1 << 3 << 4) << MoveItems
+                                       << QList<QVariant>{QVariant::fromValue(KItemRange(0, 10)), QVariant::fromValue(QList<int>{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})}
+                                       << (KItemSet() << 5 << 6 << 8 << 9);
 }
 
 void KItemListSelectionManagerTest::testChangeSelection()
@@ -470,8 +412,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
         m_selectionManager->itemsRemoved(data.at(0).value<KItemRangeList>());
         break;
     case MoveItems:
-        m_selectionManager->itemsMoved(data.at(0).value<KItemRange>(),
-                                       data.at(1).value<QList<int>>());
+        m_selectionManager->itemsMoved(data.at(0).value<KItemRange>(), data.at(1).value<QList<int>>());
         break;
     case EndAnchoredSelection:
         m_selectionManager->endAnchoredSelection();
@@ -501,11 +442,11 @@ void KItemListSelectionManagerTest::testDeleteCurrentItem_data()
     QTest::addColumn<int>("removeCount");
     QTest::addColumn<int>("newCurrentItemIndex");
 
-    QTest::newRow("Remove before")               << 50 <<  0 << 10 << 40;
-    QTest::newRow("Remove after")                << 50 << 51 << 10 << 50;
-    QTest::newRow("Remove exactly current item") << 50 << 50 <<  1 << 50;
-    QTest::newRow("Remove around current item")  << 50 << 45 << 10 << 45;
-    QTest::newRow("Remove all except one item")  << 50 <<  1 << 99 <<  0;
+    QTest::newRow("Remove before") << 50 << 0 << 10 << 40;
+    QTest::newRow("Remove after") << 50 << 51 << 10 << 50;
+    QTest::newRow("Remove exactly current item") << 50 << 50 << 1 << 50;
+    QTest::newRow("Remove around current item") << 50 << 45 << 10 << 45;
+    QTest::newRow("Remove all except one item") << 50 << 1 << 99 << 0;
 }
 
 void KItemListSelectionManagerTest::testDeleteCurrentItem()
@@ -540,25 +481,21 @@ void KItemListSelectionManagerTest::testAnchoredSelectionAfterMovingItems()
     QCOMPARE(m_selectionManager->selectedItems(), KItemSet() << 1 << 2);
 }
 
-void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,
-                                                          const KItemSet& currentSelection,
-                                                          const KItemSet& previousSelection) const
+void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy &spy, const KItemSet &currentSelection, const KItemSet &previousSelection) const
 {
     QCOMPARE(m_selectionManager->selectedItems(), currentSelection);
     QCOMPARE(m_selectionManager->hasSelection(), !currentSelection.isEmpty());
     for (int index = 0; index < m_selectionManager->model()->count(); ++index) {
         if (currentSelection.contains(index)) {
             QVERIFY(m_selectionManager->isSelected(index));
-        }
-        else {
+        } else {
             QVERIFY(!m_selectionManager->isSelected(index));
         }
     }
 
     if (currentSelection == previousSelection) {
         QCOMPARE(spy.count(), 0);
-    }
-    else {
+    } else {
         QCOMPARE(spy.count(), 1);
         QList<QVariant> arguments = spy.takeFirst();
         QCOMPARE(qvariant_cast<KItemSet>(arguments.at(0)), currentSelection);

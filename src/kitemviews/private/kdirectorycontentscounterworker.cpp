@@ -17,17 +17,15 @@
 
 #include "dolphin_detailsmodesettings.h"
 
-KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent) :
-    QObject(parent)
+KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject *parent)
+    : QObject(parent)
 {
     qRegisterMetaType<KDirectoryContentsCounterWorker::Options>();
 }
 
 #ifndef Q_OS_WIN
-KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
-                                                     const bool countHiddenFiles,
-                                                     const bool countDirectoriesOnly,
-                                                     const uint allowedRecursiveLevel)
+KDirectoryContentsCounterWorker::CountResult
+walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDirectoriesOnly, const uint allowedRecursiveLevel)
 {
     int count = -1;
     long size = -1;
@@ -53,10 +51,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
             // If only directories are counted, consider an unknown file type and links also
             // as directory instead of trying to do an expensive stat()
             // (see bugs 292642 and 299997).
-            const bool countEntry = !countDirectoriesOnly ||
-                    dirEntry->d_type == DT_DIR ||
-                    dirEntry->d_type == DT_LNK ||
-                    dirEntry->d_type == DT_UNKNOWN;
+            const bool countEntry = !countDirectoriesOnly || dirEntry->d_type == DT_DIR || dirEntry->d_type == DT_LNK || dirEntry->d_type == DT_UNKNOWN;
             if (countEntry) {
                 ++count;
             }
@@ -84,7 +79,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
 }
 #endif
 
-KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options options)
+KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::subItemsCount(const QString &path, Options options)
 {
     const bool countHiddenFiles = options & CountHiddenFiles;
     const bool countDirectoriesOnly = options & CountDirectoriesOnly;
@@ -111,7 +106,7 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
 #endif
 }
 
-void KDirectoryContentsCounterWorker::countDirectoryContents(const QString& path, Options options)
+void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path, Options options)
 {
     auto res = subItemsCount(path, options);
     Q_EMIT result(path, res.count, res.size);

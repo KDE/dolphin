@@ -25,8 +25,9 @@ class KDirLister;
 
 class QTimer;
 
-namespace KIO {
-    class Job;
+namespace KIO
+{
+class Job;
 }
 
 /**
@@ -44,7 +45,7 @@ class DOLPHIN_EXPORT KFileItemModel : public KItemModelBase
     Q_OBJECT
 
 public:
-    explicit KFileItemModel(QObject* parent = nullptr);
+    explicit KFileItemModel(QObject *parent = nullptr);
     ~KFileItemModel() override;
 
     /**
@@ -53,13 +54,13 @@ public:
      * indicate the current state of the loading process. The items
      * of the directory are added after the loading has been completed.
      */
-    void loadDirectory(const QUrl& url);
+    void loadDirectory(const QUrl &url);
 
     /**
      * Throws away all currently loaded items and refreshes the directory
      * by reloading all items again.
      */
-    void refreshDirectory(const QUrl& url);
+    void refreshDirectory(const QUrl &url);
 
     /**
      * @return Parent directory of the items that are shown. In case
@@ -77,7 +78,7 @@ public:
 
     int count() const override;
     QHash<QByteArray, QVariant> data(int index) const override;
-    bool setData(int index, const QHash<QByteArray, QVariant>& values) override;
+    bool setData(int index, const QHash<QByteArray, QVariant> &values) override;
 
     /**
      * Sets a separate sorting with directories first (true) or a mixed
@@ -102,15 +103,15 @@ public:
     void setShowDirectoriesOnly(bool enabled);
     bool showDirectoriesOnly() const;
 
-    QMimeData* createMimeData(const KItemSet& indexes) const override;
+    QMimeData *createMimeData(const KItemSet &indexes) const override;
 
-    int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const override;
+    int indexForKeyboardSearch(const QString &text, int startFromIndex = 0) const override;
 
     bool supportsDropping(int index) const override;
 
-    QString roleDescription(const QByteArray& role) const override;
+    QString roleDescription(const QByteArray &role) const override;
 
-    QList<QPair<int, QVariant> > groups() const override;
+    QList<QPair<int, QVariant>> groups() const override;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -124,14 +125,14 @@ public:
      *         URL is found KFileItem::isNull() will be true for the returned
      *         file-item. The runtime complexity of this call is O(1).
      */
-    KFileItem fileItem(const QUrl& url) const;
+    KFileItem fileItem(const QUrl &url) const;
 
     /**
      * @return The index for the file-item \a item. -1 is returned if no file-item
      *         is found or if the file-item is null. The amortized runtime
      *         complexity of this call is O(1).
      */
-    int index(const KFileItem& item) const;
+    int index(const KFileItem &item) const;
 
     /**
      * @return The index for the URL \a url. -1 is returned if no file-item
@@ -153,7 +154,7 @@ public:
     /**
      * Sets the roles that should be shown for each item.
      */
-    void setRoles(const QSet<QByteArray>& roles);
+    void setRoles(const QSet<QByteArray> &roles);
     QSet<QByteArray> roles() const;
 
     bool setExpanded(int index, bool expanded) override;
@@ -168,21 +169,21 @@ public:
      * After calling loadDirectory() or refreshDirectory() the marked sub-directories
      * will be expanded step-by-step.
      */
-    void restoreExpandedDirectories(const QSet<QUrl>& urls);
+    void restoreExpandedDirectories(const QSet<QUrl> &urls);
 
     /**
      * Expands all parent-directories of the item \a url.
      */
-    void expandParentDirectories(const QUrl& url);
+    void expandParentDirectories(const QUrl &url);
 
-    void setNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString &nameFilter);
     QString nameFilter() const;
 
-    void setMimeTypeFilters(const QStringList& filters);
+    void setMimeTypeFilters(const QStringList &filters);
     QStringList mimeTypeFilters() const;
 
-    struct RoleInfo
-    {   QByteArray role;
+    struct RoleInfo {
+        QByteArray role;
         QString translation;
         QString group;
         bool requiresBaloo;
@@ -237,25 +238,25 @@ Q_SIGNALS:
      * Is emitted if an information message (e.g. "Connecting to host...")
      * should be shown.
      */
-    void infoMessage(const QString& message);
+    void infoMessage(const QString &message);
 
     /**
      * Is emitted if an error message (e.g. "Unknown location")
      * should be shown.
      */
-    void errorMessage(const QString& message);
+    void errorMessage(const QString &message);
 
     /**
      * Is emitted if a redirection from the current URL \a oldUrl
      * to the new URL \a newUrl has been done.
      */
-    void directoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
+    void directoryRedirection(const QUrl &oldUrl, const QUrl &newUrl);
 
     /**
      * Is emitted when the URL passed by KFileItemModel::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const QUrl& url);
+    void urlIsFileError(const QUrl &url);
 
     /**
      * It is emitted for files when they change and
@@ -270,7 +271,7 @@ Q_SIGNALS:
 
 protected:
     void onGroupedSortingChanged(bool current) override;
-    void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true) override;
+    void onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true) override;
     void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) override;
 
 private Q_SLOTS:
@@ -282,9 +283,9 @@ private Q_SLOTS:
 
     void slotCompleted();
     void slotCanceled();
-    void slotItemsAdded(const QUrl& directoryUrl, const KFileItemList& items);
-    void slotItemsDeleted(const KFileItemList& items);
-    void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
+    void slotItemsAdded(const QUrl &directoryUrl, const KFileItemList &items);
+    void slotItemsDeleted(const KFileItemList &items);
+    void slotRefreshItems(const QList<QPair<KFileItem, KFileItem>> &items);
     void slotClear();
     void slotSortingChoiceChanged();
     void slotListerError(KIO::Job *job);
@@ -294,33 +295,66 @@ private Q_SLOTS:
 private:
     enum RoleType {
         // User visible roles:
-        NoRole, NameRole, SizeRole, ModificationTimeRole, CreationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
-        GroupRole, TypeRole, ExtensionRole, DestinationRole, PathRole, DeletionTimeRole,
+        NoRole,
+        NameRole,
+        SizeRole,
+        ModificationTimeRole,
+        CreationTimeRole,
+        AccessTimeRole,
+        PermissionsRole,
+        OwnerRole,
+        GroupRole,
+        TypeRole,
+        ExtensionRole,
+        DestinationRole,
+        PathRole,
+        DeletionTimeRole,
         // User visible roles available with Baloo:
-        CommentRole, TagsRole, RatingRole, DimensionsRole, WidthRole, HeightRole, ImageDateTimeRole, OrientationRole,
-        PublisherRole, PageCountRole, WordCountRole, TitleRole, AuthorRole, LineCountRole, ArtistRole, GenreRole, AlbumRole, DurationRole, TrackRole, ReleaseYearRole,
-        BitrateRole, OriginUrlRole, AspectRatioRole, FrameRateRole,
+        CommentRole,
+        TagsRole,
+        RatingRole,
+        DimensionsRole,
+        WidthRole,
+        HeightRole,
+        ImageDateTimeRole,
+        OrientationRole,
+        PublisherRole,
+        PageCountRole,
+        WordCountRole,
+        TitleRole,
+        AuthorRole,
+        LineCountRole,
+        ArtistRole,
+        GenreRole,
+        AlbumRole,
+        DurationRole,
+        TrackRole,
+        ReleaseYearRole,
+        BitrateRole,
+        OriginUrlRole,
+        AspectRatioRole,
+        FrameRateRole,
         // Non-visible roles:
-        IsDirRole, IsLinkRole, IsHiddenRole, IsExpandedRole, IsExpandableRole, ExpandedParentsCountRole,
+        IsDirRole,
+        IsLinkRole,
+        IsHiddenRole,
+        IsExpandedRole,
+        IsExpandableRole,
+        ExpandedParentsCountRole,
         // Mandatory last entry:
         RolesCount
     };
 
-    struct ItemData
-    {
+    struct ItemData {
         KFileItem item;
         QHash<QByteArray, QVariant> values;
-        ItemData* parent;
+        ItemData *parent;
     };
 
-    enum RemoveItemsBehavior {
-        KeepItemData,
-        DeleteItemData,
-        DeleteItemDataIfUnfiltered
-    };
+    enum RemoveItemsBehavior { KeepItemData, DeleteItemData, DeleteItemDataIfUnfiltered };
 
-    void insertItems(QList<ItemData*>& items);
-    void removeItems(const KItemRangeList& itemRanges, RemoveItemsBehavior behavior);
+    void insertItems(QList<ItemData *> &items);
+    void removeItems(const KItemRangeList &itemRanges, RemoveItemsBehavior behavior);
 
     /**
      * Helper method for insertItems() and removeItems(): Creates
@@ -328,16 +362,16 @@ private:
      * Note that the ItemData instances are created dynamically and
      * must be deleted by the caller.
      */
-    QList<ItemData*> createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const;
+    QList<ItemData *> createItemDataList(const QUrl &parentUrl, const KFileItemList &items) const;
 
     /**
      * Prepares the items for sorting. Normally, the hash 'values' in ItemData is filled
      * lazily to save time and memory, but for some sort roles, it is expected that the
      * sort role data is stored in 'values'.
      */
-    void prepareItemsForSorting(QList<ItemData*>& itemDataList);
+    void prepareItemsForSorting(QList<ItemData *> &itemDataList);
 
-    static int expandedParentsCount(const ItemData* data);
+    static int expandedParentsCount(const ItemData *data);
 
     void removeExpandedItems();
 
@@ -346,7 +380,7 @@ private:
      * the itemsChanged() signal, checks if the sort order is still correct,
      * and starts m_resortAllItemsTimer if that is not the case.
      */
-    void emitItemsChangedAndTriggerResorting(const KItemRangeList& itemRanges, const QSet<QByteArray>& changedRoles);
+    void emitItemsChangedAndTriggerResorting(const KItemRangeList &itemRanges, const QSet<QByteArray> &changedRoles);
 
     /**
      * Resets all values from m_requestRole to false.
@@ -357,7 +391,7 @@ private:
      * @return Role-type for the given role.
      *         Runtime complexity is O(1).
      */
-    RoleType typeForRole(const QByteArray& role) const;
+    RoleType typeForRole(const QByteArray &role) const;
 
     /**
      * @return Role-byte-array for the given role-type.
@@ -365,7 +399,7 @@ private:
      */
     QByteArray roleForType(RoleType roleType) const;
 
-    QHash<QByteArray, QVariant> retrieveData(const KFileItem& item, const ItemData* parent) const;
+    QHash<QByteArray, QVariant> retrieveData(const KFileItem &item, const ItemData *parent) const;
 
     /**
      * @return True if role values benefit from natural or case insensitive sorting.
@@ -376,35 +410,35 @@ private:
      * @return True if \a a has a KFileItem whose text is 'less than' the one
      *         of \a b according to QString::operator<(const QString&).
      */
-    static bool nameLessThan(const ItemData* a, const ItemData* b);
+    static bool nameLessThan(const ItemData *a, const ItemData *b);
 
     /**
      * @return True if the item-data \a a should be ordered before the item-data
      *         \b. The item-data may have different parent-items.
      */
-    bool lessThan(const ItemData* a, const ItemData* b, const QCollator& collator) const;
+    bool lessThan(const ItemData *a, const ItemData *b, const QCollator &collator) const;
 
     /**
      * Sorts the items between \a begin and \a end using the comparison
      * function lessThan().
      */
-    void sort(const QList<ItemData*>::iterator &begin, const QList<ItemData*>::iterator &end) const;
+    void sort(const QList<ItemData *>::iterator &begin, const QList<ItemData *>::iterator &end) const;
 
     /**
      * Helper method for lessThan() and expandedParentsCountCompare(): Compares
      * the passed item-data using m_sortRole as criteria. Both items must
      * have the same parent item, otherwise the comparison will be wrong.
      */
-    int sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const;
+    int sortRoleCompare(const ItemData *a, const ItemData *b, const QCollator &collator) const;
 
-    int stringCompare(const QString& a, const QString& b, const QCollator& collator) const;
+    int stringCompare(const QString &a, const QString &b, const QCollator &collator) const;
 
-    QList<QPair<int, QVariant> > nameRoleGroups() const;
-    QList<QPair<int, QVariant> > sizeRoleGroups() const;
-    QList<QPair<int, QVariant> > timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
-    QList<QPair<int, QVariant> > permissionRoleGroups() const;
-    QList<QPair<int, QVariant> > ratingRoleGroups() const;
-    QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& typeForRole) const;
+    QList<QPair<int, QVariant>> nameRoleGroups() const;
+    QList<QPair<int, QVariant>> sizeRoleGroups() const;
+    QList<QPair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
+    QList<QPair<int, QVariant>> permissionRoleGroups() const;
+    QList<QPair<int, QVariant>> ratingRoleGroups() const;
+    QList<QPair<int, QVariant>> genericStringRoleGroups(const QByteArray &typeForRole) const;
 
     /**
      * Helper method for all xxxRoleGroups() methods to check whether the
@@ -431,7 +465,7 @@ private:
      * Removes filtered items whose expanded parents have been deleted
      * or collapsed via setExpanded(parentIndex, false).
      */
-    void removeFilteredChildren(const KItemRangeList& parents);
+    void removeFilteredChildren(const KItemRangeList &parents);
 
     /**
      * Loads the selected choice of sorting method from Dolphin General Settings
@@ -442,9 +476,8 @@ private:
      * Maps the QByteArray-roles to RoleTypes and provides translation- and
      * group-contexts.
      */
-    struct RoleInfoMap
-    {
-        const char* const role;
+    struct RoleInfoMap {
+        const char *const role;
         const RoleType roleType;
         const KLazyLocalizedString roleTranslation;
         const KLazyLocalizedString groupTranslation;
@@ -455,19 +488,19 @@ private:
     /**
      * @return Map of user visible roles that are accessible by KFileItemModel::rolesInformation().
      */
-    static const RoleInfoMap* rolesInfoMap(int& count);
+    static const RoleInfoMap *rolesInfoMap(int &count);
 
     /**
      * Determines the MIME-types of all items that can be done within
      * the given timeout.
      */
-    static void determineMimeTypes(const KFileItemList& items, int timeout);
+    static void determineMimeTypes(const KFileItemList &items, int timeout);
 
     /**
      * @return Returns a copy of \a value that is implicitly shared
      * with other users to save memory.
      */
-    static QByteArray sharedValue(const QByteArray& value);
+    static QByteArray sharedValue(const QByteArray &value);
 
     /**
      * Checks if the model's internal data structures are consistent.
@@ -495,7 +528,7 @@ private:
     int m_sortingProgressPercent; // Value of directorySortingProgress() signal
     QSet<QByteArray> m_roles;
 
-    QList<ItemData*> m_itemData;
+    QList<ItemData *> m_itemData;
 
     // m_items is a cache for the method index(const QUrl&). If it contains N
     // entries, it is guaranteed that these correspond to the first N items in
@@ -504,16 +537,16 @@ private:
     mutable QHash<QUrl, int> m_items;
 
     KFileItemModelFilter m_filter;
-    QHash<KFileItem, ItemData*> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
+    QHash<KFileItem, ItemData *> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
 
     bool m_requestRole[RolesCount];
 
-    QTimer* m_maximumUpdateIntervalTimer;
-    QTimer* m_resortAllItemsTimer;
-    QList<ItemData*> m_pendingItemsToInsert;
+    QTimer *m_maximumUpdateIntervalTimer;
+    QTimer *m_resortAllItemsTimer;
+    QList<ItemData *> m_pendingItemsToInsert;
 
     // Cache for KFileItemModel::groups()
-    mutable QList<QPair<int, QVariant> > m_groups;
+    mutable QList<QPair<int, QVariant>> m_groups;
 
     // Stores the URLs (key: target url, value: url) of the expanded directories.
     QHash<QUrl, QUrl> m_expandedDirs;
@@ -522,31 +555,21 @@ private:
     // and done step after step in slotCompleted().
     QSet<QUrl> m_urlsToExpand;
 
-    friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
-    friend class KFileItemModelTest;           // For unit testing
-    friend class KFileItemModelBenchmark;      // For unit testing
-    friend class KFileItemListViewTest;        // For unit testing
-    friend class DolphinPart;                  // Accesses m_dirLister
+    friend class KFileItemModelRolesUpdater; // Accesses emitSortProgress() method
+    friend class KFileItemModelTest; // For unit testing
+    friend class KFileItemModelBenchmark; // For unit testing
+    friend class KFileItemListViewTest; // For unit testing
+    friend class DolphinPart; // Accesses m_dirLister
 };
 
 inline bool KFileItemModel::isRoleValueNatural(RoleType roleType)
 {
-    return (roleType == TypeRole ||
-            roleType == ExtensionRole ||
-            roleType == TagsRole ||
-            roleType == CommentRole ||
-            roleType == TitleRole ||
-            roleType == ArtistRole ||
-            roleType == GenreRole ||
-            roleType == AlbumRole ||
-            roleType == PathRole ||
-            roleType == DestinationRole ||
-            roleType == OriginUrlRole ||
-            roleType == OwnerRole ||
-            roleType == GroupRole);
+    return (roleType == TypeRole || roleType == ExtensionRole || roleType == TagsRole || roleType == CommentRole || roleType == TitleRole
+            || roleType == ArtistRole || roleType == GenreRole || roleType == AlbumRole || roleType == PathRole || roleType == DestinationRole
+            || roleType == OriginUrlRole || roleType == OwnerRole || roleType == GroupRole);
 }
 
-inline bool KFileItemModel::nameLessThan(const ItemData* a, const ItemData* b)
+inline bool KFileItemModel::nameLessThan(const ItemData *a, const ItemData *b)
 {
     return a->item.text() < b->item.text();
 }
@@ -561,5 +584,3 @@ inline bool KFileItemModel::isChildItem(int index) const
 }
 
 #endif
-
-

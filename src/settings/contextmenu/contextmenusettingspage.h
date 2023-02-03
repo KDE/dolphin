@@ -25,9 +25,7 @@ class ContextMenuSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ContextMenuSettingsPage(QWidget* parent,
-                                     const KActionCollection* actions,
-                                     const QStringList& actionIds);
+    explicit ContextMenuSettingsPage(QWidget *parent, const KActionCollection *actions, const QStringList &actionIds);
     ~ContextMenuSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -37,7 +35,7 @@ public:
     void restoreDefaults() override;
 
 protected:
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
 
 private Q_SLOTS:
     /**
@@ -56,21 +54,18 @@ private:
     /**
      * Adds a row to the model of m_listView.
      */
-    void addRow(const QString &icon,
-                const QString &text,
-                const QString &value,
-                bool checked);
-    bool entryVisible(const QString& id);
-    void setEntryVisible(const QString& id, bool visible);
+    void addRow(const QString &icon, const QString &text, const QString &value, bool checked);
+    bool entryVisible(const QString &id);
+    void setEntryVisible(const QString &id, bool visible);
 
 private:
     bool m_initialized;
     ServiceModel *m_serviceModel;
     QSortFilterProxyModel *m_sortModel;
-    QListView* m_listView;
+    QListView *m_listView;
     QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;
-    const KActionCollection* m_actions;
+    const KActionCollection *m_actions;
     const QStringList m_actionIds;
 };
 

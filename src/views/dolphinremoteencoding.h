@@ -22,35 +22,35 @@ class DolphinViewActionHandler;
  * When browsing remote url, its possible to change encoding from Tools Menu.
  */
 
-class DOLPHIN_EXPORT DolphinRemoteEncoding: public QObject
+class DOLPHIN_EXPORT DolphinRemoteEncoding : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  DolphinRemoteEncoding(QObject* parent, DolphinViewActionHandler* actionHandler);
-  ~DolphinRemoteEncoding() override;
+    DolphinRemoteEncoding(QObject *parent, DolphinViewActionHandler *actionHandler);
+    ~DolphinRemoteEncoding() override;
 
 public Q_SLOTS:
-  void slotAboutToOpenUrl();
-  void slotItemSelected(QAction* action);
-  void slotReload();
-  void slotDefault();
+    void slotAboutToOpenUrl();
+    void slotItemSelected(QAction *action);
+    void slotReload();
+    void slotDefault();
 
 private Q_SLOTS:
-  void slotAboutToShow();
+    void slotAboutToShow();
 
 private:
-  void updateView();
-  void loadSettings();
-  void fillMenu();
-  void updateMenu();
+    void updateView();
+    void loadSettings();
+    void fillMenu();
+    void updateMenu();
 
-  KActionMenu* m_menu;
-  QStringList m_encodingDescriptions;
-  QUrl m_currentURL;
-  DolphinViewActionHandler* m_actionHandler;
+    KActionMenu *m_menu;
+    QStringList m_encodingDescriptions;
+    QUrl m_currentURL;
+    DolphinViewActionHandler *m_actionHandler;
 
-  bool m_loaded;
-  int m_idDefault;
+    bool m_loaded;
+    int m_idDefault;
 };
 
 #endif

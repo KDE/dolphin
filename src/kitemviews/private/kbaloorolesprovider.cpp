@@ -14,19 +14,22 @@
 #include <QCollator>
 #include <QSize>
 
-namespace {
-    QString tagsFromValues(const QStringList& values)
-    {
-        if (values.size() == 1) {
-            return values.at(0);
-        }
-
-        QStringList alphabeticalOrderTags = values;
-        QCollator coll;
-        coll.setNumericMode(true);
-        std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString& s1, const QString& s2){ return coll.compare(s1, s2) < 0; });
-        return alphabeticalOrderTags.join(QLatin1String(", "));
+namespace
+{
+QString tagsFromValues(const QStringList &values)
+{
+    if (values.size() == 1) {
+        return values.at(0);
     }
+
+    QStringList alphabeticalOrderTags = values;
+    QCollator coll;
+    coll.setNumericMode(true);
+    std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString &s1, const QString &s2) {
+        return coll.compare(s1, s2) < 0;
+    });
+    return alphabeticalOrderTags.join(QLatin1String(", "));
+}
 
     using Property = KFileMetaData::Property::Property;
     // Mapping from the KFM::Property to the KFileItemModel roles.
@@ -58,14 +61,12 @@ namespace {
     }
 }
 
-struct KBalooRolesProviderSingleton
-{
+struct KBalooRolesProviderSingleton {
     KBalooRolesProvider instance;
 };
 Q_GLOBAL_STATIC(KBalooRolesProviderSingleton, s_balooRolesProvider)
 
-
-KBalooRolesProvider& KBalooRolesProvider::instance()
+KBalooRolesProvider &KBalooRolesProvider::instance()
 {
     return s_balooRolesProvider->instance;
 }
@@ -79,21 +80,21 @@ QSet<QByteArray> KBalooRolesProvider::roles() const
     return m_roles;
 }
 
-QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& file,
-                                                            const QSet<QByteArray>& roles) const
+QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const
 {
     QHash<QByteArray, QVariant> values;
 
-    using entry = std::pair<const KFileMetaData::Property::Property&, const QVariant&>;
+    using entry = std::pair<const KFileMetaData::Property::Property &, const QVariant &>;
 
-    const auto& propMap = file.properties();
+    const auto &propMap = file.properties();
     auto rangeBegin = propMap.constKeyValueBegin();
 
     while (rangeBegin != propMap.constKeyValueEnd()) {
         auto key = (*rangeBegin).first;
 
-        auto rangeEnd = std::find_if(rangeBegin, propMap.constKeyValueEnd(),
-            [key](const entry& e) { return e.first != key; });
+        auto rangeEnd = std::find_if(rangeBegin, propMap.constKeyValueEnd(), [key](const entry &e) {
+            return e.first != key;
+        });
 
         const QByteArray role = propertyRoleMap().value(key);
         if (role.isEmpty() || !roles.contains(role)) {
@@ -106,7 +107,9 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         if (distance > 1) {
             QVariantList list;
             list.reserve(static_cast<int>(distance));
-            std::for_each(rangeBegin, rangeEnd, [&list](const entry& s) { list.append(s.second); });
+            std::for_each(rangeBegin, rangeEnd, [&list](const entry &s) {
+                list.append(s.second);
+            });
             values.insert(role, propertyInfo.formatAsDisplayString(list));
         } else {
             if (propertyInfo.valueType() == QVariant::DateTime) {
@@ -171,7 +174,7 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 KBalooRolesProvider::KBalooRolesProvider()
 {
     // Display roles filled from Baloo property cache
-    for (const auto& role : propertyRoleMap()) {
+    for (const auto &role : propertyRoleMap()) {
         m_roles.insert(role);
     }
     m_roles.insert("dimensions");
@@ -182,4 +185,3 @@ KBalooRolesProvider::KBalooRolesProvider()
     m_roles.insert(QByteArrayLiteral("comment"));
     m_roles.insert(QByteArrayLiteral("originUrl"));
 }
-

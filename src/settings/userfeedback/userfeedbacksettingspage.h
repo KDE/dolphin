@@ -9,7 +9,8 @@
 
 #include "settings/settingspagebase.h"
 
-namespace KUserFeedback {
+namespace KUserFeedback
+{
 class FeedbackConfigWidget;
 }
 
@@ -21,7 +22,7 @@ class UserFeedbackSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit UserFeedbackSettingsPage(QWidget* parent);
+    explicit UserFeedbackSettingsPage(QWidget *parent);
     ~UserFeedbackSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

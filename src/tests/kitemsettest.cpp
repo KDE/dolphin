@@ -14,10 +14,10 @@ Q_DECLARE_METATYPE(KItemRangeList)
 /**
  * Converts a KItemRangeList to a KItemSet.
  */
-KItemSet KItemRangeList2KItemSet(const KItemRangeList& itemRanges)
+KItemSet KItemRangeList2KItemSet(const KItemRangeList &itemRanges)
 {
     KItemSet result;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.insert(i);
         }
@@ -28,10 +28,10 @@ KItemSet KItemRangeList2KItemSet(const KItemRangeList& itemRanges)
 /**
  * Converts a KItemRangeList to a QSet<int>.
  */
-QSet<int> KItemRangeList2QSet(const KItemRangeList& itemRanges)
+QSet<int> KItemRangeList2QSet(const KItemRangeList &itemRanges)
 {
     QSet<int> result;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.insert(i);
         }
@@ -42,10 +42,10 @@ QSet<int> KItemRangeList2QSet(const KItemRangeList& itemRanges)
 /**
  * Converts a KItemRangeList to a QVector<int>.
  */
-QVector<int> KItemRangeList2QVector(const KItemRangeList& itemRanges)
+QVector<int> KItemRangeList2QVector(const KItemRangeList &itemRanges)
 {
     QVector<int> result;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.append(i);
         }
@@ -56,7 +56,7 @@ QVector<int> KItemRangeList2QVector(const KItemRangeList& itemRanges)
 /**
  * Converts a KItemSet to a QSet<int>.
  */
-static QSet<int> KItemSet2QSet(const KItemSet& itemSet)
+static QSet<int> KItemSet2QSet(const KItemSet &itemSet)
 {
     QSet<int> result;
     for (int i : itemSet) {
@@ -76,7 +76,6 @@ static QSet<int> KItemSet2QSet(const KItemSet& itemSet)
 
     return result;
 }
-
 
 /**
  * The main test class.
@@ -106,7 +105,7 @@ private Q_SLOTS:
     void testSymmetricDifference();
 
 private:
-    QHash<const char*, KItemRangeList> m_testCases;
+    QHash<const char *, KItemRangeList> m_testCases;
 };
 
 void KItemSetTest::initTestCase()
@@ -122,7 +121,8 @@ void KItemSetTest::initTestCase()
     m_testCases.insert("[1, 2] [4, 5]", KItemRangeList() << KItemRange(1, 2) << KItemRange(4, 2));
     m_testCases.insert("[1, 5]", KItemRangeList() << KItemRange(1, 5));
     m_testCases.insert("[1, 2] [4, 5] [7] [9, 10] [13] [20, 25] [30]",
-                       KItemRangeList() << KItemRange(1, 2) << KItemRange(4, 2) << KItemRange(7, 1) << KItemRange(9, 2) << KItemRange(20, 6) << KItemRange(30, 1));
+                       KItemRangeList() << KItemRange(1, 2) << KItemRange(4, 2) << KItemRange(7, 1) << KItemRange(9, 2) << KItemRange(20, 6)
+                                        << KItemRange(30, 1));
     m_testCases.insert("[-10, -1]", KItemRangeList() << KItemRange(-10, 10));
     m_testCases.insert("[-10, 0]", KItemRangeList() << KItemRange(-10, 11));
     m_testCases.insert("[-10, 1]", KItemRangeList() << KItemRange(-10, 12));
@@ -134,8 +134,8 @@ void KItemSetTest::testConstruction_data()
 {
     QTest::addColumn<KItemRangeList>("itemRanges");
 
-    QHash<const char*, KItemRangeList>::const_iterator it = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it != end) {
         QTest::newRow(it.key()) << it.value();
@@ -170,8 +170,8 @@ void KItemSetTest::testIterators_data()
 {
     QTest::addColumn<KItemRangeList>("itemRanges");
 
-    QHash<const char*, KItemRangeList>::const_iterator it = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it != end) {
         QTest::newRow(it.key()) << it.value();
@@ -305,8 +305,8 @@ void KItemSetTest::testFind_data()
 {
     QTest::addColumn<KItemRangeList>("itemRanges");
 
-    QHash<const char*, KItemRangeList>::const_iterator it = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it != end) {
         QTest::newRow(it.key()) << it.value();
@@ -364,8 +364,8 @@ void KItemSetTest::testChangingOneItem_data()
 {
     QTest::addColumn<KItemRangeList>("itemRanges");
 
-    QHash<const char*, KItemRangeList>::const_iterator it = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it != end) {
         QTest::newRow(it.key()) << it.value();
@@ -403,7 +403,6 @@ void KItemSetTest::testChangingOneItem()
     // Test insert(int), remove(int), and erase(KItemSet::iterator)
     // for items between min - 2 and max + 2.
     for (int i = min - 2; i <= max + 2; ++i) {
-
         // Test insert(int).
         {
             KItemSet tmp(itemSet);
@@ -512,11 +511,11 @@ void KItemSetTest::testAddSets_data()
     QTest::addColumn<KItemRangeList>("itemRanges1");
     QTest::addColumn<KItemRangeList>("itemRanges2");
 
-    QHash<const char*, KItemRangeList>::const_iterator it1 = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it1 = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it1 != end) {
-        QHash<const char*, KItemRangeList>::const_iterator it2 = m_testCases.constBegin();
+        QHash<const char *, KItemRangeList>::const_iterator it2 = m_testCases.constBegin();
 
         while (it2 != end) {
             QByteArray name = it1.key() + QByteArray(" + ") + it2.key();
@@ -551,11 +550,11 @@ void KItemSetTest::testSymmetricDifference_data()
     QTest::addColumn<KItemRangeList>("itemRanges1");
     QTest::addColumn<KItemRangeList>("itemRanges2");
 
-    QHash<const char*, KItemRangeList>::const_iterator it1 = m_testCases.constBegin();
-    const QHash<const char*, KItemRangeList>::const_iterator end = m_testCases.constEnd();
+    QHash<const char *, KItemRangeList>::const_iterator it1 = m_testCases.constBegin();
+    const QHash<const char *, KItemRangeList>::const_iterator end = m_testCases.constEnd();
 
     while (it1 != end) {
-        QHash<const char*, KItemRangeList>::const_iterator it2 = m_testCases.constBegin();
+        QHash<const char *, KItemRangeList>::const_iterator it2 = m_testCases.constBegin();
 
         while (it2 != end) {
             QByteArray name = it1.key() + QByteArray(" ^ ") + it2.key();
@@ -593,7 +592,6 @@ void KItemSetTest::testSymmetricDifference()
     QCOMPARE(itemSet1 ^ symmetricDifference, itemSet2);
     QCOMPARE(itemSet2 ^ symmetricDifference, itemSet1);
 }
-
 
 QTEST_GUILESS_MAIN(KItemSetTest)
 

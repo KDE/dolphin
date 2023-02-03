@@ -10,35 +10,30 @@
 #include "dolphintabbar.h"
 #include "dolphinviewcontainer.h"
 
+#include <KAcceleratorManager>
 #include <KConfigGroup>
+#include <KIO/CommandLauncherJob>
+#include <KLocalizedString>
 #include <KShell>
 #include <kio/global.h>
-#include <KIO/CommandLauncherJob>
-#include <KAcceleratorManager>
-#include <KLocalizedString>
 
 #include <QApplication>
 #include <QDropEvent>
 
-DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget* parent) :
-    QTabWidget(parent),
-    m_lastViewedTab(nullptr),
-    m_navigatorsWidget{navigatorsWidget}
+DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget *parent)
+    : QTabWidget(parent)
+    , m_lastViewedTab(nullptr)
+    , m_navigatorsWidget{navigatorsWidget}
 {
     KAcceleratorManager::setNoAccel(this);
 
-    connect(this, &DolphinTabWidget::tabCloseRequested,
-            this, QOverload<int>::of(&DolphinTabWidget::closeTab));
-    connect(this, &DolphinTabWidget::currentChanged,
-            this, &DolphinTabWidget::currentTabChanged);
+    connect(this, &DolphinTabWidget::tabCloseRequested, this, QOverload<int>::of(&DolphinTabWidget::closeTab));
+    connect(this, &DolphinTabWidget::currentChanged, this, &DolphinTabWidget::currentTabChanged);
 
-    DolphinTabBar* tabBar = new DolphinTabBar(this);
-    connect(tabBar, &DolphinTabBar::openNewActivatedTab,
-            this, QOverload<int>::of(&DolphinTabWidget::openNewActivatedTab));
-    connect(tabBar, &DolphinTabBar::tabDropEvent,
-            this, &DolphinTabWidget::tabDropEvent);
-    connect(tabBar, &DolphinTabBar::tabDetachRequested,
-            this, &DolphinTabWidget::detachTab);
+    DolphinTabBar *tabBar = new DolphinTabBar(this);
+    connect(tabBar, &DolphinTabBar::openNewActivatedTab, this, QOverload<int>::of(&DolphinTabWidget::openNewActivatedTab));
+    connect(tabBar, &DolphinTabBar::tabDropEvent, this, &DolphinTabWidget::tabDropEvent);
+    connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
     tabBar->hide();
 
     setTabBar(tabBar);
@@ -47,41 +42,41 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     setUsesScrollButtons(true);
 }
 
-DolphinTabPage* DolphinTabWidget::currentTabPage() const
+DolphinTabPage *DolphinTabWidget::currentTabPage() const
 {
     return tabPageAt(currentIndex());
 }
 
-DolphinTabPage* DolphinTabWidget::nextTabPage() const
+DolphinTabPage *DolphinTabWidget::nextTabPage() const
 {
     const int index = currentIndex() + 1;
     return tabPageAt(index < count() ? index : 0);
 }
 
-DolphinTabPage* DolphinTabWidget::prevTabPage() const
+DolphinTabPage *DolphinTabWidget::prevTabPage() const
 {
     const int index = currentIndex() - 1;
     return tabPageAt(index >= 0 ? index : (count() - 1));
 }
 
-DolphinTabPage* DolphinTabWidget::tabPageAt(const int index) const
+DolphinTabPage *DolphinTabWidget::tabPageAt(const int index) const
 {
-    return static_cast<DolphinTabPage*>(widget(index));
+    return static_cast<DolphinTabPage *>(widget(index));
 }
 
-void DolphinTabWidget::saveProperties(KConfigGroup& group) const
+void DolphinTabWidget::saveProperties(KConfigGroup &group) const
 {
     const int tabCount = count();
     group.writeEntry("Tab Count", tabCount);
     group.writeEntry("Active Tab Index", currentIndex());
 
     for (int i = 0; i < tabCount; ++i) {
-        const DolphinTabPage* tabPage = tabPageAt(i);
+        const DolphinTabPage *tabPage = tabPageAt(i);
         group.writeEntry("Tab Data " % QString::number(i), tabPage->saveState());
     }
 }
 
-void DolphinTabWidget::readProperties(const KConfigGroup& group)
+void DolphinTabWidget::readProperties(const KConfigGroup &group)
 {
     const int tabCount = group.readEntry("Tab Count", 0);
     for (int i = 0; i < tabCount; ++i) {
@@ -132,12 +127,12 @@ void DolphinTabWidget::openNewActivatedTab()
         oldNavigatorState = m_navigatorsWidget->secondaryUrlNavigator()->visualState();
     }
 
-    const DolphinViewContainer* oldActiveViewContainer = currentTabPage()->activeViewContainer();
+    const DolphinViewContainer *oldActiveViewContainer = currentTabPage()->activeViewContainer();
     Q_ASSERT(oldActiveViewContainer);
 
     openNewActivatedTab(oldActiveViewContainer->url());
 
-    DolphinViewContainer* newActiveViewContainer = currentTabPage()->activeViewContainer();
+    DolphinViewContainer *newActiveViewContainer = currentTabPage()->activeViewContainer();
     Q_ASSERT(newActiveViewContainer);
 
     // The URL navigator of the new tab should have the same editable state
@@ -148,7 +143,7 @@ void DolphinTabWidget::openNewActivatedTab()
     newActiveViewContainer->view()->setFocus();
 }
 
-void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
+void DolphinTabWidget::openNewActivatedTab(const QUrl &primaryUrl, const QUrl &secondaryUrl)
 {
     openNewTab(primaryUrl, secondaryUrl);
     if (GeneralSettings::openNewTabAfterLastTab()) {
@@ -158,16 +153,14 @@ void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& s
     }
 }
 
-void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl, DolphinTabWidget::NewTabPosition position)
+void DolphinTabWidget::openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl, DolphinTabWidget::NewTabPosition position)
 {
-    QWidget* focusWidget = QApplication::focusWidget();
+    QWidget *focusWidget = QApplication::focusWidget();
 
-    DolphinTabPage* tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
+    DolphinTabPage *tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
     tabPage->setActive(false);
-    connect(tabPage, &DolphinTabPage::activeViewChanged,
-            this, &DolphinTabWidget::activeViewChanged);
-    connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
-            this, &DolphinTabWidget::tabUrlChanged);
+    connect(tabPage, &DolphinTabPage::activeViewChanged, this, &DolphinTabWidget::activeViewChanged);
+    connect(tabPage, &DolphinTabPage::activeViewUrlChanged, this, &DolphinTabWidget::tabUrlChanged);
     connect(tabPage->activeViewContainer(), &DolphinViewContainer::captionChanged, this, [this, tabPage]() {
         const int tabIndex = indexOf(tabPage);
         Q_ASSERT(tabIndex >= 0);
@@ -196,7 +189,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
+void DolphinTabWidget::openDirectories(const QList<QUrl> &dirs, bool splitView)
 {
     Q_ASSERT(dirs.size() > 0);
 
@@ -204,7 +197,7 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
 
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
-        const QUrl& primaryUrl = *(it++);
+        const QUrl &primaryUrl = *(it++);
         const std::optional<ViewIndex> viewIndexAtDirectory = viewOpenAtDirectory(primaryUrl);
 
         // When the user asks for a URL that's already open,
@@ -213,7 +206,7 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
             somethingWasAlreadyOpen = true;
             activateViewContainerAt(viewIndexAtDirectory.value());
         } else if (splitView && (it != dirs.constEnd())) {
-            const QUrl& secondaryUrl = *(it++);
+            const QUrl &secondaryUrl = *(it++);
             if (somethingWasAlreadyOpen) {
                 openNewTab(primaryUrl, secondaryUrl);
             } else {
@@ -229,14 +222,14 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
     }
 }
 
-void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
+void DolphinTabWidget::openFiles(const QList<QUrl> &files, bool splitView)
 {
     Q_ASSERT(files.size() > 0);
 
     // Get all distinct directories from 'files'.
     QList<QUrl> dirsThatNeedToBeOpened;
     QList<QUrl> dirsThatWereAlreadyOpen;
-    for (const QUrl& file : files) {
+    for (const QUrl &file : files) {
         const QUrl dir(file.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
         if (dirsThatNeedToBeOpened.contains(dir) || dirsThatWereAlreadyOpen.contains(dir)) {
             continue;
@@ -267,7 +260,7 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
     // tabs, there is no need to split 'files' accordingly, as
     // the DolphinView will just ignore invalid selections.
     for (int i = 0; i < tabCount; ++i) {
-        DolphinTabPage* tabPage = tabPageAt(i);
+        DolphinTabPage *tabPage = tabPageAt(i);
         tabPage->markUrlsAsSelected(files);
         tabPage->markUrlAsCurrent(files.first());
         if (i < oldTabCount) {
@@ -293,7 +286,7 @@ void DolphinTabWidget::closeTab(const int index)
         return;
     }
 
-    DolphinTabPage* tabPage = tabPageAt(index);
+    DolphinTabPage *tabPage = tabPageAt(index);
     Q_EMIT rememberClosedTab(tabPage->activeViewContainer()->url(), tabPage->saveState());
 
     removeTab(index);
@@ -324,7 +317,7 @@ void DolphinTabWidget::activatePrevTab()
     setCurrentIndex(index >= 0 ? index : (count() - 1));
 }
 
-void DolphinTabWidget::restoreClosedTab(const QByteArray& state)
+void DolphinTabWidget::restoreClosedTab(const QByteArray &state)
 {
     openNewActivatedTab();
     currentTabPage()->restoreState(state);
@@ -332,8 +325,8 @@ void DolphinTabWidget::restoreClosedTab(const QByteArray& state)
 
 void DolphinTabWidget::copyToInactiveSplitView()
 {
-    const DolphinTabPage* tabPage = tabPageAt(currentIndex());
-    DolphinViewContainer* activeViewContainer = currentTabPage()->activeViewContainer();
+    const DolphinTabPage *tabPage = tabPageAt(currentIndex());
+    DolphinViewContainer *activeViewContainer = currentTabPage()->activeViewContainer();
     if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
         return;
     }
@@ -349,8 +342,8 @@ void DolphinTabWidget::copyToInactiveSplitView()
 
 void DolphinTabWidget::moveToInactiveSplitView()
 {
-    const DolphinTabPage* tabPage = tabPageAt(currentIndex());
-    DolphinViewContainer* activeViewContainer = currentTabPage()->activeViewContainer();
+    const DolphinTabPage *tabPage = tabPageAt(currentIndex());
+    DolphinViewContainer *activeViewContainer = currentTabPage()->activeViewContainer();
     if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
         return;
     }
@@ -370,7 +363,7 @@ void DolphinTabWidget::detachTab(int index)
 
     QStringList args;
 
-    const DolphinTabPage* tabPage = tabPageAt(index);
+    const DolphinTabPage *tabPage = tabPageAt(index);
     args << tabPage->primaryViewContainer()->url().url();
     if (tabPage->splitViewEnabled()) {
         args << tabPage->secondaryViewContainer()->url().url();
@@ -388,14 +381,14 @@ void DolphinTabWidget::detachTab(int index)
 void DolphinTabWidget::openNewActivatedTab(int index)
 {
     Q_ASSERT(index >= 0);
-    const DolphinTabPage* tabPage = tabPageAt(index);
+    const DolphinTabPage *tabPage = tabPageAt(index);
     openNewActivatedTab(tabPage->activeViewContainer()->url());
 }
 
-void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
+void DolphinTabWidget::tabDropEvent(int index, QDropEvent *event)
 {
     if (index >= 0) {
-        DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
+        DolphinView *view = tabPageAt(index)->activeViewContainer()->view();
         view->dropUrls(view->url(), event, view);
     } else {
         const auto urls = event->mimeData()->urls();
@@ -411,9 +404,9 @@ void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
     }
 }
 
-void DolphinTabWidget::tabUrlChanged(const QUrl& url)
+void DolphinTabWidget::tabUrlChanged(const QUrl &url)
 {
-    const int index = indexOf(qobject_cast<QWidget*>(sender()));
+    const int index = indexOf(qobject_cast<QWidget *>(sender()));
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(tabPageAt(index)));
         tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
@@ -446,7 +439,7 @@ void DolphinTabWidget::currentTabChanged(int index)
     if (tabPage->splitViewEnabled() && !m_navigatorsWidget->secondaryUrlNavigator()) {
         m_navigatorsWidget->createSecondaryUrlNavigator();
     }
-    DolphinViewContainer* viewContainer = tabPage->activeViewContainer();
+    DolphinViewContainer *viewContainer = tabPage->activeViewContainer();
     Q_EMIT activeViewChanged(viewContainer);
     Q_EMIT currentUrlChanged(viewContainer->url());
     tabPage->setActive(true);
@@ -492,12 +485,12 @@ void DolphinTabWidget::tabRemoved(int index)
     Q_EMIT tabCountChanged(count());
 }
 
-QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
+QString DolphinTabWidget::tabName(DolphinTabPage *tabPage) const
 {
     if (!tabPage) {
         return QString();
     }
-
+    // clang-format off
     QString name;
     if (tabPage->splitViewEnabled()) {
         if (tabPage->primaryViewActive()) {
@@ -512,6 +505,7 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     } else {
         name = tabPage->activeViewContainer()->caption();
     }
+    // clang-format on
 
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
@@ -538,7 +532,7 @@ DolphinViewContainer *DolphinTabWidget::activateViewContainerAt(DolphinTabWidget
     return viewContainer;
 }
 
-const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewOpenAtDirectory(const QUrl& directory) const
+const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewOpenAtDirectory(const QUrl &directory) const
 {
     int i = currentIndex();
     if (i < 0) {
@@ -556,13 +550,12 @@ const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewOpe
         }
 
         i = (i + 1) % count();
-    }
-    while (i != currentIndex());
+    } while (i != currentIndex());
 
     return std::nullopt;
 }
 
-const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewShowingItem(const QUrl& item) const
+const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewShowingItem(const QUrl &item) const
 {
     // The item might not be loaded yet even though it exists. So instead
     // we check if the folder containing the item is showing its contents.
@@ -600,8 +593,7 @@ const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewSho
         }
 
         i = (i + 1) % count();
-    }
-    while (i != currentIndex());
+    } while (i != currentIndex());
 
     return std::nullopt;
 }

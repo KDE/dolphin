@@ -7,12 +7,12 @@
 #include "kitemlistsizehintresolver.h"
 #include "kitemviews/kitemlistview.h"
 
-KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemListView) :
-    m_itemListView(itemListView),
-    m_logicalHeightHintCache(),
-    m_logicalWidthHint(0.0),
-    m_minHeightHint(0.0),
-    m_needsResolving(false)
+KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView *itemListView)
+    : m_itemListView(itemListView)
+    , m_logicalHeightHintCache()
+    , m_logicalWidthHint(0.0)
+    , m_minHeightHint(0.0)
+    , m_needsResolving(false)
 {
 }
 
@@ -37,10 +37,10 @@ bool KItemListSizeHintResolver::isElided(int index)
     return m_logicalHeightHintCache.at(index).second;
 }
 
-void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
+void KItemListSizeHintResolver::itemsInserted(const KItemRangeList &itemRanges)
 {
     int insertedCount = 0;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         insertedCount += range.count;
     }
 
@@ -56,7 +56,7 @@ void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
     int itemsToInsertBeforeCurrentRange = insertedCount;
 
     for (int rangeIndex = itemRanges.count() - 1; rangeIndex >= 0; --rangeIndex) {
-        const KItemRange& range = itemRanges.at(rangeIndex);
+        const KItemRange &range = itemRanges.at(rangeIndex);
         itemsToInsertBeforeCurrentRange -= range.count;
 
         // First: move all existing items that must be put behind 'range'.
@@ -78,7 +78,7 @@ void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
     Q_ASSERT(m_logicalHeightHintCache.count() == m_itemListView->model()->count());
 }
 
-void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList& itemRanges)
+void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList &itemRanges)
 {
     const QVector<std::pair<qreal, bool>>::iterator begin = m_logicalHeightHintCache.begin();
     const QVector<std::pair<qreal, bool>>::iterator end = m_logicalHeightHintCache.end();
@@ -112,7 +112,7 @@ void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList& itemRanges)
     }
 }
 
-void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<int>& movedToIndexes)
+void KItemListSizeHintResolver::itemsMoved(const KItemRange &range, const QList<int> &movedToIndexes)
 {
     QVector<std::pair<qreal, bool>> newLogicalHeightHintCache(m_logicalHeightHintCache);
 
@@ -125,7 +125,7 @@ void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<
     m_logicalHeightHintCache = newLogicalHeightHintCache;
 }
 
-void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray>& roles)
+void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(roles)
     while (count) {

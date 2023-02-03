@@ -52,7 +52,8 @@ public:
         return m_contents;
     };
 
-    inline bool hasSomethingToShow() {
+    inline bool hasSomethingToShow()
+    {
         return contents() != BottomBar::GeneralContents || m_internalContextMenu;
     }
 

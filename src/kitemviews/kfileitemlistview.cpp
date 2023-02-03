@@ -15,32 +15,33 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QPainter>
-#include <QTimer>
 #include <QIcon>
 #include <QMimeDatabase>
+#include <QPainter>
+#include <QTimer>
 
 // #define KFILEITEMLISTVIEW_DEBUG
 
-namespace {
-    // If the visible index range changes, KFileItemModelRolesUpdater is not
-    // informed immediately, but with a short delay. This ensures that scrolling
-    // always feels smooth and is not interrupted by icon loading (which can be
-    // quite expensive if a disk access is required to determine the final icon).
-    const int ShortInterval = 50;
+namespace
+{
+// If the visible index range changes, KFileItemModelRolesUpdater is not
+// informed immediately, but with a short delay. This ensures that scrolling
+// always feels smooth and is not interrupted by icon loading (which can be
+// quite expensive if a disk access is required to determine the final icon).
+const int ShortInterval = 50;
 
-    // If the icon size changes, a longer delay is used. This prevents that
-    // the expensive re-generation of all previews is triggered repeatedly when
-    // changing the zoom level.
-    const int LongInterval = 300;
+// If the icon size changes, a longer delay is used. This prevents that
+// the expensive re-generation of all previews is triggered repeatedly when
+// changing the zoom level.
+const int LongInterval = 300;
 }
 
-KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
-    KStandardItemListView(parent),
-    m_modelRolesUpdater(nullptr),
-    m_updateVisibleIndexRangeTimer(nullptr),
-    m_updateIconSizeTimer(nullptr),
-    m_scanDirectories(true)
+KFileItemListView::KFileItemListView(QGraphicsWidget *parent)
+    : KStandardItemListView(parent)
+    , m_modelRolesUpdater(nullptr)
+    , m_updateVisibleIndexRangeTimer(nullptr)
+    , m_updateIconSizeTimer(nullptr)
+    , m_scanDirectories(true)
 {
     setAcceptDrops(true);
 
@@ -94,7 +95,7 @@ bool KFileItemListView::enlargeSmallPreviews() const
     return m_modelRolesUpdater ? m_modelRolesUpdater->enlargeSmallPreviews() : false;
 }
 
-void KFileItemListView::setEnabledPlugins(const QStringList& list)
+void KFileItemListView::setEnabledPlugins(const QStringList &list)
 {
     if (m_modelRolesUpdater) {
         m_modelRolesUpdater->setEnabledPlugins(list);
@@ -131,7 +132,7 @@ bool KFileItemListView::scanDirectories()
     return m_scanDirectories;
 }
 
-QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
+QPixmap KFileItemListView::createDragPixmap(const KItemSet &indexes) const
 {
     if (!model()) {
         return QPixmap();
@@ -213,27 +214,27 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
     return dragPixmap;
 }
 
-void KFileItemListView::setHoverSequenceState(const QUrl& itemUrl, int seqIdx)
+void KFileItemListView::setHoverSequenceState(const QUrl &itemUrl, int seqIdx)
 {
     if (m_modelRolesUpdater) {
         m_modelRolesUpdater->setHoverSequenceState(itemUrl, seqIdx);
     }
 }
 
-KItemListWidgetCreatorBase* KFileItemListView::defaultWidgetCreator() const
+KItemListWidgetCreatorBase *KFileItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<KFileItemListWidget>();
 }
 
-void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
+void KFileItemListView::initializeItemListWidget(KItemListWidget *item)
 {
     KStandardItemListView::initializeItemListWidget(item);
 
     // Make sure that the item has an icon.
     QHash<QByteArray, QVariant> data = item->data();
     if (!data.contains("iconName") && data["iconPixmap"].value<QPixmap>().isNull()) {
-        Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
-        KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
+        Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
+        KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
 
         const KFileItem fileItem = fileItemModel->fileItem(item->index());
         QString iconName = fileItem.iconName();
@@ -257,16 +258,16 @@ void KFileItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previ
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
+void KFileItemListView::onModelChanged(KItemModelBase *current, KItemModelBase *previous)
 {
-    Q_ASSERT(qobject_cast<KFileItemModel*>(current));
+    Q_ASSERT(qobject_cast<KFileItemModel *>(current));
     KStandardItemListView::onModelChanged(current, previous);
 
     delete m_modelRolesUpdater;
     m_modelRolesUpdater = nullptr;
 
     if (current) {
-        m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
+        m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel *>(current), this);
         m_modelRolesUpdater->setIconSize(availableIconSize());
         m_modelRolesUpdater->setScanDirectories(scanDirectories());
 
@@ -280,7 +281,7 @@ void KFileItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previous)
+void KFileItemListView::onItemSizeChanged(const QSizeF &current, const QSizeF &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -293,13 +294,13 @@ void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
+void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous)
 {
     KStandardItemListView::onVisibleRolesChanged(current, previous);
     applyRolesToModel();
 }
 
-void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
+void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous)
 {
     KStandardItemListView::onStyleOptionChanged(current, previous);
     triggerIconSizeUpdate();
@@ -328,25 +329,24 @@ void KFileItemListView::onTransactionEnd()
     // Only unpause the model-roles-updater if no timer is active. If one
     // timer is still active the model-roles-updater will be unpaused later as
     // soon as the timer has been exceeded.
-    const bool timerActive = m_updateVisibleIndexRangeTimer->isActive() ||
-                             m_updateIconSizeTimer->isActive();
+    const bool timerActive = m_updateVisibleIndexRangeTimer->isActive() || m_updateIconSizeTimer->isActive();
     if (!timerActive) {
         m_modelRolesUpdater->setPaused(false);
     }
 }
 
-void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     KStandardItemListView::resizeEvent(event);
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
+void KFileItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
 {
     KStandardItemListView::slotItemsRemoved(itemRanges);
 }
 
-void KFileItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KFileItemListView::slotSortRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     const QByteArray sortRole = model()->sortRole();
     if (!visibleRoles().contains(sortRole)) {
@@ -420,8 +420,8 @@ void KFileItemListView::applyRolesToModel()
         return;
     }
 
-    Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
-    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
+    Q_ASSERT(qobject_cast<KFileItemModel *>(model()));
+    KFileItemModel *fileItemModel = static_cast<KFileItemModel *>(model());
 
     // KFileItemModel does not distinct between "visible" and "invisible" roles.
     // Add all roles that are mandatory for having a working KFileItemListView:
@@ -448,7 +448,7 @@ void KFileItemListView::applyRolesToModel()
 
 QSize KFileItemListView::availableIconSize() const
 {
-    const KItemListStyleOption& option = styleOption();
+    const KItemListStyleOption &option = styleOption();
     const int iconSize = option.iconSize;
     if (itemLayout() == IconsLayout) {
         const int maxIconWidth = itemSize().width() - 2 * option.padding;
@@ -457,4 +457,3 @@ QSize KFileItemListView::availableIconSize() const
 
     return QSize(iconSize, iconSize);
 }
-

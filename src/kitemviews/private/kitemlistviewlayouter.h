@@ -37,22 +37,22 @@ class DOLPHIN_EXPORT KItemListViewLayouter : public QObject
     Q_OBJECT
 
 public:
-    explicit KItemListViewLayouter(KItemListSizeHintResolver* sizeHintResolver, QObject* parent = nullptr);
+    explicit KItemListViewLayouter(KItemListSizeHintResolver *sizeHintResolver, QObject *parent = nullptr);
     ~KItemListViewLayouter() override;
 
     void setScrollOrientation(Qt::Orientation orientation);
     Qt::Orientation scrollOrientation() const;
 
-    void setSize(const QSizeF& size);
+    void setSize(const QSizeF &size);
     QSizeF size() const;
 
-    void setItemSize(const QSizeF& size);
+    void setItemSize(const QSizeF &size);
     QSizeF itemSize() const;
 
     /**
      * Margin between the rows and columns of items.
      */
-    void setItemMargin(const QSizeF& margin);
+    void setItemMargin(const QSizeF &margin);
     QSizeF itemMargin() const;
 
     /**
@@ -87,8 +87,8 @@ public:
 
     qreal maximumItemOffset() const;
 
-    void setModel(const KItemModelBase* model);
-    const KItemModelBase* model() const;
+    void setModel(const KItemModelBase *model);
+    const KItemModelBase *model() const;
 
     /**
      * @return The first (at least partly) visible index. -1 is returned
@@ -188,8 +188,8 @@ private:
     QSizeF m_itemSize;
     QSizeF m_itemMargin;
     qreal m_headerHeight;
-    const KItemModelBase* m_model;
-    KItemListSizeHintResolver* m_sizeHintResolver;
+    const KItemModelBase *m_model;
+    KItemListSizeHintResolver *m_sizeHintResolver;
 
     qreal m_scrollOffset;
     qreal m_maximumScrollOffset;
@@ -223,5 +223,3 @@ private:
 };
 
 #endif
-
-

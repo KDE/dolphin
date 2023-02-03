@@ -18,31 +18,37 @@
 #include <QMenu>
 #include <QToolButton>
 
-DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
-    QWidget(parent),
-    m_typeSelector(nullptr),
-    m_dateSelector(nullptr),
-    m_ratingSelector(nullptr),
-    m_tagsSelector(nullptr)
+DolphinFacetsWidget::DolphinFacetsWidget(QWidget *parent)
+    : QWidget(parent)
+    , m_typeSelector(nullptr)
+    , m_dateSelector(nullptr)
+    , m_ratingSelector(nullptr)
+    , m_tagsSelector(nullptr)
 {
     m_typeSelector = new QComboBox(this);
     m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("none")), i18nc("@item:inlistbox", "Any Type"), QString());
-    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("inode-directory")), i18nc("@item:inlistbox", "Folders") , QStringLiteral("Folder"));
-    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("text-x-generic")), i18nc("@item:inlistbox", "Documents") , QStringLiteral("Document"));
-    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("image-x-generic")), i18nc("@item:inlistbox", "Images") , QStringLiteral("Image"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("inode-directory")), i18nc("@item:inlistbox", "Folders"), QStringLiteral("Folder"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("text-x-generic")), i18nc("@item:inlistbox", "Documents"), QStringLiteral("Document"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("image-x-generic")), i18nc("@item:inlistbox", "Images"), QStringLiteral("Image"));
     m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18nc("@item:inlistbox", "Audio Files"), QStringLiteral("Audio"));
-    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18nc("@item:inlistbox", "Videos") , QStringLiteral("Video"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18nc("@item:inlistbox", "Videos"), QStringLiteral("Video"));
     initComboBox(m_typeSelector);
 
     const QDate currentDate = QDate::currentDate();
 
     m_dateSelector = new QComboBox(this);
     m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar")), i18nc("@item:inlistbox", "Any Date"), QDate());
-    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Today") , currentDate);
-    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Yesterday") , currentDate.addDays(-1));
-    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-week")), i18nc("@item:inlistbox", "This Week") , currentDate.addDays(1 - currentDate.dayOfWeek()));
-    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-month")), i18nc("@item:inlistbox", "This Month"), currentDate.addDays(1 - currentDate.day()));
-    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-year")), i18nc("@item:inlistbox", "This Year") , currentDate.addDays(1 - currentDate.dayOfYear()));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Today"), currentDate);
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Yesterday"), currentDate.addDays(-1));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-week")),
+                            i18nc("@item:inlistbox", "This Week"),
+                            currentDate.addDays(1 - currentDate.dayOfWeek()));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-month")),
+                            i18nc("@item:inlistbox", "This Month"),
+                            currentDate.addDays(1 - currentDate.day()));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-year")),
+                            i18nc("@item:inlistbox", "This Year"),
+                            currentDate.addDays(1 - currentDate.dayOfYear()));
     initComboBox(m_dateSelector);
 
     m_ratingSelector = new QComboBox(this);
@@ -73,7 +79,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     connect(&m_tagsLister, &KCoreDirLister::itemsAdded, this, &DolphinFacetsWidget::updateTagsMenuItems);
     updateTagsMenu();
 
-    QHBoxLayout* topLayout = new QHBoxLayout(this);
+    QHBoxLayout *topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
     topLayout->addWidget(m_typeSelector);
     topLayout->addWidget(m_dateSelector);
@@ -139,13 +145,9 @@ QString DolphinFacetsWidget::facetType() const
     return m_typeSelector->currentData().toString();
 }
 
-bool DolphinFacetsWidget::isSearchTerm(const QString& term) const
+bool DolphinFacetsWidget::isSearchTerm(const QString &term) const
 {
-    static const QLatin1String searchTokens[] {
-        QLatin1String("modified>="),
-        QLatin1String("rating>="),
-        QLatin1String("tag:"), QLatin1String("tag=")
-    };
+    static const QLatin1String searchTokens[]{QLatin1String("modified>="), QLatin1String("rating>="), QLatin1String("tag:"), QLatin1String("tag=")};
 
     for (const auto &searchToken : searchTokens) {
         if (term.startsWith(searchToken)) {
@@ -155,7 +157,7 @@ bool DolphinFacetsWidget::isSearchTerm(const QString& term) const
     return false;
 }
 
-void DolphinFacetsWidget::setSearchTerm(const QString& term)
+void DolphinFacetsWidget::setSearchTerm(const QString &term)
 {
     if (term.startsWith(QLatin1String("modified>="))) {
         const QString value = term.mid(10);
@@ -165,14 +167,13 @@ void DolphinFacetsWidget::setSearchTerm(const QString& term)
         const QString value = term.mid(8);
         const int stars = value.toInt() / 2;
         setRating(stars);
-    } else if (term.startsWith(QLatin1String("tag:")) ||
-               term.startsWith(QLatin1String("tag="))) {
+    } else if (term.startsWith(QLatin1String("tag:")) || term.startsWith(QLatin1String("tag="))) {
         const QString value = term.mid(4);
         addSearchTag(value);
     }
 }
 
-void DolphinFacetsWidget::setFacetType(const QString& type)
+void DolphinFacetsWidget::setFacetType(const QString &type)
 {
     for (int index = 0; index <= m_typeSelector->count(); index++) {
         if (type == m_typeSelector->itemData(index).toString()) {
@@ -190,7 +191,7 @@ void DolphinFacetsWidget::setRating(const int stars)
     m_ratingSelector->setCurrentIndex(stars);
 }
 
-void DolphinFacetsWidget::setTimespan(const QDate& date)
+void DolphinFacetsWidget::setTimespan(const QDate &date)
 {
     if (!date.isValid()) {
         return;
@@ -204,7 +205,7 @@ void DolphinFacetsWidget::setTimespan(const QDate& date)
     }
 }
 
-void DolphinFacetsWidget::addSearchTag(const QString& tag)
+void DolphinFacetsWidget::addSearchTag(const QString &tag)
 {
     if (tag.isEmpty() || m_searchTags.contains(tag)) {
         return;
@@ -214,7 +215,7 @@ void DolphinFacetsWidget::addSearchTag(const QString& tag)
     updateTagsSelector();
 }
 
-void DolphinFacetsWidget::removeSearchTag(const QString& tag)
+void DolphinFacetsWidget::removeSearchTag(const QString &tag)
 {
     if (tag.isEmpty() || !m_searchTags.contains(tag)) {
         return;
@@ -230,7 +231,7 @@ void DolphinFacetsWidget::resetSearchTags()
     updateTagsMenu();
 }
 
-void DolphinFacetsWidget::initComboBox(QComboBox* combo)
+void DolphinFacetsWidget::initComboBox(QComboBox *combo)
 {
     combo->setFrame(false);
     combo->setMinimumHeight(parentWidget()->height());
@@ -245,8 +246,7 @@ void DolphinFacetsWidget::updateTagsSelector()
 
     if (hasSelectedTags) {
         const QString tagsText = m_searchTags.join(i18nc("String list separator", ", "));
-        m_tagsSelector->setText(i18ncp("@action:button %2 is a list of tags",
-                                       "Tag: %2", "Tags: %2",m_searchTags.count(), tagsText));
+        m_tagsSelector->setText(i18ncp("@action:button %2 is a list of tags", "Tag: %2", "Tags: %2", m_searchTags.count(), tagsText));
     } else {
         m_tagsSelector->setText(i18nc("@action:button", "Add Tags"));
     }
@@ -263,13 +263,13 @@ void DolphinFacetsWidget::updateTagsMenu()
     }
 }
 
-void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& items)
+void DolphinFacetsWidget::updateTagsMenuItems(const QUrl &, const KFileItemList &items)
 {
     QMenu *tagsMenu = m_tagsSelector->menu();
     tagsMenu->clear();
 
     QStringList allTags = QStringList(m_searchTags);
-    for (const KFileItem &item: items) {
+    for (const KFileItem &item : items) {
         allTags.append(item.name());
     }
     allTags.sort(Qt::CaseInsensitive);
@@ -277,7 +277,7 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
 
     const bool onlyOneTag = allTags.count() == 1;
 
-    for (const QString& tagName : qAsConst(allTags)) {
+    for (const QString &tagName : qAsConst(allTags)) {
         QAction *action = tagsMenu->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
         action->setCheckable(true);
         action->setChecked(m_searchTags.contains(tagName));

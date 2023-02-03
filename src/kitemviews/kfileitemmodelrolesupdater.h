@@ -12,8 +12,8 @@
 
 #include <list>
 
-#include <KFileItem>
 #include "config-dolphin.h"
+#include <KFileItem>
 
 #include <QObject>
 #include <QSet>
@@ -26,16 +26,17 @@ class QPixmap;
 class QTimer;
 class KOverlayIconPlugin;
 
-namespace KIO {
-    class PreviewJob;
+namespace KIO
+{
+class PreviewJob;
 }
 
 #if HAVE_BALOO
-    namespace Baloo
-    {
-        class FileMonitor;
-    }
-    #include <Baloo/IndexerConfig>
+namespace Baloo
+{
+class FileMonitor;
+}
+#include <Baloo/IndexerConfig>
 #endif
 
 /**
@@ -82,10 +83,10 @@ class DOLPHIN_EXPORT KFileItemModelRolesUpdater : public QObject
     Q_OBJECT
 
 public:
-    explicit KFileItemModelRolesUpdater(KFileItemModel* model, QObject* parent = nullptr);
+    explicit KFileItemModelRolesUpdater(KFileItemModel *model, QObject *parent = nullptr);
     ~KFileItemModelRolesUpdater() override;
 
-    void setIconSize(const QSize& size);
+    void setIconSize(const QSize &size);
     QSize iconSize() const;
 
     /**
@@ -123,7 +124,7 @@ public:
     /**
      * Sets the roles that should be resolved asynchronously.
      */
-    void setRoles(const QSet<QByteArray>& roles);
+    void setRoles(const QSet<QByteArray> &roles);
     QSet<QByteArray> roles() const;
 
     /**
@@ -135,7 +136,7 @@ public:
      *
      * @see enabledPlugins
      */
-    void setEnabledPlugins(const QStringList& list);
+    void setEnabledPlugins(const QStringList &list);
 
     /**
      * Returns the list of enabled thumbnail plugins.
@@ -172,16 +173,14 @@ public:
      *               this method will be called repeatedly with increasing values
      *               for this parameter.
      */
-    void setHoverSequenceState(const QUrl& itemUrl, int seqIdx);
+    void setHoverSequenceState(const QUrl &itemUrl, int seqIdx);
 
 private Q_SLOTS:
-    void slotItemsInserted(const KItemRangeList& itemRanges);
-    void slotItemsRemoved(const KItemRangeList& itemRanges);
+    void slotItemsInserted(const KItemRangeList &itemRanges);
+    void slotItemsRemoved(const KItemRangeList &itemRanges);
     void slotItemsMoved(KItemRange itemRange, const QList<int> &movedToIndexes);
-    void slotItemsChanged(const KItemRangeList& itemRanges,
-                          const QSet<QByteArray>& roles);
-    void slotSortRoleChanged(const QByteArray& current,
-                             const QByteArray& previous);
+    void slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles);
+    void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
     /**
      * Is invoked after a preview has been received successfully.
@@ -190,7 +189,7 @@ private Q_SLOTS:
      *
      * @see startPreviewJob()
      */
-    void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
+    void slotGotPreview(const KFileItem &item, const QPixmap &pixmap);
 
     /**
      * Is invoked after generating a preview has failed.
@@ -199,7 +198,7 @@ private Q_SLOTS:
      *
      * @see startPreviewJob()
      */
-    void slotPreviewFailed(const KFileItem& item);
+    void slotPreviewFailed(const KFileItem &item);
 
     /**
      * Is invoked when the preview job has been finished. Starts a new preview
@@ -215,12 +214,12 @@ private Q_SLOTS:
     /**
      * Is invoked after a hover sequence preview has been received successfully.
      */
-    void slotHoverSequenceGotPreview(const KFileItem& item, const QPixmap& pixmap);
+    void slotHoverSequenceGotPreview(const KFileItem &item, const QPixmap &pixmap);
 
     /**
      * Is invoked after generating a hover sequence preview has failed.
      */
-    void slotHoverSequencePreviewFailed(const KFileItem& item);
+    void slotHoverSequencePreviewFailed(const KFileItem &item);
 
     /**
      * Is invoked when a hover sequence preview job is finished. May start another
@@ -235,7 +234,7 @@ private Q_SLOTS:
     /**
      * Is invoked when one of the KOverlayIconPlugin emit the signal that an overlay has changed
      */
-    void slotOverlaysChanged(const QUrl& url, const QStringList&);
+    void slotOverlaysChanged(const QUrl &url, const QStringList &);
 
     /**
      * Resolves the sort role of the next item in m_pendingSortRole, applies it
@@ -258,10 +257,10 @@ private Q_SLOTS:
      */
     void resolveRecentlyChangedItems();
 
-    void applyChangedBalooRoles(const QString& file);
-    void applyChangedBalooRolesForItem(const KFileItem& file);
+    void applyChangedBalooRoles(const QString &file);
+    void applyChangedBalooRolesForItem(const KFileItem &file);
 
-    void slotDirectoryContentsCountReceived(const QString& path, int count, long size);
+    void slotDirectoryContentsCountReceived(const QString &path, int count, long size);
 
 private:
     /**
@@ -293,7 +292,7 @@ private:
      * @param pixmap A raw preview image from a PreviewJob.
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewPixmap(const QPixmap& pixmap);
+    QPixmap transformPreviewPixmap(const QPixmap &pixmap);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.
@@ -318,12 +317,9 @@ private:
 
     void applySortProgressToModel();
 
-    enum ResolveHint {
-        ResolveFast,
-        ResolveAll
-    };
+    enum ResolveHint { ResolveFast, ResolveAll };
     bool applyResolvedRoles(int index, ResolveHint hint);
-    QHash<QByteArray, QVariant> rolesData(const KFileItem& item);
+    QHash<QByteArray, QVariant> rolesData(const KFileItem &item);
 
     /**
      * Must be invoked if a property has been changed that affects
@@ -338,13 +334,7 @@ private:
     void trimHoverSequenceLoadedItems();
 
 private:
-    enum State {
-        Idle,
-        Paused,
-        ResolvingSortRole,
-        ResolvingAllRoles,
-        PreviewJobRunning
-    };
+    enum State { Idle, Paused, ResolvingSortRole, ResolvingAllRoles, PreviewJobRunning };
 
     State m_state;
 
@@ -369,7 +359,7 @@ private:
     // previews and other expensive roles are determined again.
     QSet<KFileItem> m_finishedItems;
 
-    KFileItemModel* m_model;
+    KFileItemModel *m_model;
     QSize m_iconSize;
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
@@ -391,13 +381,13 @@ private:
     // A new preview job will be started from them once the first one finishes.
     KFileItemList m_pendingPreviewItems;
 
-    KIO::PreviewJob* m_previewJob;
+    KIO::PreviewJob *m_previewJob;
 
     // Info about the item that the user currently hovers, and the current sequence
     // index for thumb generation.
     KFileItem m_hoverSequenceItem;
     int m_hoverSequenceIndex;
-    KIO::PreviewJob* m_hoverSequencePreviewJob;
+    KIO::PreviewJob *m_hoverSequencePreviewJob;
     int m_hoverSequenceNumSuccessiveFailures;
     std::list<KFileItem> m_hoverSequenceLoadedItems;
 
@@ -406,18 +396,18 @@ private:
     // a high CPU-load by generating e.g. previews for each notification, the update
     // will be postponed until no file change has been done within a longer period
     // of time.
-    QTimer* m_recentlyChangedItemsTimer;
+    QTimer *m_recentlyChangedItemsTimer;
     QSet<KFileItem> m_recentlyChangedItems;
 
     // Items which have not been changed repeatedly recently.
     QSet<KFileItem> m_changedItems;
 
-    KDirectoryContentsCounter* m_directoryContentsCounter;
+    KDirectoryContentsCounter *m_directoryContentsCounter;
 
-    QList<KOverlayIconPlugin*> m_overlayIconsPlugin;
+    QList<KOverlayIconPlugin *> m_overlayIconsPlugin;
 
 #if HAVE_BALOO
-    Baloo::FileMonitor* m_balooFileMonitor;
+    Baloo::FileMonitor *m_balooFileMonitor;
     Baloo::IndexerConfig m_balooConfig;
 #endif
 };

@@ -25,9 +25,9 @@
 
 using namespace SelectionMode;
 
-BottomBarContentsContainer::BottomBarContentsContainer(KActionCollection *actionCollection, QWidget *parent) :
-    QWidget{parent},
-    m_actionCollection{actionCollection}
+BottomBarContentsContainer::BottomBarContentsContainer(KActionCollection *actionCollection, QWidget *parent)
+    : QWidget{parent}
+    , m_actionCollection{actionCollection}
 {
     // We will mostly interact with m_layout when changing the contents and not care about the other internal hierarchy.
     m_layout = new QHBoxLayout(this);
@@ -38,7 +38,9 @@ void BottomBarContentsContainer::resetContents(BottomBar::Contents contents)
     emptyBarContents();
 
     // A label is added in many of the methods below. We only know its size a bit later and if it should be hidden.
-    QTimer::singleShot(10, this, [this](){ updateExplanatoryLabelVisibility(); });
+    QTimer::singleShot(10, this, [this]() {
+        updateExplanatoryLabelVisibility();
+    });
 
     Q_CHECK_PTR(m_actionCollection);
     m_contents = contents;
@@ -155,8 +157,10 @@ void BottomBarContentsContainer::addCopyContents()
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Copying"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -188,8 +192,10 @@ void BottomBarContentsContainer::addCopyLocationContents()
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Copying"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -201,14 +207,18 @@ void BottomBarContentsContainer::addCopyLocationContents()
 
 void BottomBarContentsContainer::addCopyToOtherViewContents()
 {
+    // clang-format off
     // i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
     m_explanatoryLabel = new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be copied over."), this);
+    // clang-format on
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Copying"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -225,8 +235,10 @@ void BottomBarContentsContainer::addCutContents()
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Cutting"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -240,7 +252,7 @@ void BottomBarContentsContainer::addCutContents()
     // Connect the cut action as a second step.
     m_mainAction = ActionWithWidget(m_actionCollection->action(KStandardAction::name(KStandardAction::Cut)), cutButton);
     // Finally connect the lambda that actually changes the contents to the PasteContents.
-    connect(cutButton, &QAbstractButton::clicked, [this](){
+    connect(cutButton, &QAbstractButton::clicked, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
                 // it instantly deletes the button and then the other slots won't be called.
@@ -253,13 +265,16 @@ void BottomBarContentsContainer::addCutContents()
 
 void BottomBarContentsContainer::addDeleteContents()
 {
-    m_explanatoryLabel = new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be permanently deleted."), this);
+    m_explanatoryLabel =
+        new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be permanently deleted."), this);
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -276,8 +291,10 @@ void BottomBarContentsContainer::addDuplicateContents()
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Duplicating"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -290,9 +307,11 @@ void BottomBarContentsContainer::addDuplicateContents()
 void BottomBarContentsContainer::addGeneralContents()
 {
     if (!m_overflowButton) {
+        // clang-format off
         // i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
         // The small button opens a menu that contains the actions that didn't fit on the bar.
         m_overflowButton = new QPushButton{QIcon::fromTheme(QStringLiteral("view-more-symbolic")), i18nc("@action keep short", "More"), this};
+        // clang-format on
         m_overflowButton->setMenu(new QMenu{m_overflowButton});
         m_overflowButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding); // Makes sure it has the same height as the labeled buttons.
         m_layout->addWidget(m_overflowButton);
@@ -335,14 +354,18 @@ void BottomBarContentsContainer::addGeneralContents()
 
 void BottomBarContentsContainer::addMoveToOtherViewContents()
 {
+    // clang-format off
     // i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
     m_explanatoryLabel = new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be moved over."), this);
+    // clang-format on
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Moving"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -354,13 +377,16 @@ void BottomBarContentsContainer::addMoveToOtherViewContents()
 
 void BottomBarContentsContainer::addMoveToTrashContents()
 {
-    m_explanatoryLabel = new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be moved to the Trash."), this);
+    m_explanatoryLabel =
+        new QLabel(i18nc("@info explaining the next step in a process", "Select the files and folders that should be moved to the Trash."), this);
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -373,9 +399,10 @@ void BottomBarContentsContainer::addMoveToTrashContents()
 void BottomBarContentsContainer::addPasteContents()
 {
     m_explanatoryLabel = new QLabel(xi18n("<para>The selected files and folders were added to the Clipboard. "
-            "Now the <emphasis>Paste</emphasis> action can be used to transfer them from the Clipboard "
-            "to any other location. They can even be transferred to other applications by using their "
-            "respective <emphasis>Paste</emphasis> actions.</para>"), this);
+                                          "Now the <emphasis>Paste</emphasis> action can be used to transfer them from the Clipboard "
+                                          "to any other location. They can even be transferred to other applications by using their "
+                                          "respective <emphasis>Paste</emphasis> actions.</para>"),
+                                    this);
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
@@ -415,13 +442,17 @@ void BottomBarContentsContainer::addPasteContents()
 
 void BottomBarContentsContainer::addRenameContents()
 {
-    m_explanatoryLabel = new QLabel(i18nc("@info explains the next step in a process", "Select the file or folder that should be renamed.\nBulk renaming is possible when multiple items are selected."), this);
+    m_explanatoryLabel = new QLabel(i18nc("@info explains the next step in a process",
+                                          "Select the file or folder that should be renamed.\nBulk renaming is possible when multiple items are selected."),
+                                    this);
     m_explanatoryLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
+    // clang-format off
     // i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
     auto *cancelButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18nc("@action:button", "Cancel Renaming"), this);
+    // clang-format on
     connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
@@ -439,15 +470,15 @@ void BottomBarContentsContainer::emptyBarContents()
             QLayoutItem *grandChild;
             while ((grandChild = childLayout->takeAt(0)) != nullptr) {
                 delete grandChild->widget(); // delete the widget
-                delete grandChild;   // delete the layout item
+                delete grandChild; // delete the layout item
             }
         }
         delete child->widget(); // delete the widget
-        delete child;   // delete the layout item
+        delete child; // delete the layout item
     }
 }
 
-std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFileItemList& selectedItems, const QUrl& baseUrl)
+std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFileItemList &selectedItems, const QUrl &baseUrl)
 {
     if (selectedItems.isEmpty()) {
         // There are no contextual actions to show for these items.
@@ -483,7 +514,8 @@ std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFile
 
     // KHamburgerMenu would only be visible if there is no menu available anywhere on the user interface. This might be useful for recovery from
     // such a situation in theory but a bar with context dependent actions doesn't really seem like the right place for it.
-    Q_ASSERT(internalContextMenuActions.first()->icon().name() == m_actionCollection->action(KStandardAction::name(KStandardAction::HamburgerMenu))->icon().name());
+    Q_ASSERT(internalContextMenuActions.first()->icon().name()
+             == m_actionCollection->action(KStandardAction::name(KStandardAction::HamburgerMenu))->icon().name());
     internalContextMenuActions.removeFirst();
 
     for (auto it = internalContextMenuActions.constBegin(); it != internalContextMenuActions.constEnd(); ++it) {
@@ -529,7 +561,7 @@ int BottomBarContentsContainer::unusedSpace() const
         sumOfPreferredWidths += m_layout->itemAt(i)->sizeHint().width() + m_layout->spacing();
     }
     return m_barWidth - sumOfPreferredWidths - 20; // We consider all space used when there are only 20 pixels left
-                                                      // so there is some room to breath and not too much wonkyness while resizing.
+                                                   // so there is some room to breath and not too much wonkyness while resizing.
 }
 
 void BottomBarContentsContainer::updateExplanatoryLabelVisibility()
@@ -544,7 +576,7 @@ void BottomBarContentsContainer::updateExplanatoryLabelVisibility()
         m_explanatoryLabel->setVisible(unusedSpace() > m_explanatoryLabel->sizeHint().width() + 20);
     }
 }
-
+// clang-format off
 void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& selectedItems)
 {
     if (!m_mainAction.widget()) {
@@ -627,3 +659,4 @@ void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& sel
         updateExplanatoryLabelVisibility();
     }
 }
+// clang-format on

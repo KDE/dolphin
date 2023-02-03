@@ -28,9 +28,7 @@ public:
      *                         widget.
      * @param parent           Parent widget.
      */
-    ConfigurePreviewPluginDialog(const QString& pluginName,
-                                 const QString& desktopEntryName,
-                                 QWidget* parent);
+    ConfigurePreviewPluginDialog(const QString &pluginName, const QString &desktopEntryName, QWidget *parent);
     ~ConfigurePreviewPluginDialog() override = default;
 };
 #endif // KIOWIDGETS_BUILD_DEPRECATED_SINCE

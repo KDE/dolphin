@@ -8,10 +8,10 @@
 
 #include <KIO/Global>
 
-KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
-    KTextEdit(parent),
-    m_role(),
-    m_blockFinishedSignal(false)
+KItemListRoleEditor::KItemListRoleEditor(QWidget *parent)
+    : KTextEdit(parent)
+    , m_role()
+    , m_blockFinishedSignal(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -30,7 +30,7 @@ KItemListRoleEditor::~KItemListRoleEditor()
 {
 }
 
-void KItemListRoleEditor::setRole(const QByteArray& role)
+void KItemListRoleEditor::setRole(const QByteArray &role)
 {
     m_role = role;
 }
@@ -45,7 +45,7 @@ void KItemListRoleEditor::setAllowUpDownKeyChainEdit(bool allowChainEdit)
     m_allowUpDownKeyChainEdit = allowChainEdit;
 }
 
-bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
+bool KItemListRoleEditor::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
         emitRoleEditingFinished();
@@ -54,10 +54,10 @@ bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
     return KTextEdit::eventFilter(watched, event);
 }
 
-bool KItemListRoleEditor::event(QEvent* event)
+bool KItemListRoleEditor::event(QEvent *event)
 {
     if (event->type() == QEvent::FocusOut) {
-        QFocusEvent* focusEvent = static_cast<QFocusEvent*>(event);
+        QFocusEvent *focusEvent = static_cast<QFocusEvent *>(event);
         if (focusEvent->reason() != Qt::PopupFocusReason) {
             emitRoleEditingFinished();
         }
@@ -65,7 +65,7 @@ bool KItemListRoleEditor::event(QEvent* event)
     return KTextEdit::event(event);
 }
 
-void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
+void KItemListRoleEditor::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_Escape:
@@ -118,12 +118,8 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Home:
     case Qt::Key_End: {
         if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier) {
-            const QTextCursor::MoveOperation op = event->key() == Qt::Key_Home
-                                                ? QTextCursor::Start
-                                                : QTextCursor::End;
-            const QTextCursor::MoveMode mode = event->modifiers() == Qt::NoModifier
-                                             ? QTextCursor::MoveAnchor
-                                             : QTextCursor::KeepAnchor;
+            const QTextCursor::MoveOperation op = event->key() == Qt::Key_Home ? QTextCursor::Start : QTextCursor::End;
+            const QTextCursor::MoveMode mode = event->modifiers() == Qt::NoModifier ? QTextCursor::MoveAnchor : QTextCursor::KeepAnchor;
             QTextCursor cursor = textCursor();
             cursor.movePosition(op, mode);
             setTextCursor(cursor);
@@ -167,10 +163,9 @@ void KItemListRoleEditor::autoAdjustSize()
 void KItemListRoleEditor::emitRoleEditingFinished(EditResultDirection direction)
 {
     QVariant ret;
-    ret.setValue(EditResult {KIO::encodeFileName(toPlainText()), direction});
+    ret.setValue(EditResult{KIO::encodeFileName(toPlainText()), direction});
 
     if (!m_blockFinishedSignal) {
         Q_EMIT roleEditingFinished(m_role, ret);
     }
 }
-

@@ -30,18 +30,19 @@ class KMoreToolsMenuFactory;
  * If Baloo is available and the current folder is indexed, further
  * options are offered.
  */
-class DolphinSearchBox : public QWidget {
+class DolphinSearchBox : public QWidget
+{
     Q_OBJECT
 
 public:
-    explicit DolphinSearchBox(QWidget* parent = nullptr);
+    explicit DolphinSearchBox(QWidget *parent = nullptr);
     ~DolphinSearchBox() override;
 
     /**
      * Sets the text that should be used as input for
      * searching.
      */
-    void setText(const QString& text);
+    void setText(const QString &text);
 
     /**
      * Returns the text that should be used as input
@@ -53,7 +54,7 @@ public:
      * Sets the current path that is used as root for searching files.
      * If @url is the Home dir, "From Here" is selected instead.
      */
-    void setSearchPath(const QUrl& url);
+    void setSearchPath(const QUrl &url);
     QUrl searchPath() const;
 
     /** @return URL that will start the searching of files. */
@@ -63,7 +64,7 @@ public:
      * Extracts information from the given search \a url to
      * initialize the search box properly.
      */
-    void fromSearchUrl(const QUrl& url);
+    void fromSearchUrl(const QUrl &url);
 
     /**
      * Selects the whole text of the search box.
@@ -87,11 +88,11 @@ public:
     bool isActive() const;
 
 protected:
-    bool event(QEvent* event) override;
-    void showEvent(QShowEvent* event) override;
-    void hideEvent(QHideEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
-    bool eventFilter(QObject* obj, QEvent* event) override;
+    bool event(QEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 Q_SIGNALS:
     /**
@@ -103,7 +104,7 @@ Q_SIGNALS:
      * Is emitted when the user has changed a character of
      * the text that should be used as input for searching.
      */
-    void searchTextChanged(const QString& text);
+    void searchTextChanged(const QString &text);
 
     /**
      * Emitted as soon as the search box should get closed.
@@ -122,13 +123,13 @@ private Q_SLOTS:
     void emitSearchRequest();
     void emitCloseRequest();
     void slotConfigurationChanged();
-    void slotSearchTextChanged(const QString& text);
+    void slotSearchTextChanged(const QString &text);
     void slotReturnPressed();
     void slotFacetChanged();
     void slotSearchSaved();
 
 private:
-    void initButton(QToolButton* button);
+    void initButton(QToolButton *button);
     void loadSettings();
     void saveSettings();
     void init();
@@ -141,34 +142,34 @@ private:
     /**
      * Sets the searchbox UI with the parameters established by the \a query
      */
-    void updateFromQuery(const DolphinQuery& query);
+    void updateFromQuery(const DolphinQuery &query);
 
     void updateFacetsVisible();
 
     bool isIndexingEnabled() const;
 
 private:
-    QString queryTitle(const QString& text) const;
+    QString queryTitle(const QString &text) const;
 
     bool m_startedSearching;
     bool m_active;
 
-    QVBoxLayout* m_topLayout;
+    QVBoxLayout *m_topLayout;
 
-    QLineEdit* m_searchInput;
-    QAction* m_saveSearchAction;
-    QScrollArea* m_optionsScrollArea;
-    QToolButton* m_fileNameButton;
-    QToolButton* m_contentButton;
-    KSeparator* m_separator;
-    QToolButton* m_fromHereButton;
-    QToolButton* m_everywhereButton;
-    DolphinFacetsWidget* m_facetsWidget;
+    QLineEdit *m_searchInput;
+    QAction *m_saveSearchAction;
+    QScrollArea *m_optionsScrollArea;
+    QToolButton *m_fileNameButton;
+    QToolButton *m_contentButton;
+    KSeparator *m_separator;
+    QToolButton *m_fromHereButton;
+    QToolButton *m_everywhereButton;
+    DolphinFacetsWidget *m_facetsWidget;
 
     QUrl m_searchPath;
     QScopedPointer<KMoreToolsMenuFactory> m_menuFactory;
 
-    QTimer* m_startSearchTimer;
+    QTimer *m_startSearchTimer;
 };
 
 #endif

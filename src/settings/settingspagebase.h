@@ -17,7 +17,7 @@ class SettingsPageBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit SettingsPageBase(QWidget* parent = nullptr);
+    explicit SettingsPageBase(QWidget *parent = nullptr);
     ~SettingsPageBase() override;
 
     /**

@@ -24,16 +24,11 @@
  */
 class DOLPHIN_EXPORT DolphinRemoveAction : public QAction
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
+    enum class ShiftState { Unknown, Pressed, Released };
 
-    enum class ShiftState {
-        Unknown,
-        Pressed,
-        Released
-    };
-
-    DolphinRemoveAction(QObject* parent, KActionCollection* collection);
+    DolphinRemoveAction(QObject *parent, KActionCollection *collection);
 
     /**
      * Updates this action key based on @p shiftState.

@@ -13,65 +13,63 @@
 #include <Baloo/Query>
 #endif
 
-namespace {
+namespace
+{
 #if HAVE_BALOO
-    /** Checks if a given term in the Baloo::Query::searchString() is a special search term
-     * @return: the specific search token of the term, or an empty QString() if none is found
-     */
-    QString searchTermToken(const QString& term)
-    {
-        static const QLatin1String searchTokens[] {
-            QLatin1String("filename:"),
-            QLatin1String("modified>="),
-            QLatin1String("rating>="),
-            QLatin1String("tag:"), QLatin1String("tag=")
-        };
+/** Checks if a given term in the Baloo::Query::searchString() is a special search term
+ * @return: the specific search token of the term, or an empty QString() if none is found
+ */
+QString searchTermToken(const QString &term)
+{
+    static const QLatin1String searchTokens[]{QLatin1String("filename:"),
+                                              QLatin1String("modified>="),
+                                              QLatin1String("rating>="),
+                                              QLatin1String("tag:"),
+                                              QLatin1String("tag=")};
 
-        for (const auto &searchToken : searchTokens) {
-            if (term.startsWith(searchToken)) {
-                return searchToken;
-            }
+    for (const auto &searchToken : searchTokens) {
+        if (term.startsWith(searchToken)) {
+            return searchToken;
         }
-        return QString();
     }
-
-    QString stripQuotes(const QString& text)
-    {
-        if (text.length() >= 2 && text.at(0) == QLatin1Char('"')
-                               && text.back() == QLatin1Char('"')) {
-            return text.mid(1, text.size() - 2);
-        }
-        return text;
-    }
-
-    QStringList splitOutsideQuotes(const QString& text)
-    {
-        // Match groups on 3 possible conditions:
-        //   - Groups with two leading quotes must close both on them (filename:""abc xyz" tuv")
-        //   - Groups enclosed in quotes
-        //   - Words separated by spaces
-        const QRegularExpression subTermsRegExp("(\\S*?\"\"[^\"]+\"[^\"]+\"+|\\S*?\"[^\"]+\"+|(?<=\\s|^)\\S+(?=\\s|$))");
-        auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
-
-        QStringList textParts;
-        while (subTermsMatchIterator.hasNext()) {
-            textParts << subTermsMatchIterator.next().captured(0);
-        }
-        return textParts;
-    }
-#endif
-
-    QString trimChar(const QString& text, const QLatin1Char aChar)
-    {
-        const int start = text.startsWith(aChar) ? 1 : 0;
-        const int end = (text.length() > 1 && text.endsWith(aChar)) ? 1 : 0;
-
-        return text.mid(start, text.length() - start - end);
-    }
+    return QString();
 }
 
+QString stripQuotes(const QString &text)
+{
+    if (text.length() >= 2 && text.at(0) == QLatin1Char('"') && text.back() == QLatin1Char('"')) {
+        return text.mid(1, text.size() - 2);
+    }
+    return text;
+}
 
-DolphinQuery DolphinQuery::fromSearchUrl(const QUrl& searchUrl)
+QStringList splitOutsideQuotes(const QString &text)
+{
+    // Match groups on 3 possible conditions:
+    //   - Groups with two leading quotes must close both on them (filename:""abc xyz" tuv")
+    //   - Groups enclosed in quotes
+    //   - Words separated by spaces
+    const QRegularExpression subTermsRegExp("(\\S*?\"\"[^\"]+\"[^\"]+\"+|\\S*?\"[^\"]+\"+|(?<=\\s|^)\\S+(?=\\s|$))");
+    auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
+
+    QStringList textParts;
+    while (subTermsMatchIterator.hasNext()) {
+        textParts << subTermsMatchIterator.next().captured(0);
+    }
+    return textParts;
+}
+#endif
+
+QString trimChar(const QString &text, const QLatin1Char aChar)
+{
+    const int start = text.startsWith(aChar) ? 1 : 0;
+    const int end = (text.length() > 1 && text.endsWith(aChar)) ? 1 : 0;
+
+    return text.mid(start, text.length() - start - end);
+}
+}
+
+DolphinQuery DolphinQuery::fromSearchUrl(const QUrl &searchUrl)
 {
     DolphinQuery model;
     model.m_searchUrl = searchUrl;
@@ -87,7 +85,7 @@ DolphinQuery DolphinQuery::fromSearchUrl(const QUrl& searchUrl)
     return model;
 }
 
-bool DolphinQuery::supportsScheme(const QString& urlScheme)
+bool DolphinQuery::supportsScheme(const QString &urlScheme)
 {
     static const QStringList supportedSchemes = {
         QStringLiteral("baloosearch"),
@@ -111,7 +109,7 @@ void DolphinQuery::parseBalooQuery()
     QString fileName;
 
     const QStringList subTerms = splitOutsideQuotes(query.searchString());
-    for (const QString& subTerm : subTerms) {
+    for (const QString &subTerm : subTerms) {
         const QString token = searchTermToken(subTerm);
         const QString value = stripQuotes(subTerm.mid(token.length()));
 
@@ -143,7 +141,6 @@ void DolphinQuery::parseBalooQuery()
     m_searchText = textParts.join(QLatin1Char(' '));
 #endif
 }
-
 
 QUrl DolphinQuery::searchUrl() const
 {

@@ -6,8 +6,8 @@
 
 #include "previewssettingspage.h"
 
-#include "dolphin_generalsettings.h"
 #include "configurepreviewplugindialog.h"
+#include "dolphin_generalsettings.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
 
@@ -24,35 +24,35 @@
 #include <QSpinBox>
 
 // default settings
-namespace {
-    const int DefaultMaxLocalPreviewSize = 0; // 0 MB
-    const int DefaultMaxRemotePreviewSize = 0; // 0 MB
+namespace
+{
+const int DefaultMaxLocalPreviewSize = 0; // 0 MB
+const int DefaultMaxRemotePreviewSize = 0; // 0 MB
 }
 
-PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent),
-    m_initialized(false),
-    m_listView(nullptr),
-    m_enabledPreviewPlugins(),
-    m_localFileSizeBox(nullptr),
-    m_remoteFileSizeBox(nullptr)
+PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_initialized(false)
+    , m_listView(nullptr)
+    , m_enabledPreviewPlugins()
+    , m_localFileSizeBox(nullptr)
+    , m_remoteFileSizeBox(nullptr)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
 
-    QLabel* showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews in the view for:"), this);
+    QLabel *showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews in the view for:"), this);
 
     m_listView = new QListView(this);
     QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
 
 #if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
-    ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
-    connect(delegate, &ServiceItemDelegate::requestServiceConfiguration,
-            this, &PreviewsSettingsPage::configureService);
+    ServiceItemDelegate *delegate = new ServiceItemDelegate(m_listView, m_listView);
+    connect(delegate, &ServiceItemDelegate::requestServiceConfiguration, this, &PreviewsSettingsPage::configureService);
     m_listView->setItemDelegate(delegate);
 #endif
 
-    ServiceModel* serviceModel = new ServiceModel(this);
-    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+    ServiceModel *serviceModel = new ServiceModel(this);
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(serviceModel);
     proxyModel->setSortRole(Qt::DisplayRole);
     proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
@@ -61,7 +61,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     m_listView->setUniformItemSizes(true);
 
-    QLabel* localFileSizeLabel = new QLabel(i18n("Skip previews for local files above:"), this);
+    QLabel *localFileSizeLabel = new QLabel(i18n("Skip previews for local files above:"), this);
 
     m_localFileSizeBox = new QSpinBox(this);
     m_localFileSizeBox->setSingleStep(1);
@@ -69,12 +69,12 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_localFileSizeBox->setRange(0, 9999999); /* MB */
     m_localFileSizeBox->setSpecialValueText(i18n("No limit"));
 
-    QHBoxLayout* localFileSizeBoxLayout = new QHBoxLayout();
+    QHBoxLayout *localFileSizeBoxLayout = new QHBoxLayout();
     localFileSizeBoxLayout->addWidget(localFileSizeLabel);
     localFileSizeBoxLayout->addStretch(0);
     localFileSizeBoxLayout->addWidget(m_localFileSizeBox);
 
-    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
+    QLabel *remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
 
     m_remoteFileSizeBox = new QSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
@@ -82,7 +82,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
     m_remoteFileSizeBox->setSpecialValueText(i18n("No previews"));
 
-    QHBoxLayout* remoteFileSizeBoxLayout = new QHBoxLayout();
+    QHBoxLayout *remoteFileSizeBoxLayout = new QHBoxLayout();
     remoteFileSizeBoxLayout->addWidget(remoteFileSizeLabel);
     remoteFileSizeBoxLayout->addStretch(0);
     remoteFileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
@@ -105,7 +105,7 @@ PreviewsSettingsPage::~PreviewsSettingsPage()
 
 void PreviewsSettingsPage::applySettings()
 {
-    const QAbstractItemModel* model = m_listView->model();
+    const QAbstractItemModel *model = m_listView->model();
     const int rowCount = model->rowCount();
     if (rowCount > 0) {
         m_enabledPreviewPlugins.clear();
@@ -126,15 +126,11 @@ void PreviewsSettingsPage::applySettings()
         globalConfig.deleteEntry("MaximumSize", KConfigBase::Normal | KConfigBase::Global);
     } else {
         const qulonglong maximumLocalSize = static_cast<qulonglong>(m_localFileSizeBox->value()) * 1024 * 1024;
-        globalConfig.writeEntry("MaximumSize",
-                                maximumLocalSize,
-                                KConfigBase::Normal | KConfigBase::Global);
+        globalConfig.writeEntry("MaximumSize", maximumLocalSize, KConfigBase::Normal | KConfigBase::Global);
     }
 
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
-    globalConfig.writeEntry("MaximumRemoteSize",
-                            maximumRemoteSize,
-                            KConfigBase::Normal | KConfigBase::Global);
+    globalConfig.writeEntry("MaximumRemoteSize", maximumRemoteSize, KConfigBase::Normal | KConfigBase::Global);
 
     globalConfig.sync();
 }
@@ -145,7 +141,7 @@ void PreviewsSettingsPage::restoreDefaults()
     m_remoteFileSizeBox->setValue(DefaultMaxRemotePreviewSize);
 }
 
-void PreviewsSettingsPage::showEvent(QShowEvent* event)
+void PreviewsSettingsPage::showEvent(QShowEvent *event)
 {
     if (!event->spontaneous() && !m_initialized) {
         loadPreviewPlugins();
@@ -155,13 +151,13 @@ void PreviewsSettingsPage::showEvent(QShowEvent* event)
 }
 
 #if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
-void PreviewsSettingsPage::configureService(const QModelIndex& index)
+void PreviewsSettingsPage::configureService(const QModelIndex &index)
 {
-    const QAbstractItemModel* model = index.model();
+    const QAbstractItemModel *model = index.model();
     const QString pluginName = model->data(index).toString();
     const QString desktopEntryName = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
 
-    ConfigurePreviewPluginDialog* dialog = new ConfigurePreviewPluginDialog(pluginName, desktopEntryName, this);
+    ConfigurePreviewPluginDialog *dialog = new ConfigurePreviewPluginDialog(pluginName, desktopEntryName, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
@@ -169,7 +165,7 @@ void PreviewsSettingsPage::configureService(const QModelIndex& index)
 
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
-    QAbstractItemModel* model = m_listView->model();
+    QAbstractItemModel *model = m_listView->model();
 
     const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
     for (const KPluginMetaData &plugin : plugins) {

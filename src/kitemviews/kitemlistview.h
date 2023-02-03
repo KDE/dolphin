@@ -57,7 +57,7 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
     Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset)
 
 public:
-    explicit KItemListView(QGraphicsWidget* parent = nullptr);
+    explicit KItemListView(QGraphicsWidget *parent = nullptr);
     ~KItemListView() override;
 
     /**
@@ -83,7 +83,7 @@ public:
 
     int maximumVisibleItems() const;
 
-    void setVisibleRoles(const QList<QByteArray>& roles);
+    void setVisibleRoles(const QList<QByteArray> &roles);
     QList<QByteArray> visibleRoles() const;
 
     /**
@@ -106,14 +106,14 @@ public:
      *         initialized by KItemListController::setView() and will
      *         result in calling KItemListController::onControllerChanged().
      */
-    KItemListController* controller() const;
+    KItemListController *controller() const;
 
     /**
      * @return Model of the item-list. The model gets
      *         initialized by KItemListController::setModel() and will
      *         result in calling KItemListController::onModelChanged().
      */
-    KItemModelBase* model() const;
+    KItemModelBase *model() const;
 
     /**
      * Sets the creator that creates a widget showing the
@@ -126,8 +126,8 @@ public:
      * The ownership of the widget creator is transferred to
      * the item-list view.
      **/
-    void setWidgetCreator(KItemListWidgetCreatorBase* widgetCreator);
-    KItemListWidgetCreatorBase* widgetCreator() const;
+    void setWidgetCreator(KItemListWidgetCreatorBase *widgetCreator);
+    KItemListWidgetCreatorBase *widgetCreator() const;
 
     /**
      * Sets the creator that creates a group header. Usually it is sufficient
@@ -139,8 +139,8 @@ public:
      * The ownership of the gropup header creator is transferred to
      * the item-list view.
      **/
-    void setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator);
-    KItemListGroupHeaderCreatorBase* groupHeaderCreator() const;
+    void setGroupHeaderCreator(KItemListGroupHeaderCreatorBase *groupHeaderCreator);
+    KItemListGroupHeaderCreatorBase *groupHeaderCreator() const;
 
     /**
      * @return The basic size of all items. The size of an item may be larger than
@@ -148,9 +148,9 @@ public:
      */
     QSizeF itemSize() const;
 
-    const KItemListStyleOption& styleOption() const;
+    const KItemListStyleOption &styleOption() const;
 
-    void setGeometry(const QRectF& rect) override;
+    void setGeometry(const QRectF &rect) override;
 
     /**
      * @return The page step which should be used by the vertical scroll bar.
@@ -165,10 +165,10 @@ public:
      *         items are considered. std::nullopt is returned if
      *         no item is below the position.
      */
-    std::optional<int> itemAt(const QPointF& pos) const;
-    bool isAboveSelectionToggle(int index, const QPointF& pos) const;
-    bool isAboveExpansionToggle(int index, const QPointF& pos) const;
-    bool isAboveText(int index, const QPointF& pos) const;
+    std::optional<int> itemAt(const QPointF &pos) const;
+    bool isAboveSelectionToggle(int index, const QPointF &pos) const;
+    bool isAboveExpansionToggle(int index, const QPointF &pos) const;
+    bool isAboveText(int index, const QPointF &pos) const;
 
     /**
      * @return Index of the first item that is at least partly visible.
@@ -191,7 +191,7 @@ public:
      * @note the logical height (width) is actually the
      * width (height) if the scroll orientation is Qt::Vertical!
      */
-    void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint) const;
+    void calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -269,20 +269,20 @@ public:
      * @return Header of the list. The header is also available if it is not shown
      *         (see KItemListView::setHeaderShown()).
      */
-    KItemListHeader* header() const;
+    KItemListHeader *header() const;
 
     /**
      * @return Pixmap that is used for a drag operation based on the
      *         items given by \a indexes.
      */
-    virtual QPixmap createDragPixmap(const KItemSet& indexes) const;
+    virtual QPixmap createDragPixmap(const KItemSet &indexes) const;
 
     /**
      * Lets the user edit the role \a role for item with the index \a index.
      */
-    void editRole(int index, const QByteArray& role);
+    void editRole(int index, const QByteArray &role);
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 Q_SIGNALS:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
@@ -308,7 +308,7 @@ Q_SIGNALS:
      * the current sort role. Note that no signal will be emitted if the
      * sort role of the model has been changed without user interaction.
      */
-    void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    void sortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
     /**
      * Is emitted if the user has changed the visible roles by moving a header
@@ -316,10 +316,10 @@ Q_SIGNALS:
      * emitted if the roles have been changed without user interaction by
      * KItemListView::setVisibleRoles().
      */
-    void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
+    void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
 
-    void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
-    void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void roleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
+    void roleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
     /**
      * Emitted once scrolling has finished, or immediately if no scrolling was necessary
@@ -329,8 +329,8 @@ Q_SIGNALS:
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    void setItemSize(const QSizeF& size);
-    void setStyleOption(const KItemListStyleOption& option);
+    void setItemSize(const QSizeF &size);
+    void setStyleOption(const KItemListStyleOption &option);
 
     /**
      * If the scroll-orientation is vertical, the items are ordered
@@ -346,7 +346,7 @@ protected:
      * @return New instance of the widget-creator that should be used per
      *         default.
      */
-    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
+    virtual KItemListWidgetCreatorBase *defaultWidgetCreator() const;
 
     /**
      * Factory method for creating a default group-header-creator. The method will be used
@@ -354,13 +354,13 @@ protected:
      * @return New instance of the group-header-creator that should be used per
      *         default.
      */
-    virtual KItemListGroupHeaderCreatorBase* defaultGroupHeaderCreator() const;
+    virtual KItemListGroupHeaderCreatorBase *defaultGroupHeaderCreator() const;
 
     /**
      * Is called when creating a new KItemListWidget instance and allows derived
      * classes to do a custom initialization.
      */
-    virtual void initializeItemListWidget(KItemListWidget* item);
+    virtual void initializeItemListWidget(KItemListWidget *item);
 
     /**
      * @return True if at least one of the changed roles \p changedRoles might result
@@ -370,52 +370,50 @@ protected:
      *         to return false in case if a role-change will not result in a changed
      *         item-size hint.
      */
-    virtual bool itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const;
+    virtual bool itemSizeHintUpdateRequired(const QSet<QByteArray> &changedRoles) const;
 
-    virtual void onControllerChanged(KItemListController* current, KItemListController* previous);
-    virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);
+    virtual void onControllerChanged(KItemListController *current, KItemListController *previous);
+    virtual void onModelChanged(KItemModelBase *current, KItemModelBase *previous);
 
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
-    virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
+    virtual void onItemSizeChanged(const QSizeF &current, const QSizeF &previous);
     virtual void onScrollOffsetChanged(qreal current, qreal previous);
-    virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
-    virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
+    virtual void onStyleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous);
     virtual void onHighlightEntireRowChanged(bool highlightEntireRow);
     virtual void onSupportsItemExpandingChanged(bool supportsExpanding);
 
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();
 
-    bool event(QEvent* event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-    void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
-    void dragMoveEvent(QGraphicsSceneDragDropEvent* event) override;
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
-    void dropEvent(QGraphicsSceneDragDropEvent* event) override;
+    bool event(QEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
-    QList<KItemListWidget*> visibleItemListWidgets() const;
+    QList<KItemListWidget *> visibleItemListWidgets() const;
 
     virtual void updateFont();
     virtual void updatePalette();
 
 protected Q_SLOTS:
-    virtual void slotItemsInserted(const KItemRangeList& itemRanges);
-    virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
-    virtual void slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
-    virtual void slotItemsChanged(const KItemRangeList& itemRanges,
-                                  const QSet<QByteArray>& roles);
+    virtual void slotItemsInserted(const KItemRangeList &itemRanges);
+    virtual void slotItemsRemoved(const KItemRangeList &itemRanges);
+    virtual void slotItemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes);
+    virtual void slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles);
     virtual void slotGroupsChanged();
 
     virtual void slotGroupedSortingChanged(bool current);
     virtual void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
-    virtual void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous);
     virtual void slotCurrentChanged(int current, int previous);
-    virtual void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
+    virtual void slotSelectionChanged(const KItemSet &current, const KItemSet &previous);
 
 private Q_SLOTS:
-    void slotAnimationFinished(QGraphicsWidget* widget,
-                               KItemListViewAnimation::AnimationType type);
+    void slotAnimationFinished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type);
 
     void slotRubberBandPosChanged();
     void slotRubberBandActivationChanged(bool active);
@@ -426,9 +424,7 @@ private Q_SLOTS:
      * will be turned off as soon as this method has been called at
      * least once.
      */
-    void slotHeaderColumnWidthChanged(const QByteArray& role,
-                                      qreal currentWidth,
-                                      qreal previousWidth);
+    void slotHeaderColumnWidthChanged(const QByteArray &role, qreal currentWidth, qreal previousWidth);
 
     void slotSidePaddingChanged(qreal width);
 
@@ -436,9 +432,7 @@ private Q_SLOTS:
      * Is invoked if a column has been moved by the user. Applies
      * the moved role to the view.
      */
-    void slotHeaderColumnMoved(const QByteArray& role,
-                               int currentIndex,
-                               int previousIndex);
+    void slotHeaderColumnMoved(const QByteArray &role, int currentIndex, int previousIndex);
 
     /**
      * Triggers the autoscrolling if autoScroll() is enabled by checking the
@@ -455,26 +449,18 @@ private Q_SLOTS:
      */
     void slotGeometryOfGroupHeaderParentChanged();
 
-    void slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
-    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void slotRoleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
+    void slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
 private:
-    enum LayoutAnimationHint
-    {
-        NoAnimation,
-        Animation
-    };
+    enum LayoutAnimationHint { NoAnimation, Animation };
 
-    enum SizeType
-    {
-        LayouterSize,
-        ItemSize
-    };
+    enum SizeType { LayouterSize, ItemSize };
 
-    void setController(KItemListController* controller);
-    void setModel(KItemModelBase* model);
+    void setController(KItemListController *controller);
+    void setModel(KItemModelBase *model);
 
-    KItemListRubberBand* rubberBand() const;
+    KItemListRubberBand *rubberBand() const;
 
     void doLayout(LayoutAnimationHint hint, int changedIndex = 0, int changedCount = 0);
 
@@ -485,9 +471,7 @@ private:
      * won't be reused. Reusing items is faster in comparison to deleting invisible
      * items and creating a new instance for visible items.
      */
-    QList<int> recycleInvisibleItems(int firstVisibleIndex,
-                                     int lastVisibleIndex,
-                                     LayoutAnimationHint hint);
+    QList<int> recycleInvisibleItems(int firstVisibleIndex, int lastVisibleIndex, LayoutAnimationHint hint);
 
     /**
      * Helper method for doLayout: Starts a moving-animation for the widget to the given
@@ -495,19 +479,19 @@ private:
      * the same row or column, otherwise the create-animation is used instead.
      * @return True if the moving-animation has been applied.
      */
-    bool moveWidget(KItemListWidget* widget, const QPointF& newPos);
+    bool moveWidget(KItemListWidget *widget, const QPointF &newPos);
 
     void emitOffsetChanges();
 
-    KItemListWidget* createWidget(int index);
-    void recycleWidget(KItemListWidget* widget);
+    KItemListWidget *createWidget(int index);
+    void recycleWidget(KItemListWidget *widget);
 
     /**
      * Changes the index of the widget to \a index and assures a consistent
      * update for m_visibleItems and m_visibleCells. The cell-information
      * for the new index will not be updated and be initialized as empty cell.
      */
-    void setWidgetIndex(KItemListWidget* widget, int index);
+    void setWidgetIndex(KItemListWidget *widget, int index);
 
     /**
      * Changes the index of the widget to \a index. In opposite to
@@ -515,36 +499,36 @@ private:
      * This update gives doLayout() the chance to animate the moving
      * of the item visually (see moveWidget()).
      */
-    void moveWidgetToIndex(KItemListWidget* widget, int index);
+    void moveWidgetToIndex(KItemListWidget *widget, int index);
 
     /**
      * Helper method for prepareLayoutForIncreasedItemCount().
      */
-    void setLayouterSize(const QSizeF& size, SizeType sizeType);
+    void setLayouterSize(const QSizeF &size, SizeType sizeType);
 
     /**
      * Helper method for createWidget() and setWidgetIndex() to update the properties
      * of the itemlist widget.
      */
-    void updateWidgetProperties(KItemListWidget* widget, int index);
+    void updateWidgetProperties(KItemListWidget *widget, int index);
 
     /**
      * Helper method for updateWidgetPropertes() to create or update
      * the itemlist group-header.
      */
-    void updateGroupHeaderForWidget(KItemListWidget* widget);
+    void updateGroupHeaderForWidget(KItemListWidget *widget);
 
     /**
      * Updates the position and size of the group-header that belongs
      * to the itemlist widget \a widget. The given widget must represent
      * the first item of a group.
      */
-    void updateGroupHeaderLayout(KItemListWidget* widget);
+    void updateGroupHeaderLayout(KItemListWidget *widget);
 
     /**
      * Recycles the group-header for the widget.
      */
-    void recycleGroupHeaderForWidget(KItemListWidget* widget);
+    void recycleGroupHeaderForWidget(KItemListWidget *widget);
 
     /**
      * Helper method for slotGroupedSortingChanged(), slotSortOrderChanged()
@@ -570,7 +554,7 @@ private:
      * Updates the alternateBackground-property of the widget dependent
      * on the state of useAlternateBackgrounds() and the grouping state.
      */
-    void updateAlternateBackgroundForWidget(KItemListWidget* widget);
+    void updateAlternateBackgroundForWidget(KItemListWidget *widget);
 
     /**
      * @return True if alternate backgrounds should be used for the items.
@@ -586,7 +570,7 @@ private:
      *                   KItemListView::setItemSize()). Per default an empty hash
      *                   is returned.
      */
-    QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList& itemRanges) const;
+    QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList &itemRanges) const;
 
     /**
      * Applies the column-widths from m_headerWidget to the layout
@@ -597,13 +581,13 @@ private:
     /**
      * Applies the column-widths from m_headerWidget to \a widget.
      */
-    void updateWidgetColumnWidths(KItemListWidget* widget);
+    void updateWidgetColumnWidths(KItemListWidget *widget);
 
     /**
      * Updates the preferred column-widths of m_groupHeaderWidget by
      * invoking KItemListView::columnWidths().
      */
-    void updatePreferredColumnWidths(const KItemRangeList& itemRanges);
+    void updatePreferredColumnWidths(const KItemRangeList &itemRanges);
 
     /**
      * Convenience method for
@@ -633,9 +617,7 @@ private:
      *         the new grid- and item-size. Used to determine whether an animation
      *         should be done when applying the new layout.
      */
-    bool changesItemGridLayout(const QSizeF& newGridSize,
-                               const QSizeF& newItemSize,
-                               const QSizeF& newItemMargin) const;
+    bool changesItemGridLayout(const QSizeF &newGridSize, const QSizeF &newItemSize, const QSizeF &newItemMargin) const;
 
     /**
      * @param changedItemCount Number of inserted  or removed items.
@@ -650,7 +632,7 @@ private:
      *         when using a size of \p size for the view. Calling the method is rather
      *         expansive as a temporary relayout needs to be done.
      */
-    bool scrollBarRequired(const QSizeF& size) const;
+    bool scrollBarRequired(const QSizeF &size) const;
 
     /**
      * Shows a drop-indicator between items dependent on the given
@@ -659,7 +641,7 @@ private:
      * @return Index of the item where the dropping is done. An index of -1
      *         indicates that the item has been dropped after the last item.
      */
-    int showDropIndicator(const QPointF& pos);
+    int showDropIndicator(const QPointF &pos);
     void hideDropIndicator();
 
     /**
@@ -721,28 +703,35 @@ private:
     LayoutAnimationHint m_endTransactionAnimationHint;
 
     QSizeF m_itemSize;
-    KItemListController* m_controller;
-    KItemModelBase* m_model;
+    KItemListController *m_controller;
+    KItemModelBase *m_model;
     QList<QByteArray> m_visibleRoles;
-    mutable KItemListWidgetCreatorBase* m_widgetCreator;
-    mutable KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;
+    mutable KItemListWidgetCreatorBase *m_widgetCreator;
+    mutable KItemListGroupHeaderCreatorBase *m_groupHeaderCreator;
     KItemListStyleOption m_styleOption;
 
-    QHash<int, KItemListWidget*> m_visibleItems;
-    QHash<KItemListWidget*, KItemListGroupHeader*> m_visibleGroups;
+    QHash<int, KItemListWidget *> m_visibleItems;
+    QHash<KItemListWidget *, KItemListGroupHeader *> m_visibleGroups;
 
-    struct Cell
-    {
-        Cell() : column(-1), row(-1) {}
-        Cell(int c, int r) : column(c), row(r) {}
+    struct Cell {
+        Cell()
+            : column(-1)
+            , row(-1)
+        {
+        }
+        Cell(int c, int r)
+            : column(c)
+            , row(r)
+        {
+        }
         int column;
         int row;
     };
     QHash<int, Cell> m_visibleCells;
 
     int m_scrollBarExtent;
-    KItemListViewLayouter* m_layouter;
-    KItemListViewAnimation* m_animation;
+    KItemListViewLayouter *m_layouter;
+    KItemListViewAnimation *m_animation;
 
     qreal m_oldScrollOffset;
     qreal m_oldMaximumScrollOffset;
@@ -750,17 +739,17 @@ private:
     qreal m_oldMaximumItemOffset;
 
     bool m_skipAutoScrollForRubberBand;
-    KItemListRubberBand* m_rubberBand;
-    KItemListRubberBand* m_tapAndHoldIndicator;
+    KItemListRubberBand *m_rubberBand;
+    KItemListRubberBand *m_tapAndHoldIndicator;
 
     QPointF m_mousePos;
     int m_autoScrollIncrement;
-    QTimer* m_autoScrollTimer;
+    QTimer *m_autoScrollTimer;
 
-    KItemListHeader* m_header;
-    KItemListHeaderWidget* m_headerWidget;
+    KItemListHeader *m_header;
+    KItemListHeaderWidget *m_headerWidget;
 
-    QPropertyAnimation* m_indicatorAnimation;
+    QPropertyAnimation *m_indicatorAnimation;
 
     // When dragging items into the view where the sort-role of the model
     // is empty, a visual indicator should be shown during dragging where
@@ -770,12 +759,12 @@ private:
     // by KItemListView::showDropIndicator() and KItemListView::hideDropIndicator().
     QRectF m_dropIndicator;
 
-    QList<QVariantAnimation*> m_rubberBandAnimations;
+    QList<QVariantAnimation *> m_rubberBandAnimations;
 
-    KItemListSizeHintResolver* m_sizeHintResolver;
+    KItemListSizeHintResolver *m_sizeHintResolver;
 
     friend class KItemListContainer; // Accesses scrollBarRequired()
-    friend class KItemListHeader;    // Accesses m_headerWidget
+    friend class KItemListHeader; // Accesses m_headerWidget
     friend class KItemListController;
     friend class KItemListControllerTest;
     friend class KItemListViewAccessible;
@@ -794,13 +783,13 @@ public:
     virtual ~KItemListCreatorBase();
 
 protected:
-    void addCreatedWidget(QGraphicsWidget* widget);
-    void pushRecycleableWidget(QGraphicsWidget* widget);
-    QGraphicsWidget* popRecycleableWidget();
+    void addCreatedWidget(QGraphicsWidget *widget);
+    void pushRecycleableWidget(QGraphicsWidget *widget);
+    QGraphicsWidget *popRecycleableWidget();
 
 private:
-    QSet<QGraphicsWidget*> m_createdWidgets;
-    QList<QGraphicsWidget*> m_recycleableWidgets;
+    QSet<QGraphicsWidget *> m_createdWidgets;
+    QList<QGraphicsWidget *> m_recycleableWidgets;
 };
 
 /**
@@ -817,54 +806,51 @@ class DOLPHIN_EXPORT KItemListWidgetCreatorBase : public KItemListCreatorBase
 public:
     ~KItemListWidgetCreatorBase() override;
 
-    virtual KItemListWidget* create(KItemListView* view) = 0;
+    virtual KItemListWidget *create(KItemListView *view) = 0;
 
-    virtual void recycle(KItemListWidget* widget);
+    virtual void recycle(KItemListWidget *widget);
 
-    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const = 0;
 
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
-                                           int index,
-                                           const KItemListView* view) const = 0;
+    virtual qreal preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const = 0;
 };
 
 /**
  * @brief Template class for creating KItemListWidgets.
  */
-template <class T>
+template<class T>
 class KItemListWidgetCreator : public KItemListWidgetCreatorBase
 {
 public:
     KItemListWidgetCreator();
     ~KItemListWidgetCreator() override;
 
-    KItemListWidget* create(KItemListView* view) override;
+    KItemListWidget *create(KItemListView *view) override;
 
-    void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
+    void calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const override;
 
-    qreal preferredRoleColumnWidth(const QByteArray& role,
-                                           int index,
-                                           const KItemListView* view) const override;
+    qreal preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const override;
+
 private:
-    KItemListWidgetInformant* m_informant;
+    KItemListWidgetInformant *m_informant;
 };
 
-template <class T>
-KItemListWidgetCreator<T>::KItemListWidgetCreator() :
-    m_informant(T::createInformant())
+template<class T>
+KItemListWidgetCreator<T>::KItemListWidgetCreator()
+    : m_informant(T::createInformant())
 {
 }
 
-template <class T>
+template<class T>
 KItemListWidgetCreator<T>::~KItemListWidgetCreator()
 {
     delete m_informant;
 }
 
-template <class T>
-KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
+template<class T>
+KItemListWidget *KItemListWidgetCreator<T>::create(KItemListView *view)
 {
-    KItemListWidget* widget = static_cast<KItemListWidget*>(popRecycleableWidget());
+    KItemListWidget *widget = static_cast<KItemListWidget *>(popRecycleableWidget());
     if (!widget) {
         widget = new T(m_informant, view);
         addCreatedWidget(widget);
@@ -874,15 +860,15 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 }
 
 template<class T>
-void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints,
+                                                       qreal &logicalWidthHint,
+                                                       const KItemListView *view) const
 {
     return m_informant->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, view);
 }
 
 template<class T>
-qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role,
-                                                          int index,
-                                                          const KItemListView* view) const
+qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const
 {
     return m_informant->preferredRoleColumnWidth(role, index, view);
 }
@@ -899,27 +885,27 @@ class DOLPHIN_EXPORT KItemListGroupHeaderCreatorBase : public KItemListCreatorBa
 {
 public:
     ~KItemListGroupHeaderCreatorBase() override;
-    virtual KItemListGroupHeader* create(KItemListView* view) = 0;
-    virtual void recycle(KItemListGroupHeader* header);
+    virtual KItemListGroupHeader *create(KItemListView *view) = 0;
+    virtual void recycle(KItemListGroupHeader *header);
 };
 
-template <class T>
+template<class T>
 class KItemListGroupHeaderCreator : public KItemListGroupHeaderCreatorBase
 {
 public:
     ~KItemListGroupHeaderCreator() override;
-    KItemListGroupHeader* create(KItemListView* view) override;
+    KItemListGroupHeader *create(KItemListView *view) override;
 };
 
-template <class T>
+template<class T>
 KItemListGroupHeaderCreator<T>::~KItemListGroupHeaderCreator()
 {
 }
 
-template <class T>
-KItemListGroupHeader* KItemListGroupHeaderCreator<T>::create(KItemListView* view)
+template<class T>
+KItemListGroupHeader *KItemListGroupHeaderCreator<T>::create(KItemListView *view)
 {
-    KItemListGroupHeader* widget = static_cast<KItemListGroupHeader*>(popRecycleableWidget());
+    KItemListGroupHeader *widget = static_cast<KItemListGroupHeader *>(popRecycleableWidget());
     if (!widget) {
         widget = new T(view);
         addCreatedWidget(widget);

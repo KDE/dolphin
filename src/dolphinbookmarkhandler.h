@@ -35,11 +35,12 @@ private:
     void openFolderinTabs(const KBookmarkGroup &bookmarkGroup) override;
     void openInNewTab(const KBookmark &bookmark) override;
     void openInNewWindow(const KBookmark &bookmark) override;
-    static QString title(DolphinViewContainer* viewContainer);
-    static QUrl url(DolphinViewContainer* viewContainer);
-    static QString icon(DolphinViewContainer* viewContainer);
+    static QString title(DolphinViewContainer *viewContainer);
+    static QUrl url(DolphinViewContainer *viewContainer);
+    static QString icon(DolphinViewContainer *viewContainer);
+
 private:
-    DolphinMainWindow* m_mainWindow;
+    DolphinMainWindow *m_mainWindow;
     KBookmarkManager *m_bookmarkManager;
     QScopedPointer<KBookmarkMenu> m_bookmarkMenu;
 };

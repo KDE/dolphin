@@ -25,13 +25,13 @@ class DOLPHIN_EXPORT DolphinNewFileMenuObserver : public QObject
     Q_OBJECT
 
 public:
-    static DolphinNewFileMenuObserver& instance();
-    void attach(const DolphinNewFileMenu* menu);
-    void detach(const DolphinNewFileMenu* menu);
+    static DolphinNewFileMenuObserver &instance();
+    void attach(const DolphinNewFileMenu *menu);
+    void detach(const DolphinNewFileMenu *menu);
 
 Q_SIGNALS:
-    void itemCreated(const QUrl& url);
-    void errorMessage(const QString& error);
+    void itemCreated(const QUrl &url);
+    void errorMessage(const QString &error);
 
 private:
     DolphinNewFileMenuObserver();

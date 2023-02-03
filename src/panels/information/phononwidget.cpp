@@ -21,37 +21,37 @@ class EmbeddedVideoPlayer : public Phonon::VideoWidget
 {
     Q_OBJECT
 
-    public:
-        EmbeddedVideoPlayer(QWidget *parent = nullptr) :
-            Phonon::VideoWidget(parent)
-        {
-        }
+public:
+    EmbeddedVideoPlayer(QWidget *parent = nullptr)
+        : Phonon::VideoWidget(parent)
+    {
+    }
 
-        void setSizeHint(const QSize& size)
-        {
-            m_sizeHint = size;
-            updateGeometry();
-        }
+    void setSizeHint(const QSize &size)
+    {
+        m_sizeHint = size;
+        updateGeometry();
+    }
 
-        QSize sizeHint() const override
-        {
-            return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoWidget::sizeHint();
-        }
+    QSize sizeHint() const override
+    {
+        return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoWidget::sizeHint();
+    }
 
-    private:
-        QSize m_sizeHint;
+private:
+    QSize m_sizeHint;
 };
 
 PhononWidget::PhononWidget(QWidget *parent)
-    : QWidget(parent),
-    m_url(),
-    m_playButton(nullptr),
-    m_pauseButton(nullptr),
-    m_topLayout(nullptr),
-    m_media(nullptr),
-    m_seekSlider(nullptr),
-    m_audioOutput(nullptr),
-    m_videoPlayer(nullptr)
+    : QWidget(parent)
+    , m_url()
+    , m_playButton(nullptr)
+    , m_pauseButton(nullptr)
+    , m_topLayout(nullptr)
+    , m_media(nullptr)
+    , m_seekSlider(nullptr)
+    , m_audioOutput(nullptr)
+    , m_videoPlayer(nullptr)
 {
 }
 
@@ -99,7 +99,7 @@ bool PhononWidget::eventFilter(QObject *object, QEvent *event)
 {
     Q_UNUSED(object)
     if (event->type() == QEvent::MouseButtonPress) {
-        const QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+        const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         if (mouseEvent->button() == Qt::LeftButton) {
             // toggle playback
             togglePlayback();
@@ -109,7 +109,7 @@ bool PhononWidget::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-void PhononWidget::setVideoSize(const QSize& size)
+void PhononWidget::setVideoSize(const QSize &size)
 {
     if (m_videoSize != size) {
         m_videoSize = size;
@@ -201,10 +201,8 @@ void PhononWidget::play()
 {
     if (!m_media) {
         m_media = new Phonon::MediaObject(this);
-        connect(m_media, &Phonon::MediaObject::stateChanged,
-                this, &PhononWidget::stateChanged);
-        connect(m_media, &Phonon::MediaObject::finished,
-                this, &PhononWidget::finished);
+        connect(m_media, &Phonon::MediaObject::stateChanged, this, &PhononWidget::stateChanged);
+        connect(m_media, &Phonon::MediaObject::finished, this, &PhononWidget::finished);
         m_seekSlider->setMediaObject(m_media);
     }
 

@@ -5,22 +5,21 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include <QMimeData>
 #include <QRandomGenerator>
-#include <QTest>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTest>
 #include <QTimer>
-#include <QMimeData>
 
 #include <KDirLister>
 #include <kio/job.h>
 #include <kio_version.h>
 
-
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
-void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     Q_UNUSED(context)
 
@@ -36,7 +35,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QS
         fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
     default:
-       break;
+        break;
     }
 }
 
@@ -99,8 +98,8 @@ private:
     QStringList itemsInModel() const;
 
 private:
-    KFileItemModel* m_model;
-    TestDir* m_testDir;
+    KFileItemModel *m_model;
+    TestDir *m_testDir;
 };
 
 void KFileItemModelTest::initTestCase()
@@ -283,11 +282,11 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole_data()
     // Index 2 = rating 6
 
     QTest::newRow("Index 0: Rating 3") << 0 << 3 << false << 3 << 4 << 6;
-    QTest::newRow("Index 0: Rating 5") << 0 << 5 << true  << 4 << 5 << 6;
-    QTest::newRow("Index 0: Rating 8") << 0 << 8 << true  << 4 << 6 << 8;
+    QTest::newRow("Index 0: Rating 5") << 0 << 5 << true << 4 << 5 << 6;
+    QTest::newRow("Index 0: Rating 8") << 0 << 8 << true << 4 << 6 << 8;
 
-    QTest::newRow("Index 2: Rating 1") << 2 << 1 << true  << 1 << 2 << 4;
-    QTest::newRow("Index 2: Rating 3") << 2 << 3 << true  << 2 << 3 << 4;
+    QTest::newRow("Index 2: Rating 1") << 2 << 1 << true << 1 << 2 << 4;
+    QTest::newRow("Index 2: Rating 3") << 2 << 3 << true << 2 << 3 << 4;
     QTest::newRow("Index 2: Rating 5") << 2 << 5 << false << 2 << 4 << 5;
 }
 
@@ -365,7 +364,10 @@ void KFileItemModelTest::testChangeSortRole()
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.jpg" << "c.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.jpg"
+                           << "c.txt");
 
     // Simulate that KFileItemModelRolesUpdater determines the mime type.
     // Resorting the files by 'type' will only work immediately if their
@@ -382,10 +384,14 @@ void KFileItemModelTest::testChangeSortRole()
     // The actual order of the files might depend on the translation of the
     // result of KFileItem::mimeComment() in the user's language.
     QStringList version1;
-    version1 << "b.jpg" << "a.txt" << "c.txt";
+    version1 << "b.jpg"
+             << "a.txt"
+             << "c.txt";
 
     QStringList version2;
-    version2 << "a.txt" << "c.txt" << "b.jpg";
+    version2 << "a.txt"
+             << "c.txt"
+             << "b.jpg";
 
     const bool ok1 = (itemsInModel() == version1);
     const bool ok2 = (itemsInModel() == version2);
@@ -407,7 +413,10 @@ void KFileItemModelTest::testResortAfterChangingName()
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt");
 
     // We rename a.txt to d.txt. Even though the size has not changed at all,
     // the model must re-sort the items.
@@ -416,7 +425,10 @@ void KFileItemModelTest::testResortAfterChangingName()
     m_model->setData(0, data);
 
     QVERIFY(itemsMovedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "b.txt"
+                           << "c.txt"
+                           << "d.txt");
 
     // We rename d.txt back to a.txt using the dir lister's refreshItems() signal.
     const KFileItem fileItemD = m_model->fileItem(2);
@@ -428,7 +440,10 @@ void KFileItemModelTest::testResortAfterChangingName()
     m_model->slotRefreshItems({qMakePair(fileItemD, fileItemA)});
 
     QVERIFY(itemsMovedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt");
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
@@ -528,15 +543,16 @@ void KFileItemModelTest::testExpandItems()
     // first three characters.
     QSet<QByteArray> originalModelRoles = m_model->roles();
     QSet<QByteArray> modelRoles = originalModelRoles;
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/a/1", "a/a-1/1"});
 
     // Store the URLs of all folders in a set.
     QSet<QUrl> allFolders;
-    allFolders << QUrl::fromLocalFile(m_testDir->path() + "/a")
-               << QUrl::fromLocalFile(m_testDir->path() + "/a/a")
+    allFolders << QUrl::fromLocalFile(m_testDir->path() + "/a") << QUrl::fromLocalFile(m_testDir->path() + "/a/a")
                << QUrl::fromLocalFile(m_testDir->path() + "/a/a-1");
 
     m_model->loadDirectory(m_testDir->url());
@@ -572,9 +588,8 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(1, true);
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl::fromLocalFile(m_testDir->path() + "/a")
-                                                          << QUrl::fromLocalFile(m_testDir->path() + "/a/a"));
+    QCOMPARE(m_model->count(), 4); // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl::fromLocalFile(m_testDir->path() + "/a") << QUrl::fromLocalFile(m_testDir->path() + "/a/a"));
 
     QCOMPARE(itemsInsertedSpy.count(), 1);
     itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
@@ -587,7 +602,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(3, true);
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QCOMPARE(m_model->count(), 5); // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedDirectories(), allFolders);
 
     QCOMPARE(itemsInsertedSpy.count(), 1);
@@ -616,7 +631,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->loadDirectory(m_testDir->url());
     m_model->restoreExpandedDirectories(allFolders);
     QVERIFY(loadingCompletedSpy.wait());
-    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QCOMPARE(m_model->count(), 5); // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(!m_model->isExpanded(2));
@@ -629,11 +644,11 @@ void KFileItemModelTest::testExpandItems()
     // This is how DolphinView restores the expanded folders when navigating in history.
     m_model->loadDirectory(QUrl::fromLocalFile(m_testDir->path() + "/a/a/"));
     QVERIFY(loadingCompletedSpy.wait());
-    QCOMPARE(m_model->count(), 1);  // 1 item: "1"
+    QCOMPARE(m_model->count(), 1); // 1 item: "1"
     m_model->restoreExpandedDirectories(allFolders);
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(loadingCompletedSpy.wait());
-    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QCOMPARE(m_model->count(), 5); // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedDirectories(), allFolders);
 
     // Remove all expanded items by changing the roles
@@ -664,7 +679,9 @@ void KFileItemModelTest::testExpandParentItems()
     // a2/b2/c2/
     // a2/b2/c2/d2/
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a 1/b1/c1/file.txt", "a2/b2/c2/d2/file.txt"});
@@ -736,7 +753,9 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"1a/2a/3a", "1a/2a/3b", "1a/2b", "1b"});
@@ -759,7 +778,7 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
     const QUrl oldUrl = QUrl::fromLocalFile(m_model->fileItem(0).url().path() + "/2a");
     const QUrl newUrl = QUrl::fromLocalFile(m_model->fileItem(0).url().path() + "/.2a");
 
-    KIO::SimpleJob* job = KIO::rename(oldUrl, newUrl, KIO::HideProgressInfo);
+    KIO::SimpleJob *job = KIO::rename(oldUrl, newUrl, KIO::HideProgressInfo);
     bool ok = job->exec();
     QVERIFY(ok);
     QVERIFY(itemsRemovedSpy.wait());
@@ -770,7 +789,6 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
 
     m_model->setExpanded(0, false);
     QCOMPARE(m_model->count(), 2);
-
 }
 
 void KFileItemModelTest::testRemoveFilteredExpandedItems()
@@ -779,7 +797,9 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
 
     QSet<QByteArray> originalModelRoles = m_model->roles();
     QSet<QByteArray> modelRoles = originalModelRoles;
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"folder/child", "file"});
@@ -793,17 +813,24 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
     QVERIFY(!m_model->isExpandable(1));
     QVERIFY(!m_model->isExpanded(0));
     QVERIFY(!m_model->isExpanded(1));
-    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "folder"
+                           << "file");
 
     // Expand "folder" -> "folder/child" becomes visible.
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "folder" << "child" << "file");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "folder"
+                           << "child"
+                           << "file");
 
     // Add a name filter.
     m_model->setNameFilter("f");
-    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "folder"
+                           << "file");
 
     m_model->setNameFilter("fo");
     QCOMPARE(itemsInModel(), QStringList() << "folder");
@@ -815,7 +842,9 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
 
     // Remove the name filter and verify that "folder/child" does not reappear.
     m_model->setNameFilter(QString());
-    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "folder"
+                           << "file");
 }
 
 void KFileItemModelTest::testSorting()
@@ -884,83 +913,155 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(m_model->sortDirectoriesFirst());
     QVERIFY(!m_model->showHiddenFiles());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "a" << "b" << "d" << "e");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "d"
+                           << "e");
 
     // Sort by Name, ascending, 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c"
+                           << "c-1"
+                           << "c-2"
+                           << "c-3"
+                           << "d"
+                           << "e");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 6));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1);
 
     // Sort by Name, descending
     m_model->setSortDirectoriesFirst(true);
     m_model->setSortOrder(Qt::DescendingOrder);
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "d" << "b" << "a");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "e"
+                           << "d"
+                           << "b"
+                           << "a");
     QCOMPARE(itemsMovedSpy.count(), 2);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 6));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 4 << 5 << 0 << 3 << 1 << 2);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 4 << 5 << 0 << 3 << 1 << 2);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 6 << 5 << 4);
 
     // Sort by Date, descending
     m_model->setSortDirectoriesFirst(true);
     m_model->setSortRole("modificationtime");
     QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "b" << "d" << "a" << "e");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "b"
+                           << "d"
+                           << "a"
+                           << "e");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 5 << 4 << 6);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 5 << 4 << 6);
 
     // Sort by Date, ascending
     m_model->setSortOrder(Qt::AscendingOrder);
     QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "a" << "d" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "e"
+                           << "a"
+                           << "d"
+                           << "b");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 6 << 5 << 4);
 
     // Sort by Date, ascending, 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
     QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "e" << "a" << "c" << "c-1" << "c-2" << "c-3" << "d" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "e"
+                           << "a"
+                           << "c"
+                           << "c-1"
+                           << "c-2"
+                           << "c-3"
+                           << "d"
+                           << "b");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 6));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1);
 
     // Sort by Name, ascending, 'Sort Folders First' disabled
     m_model->setSortRole("text");
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c"
+                           << "c-1"
+                           << "c-2"
+                           << "c-3"
+                           << "d"
+                           << "e");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 8));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 0 << 2 << 3 << 4 << 5 << 6 << 1);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 0 << 2 << 3 << 4 << 5 << 6 << 1);
 
     // Sort by Size, ascending, 'Sort Folders First' disabled
     m_model->setSortRole("size");
     QCOMPARE(m_model->sortRole(), QByteArray("size"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "a" << "b" << "e" << "d");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "e"
+                           << "d");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 8));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 4 << 5 << 0 << 3 << 1 << 2 << 7 << 6);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 4 << 5 << 0 << 3 << 1 << 2 << 7 << 6);
 
     // In 'Sort by Size' mode, folders are always first -> changing 'Sort Folders First' does not resort the model
     m_model->setSortDirectoriesFirst(true);
     QCOMPARE(m_model->sortRole(), QByteArray("size"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "a" << "b" << "e" << "d");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "e"
+                           << "d");
     QCOMPARE(itemsMovedSpy.count(), 0);
 
     // Sort by Size, descending, 'Sort Folders First' enabled
@@ -968,16 +1069,34 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(m_model->sortRole(), QByteArray("size"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QVERIFY(m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "d" << "e" << "b" << "a");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "d"
+                           << "e"
+                           << "b"
+                           << "a");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 6 << 5 << 4);
 
     // 'Show Hidden Files' enabled
     m_model->setShowHiddenFiles(true);
     QVERIFY(m_model->showHiddenFiles());
     QVERIFY(!m_model->sortHiddenLast());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << ".g" << "d" << "e" << "b" << "a" << ".f");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << ".g"
+                           << "d"
+                           << "e"
+                           << "b"
+                           << "a"
+                           << ".f");
     QCOMPARE(itemsMovedSpy.count(), 0);
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>(), KItemRangeList() << KItemRange(4, 1) << KItemRange(8, 1));
@@ -985,34 +1104,73 @@ void KFileItemModelTest::testSorting()
     // 'Sort Hidden Files Last' enabled
     m_model->setSortHiddenLast(true);
     QVERIFY(m_model->sortHiddenLast());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "d" << "e" << "b" << "a" << ".g" << ".f");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "d"
+                           << "e"
+                           << "b"
+                           << "a"
+                           << ".g"
+                           << ".f");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsInsertedSpy.count(), 0);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 5));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 8 << 4 << 5 << 6 << 7);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 8 << 4 << 5 << 6 << 7);
 
     // Sort by Name
     m_model->setSortRole("text");
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "d" << "b" << "a" << ".g" << ".f");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "e"
+                           << "d"
+                           << "b"
+                           << "a"
+                           << ".g"
+                           << ".f");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 2));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 5 << 4);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 5 << 4);
 
     // Sort ascending
     m_model->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "a" << "b" << "d" << "e" << ".g" << ".f");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "d"
+                           << "e"
+                           << ".g"
+                           << ".f");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 7 << 6 << 5 << 4);
 
     // 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
     QVERIFY(!m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e" << ".f" << ".g");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c"
+                           << "c-1"
+                           << "c-2"
+                           << "c-3"
+                           << "d"
+                           << "e"
+                           << ".f"
+                           << ".g");
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 10));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1 << 6 << 7 << 9 << 8);
-
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1 << 6 << 7 << 9 << 8);
 }
 
 void KFileItemModelTest::testIndexForKeyboardSearch()
@@ -1129,7 +1287,9 @@ void KFileItemModelTest::testRefreshExpandedItem()
     QVERIFY(itemsChangedSpy.isValid());
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/1", "a/2", "3", "4"});
@@ -1160,7 +1320,9 @@ void KFileItemModelTest::testAddItemToFilteredExpandedFolder()
     QSignalSpy fileItemsChangedSpy(m_model, &KFileItemModel::fileItemsChanged);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a/b/file");
@@ -1171,7 +1333,7 @@ void KFileItemModelTest::testAddItemToFilteredExpandedFolder()
 
     // Expand "a/".
     m_model->setExpanded(0, true);
-    QVERIFY(itemsInsertedSpy.wait());   
+    QVERIFY(itemsInsertedSpy.wait());
 
     // Expand "a/b/".
     m_model->setExpanded(1, true);
@@ -1190,7 +1352,10 @@ void KFileItemModelTest::testAddItemToFilteredExpandedFolder()
 
     // Entire parental chain should now be shown
     QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/b/newItem.txt"
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "newItem.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "newItem.txt");
 
     // Items should be indented in hierarchy
     QCOMPARE(m_model->expandedParentsCount(0), 0);
@@ -1206,9 +1371,11 @@ void KFileItemModelTest::testDeleteItemsWithExpandedFolderWithFilter()
 {
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
-    
+
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a/b/file");
@@ -1219,7 +1386,7 @@ void KFileItemModelTest::testDeleteItemsWithExpandedFolderWithFilter()
 
     // Expand "a/".
     m_model->setExpanded(0, true);
-    QVERIFY(itemsInsertedSpy.wait());   
+    QVERIFY(itemsInsertedSpy.wait());
 
     // Expand "a/b/".
     m_model->setExpanded(1, true);
@@ -1263,7 +1430,10 @@ void KFileItemModelTest::testRefreshItemsWithFilter()
     // Set a filter that matches ".txt" extension
     m_model->setNameFilter("*.txt");
     QCOMPARE(m_model->count(), 3); // Still all items are shown
-    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "b.txt"
+                           << "c.txt"
+                           << "d.txt");
 
     // Objects used to rename
     const KFileItem fileItemC_txt = m_model->fileItem(1);
@@ -1293,22 +1463,28 @@ void KFileItemModelTest::testRefreshItemsWithFilter()
     QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 1));
 
     // Re-sorting is done asynchronously:
-    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "a.txt"); // Files should still be in the incorrect order
+    QCOMPARE(itemsInModel(),
+             QStringList() << "b.txt"
+                           << "a.txt"); // Files should still be in the incorrect order
     QVERIFY(itemsMovedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt"); // Files were re-sorted and should now be in the correct order
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"); // Files were re-sorted and should now be in the correct order
 }
-
 
 /**
  * Verifies that parental chains are hidden and shown as needed while their children get filtered/unfiltered due to renaming.
  * Also verifies that the "isExpanded" and "expandedParentsCount" values are kept for expanded folders that get refreshed.
  */
-void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
+void KFileItemModelTest::testRefreshExpandedFolderWithFilter()
+{
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a/b/someFolder/someFile");
@@ -1320,7 +1496,7 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
 
     // Expand "a/".
     m_model->setExpanded(0, true);
-    QVERIFY(itemsInsertedSpy.wait());   
+    QVERIFY(itemsInsertedSpy.wait());
 
     // Expand "a/b/".
     m_model->setExpanded(1, true);
@@ -1338,7 +1514,7 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
     // Objects used to rename
     const KFileItem fileItemA = m_model->fileItem(0);
     KFileItem fileItemARenamed = fileItemA;
-    fileItemARenamed.setUrl(QUrl("a_renamed"));    
+    fileItemARenamed.setUrl(QUrl("a_renamed"));
 
     const KFileItem fileItemSomeFolder = m_model->fileItem(2);
     KFileItem fileItemRenamedFolder = fileItemSomeFolder;
@@ -1348,7 +1524,10 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
     // This way we test if the algorithm is sane as to NOT hide "a_renamed" since it will have visible children
     m_model->slotRefreshItems({qMakePair(fileItemA, fileItemARenamed)});
     QCOMPARE(m_model->count(), 3); // Entire parental chain must still be shown
-    QCOMPARE(itemsInModel(), QStringList() << "a_renamed" << "b" << "someFolder");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a_renamed"
+                           << "b"
+                           << "someFolder");
 
     // Rename "a_renamed" back to "a"; and "someFolder" to "renamedFolder"
     m_model->slotRefreshItems({qMakePair(fileItemARenamed, fileItemA), qMakePair(fileItemSomeFolder, fileItemRenamedFolder)});
@@ -1357,7 +1536,10 @@ void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
     // Rename "renamedFolder" back to "someFolder". Filter is passing again
     m_model->slotRefreshItems({qMakePair(fileItemRenamedFolder, fileItemSomeFolder)});
     QCOMPARE(m_model->count(), 3); // Entire parental chain is shown again
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "someFolder");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "someFolder");
 
     // slotRefreshItems() should preserve "isExpanded" and "expandedParentsCount" values explicitly in this case
     QCOMPARE(m_model->m_itemData.at(2)->values.value("isExpanded").toBool(), true);
@@ -1382,21 +1564,41 @@ void KFileItemModelTest::testRemoveHiddenItems()
     m_model->setShowHiddenFiles(true);
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << ".b"
+                           << "c"
+                           << "d"
+                           << ".f"
+                           << ".g"
+                           << "h"
+                           << "i");
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsRemovedSpy.count(), 0);
     KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
     QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 8));
 
     m_model->setShowHiddenFiles(false);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "h" << "i");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "d"
+                           << "h"
+                           << "i");
     QCOMPARE(itemsInsertedSpy.count(), 0);
     QCOMPARE(itemsRemovedSpy.count(), 1);
     itemRangeList = itemsRemovedSpy.takeFirst().at(0).value<KItemRangeList>();
     QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 2) << KItemRange(4, 2));
 
     m_model->setShowHiddenFiles(true);
-    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << ".b"
+                           << "c"
+                           << "d"
+                           << ".f"
+                           << ".g"
+                           << "h"
+                           << "i");
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsRemovedSpy.count(), 0);
     itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
@@ -1423,7 +1625,9 @@ void KFileItemModelTest::collapseParentOfHiddenItems()
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/1", "a/b/1", "a/b/c/1", "a/b/c/d/1"});
@@ -1480,7 +1684,9 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/1", "a/b/1", "a/b/c/1", "a/b/c/d/1"});
@@ -1514,7 +1720,10 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     m_model->setNameFilter("c");
     QCOMPARE(itemsRemovedSpy.count(), 1); // nothing was removed, itemsRemovedSpy count will remain the same:
     QCOMPARE(m_model->count(), 3);
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c");
 
     // Simulate the deletion of the directory "a/b/".
     m_model->slotItemsDeleted(KFileItemList() << m_model->fileItem(1));
@@ -1524,7 +1733,9 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     // Remove the filter -> only the file "a/1" should appear.
     m_model->setNameFilter(QString());
     QCOMPARE(m_model->count(), 2);
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "1");
 }
 
 /**
@@ -1538,31 +1749,53 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
     QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"parent1/realChild1/realGrandChild1", "parent2/realChild2/realGrandChild2"});
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "parent2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "parent2");
 
     // Expand all folders.
     m_model->setExpanded(0, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "parent2");
 
     m_model->setExpanded(1, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "realGrandChild1"
+                           << "parent2");
 
     m_model->setExpanded(3, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2" << "realChild2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "realGrandChild1"
+                           << "parent2"
+                           << "realChild2");
 
     m_model->setExpanded(4, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2" << "realChild2" << "realGrandChild2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "realGrandChild1"
+                           << "parent2"
+                           << "realChild2"
+                           << "realGrandChild2");
 
     // Add some more children and grand-children.
     const QUrl parent1 = m_model->fileItem(0).url();
@@ -1572,19 +1805,53 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
 
     m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(QUrl("child1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "realGrandChild1"
+                           << "child1"
+                           << "parent2"
+                           << "realChild2"
+                           << "realGrandChild2");
 
     m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(QUrl("child2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "realGrandChild1"
+                           << "child1"
+                           << "parent2"
+                           << "realChild2"
+                           << "realGrandChild2"
+                           << "child2");
 
     m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(QUrl("grandChild1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "grandChild1"
+                           << "realGrandChild1"
+                           << "child1"
+                           << "parent2"
+                           << "realChild2"
+                           << "realGrandChild2"
+                           << "child2");
 
     m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(QUrl("grandChild2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "grandChild2" << "realGrandChild2" << "child2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "grandChild1"
+                           << "realGrandChild1"
+                           << "child1"
+                           << "parent2"
+                           << "realChild2"
+                           << "grandChild2"
+                           << "realGrandChild2"
+                           << "child2");
 
     // Set a name filter that matches nothing -> nothing will remain.
     m_model->setNameFilter("xyz");
@@ -1596,12 +1863,19 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
 
     // Set a name filter that matches only "realChild". Their prarents should still show.
     m_model->setNameFilter("realChild");
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2" << "realChild2");
-    QCOMPARE(itemsRemovedSpy.count(), 0);  // nothing was removed, itemsRemovedSpy will not be called this time
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "realChild1"
+                           << "parent2"
+                           << "realChild2");
+    QCOMPARE(itemsRemovedSpy.count(), 0); // nothing was removed, itemsRemovedSpy will not be called this time
 
     // Collapse "parent1".
     m_model->setExpanded(0, false);
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "parent2" << "realChild2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "parent1"
+                           << "parent2"
+                           << "realChild2");
     QCOMPARE(itemsRemovedSpy.count(), 1);
     arguments = itemsRemovedSpy.takeFirst();
     itemRangeList = arguments.at(0).value<KItemRangeList>();
@@ -1633,9 +1907,13 @@ void KFileItemModelTest::testNameRoleGroups()
     m_model->setGroupedSorting(true);
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt" << "e.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "b.txt"
+                           << "c.txt"
+                           << "d.txt"
+                           << "e.txt");
 
-    QList<QPair<int, QVariant> > expectedGroups;
+    QList<QPair<int, QVariant>> expectedGroups;
     expectedGroups << QPair<int, QVariant>(0, QLatin1String("B"));
     expectedGroups << QPair<int, QVariant>(1, QLatin1String("C"));
     expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
@@ -1647,7 +1925,11 @@ void KFileItemModelTest::testNameRoleGroups()
     data.insert("text", "a.txt");
     m_model->setData(2, data);
     QVERIFY(itemsMovedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "e.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt"
+                           << "e.txt");
 
     expectedGroups.clear();
     expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
@@ -1660,7 +1942,11 @@ void KFileItemModelTest::testNameRoleGroups()
     data.insert("text", "d.txt");
     m_model->setData(2, data);
     QVERIFY(groupsChangedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.txt" << "e.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "d.txt"
+                           << "e.txt");
 
     expectedGroups.clear();
     expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
@@ -1678,7 +1964,11 @@ void KFileItemModelTest::testNameRoleGroups()
 
     m_model->slotRefreshItems({qMakePair(fileItemD, fileItemC)});
     QVERIFY(groupsChangedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "e.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt"
+                           << "e.txt");
 
     expectedGroups.clear();
     expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
@@ -1693,7 +1983,9 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/b.txt", "a/c.txt", "d/e.txt", "d/f.txt"});
@@ -1701,9 +1993,11 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
     m_model->setGroupedSorting(true);
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "d");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "d");
 
-    QList<QPair<int, QVariant> > expectedGroups;
+    QList<QPair<int, QVariant>> expectedGroups;
     expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
     expectedGroups << QPair<int, QVariant>(1, QLatin1String("D"));
     QCOMPARE(m_model->groups(), expectedGroups);
@@ -1716,13 +2010,23 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b.txt" << "c.txt" << "d");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b.txt"
+                           << "c.txt"
+                           << "d");
     QCOMPARE(m_model->groups(), expectedGroups);
 
     m_model->setExpanded(3, true);
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b.txt" << "c.txt" << "d" << "e.txt" << "f.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b.txt"
+                           << "c.txt"
+                           << "d"
+                           << "e.txt"
+                           << "f.txt");
     QCOMPARE(m_model->groups(), expectedGroups);
 }
 
@@ -1731,7 +2035,9 @@ void KFileItemModelTest::testInconsistentModel()
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFiles({"a/b/c1.txt", "a/b/c2.txt"});
@@ -1744,12 +2050,18 @@ void KFileItemModelTest::testInconsistentModel()
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b");
 
     m_model->setExpanded(1, true);
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c1.txt" << "c2.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c1.txt"
+                           << "c2.txt");
 
     // Add the files "c1.txt" and "c2.txt" to the model also as top-level items.
     // Such a thing can in principle happen when performing a search, and there
@@ -1767,19 +2079,29 @@ void KFileItemModelTest::testInconsistentModel()
     items << newItem << m_model->fileItem(2) << m_model->fileItem(3);
     m_model->slotItemsAdded(m_model->directory(), items);
     m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c1.txt" << "c2.txt" << "a2" << "c1.txt" << "c2.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "b"
+                           << "c1.txt"
+                           << "c2.txt"
+                           << "a2"
+                           << "c1.txt"
+                           << "c2.txt");
 
     m_model->setExpanded(0, false);
 
     // Test that the right items have been removed, see
     // https://bugs.kde.org/show_bug.cgi?id=324371
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "a2" << "c1.txt" << "c2.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "a2"
+                           << "c1.txt"
+                           << "c2.txt");
 
     // Test that resorting does not cause a crash, see
     // https://bugs.kde.org/show_bug.cgi?id=325359
     // The crash is not 100% reproducible, but Valgrind will report an invalid memory access.
     m_model->resortAllItems();
-
 }
 
 void KFileItemModelTest::testChangeRolesForFilteredItems()
@@ -1794,7 +2116,10 @@ void KFileItemModelTest::testChangeRolesForFilteredItems()
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "aa.txt" << "aaa.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "aa.txt"
+                           << "aaa.txt");
 
     for (int index = 0; index < m_model->count(); ++index) {
         // All items should have the "text" and "owner" roles, but not "group".
@@ -1813,7 +2138,9 @@ void KFileItemModelTest::testChangeRolesForFilteredItems()
 
     // Modify the filter, such that "aa.txt" reappears, and verify that all items have the expected roles.
     m_model->setNameFilter("aa");
-    QCOMPARE(itemsInModel(), QStringList() << "aa.txt" << "aaa.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "aa.txt"
+                           << "aaa.txt");
 
     for (int index = 0; index < m_model->count(); ++index) {
         // All items should have the "text", "owner", and "group" roles.
@@ -1828,7 +2155,10 @@ void KFileItemModelTest::testChangeRolesForFilteredItems()
 
     // Clear the filter, and verify that all items have the expected roles
     m_model->setNameFilter(QString());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "aa.txt" << "aaa.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "aa.txt"
+                           << "aaa.txt");
 
     for (int index = 0; index < m_model->count(); ++index) {
         // All items should have the "text" and "group" roles, but now "owner".
@@ -1854,7 +2184,7 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
     entry[2].fastInsert(KIO::UDSEntry::UDS_USER, "user-a");
 
     for (int i = 0; i < 3; ++i) {
-        entry[i].fastInsert(KIO::UDSEntry::UDS_FILE_TYPE, 0100000);    // S_IFREG might not be defined on non-Unix platforms.
+        entry[i].fastInsert(KIO::UDSEntry::UDS_FILE_TYPE, 0100000); // S_IFREG might not be defined on non-Unix platforms.
         entry[i].fastInsert(KIO::UDSEntry::UDS_ACCESS, 07777);
         entry[i].fastInsert(KIO::UDSEntry::UDS_SIZE, 0);
         entry[i].fastInsert(KIO::UDSEntry::UDS_MODIFICATION_TIME, 0);
@@ -1866,7 +2196,10 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
     m_model->slotItemsAdded(m_testDir->url(), items);
     m_model->slotCompleted();
 
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt");
 
     // Add a filter.
     m_model->setNameFilter("a");
@@ -1877,7 +2210,10 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
 
     // Clear the filter, and verify that the items are sorted correctly.
     m_model->setNameFilter(QString());
-    QCOMPARE(itemsInModel(), QStringList() << "c.txt" << "a.txt" << "b.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c.txt"
+                           << "a.txt"
+                           << "b.txt");
 }
 
 void KFileItemModelTest::testRefreshFilteredItems()
@@ -1888,13 +2224,19 @@ void KFileItemModelTest::testRefreshFilteredItems()
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.jpg" << "d.jpg");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.jpg"
+                           << "d.jpg");
 
     const KFileItem fileItemC = m_model->fileItem(2);
 
     // Show only the .txt files.
     m_model->setNameFilter(".txt");
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt");
 
     // Rename one of the .jpg files.
     KFileItem fileItemE = fileItemC;
@@ -1906,7 +2248,11 @@ void KFileItemModelTest::testRefreshFilteredItems()
 
     // Show all files again, and verify that the model has updated the file name.
     m_model->setNameFilter(QString());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.jpg" << "e.jpg");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "d.jpg"
+                           << "e.jpg");
 }
 
 void KFileItemModelTest::testCreateMimeData()
@@ -1914,7 +2260,9 @@ void KFileItemModelTest::testCreateMimeData()
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a/1");
@@ -1926,13 +2274,15 @@ void KFileItemModelTest::testCreateMimeData()
     // Expand "a/".
     m_model->setExpanded(0, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a"
+                           << "1");
 
     // Verify that creating the MIME data for a child of an expanded folder does
     // not cause a crash, see https://bugs.kde.org/show_bug.cgi?id=329119
     KItemSet selection;
     selection.insert(1);
-    QMimeData* mimeData = m_model->createMimeData(selection);
+    QMimeData *mimeData = m_model->createMimeData(selection);
     delete mimeData;
 }
 
@@ -1941,7 +2291,9 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a2/b/c1.txt");
@@ -1954,13 +2306,18 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a2"
+                           << "b");
 
     // Expand "a2/b/".
     m_model->setExpanded(1, true);
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b" << "c1.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a2"
+                           << "b"
+                           << "c1.txt");
 
     // Simulate that a new item "c2.txt" appears, but that the dir lister's completed()
     // signal is not emitted yet.
@@ -1973,7 +2330,10 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
 
     const QUrl urlB = m_model->fileItem(1).url();
     m_model->slotItemsAdded(urlB, KFileItemList() << fileItemC2);
-    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b" << "c1.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a2"
+                           << "b"
+                           << "c1.txt");
 
     // Collapse "a2/". This should also remove all its (indirect) children from
     // the model and from the model's m_pendingItemsToInsert member.
@@ -1992,7 +2352,9 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     m_model->setExpanded(0, true);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a2"
+                           << "b");
 
     // Now simulate that a new folder "a1/" is appears, but that the dir lister's
     // completed() signal is not emitted yet.
@@ -2003,13 +2365,17 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     fileItemA1.setUrl(urlA1);
 
     m_model->slotItemsAdded(m_model->directory(), KFileItemList() << fileItemA1);
-    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a2"
+                           << "b");
 
     // Collapse "a2/". Note that this will cause "a1/" to be added to the model,
     // i.e., the index of "a2/" will change from 0 to 1. Check that this does not
     // confuse the code which collapses the folder.
     m_model->setExpanded(0, false);
-    QCOMPARE(itemsInModel(), QStringList() << "a1" << "a2");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a1"
+                           << "a2");
     QVERIFY(!m_model->isExpanded(0));
     QVERIFY(!m_model->isExpanded(1));
 }
@@ -2022,7 +2388,11 @@ void KFileItemModelTest::testDeleteFileMoreThanOnce()
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "d.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "b.txt"
+                           << "c.txt"
+                           << "d.txt");
 
     const KFileItem fileItemB = m_model->fileItem(1);
 
@@ -2032,7 +2402,10 @@ void KFileItemModelTest::testDeleteFileMoreThanOnce()
     m_model->slotItemsDeleted(list);
 
     QVERIFY(m_model->isConsistent());
-    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "c.txt" << "d.txt");
+    QCOMPARE(itemsInModel(),
+             QStringList() << "a.txt"
+                           << "c.txt"
+                           << "d.txt");
 }
 
 void KFileItemModelTest::testInsertAfterExpand()
@@ -2049,7 +2422,9 @@ void KFileItemModelTest::testInsertAfterExpand()
     // Test expanding subfolders in a folder with the items "a/", "a/a/"
     QSet<QByteArray> originalModelRoles = m_model->roles();
     QSet<QByteArray> modelRoles = originalModelRoles;
-    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    modelRoles << "isExpanded"
+               << "isExpandable"
+               << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     m_testDir->createFile("a/b/1");
@@ -2068,7 +2443,6 @@ void KFileItemModelTest::testInsertAfterExpand()
         KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
         QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 1)); // 1 new item "a/" with index 0
         QCOMPARE(m_model->expandedParentsCount(0), 0);
-
     }
     itemsInsertedSpy.clear();
 
@@ -2084,15 +2458,13 @@ void KFileItemModelTest::testInsertAfterExpand()
         KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
         QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 1)); // 1 new item "a/b" with index 1
         QCOMPARE(m_model->expandedParentsCount(1), 1);
-
     }
     itemsInsertedSpy.clear();
 
     // Expand "a/b" -> "a/b/1" becomes visible
     m_model->setExpanded(1, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(m_model->expandedDirectories(), QSet({QUrl::fromLocalFile(m_testDir->path() + "/a"),
-        QUrl::fromLocalFile(m_testDir->path() + "/a/b")}));
+    QCOMPARE(m_model->expandedDirectories(), QSet({QUrl::fromLocalFile(m_testDir->path() + "/a"), QUrl::fromLocalFile(m_testDir->path() + "/a/b")}));
 
     QCOMPARE(itemsInsertedSpy.count(), 1);
     {
@@ -2107,22 +2479,22 @@ void KFileItemModelTest::testInsertAfterExpand()
 
     // Insert additional files into "a/b/"
     m_testDir->createFile("a/b/2");
-    #if KIO_VERSION < QT_VERSION_CHECK(5, 92, 0)
-        QEXPECT_FAIL("", "Requires new API from frameworks", Abort);
-    #endif
+#if KIO_VERSION < QT_VERSION_CHECK(5, 92, 0)
+    QEXPECT_FAIL("", "Requires new API from frameworks", Abort);
+#endif
 
     QVERIFY(!itemsInsertedSpy.wait(5000));
 
     QCOMPARE(itemsInModel(), {"a"});
 
-    m_model->setExpanded(0, true);;
+    m_model->setExpanded(0, true);
+    ;
     QTRY_COMPARE(itemsInModel(), QStringList({"a", "b", "1", "2"}));
 
     QCOMPARE(m_model->expandedParentsCount(0), 0); // a
     QCOMPARE(m_model->expandedParentsCount(1), 1); // a/b
     QCOMPARE(m_model->expandedParentsCount(2), 2); // a/b/1
-    QCOMPARE(m_model->expandedParentsCount(3), 2) ;// a/b/2
-
+    QCOMPARE(m_model->expandedParentsCount(3), 2); // a/b/2
 }
 
 void KFileItemModelTest::testCurrentDirRemoved()

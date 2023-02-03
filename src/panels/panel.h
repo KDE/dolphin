@@ -22,7 +22,7 @@ class Panel : public QWidget
     Q_OBJECT
 
 public:
-    explicit Panel(QWidget* parent = nullptr);
+    explicit Panel(QWidget *parent = nullptr);
     ~Panel() override;
 
     /** Returns the current set URL of the active Dolphin view. */
@@ -33,8 +33,8 @@ public:
      * context menu actions. Allows an application to apply custom actions to
      * the panel.
      */
-    void setCustomContextMenuActions(const QList<QAction*>& actions);
-    QList<QAction*> customContextMenuActions() const;
+    void setCustomContextMenuActions(const QList<QAction *> &actions);
+    QList<QAction *> customContextMenuActions() const;
 
     QSize sizeHint() const override;
 
@@ -62,7 +62,7 @@ protected:
 
 private:
     QUrl m_url;
-    QList<QAction*> m_customContextMenuActions;
+    QList<QAction *> m_customContextMenuActions;
 };
 
 #endif // PANEL_H

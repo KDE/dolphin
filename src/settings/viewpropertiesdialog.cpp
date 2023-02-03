@@ -21,7 +21,7 @@
 #include <kwidgetsaddons_version.h>
 
 #if HAVE_BALOO
-    #include <Baloo/IndexerConfig>
+#include <Baloo/IndexerConfig>
 #endif
 
 #include <QButtonGroup>
@@ -36,30 +36,30 @@
 
 #include <views/viewproperties.h>
 
-ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
-    QDialog(dolphinView),
-    m_isDirty(false),
-    m_dolphinView(dolphinView),
-    m_viewProps(nullptr),
-    m_viewMode(nullptr),
-    m_sortOrder(nullptr),
-    m_sorting(nullptr),
-    m_sortFoldersFirst(nullptr),
-    m_sortHiddenLast(nullptr),
-    m_previewsShown(nullptr),
-    m_showInGroups(nullptr),
-    m_showHiddenFiles(nullptr),
-    m_applyToCurrentFolder(nullptr),
-    m_applyToSubFolders(nullptr),
-    m_applyToAllFolders(nullptr),
-    m_useAsDefault(nullptr)
+ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
+    : QDialog(dolphinView)
+    , m_isDirty(false)
+    , m_dolphinView(dolphinView)
+    , m_viewProps(nullptr)
+    , m_viewMode(nullptr)
+    , m_sortOrder(nullptr)
+    , m_sorting(nullptr)
+    , m_sortFoldersFirst(nullptr)
+    , m_sortHiddenLast(nullptr)
+    , m_previewsShown(nullptr)
+    , m_showInGroups(nullptr)
+    , m_showHiddenFiles(nullptr)
+    , m_applyToCurrentFolder(nullptr)
+    , m_applyToSubFolders(nullptr)
+    , m_applyToAllFolders(nullptr)
+    , m_useAsDefault(nullptr)
 {
     Q_ASSERT(dolphinView);
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
     setWindowTitle(i18nc("@title:window", "View Display Style"));
 
-    const QUrl& url = dolphinView->url();
+    const QUrl &url = dolphinView->url();
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 
@@ -79,7 +79,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     m_sorting = new QComboBox();
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    for (const KFileItemModel::RoleInfo& info : rolesInfo) {
+    for (const KFileItemModel::RoleInfo &info : rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
     }
 
@@ -118,24 +118,23 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         connect(m_listWidget, &QListWidget::itemChanged, this, &ViewPropertiesDialog::slotItemChanged);
         m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
         const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-        for (const KFileItemModel::RoleInfo& info : rolesInfo) {
-            QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
+        for (const KFileItemModel::RoleInfo &info : rolesInfo) {
+            QListWidgetItem *item = new QListWidgetItem(info.translation, m_listWidget);
             item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
-            const bool enable = ((!info.requiresBaloo && !info.requiresIndexer) ||
-                                (info.requiresBaloo) ||
-                                (info.requiresIndexer && indexingEnabled)) && info.role != "text";
+            const bool enable =
+                ((!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled)) && info.role != "text";
 
             if (!enable) {
                 item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
             }
         }
-        QLabel* additionalViewOptionsLabel = new QLabel(i18n("Choose what to see on each file or folder:"));
+        QLabel *additionalViewOptionsLabel = new QLabel(i18n("Choose what to see on each file or folder:"));
         innerLayout->addWidget(additionalViewOptionsLabel);
         innerLayout->addWidget(m_listWidget);
     }
 
-    QHBoxLayout* sortingLayout = new QHBoxLayout();
+    QHBoxLayout *sortingLayout = new QHBoxLayout();
     sortingLayout->setContentsMargins(0, 0, 0, 0);
     sortingLayout->addWidget(m_sortOrder);
     sortingLayout->addWidget(m_sorting);
@@ -151,36 +150,25 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     layout->addRow(QString(), m_showHiddenFiles);
     layout->addRow(QString(), m_sortHiddenLast);
 
-    connect(m_viewMode, &QComboBox::currentIndexChanged,
-            this, &ViewPropertiesDialog::slotViewModeChanged);
-    connect(m_sorting, &QComboBox::currentIndexChanged,
-            this, &ViewPropertiesDialog::slotSortingChanged);
-    connect(m_sortOrder, &QComboBox::currentIndexChanged,
-            this, &ViewPropertiesDialog::slotSortOrderChanged);
-    connect(m_sortFoldersFirst, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
-    connect(m_sortHiddenLast, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotSortHiddenLastChanged);
-    connect(m_previewsShown, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotShowPreviewChanged);
-    connect(m_showInGroups, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotGroupedSortingChanged);
-    connect(m_showHiddenFiles, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotShowHiddenFilesChanged);
+    connect(m_viewMode, &QComboBox::currentIndexChanged, this, &ViewPropertiesDialog::slotViewModeChanged);
+    connect(m_sorting, &QComboBox::currentIndexChanged, this, &ViewPropertiesDialog::slotSortingChanged);
+    connect(m_sortOrder, &QComboBox::currentIndexChanged, this, &ViewPropertiesDialog::slotSortOrderChanged);
+    connect(m_sortFoldersFirst, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
+    connect(m_sortHiddenLast, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotSortHiddenLastChanged);
+    connect(m_previewsShown, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotShowPreviewChanged);
+    connect(m_showInGroups, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotGroupedSortingChanged);
+    connect(m_showHiddenFiles, &QCheckBox::clicked, this, &ViewPropertiesDialog::slotShowHiddenFilesChanged);
 
     // Only show the following settings if the view properties are remembered
     // for each directory:
     if (!useGlobalViewProps) {
         // create 'Apply View Properties To' group
-        m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                        "Current folder"));
+        m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To", "Current folder"));
         m_applyToCurrentFolder->setChecked(true);
-        m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                     "Current folder and sub-folders"));
-        m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                     "All folders"));
+        m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To", "Current folder and sub-folders"));
+        m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To", "All folders"));
 
-        QButtonGroup* applyGroup = new QButtonGroup(this);
+        QButtonGroup *applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
         applyGroup->addButton(m_applyToSubFolders);
         applyGroup->addButton(m_applyToAllFolders);
@@ -195,14 +183,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default view settings"), this);
         layout->addRow(QString(), m_useAsDefault);
 
-        connect(m_applyToCurrentFolder, &QRadioButton::clicked,
-                this, &ViewPropertiesDialog::markAsDirty);
-        connect(m_applyToSubFolders, &QRadioButton::clicked,
-                this, &ViewPropertiesDialog::markAsDirty);
-        connect(m_applyToAllFolders, &QRadioButton::clicked,
-                this, &ViewPropertiesDialog::markAsDirty);
-        connect(m_useAsDefault, &QCheckBox::clicked,
-                this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_applyToCurrentFolder, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_applyToSubFolders, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_applyToAllFolders, &QRadioButton::clicked, this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_useAsDefault, &QCheckBox::clicked, this, &ViewPropertiesDialog::markAsDirty);
     }
 
     layout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -335,9 +319,9 @@ void ViewPropertiesDialog::applyViewProperties()
         QList<QByteArray> visibleRoles;
         int index = 0;
         const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-        for (const KFileItemModel::RoleInfo& info : rolesInfo) {
-            const QListWidgetItem* item = m_listWidget->item(index);
-             if (item->checkState() == Qt::Checked) {
+        for (const KFileItemModel::RoleInfo &info : rolesInfo) {
+            const QListWidgetItem *item = m_listWidget->item(index);
+            if (item->checkState() == Qt::Checked) {
                 visibleRoles.append(info.role);
             }
             ++index;
@@ -350,20 +334,14 @@ void ViewPropertiesDialog::applyViewProperties()
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (KMessageBox::questionTwoActions(this, text, {},
-                                            KStandardGuiItem::cont(),
-                                            KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+        if (KMessageBox::questionTwoActions(this, text, {}, KStandardGuiItem::cont(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
 #else
-        if (KMessageBox::questionYesNo(this, text, {},
-                                       KStandardGuiItem::cont(),
-                                       KStandardGuiItem::cancel()) == KMessageBox::No) {
+        if (KMessageBox::questionYesNo(this, text, {}, KStandardGuiItem::cont(), KStandardGuiItem::cancel()) == KMessageBox::No) {
 #endif
             return;
         }
 
-        ViewPropsProgressInfo* info = new ViewPropsProgressInfo(m_dolphinView,
-                                                                m_dolphinView->url(),
-                                                                *m_viewProps);
+        ViewPropsProgressInfo *info = new ViewPropsProgressInfo(m_dolphinView, m_dolphinView->url(), *m_viewProps);
         info->setAttribute(Qt::WA_DeleteOnClose);
         info->setWindowModality(Qt::NonModal);
         info->show();
@@ -390,20 +368,16 @@ void ViewPropertiesDialog::applyViewProperties()
     if (applyToAllFolders) {
         const QString text(i18nc("@info", "The view properties of all folders will be changed. Do you want to continue?"));
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (KMessageBox::questionTwoActions(this, text, {},
-                                            KStandardGuiItem::cont(),
-                                            KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+        if (KMessageBox::questionTwoActions(this, text, {}, KStandardGuiItem::cont(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
 #else
-        if (KMessageBox::questionYesNo(this, text, {},
-                                       KStandardGuiItem::cont(),
-                                       KStandardGuiItem::cancel()) == KMessageBox::No) {
+        if (KMessageBox::questionYesNo(this, text, {}, KStandardGuiItem::cont(), KStandardGuiItem::cancel()) == KMessageBox::No) {
 #endif
             return;
         }
 
         // Updating the global view properties time stamp in the general settings makes
         // all existing viewproperties invalid, as they have a smaller time stamp.
-        GeneralSettings* settings = GeneralSettings::self();
+        GeneralSettings *settings = GeneralSettings::self();
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
         settings->save();
     }
@@ -427,10 +401,17 @@ void ViewPropertiesDialog::loadSettings()
 {
     // Load view mode
     switch (m_viewProps->viewMode()) {
-    case DolphinView::IconsView:   m_viewMode->setCurrentIndex(0); break;
-    case DolphinView::CompactView: m_viewMode->setCurrentIndex(1); break;
-    case DolphinView::DetailsView: m_viewMode->setCurrentIndex(2); break;
-    default: break;
+    case DolphinView::IconsView:
+        m_viewMode->setCurrentIndex(0);
+        break;
+    case DolphinView::CompactView:
+        m_viewMode->setCurrentIndex(1);
+        break;
+    case DolphinView::DetailsView:
+        m_viewMode->setCurrentIndex(2);
+        break;
+    default:
+        break;
     }
 
     // Load sort order and sorting
@@ -456,4 +437,3 @@ void ViewPropertiesDialog::loadSettings()
     m_showHiddenFiles->setChecked(m_viewProps->hiddenFilesShown());
     markAsDirty(false);
 }
-

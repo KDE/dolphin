@@ -12,43 +12,43 @@
 #include "dolphinurlnavigatorscontroller.h"
 #include "global.h"
 
-#include <KUrlComboBox>
 #include <KLocalizedString>
+#include <KUrlComboBox>
 
 #include <QAbstractButton>
 #include <QLayout>
 #include <QLineEdit>
 
-DolphinUrlNavigator::DolphinUrlNavigator(QWidget *parent) :
-    DolphinUrlNavigator(QUrl(), parent)
-{}
-
-DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent) :
-    KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, parent)
+DolphinUrlNavigator::DolphinUrlNavigator(QWidget *parent)
+    : DolphinUrlNavigator(QUrl(), parent)
 {
-    const GeneralSettings* settings = GeneralSettings::self();
+}
+
+DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent)
+    : KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, parent)
+{
+    const GeneralSettings *settings = GeneralSettings::self();
     setUrlEditable(settings->editableUrl());
     setShowFullPath(settings->showFullPath());
     setHomeUrl(Dolphin::homeUrl());
     setPlacesSelectorVisible(DolphinUrlNavigatorsController::placesSelectorVisible());
     editor()->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
     setWhatsThis(xi18nc("@info:whatsthis location bar",
-        "<para>This describes the location of the files and folders "
-        "displayed below.</para><para>The name of the currently viewed "
-        "folder can be read at the very right. To the left of it is the "
-        "name of the folder that contains it. The whole line is called "
-        "the <emphasis>path</emphasis> to the current location because "
-        "following these folders from left to right leads here.</para>"
-        "<para>This interactive path "
-        "is more powerful than one would expect. To learn more "
-        "about the basic and advanced features of the location bar "
-        "<link url='help:/dolphin/location-bar.html'>click here</link>. "
-        "This will open the dedicated page in the Handbook.</para>"));
+                        "<para>This describes the location of the files and folders "
+                        "displayed below.</para><para>The name of the currently viewed "
+                        "folder can be read at the very right. To the left of it is the "
+                        "name of the folder that contains it. The whole line is called "
+                        "the <emphasis>path</emphasis> to the current location because "
+                        "following these folders from left to right leads here.</para>"
+                        "<para>This interactive path "
+                        "is more powerful than one would expect. To learn more "
+                        "about the basic and advanced features of the location bar "
+                        "<link url='help:/dolphin/location-bar.html'>click here</link>. "
+                        "This will open the dedicated page in the Handbook.</para>"));
 
     DolphinUrlNavigatorsController::registerDolphinUrlNavigator(this);
 
-    connect(this, &KUrlNavigator::returnPressed,
-            this, &DolphinUrlNavigator::slotReturnPressed);
+    connect(this, &KUrlNavigator::returnPressed, this, &DolphinUrlNavigator::slotReturnPressed);
 }
 
 DolphinUrlNavigator::~DolphinUrlNavigator()
@@ -85,7 +85,7 @@ std::unique_ptr<DolphinUrlNavigator::VisualState> DolphinUrlNavigator::visualSta
     return visualState;
 }
 
-void DolphinUrlNavigator::setVisualState(const VisualState& visualState)
+void DolphinUrlNavigator::setVisualState(const VisualState &visualState)
 {
     setUrlEditable(visualState.isUrlEditable);
     if (!visualState.isUrlEditable) {

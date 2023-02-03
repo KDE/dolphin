@@ -12,8 +12,8 @@
 
 #include <QVBoxLayout>
 
-UserFeedbackSettingsPage::UserFeedbackSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent)
+UserFeedbackSettingsPage::UserFeedbackSettingsPage(QWidget *parent)
+    : SettingsPageBase(parent)
 {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -43,5 +43,3 @@ void UserFeedbackSettingsPage::restoreDefaults()
     feedbackProvider->setTelemetryMode(KUserFeedback::Provider::NoTelemetry);
     feedbackProvider->setSurveyInterval(-1);
 }
-
-

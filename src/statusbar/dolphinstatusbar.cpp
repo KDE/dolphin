@@ -24,24 +24,25 @@
 #include <QTimer>
 #include <QToolButton>
 
-namespace {
-    const int UpdateDelay = 50;
+namespace
+{
+const int UpdateDelay = 50;
 }
 
-DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
-    QWidget(parent),
-    m_text(),
-    m_defaultText(),
-    m_label(nullptr),
-    m_zoomLabel(nullptr),
-    m_spaceInfo(nullptr),
-    m_zoomSlider(nullptr),
-    m_progressBar(nullptr),
-    m_stopButton(nullptr),
-    m_progress(100),
-    m_showProgressBarTimer(nullptr),
-    m_delayUpdateTimer(nullptr),
-    m_textTimestamp()
+DolphinStatusBar::DolphinStatusBar(QWidget *parent)
+    : QWidget(parent)
+    , m_text()
+    , m_defaultText()
+    , m_label(nullptr)
+    , m_zoomLabel(nullptr)
+    , m_spaceInfo(nullptr)
+    , m_zoomSlider(nullptr)
+    , m_progressBar(nullptr)
+    , m_stopButton(nullptr)
+    , m_progress(100)
+    , m_showProgressBarTimer(nullptr)
+    , m_delayUpdateTimer(nullptr)
+    , m_textTimestamp()
 {
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, this);
@@ -49,7 +50,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_label->setTextFormat(Qt::PlainText);
 
     // Initialize zoom slider's explanatory label
-    m_zoomLabel = new QLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'","Zoom:"), this);
+    m_zoomLabel = new QLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), this);
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
@@ -89,8 +90,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_delayUpdateTimer = new QTimer(this);
     m_delayUpdateTimer->setInterval(UpdateDelay);
     m_delayUpdateTimer->setSingleShot(true);
-    connect(m_delayUpdateTimer, &QTimer::timeout,
-            this, &DolphinStatusBar::updateLabelText);
+    connect(m_delayUpdateTimer, &QTimer::timeout, this, &DolphinStatusBar::updateLabelText);
 
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_label->font()).height();
@@ -112,7 +112,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_progressBar->setFixedHeight(zoomSliderHeight);
     m_progressBar->setMaximumWidth(fontMetrics.averageCharWidth() * 20);
 
-    QHBoxLayout* topLayout = new QHBoxLayout(this);
+    QHBoxLayout *topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(2, 0, 2, 0);
     topLayout->setSpacing(4);
     topLayout->addWidget(m_label, 1);
@@ -125,22 +125,23 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
 
     setVisible(GeneralSettings::showStatusBar());
     setExtensionsVisible(true);
-    setWhatsThis(xi18nc("@info:whatsthis Statusbar", "<para>This is "
-        "the <emphasis>Statusbar</emphasis>. It contains three elements "
-        "by default (left to right):<list><item>A <emphasis>text field"
-        "</emphasis> that displays the size of selected items. If only "
-        "one item is selected the name and type is shown as well.</item>"
-        "<item>A <emphasis>zoom slider</emphasis> that allows you "
-        "to adjust the size of the icons in the view.</item>"
-        "<item><emphasis>Space information</emphasis> about the "
-        "current storage device.</item></list></para>"));
+    setWhatsThis(xi18nc("@info:whatsthis Statusbar",
+                        "<para>This is "
+                        "the <emphasis>Statusbar</emphasis>. It contains three elements "
+                        "by default (left to right):<list><item>A <emphasis>text field"
+                        "</emphasis> that displays the size of selected items. If only "
+                        "one item is selected the name and type is shown as well.</item>"
+                        "<item>A <emphasis>zoom slider</emphasis> that allows you "
+                        "to adjust the size of the icons in the view.</item>"
+                        "<item><emphasis>Space information</emphasis> about the "
+                        "current storage device.</item></list></para>"));
 }
 
 DolphinStatusBar::~DolphinStatusBar()
 {
 }
 
-void DolphinStatusBar::setText(const QString& text)
+void DolphinStatusBar::setText(const QString &text)
 {
     if (m_text == text) {
         return;
@@ -158,7 +159,7 @@ QString DolphinStatusBar::text() const
     return m_text;
 }
 
-void DolphinStatusBar::setProgressText(const QString& text)
+void DolphinStatusBar::setProgressText(const QString &text)
 {
     m_progressTextLabel->setText(text);
 }
@@ -208,7 +209,7 @@ void DolphinStatusBar::resetToDefaultText()
     }
 }
 
-void DolphinStatusBar::setDefaultText(const QString& text)
+void DolphinStatusBar::setDefaultText(const QString &text)
 {
     m_defaultText = text;
     updateLabelText();
@@ -219,7 +220,7 @@ QString DolphinStatusBar::defaultText() const
     return m_defaultText;
 }
 
-void DolphinStatusBar::setUrl(const QUrl& url)
+void DolphinStatusBar::setUrl(const QUrl &url)
 {
     if (GeneralSettings::showSpaceInfo()) {
         m_spaceInfo->setUrl(url);
@@ -254,21 +255,21 @@ void DolphinStatusBar::updateSpaceInfo()
     m_spaceInfo->update();
 }
 
-void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
+void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
 
     QMenu menu(this);
 
-    QAction* showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
+    QAction *showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
     showZoomSliderAction->setCheckable(true);
     showZoomSliderAction->setChecked(GeneralSettings::showZoomSlider());
 
-    QAction* showSpaceInfoAction = menu.addAction(i18nc("@action:inmenu", "Show Space Information"));
+    QAction *showSpaceInfoAction = menu.addAction(i18nc("@action:inmenu", "Show Space Information"));
     showSpaceInfoAction->setCheckable(true);
     showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
 
-    const QAction* action = menu.exec(QCursor::pos());
+    const QAction *action = menu.exec(QCursor::pos());
     if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
@@ -334,4 +335,3 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
 }
-

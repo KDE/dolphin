@@ -6,11 +6,11 @@
 
 #include "kitemlistrubberband.h"
 
-KItemListRubberBand::KItemListRubberBand(QObject* parent) :
-    QObject(parent),
-    m_active(false),
-    m_startPos(),
-    m_endPos()
+KItemListRubberBand::KItemListRubberBand(QObject *parent)
+    : QObject(parent)
+    , m_active(false)
+    , m_startPos()
+    , m_endPos()
 {
 }
 
@@ -18,7 +18,7 @@ KItemListRubberBand::~KItemListRubberBand()
 {
 }
 
-void KItemListRubberBand::setStartPosition(const QPointF& pos)
+void KItemListRubberBand::setStartPosition(const QPointF &pos)
 {
     if (m_startPos != pos) {
         const QPointF previous = m_startPos;
@@ -32,7 +32,7 @@ QPointF KItemListRubberBand::startPosition() const
     return m_startPos;
 }
 
-void KItemListRubberBand::setEndPosition(const QPointF& pos)
+void KItemListRubberBand::setEndPosition(const QPointF &pos)
 {
     if (m_endPos != pos) {
         const QPointF previous = m_endPos;
@@ -74,4 +74,3 @@ bool KItemListRubberBand::isActive() const
 {
     return m_active;
 }
-

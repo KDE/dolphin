@@ -37,24 +37,24 @@ public:
      *                   (the parent will be set to the KItemListContainer).
      * @param parent     Optional parent widget.
      */
-    explicit KItemListContainer(KItemListController* controller, QWidget* parent = nullptr);
+    explicit KItemListContainer(KItemListController *controller, QWidget *parent = nullptr);
     ~KItemListContainer() override;
-    KItemListController* controller() const;
+    KItemListController *controller() const;
 
     void setEnabledFrame(bool enable);
     bool enabledFrame() const;
 
 protected:
-    void keyPressEvent(QKeyEvent* event) override;
-    void showEvent(QShowEvent* event) override;
-    void resizeEvent(QResizeEvent* event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
     void scrollContentsBy(int dx, int dy) override;
-    void wheelEvent(QWheelEvent* event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private Q_SLOTS:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
-    void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
-    void slotViewChanged(KItemListView* current, KItemListView* previous);
+    void slotModelChanged(KItemModelBase *current, KItemModelBase *previous);
+    void slotViewChanged(KItemListView *current, KItemListView *previous);
     void scrollTo(qreal offset);
     void updateScrollOffsetScrollBar();
     void updateItemOffsetScrollBar();
@@ -72,13 +72,11 @@ private:
     void updateScrollOffsetScrollBarPolicy();
 
 private:
-    KItemListController* m_controller;
+    KItemListController *m_controller;
 
-    KItemListSmoothScroller* m_horizontalSmoothScroller;
-    KItemListSmoothScroller* m_verticalSmoothScroller;
-    QScroller* m_scroller;
+    KItemListSmoothScroller *m_horizontalSmoothScroller;
+    KItemListSmoothScroller *m_verticalSmoothScroller;
+    QScroller *m_scroller;
 };
 
 #endif
-
-

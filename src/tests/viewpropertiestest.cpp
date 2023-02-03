@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "dolphin_generalsettings.h"
 #include "views/viewproperties.h"
+#include "dolphin_generalsettings.h"
 #include "testdir.h"
 
 #include <QTest>
@@ -24,7 +24,7 @@ private Q_SLOTS:
 
 private:
     bool m_globalViewProps;
-    TestDir* m_testDir;
+    TestDir *m_testDir;
 };
 
 void ViewPropertiesTest::initTestCase()

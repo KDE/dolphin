@@ -26,8 +26,7 @@ class PixmapViewer : public QWidget
     Q_OBJECT
 
 public:
-    enum Transition
-    {
+    enum Transition {
         /** No transition is done when the pixmap is changed. */
         NoTransition,
 
@@ -47,21 +46,20 @@ public:
         SizeTransition
     };
 
-    explicit PixmapViewer(QWidget* parent,
-                          Transition transition = DefaultTransition);
+    explicit PixmapViewer(QWidget *parent, Transition transition = DefaultTransition);
 
     ~PixmapViewer() override;
-    void setPixmap(const QPixmap& pixmap);
+    void setPixmap(const QPixmap &pixmap);
     QPixmap pixmap() const;
 
     /**
      * Sets the size hint to \a size and triggers a relayout
      * of the parent widget. Per default no size hint is given.
      */
-    void setSizeHint(const QSize& size);
+    void setSizeHint(const QSize &size);
     QSize sizeHint() const override;
 
-    void setAnimatedImageFileName(const QString& fileName);
+    void setAnimatedImageFileName(const QString &fileName);
     QString animatedImageFileName() const;
 
     void stopAnimatedImage();
@@ -72,7 +70,7 @@ public:
     static bool isAnimatedMimeType(const QString &mimeType);
 
 protected:
-    void paintEvent(QPaintEvent* event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private Q_SLOTS:
     void checkPendingPixmaps();
@@ -81,7 +79,7 @@ private Q_SLOTS:
 private:
     QPixmap m_pixmap;
     QPixmap m_oldPixmap;
-    QMovie* m_animatedImage;
+    QMovie *m_animatedImage;
     QQueue<QPixmap> m_pendingPixmaps;
     QTimeLine m_animation;
     Transition m_transition;
@@ -94,6 +92,5 @@ inline QPixmap PixmapViewer::pixmap() const
 {
     return m_pixmap;
 }
-
 
 #endif

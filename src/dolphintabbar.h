@@ -14,26 +14,26 @@ class DolphinTabBar : public QTabBar
     Q_OBJECT
 
 public:
-    explicit DolphinTabBar(QWidget* parent);
+    explicit DolphinTabBar(QWidget *parent);
 
 Q_SIGNALS:
     void openNewActivatedTab(int index);
-    void tabDropEvent(int index, QDropEvent* event);
+    void tabDropEvent(int index, QDropEvent *event);
     void tabDetachRequested(int index);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent* event) override;
-    void dragLeaveEvent(QDragLeaveEvent* event) override;
-    void dragMoveEvent(QDragMoveEvent* event) override;
-    void dropEvent(QDropEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void mouseDoubleClickEvent(QMouseEvent* event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 
     /**
      * Opens a context menu for the tab on the \a event position.
      */
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 private Q_SLOTS:
     void slotAutoActivationTimeout();
@@ -46,7 +46,7 @@ private:
     void updateAutoActivationTimer(const int index);
 
 private:
-    QTimer* m_autoActivationTimer;
+    QTimer *m_autoActivationTimer;
     int m_autoActivationIndex;
     int m_tabToBeClosedOnMiddleMouseButtonRelease;
 };

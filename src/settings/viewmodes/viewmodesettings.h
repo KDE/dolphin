@@ -8,8 +8,8 @@
 #define VIEWMODESETTINGS_H
 
 #include "kitemviews/kstandarditemlistview.h"
-#include "viewsettingstab.h"
 #include "views/dolphinview.h"
+#include "viewsettingstab.h"
 
 #include <variant>
 

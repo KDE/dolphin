@@ -8,10 +8,10 @@
 
 #include "kitemlistkeyboardsearchmanager.h"
 
-KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject* parent) :
-    QObject(parent),
-    m_isSearchRestarted(false),
-    m_timeout(1000)
+KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject *parent)
+    : QObject(parent)
+    , m_isSearchRestarted(false)
+    , m_timeout(1000)
 {
     m_keyboardInputTime.invalidate();
 }
@@ -27,7 +27,7 @@ bool KItemListKeyboardSearchManager::shouldClearSearchIfInputTimeReached()
     return (keyboardInputTimeElapsed > m_timeout) || !keyboardTimeWasValid;
 }
 
-void KItemListKeyboardSearchManager::addKeys(const QString& keys)
+void KItemListKeyboardSearchManager::addKeys(const QString &keys)
 {
     if (shouldClearSearchIfInputTimeReached()) {
         m_searchedString.clear();
@@ -94,7 +94,7 @@ void KItemListKeyboardSearchManager::slotCurrentChanged(int current, int previou
     }
 }
 
-void KItemListKeyboardSearchManager::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
+void KItemListKeyboardSearchManager::slotSelectionChanged(const KItemSet &current, const KItemSet &previous)
 {
     if (!previous.isEmpty() && current.isEmpty() && previous.count() > 0 && current.count() == 0) {
         // The selection has been emptied. We should cancel the search.

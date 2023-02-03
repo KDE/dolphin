@@ -7,9 +7,9 @@
 #ifndef TESTDIR_H
 #define TESTDIR_H
 
-#include <QUrl>
-#include <QTemporaryDir>
 #include <QDateTime>
+#include <QTemporaryDir>
+#include <QUrl>
 
 /**
  * TestDir provides a temporary directory. In addition to QTemporaryDir, it has
@@ -17,9 +17,8 @@
  */
 class TestDir : public QTemporaryDir
 {
-
 public:
-    TestDir(const QString& directoryPrefix = QString());
+    TestDir(const QString &directoryPrefix = QString());
     virtual ~TestDir();
 
     QUrl url() const;
@@ -29,19 +28,16 @@ public:
      * The paths may be absolute or relative to the test directory. Any missing parent
      * directories will be created automatically.
      */
-    void createFile(const QString& path,
-                    const QByteArray& data = QByteArray("test"),
-                    const QDateTime& time = QDateTime());
-    void createFiles(const QStringList& files);
-    void createDir(const QString& path, const QDateTime& time = QDateTime());
+    void createFile(const QString &path, const QByteArray &data = QByteArray("test"), const QDateTime &time = QDateTime());
+    void createFiles(const QStringList &files);
+    void createDir(const QString &path, const QDateTime &time = QDateTime());
 
-    void removeFile(const QString& path);
-    void removeFiles(const QStringList& files);
-    void removeDir(const QString& path);
+    void removeFile(const QString &path);
+    void removeFiles(const QStringList &files);
+    void removeDir(const QString &path);
 
 private:
-    void makePathAbsoluteAndCreateParents(QString& path);
-
+    void makePathAbsoluteAndCreateParents(QString &path);
 };
 
 #endif

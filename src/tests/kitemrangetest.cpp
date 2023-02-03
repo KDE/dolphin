@@ -29,7 +29,7 @@ void KItemRangeTest::initTestCase()
 
 void KItemRangeTest::testFromSortedContainer_data()
 {
-    QTest::addColumn<QVector<int> >("sortedNumbers");
+    QTest::addColumn<QVector<int>>("sortedNumbers");
     QTest::addColumn<KItemRangeList>("expected");
 
     QTest::newRow("empty") << QVector<int>{} << KItemRangeList();

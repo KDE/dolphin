@@ -6,8 +6,8 @@
 
 #include "navigationsettingspage.h"
 
-#include "global.h"
 #include "dolphin_generalsettings.h"
+#include "global.h"
 
 #include <KLocalizedString>
 
@@ -16,19 +16,19 @@
 #include <QFormLayout>
 #include <QRadioButton>
 
-NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent),
-    m_openArchivesAsFolder(nullptr),
-    m_autoExpandFolders(nullptr),
-    m_openNewTabAfterLastTab(nullptr),
-    m_openNewTabAfterCurrentTab(nullptr)
+NavigationSettingsPage::NavigationSettingsPage(QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_openArchivesAsFolder(nullptr)
+    , m_autoExpandFolders(nullptr)
+    , m_openNewTabAfterLastTab(nullptr)
+    , m_openNewTabAfterCurrentTab(nullptr)
 {
-    QFormLayout* topLayout = new QFormLayout(this);
+    QFormLayout *topLayout = new QFormLayout(this);
 
     // Tabs properties
     m_openNewTabAfterCurrentTab = new QRadioButton(i18nc("option:radio", "After current tab"));
     m_openNewTabAfterLastTab = new QRadioButton(i18nc("option:radio", "At end of tab bar"));
-    QButtonGroup* tabsBehaviorGroup = new QButtonGroup(this);
+    QButtonGroup *tabsBehaviorGroup = new QButtonGroup(this);
     tabsBehaviorGroup->addButton(m_openNewTabAfterCurrentTab);
     tabsBehaviorGroup->addButton(m_openNewTabAfterLastTab);
     topLayout->addRow(i18nc("@title:group", "Open new tabs: "), m_openNewTabAfterCurrentTab);
@@ -55,7 +55,7 @@ NavigationSettingsPage::~NavigationSettingsPage()
 
 void NavigationSettingsPage::applySettings()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
     settings->setOpenNewTabAfterLastTab(m_openNewTabAfterLastTab->isChecked());
@@ -65,7 +65,7 @@ void NavigationSettingsPage::applySettings()
 
 void NavigationSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -78,4 +78,3 @@ void NavigationSettingsPage::loadSettings()
     m_openNewTabAfterLastTab->setChecked(GeneralSettings::openNewTabAfterLastTab());
     m_openNewTabAfterCurrentTab->setChecked(!m_openNewTabAfterLastTab->isChecked());
 }
-

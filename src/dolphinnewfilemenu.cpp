@@ -11,8 +11,8 @@
 #include <KActionCollection>
 #include <KIO/Job>
 
-DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection* collection, QObject* parent) :
-    KNewFileMenu(collection, QStringLiteral("new_menu"), parent)
+DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection *collection, QObject *parent)
+    : KNewFileMenu(collection, QStringLiteral("new_menu"), parent)
 {
     DolphinNewFileMenuObserver::instance().attach(this);
 }
@@ -22,7 +22,7 @@ DolphinNewFileMenu::~DolphinNewFileMenu()
     DolphinNewFileMenuObserver::instance().detach(this);
 }
 
-void DolphinNewFileMenu::slotResult(KJob* job)
+void DolphinNewFileMenu::slotResult(KJob *job)
 {
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
@@ -30,4 +30,3 @@ void DolphinNewFileMenu::slotResult(KJob* job)
         KNewFileMenu::slotResult(job);
     }
 }
-

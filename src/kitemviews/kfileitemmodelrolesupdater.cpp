@@ -38,55 +38,56 @@ using namespace std::chrono_literals;
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
 
-namespace {
-    // Maximum time in ms that the KFileItemModelRolesUpdater
-    // may perform a blocking operation
-    const int MaxBlockTimeout = 200;
+namespace
+{
+// Maximum time in ms that the KFileItemModelRolesUpdater
+// may perform a blocking operation
+const int MaxBlockTimeout = 200;
 
-    // If the number of items is smaller than ResolveAllItemsLimit,
-    // the roles of all items will be resolved.
-    const int ResolveAllItemsLimit = 500;
+// If the number of items is smaller than ResolveAllItemsLimit,
+// the roles of all items will be resolved.
+const int ResolveAllItemsLimit = 500;
 
-    // Not only the visible area, but up to ReadAheadPages before and after
-    // this area will be resolved.
-    const int ReadAheadPages = 5;
+// Not only the visible area, but up to ReadAheadPages before and after
+// this area will be resolved.
+const int ReadAheadPages = 5;
 }
 
-KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QObject* parent) :
-    QObject(parent),
-    m_state(Idle),
-    m_previewChangedDuringPausing(false),
-    m_iconSizeChangedDuringPausing(false),
-    m_rolesChangedDuringPausing(false),
-    m_previewShown(false),
-    m_enlargeSmallPreviews(true),
-    m_clearPreviews(false),
-    m_finishedItems(),
-    m_model(model),
-    m_iconSize(),
-    m_firstVisibleIndex(0),
-    m_lastVisibleIndex(-1),
-    m_maximumVisibleItems(50),
-    m_roles(),
-    m_resolvableRoles(),
-    m_enabledPlugins(),
-    m_localFileSizePreviewLimit(0),
-    m_scanDirectories(true),
-    m_pendingSortRoleItems(),
-    m_pendingIndexes(),
-    m_pendingPreviewItems(),
-    m_previewJob(),
-    m_hoverSequenceItem(),
-    m_hoverSequenceIndex(0),
-    m_hoverSequencePreviewJob(nullptr),
-    m_hoverSequenceNumSuccessiveFailures(0),
-    m_recentlyChangedItemsTimer(nullptr),
-    m_recentlyChangedItems(),
-    m_changedItems(),
-    m_directoryContentsCounter(nullptr)
-  #if HAVE_BALOO
-   , m_balooFileMonitor(nullptr)
-  #endif
+KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QObject *parent)
+    : QObject(parent)
+    , m_state(Idle)
+    , m_previewChangedDuringPausing(false)
+    , m_iconSizeChangedDuringPausing(false)
+    , m_rolesChangedDuringPausing(false)
+    , m_previewShown(false)
+    , m_enlargeSmallPreviews(true)
+    , m_clearPreviews(false)
+    , m_finishedItems()
+    , m_model(model)
+    , m_iconSize()
+    , m_firstVisibleIndex(0)
+    , m_lastVisibleIndex(-1)
+    , m_maximumVisibleItems(50)
+    , m_roles()
+    , m_resolvableRoles()
+    , m_enabledPlugins()
+    , m_localFileSizePreviewLimit(0)
+    , m_scanDirectories(true)
+    , m_pendingSortRoleItems()
+    , m_pendingIndexes()
+    , m_pendingPreviewItems()
+    , m_previewJob()
+    , m_hoverSequenceItem()
+    , m_hoverSequenceIndex(0)
+    , m_hoverSequencePreviewJob(nullptr)
+    , m_hoverSequenceNumSuccessiveFailures(0)
+    , m_recentlyChangedItemsTimer(nullptr)
+    , m_recentlyChangedItems()
+    , m_changedItems()
+    , m_directoryContentsCounter(nullptr)
+#if HAVE_BALOO
+    , m_balooFileMonitor(nullptr)
+#endif
 {
     Q_ASSERT(model);
 
@@ -94,16 +95,11 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_enabledPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
     m_localFileSizePreviewLimit = static_cast<qulonglong>(globalConfig.readEntry("MaximumSize", 0));
 
-    connect(m_model, &KFileItemModel::itemsInserted,
-            this,    &KFileItemModelRolesUpdater::slotItemsInserted);
-    connect(m_model, &KFileItemModel::itemsRemoved,
-            this,    &KFileItemModelRolesUpdater::slotItemsRemoved);
-    connect(m_model, &KFileItemModel::itemsChanged,
-            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
-    connect(m_model, &KFileItemModel::itemsMoved,
-            this,    &KFileItemModelRolesUpdater::slotItemsMoved);
-    connect(m_model, &KFileItemModel::sortRoleChanged,
-            this,    &KFileItemModelRolesUpdater::slotSortRoleChanged);
+    connect(m_model, &KFileItemModel::itemsInserted, this, &KFileItemModelRolesUpdater::slotItemsInserted);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, &KFileItemModelRolesUpdater::slotItemsRemoved);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
+    connect(m_model, &KFileItemModel::sortRoleChanged, this, &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
     // resolving of the roles. Postpone the resolving until no update has been done for 100 ms.
@@ -120,8 +116,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 #endif
 
     m_directoryContentsCounter = new KDirectoryContentsCounter(m_model, this);
-    connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
-            this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
+    connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result, this, &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 
     const auto plugins = KPluginMetaData::findPlugins(QStringLiteral("kf" QT_STRINGIFY(QT_VERSION_MAJOR)) + QStringLiteral("/overlayicon"));
     for (const KPluginMetaData &data : plugins) {
@@ -142,7 +137,7 @@ KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
     killPreviewJob();
 }
 
-void KFileItemModelRolesUpdater::setIconSize(const QSize& size)
+void KFileItemModelRolesUpdater::setIconSize(const QSize &size)
 {
     if (size != m_iconSize) {
         m_iconSize = size;
@@ -221,7 +216,7 @@ bool KFileItemModelRolesUpdater::enlargeSmallPreviews() const
     return m_enlargeSmallPreviews;
 }
 
-void KFileItemModelRolesUpdater::setEnabledPlugins(const QStringList& list)
+void KFileItemModelRolesUpdater::setEnabledPlugins(const QStringList &list)
 {
     if (m_enabledPlugins != list) {
         m_enabledPlugins = list;
@@ -241,8 +236,7 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
         m_state = Paused;
         killPreviewJob();
     } else {
-        const bool updatePreviews = (m_iconSizeChangedDuringPausing && m_previewShown) ||
-                                    m_previewChangedDuringPausing;
+        const bool updatePreviews = (m_iconSizeChangedDuringPausing && m_previewShown) || m_previewChangedDuringPausing;
         const bool resolveAll = updatePreviews || m_rolesChangedDuringPausing;
         if (resolveAll) {
             m_finishedItems.clear();
@@ -263,7 +257,7 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
     }
 }
 
-void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
+void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray> &roles)
 {
     if (m_roles != roles) {
         m_roles = roles;
@@ -273,11 +267,11 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
         // with the help of Baloo. If this is the case, a (quite expensive)
         // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
         // the role gets watched for changes.
-        const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+        const KBalooRolesProvider &rolesProvider = KBalooRolesProvider::instance();
         bool hasBalooRole = false;
         QSetIterator<QByteArray> it(roles);
         while (it.hasNext()) {
-            const QByteArray& role = it.next();
+            const QByteArray &role = it.next();
             if (rolesProvider.roles().contains(role)) {
                 hasBalooRole = true;
                 break;
@@ -286,8 +280,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
         if (hasBalooRole && m_balooConfig.fileIndexingEnabled() && !m_balooFileMonitor) {
             m_balooFileMonitor = new Baloo::FileMonitor(this);
-            connect(m_balooFileMonitor, &Baloo::FileMonitor::fileMetaDataChanged,
-                    this, &KFileItemModelRolesUpdater::applyChangedBalooRoles);
+            connect(m_balooFileMonitor, &Baloo::FileMonitor::fileMetaDataChanged, this, &KFileItemModelRolesUpdater::applyChangedBalooRoles);
         } else if (!hasBalooRole && m_balooFileMonitor) {
             delete m_balooFileMonitor;
             m_balooFileMonitor = nullptr;
@@ -337,7 +330,7 @@ bool KFileItemModelRolesUpdater::scanDirectories() const
     return m_scanDirectories;
 }
 
-void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl& itemUrl, int seqIdx)
+void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl &itemUrl, int seqIdx)
 {
     const KFileItem item = m_model->fileItem(itemUrl);
 
@@ -357,7 +350,7 @@ void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl& itemUrl, int 
     loadNextHoverSequencePreview();
 }
 
-void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRanges)
+void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList &itemRanges)
 {
     QElapsedTimer timer;
     timer.start();
@@ -365,7 +358,7 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
     // Determine the sort role synchronously for as many items as possible.
     if (m_resolvableRoles.contains(m_model->sortRole())) {
         int insertedCount = 0;
-        for (const KItemRange& range : itemRanges) {
+        for (const KItemRange &range : itemRanges) {
             const int lastIndex = insertedCount + range.index + range.count - 1;
             for (int i = insertedCount + range.index; i <= lastIndex; ++i) {
                 if (timer.elapsed() < MaxBlockTimeout) {
@@ -392,7 +385,7 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
     startUpdating();
 }
 
-void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRanges)
+void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRanges)
 {
     Q_UNUSED(itemRanges)
 
@@ -406,7 +399,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         } else {
             QStringList newFileList;
             const QStringList oldFileList = m_balooFileMonitor->files();
-            for (const QString& file : oldFileList) {
+            for (const QString &file : oldFileList) {
                 if (m_model->index(QUrl::fromLocalFile(file)) >= 0) {
                     newFileList.append(file);
                 }
@@ -442,7 +435,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         }
 
         // Removed items won't have hover previews loaded anymore.
-        for (const KItemRange& itemRange : itemRanges) {
+        for (const KItemRange &itemRange : itemRanges) {
             int index = itemRange.index;
             for (int count = itemRange.count; count > 0; --count) {
                 const KFileItem item = m_model->fileItem(index);
@@ -465,8 +458,7 @@ void KFileItemModelRolesUpdater::slotItemsMoved(KItemRange itemRange, const QLis
     startUpdating();
 }
 
-void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRanges,
-                                                  const QSet<QByteArray>& roles)
+void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(roles)
 
@@ -475,9 +467,9 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
     // to prevent expensive repeated updates if files are updated frequently.
     const bool itemsChangedRecently = m_recentlyChangedItemsTimer->isActive();
 
-    QSet<KFileItem>& targetSet = itemsChangedRecently ? m_recentlyChangedItems : m_changedItems;
+    QSet<KFileItem> &targetSet = itemsChangedRecently ? m_recentlyChangedItems : m_changedItems;
 
-    for (const KItemRange& itemRange : itemRanges) {
+    for (const KItemRange &itemRange : itemRanges) {
         int index = itemRange.index;
         for (int count = itemRange.count; count > 0; --count) {
             const KFileItem item = m_model->fileItem(index);
@@ -493,8 +485,7 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
     }
 }
 
-void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
-                                                     const QByteArray& previous)
+void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -531,7 +522,7 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
     }
 }
 
-void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
+void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPixmap &pixmap)
 {
     if (m_state != PreviewJobRunning) {
         return;
@@ -555,7 +546,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     // assumes that an overlay will be drawn and has some additional
     // setup time.
     if (!scaledPixmap.isNull()) {
-        for (const QString& overlay : overlays) {
+        for (const QString &overlay : overlays) {
             if (!overlay.isEmpty()) {
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
@@ -567,16 +558,14 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
     data.insert("iconPixmap", scaledPixmap);
 
-    disconnect(m_model, &KFileItemModel::itemsChanged,
-               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged,
-            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
     m_finishedItems.insert(item);
 }
 
-void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
+void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
 {
     if (m_state != PreviewJobRunning) {
         return;
@@ -589,11 +578,9 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
         QHash<QByteArray, QVariant> data;
         data.insert("iconPixmap", QPixmap());
 
-        disconnect(m_model, &KFileItemModel::itemsChanged,
-                   this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged,
-                this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
         applyResolvedRoles(index, ResolveAll);
         m_finishedItems.insert(item);
@@ -619,7 +606,7 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished()
     }
 }
 
-void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem& item, const QPixmap& pixmap)
+void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &item, const QPixmap &pixmap)
 {
     const int index = m_model->index(item);
     if (index < 0) {
@@ -653,8 +640,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem& it
 
         m_model->setData(index, data);
 
-        const auto loadedIt = std::find(m_hoverSequenceLoadedItems.begin(),
-                m_hoverSequenceLoadedItems.end(), item);
+        const auto loadedIt = std::find(m_hoverSequenceLoadedItems.begin(), m_hoverSequenceLoadedItems.end(), item);
         if (loadedIt == m_hoverSequenceLoadedItems.end()) {
             m_hoverSequenceLoadedItems.push_back(item);
             trimHoverSequenceLoadedItems();
@@ -664,7 +650,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem& it
     m_hoverSequenceNumSuccessiveFailures = 0;
 }
 
-void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem& item)
+void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem &item)
 {
     const int index = m_model->index(item);
     if (index < 0) {
@@ -676,11 +662,8 @@ void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem&
     QHash<QByteArray, QVariant> data = m_model->data(index);
     QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
 
-    qCDebug(DolphinDebug).nospace()
-            << "Failed to generate hover sequence preview #" << pixmaps.size()
-            << " for file " << item.url().toString()
-            << " (attempt " << (m_hoverSequenceNumSuccessiveFailures+1)
-            << "/" << (numRetries+1) << ")";
+    qCDebug(DolphinDebug).nospace() << "Failed to generate hover sequence preview #" << pixmaps.size() << " for file " << item.url().toString() << " (attempt "
+                                    << (m_hoverSequenceNumSuccessiveFailures + 1) << "/" << (numRetries + 1) << ")";
 
     if (m_hoverSequenceNumSuccessiveFailures >= numRetries) {
         // Give up and simply duplicate the previous sequence image (if any)
@@ -755,11 +738,9 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
         m_state = Idle;
 
         // Prevent that we try to update the items twice.
-        disconnect(m_model, &KFileItemModel::itemsMoved,
-                   this,    &KFileItemModelRolesUpdater::slotItemsMoved);
+        disconnect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
         applySortProgressToModel();
-        connect(m_model, &KFileItemModel::itemsMoved,
-                this,    &KFileItemModelRolesUpdater::slotItemsMoved);
+        connect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
         startUpdating();
     }
 }
@@ -796,18 +777,13 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
                 data.insert("iconPixmap", QPixmap());
                 data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
 
-                disconnect(m_model, &KFileItemModel::itemsChanged,
-                           this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+                disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
                 for (int index = 0; index <= m_model->count(); ++index) {
-                    if (m_model->data(index).contains("iconPixmap") ||
-                        m_model->data(index).contains("hoverSequencePixmaps"))
-                    {
+                    if (m_model->data(index).contains("iconPixmap") || m_model->data(index).contains("hoverSequencePixmaps")) {
                         m_model->setData(index, data);
                     }
                 }
-                connect(m_model, &KFileItemModel::itemsChanged,
-                        this,    &KFileItemModelRolesUpdater::slotItemsChanged);
-
+                connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
             }
             m_clearPreviews = false;
         }
@@ -825,7 +801,7 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
     updateChangedItems();
 }
 
-void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
+void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString &file)
 {
 #if HAVE_BALOO
     const KFileItem item = m_model->fileItem(QUrl::fromLocalFile(file));
@@ -847,11 +823,11 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
     Baloo::File file(item.localPath());
     file.load();
 
-    const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+    const KBalooRolesProvider &rolesProvider = KBalooRolesProvider::instance();
     QHash<QByteArray, QVariant> data;
 
     const auto roles = rolesProvider.roles();
-    for (const QByteArray& role : roles) {
+    for (const QByteArray &role : roles) {
         // Overwrite all the role values with an empty QVariant, because the roles
         // provider doesn't overwrite it when the property value list is empty.
         // See bug 322348
@@ -864,12 +840,10 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
         data.insert(it.key(), it.value());
     }
 
-    disconnect(m_model, &KFileItemModel::itemsChanged,
-               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     const int index = m_model->index(item);
     m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged,
-            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 #else
 #ifndef Q_CC_MSVC
     Q_UNUSED(item)
@@ -877,7 +851,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString& path, int count, long size)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long size)
 {
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
@@ -895,11 +869,9 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
                 data.insert("isExpandable", count > 0);
             }
 
-            disconnect(m_model, &KFileItemModel::itemsChanged,
-                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+            disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
             m_model->setData(index, data);
-            connect(m_model, &KFileItemModel::itemsChanged,
-                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+            connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         }
     }
 }
@@ -995,8 +967,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
     // do a downscaling anyhow because of the frame, so in this case only the provided
     // cache sizes are requested.
-    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128)
-                             ? QSize(256, 256) : QSize(128, 128);
+    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 
     // KIO::filePreview() will request the MIME-type of all passed items, which (in the
     // worst case) might block the application for several seconds. To prevent such
@@ -1026,38 +997,32 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         } while (!m_pendingPreviewItems.isEmpty() && timer.elapsed() < MaxBlockTimeout);
     }
 
-    KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
 
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && !itemSubSet.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job,  &KIO::PreviewJob::gotPreview,
-            this, &KFileItemModelRolesUpdater::slotGotPreview);
-    connect(job,  &KIO::PreviewJob::failed,
-            this, &KFileItemModelRolesUpdater::slotPreviewFailed);
-    connect(job,  &KIO::PreviewJob::finished,
-            this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
+    connect(job, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotGotPreview);
+    connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
+    connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
 
     m_previewJob = job;
 }
 
-QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap& pixmap)
+QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap)
 {
     QPixmap scaledPixmap = pixmap;
 
-    if (!pixmap.hasAlpha() && !pixmap.isNull()
-        && m_iconSize.width()  > KIconLoader::SizeSmallMedium
-        && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
+    if (!pixmap.hasAlpha() && !pixmap.isNull() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
         if (m_enlargeSmallPreviews) {
             KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
         } else {
             // Assure that small previews don't get enlarged. Instead they
             // should be shown centered within the frame.
             const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
-            const bool enlargingRequired = scaledPixmap.width()  < contentSize.width() &&
-                                           scaledPixmap.height() < contentSize.height();
+            const bool enlargingRequired = scaledPixmap.width() < contentSize.width() && scaledPixmap.height() < contentSize.height();
             if (enlargingRequired) {
                 QSize frameSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
                 frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
@@ -1068,7 +1033,7 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap& pixmap
                 KPixmapModifier::applyFrame(largeFrame, frameSize);
 
                 QPainter painter(&largeFrame);
-                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
+                painter.drawPixmap((largeFrame.width() - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
                                    (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
                                    scaledPixmap);
                 scaledPixmap = largeFrame;
@@ -1098,7 +1063,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     }
 
     // We generate the next few sequence indices in advance (buffering)
-    const int maxSeqIdx = m_hoverSequenceIndex+5;
+    const int maxSeqIdx = m_hoverSequenceIndex + 5;
 
     QHash<QByteArray, QVariant> data = m_model->data(index);
 
@@ -1131,10 +1096,9 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
     // do a downscaling anyhow because of the frame, so in this case only the provided
     // cache sizes are requested.
-    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128)
-                             ? QSize(256, 256) : QSize(128, 128);
+    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 
-    KIO::PreviewJob* job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize, &m_enabledPlugins);
 
     job->setSequenceIndex(loadSeqIdx);
     job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && !m_hoverSequenceItem.isSlow() && m_localFileSizePreviewLimit <= 0);
@@ -1142,12 +1106,9 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job,  &KIO::PreviewJob::gotPreview,
-            this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
-    connect(job,  &KIO::PreviewJob::failed,
-            this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
-    connect(job,  &KIO::PreviewJob::finished,
-            this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
+    connect(job, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+    connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
+    connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
 
     m_hoverSequencePreviewJob = job;
 }
@@ -1155,12 +1116,9 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
 void KFileItemModelRolesUpdater::killHoverSequencePreviewJob()
 {
     if (m_hoverSequencePreviewJob) {
-        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::gotPreview,
-                   this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
-        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::failed,
-                   this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
-        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::finished,
-                   this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
+        disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+        disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
+        disconnect(m_hoverSequencePreviewJob, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
         m_hoverSequencePreviewJob->kill();
         m_hoverSequencePreviewJob = nullptr;
     }
@@ -1199,7 +1157,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
 
     auto changedItemsIt = m_changedItems.begin();
     while (changedItemsIt != m_changedItems.end()) {
-        const auto& item = *changedItemsIt;
+        const auto &item = *changedItemsIt;
         const int index = m_model->index(item);
 
         if (index < 0) {
@@ -1261,11 +1219,9 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data = rolesData(item);
     }
 
-    disconnect(m_model, &KFileItemModel::itemsChanged,
-               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
-    connect(m_model, &KFileItemModel::itemsChanged,
-            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 }
 
 void KFileItemModelRolesUpdater::applySortProgressToModel()
@@ -1308,18 +1264,16 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
             data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
         }
 
-        disconnect(m_model, &KFileItemModel::itemsChanged,
-                   this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
-        connect(m_model, &KFileItemModel::itemsChanged,
-                this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         return true;
     }
 
     return false;
 }
 
-QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem& item)
+QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem &item)
 {
     QHash<QByteArray, QVariant> data;
 
@@ -1364,14 +1318,14 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     return data;
 }
 
-void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl& url, const QStringList &)
+void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl &url, const QStringList &)
 {
     const KFileItem item = m_model->fileItem(url);
     if (item.isNull()) {
         return;
     }
     const int index = m_model->index(item);
-    QHash<QByteArray, QVariant> data =  m_model->data(index);
+    QHash<QByteArray, QVariant> data = m_model->data(index);
     QStringList overlays = item.overlays();
     for (KOverlayIconPlugin *it : qAsConst(m_overlayIconsPlugin)) {
         overlays.append(it->getOverlays(url));
@@ -1393,12 +1347,9 @@ void KFileItemModelRolesUpdater::updateAllPreviews()
 void KFileItemModelRolesUpdater::killPreviewJob()
 {
     if (m_previewJob) {
-        disconnect(m_previewJob,  &KIO::PreviewJob::gotPreview,
-                   this, &KFileItemModelRolesUpdater::slotGotPreview);
-        disconnect(m_previewJob,  &KIO::PreviewJob::failed,
-                   this, &KFileItemModelRolesUpdater::slotPreviewFailed);
-        disconnect(m_previewJob,  &KIO::PreviewJob::finished,
-                   this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
+        disconnect(m_previewJob, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotGotPreview);
+        disconnect(m_previewJob, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
+        disconnect(m_previewJob, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
         m_previewJob->kill();
         m_previewJob = nullptr;
         m_pendingPreviewItems.clear();
@@ -1410,9 +1361,7 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
     const int count = m_model->count();
 
     QList<int> result;
-    result.reserve(qMin(count, (m_lastVisibleIndex - m_firstVisibleIndex + 1) +
-                               ResolveAllItemsLimit +
-                               (2 * m_maximumVisibleItems)));
+    result.reserve(qMin(count, (m_lastVisibleIndex - m_firstVisibleIndex + 1) + ResolveAllItemsLimit + (2 * m_maximumVisibleItems)));
 
     // Add visible items.
     // Resolve files first, their previews are quicker.
@@ -1492,4 +1441,3 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
         }
     }
 }
-

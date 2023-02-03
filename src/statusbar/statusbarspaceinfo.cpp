@@ -14,9 +14,9 @@
 #include <KIO/Global>
 #include <QMouseEvent>
 
-StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
-    KCapacityBar(KCapacityBar::DrawTextInline, parent),
-    m_observer(nullptr)
+StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
+    : KCapacityBar(KCapacityBar::DrawTextInline, parent)
+    , m_observer(nullptr)
 {
     setCursor(Qt::PointingHandCursor);
 }
@@ -34,7 +34,7 @@ void StatusBarSpaceInfo::setShown(bool shown)
     }
 }
 
-void StatusBarSpaceInfo::setUrl(const QUrl& url)
+void StatusBarSpaceInfo::setUrl(const QUrl &url)
 {
     if (m_url != url) {
         m_url = url;
@@ -58,7 +58,7 @@ void StatusBarSpaceInfo::update()
     }
 }
 
-void StatusBarSpaceInfo::showEvent(QShowEvent* event)
+void StatusBarSpaceInfo::showEvent(QShowEvent *event)
 {
     if (m_shown) {
         if (m_ready) {
@@ -72,7 +72,7 @@ void StatusBarSpaceInfo::showEvent(QShowEvent* event)
     }
 }
 
-void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
+void StatusBarSpaceInfo::hideEvent(QHideEvent *event)
 {
     if (m_ready) {
         m_observer.reset();
@@ -81,7 +81,7 @@ void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
     KCapacityBar::hideEvent(event);
 }
 
-void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
+void StatusBarSpaceInfo::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         // Creates a menu with tools that help to find out more about free
@@ -91,8 +91,7 @@ void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
         // the "Configure..." dialog
         KMoreToolsMenuFactory menuFactory(QStringLiteral("dolphin/statusbar-diskspace-menu"));
         menuFactory.setParentWidget(this);
-        auto menu = menuFactory.createMenuFromGroupingNames(
-            { "disk-usage", "more:", "disk-partitions" }, m_url);
+        auto menu = menuFactory.createMenuFromGroupingNames({"disk-usage", "more:", "disk-partitions"}, m_url);
 
         menu->exec(QCursor::pos());
     }
@@ -126,4 +125,3 @@ void StatusBarSpaceInfo::slotValuesChanged()
         update();
     }
 }
-

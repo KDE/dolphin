@@ -7,8 +7,8 @@
 
 #include "kversioncontrolplugin.h"
 
-KVersionControlPlugin::KVersionControlPlugin(QObject* parent) :
-    QObject(parent)
+KVersionControlPlugin::KVersionControlPlugin(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -16,7 +16,7 @@ KVersionControlPlugin::~KVersionControlPlugin()
 {
 }
 
-QString KVersionControlPlugin::localRepositoryRoot(const QString &/*directory*/) const
+QString KVersionControlPlugin::localRepositoryRoot(const QString & /*directory*/) const
 {
     return QString();
 }

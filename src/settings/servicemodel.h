@@ -25,24 +25,19 @@ class ServiceModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum Role
-    {
-        DesktopEntryNameRole = Qt::UserRole,
-        ConfigurableRole
-    };
+    enum Role { DesktopEntryNameRole = Qt::UserRole, ConfigurableRole };
 
-    explicit ServiceModel(QObject* parent = nullptr);
+    explicit ServiceModel(QObject *parent = nullptr);
     ~ServiceModel() override;
 
-    bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;
-    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     void clear();
 
- private:
-    struct ServiceItem
-    {
+private:
+    struct ServiceItem {
         bool checked;
         bool configurable;
         QString icon;

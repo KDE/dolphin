@@ -15,27 +15,28 @@
 
 #include <KFileItem>
 
-namespace {
-    const int AdditionalInfoViewPropertiesVersion = 1;
-    const int NameRolePropertiesVersion = 2;
-    const int DateRolePropertiesVersion = 4;
-    const int CurrentViewPropertiesVersion = 4;
+namespace
+{
+const int AdditionalInfoViewPropertiesVersion = 1;
+const int NameRolePropertiesVersion = 2;
+const int DateRolePropertiesVersion = 4;
+const int CurrentViewPropertiesVersion = 4;
 
-    // String representation to mark the additional properties of
-    // the details view as customized by the user. See
-    // ViewProperties::visibleRoles() for more information.
-    const char CustomizedDetailsString[] = "CustomizedDetails";
+// String representation to mark the additional properties of
+// the details view as customized by the user. See
+// ViewProperties::visibleRoles() for more information.
+const char CustomizedDetailsString[] = "CustomizedDetails";
 
-    // Filename that is used for storing the properties
-    const char ViewPropertiesFileName[] = ".directory";
+// Filename that is used for storing the properties
+const char ViewPropertiesFileName[] = ".directory";
 }
 
-ViewProperties::ViewProperties(const QUrl& url) :
-    m_changedProps(false),
-    m_autoSave(true),
-    m_node(nullptr)
+ViewProperties::ViewProperties(const QUrl &url)
+    : m_changedProps(false)
+    , m_autoSave(true)
+    , m_node(nullptr)
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
     bool useSearchView = false;
     bool useTrashView = false;
@@ -78,10 +79,10 @@ ViewProperties::ViewProperties(const QUrl& url) :
         }
 
         if (useDestinationDir) {
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
             // m_filePath probably begins with C:/ - the colon is not a valid character for paths though
-            m_filePath =  QDir::separator() + m_filePath.remove(QLatin1Char(':'));
-    #endif
+            m_filePath = QDir::separator() + m_filePath.remove(QLatin1Char(':'));
+#endif
             m_filePath = destinationDir(QStringLiteral("local")) + m_filePath;
         }
 
@@ -97,9 +98,8 @@ ViewProperties::ViewProperties(const QUrl& url) :
 
     // If the .directory file does not exist or the timestamp is too old,
     // use default values instead.
-    const bool useDefaultProps = (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView) &&
-                                 (!QFile::exists(file) ||
-                                  (m_node->timestamp() < settings->viewPropsTimestamp()));
+    const bool useDefaultProps = (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
+        && (!QFile::exists(file) || (m_node->timestamp() < settings->viewPropsTimestamp()));
     if (useDefaultProps) {
         if (useSearchView) {
             const QString path = url.path();
@@ -134,7 +134,7 @@ ViewProperties::ViewProperties(const QUrl& url) :
             }
         } else {
             // The global view-properties act as default for directories without
-            // any view-property configuration. Constructing a ViewProperties 
+            // any view-property configuration. Constructing a ViewProperties
             // instance for an empty QUrl ensures that the global view-properties
             // are loaded.
             QUrl emptyUrl;
@@ -230,7 +230,7 @@ bool ViewProperties::hiddenFilesShown() const
     return m_node->hiddenFilesShown();
 }
 
-void ViewProperties::setSortRole(const QByteArray& role)
+void ViewProperties::setSortRole(const QByteArray &role)
 {
     if (m_node->sortRole() != role) {
         m_node->setSortRole(role);
@@ -282,7 +282,7 @@ bool ViewProperties::sortHiddenLast() const
     return m_node->sortHiddenLast();
 }
 
-void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
+void ViewProperties::setVisibleRoles(const QList<QByteArray> &roles)
 {
     if (roles == visibleRoles()) {
         return;
@@ -303,13 +303,12 @@ void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
 
     // Add the updated values for the current view-mode
     newVisibleRoles.reserve(roles.count());
-    for (const QByteArray& role : roles) {
+    for (const QByteArray &role : roles) {
         newVisibleRoles.append(prefix + role);
     }
 
     if (oldVisibleRoles != newVisibleRoles) {
-        const bool markCustomizedDetails = (m_node->viewMode() == DolphinView::DetailsView)
-                                           && !newVisibleRoles.contains(CustomizedDetailsString);
+        const bool markCustomizedDetails = (m_node->viewMode() == DolphinView::DetailsView) && !newVisibleRoles.contains(CustomizedDetailsString);
         if (markCustomizedDetails) {
             // The additional information of the details-view has been modified. Set a marker,
             // so that it is allowed to also show no additional information without doing the
@@ -346,7 +345,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     const int prefixLength = prefix.length();
 
     const QStringList visibleRoles = m_node->visibleRoles();
-    for (const QString& visibleRole : visibleRoles) {
+    for (const QString &visibleRole : visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
             if (role != "text") {
@@ -358,8 +357,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     // For the details view the size and date should be shown per default
     // until the additional information has been explicitly changed by the user
     const bool useDefaultValues = roles.count() == 1 // "text"
-                                  && (m_node->viewMode() == DolphinView::DetailsView)
-                                  && !visibleRoles.contains(CustomizedDetailsString);
+        && (m_node->viewMode() == DolphinView::DetailsView) && !visibleRoles.contains(CustomizedDetailsString);
     if (useDefaultValues) {
         roles.append("size");
         roles.append("modificationtime");
@@ -368,7 +366,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     return roles;
 }
 
-void ViewProperties::setHeaderColumnWidths(const QList<int>& widths)
+void ViewProperties::setHeaderColumnWidths(const QList<int> &widths)
 {
     if (m_node->headerColumnWidths() != widths) {
         m_node->setHeaderColumnWidths(widths);
@@ -381,7 +379,7 @@ QList<int> ViewProperties::headerColumnWidths() const
     return m_node->headerColumnWidths();
 }
 
-void ViewProperties::setDirProperties(const ViewProperties& props)
+void ViewProperties::setDirProperties(const ViewProperties &props)
 {
     setViewMode(props.viewMode());
     setPreviewsShown(props.previewsShown());
@@ -428,7 +426,7 @@ bool ViewProperties::exist() const
     return QFile::exists(file);
 }
 
-QString ViewProperties::destinationDir(const QString& subDir) const
+QString ViewProperties::destinationDir(const QString &subDir) const
 {
     QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     path.append("/view_properties/").append(subDir);
@@ -440,10 +438,17 @@ QString ViewProperties::viewModePrefix() const
     QString prefix;
 
     switch (m_node->viewMode()) {
-    case DolphinView::IconsView:   prefix = QStringLiteral("Icons_"); break;
-    case DolphinView::CompactView: prefix = QStringLiteral("Compact_"); break;
-    case DolphinView::DetailsView: prefix = QStringLiteral("Details_"); break;
-    default: qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";
+    case DolphinView::IconsView:
+        prefix = QStringLiteral("Icons_");
+        break;
+    case DolphinView::CompactView:
+        prefix = QStringLiteral("Compact_");
+        break;
+    case DolphinView::DetailsView:
+        prefix = QStringLiteral("Details_");
+        break;
+    default:
+        qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";
     }
 
     return prefix;
@@ -460,7 +465,7 @@ void ViewProperties::convertAdditionalInfo()
         // the internal role. One special-case must be handled: "LinkDestination"
         // has been used for "destination".
         visibleRoles.reserve(visibleRoles.count() + additionalInfo.count());
-        for (const QString& info : additionalInfo) {
+        for (const QString &info : additionalInfo) {
             QString visibleRole = info;
             int index = visibleRole.indexOf('_');
             if (index >= 0 && index + 1 < visibleRole.length()) {
@@ -525,7 +530,7 @@ void ViewProperties::convertDateRoleToModificationTimeRole()
     update();
 }
 
-bool ViewProperties::isPartOfHome(const QString& filePath)
+bool ViewProperties::isPartOfHome(const QString &filePath)
 {
     // For performance reasons cache the path in a static QString
     // (see QDir::homePath() for more details)
@@ -538,7 +543,7 @@ bool ViewProperties::isPartOfHome(const QString& filePath)
     return filePath.startsWith(homePath);
 }
 
-QString ViewProperties::directoryHashForUrl(const QUrl& url)
+QString ViewProperties::directoryHashForUrl(const QUrl &url)
 {
     const QByteArray hashValue = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Sha1);
     QString hashString = hashValue.toBase64();

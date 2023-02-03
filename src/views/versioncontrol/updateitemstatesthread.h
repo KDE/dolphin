@@ -31,20 +31,19 @@ public:
      *                   UpdateItemStatesThread::unlockPlugin() must be used.
      * @param itemStates List of items, where the states get updated.
      */
-    UpdateItemStatesThread(KVersionControlPlugin* plugin,
-                           const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates);
+    UpdateItemStatesThread(KVersionControlPlugin *plugin, const QMap<QString, QVector<VersionControlObserver::ItemState>> &itemStates);
     ~UpdateItemStatesThread() override;
 
-    QMap<QString, QVector<VersionControlObserver::ItemState> > itemStates() const;
+    QMap<QString, QVector<VersionControlObserver::ItemState>> itemStates() const;
 
 protected:
     void run() override;
 
 private:
-    QMutex* m_globalPluginMutex; // Protects the m_plugin globally
-    KVersionControlPlugin* m_plugin;
+    QMutex *m_globalPluginMutex; // Protects the m_plugin globally
+    KVersionControlPlugin *m_plugin;
 
-    QMap<QString, QVector<VersionControlObserver::ItemState> > m_itemStates;
+    QMap<QString, QVector<VersionControlObserver::ItemState>> m_itemStates;
 };
 
 #endif // UPDATEITEMSTATESTHREAD_H

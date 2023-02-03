@@ -7,8 +7,8 @@
 
 #include "bottombar.h"
 
-#include "bottombarcontentscontainer.h"
 #include "backgroundcolorhelper.h"
+#include "bottombarcontentscontainer.h"
 
 #include <QGridLayout>
 #include <QResizeEvent>
@@ -18,8 +18,8 @@
 
 using namespace SelectionMode;
 
-BottomBar::BottomBar(KActionCollection *actionCollection, QWidget *parent) :
-    QWidget{parent}
+BottomBar::BottomBar(KActionCollection *actionCollection, QWidget *parent)
+    : QWidget{parent}
 {
     // Showing of this widget is normally animated. We hide it for now and make it small.
     hide();
@@ -44,7 +44,7 @@ BottomBar::BottomBar(KActionCollection *actionCollection, QWidget *parent) :
     m_scrollArea->setWidget(m_contentsContainer);
     m_contentsContainer->installEventFilter(this); // Adjusts the height of this bar to the height of the contentsContainer
     connect(m_contentsContainer, &BottomBarContentsContainer::error, this, &BottomBar::error);
-    connect(m_contentsContainer, &BottomBarContentsContainer::barVisibilityChangeRequested, this, [this](bool visible){
+    connect(m_contentsContainer, &BottomBarContentsContainer::barVisibilityChangeRequested, this, [this](bool visible) {
         if (!m_allowedToBeVisible && visible) {
             return;
         }
@@ -77,20 +77,18 @@ void BottomBar::setVisibleInternal(bool visible, Animated animated)
         m_heightAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
     }
     m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
-    m_heightAnimation->setDuration(2 *
-            style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) *
-            GlobalConfig::animationDurationFactor());
+    m_heightAnimation->setDuration(2 * style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) * GlobalConfig::animationDurationFactor());
     m_heightAnimation->setStartValue(height());
     m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
     if (visible) {
         show();
         m_heightAnimation->setEndValue(sizeHint().height());
-        connect(m_heightAnimation, &QAbstractAnimation::finished,
-                this, [this](){ setMaximumHeight(sizeHint().height()); });
+        connect(m_heightAnimation, &QAbstractAnimation::finished, this, [this]() {
+            setMaximumHeight(sizeHint().height());
+        });
     } else {
         m_heightAnimation->setEndValue(0);
-        connect(m_heightAnimation, &QAbstractAnimation::finished,
-                this, &QWidget::hide);
+        connect(m_heightAnimation, &QAbstractAnimation::finished, this, &QWidget::hide);
     }
 
     m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);

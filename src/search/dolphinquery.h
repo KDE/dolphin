@@ -20,9 +20,9 @@ class DolphinQuery
 {
 public:
     /** Parses the components of @p searchUrl for the supported schemes */
-    static DolphinQuery fromSearchUrl(const QUrl& searchUrl);
+    static DolphinQuery fromSearchUrl(const QUrl &searchUrl);
     /** Checks whether the DolphinQuery supports the given @p urlScheme */
-    static bool supportsScheme(const QString& urlScheme);
+    static bool supportsScheme(const QString &urlScheme);
 
     /** @return the \a searchUrl passed to Baloo::Query::fromSearchUrl() */
     QUrl searchUrl() const;

@@ -6,8 +6,8 @@
 
 #include "foldersitemlistwidget.h"
 
-FoldersItemListWidget::FoldersItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    KFileItemListWidget(informant, parent)
+FoldersItemListWidget::FoldersItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent)
+    : KFileItemListWidget(informant, parent)
 {
 }
 
@@ -19,4 +19,3 @@ QPalette::ColorRole FoldersItemListWidget::normalTextColorRole() const
 {
     return QPalette::WindowText;
 }
-

@@ -17,10 +17,9 @@
 #include <KIO/PreviewJob>
 #include <QtMath>
 
-
-DolphinItemListView::DolphinItemListView(QGraphicsWidget* parent) :
-    KFileItemListView(parent),
-    m_zoomLevel(0)
+DolphinItemListView::DolphinItemListView(QGraphicsWidget *parent)
+    : KFileItemListView(parent)
+    , m_zoomLevel(0)
 {
     updateFont();
     updateGridSize();
@@ -104,7 +103,7 @@ void DolphinItemListView::writeSettings()
     DetailsModeSettings::self()->save();
 }
 
-KItemListWidgetCreatorBase* DolphinItemListView::defaultWidgetCreator() const
+KItemListWidgetCreatorBase *DolphinItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<DolphinFileItemListWidget>();
 }
@@ -135,8 +134,7 @@ void DolphinItemListView::onPreviewsShownChanged(bool shown)
     updateGridSize();
 }
 
-void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray>& current,
-                                                const QList<QByteArray>& previous)
+void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous)
 {
     KFileItemListView::onVisibleRolesChanged(current, previous);
     updateGridSize();
@@ -180,7 +178,6 @@ void DolphinItemListView::updateGridSize()
 
     switch (itemLayout()) {
     case KFileItemListView::IconsLayout: {
-
         // an exponential factor based on zoom, 0 -> 1, 4 -> 1.36 8 -> ~1.85, 16 -> 3.4
         auto zoomFactor = qExp(m_zoomLevel / 13.0);
         // 9 is the average char width for 10pt Noto Sans, making fontFactor =1

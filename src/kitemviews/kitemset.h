@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-
 #ifndef KITEMSET_H
 #define KITEMSET_H
 
@@ -33,9 +32,9 @@ class DOLPHIN_EXPORT KItemSet
 {
 public:
     KItemSet();
-    KItemSet(const KItemSet& other);
+    KItemSet(const KItemSet &other);
     ~KItemSet();
-    KItemSet& operator=(const KItemSet& other);
+    KItemSet &operator=(const KItemSet &other);
 
     /**
      * Returns the number of items in the set.
@@ -46,25 +45,25 @@ public:
     bool isEmpty() const;
     void clear();
 
-    bool operator==(const KItemSet& other) const;
-    bool operator!=(const KItemSet& other) const;
+    bool operator==(const KItemSet &other) const;
+    bool operator!=(const KItemSet &other) const;
 
     class iterator
     {
-        iterator(const KItemRangeList::iterator& rangeIt, int offset) :
-            m_rangeIt(rangeIt),
-            m_offset(offset)
+        iterator(const KItemRangeList::iterator &rangeIt, int offset)
+            : m_rangeIt(rangeIt)
+            , m_offset(offset)
         {
         }
 
     public:
-        iterator(const iterator& other) :
-            m_rangeIt(other.m_rangeIt),
-            m_offset(other.m_offset)
+        iterator(const iterator &other)
+            : m_rangeIt(other.m_rangeIt)
+            , m_offset(other.m_offset)
         {
         }
 
-        iterator& operator=(const iterator& other)
+        iterator &operator=(const iterator &other)
         {
             m_rangeIt = other.m_rangeIt;
             m_offset = other.m_offset;
@@ -78,17 +77,17 @@ public:
             return m_rangeIt->index + m_offset;
         }
 
-        inline bool operator==(const iterator& other) const
+        inline bool operator==(const iterator &other) const
         {
             return m_rangeIt == other.m_rangeIt && m_offset == other.m_offset;
         }
 
-        inline bool operator!=(const iterator& other) const
+        inline bool operator!=(const iterator &other) const
         {
             return !(*this == other);
         }
 
-        inline iterator& operator++()
+        inline iterator &operator++()
         {
             ++m_offset;
 
@@ -107,7 +106,7 @@ public:
             return r;
         }
 
-        inline iterator& operator--()
+        inline iterator &operator--()
         {
             if (m_offset == 0) {
                 --m_rangeIt;
@@ -134,29 +133,28 @@ public:
         friend class KItemSet;
     };
 
-
     class const_iterator
     {
-        const_iterator(KItemRangeList::const_iterator rangeIt, int offset) :
-            m_rangeIt(rangeIt),
-            m_offset(offset)
+        const_iterator(KItemRangeList::const_iterator rangeIt, int offset)
+            : m_rangeIt(rangeIt)
+            , m_offset(offset)
         {
         }
 
     public:
-        const_iterator(const const_iterator& other) :
-            m_rangeIt(other.m_rangeIt),
-            m_offset(other.m_offset)
+        const_iterator(const const_iterator &other)
+            : m_rangeIt(other.m_rangeIt)
+            , m_offset(other.m_offset)
         {
         }
 
-        explicit const_iterator(const iterator& other) :
-            m_rangeIt(other.m_rangeIt),
-            m_offset(other.m_offset)
+        explicit const_iterator(const iterator &other)
+            : m_rangeIt(other.m_rangeIt)
+            , m_offset(other.m_offset)
         {
         }
 
-        const_iterator& operator=(const const_iterator& other)
+        const_iterator &operator=(const const_iterator &other)
         {
             m_rangeIt = other.m_rangeIt;
             m_offset = other.m_offset;
@@ -170,17 +168,17 @@ public:
             return m_rangeIt->index + m_offset;
         }
 
-        inline bool operator==(const const_iterator& other) const
+        inline bool operator==(const const_iterator &other) const
         {
             return m_rangeIt == other.m_rangeIt && m_offset == other.m_offset;
         }
 
-        inline bool operator!=(const const_iterator& other) const
+        inline bool operator!=(const const_iterator &other) const
         {
             return !(*this == other);
         }
 
-        inline const_iterator& operator++()
+        inline const_iterator &operator++()
         {
             ++m_offset;
 
@@ -199,7 +197,7 @@ public:
             return r;
         }
 
-        inline const_iterator& operator--()
+        inline const_iterator &operator--()
         {
             if (m_offset == 0) {
                 --m_rangeIt;
@@ -246,16 +244,16 @@ public:
      * Returns a new set which contains all items that are contained in this
      * KItemSet, in \a other, or in both.
      */
-    KItemSet operator+(const KItemSet& other) const;
+    KItemSet operator+(const KItemSet &other) const;
 
     /**
      * Returns a new set which contains all items that are contained either in
      * this KItemSet, or in \a other, but not in both (the symmetric difference
      * of both KItemSets).
      */
-    KItemSet operator^(const KItemSet& other) const;
+    KItemSet operator^(const KItemSet &other) const;
 
-    KItemSet& operator<<(int i);
+    KItemSet &operator<<(int i);
 
 private:
     /**
@@ -282,28 +280,28 @@ private:
     friend class KItemSetTest;
 };
 
-inline KItemSet::KItemSet() :
-    m_itemRanges()
+inline KItemSet::KItemSet()
+    : m_itemRanges()
 {
 }
 
-inline KItemSet::KItemSet(const KItemSet& other) :
-    m_itemRanges(other.m_itemRanges)
+inline KItemSet::KItemSet(const KItemSet &other)
+    : m_itemRanges(other.m_itemRanges)
 {
 }
 
 inline KItemSet::~KItemSet() = default;
 
-inline KItemSet& KItemSet::operator=(const KItemSet& other)
+inline KItemSet &KItemSet::operator=(const KItemSet &other)
 {
-    m_itemRanges=other.m_itemRanges;
+    m_itemRanges = other.m_itemRanges;
     return *this;
 }
 
 inline int KItemSet::count() const
 {
     int result = 0;
-    for (const KItemRange& range : qAsConst(m_itemRanges)) {
+    for (const KItemRange &range : qAsConst(m_itemRanges)) {
         result += range.count;
     }
     return result;
@@ -319,12 +317,12 @@ inline void KItemSet::clear()
     m_itemRanges.clear();
 }
 
-inline bool KItemSet::operator==(const KItemSet& other) const
+inline bool KItemSet::operator==(const KItemSet &other) const
 {
     return m_itemRanges == other.m_itemRanges;
 }
 
-inline bool KItemSet::operator!=(const KItemSet& other) const
+inline bool KItemSet::operator!=(const KItemSet &other) const
 {
     return m_itemRanges != other.m_itemRanges;
 }
@@ -403,11 +401,11 @@ inline int KItemSet::first() const
 
 inline int KItemSet::last() const
 {
-    const KItemRange& lastRange = m_itemRanges.last();
+    const KItemRange &lastRange = m_itemRanges.last();
     return lastRange.index + lastRange.count - 1;
 }
 
-inline KItemSet& KItemSet::operator<<(int i)
+inline KItemSet &KItemSet::operator<<(int i)
 {
     insert(i);
     return *this;

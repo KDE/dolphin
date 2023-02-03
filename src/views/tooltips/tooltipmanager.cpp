@@ -8,19 +8,20 @@
 
 #include "dolphinfilemetadatawidget.h"
 
-#include <KIO/PreviewJob>
 #include <KConfigGroup>
+#include <KIO/PreviewJob>
+#include <KIconLoader>
 #include <KJobWidgets>
 #include <KSharedConfig>
 #include <KToolTipWidget>
-#include <KIconLoader>
 
 #include <QApplication>
 #include <QStyle>
 #include <QTimer>
 #include <QWindow>
 
-class IconLoaderSingleton {
+class IconLoaderSingleton
+{
 public:
     IconLoaderSingleton() = default;
 
@@ -29,17 +30,17 @@ public:
 
 Q_GLOBAL_STATIC(IconLoaderSingleton, iconLoader)
 
-ToolTipManager::ToolTipManager(QWidget* parent) :
-    QObject(parent),
-    m_showToolTipTimer(nullptr),
-    m_contentRetrievalTimer(nullptr),
-    m_transientParent(nullptr),
-    m_toolTipRequested(false),
-    m_metaDataRequested(false),
-    m_appliedWaitCursor(false),
-    m_margin(4),
-    m_item(),
-    m_itemRect()
+ToolTipManager::ToolTipManager(QWidget *parent)
+    : QObject(parent)
+    , m_showToolTipTimer(nullptr)
+    , m_contentRetrievalTimer(nullptr)
+    , m_transientParent(nullptr)
+    , m_toolTipRequested(false)
+    , m_metaDataRequested(false)
+    , m_appliedWaitCursor(false)
+    , m_margin(4)
+    , m_item()
+    , m_itemRect()
 {
     if (parent) {
         m_margin = qMax(m_margin, parent->style()->pixelMetric(QStyle::PM_ToolTipLabelFrameWidth));
@@ -65,7 +66,7 @@ ToolTipManager::~ToolTipManager()
     }
 }
 
-void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, QWindow *transientParent)
+void ToolTipManager::showToolTip(const KFileItem &item, const QRectF &itemRect, QWindow *transientParent)
 {
     hideToolTip(HideBehavior::Instantly);
 
@@ -134,23 +135,17 @@ void ToolTipManager::startContentRetrieval()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
-    KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item,
-                                               QSize(256, 256),
-                                               &plugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256), &plugins);
     job->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, &KIO::PreviewJob::gotPreview,
-            this, &ToolTipManager::setPreviewPix);
-    connect(job, &KIO::PreviewJob::failed,
-            this, &ToolTipManager::previewFailed);
+    connect(job, &KIO::PreviewJob::gotPreview, this, &ToolTipManager::setPreviewPix);
+    connect(job, &KIO::PreviewJob::failed, this, &ToolTipManager::previewFailed);
 }
 
-
-void ToolTipManager::setPreviewPix(const KFileItem& item,
-                                   const QPixmap& pixmap)
+void ToolTipManager::setPreviewPix(const KFileItem &item, const QPixmap &pixmap)
 {
     if (!m_toolTipRequested || (m_item.url() != item.url())) {
         // No tooltip is requested anymore or an old preview has been received
@@ -173,7 +168,7 @@ void ToolTipManager::previewFailed()
         return;
     }
     QPalette pal;
-    for (auto state : { QPalette::Active, QPalette::Inactive, QPalette::Disabled }) {
+    for (auto state : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
         pal.setBrush(state, QPalette::WindowText, pal.toolTipText());
         pal.setBrush(state, QPalette::Window, pal.toolTipBase());
     }
@@ -224,4 +219,3 @@ void ToolTipManager::showToolTip()
 
     m_toolTipRequested = false;
 }
-

@@ -26,7 +26,7 @@ class DOLPHIN_EXPORT ViewModeController : public QObject
     Q_OBJECT
 
 public:
-    explicit ViewModeController(QObject* parent = nullptr);
+    explicit ViewModeController(QObject *parent = nullptr);
     ~ViewModeController() override;
 
     /**
@@ -38,7 +38,7 @@ public:
      * Sets the URL to \a url and does nothing else. Called when
      * a redirection happens. See ViewModeController::setUrl()
      */
-    void redirectToUrl(const QUrl& url);
+    void redirectToUrl(const QUrl &url);
 
     /**
      * Informs the view mode implementation about a change of the activation
@@ -58,7 +58,7 @@ public:
     /**
      * Sets the name filter to \a and emits the signal nameFilterChanged().
      */
-    void setNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString &nameFilter);
     QString nameFilter() const;
 
 public Q_SLOTS:
@@ -66,13 +66,13 @@ public Q_SLOTS:
      * Sets the URL to \a url and emits the signals cancelPreviews() and
      * urlChanged() if \a url is different for the current URL.
      */
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
 
 Q_SIGNALS:
     /**
      * Is emitted if the URL has been changed by ViewModeController::setUrl().
      */
-    void urlChanged(const QUrl& url);
+    void urlChanged(const QUrl &url);
 
     /**
      * Is emitted, if ViewModeController::indicateActivationChange() has been
@@ -85,7 +85,7 @@ Q_SIGNALS:
      * Is emitted if the name filter has been changed by
      * ViewModeController::setNameFilter().
      */
-    void nameFilterChanged(const QString& nameFilter);
+    void nameFilterChanged(const QString &nameFilter);
 
     /**
      * Is emitted if the zoom level has been changed by

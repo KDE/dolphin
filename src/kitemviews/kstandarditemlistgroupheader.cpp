@@ -11,20 +11,19 @@
 #include <KRatingPainter>
 #include <QPainter>
 
-KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget* parent) :
-    KItemListGroupHeader(parent),
-    m_dirtyCache(true),
-    m_text(),
-    m_pixmap()
+KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget *parent)
+    : KItemListGroupHeader(parent)
+    , m_dirtyCache(true)
+    , m_text()
+    , m_pixmap()
 {
-
 }
 
 KStandardItemListGroupHeader::~KStandardItemListGroupHeader()
 {
 }
 
-void KStandardItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KStandardItemListGroupHeader::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     if (m_dirtyCache) {
         updateCache();
@@ -32,7 +31,7 @@ void KStandardItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGr
     KItemListGroupHeader::paint(painter, option, widget);
 }
 
-void KStandardItemListGroupHeader::paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color)
+void KStandardItemListGroupHeader::paintRole(QPainter *painter, const QRectF &roleBounds, const QColor &color)
 {
     if (m_pixmap.isNull()) {
         painter->setPen(color);
@@ -42,7 +41,7 @@ void KStandardItemListGroupHeader::paintRole(QPainter* painter, const QRectF& ro
     }
 }
 
-void KStandardItemListGroupHeader::paintSeparator(QPainter* painter, const QColor& color)
+void KStandardItemListGroupHeader::paintSeparator(QPainter *painter, const QColor &color)
 {
     if (itemIndex() == 0) {
         // No top- or left-line should be drawn for the first group-header
@@ -69,14 +68,14 @@ void KStandardItemListGroupHeader::roleChanged(const QByteArray &current, const 
     m_dirtyCache = true;
 }
 
-void KStandardItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
+void KStandardItemListGroupHeader::dataChanged(const QVariant &current, const QVariant &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
     m_dirtyCache = true;
 }
 
-void KStandardItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KStandardItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     KItemListGroupHeader::resizeEvent(event);
     m_dirtyCache = true;
@@ -110,4 +109,3 @@ void KStandardItemListGroupHeader::updateCache()
         m_text = text;
     }
 }
-

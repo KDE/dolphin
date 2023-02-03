@@ -17,7 +17,7 @@ class FoldersItemListWidget : public KFileItemListWidget
     Q_OBJECT
 
 public:
-    FoldersItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    FoldersItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~FoldersItemListWidget() override;
 
 protected:
@@ -25,5 +25,3 @@ protected:
 };
 
 #endif
-
-

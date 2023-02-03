@@ -9,15 +9,15 @@
 #ifndef DOLPHIN_MAINWINDOW_H
 #define DOLPHIN_MAINWINDOW_H
 
+#include "config-dolphin.h"
 #include "dolphintabwidget.h"
 #include "selectionmode/bottombar.h"
-#include "config-dolphin.h"
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
 
 #if HAVE_BALOO
-    #include "panels/information/informationpanel.h"
+#include "panels/information/informationpanel.h"
 #endif
 
 #include <QIcon>
@@ -44,11 +44,13 @@ class QToolButton;
 class PlacesPanel;
 class TerminalPanel;
 
-namespace KIO {
-    class OpenUrlJob;
+namespace KIO
+{
+class OpenUrlJob;
 }
-namespace SelectionMode {
-    class ActionTextHelper;
+namespace SelectionMode
+{
+class ActionTextHelper;
 }
 
 /**
@@ -56,7 +58,7 @@ namespace SelectionMode {
  *
  * Handles the menus, toolbars and Dolphin views.
  */
-class DolphinMainWindow: public KXmlGuiWindow
+class DolphinMainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")
@@ -71,12 +73,12 @@ public:
      * having a split view setup, the nonactive view
      * is usually shown in darker colors.
      */
-    DolphinViewContainer* activeViewContainer() const;
+    DolphinViewContainer *activeViewContainer() const;
 
     /**
      * Returns view container for all tabs
      */
-    QVector<DolphinViewContainer*> viewContainers() const;
+    QVector<DolphinViewContainer *> viewContainers() const;
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
@@ -90,13 +92,13 @@ public:
      * If \a splitView is set, 2 directories are collected within one tab.
      * \pre \a files must contain at least one url.
      */
-    void openFiles(const QList<QUrl>& files, bool splitView);
+    void openFiles(const QList<QUrl> &files, bool splitView);
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewFileMenu* newFileMenu() const;
+    KNewFileMenu *newFileMenu() const;
 
     /**
      * Augments Qt's build-in QMainWindow context menu to add
@@ -112,7 +114,7 @@ public:
      * This typically done after unmounting a disk at mountPath to ensure that
      * the window is not displaying an invalid location.
      */
-    void setViewsToHomeIfMountPathOpen(const QString& mountPath);
+    void setViewsToHomeIfMountPathOpen(const QString &mountPath);
 
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
@@ -159,7 +161,6 @@ public Q_SLOTS:
      */
     bool isItemVisibleInAnyView(const QString &urlOfItem);
 
-
     /**
      * Pastes the clipboard data into the currently selected folder
      * of the active view. If not exactly one folder is selected,
@@ -172,14 +173,14 @@ public Q_SLOTS:
      * Inform all affected dolphin components (panels, views) of an URL
      * change.
      */
-    void changeUrl(const QUrl& url);
+    void changeUrl(const QUrl &url);
 
     /**
      * The current directory of the Terminal Panel has changed, probably because
      * the user entered a 'cd' command. This slot calls changeUrl(url) and makes
      * sure that the panel keeps the keyboard focus.
      */
-    void slotTerminalDirectoryChanged(const QUrl& url);
+    void slotTerminalDirectoryChanged(const QUrl &url);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
@@ -187,7 +188,7 @@ public Q_SLOTS:
     /**
      * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTab(const QUrl& url);
+    void openNewTab(const QUrl &url);
 
     /**
      * Opens a new tab  showing the URL \a url and activate it.
@@ -207,19 +208,19 @@ Q_SIGNALS:
      * Is sent if the selection of the currently active view has
      * been changed.
      */
-    void selectionChanged(const KFileItemList& selection);
+    void selectionChanged(const KFileItemList &selection);
 
     /**
      * Is sent if the url of the currently active view has
      * been changed.
      */
-    void urlChanged(const QUrl& url);
+    void urlChanged(const QUrl &url);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
      * If item is null, no item information request is pending.
      */
-    void requestItemInfo(const KFileItem& item);
+    void requestItemInfo(const KFileItem &item);
 
     /**
      * It is emitted when in the current view, files are changed,
@@ -234,16 +235,16 @@ Q_SIGNALS:
 
 protected:
     /** @see QWidget::showEvent() */
-    void showEvent(QShowEvent* event) override;
+    void showEvent(QShowEvent *event) override;
 
     /** @see QMainWindow::closeEvent() */
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 
     /** @see KMainWindow::saveProperties() */
-    void saveProperties(KConfigGroup& group) override;
+    void saveProperties(KConfigGroup &group) override;
 
     /** @see KMainWindow::readProperties() */
-    void readProperties(const KConfigGroup& group) override;
+    void readProperties(const KConfigGroup &group) override;
 
     /** Sets a sane initial window size **/
     QSize sizeHint() const override;
@@ -271,7 +272,7 @@ private Q_SLOTS:
     void createDirectory();
 
     /** Shows the error message in the status bar of the active view. */
-    void showErrorMessage(const QString& message);
+    void showErrorMessage(const QString &message);
 
     /**
      * Updates the state of the 'Undo' menu action dependent
@@ -280,7 +281,7 @@ private Q_SLOTS:
     void slotUndoAvailable(bool available);
 
     /** Sets the text of the 'Undo' menu action to \a text. */
-    void slotUndoTextChanged(const QString& text);
+    void slotUndoTextChanged(const QString &text);
 
     /** Performs the current undo operation. */
     void undo();
@@ -421,7 +422,7 @@ private Q_SLOTS:
     void openTerminalHere();
 
     /** Opens a terminal window for the URL. */
-    void openTerminalJob(const QUrl& url);
+    void openTerminalJob(const QUrl &url);
 
     /** Focus a Terminal Panel. */
     void focusTerminalPanel();
@@ -436,7 +437,7 @@ private Q_SLOTS:
      * Updates the state of the 'Edit' menu actions and emits
      * the signal selectionChanged().
      */
-    void slotSelectionChanged(const KFileItemList& selection);
+    void slotSelectionChanged(const KFileItemList &selection);
 
     /**
      * Updates the state of the 'Back' and 'Forward' menu
@@ -486,7 +487,7 @@ private Q_SLOTS:
      * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
-    void handleUrl(const QUrl& url);
+    void handleUrl(const QUrl &url);
 
     /**
      * Is invoked when the write state of a folder has been changed and
@@ -503,7 +504,7 @@ private Q_SLOTS:
      *                is opened. This list generally includes \a item.
      * @url           URL which contains \a item.
      */
-    void openContextMenu(const QPoint& pos, const KFileItem& item, const KFileItemList &selectedItems, const QUrl& url);
+    void openContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url);
 
     /**
      * Updates the menu that is by default at the right end of the toolbar.
@@ -520,7 +521,7 @@ private Q_SLOTS:
      * Reloads the view if \a url is the current URL already, and changes the
      * current URL otherwise.
      */
-    void slotPlaceActivated(const QUrl& url);
+    void slotPlaceActivated(const QUrl &url);
 
     /**
      * Is called if the another view has been activated by changing the current
@@ -530,7 +531,7 @@ private Q_SLOTS:
      * to this view. When having a split view setup, the nonactive view is
      * usually shown in darker colors.
      */
-    void activeViewChanged(DolphinViewContainer* viewContainer);
+    void activeViewChanged(DolphinViewContainer *viewContainer);
 
     void closedTabsCountChanged(unsigned int count);
 
@@ -549,7 +550,7 @@ private Q_SLOTS:
      * This slot is called when the user requested to unmount a removable media
      * from the places menu
      */
-    void slotStorageTearDownFromPlacesRequested(const QString& mountPath);
+    void slotStorageTearDownFromPlacesRequested(const QString &mountPath);
 
     /**
      * This slot is called when the user requested to unmount a removable media
@@ -558,7 +559,7 @@ private Q_SLOTS:
      * Solid::StorageAccess::teardownRequested(const QString & udi)
      * signal through the places panel.
      */
-    void slotStorageTearDownExternallyRequested(const QString& mountPath);
+    void slotStorageTearDownExternallyRequested(const QString &mountPath);
 
     /**
      * Is called when the view has finished loading the directory.
@@ -584,7 +585,7 @@ private Q_SLOTS:
       * history index. The QAction::data will carry an int with the index
       * to go to.
       */
-    void slotGoBack(QAction* action);
+    void slotGoBack(QAction *action);
 
     /**
      * Middle clicking Back/Forward will open the resulting folder in a new tab.
@@ -602,7 +603,7 @@ private Q_SLOTS:
       * history index. The QAction::data will carry an int with the index
       * to go to.
       */
-    void slotGoForward(QAction* action);
+    void slotGoForward(QAction *action);
 
     /**
      * Is called when configuring the keyboard shortcuts
@@ -630,7 +631,7 @@ private:
      * the DolphinMainWindow. This method must be invoked each
      * time a DolphinView has been created.
      */
-    void connectViewSignals(DolphinViewContainer* container);
+    void connectViewSignals(DolphinViewContainer *container);
 
     /**
      * Updates the text of the split action:
@@ -653,10 +654,7 @@ private:
      * as the action for toggling the dock visibility is done by Qt which
      * is no KAction instance.
      */
-    void createPanelAction(const QIcon &icon,
-                           const QKeySequence& shortcut,
-                           QAction* dockAction,
-                           const QString& actionName);
+    void createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QAction *dockAction, const QString &actionName);
 
     /** Adds "What's This?" texts to many widgets and StandardActions. */
     void setupWhatsThis();
@@ -688,27 +686,27 @@ private:
     public:
         UndoUiInterface();
         ~UndoUiInterface() override;
-        void jobError(KIO::Job* job) override;
+        void jobError(KIO::Job *job) override;
     };
 
-    KNewFileMenu* m_newFileMenu;
-    DolphinTabWidget* m_tabWidget;
-    DolphinViewContainer* m_activeViewContainer;
+    KNewFileMenu *m_newFileMenu;
+    DolphinTabWidget *m_tabWidget;
+    DolphinViewContainer *m_activeViewContainer;
 
-    DolphinViewActionHandler* m_actionHandler;
-    DolphinRemoteEncoding* m_remoteEncoding;
+    DolphinViewActionHandler *m_actionHandler;
+    DolphinRemoteEncoding *m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
-    DolphinBookmarkHandler* m_bookmarkHandler;
-    SelectionMode::ActionTextHelper* m_actionTextHelper;
+    DolphinBookmarkHandler *m_bookmarkHandler;
+    SelectionMode::ActionTextHelper *m_actionTextHelper;
 
     KIO::OpenUrlJob *m_lastHandleUrlOpenJob;
 
-    TerminalPanel* m_terminalPanel;
-    PlacesPanel* m_placesPanel;
+    TerminalPanel *m_terminalPanel;
+    PlacesPanel *m_placesPanel;
     bool m_tearDownFromPlacesRequested;
 
-    KToolBarPopupAction* m_backAction;
-    KToolBarPopupAction* m_forwardAction;
+    KToolBarPopupAction *m_backAction;
+    KToolBarPopupAction *m_forwardAction;
 
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;
@@ -716,15 +714,14 @@ private:
     friend class DolphinMainWindowTest;
 };
 
-inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
+inline DolphinViewContainer *DolphinMainWindow::activeViewContainer() const
 {
     return m_activeViewContainer;
 }
 
-inline KNewFileMenu* DolphinMainWindow::newFileMenu() const
+inline KNewFileMenu *DolphinMainWindow::newFileMenu() const
 {
     return m_newFileMenu;
 }
 
 #endif // DOLPHIN_MAINWINDOW_H
-

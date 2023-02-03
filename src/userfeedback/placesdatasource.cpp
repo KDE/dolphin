@@ -17,7 +17,8 @@
 
 PlacesDataSource::PlacesDataSource()
     : KUserFeedback::AbstractDataSource(QStringLiteral("places"), KUserFeedback::Provider::DetailedSystemInformation)
-{}
+{
+}
 
 QString PlacesDataSource::name() const
 {

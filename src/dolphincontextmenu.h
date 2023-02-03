@@ -47,16 +47,16 @@ public:
      * @baseUrl       Base URL of the viewport where the context menu
      *                should be opened.
      */
-    DolphinContextMenu(DolphinMainWindow* parent,
-                       const KFileItem& fileInfo,
+    DolphinContextMenu(DolphinMainWindow *parent,
+                       const KFileItem &fileInfo,
                        const KFileItemList &selectedItems,
-                       const QUrl& baseUrl,
+                       const QUrl &baseUrl,
                        KFileItemActions *fileItemActions);
 
     ~DolphinContextMenu() override;
 
 protected:
-    bool eventFilter(QObject* object, QEvent* event) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     /**
@@ -71,13 +71,13 @@ private:
     void addItemContextMenu();
     void addViewportContextMenu();
 
-    void insertDefaultItemActions(const KFileItemListProperties&);
+    void insertDefaultItemActions(const KFileItemListProperties &);
 
-    bool placeExists(const QUrl& url) const;
+    bool placeExists(const QUrl &url) const;
 
-    QAction* createPasteAction();
+    QAction *createPasteAction();
 
-    KFileItemListProperties& selectedItemsProperties() const;
+    KFileItemListProperties &selectedItemsProperties() const;
 
     /**
      * Returns the file item for m_baseUrl.
@@ -95,18 +95,16 @@ private:
     void addAdditionalActions(const KFileItemListProperties &props);
 
 private:
-    struct Entry
-    {
+    struct Entry {
         int type;
         QString name;
-        QString filePath;     // empty for separator
+        QString filePath; // empty for separator
         QString templatePath; // same as filePath for template
         QString icon;
         QString comment;
     };
 
-    enum ContextType
-    {
+    enum ContextType {
         NoContext = 0,
         ItemContext = 1,
         TrashContext = 2,
@@ -114,23 +112,22 @@ private:
         SearchContext = 8,
     };
 
-    DolphinMainWindow* m_mainWindow;
+    DolphinMainWindow *m_mainWindow;
 
     KFileItem m_fileInfo;
 
     QUrl m_baseUrl;
-    KFileItem* m_baseFileItem;  /// File item for m_baseUrl
+    KFileItem *m_baseFileItem; /// File item for m_baseUrl
 
     KFileItemList m_selectedItems;
-    mutable KFileItemListProperties* m_selectedItemsProperties;
+    mutable KFileItemListProperties *m_selectedItemsProperties;
 
     int m_context;
     KFileCopyToMenu m_copyToMenu;
 
-    DolphinRemoveAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
+    DolphinRemoveAction *m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
     void addDirectoryItemContextMenu();
     KFileItemActions *m_fileItemActions;
-
 };
 
 #endif

@@ -18,7 +18,7 @@ class StatusBarSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit StatusBarSettingsPage(QWidget* parent);
+    explicit StatusBarSettingsPage(QWidget *parent);
     ~StatusBarSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -32,9 +32,9 @@ private:
     void onShowStatusBarToggled();
 
 private:
-    QCheckBox* m_showStatusBar;
-    QCheckBox* m_showZoomSlider;
-    QCheckBox* m_showSpaceInfo;
+    QCheckBox *m_showStatusBar;
+    QCheckBox *m_showZoomSlider;
+    QCheckBox *m_showSpaceInfo;
 };
 
 #endif

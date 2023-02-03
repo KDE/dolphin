@@ -5,16 +5,16 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include <QTest>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QTest>
 
 #include <random>
 
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
-void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     Q_UNUSED(context)
 
@@ -30,7 +30,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QS
         fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
     default:
-       break;
+        break;
     }
 }
 
@@ -50,7 +50,7 @@ private Q_SLOTS:
     void insertAndRemoveManyItems();
 
 private:
-    static KFileItemList createFileItemList(const QStringList& fileNames, const QString& urlPrefix = QLatin1String("file:///"));
+    static KFileItemList createFileItemList(const QStringList &fileNames, const QString &urlPrefix = QLatin1String("file:///"));
 };
 
 KFileItemModelBenchmark::KFileItemModelBenchmark()
@@ -198,13 +198,13 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
     }
 }
 
-KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList& fileNames, const QString& prefix)
+KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList &fileNames, const QString &prefix)
 {
     // Suppress 'file does not exist anymore' messages from KFileItemPrivate::init().
     qInstallMessageHandler(myMessageOutput);
 
     KFileItemList result;
-    for (const QString& name : fileNames) {
+    for (const QString &name : fileNames) {
         const KFileItem item(QUrl::fromLocalFile(prefix + name), QString(), KFileItem::Unknown);
         result << item;
     }

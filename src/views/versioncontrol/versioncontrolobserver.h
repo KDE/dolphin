@@ -40,34 +40,34 @@ class DOLPHIN_EXPORT VersionControlObserver : public QObject
     Q_OBJECT
 
 public:
-    explicit VersionControlObserver(QObject* parent = nullptr);
+    explicit VersionControlObserver(QObject *parent = nullptr);
     ~VersionControlObserver() override;
 
-    void setModel(KFileItemModel* model);
-    KFileItemModel* model() const;
-    void setView(DolphinView* view);
-    DolphinView* view() const;
+    void setModel(KFileItemModel *model);
+    KFileItemModel *model() const;
+    void setView(DolphinView *view);
+    DolphinView *view() const;
 
-    QList<QAction*> actions(const KFileItemList& items) const;
+    QList<QAction *> actions(const KFileItemList &items) const;
 
 Q_SIGNALS:
     /**
      * Is emitted if an information message with the content \a msg
      * should be shown.
      */
-    void infoMessage(const QString& msg);
+    void infoMessage(const QString &msg);
 
     /**
      * Is emitted if an error message with the content \a msg
      * should be shown.
      */
-    void errorMessage(const QString& msg);
+    void errorMessage(const QString &msg);
 
     /**
      * Is emitted if an "operation completed" message with the content \a msg
      * should be shown.
      */
-    void operationCompletedMessage(const QString& msg);
+    void operationCompletedMessage(const QString &msg);
 
 private Q_SLOTS:
     /**
@@ -89,7 +89,7 @@ private Q_SLOTS:
      * Invokes delayedDirectoryVerification() only if the itemsChanged() signal has not
      * been triggered by the VCS plugin itself.
      */
-    void slotItemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
+    void slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles);
 
     void verifyDirectory();
 
@@ -117,14 +117,13 @@ private:
      *
      * @return          The number of (recursive) processed items.
      */
-    int createItemStatesList(QMap<QString, QVector<ItemState> >& itemStates,
-                             const int firstIndex = 0);
+    int createItemStatesList(QMap<QString, QVector<ItemState>> &itemStates, const int firstIndex = 0);
 
     /**
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */
-    KVersionControlPlugin* searchPlugin(const QUrl& directory);
+    KVersionControlPlugin *searchPlugin(const QUrl &directory);
 
     /**
      * Returns true, if the directory contains a version control information.
@@ -139,18 +138,17 @@ private:
                          // of version states
     QString m_localRepoRoot;
 
-    DolphinView* m_view;
-    KFileItemModel* m_model;
+    DolphinView *m_view;
+    KFileItemModel *m_model;
 
-    QTimer* m_dirVerificationTimer;
+    QTimer *m_dirVerificationTimer;
 
     bool m_pluginsInitialized;
-    KVersionControlPlugin* m_plugin;
+    KVersionControlPlugin *m_plugin;
     QList<QPointer<KVersionControlPlugin>> m_plugins;
-    UpdateItemStatesThread* m_updateItemStatesThread;
+    UpdateItemStatesThread *m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;
 };
 
 #endif // REVISIONCONTROLOBSERVER_H
-

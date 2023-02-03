@@ -21,8 +21,9 @@
 #include <QWidget>
 
 #if HAVE_KACTIVITIES
-namespace KActivities {
-    class ResourceInstance;
+namespace KActivities
+{
+class ResourceInstance;
 }
 #endif
 
@@ -33,8 +34,9 @@ class QGridLayout;
 class QUrl;
 class DolphinSearchBox;
 class DolphinStatusBar;
-namespace SelectionMode {
-    class TopBar;
+namespace SelectionMode
+{
+class TopBar;
 }
 
 /**
@@ -54,14 +56,9 @@ class DolphinViewContainer : public QWidget
     Q_OBJECT
 
 public:
-    enum MessageType
-    {
-        Information,
-        Warning,
-        Error
-    };
+    enum MessageType { Information, Warning, Error };
 
-    DolphinViewContainer(const QUrl& url, QWidget* parent);
+    DolphinViewContainer(const QUrl &url, QWidget *parent);
     ~DolphinViewContainer() override;
 
     /**
@@ -87,8 +84,8 @@ public:
 
     QString currentSearchText() const;
 
-    const DolphinStatusBar* statusBar() const;
-    DolphinStatusBar* statusBar();
+    const DolphinStatusBar *statusBar() const;
+    DolphinStatusBar *statusBar();
 
     /**
      * @return  An UrlNavigator that is controlling this view
@@ -122,8 +119,8 @@ public:
      */
     DolphinUrlNavigator *urlNavigatorInternalWithHistory();
 
-    const DolphinView* view() const;
-    DolphinView* view();
+    const DolphinView *view() const;
+    DolphinView *view();
 
     /**
      * @param urlNavigator  The UrlNavigator that is supposed to control
@@ -149,7 +146,9 @@ public:
      * @param actionCollection  The collection of actions from which the actions on the bottom bar are retrieved.
      * @param bottomBarContents The contents the bar is supposed to show after this call.
      */
-    void setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection = nullptr, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
+    void setSelectionModeEnabled(bool enabled,
+                                 KActionCollection *actionCollection = nullptr,
+                                 SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
     /** @see setSelectionModeEnabled() */
     bool isSelectionModeEnabled() const;
 
@@ -157,7 +156,7 @@ public:
      * Shows the message \msg with the given type non-modal above
      * the view-content.
      */
-    void showMessage(const QString& msg, MessageType type);
+    void showMessage(const QString &msg, MessageType type);
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
@@ -166,7 +165,6 @@ public:
 
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
-
 
     /** Returns true if the search mode is enabled. */
     bool isSearchModeEnabled() const;
@@ -214,7 +212,7 @@ public Q_SLOTS:
      * are emitted.
      * @see DolphinViewContainer::urlNavigator()
      */
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
 
     /**
      * Popups the filter bar above the status bar if \a visible is true.
@@ -312,7 +310,7 @@ private Q_SLOTS:
      * Is called if the URL set by DolphinView::setUrl() represents
      * a file and not a directory. Takes care to activate the file.
      */
-    void slotUrlIsFileError(const QUrl& url);
+    void slotUrlIsFileError(const QUrl &url);
 
     /**
      * Handles clicking on an item. If the item is a directory, the
@@ -325,13 +323,13 @@ private Q_SLOTS:
      * Handles activation of multiple files. The files get started by
      * the corresponding applications.
      */
-    void slotItemsActivated(const KFileItemList& items);
+    void slotItemsActivated(const KFileItemList &items);
 
     /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
      */
-    void showItemInfo(const KFileItem& item);
+    void showItemInfo(const KFileItem &item);
 
     void closeFilterBar();
 
@@ -339,7 +337,7 @@ private Q_SLOTS:
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void setNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString &nameFilter);
 
     /**
      * Marks the view container as active
@@ -351,25 +349,25 @@ private Q_SLOTS:
      * Is invoked if the signal urlAboutToBeChanged() from the URL navigator
      * is emitted. Tries to save the view-state.
      */
-    void slotUrlNavigatorLocationAboutToBeChanged(const QUrl& url);
+    void slotUrlNavigatorLocationAboutToBeChanged(const QUrl &url);
 
     /**
      * Restores the current view to show \a url and assures
      * that the root URL of the view is respected.
      */
-    void slotUrlNavigatorLocationChanged(const QUrl& url);
+    void slotUrlNavigatorLocationChanged(const QUrl &url);
 
     /**
      * @see KUrlNavigator::urlSelectionRequested
      */
-    void slotUrlSelectionRequested(const QUrl& url);
+    void slotUrlSelectionRequested(const QUrl &url);
 
     /**
      * Is invoked when a redirection is done and changes the
      * URL of the URL navigator to \a newUrl without triggering
      * a reloading of the directory.
      */
-    void redirect(const QUrl& oldUrl, const QUrl& newUrl);
+    void redirect(const QUrl &oldUrl, const QUrl &newUrl);
 
     /** Requests the focus for the view \a m_view. */
     void requestFocus();
@@ -391,7 +389,7 @@ private Q_SLOTS:
     /**
      * Slot that calls showMessage(msg, Error).
      */
-    void showErrorMessage(const QString& msg);
+    void showErrorMessage(const QString &msg);
 
     /**
      * Is invoked when a KFilePlacesModel has been changed
@@ -403,13 +401,13 @@ private Q_SLOTS:
     void slotSortHiddenLastChanged(bool hiddenLast);
     void slotCurrentDirectoryRemoved();
 
-    void slotOpenUrlFinished(KJob* job);
+    void slotOpenUrlFinished(KJob *job);
 
 private:
     /**
      * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).
      */
-    bool isSearchUrl(const QUrl& url) const;
+    bool isSearchUrl(const QUrl &url) const;
 
     /**
      * Saves the state of the current view: contents position,
@@ -426,7 +424,7 @@ private:
     /**
      * @return Path of nearest existing ancestor directory.
      */
-    QString getNearestExistingAncestorOfPath(const QString& path) const;
+    QString getNearestExistingAncestorOfPath(const QString &path) const;
 
 private:
     QGridLayout *m_topLayout;
@@ -445,24 +443,24 @@ private:
      */
     QPointer<DolphinUrlNavigator> m_urlNavigatorConnected;
 
-    DolphinSearchBox* m_searchBox;
+    DolphinSearchBox *m_searchBox;
     bool m_searchModeEnabled;
 
-    KMessageWidget* m_messageWidget;
+    KMessageWidget *m_messageWidget;
 
     /// A bar shown at the top of the view to signify that selection mode is currently active.
     SelectionMode::TopBar *m_selectionModeTopBar;
 
-    DolphinView* m_view;
+    DolphinView *m_view;
 
-    FilterBar* m_filterBar;
+    FilterBar *m_filterBar;
 
     /// A bar shown at the bottom of the view whose contents depend on what the user is currently doing.
     SelectionMode::BottomBar *m_selectionModeBottomBar;
 
-    DolphinStatusBar* m_statusBar;
-    QTimer* m_statusBarTimer;            // Triggers a delayed update
-    QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
+    DolphinStatusBar *m_statusBar;
+    QTimer *m_statusBarTimer; // Triggers a delayed update
+    QElapsedTimer m_statusBarTimestamp; // Time in ms since last update
     bool m_autoGrabFocus;
     /**
      * The visual state to be applied to the next UrlNavigator that gets
@@ -472,7 +470,7 @@ private:
 
 #if HAVE_KACTIVITIES
 private:
-    KActivities::ResourceInstance * m_activityResourceInstance;
+    KActivities::ResourceInstance *m_activityResourceInstance;
 #endif
 };
 

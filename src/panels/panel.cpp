@@ -7,10 +7,10 @@
 
 #include "panel.h"
 
-Panel::Panel(QWidget* parent) :
-    QWidget(parent),
-    m_url(),
-    m_customContextMenuActions()
+Panel::Panel(QWidget *parent)
+    : QWidget(parent)
+    , m_url()
+    , m_customContextMenuActions()
 {
 }
 
@@ -23,12 +23,12 @@ QUrl Panel::url() const
     return m_url;
 }
 
-void Panel::setCustomContextMenuActions(const QList<QAction*>& actions)
+void Panel::setCustomContextMenuActions(const QList<QAction *> &actions)
 {
     m_customContextMenuActions = actions;
 }
 
-QList<QAction*> Panel::customContextMenuActions() const
+QList<QAction *> Panel::customContextMenuActions() const
 {
     return m_customContextMenuActions;
 }
@@ -43,7 +43,7 @@ QSize Panel::sizeHint() const
     return QSize(180, 180);
 }
 
-void Panel::setUrl(const QUrl& url)
+void Panel::setUrl(const QUrl &url)
 {
     if (url.matches(m_url, QUrl::StripTrailingSlash)) {
         return;
@@ -58,6 +58,4 @@ void Panel::setUrl(const QUrl& url)
 
 void Panel::readSettings()
 {
-
 }
-

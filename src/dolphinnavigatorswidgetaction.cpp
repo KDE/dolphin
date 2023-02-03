@@ -22,11 +22,11 @@
 
 #include <limits>
 
-DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
-    QWidgetAction{parent},
-    m_splitter{new QSplitter(Qt::Horizontal)},
-    m_adjustSpacingTimer{new QTimer(this)},
-    m_viewGeometriesHelper{m_splitter.get(), this}
+DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent)
+    : QWidgetAction{parent}
+    , m_splitter{new QSplitter(Qt::Horizontal)}
+    , m_adjustSpacingTimer{new QTimer(this)}
+    , m_viewGeometriesHelper{m_splitter.get(), this}
 {
     updateText();
     setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
@@ -37,8 +37,7 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
 
     m_adjustSpacingTimer->setInterval(100);
     m_adjustSpacingTimer->setSingleShot(true);
-    connect(m_adjustSpacingTimer.get(), &QTimer::timeout,
-            this, &DolphinNavigatorsWidgetAction::adjustSpacing);
+    connect(m_adjustSpacingTimer.get(), &QTimer::timeout, this, &DolphinNavigatorsWidgetAction::adjustSpacing);
 }
 
 void DolphinNavigatorsWidgetAction::adjustSpacing()
@@ -46,8 +45,7 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     m_previousWindowWidth = parentWidget()->window()->width();
     auto viewGeometries = m_viewGeometriesHelper.viewGeometries();
     const int widthOfSplitterPrimary = viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
-    const QList<int> splitterSizes = {widthOfSplitterPrimary,
-                                      m_splitter->width() - widthOfSplitterPrimary};
+    const QList<int> splitterSizes = {widthOfSplitterPrimary, m_splitter->width() - widthOfSplitterPrimary};
     m_splitter->setSizes(splitterSizes);
 
     // primary side of m_splitter
@@ -55,11 +53,8 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     if (leadingSpacing < 0) {
         leadingSpacing = 0;
     }
-    int trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
-                          - (viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary);
-    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible()
-                            || networkFolderButton(Primary)->isVisible()
-    ) {
+    int trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width()) - (viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary);
+    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible() || networkFolderButton(Primary)->isVisible()) {
         trailingSpacing = 0;
     }
     const int widthLeftForUrlNavigator = m_splitter->widget(0)->width() - leadingSpacing - trailingSpacing;
@@ -84,11 +79,8 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     }
     spacing(Primary, Trailing)->setFixedWidth(0);
 
-    trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
-                      - (viewGeometries.globalXOfSecondary + viewGeometries.widthOfSecondary);
-    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible()
-                            || networkFolderButton(Secondary)->isVisible()
-    ) {
+    trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width()) - (viewGeometries.globalXOfSecondary + viewGeometries.widthOfSecondary);
+    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible() || networkFolderButton(Secondary)->isVisible()) {
         trailingSpacing = 0;
     } else {
         const int widthLeftForUrlNavigator2 = m_splitter->widget(1)->width() - trailingSpacing;
@@ -111,8 +103,7 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     updateText();
 }
 
-void DolphinNavigatorsWidgetAction::followViewContainersGeometry(QWidget *primaryViewContainer,
-                                                                 QWidget *secondaryViewContainer)
+void DolphinNavigatorsWidgetAction::followViewContainersGeometry(QWidget *primaryViewContainer, QWidget *secondaryViewContainer)
 {
     m_viewGeometriesHelper.setViewContainers(primaryViewContainer, secondaryViewContainer);
     adjustSpacing();
@@ -123,13 +114,13 @@ bool DolphinNavigatorsWidgetAction::isInToolbar() const
     return qobject_cast<QToolBar *>(m_splitter->parentWidget());
 }
 
-DolphinUrlNavigator* DolphinNavigatorsWidgetAction::primaryUrlNavigator() const
+DolphinUrlNavigator *DolphinNavigatorsWidgetAction::primaryUrlNavigator() const
 {
     Q_ASSERT(m_splitter);
     return m_splitter->widget(0)->findChild<DolphinUrlNavigator *>();
 }
 
-DolphinUrlNavigator* DolphinNavigatorsWidgetAction::secondaryUrlNavigator() const
+DolphinUrlNavigator *DolphinNavigatorsWidgetAction::secondaryUrlNavigator() const
 {
     Q_ASSERT(m_splitter);
     if (m_splitter->count() < 2) {
@@ -193,31 +184,36 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto networkFolderButton = newNetworkFolderButton(urlNavigator, navigatorWidget);
     layout->addWidget(networkFolderButton);
 
-    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [urlNavigator, this]() {
-        // Update URL navigator to show a server URL entry placeholder text if we
-        // just loaded the remote:/ page, to make it easier for users to figure out
-        // that they can enter arbitrary remote URLs. See bug 414670
-        if (urlNavigator->locationUrl().scheme() == QLatin1String("remote")) {
-            if (!urlNavigator->isUrlEditable()) {
-                urlNavigator->setUrlEditable(true);
+    connect(
+        urlNavigator,
+        &KUrlNavigator::urlChanged,
+        this,
+        [urlNavigator, this]() {
+            // Update URL navigator to show a server URL entry placeholder text if we
+            // just loaded the remote:/ page, to make it easier for users to figure out
+            // that they can enter arbitrary remote URLs. See bug 414670
+            if (urlNavigator->locationUrl().scheme() == QLatin1String("remote")) {
+                if (!urlNavigator->isUrlEditable()) {
+                    urlNavigator->setUrlEditable(true);
+                }
+                urlNavigator->clearText();
+                urlNavigator->setPlaceholderText(i18n("Enter server URL (e.g. smb://[ip address])"));
+            } else {
+                urlNavigator->setPlaceholderText(QString());
             }
-            urlNavigator->clearText();
-            urlNavigator->setPlaceholderText(i18n("Enter server URL (e.g. smb://[ip address])"));
-        } else {
-            urlNavigator->setPlaceholderText(QString());
-        }
 
-        // We have to wait for DolphinUrlNavigator::sizeHint() to update which
-        // happens a little bit later than when urlChanged is emitted.
-        this->m_adjustSpacingTimer->start();
-    }, Qt::QueuedConnection);
+            // We have to wait for DolphinUrlNavigator::sizeHint() to update which
+            // happens a little bit later than when urlChanged is emitted.
+            this->m_adjustSpacingTimer->start();
+        },
+        Qt::QueuedConnection);
 
     auto trailingSpacing = new QWidget{navigatorWidget};
     layout->addWidget(trailingSpacing);
     return navigatorWidget;
 }
 
-QPushButton * DolphinNavigatorsWidgetAction::emptyTrashButton(DolphinNavigatorsWidgetAction::Side side)
+QPushButton *DolphinNavigatorsWidgetAction::emptyTrashButton(DolphinNavigatorsWidgetAction::Side side)
 {
     int sideIndex = (side == Primary ? 0 : 1);
     if (side == Primary) {
@@ -228,15 +224,14 @@ QPushButton * DolphinNavigatorsWidgetAction::emptyTrashButton(DolphinNavigatorsW
 
 QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
 {
-    auto emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")),
-                                        i18nc("@action:button", "Empty Trash"), parent);
+    auto emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")), i18nc("@action:button", "Empty Trash"), parent);
     emptyTrashButton->setToolTip(i18n("Empties Trash to create free space"));
 
     emptyTrashButton->setFlat(true);
-    connect(emptyTrashButton, &QPushButton::clicked,
-            this, [parent]() { Trash::empty(parent); });
-    connect(&Trash::instance(), &Trash::emptinessChanged,
-            emptyTrashButton, &QPushButton::setDisabled);
+    connect(emptyTrashButton, &QPushButton::clicked, this, [parent]() {
+        Trash::empty(parent);
+    });
+    connect(&Trash::instance(), &Trash::emptinessChanged, emptyTrashButton, &QPushButton::setDisabled);
     emptyTrashButton->hide();
     connect(urlNavigator, &KUrlNavigator::urlChanged, this, [emptyTrashButton, urlNavigator]() {
         emptyTrashButton->setVisible(urlNavigator->locationUrl().scheme() == QLatin1String("trash"));
@@ -256,18 +251,16 @@ QPushButton *DolphinNavigatorsWidgetAction::networkFolderButton(DolphinNavigator
 
 QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
 {
-    auto networkFolderButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-add")),
-                                        i18nc("@action:button", "Add Network Folder"), parent);
+    auto networkFolderButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-add")), i18nc("@action:button", "Add Network Folder"), parent);
     networkFolderButton->setFlat(true);
     KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
-    connect(networkFolderButton, &QPushButton::clicked,
-            this, [networkFolderButton, service]() {
-                auto *job = new KIO::ApplicationLauncherJob(service, networkFolderButton);
-                auto *delegate = new KNotificationJobUiDelegate;
-                delegate->setAutoErrorHandlingEnabled(true);
-                job->setUiDelegate(delegate);
-                job->start();
-            });
+    connect(networkFolderButton, &QPushButton::clicked, this, [networkFolderButton, service]() {
+        auto *job = new KIO::ApplicationLauncherJob(service, networkFolderButton);
+        auto *delegate = new KNotificationJobUiDelegate;
+        delegate->setAutoErrorHandlingEnabled(true);
+        job->setUiDelegate(delegate);
+        job->start();
+    });
     networkFolderButton->hide();
     connect(urlNavigator, &KUrlNavigator::urlChanged, this, [networkFolderButton, urlNavigator, service]() {
         networkFolderButton->setVisible(service && urlNavigator->locationUrl().scheme() == QLatin1String("remote"));
@@ -290,15 +283,13 @@ QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) co
 
 void DolphinNavigatorsWidgetAction::updateText()
 {
-    const int urlNavigatorsAmount = m_splitter->count() > 1 && m_splitter->widget(1)->isVisible() ?
-                                    2 : 1;
+    const int urlNavigatorsAmount = m_splitter->count() > 1 && m_splitter->widget(1)->isVisible() ? 2 : 1;
     setText(i18ncp("@action:inmenu", "Location Bar", "Location Bars", urlNavigatorsAmount));
 }
 
-DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper
-    (QWidget *navigatorsWidget, DolphinNavigatorsWidgetAction *navigatorsWidgetAction) :
-    m_navigatorsWidget{navigatorsWidget},
-    m_navigatorsWidgetAction{navigatorsWidgetAction}
+DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper(QWidget *navigatorsWidget, DolphinNavigatorsWidgetAction *navigatorsWidgetAction)
+    : m_navigatorsWidget{navigatorsWidget}
+    , m_navigatorsWidgetAction{navigatorsWidgetAction}
 {
     Q_CHECK_PTR(navigatorsWidget);
     Q_CHECK_PTR(navigatorsWidgetAction);
@@ -323,8 +314,7 @@ bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *w
     return QObject::eventFilter(watched, event);
 }
 
-void DolphinNavigatorsWidgetAction::ViewGeometriesHelper::setViewContainers(QWidget *primaryViewContainer,
-                                                                            QWidget *secondaryViewContainer)
+void DolphinNavigatorsWidgetAction::ViewGeometriesHelper::setViewContainers(QWidget *primaryViewContainer, QWidget *secondaryViewContainer)
 {
     Q_CHECK_PTR(primaryViewContainer);
     if (m_primaryViewContainer) {
@@ -338,8 +328,7 @@ void DolphinNavigatorsWidgetAction::ViewGeometriesHelper::setViewContainers(QWid
     m_secondaryViewContainer = secondaryViewContainer;
 }
 
-DolphinNavigatorsWidgetAction::ViewGeometriesHelper::Geometries
-        DolphinNavigatorsWidgetAction::ViewGeometriesHelper::viewGeometries()
+DolphinNavigatorsWidgetAction::ViewGeometriesHelper::Geometries DolphinNavigatorsWidgetAction::ViewGeometriesHelper::viewGeometries()
 {
     Q_ASSERT(m_primaryViewContainer);
     Geometries geometries;
@@ -354,20 +343,17 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::Geometries
 
     // globalX
     if (QApplication::layoutDirection() == Qt::LeftToRight) {
-        geometries.globalXOfNavigatorsWidget = m_navigatorsWidget->mapToGlobal(QPoint(0,0)).x();
-        geometries.globalXOfPrimary = m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x();
-        geometries.globalXOfSecondary = !m_secondaryViewContainer ? INT_MIN :
-                m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x();
+        geometries.globalXOfNavigatorsWidget = m_navigatorsWidget->mapToGlobal(QPoint(0, 0)).x();
+        geometries.globalXOfPrimary = m_primaryViewContainer->mapToGlobal(QPoint(0, 0)).x();
+        geometries.globalXOfSecondary = !m_secondaryViewContainer ? INT_MIN : m_secondaryViewContainer->mapToGlobal(QPoint(0, 0)).x();
     } else {
         // When the direction is reversed, globalX does not change.
         // For the adjustSpacing() code to work we need globalX to measure from right to left
         // and to measure up to the rightmost point of a widget instead of the leftmost.
-        geometries.globalXOfNavigatorsWidget =
-                (-1) * (m_navigatorsWidget->mapToGlobal(QPoint(0,0)).x() + m_navigatorsWidget->width());
-        geometries.globalXOfPrimary =
-                (-1) * (m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x() + geometries.widthOfPrimary);
-        geometries.globalXOfSecondary = !m_secondaryViewContainer ? INT_MIN :
-                (-1) * (m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x() + geometries.widthOfSecondary);
+        geometries.globalXOfNavigatorsWidget = (-1) * (m_navigatorsWidget->mapToGlobal(QPoint(0, 0)).x() + m_navigatorsWidget->width());
+        geometries.globalXOfPrimary = (-1) * (m_primaryViewContainer->mapToGlobal(QPoint(0, 0)).x() + geometries.widthOfPrimary);
+        geometries.globalXOfSecondary =
+            !m_secondaryViewContainer ? INT_MIN : (-1) * (m_secondaryViewContainer->mapToGlobal(QPoint(0, 0)).x() + geometries.widthOfSecondary);
     }
     return geometries;
 }

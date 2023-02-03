@@ -18,73 +18,69 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QFileDialog>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QRadioButton>
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
-StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
-    SettingsPageBase(parent),
-    m_url(url),
-    m_homeUrl(nullptr),
-    m_homeUrlBoxLayoutContainer(nullptr),
-    m_buttonBoxLayoutContainer(nullptr),
-    m_rememberOpenedTabsRadioButton(nullptr),
-    m_homeUrlRadioButton(nullptr),
-    m_splitView(nullptr),
-    m_editableUrl(nullptr),
-    m_showFullPath(nullptr),
-    m_filterBar(nullptr),
-    m_showFullPathInTitlebar(nullptr),
-    m_openExternallyCalledFolderInNewTab(nullptr)
+StartupSettingsPage::StartupSettingsPage(const QUrl &url, QWidget *parent)
+    : SettingsPageBase(parent)
+    , m_url(url)
+    , m_homeUrl(nullptr)
+    , m_homeUrlBoxLayoutContainer(nullptr)
+    , m_buttonBoxLayoutContainer(nullptr)
+    , m_rememberOpenedTabsRadioButton(nullptr)
+    , m_homeUrlRadioButton(nullptr)
+    , m_splitView(nullptr)
+    , m_editableUrl(nullptr)
+    , m_showFullPath(nullptr)
+    , m_filterBar(nullptr)
+    , m_showFullPathInTitlebar(nullptr)
+    , m_openExternallyCalledFolderInNewTab(nullptr)
 {
-    QFormLayout* topLayout = new QFormLayout(this);
+    QFormLayout *topLayout = new QFormLayout(this);
 
     m_rememberOpenedTabsRadioButton = new QRadioButton(i18nc("@option:radio Startup Settings", "Folders, tabs, and window state from last time"));
     m_homeUrlRadioButton = new QRadioButton();
     // HACK: otherwise the radio button has too much spacing in a grid layout
     m_homeUrlRadioButton->setMaximumWidth(24);
 
-    QButtonGroup* initialViewGroup = new QButtonGroup(this);
+    QButtonGroup *initialViewGroup = new QButtonGroup(this);
     initialViewGroup->addButton(m_rememberOpenedTabsRadioButton);
     initialViewGroup->addButton(m_homeUrlRadioButton);
 
-
     // create 'Home URL' editor
     m_homeUrlBoxLayoutContainer = new QWidget(this);
-    QHBoxLayout* homeUrlBoxLayout = new QHBoxLayout(m_homeUrlBoxLayoutContainer);
+    QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(m_homeUrlBoxLayoutContainer);
     homeUrlBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_homeUrl = new QLineEdit();
     m_homeUrl->setClearButtonEnabled(true);
     homeUrlBoxLayout->addWidget(m_homeUrl);
 
-    QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString());
+    QPushButton *selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString());
     homeUrlBoxLayout->addWidget(selectHomeUrlButton);
 
 #ifndef QT_NO_ACCESSIBILITY
     selectHomeUrlButton->setAccessibleName(i18nc("@action:button", "Select Home Location"));
 #endif
 
-    connect(selectHomeUrlButton, &QPushButton::clicked,
-            this, &StartupSettingsPage::selectHomeUrl);
+    connect(selectHomeUrlButton, &QPushButton::clicked, this, &StartupSettingsPage::selectHomeUrl);
 
     m_buttonBoxLayoutContainer = new QWidget(this);
-    QHBoxLayout* buttonBoxLayout = new QHBoxLayout(m_buttonBoxLayoutContainer);
+    QHBoxLayout *buttonBoxLayout = new QHBoxLayout(m_buttonBoxLayoutContainer);
     buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
 
-    QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
+    QPushButton *useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
     buttonBoxLayout->addWidget(useCurrentButton);
-    connect(useCurrentButton, &QPushButton::clicked,
-            this, &StartupSettingsPage::useCurrentLocation);
-    QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"));
+    connect(useCurrentButton, &QPushButton::clicked, this, &StartupSettingsPage::useCurrentLocation);
+    QPushButton *useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"));
     buttonBoxLayout->addWidget(useDefaultButton);
-    connect(useDefaultButton, &QPushButton::clicked,
-            this, &StartupSettingsPage::useDefaultLocation);
+    connect(useDefaultButton, &QPushButton::clicked, this, &StartupSettingsPage::useDefaultLocation);
 
-    QGridLayout* startInLocationLayout = new QGridLayout();
+    QGridLayout *startInLocationLayout = new QGridLayout();
     startInLocationLayout->setHorizontalSpacing(0);
     startInLocationLayout->setContentsMargins(0, 0, 0, 0);
     startInLocationLayout->addWidget(m_homeUrlRadioButton, 0, 0);
@@ -93,7 +89,6 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 
     topLayout->addRow(i18nc("@label:textbox", "Show on startup:"), m_rememberOpenedTabsRadioButton);
     topLayout->addRow(QString(), startInLocationLayout);
-
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
@@ -121,9 +116,9 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_rememberOpenedTabsRadioButton, &QRadioButton::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_homeUrlRadioButton, &QRadioButton::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 
-    connect(m_splitView,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
-    connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
-    connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_splitView, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_editableUrl, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_filterBar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 
     connect(m_openExternallyCalledFolderInNewTab, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
@@ -136,13 +131,13 @@ StartupSettingsPage::~StartupSettingsPage()
 
 void StartupSettingsPage::applySettings()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
 
     const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
     if (url.isValid() && KProtocolManager::supportsListing(url)) {
-        KIO::StatJob* job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
-        connect(job, &KJob::result, this, [this, settings, url](KJob* job) {
-            if (job->error() == 0 && qobject_cast<KIO::StatJob*>(job)->statResult().isDir()) {
+        KIO::StatJob *job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+        connect(job, &KJob::result, this, [this, settings, url](KJob *job) {
+            if (job->error() == 0 && qobject_cast<KIO::StatJob *>(job)->statResult().isDir()) {
                 settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
             } else {
                 showSetDefaultDirectoryError();
@@ -172,7 +167,7 @@ void StartupSettingsPage::applySettings()
 
 void StartupSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = GeneralSettings::self();
+    GeneralSettings *settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);

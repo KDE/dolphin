@@ -13,7 +13,8 @@ class QSize;
  * @short Helper class for getting information about the zooming
  *        capabilities.
  */
-class ZoomLevelInfo {
+class ZoomLevelInfo
+{
 public:
     static int minimumLevel();
     static int maximumLevel();
@@ -32,7 +33,7 @@ public:
      * is between the range ZoomLevelInfo::minimumLevel() and
      * ZoomLevelInfo::maximumLevel().
      */
-    static int zoomLevelForIconSize(const QSize& size);
+    static int zoomLevelForIconSize(const QSize &size);
 };
 
 #endif

@@ -23,9 +23,9 @@ class DOLPHIN_EXPORT KFileItemClipboard : public QObject
     Q_OBJECT
 
 public:
-    static KFileItemClipboard* instance();
+    static KFileItemClipboard *instance();
 
-    bool isCut(const QUrl& url) const;
+    bool isCut(const QUrl &url) const;
 
     QList<QUrl> cutItems() const;
 

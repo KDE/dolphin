@@ -11,7 +11,6 @@
 #include <QGraphicsWidget>
 #include <QPixmap>
 
-
 /**
  * @brief Allows to toggle between the selected and unselected state of an item.
  */
@@ -20,7 +19,7 @@ class DOLPHIN_EXPORT KItemListSelectionToggle : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    explicit KItemListSelectionToggle(QGraphicsItem* parent);
+    explicit KItemListSelectionToggle(QGraphicsItem *parent);
     ~KItemListSelectionToggle() override;
 
     void setChecked(bool checked);
@@ -28,10 +27,10 @@ public:
 
     void setHovered(bool hovered);
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 protected:
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 
 private:
     void updatePixmap();
@@ -44,5 +43,3 @@ private:
 };
 
 #endif
-
-

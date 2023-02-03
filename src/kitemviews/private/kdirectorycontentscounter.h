@@ -21,7 +21,7 @@ class KDirectoryContentsCounter : public QObject
     Q_OBJECT
 
 public:
-    explicit KDirectoryContentsCounter(KFileItemModel* model, QObject* parent = nullptr);
+    explicit KDirectoryContentsCounter(KFileItemModel *model, QObject *parent = nullptr);
     ~KDirectoryContentsCounter() override;
 
     /**
@@ -35,40 +35,40 @@ public:
      * Uses a cache internally to speed up first result,
      * but emit again result when the cache was updated
      */
-    void scanDirectory(const QString& path);
+    void scanDirectory(const QString &path);
 
 Q_SIGNALS:
     /**
      * Signals that the directory \a path contains \a count items of size \a
      * Size calculation depends on parameter DetailsModeSettings::recursiveDirectorySizeLimit
      */
-    void result(const QString& path, int count, long size);
+    void result(const QString &path, int count, long size);
 
-    void requestDirectoryContentsCount(const QString& path, KDirectoryContentsCounterWorker::Options options);
+    void requestDirectoryContentsCount(const QString &path, KDirectoryContentsCounterWorker::Options options);
 
 private Q_SLOTS:
-    void slotResult(const QString& path, int count, long size);
-    void slotDirWatchDirty(const QString& path);
+    void slotResult(const QString &path, int count, long size);
+    void slotDirWatchDirty(const QString &path);
     void slotItemsRemoved();
 
 private:
-    void startWorker(const QString& path);
+    void startWorker(const QString &path);
 
 private:
-    KFileItemModel* m_model;
+    KFileItemModel *m_model;
 
     // Used as FIFO queues.
     std::list<QString> m_priorityQueue;
     std::list<QString> m_queue;
 
-    static QThread* m_workerThread;
+    static QThread *m_workerThread;
 
-    KDirectoryContentsCounterWorker* m_worker;
+    KDirectoryContentsCounterWorker *m_worker;
     bool m_workerIsBusy;
 
-    KDirWatch* m_dirWatcher;
-    QSet<QString> m_watchedDirs;    // Required as sadly KDirWatch does not offer a getter method
-                                    // to get all watched directories.
+    KDirWatch *m_dirWatcher;
+    QSet<QString> m_watchedDirs; // Required as sadly KDirWatch does not offer a getter method
+                                 // to get all watched directories.
 };
 
 #endif

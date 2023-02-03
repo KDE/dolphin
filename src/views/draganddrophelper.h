@@ -17,7 +17,10 @@
 class QDropEvent;
 class QMimeData;
 class QWidget;
-namespace KIO { class DropJob; }
+namespace KIO
+{
+class DropJob;
+}
 
 class DOLPHIN_EXPORT DragAndDropHelper
 {
@@ -35,26 +38,31 @@ public:
      * @return          KIO::DropJob pointer or null in case the destUrl is contained
      *                  in the mimeData url list.
      */
-    static KIO::DropJob* dropUrls(const QUrl& destUrl,
-                                  QDropEvent* event,
-                                  QWidget *window);
+    static KIO::DropJob *dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window);
 
     /**
      * @return True if destUrl is contained in the urls parameter.
      */
-    static bool urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& destUrl);
+    static bool urlListMatchesUrl(const QList<QUrl> &urls, const QUrl &destUrl);
 
     /**
      * @return True if mimeData contains Ark's drag and drop mime types.
      */
     static bool isArkDndMimeType(const QMimeData *mimeData);
-    static QString arkDndServiceMimeType() { return QStringLiteral("application/x-kde-ark-dndextract-service"); }
-    static QString arkDndPathMimeType() { return QStringLiteral("application/x-kde-ark-dndextract-path"); }
+    static QString arkDndServiceMimeType()
+    {
+        return QStringLiteral("application/x-kde-ark-dndextract-service");
+    }
+    static QString arkDndPathMimeType()
+    {
+        return QStringLiteral("application/x-kde-ark-dndextract-path");
+    }
 
     /**
      * clear the internal cache.
      */
     static void clearUrlListMatchesUrlCache();
+
 private:
     /**
      * Stores the results of the expensive checks made in urlListMatchesUrl.

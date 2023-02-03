@@ -17,7 +17,7 @@ class DolphinDockWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit DolphinDockWidget(const QString& title = QString(), QWidget* parent = nullptr, Qt::WindowFlags flags = {});
+    explicit DolphinDockWidget(const QString &title = QString(), QWidget *parent = nullptr, Qt::WindowFlags flags = {});
     ~DolphinDockWidget() override;
 
     /**
@@ -29,7 +29,7 @@ public:
 
 private:
     bool m_locked;
-    QWidget* m_dockTitleBar;
+    QWidget *m_dockTitleBar;
 };
 
 #endif

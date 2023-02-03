@@ -22,7 +22,7 @@ class DOLPHIN_EXPORT DolphinFileItemListWidget : public KFileItemListWidget
     Q_OBJECT
 
 public:
-    DolphinFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    DolphinFileItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~DolphinFileItemListWidget() override;
 
 protected:
@@ -30,9 +30,6 @@ protected:
 
 private:
     static QPixmap overlayForState(KVersionControlPlugin::ItemVersion version, int size);
-
 };
 
 #endif
-
-

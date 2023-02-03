@@ -27,7 +27,7 @@ class GeneralSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(const QUrl& url, QWidget* parent);
+    GeneralSettingsPage(const QUrl &url, QWidget *parent);
     ~GeneralSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -37,7 +37,7 @@ public:
     void restoreDefaults() override;
 
 private:
-    QList<SettingsPageBase*> m_pages;
+    QList<SettingsPageBase *> m_pages;
 };
 
 #endif

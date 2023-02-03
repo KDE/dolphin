@@ -9,9 +9,9 @@
 
 #include <QApplication>
 
-DolphinRemoveAction::DolphinRemoveAction(QObject* parent, KActionCollection* collection) :
-    QAction(parent),
-    m_collection(collection)
+DolphinRemoveAction::DolphinRemoveAction(QObject *parent, KActionCollection *collection)
+    : QAction(parent)
+    , m_collection(collection)
 {
     update();
     connect(this, &DolphinRemoveAction::triggered, this, &DolphinRemoveAction::slotRemoveActionTriggered);

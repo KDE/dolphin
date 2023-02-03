@@ -16,13 +16,13 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-KItemListView* KItemListViewAccessible::view() const
+KItemListView *KItemListViewAccessible::view() const
 {
-    return qobject_cast<KItemListView*>(object());
+    return qobject_cast<KItemListView *>(object());
 }
 
-KItemListViewAccessible::KItemListViewAccessible(KItemListView* view_) :
-    QAccessibleObject(view_)
+KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_)
+    : QAccessibleObject(view_)
 {
     Q_ASSERT(view());
     m_cells.resize(childCount());
@@ -37,10 +37,10 @@ KItemListViewAccessible::~KItemListViewAccessible()
     }
 }
 
-void* KItemListViewAccessible::interface_cast(QAccessible::InterfaceType type)
+void *KItemListViewAccessible::interface_cast(QAccessible::InterfaceType type)
 {
     if (type == QAccessible::TableInterface) {
-        return static_cast<QAccessibleTableInterface*>(this);
+        return static_cast<QAccessibleTableInterface *>(this);
     }
     return nullptr;
 }
@@ -49,7 +49,7 @@ void KItemListViewAccessible::modelReset()
 {
 }
 
-QAccessibleInterface* KItemListViewAccessible::cell(int index) const
+QAccessibleInterface *KItemListViewAccessible::cell(int index) const
 {
     if (index < 0 || index >= view()->model()->count()) {
         return nullptr;
@@ -69,12 +69,12 @@ QAccessibleInterface* KItemListViewAccessible::cell(int index) const
     return QAccessible::accessibleInterface(idWrapper.id);
 }
 
-QAccessibleInterface* KItemListViewAccessible::cellAt(int row, int column) const
+QAccessibleInterface *KItemListViewAccessible::cellAt(int row, int column) const
 {
     return cell(columnCount() * row + column);
 }
 
-QAccessibleInterface* KItemListViewAccessible::caption() const
+QAccessibleInterface *KItemListViewAccessible::caption() const
 {
     return nullptr;
 }
@@ -128,9 +128,9 @@ QString KItemListViewAccessible::rowDescription(int) const
     return QString();
 }
 
-QList<QAccessibleInterface*> KItemListViewAccessible::selectedCells() const
+QList<QAccessibleInterface *> KItemListViewAccessible::selectedCells() const
 {
-    QList<QAccessibleInterface*> cells;
+    QList<QAccessibleInterface *> cells;
     const auto items = view()->controller()->selectionManager()->selectedItems();
     cells.reserve(items.count());
     for (int index : items) {
@@ -149,7 +149,7 @@ QList<int> KItemListViewAccessible::selectedRows() const
     return QList<int>();
 }
 
-QAccessibleInterface* KItemListViewAccessible::summary() const
+QAccessibleInterface *KItemListViewAccessible::summary() const
 {
     return nullptr;
 }
@@ -184,8 +184,9 @@ bool KItemListViewAccessible::unselectColumn(int)
     return true;
 }
 
-void KItemListViewAccessible::modelChange(QAccessibleTableModelChangeEvent* /*event*/)
-{}
+void KItemListViewAccessible::modelChange(QAccessibleTableModelChangeEvent * /*event*/)
+{
+}
 
 QAccessible::Role KItemListViewAccessible::role() const
 {
@@ -198,14 +199,14 @@ QAccessible::State KItemListViewAccessible::state() const
     return s;
 }
 
-QAccessibleInterface* KItemListViewAccessible::childAt(int x, int y) const
+QAccessibleInterface *KItemListViewAccessible::childAt(int x, int y) const
 {
     const QPointF point = QPointF(x, y);
     const std::optional<int> itemIndex = view()->itemAt(view()->mapFromScene(point));
     return child(itemIndex.value_or(-1));
 }
 
-QAccessibleInterface* KItemListViewAccessible::parent() const
+QAccessibleInterface *KItemListViewAccessible::parent() const
 {
     // FIXME: return KItemListContainerAccessible here
     return nullptr;
@@ -216,9 +217,9 @@ int KItemListViewAccessible::childCount() const
     return view()->model()->count();
 }
 
-int KItemListViewAccessible::indexOfChild(const QAccessibleInterface* interface) const
+int KItemListViewAccessible::indexOfChild(const QAccessibleInterface *interface) const
 {
-    const KItemListAccessibleCell* widget = static_cast<const KItemListAccessibleCell*>(interface);
+    const KItemListAccessibleCell *widget = static_cast<const KItemListAccessibleCell *>(interface);
     return widget->index();
 }
 
@@ -233,7 +234,7 @@ QRect KItemListViewAccessible::rect() const
         return QRect();
     }
 
-    const QGraphicsScene* scene = view()->scene();
+    const QGraphicsScene *scene = view()->scene();
     if (scene) {
         const QPoint origin = scene->views().at(0)->mapToGlobal(QPoint(0, 0));
         const QRect viewRect = view()->geometry().toRect();
@@ -243,7 +244,7 @@ QRect KItemListViewAccessible::rect() const
     }
 }
 
-QAccessibleInterface* KItemListViewAccessible::child(int index) const
+QAccessibleInterface *KItemListViewAccessible::child(int index) const
 {
     if (index >= 0 && index < childCount()) {
         return cell(index);
@@ -251,25 +252,25 @@ QAccessibleInterface* KItemListViewAccessible::child(int index) const
     return nullptr;
 }
 
-KItemListViewAccessible::AccessibleIdWrapper::AccessibleIdWrapper() :
-    isValid(false),
-    id(0)
+KItemListViewAccessible::AccessibleIdWrapper::AccessibleIdWrapper()
+    : isValid(false)
+    , id(0)
 {
 }
 
 // Table Cell
 
-KItemListAccessibleCell::KItemListAccessibleCell(KItemListView* view, int index) :
-    m_view(view),
-    m_index(index)
+KItemListAccessibleCell::KItemListAccessibleCell(KItemListView *view, int index)
+    : m_view(view)
+    , m_index(index)
 {
     Q_ASSERT(index >= 0 && index < view->model()->count());
 }
 
-void* KItemListAccessibleCell::interface_cast(QAccessible::InterfaceType type)
+void *KItemListAccessibleCell::interface_cast(QAccessible::InterfaceType type)
 {
     if (type == QAccessible::TableCellInterface) {
-        return static_cast<QAccessibleTableCellInterface*>(this);
+        return static_cast<QAccessibleTableCellInterface *>(this);
     }
     return nullptr;
 }
@@ -284,14 +285,14 @@ int KItemListAccessibleCell::rowExtent() const
     return 1;
 }
 
-QList<QAccessibleInterface*> KItemListAccessibleCell::rowHeaderCells() const
+QList<QAccessibleInterface *> KItemListAccessibleCell::rowHeaderCells() const
 {
-    return QList<QAccessibleInterface*>();
+    return QList<QAccessibleInterface *>();
 }
 
-QList<QAccessibleInterface*> KItemListAccessibleCell::columnHeaderCells() const
+QList<QAccessibleInterface *> KItemListAccessibleCell::columnHeaderCells() const
 {
-    return QList<QAccessibleInterface*>();
+    return QList<QAccessibleInterface *>();
 }
 
 int KItemListAccessibleCell::columnIndex() const
@@ -309,7 +310,7 @@ bool KItemListAccessibleCell::isSelected() const
     return m_view->controller()->selectionManager()->isSelected(m_index);
 }
 
-QAccessibleInterface* KItemListAccessibleCell::table() const
+QAccessibleInterface *KItemListAccessibleCell::table() const
 {
     return QAccessible::queryAccessibleInterface(m_view);
 }
@@ -381,11 +382,11 @@ QString KItemListAccessibleCell::text(QAccessible::Text t) const
     return QString();
 }
 
-void KItemListAccessibleCell::setText(QAccessible::Text, const QString&)
+void KItemListAccessibleCell::setText(QAccessible::Text, const QString &)
 {
 }
 
-QAccessibleInterface* KItemListAccessibleCell::child(int) const
+QAccessibleInterface *KItemListAccessibleCell::child(int) const
 {
     return nullptr;
 }
@@ -395,7 +396,7 @@ bool KItemListAccessibleCell::isValid() const
     return m_view && (m_index >= 0) && (m_index < m_view->model()->count());
 }
 
-QAccessibleInterface* KItemListAccessibleCell::childAt(int, int) const
+QAccessibleInterface *KItemListAccessibleCell::childAt(int, int) const
 {
     return nullptr;
 }
@@ -405,13 +406,13 @@ int KItemListAccessibleCell::childCount() const
     return 0;
 }
 
-int KItemListAccessibleCell::indexOfChild(const QAccessibleInterface* child) const
+int KItemListAccessibleCell::indexOfChild(const QAccessibleInterface *child) const
 {
     Q_UNUSED(child)
     return -1;
 }
 
-QAccessibleInterface* KItemListAccessibleCell::parent() const
+QAccessibleInterface *KItemListAccessibleCell::parent() const
 {
     return QAccessible::queryAccessibleInterface(m_view);
 }
@@ -421,14 +422,14 @@ int KItemListAccessibleCell::index() const
     return m_index;
 }
 
-QObject* KItemListAccessibleCell::object() const
+QObject *KItemListAccessibleCell::object() const
 {
     return nullptr;
 }
 
 // Container Interface
-KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer* container) :
-    QAccessibleWidget(container)
+KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer *container)
+    : QAccessibleWidget(container)
 {
 }
 
@@ -441,7 +442,7 @@ int KItemListContainerAccessible::childCount() const
     return 1;
 }
 
-int KItemListContainerAccessible::indexOfChild(const QAccessibleInterface* child) const
+int KItemListContainerAccessible::indexOfChild(const QAccessibleInterface *child) const
 {
     if (child->object() == container()->controller()->view()) {
         return 0;
@@ -449,7 +450,7 @@ int KItemListContainerAccessible::indexOfChild(const QAccessibleInterface* child
     return -1;
 }
 
-QAccessibleInterface* KItemListContainerAccessible::child(int index) const
+QAccessibleInterface *KItemListContainerAccessible::child(int index) const
 {
     if (index == 0) {
         return QAccessible::queryAccessibleInterface(container()->controller()->view());
@@ -457,9 +458,9 @@ QAccessibleInterface* KItemListContainerAccessible::child(int index) const
     return nullptr;
 }
 
-const KItemListContainer* KItemListContainerAccessible::container() const
+const KItemListContainer *KItemListContainerAccessible::container() const
 {
-    return qobject_cast<KItemListContainer*>(object());
+    return qobject_cast<KItemListContainer *>(object());
 }
 
 #endif // QT_NO_ACCESSIBILITY

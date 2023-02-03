@@ -29,29 +29,29 @@
 #include <QTimer>
 #include <QVariantAnimation>
 
+namespace
+{
+// Time in ms until reaching the autoscroll margin triggers
+// an initial autoscrolling
+const int InitialAutoScrollDelay = 700;
 
-namespace {
-    // Time in ms until reaching the autoscroll margin triggers
-    // an initial autoscrolling
-    const int InitialAutoScrollDelay = 700;
+// Delay in ms for triggering the next autoscroll
+const int RepeatingAutoScrollDelay = 1000 / 60;
 
-    // Delay in ms for triggering the next autoscroll
-    const int RepeatingAutoScrollDelay = 1000 / 60;
+// Copied from the Kirigami.Units.shortDuration
+const int RubberFadeSpeed = 150;
 
-    // Copied from the Kirigami.Units.shortDuration
-    const int RubberFadeSpeed = 150;
-
-    const char* RubberPropertyName = "_kitemviews_rubberBandPosition";
+const char *RubberPropertyName = "_kitemviews_rubberBandPosition";
 }
 
 #ifndef QT_NO_ACCESSIBILITY
-QAccessibleInterface* accessibleInterfaceFactory(const QString& key, QObject* object)
+QAccessibleInterface *accessibleInterfaceFactory(const QString &key, QObject *object)
 {
     Q_UNUSED(key)
 
-    if (KItemListContainer* container = qobject_cast<KItemListContainer*>(object)) {
+    if (KItemListContainer *container = qobject_cast<KItemListContainer *>(object)) {
         return new KItemListContainerAccessible(container);
-    } else if (KItemListView* view = qobject_cast<KItemListView*>(object)) {
+    } else if (KItemListView *view = qobject_cast<KItemListView *>(object)) {
         return new KItemListViewAccessible(view);
     }
 
@@ -59,44 +59,44 @@ QAccessibleInterface* accessibleInterfaceFactory(const QString& key, QObject* ob
 }
 #endif
 
-KItemListView::KItemListView(QGraphicsWidget* parent) :
-    QGraphicsWidget(parent),
-    m_enabledSelectionToggles(false),
-    m_grouped(false),
-    m_highlightEntireRow(false),
-    m_alternateBackgrounds(false),
-    m_supportsItemExpanding(false),
-    m_editingRole(false),
-    m_activeTransactions(0),
-    m_endTransactionAnimationHint(Animation),
-    m_itemSize(),
-    m_controller(nullptr),
-    m_model(nullptr),
-    m_visibleRoles(),
-    m_widgetCreator(nullptr),
-    m_groupHeaderCreator(nullptr),
-    m_styleOption(),
-    m_visibleItems(),
-    m_visibleGroups(),
-    m_visibleCells(),
-    m_scrollBarExtent(0),
-    m_layouter(nullptr),
-    m_animation(nullptr),
-    m_oldScrollOffset(0),
-    m_oldMaximumScrollOffset(0),
-    m_oldItemOffset(0),
-    m_oldMaximumItemOffset(0),
-    m_skipAutoScrollForRubberBand(false),
-    m_rubberBand(nullptr),
-    m_tapAndHoldIndicator(nullptr),
-    m_mousePos(),
-    m_autoScrollIncrement(0),
-    m_autoScrollTimer(nullptr),
-    m_header(nullptr),
-    m_headerWidget(nullptr),
-    m_indicatorAnimation(nullptr),
-    m_dropIndicator(),
-    m_sizeHintResolver(nullptr)
+KItemListView::KItemListView(QGraphicsWidget *parent)
+    : QGraphicsWidget(parent)
+    , m_enabledSelectionToggles(false)
+    , m_grouped(false)
+    , m_highlightEntireRow(false)
+    , m_alternateBackgrounds(false)
+    , m_supportsItemExpanding(false)
+    , m_editingRole(false)
+    , m_activeTransactions(0)
+    , m_endTransactionAnimationHint(Animation)
+    , m_itemSize()
+    , m_controller(nullptr)
+    , m_model(nullptr)
+    , m_visibleRoles()
+    , m_widgetCreator(nullptr)
+    , m_groupHeaderCreator(nullptr)
+    , m_styleOption()
+    , m_visibleItems()
+    , m_visibleGroups()
+    , m_visibleCells()
+    , m_scrollBarExtent(0)
+    , m_layouter(nullptr)
+    , m_animation(nullptr)
+    , m_oldScrollOffset(0)
+    , m_oldMaximumScrollOffset(0)
+    , m_oldItemOffset(0)
+    , m_oldMaximumItemOffset(0)
+    , m_skipAutoScrollForRubberBand(false)
+    , m_rubberBand(nullptr)
+    , m_tapAndHoldIndicator(nullptr)
+    , m_mousePos()
+    , m_autoScrollIncrement(0)
+    , m_autoScrollTimer(nullptr)
+    , m_header(nullptr)
+    , m_headerWidget(nullptr)
+    , m_indicatorAnimation(nullptr)
+    , m_dropIndicator()
+    , m_sizeHintResolver(nullptr)
 {
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);
@@ -106,8 +106,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layouter = new KItemListViewLayouter(m_sizeHintResolver, this);
 
     m_animation = new KItemListViewAnimation(this);
-    connect(m_animation, &KItemListViewAnimation::finished,
-            this, &KItemListView::slotAnimationFinished);
+    connect(m_animation, &KItemListViewAnimation::finished, this, &KItemListView::slotAnimationFinished);
 
     m_rubberBand = new KItemListRubberBand(this);
     connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);
@@ -137,7 +136,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
 #ifndef QT_NO_ACCESSIBILITY
     QAccessible::installFactory(accessibleInterfaceFactory);
 #endif
-
 }
 
 KItemListView::~KItemListView()
@@ -218,7 +216,7 @@ int KItemListView::maximumVisibleItems() const
     return m_layouter->maximumVisibleItems();
 }
 
-void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
+void KItemListView::setVisibleRoles(const QList<QByteArray> &roles)
 {
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
@@ -233,7 +231,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
         if (!m_headerWidget->automaticColumnResizing()) {
             // The column-width of new roles are still 0. Apply the preferred
             // column-width as default with.
-            for (const QByteArray& role : qAsConst(m_visibleRoles)) {
+            for (const QByteArray &role : qAsConst(m_visibleRoles)) {
                 if (m_headerWidget->columnWidth(role) == 0) {
                     const qreal width = m_headerWidget->preferredColumnWidth(role);
                     m_headerWidget->setColumnWidth(role, width);
@@ -244,14 +242,13 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
         }
     }
 
-    const bool alternateBackgroundsChanged = m_itemSize.isEmpty() &&
-                                             ((roles.count() > 1 && previousRoles.count() <= 1) ||
-                                              (roles.count() <= 1 && previousRoles.count() > 1));
+    const bool alternateBackgroundsChanged =
+        m_itemSize.isEmpty() && ((roles.count() > 1 && previousRoles.count() <= 1) || (roles.count() <= 1 && previousRoles.count() > 1));
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
-        KItemListWidget* widget = it.value();
+        KItemListWidget *widget = it.value();
         widget->setVisibleRoles(roles);
         if (alternateBackgroundsChanged) {
             updateAlternateBackgroundForWidget(widget);
@@ -289,7 +286,7 @@ void KItemListView::setEnabledSelectionToggles(bool enabled)
     if (m_enabledSelectionToggles != enabled) {
         m_enabledSelectionToggles = enabled;
 
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        QHashIterator<int, KItemListWidget *> it(m_visibleItems);
         while (it.hasNext()) {
             it.next();
             it.value()->setEnabledSelectionToggle(enabled);
@@ -302,23 +299,23 @@ bool KItemListView::enabledSelectionToggles() const
     return m_enabledSelectionToggles;
 }
 
-KItemListController* KItemListView::controller() const
+KItemListController *KItemListView::controller() const
 {
     return m_controller;
 }
 
-KItemModelBase* KItemListView::model() const
+KItemModelBase *KItemListView::model() const
 {
     return m_model;
 }
 
-void KItemListView::setWidgetCreator(KItemListWidgetCreatorBase* widgetCreator)
+void KItemListView::setWidgetCreator(KItemListWidgetCreatorBase *widgetCreator)
 {
     delete m_widgetCreator;
     m_widgetCreator = widgetCreator;
 }
 
-KItemListWidgetCreatorBase* KItemListView::widgetCreator() const
+KItemListWidgetCreatorBase *KItemListView::widgetCreator() const
 {
     if (!m_widgetCreator) {
         m_widgetCreator = defaultWidgetCreator();
@@ -326,13 +323,13 @@ KItemListWidgetCreatorBase* KItemListView::widgetCreator() const
     return m_widgetCreator;
 }
 
-void KItemListView::setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator)
+void KItemListView::setGroupHeaderCreator(KItemListGroupHeaderCreatorBase *groupHeaderCreator)
 {
     delete m_groupHeaderCreator;
     m_groupHeaderCreator = groupHeaderCreator;
 }
 
-KItemListGroupHeaderCreatorBase* KItemListView::groupHeaderCreator() const
+KItemListGroupHeaderCreatorBase *KItemListView::groupHeaderCreator() const
 {
     if (!m_groupHeaderCreator) {
         m_groupHeaderCreator = defaultGroupHeaderCreator();
@@ -345,12 +342,12 @@ QSizeF KItemListView::itemSize() const
     return m_itemSize;
 }
 
-const KItemListStyleOption& KItemListView::styleOption() const
+const KItemListStyleOption &KItemListView::styleOption() const
 {
     return m_styleOption;
 }
 
-void KItemListView::setGeometry(const QRectF& rect)
+void KItemListView::setGeometry(const QRectF &rect)
 {
     QGraphicsWidget::setGeometry(rect);
 
@@ -365,8 +362,7 @@ void KItemListView::setGeometry(const QRectF& rect)
             applyAutomaticColumnWidths();
         } else {
             const qreal requiredWidth = columnWidthsSum();
-            const QSizeF dynamicItemSize(qMax(newSize.width(), requiredWidth),
-                                         m_itemSize.height());
+            const QSizeF dynamicItemSize(qMax(newSize.width(), requiredWidth), m_itemSize.height());
             m_layouter->setItemSize(dynamicItemSize);
         }
     }
@@ -386,13 +382,13 @@ qreal KItemListView::verticalPageStep() const
     return size().height() - headerHeight;
 }
 
-std::optional<int> KItemListView::itemAt(const QPointF& pos) const
+std::optional<int> KItemListView::itemAt(const QPointF &pos) const
 {
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
 
-        const KItemListWidget* widget = it.value();
+        const KItemListWidget *widget = it.value();
         const QPointF mappedPos = widget->mapFromItem(this, pos);
         if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
             return it.key();
@@ -402,13 +398,13 @@ std::optional<int> KItemListView::itemAt(const QPointF& pos) const
     return std::nullopt;
 }
 
-bool KItemListView::isAboveSelectionToggle(int index, const QPointF& pos) const
+bool KItemListView::isAboveSelectionToggle(int index, const QPointF &pos) const
 {
     if (!m_enabledSelectionToggles) {
         return false;
     }
 
-    const KItemListWidget* widget = m_visibleItems.value(index);
+    const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
         const QRectF selectionToggleRect = widget->selectionToggleRect();
         if (!selectionToggleRect.isEmpty()) {
@@ -419,9 +415,9 @@ bool KItemListView::isAboveSelectionToggle(int index, const QPointF& pos) const
     return false;
 }
 
-bool KItemListView::isAboveExpansionToggle(int index, const QPointF& pos) const
+bool KItemListView::isAboveExpansionToggle(int index, const QPointF &pos) const
 {
-    const KItemListWidget* widget = m_visibleItems.value(index);
+    const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
         const QRectF expansionToggleRect = widget->expansionToggleRect();
         if (!expansionToggleRect.isEmpty()) {
@@ -434,7 +430,7 @@ bool KItemListView::isAboveExpansionToggle(int index, const QPointF& pos) const
 
 bool KItemListView::isAboveText(int index, const QPointF &pos) const
 {
-    const KItemListWidget* widget = m_visibleItems.value(index);
+    const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
         const QRectF &textRect = widget->textRect();
         if (!textRect.isEmpty()) {
@@ -455,7 +451,7 @@ int KItemListView::lastVisibleIndex() const
     return m_layouter->lastVisibleIndex();
 }
 
-void KItemListView::calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint) const
+void KItemListView::calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint) const
 {
     widgetCreator()->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, this);
 }
@@ -509,7 +505,7 @@ QRectF KItemListView::itemContextRect(int index) const
 {
     QRectF contextRect;
 
-    const KItemListWidget* widget = m_visibleItems.value(index);
+    const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
         contextRect = widget->iconRect() | widget->textRect();
         contextRect.translate(itemRect(index).topLeft());
@@ -533,8 +529,7 @@ void KItemListView::scrollToItem(int index)
     QRectF currentRect = itemRect(index);
 
     // Fix for Bug 311099 - View the underscore when using Ctrl + PagDown
-    currentRect.adjust(-m_styleOption.horizontalMargin, -m_styleOption.verticalMargin,
-                        m_styleOption.horizontalMargin,  m_styleOption.verticalMargin);
+    currentRect.adjust(-m_styleOption.horizontalMargin, -m_styleOption.verticalMargin, m_styleOption.horizontalMargin, m_styleOption.verticalMargin);
 
     if (!viewGeometry.contains(currentRect)) {
         qreal newOffset = scrollOffset();
@@ -593,8 +588,7 @@ void KItemListView::setHeaderVisible(bool visible)
 {
     if (visible && !m_headerWidget->isVisible()) {
         QStyleOptionHeader option;
-        const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection,
-                                                           &option, QSize());
+        const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &option, QSize());
 
         m_headerWidget->setPos(0, 0);
         m_headerWidget->resize(size().width(), headerSize.height());
@@ -602,30 +596,20 @@ void KItemListView::setHeaderVisible(bool visible)
         m_headerWidget->setColumns(m_visibleRoles);
         m_headerWidget->setZValue(1);
 
-        connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
-                this, &KItemListView::slotHeaderColumnWidthChanged);
-        connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
-                this, &KItemListView::slotSidePaddingChanged);
-        connect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
-                this, &KItemListView::slotHeaderColumnMoved);
-        connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
-                this, &KItemListView::sortOrderChanged);
-        connect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged,
-                this, &KItemListView::sortRoleChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged, this, &KItemListView::slotHeaderColumnWidthChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged, this, &KItemListView::slotSidePaddingChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::columnMoved, this, &KItemListView::slotHeaderColumnMoved);
+        connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged, this, &KItemListView::sortOrderChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged, this, &KItemListView::sortRoleChanged);
 
         m_layouter->setHeaderHeight(headerSize.height());
         m_headerWidget->setVisible(true);
     } else if (!visible && m_headerWidget->isVisible()) {
-        disconnect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
-                   this, &KItemListView::slotHeaderColumnWidthChanged);
-        disconnect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
-                this, &KItemListView::slotSidePaddingChanged);
-        disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
-                   this, &KItemListView::slotHeaderColumnMoved);
-        disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
-                   this, &KItemListView::sortOrderChanged);
-        disconnect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged,
-                   this, &KItemListView::sortRoleChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged, this, &KItemListView::slotHeaderColumnWidthChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged, this, &KItemListView::slotSidePaddingChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved, this, &KItemListView::slotHeaderColumnMoved);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged, this, &KItemListView::sortOrderChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged, this, &KItemListView::sortRoleChanged);
 
         m_layouter->setHeaderHeight(0);
         m_headerWidget->setVisible(false);
@@ -637,18 +621,18 @@ bool KItemListView::isHeaderVisible() const
     return m_headerWidget->isVisible();
 }
 
-KItemListHeader* KItemListView::header() const
+KItemListHeader *KItemListView::header() const
 {
     return m_header;
 }
 
-QPixmap KItemListView::createDragPixmap(const KItemSet& indexes) const
+QPixmap KItemListView::createDragPixmap(const KItemSet &indexes) const
 {
     QPixmap pixmap;
 
     if (indexes.count() == 1) {
-        KItemListWidget* item = m_visibleItems.value(indexes.first());
-        QGraphicsView* graphicsView = scene()->views()[0];
+        KItemListWidget *item = m_visibleItems.value(indexes.first());
+        QGraphicsView *graphicsView = scene()->views()[0];
         if (item && graphicsView) {
             pixmap = item->createDragPixmap(nullptr, graphicsView);
         }
@@ -661,9 +645,9 @@ QPixmap KItemListView::createDragPixmap(const KItemSet& indexes) const
     return pixmap;
 }
 
-void KItemListView::editRole(int index, const QByteArray& role)
+void KItemListView::editRole(int index, const QByteArray &role)
 {
-    KStandardItemListWidget* widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
+    KStandardItemListWidget *widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
     if (!widget || m_editingRole) {
         return;
     }
@@ -671,16 +655,13 @@ void KItemListView::editRole(int index, const QByteArray& role)
     m_editingRole = true;
     widget->setEditedRole(role);
 
-    connect(widget, &KItemListWidget::roleEditingCanceled,
-            this, &KItemListView::slotRoleEditingCanceled);
-    connect(widget, &KItemListWidget::roleEditingFinished,
-            this, &KItemListView::slotRoleEditingFinished);
+    connect(widget, &KItemListWidget::roleEditingCanceled, this, &KItemListView::slotRoleEditingCanceled);
+    connect(widget, &KItemListWidget::roleEditingFinished, this, &KItemListView::slotRoleEditingFinished);
 
-    connect(this, &KItemListView::scrollOffsetChanged,
-            widget, &KStandardItemListWidget::finishRoleEditing);
+    connect(this, &KItemListView::scrollOffsetChanged, widget, &KStandardItemListWidget::finishRoleEditing);
 }
 
-void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KItemListView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QGraphicsWidget::paint(painter, option, widget);
 
@@ -709,8 +690,7 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 
     if (m_rubberBand->isActive()) {
-        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(),
-                                       m_rubberBand->endPosition()).normalized();
+        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(), m_rubberBand->endPosition()).normalized();
 
         const QPointF topLeft = rubberBandRect.topLeft();
         if (scrollOrientation() == Qt::Vertical) {
@@ -729,8 +709,8 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
     if (m_tapAndHoldIndicator->isActive()) {
         const QPointF indicatorSize = m_tapAndHoldIndicator->endPosition();
-        const QRectF rubberBandRect = QRectF(m_tapAndHoldIndicator->startPosition() - indicatorSize,
-                                    (m_tapAndHoldIndicator->startPosition()) + indicatorSize).normalized();
+        const QRectF rubberBandRect =
+            QRectF(m_tapAndHoldIndicator->startPosition() - indicatorSize, (m_tapAndHoldIndicator->startPosition()) + indicatorSize).normalized();
         QStyleOptionRubberBand opt;
         initStyleOption(&opt);
         opt.shape = QRubberBand::Rectangle;
@@ -766,7 +746,7 @@ QVariant KItemListView::itemChange(GraphicsItemChange change, const QVariant &va
     return QGraphicsItem::itemChange(change, value);
 }
 
-void KItemListView::setItemSize(const QSizeF& size)
+void KItemListView::setItemSize(const QSizeF &size)
 {
     const QSizeF previousSize = m_itemSize;
     if (size == previousSize) {
@@ -776,13 +756,9 @@ void KItemListView::setItemSize(const QSizeF& size)
     // Skip animations when the number of rows or columns
     // are changed in the grid layout. Although the animation
     // engine can handle this usecase, it looks obtrusive.
-    const bool animate = !changesItemGridLayout(m_layouter->size(),
-                                                size,
-                                                m_layouter->itemMargin());
+    const bool animate = !changesItemGridLayout(m_layouter->size(), size, m_layouter->itemMargin());
 
-    const bool alternateBackgroundsChanged = m_alternateBackgrounds &&
-                                             (( m_itemSize.isEmpty() && !size.isEmpty()) ||
-                                              (!m_itemSize.isEmpty() && size.isEmpty()));
+    const bool alternateBackgroundsChanged = m_alternateBackgrounds && ((m_itemSize.isEmpty() && !size.isEmpty()) || (!m_itemSize.isEmpty() && size.isEmpty()));
 
     m_itemSize = size;
 
@@ -812,7 +788,7 @@ void KItemListView::setItemSize(const QSizeF& size)
     onItemSizeChanged(size, previousSize);
 }
 
-void KItemListView::setStyleOption(const KItemListStyleOption& option)
+void KItemListView::setStyleOption(const KItemListStyleOption &option)
 {
     if (m_styleOption == option) {
         return;
@@ -827,9 +803,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
         // Skip animations when the number of rows or columns
         // are changed in the grid layout. Although the animation
         // engine can handle this usecase, it looks obtrusive.
-        animate = !changesItemGridLayout(m_layouter->size(),
-                                         m_layouter->itemSize(),
-                                         margin);
+        animate = !changesItemGridLayout(m_layouter->size(), m_layouter->itemSize(), margin);
         m_layouter->setItemMargin(margin);
     }
 
@@ -837,14 +811,13 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
         updateGroupHeaderHeight();
     }
 
-    if (animate &&
-        (previousOption.maxTextLines != option.maxTextLines || previousOption.maxTextWidth != option.maxTextWidth)) {
+    if (animate && (previousOption.maxTextLines != option.maxTextLines || previousOption.maxTextWidth != option.maxTextWidth)) {
         // Animating a change of the maximum text size just results in expensive
         // temporary eliding and clipping operations and does not look good visually.
         animate = false;
     }
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         it.value()->setStyleOption(option);
@@ -873,13 +846,12 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
     m_sizeHintResolver->clearCache();
 
     if (m_grouped) {
-        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        QMutableHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
             it.value()->setScrollOrientation(orientation);
         }
         updateGroupHeaderHeight();
-
     }
 
     doLayout(NoAnimation);
@@ -893,34 +865,34 @@ Qt::Orientation KItemListView::scrollOrientation() const
     return m_layouter->scrollOrientation();
 }
 
-KItemListWidgetCreatorBase* KItemListView::defaultWidgetCreator() const
+KItemListWidgetCreatorBase *KItemListView::defaultWidgetCreator() const
 {
     return nullptr;
 }
 
-KItemListGroupHeaderCreatorBase* KItemListView::defaultGroupHeaderCreator() const
+KItemListGroupHeaderCreatorBase *KItemListView::defaultGroupHeaderCreator() const
 {
     return nullptr;
 }
 
-void KItemListView::initializeItemListWidget(KItemListWidget* item)
+void KItemListView::initializeItemListWidget(KItemListWidget *item)
 {
     Q_UNUSED(item)
 }
 
-bool KItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
+bool KItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray> &changedRoles) const
 {
     Q_UNUSED(changedRoles)
     return true;
 }
 
-void KItemListView::onControllerChanged(KItemListController* current, KItemListController* previous)
+void KItemListView::onControllerChanged(KItemListController *current, KItemListController *previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
+void KItemListView::onModelChanged(KItemModelBase *current, KItemModelBase *previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -932,7 +904,7 @@ void KItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orie
     Q_UNUSED(previous)
 }
 
-void KItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previous)
+void KItemListView::onItemSizeChanged(const QSizeF &current, const QSizeF &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -944,13 +916,13 @@ void KItemListView::onScrollOffsetChanged(qreal current, qreal previous)
     Q_UNUSED(previous)
 }
 
-void KItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
+void KItemListView::onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
+void KItemListView::onStyleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -974,7 +946,7 @@ void KItemListView::onTransactionEnd()
 {
 }
 
-bool KItemListView::event(QEvent* event)
+bool KItemListView::event(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::PaletteChange:
@@ -996,13 +968,13 @@ bool KItemListView::event(QEvent* event)
     return QGraphicsWidget::event(event);
 }
 
-void KItemListView::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void KItemListView::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     m_mousePos = transform().map(event->pos());
     event->accept();
 }
 
-void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsWidget::mouseMoveEvent(event);
 
@@ -1012,13 +984,13 @@ void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     event->setAccepted(true);
     setAutoScroll(true);
 }
 
-void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
+void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     QGraphicsWidget::dragMoveEvent(event);
 
@@ -1028,19 +1000,19 @@ void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
     }
 }
 
-void KItemListView::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
+void KItemListView::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     QGraphicsWidget::dragLeaveEvent(event);
     setAutoScroll(false);
 }
 
-void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
+void KItemListView::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     QGraphicsWidget::dropEvent(event);
     setAutoScroll(false);
 }
 
-QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
+QList<KItemListWidget *> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
 }
@@ -1066,7 +1038,7 @@ void KItemListView::updatePalette()
     }
 }
 
-void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
+void KItemListView::slotItemsInserted(const KItemRangeList &itemRanges)
 {
     if (m_itemSize.isEmpty()) {
         updatePreferredColumnWidths(itemRanges);
@@ -1082,7 +1054,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     m_sizeHintResolver->itemsInserted(itemRanges);
 
     int previouslyInsertedCount = 0;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         // range.index is related to the model before anything has been inserted.
         // As in each loop the current item-range gets inserted the index must
         // be increased by the already previously inserted items.
@@ -1096,7 +1068,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
         // Determine which visible items must be moved
         QList<int> itemsToMove;
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        QHashIterator<int, KItemListWidget *> it(m_visibleItems);
         while (it.hasNext()) {
             it.next();
             const int visibleItemIndex = it.key();
@@ -1110,7 +1082,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         // from the highest index to the lowest index to prevent overlaps when setting the new index.
         std::sort(itemsToMove.begin(), itemsToMove.end());
         for (int i = itemsToMove.count() - 1; i >= 0; --i) {
-            KItemListWidget* widget = m_visibleItems.value(itemsToMove[i]);
+            KItemListWidget *widget = m_visibleItems.value(itemsToMove[i]);
             Q_ASSERT(widget);
             const int newIndex = widget->index() + count;
             if (hasMultipleRanges) {
@@ -1126,8 +1098,8 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
             // the size of the layouter will be decreased before calling doLayout(): This prevents
             // an unnecessary temporary animation due to the geometry change of the inserted scrollbar.
             const bool verticalScrollOrientation = (scrollOrientation() == Qt::Vertical);
-            const bool decreaseLayouterSize = ( verticalScrollOrientation && maximumScrollOffset() > size().height()) ||
-                                              (!verticalScrollOrientation && maximumScrollOffset() > size().width());
+            const bool decreaseLayouterSize = (verticalScrollOrientation && maximumScrollOffset() > size().height())
+                || (!verticalScrollOrientation && maximumScrollOffset() > size().width());
             if (decreaseLayouterSize) {
                 const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
 
@@ -1175,7 +1147,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     }
 }
 
-void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
+void KItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
 {
     if (m_itemSize.isEmpty()) {
         // Don't pass the item-range: The preferred column-widths of
@@ -1193,7 +1165,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     m_sizeHintResolver->itemsRemoved(itemRanges);
 
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
-        const KItemRange& range = itemRanges[i];
+        const KItemRange &range = itemRanges[i];
         const int index = range.index;
         const int count = range.count;
         if (index < 0 || count <= 0) {
@@ -1211,7 +1183,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         // Iterate over a const copy because the container is mutated within the loop
         // directly and in `recycleWidget()` (https://bugs.kde.org/show_bug.cgi?id=428374)
         const auto visibleItems = m_visibleItems;
-        for (KItemListWidget* widget : visibleItems) {
+        for (KItemListWidget *widget : visibleItems) {
             const int i = widget->index();
             if (i < firstRemovedIndex) {
                 continue;
@@ -1248,7 +1220,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         // order to prevent overlaps when setting the new index.
         std::sort(itemsToMove.begin(), itemsToMove.end());
         for (int i : qAsConst(itemsToMove)) {
-            KItemListWidget* widget = m_visibleItems.value(i);
+            KItemListWidget *widget = m_visibleItems.value(i);
             Q_ASSERT(widget);
             const int newIndex = i - count;
             if (hasMultipleRanges) {
@@ -1293,7 +1265,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     }
 }
 
-void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
+void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes)
 {
     m_sizeHintResolver->itemsMoved(itemRange, movedToIndexes);
     m_layouter->markAsDirty();
@@ -1306,7 +1278,7 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
     const int lastVisibleMovedIndex = qMin(lastVisibleIndex(), itemRange.index + itemRange.count - 1);
 
     for (int index = firstVisibleMovedIndex; index <= lastVisibleMovedIndex; ++index) {
-        KItemListWidget* widget = m_visibleItems.value(index);
+        KItemListWidget *widget = m_visibleItems.value(index);
         if (widget) {
             updateWidgetProperties(widget, index);
             initializeItemListWidget(widget);
@@ -1317,15 +1289,14 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
     updateSiblingsInformation();
 }
 
-void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
-                                     const QSet<QByteArray>& roles)
+void KItemListView::slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles)
 {
     const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
     if (updateSizeHints && m_itemSize.isEmpty()) {
         updatePreferredColumnWidths(itemRanges);
     }
 
-    for (const KItemRange& itemRange : itemRanges) {
+    for (const KItemRange &itemRange : itemRanges) {
         const int index = itemRange.index;
         const int count = itemRange.count;
 
@@ -1337,7 +1308,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         // Apply the changed roles to the visible item-widgets
         const int lastIndex = index + count - 1;
         for (int i = index; i <= lastIndex; ++i) {
-            KItemListWidget* widget = m_visibleItems.value(i);
+            KItemListWidget *widget = m_visibleItems.value(i);
             if (widget) {
                 widget->setData(m_model->data(i), roles);
             }
@@ -1377,7 +1348,7 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         // Clear all visible headers. Note that the QHashIterator takes a copy of
         // m_visibleGroups. Therefore, it remains valid even if items are removed
         // from m_visibleGroups in recycleGroupHeaderForWidget().
-        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_visibleGroups);
+        QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
             recycleGroupHeaderForWidget(it.key());
@@ -1405,7 +1376,7 @@ void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pr
     }
 }
 
-void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemListView::slotSortRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -1422,12 +1393,12 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     // In SingleSelection mode (e.g., in the Places Panel), the current item is
     // always the selected item. It is not necessary to highlight the current item then.
     if (m_controller->selectionBehavior() != KItemListController::SingleSelection) {
-        KItemListWidget* previousWidget = m_visibleItems.value(previous, nullptr);
+        KItemListWidget *previousWidget = m_visibleItems.value(previous, nullptr);
         if (previousWidget) {
             previousWidget->setCurrent(false);
         }
 
-        KItemListWidget* currentWidget = m_visibleItems.value(current, nullptr);
+        KItemListWidget *currentWidget = m_visibleItems.value(current, nullptr);
         if (currentWidget) {
             currentWidget->setCurrent(true);
         }
@@ -1438,23 +1409,22 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     QAccessible::updateAccessibility(&ev);
 }
 
-void KItemListView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
+void KItemListView::slotSelectionChanged(const KItemSet &current, const KItemSet &previous)
 {
     Q_UNUSED(previous)
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         const int index = it.key();
-        KItemListWidget* widget = it.value();
+        KItemListWidget *widget = it.value();
         widget->setSelected(current.contains(index));
     }
 }
 
-void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
-                                          KItemListViewAnimation::AnimationType type)
+void KItemListView::slotAnimationFinished(QGraphicsWidget *widget, KItemListViewAnimation::AnimationType type)
 {
-    KItemListWidget* itemListWidget = qobject_cast<KItemListWidget*>(widget);
+    KItemListWidget *itemListWidget = qobject_cast<KItemListWidget *>(widget);
     Q_ASSERT(itemListWidget);
 
     if (type == KItemListViewAnimation::DeleteAnimation) {
@@ -1470,8 +1440,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
         widgetCreator()->recycle(itemListWidget);
     } else {
         const int index = itemListWidget->index();
-        const bool invisible = (index < m_layouter->firstVisibleIndex()) ||
-                               (index > m_layouter->lastVisibleIndex());
+        const bool invisible = (index < m_layouter->firstVisibleIndex()) || (index > m_layouter->lastVisibleIndex());
         if (invisible && !m_animation->isStarted(itemListWidget)) {
             recycleWidget(itemListWidget);
         }
@@ -1490,8 +1459,7 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
         connect(m_rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         m_skipAutoScrollForRubberBand = true;
     } else {
-        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(),
-                                       m_rubberBand->endPosition()).normalized();
+        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(), m_rubberBand->endPosition()).normalized();
 
         auto animation = new QVariantAnimation(this);
         animation->setStartValue(1.0);
@@ -1504,7 +1472,7 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
         curve.addCubicBezierSegment(QPointF(0.4, 0.0), QPointF(1.0, 1.0), QPointF(1.0, 1.0));
         animation->setEasingCurve(curve);
 
-        connect(animation, &QVariantAnimation::valueChanged, this, [=](const QVariant&) {
+        connect(animation, &QVariantAnimation::valueChanged, this, [=](const QVariant &) {
             update();
         });
         connect(animation, &QVariantAnimation::finished, this, [=]() {
@@ -1522,9 +1490,7 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
     update();
 }
 
-void KItemListView::slotHeaderColumnWidthChanged(const QByteArray& role,
-                                                 qreal currentWidth,
-                                                 qreal previousWidth)
+void KItemListView::slotHeaderColumnWidthChanged(const QByteArray &role, qreal currentWidth, qreal previousWidth)
 {
     Q_UNUSED(role)
     Q_UNUSED(currentWidth)
@@ -1545,9 +1511,7 @@ void KItemListView::slotSidePaddingChanged(qreal width)
     doLayout(NoAnimation);
 }
 
-void KItemListView::slotHeaderColumnMoved(const QByteArray& role,
-                                          int currentIndex,
-                                          int previousIndex)
+void KItemListView::slotHeaderColumnMoved(const QByteArray &role, int currentIndex, int previousIndex)
 {
     Q_ASSERT(m_visibleRoles[previousIndex] == role);
 
@@ -1597,9 +1561,8 @@ void KItemListView::triggerAutoScrolling()
         // an autoscrolling.
 
         const qreal minDiff = 4; // Ignore any autoscrolling if the rubberband is very small
-        const qreal diff = (scrollOrientation() == Qt::Vertical)
-                           ? m_rubberBand->endPosition().y() - m_rubberBand->startPosition().y()
-                           : m_rubberBand->endPosition().x() - m_rubberBand->startPosition().x();
+        const qreal diff = (scrollOrientation() == Qt::Vertical) ? m_rubberBand->endPosition().y() - m_rubberBand->startPosition().y()
+                                                                 : m_rubberBand->endPosition().x() - m_rubberBand->startPosition().x();
         if (qAbs(diff) < minDiff || (m_autoScrollIncrement < 0 && diff > 0) || (m_autoScrollIncrement > 0 && diff < 0)) {
             // The rubberband direction is different from the scroll direction (e.g. the rubberband has
             // been moved up although the autoscroll direction might be down)
@@ -1623,14 +1586,14 @@ void KItemListView::triggerAutoScrolling()
 
 void KItemListView::slotGeometryOfGroupHeaderParentChanged()
 {
-    KItemListWidget* widget = qobject_cast<KItemListWidget*>(sender());
+    KItemListWidget *widget = qobject_cast<KItemListWidget *>(sender());
     Q_ASSERT(widget);
-    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
     Q_ASSERT(groupHeader);
     updateGroupHeaderLayout(widget);
 }
 
-void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
+void KItemListView::slotRoleEditingCanceled(int index, const QByteArray &role, const QVariant &value)
 {
     disconnectRoleEditingSignals(index);
 
@@ -1638,7 +1601,7 @@ void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, c
     Q_EMIT roleEditingCanceled(index, role, value);
 }
 
-void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
+void KItemListView::slotRoleEditingFinished(int index, const QByteArray &role, const QVariant &value)
 {
     disconnectRoleEditingSignals(index);
 
@@ -1646,12 +1609,12 @@ void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, c
     Q_EMIT roleEditingFinished(index, role, value);
 }
 
-void KItemListView::setController(KItemListController* controller)
+void KItemListView::setController(KItemListController *controller)
 {
     if (m_controller != controller) {
-        KItemListController* previous = m_controller;
+        KItemListController *previous = m_controller;
         if (previous) {
-            KItemListSelectionManager* selectionManager = previous->selectionManager();
+            KItemListSelectionManager *selectionManager = previous->selectionManager();
             disconnect(selectionManager, &KItemListSelectionManager::currentChanged, this, &KItemListView::slotCurrentChanged);
             disconnect(selectionManager, &KItemListSelectionManager::selectionChanged, this, &KItemListView::slotSelectionChanged);
         }
@@ -1659,7 +1622,7 @@ void KItemListView::setController(KItemListController* controller)
         m_controller = controller;
 
         if (controller) {
-            KItemListSelectionManager* selectionManager = controller->selectionManager();
+            KItemListSelectionManager *selectionManager = controller->selectionManager();
             connect(selectionManager, &KItemListSelectionManager::currentChanged, this, &KItemListView::slotCurrentChanged);
             connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, &KItemListView::slotSelectionChanged);
         }
@@ -1668,31 +1631,23 @@ void KItemListView::setController(KItemListController* controller)
     }
 }
 
-void KItemListView::setModel(KItemModelBase* model)
+void KItemListView::setModel(KItemModelBase *model)
 {
     if (m_model == model) {
         return;
     }
 
-    KItemModelBase* previous = m_model;
+    KItemModelBase *previous = m_model;
 
     if (m_model) {
-        disconnect(m_model, &KItemModelBase::itemsChanged,
-                   this,    &KItemListView::slotItemsChanged);
-        disconnect(m_model, &KItemModelBase::itemsInserted,
-                   this,    &KItemListView::slotItemsInserted);
-        disconnect(m_model, &KItemModelBase::itemsRemoved,
-                   this,    &KItemListView::slotItemsRemoved);
-        disconnect(m_model, &KItemModelBase::itemsMoved,
-                   this,    &KItemListView::slotItemsMoved);
-        disconnect(m_model, &KItemModelBase::groupsChanged,
-                   this,    &KItemListView::slotGroupsChanged);
-        disconnect(m_model, &KItemModelBase::groupedSortingChanged,
-                   this,    &KItemListView::slotGroupedSortingChanged);
-        disconnect(m_model, &KItemModelBase::sortOrderChanged,
-                   this,    &KItemListView::slotSortOrderChanged);
-        disconnect(m_model, &KItemModelBase::sortRoleChanged,
-                   this,    &KItemListView::slotSortRoleChanged);
+        disconnect(m_model, &KItemModelBase::itemsChanged, this, &KItemListView::slotItemsChanged);
+        disconnect(m_model, &KItemModelBase::itemsInserted, this, &KItemListView::slotItemsInserted);
+        disconnect(m_model, &KItemModelBase::itemsRemoved, this, &KItemListView::slotItemsRemoved);
+        disconnect(m_model, &KItemModelBase::itemsMoved, this, &KItemListView::slotItemsMoved);
+        disconnect(m_model, &KItemModelBase::groupsChanged, this, &KItemListView::slotGroupsChanged);
+        disconnect(m_model, &KItemModelBase::groupedSortingChanged, this, &KItemListView::slotGroupedSortingChanged);
+        disconnect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListView::slotSortOrderChanged);
+        disconnect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListView::slotSortRoleChanged);
 
         m_sizeHintResolver->itemsRemoved(KItemRangeList() << KItemRange(0, m_model->count()));
     }
@@ -1702,22 +1657,14 @@ void KItemListView::setModel(KItemModelBase* model)
     m_grouped = model->groupedSorting();
 
     if (m_model) {
-        connect(m_model, &KItemModelBase::itemsChanged,
-                this,    &KItemListView::slotItemsChanged);
-        connect(m_model, &KItemModelBase::itemsInserted,
-                this,    &KItemListView::slotItemsInserted);
-        connect(m_model, &KItemModelBase::itemsRemoved,
-                this,    &KItemListView::slotItemsRemoved);
-        connect(m_model, &KItemModelBase::itemsMoved,
-                this,    &KItemListView::slotItemsMoved);
-        connect(m_model, &KItemModelBase::groupsChanged,
-                this,    &KItemListView::slotGroupsChanged);
-        connect(m_model, &KItemModelBase::groupedSortingChanged,
-                this,    &KItemListView::slotGroupedSortingChanged);
-        connect(m_model, &KItemModelBase::sortOrderChanged,
-                this,    &KItemListView::slotSortOrderChanged);
-        connect(m_model, &KItemModelBase::sortRoleChanged,
-                this,    &KItemListView::slotSortRoleChanged);
+        connect(m_model, &KItemModelBase::itemsChanged, this, &KItemListView::slotItemsChanged);
+        connect(m_model, &KItemModelBase::itemsInserted, this, &KItemListView::slotItemsInserted);
+        connect(m_model, &KItemModelBase::itemsRemoved, this, &KItemListView::slotItemsRemoved);
+        connect(m_model, &KItemModelBase::itemsMoved, this, &KItemListView::slotItemsMoved);
+        connect(m_model, &KItemModelBase::groupsChanged, this, &KItemListView::slotGroupsChanged);
+        connect(m_model, &KItemModelBase::groupedSortingChanged, this, &KItemListView::slotGroupedSortingChanged);
+        connect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListView::slotSortOrderChanged);
+        connect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListView::slotSortRoleChanged);
 
         const int itemCount = m_model->count();
         if (itemCount > 0) {
@@ -1728,7 +1675,7 @@ void KItemListView::setModel(KItemModelBase* model)
     onModelChanged(model, previous);
 }
 
-KItemListRubberBand* KItemListView::rubberBand() const
+KItemListRubberBand *KItemListView::rubberBand() const
 {
     return m_rubberBand;
 }
@@ -1781,7 +1728,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
         const QRectF itemBounds = m_layouter->itemRect(i);
         const QPointF newPos = itemBounds.topLeft();
-        KItemListWidget* widget = m_visibleItems.value(i);
+        KItemListWidget *widget = m_visibleItems.value(i);
         if (!widget) {
             if (!reusableItems.isEmpty()) {
                 // Reuse a KItemListWidget instance from an invisible item
@@ -1805,8 +1752,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     const int previousIndex = i - changedCount;
                     const QRectF itemRect = m_layouter->itemRect(previousIndex);
                     if (itemRect.isEmpty()) {
-                        const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical)
-                                                        ? QPointF(0, size().height()) : QPointF(size().width(), 0);
+                        const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical) ? QPointF(0, size().height()) : QPointF(size().width(), 0);
                         widget->setPos(invisibleOldPos);
                     } else {
                         widget->setPos(itemRect.topLeft());
@@ -1825,7 +1771,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
         if (animate) {
             if (m_animation->isStarted(widget, KItemListViewAnimation::MovingAnimation)) {
-                m_animation->start(widget,  KItemListViewAnimation::MovingAnimation, newPos);
+                m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
                 applyNewPos = false;
             }
 
@@ -1910,7 +1856,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     if (m_grouped) {
         // Update the layout of all visible group headers
-        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_visibleGroups);
+        QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
             updateGroupHeaderLayout(it.key());
@@ -1920,9 +1866,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     emitOffsetChanges();
 }
 
-QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
-                                                int lastVisibleIndex,
-                                                LayoutAnimationHint hint)
+QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex, int lastVisibleIndex, LayoutAnimationHint hint)
 {
     // Determine all items that are completely invisible and might be
     // reused for items that just got (at least partly) visible. If the
@@ -1932,11 +1876,11 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
 
     QList<int> items;
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
 
-        KItemListWidget* widget = it.value();
+        KItemListWidget *widget = it.value();
         const int index = widget->index();
         const bool invisible = (index < firstVisibleIndex) || (index > lastVisibleIndex);
 
@@ -1961,7 +1905,7 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
     return items;
 }
 
-bool KItemListView::moveWidget(KItemListWidget* widget,const QPointF& newPos)
+bool KItemListView::moveWidget(KItemListWidget *widget, const QPointF &newPos)
 {
     if (widget->pos() == newPos) {
         return false;
@@ -2025,9 +1969,9 @@ void KItemListView::emitOffsetChanges()
     }
 }
 
-KItemListWidget* KItemListView::createWidget(int index)
+KItemListWidget *KItemListView::createWidget(int index)
 {
-    KItemListWidget* widget = widgetCreator()->create(this);
+    KItemListWidget *widget = widgetCreator()->create(this);
     widget->setFlag(QGraphicsItem::ItemStacksBehindParent);
 
     m_visibleItems.insert(index, widget);
@@ -2037,7 +1981,7 @@ KItemListWidget* KItemListView::createWidget(int index)
     return widget;
 }
 
-void KItemListView::recycleWidget(KItemListWidget* widget)
+void KItemListView::recycleWidget(KItemListWidget *widget)
 {
     if (m_grouped) {
         recycleGroupHeaderForWidget(widget);
@@ -2050,7 +1994,7 @@ void KItemListView::recycleWidget(KItemListWidget* widget)
     widgetCreator()->recycle(widget);
 }
 
-void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
+void KItemListView::setWidgetIndex(KItemListWidget *widget, int index)
 {
     const int oldIndex = widget->index();
     m_visibleItems.remove(oldIndex);
@@ -2062,7 +2006,7 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
     widget->setIndex(index);
 }
 
-void KItemListView::moveWidgetToIndex(KItemListWidget* widget, int index)
+void KItemListView::moveWidgetToIndex(KItemListWidget *widget, int index)
 {
     const int oldIndex = widget->index();
     const Cell oldCell = m_visibleCells.value(oldIndex);
@@ -2071,29 +2015,33 @@ void KItemListView::moveWidgetToIndex(KItemListWidget* widget, int index)
 
     const Cell newCell(m_layouter->itemColumn(index), m_layouter->itemRow(index));
     const bool vertical = (scrollOrientation() == Qt::Vertical);
-    const bool updateCell = (vertical  && oldCell.row    == newCell.row) ||
-                            (!vertical && oldCell.column == newCell.column);
+    const bool updateCell = (vertical && oldCell.row == newCell.row) || (!vertical && oldCell.column == newCell.column);
     if (updateCell) {
         m_visibleCells.insert(index, newCell);
     }
 }
 
-void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)
+void KItemListView::setLayouterSize(const QSizeF &size, SizeType sizeType)
 {
     switch (sizeType) {
-    case LayouterSize: m_layouter->setSize(size); break;
-    case ItemSize: m_layouter->setItemSize(size); break;
-    default: break;
+    case LayouterSize:
+        m_layouter->setSize(size);
+        break;
+    case ItemSize:
+        m_layouter->setItemSize(size);
+        break;
+    default:
+        break;
     }
 }
 
-void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
+void KItemListView::updateWidgetProperties(KItemListWidget *widget, int index)
 {
     widget->setVisibleRoles(m_visibleRoles);
     updateWidgetColumnWidths(widget);
     widget->setStyleOption(m_styleOption);
 
-    const KItemListSelectionManager* selectionManager = m_controller->selectionManager();
+    const KItemListSelectionManager *selectionManager = m_controller->selectionManager();
 
     // In SingleSelection mode (e.g., in the Places Panel), the current item is
     // always the selected item. It is not necessary to highlight the current item then.
@@ -2113,7 +2061,7 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     }
 }
 
-void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
+void KItemListView::updateGroupHeaderForWidget(KItemListWidget *widget)
 {
     Q_ASSERT(m_grouped);
 
@@ -2125,12 +2073,12 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         return;
     }
 
-    const QList<QPair<int, QVariant> > groups = model()->groups();
+    const QList<QPair<int, QVariant>> groups = model()->groups();
     if (groups.isEmpty() || !groupHeaderCreator()) {
         return;
     }
 
-    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
     if (!groupHeader) {
         groupHeader = groupHeaderCreator()->create(this);
         groupHeader->setParentItem(widget);
@@ -2150,9 +2098,9 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
     groupHeader->show();
 }
 
-void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
+void KItemListView::updateGroupHeaderLayout(KItemListWidget *widget)
 {
-    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    KItemListGroupHeader *groupHeader = m_visibleGroups.value(widget);
     Q_ASSERT(groupHeader);
 
     const int index = widget->index();
@@ -2175,9 +2123,9 @@ void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
     }
 }
 
-void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
+void KItemListView::recycleGroupHeaderForWidget(KItemListWidget *widget)
 {
-    KItemListGroupHeader* header = m_visibleGroups.value(widget);
+    KItemListGroupHeader *header = m_visibleGroups.value(widget);
     if (header) {
         header->setParentItem(nullptr);
         groupHeaderCreator()->recycle(header);
@@ -2191,7 +2139,7 @@ void KItemListView::updateVisibleGroupHeaders()
     Q_ASSERT(m_grouped);
     m_layouter->markAsDirty();
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         updateGroupHeaderForWidget(it.value());
@@ -2202,7 +2150,7 @@ int KItemListView::groupIndexForItem(int index) const
 {
     Q_ASSERT(m_grouped);
 
-    const QList<QPair<int, QVariant> > groups = model()->groups();
+    const QList<QPair<int, QVariant>> groups = model()->groups();
     if (groups.isEmpty()) {
         return -1;
     }
@@ -2230,14 +2178,14 @@ int KItemListView::groupIndexForItem(int index) const
 
 void KItemListView::updateAlternateBackgrounds()
 {
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         updateAlternateBackgroundForWidget(it.value());
     }
 }
 
-void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
+void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget *widget)
 {
     bool enabled = useAlternateBackgrounds();
     if (enabled) {
@@ -2246,7 +2194,7 @@ void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
         if (m_grouped) {
             const int groupIndex = groupIndexForItem(index);
             if (groupIndex >= 0) {
-                const QList<QPair<int, QVariant> > groups = model()->groups();
+                const QList<QPair<int, QVariant>> groups = model()->groups();
                 const int indexOfFirstGroupItem = groups[groupIndex].first;
                 const int relativeIndex = index - indexOfFirstGroupItem;
                 enabled = (relativeIndex & 0x1) > 0;
@@ -2261,7 +2209,7 @@ bool KItemListView::useAlternateBackgrounds() const
     return m_alternateBackgrounds && m_itemSize.isEmpty();
 }
 
-QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
+QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList &itemRanges) const
 {
     QElapsedTimer timer;
     timer.start();
@@ -2271,9 +2219,9 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
     // Calculate the minimum width for each column that is required
     // to show the headline unclipped.
     const QFontMetricsF fontMetrics(m_headerWidget->font());
-    const int gripMargin   = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+    const int gripMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     const int headerMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderMargin);
-    for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
+    for (const QByteArray &visibleRole : qAsConst(m_visibleRoles)) {
         const QString headerText = m_model->roleDescription(visibleRole);
         const qreal headerWidth = fontMetrics.horizontalAdvance(headerText) + gripMargin + headerMargin * 2;
         widths.insert(visibleRole, headerWidth);
@@ -2281,15 +2229,15 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 
     // Calculate the preferred column widths for each item and ignore values
     // smaller than the width for showing the headline unclipped.
-    const KItemListWidgetCreatorBase* creator = widgetCreator();
+    const KItemListWidgetCreatorBase *creator = widgetCreator();
     int calculatedItemCount = 0;
     bool maxTimeExceeded = false;
-    for (const KItemRange& itemRange : itemRanges) {
+    for (const KItemRange &itemRange : itemRanges) {
         const int startIndex = itemRange.index;
         const int endIndex = startIndex + itemRange.count - 1;
 
         for (int i = startIndex; i <= endIndex; ++i) {
-            for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
+            for (const QByteArray &visibleRole : qAsConst(m_visibleRoles)) {
                 qreal maxWidth = widths.value(visibleRole, 0);
                 const qreal width = creator->preferredRoleColumnWidth(visibleRole, i, this);
                 maxWidth = qMax(width, maxWidth);
@@ -2317,38 +2265,37 @@ void KItemListView::applyColumnWidthsFromHeader()
 {
     // Apply the new size to the layouter
     const qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding();
-    const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
-                                 m_itemSize.height());
+    const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth), m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
 
     // Update the role sizes for all visible widgets
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         updateWidgetColumnWidths(it.value());
     }
 }
 
-void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
+void KItemListView::updateWidgetColumnWidths(KItemListWidget *widget)
 {
-    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
+    for (const QByteArray &role : qAsConst(m_visibleRoles)) {
         widget->setColumnWidth(role, m_headerWidget->columnWidth(role));
     }
     widget->setSidePadding(m_headerWidget->sidePadding());
 }
 
-void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges)
+void KItemListView::updatePreferredColumnWidths(const KItemRangeList &itemRanges)
 {
     Q_ASSERT(m_itemSize.isEmpty());
     const int itemCount = m_model->count();
     int rangesItemCount = 0;
-    for (const KItemRange& range : itemRanges) {
+    for (const KItemRange &range : itemRanges) {
         rangesItemCount += range.count;
     }
 
     if (itemCount == rangesItemCount) {
         const QHash<QByteArray, qreal> preferredWidths = preferredColumnWidths(itemRanges);
-        for (const QByteArray& role : qAsConst(m_visibleRoles)) {
+        for (const QByteArray &role : qAsConst(m_visibleRoles)) {
             m_headerWidget->setPreferredColumnWidth(role, preferredWidths.value(role));
         }
     } else {
@@ -2362,7 +2309,7 @@ void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges
         QHashIterator<QByteArray, qreal> it(updatedWidths);
         while (it.hasNext()) {
             it.next();
-            const QByteArray& role = it.key();
+            const QByteArray &role = it.key();
             const qreal updatedWidth = it.value();
             const qreal currentWidth = m_headerWidget->preferredColumnWidth(role);
             if (updatedWidth > currentWidth) {
@@ -2403,7 +2350,7 @@ void KItemListView::applyAutomaticColumnWidths()
     // size does not use the available view-size the size of the
     // first role will get stretched.
 
-    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
+    for (const QByteArray &role : qAsConst(m_visibleRoles)) {
         const qreal preferredWidth = m_headerWidget->preferredColumnWidth(role);
         m_headerWidget->setColumnWidth(role, preferredWidth);
     }
@@ -2414,7 +2361,7 @@ void KItemListView::applyAutomaticColumnWidths()
 
     qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding()
         + m_headerWidget->sidePadding(); // Adding the padding a second time so we have the same padding symmetrically on both sides of the view.
-        // This improves UX, looks better and increases the chances of users figuring out that the padding area can be used for deselecting and dropping files.
+    // This improves UX, looks better and increases the chances of users figuring out that the padding area can be used for deselecting and dropping files.
     const qreal availableWidth = size().width();
     if (requiredWidth < availableWidth) {
         // Stretch the first column to use the whole remaining width
@@ -2442,7 +2389,7 @@ void KItemListView::applyAutomaticColumnWidths()
     m_layouter->setItemSize(dynamicItemSize);
 
     // Update the role sizes for all visible widgets
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         updateWidgetColumnWidths(it.value());
@@ -2452,7 +2399,7 @@ void KItemListView::applyAutomaticColumnWidths()
 qreal KItemListView::columnWidthsSum() const
 {
     qreal widthsSum = 0;
-    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
+    for (const QByteArray &role : qAsConst(m_visibleRoles)) {
         widthsSum += m_headerWidget->columnWidth(role);
     }
     return widthsSum;
@@ -2463,9 +2410,7 @@ QRectF KItemListView::headerBoundaries() const
     return m_headerWidget->isVisible() ? m_headerWidget->geometry() : QRectF();
 }
 
-bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
-                                          const QSizeF& newItemSize,
-                                          const QSizeF& newItemMargin) const
+bool KItemListView::changesItemGridLayout(const QSizeF &newGridSize, const QSizeF &newItemSize, const QSizeF &newItemMargin) const
 {
     if (newItemSize.isEmpty() || newGridSize.isEmpty()) {
         return false;
@@ -2474,26 +2419,18 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
     if (m_layouter->scrollOrientation() == Qt::Vertical) {
         const qreal itemWidth = m_layouter->itemSize().width();
         if (itemWidth > 0) {
-            const int newColumnCount = itemsPerSize(newGridSize.width(),
-                                                    newItemSize.width(),
-                                                    newItemMargin.width());
+            const int newColumnCount = itemsPerSize(newGridSize.width(), newItemSize.width(), newItemMargin.width());
             if (m_model->count() > newColumnCount) {
-                const int oldColumnCount = itemsPerSize(m_layouter->size().width(),
-                                                        itemWidth,
-                                                        m_layouter->itemMargin().width());
+                const int oldColumnCount = itemsPerSize(m_layouter->size().width(), itemWidth, m_layouter->itemMargin().width());
                 return oldColumnCount != newColumnCount;
             }
         }
     } else {
         const qreal itemHeight = m_layouter->itemSize().height();
         if (itemHeight > 0) {
-            const int newRowCount = itemsPerSize(newGridSize.height(),
-                                                 newItemSize.height(),
-                                                 newItemMargin.height());
+            const int newRowCount = itemsPerSize(newGridSize.height(), newItemSize.height(), newItemMargin.height());
             if (m_model->count() > newRowCount) {
-                const int oldRowCount = itemsPerSize(m_layouter->size().height(),
-                                                     itemHeight,
-                                                     m_layouter->itemMargin().height());
+                const int oldRowCount = itemsPerSize(m_layouter->size().height(), itemHeight, m_layouter->itemMargin().height());
                 return oldRowCount != newRowCount;
             }
         }
@@ -2514,15 +2451,13 @@ bool KItemListView::animateChangedItemCount(int changedItemCount) const
         return false;
     }
 
-    const int maximum = (scrollOrientation() == Qt::Vertical)
-                        ? m_layouter->size().width()  / m_layouter->itemSize().width()
-                        : m_layouter->size().height() / m_layouter->itemSize().height();
+    const int maximum = (scrollOrientation() == Qt::Vertical) ? m_layouter->size().width() / m_layouter->itemSize().width()
+                                                              : m_layouter->size().height() / m_layouter->itemSize().height();
     // Only animate if up to 2/3 of a row or column are inserted or removed
     return changedItemCount <= maximum * 2 / 3;
 }
 
-
-bool KItemListView::scrollBarRequired(const QSizeF& size) const
+bool KItemListView::scrollBarRequired(const QSizeF &size) const
 {
     const QSizeF oldSize = m_layouter->size();
 
@@ -2530,16 +2465,15 @@ bool KItemListView::scrollBarRequired(const QSizeF& size) const
     const qreal maxOffset = m_layouter->maximumScrollOffset();
     m_layouter->setSize(oldSize);
 
-    return m_layouter->scrollOrientation() == Qt::Vertical ? maxOffset > size.height()
-                                                           : maxOffset > size.width();
+    return m_layouter->scrollOrientation() == Qt::Vertical ? maxOffset > size.height() : maxOffset > size.width();
 }
 
-int KItemListView::showDropIndicator(const QPointF& pos)
+int KItemListView::showDropIndicator(const QPointF &pos)
 {
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
-        const KItemListWidget* widget = it.value();
+        const KItemListWidget *widget = it.value();
 
         const QPointF mappedPos = widget->mapFromItem(this, pos);
         const QRectF rect = itemRect(widget->index());
@@ -2552,7 +2486,7 @@ int KItemListView::showDropIndicator(const QPointF& pos)
                 }
             }
 
-            const bool isAboveItem = (mappedPos.y () < rect.height() / 2);
+            const bool isAboveItem = (mappedPos.y() < rect.height() / 2);
             const qreal y = isAboveItem ? rect.top() : rect.bottom();
 
             const QRectF draggingInsertIndicator(rect.left(), y, rect.width(), 1);
@@ -2592,7 +2526,7 @@ void KItemListView::updateGroupHeaderHeight()
         // from m_styleOption.
         groupHeaderHeight += 2 * m_styleOption.horizontalMargin;
         groupHeaderMargin = m_styleOption.horizontalMargin;
-    } else if (m_itemSize.isEmpty()){
+    } else if (m_itemSize.isEmpty()) {
         groupHeaderHeight += 4 * m_styleOption.padding;
         groupHeaderMargin = m_styleOption.iconSize / 2;
     } else {
@@ -2613,10 +2547,9 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
 
     if (firstIndex < 0 || lastIndex < 0) {
         firstIndex = m_layouter->firstVisibleIndex();
-        lastIndex  = m_layouter->lastVisibleIndex();
+        lastIndex = m_layouter->lastVisibleIndex();
     } else {
-        const bool isRangeVisible = (firstIndex <= m_layouter->lastVisibleIndex() &&
-                                     lastIndex  >= m_layouter->firstVisibleIndex());
+        const bool isRangeVisible = (firstIndex <= m_layouter->lastVisibleIndex() && lastIndex >= m_layouter->firstVisibleIndex());
         if (!isRangeVisible) {
             return;
         }
@@ -2632,7 +2565,7 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
     // contain a siblings information which can be used as base.
     int rootIndex = firstIndex;
 
-    KItemListWidget* widget = m_visibleItems.value(firstIndex - 1);
+    KItemListWidget *widget = m_visibleItems.value(firstIndex - 1);
     if (!widget) {
         // There is no visible widget before the range, check whether there
         // is one after the range:
@@ -2685,7 +2618,7 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
         if (i >= firstIndex) {
             // The index represents a visible item. Apply the parent-siblings
             // and update the sibling of the current item.
-            KItemListWidget* widget = m_visibleItems.value(i);
+            KItemListWidget *widget = m_visibleItems.value(i);
             if (!widget) {
                 continue;
             }
@@ -2734,7 +2667,7 @@ bool KItemListView::hasSiblingSuccessor(int index) const
 
 void KItemListView::disconnectRoleEditingSignals(int index)
 {
-    KStandardItemListWidget* widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
+    KStandardItemListWidget *widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
     if (!widget) {
         return;
     }
@@ -2777,20 +2710,18 @@ int KItemListView::itemsPerSize(qreal size, qreal itemSize, qreal itemMargin)
     return count;
 }
 
-
-
 KItemListCreatorBase::~KItemListCreatorBase()
 {
     qDeleteAll(m_recycleableWidgets);
     qDeleteAll(m_createdWidgets);
 }
 
-void KItemListCreatorBase::addCreatedWidget(QGraphicsWidget* widget)
+void KItemListCreatorBase::addCreatedWidget(QGraphicsWidget *widget)
 {
     m_createdWidgets.insert(widget);
 }
 
-void KItemListCreatorBase::pushRecycleableWidget(QGraphicsWidget* widget)
+void KItemListCreatorBase::pushRecycleableWidget(QGraphicsWidget *widget)
 {
     Q_ASSERT(m_createdWidgets.contains(widget));
     m_createdWidgets.remove(widget);
@@ -2803,13 +2734,13 @@ void KItemListCreatorBase::pushRecycleableWidget(QGraphicsWidget* widget)
     }
 }
 
-QGraphicsWidget* KItemListCreatorBase::popRecycleableWidget()
+QGraphicsWidget *KItemListCreatorBase::popRecycleableWidget()
 {
     if (m_recycleableWidgets.isEmpty()) {
         return nullptr;
     }
 
-    QGraphicsWidget* widget = m_recycleableWidgets.takeLast();
+    QGraphicsWidget *widget = m_recycleableWidgets.takeLast();
     m_createdWidgets.insert(widget);
     return widget;
 }
@@ -2818,7 +2749,7 @@ KItemListWidgetCreatorBase::~KItemListWidgetCreatorBase()
 {
 }
 
-void KItemListWidgetCreatorBase::recycle(KItemListWidget* widget)
+void KItemListWidgetCreatorBase::recycle(KItemListWidget *widget)
 {
     widget->setParentItem(nullptr);
     widget->setOpacity(1.0);
@@ -2829,9 +2760,8 @@ KItemListGroupHeaderCreatorBase::~KItemListGroupHeaderCreatorBase()
 {
 }
 
-void KItemListGroupHeaderCreatorBase::recycle(KItemListGroupHeader* header)
+void KItemListGroupHeaderCreatorBase::recycle(KItemListGroupHeader *header)
 {
     header->setOpacity(1.0);
     pushRecycleableWidget(header);
 }
-

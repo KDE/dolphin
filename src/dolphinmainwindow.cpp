@@ -8,18 +8,19 @@
 
 #include "dolphinmainwindow.h"
 
-#include "dolphinmainwindowadaptor.h"
-#include "global.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinbookmarkhandler.h"
-#include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
+#include "dolphindockwidget.h"
+#include "dolphinmainwindowadaptor.h"
 #include "dolphinnavigatorswidgetaction.h"
 #include "dolphinnewfilemenu.h"
-#include "dolphinrecenttabsmenu.h"
 #include "dolphinplacesmodelsingleton.h"
+#include "dolphinrecenttabsmenu.h"
+#include "dolphintabpage.h"
 #include "dolphinurlnavigatorscontroller.h"
 #include "dolphinviewcontainer.h"
-#include "dolphintabpage.h"
+#include "global.h"
 #include "middleclickactioneventfilter.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
@@ -27,12 +28,11 @@
 #include "selectionmode/actiontexthelper.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "views/dolphinviewactionhandler.h"
+#include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
+#include "views/dolphinviewactionhandler.h"
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
-#include "views/dolphinnewfilemenuobserver.h"
-#include "dolphin_generalsettings.h"
 
 #include <KActionCollection>
 #include <KActionMenu>
@@ -70,8 +70,8 @@
 #include <KWindowSystem>
 #include <KXMLGUIFactory>
 
-#include <kwidgetsaddons_version.h>
 #include <kio_version.h>
+#include <kwidgetsaddons_version.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -88,60 +88,56 @@
 #include <QTimer>
 #include <QToolButton>
 
-namespace {
-    // Used for GeneralSettings::version() to determine whether
-    // an updated version of Dolphin is running, so as to migrate
-    // removed/renamed ...etc config entries; increment it in such
-    // cases
-    const int CurrentDolphinVersion = 202;
-    // The maximum number of entries in the back/forward popup menu
-    const int MaxNumberOfNavigationentries = 12;
-    // The maximum number of "Activate Tab" shortcuts
-    const int MaxActivateTabShortcuts = 9;
+namespace
+{
+// Used for GeneralSettings::version() to determine whether
+// an updated version of Dolphin is running, so as to migrate
+// removed/renamed ...etc config entries; increment it in such
+// cases
+const int CurrentDolphinVersion = 202;
+// The maximum number of entries in the back/forward popup menu
+const int MaxNumberOfNavigationentries = 12;
+// The maximum number of "Activate Tab" shortcuts
+const int MaxActivateTabShortcuts = 9;
 }
 
-DolphinMainWindow::DolphinMainWindow() :
-    KXmlGuiWindow(nullptr),
-    m_newFileMenu(nullptr),
-    m_tabWidget(nullptr),
-    m_activeViewContainer(nullptr),
-    m_actionHandler(nullptr),
-    m_remoteEncoding(nullptr),
-    m_settingsDialog(),
-    m_bookmarkHandler(nullptr),
-    m_lastHandleUrlOpenJob(nullptr),
-    m_terminalPanel(nullptr),
-    m_placesPanel(nullptr),
-    m_tearDownFromPlacesRequested(false),
-    m_backAction(nullptr),
-    m_forwardAction(nullptr)
+DolphinMainWindow::DolphinMainWindow()
+    : KXmlGuiWindow(nullptr)
+    , m_newFileMenu(nullptr)
+    , m_tabWidget(nullptr)
+    , m_activeViewContainer(nullptr)
+    , m_actionHandler(nullptr)
+    , m_remoteEncoding(nullptr)
+    , m_settingsDialog()
+    , m_bookmarkHandler(nullptr)
+    , m_lastHandleUrlOpenJob(nullptr)
+    , m_terminalPanel(nullptr)
+    , m_placesPanel(nullptr)
+    , m_tearDownFromPlacesRequested(false)
+    , m_backAction(nullptr)
+    , m_forwardAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
 
     new MainWindowAdaptor(this);
 
 #ifndef Q_OS_WIN
-	setWindowFlags(Qt::WindowContextHelpButtonHint);
+    setWindowFlags(Qt::WindowContextHelpButtonHint);
 #endif
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
 
     setStateConfigGroup("State");
 
-    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
-            this, &DolphinMainWindow::showErrorMessage);
+    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage, this, &DolphinMainWindow::showErrorMessage);
 
-    KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
+    KIO::FileUndoManager *undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
 
-    connect(undoManager, &KIO::FileUndoManager::undoAvailable,
-            this, &DolphinMainWindow::slotUndoAvailable);
-    connect(undoManager, &KIO::FileUndoManager::undoTextChanged,
-            this, &DolphinMainWindow::slotUndoTextChanged);
-    connect(undoManager, &KIO::FileUndoManager::jobRecordingStarted,
-            this, &DolphinMainWindow::clearStatusBar);
-    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
-            this, &DolphinMainWindow::showCommand);
+    connect(undoManager, &KIO::FileUndoManager::undoAvailable, this, &DolphinMainWindow::slotUndoAvailable);
+    connect(undoManager, &KIO::FileUndoManager::undoTextChanged, this, &DolphinMainWindow::slotUndoTextChanged);
+    connect(undoManager, &KIO::FileUndoManager::jobRecordingStarted, this, &DolphinMainWindow::clearStatusBar);
+    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished, this, &DolphinMainWindow::showCommand);
 
     const bool firstRun = (GeneralSettings::version() < 200);
     if (firstRun) {
@@ -154,12 +150,9 @@ DolphinMainWindow::DolphinMainWindow() :
     actionCollection()->addAction(QStringLiteral("url_navigators"), navigatorsWidgetAction);
     m_tabWidget = new DolphinTabWidget(navigatorsWidgetAction, this);
     m_tabWidget->setObjectName("tabWidget");
-    connect(m_tabWidget, &DolphinTabWidget::activeViewChanged,
-            this, &DolphinMainWindow::activeViewChanged);
-    connect(m_tabWidget, &DolphinTabWidget::tabCountChanged,
-            this, &DolphinMainWindow::tabCountChanged);
-    connect(m_tabWidget, &DolphinTabWidget::currentUrlChanged,
-            this, &DolphinMainWindow::updateWindowTitle);
+    connect(m_tabWidget, &DolphinTabWidget::activeViewChanged, this, &DolphinMainWindow::activeViewChanged);
+    connect(m_tabWidget, &DolphinTabWidget::tabCountChanged, this, &DolphinMainWindow::tabCountChanged);
+    connect(m_tabWidget, &DolphinTabWidget::currentUrlChanged, this, &DolphinMainWindow::updateWindowTitle);
     setCentralWidget(m_tabWidget);
 
     m_actionTextHelper = new SelectionMode::ActionTextHelper(this);
@@ -171,19 +164,17 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
-    connect(this, &DolphinMainWindow::urlChanged,
-            m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
+    connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
 
     setupDockWidgets();
 
     setupGUI(Save | Create | ToolBar);
     stateChanged(QStringLiteral("new_file"));
 
-    QClipboard* clipboard = QApplication::clipboard();
-    connect(clipboard, &QClipboard::dataChanged,
-            this, &DolphinMainWindow::updatePasteAction);
+    QClipboard *clipboard = QApplication::clipboard();
+    connect(clipboard, &QClipboard::dataChanged, this, &DolphinMainWindow::updatePasteAction);
 
-    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(GeneralSettings::filterBar());
 
     if (firstRun) {
@@ -191,15 +182,13 @@ DolphinMainWindow::DolphinMainWindow() :
     }
 
     const bool showMenu = !menuBar()->isHidden();
-    QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
-    showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
+    QAction *showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
+    showMenuBarAction->setChecked(showMenu); // workaround for bug #171080
 
-    auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(
-                                    KStandardAction::name(KStandardAction::HamburgerMenu)));
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
     hamburgerMenu->setMenuBar(menuBar());
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
-    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
-            this, &DolphinMainWindow::updateHamburgerMenu);
+    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu, this, &DolphinMainWindow::updateHamburgerMenu);
     hamburgerMenu->hideActionsOf(toolBar());
     if (GeneralSettings::version() < 201 && !toolBar()->actions().contains(hamburgerMenu)) {
         addHamburgerMenuToToolbar();
@@ -223,8 +212,7 @@ DolphinMainWindow::DolphinMainWindow() :
         showErrorMessage(errorMessage);
     });
 
-    connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged,
-            this, &DolphinMainWindow::slotSplitViewChanged);
+    connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged, this, &DolphinMainWindow::slotSplitViewChanged);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -233,9 +221,9 @@ DolphinMainWindow::~DolphinMainWindow()
     disconnect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &DolphinMainWindow::updatePasteAction);
 }
 
-QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
+QVector<DolphinViewContainer *> DolphinMainWindow::viewContainers() const
 {
-    QVector<DolphinViewContainer*> viewContainers;
+    QVector<DolphinViewContainer *> viewContainers;
 
     for (int i = 0; i < m_tabWidget->count(); ++i) {
         DolphinTabPage *tabPage = m_tabWidget->tabPageAt(i);
@@ -248,17 +236,17 @@ QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
     return viewContainers;
 }
 
-void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs, bool splitView)
+void DolphinMainWindow::openDirectories(const QList<QUrl> &dirs, bool splitView)
 {
     m_tabWidget->openDirectories(dirs, splitView);
 }
 
-void DolphinMainWindow::openDirectories(const QStringList& dirs, bool splitView)
+void DolphinMainWindow::openDirectories(const QStringList &dirs, bool splitView)
 {
     openDirectories(QUrl::fromStringList(dirs), splitView);
 }
 
-void DolphinMainWindow::openFiles(const QList<QUrl>& files, bool splitView)
+void DolphinMainWindow::openFiles(const QList<QUrl> &files, bool splitView)
 {
     m_tabWidget->openFiles(files, splitView);
 }
@@ -277,7 +265,7 @@ bool DolphinMainWindow::isInformationPanelEnabled() const
 #endif
 }
 
-void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
+void DolphinMainWindow::openFiles(const QStringList &files, bool splitView)
 {
     openFiles(QUrl::fromStringList(files), splitView);
 }
@@ -302,7 +290,7 @@ bool DolphinMainWindow::isActiveWindow()
 
 void DolphinMainWindow::showCommand(CommandType command)
 {
-    DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
+    DolphinStatusBar *statusBar = m_activeViewContainer->statusBar();
     switch (command) {
     case KIO::FileUndoManager::Copy:
         statusBar->setText(i18nc("@info:status", "Successfully copied."));
@@ -352,7 +340,7 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     Q_EMIT urlChanged(url);
 }
 
-void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl& url)
+void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl &url)
 {
     if (m_tearDownFromPlacesRequested && url == QUrl::fromLocalFile(QDir::homePath())) {
         m_placesPanel->proceedWithTearDown();
@@ -366,18 +354,17 @@ void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl& url)
 
 void DolphinMainWindow::slotEditableStateChanged(bool editable)
 {
-    KToggleAction* editableLocationAction =
-        static_cast<KToggleAction*>(actionCollection()->action(QStringLiteral("editable_location")));
+    KToggleAction *editableLocationAction = static_cast<KToggleAction *>(actionCollection()->action(QStringLiteral("editable_location")));
     editableLocationAction->setChecked(editable);
 }
 
-void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
+void DolphinMainWindow::slotSelectionChanged(const KFileItemList &selection)
 {
     updateFileAndEditActions();
 
     const int selectedUrlsCount = m_tabWidget->currentTabPage()->selectedItemsCount();
 
-    QAction* compareFilesAction = actionCollection()->action(QStringLiteral("compare_files"));
+    QAction *compareFilesAction = actionCollection()->action(QStringLiteral("compare_files"));
     if (selectedUrlsCount == 2) {
         compareFilesAction->setEnabled(isKompareInstalled());
     } else {
@@ -392,25 +379,24 @@ void DolphinMainWindow::updateHistory()
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex();
 
-    QAction* backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
+    QAction *backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
     if (backAction) {
         backAction->setToolTip(i18nc("@info", "Go back"));
         backAction->setWhatsThis(i18nc("@info:whatsthis go back", "Return to the previously viewed folder."));
         backAction->setEnabled(index < urlNavigator->historySize() - 1);
     }
 
-    QAction* forwardAction = actionCollection()->action(KStandardAction::name(KStandardAction::Forward));
+    QAction *forwardAction = actionCollection()->action(KStandardAction::name(KStandardAction::Forward));
     if (forwardAction) {
         forwardAction->setToolTip(i18nc("@info", "Go forward"));
-        forwardAction->setWhatsThis(xi18nc("@info:whatsthis go forward",
-            "This undoes a <interface>Go|Back</interface> action."));
+        forwardAction->setWhatsThis(xi18nc("@info:whatsthis go forward", "This undoes a <interface>Go|Back</interface> action."));
         forwardAction->setEnabled(index > 0);
     }
 }
 
 void DolphinMainWindow::updateFilterBarAction(bool show)
 {
-    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(show);
 }
 
@@ -453,7 +439,7 @@ void DolphinMainWindow::addToPlaces()
     }
 }
 
-void DolphinMainWindow::openNewTab(const QUrl& url)
+void DolphinMainWindow::openNewTab(const QUrl &url)
 {
     m_tabWidget->openNewTab(url, QUrl());
 }
@@ -476,11 +462,11 @@ void DolphinMainWindow::slotSplitViewChanged()
 
 void DolphinMainWindow::openInNewTab()
 {
-    const KFileItemList& list = m_activeViewContainer->view()->selectedItems();
+    const KFileItemList &list = m_activeViewContainer->view()->selectedItems();
     bool tabCreated = false;
 
-    for (const KFileItem& item : list) {
-        const QUrl& url = DolphinView::openItemAsFolderUrl(item);
+    for (const KFileItem &item : list) {
+        const QUrl &url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
             openNewTab(url);
             tabCreated = true;
@@ -502,7 +488,7 @@ void DolphinMainWindow::openInNewWindow()
     if (list.isEmpty()) {
         newWindowUrl = m_activeViewContainer->url();
     } else if (list.count() == 1) {
-        const KFileItem& item = list.first();
+        const KFileItem &item = list.first();
         newWindowUrl = DolphinView::openItemAsFolderUrl(item);
     }
 
@@ -522,12 +508,11 @@ void DolphinMainWindow::showTarget()
     if (QFileInfo::exists(linkDestination)) {
         KIO::highlightInFileManager({QUrl::fromLocalFile(linkDestination).adjusted(QUrl::StripTrailingSlash)});
     } else {
-        m_activeViewContainer->showMessage(xi18nc("@info", "Could not access <filename>%1</filename>.", linkDestination),
-                                           DolphinViewContainer::Warning);
+        m_activeViewContainer->showMessage(xi18nc("@info", "Could not access <filename>%1</filename>.", linkDestination), DolphinViewContainer::Warning);
     }
 }
 
-void DolphinMainWindow::showEvent(QShowEvent* event)
+void DolphinMainWindow::showEvent(QShowEvent *event)
 {
     KXmlGuiWindow::showEvent(event);
 
@@ -536,7 +521,7 @@ void DolphinMainWindow::showEvent(QShowEvent* event)
     }
 }
 
-void DolphinMainWindow::closeEvent(QCloseEvent* event)
+void DolphinMainWindow::closeEvent(QCloseEvent *event)
 {
     // Find out if Dolphin is closed directly by the user or
     // by the session manager because the session is closed
@@ -545,10 +530,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         closedByUser = false;
     }
 
-    if (m_tabWidget->count() > 1
-        && GeneralSettings::confirmClosingMultipleTabs()
-        && !GeneralSettings::rememberOpenedTabs()
-        && closedByUser) {
+    if (m_tabWidget->count() > 1 && GeneralSettings::confirmClosingMultipleTabs() && !GeneralSettings::rememberOpenedTabs() && closedByUser) {
         // Ask the user if he really wants to quit and close all tabs.
         // Open a confirmation dialog with 3 buttons:
         // QDialogButtonBox::Yes    -> Quit
@@ -557,8 +539,10 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         QDialog *dialog = new QDialog(this, Qt::Dialog);
         dialog->setWindowTitle(i18nc("@title:window", "Confirmation"));
         dialog->setModal(true);
-        QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No | QDialogButtonBox::Cancel);
-        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KGuiItem(i18nc("@action:button 'Quit Dolphin' button", "&Quit %1", QGuiApplication::applicationDisplayName()), QIcon::fromTheme(QStringLiteral("application-exit"))));
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No | QDialogButtonBox::Cancel);
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes),
+                         KGuiItem(i18nc("@action:button 'Quit Dolphin' button", "&Quit %1", QGuiApplication::applicationDisplayName()),
+                                  QIcon::fromTheme(QStringLiteral("application-exit"))));
         KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("C&lose Current Tab"), QIcon::fromTheme(QStringLiteral("tab-close"))));
         KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
         buttons->button(QDialogButtonBox::Yes)->setDefault(true);
@@ -566,29 +550,29 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         bool doNotAskAgainCheckboxResult = false;
 
         const auto result = KMessageBox::createKMessageBox(dialog,
-            buttons,
-            QMessageBox::Warning,
-            i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
-            QStringList(),
-            i18n("Do not ask again"),
-            &doNotAskAgainCheckboxResult,
-            KMessageBox::Notify);
+                                                           buttons,
+                                                           QMessageBox::Warning,
+                                                           i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
+                                                           QStringList(),
+                                                           i18n("Do not ask again"),
+                                                           &doNotAskAgainCheckboxResult,
+                                                           KMessageBox::Notify);
 
         if (doNotAskAgainCheckboxResult) {
             GeneralSettings::setConfirmClosingMultipleTabs(false);
         }
 
         switch (result) {
-            case QDialogButtonBox::Yes:
-                // Quit
-                break;
-            case QDialogButtonBox::No:
-                // Close only the current tab
-                m_tabWidget->closeTab();
-                Q_FALLTHROUGH();
-            default:
-                event->ignore();
-                return;
+        case QDialogButtonBox::Yes:
+            // Quit
+            break;
+        case QDialogButtonBox::No:
+            // Close only the current tab
+            m_tabWidget->closeTab();
+            Q_FALLTHROUGH();
+        default:
+            event->ignore();
+            return;
         }
     }
 
@@ -608,43 +592,41 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         QDialogButtonBox *buttons = new QDialogButtonBox(standardButtons);
         KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KStandardGuiItem::quit());
         if (!m_terminalPanel->isVisible()) {
-            KGuiItem::assign(
-                    buttons->button(QDialogButtonBox::No),
-                    KGuiItem(i18n("Show &Terminal Panel"), QIcon::fromTheme(QStringLiteral("dialog-scripts"))));
+            KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("Show &Terminal Panel"), QIcon::fromTheme(QStringLiteral("dialog-scripts"))));
         }
         KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
 
         bool doNotAskAgainCheckboxResult = false;
 
         const auto result = KMessageBox::createKMessageBox(
-                dialog,
-                buttons,
-                QMessageBox::Warning,
-                i18n("The program '%1' is still running in the Terminal panel. Are you sure you want to quit?", m_terminalPanel->runningProgramName()),
-                QStringList(),
-                i18n("Do not ask again"),
-                &doNotAskAgainCheckboxResult,
-                KMessageBox::Dangerous);
+            dialog,
+            buttons,
+            QMessageBox::Warning,
+            i18n("The program '%1' is still running in the Terminal panel. Are you sure you want to quit?", m_terminalPanel->runningProgramName()),
+            QStringList(),
+            i18n("Do not ask again"),
+            &doNotAskAgainCheckboxResult,
+            KMessageBox::Dangerous);
 
         if (doNotAskAgainCheckboxResult) {
             GeneralSettings::setConfirmClosingTerminalRunningProgram(false);
         }
 
         switch (result) {
-            case QDialogButtonBox::Yes:
-                // Quit
-                break;
-            case QDialogButtonBox::No:
-                actionCollection()->action("show_terminal_panel")->trigger();
-                // Do not quit, ignore quit event
-                Q_FALLTHROUGH();
-            default:
-                event->ignore();
-                return;
+        case QDialogButtonBox::Yes:
+            // Quit
+            break;
+        case QDialogButtonBox::No:
+            actionCollection()->action("show_terminal_panel")->trigger();
+            // Do not quit, ignore quit event
+            Q_FALLTHROUGH();
+        default:
+            event->ignore();
+            return;
         }
     }
 
-    if (GeneralSettings::rememberOpenedTabs())  {
+    if (GeneralSettings::rememberOpenedTabs()) {
         KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
         KConfig *config = KConfigGui::sessionConfig();
         saveGlobalProperties(config);
@@ -658,12 +640,12 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     KXmlGuiWindow::closeEvent(event);
 }
 
-void DolphinMainWindow::saveProperties(KConfigGroup& group)
+void DolphinMainWindow::saveProperties(KConfigGroup &group)
 {
     m_tabWidget->saveProperties(group);
 }
 
-void DolphinMainWindow::readProperties(const KConfigGroup& group)
+void DolphinMainWindow::readProperties(const KConfigGroup &group)
 {
     m_tabWidget->readProperties(group);
 }
@@ -693,22 +675,22 @@ void DolphinMainWindow::quit()
     close();
 }
 
-void DolphinMainWindow::showErrorMessage(const QString& message)
+void DolphinMainWindow::showErrorMessage(const QString &message)
 {
     m_activeViewContainer->showMessage(message, DolphinViewContainer::Error);
 }
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
 {
-    QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
+    QAction *undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     if (undoAction) {
         undoAction->setEnabled(available);
     }
 }
 
-void DolphinMainWindow::slotUndoTextChanged(const QString& text)
+void DolphinMainWindow::slotUndoTextChanged(const QString &text)
 {
-    QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
+    QAction *undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     if (undoAction) {
         undoAction->setText(text);
     }
@@ -753,13 +735,13 @@ void DolphinMainWindow::find()
 
 void DolphinMainWindow::updateSearchAction()
 {
-    QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+    QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     toggleSearchAction->setChecked(m_activeViewContainer->isSearchModeEnabled());
 }
 
 void DolphinMainWindow::updatePasteAction()
 {
-    QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
+    QAction *pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
     pasteAction->setText(pasteInfo.second);
@@ -826,7 +808,7 @@ void DolphinMainWindow::slotAboutToShowBackPopupMenu()
     }
 }
 
-void DolphinMainWindow::slotGoBack(QAction* action)
+void DolphinMainWindow::slotGoBack(QAction *action)
 {
     int gotoIndex = action->data().value<int>();
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
@@ -835,7 +817,7 @@ void DolphinMainWindow::slotGoBack(QAction* action)
     }
 }
 
-void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
+void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction *action)
 {
     if (action) {
         const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
@@ -854,7 +836,7 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
     }
 }
 
-void DolphinMainWindow::slotGoForward(QAction* action)
+void DolphinMainWindow::slotGoForward(QAction *action)
 {
     int gotoIndex = action->data().value<int>();
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
@@ -875,10 +857,9 @@ void DolphinMainWindow::selectAll()
     // if the URL navigator is editable and focused, select the whole
     // URL instead of all items of the view
 
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
-    QLineEdit* lineEdit = urlNavigator->editor()->lineEdit();
-    const bool selectUrl = urlNavigator->isUrlEditable() &&
-                           lineEdit->hasFocus();
+    KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigator();
+    QLineEdit *lineEdit = urlNavigator->editor()->lineEdit();
+    const bool selectUrl = urlNavigator->isUrlEditable() && lineEdit->hasFocus();
     if (selectUrl) {
         lineEdit->selectAll();
     } else {
@@ -894,7 +875,7 @@ void DolphinMainWindow::invertSelection()
 
 void DolphinMainWindow::toggleSplitView()
 {
-    DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+    DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
 
     updateViewActions();
@@ -902,7 +883,7 @@ void DolphinMainWindow::toggleSplitView()
 
 void DolphinMainWindow::toggleSplitStash()
 {
-    DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+    DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     tabPage->setSplitViewEnabled(false, WithAnimation);
     tabPage->setSplitViewEnabled(true, WithAnimation, QUrl("stash:/"));
 }
@@ -967,7 +948,7 @@ void DolphinMainWindow::toggleFilterBar()
     const bool checked = !m_activeViewContainer->isFilterBarVisible();
     m_activeViewContainer->setFilterBarVisible(checked);
 
-    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(checked);
 }
 
@@ -975,21 +956,19 @@ void DolphinMainWindow::toggleEditLocation()
 {
     clearStatusBar();
 
-    QAction* action = actionCollection()->action(QStringLiteral("editable_location"));
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    QAction *action = actionCollection()->action(QStringLiteral("editable_location"));
+    KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigator();
     urlNavigator->setUrlEditable(action->isChecked());
 }
 
 void DolphinMainWindow::replaceLocation()
 {
-    KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
-    QLineEdit* lineEdit = navigator->editor()->lineEdit();
+    KUrlNavigator *navigator = m_activeViewContainer->urlNavigator();
+    QLineEdit *lineEdit = navigator->editor()->lineEdit();
 
     // If the text field currently has focus and everything is selected,
     // pressing the keyboard shortcut returns the whole thing to breadcrumb mode
-    if (navigator->isUrlEditable()
-        && lineEdit->hasFocus()
-        && lineEdit->selectedText() == lineEdit->text() ) {
+    if (navigator->isUrlEditable() && lineEdit->hasFocus() && lineEdit->selectedText() == lineEdit->text()) {
         navigator->setUrlEditable(false);
     } else {
         navigator->setUrlEditable(true);
@@ -1002,8 +981,8 @@ void DolphinMainWindow::togglePanelLockState()
 {
     const bool newLockState = !GeneralSettings::lockPanels();
     const auto childrenObjects = children();
-    for (QObject* child : childrenObjects) {
-        DolphinDockWidget* dock = qobject_cast<DolphinDockWidget*>(child);
+    for (QObject *child : childrenObjects) {
+        DolphinDockWidget *dock = qobject_cast<DolphinDockWidget *>(child);
         if (dock) {
             dock->setLocked(newLockState);
         }
@@ -1050,14 +1029,14 @@ void DolphinMainWindow::goHome()
 
 void DolphinMainWindow::goBackInNewTab()
 {
-    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() + 1;
     openNewTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goForwardInNewTab()
 {
-    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() - 1;
     openNewTab(urlNavigator->locationUrl(index));
 }
@@ -1105,14 +1084,12 @@ void DolphinMainWindow::toggleShowMenuBar()
 QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 {
     m_searchTools.clear();
-    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(
-        &m_searchTools, { "files-find" }, m_activeViewContainer->url()
-    );
-    QList<QAction*> actions = m_searchTools.actions();
+    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(&m_searchTools, {"files-find"}, m_activeViewContainer->url());
+    QList<QAction *> actions = m_searchTools.actions();
     if (actions.isEmpty()) {
         return nullptr;
     }
-    QAction* action = actions.first();
+    QAction *action = actions.first();
     if (action->isSeparator()) {
         return nullptr;
     }
@@ -1121,7 +1098,7 @@ QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 
 void DolphinMainWindow::updateOpenPreferredSearchToolAction()
 {
-    QAction* openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
+    QAction *openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
     if (!openPreferredSearchTool) {
         return;
     }
@@ -1159,7 +1136,7 @@ void DolphinMainWindow::openTerminalHere()
 {
     QList<QUrl> urls = {};
 
-    for (const KFileItem& item : m_activeViewContainer->view()->selectedItems()) {
+    for (const KFileItem &item : m_activeViewContainer->view()->selectedItems()) {
         QUrl url = item.targetUrl();
         if (item.isFile()) {
             url.setPath(QFileInfo(url.path()).absolutePath());
@@ -1176,16 +1153,20 @@ void DolphinMainWindow::openTerminalHere()
     }
 
     if (urls.count() > 5) {
-        QString question = i18np("Are you sure you want to open 1 terminal window?",
-                                 "Are you sure you want to open %1 terminal windows?", urls.count());
+        QString question = i18np("Are you sure you want to open 1 terminal window?", "Are you sure you want to open %1 terminal windows?", urls.count());
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        const int answer = KMessageBox::warningTwoActions(this, question, {},
+        const int answer = KMessageBox::warningTwoActions(
+            this,
+            question,
+            {},
 #else
-        const int answer = KMessageBox::warningYesNo(this, question, {},
+        const int answer = KMessageBox::warningYesNo(
+            this,
+            question,
+            {},
 #endif
-                                                     KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()),
-                                                              QStringLiteral("utilities-terminal")),
-                                                     KStandardGuiItem::cancel());
+            KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()), QStringLiteral("utilities-terminal")),
+            KStandardGuiItem::cancel());
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         if (answer != KMessageBox::PrimaryAction) {
 #else
@@ -1195,12 +1176,12 @@ void DolphinMainWindow::openTerminalHere()
         }
     }
 
-    for (const QUrl& url : urls) {
+    for (const QUrl &url : urls) {
         openTerminalJob(url);
     }
 }
 
-void DolphinMainWindow::openTerminalJob(const QUrl& url)
+void DolphinMainWindow::openTerminalJob(const QUrl &url)
 {
     if (url.isLocalFile()) {
         auto job = new KTerminalLauncherJob(QString());
@@ -1209,7 +1190,7 @@ void DolphinMainWindow::openTerminalJob(const QUrl& url)
         return;
     }
 
-     // Not a local file, with protocol Class ":local", try stat'ing
+    // Not a local file, with protocol Class ":local", try stat'ing
     if (KProtocolInfo::protocolClass(url.scheme()) == QLatin1String(":local")) {
         KIO::StatJob *job = KIO::mostLocalUrl(url);
         KJobWidgets::setWindow(job, this);
@@ -1236,14 +1217,13 @@ void DolphinMainWindow::openTerminalJob(const QUrl& url)
 void DolphinMainWindow::editSettings()
 {
     if (!m_settingsDialog) {
-        DolphinViewContainer* container = activeViewContainer();
+        DolphinViewContainer *container = activeViewContainer();
         container->view()->writeSettings();
 
         const QUrl url = container->url();
-        DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this, actionCollection());
+        DolphinSettingsDialog *settingsDialog = new DolphinSettingsDialog(url, this, actionCollection());
         connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, this, &DolphinMainWindow::refreshViews);
-        connect(settingsDialog, &DolphinSettingsDialog::settingsChanged,
-                &DolphinUrlNavigatorsController::slotReadSettings);
+        connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, &DolphinUrlNavigatorsController::slotReadSettings);
         settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
         settingsDialog->show();
         m_settingsDialog = settingsDialog;
@@ -1252,7 +1232,7 @@ void DolphinMainWindow::editSettings()
     }
 }
 
-void DolphinMainWindow::handleUrl(const QUrl& url)
+void DolphinMainWindow::handleUrl(const QUrl &url)
 {
     delete m_lastHandleUrlOpenJob;
     m_lastHandleUrlOpenJob = nullptr;
@@ -1268,14 +1248,13 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
 #endif
         m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
 
-        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this,
-                [this, url](const QString &mimetype) {
-                    if (mimetype == QLatin1String("inode/directory")) {
-                        // If it's a dir, we'll take it from here
-                        m_lastHandleUrlOpenJob->kill();
-                        m_lastHandleUrlOpenJob = nullptr;
-                        activeViewContainer()->setUrl(url);
-                    }
+        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this, [this, url](const QString &mimetype) {
+            if (mimetype == QLatin1String("inode/directory")) {
+                // If it's a dir, we'll take it from here
+                m_lastHandleUrlOpenJob->kill();
+                m_lastHandleUrlOpenJob = nullptr;
+                activeViewContainer()->setUrl(url);
+            }
         });
 
         connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::result, this, [this]() {
@@ -1293,10 +1272,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     newFileMenu()->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
 }
 
-void DolphinMainWindow::openContextMenu(const QPoint& pos,
-                                        const KFileItem& item,
-                                        const KFileItemList &selectedItems,
-                                        const QUrl& url)
+void DolphinMainWindow::openContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url)
 {
     QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, &m_fileItemActions);
     contextMenu.data()->exec(pos);
@@ -1319,9 +1295,8 @@ QMenu *DolphinMainWindow::createPopupMenu()
 
 void DolphinMainWindow::updateHamburgerMenu()
 {
-    KActionCollection* ac = actionCollection();
-    auto hamburgerMenu = static_cast<KHamburgerMenu *>(
-                    ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
+    KActionCollection *ac = actionCollection();
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
     auto menu = hamburgerMenu->menu();
     if (!menu) {
         menu = new QMenu(this);
@@ -1346,24 +1321,19 @@ void DolphinMainWindow::updateHamburgerMenu()
     menu->addAction(ac->action(QStringLiteral("go_forward")));
 
     menu->addMenu(m_newFileMenu->menu());
-    if (!toolBar()->isVisible()
-        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_selection_mode_tool_bar")))
-    ) {
+    if (!toolBar()->isVisible() || !toolbarActions.contains(ac->action(QStringLiteral("toggle_selection_mode_tool_bar")))) {
         menu->addAction(ac->action(QStringLiteral("toggle_selection_mode")));
     }
     menu->addAction(ac->action(QStringLiteral("basic_actions")));
     menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
     if (!toolBar()->isVisible()
         || (!toolbarActions.contains(ac->action(QStringLiteral("toggle_search")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("open_preferred_search_tool"))))
-    ) {
+            && !toolbarActions.contains(ac->action(QStringLiteral("open_preferred_search_tool"))))) {
         menu->addAction(ac->action(KStandardAction::name(KStandardAction::Find)));
         // This way a search action will only be added if none of the three available
         // search actions is present on the toolbar.
     }
-    if (!toolBar()->isVisible()
-        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_filter")))
-    ) {
+    if (!toolBar()->isVisible() || !toolbarActions.contains(ac->action(QStringLiteral("toggle_filter")))) {
         menu->addAction(ac->action(QStringLiteral("show_filter_bar")));
         // This way a filter action will only be added if none of the two available
         // filter actions is present on the toolbar.
@@ -1383,11 +1353,8 @@ void DolphinMainWindow::updateHamburgerMenu()
     // The third group contains actions to change what one sees in the view
     // and to change the more general UI.
     if (!toolBar()->isVisible()
-        || (!toolbarActions.contains(ac->action(QStringLiteral("icons")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("details")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))
-    ) {
+        || (!toolbarActions.contains(ac->action(QStringLiteral("icons"))) && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
+            && !toolbarActions.contains(ac->action(QStringLiteral("details"))) && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))) {
         menu->addAction(ac->action(QStringLiteral("view_mode")));
     }
     menu->addAction(ac->action(QStringLiteral("show_hidden_files")));
@@ -1400,8 +1367,7 @@ void DolphinMainWindow::updateHamburgerMenu()
 
     // The "Configure" menu is not added to the actionCollection() because there is hardly
     // a good reason for users to put it on their toolbar.
-    auto configureMenu = menu->addMenu(QIcon::fromTheme(QStringLiteral("configure")),
-                            i18nc("@action:inmenu menu for configure actions", "Configure"));
+    auto configureMenu = menu->addMenu(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu menu for configure actions", "Configure"));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
@@ -1409,9 +1375,9 @@ void DolphinMainWindow::updateHamburgerMenu()
     hamburgerMenu->hideActionsOf(configureMenu);
 }
 
-void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
+void DolphinMainWindow::slotPlaceActivated(const QUrl &url)
 {
-    DolphinViewContainer* view = activeViewContainer();
+    DolphinViewContainer *view = activeViewContainer();
 
     if (view->url() == url) {
         view->clearFilterBar(); // Fixes bug 259382.
@@ -1431,15 +1397,15 @@ void DolphinMainWindow::closedTabsCountChanged(unsigned int count)
     actionCollection()->action(QStringLiteral("undo_close_tab"))->setEnabled(count > 0);
 }
 
-void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
+void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
 {
-    DolphinViewContainer* oldViewContainer = m_activeViewContainer;
+    DolphinViewContainer *oldViewContainer = m_activeViewContainer;
     Q_ASSERT(viewContainer);
 
     m_activeViewContainer = viewContainer;
 
     if (oldViewContainer) {
-        const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+        const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
         toggleSearchAction->disconnect(oldViewContainer);
 
         // Disconnect all signals between the old view container (container,
@@ -1447,20 +1413,20 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         oldViewContainer->disconnect(this);
         oldViewContainer->view()->disconnect(this);
         oldViewContainer->urlNavigatorInternalWithHistory()->disconnect(this);
-        auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
-                          (actionCollection()->action(QStringLiteral("url_navigators")));
+        auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
         navigators->primaryUrlNavigator()->disconnect(this);
         if (auto secondaryUrlNavigator = navigators->secondaryUrlNavigator()) {
             secondaryUrlNavigator->disconnect(this);
         }
 
         // except the requestItemInfo so that on hover the information panel can still be updated
-        connect(oldViewContainer->view(), &DolphinView::requestItemInfo,
-                this, &DolphinMainWindow::requestItemInfo);
+        connect(oldViewContainer->view(), &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
 
         // Disconnect other slots.
-        disconnect(nullptr, &DolphinViewContainer::selectionModeChanged,
-                   actionCollection()->action(QStringLiteral("toggle_selection_mode")), &QAction::setChecked);
+        disconnect(nullptr,
+                   &DolphinViewContainer::selectionModeChanged,
+                   actionCollection()->action(QStringLiteral("toggle_selection_mode")),
+                   &QAction::setChecked);
     }
 
     connectViewSignals(viewContainer);
@@ -1497,7 +1463,7 @@ void DolphinMainWindow::updateWindowTitle()
     }
 }
 
-void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
+void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString &mountPath)
 {
     connect(m_placesPanel, &PlacesPanel::storageTearDownSuccessful, this, [this, mountPath]() {
         setViewsToHomeIfMountPathOpen(mountPath);
@@ -1512,7 +1478,7 @@ void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mo
     }
 }
 
-void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mountPath)
+void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString &mountPath)
 {
     connect(m_placesPanel, &PlacesPanel::storageTearDownSuccessful, this, [this, mountPath]() {
         setViewsToHomeIfMountPathOpen(mountPath);
@@ -1537,9 +1503,9 @@ void DolphinMainWindow::slotKeyBindings()
     dialog.configure();
 }
 
-void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
+void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString &mountPath)
 {
-    const QVector<DolphinViewContainer*> theViewContainers = viewContainers();
+    const QVector<DolphinViewContainer *> theViewContainers = viewContainers();
     for (DolphinViewContainer *viewContainer : theViewContainers) {
         if (viewContainer && viewContainer->url().toLocalFile().startsWith(mountPath)) {
             viewContainer->setUrl(QUrl::fromLocalFile(QDir::homePath()));
@@ -1554,110 +1520,121 @@ void DolphinMainWindow::setupActions()
 
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
-    QMenu* menu = m_newFileMenu->menu();
+    QMenu *menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_newFileMenu->setPopupMode(QToolButton::InstantPopup);
-    connect(menu, &QMenu::aboutToShow,
-            this, &DolphinMainWindow::updateNewMenu);
+    connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateNewMenu);
 
-    QAction* newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
+    QAction *newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setToolTip(i18nc("@info", "Open a new Dolphin window"));
-    newWindow->setWhatsThis(xi18nc("@info:whatsthis", "This opens a new "
-        "window just like this one with the current location and view."
-        "<nl/>You can drag and drop items between windows."));
+    newWindow->setWhatsThis(xi18nc("@info:whatsthis",
+                                   "This opens a new "
+                                   "window just like this one with the current location and view."
+                                   "<nl/>You can drag and drop items between windows."));
     newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
 
-    QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
+    QAction *newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    newTab->setWhatsThis(xi18nc("@info:whatsthis", "This opens a new "
-        "<emphasis>Tab</emphasis> with the current location and view.<nl/>"
-        "A tab is an additional view within this window. "
-        "You can drag and drop items between tabs."));
+    newTab->setWhatsThis(xi18nc("@info:whatsthis",
+                                "This opens a new "
+                                "<emphasis>Tab</emphasis> with the current location and view.<nl/>"
+                                "A tab is an additional view within this window. "
+                                "You can drag and drop items between tabs."));
     actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL | Qt::Key_T, Qt::CTRL | Qt::SHIFT | Qt::Key_N});
     connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
 
-    QAction* addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
+    QAction *addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
     addToPlaces->setIcon(QIcon::fromTheme(QStringLiteral("bookmark-new")));
     addToPlaces->setText(i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-    addToPlaces->setWhatsThis(xi18nc("@info:whatsthis", "This adds the selected folder "
-        "to the Places panel."));
+    addToPlaces->setWhatsThis(xi18nc("@info:whatsthis",
+                                     "This adds the selected folder "
+                                     "to the Places panel."));
     connect(addToPlaces, &QAction::triggered, this, &DolphinMainWindow::addToPlaces);
 
-    QAction* closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
+    QAction *closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
-    closeTab->setWhatsThis(i18nc("@info:whatsthis", "This closes the "
-        "currently viewed tab. If no more tabs are left this window "
-        "will close instead."));
+    closeTab->setWhatsThis(i18nc("@info:whatsthis",
+                                 "This closes the "
+                                 "currently viewed tab. If no more tabs are left this window "
+                                 "will close instead."));
 
-    QAction* quitAction = KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
+    QAction *quitAction = KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
     quitAction->setWhatsThis(i18nc("@info:whatsthis quit", "This closes this window."));
 
     // setup 'Edit' menu
-    KStandardAction::undo(this,
-                          &DolphinMainWindow::undo,
-                          actionCollection());
+    KStandardAction::undo(this, &DolphinMainWindow::undo, actionCollection());
 
     // i18n: This will be the last paragraph for the whatsthis for all three:
     // Cut, Copy and Paste
-    const QString cutCopyPastePara = xi18nc("@info:whatsthis", "<para><emphasis>Cut, "
-        "Copy</emphasis> and <emphasis>Paste</emphasis> work between many "
-        "applications and are among the most used commands. That's why their "
-        "<emphasis>keyboard shortcuts</emphasis> are prominently placed right "
-        "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
-        "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>");
-    QAction* cutAction = KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
+    const QString cutCopyPastePara = xi18nc("@info:whatsthis",
+                                            "<para><emphasis>Cut, "
+                                            "Copy</emphasis> and <emphasis>Paste</emphasis> work between many "
+                                            "applications and are among the most used commands. That's why their "
+                                            "<emphasis>keyboard shortcuts</emphasis> are prominently placed right "
+                                            "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
+                                            "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>");
+    QAction *cutAction = KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
     m_actionTextHelper->registerTextWhenNothingIsSelected(cutAction, i18nc("@action", "Cut…"));
-    cutAction->setWhatsThis(xi18nc("@info:whatsthis cut", "This copies the items "
-        "in your current selection to the <emphasis>clipboard</emphasis>.<nl/>"
-        "Use the <emphasis>Paste</emphasis> action afterwards to copy them from "
-        "the clipboard to a new location. The items will be removed from their "
-        "initial location.") + cutCopyPastePara);
-    QAction* copyAction = KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
+    cutAction->setWhatsThis(xi18nc("@info:whatsthis cut",
+                                   "This copies the items "
+                                   "in your current selection to the <emphasis>clipboard</emphasis>.<nl/>"
+                                   "Use the <emphasis>Paste</emphasis> action afterwards to copy them from "
+                                   "the clipboard to a new location. The items will be removed from their "
+                                   "initial location.")
+                            + cutCopyPastePara);
+    QAction *copyAction = KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
     m_actionTextHelper->registerTextWhenNothingIsSelected(copyAction, i18nc("@action", "Copy…"));
-    copyAction->setWhatsThis(xi18nc("@info:whatsthis copy", "This copies the "
-        "items in your current selection to the <emphasis>clipboard</emphasis>."
-        "<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy them "
-        "from the clipboard to a new location.") +  cutCopyPastePara);
-    QAction* paste = KStandardAction::paste(this, &DolphinMainWindow::paste, actionCollection());
+    copyAction->setWhatsThis(xi18nc("@info:whatsthis copy",
+                                    "This copies the "
+                                    "items in your current selection to the <emphasis>clipboard</emphasis>."
+                                    "<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy them "
+                                    "from the clipboard to a new location.")
+                             + cutCopyPastePara);
+    QAction *paste = KStandardAction::paste(this, &DolphinMainWindow::paste, actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
     // (e. g. to "Paste One Folder"). To prevent that the size of the toolbar changes
     // due to the long text, the text "Paste" is used:
     paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
-    paste->setWhatsThis(xi18nc("@info:whatsthis paste", "This copies the items from "
-        "your <emphasis>clipboard</emphasis> to the currently viewed folder.<nl/>"
-        "If the items were added to the clipboard by the <emphasis>Cut</emphasis> "
-        "action they are removed from their old location.") +  cutCopyPastePara);
+    paste->setWhatsThis(xi18nc("@info:whatsthis paste",
+                               "This copies the items from "
+                               "your <emphasis>clipboard</emphasis> to the currently viewed folder.<nl/>"
+                               "If the items were added to the clipboard by the <emphasis>Cut</emphasis> "
+                               "action they are removed from their old location.")
+                        + cutCopyPastePara);
 
-    QAction* copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
+    QAction *copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
     copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Inactive Split View"));
     m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Inactive Split View…"));
-    copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy", "This copies the selected items from "
-        "the <emphasis>active</emphasis> view to the inactive split view."));
+    copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy",
+                                               "This copies the selected items from "
+                                               "the <emphasis>active</emphasis> view to the inactive split view."));
     copyToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to Inactive Split View"));
-    actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT | Qt::Key_F5 );
+    actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT | Qt::Key_F5);
     connect(copyToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::copyToInactiveSplitView);
 
-    QAction* moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
+    QAction *moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
     moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Inactive Split View"));
     m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Inactive Split View…"));
-    moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move", "This moves the selected items from "
-        "the <emphasis>active</emphasis> view to the inactive split view."));
+    moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move",
+                                               "This moves the selected items from "
+                                               "the <emphasis>active</emphasis> view to the inactive split view."));
     moveToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
     moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to Inactive Split View"));
-    actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT | Qt::Key_F6 );
+    actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT | Qt::Key_F6);
     connect(moveToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::moveToInactiveSplitView);
 
-    QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
+    QAction *showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter..."));
     showFilterBar->setToolTip(i18nc("@info:tooltip", "Show Filter Bar"));
-    showFilterBar->setWhatsThis(xi18nc("@info:whatsthis", "This opens the "
-        "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
-        "There you can enter a text to filter the files and folders currently displayed. "
-        "Only those that contain the text in their name will be kept in view."));
+    showFilterBar->setWhatsThis(xi18nc("@info:whatsthis",
+                                       "This opens the "
+                                       "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
+                                       "There you can enter a text to filter the files and folders currently displayed. "
+                                       "Only those that contain the text in their name will be kept in view."));
     showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL | Qt::Key_I, Qt::Key_Slash});
     connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
@@ -1677,12 +1654,13 @@ void DolphinMainWindow::setupActions()
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search..."));
     searchAction->setToolTip(i18nc("@info:tooltip", "Search for files and folders"));
-    searchAction->setWhatsThis(xi18nc("@info:whatsthis find", "<para>This helps you "
-        "find files and folders by opening a <emphasis>find bar</emphasis>. "
-        "There you can enter search terms and specify settings to find the "
-        "objects you are looking for.</para><para>Use this help again on "
-        "the find bar so we can have a look at it while the settings are "
-        "explained.</para>"));
+    searchAction->setWhatsThis(xi18nc("@info:whatsthis find",
+                                      "<para>This helps you "
+                                      "find files and folders by opening a <emphasis>find bar</emphasis>. "
+                                      "There you can enter search terms and specify settings to find the "
+                                      "objects you are looking for.</para><para>Use this help again on "
+                                      "the find bar so we can have a look at it while the settings are "
+                                      "explained.</para>"));
 
     // toggle_search acts as a copy of the main searchAction to be used mainly
     // in the toolbar, with no default shortcut attached, to avoid messing with
@@ -1701,7 +1679,9 @@ void DolphinMainWindow::setupActions()
     // i18n: Opens a selection mode for selecting files/folders.
     // The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
     toggleSelectionModeAction->setIconText(i18nc("@action:intoolbar", "Select"));
-    toggleSelectionModeAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>This application only knows which files or folders should be acted on if they are"
+    toggleSelectionModeAction->setWhatsThis(xi18nc(
+        "@info:whatsthis",
+        "<para>This application only knows which files or folders should be acted on if they are"
         " <emphasis>selected</emphasis> first. Press this to toggle a <emphasis>Selection Mode</emphasis> which makes selecting and deselecting as easy as "
         "pressing an item once.</para><para>While in this mode, a quick access bar at the bottom shows available actions for the currently selected items."
         "</para>"));
@@ -1711,7 +1691,8 @@ void DolphinMainWindow::setupActions()
 
     // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
     // with the selectAllAction and invertSelectionAction.
-    auto *toggleSelectionModeToolBarAction = new KToolBarPopupAction(toggleSelectionModeAction->icon(), toggleSelectionModeAction->iconText(), actionCollection());
+    auto *toggleSelectionModeToolBarAction =
+        new KToolBarPopupAction(toggleSelectionModeAction->icon(), toggleSelectionModeAction->iconText(), actionCollection());
     toggleSelectionModeToolBarAction->setToolTip(toggleSelectionModeAction->text());
     toggleSelectionModeToolBarAction->setWhatsThis(toggleSelectionModeAction->whatsThis());
     actionCollection()->addAction(QStringLiteral("toggle_selection_mode_tool_bar"), toggleSelectionModeToolBarAction);
@@ -1720,14 +1701,16 @@ void DolphinMainWindow::setupActions()
     connect(toggleSelectionModeToolBarAction, &QAction::triggered, toggleSelectionModeAction, &QAction::trigger);
     connect(toggleSelectionModeAction, &QAction::toggled, toggleSelectionModeToolBarAction, &QAction::setChecked);
 
-    QAction* selectAllAction = KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
-    selectAllAction->setWhatsThis(xi18nc("@info:whatsthis", "This selects all "
-        "files and folders in the current location."));
+    QAction *selectAllAction = KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
+    selectAllAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                         "This selects all "
+                                         "files and folders in the current location."));
 
-    QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
+    QAction *invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
-    invertSelection->setWhatsThis(xi18nc("@info:whatsthis invert", "This selects all "
-        "objects that you have currently <emphasis>not</emphasis> selected instead."));
+    invertSelection->setWhatsThis(xi18nc("@info:whatsthis invert",
+                                         "This selects all "
+                                         "objects that you have currently <emphasis>not</emphasis> selected instead."));
     invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
     actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
@@ -1740,15 +1723,16 @@ void DolphinMainWindow::setupActions()
     // setup 'View' menu
     // (note that most of it is set up in DolphinViewActionHandler)
 
-    QAction* split = actionCollection()->addAction(QStringLiteral("split_view"));
-    split->setWhatsThis(xi18nc("@info:whatsthis find", "<para>This splits "
-        "the folder view below into two autonomous views.</para><para>This "
-        "way you can see two locations at once and move items between them "
-        "quickly.</para>Click this again afterwards to recombine the views."));
+    QAction *split = actionCollection()->addAction(QStringLiteral("split_view"));
+    split->setWhatsThis(xi18nc("@info:whatsthis find",
+                               "<para>This splits "
+                               "the folder view below into two autonomous views.</para><para>This "
+                               "way you can see two locations at once and move items between them "
+                               "quickly.</para>Click this again afterwards to recombine the views."));
     actionCollection()->setDefaultShortcut(split, Qt::Key_F3);
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
-    QAction* stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
+    QAction *stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
     actionCollection()->setDefaultShortcut(stashSplit, Qt::CTRL | Qt::Key_S);
     stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
@@ -1760,31 +1744,31 @@ void DolphinMainWindow::setupActions()
 
     KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
 
-    QAction* stop = actionCollection()->addAction(QStringLiteral("stop"));
+    QAction *stop = actionCollection()->addAction(QStringLiteral("stop"));
     stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setToolTip(i18nc("@info", "Stop loading"));
     stop->setWhatsThis(i18nc("@info", "This stops the loading of the contents of the current folder."));
     stop->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(stop, &QAction::triggered, this, &DolphinMainWindow::stopLoading);
 
-    KToggleAction* editableLocation = actionCollection()->add<KToggleAction>(QStringLiteral("editable_location"));
+    KToggleAction *editableLocation = actionCollection()->add<KToggleAction>(QStringLiteral("editable_location"));
     editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
     editableLocation->setWhatsThis(xi18nc("@info:whatsthis",
-        "This toggles the <emphasis>Location Bar</emphasis> to be "
-        "editable so you can directly enter a location you want to go to.<nl/>"
-        "You can also switch to editing by clicking to the right of the "
-        "location and switch back by confirming the edited location."));
+                                          "This toggles the <emphasis>Location Bar</emphasis> to be "
+                                          "editable so you can directly enter a location you want to go to.<nl/>"
+                                          "You can also switch to editing by clicking to the right of the "
+                                          "location and switch back by confirming the edited location."));
     actionCollection()->setDefaultShortcut(editableLocation, Qt::Key_F6);
     connect(editableLocation, &KToggleAction::triggered, this, &DolphinMainWindow::toggleEditLocation);
 
-    QAction* replaceLocation = actionCollection()->addAction(QStringLiteral("replace_location"));
+    QAction *replaceLocation = actionCollection()->addAction(QStringLiteral("replace_location"));
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
     // i18n: "enter" is used both in the meaning of "writing" and "going to" a new location here.
     // Both meanings are useful but not necessary to understand the use of "Replace Location".
     // So you might want to be more verbose in your language to convey the meaning but it's up to you.
     replaceLocation->setWhatsThis(xi18nc("@info:whatsthis",
-        "This switches to editing the location and selects it "
-        "so you can quickly enter a different location."));
+                                         "This switches to editing the location and selects it "
+                                         "so you can quickly enter a different location."));
     actionCollection()->setDefaultShortcut(replaceLocation, Qt::CTRL | Qt::Key_L);
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
@@ -1805,31 +1789,28 @@ void DolphinMainWindow::setupActions()
     backShortcuts.append(QKeySequence(Qt::Key_Backspace));
     actionCollection()->setDefaultShortcuts(m_backAction, backShortcuts);
 
-    DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
+    DolphinRecentTabsMenu *recentTabsMenu = new DolphinRecentTabsMenu(this);
     actionCollection()->addAction(QStringLiteral("closed_tabs"), recentTabsMenu);
-    connect(m_tabWidget, &DolphinTabWidget::rememberClosedTab,
-            recentTabsMenu, &DolphinRecentTabsMenu::rememberClosedTab);
-    connect(recentTabsMenu, &DolphinRecentTabsMenu::restoreClosedTab,
-            m_tabWidget, &DolphinTabWidget::restoreClosedTab);
-    connect(recentTabsMenu, &DolphinRecentTabsMenu::closedTabsCountChanged,
-            this, &DolphinMainWindow::closedTabsCountChanged);
+    connect(m_tabWidget, &DolphinTabWidget::rememberClosedTab, recentTabsMenu, &DolphinRecentTabsMenu::rememberClosedTab);
+    connect(recentTabsMenu, &DolphinRecentTabsMenu::restoreClosedTab, m_tabWidget, &DolphinTabWidget::restoreClosedTab);
+    connect(recentTabsMenu, &DolphinRecentTabsMenu::closedTabsCountChanged, this, &DolphinMainWindow::closedTabsCountChanged);
 
-    QAction* undoCloseTab = actionCollection()->addAction(QStringLiteral("undo_close_tab"));
+    QAction *undoCloseTab = actionCollection()->addAction(QStringLiteral("undo_close_tab"));
     undoCloseTab->setText(i18nc("@action:inmenu File", "Undo close tab"));
-    undoCloseTab->setWhatsThis(i18nc("@info:whatsthis undo close tab",
-        "This returns you to the previously closed tab."));
+    undoCloseTab->setWhatsThis(i18nc("@info:whatsthis undo close tab", "This returns you to the previously closed tab."));
     actionCollection()->setDefaultShortcut(undoCloseTab, Qt::CTRL | Qt::SHIFT | Qt::Key_T);
     undoCloseTab->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
     undoCloseTab->setEnabled(false);
     connect(undoCloseTab, &QAction::triggered, recentTabsMenu, &DolphinRecentTabsMenu::undoCloseTab);
 
     auto undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
-    undoAction->setWhatsThis(xi18nc("@info:whatsthis", "This undoes "
-        "the last change you made to files or folders.<nl/>"
-        "Such changes include <interface>creating, renaming</interface> "
-        "and <interface>moving</interface> them to a different location "
-        "or to the <filename>Trash</filename>. <nl/>Changes that can't "
-        "be undone will ask for your confirmation."));
+    undoAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                    "This undoes "
+                                    "the last change you made to files or folders.<nl/>"
+                                    "Such changes include <interface>creating, renaming</interface> "
+                                    "and <interface>moving</interface> them to a different location "
+                                    "or to the <filename>Trash</filename>. <nl/>Changes that can't "
+                                    "be undone will ask for your confirmation."));
     undoAction->setEnabled(false); // undo should be disabled by default
 
     {
@@ -1851,50 +1832,51 @@ void DolphinMainWindow::setupActions()
     m_backAction->menu()->installEventFilter(middleClickEventFilter);
     m_forwardAction->menu()->installEventFilter(middleClickEventFilter);
     KStandardAction::up(this, &DolphinMainWindow::goUp, actionCollection());
-    QAction* homeAction = KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
-    homeAction->setWhatsThis(xi18nc("@info:whatsthis", "Go to your "
-        "<filename>Home</filename> folder.<nl/>Every user account "
-        "has their own <filename>Home</filename> that contains their data "
-        "including folders that contain personal application data."));
+    QAction *homeAction = KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
+    homeAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                    "Go to your "
+                                    "<filename>Home</filename> folder.<nl/>Every user account "
+                                    "has their own <filename>Home</filename> that contains their data "
+                                    "including folders that contain personal application data."));
 
     // setup 'Tools' menu
-    QAction* compareFiles = actionCollection()->addAction(QStringLiteral("compare_files"));
+    QAction *compareFiles = actionCollection()->addAction(QStringLiteral("compare_files"));
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
     compareFiles->setIcon(QIcon::fromTheme(QStringLiteral("kompare")));
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
-    QAction* openPreferredSearchTool = actionCollection()->addAction(QStringLiteral("open_preferred_search_tool"));
+    QAction *openPreferredSearchTool = actionCollection()->addAction(QStringLiteral("open_preferred_search_tool"));
     openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open Preferred Search Tool"));
     openPreferredSearchTool->setWhatsThis(xi18nc("@info:whatsthis",
-        "<para>This opens a preferred search tool for the viewed location.</para>"
-        "<para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</para>"));
+                                                 "<para>This opens a preferred search tool for the viewed location.</para>"
+                                                 "<para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</para>"));
     openPreferredSearchTool->setIcon(QIcon::fromTheme(QStringLiteral("search")));
     actionCollection()->setDefaultShortcut(openPreferredSearchTool, Qt::CTRL | Qt::SHIFT | Qt::Key_F);
     connect(openPreferredSearchTool, &QAction::triggered, this, &DolphinMainWindow::openPreferredSearchTool);
 
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
-        QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
+        QAction *openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
-            "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
-            "<para>To learn more about terminals use the help in the terminal application.</para>"));
+                                          "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
+                                          "<para>To learn more about terminals use the help in the terminal application.</para>"));
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
-        QAction* openTerminalHere = actionCollection()->addAction(QStringLiteral("open_terminal_here"));
+        QAction *openTerminalHere = actionCollection()->addAction(QStringLiteral("open_terminal_here"));
         // i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
         openTerminalHere->setText(i18nc("@action:inmenu Tools", "Open Terminal Here"));
         openTerminalHere->setWhatsThis(xi18nc("@info:whatsthis",
-            "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
-            "<para>To learn more about terminals use the help in the terminal application.</para>"));
+                                              "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
+                                              "<para>To learn more about terminals use the help in the terminal application.</para>"));
         openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
 
 #if HAVE_TERMINAL
-        QAction* focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
+        QAction *focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
         focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
         focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
         actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL | Qt::SHIFT | Qt::Key_F4);
@@ -1911,18 +1893,22 @@ void DolphinMainWindow::setupActions()
     actionCollection()->addAction(QStringLiteral("bookmarks"), bookmarkMenu);
 
     // setup 'Settings' menu
-    KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
+    KToggleAction *showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
-            "<para>This switches between having a <emphasis>Menubar</emphasis> "
-            "and having a <interface>%1</interface> button. Both "
-            "contain mostly the same actions and configuration options.</para>"
-            "<para>The Menubar takes up more space but allows for fast and organised access to all "
-            "actions an application has to offer.</para><para>The <interface>%1</interface> button "
-            "is simpler and small which makes triggering advanced actions more time consuming.</para>", hamburgerMenuAction->text().replace('&', "")));
-    connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
-            this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
+                                     "<para>This switches between having a <emphasis>Menubar</emphasis> "
+                                     "and having a <interface>%1</interface> button. Both "
+                                     "contain mostly the same actions and configuration options.</para>"
+                                     "<para>The Menubar takes up more space but allows for fast and organised access to all "
+                                     "actions an application has to offer.</para><para>The <interface>%1</interface> button "
+                                     "is simpler and small which makes triggering advanced actions more time consuming.</para>",
+                                     hamburgerMenuAction->text().replace('&', "")));
+    connect(showMenuBar,
+            &KToggleAction::triggered, // Fixes #286822
+            this,
+            &DolphinMainWindow::toggleShowMenuBar,
+            Qt::QueuedConnection);
 
-    KToggleAction* showStatusBar = KStandardAction::showStatusbar(nullptr, nullptr, actionCollection());
+    KToggleAction *showStatusBar = KStandardAction::showStatusbar(nullptr, nullptr, actionCollection());
     showStatusBar->setChecked(GeneralSettings::showStatusBar());
     connect(GeneralSettings::self(), &GeneralSettings::showStatusBarChanged, showStatusBar, &KToggleAction::setChecked);
     connect(showStatusBar, &KToggleAction::triggered, this, [this](bool checked) {
@@ -1941,10 +1927,12 @@ void DolphinMainWindow::setupActions()
     prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
     for (int i = 0; i < MaxActivateTabShortcuts; ++i) {
-        QAction* activateTab = actionCollection()->addAction(QStringLiteral("activate_tab_%1").arg(i));
+        QAction *activateTab = actionCollection()->addAction(QStringLiteral("activate_tab_%1").arg(i));
         activateTab->setText(i18nc("@action:inmenu", "Activate Tab %1", i + 1));
         activateTab->setEnabled(false);
-        connect(activateTab, &QAction::triggered, this, [this, i]() { m_tabWidget->activateTab(i); });
+        connect(activateTab, &QAction::triggered, this, [this, i]() {
+            m_tabWidget->activateTab(i);
+        });
 
         // only add default shortcuts for the first 9 tabs regardless of MaxActivateTabShortcuts
         if (i < 9) {
@@ -1952,20 +1940,20 @@ void DolphinMainWindow::setupActions()
         }
     }
 
-    QAction* activateLastTab = actionCollection()->addAction(QStringLiteral("activate_last_tab"));
+    QAction *activateLastTab = actionCollection()->addAction(QStringLiteral("activate_last_tab"));
     activateLastTab->setText(i18nc("@action:inmenu", "Activate Last Tab"));
     activateLastTab->setEnabled(false);
     connect(activateLastTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateLastTab);
     actionCollection()->setDefaultShortcut(activateLastTab, Qt::ALT | Qt::Key_0);
 
-    QAction* activateNextTab = actionCollection()->addAction(QStringLiteral("activate_next_tab"));
+    QAction *activateNextTab = actionCollection()->addAction(QStringLiteral("activate_next_tab"));
     activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateNextTab);
     actionCollection()->setDefaultShortcuts(activateNextTab, nextTabKeys);
 
-    QAction* activatePrevTab = actionCollection()->addAction(QStringLiteral("activate_prev_tab"));
+    QAction *activatePrevTab = actionCollection()->addAction(QStringLiteral("activate_prev_tab"));
     activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     activatePrevTab->setEnabled(false);
@@ -1973,23 +1961,23 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
 
     // for context menu
-    QAction* showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
+    QAction *showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
     showTarget->setText(i18nc("@action:inmenu", "Show Target"));
     showTarget->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
     showTarget->setEnabled(false);
     connect(showTarget, &QAction::triggered, this, &DolphinMainWindow::showTarget);
 
-    QAction* openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
+    QAction *openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
     openInNewTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     connect(openInNewTab, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
 
-    QAction* openInNewTabs = actionCollection()->addAction(QStringLiteral("open_in_new_tabs"));
+    QAction *openInNewTabs = actionCollection()->addAction(QStringLiteral("open_in_new_tabs"));
     openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
     openInNewTabs->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     connect(openInNewTabs, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
 
-    QAction* openInNewWindow = actionCollection()->addAction(QStringLiteral("open_in_new_window"));
+    QAction *openInNewWindow = actionCollection()->addAction(QStringLiteral("open_in_new_window"));
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     connect(openInNewWindow, &QAction::triggered, this, &DolphinMainWindow::openInNewWindow);
@@ -2001,104 +1989,105 @@ void DolphinMainWindow::setupDockWidgets()
 
     DolphinPlacesModelSingleton::instance().placesModel()->setPanelsLocked(lock);
 
-    KDualAction* lockLayoutAction = actionCollection()->add<KDualAction>(QStringLiteral("lock_panels"));
+    KDualAction *lockLayoutAction = actionCollection()->add<KDualAction>(QStringLiteral("lock_panels"));
     lockLayoutAction->setActiveText(i18nc("@action:inmenu Panels", "Unlock Panels"));
     lockLayoutAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("object-unlocked")));
     lockLayoutAction->setInactiveText(i18nc("@action:inmenu Panels", "Lock Panels"));
     lockLayoutAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("object-locked")));
-    lockLayoutAction->setWhatsThis(xi18nc("@info:whatsthis", "This "
-        "switches between having panels <emphasis>locked</emphasis> or "
-        "<emphasis>unlocked</emphasis>.<nl/>Unlocked panels can be "
-        "dragged to the other side of the window and have a close "
-        "button.<nl/>Locked panels are embedded more cleanly."));
+    lockLayoutAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                          "This "
+                                          "switches between having panels <emphasis>locked</emphasis> or "
+                                          "<emphasis>unlocked</emphasis>.<nl/>Unlocked panels can be "
+                                          "dragged to the other side of the window and have a close "
+                                          "button.<nl/>Locked panels are embedded more cleanly."));
     lockLayoutAction->setActive(lock);
     connect(lockLayoutAction, &KDualAction::triggered, this, &DolphinMainWindow::togglePanelLockState);
 
     // Setup "Information"
-    DolphinDockWidget* infoDock = new DolphinDockWidget(i18nc("@title:window", "Information"));
+    DolphinDockWidget *infoDock = new DolphinDockWidget(i18nc("@title:window", "Information"));
     infoDock->setLocked(lock);
     infoDock->setObjectName(QStringLiteral("infoDock"));
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
 #if HAVE_BALOO
-    InformationPanel* infoPanel = new InformationPanel(infoDock);
+    InformationPanel *infoPanel = new InformationPanel(infoDock);
     infoPanel->setCustomContextMenuActions({lockLayoutAction});
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
     infoDock->setWidget(infoPanel);
 
-    QAction* infoAction = infoDock->toggleViewAction();
+    QAction *infoAction = infoDock->toggleViewAction();
     createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-information")), Qt::Key_F11, infoAction, QStringLiteral("show_information_panel"));
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
-    connect(this, &DolphinMainWindow::urlChanged,
-            infoPanel, &InformationPanel::setUrl);
-    connect(this, &DolphinMainWindow::selectionChanged,
-            infoPanel, &InformationPanel::setSelection);
-    connect(this, &DolphinMainWindow::requestItemInfo,
-            infoPanel, &InformationPanel::requestDelayedItemInfo);
-    connect(this, &DolphinMainWindow::fileItemsChanged,
-            infoPanel, &InformationPanel::slotFilesItemChanged);
+    connect(this, &DolphinMainWindow::urlChanged, infoPanel, &InformationPanel::setUrl);
+    connect(this, &DolphinMainWindow::selectionChanged, infoPanel, &InformationPanel::setSelection);
+    connect(this, &DolphinMainWindow::requestItemInfo, infoPanel, &InformationPanel::requestDelayedItemInfo);
+    connect(this, &DolphinMainWindow::fileItemsChanged, infoPanel, &InformationPanel::slotFilesItemChanged);
 #endif
 
     // i18n: This is the last paragraph for the "What's This"-texts of all four panels.
-    const QString panelWhatsThis = xi18nc("@info:whatsthis", "<para>To show or "
-        "hide panels like this go to <interface>Menu|Panels</interface> "
-        "or <interface>View|Panels</interface>.</para>");
+    const QString panelWhatsThis = xi18nc("@info:whatsthis",
+                                          "<para>To show or "
+                                          "hide panels like this go to <interface>Menu|Panels</interface> "
+                                          "or <interface>View|Panels</interface>.</para>");
 #if HAVE_BALOO
-    actionCollection()->action(QStringLiteral("show_information_panel"))
-        ->setWhatsThis(xi18nc("@info:whatsthis", "<para> This toggles the "
-        "<emphasis>information</emphasis> panel at the right side of the "
-        "window.</para><para>The panel provides in-depth information "
-        "about the items your mouse is hovering over or about the selected "
-        "items. Otherwise it informs you about the currently viewed folder.<nl/>"
-        "For single items a preview of their contents is provided.</para>"));
+    actionCollection()
+        ->action(QStringLiteral("show_information_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis",
+                              "<para> This toggles the "
+                              "<emphasis>information</emphasis> panel at the right side of the "
+                              "window.</para><para>The panel provides in-depth information "
+                              "about the items your mouse is hovering over or about the selected "
+                              "items. Otherwise it informs you about the currently viewed folder.<nl/>"
+                              "For single items a preview of their contents is provided.</para>"));
 #endif
-    infoDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This panel "
-        "provides in-depth information about the items your mouse is "
-        "hovering over or about the selected items. Otherwise it informs "
-        "you about the currently viewed folder.<nl/>For single items a "
-        "preview of their contents is provided.</para><para>You can configure "
-        "which and how details are given here by right-clicking.</para>") + panelWhatsThis);
+    infoDock->setWhatsThis(xi18nc("@info:whatsthis",
+                                  "<para>This panel "
+                                  "provides in-depth information about the items your mouse is "
+                                  "hovering over or about the selected items. Otherwise it informs "
+                                  "you about the currently viewed folder.<nl/>For single items a "
+                                  "preview of their contents is provided.</para><para>You can configure "
+                                  "which and how details are given here by right-clicking.</para>")
+                           + panelWhatsThis);
 
     // Setup "Folders"
-    DolphinDockWidget* foldersDock = new DolphinDockWidget(i18nc("@title:window", "Folders"));
+    DolphinDockWidget *foldersDock = new DolphinDockWidget(i18nc("@title:window", "Folders"));
     foldersDock->setLocked(lock);
     foldersDock->setObjectName(QStringLiteral("foldersDock"));
     foldersDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    FoldersPanel* foldersPanel = new FoldersPanel(foldersDock);
+    FoldersPanel *foldersPanel = new FoldersPanel(foldersDock);
     foldersPanel->setCustomContextMenuActions({lockLayoutAction});
     foldersDock->setWidget(foldersPanel);
 
-    QAction* foldersAction = foldersDock->toggleViewAction();
+    QAction *foldersAction = foldersDock->toggleViewAction();
     createPanelAction(QIcon::fromTheme(QStringLiteral("folder")), Qt::Key_F7, foldersAction, QStringLiteral("show_folders_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
-    connect(this, &DolphinMainWindow::urlChanged,
-            foldersPanel, &FoldersPanel::setUrl);
-    connect(foldersPanel, &FoldersPanel::folderActivated,
-            this, &DolphinMainWindow::changeUrl);
-    connect(foldersPanel, &FoldersPanel::folderInNewTab,
-            this, &DolphinMainWindow::openNewTab);
-    connect(foldersPanel, &FoldersPanel::folderInNewActiveTab,
-            this, &DolphinMainWindow::openNewTabAndActivate);
-    connect(foldersPanel, &FoldersPanel::errorMessage,
-            this, &DolphinMainWindow::showErrorMessage);
+    connect(this, &DolphinMainWindow::urlChanged, foldersPanel, &FoldersPanel::setUrl);
+    connect(foldersPanel, &FoldersPanel::folderActivated, this, &DolphinMainWindow::changeUrl);
+    connect(foldersPanel, &FoldersPanel::folderInNewTab, this, &DolphinMainWindow::openNewTab);
+    connect(foldersPanel, &FoldersPanel::folderInNewActiveTab, this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(foldersPanel, &FoldersPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
 
-    actionCollection()->action(QStringLiteral("show_folders_panel"))
-        ->setWhatsThis(xi18nc("@info:whatsthis", "This toggles the "
-        "<emphasis>folders</emphasis> panel at the left side of the window."
-        "<nl/><nl/>It shows the folders of the <emphasis>file system"
-        "</emphasis> in a <emphasis>tree view</emphasis>."));
-    foldersDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This panel "
-        "shows the folders of the <emphasis>file system</emphasis> in a "
-        "<emphasis>tree view</emphasis>.</para><para>Click a folder to go "
-        "there. Click the arrow to the left of a folder to see its subfolders. "
-        "This allows quick switching between any folders.</para>") + panelWhatsThis);
+    actionCollection()
+        ->action(QStringLiteral("show_folders_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis",
+                              "This toggles the "
+                              "<emphasis>folders</emphasis> panel at the left side of the window."
+                              "<nl/><nl/>It shows the folders of the <emphasis>file system"
+                              "</emphasis> in a <emphasis>tree view</emphasis>."));
+    foldersDock->setWhatsThis(xi18nc("@info:whatsthis",
+                                     "<para>This panel "
+                                     "shows the folders of the <emphasis>file system</emphasis> in a "
+                                     "<emphasis>tree view</emphasis>.</para><para>Click a folder to go "
+                                     "there. Click the arrow to the left of a folder to see its subfolders. "
+                                     "This allows quick switching between any folders.</para>")
+                              + panelWhatsThis);
 
     // Setup "Terminal"
 #if HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
-        DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
+        DolphinDockWidget *terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
         terminalDock->setLocked(lock);
         terminalDock->setObjectName(QStringLiteral("terminalDock"));
         m_terminalPanel = new TerminalPanel(terminalDock);
@@ -2107,37 +2096,38 @@ void DolphinMainWindow::setupDockWidgets()
 
         connect(m_terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
         connect(m_terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
-        connect(terminalDock, &DolphinDockWidget::visibilityChanged,
-                m_terminalPanel, &TerminalPanel::dockVisibilityChanged);
-        connect(terminalDock, &DolphinDockWidget::visibilityChanged,
-                this, &DolphinMainWindow::slotTerminalPanelVisibilityChanged);
+        connect(terminalDock, &DolphinDockWidget::visibilityChanged, m_terminalPanel, &TerminalPanel::dockVisibilityChanged);
+        connect(terminalDock, &DolphinDockWidget::visibilityChanged, this, &DolphinMainWindow::slotTerminalPanelVisibilityChanged);
 
-        QAction* terminalAction = terminalDock->toggleViewAction();
+        QAction *terminalAction = terminalDock->toggleViewAction();
         createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-scripts")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
 
         addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
-        connect(this, &DolphinMainWindow::urlChanged,
-                m_terminalPanel, &TerminalPanel::setUrl);
+        connect(this, &DolphinMainWindow::urlChanged, m_terminalPanel, &TerminalPanel::setUrl);
 
         if (GeneralSettings::version() < 200) {
             terminalDock->hide();
         }
 
-        actionCollection()->action(QStringLiteral("show_terminal_panel"))
-            ->setWhatsThis(xi18nc("@info:whatsthis", "<para>This toggles the "
-            "<emphasis>terminal</emphasis> panel at the bottom of the window."
-            "<nl/>The location in the terminal will always match the folder "
-            "view so you can navigate using either.</para><para>The terminal "
-            "panel is not needed for basic computer usage but can be useful "
-            "for advanced tasks. To learn more about terminals use the help "
-            "in a standalone terminal application like Konsole.</para>"));
-        terminalDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is "
-            "the <emphasis>terminal</emphasis> panel. It behaves like a "
-            "normal terminal but will match the location of the folder view "
-            "so you can navigate using either.</para><para>The terminal panel "
-            "is not needed for basic computer usage but can be useful for "
-            "advanced tasks. To learn more about terminals use the help in a "
-            "standalone terminal application like Konsole.</para>") + panelWhatsThis);
+        actionCollection()
+            ->action(QStringLiteral("show_terminal_panel"))
+            ->setWhatsThis(xi18nc("@info:whatsthis",
+                                  "<para>This toggles the "
+                                  "<emphasis>terminal</emphasis> panel at the bottom of the window."
+                                  "<nl/>The location in the terminal will always match the folder "
+                                  "view so you can navigate using either.</para><para>The terminal "
+                                  "panel is not needed for basic computer usage but can be useful "
+                                  "for advanced tasks. To learn more about terminals use the help "
+                                  "in a standalone terminal application like Konsole.</para>"));
+        terminalDock->setWhatsThis(xi18nc("@info:whatsthis",
+                                          "<para>This is "
+                                          "the <emphasis>terminal</emphasis> panel. It behaves like a "
+                                          "normal terminal but will match the location of the folder view "
+                                          "so you can navigate using either.</para><para>The terminal panel "
+                                          "is not needed for basic computer usage but can be useful for "
+                                          "advanced tasks. To learn more about terminals use the help in a "
+                                          "standalone terminal application like Konsole.</para>")
+                                   + panelWhatsThis);
     }
 #endif
 
@@ -2147,7 +2137,7 @@ void DolphinMainWindow::setupDockWidgets()
     }
 
     // Setup "Places"
-    DolphinDockWidget* placesDock = new DolphinDockWidget(i18nc("@title:window", "Places"));
+    DolphinDockWidget *placesDock = new DolphinDockWidget(i18nc("@title:window", "Places"));
     placesDock->setLocked(lock);
     placesDock->setObjectName(QStringLiteral("placesDock"));
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -2160,66 +2150,62 @@ void DolphinMainWindow::setupDockWidgets()
     createPanelAction(QIcon::fromTheme(QStringLiteral("compass")), Qt::Key_F9, placesAction, QStringLiteral("show_places_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(m_placesPanel, &PlacesPanel::placeActivated,
-            this, &DolphinMainWindow::slotPlaceActivated);
-    connect(m_placesPanel, &PlacesPanel::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(m_placesPanel, &PlacesPanel::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(m_placesPanel, &PlacesPanel::placeActivated, this, &DolphinMainWindow::slotPlaceActivated);
+    connect(m_placesPanel, &PlacesPanel::tabRequested, this, &DolphinMainWindow::openNewTab);
+    connect(m_placesPanel, &PlacesPanel::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
     connect(m_placesPanel, &PlacesPanel::newWindowRequested, this, [this](const QUrl &url) {
         Dolphin::openNewWindow({url}, this);
     });
-    connect(m_placesPanel, &PlacesPanel::errorMessage,
-            this, &DolphinMainWindow::showErrorMessage);
-    connect(this, &DolphinMainWindow::urlChanged,
-            m_placesPanel, &PlacesPanel::setUrl);
-    connect(placesDock, &DolphinDockWidget::visibilityChanged,
-            &DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged);
-    connect(this, &DolphinMainWindow::settingsChanged,
-        m_placesPanel, &PlacesPanel::readSettings);
-    connect(m_placesPanel, &PlacesPanel::storageTearDownRequested,
-            this, &DolphinMainWindow::slotStorageTearDownFromPlacesRequested);
-    connect(m_placesPanel, &PlacesPanel::storageTearDownExternallyRequested,
-            this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
+    connect(m_placesPanel, &PlacesPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
+    connect(this, &DolphinMainWindow::urlChanged, m_placesPanel, &PlacesPanel::setUrl);
+    connect(placesDock, &DolphinDockWidget::visibilityChanged, &DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged);
+    connect(this, &DolphinMainWindow::settingsChanged, m_placesPanel, &PlacesPanel::readSettings);
+    connect(m_placesPanel, &PlacesPanel::storageTearDownRequested, this, &DolphinMainWindow::slotStorageTearDownFromPlacesRequested);
+    connect(m_placesPanel, &PlacesPanel::storageTearDownExternallyRequested, this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
     DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
 
     auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Show Hidden Places"), this);
     actionShowAllPlaces->setCheckable(true);
     actionShowAllPlaces->setDisabled(true);
-    actionShowAllPlaces->setWhatsThis(i18nc("@info:whatsthis", "This displays "
-        "all places in the places panel that have been hidden. They will "
-        "appear semi-transparent unless you uncheck their hide property."));
+    actionShowAllPlaces->setWhatsThis(i18nc("@info:whatsthis",
+                                            "This displays "
+                                            "all places in the places panel that have been hidden. They will "
+                                            "appear semi-transparent unless you uncheck their hide property."));
 
-    connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
+    connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked) {
         m_placesPanel->setShowAll(checked);
     });
     connect(m_placesPanel, &PlacesPanel::allPlacesShownChanged, actionShowAllPlaces, &QAction::setChecked);
 
-    actionCollection()->action(QStringLiteral("show_places_panel"))
-        ->setWhatsThis(xi18nc("@info:whatsthis", "<para>This toggles the "
-        "<emphasis>places</emphasis> panel at the left side of the window."
-        "</para><para>It allows you to go to locations you have "
-        "bookmarked and to access disk or media attached to the computer "
-        "or to the network. It also contains sections to find recently "
-        "saved files or files of a certain type.</para>"));
-    placesDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is the "
-        "<emphasis>Places</emphasis> panel. It allows you to go to locations "
-        "you have bookmarked and to access disk or media attached to the "
-        "computer or to the network. It also contains sections to find "
-        "recently saved files or files of a certain type.</para><para>"
-        "Click on an entry to go there. Click with the right mouse button "
-        "instead to open any entry in a new tab or new window.</para>"
-        "<para>New entries can be added by dragging folders onto this panel. "
-        "Right-click any section or entry to hide it. Right-click an empty "
-        "space on this panel and select <interface>Show Hidden Places"
-        "</interface> to display it again.</para>") + panelWhatsThis);
+    actionCollection()
+        ->action(QStringLiteral("show_places_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis",
+                              "<para>This toggles the "
+                              "<emphasis>places</emphasis> panel at the left side of the window."
+                              "</para><para>It allows you to go to locations you have "
+                              "bookmarked and to access disk or media attached to the computer "
+                              "or to the network. It also contains sections to find recently "
+                              "saved files or files of a certain type.</para>"));
+    placesDock->setWhatsThis(xi18nc("@info:whatsthis",
+                                    "<para>This is the "
+                                    "<emphasis>Places</emphasis> panel. It allows you to go to locations "
+                                    "you have bookmarked and to access disk or media attached to the "
+                                    "computer or to the network. It also contains sections to find "
+                                    "recently saved files or files of a certain type.</para><para>"
+                                    "Click on an entry to go there. Click with the right mouse button "
+                                    "instead to open any entry in a new tab or new window.</para>"
+                                    "<para>New entries can be added by dragging folders onto this panel. "
+                                    "Right-click any section or entry to hide it. Right-click an empty "
+                                    "space on this panel and select <interface>Show Hidden Places"
+                                    "</interface> to display it again.</para>")
+                             + panelWhatsThis);
 
     // Add actions into the "Panels" menu
-    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Show Panels"), this);
+    KActionMenu *panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Show Panels"), this);
     actionCollection()->addAction(QStringLiteral("panels"), panelsMenu);
     panelsMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sidetree")));
     panelsMenu->setPopupMode(QToolButton::InstantPopup);
-    const KActionCollection* ac = actionCollection();
+    const KActionCollection *ac = actionCollection();
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));
 #if HAVE_BALOO
     panelsMenu->addAction(ac->action(QStringLiteral("show_information_panel")));
@@ -2230,27 +2216,26 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(actionShowAllPlaces);
     panelsMenu->addAction(lockLayoutAction);
 
-    connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this]{
+    connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this] {
         actionShowAllPlaces->setEnabled(DolphinPlacesModelSingleton::instance().placesModel()->hiddenCount());
     });
 }
 
-
 void DolphinMainWindow::updateFileAndEditActions()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
-    const KActionCollection* col = actionCollection();
+    const KActionCollection *col = actionCollection();
     KFileItemListProperties capabilitiesSource(list);
 
-    QAction* renameAction            = col->action(KStandardAction::name(KStandardAction::RenameFile));
-    QAction* moveToTrashAction       = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
-    QAction* deleteAction            = col->action(KStandardAction::name(KStandardAction::DeleteFile));
-    QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
-    QAction* duplicateAction         = col->action(QStringLiteral("duplicate")); // see DolphinViewActionHandler
-    QAction* addToPlacesAction       = col->action(QStringLiteral("add_to_places"));
-    QAction* copyToOtherViewAction   = col->action(QStringLiteral("copy_to_inactive_split_view"));
-    QAction* moveToOtherViewAction   = col->action(QStringLiteral("move_to_inactive_split_view"));
-    QAction* copyLocation            = col->action(QString("copy_location"));
+    QAction *renameAction = col->action(KStandardAction::name(KStandardAction::RenameFile));
+    QAction *moveToTrashAction = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
+    QAction *deleteAction = col->action(KStandardAction::name(KStandardAction::DeleteFile));
+    QAction *cutAction = col->action(KStandardAction::name(KStandardAction::Cut));
+    QAction *duplicateAction = col->action(QStringLiteral("duplicate")); // see DolphinViewActionHandler
+    QAction *addToPlacesAction = col->action(QStringLiteral("add_to_places"));
+    QAction *copyToOtherViewAction = col->action(QStringLiteral("copy_to_inactive_split_view"));
+    QAction *moveToOtherViewAction = col->action(QStringLiteral("move_to_inactive_split_view"));
+    QAction *copyLocation = col->action(QString("copy_location"));
 
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
@@ -2270,8 +2255,8 @@ void DolphinMainWindow::updateFileAndEditActions()
         m_actionTextHelper->textsWhenNothingIsSelectedEnabled(false);
         stateChanged(QStringLiteral("has_selection"));
 
-        QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
-        QAction* showTarget              = col->action(QStringLiteral("show_target"));
+        QAction *deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
+        QAction *showTarget = col->action(QStringLiteral("show_target"));
 
         if (list.length() == 1 && list.first().isDir()) {
             addToPlacesAction->setEnabled(true);
@@ -2292,7 +2277,7 @@ void DolphinMainWindow::updateFileAndEditActions()
     }
 
     if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
-        DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+        DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
         KFileItem capabilitiesDestination;
 
         if (tabPage->primaryViewActive()) {
@@ -2313,7 +2298,7 @@ void DolphinMainWindow::updateViewActions()
 {
     m_actionHandler->updateViewActions();
 
-    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
     updateSplitAction();
@@ -2321,18 +2306,19 @@ void DolphinMainWindow::updateViewActions()
 
 void DolphinMainWindow::updateGoActions()
 {
-    QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
+    QAction *goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
     const QUrl currentUrl = m_activeViewContainer->url();
     // I think this is one of the best places to firstly be confronted
     // with a file system and its hierarchy. Talking about the root
     // directory might seem too much here but it is the question that
     // naturally arises in this context.
-    goUpAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>Go to "
-        "the folder that contains the currently viewed one.</para>"
-        "<para>All files and folders are organized in a hierarchical "
-        "<emphasis>file system</emphasis>. At the top of this hierarchy is "
-        "a directory that contains all data connected to this computer"
-        "—the <emphasis>root directory</emphasis>.</para>"));
+    goUpAction->setWhatsThis(xi18nc("@info:whatsthis",
+                                    "<para>Go to "
+                                    "the folder that contains the currently viewed one.</para>"
+                                    "<para>All files and folders are organized in a hierarchical "
+                                    "<emphasis>file system</emphasis>. At the top of this hierarchy is "
+                                    "a directory that contains all data connected to this computer"
+                                    "—the <emphasis>root directory</emphasis>.</para>"));
     goUpAction->setEnabled(KIO::upUrl(currentUrl) != currentUrl);
 }
 
@@ -2354,88 +2340,58 @@ void DolphinMainWindow::clearStatusBar()
     m_activeViewContainer->statusBar()->resetToDefaultText();
 }
 
-void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
+void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
 {
-    connect(container, &DolphinViewContainer::showFilterBarChanged,
-            this, &DolphinMainWindow::updateFilterBarAction);
-    connect(container, &DolphinViewContainer::writeStateChanged,
-            this, &DolphinMainWindow::slotWriteStateChanged);
-    connect(container, &DolphinViewContainer::searchModeEnabledChanged,
-            this, &DolphinMainWindow::updateSearchAction);
-    connect(container, &DolphinViewContainer::captionChanged,
-            this, &DolphinMainWindow::updateWindowTitle);
-    connect(container, &DolphinViewContainer::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(container, &DolphinViewContainer::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(container, &DolphinViewContainer::showFilterBarChanged, this, &DolphinMainWindow::updateFilterBarAction);
+    connect(container, &DolphinViewContainer::writeStateChanged, this, &DolphinMainWindow::slotWriteStateChanged);
+    connect(container, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinMainWindow::updateSearchAction);
+    connect(container, &DolphinViewContainer::captionChanged, this, &DolphinMainWindow::updateWindowTitle);
+    connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
+    connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
 
-    const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+    const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
 
     // Make the toggled state of the selection mode actions visually follow the selection mode state of the view.
     auto toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));
     toggleSelectionModeAction->setChecked(m_activeViewContainer->isSelectionModeEnabled());
-    connect(m_activeViewContainer, &DolphinViewContainer::selectionModeChanged,
-            toggleSelectionModeAction, &QAction::setChecked);
+    connect(m_activeViewContainer, &DolphinViewContainer::selectionModeChanged, toggleSelectionModeAction, &QAction::setChecked);
 
-    const DolphinView* view = container->view();
-    connect(view, &DolphinView::selectionChanged,
-            this, &DolphinMainWindow::slotSelectionChanged);
-    connect(view, &DolphinView::requestItemInfo,
-            this, &DolphinMainWindow::requestItemInfo);
-    connect(view, &DolphinView::fileItemsChanged,
-            this, &DolphinMainWindow::fileItemsChanged);
-    connect(view, &DolphinView::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(view, &DolphinView::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
-    connect(view, &DolphinView::windowRequested,
-            this, &DolphinMainWindow::openNewWindow);
-    connect(view, &DolphinView::requestContextMenu,
-            this, &DolphinMainWindow::openContextMenu);
-    connect(view, &DolphinView::directoryLoadingStarted,
-            this, &DolphinMainWindow::enableStopAction);
-    connect(view, &DolphinView::directoryLoadingCompleted,
-            this, &DolphinMainWindow::disableStopAction);
-    connect(view, &DolphinView::directoryLoadingCompleted,
-            this, &DolphinMainWindow::slotDirectoryLoadingCompleted);
-    connect(view, &DolphinView::goBackRequested,
-            this, &DolphinMainWindow::goBack);
-    connect(view, &DolphinView::goForwardRequested,
-            this, &DolphinMainWindow::goForward);
-    connect(view, &DolphinView::urlActivated,
-            this, &DolphinMainWindow::handleUrl);
-    connect(view, &DolphinView::goUpRequested,
-            this, &DolphinMainWindow::goUp);
+    const DolphinView *view = container->view();
+    connect(view, &DolphinView::selectionChanged, this, &DolphinMainWindow::slotSelectionChanged);
+    connect(view, &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
+    connect(view, &DolphinView::fileItemsChanged, this, &DolphinMainWindow::fileItemsChanged);
+    connect(view, &DolphinView::tabRequested, this, &DolphinMainWindow::openNewTab);
+    connect(view, &DolphinView::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(view, &DolphinView::windowRequested, this, &DolphinMainWindow::openNewWindow);
+    connect(view, &DolphinView::requestContextMenu, this, &DolphinMainWindow::openContextMenu);
+    connect(view, &DolphinView::directoryLoadingStarted, this, &DolphinMainWindow::enableStopAction);
+    connect(view, &DolphinView::directoryLoadingCompleted, this, &DolphinMainWindow::disableStopAction);
+    connect(view, &DolphinView::directoryLoadingCompleted, this, &DolphinMainWindow::slotDirectoryLoadingCompleted);
+    connect(view, &DolphinView::goBackRequested, this, &DolphinMainWindow::goBack);
+    connect(view, &DolphinView::goForwardRequested, this, &DolphinMainWindow::goForward);
+    connect(view, &DolphinView::urlActivated, this, &DolphinMainWindow::handleUrl);
+    connect(view, &DolphinView::goUpRequested, this, &DolphinMainWindow::goUp);
 
-    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::urlChanged,
-            this, &DolphinMainWindow::changeUrl);
-    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
-            this, &DolphinMainWindow::updateHistory);
+    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::urlChanged, this, &DolphinMainWindow::changeUrl);
+    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged, this, &DolphinMainWindow::updateHistory);
 
-    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
-        (actionCollection()->action(QStringLiteral("url_navigators")));
-    const KUrlNavigator *navigator = m_tabWidget->currentTabPage()->primaryViewActive() ?
-                                     navigators->primaryUrlNavigator() :
-                                     navigators->secondaryUrlNavigator();
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
+    const KUrlNavigator *navigator =
+        m_tabWidget->currentTabPage()->primaryViewActive() ? navigators->primaryUrlNavigator() : navigators->secondaryUrlNavigator();
 
     QAction *editableLocactionAction = actionCollection()->action(QStringLiteral("editable_location"));
     editableLocactionAction->setChecked(navigator->isUrlEditable());
-    connect(navigator, &KUrlNavigator::editableStateChanged,
-            this, &DolphinMainWindow::slotEditableStateChanged);
-    connect(navigator, &KUrlNavigator::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(navigator, &KUrlNavigator::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
-    connect(navigator, &KUrlNavigator::newWindowRequested,
-            this, &DolphinMainWindow::openNewWindow);
-
+    connect(navigator, &KUrlNavigator::editableStateChanged, this, &DolphinMainWindow::slotEditableStateChanged);
+    connect(navigator, &KUrlNavigator::tabRequested, this, &DolphinMainWindow::openNewTab);
+    connect(navigator, &KUrlNavigator::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(navigator, &KUrlNavigator::newWindowRequested, this, &DolphinMainWindow::openNewWindow);
 }
 
 void DolphinMainWindow::updateSplitAction()
 {
-    QAction* splitAction = actionCollection()->action(QStringLiteral("split_view"));
-    const DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+    QAction *splitAction = actionCollection()->action(QStringLiteral("split_view"));
+    const DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (GeneralSettings::closeActiveSplitView() ? tabPage->primaryViewActive() : !tabPage->primaryViewActive()) {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
@@ -2455,12 +2411,10 @@ void DolphinMainWindow::updateSplitAction()
 
 void DolphinMainWindow::updateAllowedToolbarAreas()
 {
-    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
-                        (actionCollection()->action(QStringLiteral("url_navigators")));
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
     if (toolBar()->actions().contains(navigators)) {
         toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-        if (toolBarArea(toolBar()) == Qt::LeftToolBarArea ||
-            toolBarArea(toolBar()) == Qt::RightToolBarArea) {
+        if (toolBarArea(toolBar()) == Qt::LeftToolBarArea || toolBarArea(toolBar()) == Qt::RightToolBarArea) {
             addToolBar(Qt::TopToolBarArea, toolBar());
         }
     } else {
@@ -2481,12 +2435,9 @@ bool DolphinMainWindow::isKompareInstalled() const
     return installed;
 }
 
-void DolphinMainWindow::createPanelAction(const QIcon& icon,
-                                          const QKeySequence& shortcut,
-                                          QAction* dockAction,
-                                          const QString& actionName)
+void DolphinMainWindow::createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QAction *dockAction, const QString &actionName)
 {
-    QAction* panelAction = actionCollection()->addAction(actionName);
+    QAction *panelAction = actionCollection()->addAction(actionName);
     panelAction->setCheckable(true);
     panelAction->setChecked(dockAction->isChecked());
     panelAction->setText(dockAction->text());
@@ -2497,7 +2448,7 @@ void DolphinMainWindow::createPanelAction(const QIcon& icon,
     connect(panelAction, &QAction::triggered, dockAction, &QAction::trigger);
     connect(dockAction, &QAction::toggled, panelAction, &QAction::setChecked);
 }
-
+// clang-format off
 void DolphinMainWindow::setupWhatsThis()
 {
     // main widgets
@@ -2612,6 +2563,7 @@ void DolphinMainWindow::setupWhatsThis()
         "<nl/>If you like using this application but don't know "
         "about KDE or want to see a cute dragon have a look!"));
 }
+// clang-format on
 
 bool DolphinMainWindow::addHamburgerMenuToToolbar()
 {
@@ -2647,14 +2599,12 @@ void DolphinMainWindow::saveNewToolbarConfig()
     KXmlGuiWindow::saveNewToolbarConfig(); // Applies the new config. This has to be called first
                                            // because the rest of this method decides things
                                            // based on the new config.
-    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
-                        (actionCollection()->action(QStringLiteral("url_navigators")));
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
     if (!toolBar()->actions().contains(navigators)) {
         m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
     }
     updateAllowedToolbarAreas();
-    (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(
-                            KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
+    (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
 }
 
 void DolphinMainWindow::focusTerminalPanel()
@@ -2673,8 +2623,8 @@ void DolphinMainWindow::focusTerminalPanel()
     }
 }
 
-DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
-    KIO::FileUndoManager::UiInterface()
+DolphinMainWindow::UndoUiInterface::UndoUiInterface()
+    : KIO::FileUndoManager::UiInterface()
 {
 }
 
@@ -2682,11 +2632,11 @@ DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
 {
 }
 
-void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
+void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job *job)
 {
-    DolphinMainWindow* mainWin= qobject_cast<DolphinMainWindow *>(parentWidget());
+    DolphinMainWindow *mainWin = qobject_cast<DolphinMainWindow *>(parentWidget());
     if (mainWin) {
-        DolphinViewContainer* container = mainWin->activeViewContainer();
+        DolphinViewContainer *container = mainWin->activeViewContainer();
         container->showMessage(job->errorString(), DolphinViewContainer::Error);
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);

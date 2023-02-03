@@ -17,17 +17,17 @@ class DOLPHIN_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
     Q_OBJECT
 
 public:
-    explicit KStandardItemListGroupHeader(QGraphicsWidget* parent = nullptr);
+    explicit KStandardItemListGroupHeader(QGraphicsWidget *parent = nullptr);
     ~KStandardItemListGroupHeader() override;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 protected:
-    void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) override;
-    void paintSeparator(QPainter* painter, const QColor& color) override;
+    void paintRole(QPainter *painter, const QRectF &roleBounds, const QColor &color) override;
+    void paintSeparator(QPainter *painter, const QColor &color) override;
     void roleChanged(const QByteArray &current, const QByteArray &previous) override;
-    void dataChanged(const QVariant& current, const QVariant& previous) override;
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void dataChanged(const QVariant &current, const QVariant &previous) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 
 private:
     void updateCache();
@@ -38,5 +38,3 @@ private:
     QPixmap m_pixmap;
 };
 #endif
-
-

@@ -19,11 +19,11 @@
 
 #include <QApplication>
 
-QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
+QList<QUrl> Dolphin::validateUris(const QStringList &uriList)
 {
     const QString currentDir = QDir::currentPath();
     QList<QUrl> urls;
-    for (const QString& str : uriList) {
+    for (const QString &str : uriList) {
         const QUrl url = QUrl::fromUserInput(str, currentDir, QUrl::AssumeLocalFile);
         if (url.isValid()) {
             urls.append(url);
@@ -57,7 +57,11 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
     job->start();
 }
 
-bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService, const QString &activationToken)
+bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
+                                       bool openFiles,
+                                       bool splitView,
+                                       const QString &preferredService,
+                                       const QString &activationToken)
 {
     bool attached = false;
 
@@ -71,7 +75,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     }
 
     int activeWindowIndex = -1;
-    for (const auto& interface: qAsConst(dolphinInterfaces)) {
+    for (const auto &interface : qAsConst(dolphinInterfaces)) {
         ++activeWindowIndex;
 
         auto isActiveWindowReply = interface.first->isActiveWindow();
@@ -83,7 +87,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
 
     // check to see if any instances already have any of the given URLs or their parents open
     QList<QUrl> newWindowURLs;
-    for (const QUrl& url : inputUrls) {
+    for (const QUrl &url : inputUrls) {
         bool urlFound = false;
         const QString urlString = url.toString();
 
@@ -101,8 +105,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
             }
 
             i = (i + 1) % dolphinInterfaces.size();
-        }
-        while (i != activeWindowIndex);
+        } while (i != activeWindowIndex);
 
         if (!urlFound) {
             if (GeneralSettings::openExternallyCalledFolderInNewTab()) {
@@ -113,13 +116,11 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         }
     }
 
-    for (const auto& interface: qAsConst(dolphinInterfaces)) {
+    for (const auto &interface : qAsConst(dolphinInterfaces)) {
         if (interface.second.isEmpty()) {
             continue;
         }
-        auto reply = openFiles ?
-                    interface.first->openFiles(interface.second, splitView) :
-                    interface.first->openDirectories(interface.second, splitView);
+        auto reply = openFiles ? interface.first->openFiles(interface.second, splitView) : interface.first->openDirectories(interface.second, splitView);
         reply.waitForFinished();
         if (!reply.isError()) {
             interface.first->activateWindow(activationToken);
@@ -137,14 +138,12 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     return attached;
 }
 
-QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString& preferredService)
+QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString &preferredService)
 {
     QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
     if (!preferredService.isEmpty()) {
         QSharedPointer<OrgKdeDolphinMainWindowInterface> preferredInterface(
-            new OrgKdeDolphinMainWindowInterface(preferredService,
-                QStringLiteral("/dolphin/Dolphin_1"),
-                QDBusConnection::sessionBus()));
+            new OrgKdeDolphinMainWindowInterface(preferredService, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
         if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
             dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
         }
@@ -157,13 +156,11 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     const QString pattern = QStringLiteral("org.kde.dolphin-");
     // Don't match the pid without leading "-"
     const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
-    for (const QString& service : dbusServices) {
+    for (const QString &service : dbusServices) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
             // Check if instance can handle our URLs
             QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
-                        new OrgKdeDolphinMainWindowInterface(service,
-                            QStringLiteral("/dolphin/Dolphin_1"),
-                            QDBusConnection::sessionBus()));
+                new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
             if (interface->isValid() && !interface->lastError().isValid()) {
                 dolphinInterfaces.append(qMakePair(interface, QStringList()));
             }
@@ -189,17 +186,14 @@ double GlobalConfig::animationDurationFactor()
     updateAnimationDurationFactor(kdeGlobalsConfig, {"AnimationDurationFactor"});
 
     KConfigWatcher::Ptr configWatcher = KConfigWatcher::create(KSharedConfig::openConfig());
-    connect(configWatcher.data(), &KConfigWatcher::configChanged,
-            &GlobalConfig::updateAnimationDurationFactor);
+    connect(configWatcher.data(), &KConfigWatcher::configChanged, &GlobalConfig::updateAnimationDurationFactor);
     return s_animationDurationFactor;
 }
 
 void GlobalConfig::updateAnimationDurationFactor(const KConfigGroup &group, const QByteArrayList &names)
 {
-    if (group.name() == QLatin1String("KDE") &&
-        names.contains(QByteArrayLiteral("AnimationDurationFactor"))) {
-        s_animationDurationFactor = std::max(0.0,
-                group.readEntry("AnimationDurationFactor", 1.0));
+    if (group.name() == QLatin1String("KDE") && names.contains(QByteArrayLiteral("AnimationDurationFactor"))) {
+        s_animationDurationFactor = std::max(0.0, group.readEntry("AnimationDurationFactor", 1.0));
     }
 }
 

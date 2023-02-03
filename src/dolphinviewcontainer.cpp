@@ -6,6 +6,7 @@
 
 #include "dolphinviewcontainer.h"
 
+#include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "dolphinplacesmodelsingleton.h"
@@ -14,7 +15,6 @@
 #include "search/dolphinsearchbox.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "dolphin_detailsmodesettings.h"
 
 #include <KActionCollection>
 #if HAVE_KACTIVITIES
@@ -38,38 +38,38 @@
 #include <QDropEvent>
 #include <QGridLayout>
 #include <QGuiApplication>
+#include <QRegularExpression>
 #include <QTimer>
 #include <QUrl>
-#include <QRegularExpression>
 
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
-    int searchBox               = 0;
-    int messageWidget           = 1;
-    int selectionModeTopBar     = 2;
-    int view                    = 3;
-    int selectionModeBottomBar  = 4;
-    int filterBar               = 5;
-    int statusBar               = 6;
+    int searchBox = 0;
+    int messageWidget = 1;
+    int selectionModeTopBar = 2;
+    int view = 3;
+    int selectionModeBottomBar = 4;
+    int filterBar = 5;
+    int statusBar = 6;
 };
 constexpr LayoutStructure positionFor;
 
-DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
-    QWidget(parent),
-    m_topLayout(nullptr),
-    m_urlNavigator{new DolphinUrlNavigator(url)},
-    m_urlNavigatorConnected{nullptr},
-    m_searchBox(nullptr),
-    m_searchModeEnabled(false),
-    m_messageWidget(nullptr),
-    m_selectionModeTopBar{nullptr},
-    m_view(nullptr),
-    m_filterBar(nullptr),
-    m_selectionModeBottomBar{nullptr},
-    m_statusBar(nullptr),
-    m_statusBarTimer(nullptr),
-    m_statusBarTimestamp(),
-    m_autoGrabFocus(true)
+DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
+    : QWidget(parent)
+    , m_topLayout(nullptr)
+    , m_urlNavigator{new DolphinUrlNavigator(url)}
+    , m_urlNavigatorConnected{nullptr}
+    , m_searchBox(nullptr)
+    , m_searchModeEnabled(false)
+    , m_messageWidget(nullptr)
+    , m_selectionModeTopBar{nullptr}
+    , m_view(nullptr)
+    , m_filterBar(nullptr)
+    , m_selectionModeBottomBar{nullptr}
+    , m_statusBar(nullptr)
+    , m_statusBarTimer(nullptr)
+    , m_statusBarTimestamp()
+    , m_autoGrabFocus(true)
 #if HAVE_KACTIVITIES
     , m_activityResourceInstance(nullptr)
 #endif
@@ -87,17 +87,17 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
     connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
     m_searchBox->setWhatsThis(xi18nc("@info:whatsthis findbar",
-        "<para>This helps you find files and folders. Enter a <emphasis>"
-        "search term</emphasis> and specify search settings with the "
-        "buttons at the bottom:<list><item>Filename/Content: "
-        "Does the item you are looking for contain the search terms "
-        "within its filename or its contents?<nl/>The contents of images, "
-        "audio files and videos will not be searched.</item><item>"
-        "From Here/Everywhere: Do you want to search in this "
-        "folder and its sub-folders or everywhere?</item><item>"
-        "More Options: Click this to search by media type, access "
-        "time or rating.</item><item>More Search Tools: Install other "
-        "means to find an item.</item></list></para>"));
+                                     "<para>This helps you find files and folders. Enter a <emphasis>"
+                                     "search term</emphasis> and specify search settings with the "
+                                     "buttons at the bottom:<list><item>Filename/Content: "
+                                     "Does the item you are looking for contain the search terms "
+                                     "within its filename or its contents?<nl/>The contents of images, "
+                                     "audio files and videos will not be searched.</item><item>"
+                                     "From Here/Everywhere: Do you want to search in this "
+                                     "folder and its sub-folders or everywhere?</item><item>"
+                                     "More Options: Click this to search by media type, access "
+                                     "time or rating.</item><item>More Search Tools: Install other "
+                                     "means to find an item.</item></list></para>"));
 
     m_messageWidget = new KMessageWidget(this);
     m_messageWidget->setCloseButtonVisible(true);
@@ -105,7 +105,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
 #ifndef Q_OS_WIN
     if (getuid() == 0) {
-
         // We must be logged in as the root user; show a big scary warning
         showMessage(i18n("Running Dolphin as root can be dangerous. Please be careful."), Warning);
     }
@@ -115,95 +114,59 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(GeneralSettings::filterBar());
 
-    connect(m_filterBar, &FilterBar::filterChanged,
-            this, &DolphinViewContainer::setNameFilter);
-    connect(m_filterBar, &FilterBar::closeRequest,
-            this, &DolphinViewContainer::closeFilterBar);
-    connect(m_filterBar, &FilterBar::focusViewRequest,
-            this, &DolphinViewContainer::requestFocus);
+    connect(m_filterBar, &FilterBar::filterChanged, this, &DolphinViewContainer::setNameFilter);
+    connect(m_filterBar, &FilterBar::closeRequest, this, &DolphinViewContainer::closeFilterBar);
+    connect(m_filterBar, &FilterBar::focusViewRequest, this, &DolphinViewContainer::requestFocus);
 
     // Initialize the main view
     m_view = new DolphinView(url, this);
-    connect(m_view, &DolphinView::urlChanged,
-            m_filterBar, &FilterBar::clearIfUnlocked);
-    connect(m_view, &DolphinView::urlChanged,
-            m_messageWidget, &KMessageWidget::hide);
+    connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
+    connect(m_view, &DolphinView::urlChanged, m_messageWidget, &KMessageWidget::hide);
     // m_urlNavigator stays in sync with m_view's location changes and
     // keeps track of them so going back and forth in the history works.
-    connect(m_view, &DolphinView::urlChanged,
-            m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
-    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
-    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlAboutToBeChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
-    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlSelectionRequested,
-            this, &DolphinViewContainer::slotUrlSelectionRequested);
-    connect(m_view, &DolphinView::writeStateChanged,
-            this, &DolphinViewContainer::writeStateChanged);
-    connect(m_view, &DolphinView::requestItemInfo,
-            this, &DolphinViewContainer::showItemInfo);
-    connect(m_view, &DolphinView::itemActivated,
-            this, &DolphinViewContainer::slotItemActivated);
-    connect(m_view, &DolphinView::itemsActivated,
-            this, &DolphinViewContainer::slotItemsActivated);
-    connect(m_view, &DolphinView::redirection,
-            this, &DolphinViewContainer::redirect);
-    connect(m_view, &DolphinView::directoryLoadingStarted,
-            this, &DolphinViewContainer::slotDirectoryLoadingStarted);
-    connect(m_view, &DolphinView::directoryLoadingCompleted,
-            this, &DolphinViewContainer::slotDirectoryLoadingCompleted);
-    connect(m_view, &DolphinView::directoryLoadingCanceled,
-            this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
-    connect(m_view, &DolphinView::itemCountChanged,
-            this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::directoryLoadingProgress,
-            this, &DolphinViewContainer::updateDirectoryLoadingProgress);
-    connect(m_view, &DolphinView::directorySortingProgress,
-            this, &DolphinViewContainer::updateDirectorySortingProgress);
-    connect(m_view, &DolphinView::selectionChanged,
-            this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::errorMessage,
-            this, &DolphinViewContainer::showErrorMessage);
-    connect(m_view, &DolphinView::urlIsFileError,
-            this, &DolphinViewContainer::slotUrlIsFileError);
-    connect(m_view, &DolphinView::activated,
-            this, &DolphinViewContainer::activate);
-    connect(m_view, &DolphinView::hiddenFilesShownChanged,
-            this, &DolphinViewContainer::slotHiddenFilesShownChanged);
-    connect(m_view, &DolphinView::sortHiddenLastChanged,
-            this, &DolphinViewContainer::slotSortHiddenLastChanged);
-    connect(m_view, &DolphinView::currentDirectoryRemoved,
-            this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
+    connect(m_view, &DolphinView::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlAboutToBeChanged, this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlSelectionRequested, this, &DolphinViewContainer::slotUrlSelectionRequested);
+    connect(m_view, &DolphinView::writeStateChanged, this, &DolphinViewContainer::writeStateChanged);
+    connect(m_view, &DolphinView::requestItemInfo, this, &DolphinViewContainer::showItemInfo);
+    connect(m_view, &DolphinView::itemActivated, this, &DolphinViewContainer::slotItemActivated);
+    connect(m_view, &DolphinView::itemsActivated, this, &DolphinViewContainer::slotItemsActivated);
+    connect(m_view, &DolphinView::redirection, this, &DolphinViewContainer::redirect);
+    connect(m_view, &DolphinView::directoryLoadingStarted, this, &DolphinViewContainer::slotDirectoryLoadingStarted);
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, &DolphinViewContainer::slotDirectoryLoadingCompleted);
+    connect(m_view, &DolphinView::directoryLoadingCanceled, this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
+    connect(m_view, &DolphinView::itemCountChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::directoryLoadingProgress, this, &DolphinViewContainer::updateDirectoryLoadingProgress);
+    connect(m_view, &DolphinView::directorySortingProgress, this, &DolphinViewContainer::updateDirectorySortingProgress);
+    connect(m_view, &DolphinView::selectionChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::showErrorMessage);
+    connect(m_view, &DolphinView::urlIsFileError, this, &DolphinViewContainer::slotUrlIsFileError);
+    connect(m_view, &DolphinView::activated, this, &DolphinViewContainer::activate);
+    connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
+    connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
+    connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
-    connect(m_view, &DolphinView::urlChanged,
-            m_statusBar, &DolphinStatusBar::setUrl);
-    connect(m_view, &DolphinView::zoomLevelChanged,
-            m_statusBar, &DolphinStatusBar::setZoomLevel);
-    connect(m_view, &DolphinView::infoMessage,
-            m_statusBar, &DolphinStatusBar::setText);
-    connect(m_view, &DolphinView::operationCompletedMessage,
-            m_statusBar, &DolphinStatusBar::setText);
-    connect(m_view, &DolphinView::statusBarTextChanged,
-            m_statusBar, &DolphinStatusBar::setDefaultText);
-    connect(m_view, &DolphinView::statusBarTextChanged,
-            m_statusBar, &DolphinStatusBar::resetToDefaultText);
-    connect(m_statusBar, &DolphinStatusBar::stopPressed,
-            this, &DolphinViewContainer::stopDirectoryLoading);
-    connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged,
-            this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
+    connect(m_view, &DolphinView::urlChanged, m_statusBar, &DolphinStatusBar::setUrl);
+    connect(m_view, &DolphinView::zoomLevelChanged, m_statusBar, &DolphinStatusBar::setZoomLevel);
+    connect(m_view, &DolphinView::infoMessage, m_statusBar, &DolphinStatusBar::setText);
+    connect(m_view, &DolphinView::operationCompletedMessage, m_statusBar, &DolphinStatusBar::setText);
+    connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::setDefaultText);
+    connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::resetToDefaultText);
+    connect(m_statusBar, &DolphinStatusBar::stopPressed, this, &DolphinViewContainer::stopDirectoryLoading);
+    connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged, this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
     m_statusBarTimer->setInterval(300);
     connect(m_statusBarTimer, &QTimer::timeout, this, &DolphinViewContainer::updateStatusBar);
 
-    KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
-    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
-            this, &DolphinViewContainer::delayedStatusBarUpdate);
+    KIO::FileUndoManager *undoManager = KIO::FileUndoManager::self();
+    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished, this, &DolphinViewContainer::delayedStatusBarUpdate);
 
     m_topLayout->addWidget(m_searchBox, positionFor.searchBox, 0);
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
@@ -220,15 +183,11 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     });
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
-    connect(placesModel, &KFilePlacesModel::dataChanged,
-            this, &DolphinViewContainer::slotPlacesModelChanged);
-    connect(placesModel, &KFilePlacesModel::rowsInserted,
-            this, &DolphinViewContainer::slotPlacesModelChanged);
-    connect(placesModel, &KFilePlacesModel::rowsRemoved,
-            this, &DolphinViewContainer::slotPlacesModelChanged);
+    connect(placesModel, &KFilePlacesModel::dataChanged, this, &DolphinViewContainer::slotPlacesModelChanged);
+    connect(placesModel, &KFilePlacesModel::rowsInserted, this, &DolphinViewContainer::slotPlacesModelChanged);
+    connect(placesModel, &KFilePlacesModel::rowsRemoved, this, &DolphinViewContainer::slotPlacesModelChanged);
 
-    connect(this, &DolphinViewContainer::searchModeEnabledChanged,
-            this, &DolphinViewContainer::captionChanged);
+    connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
 
     // Initialize kactivities resource instance
 
@@ -281,25 +240,25 @@ bool DolphinViewContainer::autoGrabFocus() const
 
 QString DolphinViewContainer::currentSearchText() const
 {
-     return m_searchBox->text();
+    return m_searchBox->text();
 }
 
-const DolphinStatusBar* DolphinViewContainer::statusBar() const
+const DolphinStatusBar *DolphinViewContainer::statusBar() const
 {
     return m_statusBar;
 }
 
-DolphinStatusBar* DolphinViewContainer::statusBar()
+DolphinStatusBar *DolphinViewContainer::statusBar()
 {
     return m_statusBar;
 }
 
-const DolphinUrlNavigator* DolphinViewContainer::urlNavigator() const
+const DolphinUrlNavigator *DolphinViewContainer::urlNavigator() const
 {
     return m_urlNavigatorConnected;
 }
 
-DolphinUrlNavigator* DolphinViewContainer::urlNavigator()
+DolphinUrlNavigator *DolphinViewContainer::urlNavigator()
 {
     return m_urlNavigatorConnected;
 }
@@ -314,12 +273,12 @@ DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternalWithHistory()
     return m_urlNavigator.get();
 }
 
-const DolphinView* DolphinViewContainer::view() const
+const DolphinView *DolphinViewContainer::view() const
 {
     return m_view;
 }
 
-DolphinView* DolphinViewContainer::view()
+DolphinView *DolphinViewContainer::view()
 {
     return m_view;
 }
@@ -341,17 +300,13 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     urlNavigator->setActive(isActive());
 
     // Url changes are still done via m_urlNavigator.
-    connect(urlNavigator, &DolphinUrlNavigator::urlChanged,
-            m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
-    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped,
-            this, [=](const QUrl &destination, QDropEvent *event) {
+    connect(urlNavigator, &DolphinUrlNavigator::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
         m_view->dropUrls(destination, event, urlNavigator->dropWidget());
     });
     // Aside from these, only visual things need to be connected.
-    connect(m_view, &DolphinView::urlChanged,
-            urlNavigator, &DolphinUrlNavigator::setLocationUrl);
-    connect(urlNavigator, &DolphinUrlNavigator::activated,
-            this, &DolphinViewContainer::activate);
+    connect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
+    connect(urlNavigator, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
 
     m_urlNavigatorConnected = urlNavigator;
 }
@@ -362,14 +317,10 @@ void DolphinViewContainer::disconnectUrlNavigator()
         return;
     }
 
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlChanged,
-               m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped,
-               this, nullptr);
-    disconnect(m_view, &DolphinView::urlChanged,
-               m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated,
-               this, &DolphinViewContainer::activate);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped, this, nullptr);
+    disconnect(m_view, &DolphinView::urlChanged, m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
 
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
@@ -435,13 +386,13 @@ bool DolphinViewContainer::isSelectionModeEnabled() const
     const bool isEnabled = m_view->selectionMode();
     Q_ASSERT((!isEnabled
               // We can't assert that the bars are invisible only because the selection mode is disabled because the hide animation might still be playing.
-              && (!m_selectionModeBottomBar || !m_selectionModeBottomBar->isEnabled() ||
-                  !m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::PasteContents))
-          || ( isEnabled
-              && m_selectionModeTopBar && m_selectionModeTopBar->isVisible()
-              // The bottom bar is either visible or was hidden because it has nothing to show in GeneralContents mode e.g. because no items are selected.
-              && m_selectionModeBottomBar
-              && (m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::GeneralContents)));
+              && (!m_selectionModeBottomBar || !m_selectionModeBottomBar->isEnabled() || !m_selectionModeBottomBar->isVisible()
+                  || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::PasteContents))
+             || (isEnabled && m_selectionModeTopBar
+                 && m_selectionModeTopBar->isVisible()
+                 // The bottom bar is either visible or was hidden because it has nothing to show in GeneralContents mode e.g. because no items are selected.
+                 && m_selectionModeBottomBar
+                 && (m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::GeneralContents)));
     return isEnabled;
 }
 
@@ -452,8 +403,7 @@ void DolphinViewContainer::slotSplitTabDisabled()
     }
 }
 
-
-void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
+void DolphinViewContainer::showMessage(const QString &msg, MessageType type)
 {
     if (msg.isEmpty()) {
         return;
@@ -466,9 +416,15 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
     m_messageWidget->setWordWrap(true);
 
     switch (type) {
-    case Information: m_messageWidget->setMessageType(KMessageWidget::Information); break;
-    case Warning:     m_messageWidget->setMessageType(KMessageWidget::Warning); break;
-    case Error:       m_messageWidget->setMessageType(KMessageWidget::Error); break;
+    case Information:
+        m_messageWidget->setMessageType(KMessageWidget::Information);
+        break;
+    case Warning:
+        m_messageWidget->setMessageType(KMessageWidget::Warning);
+        break;
+    case Error:
+        m_messageWidget->setMessageType(KMessageWidget::Error);
+        break;
     default:
         Q_ASSERT(false);
         break;
@@ -507,7 +463,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_searchBox->setVisible(enabled);
 
     if (enabled) {
-        const QUrl& locationUrl = m_urlNavigator->locationUrl();
+        const QUrl &locationUrl = m_urlNavigator->locationUrl();
         m_searchBox->fromSearchUrl(locationUrl);
     }
 
@@ -581,7 +537,7 @@ QString DolphinViewContainer::captionWindowTitle() const
 QString DolphinViewContainer::caption() const
 {
     if (isSearchModeEnabled()) {
-        if (currentSearchText().isEmpty()){
+        if (currentSearchText().isEmpty()) {
             return i18n("Search");
         } else {
             return i18n("Search for %1", currentSearchText());
@@ -590,12 +546,12 @@ QString DolphinViewContainer::caption() const
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
     const QString pattern = url().adjusted(QUrl::StripTrailingSlash).toString(QUrl::FullyEncoded).append("/?");
-    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, QRegularExpression::anchoredPattern(pattern), 1, Qt::MatchRegularExpression);
+    const auto &matchedPlaces =
+        placesModel->match(placesModel->index(0, 0), KFilePlacesModel::UrlRole, QRegularExpression::anchoredPattern(pattern), 1, Qt::MatchRegularExpression);
 
     if (!matchedPlaces.isEmpty()) {
         return placesModel->text(matchedPlaces.first());
     }
-
 
     if (!url().isLocalFile()) {
         QUrl adjustedUrl = url().adjusted(QUrl::StripTrailingSlash);
@@ -620,7 +576,7 @@ QString DolphinViewContainer::caption() const
     return fileName;
 }
 
-void DolphinViewContainer::setUrl(const QUrl& newUrl)
+void DolphinViewContainer::setUrl(const QUrl &newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
@@ -724,14 +680,14 @@ void DolphinViewContainer::slotDirectoryLoadingCanceled()
     m_statusBar->setText(QString());
 }
 
-void DolphinViewContainer::slotUrlIsFileError(const QUrl& url)
+void DolphinViewContainer::slotUrlIsFileError(const QUrl &url)
 {
     const KFileItem item(url);
 
     // Find out if the file can be opened in the view (for example, this is the
     // case if the file is an archive). The mime type must be known for that.
     item.determineMimeType();
-    const QUrl& folderUrl = DolphinView::openItemAsFolderUrl(item, true);
+    const QUrl &folderUrl = DolphinView::openItemAsFolderUrl(item, true);
     if (!folderUrl.isEmpty()) {
         setUrl(folderUrl);
     } else {
@@ -746,7 +702,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
     // results in an active view.
     m_view->setActive(true);
 
-    const QUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
+    const QUrl &url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
     if (!url.isEmpty()) {
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
@@ -773,7 +729,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
     job->start();
 }
 
-void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
+void DolphinViewContainer::slotItemsActivated(const KFileItemList &items)
 {
     Q_ASSERT(items.count() >= 2);
 
@@ -781,7 +737,7 @@ void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
     fileItemActions.runPreferredApplications(items);
 }
 
-void DolphinViewContainer::showItemInfo(const KFileItem& item)
+void DolphinViewContainer::showItemInfo(const KFileItem &item)
 {
     if (item.isNull()) {
         m_statusBar->resetToDefaultText();
@@ -802,7 +758,7 @@ void DolphinViewContainer::clearFilterBar()
     m_filterBar->clearIfUnlocked();
 }
 
-void DolphinViewContainer::setNameFilter(const QString& nameFilter)
+void DolphinViewContainer::setNameFilter(const QString &nameFilter)
 {
     m_view->hideToolTip(ToolTipManager::HideBehavior::Instantly);
     m_view->setNameFilter(nameFilter);
@@ -814,12 +770,12 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
-void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl&)
+void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl &)
 {
     saveViewState();
 }
 
-void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
+void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
 {
     if (m_urlNavigatorConnected) {
         m_urlNavigatorConnected->slotReturnPressed();
@@ -842,9 +798,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
                               "Dolphin does not support web pages, the web browser has been launched"),
                         Information);
         } else {
-            showMessage(i18nc("@info:status",
-                              "Protocol not supported by Dolphin, default application has been launched"),
-                        Information);
+            showMessage(i18nc("@info:status", "Protocol not supported by Dolphin, default application has been launched"), Information);
         }
 
         QDesktopServices::openUrl(url);
@@ -855,7 +809,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     }
 }
 
-void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
+void DolphinViewContainer::slotUrlSelectionRequested(const QUrl &url)
 {
     m_view->markUrlsAsSelected({url});
     m_view->markUrlAsCurrent(url); // makes the item scroll into view
@@ -863,17 +817,15 @@ void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
 
 void DolphinViewContainer::disableUrlNavigatorSelectionRequests()
 {
-    disconnect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested,
-        this, &DolphinViewContainer::slotUrlSelectionRequested);
+    disconnect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested, this, &DolphinViewContainer::slotUrlSelectionRequested);
 }
 
 void DolphinViewContainer::enableUrlNavigatorSelectionRequests()
 {
-    connect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested,
-        this, &DolphinViewContainer::slotUrlSelectionRequested);
+    connect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested, this, &DolphinViewContainer::slotUrlSelectionRequested);
 }
 
-void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)
+void DolphinViewContainer::redirect(const QUrl &oldUrl, const QUrl &newUrl)
 {
     Q_UNUSED(oldUrl)
     const bool block = m_urlNavigator->signalsBlocked();
@@ -920,7 +872,7 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
     m_view->setZoomLevel(zoomLevel);
 }
 
-void DolphinViewContainer::showErrorMessage(const QString& msg)
+void DolphinViewContainer::showErrorMessage(const QString &msg)
 {
     showMessage(msg, Error);
 }
@@ -966,7 +918,7 @@ void DolphinViewContainer::slotOpenUrlFinished(KJob *job)
     }
 }
 
-bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
+bool DolphinViewContainer::isSearchUrl(const QUrl &url) const
 {
     return url.scheme().contains(QLatin1String("search"));
 }
@@ -988,13 +940,12 @@ void DolphinViewContainer::tryRestoreViewState()
     }
 }
 
-QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString& path) const
+QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &path) const
 {
     QDir dir(path);
     do {
         dir.setPath(QDir::cleanPath(dir.filePath(QStringLiteral(".."))));
-    }
-    while (!dir.exists() && !dir.isRoot());
+    } while (!dir.exists() && !dir.isRoot());
 
     return dir.exists() ? dir.path() : QString{};
 }

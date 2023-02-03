@@ -21,17 +21,15 @@
 #include <QUrl>
 #include <QVBoxLayout>
 
-ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& pluginName,
-                                                           const QString& desktopEntryName,
-                                                           QWidget* parent) :
-    QDialog(parent)
+ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString &pluginName, const QString &desktopEntryName, QWidget *parent)
+    : QDialog(parent)
 {
     QSharedPointer<ThumbCreator> previewPlugin;
     const QString pluginPath = QPluginLoader(desktopEntryName).fileName();
     if (!pluginPath.isEmpty()) {
         newCreator create = (newCreator)QLibrary::resolve(pluginPath, "new_creator");
         if (create) {
-            previewPlugin.reset(dynamic_cast<ThumbCreator*>(create()));
+            previewPlugin.reset(dynamic_cast<ThumbCreator *>(create()));
         }
     }
 

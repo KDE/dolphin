@@ -8,11 +8,11 @@
 
 #include "zoomlevelinfo.h"
 
-ViewModeController::ViewModeController(QObject* parent) :
-    QObject(parent),
-    m_zoomLevel(0),
-    m_nameFilter(),
-    m_url()
+ViewModeController::ViewModeController(QObject *parent)
+    : QObject(parent)
+    , m_zoomLevel(0)
+    , m_nameFilter()
+    , m_url()
 {
 }
 
@@ -25,7 +25,7 @@ QUrl ViewModeController::url() const
     return m_url;
 }
 
-void ViewModeController::redirectToUrl(const QUrl& url)
+void ViewModeController::redirectToUrl(const QUrl &url)
 {
     m_url = url;
 }
@@ -35,7 +35,7 @@ void ViewModeController::indicateActivationChange(bool active)
     Q_EMIT activationChanged(active);
 }
 
-void ViewModeController::setNameFilter(const QString& nameFilter)
+void ViewModeController::setNameFilter(const QString &nameFilter)
 {
     if (nameFilter != m_nameFilter) {
         m_nameFilter = nameFilter;
@@ -63,7 +63,7 @@ int ViewModeController::zoomLevel() const
     return m_zoomLevel;
 }
 
-void ViewModeController::setUrl(const QUrl& url)
+void ViewModeController::setUrl(const QUrl &url)
 {
     if (m_url != url) {
         m_url = url;
@@ -71,4 +71,3 @@ void ViewModeController::setUrl(const QUrl& url)
         Q_EMIT urlChanged(url);
     }
 }
-

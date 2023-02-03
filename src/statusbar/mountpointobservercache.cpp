@@ -19,11 +19,10 @@ public:
 };
 Q_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
 
-
-MountPointObserverCache::MountPointObserverCache() :
-    m_observerForMountPoint(),
-    m_mountPointForObserver(),
-    m_updateTimer(nullptr)
+MountPointObserverCache::MountPointObserverCache()
+    : m_observerForMountPoint()
+    , m_mountPointForObserver()
+    , m_updateTimer(nullptr)
 {
     m_updateTimer = new QTimer(this);
 }
@@ -32,12 +31,12 @@ MountPointObserverCache::~MountPointObserverCache()
 {
 }
 
-MountPointObserverCache* MountPointObserverCache::instance()
+MountPointObserverCache *MountPointObserverCache::instance()
 {
     return &s_MountPointObserverCache->instance;
 }
 
-MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
+MountPointObserver *MountPointObserverCache::observerForUrl(const QUrl &url)
 {
     QUrl cachedObserverUrl;
     // If the url is a local path we can extract the root dir by checking the mount points.
@@ -55,7 +54,7 @@ MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
         cachedObserverUrl = url;
     }
 
-    MountPointObserver* observer = m_observerForMountPoint.value(cachedObserverUrl);
+    MountPointObserver *observer = m_observerForMountPoint.value(cachedObserverUrl);
     if (!observer) {
         observer = new MountPointObserver(cachedObserverUrl, this);
         m_observerForMountPoint.insert(cachedObserverUrl, observer);
@@ -74,10 +73,10 @@ MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
     return observer;
 }
 
-void MountPointObserverCache::slotObserverDestroyed(QObject* observer)
+void MountPointObserverCache::slotObserverDestroyed(QObject *observer)
 {
     Q_ASSERT(m_mountPointForObserver.contains(observer));
-    const QUrl& url = m_mountPointForObserver.value(observer);
+    const QUrl &url = m_mountPointForObserver.value(observer);
     Q_ASSERT(m_observerForMountPoint.contains(url));
     m_observerForMountPoint.remove(url);
     m_mountPointForObserver.remove(observer);

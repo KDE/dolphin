@@ -7,8 +7,8 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
-#include <KFileItem>
 #include "config-dolphin.h"
+#include <KFileItem>
 
 #include <QPointer>
 #include <QUrl>
@@ -24,12 +24,14 @@ class QLabel;
 class QScrollArea;
 class QGestureEvent;
 
-namespace KIO {
-  class PreviewJob;
+namespace KIO
+{
+class PreviewJob;
 }
 
-namespace Baloo {
-    class FileMetaDataWidget;
+namespace Baloo
+{
+class FileMetaDataWidget;
 }
 
 /**
@@ -41,7 +43,7 @@ class InformationPanelContent : public QWidget
     Q_OBJECT
 
 public:
-    explicit InformationPanelContent(QWidget* parent = nullptr);
+    explicit InformationPanelContent(QWidget *parent = nullptr);
     ~InformationPanelContent() override;
 
     /**
@@ -49,12 +51,12 @@ public:
      * The preview of the item is generated asynchronously,
      * the other meta information are fetched synchronously.
      */
-    void showItem(const KFileItem& item);
+    void showItem(const KFileItem &item);
 
     /**
      * Shows the meta information for the items \p items and its preview
      */
-    void showItems(const KFileItemList& items);
+    void showItems(const KFileItemList &items);
 
     KFileItemList items();
 
@@ -76,9 +78,9 @@ public:
     void setPreviewAutoPlay(bool autoPlay);
 
 Q_SIGNALS:
-    void urlActivated( const QUrl& url );
+    void urlActivated(const QUrl &url);
     void configurationFinished();
-    void contextMenuRequested(const QPoint& pos);
+    void contextMenuRequested(const QPoint &pos);
 
 public Q_SLOTS:
     /**
@@ -89,22 +91,22 @@ public Q_SLOTS:
 
 protected:
     /** @see QObject::eventFilter() */
-    bool eventFilter(QObject* obj, QEvent* event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
-    bool event(QEvent * event) override;
+    bool event(QEvent *event) override;
 
 private Q_SLOTS:
     /**
      * Is invoked if no preview is available for the item. In this
      * case the icon will be shown.
      */
-    void showIcon(const KFileItem& item);
+    void showIcon(const KFileItem &item);
 
     /**
      * Is invoked if a preview is available for the item. The preview
      * \a pixmap is shown inside the info page.
      */
-    void showPreview(const KFileItem& item, const QPixmap& pixmap);
+    void showPreview(const KFileItem &item, const QPixmap &pixmap);
 
     /**
      * Marks the currently shown preview as outdated
@@ -121,7 +123,7 @@ private:
      * label width (QLabel::setWordWrap() does not work if the
      * text represents one extremely long word).
      */
-    void setNameLabelText(const QString& text);
+    void setNameLabelText(const QString &text);
 
     /**
      * Adjusts the sizes of the widgets dependent on the available
@@ -134,21 +136,21 @@ private:
      */
     void refreshPixmapView();
 
-    bool gestureEvent(QGestureEvent* event);
+    bool gestureEvent(QGestureEvent *event);
 
 private:
     KFileItem m_item;
 
     QPointer<KIO::PreviewJob> m_previewJob;
-    QTimer* m_outdatedPreviewTimer;
+    QTimer *m_outdatedPreviewTimer;
 
-    PixmapViewer* m_preview;
-    PhononWidget* m_phononWidget;
-    QLabel* m_nameLabel;
-    Baloo::FileMetaDataWidget* m_metaDataWidget;
-    QScrollArea* m_metaDataArea;
-    QLabel* m_configureLabel;
-    QDialogButtonBox* m_configureButtons;
+    PixmapViewer *m_preview;
+    PhononWidget *m_phononWidget;
+    QLabel *m_nameLabel;
+    Baloo::FileMetaDataWidget *m_metaDataWidget;
+    QScrollArea *m_metaDataArea;
+    QLabel *m_configureLabel;
+    QDialogButtonBox *m_configureButtons;
 
     bool m_isVideo;
 };

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
- /*
+/*
  * This code is largely based on the kremoteencodingplugin
  * SPDX-FileCopyrightText: 2003 Thiago Macieira <thiago.macieira@kdemail.net>
  * Distributed under the same terms.
@@ -12,8 +12,8 @@
 
 #include "dolphinremoteencoding.h"
 
-#include "dolphinviewactionhandler.h"
 #include "dolphindebug.h"
+#include "dolphinviewactionhandler.h"
 
 #include <KActionCollection>
 #include <KActionMenu>
@@ -27,18 +27,17 @@
 
 #include <QMenu>
 
-#define DATA_KEY        QStringLiteral("Charset")
+#define DATA_KEY QStringLiteral("Charset")
 
-DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionHandler* actionHandler)
-   :QObject(parent),
-    m_actionHandler(actionHandler),
-    m_loaded(false),
-    m_idDefault(0)
+DolphinRemoteEncoding::DolphinRemoteEncoding(QObject *parent, DolphinViewActionHandler *actionHandler)
+    : QObject(parent)
+    , m_actionHandler(actionHandler)
+    , m_loaded(false)
+    , m_idDefault(0)
 {
     m_menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("character-set")), i18n("Select Remote Charset"), this);
     m_actionHandler->actionCollection()->addAction(QStringLiteral("change_remote_encoding"), m_menu);
-    connect(m_menu->menu(), &QMenu::aboutToShow,
-          this, &DolphinRemoteEncoding::slotAboutToShow);
+    connect(m_menu->menu(), &QMenu::aboutToShow, this, &DolphinRemoteEncoding::slotAboutToShow);
 
     m_menu->setEnabled(false);
     m_menu->setPopupMode(QToolButton::InstantPopup);
@@ -69,9 +68,7 @@ void DolphinRemoteEncoding::slotAboutToOpenUrl()
     if (m_currentURL.scheme() != oldURL.scheme()) {
         // This plugin works on ftp, fish, etc.
         // everything whose type is T_FILESYSTEM except for local files
-        if (!m_currentURL.isLocalFile() &&
-            KProtocolManager::outputType(m_currentURL) == KProtocolInfo::T_FILESYSTEM) {
-
+        if (!m_currentURL.isLocalFile() && KProtocolManager::outputType(m_currentURL) == KProtocolInfo::T_FILESYSTEM) {
             m_menu->setEnabled(true);
             loadSettings();
         } else {
@@ -87,12 +84,12 @@ void DolphinRemoteEncoding::slotAboutToOpenUrl()
 
 void DolphinRemoteEncoding::fillMenu()
 {
-    QMenu* menu = m_menu->menu();
+    QMenu *menu = m_menu->menu();
     menu->clear();
 
     menu->addAction(i18n("Default"), this, SLOT(slotDefault()), 0)->setCheckable(true);
-    for (int i = 0; i < m_encodingDescriptions.size();i++) {
-        QAction* action = new QAction(m_encodingDescriptions.at(i), this);
+    for (int i = 0; i < m_encodingDescriptions.size(); i++) {
+        QAction *action = new QAction(m_encodingDescriptions.at(i), this);
         action->setCheckable(true);
         action->setData(i);
         menu->addAction(action);
@@ -112,7 +109,7 @@ void DolphinRemoteEncoding::updateMenu()
     }
 
     // uncheck everything
-    for (int i =  0; i < m_menu->menu()->actions().count(); i++) {
+    for (int i = 0; i < m_menu->menu()->actions().count(); i++) {
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
 
@@ -131,14 +128,13 @@ void DolphinRemoteEncoding::updateMenu()
         qCDebug(DolphinDebug) << "URL=" << m_currentURL << " charset=" << charset;
 
         if (!isFound) {
-            qCWarning(DolphinDebug) << "could not find entry for charset=" << charset ;
+            qCWarning(DolphinDebug) << "could not find entry for charset=" << charset;
         } else {
             m_menu->menu()->actions().at(id)->setChecked(true);
         }
     } else {
         m_menu->menu()->actions().at(m_idDefault)->setChecked(true);
     }
-
 }
 
 void DolphinRemoteEncoding::slotAboutToShow()
@@ -149,7 +145,7 @@ void DolphinRemoteEncoding::slotAboutToShow()
     updateMenu();
 }
 
-void DolphinRemoteEncoding::slotItemSelected(QAction* action)
+void DolphinRemoteEncoding::slotItemSelected(QAction *action)
 {
     if (action) {
         int id = action->data().toInt();
@@ -197,7 +193,7 @@ void DolphinRemoteEncoding::slotDefault()
             partList.erase(partList.begin());
         }
 
-        for (QStringList::const_iterator it = domains.constBegin(); it != domains.constEnd();++it) {
+        for (QStringList::const_iterator it = domains.constBegin(); it != domains.constEnd(); ++it) {
             qCDebug(DolphinDebug) << "Domain to remove: " << *it;
             if (config.hasGroup(*it)) {
                 config.deleteGroup(*it);
@@ -219,4 +215,3 @@ void DolphinRemoteEncoding::updateView()
     m_actionHandler->currentView()->setUrl(m_currentURL);
     m_actionHandler->currentView()->reload();
 }
-

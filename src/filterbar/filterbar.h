@@ -24,7 +24,7 @@ class FilterBar : public QWidget
     Q_OBJECT
 
 public:
-    explicit FilterBar(QWidget* parent = nullptr);
+    explicit FilterBar(QWidget *parent = nullptr);
     ~FilterBar() override;
 
     /** Called by view container to hide this **/
@@ -48,7 +48,7 @@ Q_SIGNALS:
      * Signal that reports the name filter has been
      * changed to \a nameFilter.
      */
-    void filterChanged(const QString& nameFilter);
+    void filterChanged(const QString &nameFilter);
 
     /**
      * Emitted as soon as the filterbar should get closed.
@@ -61,12 +61,12 @@ Q_SIGNALS:
     void focusViewRequest();
 
 protected:
-    void showEvent(QShowEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
+    void showEvent(QShowEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
 private:
-    QLineEdit* m_filterInput;
-    QToolButton* m_lockButton;
+    QLineEdit *m_filterInput;
+    QToolButton *m_lockButton;
 };
 
 #endif

@@ -25,15 +25,15 @@ class DOLPHIN_EXPORT DolphinNewFileMenu : public KNewFileMenu
     Q_OBJECT
 
 public:
-    DolphinNewFileMenu(KActionCollection* collection, QObject* parent);
+    DolphinNewFileMenu(KActionCollection *collection, QObject *parent);
     ~DolphinNewFileMenu() override;
 
 Q_SIGNALS:
-    void errorMessage(const QString& error);
+    void errorMessage(const QString &error);
 
 protected Q_SLOTS:
     /** @see KNewFileMenu::slotResult() */
-    void slotResult(KJob* job) override;
+    void slotResult(KJob *job) override;
 };
 
 #endif

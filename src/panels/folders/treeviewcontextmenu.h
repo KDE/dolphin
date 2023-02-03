@@ -30,13 +30,12 @@ public:
      *                is applied. If 0 is passed, the context menu
      *                is above the viewport.
      */
-    TreeViewContextMenu(FoldersPanel* parent,
-                        const KFileItem& fileInfo);
+    TreeViewContextMenu(FoldersPanel *parent, const KFileItem &fileInfo);
 
     ~TreeViewContextMenu() override;
 
     /** Opens the context menu modal. */
-    void open(const QPoint& pos);
+    void open(const QPoint &pos);
 
 private Q_SLOTS:
     /** Cuts the item m_fileItem. */
@@ -79,10 +78,10 @@ private Q_SLOTS:
     void setAutoScrolling(bool enable);
 
 private:
-    void populateMimeData(QMimeData* mimeData, bool cut);
+    void populateMimeData(QMimeData *mimeData, bool cut);
 
 private:
-    FoldersPanel* m_parent;
+    FoldersPanel *m_parent;
     KFileItem m_fileItem;
 };
 

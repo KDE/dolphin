@@ -15,8 +15,8 @@
 #include <QLineEdit>
 #include <QToolButton>
 
-FilterBar::FilterBar(QWidget* parent) :
-    QWidget(parent)
+FilterBar::FilterBar(QWidget *parent)
+    : QWidget(parent)
 {
     // Create button to lock text when changing folders
     m_lockButton = new QToolButton(this);
@@ -26,14 +26,12 @@ FilterBar::FilterBar(QWidget* parent) :
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
     connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
-
     // Create filter editor
     m_filterInput = new QLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonEnabled(true);
     m_filterInput->setPlaceholderText(i18n("Filter..."));
-    connect(m_filterInput, &QLineEdit::textChanged,
-            this, &FilterBar::filterChanged);
+    connect(m_filterInput, &QLineEdit::textChanged, this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 
     // Create close button
@@ -44,7 +42,7 @@ FilterBar::FilterBar(QWidget* parent) :
     connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
 
     // Apply layout
-    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setContentsMargins(0, 0, 0, 0);
     hLayout->addWidget(m_lockButton);
     hLayout->addWidget(m_filterInput);
@@ -91,14 +89,14 @@ void FilterBar::slotToggleLockButton(bool checked)
     }
 }
 
-void FilterBar::showEvent(QShowEvent* event)
+void FilterBar::showEvent(QShowEvent *event)
 {
     if (!event->spontaneous()) {
         m_filterInput->setFocus();
     }
 }
 
-void FilterBar::keyReleaseEvent(QKeyEvent* event)
+void FilterBar::keyReleaseEvent(QKeyEvent *event)
 {
     QWidget::keyReleaseEvent(event);
 
@@ -120,4 +118,3 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
         break;
     }
 }
-

@@ -42,13 +42,15 @@ public:
     ActionWithWidget(QAction *action, QAbstractButton *button);
 
     /** @returns the action of this object. */
-    inline QAction *action() {
+    inline QAction *action()
+    {
         Q_CHECK_PTR(m_action);
         return m_action;
     };
 
     /** @returns the widget of this object. */
-    inline QWidget *widget() {
+    inline QWidget *widget()
+    {
         return m_widget;
     }
 
@@ -61,7 +63,8 @@ public:
     QWidget *newWidget(QWidget *parent);
 
     /** returns true if the widget exists and is visible. false otherwise. */
-    inline bool isWidgetVisible() const {
+    inline bool isWidgetVisible() const
+    {
         return m_widget && m_widget->isVisible();
     };
 

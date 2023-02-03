@@ -73,8 +73,7 @@ class DOLPHINVCS_EXPORT KVersionControlPlugin : public QObject
     Q_OBJECT
 
 public:
-    enum ItemVersion
-    {
+    enum ItemVersion {
         /** The file is not under version control. */
         UnversionedVersion,
         /**
@@ -131,7 +130,7 @@ public:
         MissingVersion
     };
 
-    KVersionControlPlugin(QObject* parent = nullptr);
+    KVersionControlPlugin(QObject *parent = nullptr);
     ~KVersionControlPlugin() override;
 
     /**
@@ -145,7 +144,7 @@ public:
      * Returns the path of the local repository root for the versioned directory
      * Returns an empty QString when directory is not part of a working copy
      */
-    virtual QString localRepositoryRoot(const QString& directory) const;
+    virtual QString localRepositoryRoot(const QString &directory) const;
 
     /**
      * Is invoked whenever the version control
@@ -153,7 +152,7 @@ public:
      * \p directory. It is assured that the directory
      * contains a trailing slash.
      */
-    virtual bool beginRetrieval(const QString& directory) = 0;
+    virtual bool beginRetrieval(const QString &directory) = 0;
 
     /**
      * Is invoked after the version control information has been
@@ -169,13 +168,13 @@ public:
      *         invoked before and that the file is part of the directory specified
      *         in beginRetrieval().
      */
-    virtual ItemVersion itemVersion(const KFileItem& item) const = 0;
+    virtual ItemVersion itemVersion(const KFileItem &item) const = 0;
 
     /**
      * @return List of actions that are available for the \p items in a version controlled
      *         path.
      */
-    virtual QList<QAction*> versionControlActions(const KFileItemList& items) const = 0;
+    virtual QList<QAction *> versionControlActions(const KFileItemList &items) const = 0;
 
     /**
      * @return List of actions that are available for the out of version control
@@ -183,7 +182,7 @@ public:
      *         is for clone/checkout actions.
      * @since 21.04
      */
-    virtual QList<QAction*> outOfVersionControlActions(const KFileItemList& items) const = 0;
+    virtual QList<QAction *> outOfVersionControlActions(const KFileItemList &items) const = 0;
 
 Q_SIGNALS:
     /**
@@ -201,20 +200,19 @@ Q_SIGNALS:
      * Is emitted if an information message with the content \a msg
      * should be shown.
      */
-    void infoMessage(const QString& msg);
+    void infoMessage(const QString &msg);
 
     /**
      * Is emitted if an error message with the content \a msg
      * should be shown.
      */
-    void errorMessage(const QString& msg);
+    void errorMessage(const QString &msg);
 
     /**
      * Is emitted if an "operation completed" message with the content \a msg
      * should be shown.
      */
-    void operationCompletedMessage(const QString& msg);
+    void operationCompletedMessage(const QString &msg);
 };
 
 #endif // KVERSIONCONTROLPLUGIN_H
-

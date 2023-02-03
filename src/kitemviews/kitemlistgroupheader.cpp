@@ -14,17 +14,17 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
-KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
-    QGraphicsWidget(parent),
-    m_dirtyCache(true),
-    m_role(),
-    m_data(),
-    m_styleOption(),
-    m_scrollOrientation(Qt::Vertical),
-    m_itemIndex(-1),
-    m_separatorColor(),
-    m_roleColor(),
-    m_roleBounds()
+KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget *parent)
+    : QGraphicsWidget(parent)
+    , m_dirtyCache(true)
+    , m_role()
+    , m_data()
+    , m_styleOption()
+    , m_scrollOrientation(Qt::Vertical)
+    , m_itemIndex(-1)
+    , m_separatorColor()
+    , m_roleColor()
+    , m_roleBounds()
 {
 }
 
@@ -32,7 +32,7 @@ KItemListGroupHeader::~KItemListGroupHeader()
 {
 }
 
-void KItemListGroupHeader::setRole(const QByteArray& role)
+void KItemListGroupHeader::setRole(const QByteArray &role)
 {
     if (m_role != role) {
         const QByteArray previous = m_role;
@@ -47,7 +47,7 @@ QByteArray KItemListGroupHeader::role() const
     return m_role;
 }
 
-void KItemListGroupHeader::setData(const QVariant& data)
+void KItemListGroupHeader::setData(const QVariant &data)
 {
     if (m_data != data) {
         const QVariant previous = m_data;
@@ -62,7 +62,7 @@ QVariant KItemListGroupHeader::data() const
     return m_data;
 }
 
-void KItemListGroupHeader::setStyleOption(const KItemListStyleOption& option)
+void KItemListGroupHeader::setStyleOption(const KItemListStyleOption &option)
 {
     if (m_styleOption == option) {
         return;
@@ -74,7 +74,7 @@ void KItemListGroupHeader::setStyleOption(const KItemListStyleOption& option)
     styleOptionChanged(option, previous);
 }
 
-const KItemListStyleOption& KItemListGroupHeader::styleOption() const
+const KItemListStyleOption &KItemListGroupHeader::styleOption() const
 {
     return m_styleOption;
 }
@@ -111,7 +111,7 @@ Qt::Orientation KItemListGroupHeader::scrollOrientation() const
     return m_scrollOrientation;
 }
 
-void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KItemListGroupHeader::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(painter)
     Q_UNUSED(option)
@@ -125,19 +125,19 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
     paintRole(painter, m_roleBounds, m_roleColor);
 }
 
-void KItemListGroupHeader::roleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemListGroupHeader::roleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
+void KItemListGroupHeader::dataChanged(const QVariant &current, const QVariant &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
 }
 
-void KItemListGroupHeader::styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
+void KItemListGroupHeader::styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -155,7 +155,7 @@ void KItemListGroupHeader::itemIndexChanged(int current, int previous)
     Q_UNUSED(previous)
 }
 
-void KItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     QGraphicsWidget::resizeEvent(event);
     if (event->oldSize().height() != event->newSize().height()) {
@@ -190,22 +190,19 @@ void KItemListGroupHeader::updateSize()
 
     const int y = (m_scrollOrientation == Qt::Vertical) ? padding : horizontalMargin;
 
-    m_roleBounds = QRectF(horizontalMargin + padding,
-                          y,
-                          size().width() - 2 * padding - horizontalMargin,
-                          roleHeight);
+    m_roleBounds = QRectF(horizontalMargin + padding, y, size().width() - 2 * padding - horizontalMargin, roleHeight);
 
     update();
 }
 
-QColor KItemListGroupHeader::mixedColor(const QColor& c1, const QColor& c2, int c1Percent)
+QColor KItemListGroupHeader::mixedColor(const QColor &c1, const QColor &c2, int c1Percent)
 {
     Q_ASSERT(c1Percent >= 0 && c1Percent <= 100);
 
     const int c2Percent = 100 - c1Percent;
-    return QColor((c1.red()   * c1Percent + c2.red()   * c2Percent) / 100,
+    return QColor((c1.red() * c1Percent + c2.red() * c2Percent) / 100,
                   (c1.green() * c1Percent + c2.green() * c2Percent) / 100,
-                  (c1.blue()  * c1Percent + c2.blue()  * c2Percent) / 100);
+                  (c1.blue() * c1Percent + c2.blue() * c2Percent) / 100);
 }
 
 QPalette::ColorRole KItemListGroupHeader::normalTextColorRole() const
@@ -229,4 +226,3 @@ QColor KItemListGroupHeader::baseColor() const
     const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
     return styleOption().palette.color(group, normalBaseColorRole());
 }
-

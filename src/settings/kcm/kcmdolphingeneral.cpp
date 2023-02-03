@@ -7,8 +7,8 @@
 #include "kcmdolphingeneral.h"
 
 #include "settings/general/behaviorsettingspage.h"
-#include "settings/general/previewssettingspage.h"
 #include "settings/general/confirmationssettingspage.h"
+#include "settings/general/previewssettingspage.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -19,30 +19,30 @@
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinGeneralConfigModule, "kcmdolphingeneral.json")
 
-DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget *parent, const QVariantList &args) :
-    KCModule(parent, args),
-    m_pages()
+DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget *parent, const QVariantList &args)
+    : KCModule(parent, args)
+    , m_pages()
 {
     setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
-    QTabWidget* tabWidget = new QTabWidget(this);
+    QTabWidget *tabWidget = new QTabWidget(this);
 
     // initialize 'Behavior' tab
-    BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
+    BehaviorSettingsPage *behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
     tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
     connect(behaviorPage, &BehaviorSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
 
     // initialize 'Previews' tab
-    PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
+    PreviewsSettingsPage *previewsPage = new PreviewsSettingsPage(tabWidget);
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
     connect(previewsPage, &PreviewsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
 
     // initialize 'Confirmations' tab
-    ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
-    tabWidget->addTab(confirmationsPage,  i18nc("@title:tab Confirmations settings", "Confirmations"));
+    ConfirmationsSettingsPage *confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
+    tabWidget->addTab(confirmationsPage, i18nc("@title:tab Confirmations settings", "Confirmations"));
     connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);
@@ -57,14 +57,14 @@ DolphinGeneralConfigModule::~DolphinGeneralConfigModule()
 
 void DolphinGeneralConfigModule::save()
 {
-    for (SettingsPageBase* page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : qAsConst(m_pages)) {
         page->applySettings();
     }
 }
 
 void DolphinGeneralConfigModule::defaults()
 {
-    for (SettingsPageBase* page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : qAsConst(m_pages)) {
         page->applySettings();
     }
 }

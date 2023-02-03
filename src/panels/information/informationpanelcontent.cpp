@@ -6,8 +6,8 @@
 
 #include "informationpanelcontent.h"
 
-#include <KIO/PreviewJob>
 #include <KConfigGroup>
+#include <KIO/PreviewJob>
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KJobWidgets>
@@ -45,17 +45,17 @@
 const int PLAY_ARROW_SIZE = 24;
 const int PLAY_ARROW_BORDER_SIZE = 2;
 
-InformationPanelContent::InformationPanelContent(QWidget* parent) :
-    QWidget(parent),
-    m_item(),
-    m_previewJob(nullptr),
-    m_outdatedPreviewTimer(nullptr),
-    m_preview(nullptr),
-    m_phononWidget(nullptr),
-    m_nameLabel(nullptr),
-    m_metaDataWidget(nullptr),
-    m_metaDataArea(nullptr),
-    m_isVideo(false)
+InformationPanelContent::InformationPanelContent(QWidget *parent)
+    : QWidget(parent)
+    , m_item()
+    , m_previewJob(nullptr)
+    , m_outdatedPreviewTimer(nullptr)
+    , m_preview(nullptr)
+    , m_phononWidget(nullptr)
+    , m_nameLabel(nullptr)
+    , m_metaDataWidget(nullptr)
+    , m_metaDataArea(nullptr)
+    , m_isVideo(false)
 {
     parent->installEventFilter(this);
 
@@ -65,10 +65,9 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_outdatedPreviewTimer = new QTimer(this);
     m_outdatedPreviewTimer->setInterval(100);
     m_outdatedPreviewTimer->setSingleShot(true);
-    connect(m_outdatedPreviewTimer, &QTimer::timeout,
-            this, &InformationPanelContent::markOutdatedPreview);
+    connect(m_outdatedPreviewTimer, &QTimer::timeout, this, &InformationPanelContent::markOutdatedPreview);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
 
     // preview
     const int minPreviewWidth = KIconLoader::SizeEnormous + KIconLoader::SizeMedium;
@@ -81,8 +80,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget->hide();
     m_phononWidget->setMinimumWidth(minPreviewWidth);
     m_phononWidget->setAutoPlay(InformationPanelSettings::previewsAutoPlay());
-    connect(m_phononWidget, &PhononWidget::hasVideoChanged,
-            this, &InformationPanelContent::slotHasVideoChanged);
+    connect(m_phononWidget, &PhononWidget::hasVideoChanged, this, &InformationPanelContent::slotHasVideoChanged);
 
     // name
     m_nameLabel = new QLabel(parent);
@@ -99,40 +97,36 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 
     m_metaDataWidget = new Baloo::FileMetaDataWidget(parent);
     m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
-    connect(m_metaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
-            this, &InformationPanelContent::urlActivated);
+    connect(m_metaDataWidget, &Baloo::FileMetaDataWidget::urlActivated, this, &InformationPanelContent::urlActivated);
     m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     // Configuration
-    m_configureLabel = new QLabel(i18nc("@label::textbox",
-                                        "Select which data should be shown:"), this);
+    m_configureLabel = new QLabel(i18nc("@label::textbox", "Select which data should be shown:"), this);
     m_configureLabel->setWordWrap(true);
     m_configureLabel->setVisible(false);
 
     m_configureButtons = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     m_configureButtons->setVisible(false);
     connect(m_configureButtons, &QDialogButtonBox::accepted, this, [this]() {
-                m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Accept);
-                m_configureButtons->setVisible(false);
-                m_configureLabel->setVisible(false);
-                Q_EMIT configurationFinished();
-            }
-    );
+        m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Accept);
+        m_configureButtons->setVisible(false);
+        m_configureLabel->setVisible(false);
+        Q_EMIT configurationFinished();
+    });
     connect(m_configureButtons, &QDialogButtonBox::rejected, this, [this]() {
-                m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Cancel);
-                m_configureButtons->setVisible(false);
-                m_configureLabel->setVisible(false);
-                Q_EMIT configurationFinished();
-            }
-    );
+        m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Cancel);
+        m_configureButtons->setVisible(false);
+        m_configureLabel->setVisible(false);
+        Q_EMIT configurationFinished();
+    });
 
     m_metaDataArea = new QScrollArea(parent);
     m_metaDataArea->setWidget(m_metaDataWidget);
     m_metaDataArea->setWidgetResizable(true);
     m_metaDataArea->setFrameShape(QFrame::NoFrame);
 
-    QWidget* viewport = m_metaDataArea->viewport();
+    QWidget *viewport = m_metaDataArea->viewport();
     QScroller::grabGesture(viewport, QScroller::TouchGesture);
     viewport->installEventFilter(this);
 
@@ -152,7 +146,7 @@ InformationPanelContent::~InformationPanelContent()
     InformationPanelSettings::self()->save();
 }
 
-void InformationPanelContent::showItem(const KFileItem& item)
+void InformationPanelContent::showItem(const KFileItem &item)
 {
     // compares item entries, comparing items only compares urls
     if (m_item.entry() != item.entry()) {
@@ -181,19 +175,15 @@ void InformationPanelContent::refreshPixmapView()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
-    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
-                                       QSize(m_preview->width(), m_preview->height()),
-                                       &plugins);
+    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, QSize(m_preview->width(), m_preview->height()), &plugins);
     m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
     m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (m_previewJob->uiDelegate()) {
         KJobWidgets::setWindow(m_previewJob, this);
     }
 
-    connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
-            this, &InformationPanelContent::showPreview);
-    connect(m_previewJob.data(), &KIO::PreviewJob::failed,
-            this, &InformationPanelContent::showIcon);
+    connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview, this, &InformationPanelContent::showPreview);
+    connect(m_previewJob.data(), &KIO::PreviewJob::failed, this, &InformationPanelContent::showIcon);
 }
 
 void InformationPanelContent::refreshPreview()
@@ -207,7 +197,6 @@ void InformationPanelContent::refreshPreview()
     m_preview->setCursor(Qt::ArrowCursor);
     setNameLabelText(m_item.text());
     if (InformationPanelSettings::previewsShown()) {
-
         const QUrl itemUrl = m_item.url();
         const bool isSearchUrl = itemUrl.scheme().contains(QLatin1String("search")) && m_item.localPath().isEmpty();
         if (isSearchUrl) {
@@ -216,11 +205,8 @@ void InformationPanelContent::refreshPreview()
 
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
-            m_preview->setPixmap(
-                QIcon::fromTheme(QStringLiteral("baloo")).pixmap(m_preview->height(), m_preview->width())
-            );
+            m_preview->setPixmap(QIcon::fromTheme(QStringLiteral("baloo")).pixmap(m_preview->height(), m_preview->width()));
         } else {
-
             refreshPixmapView();
 
             const QString mimeType = m_item.mimetype();
@@ -238,12 +224,9 @@ void InformationPanelContent::refreshPreview()
                 // we don't need to update the preview/phonon widget states
                 // unless the previewed file has changed,
                 // or the setting previewshown has changed
-                if ((m_phononWidget->state() != Phonon::State::PlayingState &&
-                     m_phononWidget->state() != Phonon::State::PausedState &&
-                     m_phononWidget->state() != Phonon::State::StoppedState) ||
-                        m_item.targetUrl() != m_phononWidget->url() ||
-                        (!m_preview->isVisible() &&! m_phononWidget->isVisible())) {
-
+                if ((m_phononWidget->state() != Phonon::State::PlayingState && m_phononWidget->state() != Phonon::State::PausedState
+                     && m_phononWidget->state() != Phonon::State::StoppedState)
+                    || m_item.targetUrl() != m_phononWidget->url() || (!m_preview->isVisible() && !m_phononWidget->isVisible())) {
                     if (InformationPanelSettings::previewsAutoPlay() && m_isVideo) {
                         // hides the preview now to avoid flickering when the autoplay video starts
                         m_preview->hide();
@@ -287,7 +270,7 @@ void InformationPanelContent::refreshMetaData()
     m_metaDataWidget->setItems(KFileItemList() << m_item);
 }
 
-void InformationPanelContent::showItems(const KFileItemList& items)
+void InformationPanelContent::showItems(const KFileItemList &items)
 {
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
@@ -297,9 +280,7 @@ void InformationPanelContent::showItems(const KFileItemList& items)
 
     m_preview->stopAnimatedImage();
 
-    m_preview->setPixmap(
-        QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(m_preview->height(), m_preview->width())
-    );
+    m_preview->setPixmap(QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(m_preview->height(), m_preview->width()));
     setNameLabelText(i18ncp("@label", "%1 item selected", "%1 items selected", items.count()));
 
     m_metaDataWidget->setItems(items);
@@ -309,11 +290,11 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     m_item = KFileItem();
 }
 
-bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
+bool InformationPanelContent::eventFilter(QObject *obj, QEvent *event)
 {
     switch (event->type()) {
     case QEvent::Resize: {
-        QResizeEvent* resizeEvent = static_cast<QResizeEvent*>(event);
+        QResizeEvent *resizeEvent = static_cast<QResizeEvent *>(event);
         if (obj == m_metaDataArea->viewport()) {
             // The size of the meta text area has changed. Adjust the fixed
             // width in a way that no horizontal scrollbar needs to be shown.
@@ -339,22 +320,22 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
-bool InformationPanelContent::event(QEvent* event)
+bool InformationPanelContent::event(QEvent *event)
 {
     if (event->type() == QEvent::Gesture) {
-        gestureEvent(static_cast<QGestureEvent*>(event));
+        gestureEvent(static_cast<QGestureEvent *>(event));
         return true;
     }
     return QWidget::event(event);
 }
 
-bool InformationPanelContent::gestureEvent(QGestureEvent* event)
+bool InformationPanelContent::gestureEvent(QGestureEvent *event)
 {
     if (!underMouse()) {
         return false;
     }
 
-    QTapAndHoldGesture* tap = static_cast<QTapAndHoldGesture*>(event->gesture(Qt::TapAndHoldGesture));
+    QTapAndHoldGesture *tap = static_cast<QTapAndHoldGesture *>(event->gesture(Qt::TapAndHoldGesture));
 
     if (tap) {
         if (tap->state() == Qt::GestureFinished) {
@@ -366,7 +347,7 @@ bool InformationPanelContent::gestureEvent(QGestureEvent* event)
     return false;
 }
 
-void InformationPanelContent::showIcon(const KFileItem& item)
+void InformationPanelContent::showIcon(const KFileItem &item)
 {
     m_outdatedPreviewTimer->stop();
     QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(m_preview->height(), m_preview->width());
@@ -374,8 +355,7 @@ void InformationPanelContent::showIcon(const KFileItem& item)
     m_preview->setPixmap(pixmap);
 }
 
-void InformationPanelContent::showPreview(const KFileItem& item,
-                                          const QPixmap& pixmap)
+void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &pixmap)
 {
     m_outdatedPreviewTimer->stop();
 
@@ -400,8 +380,7 @@ void InformationPanelContent::showPreview(const KFileItem& item,
         QPainterPath path;
         path.addPolygon(arrow);
 
-        QLinearGradient gradient(QPointF(zeroX, zeroY + arrowSize / 2),
-                                 QPointF(zeroX + arrowSize, zeroY + arrowSize / 2));
+        QLinearGradient gradient(QPointF(zeroX, zeroY + arrowSize / 2), QPointF(zeroX + arrowSize, zeroY + arrowSize / 2));
 
         QColor whiteColor = Qt::white;
         QColor blackColor = Qt::black;
@@ -432,9 +411,7 @@ void InformationPanelContent::markOutdatedPreview()
         showIcon(m_item);
     } else {
         KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
-        QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(),
-                                                   KIconLoader::Desktop,
-                                                   KIconLoader::DisabledState);
+        QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(), KIconLoader::Desktop, KIconLoader::DisabledState);
         m_preview->setPixmap(disabledPixmap);
     }
 }
@@ -454,11 +431,12 @@ void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
     }
 }
 
-void InformationPanelContent::setPreviewAutoPlay(bool autoPlay) {
+void InformationPanelContent::setPreviewAutoPlay(bool autoPlay)
+{
     m_phononWidget->setAutoPlay(autoPlay);
 }
 
-void InformationPanelContent::setNameLabelText(const QString& text)
+void InformationPanelContent::setNameLabelText(const QString &text)
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -511,4 +489,3 @@ void InformationPanelContent::adjustWidgetSizes(int width)
         m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
     }
 }
-

@@ -16,8 +16,9 @@
 class KFileItemList;
 class QLabel;
 
-namespace Baloo {
-    class FileMetaDataWidget;
+namespace Baloo
+{
+class FileMetaDataWidget;
 }
 
 /**
@@ -29,13 +30,13 @@ class DolphinFileMetaDataWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinFileMetaDataWidget(QWidget* parent = nullptr);
+    explicit DolphinFileMetaDataWidget(QWidget *parent = nullptr);
     ~DolphinFileMetaDataWidget() override;
 
-    void setPreview(const QPixmap& pixmap);
+    void setPreview(const QPixmap &pixmap);
     QPixmap preview() const;
 
-    void setName(const QString& name);
+    void setName(const QString &name);
     QString name() const;
 
     /**
@@ -43,7 +44,7 @@ public:
      * The signal metaDataRequestFinished() will be emitted,
      * as soon as the meta data for the items has been received.
      */
-    void setItems(const KFileItemList& items);
+    void setItems(const KFileItemList &items);
     KFileItemList items() const;
 
 Q_SIGNALS:
@@ -51,18 +52,18 @@ Q_SIGNALS:
      * Is emitted after the meta data has been received for the items
      * set by DolphinFileMetaDataWidget::setItems().
      */
-    void metaDataRequestFinished(const KFileItemList& items);
+    void metaDataRequestFinished(const KFileItemList &items);
 
     /**
      * Is emitted when the user clicks a tag or a link
      * in the metadata widget.
      */
-    void urlActivated(const QUrl& url);
+    void urlActivated(const QUrl &url);
 
 private:
-    QLabel* m_preview;
-    QLabel* m_name;
-    Baloo::FileMetaDataWidget* m_fileMetaDataWidget;
+    QLabel *m_preview;
+    QLabel *m_name;
+    Baloo::FileMetaDataWidget *m_fileMetaDataWidget;
 };
 
 #endif

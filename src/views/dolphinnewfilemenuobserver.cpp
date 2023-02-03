@@ -15,37 +15,30 @@ public:
 };
 Q_GLOBAL_STATIC(DolphinNewFileMenuObserverSingleton, s_DolphinNewFileMenuObserver)
 
-DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
+DolphinNewFileMenuObserver &DolphinNewFileMenuObserver::instance()
 {
     return s_DolphinNewFileMenuObserver->instance;
 }
 
-void DolphinNewFileMenuObserver::attach(const DolphinNewFileMenu* menu)
+void DolphinNewFileMenuObserver::attach(const DolphinNewFileMenu *menu)
 {
-    connect(menu, &DolphinNewFileMenu::fileCreated,
-            this, &DolphinNewFileMenuObserver::itemCreated);
-    connect(menu, &DolphinNewFileMenu::directoryCreated,
-            this, &DolphinNewFileMenuObserver::itemCreated);
-    connect(menu, &DolphinNewFileMenu::errorMessage,
-            this, &DolphinNewFileMenuObserver::errorMessage);
+    connect(menu, &DolphinNewFileMenu::fileCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    connect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    connect(menu, &DolphinNewFileMenu::errorMessage, this, &DolphinNewFileMenuObserver::errorMessage);
 }
 
-void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu* menu)
+void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu *menu)
 {
-    disconnect(menu, &DolphinNewFileMenu::fileCreated,
-               this, &DolphinNewFileMenuObserver::itemCreated);
-    disconnect(menu, &DolphinNewFileMenu::directoryCreated,
-               this, &DolphinNewFileMenuObserver::itemCreated);
-    disconnect(menu, &DolphinNewFileMenu::errorMessage,
-               this, &DolphinNewFileMenuObserver::errorMessage);
+    disconnect(menu, &DolphinNewFileMenu::fileCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    disconnect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    disconnect(menu, &DolphinNewFileMenu::errorMessage, this, &DolphinNewFileMenuObserver::errorMessage);
 }
 
-DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :
-    QObject(nullptr)
+DolphinNewFileMenuObserver::DolphinNewFileMenuObserver()
+    : QObject(nullptr)
 {
 }
 
 DolphinNewFileMenuObserver::~DolphinNewFileMenuObserver()
 {
 }
-

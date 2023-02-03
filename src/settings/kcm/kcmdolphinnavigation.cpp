@@ -15,13 +15,13 @@
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinNavigationConfigModule, "kcmdolphinnavigation.json")
 
-DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget *parent, const QVariantList &args) :
-    KCModule(parent, args),
-    m_navigation(nullptr)
+DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget *parent, const QVariantList &args)
+    : KCModule(parent, args)
+    , m_navigation(nullptr)
 {
     setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigation = new NavigationSettingsPage(this);

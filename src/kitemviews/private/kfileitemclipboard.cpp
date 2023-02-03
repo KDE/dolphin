@@ -19,14 +19,12 @@ public:
 };
 Q_GLOBAL_STATIC(KFileItemClipboardSingleton, s_KFileItemClipboard)
 
-
-
-KFileItemClipboard* KFileItemClipboard::instance()
+KFileItemClipboard *KFileItemClipboard::instance()
 {
     return &s_KFileItemClipboard->instance;
 }
 
-bool KFileItemClipboard::isCut(const QUrl& url) const
+bool KFileItemClipboard::isCut(const QUrl &url) const
 {
     return m_cutItems.contains(url);
 }
@@ -42,7 +40,7 @@ KFileItemClipboard::~KFileItemClipboard()
 
 void KFileItemClipboard::updateCutItems()
 {
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    const QMimeData *mimeData = QApplication::clipboard()->mimeData();
 
     // mimeData can be 0 according to https://bugs.kde.org/show_bug.cgi?id=335053
     if (!mimeData) {
@@ -62,12 +60,11 @@ void KFileItemClipboard::updateCutItems()
     Q_EMIT cutItemsChanged();
 }
 
-KFileItemClipboard::KFileItemClipboard() :
-    QObject(nullptr),
-    m_cutItems()
+KFileItemClipboard::KFileItemClipboard()
+    : QObject(nullptr)
+    , m_cutItems()
 {
     updateCutItems();
 
-    connect(QApplication::clipboard(), &QClipboard::dataChanged,
-            this, &KFileItemClipboard::updateCutItems);
+    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &KFileItemClipboard::updateCutItems);
 }

@@ -10,26 +10,26 @@
 
 #include <KDirWatch>
 
-#include <QFileInfo>
 #include <QDir>
+#include <QFileInfo>
 #include <QThread>
 
-namespace  {
-    /// cache of directory counting result
-    static QHash<QString, QPair<int, long>> *s_cache;
+namespace
+{
+/// cache of directory counting result
+static QHash<QString, QPair<int, long>> *s_cache;
 }
 
-KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObject* parent) :
-    QObject(parent),
-    m_model(model),
-    m_queue(),
-    m_worker(nullptr),
-    m_workerIsBusy(false),
-    m_dirWatcher(nullptr),
-    m_watchedDirs()
+KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel *model, QObject *parent)
+    : QObject(parent)
+    , m_model(model)
+    , m_queue()
+    , m_worker(nullptr)
+    , m_workerIsBusy(false)
+    , m_dirWatcher(nullptr)
+    , m_watchedDirs()
 {
-    connect(m_model, &KFileItemModel::itemsRemoved,
-            this,    &KDirectoryContentsCounter::slotItemsRemoved);
+    connect(m_model, &KFileItemModel::itemsRemoved, this, &KDirectoryContentsCounter::slotItemsRemoved);
 
     if (!m_workerThread) {
         m_workerThread = new QThread();
@@ -43,10 +43,8 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     m_worker = new KDirectoryContentsCounterWorker();
     m_worker->moveToThread(m_workerThread);
 
-    connect(this,     &KDirectoryContentsCounter::requestDirectoryContentsCount,
-            m_worker, &KDirectoryContentsCounterWorker::countDirectoryContents);
-    connect(m_worker, &KDirectoryContentsCounterWorker::result,
-            this,     &KDirectoryContentsCounter::slotResult);
+    connect(this, &KDirectoryContentsCounter::requestDirectoryContentsCount, m_worker, &KDirectoryContentsCounterWorker::countDirectoryContents);
+    connect(m_worker, &KDirectoryContentsCounterWorker::result, this, &KDirectoryContentsCounter::slotResult);
 
     m_dirWatcher = new KDirWatch(this);
     connect(m_dirWatcher, &KDirWatch::dirty, this, &KDirectoryContentsCounter::slotDirWatchDirty);
@@ -73,12 +71,12 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
     }
 }
 
-void KDirectoryContentsCounter::scanDirectory(const QString& path)
+void KDirectoryContentsCounter::scanDirectory(const QString &path)
 {
     startWorker(path);
 }
 
-void KDirectoryContentsCounter::slotResult(const QString& path, int count, long size)
+void KDirectoryContentsCounter::slotResult(const QString &path, int count, long size)
 {
     m_workerIsBusy = false;
 
@@ -118,7 +116,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
     Q_EMIT result(path, count, size);
 }
 
-void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
+void KDirectoryContentsCounter::slotDirWatchDirty(const QString &path)
 {
     const int index = m_model->index(QUrl::fromLocalFile(path));
     if (index >= 0) {
@@ -140,7 +138,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
     if (!m_watchedDirs.isEmpty()) {
         // Don't let KDirWatch watch for removed items
         if (allItemsRemoved) {
-            for (const QString& path : qAsConst(m_watchedDirs)) {
+            for (const QString &path : qAsConst(m_watchedDirs)) {
                 m_dirWatcher->removeDir(path);
             }
             m_watchedDirs.clear();
@@ -148,7 +146,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
         } else {
             QMutableSetIterator<QString> it(m_watchedDirs);
             while (it.hasNext()) {
-                const QString& path = it.next();
+                const QString &path = it.next();
                 if (m_model->index(QUrl::fromLocalFile(path)) < 0) {
                     m_dirWatcher->removeDir(path);
                     it.remove();
@@ -158,7 +156,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
     }
 }
 
-void KDirectoryContentsCounter::startWorker(const QString& path)
+void KDirectoryContentsCounter::startWorker(const QString &path)
 {
     const QString resolvedPath = QFileInfo(path).canonicalFilePath();
     const bool alreadyInCache = s_cache->contains(resolvedPath);
@@ -170,8 +168,8 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 
     if (m_workerIsBusy) {
-        if (std::find(m_queue.begin(), m_queue.end(), path) == m_queue.end() &&
-            std::find(m_priorityQueue.begin(), m_priorityQueue.end(), path) == m_priorityQueue.end()) {
+        if (std::find(m_queue.begin(), m_queue.end(), path) == m_queue.end()
+            && std::find(m_priorityQueue.begin(), m_priorityQueue.end(), path) == m_priorityQueue.end()) {
             if (alreadyInCache) {
                 m_queue.push_back(path);
             } else {
@@ -195,4 +193,4 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 }
 
-QThread* KDirectoryContentsCounter::m_workerThread = nullptr;
+QThread *KDirectoryContentsCounter::m_workerThread = nullptr;

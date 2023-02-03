@@ -24,14 +24,9 @@ class ViewSettingsTab : public QWidget
     Q_OBJECT
 
 public:
-    enum Mode
-    {
-        IconsMode,
-        CompactMode,
-        DetailsMode
-    };
+    enum Mode { IconsMode, CompactMode, DetailsMode };
 
-    explicit ViewSettingsTab(Mode mode, QWidget* parent = nullptr);
+    explicit ViewSettingsTab(Mode mode, QWidget *parent = nullptr);
     ~ViewSettingsTab() override;
 
     void applySettings();
@@ -44,26 +39,27 @@ private Q_SLOTS:
 
     void slotDefaultSliderMoved(int value);
     void slotPreviewSliderMoved(int value);
+
 private:
     void loadSettings();
-    void showToolTip(QSlider* slider, int value);
+    void showToolTip(QSlider *slider, int value);
 
 private:
     Mode m_mode;
-    QSlider* m_defaultSizeSlider;
-    QSlider* m_previewSizeSlider;
+    QSlider *m_defaultSizeSlider;
+    QSlider *m_previewSizeSlider;
 
-    DolphinFontRequester* m_fontRequester;
-    QComboBox* m_widthBox;
-    QComboBox* m_maxLinesBox;
-    QRadioButton* m_entireRow;
-    QRadioButton* m_iconAndNameOnly;
-    QCheckBox* m_expandableFolders;
-    QRadioButton* m_numberOfItems;
-    QRadioButton* m_sizeOfContents;
-    QSpinBox* m_recursiveDirectorySizeLimit;
-    QRadioButton* m_useRelatetiveDates;
-    QRadioButton* m_useShortDates;
+    DolphinFontRequester *m_fontRequester;
+    QComboBox *m_widthBox;
+    QComboBox *m_maxLinesBox;
+    QRadioButton *m_entireRow;
+    QRadioButton *m_iconAndNameOnly;
+    QCheckBox *m_expandableFolders;
+    QRadioButton *m_numberOfItems;
+    QRadioButton *m_sizeOfContents;
+    QSpinBox *m_recursiveDirectorySizeLimit;
+    QRadioButton *m_useRelatetiveDates;
+    QRadioButton *m_useShortDates;
 };
 
 #endif

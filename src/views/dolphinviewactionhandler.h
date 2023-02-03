@@ -5,7 +5,6 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-
 #ifndef DOLPHINVIEWACTIONHANDLER_H
 #define DOLPHINVIEWACTIONHANDLER_H
 
@@ -21,8 +20,9 @@ class QActionGroup;
 class DolphinView;
 class KActionCollection;
 class KFileItemList;
-namespace SelectionMode {
-    class ActionTextHelper;
+namespace SelectionMode
+{
+class ActionTextHelper;
 }
 
 /**
@@ -44,17 +44,17 @@ class DOLPHIN_EXPORT DolphinViewActionHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit DolphinViewActionHandler(KActionCollection* collection, SelectionMode::ActionTextHelper* actionTextHelper, QObject* parent);
+    explicit DolphinViewActionHandler(KActionCollection *collection, SelectionMode::ActionTextHelper *actionTextHelper, QObject *parent);
 
     /**
      * Sets the view that this action handler should work on.
      */
-    void setCurrentView(DolphinView* view);
+    void setCurrentView(DolphinView *view);
 
     /**
      * Returns the view that this action handler should work on.
      */
-    DolphinView* currentView();
+    DolphinView *currentView();
 
     /**
      * Returns the name of the action for the current viewmode
@@ -64,7 +64,7 @@ public:
     /**
      * Returns m_actionCollection
      */
-    KActionCollection* actionCollection();
+    KActionCollection *actionCollection();
 
 public Q_SLOTS:
     /**
@@ -94,7 +94,7 @@ private Q_SLOTS:
     /**
      * Emitted when the user requested a change of view mode
      */
-    void slotViewModeActionTriggered(QAction*);
+    void slotViewModeActionTriggered(QAction *);
 
     /**
      * Let the user input a name for the selected item(s) and trigger
@@ -126,7 +126,7 @@ private Q_SLOTS:
 
     /** Decreases the size of the current set view mode. */
     void zoomOut();
-    
+
     /** Resets the size of the current set view mode to default. */
     void zoomReset();
 
@@ -156,7 +156,7 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Sort by' actions.
      */
-    void slotSortRoleChanged(const QByteArray& role);
+    void slotSortRoleChanged(const QByteArray &role);
 
     /**
      * Updates the state of the 'Zoom In' and 'Zoom Out' actions.
@@ -167,18 +167,17 @@ private Q_SLOTS:
      * Switches on or off the displaying of additional information
      * as specified by \a action.
      */
-    void toggleVisibleRole(QAction* action);
+    void toggleVisibleRole(QAction *action);
 
     /**
      * Changes the sorting of the current view.
      */
-    void slotSortTriggered(QAction*);
+    void slotSortTriggered(QAction *);
 
     /**
      * Updates the state of the 'Additional Information' actions.
      */
-    void slotVisibleRolesChanged(const QList<QByteArray>& current,
-                                 const QList<QByteArray>& previous);
+    void slotVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
 
     /**
      * Switches between sorting by groups or not.
@@ -234,7 +233,7 @@ private Q_SLOTS:
      * The name is changed to something like "Actions for 3 Selected Items" to be extra
      * explicit of how these basic actions are used.
      */
-    void slotSelectionChanged(const KFileItemList& selection);
+    void slotSelectionChanged(const KFileItemList &selection);
 
 private:
     /**
@@ -251,31 +250,31 @@ private:
      * The changes of actions are reported to slotSortTriggered() or
      * toggleAdditionalInfo().
      */
-    QActionGroup* createFileItemRolesActionGroup(const QString& groupPrefix);
+    QActionGroup *createFileItemRolesActionGroup(const QString &groupPrefix);
 
     /**
      * Returns the "switch to icons mode" action.
      * Helper method for createActions();
      */
-    KToggleAction* iconsModeAction();
+    KToggleAction *iconsModeAction();
 
     /**
      * Returns the "switch to compact mode" action.
      * Helper method for createActions();
      */
-    KToggleAction* compactModeAction();
+    KToggleAction *compactModeAction();
 
     /**
      * Returns the "switch to details mode" action.
      * Helper method for createActions();
      */
-    KToggleAction* detailsModeAction();
+    KToggleAction *detailsModeAction();
 
-    KActionCollection* m_actionCollection;
-    DolphinView* m_currentView;
+    KActionCollection *m_actionCollection;
+    DolphinView *m_currentView;
 
-    QHash<QByteArray, KToggleAction*> m_sortByActions;
-    QHash<QByteArray, KToggleAction*> m_visibleRoles;
+    QHash<QByteArray, KToggleAction *> m_sortByActions;
+    QHash<QByteArray, KToggleAction *> m_visibleRoles;
 };
 
 #endif /* DOLPHINVIEWACTIONHANDLER_H */

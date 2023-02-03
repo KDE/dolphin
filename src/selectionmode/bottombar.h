@@ -24,7 +24,7 @@ class QUrl;
 
 namespace SelectionMode
 {
-    class BottomBarContentsContainer;
+class BottomBarContentsContainer;
 
 /**
  * @brief A bar used in selection mode that serves various purposes depending on what the user is currently trying to do.

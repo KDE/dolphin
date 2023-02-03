@@ -7,8 +7,8 @@
 #ifndef DOLPHINSETTINGSDIALOG_H
 #define DOLPHINSETTINGSDIALOG_H
 
-#include <KPageDialog>
 #include <KActionCollection>
+#include <KPageDialog>
 
 class QUrl;
 class SettingsPageBase;
@@ -23,10 +23,10 @@ class DolphinSettingsDialog : public KPageDialog
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = nullptr, KActionCollection* actions = {});
+    explicit DolphinSettingsDialog(const QUrl &url, QWidget *parent = nullptr, KActionCollection *actions = {});
     ~DolphinSettingsDialog() override;
 
-    KPageWidgetItem* trashSettings;
+    KPageWidgetItem *trashSettings;
 
 Q_SIGNALS:
     void settingsChanged();
@@ -38,12 +38,12 @@ private Q_SLOTS:
     void restoreDefaults();
 
 protected:
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 private:
     static SettingsPageBase *createTrashSettingsPage(QWidget *parent);
 
-    QList<SettingsPageBase*> m_pages;
+    QList<SettingsPageBase *> m_pages;
     bool m_unsavedChanges;
 };
 

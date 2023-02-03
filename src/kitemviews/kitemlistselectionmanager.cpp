@@ -9,13 +9,13 @@
 
 #include "kitemlistselectionmanager.h"
 
-KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
-    QObject(parent),
-    m_currentItem(-1),
-    m_anchorItem(-1),
-    m_selectedItems(),
-    m_isAnchoredSelectionActive(false),
-    m_model(nullptr)
+KItemListSelectionManager::KItemListSelectionManager(QObject *parent)
+    : QObject(parent)
+    , m_currentItem(-1)
+    , m_anchorItem(-1)
+    , m_selectedItems()
+    , m_isAnchoredSelectionActive(false)
+    , m_model(nullptr)
 {
 }
 
@@ -51,7 +51,7 @@ int KItemListSelectionManager::currentItem() const
     return m_currentItem;
 }
 
-void KItemListSelectionManager::setSelectedItems(const KItemSet& items)
+void KItemListSelectionManager::setSelectedItems(const KItemSet &items)
 {
     if (m_selectedItems != items) {
         const KItemSet previous = m_selectedItems;
@@ -114,7 +114,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
 
     count = qMin(count, m_model->count() - index);
 
-    const int endIndex = index + count -1;
+    const int endIndex = index + count - 1;
     switch (mode) {
     case Select:
         for (int i = index; i <= endIndex; ++i) {
@@ -198,12 +198,12 @@ bool KItemListSelectionManager::isAnchoredSelectionActive() const
     return m_isAnchoredSelectionActive;
 }
 
-KItemModelBase* KItemListSelectionManager::model() const
+KItemModelBase *KItemListSelectionManager::model() const
 {
     return m_model;
 }
 
-void KItemListSelectionManager::setModel(KItemModelBase* model)
+void KItemListSelectionManager::setModel(KItemModelBase *model)
 {
     m_model = model;
     if (model && model->count() > 0) {
@@ -211,7 +211,7 @@ void KItemListSelectionManager::setModel(KItemModelBase* model)
     }
 }
 
-void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
+void KItemListSelectionManager::itemsInserted(const KItemRangeList &itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
     const KItemSet previousSelection = selectedItems();
@@ -222,7 +222,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
     } else {
         const int previousCurrent = m_currentItem;
         int inc = 0;
-        for (const KItemRange& itemRange : itemRanges) {
+        for (const KItemRange &itemRange : itemRanges) {
             if (m_currentItem < itemRange.index) {
                 break;
             }
@@ -242,7 +242,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         m_anchorItem = 0;
     } else {
         int inc = 0;
-        for (const KItemRange& itemRange : itemRanges) {
+        for (const KItemRange &itemRange : itemRanges) {
             if (m_anchorItem < itemRange.index) {
                 break;
             }
@@ -256,9 +256,9 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
 
-        for (int index: previous) {
+        for (int index : previous) {
             int inc = 0;
-            for (const KItemRange& itemRange : itemRanges) {
+            for (const KItemRange &itemRange : itemRanges) {
                 if (index < itemRange.index) {
                     break;
                 }
@@ -274,7 +274,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
     }
 }
 
-void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
+void KItemListSelectionManager::itemsRemoved(const KItemRangeList &itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
     const KItemSet previousSelection = selectedItems();
@@ -307,7 +307,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 
         for (int oldIndex : previous) {
             const int index = indexAfterRangesRemoving(oldIndex, itemRanges, DiscardRemovedIndex);
-            if (index >= 0)  {
+            if (index >= 0) {
                 m_selectedItems.insert(index);
             }
         }
@@ -322,7 +322,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     Q_ASSERT(m_anchorItem < m_model->count());
 }
 
-void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
+void KItemListSelectionManager::itemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes)
 {
     // Store the current selection (needed in the selectionChanged() signal)
     const KItemSet previousSelection = selectedItems();
@@ -359,8 +359,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
         for (int index : previous) {
             if (index >= itemRange.index && index < itemRange.index + itemRange.count) {
                 m_selectedItems.insert(movedToIndexes.at(index - itemRange.index));
-            }
-            else {
+            } else {
                 m_selectedItems.insert(index);
             }
         }
@@ -372,11 +371,10 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     }
 }
 
-int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges,
-                                                        const RangesRemovingBehaviour behaviour) const
+int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList &itemRanges, const RangesRemovingBehaviour behaviour) const
 {
     int dec = 0;
-    for (const KItemRange& itemRange : itemRanges) {
+    for (const KItemRange &itemRange : itemRanges) {
         if (index < itemRange.index) {
             break;
         }
@@ -397,4 +395,3 @@ int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRa
     }
     return qBound(-1, index - dec, m_model->count() - 1);
 }
-

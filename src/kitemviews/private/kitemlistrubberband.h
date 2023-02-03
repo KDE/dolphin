@@ -21,13 +21,13 @@ class DOLPHIN_EXPORT KItemListRubberBand : public QObject
     Q_PROPERTY(QPointF endPosition MEMBER m_endPos READ endPosition WRITE setEndPosition)
 
 public:
-    explicit KItemListRubberBand(QObject* parent = nullptr);
+    explicit KItemListRubberBand(QObject *parent = nullptr);
     ~KItemListRubberBand() override;
 
-    void setStartPosition(const QPointF& pos);
+    void setStartPosition(const QPointF &pos);
     QPointF startPosition() const;
 
-    void setEndPosition(const QPointF& pos);
+    void setEndPosition(const QPointF &pos);
     QPointF endPosition() const;
 
     void setActive(bool active);
@@ -35,8 +35,8 @@ public:
 
 Q_SIGNALS:
     void activationChanged(bool active);
-    void startPositionChanged(const QPointF& current, const QPointF& previous);
-    void endPositionChanged(const QPointF& current, const QPointF& previous);
+    void startPositionChanged(const QPointF &current, const QPointF &previous);
+    void endPositionChanged(const QPointF &current, const QPointF &previous);
 
 private:
     bool m_active;
@@ -45,5 +45,3 @@ private:
 };
 
 #endif
-
-

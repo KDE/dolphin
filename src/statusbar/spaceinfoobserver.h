@@ -17,13 +17,13 @@ class SpaceInfoObserver : public QObject
     Q_OBJECT
 
 public:
-    explicit SpaceInfoObserver(const QUrl& url, QObject* parent = nullptr);
+    explicit SpaceInfoObserver(const QUrl &url, QObject *parent = nullptr);
     ~SpaceInfoObserver() override;
 
     quint64 size() const;
     quint64 available() const;
 
-    void setUrl(const QUrl& url);
+    void setUrl(const QUrl &url);
 
 public Q_SLOTS:
     void update();
@@ -38,9 +38,9 @@ private Q_SLOTS:
     void spaceInfoChanged(quint64 size, quint64 available);
 
 private:
-    MountPointObserver* m_mountPointObserver;
+    MountPointObserver *m_mountPointObserver;
 
-    bool    m_hasData;
+    bool m_hasData;
     quint64 m_dataSize;
     quint64 m_dataAvailable;
 };

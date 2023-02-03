@@ -16,26 +16,26 @@
 #include <Baloo/FileMetaDataWidget>
 
 #include <QApplication>
-#include <QShowEvent>
-#include <QVBoxLayout>
-#include <QTimer>
 #include <QMenu>
+#include <QShowEvent>
+#include <QTimer>
+#include <QVBoxLayout>
 
 #include "dolphin_informationpanelsettings.h"
 
-InformationPanel::InformationPanel(QWidget* parent) :
-    Panel(parent),
-    m_initialized(false),
-    m_infoTimer(nullptr),
-    m_urlChangedTimer(nullptr),
-    m_resetUrlTimer(nullptr),
-    m_shownUrl(),
-    m_urlCandidate(),
-    m_invalidUrlCandidate(),
-    m_hoveredItem(),
-    m_selection(),
-    m_folderStatJob(nullptr),
-    m_content(nullptr)
+InformationPanel::InformationPanel(QWidget *parent)
+    : Panel(parent)
+    , m_initialized(false)
+    , m_infoTimer(nullptr)
+    , m_urlChangedTimer(nullptr)
+    , m_resetUrlTimer(nullptr)
+    , m_shownUrl()
+    , m_urlCandidate()
+    , m_invalidUrlCandidate()
+    , m_hoveredItem()
+    , m_selection()
+    , m_folderStatJob(nullptr)
+    , m_content(nullptr)
 {
 }
 
@@ -43,7 +43,7 @@ InformationPanel::~InformationPanel()
 {
 }
 
-void InformationPanel::setSelection(const KFileItemList& selection)
+void InformationPanel::setSelection(const KFileItemList &selection)
 {
     m_selection = selection;
 
@@ -66,7 +66,7 @@ void InformationPanel::setSelection(const KFileItemList& selection)
     }
 }
 
-void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
+void InformationPanel::requestDelayedItemInfo(const KFileItem &item)
 {
     if (!isVisible()) {
         return;
@@ -115,7 +115,7 @@ bool InformationPanel::urlChanged()
     return true;
 }
 
-void InformationPanel::showEvent(QShowEvent* event)
+void InformationPanel::showEvent(QShowEvent *event)
 {
     Panel::showEvent(event);
     if (!event->spontaneous()) {
@@ -131,7 +131,7 @@ void InformationPanel::showEvent(QShowEvent* event)
     }
 }
 
-void InformationPanel::resizeEvent(QResizeEvent* event)
+void InformationPanel::resizeEvent(QResizeEvent *event)
 {
     if (isVisible()) {
         m_urlCandidate = m_shownUrl;
@@ -140,7 +140,7 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
     Panel::resizeEvent(event);
 }
 
-void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
+void InformationPanel::contextMenuEvent(QContextMenuEvent *event)
 {
     showContextMenu(event->globalPos());
     Panel::contextMenuEvent(event);
@@ -150,23 +150,23 @@ void InformationPanel::showContextMenu(const QPoint &pos)
 {
     QMenu popup(this);
 
-    QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
+    QAction *previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
     previewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::previewsShown());
 
-    QAction* previewAutoPlayAction = popup.addAction(i18nc("@action:inmenu", "Auto-Play media files"));
+    QAction *previewAutoPlayAction = popup.addAction(i18nc("@action:inmenu", "Auto-Play media files"));
     previewAutoPlayAction->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     previewAutoPlayAction->setCheckable(true);
     previewAutoPlayAction->setChecked(InformationPanelSettings::previewsAutoPlay());
 
-    QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
+    QAction *configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     if (m_inConfigurationMode) {
         configureAction->setEnabled(false);
     }
 
-    QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
+    QAction *dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
     dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
     dateformatAction->setCheckable(true);
     dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
@@ -179,7 +179,7 @@ void InformationPanel::showContextMenu(const QPoint &pos)
 
     // Open the popup and adjust the settings for the
     // selected action.
-    QAction* action = popup.exec(pos);
+    QAction *action = popup.exec(pos);
     if (!action) {
         return;
     }
@@ -238,15 +238,14 @@ void InformationPanel::showItemInfo()
         if (m_folderStatJob->uiDelegate()) {
             KJobWidgets::setWindow(m_folderStatJob, this);
         }
-        connect(m_folderStatJob, &KIO::Job::result,
-                this, &InformationPanel::slotFolderStatFinished);
+        connect(m_folderStatJob, &KIO::Job::result, this, &InformationPanel::slotFolderStatFinished);
     }
 }
 
-void InformationPanel::slotFolderStatFinished(KJob* job)
+void InformationPanel::slotFolderStatFinished(KJob *job)
 {
     m_folderStatJob = nullptr;
-    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
+    const KIO::UDSEntry entry = static_cast<KIO::StatJob *>(job)->statResult();
     m_content->showItem(KFileItem(entry, m_shownUrl));
 }
 
@@ -270,7 +269,7 @@ void InformationPanel::reset()
     }
 }
 
-void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
+void InformationPanel::slotFileRenamed(const QString &source, const QString &dest)
 {
     auto sourceUrl = QUrl::fromUserInput(source);
     if (m_shownUrl == sourceUrl) {
@@ -290,7 +289,7 @@ void InformationPanel::slotFileRenamed(const QString& source, const QString& des
     }
 }
 
-void InformationPanel::slotFilesAdded(const QString& directory)
+void InformationPanel::slotFilesAdded(const QString &directory)
 {
     if (m_shownUrl == QUrl::fromUserInput(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
@@ -307,9 +306,9 @@ void InformationPanel::slotFilesItemChanged(const KFileItemList &changedFileItem
     }
 }
 
-void InformationPanel::slotFilesChanged(const QStringList& files)
+void InformationPanel::slotFilesChanged(const QStringList &files)
 {
-    for (const QString& fileName : files) {
+    for (const QString &fileName : files) {
         if (m_shownUrl == QUrl::fromUserInput(fileName)) {
             showItemInfo();
             break;
@@ -317,9 +316,9 @@ void InformationPanel::slotFilesChanged(const QStringList& files)
     }
 }
 
-void InformationPanel::slotFilesRemoved(const QStringList& files)
+void InformationPanel::slotFilesRemoved(const QStringList &files)
 {
-    for (const QString& fileName : files) {
+    for (const QString &fileName : files) {
         if (m_shownUrl == QUrl::fromUserInput(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
@@ -329,12 +328,12 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
     }
 }
 
-void InformationPanel::slotEnteredDirectory(const QString& directory)
+void InformationPanel::slotEnteredDirectory(const QString &directory)
 {
     Q_UNUSED(directory)
 }
 
-void InformationPanel::slotLeftDirectory(const QString& directory)
+void InformationPanel::slotLeftDirectory(const QString &directory)
 {
     if (m_shownUrl == QUrl::fromUserInput(directory)) {
         // The signal 'leftDirectory' is also emitted when a media
@@ -360,7 +359,7 @@ void InformationPanel::cancelRequest()
     m_urlCandidate.clear();
 }
 
-bool InformationPanel::isEqualToShownUrl(const QUrl& url) const
+bool InformationPanel::isEqualToShownUrl(const QUrl &url) const
 {
     return m_shownUrl.matches(url, QUrl::StripTrailingSlash);
 }
@@ -376,26 +375,22 @@ void InformationPanel::init()
     m_infoTimer = new QTimer(this);
     m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
-    connect(m_infoTimer, &QTimer::timeout,
-            this, &InformationPanel::slotInfoTimeout);
+    connect(m_infoTimer, &QTimer::timeout, this, &InformationPanel::slotInfoTimeout);
 
     m_urlChangedTimer = new QTimer(this);
     m_urlChangedTimer->setInterval(200);
     m_urlChangedTimer->setSingleShot(true);
-    connect(m_urlChangedTimer, &QTimer::timeout,
-            this, &InformationPanel::showItemInfo);
+    connect(m_urlChangedTimer, &QTimer::timeout, this, &InformationPanel::showItemInfo);
 
     m_resetUrlTimer = new QTimer(this);
     m_resetUrlTimer->setInterval(1000);
     m_resetUrlTimer->setSingleShot(true);
-    connect(m_resetUrlTimer, &QTimer::timeout,
-            this, &InformationPanel::reset);
+    connect(m_resetUrlTimer, &QTimer::timeout, this, &InformationPanel::reset);
 
     Q_ASSERT(m_urlChangedTimer->interval() < m_infoTimer->interval());
     Q_ASSERT(m_urlChangedTimer->interval() < m_resetUrlTimer->interval());
 
-    org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
-                                                               QDBusConnection::sessionBus(), this);
+    org::kde::KDirNotify *dirNotify = new org::kde::KDirNotify(QString(), QString(), QDBusConnection::sessionBus(), this);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FileRenamed, this, &InformationPanel::slotFileRenamed);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesAdded, this, &InformationPanel::slotFilesAdded);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesChanged, this, &InformationPanel::slotFilesChanged);
@@ -405,13 +400,14 @@ void InformationPanel::init()
 
     m_content = new InformationPanelContent(this);
     connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
-    connect(m_content, &InformationPanelContent::configurationFinished, this, [this]() { m_inConfigurationMode = false; });
+    connect(m_content, &InformationPanelContent::configurationFinished, this, [this]() {
+        m_inConfigurationMode = false;
+    });
     connect(m_content, &InformationPanelContent::contextMenuRequested, this, &InformationPanel::showContextMenu);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_content);
 
     m_initialized = true;
 }
-

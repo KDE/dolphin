@@ -4,30 +4,29 @@
  * SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  */
 
-#include <QDebug>
-#include <QProcess>
-#include <QTimer>
-#include <QStandardPaths>
-#include <QDir>
-#include <QDirIterator>
-#include <QCommandLineParser>
-#include <QMimeDatabase>
-#include <QUrl>
-#include <QGuiApplication>
 #include <KLocalizedString>
 #include <KShell>
+#include <QCommandLineParser>
+#include <QDebug>
+#include <QDir>
+#include <QDirIterator>
+#include <QGuiApplication>
+#include <QMimeDatabase>
+#include <QProcess>
+#include <QStandardPaths>
+#include <QTimer>
+#include <QUrl>
 
 #include "../../../config-dolphin.h"
 
-Q_GLOBAL_STATIC_WITH_ARGS(QStringList, binaryPackages, ({QLatin1String("application/vnd.debian.binary-package"),
-                                                        QLatin1String("application/x-rpm"),
-                                                        QLatin1String("application/x-xz"),
-                                                        QLatin1String("application/zstd")}))
+Q_GLOBAL_STATIC_WITH_ARGS(QStringList,
+                          binaryPackages,
+                          ({QLatin1String("application/vnd.debian.binary-package"),
+                            QLatin1String("application/x-rpm"),
+                            QLatin1String("application/x-xz"),
+                            QLatin1String("application/zstd")}))
 
-enum PackageOperation {
-    Install,
-    Uninstall
-};
+enum PackageOperation { Install, Uninstall };
 
 #if HAVE_PACKAGEKIT
 #include <PackageKit/Daemon>
@@ -41,7 +40,7 @@ enum PackageOperation {
 Q_NORETURN void fail(const QString &str)
 {
     qCritical() << str;
-    const QStringList args = {"--detailederror" ,i18n("Dolphin service menu installation failed"),  str};
+    const QStringList args = {"--detailederror", i18n("Dolphin service menu installation failed"), str};
     QProcess::startDetached("kdialog", args);
 
     exit(1);
@@ -59,20 +58,18 @@ void packageKitInstall(const QString &fileName)
     PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName, PackageKit::Transaction::TransactionFlagNone);
 
     const auto exitWithError = [=](PackageKit::Transaction::Error, const QString &details) {
-       fail(details);
+        fail(details);
     };
 
-    QObject::connect(transaction, &PackageKit::Transaction::finished,
-                     [=](PackageKit::Transaction::Exit status, uint) {
-                        if (status == PackageKit::Transaction::ExitSuccess) {
-                            exit(0);
-                        }
-                        // Fallback error handling
-                        QTimer::singleShot(500, [=](){
-                            fail(i18n("Failed to install \"%1\", exited with status \"%2\"",
-                                      fileName, QVariant::fromValue(status).toString()));
-                        });
-                    });
+    QObject::connect(transaction, &PackageKit::Transaction::finished, [=](PackageKit::Transaction::Exit status, uint) {
+        if (status == PackageKit::Transaction::ExitSuccess) {
+            exit(0);
+        }
+        // Fallback error handling
+        QTimer::singleShot(500, [=]() {
+            fail(i18n("Failed to install \"%1\", exited with status \"%2\"", fileName, QVariant::fromValue(status).toString()));
+        });
+    });
     QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
 }
 
@@ -88,25 +85,22 @@ void packageKitUninstall(const QString &fileName)
     };
 
     PackageKit::Transaction *transaction = PackageKit::Daemon::getDetailsLocal(fileName);
-    QObject::connect(transaction, &PackageKit::Transaction::details,
-                     [=](const PackageKit::Details &details) {
-                         PackageKit::Transaction *transaction = PackageKit::Daemon::removePackage(details.packageId());
-                         QObject::connect(transaction, &PackageKit::Transaction::finished, uninstallLambda);
-                         QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
-                     });
+    QObject::connect(transaction, &PackageKit::Transaction::details, [=](const PackageKit::Details &details) {
+        PackageKit::Transaction *transaction = PackageKit::Daemon::removePackage(details.packageId());
+        QObject::connect(transaction, &PackageKit::Transaction::finished, uninstallLambda);
+        QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
+    });
 
     QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
     // Fallback error handling
-    QObject::connect(transaction, &PackageKit::Transaction::finished,
-        [=](PackageKit::Transaction::Exit status, uint) {
-            if (status != PackageKit::Transaction::ExitSuccess) {
-                QTimer::singleShot(500, [=]() {
-                    fail(i18n("Failed to uninstall \"%1\", exited with status \"%2\"",
-                              fileName, QVariant::fromValue(status).toString()));
-                });
-            }
-        });
-    }
+    QObject::connect(transaction, &PackageKit::Transaction::finished, [=](PackageKit::Transaction::Exit status, uint) {
+        if (status != PackageKit::Transaction::ExitSuccess) {
+            QTimer::singleShot(500, [=]() {
+                fail(i18n("Failed to uninstall \"%1\", exited with status \"%2\"", fileName, QVariant::fromValue(status).toString()));
+            });
+        }
+    });
+}
 #endif
 
 Q_NORETURN void packageKit(PackageOperation operation, const QString &fileName)
@@ -131,41 +125,49 @@ Q_NORETURN void packageKit(PackageOperation operation, const QString &fileName)
 #endif
 }
 
-struct UncompressCommand
-{
+struct UncompressCommand {
     QString command;
     QStringList args1;
     QStringList args2;
 };
 
-enum ScriptExecution{
-    Process,
-    Konsole
-};
+enum ScriptExecution { Process, Konsole };
 
 void runUncompress(const QString &inputPath, const QString &outputPath)
 {
     QVector<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
-    mimeTypeToCommand.append({{"application/x-tar", "application/tar", "application/x-gtar", "multipart/x-tar"},
-                              UncompressCommand({"tar", {"-xf"}, {"-C"}})});
-    mimeTypeToCommand.append({{"application/x-gzip", "application/gzip",
-                               "application/x-gzip-compressed-tar", "application/gzip-compressed-tar",
-                               "application/x-gzip-compressed", "application/gzip-compressed",
-                               "application/tgz", "application/x-compressed-tar",
-                               "application/x-compressed-gtar", "file/tgz",
-                               "multipart/x-tar-gz", "application/x-gunzip", "application/gzipped",
+    mimeTypeToCommand.append({{"application/x-tar", "application/tar", "application/x-gtar", "multipart/x-tar"}, UncompressCommand({"tar", {"-xf"}, {"-C"}})});
+    mimeTypeToCommand.append({{"application/x-gzip",
+                               "application/gzip",
+                               "application/x-gzip-compressed-tar",
+                               "application/gzip-compressed-tar",
+                               "application/x-gzip-compressed",
+                               "application/gzip-compressed",
+                               "application/tgz",
+                               "application/x-compressed-tar",
+                               "application/x-compressed-gtar",
+                               "file/tgz",
+                               "multipart/x-tar-gz",
+                               "application/x-gunzip",
+                               "application/gzipped",
                                "gzip/document"},
                               UncompressCommand({"tar", {"-zxf"}, {"-C"}})});
-    mimeTypeToCommand.append({{"application/bzip", "application/bzip2", "application/x-bzip",
-                               "application/x-bzip2", "application/bzip-compressed",
-                               "application/bzip2-compressed", "application/x-bzip-compressed",
-                               "application/x-bzip2-compressed", "application/bzip-compressed-tar",
-                               "application/bzip2-compressed-tar", "application/x-bzip-compressed-tar",
-                               "application/x-bzip2-compressed-tar", "application/x-bz2"},
+    mimeTypeToCommand.append({{"application/bzip",
+                               "application/bzip2",
+                               "application/x-bzip",
+                               "application/x-bzip2",
+                               "application/bzip-compressed",
+                               "application/bzip2-compressed",
+                               "application/x-bzip-compressed",
+                               "application/x-bzip2-compressed",
+                               "application/bzip-compressed-tar",
+                               "application/bzip2-compressed-tar",
+                               "application/x-bzip-compressed-tar",
+                               "application/x-bzip2-compressed-tar",
+                               "application/x-bz2"},
                               UncompressCommand({"tar", {"-jxf"}, {"-C"}})});
-    mimeTypeToCommand.append({{"application/zip", "application/x-zip", "application/x-zip-compressed",
-                               "multipart/x-zip"},
-                              UncompressCommand({"unzip", {}, {"-d"}})});
+    mimeTypeToCommand.append(
+        {{"application/zip", "application/x-zip", "application/x-zip-compressed", "multipart/x-zip"}, UncompressCommand({"unzip", {}, {"-d"}})});
 
     const auto mime = QMimeDatabase().mimeTypeForFile(inputPath).name();
 
@@ -182,17 +184,13 @@ void runUncompress(const QString &inputPath, const QString &outputPath)
     }
 
     QProcess process;
-    process.start(
-        command.command,
-        QStringList() << command.args1 << inputPath << command.args2 << outputPath,
-        QIODevice::NotOpen);
+    process.start(command.command, QStringList() << command.args1 << inputPath << command.args2 << outputPath, QIODevice::NotOpen);
     if (!process.waitForStarted()) {
         fail(i18n("Failed to run uncompressor command for %1", inputPath));
     }
 
     if (!process.waitForFinished()) {
-        fail(
-            i18n("Process did not finish in reasonable time: %1 %2", process.program(), process.arguments().join(" ")));
+        fail(i18n("Process did not finish in reasonable time: %1 %2", process.program(), process.arguments().join(" ")));
     }
 
     if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
@@ -224,7 +222,11 @@ bool runScriptOnce(const QString &path, const QStringList &args, ScriptExecution
         bashCommand.append("|| $SHELL");
         // If the install script fails a shell opens and the user can fix the problem
         // without an error konsole closes
-        process.start("konsole", QStringList() << "-e" << "bash" << "-c" << bashCommand, QIODevice::NotOpen);
+        process.start("konsole",
+                      QStringList() << "-e"
+                                    << "bash"
+                                    << "-c" << bashCommand,
+                      QIODevice::NotOpen);
     } else {
         process.start(path, args, QIODevice::NotOpen);
     }
@@ -267,9 +269,10 @@ bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringLi
         return true;
     }
 
-    errorText = i18nc(
-        "%2 = comma separated list of arguments",
-        "Installer script %1 failed, tried arguments \"%2\".", path, argVariants.join(i18nc("Separator between arguments", "\", \"")));
+    errorText = i18nc("%2 = comma separated list of arguments",
+                      "Installer script %1 failed, tried arguments \"%2\".",
+                      path,
+                      argVariants.join(i18nc("Separator between arguments", "\", \"")));
     return false;
 }
 
@@ -396,8 +399,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
         } else {
             // If "deinstall" is missing, try "install --uninstall"
             QString installerPath;
-            const QStringList basenames2 = {"install-it.sh", "install-it", "installKDE4.sh",
-                                            "installKDE4", "install.sh", "install"};
+            const QStringList basenames2 = {"install-it.sh", "install-it", "installKDE4.sh", "installKDE4", "install.sh", "install"};
             for (const auto &basename : basenames2) {
                 const auto path = findRecursive(dir, basename);
                 if (!path.isEmpty()) {
@@ -407,8 +409,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
             }
 
             if (!installerPath.isEmpty()) {
-                const bool ok = runScriptVariants(installerPath, true,
-                                                  {"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
+                const bool ok = runScriptVariants(installerPath, true, {"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
                 if (!ok) {
                     return ok;
                 }

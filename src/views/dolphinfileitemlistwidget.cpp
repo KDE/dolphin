@@ -10,9 +10,8 @@
 
 #include <KIconLoader>
 
-DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant* informant,
-                                                     QGraphicsItem* parent) :
-    KFileItemListWidget(informant, parent)
+DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent)
+    : KFileItemListWidget(informant, parent)
 {
 }
 
@@ -35,23 +34,39 @@ void DolphinFileItemListWidget::refreshCache()
         // as tint colors and are mixed with the current set text color. The tint colors
         // have been optimized for the base colors of the corresponding Oxygen emblems.
         switch (version) {
-        case KVersionControlPlugin::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
-        case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::green; break;
-        case KVersionControlPlugin::LocallyModifiedVersion:         tintColor = Qt::green; break;
-        case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::green; break;
-        case KVersionControlPlugin::RemovedVersion:                 tintColor = Qt::darkRed; break;
-        case KVersionControlPlugin::ConflictingVersion:             tintColor = Qt::red; break;
-        case KVersionControlPlugin::IgnoredVersion:                 tintColor = Qt::white; break;
-        case KVersionControlPlugin::MissingVersion:                 tintColor = Qt::red; break;
+        case KVersionControlPlugin::UpdateRequiredVersion:
+            tintColor = Qt::yellow;
+            break;
+        case KVersionControlPlugin::LocallyModifiedUnstagedVersion:
+            tintColor = Qt::green;
+            break;
+        case KVersionControlPlugin::LocallyModifiedVersion:
+            tintColor = Qt::green;
+            break;
+        case KVersionControlPlugin::AddedVersion:
+            tintColor = Qt::green;
+            break;
+        case KVersionControlPlugin::RemovedVersion:
+            tintColor = Qt::darkRed;
+            break;
+        case KVersionControlPlugin::ConflictingVersion:
+            tintColor = Qt::red;
+            break;
+        case KVersionControlPlugin::IgnoredVersion:
+            tintColor = Qt::white;
+            break;
+        case KVersionControlPlugin::MissingVersion:
+            tintColor = Qt::red;
+            break;
         case KVersionControlPlugin::NormalVersion:
         case KVersionControlPlugin::UnversionedVersion:
         default:
             break;
         }
 
-        color = QColor((tintColor.red()   + textColor.red())   / 2,
+        color = QColor((tintColor.red() + textColor.red()) / 2,
                        (tintColor.green() + textColor.green()) / 2,
-                       (tintColor.blue()  + textColor.blue())  / 2,
+                       (tintColor.blue() + textColor.blue()) / 2,
                        (tintColor.alpha() + textColor.alpha()) / 2);
 
         setOverlay(overlayForState(version, styleOption().iconSize));
@@ -109,4 +124,3 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVe
 
     return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight));
 }
-

@@ -40,8 +40,8 @@ class DOLPHIN_EXPORT KItemModelBase : public QObject
     Q_OBJECT
 
 public:
-    explicit KItemModelBase(QObject* parent = nullptr);
-    explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = nullptr);
+    explicit KItemModelBase(QObject *parent = nullptr);
+    explicit KItemModelBase(const QByteArray &sortRole, QObject *parent = nullptr);
     ~KItemModelBase() override;
 
     /** @return The number of items. */
@@ -56,7 +56,7 @@ public:
      * The default implementation does not set the data, and will always return
      * false.
      */
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
+    virtual bool setData(int index, const QHash<QByteArray, QVariant> &values);
 
     /**
      * Enables/disables the grouped sorting. The method KItemModelBase::onGroupedSortingChanged() will be
@@ -73,7 +73,7 @@ public:
      * signal sortRoleChanged() will be emitted.
      * The implementation should resort only if \a resortItems is true.
      */
-    void setSortRole(const QByteArray& role, bool resortItems = true);
+    void setSortRole(const QByteArray &role, bool resortItems = true);
     QByteArray sortRole() const;
 
     /**
@@ -88,7 +88,7 @@ public:
      * @return Translated description for the \p role. The description is e.g. used
      *         for the header in KItemListView.
      */
-    virtual QString roleDescription(const QByteArray& role) const;
+    virtual QString roleDescription(const QByteArray &role) const;
 
     /**
      * @return List of group headers. Each list-item consists of the index of the item
@@ -96,7 +96,7 @@ public:
      *         as QVariant. The value is shown by an instance of KItemListGroupHeader.
      *         Per default an empty list is returned.
      */
-    virtual QList<QPair<int, QVariant> > groups() const;
+    virtual QList<QPair<int, QVariant>> groups() const;
 
     /**
      * Expands the item with the index \a index if \a expanded is true.
@@ -136,7 +136,7 @@ public:
      *         caller of this method. The method must be implemented if dragging of
      *         items should be possible.
      */
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
+    virtual QMimeData *createMimeData(const KItemSet &indexes) const;
 
     /**
      * @return Reimplement this to return the index for the first item
@@ -144,7 +144,7 @@ public:
      * @param text              the text which has been typed in through the keyboard
      * @param startFromIndex    the index from which to start searching from
      */
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+    virtual int indexForKeyboardSearch(const QString &text, int startFromIndex = 0) const;
 
     /**
      * @return True, if the item with the index \a index basically supports dropping.
@@ -196,7 +196,7 @@ Q_SIGNALS:
      * - They don't overlap
      * - The index of item-range n is smaller than the index of item-range n + 1.
      */
-    void itemsInserted(const KItemRangeList& itemRanges);
+    void itemsInserted(const KItemRangeList &itemRanges);
 
     /**
      * Is emitted if one or more items have been removed. Each item-range consists
@@ -210,7 +210,7 @@ Q_SIGNALS:
      * - They don't overlap
      * - The index of item-range n is smaller than the index of item-range n + 1.
      */
-    void itemsRemoved(const KItemRangeList& itemRanges);
+    void itemsRemoved(const KItemRangeList &itemRanges);
 
     /**
      * Is emitted if one ore more items get moved.
@@ -225,9 +225,9 @@ Q_SIGNALS:
      * This signal implies that the groups might have changed. Therefore,
      * gropusChanged() is not emitted if this signal is emitted.
      */
-    void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
+    void itemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes);
 
-    void itemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
+    void itemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles);
 
     /**
      * Is emitted if the groups have changed, even though the order of the
@@ -236,7 +236,7 @@ Q_SIGNALS:
     void groupsChanged();
 
     void groupedSortingChanged(bool current);
-    void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    void sortRoleChanged(const QByteArray &current, const QByteArray &previous);
     void sortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 protected:
@@ -255,7 +255,7 @@ protected:
      * itemsInserted() signal afterwards.
      * The implementation should resort only if \a resortItems is true.
      */
-    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true);
+    virtual void onSortRoleChanged(const QByteArray &current, const QByteArray &previous, bool resortItems = true);
 
     /**
      * Is invoked if the sort order has been changed by KItemModelBase::setSortOrder(). Allows
@@ -279,5 +279,3 @@ inline Qt::SortOrder KItemModelBase::sortOrder() const
 }
 
 #endif
-
-

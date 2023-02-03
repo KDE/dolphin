@@ -14,13 +14,14 @@
 
 using namespace SelectionMode;
 
-ActionWithWidget::ActionWithWidget(QAction *action) :
-    m_action{action}
-{   }
+ActionWithWidget::ActionWithWidget(QAction *action)
+    : m_action{action}
+{
+}
 
-ActionWithWidget::ActionWithWidget(QAction *action, QAbstractButton *button) :
-    m_action{action},
-    m_widget{button}
+ActionWithWidget::ActionWithWidget(QAction *action, QAbstractButton *button)
+    : m_action{action}
+    , m_widget{button}
 {
     copyActionDataToButton(button, action);
 }

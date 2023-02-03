@@ -12,8 +12,8 @@
 #include <sys/utime.h>
 #endif
 
-TestDir::TestDir(const QString& directoryPrefix) :
-    QTemporaryDir(directoryPrefix)
+TestDir::TestDir(const QString &directoryPrefix)
+    : QTemporaryDir(directoryPrefix)
 {
 }
 
@@ -27,7 +27,7 @@ QUrl TestDir::url() const
 }
 
 /** The following function is taken from kdelibs/kio/tests/kiotesthelper.h, copyright (C) 2006 by David Faure */
-static void setTimeStamp(const QString& path, const QDateTime& mtime)
+static void setTimeStamp(const QString &path, const QDateTime &mtime)
 {
 #ifdef Q_OS_UNIX
     struct utimbuf utbuf;
@@ -42,7 +42,7 @@ static void setTimeStamp(const QString& path, const QDateTime& mtime)
 #endif
 }
 
-void TestDir::createFile(const QString& path, const QByteArray& data, const QDateTime& time)
+void TestDir::createFile(const QString &path, const QByteArray &data, const QDateTime &time)
 {
     QString absolutePath = path;
     makePathAbsoluteAndCreateParents(absolutePath);
@@ -59,14 +59,14 @@ void TestDir::createFile(const QString& path, const QByteArray& data, const QDat
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
-void TestDir::createFiles(const QStringList& files)
+void TestDir::createFiles(const QStringList &files)
 {
-    for (const QString& path : files) {
+    for (const QString &path : files) {
         createFile(path);
     }
 }
 
-void TestDir::createDir(const QString& path, const QDateTime& time)
+void TestDir::createDir(const QString &path, const QDateTime &time)
 {
     QString absolutePath = path;
     makePathAbsoluteAndCreateParents(absolutePath);
@@ -79,14 +79,14 @@ void TestDir::createDir(const QString& path, const QDateTime& time)
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
-void TestDir::removeFiles(const QStringList& files)
+void TestDir::removeFiles(const QStringList &files)
 {
-    for (const QString& path : files) {
+    for (const QString &path : files) {
         removeFile(path);
     }
 }
 
-void TestDir::removeFile(const QString& path)
+void TestDir::removeFile(const QString &path)
 {
     QString absolutePath = path;
     QFileInfo fileInfo(absolutePath);
@@ -96,7 +96,7 @@ void TestDir::removeFile(const QString& path)
     QFile::remove(absolutePath);
 }
 
-void TestDir::removeDir(const QString& path)
+void TestDir::removeDir(const QString &path)
 {
     QString absolutePath = path;
     QFileInfo fileInfo(absolutePath);
@@ -107,7 +107,7 @@ void TestDir::removeDir(const QString& path)
     dirToRemove.removeRecursively();
 }
 
-void TestDir::makePathAbsoluteAndCreateParents(QString& path)
+void TestDir::makePathAbsoluteAndCreateParents(QString &path)
 {
     QFileInfo fileInfo(path);
     if (!fileInfo.isAbsolute()) {

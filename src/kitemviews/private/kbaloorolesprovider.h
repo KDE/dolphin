@@ -14,8 +14,9 @@
 #include <QSet>
 #include <QVariant>
 
-namespace Baloo {
-    class File;
+namespace Baloo
+{
+class File;
 }
 
 /**
@@ -27,7 +28,7 @@ namespace Baloo {
 class DOLPHIN_EXPORT KBalooRolesProvider
 {
 public:
-    static KBalooRolesProvider& instance();
+    static KBalooRolesProvider &instance();
     virtual ~KBalooRolesProvider();
 
     /**
@@ -39,8 +40,7 @@ public:
      * @return Values for the roles \a roles that can be determined from the file
      *         with the URL \a url.
      */
-    QHash<QByteArray, QVariant> roleValues(const Baloo::File& file,
-                                           const QSet<QByteArray>& roles) const;
+    QHash<QByteArray, QVariant> roleValues(const Baloo::File &file, const QSet<QByteArray> &roles) const;
 
 protected:
     KBalooRolesProvider();
@@ -52,4 +52,3 @@ private:
 };
 
 #endif
-

@@ -10,21 +10,21 @@
 
 #include <QWidget>
 
-#include <KIO/EmptyTrashJob>
 #include <KDirLister>
+#include <KIO/EmptyTrashJob>
 
-class Trash: public QObject
+class Trash : public QObject
 {
     Q_OBJECT
 
 public:
     // delete copy and move constructors and assign operators
-    Trash(Trash const&) = delete;
-    Trash(Trash&&) = delete;
-    Trash& operator=(Trash const&) = delete;
-    Trash& operator=(Trash &&) = delete;
+    Trash(Trash const &) = delete;
+    Trash(Trash &&) = delete;
+    Trash &operator=(Trash const &) = delete;
+    Trash &operator=(Trash &&) = delete;
 
-    static Trash& instance();
+    static Trash &instance();
     static void empty(QWidget *window);
     static bool isEmpty();
 

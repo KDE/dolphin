@@ -21,10 +21,8 @@
  * SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
  */
 
-template <typename RandomAccessIterator, typename LessThan>
-static void mergeSort(RandomAccessIterator begin,
-                      RandomAccessIterator end,
-                      const LessThan& lessThan)
+template<typename RandomAccessIterator, typename LessThan>
+static void mergeSort(RandomAccessIterator begin, RandomAccessIterator end, const LessThan &lessThan)
 {
     // The implementation is based on qStableSortHelper() from qalgorithms.h
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -49,12 +47,9 @@ static void mergeSort(RandomAccessIterator begin,
  * The comparison function \a lessThan must be reentrant.
  */
 
-template <typename RandomAccessIterator, typename LessThan>
-static void parallelMergeSort(RandomAccessIterator begin,
-                              RandomAccessIterator end,
-                              LessThan lessThan,
-                              int numberOfThreads,
-                              int parallelMergeSortingThreshold = 100)
+template<typename RandomAccessIterator, typename LessThan>
+static void
+parallelMergeSort(RandomAccessIterator begin, RandomAccessIterator end, LessThan lessThan, int numberOfThreads, int parallelMergeSortingThreshold = 100)
 {
     const int span = end - begin;
 
@@ -62,7 +57,8 @@ static void parallelMergeSort(RandomAccessIterator begin,
         const int newNumberOfThreads = numberOfThreads / 2;
         const RandomAccessIterator middle = begin + span / 2;
 
-        QFuture<void> future = QtConcurrent::run(parallelMergeSort<RandomAccessIterator, LessThan>, begin, middle, lessThan, newNumberOfThreads, parallelMergeSortingThreshold);
+        QFuture<void> future =
+            QtConcurrent::run(parallelMergeSort<RandomAccessIterator, LessThan>, begin, middle, lessThan, newNumberOfThreads, parallelMergeSortingThreshold);
         parallelMergeSort(middle, end, lessThan, newNumberOfThreads, parallelMergeSortingThreshold);
 
         future.waitForFinished();
@@ -82,11 +78,8 @@ static void parallelMergeSort(RandomAccessIterator begin,
  * SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
  */
 
-template <typename RandomAccessIterator, typename LessThan>
-static void merge(RandomAccessIterator begin,
-                  RandomAccessIterator pivot,
-                  RandomAccessIterator end,
-                  const LessThan& lessThan)
+template<typename RandomAccessIterator, typename LessThan>
+static void merge(RandomAccessIterator begin, RandomAccessIterator pivot, RandomAccessIterator end, const LessThan &lessThan)
 {
     // The implementation is based on qMerge() from qalgorithms.h
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -111,14 +104,12 @@ static void merge(RandomAccessIterator begin,
     if (len1 > len2) {
         const int len1Half = len1 / 2;
         firstCut = begin + len1Half;
-        secondCut = std::lower_bound<RandomAccessIterator,
-            decltype(*firstCut), const LessThan&>(pivot, end, *firstCut, lessThan);
+        secondCut = std::lower_bound<RandomAccessIterator, decltype(*firstCut), const LessThan &>(pivot, end, *firstCut, lessThan);
         len2Half = secondCut - pivot;
     } else {
         len2Half = len2 / 2;
         secondCut = pivot + len2Half;
-        firstCut = std::upper_bound<RandomAccessIterator,
-            decltype(*secondCut), const LessThan&>(begin, pivot, *secondCut, lessThan);
+        firstCut = std::upper_bound<RandomAccessIterator, decltype(*secondCut), const LessThan &>(begin, pivot, *secondCut, lessThan);
     }
 
     std::rotate(firstCut, pivot, secondCut);
@@ -129,4 +120,3 @@ static void merge(RandomAccessIterator begin,
 }
 
 #endif
-

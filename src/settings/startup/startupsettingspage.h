@@ -25,7 +25,7 @@ class StartupSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    StartupSettingsPage(const QUrl& url, QWidget* parent);
+    StartupSettingsPage(const QUrl &url, QWidget *parent);
     ~StartupSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -47,18 +47,18 @@ private:
 
 private:
     QUrl m_url;
-    QLineEdit* m_homeUrl;
-    QWidget* m_homeUrlBoxLayoutContainer;
-    QWidget* m_buttonBoxLayoutContainer;
-    QRadioButton* m_rememberOpenedTabsRadioButton;
-    QRadioButton* m_homeUrlRadioButton;
+    QLineEdit *m_homeUrl;
+    QWidget *m_homeUrlBoxLayoutContainer;
+    QWidget *m_buttonBoxLayoutContainer;
+    QRadioButton *m_rememberOpenedTabsRadioButton;
+    QRadioButton *m_homeUrlRadioButton;
 
-    QCheckBox* m_splitView;
-    QCheckBox* m_editableUrl;
-    QCheckBox* m_showFullPath;
-    QCheckBox* m_filterBar;
-    QCheckBox* m_showFullPathInTitlebar;
-    QCheckBox* m_openExternallyCalledFolderInNewTab;
+    QCheckBox *m_splitView;
+    QCheckBox *m_editableUrl;
+    QCheckBox *m_showFullPath;
+    QCheckBox *m_filterBar;
+    QCheckBox *m_showFullPathInTitlebar;
+    QCheckBox *m_openExternallyCalledFolderInNewTab;
 };
 
 #endif

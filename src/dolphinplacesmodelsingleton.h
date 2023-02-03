@@ -7,8 +7,8 @@
 #ifndef DOLPHINPLACESMODELSINGLETON_H
 #define DOLPHINPLACESMODELSINGLETON_H
 
-#include <QString>
 #include <QScopedPointer>
+#include <QString>
 
 #include <KFilePlacesModel>
 
@@ -50,17 +50,16 @@ private:
  */
 class DolphinPlacesModelSingleton
 {
-
 public:
-    static DolphinPlacesModelSingleton& instance();
+    static DolphinPlacesModelSingleton &instance();
 
     DolphinPlacesModel *placesModel() const;
     /** A suffix to the application-name of the stored bookmarks is
      added, which is only read by PlacesItemModel. */
     static QString applicationNameSuffix();
 
-    DolphinPlacesModelSingleton(const DolphinPlacesModelSingleton&) = delete;
-    DolphinPlacesModelSingleton& operator=(const DolphinPlacesModelSingleton&) = delete;
+    DolphinPlacesModelSingleton(const DolphinPlacesModelSingleton &) = delete;
+    DolphinPlacesModelSingleton &operator=(const DolphinPlacesModelSingleton &) = delete;
 
 private:
     DolphinPlacesModelSingleton();

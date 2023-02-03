@@ -28,7 +28,7 @@ public:
     void defaults() override;
 
 private:
-    QList<SettingsPageBase*> m_pages;
+    QList<SettingsPageBase *> m_pages;
 };
 
 #endif

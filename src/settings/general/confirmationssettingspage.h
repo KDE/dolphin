@@ -20,7 +20,7 @@ class ConfirmationsSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ConfirmationsSettingsPage(QWidget* parent);
+    explicit ConfirmationsSettingsPage(QWidget *parent);
     ~ConfirmationsSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -33,16 +33,16 @@ private:
     void loadSettings();
 
 private:
-    QCheckBox* m_confirmMoveToTrash;
-    QCheckBox* m_confirmEmptyTrash;
-    QCheckBox* m_confirmDelete;
+    QCheckBox *m_confirmMoveToTrash;
+    QCheckBox *m_confirmEmptyTrash;
+    QCheckBox *m_confirmDelete;
 
 #if HAVE_TERMINAL
-    QCheckBox* m_confirmClosingTerminalRunningProgram;
+    QCheckBox *m_confirmClosingTerminalRunningProgram;
 #endif
 
-    QCheckBox* m_confirmClosingMultipleTabs;
-    QComboBox* m_confirmScriptExecution;
+    QCheckBox *m_confirmClosingMultipleTabs;
+    QComboBox *m_confirmScriptExecution;
 };
 
 #endif

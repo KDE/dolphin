@@ -23,7 +23,7 @@ class BehaviorSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    BehaviorSettingsPage(const QUrl &url, QWidget* parent);
+    BehaviorSettingsPage(const QUrl &url, QWidget *parent);
     ~BehaviorSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -34,26 +34,26 @@ public:
 
 private:
     void loadSettings();
-    void setSortingChoiceValue(GeneralSettings* settings);
+    void setSortingChoiceValue(GeneralSettings *settings);
     void loadSortingChoiceSettings();
 
 private:
     QUrl m_url;
 
-    QRadioButton* m_localViewProps;
-    QRadioButton* m_globalViewProps;
+    QRadioButton *m_localViewProps;
+    QRadioButton *m_globalViewProps;
 
-    QCheckBox* m_showToolTips;
-    QLabel* m_configureToolTips;
-    QCheckBox* m_showSelectionToggle;
+    QCheckBox *m_showToolTips;
+    QLabel *m_configureToolTips;
+    QCheckBox *m_showSelectionToggle;
 
-    QRadioButton* m_naturalSorting;
-    QRadioButton* m_caseSensitiveSorting;
-    QRadioButton* m_caseInsensitiveSorting;
+    QRadioButton *m_naturalSorting;
+    QRadioButton *m_caseSensitiveSorting;
+    QRadioButton *m_caseInsensitiveSorting;
 
-    QCheckBox* m_renameInline;
-    QCheckBox* m_useTabForSplitViewSwitch;
-    QCheckBox* m_closeActiveSplitView;
+    QCheckBox *m_renameInline;
+    QCheckBox *m_useTabForSplitViewSwitch;
+    QCheckBox *m_closeActiveSplitView;
 };
 
 #endif

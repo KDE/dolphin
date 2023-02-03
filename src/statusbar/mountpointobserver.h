@@ -40,8 +40,10 @@ class MountPointObserver : public QObject
 {
     Q_OBJECT
 
-    explicit MountPointObserver(const QUrl& url, QObject* parent = nullptr);
-    ~MountPointObserver() override {}
+    explicit MountPointObserver(const QUrl &url, QObject *parent = nullptr);
+    ~MountPointObserver() override
+    {
+    }
 
 public:
     /**
@@ -49,7 +51,10 @@ public:
      * internal reference count is increased then. When the observer is not needed any more,
      * deref() should be called, which decreases the reference count again.
      */
-    void ref() { ++m_referenceCount; }
+    void ref()
+    {
+        ++m_referenceCount;
+    }
 
     /**
      * This function can be used to indicate that the caller does not need this MountPointObserver
@@ -66,7 +71,7 @@ public:
      * Returns a MountPointObserver for the given \a url. If the caller intends to continue using
      * the returned object, it must call its ref() method.
      */
-    static MountPointObserver* observerForUrl(const QUrl& url);
+    static MountPointObserver *observerForUrl(const QUrl &url);
 
 Q_SIGNALS:
     /**
@@ -82,7 +87,7 @@ public Q_SLOTS:
     void update();
 
 private Q_SLOTS:
-    void freeSpaceResult(KIO::Job* job, KIO::filesize_t size, KIO::filesize_t available);
+    void freeSpaceResult(KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available);
 
 private:
     const QUrl m_url;

@@ -20,23 +20,19 @@ class ServiceItemDelegate : public KWidgetItemDelegate
     Q_OBJECT
 
 public:
-    explicit ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent = nullptr);
+    explicit ServiceItemDelegate(QAbstractItemView *itemView, QObject *parent = nullptr);
     ~ServiceItemDelegate() override;
 
-    QSize sizeHint(const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-    void paint(QPainter* painter, const QStyleOptionViewItem& option,
-                       const QModelIndex& index) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-    QList<QWidget*> createItemWidgets(const QModelIndex&) const override;
+    QList<QWidget *> createItemWidgets(const QModelIndex &) const override;
 
-    void updateItemWidgets(const QList<QWidget*> widgets,
-                                   const QStyleOptionViewItem& option,
-                                   const QPersistentModelIndex& index) const override;
+    void updateItemWidgets(const QList<QWidget *> widgets, const QStyleOptionViewItem &option, const QPersistentModelIndex &index) const override;
 
 Q_SIGNALS:
-    void requestServiceConfiguration(const QModelIndex& index);
+    void requestServiceConfiguration(const QModelIndex &index);
 
 private Q_SLOTS:
     void slotCheckBoxClicked(bool checked);

@@ -12,37 +12,41 @@
 
 #include <QList>
 
-struct KItemRange
-{
+struct KItemRange {
     KItemRange(int index = 0, int count = 0);
     int index;
     int count;
 
-    bool operator == (const KItemRange& other) const;
+    bool operator==(const KItemRange &other) const;
 };
 
-inline KItemRange::KItemRange(int index, int count) :
-    index(index),
-    count(count)
+inline KItemRange::KItemRange(int index, int count)
+    : index(index)
+    , count(count)
 {
 }
 
-inline bool KItemRange::operator == (const KItemRange& other) const
+inline bool KItemRange::operator==(const KItemRange &other) const
 {
     return index == other.index && count == other.count;
 }
 
-
 class KItemRangeList : public QList<KItemRange>
 {
 public:
-    KItemRangeList() : QList<KItemRange>() {}
-    explicit KItemRangeList(const QList<KItemRange>& list) : QList<KItemRange>(list) {}
+    KItemRangeList()
+        : QList<KItemRange>()
+    {
+    }
+    explicit KItemRangeList(const QList<KItemRange> &list)
+        : QList<KItemRange>(list)
+    {
+    }
 
     template<class Container>
-    static KItemRangeList fromSortedContainer(const Container& container);
+    static KItemRangeList fromSortedContainer(const Container &container);
 
-    KItemRangeList& operator<<(const KItemRange& range)
+    KItemRangeList &operator<<(const KItemRange &range)
     {
         append(range);
         return *this;
@@ -50,7 +54,7 @@ public:
 };
 
 template<class Container>
-KItemRangeList KItemRangeList::fromSortedContainer(const Container& container)
+KItemRangeList KItemRangeList::fromSortedContainer(const Container &container)
 {
     typename Container::const_iterator it = container.constBegin();
     const typename Container::const_iterator end = container.constEnd();

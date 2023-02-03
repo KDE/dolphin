@@ -24,7 +24,6 @@ class QRegularExpression;
  */
 class DOLPHIN_EXPORT KFileItemModelFilter
 {
-
 public:
     KFileItemModelFilter();
     virtual ~KFileItemModelFilter();
@@ -35,14 +34,14 @@ public:
      * defines a sub-string. As soon as the pattern contains at least
      * a '*', '?' or '[' the pattern represents a regular expression.
      */
-    void setPattern(const QString& pattern);
+    void setPattern(const QString &pattern);
     QString pattern() const;
 
     /**
      * Set the list of mimetypes that are used for comparison with the
      * item in KFileItemModelFilter::matchesMimeType.
      */
-    void setMimeTypes(const QStringList& types);
+    void setMimeTypes(const QStringList &types);
     QStringList mimeTypes() const;
 
     /**
@@ -54,27 +53,25 @@ public:
      * @return True if the item matches with the pattern defined by
      *         @ref setPattern() or @ref setMimeTypes
      */
-    bool matches(const KFileItem& item) const;
+    bool matches(const KFileItem &item) const;
 
 private:
     /**
      * @return True if item matches pattern set by @ref setPattern.
      */
-    bool matchesPattern(const KFileItem& item) const;
+    bool matchesPattern(const KFileItem &item) const;
 
     /**
      * @return True if item matches mimetypes set by @ref setMimeTypes.
      */
-    bool matchesType(const KFileItem& item) const;
+    bool matchesType(const KFileItem &item) const;
 
-    bool m_useRegExp;           // If true, m_regExp is used for filtering,
-                                // otherwise m_lowerCaseFilter is used.
+    bool m_useRegExp; // If true, m_regExp is used for filtering,
+                      // otherwise m_lowerCaseFilter is used.
     QRegularExpression *m_regExp;
     QString m_lowerCasePattern; // Lowercase version of m_filter for
                                 // faster comparison in matches().
-    QString m_pattern;          // Property set by setPattern().
-    QStringList m_mimeTypes;    // Property set by setMimeTypes()
+    QString m_pattern; // Property set by setPattern().
+    QStringList m_mimeTypes; // Property set by setMimeTypes()
 };
 #endif
-
-

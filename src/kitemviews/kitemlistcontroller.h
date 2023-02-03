@@ -49,45 +49,35 @@ class QTouchEvent;
 class DOLPHIN_EXPORT KItemListController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(KItemModelBase* model READ model WRITE setModel)
+    Q_PROPERTY(KItemModelBase *model READ model WRITE setModel)
     Q_PROPERTY(KItemListView *view READ view WRITE setView)
     Q_PROPERTY(SelectionBehavior selectionBehavior READ selectionBehavior WRITE setSelectionBehavior)
     Q_PROPERTY(AutoActivationBehavior autoActivationBehavior READ autoActivationBehavior WRITE setAutoActivationBehavior)
     Q_PROPERTY(MouseDoubleClickAction mouseDoubleClickAction READ mouseDoubleClickAction WRITE setMouseDoubleClickAction)
 
 public:
-    enum SelectionBehavior {
-        NoSelection,
-        SingleSelection,
-        MultiSelection
-    };
+    enum SelectionBehavior { NoSelection, SingleSelection, MultiSelection };
     Q_ENUM(SelectionBehavior)
 
-    enum AutoActivationBehavior {
-        ActivationAndExpansion,
-        ExpansionOnly
-    };
+    enum AutoActivationBehavior { ActivationAndExpansion, ExpansionOnly };
 
-    enum MouseDoubleClickAction {
-        ActivateAndExpandItem,
-        ActivateItemOnly
-    };
+    enum MouseDoubleClickAction { ActivateAndExpandItem, ActivateItemOnly };
 
     /**
      * @param model  Model of the controller. The ownership is passed to the controller.
      * @param view   View of the controller. The ownership is passed to the controller.
      * @param parent Optional parent object.
      */
-    KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent = nullptr);
+    KItemListController(KItemModelBase *model, KItemListView *view, QObject *parent = nullptr);
     ~KItemListController() override;
 
-    void setModel(KItemModelBase* model);
-    KItemModelBase* model() const;
+    void setModel(KItemModelBase *model);
+    KItemModelBase *model() const;
 
-    void setView(KItemListView* view);
-    KItemListView* view() const;
+    void setView(KItemListView *view);
+    KItemListView *view() const;
 
-    KItemListSelectionManager* selectionManager() const;
+    KItemListSelectionManager *selectionManager() const;
 
     void setSelectionBehavior(SelectionBehavior behavior);
     SelectionBehavior selectionBehavior() const;
@@ -133,7 +123,7 @@ public:
     void setSelectionModeEnabled(bool enabled);
     bool selectionMode() const;
 
-    bool processEvent(QEvent* event, const QTransform& transform);
+    bool processEvent(QEvent *event, const QTransform &transform);
 
 Q_SIGNALS:
     /**
@@ -154,17 +144,17 @@ Q_SIGNALS:
      * Emitted if a context-menu is requested for the item with
      * the index \a index. It is assured that the index is valid.
      */
-    void itemContextMenuRequested(int index, const QPointF& pos);
+    void itemContextMenuRequested(int index, const QPointF &pos);
 
     /**
      * Emitted if a context-menu is requested for the KItemListView.
      */
-    void viewContextMenuRequested(const QPointF& pos);
+    void viewContextMenuRequested(const QPointF &pos);
 
     /**
      * Emitted if a context-menu is requested for the header of the KItemListView.
      */
-    void headerContextMenuRequested(const QPointF& pos);
+    void headerContextMenuRequested(const QPointF &pos);
 
     /**
      * Is emitted if the item with the index \p index gets hovered.
@@ -203,13 +193,13 @@ Q_SIGNALS:
      *       which is emitted if the drop event occurs on an empty area in
      *       the view, and make sure that index is always >= 0 in itemDropEvent().
      */
-    void itemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void itemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
 
     /**
      * Is emitted if a drop event is done between the item with the index
      * \a index and the previous item.
      */
-    void aboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void aboveItemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
 
     /**
      * Is emitted if the Escape key is pressed.
@@ -227,8 +217,8 @@ Q_SIGNALS:
      */
     void selectionModeChangeRequested(bool enabled);
 
-    void modelChanged(KItemModelBase* current, KItemModelBase* previous);
-    void viewChanged(KItemListView* current, KItemListView* previous);
+    void modelChanged(KItemModelBase *current, KItemModelBase *previous);
+    void viewChanged(KItemListView *current, KItemListView *previous);
 
     void selectedItemTextPressed(int index);
 
@@ -249,7 +239,7 @@ private Q_SLOTS:
      */
     void slotRubberBandChanged();
 
-    void slotChangeCurrentItem(const QString& text, bool searchFromNextItem);
+    void slotChangeCurrentItem(const QString &text, bool searchFromNextItem);
 
     void slotAutoActivationTimeout();
 
@@ -263,13 +253,13 @@ private:
      * @return Widget that is currently in the hovered state. 0 is returned
      *         if no widget is marked as hovered.
      */
-    KItemListWidget* hoveredWidget() const;
+    KItemListWidget *hoveredWidget() const;
 
     /**
      * @return Widget that is below the position \a pos. 0 is returned
      *         if no widget is below the position.
      */
-    KItemListWidget* widgetForPos(const QPointF& pos) const;
+    KItemListWidget *widgetForPos(const QPointF &pos) const;
 
     /**
      * @return Widget that should receive a drop event if an item is dropped at \a pos. 0 is returned
@@ -278,7 +268,7 @@ private:
      * While widgetForPos() returns a widget if \a pos is anywhere inside the hover highlight area of the widget,
      * widgetForDropPos() only returns a widget if \a pos is directly above the widget (widget->contains(pos) == true).
      */
-    KItemListWidget* widgetForDropPos(const QPointF& pos) const;
+    KItemListWidget *widgetForDropPos(const QPointF &pos) const;
 
     /**
      * Updates m_keyboardAnchorIndex and m_keyboardAnchorPos. If no anchor is
@@ -315,30 +305,30 @@ private:
      */
     void updateExtendedSelectionRegion();
 
-    bool keyPressEvent(QKeyEvent* event);
-    bool inputMethodEvent(QInputMethodEvent* event);
-    bool mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseMoveEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseReleaseEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool dragEnterEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dragLeaveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dragMoveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool hoverEnterEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
-    bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
-    bool gestureEvent(QGestureEvent* event, const QTransform& transform);
-    bool touchBeginEvent(QTouchEvent* event, const QTransform& transform);
-    void tapTriggered(QTapGesture* tap, const QTransform& transform);
-    void tapAndHoldTriggered(QGestureEvent* event, const QTransform& transform);
-    void pinchTriggered(QGestureEvent* event, const QTransform& transform);
-    void swipeTriggered(QGestureEvent* event, const QTransform& transform);
-    void twoFingerTapTriggered(QGestureEvent* event, const QTransform& transform);
-    bool onPress(const QPoint& screenPos, const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
-    bool onRelease(const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
+    bool keyPressEvent(QKeyEvent *event);
+    bool inputMethodEvent(QInputMethodEvent *event);
+    bool mousePressEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
+    bool mouseMoveEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
+    bool mouseReleaseEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
+    bool mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
+    bool dragEnterEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
+    bool dragLeaveEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
+    bool dragMoveEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
+    bool dropEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
+    bool hoverEnterEvent(QGraphicsSceneHoverEvent *event, const QTransform &transform);
+    bool hoverMoveEvent(QGraphicsSceneHoverEvent *event, const QTransform &transform);
+    bool hoverLeaveEvent(QGraphicsSceneHoverEvent *event, const QTransform &transform);
+    bool wheelEvent(QGraphicsSceneWheelEvent *event, const QTransform &transform);
+    bool resizeEvent(QGraphicsSceneResizeEvent *event, const QTransform &transform);
+    bool gestureEvent(QGestureEvent *event, const QTransform &transform);
+    bool touchBeginEvent(QTouchEvent *event, const QTransform &transform);
+    void tapTriggered(QTapGesture *tap, const QTransform &transform);
+    void tapAndHoldTriggered(QGestureEvent *event, const QTransform &transform);
+    void pinchTriggered(QGestureEvent *event, const QTransform &transform);
+    void swipeTriggered(QGestureEvent *event, const QTransform &transform);
+    void twoFingerTapTriggered(QGestureEvent *event, const QTransform &transform);
+    bool onPress(const QPoint &screenPos, const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
+    bool onRelease(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
     void startRubberBand();
 
 private:
@@ -355,14 +345,14 @@ private:
     SelectionBehavior m_selectionBehavior;
     AutoActivationBehavior m_autoActivationBehavior;
     MouseDoubleClickAction m_mouseDoubleClickAction;
-    KItemModelBase* m_model;
-    KItemListView* m_view;
-    KItemListSelectionManager* m_selectionManager;
-    KItemListKeyboardSearchManager* m_keyboardManager;
+    KItemModelBase *m_model;
+    KItemListView *m_view;
+    KItemListSelectionManager *m_selectionManager;
+    KItemListKeyboardSearchManager *m_keyboardManager;
     std::optional<int> m_pressedIndex;
     QPointF m_pressedMousePos;
 
-    QTimer* m_autoActivationTimer;
+    QTimer *m_autoActivationTimer;
 
     Qt::GestureType m_swipeGesture;
     Qt::GestureType m_twoFingerTapGesture;
@@ -394,5 +384,3 @@ private:
 };
 
 #endif
-
-

@@ -21,7 +21,7 @@ private Q_SLOTS:
     void testTextClearing();
 
 private:
-    DolphinSearchBox* m_searchBox;
+    DolphinSearchBox *m_searchBox;
 };
 
 void DolphinSearchBoxTest::initTestCase()

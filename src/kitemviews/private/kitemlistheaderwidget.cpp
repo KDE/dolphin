@@ -12,21 +12,20 @@
 #include <QPainter>
 #include <QStyleOptionHeader>
 
-
-KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
-    QGraphicsWidget(parent),
-    m_automaticColumnResizing(true),
-    m_model(nullptr),
-    m_offset(0),
-    m_sidePadding(0),
-    m_columns(),
-    m_columnWidths(),
-    m_preferredColumnWidths(),
-    m_hoveredRoleIndex(-1),
-    m_pressedRoleIndex(-1),
-    m_roleOperation(NoRoleOperation),
-    m_pressedMousePos(),
-    m_movingRole()
+KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget *parent)
+    : QGraphicsWidget(parent)
+    , m_automaticColumnResizing(true)
+    , m_model(nullptr)
+    , m_offset(0)
+    , m_sidePadding(0)
+    , m_columns()
+    , m_columnWidths()
+    , m_preferredColumnWidths()
+    , m_hoveredRoleIndex(-1)
+    , m_pressedRoleIndex(-1)
+    , m_roleOperation(NoRoleOperation)
+    , m_pressedMousePos()
+    , m_movingRole()
 {
     m_movingRole.x = 0;
     m_movingRole.xDec = 0;
@@ -41,30 +40,26 @@ KItemListHeaderWidget::~KItemListHeaderWidget()
 {
 }
 
-void KItemListHeaderWidget::setModel(KItemModelBase* model)
+void KItemListHeaderWidget::setModel(KItemModelBase *model)
 {
     if (m_model == model) {
         return;
     }
 
     if (m_model) {
-        disconnect(m_model, &KItemModelBase::sortRoleChanged,
-                   this, &KItemListHeaderWidget::slotSortRoleChanged);
-        disconnect(m_model, &KItemModelBase::sortOrderChanged,
-                   this, &KItemListHeaderWidget::slotSortOrderChanged);
+        disconnect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListHeaderWidget::slotSortRoleChanged);
+        disconnect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListHeaderWidget::slotSortOrderChanged);
     }
 
     m_model = model;
 
     if (m_model) {
-        connect(m_model, &KItemModelBase::sortRoleChanged,
-                this, &KItemListHeaderWidget::slotSortRoleChanged);
-        connect(m_model, &KItemModelBase::sortOrderChanged,
-                this, &KItemListHeaderWidget::slotSortOrderChanged);
+        connect(m_model, &KItemModelBase::sortRoleChanged, this, &KItemListHeaderWidget::slotSortRoleChanged);
+        connect(m_model, &KItemModelBase::sortOrderChanged, this, &KItemListHeaderWidget::slotSortOrderChanged);
     }
 }
 
-KItemModelBase* KItemListHeaderWidget::model() const
+KItemModelBase *KItemListHeaderWidget::model() const
 {
     return m_model;
 }
@@ -79,9 +74,9 @@ bool KItemListHeaderWidget::automaticColumnResizing() const
     return m_automaticColumnResizing;
 }
 
-void KItemListHeaderWidget::setColumns(const QList<QByteArray>& roles)
+void KItemListHeaderWidget::setColumns(const QList<QByteArray> &roles)
 {
-    for (const QByteArray& role : roles) {
+    for (const QByteArray &role : roles) {
         if (!m_columnWidths.contains(role)) {
             m_preferredColumnWidths.remove(role);
         }
@@ -96,7 +91,7 @@ QList<QByteArray> KItemListHeaderWidget::columns() const
     return m_columns;
 }
 
-void KItemListHeaderWidget::setColumnWidth(const QByteArray& role, qreal width)
+void KItemListHeaderWidget::setColumnWidth(const QByteArray &role, qreal width)
 {
     const qreal minWidth = minimumColumnWidth();
     if (width < minWidth) {
@@ -109,17 +104,17 @@ void KItemListHeaderWidget::setColumnWidth(const QByteArray& role, qreal width)
     }
 }
 
-qreal KItemListHeaderWidget::columnWidth(const QByteArray& role) const
+qreal KItemListHeaderWidget::columnWidth(const QByteArray &role) const
 {
     return m_columnWidths.value(role);
 }
 
-void KItemListHeaderWidget::setPreferredColumnWidth(const QByteArray& role, qreal width)
+void KItemListHeaderWidget::setPreferredColumnWidth(const QByteArray &role, qreal width)
 {
     m_preferredColumnWidths.insert(role, width);
 }
 
-qreal KItemListHeaderWidget::preferredColumnWidth(const QByteArray& role) const
+qreal KItemListHeaderWidget::preferredColumnWidth(const QByteArray &role) const
 {
     return m_preferredColumnWidths.value(role);
 }
@@ -157,7 +152,7 @@ qreal KItemListHeaderWidget::minimumColumnWidth() const
     return fontMetrics.height() * 4;
 }
 
-void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KItemListHeaderWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -172,7 +167,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
 
     qreal x = -m_offset + m_sidePadding;
     int orderIndex = 0;
-    for (const QByteArray& role : qAsConst(m_columns)) {
+    for (const QByteArray &role : qAsConst(m_columns)) {
         const qreal roleWidth = m_columnWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
         paintRole(painter, role, rect, orderIndex, widget);
@@ -186,7 +181,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
     }
 }
 
-void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() & Qt::LeftButton) {
         m_pressedMousePos = event->pos();
@@ -194,8 +189,7 @@ void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent* event)
             m_roleOperation = ResizePaddingColumnOperation;
         } else {
             updatePressedRoleIndex(event->pos());
-            m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
-                              ResizeRoleOperation : NoRoleOperation;
+            m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ? ResizeRoleOperation : NoRoleOperation;
         }
         event->accept();
     } else {
@@ -203,7 +197,7 @@ void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsWidget::mouseReleaseEvent(event);
 
@@ -219,8 +213,7 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
         if (m_pressedRoleIndex == sortRoleIndex) {
             // Toggle the sort order
             const Qt::SortOrder previous = m_model->sortOrder();
-            const Qt::SortOrder current = (m_model->sortOrder() == Qt::AscendingOrder) ?
-                                          Qt::DescendingOrder : Qt::AscendingOrder;
+            const Qt::SortOrder current = (m_model->sortOrder() == Qt::AscendingOrder) ? Qt::DescendingOrder : Qt::AscendingOrder;
             m_model->setSortOrder(current);
             Q_EMIT sortOrderChanged(current, previous);
         } else {
@@ -264,7 +257,7 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     QApplication::restoreOverrideCursor();
 }
 
-void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsWidget::mouseMoveEvent(event);
 
@@ -352,7 +345,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
-void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseDoubleClickEvent(event);
 
@@ -369,13 +362,13 @@ void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* even
     }
 }
 
-void KItemListHeaderWidget::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+void KItemListHeaderWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverEnterEvent(event);
     updateHoveredRoleIndex(event->pos());
 }
 
-void KItemListHeaderWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void KItemListHeaderWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverLeaveEvent(event);
     if (m_hoveredRoleIndex != -1) {
@@ -384,22 +377,21 @@ void KItemListHeaderWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
     }
 }
 
-void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverMoveEvent(event);
 
-    const QPointF& pos = event->pos();
+    const QPointF &pos = event->pos();
     updateHoveredRoleIndex(pos);
-    if ((m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) ||
-            isAbovePaddingGrip(pos, PaddingGrip::Leading) ||
-        isAbovePaddingGrip(pos, PaddingGrip::Trailing)) {
+    if ((m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) || isAbovePaddingGrip(pos, PaddingGrip::Leading)
+        || isAbovePaddingGrip(pos, PaddingGrip::Trailing)) {
         setCursor(Qt::SplitHCursor);
     } else {
         unsetCursor();
     }
 }
 
-void KItemListHeaderWidget::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemListHeaderWidget::slotSortRoleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
@@ -413,11 +405,7 @@ void KItemListHeaderWidget::slotSortOrderChanged(Qt::SortOrder current, Qt::Sort
     update();
 }
 
-void KItemListHeaderWidget::paintRole(QPainter* painter,
-                                      const QByteArray& role,
-                                      const QRectF& rect,
-                                      int orderIndex,
-                                      QWidget* widget) const
+void KItemListHeaderWidget::paintRole(QPainter *painter, const QByteArray &role, const QRectF &rect, int orderIndex, QWidget *widget) const
 {
     const auto direction = widget ? widget->layoutDirection() : qApp->layoutDirection();
 
@@ -425,10 +413,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
     QStyleOptionHeader option;
     option.direction = direction;
-    option.textAlignment =
-        direction == Qt::LeftToRight
-            ? Qt::AlignLeft
-            : Qt::AlignRight;
+    option.textAlignment = direction == Qt::LeftToRight ? Qt::AlignLeft : Qt::AlignRight;
 
     option.section = orderIndex;
     option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
@@ -445,8 +430,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
         option.state |= QStyle::State_Sunken;
     }
     if (m_model->sortRole() == role) {
-        option.sortIndicator = (m_model->sortOrder() == Qt::AscendingOrder) ?
-                                QStyleOptionHeader::SortDown : QStyleOptionHeader::SortUp;
+        option.sortIndicator = (m_model->sortOrder() == Qt::AscendingOrder) ? QStyleOptionHeader::SortDown : QStyleOptionHeader::SortUp;
     }
     option.rect = rect.toRect();
     option.orientation = Qt::Horizontal;
@@ -454,7 +438,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     option.text = m_model->roleDescription(role);
 
     // First we paint any potential empty (padding) space on left and/or right of this role's column.
-    const auto paintPadding = [&](int section, const QRectF &rect, const QStyleOptionHeader::SectionPosition &pos){
+    const auto paintPadding = [&](int section, const QRectF &rect, const QStyleOptionHeader::SectionPosition &pos) {
         QStyleOptionHeader padding;
         padding.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
         padding.section = section;
@@ -473,7 +457,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
         // Paint the header for the first column; check if there is some empty space to the left which needs to be filled.
         if (rect.left() > 0) {
             option.position = QStyleOptionHeader::Middle;
-            paintPadding(0,QRectF(0.0, 0.0, rect.left(), rect.height()), QStyleOptionHeader::Beginning);
+            paintPadding(0, QRectF(0.0, 0.0, rect.left(), rect.height()), QStyleOptionHeader::Beginning);
         } else {
             option.position = QStyleOptionHeader::Beginning;
         }
@@ -492,7 +476,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     style()->drawControl(QStyle::CE_Header, &option, painter, widget);
 }
 
-void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF& pos)
+void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF &pos)
 {
     const int pressedIndex = roleIndexAt(pos);
     if (m_pressedRoleIndex != pressedIndex) {
@@ -501,7 +485,7 @@ void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF& pos)
     }
 }
 
-void KItemListHeaderWidget::updateHoveredRoleIndex(const QPointF& pos)
+void KItemListHeaderWidget::updateHoveredRoleIndex(const QPointF &pos)
 {
     const int hoverIndex = roleIndexAt(pos);
     if (m_hoveredRoleIndex != hoverIndex) {
@@ -510,12 +494,12 @@ void KItemListHeaderWidget::updateHoveredRoleIndex(const QPointF& pos)
     }
 }
 
-int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
+int KItemListHeaderWidget::roleIndexAt(const QPointF &pos) const
 {
     int index = -1;
 
     qreal x = -m_offset + m_sidePadding;
-    for (const QByteArray& role : qAsConst(m_columns)) {
+    for (const QByteArray &role : qAsConst(m_columns)) {
         ++index;
         x += m_columnWidths.value(role);
         if (pos.x() <= x) {
@@ -526,7 +510,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
     return index;
 }
 
-bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
+bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF &pos, int roleIndex) const
 {
     qreal x = -m_offset + m_sidePadding;
     for (int i = 0; i <= roleIndex; ++i) {
@@ -538,7 +522,7 @@ bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) c
     return pos.x() >= (x - grip) && pos.x() <= x;
 }
 
-bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF& pos, PaddingGrip paddingGrip) const
+bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF &pos, PaddingGrip paddingGrip) const
 {
     const qreal lx = -m_offset + m_sidePadding;
     const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
@@ -546,10 +530,9 @@ bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF& pos, PaddingGrip p
     switch (paddingGrip) {
     case Leading:
         return pos.x() >= (lx - grip) && pos.x() <= lx;
-    case Trailing:
-    {
+    case Trailing: {
         qreal rx = lx;
-        for (const QByteArray& role : qAsConst(m_columns)) {
+        for (const QByteArray &role : qAsConst(m_columns)) {
             rx += m_columnWidths.value(role);
         }
         return pos.x() >= (rx - grip) && pos.x() <= rx;
@@ -596,12 +579,8 @@ int KItemListHeaderWidget::targetOfMovingRole() const
         const qreal targetWidth = m_columnWidths.value(role);
         const qreal targetRight = targetLeft + targetWidth - 1;
 
-        const bool isInTarget = (targetWidth >= movingWidth &&
-                                 movingLeft  >= targetLeft  &&
-                                 movingRight <= targetRight) ||
-                                (targetWidth <  movingWidth &&
-                                 movingLeft  <= targetLeft  &&
-                                 movingRight >= targetRight);
+        const bool isInTarget = (targetWidth >= movingWidth && movingLeft >= targetLeft && movingRight <= targetRight)
+            || (targetWidth < movingWidth && movingLeft <= targetLeft && movingRight >= targetRight);
 
         if (isInTarget) {
             return targetIndex;
@@ -614,10 +593,10 @@ int KItemListHeaderWidget::targetOfMovingRole() const
     return m_movingRole.index;
 }
 
-qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
+qreal KItemListHeaderWidget::roleXPosition(const QByteArray &role) const
 {
     qreal x = -m_offset + m_sidePadding;
-    for (const QByteArray& visibleRole : qAsConst(m_columns)) {
+    for (const QByteArray &visibleRole : qAsConst(m_columns)) {
         if (visibleRole == role) {
             return x;
         }
@@ -627,4 +606,3 @@ qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
 
     return -1;
 }
-

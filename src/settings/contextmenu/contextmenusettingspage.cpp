@@ -6,12 +6,12 @@
 
 #include "contextmenusettingspage.h"
 
+#include "dolphin_contextmenusettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
-#include "dolphin_contextmenusettings.h"
+#include "global.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
-#include "global.h"
 
 #include <KDesktopFile>
 #include <KDesktopFileActions>
@@ -26,49 +26,48 @@
 #include <kservice_export.h>
 #include <kwidgetsaddons_version.h>
 
-#include <QtGlobal>
 #include <KNSWidgets/Button>
+#include <QtGlobal>
 
+#include <QApplication>
 #include <QGridLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QListWidget>
 #include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
-#include <QLineEdit>
-#include <QApplication>
 
 namespace
 {
-    const bool ShowDeleteDefault = false;
-    const char VersionControlServicePrefix[] = "_version_control_";
-    const char DeleteService[] = "_delete";
-    const char CopyToMoveToService[] ="_copy_to_move_to";
+const bool ShowDeleteDefault = false;
+const char VersionControlServicePrefix[] = "_version_control_";
+const char DeleteService[] = "_delete";
+const char CopyToMoveToService[] = "_copy_to_move_to";
 
-    bool laterSelected = false;
+bool laterSelected = false;
 }
 
-ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
-                                                 const KActionCollection* actions,
-                                                 const QStringList& actionIds) :
-    SettingsPageBase(parent),
-    m_initialized(false),
-    m_serviceModel(nullptr),
-    m_sortModel(nullptr),
-    m_listView(nullptr),
-    m_enabledVcsPlugins(),
-    m_actions(actions),
-    m_actionIds(actionIds)
+ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionCollection *actions, const QStringList &actionIds)
+    : SettingsPageBase(parent)
+    , m_initialized(false)
+    , m_serviceModel(nullptr)
+    , m_sortModel(nullptr)
+    , m_listView(nullptr)
+    , m_enabledVcsPlugins()
+    , m_actions(actions)
+    , m_actionIds(actionIds)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QVBoxLayout *topLayout = new QVBoxLayout(this);
 
-    QLabel* label = new QLabel(i18nc("@label:textbox",
+    QLabel *label = new QLabel(i18nc("@label:textbox",
                                      "Select which services should "
-                                     "be shown in the context menu:"), this);
+                                     "be shown in the context menu:"),
+                               this);
     label->setWordWrap(true);
     m_searchLineEdit = new QLineEdit(this);
     m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search..."));
-    connect(m_searchLineEdit, &QLineEdit::textChanged, this, [this](const QString &filter){
+    connect(m_searchLineEdit, &QLineEdit::textChanged, this, [this](const QString &filter) {
         m_sortModel->setFilterFixedString(filter);
     });
 
@@ -94,14 +93,12 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
 
 #ifndef Q_OS_WIN
     using NewStuffButton = KNSWidgets::Button;
-    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services..."),
-                                              QStringLiteral("servicemenu.knsrc"),
-                                              this);
+    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services..."), QStringLiteral("servicemenu.knsrc"), this);
     connect(downloadButton, &NewStuffButton::dialogFinished, this, [this](const auto &changedEntries) {
-           if (!changedEntries.isEmpty()) {
-               m_serviceModel->clear();
-               loadServices();
-           }
+        if (!changedEntries.isEmpty()) {
+            m_serviceModel->clear();
+            loadServices();
+        }
     });
     topLayout->addWidget(downloadButton);
 #endif // Q_OS_WIN
@@ -110,10 +107,11 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
-ContextMenuSettingsPage::~ContextMenuSettingsPage() {
+ContextMenuSettingsPage::~ContextMenuSettingsPage()
+{
 }
 
-bool ContextMenuSettingsPage::entryVisible(const QString& id)
+bool ContextMenuSettingsPage::entryVisible(const QString &id)
 {
     if (id == "add_to_places") {
         return ContextMenuSettings::showAddToPlaces();
@@ -135,7 +133,7 @@ bool ContextMenuSettingsPage::entryVisible(const QString& id)
     return false;
 }
 
-void ContextMenuSettingsPage::setEntryVisible(const QString& id, bool visible)
+void ContextMenuSettingsPage::setEntryVisible(const QString &id, bool visible)
 {
     if (id == "add_to_places") {
         ContextMenuSettings::setShowAddToPlaces(visible);
@@ -201,16 +199,18 @@ void ContextMenuSettingsPage::applySettings()
 
         if (!laterSelected) {
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-            KMessageBox::ButtonCode promptRestart = KMessageBox::questionTwoActions(window(),
+            KMessageBox::ButtonCode promptRestart =
+                KMessageBox::questionTwoActions(window(),
 #else
-            KMessageBox::ButtonCode promptRestart = KMessageBox::questionYesNo(window(),
+            KMessageBox::ButtonCode promptRestart =
+                KMessageBox::questionYesNo(window(),
 #endif
-                                    i18nc("@info", "Dolphin must be restarted to apply the "
-                                                "updated version control system settings."),
-                                    i18nc("@info", "Restart now?"),
-                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
-                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later"))
-                        );
+                                                i18nc("@info",
+                                                      "Dolphin must be restarted to apply the "
+                                                      "updated version control system settings."),
+                                                i18nc("@info", "Restart now?"),
+                                                KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
+                                                KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later")));
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
             if (promptRestart == KMessageBox::ButtonCode::PrimaryAction) {
 #else
@@ -227,19 +227,18 @@ void ContextMenuSettingsPage::applySettings()
 
 void ContextMenuSettingsPage::restoreDefaults()
 {
-    QAbstractItemModel* model = m_listView->model();
+    QAbstractItemModel *model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
 
-        const bool checked = !service.startsWith(VersionControlServicePrefix)
-                             && service != QLatin1String(DeleteService)
-                             && service != QLatin1String(CopyToMoveToService);
+        const bool checked =
+            !service.startsWith(VersionControlServicePrefix) && service != QLatin1String(DeleteService) && service != QLatin1String(CopyToMoveToService);
         model->setData(index, checked, Qt::CheckStateRole);
     }
 }
 
-void ContextMenuSettingsPage::showEvent(QShowEvent* event)
+void ContextMenuSettingsPage::showEvent(QShowEvent *event)
 {
     if (!event->spontaneous() && !m_initialized) {
         loadServices();
@@ -249,10 +248,7 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
         // Add "Show 'Delete' command" as service
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
         KConfigGroup configGroup(globalConfig, "KDE");
-        addRow(QStringLiteral("edit-delete"),
-               i18nc("@option:check", "Delete"),
-               DeleteService,
-               configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
+        addRow(QStringLiteral("edit-delete"), i18nc("@option:check", "Delete"), DeleteService, configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
 
         // Add "Show 'Copy To' and 'Move To' commands" as service
         addRow(QStringLiteral("edit-copy"),
@@ -260,10 +256,10 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
                CopyToMoveToService,
                ContextMenuSettings::showCopyMoveMenu());
 
-        if (m_actions){
+        if (m_actions) {
             // Add other built-in actions
-            for (const QString& id : m_actionIds) {
-                const QAction* action = m_actions->action(id);
+            for (const QString &id : m_actionIds) {
+                const QAction *action = m_actions->action(id);
                 if (action) {
                     addRow(action->icon().name(), action->text(), id, entryVisible(id));
                 }
@@ -304,9 +300,7 @@ void ContextMenuSettingsPage::loadServices()
             const bool addService = !action.noDisplay() && !action.isSeparator() && !isInServicesList(serviceName);
 
             if (addService) {
-                const QString itemName = subMenuName.isEmpty()
-                                         ? action.text()
-                                         : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
+                const QString itemName = subMenuName.isEmpty() ? action.text() : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
                 const bool checked = showGroup.readEntry(serviceName, true);
                 addRow(action.icon(), itemName, serviceName, checked);
             }
@@ -350,10 +344,7 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
     const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
     for (const auto &plugin : plugins) {
         const QString pluginName = plugin.name();
-        addRow(QStringLiteral("code-class"),
-               pluginName,
-               VersionControlServicePrefix + pluginName,
-               enabledPlugins.contains(pluginName));
+        addRow(QStringLiteral("code-class"), pluginName, VersionControlServicePrefix + pluginName, enabledPlugins.contains(pluginName));
         loadedPlugins += pluginName;
     }
 
@@ -371,10 +362,7 @@ bool ContextMenuSettingsPage::isInServicesList(const QString &service) const
     return false;
 }
 
-void ContextMenuSettingsPage::addRow(const QString &icon,
-                                     const QString &text,
-                                     const QString &value,
-                                     bool checked)
+void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, const QString &value, bool checked)
 {
     m_serviceModel->insertRow(0);
 

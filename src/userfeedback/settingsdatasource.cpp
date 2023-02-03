@@ -5,8 +5,8 @@
  */
 
 #include "settingsdatasource.h"
-#include "dolphinmainwindow.h"
 #include "dolphin_generalsettings.h"
+#include "dolphinmainwindow.h"
 
 #include <KLocalizedString>
 #include <KUserFeedback/Provider>
@@ -16,7 +16,8 @@
 
 SettingsDataSource::SettingsDataSource()
     : KUserFeedback::AbstractDataSource(QStringLiteral("settings"), KUserFeedback::Provider::DetailedSystemInformation)
-{}
+{
+}
 
 QString SettingsDataSource::name() const
 {

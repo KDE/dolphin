@@ -23,12 +23,12 @@ class DOLPHIN_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetIn
 public:
     KStandardItemListWidgetInformant();
     ~KStandardItemListWidgetInformant() override;
-    
-    void calculateItemSizeHints(QVector<std::pair<qreal /* height */, bool /* isElided */>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
 
-    qreal preferredRoleColumnWidth(const QByteArray& role,
-                                           int index,
-                                           const KItemListView* view) const override;
+    void calculateItemSizeHints(QVector<std::pair<qreal /* height */, bool /* isElided */>> &logicalHeightHints,
+                                qreal &logicalWidthHint,
+                                const KItemListView *view) const override;
+
+    qreal preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const override;
 
 protected:
     /**
@@ -38,31 +38,30 @@ protected:
      *         QHash<QByteArray, QVariant> returned by KItemModelBase::data(int),
      *         it can reimplement this function.
      */
-    virtual QString itemText(int index, const KItemListView* view) const;
+    virtual QString itemText(int index, const KItemListView *view) const;
 
     /**
      * @return The value of the "isLink" role. The default implementation returns false.
      *         The derived class should reimplement this function, when information about
      *         links is available and in usage.
      */
-    virtual bool itemIsLink(int index, const KItemListView* view) const;
+    virtual bool itemIsLink(int index, const KItemListView *view) const;
 
     /**
      * @return String representation of the role \a role. The representation of
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.
      */
-    virtual QString roleText(const QByteArray& role,
-                             const QHash<QByteArray, QVariant>& values) const;
+    virtual QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const;
 
     /**
     * @return A font based on baseFont which is customized for symlinks.
     */
-    virtual QFont customizedFontForLinks(const QFont& baseFont) const;
+    virtual QFont customizedFontForLinks(const QFont &baseFont) const;
 
-    void calculateIconsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
-    void calculateCompactLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
-    void calculateDetailsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
+    void calculateIconsLayoutItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const;
+    void calculateCompactLayoutItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const;
+    void calculateDetailsLayoutItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const;
 
     friend class KStandardItemListWidget; // Accesses roleText()
 };
@@ -75,14 +74,9 @@ class DOLPHIN_EXPORT KStandardItemListWidget : public KItemListWidget
     Q_OBJECT
 
 public:
-    enum Layout
-    {
-        IconsLayout,
-        CompactLayout,
-        DetailsLayout
-    };
+    enum Layout { IconsLayout, CompactLayout, DetailsLayout };
 
-    KStandardItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    KStandardItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~KStandardItemListWidget() override;
 
     void setLayout(Layout layout);
@@ -94,7 +88,7 @@ public:
     void setSupportsItemExpanding(bool supportsItemExpanding);
     bool supportsItemExpanding() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     QRectF iconRect() const override;
     QRectF textRect() const override;
@@ -102,9 +96,9 @@ public:
     QRectF selectionRect() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
-    QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    static KItemListWidgetInformant* createInformant();
+    static KItemListWidgetInformant *createInformant();
 
 protected:
     /**
@@ -129,7 +123,7 @@ protected:
      * @return True if the give role should be right aligned when showing it inside a column.
      *         Per default false is returned.
      */
-    virtual bool isRoleRightAligned(const QByteArray& role) const;
+    virtual bool isRoleRightAligned(const QByteArray &role) const;
 
     /**
      * @return True if the item should be visually marked as hidden item. Per default
@@ -140,20 +134,20 @@ protected:
     /**
      * @return A font based on baseFont which is customized according to the data shown in the widget.
      */
-    virtual QFont customizedFont(const QFont& baseFont) const;
+    virtual QFont customizedFont(const QFont &baseFont) const;
 
     virtual QPalette::ColorRole normalTextColorRole() const;
 
-    void setTextColor(const QColor& color);
+    void setTextColor(const QColor &color);
     QColor textColor() const;
 
-    void setOverlay(const QPixmap& overlay);
+    void setOverlay(const QPixmap &overlay);
     QPixmap overlay() const;
 
     /**
      * @see KStandardItemListWidgetInformant::roleText().
      */
-    QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
+    QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const;
 
     /**
      * Fixes:
@@ -166,25 +160,24 @@ protected:
      *
      * @return Selection length (with or without MIME-type extension)
      */
-    virtual int selectionLength(const QString& text) const;
+    virtual int selectionLength(const QString &text) const;
 
-    void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>()) override;
-    void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
-    void columnWidthChanged(const QByteArray& role, qreal current, qreal previous) override;
+    void dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles = QSet<QByteArray>()) override;
+    void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous) override;
+    void columnWidthChanged(const QByteArray &role, qreal current, qreal previous) override;
     void sidePaddingChanged(qreal width) override;
-    void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
+    void styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous) override;
     void hoveredChanged(bool hovered) override;
     void selectedChanged(bool selected) override;
-    void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous) override;
-    void editedRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void siblingsInformationChanged(const QBitArray &current, const QBitArray &previous) override;
+    void editedRoleChanged(const QByteArray &current, const QByteArray &previous) override;
     void iconSizeChanged(int current, int previous) override;
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
-    void showEvent(QShowEvent* event) override;
-    void hideEvent(QHideEvent* event) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
     bool event(QEvent *event) override;
 
-    struct TextInfo
-    {
+    struct TextInfo {
         QPointF pos;
         QStaticText staticText;
     };
@@ -194,8 +187,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void slotCutItemsChanged();
-    void slotRoleEditingCanceled(const QByteArray& role, const QVariant& value);
-    void slotRoleEditingFinished(const QByteArray& role, const QVariant& value);
+    void slotRoleEditingCanceled(const QByteArray &role, const QVariant &value);
+    void slotRoleEditingFinished(const QByteArray &role, const QVariant &value);
 
 private:
     void triggerCacheRefreshing();
@@ -209,8 +202,8 @@ private:
 
     void updateAdditionalInfoTextColor();
 
-    void drawPixmap(QPainter* painter, const QPixmap& pixmap);
-    void drawSiblingsInformation(QPainter* painter);
+    void drawPixmap(QPainter *painter, const QPixmap &pixmap);
+    void drawSiblingsInformation(QPainter *painter);
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
@@ -222,23 +215,23 @@ private:
      */
     void closeRoleEditor();
 
-    static QPixmap pixmapForIcon(const QString& name, const QStringList& overlays, int size, QIcon::Mode mode);
+    static QPixmap pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode);
 
     /**
      * @return Preferred size of the rating-image based on the given
      *         style-option. The height of the font is taken as
      *         reference.
      */
-    static QSizeF preferredRatingSize(const KItemListStyleOption& option);
+    static QSizeF preferredRatingSize(const KItemListStyleOption &option);
 
     /**
      * @return Horizontal padding in pixels that is added to the required width of
      *         a column to display the content.
      */
-    static qreal columnPadding(const KItemListStyleOption& option);
+    static qreal columnPadding(const KItemListStyleOption &option);
 
 protected:
-    QHash<QByteArray, TextInfo*> m_textInfo; // PlacesItemListWidget needs to access this
+    QHash<QByteArray, TextInfo *> m_textInfo; // PlacesItemListWidget needs to access this
 
 private:
     bool m_isCut;
@@ -259,8 +252,8 @@ private:
     QSize m_scaledPixmapSize; //Size of the pixmap in device independent pixels
 
     qreal m_columnWidthSum;
-    QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
-    QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
+    QRectF m_iconRect; // Cache for KItemListWidget::iconRect()
+    QPixmap m_hoverPixmap; // Cache for modified m_pixmap when hovering the item
 
     QRectF m_textRect;
 
@@ -274,8 +267,8 @@ private:
     QPixmap m_overlay;
     QPixmap m_rating;
 
-    KItemListRoleEditor* m_roleEditor;
-    KItemListRoleEditor* m_oldRoleEditor;
+    KItemListRoleEditor *m_roleEditor;
+    KItemListRoleEditor *m_oldRoleEditor;
 
     friend class KStandardItemListWidgetInformant; // Accesses private static methods to be able to
                                                    // share a common layout calculation

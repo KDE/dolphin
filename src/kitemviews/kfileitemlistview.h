@@ -29,7 +29,7 @@ class DOLPHIN_EXPORT KFileItemListView : public KStandardItemListView
     Q_OBJECT
 
 public:
-    explicit KFileItemListView(QGraphicsWidget* parent = nullptr);
+    explicit KFileItemListView(QGraphicsWidget *parent = nullptr);
     ~KFileItemListView() override;
 
     void setPreviewsShown(bool show);
@@ -52,7 +52,7 @@ public:
      *
      * @see enabledPlugins
      */
-    void setEnabledPlugins(const QStringList& list);
+    void setEnabledPlugins(const QStringList &list);
 
     /**
      * Returns the list of enabled thumbnail plugins.
@@ -78,7 +78,7 @@ public:
     void setScanDirectories(bool enabled);
     bool scanDirectories();
 
-    QPixmap createDragPixmap(const KItemSet& indexes) const override;
+    QPixmap createDragPixmap(const KItemSet &indexes) const override;
 
     /**
      * Notifies the view of a change in the hover state on an item.
@@ -88,27 +88,27 @@ public:
      *               this method will be called repeatedly with increasing values
      *               for this parameter.
      */
-    void setHoverSequenceState(const QUrl& itemUrl, int seqIdx);
+    void setHoverSequenceState(const QUrl &itemUrl, int seqIdx);
 
 protected:
-    KItemListWidgetCreatorBase* defaultWidgetCreator() const override;
-    void initializeItemListWidget(KItemListWidget* item) override;
+    KItemListWidgetCreatorBase *defaultWidgetCreator() const override;
+    void initializeItemListWidget(KItemListWidget *item) override;
     virtual void onPreviewsShownChanged(bool shown);
     void onItemLayoutChanged(ItemLayout current, ItemLayout previous) override;
-    void onModelChanged(KItemModelBase* current, KItemModelBase* previous) override;
+    void onModelChanged(KItemModelBase *current, KItemModelBase *previous) override;
     void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous) override;
-    void onItemSizeChanged(const QSizeF& current, const QSizeF& previous) override;
+    void onItemSizeChanged(const QSizeF &current, const QSizeF &previous) override;
     void onScrollOffsetChanged(qreal current, qreal previous) override;
-    void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
-    void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
+    void onVisibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous) override;
+    void onStyleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous) override;
     void onSupportsItemExpandingChanged(bool supportsExpanding) override;
     void onTransactionBegin() override;
     void onTransactionEnd() override;
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 
 protected Q_SLOTS:
-    void slotItemsRemoved(const KItemRangeList& itemRanges) override;
-    void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void slotItemsRemoved(const KItemRangeList &itemRanges) override;
+    void slotSortRoleChanged(const QByteArray &current, const QByteArray &previous) override;
 
 private Q_SLOTS:
     void triggerVisibleIndexRangeUpdate();
@@ -134,14 +134,12 @@ private:
     QSize availableIconSize() const;
 
 private:
-    KFileItemModelRolesUpdater* m_modelRolesUpdater;
-    QTimer* m_updateVisibleIndexRangeTimer;
-    QTimer* m_updateIconSizeTimer;
+    KFileItemModelRolesUpdater *m_modelRolesUpdater;
+    QTimer *m_updateVisibleIndexRangeTimer;
+    QTimer *m_updateIconSizeTimer;
     bool m_scanDirectories;
 
     friend class KFileItemListViewTest; // For unit testing
 };
 
 #endif
-
-

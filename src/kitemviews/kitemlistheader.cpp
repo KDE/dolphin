@@ -28,7 +28,7 @@ bool KItemListHeader::automaticColumnResizing() const
     return m_headerWidget->automaticColumnResizing();
 }
 
-void KItemListHeader::setColumnWidth(const QByteArray& role, qreal width)
+void KItemListHeader::setColumnWidth(const QByteArray &role, qreal width)
 {
     if (!m_headerWidget->automaticColumnResizing()) {
         m_headerWidget->setColumnWidth(role, width);
@@ -37,16 +37,16 @@ void KItemListHeader::setColumnWidth(const QByteArray& role, qreal width)
     }
 }
 
-qreal KItemListHeader::columnWidth(const QByteArray& role) const
+qreal KItemListHeader::columnWidth(const QByteArray &role) const
 {
     return m_headerWidget->columnWidth(role);
 }
 
-void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal>& columnWidths)
+void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal> &columnWidths)
 {
     if (!m_headerWidget->automaticColumnResizing()) {
         const auto visibleRoles = m_view->visibleRoles();
-        for (const QByteArray& role : visibleRoles) {
+        for (const QByteArray &role : visibleRoles) {
             const qreal width = columnWidths.value(role);
             m_headerWidget->setColumnWidth(role, width);
         }
@@ -56,12 +56,13 @@ void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal>& columnWidt
     }
 }
 
-qreal KItemListHeader::preferredColumnWidth(const QByteArray& role) const
+qreal KItemListHeader::preferredColumnWidth(const QByteArray &role) const
 {
     return m_headerWidget->preferredColumnWidth(role);
 }
 
-void KItemListHeader::setSidePadding(qreal width){
+void KItemListHeader::setSidePadding(qreal width)
+{
     if (m_headerWidget->sidePadding() != width) {
         m_headerWidget->setSidePadding(width);
         if (m_headerWidget->automaticColumnResizing()) {
@@ -71,22 +72,19 @@ void KItemListHeader::setSidePadding(qreal width){
     }
 }
 
-qreal KItemListHeader::sidePadding() const{
+qreal KItemListHeader::sidePadding() const
+{
     return m_headerWidget->sidePadding();
 }
 
-KItemListHeader::KItemListHeader(KItemListView* listView) :
-    QObject(listView),
-    m_view(listView)
+KItemListHeader::KItemListHeader(KItemListView *listView)
+    : QObject(listView)
+    , m_view(listView)
 {
     m_headerWidget = m_view->m_headerWidget;
     Q_ASSERT(m_headerWidget);
 
-    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
-            this, &KItemListHeader::columnWidthChanged);
-    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished,
-            this, &KItemListHeader::columnWidthChangeFinished);
-    connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
-            this, &KItemListHeader::sidePaddingChanged);
+    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged, this, &KItemListHeader::columnWidthChanged);
+    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished, this, &KItemListHeader::columnWidthChangeFinished);
+    connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged, this, &KItemListHeader::sidePaddingChanged);
 }
-

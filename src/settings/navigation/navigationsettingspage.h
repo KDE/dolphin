@@ -19,7 +19,7 @@ class NavigationSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit NavigationSettingsPage(QWidget* parent);
+    explicit NavigationSettingsPage(QWidget *parent);
     ~NavigationSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -32,10 +32,10 @@ private:
     void loadSettings();
 
 private:
-    QCheckBox* m_openArchivesAsFolder;
-    QCheckBox* m_autoExpandFolders;
-    QRadioButton* m_openNewTabAfterLastTab;
-    QRadioButton* m_openNewTabAfterCurrentTab;
+    QCheckBox *m_openArchivesAsFolder;
+    QCheckBox *m_autoExpandFolders;
+    QRadioButton *m_openNewTabAfterLastTab;
+    QRadioButton *m_openNewTabAfterCurrentTab;
 };
 
 #endif

@@ -10,11 +10,11 @@
 
 #include <KFileItem>
 
-KFileItemModelFilter::KFileItemModelFilter() :
-    m_useRegExp(false),
-    m_regExp(nullptr),
-    m_lowerCasePattern(),
-    m_pattern()
+KFileItemModelFilter::KFileItemModelFilter()
+    : m_useRegExp(false)
+    , m_regExp(nullptr)
+    , m_lowerCasePattern()
+    , m_pattern()
 {
 }
 
@@ -24,7 +24,7 @@ KFileItemModelFilter::~KFileItemModelFilter()
     m_regExp = nullptr;
 }
 
-void KFileItemModelFilter::setPattern(const QString& filter)
+void KFileItemModelFilter::setPattern(const QString &filter)
 {
     m_pattern = filter;
     m_lowerCasePattern = filter.toLower();
@@ -46,7 +46,7 @@ QString KFileItemModelFilter::pattern() const
     return m_pattern;
 }
 
-void KFileItemModelFilter::setMimeTypes(const QStringList& types)
+void KFileItemModelFilter::setMimeTypes(const QStringList &types)
 {
     m_mimeTypes = types;
 }
@@ -61,8 +61,7 @@ bool KFileItemModelFilter::hasSetFilters() const
     return (!m_pattern.isEmpty() || !m_mimeTypes.isEmpty());
 }
 
-
-bool KFileItemModelFilter::matches(const KFileItem& item) const
+bool KFileItemModelFilter::matches(const KFileItem &item) const
 {
     const bool hasPatternFilter = !m_pattern.isEmpty();
     const bool hasMimeTypesFilter = !m_mimeTypes.isEmpty();
@@ -85,7 +84,7 @@ bool KFileItemModelFilter::matches(const KFileItem& item) const
     return matchesType(item);
 }
 
-bool KFileItemModelFilter::matchesPattern(const KFileItem& item) const
+bool KFileItemModelFilter::matchesPattern(const KFileItem &item) const
 {
     if (m_useRegExp) {
         return m_regExp->match(item.text()).hasMatch();
@@ -94,9 +93,9 @@ bool KFileItemModelFilter::matchesPattern(const KFileItem& item) const
     }
 }
 
-bool KFileItemModelFilter::matchesType(const KFileItem& item) const
+bool KFileItemModelFilter::matchesType(const KFileItem &item) const
 {
-    for (const QString& mimeType : qAsConst(m_mimeTypes)) {
+    for (const QString &mimeType : qAsConst(m_mimeTypes)) {
         if (item.mimetype() == mimeType) {
             return true;
         }

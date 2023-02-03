@@ -7,11 +7,11 @@
 
 #include "dolphintrash.h"
 
-#include <QList>
-#include <KNotification>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <KNotification>
+#include <QList>
 
 #include <kio_version.h>
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
@@ -72,7 +72,7 @@ void Trash::empty(QWidget *window)
     uiDelegate.setWindow(window);
     bool confirmed = uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation);
     if (confirmed) {
-        KIO::Job* job = KIO::emptyTrash();
+        KIO::Job *job = KIO::emptyTrash();
         KJobWidgets::setWindow(job, window);
         job->uiDelegate()->setAutoErrorHandlingEnabled(true);
         QObject::connect(job, &KIO::Job::result, notifyEmptied);
@@ -85,4 +85,3 @@ bool Trash::isEmpty()
     KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
     return (trashConfig.group("Status").readEntry("Empty", true));
 }
-

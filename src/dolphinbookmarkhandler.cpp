@@ -14,15 +14,11 @@
 #include <QDir>
 #include <QStandardPaths>
 
-DolphinBookmarkHandler::DolphinBookmarkHandler(DolphinMainWindow *mainWindow,
-                                               KActionCollection* collection,
-                                               QMenu* menu,
-                                               QObject* parent) :
-    QObject(parent),
-    m_mainWindow(mainWindow)
+DolphinBookmarkHandler::DolphinBookmarkHandler(DolphinMainWindow *mainWindow, KActionCollection *collection, QMenu *menu, QObject *parent)
+    : QObject(parent)
+    , m_mainWindow(mainWindow)
 {
-    QString bookmarksFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                   QStringLiteral("kfile/bookmarks.xml"));
+    QString bookmarksFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kfile/bookmarks.xml"));
     if (bookmarksFile.isEmpty()) {
         QString genericDataLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
         if (genericDataLocation.isEmpty()) {
@@ -79,43 +75,45 @@ QList<KBookmarkOwner::FutureBookmark> DolphinBookmarkHandler::currentBookmarkLis
 bool DolphinBookmarkHandler::enableOption(KBookmarkOwner::BookmarkOption option) const
 {
     switch (option) {
-    case BookmarkOption::ShowAddBookmark: return true;
-    case BookmarkOption::ShowEditBookmark: return true;
+    case BookmarkOption::ShowAddBookmark:
+        return true;
+    case BookmarkOption::ShowEditBookmark:
+        return true;
     }
     return false;
 }
 
-void DolphinBookmarkHandler::openBookmark(const KBookmark& bookmark, Qt::MouseButtons, Qt::KeyboardModifiers)
+void DolphinBookmarkHandler::openBookmark(const KBookmark &bookmark, Qt::MouseButtons, Qt::KeyboardModifiers)
 {
     m_mainWindow->changeUrl(bookmark.url());
 }
 
-void DolphinBookmarkHandler::openFolderinTabs(const KBookmarkGroup& bookmarkGroup)
+void DolphinBookmarkHandler::openFolderinTabs(const KBookmarkGroup &bookmarkGroup)
 {
     m_mainWindow->openDirectories(bookmarkGroup.groupUrlList(), false);
 }
 
-void DolphinBookmarkHandler::openInNewTab(const KBookmark& bookmark)
+void DolphinBookmarkHandler::openInNewTab(const KBookmark &bookmark)
 {
     m_mainWindow->openNewTab(bookmark.url());
 }
 
-void DolphinBookmarkHandler::openInNewWindow(const KBookmark& bookmark)
+void DolphinBookmarkHandler::openInNewWindow(const KBookmark &bookmark)
 {
     Dolphin::openNewWindow({bookmark.url()}, m_mainWindow);
 }
 
-QString DolphinBookmarkHandler::title(DolphinViewContainer* viewContainer)
+QString DolphinBookmarkHandler::title(DolphinViewContainer *viewContainer)
 {
     return viewContainer->caption();
 }
 
-QUrl DolphinBookmarkHandler::url(DolphinViewContainer* viewContainer)
+QUrl DolphinBookmarkHandler::url(DolphinViewContainer *viewContainer)
 {
     return viewContainer->url();
 }
 
-QString DolphinBookmarkHandler::icon(DolphinViewContainer* viewContainer)
+QString DolphinBookmarkHandler::icon(DolphinViewContainer *viewContainer)
 {
     return KIO::iconNameForUrl(viewContainer->url());
 }

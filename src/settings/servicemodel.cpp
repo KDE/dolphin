@@ -6,9 +6,9 @@
 
 #include "servicemodel.h"
 
-ServiceModel::ServiceModel(QObject* parent) :
-    QAbstractListModel(parent),
-    m_items()
+ServiceModel::ServiceModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_items()
 {
 }
 
@@ -16,7 +16,7 @@ ServiceModel::~ServiceModel()
 {
 }
 
-bool ServiceModel::insertRows(int row, int count, const QModelIndex& parent)
+bool ServiceModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (row > rowCount()) {
         return false;
@@ -38,7 +38,7 @@ bool ServiceModel::insertRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
-bool ServiceModel::setData(const QModelIndex& index, const QVariant& value, int role)
+bool ServiceModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     const int row = index.row();
     if (row >= rowCount()) {
@@ -69,24 +69,30 @@ bool ServiceModel::setData(const QModelIndex& index, const QVariant& value, int 
     return true;
 }
 
-QVariant ServiceModel::data(const QModelIndex& index, int role) const
+QVariant ServiceModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
     if (row < rowCount()) {
         switch (role) {
-        case ConfigurableRole:     return m_items[row].configurable;
-        case Qt::CheckStateRole:   return m_items[row].checked;
-        case Qt::DecorationRole:   return m_items[row].icon;
-        case Qt::DisplayRole:      return m_items[row].text;
-        case DesktopEntryNameRole: return m_items[row].desktopEntryName;
-        default: break;
+        case ConfigurableRole:
+            return m_items[row].configurable;
+        case Qt::CheckStateRole:
+            return m_items[row].checked;
+        case Qt::DecorationRole:
+            return m_items[row].icon;
+        case Qt::DisplayRole:
+            return m_items[row].text;
+        case DesktopEntryNameRole:
+            return m_items[row].desktopEntryName;
+        default:
+            break;
         }
     }
 
     return QVariant();
 }
 
-int ServiceModel::rowCount(const QModelIndex& parent) const
+int ServiceModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_items.count();
@@ -98,4 +104,3 @@ void ServiceModel::clear()
     m_items.clear();
     endRemoveRows();
 }
-

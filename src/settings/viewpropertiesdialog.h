@@ -33,7 +33,7 @@ class DOLPHIN_EXPORT ViewPropertiesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ViewPropertiesDialog(DolphinView* dolphinView);
+    explicit ViewPropertiesDialog(DolphinView *dolphinView);
     ~ViewPropertiesDialog() override;
 
 public Q_SLOTS:
@@ -61,22 +61,22 @@ private:
 
 private:
     bool m_isDirty;
-    DolphinView* m_dolphinView;
-    ViewProperties* m_viewProps;
+    DolphinView *m_dolphinView;
+    ViewProperties *m_viewProps;
 
-    QComboBox* m_viewMode;
-    QComboBox* m_sortOrder;
-    QComboBox* m_sorting;
-    QCheckBox* m_sortFoldersFirst;
-    QCheckBox* m_sortHiddenLast;
-    QCheckBox* m_previewsShown;
-    QCheckBox* m_showInGroups;
-    QCheckBox* m_showHiddenFiles;
-    QRadioButton* m_applyToCurrentFolder;
-    QRadioButton* m_applyToSubFolders;
-    QRadioButton* m_applyToAllFolders;
-    QCheckBox* m_useAsDefault;
-    QListWidget* m_listWidget;
+    QComboBox *m_viewMode;
+    QComboBox *m_sortOrder;
+    QComboBox *m_sorting;
+    QCheckBox *m_sortFoldersFirst;
+    QCheckBox *m_sortHiddenLast;
+    QCheckBox *m_previewsShown;
+    QCheckBox *m_showInGroups;
+    QCheckBox *m_showHiddenFiles;
+    QRadioButton *m_applyToCurrentFolder;
+    QRadioButton *m_applyToSubFolders;
+    QRadioButton *m_applyToAllFolders;
+    QCheckBox *m_useAsDefault;
+    QListWidget *m_listWidget;
 };
 
 #endif

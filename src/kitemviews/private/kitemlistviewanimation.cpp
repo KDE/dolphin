@@ -9,11 +9,11 @@
 
 #include <QPropertyAnimation>
 
-KItemListViewAnimation::KItemListViewAnimation(QObject* parent) :
-    QObject(parent),
-    m_scrollOrientation(Qt::Vertical),
-    m_scrollOffset(0),
-    m_animation()
+KItemListViewAnimation::KItemListViewAnimation(QObject *parent)
+    : QObject(parent)
+    , m_scrollOrientation(Qt::Vertical)
+    , m_scrollOffset(0)
+    , m_animation()
 {
 }
 
@@ -48,12 +48,12 @@ void KItemListViewAnimation::setScrollOffset(qreal offset)
             continue;
         }
 
-        QHashIterator<QGraphicsWidget*, QPropertyAnimation*>  it(m_animation[type]);
+        QHashIterator<QGraphicsWidget *, QPropertyAnimation *> it(m_animation[type]);
         while (it.hasNext()) {
             it.next();
 
-            QGraphicsWidget* widget = it.key();
-            QPropertyAnimation* propertyAnim = it.value();
+            QGraphicsWidget *widget = it.key();
+            QPropertyAnimation *propertyAnim = it.value();
 
             QPointF currentPos = widget->pos();
             if (m_scrollOrientation == Qt::Vertical) {
@@ -65,8 +65,7 @@ void KItemListViewAnimation::setScrollOffset(qreal offset)
             if (type == MovingAnimation) {
                 // Stop the animation, calculate the moved start- and end-value
                 // and restart the animation for the remaining duration.
-                const int remainingDuration = propertyAnim->duration()
-                                              - propertyAnim->currentTime();
+                const int remainingDuration = propertyAnim->duration() - propertyAnim->currentTime();
 
                 const bool block = propertyAnim->signalsBlocked();
                 propertyAnim->blockSignals(true);
@@ -96,11 +95,11 @@ qreal KItemListViewAnimation::scrollOffset() const
     return m_scrollOffset;
 }
 
-void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, const QVariant& endValue)
+void KItemListViewAnimation::start(QGraphicsWidget *widget, AnimationType type, const QVariant &endValue)
 {
     stop(widget, type);
 
-    QPropertyAnimation* propertyAnim = nullptr;
+    QPropertyAnimation *propertyAnim = nullptr;
     const int animationDuration = widget->style()->styleHint(QStyle::SH_Widget_Animate) ? 200 : 1;
 
     switch (type) {
@@ -165,18 +164,25 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
     propertyAnim->start();
 }
 
-void KItemListViewAnimation::stop(QGraphicsWidget* widget, AnimationType type)
+void KItemListViewAnimation::stop(QGraphicsWidget *widget, AnimationType type)
 {
-    QPropertyAnimation* propertyAnim = m_animation[type].value(widget);
+    QPropertyAnimation *propertyAnim = m_animation[type].value(widget);
     if (propertyAnim) {
         propertyAnim->stop();
 
         switch (type) {
-        case MovingAnimation: break;
-        case CreateAnimation: widget->setOpacity(1.0); break;
-        case DeleteAnimation: widget->setOpacity(0.0); break;
-        case ResizeAnimation: break;
-        default: break;
+        case MovingAnimation:
+            break;
+        case CreateAnimation:
+            widget->setOpacity(1.0);
+            break;
+        case DeleteAnimation:
+            widget->setOpacity(0.0);
+            break;
+        case ResizeAnimation:
+            break;
+        default:
+            break;
         }
 
         m_animation[type].remove(widget);
@@ -186,7 +192,7 @@ void KItemListViewAnimation::stop(QGraphicsWidget* widget, AnimationType type)
     }
 }
 
-void KItemListViewAnimation::stop(QGraphicsWidget* widget)
+void KItemListViewAnimation::stop(QGraphicsWidget *widget)
 {
     for (int type = 0; type < AnimationTypeCount; ++type) {
         stop(widget, static_cast<AnimationType>(type));
@@ -198,7 +204,7 @@ bool KItemListViewAnimation::isStarted(QGraphicsWidget *widget, AnimationType ty
     return m_animation[type].value(widget);
 }
 
-bool KItemListViewAnimation::isStarted(QGraphicsWidget* widget) const
+bool KItemListViewAnimation::isStarted(QGraphicsWidget *widget) const
 {
     for (int type = 0; type < AnimationTypeCount; ++type) {
         if (isStarted(widget, static_cast<AnimationType>(type))) {
@@ -210,14 +216,14 @@ bool KItemListViewAnimation::isStarted(QGraphicsWidget* widget) const
 
 void KItemListViewAnimation::slotFinished()
 {
-    QPropertyAnimation* finishedAnim = qobject_cast<QPropertyAnimation*>(sender());
+    QPropertyAnimation *finishedAnim = qobject_cast<QPropertyAnimation *>(sender());
     for (int type = 0; type < AnimationTypeCount; ++type) {
-        QMutableHashIterator<QGraphicsWidget*, QPropertyAnimation*> it(m_animation[type]);
+        QMutableHashIterator<QGraphicsWidget *, QPropertyAnimation *> it(m_animation[type]);
         while (it.hasNext()) {
             it.next();
-            QPropertyAnimation* propertyAnim = it.value();
+            QPropertyAnimation *propertyAnim = it.value();
             if (propertyAnim == finishedAnim) {
-                QGraphicsWidget* widget = it.key();
+                QGraphicsWidget *widget = it.key();
                 it.remove();
                 finishedAnim->deleteLater();
 
@@ -228,4 +234,3 @@ void KItemListViewAnimation::slotFinished()
     }
     Q_ASSERT(false);
 }
-

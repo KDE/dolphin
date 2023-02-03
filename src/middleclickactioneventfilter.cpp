@@ -12,17 +12,16 @@
 #include <QMouseEvent>
 #include <QToolBar>
 
-MiddleClickActionEventFilter::MiddleClickActionEventFilter(QObject *parent) : QObject(parent)
+MiddleClickActionEventFilter::MiddleClickActionEventFilter(QObject *parent)
+    : QObject(parent)
 {
-
 }
 
 MiddleClickActionEventFilter::~MiddleClickActionEventFilter() = default;
 
 bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
 {
-    if (event->type() == QEvent::MouseButtonPress
-            || event->type() == QEvent::MouseButtonRelease) {
+    if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
 
         if (me->button() == Qt::MiddleButton) {

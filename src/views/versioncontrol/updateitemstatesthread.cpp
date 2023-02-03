@@ -6,13 +6,11 @@
 
 #include "updateitemstatesthread.h"
 
-
-UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
-                                               const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates) :
-    QThread(),
-    m_globalPluginMutex(nullptr),
-    m_plugin(plugin),
-    m_itemStates(itemStates)
+UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin *plugin, const QMap<QString, QVector<VersionControlObserver::ItemState>> &itemStates)
+    : QThread()
+    , m_globalPluginMutex(nullptr)
+    , m_plugin(plugin)
+    , m_itemStates(itemStates)
 {
     // Several threads may share one instance of a plugin. A global
     // mutex is required to serialize the retrieval of version control
@@ -31,13 +29,13 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(m_plugin);
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
-    QMap<QString, QVector<VersionControlObserver::ItemState> >::iterator it = m_itemStates.begin();
+    QMap<QString, QVector<VersionControlObserver::ItemState>>::iterator it = m_itemStates.begin();
     for (; it != m_itemStates.end(); ++it) {
         if (m_plugin->beginRetrieval(it.key())) {
-            QVector<VersionControlObserver::ItemState>& items = it.value();
+            QVector<VersionControlObserver::ItemState> &items = it.value();
             const int count = items.count();
             for (int i = 0; i < count; ++i) {
-                const KFileItem& item = items.at(i).first;
+                const KFileItem &item = items.at(i).first;
                 const KVersionControlPlugin::ItemVersion version = m_plugin->itemVersion(item);
                 items[i].second = version;
             }
@@ -47,8 +45,7 @@ void UpdateItemStatesThread::run()
     }
 }
 
-QMap<QString, QVector<VersionControlObserver::ItemState> > UpdateItemStatesThread::itemStates() const
+QMap<QString, QVector<VersionControlObserver::ItemState>> UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
 }
-

@@ -14,32 +14,32 @@
 
 // #define KITEMLISTVIEWLAYOUTER_DEBUG
 
-KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver* sizeHintResolver, QObject* parent) :
-    QObject(parent),
-    m_dirty(true),
-    m_visibleIndexesDirty(true),
-    m_scrollOrientation(Qt::Vertical),
-    m_size(),
-    m_itemSize(128, 128),
-    m_itemMargin(),
-    m_headerHeight(0),
-    m_model(nullptr),
-    m_sizeHintResolver(sizeHintResolver),
-    m_scrollOffset(0),
-    m_maximumScrollOffset(0),
-    m_itemOffset(0),
-    m_maximumItemOffset(0),
-    m_firstVisibleIndex(-1),
-    m_lastVisibleIndex(-1),
-    m_columnWidth(0),
-    m_xPosInc(0),
-    m_columnCount(0),
-    m_rowOffsets(),
-    m_columnOffsets(),
-    m_groupItemIndexes(),
-    m_groupHeaderHeight(0),
-    m_groupHeaderMargin(0),
-    m_itemInfos()
+KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver *sizeHintResolver, QObject *parent)
+    : QObject(parent)
+    , m_dirty(true)
+    , m_visibleIndexesDirty(true)
+    , m_scrollOrientation(Qt::Vertical)
+    , m_size()
+    , m_itemSize(128, 128)
+    , m_itemMargin()
+    , m_headerHeight(0)
+    , m_model(nullptr)
+    , m_sizeHintResolver(sizeHintResolver)
+    , m_scrollOffset(0)
+    , m_maximumScrollOffset(0)
+    , m_itemOffset(0)
+    , m_maximumItemOffset(0)
+    , m_firstVisibleIndex(-1)
+    , m_lastVisibleIndex(-1)
+    , m_columnWidth(0)
+    , m_xPosInc(0)
+    , m_columnCount(0)
+    , m_rowOffsets()
+    , m_columnOffsets()
+    , m_groupItemIndexes()
+    , m_groupHeaderHeight(0)
+    , m_groupHeaderMargin(0)
+    , m_itemInfos()
 {
     Q_ASSERT(m_sizeHintResolver);
 }
@@ -61,7 +61,7 @@ Qt::Orientation KItemListViewLayouter::scrollOrientation() const
     return m_scrollOrientation;
 }
 
-void KItemListViewLayouter::setSize(const QSizeF& size)
+void KItemListViewLayouter::setSize(const QSizeF &size)
 {
     if (m_size != size) {
         if (m_scrollOrientation == Qt::Vertical) {
@@ -82,7 +82,7 @@ QSizeF KItemListViewLayouter::size() const
     return m_size;
 }
 
-void KItemListViewLayouter::setItemSize(const QSizeF& size)
+void KItemListViewLayouter::setItemSize(const QSizeF &size)
 {
     if (m_itemSize != size) {
         m_itemSize = size;
@@ -95,7 +95,7 @@ QSizeF KItemListViewLayouter::itemSize() const
     return m_itemSize;
 }
 
-void KItemListViewLayouter::setItemMargin(const QSizeF& margin)
+void KItemListViewLayouter::setItemMargin(const QSizeF &margin)
 {
     if (m_itemMargin != margin) {
         m_itemMargin = margin;
@@ -162,7 +162,7 @@ qreal KItemListViewLayouter::scrollOffset() const
 
 qreal KItemListViewLayouter::maximumScrollOffset() const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_maximumScrollOffset;
 }
 
@@ -181,11 +181,11 @@ qreal KItemListViewLayouter::itemOffset() const
 
 qreal KItemListViewLayouter::maximumItemOffset() const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_maximumItemOffset;
 }
 
-void KItemListViewLayouter::setModel(const KItemModelBase* model)
+void KItemListViewLayouter::setModel(const KItemModelBase *model)
 {
     if (m_model != model) {
         m_model = model;
@@ -193,26 +193,26 @@ void KItemListViewLayouter::setModel(const KItemModelBase* model)
     }
 }
 
-const KItemModelBase* KItemListViewLayouter::model() const
+const KItemModelBase *KItemListViewLayouter::model() const
 {
     return m_model;
 }
 
 int KItemListViewLayouter::firstVisibleIndex() const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_firstVisibleIndex;
 }
 
 int KItemListViewLayouter::lastVisibleIndex() const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_lastVisibleIndex;
 }
 
 QRectF KItemListViewLayouter::itemRect(int index) const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     if (index < 0 || index >= m_itemInfos.count()) {
         return QRectF();
     }
@@ -242,7 +242,7 @@ QRectF KItemListViewLayouter::itemRect(int index) const
 
 QRectF KItemListViewLayouter::groupHeaderRect(int index) const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
 
     const QRectF firstItemRect = itemRect(index);
     QPointF pos = firstItemRect.topLeft();
@@ -271,9 +271,8 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
                 break;
             }
 
-            const qreal itemWidth = (m_scrollOrientation == Qt::Vertical)
-                                     ? m_sizeHintResolver->sizeHint(index).width()
-                                     : m_sizeHintResolver->sizeHint(index).height();
+            const qreal itemWidth =
+                (m_scrollOrientation == Qt::Vertical) ? m_sizeHintResolver->sizeHint(index).width() : m_sizeHintResolver->sizeHint(index).height();
 
             if (itemWidth > headerWidth) {
                 headerWidth = itemWidth;
@@ -289,31 +288,27 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
 
 int KItemListViewLayouter::itemColumn(int index) const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     if (index < 0 || index >= m_itemInfos.count()) {
         return -1;
     }
 
-    return (m_scrollOrientation == Qt::Vertical)
-            ? m_itemInfos[index].column
-            : m_itemInfos[index].row;
+    return (m_scrollOrientation == Qt::Vertical) ? m_itemInfos[index].column : m_itemInfos[index].row;
 }
 
 int KItemListViewLayouter::itemRow(int index) const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     if (index < 0 || index >= m_itemInfos.count()) {
         return -1;
     }
 
-    return (m_scrollOrientation == Qt::Vertical)
-            ? m_itemInfos[index].row
-            : m_itemInfos[index].column;
+    return (m_scrollOrientation == Qt::Vertical) ? m_itemInfos[index].row : m_itemInfos[index].column;
 }
 
 int KItemListViewLayouter::maximumVisibleItems() const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
 
     const int height = static_cast<int>(m_size.height());
     const int rowHeight = static_cast<int>(m_itemSize.height());
@@ -327,7 +322,7 @@ int KItemListViewLayouter::maximumVisibleItems() const
 
 bool KItemListViewLayouter::isFirstGroupItem(int itemIndex) const
 {
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    const_cast<KItemListViewLayouter *>(this)->doLayout();
     return m_groupItemIndexes.contains(itemIndex);
 }
 
@@ -336,18 +331,19 @@ void KItemListViewLayouter::markAsDirty()
     m_dirty = true;
 }
 
-
 #ifndef QT_NO_DEBUG
-    bool KItemListViewLayouter::isDirty()
-    {
-        return m_dirty;
-    }
+bool KItemListViewLayouter::isDirty()
+{
+    return m_dirty;
+}
 #endif
 
 void KItemListViewLayouter::doLayout()
 {
     // we always want to update visible indexes after performing a layout
-    auto qsg = qScopeGuard([this] { updateVisibleIndexes(); });
+    auto qsg = qScopeGuard([this] {
+        updateVisibleIndexes();
+    });
 
     if (!m_dirty) {
         return;
@@ -409,14 +405,16 @@ void KItemListViewLayouter::doLayout()
         currentOffset += m_groupHeaderHeight;
     }
 
-    if (QGuiApplication::isLeftToRight()) for (int column = 0; column < m_columnCount; ++column) {
-        m_columnOffsets[column] = currentOffset;
-        currentOffset += m_columnWidth;
-    }
-    else for (int column = 0; column < m_columnCount; ++column) {
-        m_columnOffsets[column] = currentOffset - m_columnWidth;
-        currentOffset -= m_columnWidth;
-    }
+    if (QGuiApplication::isLeftToRight())
+        for (int column = 0; column < m_columnCount; ++column) {
+            m_columnOffsets[column] = currentOffset;
+            currentOffset += m_columnWidth;
+        }
+    else
+        for (int column = 0; column < m_columnCount; ++column) {
+            m_columnOffsets[column] = currentOffset - m_columnWidth;
+            currentOffset -= m_columnWidth;
+        }
 
     // Prepare the QVector which stores the y-coordinate for each new row.
     int numberOfRows = (itemCount + m_columnCount - 1) / m_columnCount;
@@ -467,7 +465,7 @@ void KItemListViewLayouter::doLayout()
                 requiredItemHeight = sizeHintHeight;
             }
 
-            ItemInfo& itemInfo = m_itemInfos[index];
+            ItemInfo &itemInfo = m_itemInfos[index];
             itemInfo.column = column;
             itemInfo.row = row;
 
@@ -598,7 +596,7 @@ bool KItemListViewLayouter::createGroupHeaders()
 
     m_groupItemIndexes.clear();
 
-    const QList<QPair<int, QVariant> > groups = m_model->groups();
+    const QList<QPair<int, QVariant>> groups = m_model->groups();
     if (groups.isEmpty()) {
         return false;
     }
@@ -615,4 +613,3 @@ qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
 {
     return 100;
 }
-

@@ -35,11 +35,9 @@ public:
     KItemListWidgetInformant();
     virtual ~KItemListWidgetInformant();
 
-    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints, qreal &logicalWidthHint, const KItemListView *view) const = 0;
 
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
-                                           int index,
-                                           const KItemListView* view) const = 0;
+    virtual qreal preferredRoleColumnWidth(const QByteArray &role, int index, const KItemListView *view) const = 0;
 };
 
 /**
@@ -56,13 +54,13 @@ class DOLPHIN_EXPORT KItemListWidget : public QGraphicsWidget
     Q_PROPERTY(int iconSize READ iconSize WRITE setIconSize)
 
 public:
-    KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    KItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~KItemListWidget() override;
 
     void setIndex(int index);
     int index() const;
 
-    void setData(const QHash<QByteArray, QVariant>& data, const QSet<QByteArray>& roles = QSet<QByteArray>());
+    void setData(const QHash<QByteArray, QVariant> &data, const QSet<QByteArray> &roles = QSet<QByteArray>());
     QHash<QByteArray, QVariant> data() const;
 
     /**
@@ -70,23 +68,23 @@ public:
      * to show the data of the custom model provided by KItemListWidget::data().
      * @reimp
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    void setVisibleRoles(const QList<QByteArray>& roles);
+    void setVisibleRoles(const QList<QByteArray> &roles);
     QList<QByteArray> visibleRoles() const;
 
     /**
      * Sets the width of a role that should be used if the alignment of the content
      * should be done in columns.
      */
-    void setColumnWidth(const QByteArray& role, qreal width);
-    qreal columnWidth(const QByteArray& role) const;
+    void setColumnWidth(const QByteArray &role, qreal width);
+    qreal columnWidth(const QByteArray &role) const;
 
     void setSidePadding(qreal width);
     qreal sidePadding() const;
 
-    void setStyleOption(const KItemListStyleOption& option);
-    const KItemListStyleOption& styleOption() const;
+    void setStyleOption(const KItemListStyleOption &option);
+    const KItemListStyleOption &styleOption() const;
 
     // TODO: Hides QGraphicsItem::setSelected()/isSelected(). Replace
     // this by using the default mechanism.
@@ -102,7 +100,7 @@ public:
     void setExpansionAreaHovered(bool hover);
     bool expansionAreaHovered() const;
 
-    void setHoverPosition(const QPointF& pos);
+    void setHoverPosition(const QPointF &pos);
 
     void setAlternateBackground(bool enable);
     bool alternateBackground() const;
@@ -117,7 +115,7 @@ public:
      * The sibling information is useful for drawing the branches in
      * tree views.
      */
-    void setSiblingsInformation(const QBitArray& siblings);
+    void setSiblingsInformation(const QBitArray &siblings);
     QBitArray siblingsInformation() const;
 
     /**
@@ -127,7 +125,7 @@ public:
      * the role is empty. Derived classes must implement
      * editedRoleChanged().
      */
-    void setEditedRole(const QByteArray& role);
+    void setEditedRole(const QByteArray &role);
     QByteArray editedRole() const;
 
     /**
@@ -143,7 +141,7 @@ public:
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
-    bool contains(const QPointF& point) const override;
+    bool contains(const QPointF &point) const override;
 
     /**
      * @return Rectangle for the area that shows the icon.
@@ -187,26 +185,26 @@ public:
      * @return Pixmap that is used when dragging an item. Per default the current state of the
      *         widget is returned as pixmap.
      */
-    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
+    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
 Q_SIGNALS:
-    void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
-    void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void roleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
+    void roleEditingFinished(int index, const QByteArray &role, const QVariant &value);
 
 protected:
-    virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
-    virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
-    virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);
+    virtual void dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles = QSet<QByteArray>());
+    virtual void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous);
+    virtual void columnWidthChanged(const QByteArray &role, qreal current, qreal previous);
     virtual void sidePaddingChanged(qreal width);
-    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous);
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
     virtual void hoveredChanged(bool hovered);
     virtual void alternateBackgroundChanged(bool enabled);
-    virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
-    virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void siblingsInformationChanged(const QBitArray &current, const QBitArray &previous);
+    virtual void editedRoleChanged(const QByteArray &current, const QByteArray &previous);
     virtual void iconSizeChanged(int current, int previous);
-    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
     void clearHoverCache();
 
     /**
@@ -234,7 +232,7 @@ protected:
 
     int hoverSequenceIndex() const;
 
-    const KItemListWidgetInformant* informant() const;
+    const KItemListWidgetInformant *informant() const;
 
 private Q_SLOTS:
     void slotHoverAnimationFinished();
@@ -243,12 +241,12 @@ private Q_SLOTS:
 private:
     void initializeSelectionToggle();
     void setHoverOpacity(qreal opacity);
-    void drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState);
+    void drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState);
 
 private:
     Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)
 
-    KItemListWidgetInformant* m_informant;
+    KItemListWidgetInformant *m_informant;
     int m_index;
     bool m_selected;
     bool m_current;
@@ -264,23 +262,21 @@ private:
     QBitArray m_siblingsInfo;
 
     qreal m_hoverOpacity;
-    mutable QPixmap* m_hoverCache;
-    QPropertyAnimation* m_hoverAnimation;
+    mutable QPixmap *m_hoverCache;
+    QPropertyAnimation *m_hoverAnimation;
 
     int m_hoverSequenceIndex;
     QTimer m_hoverSequenceTimer;
 
-    KItemListSelectionToggle* m_selectionToggle;
+    KItemListSelectionToggle *m_selectionToggle;
 
     QByteArray m_editedRole;
     int m_iconSize;
 };
 
-inline const KItemListWidgetInformant* KItemListWidget::informant() const
+inline const KItemListWidgetInformant *KItemListWidget::informant() const
 {
     return m_informant;
 }
 
 #endif
-
-

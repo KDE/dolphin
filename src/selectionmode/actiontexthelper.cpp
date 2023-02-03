@@ -9,9 +9,10 @@
 
 using namespace SelectionMode;
 
-ActionTextHelper::ActionTextHelper(QObject *parent) :
-    QObject(parent)
-{   }
+ActionTextHelper::ActionTextHelper(QObject *parent)
+    : QObject(parent)
+{
+}
 
 void ActionTextHelper::registerTextWhenNothingIsSelected(QAction *action, QString registeredText)
 {

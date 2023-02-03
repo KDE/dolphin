@@ -10,9 +10,9 @@
 
 #include <KIconLoader>
 
-KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
-    KItemListView(parent),
-    m_itemLayout(DetailsLayout)
+KStandardItemListView::KStandardItemListView(QGraphicsWidget *parent)
+    : KItemListView(parent)
+    , m_itemLayout(DetailsLayout)
 {
     setAcceptDrops(true);
     setScrollOrientation(Qt::Vertical);
@@ -50,34 +50,41 @@ KStandardItemListView::ItemLayout KStandardItemListView::itemLayout() const
     return m_itemLayout;
 }
 
-KItemListWidgetCreatorBase* KStandardItemListView::defaultWidgetCreator() const
+KItemListWidgetCreatorBase *KStandardItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<KStandardItemListWidget>();
 }
 
-KItemListGroupHeaderCreatorBase* KStandardItemListView::defaultGroupHeaderCreator() const
+KItemListGroupHeaderCreatorBase *KStandardItemListView::defaultGroupHeaderCreator() const
 {
     return new KItemListGroupHeaderCreator<KStandardItemListGroupHeader>();
 }
 
-void KStandardItemListView::initializeItemListWidget(KItemListWidget* item)
+void KStandardItemListView::initializeItemListWidget(KItemListWidget *item)
 {
-    KStandardItemListWidget* standardItemListWidget = qobject_cast<KStandardItemListWidget*>(item);
+    KStandardItemListWidget *standardItemListWidget = qobject_cast<KStandardItemListWidget *>(item);
     Q_ASSERT(standardItemListWidget);
 
     switch (itemLayout()) {
-    case IconsLayout:   standardItemListWidget->setLayout(KStandardItemListWidget::IconsLayout); break;
-    case CompactLayout: standardItemListWidget->setLayout(KStandardItemListWidget::CompactLayout); break;
-    case DetailsLayout: standardItemListWidget->setLayout(KStandardItemListWidget::DetailsLayout); break;
-    default:            Q_ASSERT(false); break;
+    case IconsLayout:
+        standardItemListWidget->setLayout(KStandardItemListWidget::IconsLayout);
+        break;
+    case CompactLayout:
+        standardItemListWidget->setLayout(KStandardItemListWidget::CompactLayout);
+        break;
+    case DetailsLayout:
+        standardItemListWidget->setLayout(KStandardItemListWidget::DetailsLayout);
+        break;
+    default:
+        Q_ASSERT(false);
+        break;
     }
 
     standardItemListWidget->setHighlightEntireRow(highlightEntireRow());
     standardItemListWidget->setSupportsItemExpanding(supportsItemExpanding());
 }
 
-
-bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
+bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray> &changedRoles) const
 {
     // The only thing that can modify the item's size hint is the amount of space
     // needed to display the text for the visible roles.
@@ -85,7 +92,7 @@ bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& c
     // the area defined by KItemStyleOption.iconSize and hence result in no
     // change of the item-size.
     const auto roles = visibleRoles();
-    for (const QByteArray& role : roles) {
+    for (const QByteArray &role : roles) {
         if (changedRoles.contains(role)) {
             return true;
         }
@@ -123,23 +130,27 @@ void KStandardItemListView::onSupportsItemExpandingChanged(bool supportsExpandin
     updateLayoutOfVisibleItems();
 }
 
-
 void KStandardItemListView::polishEvent()
 {
     switch (m_itemLayout) {
-    case IconsLayout:   applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_LargeIconSize), 2, 4, 8); break;
-    case CompactLayout: applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize),  2, 8, 0); break;
-    case DetailsLayout: applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize),  2, 0, 0); break;
-    default:            Q_ASSERT(false); break;
+    case IconsLayout:
+        applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_LargeIconSize), 2, 4, 8);
+        break;
+    case CompactLayout:
+        applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize), 2, 8, 0);
+        break;
+    case DetailsLayout:
+        applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize), 2, 0, 0);
+        break;
+    default:
+        Q_ASSERT(false);
+        break;
     }
 
     QGraphicsWidget::polishEvent();
 }
 
-void KStandardItemListView::applyDefaultStyleOption(int iconSize,
-                                                    int padding,
-                                                    int horizontalMargin,
-                                                    int verticalMargin)
+void KStandardItemListView::applyDefaultStyleOption(int iconSize, int padding, int horizontalMargin, int verticalMargin)
 {
     KItemListStyleOption option = styleOption();
 
@@ -163,9 +174,8 @@ void KStandardItemListView::updateLayoutOfVisibleItems()
 {
     if (model()) {
         const auto widgets = visibleItemListWidgets();
-        for (KItemListWidget* widget : widgets) {
+        for (KItemListWidget *widget : widgets) {
             initializeItemListWidget(widget);
         }
     }
 }
-

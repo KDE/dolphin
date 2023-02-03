@@ -8,12 +8,12 @@
 
 #include "mountpointobserver.h"
 
-SpaceInfoObserver::SpaceInfoObserver(const QUrl& url, QObject* parent) :
-    QObject(parent),
-    m_mountPointObserver(nullptr),
-    m_hasData(false),
-    m_dataSize(0),
-    m_dataAvailable(0)
+SpaceInfoObserver::SpaceInfoObserver(const QUrl &url, QObject *parent)
+    : QObject(parent)
+    , m_mountPointObserver(nullptr)
+    , m_hasData(false)
+    , m_dataSize(0)
+    , m_dataAvailable(0)
 {
     m_mountPointObserver = MountPointObserver::observerForUrl(url);
     m_mountPointObserver->ref();
@@ -39,9 +39,9 @@ quint64 SpaceInfoObserver::available() const
     return m_dataAvailable;
 }
 
-void SpaceInfoObserver::setUrl(const QUrl& url)
+void SpaceInfoObserver::setUrl(const QUrl &url)
 {
-    MountPointObserver* newObserver = MountPointObserver::observerForUrl(url);
+    MountPointObserver *newObserver = MountPointObserver::observerForUrl(url);
     if (newObserver != m_mountPointObserver) {
         if (m_mountPointObserver) {
             disconnect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
@@ -53,7 +53,7 @@ void SpaceInfoObserver::setUrl(const QUrl& url)
         m_mountPointObserver->ref();
         connect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
 
-        // If newObserver is cached it won't call update until the next timer update, 
+        // If newObserver is cached it won't call update until the next timer update,
         // so update the observer now.
         m_mountPointObserver->update();
     }

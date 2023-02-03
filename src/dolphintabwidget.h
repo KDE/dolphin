@@ -23,7 +23,6 @@ class DolphinTabWidget : public QTabWidget
     Q_OBJECT
 
 public:
-
     /**
      * @param navigatorsWidget The navigatorsWidget which is always going to be connected
      *                         to the active tabPage.
@@ -42,27 +41,27 @@ public:
     /**
      * @return Tab page at the current index (can be 0 if tabs count is smaller than 1)
      */
-    DolphinTabPage* currentTabPage() const;
+    DolphinTabPage *currentTabPage() const;
 
     /**
      * @return the next tab page. If the current active tab is the last tab,
      * it returns the first tab. If there is only one tab, returns nullptr
      */
-    DolphinTabPage* nextTabPage() const;
+    DolphinTabPage *nextTabPage() const;
 
     /**
      * @return the previous tab page. If the current active tab is the first tab,
      * it returns the last tab. If there is only one tab, returns nullptr
      */
-    DolphinTabPage* prevTabPage() const;
+    DolphinTabPage *prevTabPage() const;
 
     /**
      * @return Tab page at the given \a index (can be 0 if the index is out-of-range)
      */
-    DolphinTabPage* tabPageAt(const int index) const;
+    DolphinTabPage *tabPageAt(const int index) const;
 
-    void saveProperties(KConfigGroup& group) const;
-    void readProperties(const KConfigGroup& group);
+    void saveProperties(KConfigGroup &group) const;
+    void readProperties(const KConfigGroup &group);
 
     /**
      * Refreshes the views of the main window by recreating them according to
@@ -74,13 +73,13 @@ public:
      * @return Whether any of the tab pages has @p url opened
      * in their primary or secondary view.
      */
-    bool isUrlOpen(const QUrl& url) const;
+    bool isUrlOpen(const QUrl &url) const;
 
     /**
      * @return Whether the item with @p url can be found in any view only by switching
      * between already open tabs and scrolling in their primary or secondary view.
      */
-    bool isItemVisibleInAnyView(const QUrl& urlOfItem) const;
+    bool isItemVisibleInAnyView(const QUrl &urlOfItem) const;
 
 Q_SIGNALS:
     /**
@@ -88,7 +87,7 @@ Q_SIGNALS:
      * tab or by activating another view when split view is enabled in the current
      * tab.
      */
-    void activeViewChanged(DolphinViewContainer* viewContainer);
+    void activeViewChanged(DolphinViewContainer *viewContainer);
 
     /**
      * Is emitted when the number of open tabs has changed (e.g. by opening or
@@ -99,13 +98,13 @@ Q_SIGNALS:
     /**
      * Is emitted when a tab has been closed.
      */
-    void rememberClosedTab(const QUrl& url, const QByteArray& state);
+    void rememberClosedTab(const QUrl &url, const QByteArray &state);
 
     /**
      * Is emitted when the url of the current tab has been changed. This signal
      * is also emitted when the active view has been changed.
      */
-    void currentUrlChanged(const QUrl& url);
+    void currentUrlChanged(const QUrl &url);
 
 public Q_SLOTS:
     /**
@@ -118,7 +117,7 @@ public Q_SLOTS:
      * Opens a new tab showing the  URL \a primaryUrl and the optional URL
      * \a secondaryUrl and activates the tab.
      */
-    void openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl());
+    void openNewActivatedTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl());
 
     /**
      * Opens a new tab in the background showing the URL \a primaryUrl and the
@@ -131,7 +130,7 @@ public Q_SLOTS:
      * If \a splitView is set, 2 directories are collected within one tab.
      * \pre \a dirs must contain at least one url.
      */
-    void openDirectories(const QList<QUrl>& dirs, bool splitView);
+    void openDirectories(const QList<QUrl> &dirs, bool splitView);
 
     /**
      * Opens the directories which contain the files \p files and selects all files.
@@ -176,7 +175,7 @@ public Q_SLOTS:
      * Is called when the user wants to reopen a previously closed tab from
      * the recent tabs menu.
      */
-    void restoreClosedTab(const QByteArray& state);
+    void restoreClosedTab(const QByteArray &state);
 
     /** Copies all selected items to the inactive view. */
     void copyToInactiveSplitView();
@@ -201,13 +200,13 @@ private Q_SLOTS:
      * Is connected to the KTabBar signal receivedDropEvent.
      * Allows dragging and dropping files onto tabs.
      */
-    void tabDropEvent(int tab, QDropEvent* event);
+    void tabDropEvent(int tab, QDropEvent *event);
 
     /**
      * The active view url of a tab has been changed so update the text and the
      * icon of the corresponding tab.
      */
-    void tabUrlChanged(const QUrl& url);
+    void tabUrlChanged(const QUrl &url);
 
     void currentTabChanged(int index);
 
@@ -220,7 +219,7 @@ private:
      * @param tabPage The tab page to get the name of
      * @return The name of the tab page
      */
-    QString tabName(DolphinTabPage* tabPage) const;
+    QString tabName(DolphinTabPage *tabPage) const;
 
     struct ViewIndex {
         const int tabIndex;
@@ -247,7 +246,7 @@ private:
      * @return a small struct containing the tab index of the view and whether it is
      * in the primary view. A std::nullopt is returned if there is no view open for @p directory.
      */
-    const std::optional<const ViewIndex> viewOpenAtDirectory(const QUrl& directory) const;
+    const std::optional<const ViewIndex> viewOpenAtDirectory(const QUrl &directory) const;
 
     /**
      * Get the position of the view within this widget that has @p item in the view.
@@ -257,7 +256,7 @@ private:
      * @return a small struct containing the tab index of the view and whether it is
      * in the primary view. A std::nullopt is returned if there is no view open that has @p item visible anywhere.
      */
-    const std::optional<const ViewIndex> viewShowingItem(const QUrl& item) const;
+    const std::optional<const ViewIndex> viewShowingItem(const QUrl &item) const;
 
 private:
     QPointer<DolphinTabPage> m_lastViewedTab;

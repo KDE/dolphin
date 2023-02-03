@@ -36,14 +36,12 @@ public:
      * @param viewProps View properties for the directory \a dir including its
      *                  sub directories.
      */
-    ViewPropsProgressInfo(QWidget* parent,
-                          const QUrl& dir,
-                          const ViewProperties& viewProps);
+    ViewPropsProgressInfo(QWidget *parent, const QUrl &dir, const ViewProperties &viewProps);
 
     ~ViewPropsProgressInfo() override;
 
 protected:
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 public Q_SLOTS:
     void reject() override;
@@ -54,14 +52,14 @@ private Q_SLOTS:
 
 private:
     QUrl m_dir;
-    ViewProperties* m_viewProps;
+    ViewProperties *m_viewProps;
 
-    QLabel* m_label;
-    QProgressBar* m_progressBar;
+    QLabel *m_label;
+    QProgressBar *m_progressBar;
 
-    KIO::DirectorySizeJob* m_dirSizeJob;
-    ApplyViewPropsJob* m_applyViewPropsJob;
-    QTimer* m_timer;
+    KIO::DirectorySizeJob *m_dirSizeJob;
+    ApplyViewPropsJob *m_applyViewPropsJob;
+    QTimer *m_timer;
 };
 
 #endif

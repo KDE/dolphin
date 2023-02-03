@@ -41,8 +41,8 @@ public:
      * the width only gets applied if KItemListHeader::automaticColumnResizing()
      * has been turned off.
      */
-    void setColumnWidth(const QByteArray& role, qreal width);
-    qreal columnWidth(const QByteArray& role) const;
+    void setColumnWidth(const QByteArray &role, qreal width);
+    qreal columnWidth(const QByteArray &role) const;
 
     /**
      * Sets the widths of the columns for all roles. From a performance point of
@@ -51,12 +51,12 @@ public:
      * Note that the widths only get applied if KItemListHeader::automaticColumnResizing()
      * has been turned off.
      */
-    void setColumnWidths(const QHash<QByteArray, qreal>& columnWidths);
+    void setColumnWidths(const QHash<QByteArray, qreal> &columnWidths);
 
     /**
      * @return The column width that is required to show the role unclipped.
      */
-    qreal preferredColumnWidth(const QByteArray& role) const;
+    qreal preferredColumnWidth(const QByteArray &role) const;
 
     /**
      * Sets the width of the column *before* the first column.
@@ -72,27 +72,22 @@ Q_SIGNALS:
      * Is emitted if the width of a column has been adjusted by the user with the mouse
      * (no signal is emitted if KItemListHeader::setColumnWidth() is invoked).
      */
-    void columnWidthChanged(const QByteArray& role,
-                            qreal currentWidth,
-                            qreal previousWidth);
+    void columnWidthChanged(const QByteArray &role, qreal currentWidth, qreal previousWidth);
 
     /**
      * Is emitted if the user has released the mouse button after adjusting the
      * width of a visible role.
      */
-    void columnWidthChangeFinished(const QByteArray& role,
-                                   qreal currentWidth);
+    void columnWidthChangeFinished(const QByteArray &role, qreal currentWidth);
 
 private:
-    explicit KItemListHeader(KItemListView* listView);
+    explicit KItemListHeader(KItemListView *listView);
 
 private:
-    KItemListView* m_view;
-    KItemListHeaderWidget* m_headerWidget;
+    KItemListView *m_view;
+    KItemListHeaderWidget *m_headerWidget;
 
     friend class KItemListView; // Constructs the KItemListHeader instance
 };
 
 #endif
-
-

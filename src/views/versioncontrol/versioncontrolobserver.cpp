@@ -8,9 +8,9 @@
 
 #include "dolphin_versioncontrolsettings.h"
 #include "dolphindebug.h"
-#include "views/dolphinview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "updateitemstatesthread.h"
+#include "views/dolphinview.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -18,16 +18,16 @@
 
 #include <QTimer>
 
-VersionControlObserver::VersionControlObserver(QObject* parent) :
-    QObject(parent),
-    m_pendingItemStatesUpdate(false),
-    m_silentUpdate(false),
-    m_view(nullptr),
-    m_model(nullptr),
-    m_dirVerificationTimer(nullptr),
-    m_pluginsInitialized(false),
-    m_plugin(nullptr),
-    m_updateItemStatesThread(nullptr)
+VersionControlObserver::VersionControlObserver(QObject *parent)
+    : QObject(parent)
+    , m_pendingItemStatesUpdate(false)
+    , m_silentUpdate(false)
+    , m_view(nullptr)
+    , m_model(nullptr)
+    , m_dirVerificationTimer(nullptr)
+    , m_pluginsInitialized(false)
+    , m_plugin(nullptr)
+    , m_updateItemStatesThread(nullptr)
 {
     // The verification timer specifies the timeout until the shown directory
     // is checked whether it is versioned. Per default it is assumed that users
@@ -37,8 +37,7 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
     m_dirVerificationTimer = new QTimer(this);
     m_dirVerificationTimer->setSingleShot(true);
     m_dirVerificationTimer->setInterval(500);
-    connect(m_dirVerificationTimer, &QTimer::timeout,
-            this, &VersionControlObserver::verifyDirectory);
+    connect(m_dirVerificationTimer, &QTimer::timeout, this, &VersionControlObserver::verifyDirectory);
 }
 
 VersionControlObserver::~VersionControlObserver()
@@ -49,54 +48,48 @@ VersionControlObserver::~VersionControlObserver()
     }
 }
 
-void VersionControlObserver::setModel(KFileItemModel* model)
+void VersionControlObserver::setModel(KFileItemModel *model)
 {
     if (m_model) {
-        disconnect(m_model, &KFileItemModel::itemsInserted,
-                   this, &VersionControlObserver::delayedDirectoryVerification);
-        disconnect(m_model, &KFileItemModel::itemsChanged,
-                   this, &VersionControlObserver::slotItemsChanged);
+        disconnect(m_model, &KFileItemModel::itemsInserted, this, &VersionControlObserver::delayedDirectoryVerification);
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &VersionControlObserver::slotItemsChanged);
     }
 
     m_model = model;
 
     if (model) {
-        connect(m_model, &KFileItemModel::itemsInserted,
-                this, &VersionControlObserver::delayedDirectoryVerification);
-        connect(m_model, &KFileItemModel::itemsChanged,
-                this, &VersionControlObserver::slotItemsChanged);
+        connect(m_model, &KFileItemModel::itemsInserted, this, &VersionControlObserver::delayedDirectoryVerification);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &VersionControlObserver::slotItemsChanged);
     }
 }
 
-KFileItemModel* VersionControlObserver::model() const
+KFileItemModel *VersionControlObserver::model() const
 {
     return m_model;
 }
 
-void VersionControlObserver::setView(DolphinView* view)
+void VersionControlObserver::setView(DolphinView *view)
 {
     if (m_view) {
-        disconnect(m_view, &DolphinView::activated,
-                   this, &VersionControlObserver::delayedDirectoryVerification);
+        disconnect(m_view, &DolphinView::activated, this, &VersionControlObserver::delayedDirectoryVerification);
     }
 
     m_view = view;
 
     if (m_view) {
-        connect(m_view, &DolphinView::activated,
-                this, &VersionControlObserver::delayedDirectoryVerification);
+        connect(m_view, &DolphinView::activated, this, &VersionControlObserver::delayedDirectoryVerification);
     }
 }
 
-DolphinView* VersionControlObserver::view() const
+DolphinView *VersionControlObserver::view() const
 {
     return m_view;
 }
 
-QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
+QList<QAction *> VersionControlObserver::actions(const KFileItemList &items) const
 {
     bool hasNullItems = false;
-    for (const KFileItem& item : items) {
+    for (const KFileItem &item : items) {
         if (item.isNull()) {
             qCWarning(DolphinDebug) << "Requesting version-control-actions for empty items";
             hasNullItems = true;
@@ -111,7 +104,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
     if (isVersionControlled()) {
         return m_plugin->versionControlActions(items);
     } else {
-        QList<QAction*> actions;
+        QList<QAction *> actions;
         for (const QPointer<KVersionControlPlugin> &plugin : qAsConst(m_plugins)) {
             actions << plugin->outOfVersionControlActions(items);
         }
@@ -131,14 +124,14 @@ void VersionControlObserver::silentDirectoryVerification()
     m_dirVerificationTimer->start();
 }
 
-void VersionControlObserver::slotItemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles)
+void VersionControlObserver::slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(itemRanges)
 
     // Because "version" role is emitted by VCS plugin (ourselves) we don't need to
     // analyze it and update directory item states information. So lets check if
     // there is only "version".
-    if ( !(roles.count() == 1 && roles.contains("version")) ) {
+    if (!(roles.count() == 1 && roles.contains("version"))) {
         delayedDirectoryVerification();
     }
 }
@@ -176,20 +169,20 @@ void VersionControlObserver::verifyDirectory()
 
 void VersionControlObserver::slotThreadFinished()
 {
-    UpdateItemStatesThread* thread = m_updateItemStatesThread;
+    UpdateItemStatesThread *thread = m_updateItemStatesThread;
     m_updateItemStatesThread = nullptr; // The thread deletes itself automatically (see updateItemStates())
 
     if (!m_plugin || !thread) {
         return;
     }
 
-    const QMap<QString, QVector<ItemState> >& itemStates = thread->itemStates();
-    QMap<QString, QVector<ItemState> >::const_iterator it = itemStates.constBegin();
+    const QMap<QString, QVector<ItemState>> &itemStates = thread->itemStates();
+    QMap<QString, QVector<ItemState>>::const_iterator it = itemStates.constBegin();
     for (; it != itemStates.constEnd(); ++it) {
-        const QVector<ItemState>& items = it.value();
+        const QVector<ItemState> &items = it.value();
 
-        for (const ItemState& item : items) {
-            const KFileItem& fileItem = item.first;
+        for (const ItemState &item : items) {
+            const KFileItem &fileItem = item.first;
             const KVersionControlPlugin::ItemVersion version = item.second;
             QHash<QByteArray, QVariant> values;
             values.insert("version", QVariant(version));
@@ -220,7 +213,7 @@ void VersionControlObserver::updateItemStates()
         return;
     }
 
-    QMap<QString, QVector<ItemState> > itemStates;
+    QMap<QString, QVector<ItemState>> itemStates;
     createItemStatesList(itemStates);
 
     if (!itemStates.isEmpty()) {
@@ -228,17 +221,14 @@ void VersionControlObserver::updateItemStates()
             Q_EMIT infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
-        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
-                this, &VersionControlObserver::slotThreadFinished);
-        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
-                m_updateItemStatesThread, &UpdateItemStatesThread::deleteLater);
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished, this, &VersionControlObserver::slotThreadFinished);
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished, m_updateItemStatesThread, &UpdateItemStatesThread::deleteLater);
 
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
 }
 
-int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState> >& itemStates,
-                                                 const int firstIndex)
+int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState>> &itemStates, const int firstIndex)
 {
     const int itemCount = m_model->count();
     const int currentExpansionLevel = m_model->expandedParentsCount(firstIndex);
@@ -265,7 +255,7 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
     }
 
     if (!items.isEmpty()) {
-        const QUrl& url = items.first().first.url();
+        const QUrl &url = items.first().first.url();
         itemStates.insert(url.adjusted(QUrl::RemoveFilename).path(), items);
     }
 
@@ -294,21 +284,17 @@ void VersionControlObserver::initPlugins()
         }
 
         for (auto &plugin : qAsConst(m_plugins)) {
-            connect(plugin, &KVersionControlPlugin::itemVersionsChanged,
-                this, &VersionControlObserver::silentDirectoryVerification);
-            connect(plugin, &KVersionControlPlugin::infoMessage,
-                this, &VersionControlObserver::infoMessage);
-            connect(plugin, &KVersionControlPlugin::errorMessage,
-                this, &VersionControlObserver::errorMessage);
-            connect(plugin, &KVersionControlPlugin::operationCompletedMessage,
-                this, &VersionControlObserver::operationCompletedMessage);
+            connect(plugin, &KVersionControlPlugin::itemVersionsChanged, this, &VersionControlObserver::silentDirectoryVerification);
+            connect(plugin, &KVersionControlPlugin::infoMessage, this, &VersionControlObserver::infoMessage);
+            connect(plugin, &KVersionControlPlugin::errorMessage, this, &VersionControlObserver::errorMessage);
+            connect(plugin, &KVersionControlPlugin::operationCompletedMessage, this, &VersionControlObserver::operationCompletedMessage);
         }
 
         m_pluginsInitialized = true;
     }
 }
 
-KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory)
+KVersionControlPlugin *VersionControlObserver::searchPlugin(const QUrl &directory)
 {
     initPlugins();
 
@@ -337,4 +323,3 @@ bool VersionControlObserver::isVersionControlled() const
 {
     return m_plugin != nullptr;
 }
-

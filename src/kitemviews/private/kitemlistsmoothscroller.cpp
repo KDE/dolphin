@@ -12,20 +12,18 @@
 #include <QStyle>
 #include <QWheelEvent>
 
-KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
-                                                 QObject* parent) :
-    QObject(parent),
-    m_scrollBarPressed(false),
-    m_smoothScrolling(true),
-    m_scrollBar(scrollBar),
-    m_animation(nullptr)
+KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar *scrollBar, QObject *parent)
+    : QObject(parent)
+    , m_scrollBarPressed(false)
+    , m_smoothScrolling(true)
+    , m_scrollBar(scrollBar)
+    , m_animation(nullptr)
 {
     m_animation = new QPropertyAnimation(this);
     const int animationDuration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, m_scrollBar);
     const bool animationEnabled = (animationDuration > 0);
     m_animation->setDuration(animationEnabled ? animationDuration : 1);
-    connect(m_animation, &QPropertyAnimation::stateChanged,
-            this, &KItemListSmoothScroller::slotAnimationStateChanged);
+    connect(m_animation, &QPropertyAnimation::stateChanged, this, &KItemListSmoothScroller::slotAnimationStateChanged);
 
     m_scrollBar->installEventFilter(this);
 }
@@ -39,22 +37,22 @@ void KItemListSmoothScroller::setScrollBar(QScrollBar *scrollBar)
     m_scrollBar = scrollBar;
 }
 
-QScrollBar* KItemListSmoothScroller::scrollBar() const
+QScrollBar *KItemListSmoothScroller::scrollBar() const
 {
     return m_scrollBar;
 }
 
-void KItemListSmoothScroller::setTargetObject(QObject* target)
+void KItemListSmoothScroller::setTargetObject(QObject *target)
 {
     m_animation->setTargetObject(target);
 }
 
-QObject* KItemListSmoothScroller::targetObject() const
+QObject *KItemListSmoothScroller::targetObject() const
 {
     return m_animation->targetObject();
 }
 
-void KItemListSmoothScroller::setPropertyName(const QByteArray& propertyName)
+void KItemListSmoothScroller::setPropertyName(const QByteArray &propertyName)
 {
     m_animation->setPropertyName(propertyName);
 }
@@ -66,7 +64,7 @@ QByteArray KItemListSmoothScroller::propertyName() const
 
 void KItemListSmoothScroller::scrollContentsBy(qreal distance)
 {
-    QObject* target = targetObject();
+    QObject *target = targetObject();
     if (!target) {
         return;
     }
@@ -143,7 +141,7 @@ bool KItemListSmoothScroller::requestScrollBarUpdate(int newMaximum)
     return true;
 }
 
-bool KItemListSmoothScroller::eventFilter(QObject* obj, QEvent* event)
+bool KItemListSmoothScroller::eventFilter(QObject *obj, QEvent *event)
 {
     Q_ASSERT(obj == m_scrollBar);
 
@@ -168,8 +166,7 @@ bool KItemListSmoothScroller::eventFilter(QObject* obj, QEvent* event)
     return QObject::eventFilter(obj, event);
 }
 
-void KItemListSmoothScroller::slotAnimationStateChanged(QAbstractAnimation::State newState,
-                                                        QAbstractAnimation::State oldState)
+void KItemListSmoothScroller::slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState)
 {
     Q_UNUSED(oldState)
     if (newState == QAbstractAnimation::Stopped && m_smoothScrolling && !m_scrollBarPressed) {
@@ -180,7 +177,7 @@ void KItemListSmoothScroller::slotAnimationStateChanged(QAbstractAnimation::Stat
     }
 }
 
-void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
+void KItemListSmoothScroller::handleWheelEvent(QWheelEvent *event)
 {
     const bool previous = m_smoothScrolling;
 
@@ -198,4 +195,3 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
 
     m_smoothScrolling = previous;
 }
-
