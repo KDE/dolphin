@@ -36,6 +36,8 @@ namespace {
             { Property::Comment,           QByteArrayLiteral("comment") },
             { Property::Title,             QByteArrayLiteral("title") },
             { Property::Author,            QByteArrayLiteral("author") },
+            { Property::Publisher,         QByteArrayLiteral("publisher") },
+            { Property::PageCount,         QByteArrayLiteral("pageCount") },
             { Property::WordCount,         QByteArrayLiteral("wordCount") },
             { Property::LineCount,         QByteArrayLiteral("lineCount") },
             { Property::Width,             QByteArrayLiteral("width") },

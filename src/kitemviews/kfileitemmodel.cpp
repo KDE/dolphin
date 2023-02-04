@@ -2118,6 +2118,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
     case RatingRole:
     case WidthRole:
     case HeightRole:
+    case PublisherRole:
+    case PageCountRole:
     case WordCountRole:
     case LineCountRole:
     case TrackRole:
@@ -2644,6 +2646,8 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "comment",             CommentRole,             kli18nc("@label", "Comment"),              KLazyLocalizedString(),                            true,            false },
         { "title",               TitleRole,               kli18nc("@label", "Title"),                kli18nc("@label", "Document"),                     true,            true  },
         { "author",              AuthorRole,              kli18nc("@label", "Author"),               kli18nc("@label", "Document"),                     true,            true  },
+        { "publisher",           PublisherRole,           kli18nc("@label", "Publisher"),            kli18nc("@label", "Document"),                     true,            true  },
+        { "pageCount",           PageCountRole,           kli18nc("@label", "Page Count"),           kli18nc("@label", "Document"),                     true,            true  },
         { "wordCount",           WordCountRole,           kli18nc("@label", "Word Count"),           kli18nc("@label", "Document"),                     true,            true  },
         { "lineCount",           LineCountRole,           kli18nc("@label", "Line Count"),           kli18nc("@label", "Document"),                     true,            true  },
         { "imageDateTime",       ImageDateTimeRole,       kli18nc("@label", "Date Photographed"),    kli18nc("@label", "Image"),                        true,            true  },

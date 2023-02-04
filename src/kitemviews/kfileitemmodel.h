@@ -298,7 +298,7 @@ private:
         GroupRole, TypeRole, ExtensionRole, DestinationRole, PathRole, DeletionTimeRole,
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, DimensionsRole, WidthRole, HeightRole, ImageDateTimeRole, OrientationRole,
-        WordCountRole, TitleRole, AuthorRole, LineCountRole, ArtistRole, GenreRole, AlbumRole, DurationRole, TrackRole, ReleaseYearRole,
+        PublisherRole, PageCountRole, WordCountRole, TitleRole, AuthorRole, LineCountRole, ArtistRole, GenreRole, AlbumRole, DurationRole, TrackRole, ReleaseYearRole,
         BitrateRole, OriginUrlRole, AspectRatioRole, FrameRateRole,
         // Non-visible roles:
         IsDirRole, IsLinkRole, IsHiddenRole, IsExpandedRole, IsExpandableRole, ExpandedParentsCountRole,
