@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-02 01:01+0000\n"
-"PO-Revision-Date: 2023-02-02 19:56+0300\n"
+"PO-Revision-Date: 2023-02-04 00:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -571,7 +571,7 @@ msgstr "Ayrı bir pencerede sanal zula dizinini açar"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
-msgstr "Dur"
+msgstr "Durdur"
 
 #: dolphinmainwindow.cpp:1765
 #, kde-format
@@ -1591,7 +1591,7 @@ msgstr "Ara"
 #: dolphinviewcontainer.cpp:587
 #, kde-format
 msgid "Search for %1"
-msgstr "%1 ara"
+msgstr "Ara: %1"
 
 #: dolphinviewcontainer.cpp:671
 #, kde-format
@@ -1629,7 +1629,7 @@ msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
-"Protokol Dolphin tarafından desteklenmiyor, varsayılan uygulama başlatıldı"
+"Protokol Dolphin tarafından desteklenmiyor, öntanımlı uygulama başlatıldı"
 
 #: dolphinviewcontainer.cpp:853
 #, kde-format
@@ -2139,7 +2139,7 @@ msgstr "Süre"
 #: kitemviews/kfileitemmodel.cpp:2658
 msgctxt "@label"
 msgid "Bitrate"
-msgstr "Bit Oranı"
+msgstr "Bit Hızı"
 
 #: kitemviews/kfileitemmodel.cpp:2659
 msgctxt "@label"
@@ -3242,7 +3242,7 @@ msgstr "Özyineli dizin boyutu sınırı"
 #: settings/dolphin_detailsmodesettings.kcfg:51
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
-msgstr "doğruysa, kısa tarihler olmadığında, kısa göreli tarihler kullanırız"
+msgstr "doğruysa kısa göreceli tarihler kullanırız, değilse kısa tarihler"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3580,13 +3580,13 @@ msgstr "Durum çubuğunu göster"
 #: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Boyutlandırma kaydırma çubuğunu durum çubuğunda göster"
+msgstr "Durum çubuğunda yakınlaştırma kaydırıcısını göster"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:123
 #, kde-format
 msgid "Show the space information in the statusbar"
-msgstr "Depolama alanı bilgilerini durum çubuğunda göster"
+msgstr "Durum çubuğunda depolama alanı bilgisini göster"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
 #: settings/dolphin_generalsettings.kcfg:127
@@ -3925,13 +3925,13 @@ msgstr "Durum çubuğunu göster"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Boyutlandırma kaydırma çubuğunu göster"
+msgstr "Yakınlaştırma kaydırıcısını göster"
 
 #: settings/general/statusbarsettingspage.cpp:24
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Depolama alanı bilgilerini göster"
+msgstr "Depolama alanı bilgisini göster"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:35
 #: settings/viewmodes/viewsettingspage.cpp:28
@@ -3982,7 +3982,7 @@ msgstr "Arşivleri klasör gibi aç"
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
-msgstr "Sürükleme sırasında klasörleri aç"
+msgstr "Sürükleme işlemleri sırasında klasörleri aç"
 
 #: settings/navigation/navigationsettingspage.cpp:41
 #, kde-format
@@ -4097,7 +4097,7 @@ msgstr "Seç..."
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
-msgstr "Varsayılan simge boyutu:"
+msgstr "Öntanımlı simge boyutu:"
 
 #: settings/viewmodes/viewsettingstab.cpp:62
 #, kde-format
@@ -4273,13 +4273,13 @@ msgstr "Klasör boyutu şunları gösterir:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Göreli (ör. '%1')"
+msgstr "Göreceli (örn. '%1')"
 
 #: settings/viewmodes/viewsettingstab.cpp:149
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Mutlak (ör. '%1')"
+msgstr "Mutlak (örn. '%1')"
 
 #: settings/viewmodes/viewsettingstab.cpp:156
 #, kde-format
@@ -4300,7 +4300,7 @@ msgstr[1] "Boyut: %1 piksel"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Görünüm Gösterim Biçemi"
+msgstr "Görünüm Özellikleri"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4418,7 +4418,7 @@ msgstr "Şuna uygula:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
-msgstr "Varsayılan görünüm ayarları olarak kullan"
+msgstr "Öntanımlı görünüm ayarları olarak kullan"
 
 #: settings/viewpropertiesdialog.cpp:351
 #, kde-format
@@ -4477,7 +4477,7 @@ msgstr "Dosya simgelerin boyutlarını ayarlar."
 #: statusbar/dolphinstatusbar.cpp:71
 #, kde-format
 msgid "Stop"
-msgstr "Dur"
+msgstr "Durdur"
 
 #: statusbar/dolphinstatusbar.cpp:73
 #, kde-format
@@ -4497,25 +4497,25 @@ msgid ""
 "item><item><emphasis>Space information</emphasis> about the current storage "
 "device.</item></list></para>"
 msgstr ""
-"<para>Bu, <emphasis>Durum Çubuğudur</emphasis>. Varsayılan olarak (soldan "
+"<para>Bu, <emphasis>Durum Çubuğudur</emphasis>. Öntanımlı olarak (soldan "
 "sağa) üç öge içerir: <list> <item>Seçili ögelerin boyutunu görüntüleyen "
 "<emphasis>metin alanı</emphasis>. Yalnızca bir öge seçilirse ad ve tür de "
 "gösterilir. </item> <item>Görünümdeki simgelerin boyutunu ayarlamanıza "
 "olanak tanıyan bir <emphasis>yakınlaştırma kaydırıcısı</emphasis>. </item> "
-"<item>Mevcut depolama aygıtı hakkında <emphasis>alan bilgisi</emphasis>. </"
+"<item>Geçerli depolama aygıtı hakkında <emphasis>alan bilgisi</emphasis>. </"
 "item></list></para>"
 
 #: statusbar/dolphinstatusbar.cpp:263
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
-msgstr "Boyutlandırma Kaydırma Çubuğunu Göster"
+msgstr "Yakınlaştırma Kaydırıcısını Göster"
 
 #: statusbar/dolphinstatusbar.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
-msgstr "Depolama Alan Bilgilerini Göster"
+msgstr "Depolama Alan Bilgisini Göster"
 
 #: statusbar/statusbarspaceinfo.cpp:117
 #, kde-format
@@ -4972,13 +4972,13 @@ msgstr "Yakınlaştırma Düzeyini Sıfırla"
 #: views/dolphinviewactionhandler.cpp:235
 #, kde-format
 msgid "Zoom To Default"
-msgstr "Varsayılana Yakınlaştır"
+msgstr "Öntanımlıya Yakınlaştır"
 
 #: views/dolphinviewactionhandler.cpp:236
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr "Bu, simge boyutunu varsayılana sıfırlar."
+msgstr "Bu, simge boyutunu öntanımlı değere sıfırlar."
 
 #: views/dolphinviewactionhandler.cpp:244
 #, kde-format
@@ -5078,7 +5078,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
-msgstr "Görünüm Gösterim Biçemini Ayarla..."
+msgstr "Görünüm Özelliklerini Ayarla..."
 
 #: views/dolphinviewactionhandler.cpp:342
 #, kde-format

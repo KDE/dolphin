@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-02 01:01+0000\n"
-"PO-Revision-Date: 2023-01-04 10:16+0100\n"
+"PO-Revision-Date: 2023-01-31 14:56+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -298,7 +298,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Vyjmout…"
 
 #: dolphinmainwindow.cpp:1613
 #, kde-kuit-format
@@ -314,7 +314,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr ""
+msgstr "Kopírovat…"
 
 #: dolphinmainwindow.cpp:1620
 #, kde-kuit-format
@@ -1301,7 +1301,7 @@ msgstr "Zavřít kartu"
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr ""
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1309,7 +1309,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1424,6 +1424,7 @@ msgstr "Neplatný protokol"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Současné místo bylo změněno .<filename>%1</filename> již není dostupné."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -1550,7 +1551,7 @@ msgstr[2] "%1 položek"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2260
 #, kde-format
@@ -2035,7 +2036,7 @@ msgstr "Felix Ernst"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr ""
+msgstr "Správce (od roku 2021) a vývojář"
 
 #: main.cpp:99
 #, kde-format
@@ -2047,7 +2048,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr ""
+msgstr "Správce (od roku 2021) a vývojář (od roku 2019)"
 
 #: main.cpp:102
 #, kde-format
@@ -2059,7 +2060,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr ""
+msgstr "Správce (2018-2021) a vývojář"
 
 #: main.cpp:105
 #, kde-format
@@ -2180,7 +2181,7 @@ msgstr "Dolphin se explicitně otevře v novém okně."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr ""
+msgstr "Spustit démona aplikace Dolphin (potřebný pro rozhraní DBus)."
 
 #: main.cpp:150
 #, kde-format
@@ -2571,7 +2572,7 @@ msgstr "Výsledky dotazu od %1"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být zkopírovány."
 
 # cancel button label
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
@@ -2588,20 +2589,20 @@ msgstr "Zrušit kopírování"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Vyberte jeden soubor nebo složku, jejichž místo má být zkopírováno."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:205
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být zkopírovány sem."
 
 #: selectionmode/bottombarcontentscontainer.cpp:223
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být vyjmuty."
 
 # cancel button label
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
@@ -2615,7 +2616,7 @@ msgstr "Zrušit vyjmutí"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být trvale smazány."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2630,7 +2631,7 @@ msgstr "Zrušit"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr ""
+msgstr "Vyberte soubory a složky, které zde mají být duplikovány."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:280
@@ -2652,7 +2653,7 @@ msgstr "Více"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být přesunuty sem."
 
 # cancel button label
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2666,7 +2667,7 @@ msgstr "Zrušit přesun"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Vyberte soubory a složky, které mají být přesunuty do koše."
 
 #: selectionmode/bottombarcontentscontainer.cpp:375
 #, kde-kuit-format
@@ -2683,19 +2684,19 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Vložit ze schránky"
 
 #: selectionmode/bottombarcontentscontainer.cpp:400
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Zamítnout tuto upomínku"
 
 #: selectionmode/bottombarcontentscontainer.cpp:402
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Příště se již neupomínat"
 
 #: selectionmode/bottombarcontentscontainer.cpp:418
 #, kde-format
@@ -2736,9 +2737,9 @@ msgstr[2] "Zkopírovat %2 do schránky"
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopírovat pozici %2 do schránky"
+msgstr[1] "Kopírovat pozici %2 do schránky"
+msgstr[2] "Kopírovat pozici %2 do schránky"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2750,9 +2751,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Vyjmout %2 do schránky"
+msgstr[1] "Vyjmout %2 do schránky"
+msgstr[2] "Vyjmout %2 do schránky"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
