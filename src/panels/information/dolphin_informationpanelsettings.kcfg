@@ -14,6 +14,10 @@
             <label>Auto-Play media files</label>
             <default>false</default>
         </entry>
+        <entry name="showHovered" type="Bool">
+            <label>Show item on hover</label>
+            <default>true</default>
+        </entry>
         <entry name="dateFormat" type="Enum">
             <label>Date display format</label>
             <choices>
