@@ -6,7 +6,6 @@
 
 #include "previewssettingspage.h"
 
-#include "configurepreviewplugindialog.h"
 #include "dolphin_generalsettings.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
@@ -44,12 +43,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
 
     m_listView = new QListView(this);
     QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
-
-#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
-    ServiceItemDelegate *delegate = new ServiceItemDelegate(m_listView, m_listView);
-    connect(delegate, &ServiceItemDelegate::requestServiceConfiguration, this, &PreviewsSettingsPage::configureService);
-    m_listView->setItemDelegate(delegate);
-#endif
 
     ServiceModel *serviceModel = new ServiceModel(this);
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
@@ -150,19 +143,6 @@ void PreviewsSettingsPage::showEvent(QShowEvent *event)
     SettingsPageBase::showEvent(event);
 }
 
-#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
-void PreviewsSettingsPage::configureService(const QModelIndex &index)
-{
-    const QAbstractItemModel *model = index.model();
-    const QString pluginName = model->data(index).toString();
-    const QString desktopEntryName = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
-
-    ConfigurePreviewPluginDialog *dialog = new ConfigurePreviewPluginDialog(pluginName, desktopEntryName, this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
-}
-#endif
-
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
     QAbstractItemModel *model = m_listView->model();
@@ -176,11 +156,6 @@ void PreviewsSettingsPage::loadPreviewPlugins()
         model->setData(index, show, Qt::CheckStateRole);
         model->setData(index, plugin.name(), Qt::DisplayRole);
         model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
-
-#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
-        const bool configurable = plugin.value(QStringLiteral("Configurable"), false);
-        model->setData(index, configurable, ServiceModel::ConfigurableRole);
-#endif
     }
 
     model->sort(Qt::DisplayRole);

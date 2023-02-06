@@ -288,7 +288,6 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombarcontentscontainer.cpp
     selectionmode/topbar.cpp
     settings/general/behaviorsettingspage.cpp
-    settings/general/configurepreviewplugindialog.cpp
     settings/general/confirmationssettingspage.cpp
     settings/general/generalsettingspage.cpp
     settings/general/previewssettingspage.cpp
@@ -347,7 +346,6 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombarcontentscontainer.h
     selectionmode/topbar.h
     settings/general/behaviorsettingspage.h
-    settings/general/configurepreviewplugindialog.h
     settings/general/confirmationssettingspage.h
     settings/general/generalsettingspage.h
     settings/general/previewssettingspage.h
@@ -524,7 +522,6 @@ if(NOT WIN32)
         settings/kcm/kcmdolphingeneral.cpp
         settings/general/behaviorsettingspage.cpp
         settings/general/previewssettingspage.cpp
-        settings/general/configurepreviewplugindialog.cpp
         settings/general/confirmationssettingspage.cpp
         settings/settingspagebase.cpp
         settings/serviceitemdelegate.cpp
@@ -532,7 +529,6 @@ if(NOT WIN32)
         settings/kcm/kcmdolphingeneral.h
         settings/general/behaviorsettingspage.h
         settings/general/previewssettingspage.h
-        settings/general/configurepreviewplugindialog.h
         settings/general/confirmationssettingspage.h
         settings/settingspagebase.h
         settings/serviceitemdelegate.h
