@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2021-09-17 16:19+0630\n"
 "Last-Translator: \n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -18,131 +18,131 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 2.2.1\n"
 
-#: servicemenuinstaller.cpp:44
+#: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "လင်းပိုင် ဝန်ဆောင်မှုမီနူ တပ်ဆင်ခြင်း မအောင်မြင်ပါ"
 
-#: servicemenuinstaller.cpp:72
+#: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "\"%1\" ကိုမတပ်ဆင်နိုင်ခဲ့ပါ၊ အခြေအနေ \"%2\" နှင့် ထွက်သွားခဲ့သည်"
 
-#: servicemenuinstaller.cpp:104
+#: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "\"%1\" ကိုမဖြုတ်ချနိုင်ခဲ့ပါ၊ အခြေအနေ \"%2\" နှင့် ထွက်သွားခဲ့သည်"
 
-#: servicemenuinstaller.cpp:117
+#: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
 msgstr "ဖိုင်လ် မရှိပါ။"
 
-#: servicemenuinstaller.cpp:126
+#: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "ပတ်ကေ့ချ်တပ်ဆင်နေသည့်အခါ အမျိုးအမည်မသိအမှားဖြစ်ပေါ်ခဲ့သည်"
 
-#: servicemenuinstaller.cpp:181
+#: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "ထောက်ပံ့မထားသော ထိမ်းသိမ်းတိုက်အမျိုးအစား %1 - %2"
 
-#: servicemenuinstaller.cpp:190
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr "%1 အတွက် ဖိသိပ်မှုဖြေလျှော့ရေးအမိန့် မဆောင်ရွက်နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:195
+#: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "သင့်တော်သောကာလအတွင် အလုပ်မပြီးခဲ့ပါ - %1 %2"
 
-#: servicemenuinstaller.cpp:199
+#: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "%1ကို ဖိသိပ်ထားခြင်းမဖြေလျှော့နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:232
+#: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "တပ်ဆင်ရေးညွှန်ကြားကုတ် %1 ကို မဆောင်ရွက်နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:255
+#: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "%1 ပေါ် ခွင့်ပြုချက်များ မသတ်မှတ်နိုင်ခဲ့ပါ - %2"
 
-#: servicemenuinstaller.cpp:272
-#, kde-format
-msgctxt "Separator between arguments"
-msgid "\", \""
-msgstr "\"၊ \""
-
-#: servicemenuinstaller.cpp:272
+#: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr "တပ်ဆင်ရေးညွှန်ကြားကုတ် %1 မအောင်မြင်ပါ၊ ပေးချက်များ \"%2\" ကြိုးစားခဲ့သည်။"
 
-#: servicemenuinstaller.cpp:286
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\"၊ \""
+
+#: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "လမ်းကြောင်း %1 ကိုမတည်ဆောက်နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:300
+#: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "%1 .desktop ဖိုင်လ်ကို %2 သို့ ကူးယူမရခဲ့ပါ - %3"
 
-#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "ဒါရိုက်ထရီ %1 ကိုမဖယ်ရှားနိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:318
+#: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "ဒါရိုက်ထရီ %1 ကိုမတည်ဆောက်နိုင်ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:357
+#: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "တပ်ဆင်ရေးညွှန်ကြားကုတ်ကို %1 တွင် ရှာမတွေ့ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:371
+#: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "%1 .desktop ဖိုင်လ်ကို ဖယ်ရှားမရခဲ့ပါ - %2"
 
-#: servicemenuinstaller.cpp:416
+#: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "ဖြုတ်ချရေးညွှန်ကြားကုတ်ကို %1 တွင် ရှာမတွေ့ခဲ့ပါ"
 
-#: servicemenuinstaller.cpp:435
+#: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "ဆောင်ရွက်ရန်အမိန့် - တပ်ဆင်မည် သို့မဟုတ် ဖြုတ်ချမည်။"
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "ထိမ်းသိမ်းတိုက်သို့ လမ်းကြောင်း။"
 
-#: servicemenuinstaller.cpp:441
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
 msgstr "အမိန့်လိုအပ်သည်။"
 
-#: servicemenuinstaller.cpp:444
+#: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
 msgstr "ထိမ်းသိမ်းတိုက်သို့ လမ်းကြောင်းလိုအပ်သည်။"
 
-#: servicemenuinstaller.cpp:460
+#: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "ဆောင်ရွက်၍မရသော အမိန့် %1"

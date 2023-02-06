@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2020-12-19 11:09-0800\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -17,131 +17,131 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 20.08.1\n"
 
-#: servicemenuinstaller.cpp:44
+#: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "ਡਾਲਫਿਨ ਸਰਵਿਸ ਮੇਨੂ ਇੰਸਟਾਲੇਸ਼ਨ ਫੇਲ੍ਹ ਹੈ"
 
-#: servicemenuinstaller.cpp:72
+#: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "\"%1\" ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਅਸਫ਼ਲ, ਖਤਮ ਹੋਣ ਦੀ ਸਥਿਤੀ \"%2\""
 
-#: servicemenuinstaller.cpp:104
+#: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "\"%1\" ਅਣ-ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਅਸਫ਼ਲ, ਖਤਮ ਹੋਣ ਦੀ ਸਥਿਤੀ \"%2\""
 
-#: servicemenuinstaller.cpp:117
+#: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
 msgstr "ਫਾਇਲ ਮੌਜੂਦ ਨਹੀਂ ਹੈ!"
 
-#: servicemenuinstaller.cpp:126
+#: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "ਪੈਕੇਜ ਇੰਸਟਾਲ ਕਰਨ ਦੌਰਾਨ ਅਣਪਛਾਤੀ ਗਲਤੀ"
 
-#: servicemenuinstaller.cpp:181
+#: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "ਅਕਾਇਵ ਦੀ ਕਿਸਮ %1 ਦਾ ਗ਼ੈਰ-ਸਹਾਇਕ ਹੈ: %2"
 
-#: servicemenuinstaller.cpp:190
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr ""
 
-#: servicemenuinstaller.cpp:195
+#: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr ""
 
-#: servicemenuinstaller.cpp:199
+#: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "%1 ਨੂੰ ਅਣ-ਕੰਪਰੈਸ ਕਰਨ ਲਈ ਅਸਫ਼ਲ"
 
-#: servicemenuinstaller.cpp:232
+#: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr ""
 
-#: servicemenuinstaller.cpp:255
+#: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "%1 ਉੱਤੇ ਇਜਾਜ਼ਤਾਂ ਸੈੱਟ ਕਰਨ ਲਈ ਅਸਫ਼ਲ ਹੈ: %2"
 
-#: servicemenuinstaller.cpp:272
-#, kde-format
-msgctxt "Separator between arguments"
-msgid "\", \""
-msgstr "\", \""
-
-#: servicemenuinstaller.cpp:272
+#: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr ""
 
-#: servicemenuinstaller.cpp:286
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "ਮਾਰਗ %1 ਬਣਾਉਣ ਲਈ ਅਸਫ਼ਲ ਹੈ"
 
-#: servicemenuinstaller.cpp:300
+#: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr ".desktop ਫ਼ਾਈਲ %1 ਨੂੰ %2 ਉੱਤੇ ਕਾਪੀ ਕਰਨ ਲਈ ਅਸਫ਼ਲ: %3"
 
-#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "ਡਾਇਰੈਕਟਰੀ %1 ਹਟਾਉਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
 
-#: servicemenuinstaller.cpp:318
+#: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "%1 ਡਾਇਰੈਕਟਰੀ ਬਣਾਉਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
 
-#: servicemenuinstaller.cpp:357
+#: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr ""
 
-#: servicemenuinstaller.cpp:371
+#: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr ".desktop ਫ਼ਾਈਲ %1 ਹਟਾਉਣ ਲਈ ਅਸਫ਼ਲ ਹੈ: %2"
 
-#: servicemenuinstaller.cpp:416
+#: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr ""
-
-#: servicemenuinstaller.cpp:435
-#, kde-format
-msgctxt "@info:shell"
-msgid "Command to execute: install or uninstall."
 msgstr ""
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr ""
+
+#: servicemenuinstaller.cpp:437
+#, kde-format
+msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "ਅਕਾਇਵ ਲਈ ਮਾਰਗ।"
 
-#: servicemenuinstaller.cpp:441
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
 msgstr "ਕਮਾਂਡ ਚਾਹੀਦੀ ਹੈ।"
 
-#: servicemenuinstaller.cpp:444
+#: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
 msgstr ""
 
-#: servicemenuinstaller.cpp:460
+#: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਕਮਾਂਡ %1"

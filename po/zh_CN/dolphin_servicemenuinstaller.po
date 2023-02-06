@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2023-01-12 10:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18,131 +18,131 @@ msgstr ""
 "pot\n"
 "X-Crowdin-File-ID: 10738\n"
 
-#: servicemenuinstaller.cpp:44
+#: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "Dolphin 服务菜单安装失败"
 
-#: servicemenuinstaller.cpp:72
+#: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "无法安装“%1”，退出状态“%2”"
 
-#: servicemenuinstaller.cpp:104
+#: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "卸载“%1”失败，退出状态“%2”"
 
-#: servicemenuinstaller.cpp:117
+#: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
 msgstr "文件不存在！"
 
-#: servicemenuinstaller.cpp:126
+#: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "安装软件包时发生未知错误"
 
-#: servicemenuinstaller.cpp:181
+#: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "不支持的归档类型 %1：%2"
 
-#: servicemenuinstaller.cpp:190
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr "无法为 %1 运行解压命令"
 
-#: servicemenuinstaller.cpp:195
+#: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "进程未在合理时间内完成：%1 %2"
 
-#: servicemenuinstaller.cpp:199
+#: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "解压失败：%1"
 
-#: servicemenuinstaller.cpp:232
+#: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "运行安装脚本 %1 失败"
 
-#: servicemenuinstaller.cpp:255
+#: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "为 %1 设置权限失败：%2"
 
-#: servicemenuinstaller.cpp:272
-#, kde-format
-msgctxt "Separator between arguments"
-msgid "\", \""
-msgstr "\", \""
-
-#: servicemenuinstaller.cpp:272
+#: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr "安装脚本 %1 失败，尝试参数 %2。"
 
-#: servicemenuinstaller.cpp:286
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "创建路径 %1 失败"
 
-#: servicemenuinstaller.cpp:300
+#: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "复制 .desktop 文件 %1 到 %2 失败：%3"
 
-#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "移除目录 %1 失败"
 
-#: servicemenuinstaller.cpp:318
+#: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "创建目录 %1 失败"
 
-#: servicemenuinstaller.cpp:357
+#: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "在 %1 中查找安装脚本失败"
 
-#: servicemenuinstaller.cpp:371
+#: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "移除 .desktop 文件 %1 失败：%2"
 
-#: servicemenuinstaller.cpp:416
+#: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "在 %1 中查找卸载脚本失败"
 
-#: servicemenuinstaller.cpp:435
+#: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "要执行的命令：install 或 uninstall。"
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "归档的路径。"
 
-#: servicemenuinstaller.cpp:441
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
 msgstr "命令是必需的。"
 
-#: servicemenuinstaller.cpp:444
+#: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
 msgstr "归档路径是必需的。"
 
-#: servicemenuinstaller.cpp:460
+#: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "不支持的命令 %1"

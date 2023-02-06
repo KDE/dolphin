@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-05 01:01+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2023-01-22 19:36+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -27,143 +27,143 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "smart2128vr@gmail.com"
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Svuota il cestino"
 
-#: dolphincontextmenu.cpp:139
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Ripristina"
 
-#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1558
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1524
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crea"
 
-#: dolphincontextmenu.cpp:209
+#: dolphincontextmenu.cpp:206
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Apri percorso"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Apri percorso in una nuova finestra"
 
-#: dolphincontextmenu.cpp:225
+#: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Apri percorso in una nuova scheda"
 
-#: dolphinmainwindow.cpp:308
+#: dolphinmainwindow.cpp:296
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Copiato correttamente."
 
-#: dolphinmainwindow.cpp:311
+#: dolphinmainwindow.cpp:299
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Spostato correttamente."
 
-#: dolphinmainwindow.cpp:314
+#: dolphinmainwindow.cpp:302
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Collegato correttamente."
 
-#: dolphinmainwindow.cpp:317
+#: dolphinmainwindow.cpp:305
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Cestinato correttamente."
 
-#: dolphinmainwindow.cpp:320
+#: dolphinmainwindow.cpp:308
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Rinominato correttamente."
 
-#: dolphinmainwindow.cpp:324
+#: dolphinmainwindow.cpp:312
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Cartella creata."
 
-#: dolphinmainwindow.cpp:397
+#: dolphinmainwindow.cpp:384
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Indietro"
 
-#: dolphinmainwindow.cpp:398
+#: dolphinmainwindow.cpp:385
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Ti riporta alla cartella visualizzata precedentemente."
 
-#: dolphinmainwindow.cpp:404
+#: dolphinmainwindow.cpp:391
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Avanti"
 
-#: dolphinmainwindow.cpp:406
+#: dolphinmainwindow.cpp:392
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Annulla l'azione <interface>Vai|Indietro</interface>."
 
-#: dolphinmainwindow.cpp:525
+#: dolphinmainwindow.cpp:511
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Could not access <filename>%1</filename>."
 msgstr "Impossibile accedere a <filename>%1</filename>."
 
-#: dolphinmainwindow.cpp:558 dolphinmainwindow.cpp:602
+#: dolphinmainwindow.cpp:540 dolphinmainwindow.cpp:586
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Conferma"
 
-#: dolphinmainwindow.cpp:561
+#: dolphinmainwindow.cpp:544
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Esci da %1"
 
-#: dolphinmainwindow.cpp:562
+#: dolphinmainwindow.cpp:546
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Chiudi &la scheda corrente"
 
-#: dolphinmainwindow.cpp:571
+#: dolphinmainwindow.cpp:555
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr ""
 "Ci sono diverse schede aperte in questa finestra, sei sicuro di voler uscire?"
 
-#: dolphinmainwindow.cpp:573 dolphinmainwindow.cpp:625
+#: dolphinmainwindow.cpp:557 dolphinmainwindow.cpp:607
 #, kde-format
 msgid "Do not ask again"
 msgstr "Non chiedere ancora"
 
-#: dolphinmainwindow.cpp:613
+#: dolphinmainwindow.cpp:595
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Mostra pannello &Terminale"
 
-#: dolphinmainwindow.cpp:623
+#: dolphinmainwindow.cpp:605
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -172,26 +172,26 @@ msgstr ""
 "Il programma «%1» è ancora in esecuzione nel pannello Terminale. Sei sicuro "
 "di voler uscire?"
 
-#: dolphinmainwindow.cpp:1131
+#: dolphinmainwindow.cpp:1108
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Apri %1"
 
-#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1117 dolphinmainwindow.cpp:1850
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Apri lo strumento di ricerca preferito"
 
-#: dolphinmainwindow.cpp:1179
+#: dolphinmainwindow.cpp:1156
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Sei sicuro di voler aprire una finestra di terminale?"
 msgstr[1] "Sei sicuro di voler aprire %1 finestre di terminale?"
 
-#: dolphinmainwindow.cpp:1186
+#: dolphinmainwindow.cpp:1168
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -199,25 +199,25 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Apri %1 terminale"
 msgstr[1] "Apri %1 terminali"
 
-#: dolphinmainwindow.cpp:1404
+#: dolphinmainwindow.cpp:1370
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Configura"
 
-#: dolphinmainwindow.cpp:1565
+#: dolphinmainwindow.cpp:1530
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Nuova &finestra"
 
-#: dolphinmainwindow.cpp:1566
+#: dolphinmainwindow.cpp:1531
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Apri una nuova finestra di Dolphin"
 
-#: dolphinmainwindow.cpp:1567
+#: dolphinmainwindow.cpp:1533
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -227,13 +227,13 @@ msgstr ""
 "Apre una nuova finestra come quella con la posizione e la vista attuale.<nl/"
 "> Puoi trascinare e rilasciare gli elementi tra le finestre."
 
-#: dolphinmainwindow.cpp:1574
+#: dolphinmainwindow.cpp:1540
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nuova scheda"
 
-#: dolphinmainwindow.cpp:1575
+#: dolphinmainwindow.cpp:1542
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -245,25 +245,25 @@ msgstr ""
 ">Una scheda è una vista aggiuntiva all'interno di questa finestra. Puoi "
 "trascinare e rilasciare elementi tra le schede."
 
-#: dolphinmainwindow.cpp:1584
+#: dolphinmainwindow.cpp:1551
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Aggiungi a Risorse"
 
-#: dolphinmainwindow.cpp:1585
+#: dolphinmainwindow.cpp:1553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Aggiunge la cartella selezionata al pannello Risorse."
 
-#: dolphinmainwindow.cpp:1590
+#: dolphinmainwindow.cpp:1558
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Chiudi scheda"
 
-#: dolphinmainwindow.cpp:1591
+#: dolphinmainwindow.cpp:1560
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -273,15 +273,13 @@ msgstr ""
 "Chiude la scheda visualizzata attualmente. Se non restano altre schede, "
 "questa finestra sarà invece chiusa."
 
-#: dolphinmainwindow.cpp:1596
+#: dolphinmainwindow.cpp:1565
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Chiude questa finestra."
 
-#. i18n: This will be the last paragraph for the whatsthis for all three:
-#. Cut, Copy and Paste
-#: dolphinmainwindow.cpp:1605
+#: dolphinmainwindow.cpp:1573
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -297,13 +295,13 @@ msgstr ""
 "bene in vista l'uno accanto all'altro sulla tastiera: <shortcut>Ctrl+X</"
 "shortcut>, <shortcut>Ctrl+C</shortcut> e <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1612
+#: dolphinmainwindow.cpp:1580
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Taglia…"
 
-#: dolphinmainwindow.cpp:1613
+#: dolphinmainwindow.cpp:1582
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -317,13 +315,13 @@ msgstr ""
 "copiati dagli appunti a una nuova posizione. Gli elementi saranno rimossi "
 "dalla loro posizione posizione iniziale."
 
-#: dolphinmainwindow.cpp:1619
+#: dolphinmainwindow.cpp:1589
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Copia…"
 
-#: dolphinmainwindow.cpp:1620
+#: dolphinmainwindow.cpp:1591
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -335,13 +333,13 @@ msgstr ""
 "emphasis>.<nl/>Utilizza l'azione <emphasis>Incolla</emphasis> in seguito per "
 "copiarli dagli appunti a una nuova posizione."
 
-#: dolphinmainwindow.cpp:1628
+#: dolphinmainwindow.cpp:1600
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Incolla"
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1602
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -354,19 +352,19 @@ msgstr ""
 "dall'azione <emphasis>Taglia</emphasis>, sono rimossi dalla vecchia "
 "posizione."
 
-#: dolphinmainwindow.cpp:1635
+#: dolphinmainwindow.cpp:1609
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
 msgstr "Copia nella vista divisa inattiva"
 
-#: dolphinmainwindow.cpp:1636
+#: dolphinmainwindow.cpp:1610
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
 msgstr "Copia nella vista divisa inattiva..."
 
-#: dolphinmainwindow.cpp:1637
+#: dolphinmainwindow.cpp:1612
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -376,25 +374,25 @@ msgstr ""
 "Copia gli elementi selezionati dalla vista <emphasis>attiva</emphasis> alla "
 "vista divisa inattiva."
 
-#: dolphinmainwindow.cpp:1640
+#: dolphinmainwindow.cpp:1615
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Copia nella vista divisa inattiva"
 
-#: dolphinmainwindow.cpp:1645
+#: dolphinmainwindow.cpp:1620
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
 msgstr "Sposta nella vista divisa inattiva"
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1621
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
 msgstr "Sposta nella vista divisa inattiva..."
 
-#: dolphinmainwindow.cpp:1647
+#: dolphinmainwindow.cpp:1623
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -404,25 +402,25 @@ msgstr ""
 "Sposta gli elementi selezionati dalla vista <emphasis> attiva</emphasis> "
 "alla vista divisa inattiva."
 
-#: dolphinmainwindow.cpp:1650
+#: dolphinmainwindow.cpp:1626
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Sposta nella vista divisa inattiva"
 
-#: dolphinmainwindow.cpp:1655
+#: dolphinmainwindow.cpp:1631
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Filtro..."
 
-#: dolphinmainwindow.cpp:1656
+#: dolphinmainwindow.cpp:1632
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Mostra la barra del filtro"
 
-#: dolphinmainwindow.cpp:1657
+#: dolphinmainwindow.cpp:1634
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -436,30 +434,30 @@ msgstr ""
 "attualmente visualizzati. Solo quelli che contengono il testo nel loro nome "
 "saranno visualizzati."
 
-#: dolphinmainwindow.cpp:1669
+#: dolphinmainwindow.cpp:1646
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Commuta la barra del filtro"
 
-#: dolphinmainwindow.cpp:1670
+#: dolphinmainwindow.cpp:1647
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filtro"
 
-#: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:332
+#: dolphinmainwindow.cpp:1655 search/dolphinsearchbox.cpp:330
 #, kde-format
 msgid "Search..."
 msgstr "Cerca..."
 
-#: dolphinmainwindow.cpp:1679
+#: dolphinmainwindow.cpp:1656
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Cerca file e cartelle"
 
-#: dolphinmainwindow.cpp:1680
+#: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -474,20 +472,20 @@ msgstr ""
 "questo aiuto sulla barra di ricerca per poterla provare mentre le "
 "impostazioni sono spiegate.</para>"
 
-#: dolphinmainwindow.cpp:1691
+#: dolphinmainwindow.cpp:1669
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Commuta barra di ricerca"
 
-#: dolphinmainwindow.cpp:1692
+#: dolphinmainwindow.cpp:1670
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Cerca"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1700
+#: dolphinmainwindow.cpp:1678
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -495,13 +493,13 @@ msgstr "Seleziona file e cartelle"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1703
+#: dolphinmainwindow.cpp:1681
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Seleziona"
 
-#: dolphinmainwindow.cpp:1704
+#: dolphinmainwindow.cpp:1684
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -519,19 +517,19 @@ msgstr ""
 "sei in questa modalità, una barra di accesso rapido in basso mostra le "
 "azioni disponibili per gli elementi attualmente selezionati.</para>"
 
-#: dolphinmainwindow.cpp:1724
+#: dolphinmainwindow.cpp:1706
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Seleziona tutti i file e le cartelle nella posizione attuale."
 
-#: dolphinmainwindow.cpp:1728 dolphinpart.cpp:185
+#: dolphinmainwindow.cpp:1710 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Inverti selezione"
 
-#: dolphinmainwindow.cpp:1729
+#: dolphinmainwindow.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -541,7 +539,7 @@ msgstr ""
 "Seleziona tutti gli oggetti che <emphasis>non</emphasis> hai attualmente "
 "selezionato."
 
-#: dolphinmainwindow.cpp:1744
+#: dolphinmainwindow.cpp:1728
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -554,44 +552,44 @@ msgstr ""
 "spostare gli elementi tra di loro rapidamente.</para>Fai clic nuovamente per "
 "ricombinare le viste."
 
-#: dolphinmainwindow.cpp:1753
+#: dolphinmainwindow.cpp:1737
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Deposito temporaneo"
 
-#: dolphinmainwindow.cpp:1754
+#: dolphinmainwindow.cpp:1738
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr ""
 "Apre la cartella virtuale del deposito temporaneo in una finestra divisa"
 
-#: dolphinmainwindow.cpp:1764
+#: dolphinmainwindow.cpp:1748
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Ferma"
 
-#: dolphinmainwindow.cpp:1765
+#: dolphinmainwindow.cpp:1749
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Ferma il caricamento"
 
-#: dolphinmainwindow.cpp:1766
+#: dolphinmainwindow.cpp:1750
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Ferma il caricamento dei contenuti della cartella attuale."
 
-#: dolphinmainwindow.cpp:1771
+#: dolphinmainwindow.cpp:1755
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Posizione modificabile"
 
-#: dolphinmainwindow.cpp:1773
+#: dolphinmainwindow.cpp:1757
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -606,13 +604,13 @@ msgstr ""
 "destra della posizione e tornare indietro confermando la posizione "
 "modificata."
 
-#: dolphinmainwindow.cpp:1781
+#: dolphinmainwindow.cpp:1765
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Sostituisci posizione"
 
-#: dolphinmainwindow.cpp:1786
+#: dolphinmainwindow.cpp:1770
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -622,19 +620,19 @@ msgstr ""
 "Passa alla modifica della posizione e la seleziona in modo che tu possa "
 "inserire rapidamente una posizione diversa."
 
-#: dolphinmainwindow.cpp:1818
+#: dolphinmainwindow.cpp:1799
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Annulla chiudi scheda"
 
-#: dolphinmainwindow.cpp:1820
+#: dolphinmainwindow.cpp:1800
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Ti riporta alla scheda chiusa precedentemente."
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1808
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -649,7 +647,7 @@ msgstr ""
 "nel <filename>Cestino</filename>.<nl/>Le modifiche che non possono essere "
 "annullate richiederanno una conferma."
 
-#: dolphinmainwindow.cpp:1855
+#: dolphinmainwindow.cpp:1837
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -661,13 +659,13 @@ msgstr ""
 "la propria <filename>Home</filename> che contiene i suoi dati incluse le "
 "cartelle che contengono i dati personali delle applicazioni."
 
-#: dolphinmainwindow.cpp:1862
+#: dolphinmainwindow.cpp:1844
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Confronta file"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -679,13 +677,13 @@ msgstr ""
 "</para><para>Utilizzare <emphasis>Altri strumenti di ricerca</emphasis> per "
 "configurarlo.</para>"
 
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1860
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Apri terminale"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1862
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -698,13 +696,13 @@ msgstr ""
 "utilizzare la guida nell'applicazione di terminale.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1870
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Apri terminale qui"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1872
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -716,19 +714,19 @@ msgstr ""
 "degli elementi selezionati.</para><para>Per scoprire altro sui terminali, "
 "utilizzare la guida nell'applicazione di terminale.</para>"
 
-#: dolphinmainwindow.cpp:1898 dolphinmainwindow.cpp:2665
+#: dolphinmainwindow.cpp:1880 dolphinmainwindow.cpp:2615
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Attiva pannello del terminale"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1888
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "Segnali&bri"
 
-#: dolphinmainwindow.cpp:1916
+#: dolphinmainwindow.cpp:1898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -747,79 +745,79 @@ msgstr ""
 "interface> è più semplice e piccolo, il che rende l'attivazione di azioni "
 "avanzate più dispendiosa in termini di tempo.</para>"
 
-#: dolphinmainwindow.cpp:1945
+#: dolphinmainwindow.cpp:1931
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Attiva scheda %1"
 
-#: dolphinmainwindow.cpp:1956
+#: dolphinmainwindow.cpp:1944
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Attiva l'ultima scheda"
 
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1950
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Scheda successiva"
 
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1951
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Attiva scheda successiva"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1957
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Scheda precedente"
 
-#: dolphinmainwindow.cpp:1970
+#: dolphinmainwindow.cpp:1958
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Attiva scheda precedente"
 
-#: dolphinmainwindow.cpp:1977
+#: dolphinmainwindow.cpp:1965
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Mostra destinazione"
 
-#: dolphinmainwindow.cpp:1983
+#: dolphinmainwindow.cpp:1971
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Apri in una nuova scheda"
 
-#: dolphinmainwindow.cpp:1988
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Apri in nuove schede"
 
-#: dolphinmainwindow.cpp:1993
+#: dolphinmainwindow.cpp:1981
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Apri in una nuova finestra"
 
-#: dolphinmainwindow.cpp:2005
+#: dolphinmainwindow.cpp:1993
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Sblocca pannelli"
 
-#: dolphinmainwindow.cpp:2007
+#: dolphinmainwindow.cpp:1995
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Blocca pannelli"
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:1998
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -833,14 +831,13 @@ msgstr ""
 "della finestra e hanno un pulsante di chiusura.<nl/>I pannelli bloccati sono "
 "integrati in modo più netto."
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2007
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informazioni"
 
-#. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
-#: dolphinmainwindow.cpp:2044
+#: dolphinmainwindow.cpp:2030
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -850,7 +847,7 @@ msgstr ""
 "<para>Per mostrare o nascondere pannelli come questo, vai a <interface>Menu|"
 "Pannelli</interface> o <interface>Visualizza|Pannelli</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2049
+#: dolphinmainwindow.cpp:2037
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -867,7 +864,7 @@ msgstr ""
 "attualmente visualizzata.<nl/>Per i singoli elementi è fornita un'anteprima "
 "del loro contenuto.</para>"
 
-#: dolphinmainwindow.cpp:2056
+#: dolphinmainwindow.cpp:2045
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -884,13 +881,13 @@ msgstr ""
 "configurare quale e come i dettagliati sono forniti qui facendo clic con il "
 "tasto destro del mouse.</para>"
 
-#: dolphinmainwindow.cpp:2064
+#: dolphinmainwindow.cpp:2054
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Cartelle"
 
-#: dolphinmainwindow.cpp:2088
+#: dolphinmainwindow.cpp:2075
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -902,7 +899,7 @@ msgstr ""
 "finestra.<nl/><nl/>Mostra le cartelle del <emphasis>file system</emphasis> "
 "in una <emphasis>vista ad albero</emphasis>."
 
-#: dolphinmainwindow.cpp:2092
+#: dolphinmainwindow.cpp:2080
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -917,13 +914,13 @@ msgstr ""
 "cartella per vedere le sue sottocartelle. Ciò consente di passare "
 "rapidamente tra le cartelle.</para>"
 
-#: dolphinmainwindow.cpp:2101
+#: dolphinmainwindow.cpp:2090
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminale"
 
-#: dolphinmainwindow.cpp:2127
+#: dolphinmainwindow.cpp:2115
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -942,7 +939,7 @@ msgstr ""
 "operazioni avanzate. Per imparare di più sull'uso dei terminali, utilizza la "
 "guida in un'applicazione di terminale autonoma come Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2134
+#: dolphinmainwindow.cpp:2123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -961,19 +958,19 @@ msgstr ""
 "più sull'uso dei terminali, utilizza la guida in un'applicazione di "
 "terminale autonoma come Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2150
+#: dolphinmainwindow.cpp:2140
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Risorse"
 
-#: dolphinmainwindow.cpp:2186
+#: dolphinmainwindow.cpp:2167
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Mostra le risorse nascoste"
 
-#: dolphinmainwindow.cpp:2189
+#: dolphinmainwindow.cpp:2171
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -984,7 +981,7 @@ msgstr ""
 "risorse appariranno in semi-trasparenza a meno che tu non deselezioni la "
 "proprietà Nascondi."
 
-#: dolphinmainwindow.cpp:2199
+#: dolphinmainwindow.cpp:2183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1000,7 +997,7 @@ msgstr ""
 "computer o alla rete. Contiene inoltre sezioni per cerca i file salvati di "
 "recente o i file di un certo tipo.</para>"
 
-#: dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:2190
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1026,13 +1023,13 @@ msgstr ""
 "uno spazio vuoto di questo pannello e seleziona <interface>Mostra risorse "
 "nascoste</interface> per visualizzarla nuovamente.</para>"
 
-#: dolphinmainwindow.cpp:2218
+#: dolphinmainwindow.cpp:2204
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Mostra pannelli"
 
-#: dolphinmainwindow.cpp:2330
+#: dolphinmainwindow.cpp:2316
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1048,43 +1045,43 @@ msgstr ""
 "che contiene tutti i dati collegati a questo computer—la <emphasis>cartella "
 "radice</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2441
+#: dolphinmainwindow.cpp:2397
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Chiudi"
 
-#: dolphinmainwindow.cpp:2442
+#: dolphinmainwindow.cpp:2398
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Chiudi la vista sinistra"
 
-#: dolphinmainwindow.cpp:2445
+#: dolphinmainwindow.cpp:2401
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Chiudi"
 
-#: dolphinmainwindow.cpp:2446
+#: dolphinmainwindow.cpp:2402
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Chiudi la vista destra"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2406
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Dividi"
 
-#: dolphinmainwindow.cpp:2451
+#: dolphinmainwindow.cpp:2407
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Vista divisa"
 
-#: dolphinmainwindow.cpp:2504
+#: dolphinmainwindow.cpp:2455
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1104,7 +1101,7 @@ msgstr ""
 "<interface>Menu</interface> nella <emphasis>barra degli strumenti</emphasis>."
 "</para>"
 
-#: dolphinmainwindow.cpp:2511
+#: dolphinmainwindow.cpp:2462
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1129,7 +1126,7 @@ msgstr ""
 "Fai clic con il tasto destro su un pulsante se desideri mostrare o "
 "nascondere il suo testo.</para>"
 
-#: dolphinmainwindow.cpp:2523
+#: dolphinmainwindow.cpp:2474
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1158,7 +1155,7 @@ msgstr ""
 "invece clic qui</link>. Aprirà una pagina dal <emphasis>Manuale</emphasis> "
 "che copre questi argomenti.</para>"
 
-#: dolphinmainwindow.cpp:2539
+#: dolphinmainwindow.cpp:2490
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1172,7 +1169,7 @@ msgstr ""
 "un'azione quando sono premuti simultaneamente. Tutti i comandi in questa "
 "applicazione possono essere innescati in questo modo.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2496
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1185,7 +1182,7 @@ msgstr ""
 "che vedi nel <interface>menu</interface> possono essere posizionati anche "
 "sulla barra degli strumenti.</para>"
 
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1204,7 +1201,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2561
+#: dolphinmainwindow.cpp:2512
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1220,7 +1217,7 @@ msgstr ""
 "<link url='https://userbase.kde.org/Dolphin/File_Management'>fai clic qui</"
 "link>. Aprirà la pagina dedicata nel KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:2566
+#: dolphinmainwindow.cpp:2517
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1243,7 +1240,7 @@ msgstr ""
 "link>.</para><para>L'aiuto «Cos'è questo?» nella maggior parte delle altre "
 "finestre manca, quindi non abituarti troppo.</para>"
 
-#: dolphinmainwindow.cpp:2577
+#: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1260,7 +1257,7 @@ msgstr ""
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>fai clic qui</"
 "link>.</para>"
 
-#: dolphinmainwindow.cpp:2586
+#: dolphinmainwindow.cpp:2537
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1282,7 +1279,7 @@ msgstr ""
 "collaboratori, ecc.</para><para><emphasis>KDE e.V.</emphasis> è "
 "l'organizzazione senza scopo di lucro dietro la comunità di KDE.</para>"
 
-#: dolphinmainwindow.cpp:2599
+#: dolphinmainwindow.cpp:2550
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1294,7 +1291,7 @@ msgstr ""
 "applicazione.<nl/>Puoi impostare anche lingue secondarie che saranno "
 "utilizzate se i testi non sono disponibili nella lingua preferita."
 
-#: dolphinmainwindow.cpp:2604
+#: dolphinmainwindow.cpp:2555
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1304,7 +1301,7 @@ msgstr ""
 "Apre una finestra che ti informa su versione, licenza, librerie utilizzate e "
 "responsabili di questa applicazione."
 
-#: dolphinmainwindow.cpp:2609
+#: dolphinmainwindow.cpp:2560
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1318,35 +1315,35 @@ msgstr ""
 "piace utilizzare questa applicazione, ma non conosci KDE o vuoi vedere un "
 "simpatico drago, dai un'occhiata!"
 
-#: dolphinmainwindow.cpp:2668 dolphinmainwindow.cpp:2672
+#: dolphinmainwindow.cpp:2618 dolphinmainwindow.cpp:2622
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Disattiva pannello del terminale"
 
-#: dolphinnavigatorswidgetaction.cpp:205
+#: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Digita l'URL del server (ad es. smb://[indirizzo ip])"
 
-#: dolphinnavigatorswidgetaction.cpp:232
+#: dolphinnavigatorswidgetaction.cpp:227
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Svuota il cestino"
 
-#: dolphinnavigatorswidgetaction.cpp:233
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Svuota il cestino per liberare spazio"
 
-#: dolphinnavigatorswidgetaction.cpp:260
+#: dolphinnavigatorswidgetaction.cpp:254
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Aggiungi cartella di rete"
 
-#: dolphinnavigatorswidgetaction.cpp:295
+#: dolphinnavigatorswidgetaction.cpp:287
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -1354,84 +1351,84 @@ msgid_plural "Location Bars"
 msgstr[0] "Barra degli indirizzi"
 msgstr[1] "Barre degli indirizzi"
 
-#: dolphinpart.cpp:166
+#: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type..."
 msgstr "Modifica tipo di fil&e..."
 
-#: dolphinpart.cpp:170
+#: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching..."
 msgstr "Seleziona elementi corrispondenti..."
 
-#: dolphinpart.cpp:175
+#: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching..."
 msgstr "Deseleziona elementi corrispondenti..."
 
-#: dolphinpart.cpp:181
+#: dolphinpart.cpp:164
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "Deseleziona tutto"
 
-#: dolphinpart.cpp:198
+#: dolphinpart.cpp:179
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "App&licazioni"
 
-#: dolphinpart.cpp:201
+#: dolphinpart.cpp:180
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "&Cartelle di rete"
 
-#: dolphinpart.cpp:204
+#: dolphinpart.cpp:181
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "Cestino"
 
-#: dolphinpart.cpp:207
+#: dolphinpart.cpp:184
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "Avvio automatico"
 
-#: dolphinpart.cpp:212
+#: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File..."
 msgstr "Trova file..."
 
-#: dolphinpart.cpp:218
+#: dolphinpart.cpp:196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "Apri &terminale"
 
-#: dolphinpart.cpp:487
+#: dolphinpart.cpp:451
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "Seleziona"
 
-#: dolphinpart.cpp:488
+#: dolphinpart.cpp:451
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "Seleziona tutti gli elementi che corrispondono al modello:"
 
-#: dolphinpart.cpp:494
+#: dolphinpart.cpp:456
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "Deselezione"
 
-#: dolphinpart.cpp:495
+#: dolphinpart.cpp:456
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "Deseleziona tutti gli elementi che corrispondono al modello:"
@@ -1485,25 +1482,25 @@ msgstr "Schede chiuse di recente"
 msgid "Empty Recently Closed Tabs"
 msgstr "Svuota le schede chiuse di recente"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nuova scheda"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:127
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Sgancia scheda"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Chiudi altre schede"
 
-#: dolphintabbar.cpp:131
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
@@ -1511,7 +1508,7 @@ msgstr "Chiudi scheda"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:506
+#: dolphintabwidget.cpp:499
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1519,7 +1516,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:510
+#: dolphintabwidget.cpp:503
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -1539,7 +1536,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "Barra degli strumenti principale"
 
-#: dolphinurlnavigator.cpp:36
+#: dolphinurlnavigator.cpp:37
 #, kde-kuit-format
 msgctxt "@info:whatsthis location bar"
 msgid ""
@@ -1589,57 +1586,57 @@ msgstr ""
 "strumenti di ricerca: installa altri metodi per cercare un elemento.</item></"
 "list></para>"
 
-#: dolphinviewcontainer.cpp:110
+#: dolphinviewcontainer.cpp:109
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Eseguire Dolphin come root può essere pericoloso. Fai attenzione."
 
-#: dolphinviewcontainer.cpp:549 search/dolphinsearchbox.cpp:290
+#: dolphinviewcontainer.cpp:505 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Cerca %1 in %2"
 
-#: dolphinviewcontainer.cpp:585
+#: dolphinviewcontainer.cpp:541
 #, kde-format
 msgid "Search"
 msgstr "Cerca"
 
-#: dolphinviewcontainer.cpp:587
+#: dolphinviewcontainer.cpp:543
 #, kde-format
 msgid "Search for %1"
 msgstr "Cerca %1"
 
-#: dolphinviewcontainer.cpp:671
+#: dolphinviewcontainer.cpp:627
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "Caricamento cartella..."
 
-#: dolphinviewcontainer.cpp:679
+#: dolphinviewcontainer.cpp:635
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "Ordinamento..."
 
-#: dolphinviewcontainer.cpp:690
+#: dolphinviewcontainer.cpp:646
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "Ricerca in corso..."
 
-#: dolphinviewcontainer.cpp:711
+#: dolphinviewcontainer.cpp:667
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nessun elemento trovato."
 
-#: dolphinviewcontainer.cpp:842
+#: dolphinviewcontainer.cpp:798
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non supporta le pagine web, il browser web è stato eseguito"
 
-#: dolphinviewcontainer.cpp:846
+#: dolphinviewcontainer.cpp:801
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1648,13 +1645,13 @@ msgstr ""
 "Protocollo non supportato da Dolphin, è stata avviata l'applicazione "
 "predefinita"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:807
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocollo non valido"
 
-#: dolphinviewcontainer.cpp:959
+#: dolphinviewcontainer.cpp:911
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1668,31 +1665,31 @@ msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Conserva il filtro quando cambi cartella"
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:33
 #, kde-format
 msgid "Filter..."
 msgstr "Filtra..."
 
-#: filterbar/filterbar.cpp:43
+#: filterbar/filterbar.cpp:41
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Nascondi barra del filtro"
 
-#: kitemviews/kfileitemlisttostring.cpp:23
+#: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
 msgstr "«%1»"
 
-#: kitemviews/kfileitemlisttostring.cpp:27
+#: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
 msgstr "\"%1\" e \"%2\""
 
-#: kitemviews/kfileitemlisttostring.cpp:31
+#: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
 msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
@@ -1700,7 +1697,7 @@ msgctxt ""
 msgid "\"%1\", \"%2\" and \"%3\""
 msgstr "«%1», «%2» e «%3»"
 
-#: kitemviews/kfileitemlisttostring.cpp:36
+#: kitemviews/kfileitemlisttostring.cpp:37
 #, kde-format
 msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
@@ -1708,7 +1705,7 @@ msgctxt ""
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
 msgstr "«%1», «%2», «%3» e «%4»"
 
-#: kitemviews/kfileitemlisttostring.cpp:41
+#: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
 msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
@@ -1716,7 +1713,7 @@ msgctxt ""
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
 msgstr "«%1», «%2», «%3», «%4» e «%5»"
 
-#: kitemviews/kfileitemlisttostring.cpp:58
+#: kitemviews/kfileitemlisttostring.cpp:65
 #, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
@@ -1724,7 +1721,7 @@ msgid_plural "%1 Selected Files"
 msgstr[0] "Un file selezionato"
 msgstr[1] "%1 file selezionati"
 
-#: kitemviews/kfileitemlisttostring.cpp:61
+#: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
 msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
@@ -1733,7 +1730,7 @@ msgid_plural "%1 Selected Folders"
 msgstr[0] "Una cartella selezionata"
 msgstr[1] "%1 cartelle selezionate"
 
-#: kitemviews/kfileitemlisttostring.cpp:64
+#: kitemviews/kfileitemlisttostring.cpp:71
 #, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
@@ -1743,7 +1740,7 @@ msgid_plural "%1 Selected Items"
 msgstr[0] "Un elemento selezionato"
 msgstr[1] "%1 elementi selezionati"
 
-#: kitemviews/kfileitemlisttostring.cpp:74
+#: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
@@ -1751,7 +1748,7 @@ msgid_plural "%1 Files"
 msgstr[0] "Un file"
 msgstr[1] "%1 file"
 
-#: kitemviews/kfileitemlisttostring.cpp:77
+#: kitemviews/kfileitemlisttostring.cpp:84
 #, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
@@ -1759,7 +1756,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "Una cartella"
 msgstr[1] "%1 cartelle"
 
-#: kitemviews/kfileitemlisttostring.cpp:80
+#: kitemviews/kfileitemlisttostring.cpp:86
 #, kde-format
 msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
@@ -1768,7 +1765,7 @@ msgid_plural "%1 Items"
 msgstr[0] "Un elemento"
 msgstr[1] "%1 elementi"
 
-#: kitemviews/kfileitemlistwidget.cpp:74
+#: kitemviews/kfileitemlistwidget.cpp:73
 #, kde-format
 msgctxt "@item:intable"
 msgid "%1 item"
@@ -1776,49 +1773,49 @@ msgid_plural "%1 items"
 msgstr[0] "%1 elemento"
 msgstr[1] "%1 elementi"
 
-#: kitemviews/kfileitemlistwidget.cpp:100
+#: kitemviews/kfileitemlistwidget.cpp:99
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2262
+#: kitemviews/kfileitemmodel.cpp:2261
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2264
+#: kitemviews/kfileitemmodel.cpp:2263
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Altri"
 
-#: kitemviews/kfileitemmodel.cpp:2296
+#: kitemviews/kfileitemmodel.cpp:2295
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Cartelle"
 
-#: kitemviews/kfileitemmodel.cpp:2304
+#: kitemviews/kfileitemmodel.cpp:2303
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Piccola"
 
-#: kitemviews/kfileitemmodel.cpp:2306
+#: kitemviews/kfileitemmodel.cpp:2305
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Media"
 
-#: kitemviews/kfileitemmodel.cpp:2308
+#: kitemviews/kfileitemmodel.cpp:2307
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Grande"
 
-#: kitemviews/kfileitemmodel.cpp:2354
+#: kitemviews/kfileitemmodel.cpp:2352
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
@@ -1836,38 +1833,38 @@ msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2360
+#: kitemviews/kfileitemmodel.cpp:2362
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2364
+#: kitemviews/kfileitemmodel.cpp:2367
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Una settimana fa"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2370
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Due settimane fa"
 
-#: kitemviews/kfileitemmodel.cpp:2370
+#: kitemviews/kfileitemmodel.cpp:2373
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Tre settimane fa"
 
-#: kitemviews/kfileitemmodel.cpp:2374
+#: kitemviews/kfileitemmodel.cpp:2377
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "All'inizio del mese"
 
-#: kitemviews/kfileitemmodel.cpp:2387
+#: kitemviews/kfileitemmodel.cpp:2391
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1877,7 +1874,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Ieri' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2393
+#: kitemviews/kfileitemmodel.cpp:2398
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1885,7 +1882,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2403
+#: kitemviews/kfileitemmodel.cpp:2411
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1893,7 +1890,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2406
+#: kitemviews/kfileitemmodel.cpp:2415
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1901,7 +1898,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2410
+#: kitemviews/kfileitemmodel.cpp:2423
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1911,7 +1908,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Una settimana fa' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2416
+#: kitemviews/kfileitemmodel.cpp:2430
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1919,7 +1916,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2425
+#: kitemviews/kfileitemmodel.cpp:2444
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1929,7 +1926,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Due settimane fa' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2431
+#: kitemviews/kfileitemmodel.cpp:2451
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -1937,7 +1934,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2440
+#: kitemviews/kfileitemmodel.cpp:2465
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1947,7 +1944,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Tre settimane fa' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2446
+#: kitemviews/kfileitemmodel.cpp:2472
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -1955,7 +1952,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2455
+#: kitemviews/kfileitemmodel.cpp:2486
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1965,7 +1962,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Prima di' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2461
+#: kitemviews/kfileitemmodel.cpp:2493
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -1973,7 +1970,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2471
+#: kitemviews/kfileitemmodel.cpp:2507
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -1981,7 +1978,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2474
+#: kitemviews/kfileitemmodel.cpp:2511
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -1989,108 +1986,108 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2513 kitemviews/kfileitemmodel.cpp:2526
-#: kitemviews/kfileitemmodel.cpp:2539
+#: kitemviews/kfileitemmodel.cpp:2551 kitemviews/kfileitemmodel.cpp:2564
+#: kitemviews/kfileitemmodel.cpp:2577
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Lettura, "
 
-#: kitemviews/kfileitemmodel.cpp:2516 kitemviews/kfileitemmodel.cpp:2529
-#: kitemviews/kfileitemmodel.cpp:2542
+#: kitemviews/kfileitemmodel.cpp:2554 kitemviews/kfileitemmodel.cpp:2567
+#: kitemviews/kfileitemmodel.cpp:2580
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Scrittura, "
 
-#: kitemviews/kfileitemmodel.cpp:2519 kitemviews/kfileitemmodel.cpp:2532
-#: kitemviews/kfileitemmodel.cpp:2545
+#: kitemviews/kfileitemmodel.cpp:2557 kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2583
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Esecuzione, "
 
-#: kitemviews/kfileitemmodel.cpp:2521 kitemviews/kfileitemmodel.cpp:2534
-#: kitemviews/kfileitemmodel.cpp:2547
+#: kitemviews/kfileitemmodel.cpp:2559 kitemviews/kfileitemmodel.cpp:2572
+#: kitemviews/kfileitemmodel.cpp:2585
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Vietato"
 
-#: kitemviews/kfileitemmodel.cpp:2549
+#: kitemviews/kfileitemmodel.cpp:2587
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Utente: %1 | Gruppo: %2 | Altri: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2638
+#: kitemviews/kfileitemmodel.cpp:2676
 msgctxt "@label"
 msgid "Name"
 msgstr "Nome"
 
-#: kitemviews/kfileitemmodel.cpp:2639
+#: kitemviews/kfileitemmodel.cpp:2677
 msgctxt "@label"
 msgid "Size"
 msgstr "Dimensione"
 
-#: kitemviews/kfileitemmodel.cpp:2640
+#: kitemviews/kfileitemmodel.cpp:2678
 msgctxt "@label"
 msgid "Modified"
 msgstr "Modificato"
 
-#: kitemviews/kfileitemmodel.cpp:2641
+#: kitemviews/kfileitemmodel.cpp:2679
 msgctxt "@label"
 msgid "Created"
 msgstr "Creato"
 
-#: kitemviews/kfileitemmodel.cpp:2642
+#: kitemviews/kfileitemmodel.cpp:2680
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Aperto di recente"
 
-#: kitemviews/kfileitemmodel.cpp:2643
+#: kitemviews/kfileitemmodel.cpp:2681
 msgctxt "@label"
 msgid "Type"
 msgstr "Tipo"
 
-#: kitemviews/kfileitemmodel.cpp:2644
+#: kitemviews/kfileitemmodel.cpp:2682
 msgctxt "@label"
 msgid "Rating"
 msgstr "Valutazione"
 
-#: kitemviews/kfileitemmodel.cpp:2645
+#: kitemviews/kfileitemmodel.cpp:2683
 msgctxt "@label"
 msgid "Tags"
 msgstr "Etichette"
 
-#: kitemviews/kfileitemmodel.cpp:2646
+#: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
 msgid "Comment"
 msgstr "Commento"
 
-#: kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@label"
 msgid "Title"
 msgstr "Titolo"
 
-#: kitemviews/kfileitemmodel.cpp:2647 kitemviews/kfileitemmodel.cpp:2648
-#: kitemviews/kfileitemmodel.cpp:2649 kitemviews/kfileitemmodel.cpp:2650
-#: kitemviews/kfileitemmodel.cpp:2651 kitemviews/kfileitemmodel.cpp:2652
+#: kitemviews/kfileitemmodel.cpp:2685 kitemviews/kfileitemmodel.cpp:2686
+#: kitemviews/kfileitemmodel.cpp:2687 kitemviews/kfileitemmodel.cpp:2688
+#: kitemviews/kfileitemmodel.cpp:2689 kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@label"
 msgid "Document"
 msgstr "Documento"
 
-#: kitemviews/kfileitemmodel.cpp:2648
+#: kitemviews/kfileitemmodel.cpp:2686
 msgctxt "@label"
 msgid "Author"
 msgstr "Autore"
 
-#: kitemviews/kfileitemmodel.cpp:2649
+#: kitemviews/kfileitemmodel.cpp:2687
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2650
+#: kitemviews/kfileitemmodel.cpp:2688
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Line Count"
@@ -2098,161 +2095,161 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Conteggio righe"
 
-#: kitemviews/kfileitemmodel.cpp:2651
+#: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Conteggio parole"
 
-#: kitemviews/kfileitemmodel.cpp:2652
+#: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Conteggio righe"
 
-#: kitemviews/kfileitemmodel.cpp:2653
+#: kitemviews/kfileitemmodel.cpp:2691
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Data della fotografia"
 
-#: kitemviews/kfileitemmodel.cpp:2653 kitemviews/kfileitemmodel.cpp:2654
-#: kitemviews/kfileitemmodel.cpp:2655 kitemviews/kfileitemmodel.cpp:2656
-#: kitemviews/kfileitemmodel.cpp:2657
+#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2692
+#: kitemviews/kfileitemmodel.cpp:2693 kitemviews/kfileitemmodel.cpp:2694
+#: kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Image"
 msgstr "Immagine"
 
-#: kitemviews/kfileitemmodel.cpp:2654
+#: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Dimensioni"
 
-#: kitemviews/kfileitemmodel.cpp:2655
+#: kitemviews/kfileitemmodel.cpp:2693
 msgctxt "@label"
 msgid "Width"
 msgstr "Larghezza"
 
-#: kitemviews/kfileitemmodel.cpp:2656
+#: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
 msgid "Height"
 msgstr "Altezza"
 
-#: kitemviews/kfileitemmodel.cpp:2657
+#: kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Orientamento"
 
-#: kitemviews/kfileitemmodel.cpp:2658
+#: kitemviews/kfileitemmodel.cpp:2696
 msgctxt "@label"
 msgid "Artist"
 msgstr "Artista"
 
-#: kitemviews/kfileitemmodel.cpp:2658 kitemviews/kfileitemmodel.cpp:2659
-#: kitemviews/kfileitemmodel.cpp:2660 kitemviews/kfileitemmodel.cpp:2661
-#: kitemviews/kfileitemmodel.cpp:2662 kitemviews/kfileitemmodel.cpp:2663
-#: kitemviews/kfileitemmodel.cpp:2664
+#: kitemviews/kfileitemmodel.cpp:2696 kitemviews/kfileitemmodel.cpp:2697
+#: kitemviews/kfileitemmodel.cpp:2698 kitemviews/kfileitemmodel.cpp:2699
+#: kitemviews/kfileitemmodel.cpp:2700 kitemviews/kfileitemmodel.cpp:2701
+#: kitemviews/kfileitemmodel.cpp:2702
 msgctxt "@label"
 msgid "Audio"
 msgstr "Audio"
 
-#: kitemviews/kfileitemmodel.cpp:2659
+#: kitemviews/kfileitemmodel.cpp:2697
 msgctxt "@label"
 msgid "Genre"
 msgstr "Genere"
 
-#: kitemviews/kfileitemmodel.cpp:2660
+#: kitemviews/kfileitemmodel.cpp:2698
 msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2661
+#: kitemviews/kfileitemmodel.cpp:2699
 msgctxt "@label"
 msgid "Duration"
 msgstr "Durata"
 
-#: kitemviews/kfileitemmodel.cpp:2662
+#: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: kitemviews/kfileitemmodel.cpp:2663
+#: kitemviews/kfileitemmodel.cpp:2701
 msgctxt "@label"
 msgid "Track"
 msgstr "Traccia"
 
-#: kitemviews/kfileitemmodel.cpp:2664
+#: kitemviews/kfileitemmodel.cpp:2702
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Anno di rilascio"
 
-#: kitemviews/kfileitemmodel.cpp:2665
+#: kitemviews/kfileitemmodel.cpp:2703
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Proporzioni"
 
-#: kitemviews/kfileitemmodel.cpp:2665 kitemviews/kfileitemmodel.cpp:2666
+#: kitemviews/kfileitemmodel.cpp:2703 kitemviews/kfileitemmodel.cpp:2704
 msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2666
+#: kitemviews/kfileitemmodel.cpp:2704
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Velocità"
 
-#: kitemviews/kfileitemmodel.cpp:2667
+#: kitemviews/kfileitemmodel.cpp:2705
 msgctxt "@label"
 msgid "Path"
 msgstr "Percorso"
 
-#: kitemviews/kfileitemmodel.cpp:2667 kitemviews/kfileitemmodel.cpp:2668
-#: kitemviews/kfileitemmodel.cpp:2669 kitemviews/kfileitemmodel.cpp:2670
-#: kitemviews/kfileitemmodel.cpp:2671 kitemviews/kfileitemmodel.cpp:2672
-#: kitemviews/kfileitemmodel.cpp:2673 kitemviews/kfileitemmodel.cpp:2674
+#: kitemviews/kfileitemmodel.cpp:2705 kitemviews/kfileitemmodel.cpp:2706
+#: kitemviews/kfileitemmodel.cpp:2707 kitemviews/kfileitemmodel.cpp:2708
+#: kitemviews/kfileitemmodel.cpp:2709 kitemviews/kfileitemmodel.cpp:2710
+#: kitemviews/kfileitemmodel.cpp:2711 kitemviews/kfileitemmodel.cpp:2712
 msgctxt "@label"
 msgid "Other"
 msgstr "Altro"
 
-#: kitemviews/kfileitemmodel.cpp:2668
+#: kitemviews/kfileitemmodel.cpp:2706
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Estensione file"
 
-#: kitemviews/kfileitemmodel.cpp:2669
+#: kitemviews/kfileitemmodel.cpp:2707
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Ora di eliminazione"
 
-#: kitemviews/kfileitemmodel.cpp:2670
+#: kitemviews/kfileitemmodel.cpp:2708
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Destinazione del collegamento"
 
-#: kitemviews/kfileitemmodel.cpp:2671
+#: kitemviews/kfileitemmodel.cpp:2709
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Scaricato da"
 
-#: kitemviews/kfileitemmodel.cpp:2672
+#: kitemviews/kfileitemmodel.cpp:2710
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Permessi"
 
-#: kitemviews/kfileitemmodel.cpp:2673
+#: kitemviews/kfileitemmodel.cpp:2711
 msgctxt "@label"
 msgid "Owner"
 msgstr "Proprietario"
 
-#: kitemviews/kfileitemmodel.cpp:2674
+#: kitemviews/kfileitemmodel.cpp:2712
 msgctxt "@label"
 msgid "User Group"
 msgstr "Gruppo utente"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2811
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Errore sconosciuto."
 
-#: main.cpp:91
+#: main.cpp:90
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
@@ -2347,86 +2344,86 @@ msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:115 main.cpp:118 main.cpp:121 main.cpp:124 main.cpp:127
-#: main.cpp:130 main.cpp:133
+#: main.cpp:114 main.cpp:115 main.cpp:116 main.cpp:117 main.cpp:118
+#: main.cpp:119 main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Sviluppatore"
 
-#: main.cpp:117
+#: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:120
+#: main.cpp:116
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:123
+#: main.cpp:117
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:126
+#: main.cpp:118
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:129
+#: main.cpp:119
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:132
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:135
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:136
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: main.cpp:145
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Saranno selezionati i file e le cartelle forniti come argomento."
 
-#: main.cpp:147
+#: main.cpp:133
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin si avvierà con una vista divisa."
 
-#: main.cpp:148
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin si aprirà esplicitamente in una nuova finestra."
 
-#: main.cpp:149
+#: main.cpp:136
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Avvia il demone di Dolphin (richiesto solo per l'interfaccia DBus)."
 
-#: main.cpp:150
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -2450,55 +2447,55 @@ msgstr "Limita il pannello delle cartelle alla cartella home se al suo interno"
 msgid "Automatic scrolling"
 msgstr "Scorrimento automatico"
 
-#: panels/folders/treeviewcontextmenu.cpp:59
+#: panels/folders/treeviewcontextmenu.cpp:58
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Cut"
 msgstr "Taglia"
 
-#: panels/folders/treeviewcontextmenu.cpp:63
+#: panels/folders/treeviewcontextmenu.cpp:62
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy"
 msgstr "Copia"
 
-#: panels/folders/treeviewcontextmenu.cpp:79
+#: panels/folders/treeviewcontextmenu.cpp:78
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename..."
 msgstr "Rinomina..."
 
-#: panels/folders/treeviewcontextmenu.cpp:93
+#: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
 msgstr "Cestina"
 
-#: panels/folders/treeviewcontextmenu.cpp:103
+#: panels/folders/treeviewcontextmenu.cpp:101
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Delete"
 msgstr "Elimina"
 
-#: panels/folders/treeviewcontextmenu.cpp:113
+#: panels/folders/treeviewcontextmenu.cpp:111
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Hidden Files"
 msgstr "Mostra i file nascosti"
 
-#: panels/folders/treeviewcontextmenu.cpp:123
+#: panels/folders/treeviewcontextmenu.cpp:121
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Limit to Home Directory"
 msgstr "Limita alla cartella Home"
 
-#: panels/folders/treeviewcontextmenu.cpp:132
+#: panels/folders/treeviewcontextmenu.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Scrolling"
 msgstr "Scorrimento automatico"
 
-#: panels/folders/treeviewcontextmenu.cpp:142
+#: panels/folders/treeviewcontextmenu.cpp:140
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Properties"
@@ -2546,13 +2543,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Data condensata"
 
-#: panels/information/informationpanelcontent.cpp:109
+#: panels/information/informationpanelcontent.cpp:105
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Seleziona quali dati devono essere mostrati:"
 
-#: panels/information/informationpanelcontent.cpp:303
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -2577,13 +2574,13 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "Dimensione delle icone del pannello Risorse (-1 significa «automatica»)"
 
-#: panels/places/placespanel.cpp:47
+#: panels/places/placespanel.cpp:46
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Configura il cestino..."
 
-#: panels/terminal/terminalpanel.cpp:177
+#: panels/terminal/terminalpanel.cpp:174
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -2592,7 +2589,7 @@ msgstr ""
 "Il terminale non può essere mostrato poiché Konsole non è installata. "
 "Installala e riapri il pannello."
 
-#: panels/terminal/terminalpanel.cpp:183
+#: panels/terminal/terminalpanel.cpp:180
 #, kde-format
 msgid "Install Konsole"
 msgstr "Installa Konsole"
@@ -2663,67 +2660,67 @@ msgctxt "@item:inlistbox"
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: search/dolphinfacetswidget.cpp:43
+#: search/dolphinfacetswidget.cpp:44
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "This Week"
 msgstr "Questa settimana"
 
-#: search/dolphinfacetswidget.cpp:44
+#: search/dolphinfacetswidget.cpp:47
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "This Month"
 msgstr "Questo mese"
 
-#: search/dolphinfacetswidget.cpp:45
+#: search/dolphinfacetswidget.cpp:50
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "This Year"
 msgstr "Quest'anno"
 
-#: search/dolphinfacetswidget.cpp:49
+#: search/dolphinfacetswidget.cpp:55
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Any Rating"
 msgstr "Qualsiasi valutazione"
 
-#: search/dolphinfacetswidget.cpp:50
+#: search/dolphinfacetswidget.cpp:56
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "1 or more"
 msgstr "1 o più"
 
-#: search/dolphinfacetswidget.cpp:51
+#: search/dolphinfacetswidget.cpp:57
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "2 or more"
 msgstr "2 o più"
 
-#: search/dolphinfacetswidget.cpp:52
+#: search/dolphinfacetswidget.cpp:58
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "3 or more"
 msgstr "3 o più"
 
-#: search/dolphinfacetswidget.cpp:53
+#: search/dolphinfacetswidget.cpp:59
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "4 or more"
 msgstr "4 o più"
 
-#: search/dolphinfacetswidget.cpp:54
+#: search/dolphinfacetswidget.cpp:60
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Highest Rating"
 msgstr "Valutazione più alta"
 
-#: search/dolphinfacetswidget.cpp:57
+#: search/dolphinfacetswidget.cpp:63
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "Pulisci selezione"
 
-#: search/dolphinfacetswidget.cpp:247
+#: search/dolphinfacetswidget.cpp:248
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
@@ -2755,54 +2752,54 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "Limita la ricerca a «%1» e alle sue cartelle"
 
-#: search/dolphinsearchbox.cpp:345
+#: search/dolphinsearchbox.cpp:341
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Salva questa ricerca per accedervi rapidamente in futuro"
 
-#: search/dolphinsearchbox.cpp:354
+#: search/dolphinsearchbox.cpp:350
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Chiudi la ricerca"
 
-#: search/dolphinsearchbox.cpp:365
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Nome file"
 
-#: search/dolphinsearchbox.cpp:369
+#: search/dolphinsearchbox.cpp:365
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Contenuto"
 
-#: search/dolphinsearchbox.cpp:380
+#: search/dolphinsearchbox.cpp:376
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Da qui"
 
-#: search/dolphinsearchbox.cpp:384
+#: search/dolphinsearchbox.cpp:380
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "I tuoi file"
 
-#: search/dolphinsearchbox.cpp:385
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Cerca nella tua cartella home"
 
-#: search/dolphinsearchbox.cpp:399
+#: search/dolphinsearchbox.cpp:395
 #, kde-format
 msgid "More Search Tools"
 msgstr "Altri strumenti di ricerca"
 
-#: search/dolphinsearchbox.cpp:461
+#: search/dolphinsearchbox.cpp:455
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -2810,7 +2807,7 @@ msgctxt ""
 msgid "Query Results from '%1'"
 msgstr "Risultati della ricerca da «%1»"
 
-#: selectionmode/bottombarcontentscontainer.cpp:153
+#: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
@@ -2818,41 +2815,41 @@ msgstr "Seleziona i file e le cartelle da copiare."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:159
-#: selectionmode/bottombarcontentscontainer.cpp:192
-#: selectionmode/bottombarcontentscontainer.cpp:211
+#: selectionmode/bottombarcontentscontainer.cpp:162
+#: selectionmode/bottombarcontentscontainer.cpp:197
+#: selectionmode/bottombarcontentscontainer.cpp:220
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
 msgstr "Annulla la copia"
 
-#: selectionmode/bottombarcontentscontainer.cpp:186
+#: selectionmode/bottombarcontentscontainer.cpp:190
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr "Seleziona un file o una cartella la cui posizione deve essere copiata."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:205
+#: selectionmode/bottombarcontentscontainer.cpp:212
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr "Seleziona i file e le cartelle su cui copiare."
 
-#: selectionmode/bottombarcontentscontainer.cpp:223
+#: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr "Seleziona i file e le cartelle che devono essere tagliati."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:229
+#: selectionmode/bottombarcontentscontainer.cpp:240
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr "Annulla il taglio"
 
-#: selectionmode/bottombarcontentscontainer.cpp:256
+#: selectionmode/bottombarcontentscontainer.cpp:269
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
@@ -2861,21 +2858,21 @@ msgstr ""
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:262
-#: selectionmode/bottombarcontentscontainer.cpp:363
+#: selectionmode/bottombarcontentscontainer.cpp:276
+#: selectionmode/bottombarcontentscontainer.cpp:388
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: selectionmode/bottombarcontentscontainer.cpp:274
+#: selectionmode/bottombarcontentscontainer.cpp:289
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
 msgstr "Seleziona qui i file e le cartelle che devono essere duplicati."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:280
+#: selectionmode/bottombarcontentscontainer.cpp:296
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -2883,33 +2880,33 @@ msgstr "Annulla la duplicazione"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:295
+#: selectionmode/bottombarcontentscontainer.cpp:313
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
 msgstr "Altro"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:339
+#: selectionmode/bottombarcontentscontainer.cpp:359
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr "Seleziona i file e le cartelle che devono essere spostati."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:345
+#: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr "Annulla lo spostamento"
 
-#: selectionmode/bottombarcontentscontainer.cpp:357
+#: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr "Seleziona i file e le cartelle che devono essere cestinati."
 
-#: selectionmode/bottombarcontentscontainer.cpp:375
+#: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -2924,26 +2921,26 @@ msgstr ""
 "ad altre applicazioni utilizzando le rispettive azioni <emphasis>Incolla</"
 "emphasis>.</para>"
 
-#: selectionmode/bottombarcontentscontainer.cpp:395
+#: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
 msgstr "Incolla dagli appunti"
 
-#: selectionmode/bottombarcontentscontainer.cpp:400
+#: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
 msgstr "Ignora questo promemoria"
 
-#: selectionmode/bottombarcontentscontainer.cpp:402
+#: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
 msgstr "Non ricordamelo nuovamente"
 
-#: selectionmode/bottombarcontentscontainer.cpp:418
+#: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -2954,7 +2951,7 @@ msgstr ""
 "La rinomina in blocco è possibile quando sono selezionati più elementi."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:424
+#: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -2965,7 +2962,7 @@ msgstr "Annulla la rinomina"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:567
+#: selectionmode/bottombarcontentscontainer.cpp:599
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -2978,7 +2975,7 @@ msgstr[1] "Copia %2 negli appunti"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:578
+#: selectionmode/bottombarcontentscontainer.cpp:610
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -2991,7 +2988,7 @@ msgstr[1] "Copia la posizione di %2 negli appunti"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:586
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3004,7 +3001,7 @@ msgstr[1] "Taglia %2 negli appunti"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:594
+#: selectionmode/bottombarcontentscontainer.cpp:626
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3017,7 +3014,7 @@ msgstr[1] "Elimina definitivamente %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:602
+#: selectionmode/bottombarcontentscontainer.cpp:634
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -3030,7 +3027,7 @@ msgstr[1] "Duplica %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:610
+#: selectionmode/bottombarcontentscontainer.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -3043,7 +3040,7 @@ msgstr[1] "Cestina %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:618
+#: selectionmode/bottombarcontentscontainer.cpp:650
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
@@ -3051,7 +3048,7 @@ msgid_plural "Rename %2"
 msgstr[0] "Rinomina %2"
 msgstr[1] "Rinomina %2"
 
-#: selectionmode/topbar.cpp:32
+#: selectionmode/topbar.cpp:33
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3082,37 +3079,37 @@ msgstr ""
 "Modalità di selezione: fai clic su file o cartelle per selezionarli o "
 "deselezionarli."
 
-#: selectionmode/topbar.cpp:60
+#: selectionmode/topbar.cpp:59
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Modalità di selezione"
 
-#: selectionmode/topbar.cpp:66
+#: selectionmode/topbar.cpp:65
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Esci dalla modalità di selezione"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:66
+#: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Seleziona quali servizi mostrare nel menu contestuale:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:70
+#: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:97
+#: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Scarica nuovi servizi..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:208
+#: settings/contextmenu/contextmenusettingspage.cpp:209
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3122,25 +3119,25 @@ msgstr ""
 "Dolphin deve essere riavviato per applicare le impostazioni aggiornate dei "
 "sistemi di controllo delle versioni."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:210
+#: settings/contextmenu/contextmenusettingspage.cpp:211
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Vuoi riavviare adesso?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Elimina"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:259
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Comandi «Copia in» e «Sposta in»"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:309
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3680,73 +3677,73 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "Configura"
 
-#: settings/dolphinsettingsdialog.cpp:57
+#: settings/dolphinsettingsdialog.cpp:55
 #, kde-format
 msgctxt "@title:group General settings"
 msgid "General"
 msgstr "Generale"
 
-#: settings/dolphinsettingsdialog.cpp:64
+#: settings/dolphinsettingsdialog.cpp:61
 #, kde-format
 msgctxt "@title:group"
 msgid "Startup"
 msgstr "Avvio"
 
-#: settings/dolphinsettingsdialog.cpp:71
+#: settings/dolphinsettingsdialog.cpp:67
 #, kde-format
 msgctxt "@title:group"
 msgid "View Modes"
 msgstr "Modalità di visualizzazione"
 
-#: settings/dolphinsettingsdialog.cpp:78
+#: settings/dolphinsettingsdialog.cpp:73
 #, kde-format
 msgctxt "@title:group"
 msgid "Navigation"
 msgstr "Navigazione"
 
-#: settings/dolphinsettingsdialog.cpp:94
+#: settings/dolphinsettingsdialog.cpp:88
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Menu contestuale"
 
-#: settings/dolphinsettingsdialog.cpp:105
+#: settings/dolphinsettingsdialog.cpp:98
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Cestino"
 
-#: settings/dolphinsettingsdialog.cpp:115
+#: settings/dolphinsettingsdialog.cpp:108
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Segnalazioni dell'utente"
 
-#: settings/dolphinsettingsdialog.cpp:189
+#: settings/dolphinsettingsdialog.cpp:182
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 "Hai delle modifiche non salvate. Vuoi applicare le modifiche o scartarle?"
 
-#: settings/dolphinsettingsdialog.cpp:190
+#: settings/dolphinsettingsdialog.cpp:183
 #, kde-format
 msgid "Warning"
 msgstr "Avviso"
 
-#: settings/general/behaviorsettingspage.cpp:37
+#: settings/general/behaviorsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Utilizza lo stile di visualizzazione comune per tutte le cartelle"
 
-#: settings/general/behaviorsettingspage.cpp:38
+#: settings/general/behaviorsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Ricorda lo stile di visualizzazione per ogni cartella"
 
-#: settings/general/behaviorsettingspage.cpp:39
+#: settings/general/behaviorsettingspage.cpp:38
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3756,146 +3753,146 @@ msgstr ""
 "Dolphin creerà un file .directory nascosto in ogni cartella per la quale "
 "modifichi le proprietà di visualizzazione."
 
-#: settings/general/behaviorsettingspage.cpp:44
+#: settings/general/behaviorsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:group"
 msgid "View: "
 msgstr "Vista: "
 
-#: settings/general/behaviorsettingspage.cpp:52
+#: settings/general/behaviorsettingspage.cpp:49
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "Naturale"
 
-#: settings/general/behaviorsettingspage.cpp:53
+#: settings/general/behaviorsettingspage.cpp:50
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "Alfabetico, senza distinzione delle maiuscole"
 
-#: settings/general/behaviorsettingspage.cpp:54
+#: settings/general/behaviorsettingspage.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "Alfabetico, con distinzione delle maiuscole"
 
-#: settings/general/behaviorsettingspage.cpp:60
+#: settings/general/behaviorsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "Modalità di ordinamento:"
 
-#: settings/general/behaviorsettingspage.cpp:70
+#: settings/general/behaviorsettingspage.cpp:65
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "Mostra suggerimenti"
 
-#: settings/general/behaviorsettingspage.cpp:71
-#: settings/general/behaviorsettingspage.cpp:79
+#: settings/general/behaviorsettingspage.cpp:66
+#: settings/general/behaviorsettingspage.cpp:74
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Varie:"
 
-#: settings/general/behaviorsettingspage.cpp:75
+#: settings/general/behaviorsettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Mostra marcatore di selezione"
 
-#: settings/general/behaviorsettingspage.cpp:83
+#: settings/general/behaviorsettingspage.cpp:78
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
 msgstr "Rinomina in linea"
 
-#: settings/general/behaviorsettingspage.cpp:87
+#: settings/general/behaviorsettingspage.cpp:82
 #, kde-format
 msgctxt "option:check"
 msgid "Switch between split views panes with tab key"
 msgstr ""
 "Passa attraverso i pannelli della vista divisa con il tasto di tabulazione"
 
-#: settings/general/behaviorsettingspage.cpp:91
+#: settings/general/behaviorsettingspage.cpp:86
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "La chiusura della vista divisa chiude il pannello attivo"
 
-#: settings/general/behaviorsettingspage.cpp:93
+#: settings/general/behaviorsettingspage.cpp:88
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Se disattivata, la chiusura della vista divisa chiuderà il pannello inattivo"
 
-#: settings/general/configurepreviewplugindialog.cpp:38
+#: settings/general/configurepreviewplugindialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
 msgstr "Configura anteprima per %1"
 
-#: settings/general/confirmationssettingspage.cpp:48
+#: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "Chiedi conferma in tutte le applicazioni di KDE per:"
 
-#: settings/general/confirmationssettingspage.cpp:52
+#: settings/general/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "Cestinamento di file o cartelle"
 
-#: settings/general/confirmationssettingspage.cpp:54
+#: settings/general/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Svuotamento del cestino"
 
-#: settings/general/confirmationssettingspage.cpp:56
+#: settings/general/confirmationssettingspage.cpp:51
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "Eliminazione di file o cartelle"
 
-#: settings/general/confirmationssettingspage.cpp:58
+#: settings/general/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Chiedi conferma in Dolphin per:"
 
-#: settings/general/confirmationssettingspage.cpp:62
+#: settings/general/confirmationssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "Chiusura delle finestre con più schede"
 
-#: settings/general/confirmationssettingspage.cpp:66
+#: settings/general/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 "Chiudere finestre con un programma in esecuzione nel pannello Terminale"
 
-#: settings/general/confirmationssettingspage.cpp:70
+#: settings/general/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "All'apertura di un file eseguibile:"
 
-#: settings/general/confirmationssettingspage.cpp:75
+#: settings/general/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr "Chiedi sempre"
 
-#: settings/general/confirmationssettingspage.cpp:75
+#: settings/general/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Open in application"
 msgstr "Apri in applicazione"
 
-#: settings/general/confirmationssettingspage.cpp:75
+#: settings/general/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr "Esegui script"
@@ -3927,7 +3924,7 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Barra di stato"
 
-#: settings/general/previewssettingspage.cpp:42
+#: settings/general/previewssettingspage.cpp:43
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
@@ -4042,78 +4039,78 @@ msgctxt "@option:radio Startup Settings"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Cartelle, schede e stato della finestra dall'ultima volta"
 
-#: settings/startup/startupsettingspage.cpp:68
+#: settings/startup/startupsettingspage.cpp:67
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Seleziona posizione Home"
 
-#: settings/startup/startupsettingspage.cpp:78
+#: settings/startup/startupsettingspage.cpp:76
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Usa posizione attuale"
 
-#: settings/startup/startupsettingspage.cpp:82
+#: settings/startup/startupsettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Usa posizione predefinita"
 
-#: settings/startup/startupsettingspage.cpp:94
+#: settings/startup/startupsettingspage.cpp:90
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Mostra all'avvio:"
 
-#: settings/startup/startupsettingspage.cpp:100
+#: settings/startup/startupsettingspage.cpp:95
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Inizia in modalità a vista divisa"
 
-#: settings/startup/startupsettingspage.cpp:101
+#: settings/startup/startupsettingspage.cpp:96
 #, kde-format
 msgid "New windows:"
 msgstr "Nuove finestre:"
 
-#: settings/startup/startupsettingspage.cpp:102
+#: settings/startup/startupsettingspage.cpp:97
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show filter bar"
 msgstr "Mostra la barra del filtro"
 
-#: settings/startup/startupsettingspage.cpp:104
+#: settings/startup/startupsettingspage.cpp:99
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
 msgstr "Rendi la barra della posizione modificabile"
 
-#: settings/startup/startupsettingspage.cpp:109
+#: settings/startup/startupsettingspage.cpp:104
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new folders in tabs"
 msgstr "Apri nuove cartelle in schede"
 
-#: settings/startup/startupsettingspage.cpp:110
+#: settings/startup/startupsettingspage.cpp:105
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "General:"
 msgstr "Generale:"
 
-#: settings/startup/startupsettingspage.cpp:111
+#: settings/startup/startupsettingspage.cpp:106
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "Mostra percorso completo nella barra della posizione"
 
-#: settings/startup/startupsettingspage.cpp:113
+#: settings/startup/startupsettingspage.cpp:108
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Mostra percorso completo nella barra del titolo"
 
-#: settings/startup/startupsettingspage.cpp:235
+#: settings/startup/startupsettingspage.cpp:230
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4135,208 +4132,208 @@ msgctxt "@item:inlistbox Font"
 msgid "Custom Font"
 msgstr "Carattere personalizzato"
 
-#: settings/viewmodes/dolphinfontrequester.cpp:33
+#: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose..."
 msgstr "Scegli..."
 
-#: settings/viewmodes/viewsettingstab.cpp:54
+#: settings/viewmodes/viewsettingstab.cpp:53
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "Dimensione predefinita delle icone:"
 
-#: settings/viewmodes/viewsettingstab.cpp:62
+#: settings/viewmodes/viewsettingstab.cpp:60
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "Dimensione delle icone delle anteprime:"
 
-#: settings/viewmodes/viewsettingstab.cpp:70
+#: settings/viewmodes/viewsettingstab.cpp:66
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr "Carattere delle etichette:"
 
-#: settings/viewmodes/viewsettingstab.cpp:75
+#: settings/viewmodes/viewsettingstab.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "Piccolo"
 
-#: settings/viewmodes/viewsettingstab.cpp:76
+#: settings/viewmodes/viewsettingstab.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "Medio"
 
-#: settings/viewmodes/viewsettingstab.cpp:77
+#: settings/viewmodes/viewsettingstab.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "Grande"
 
-#: settings/viewmodes/viewsettingstab.cpp:78
+#: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "Enorme"
 
-#: settings/viewmodes/viewsettingstab.cpp:79
+#: settings/viewmodes/viewsettingstab.cpp:75
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "Larghezza delle etichette:"
 
-#: settings/viewmodes/viewsettingstab.cpp:82
+#: settings/viewmodes/viewsettingstab.cpp:78
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr "Illimitato"
 
-#: settings/viewmodes/viewsettingstab.cpp:83
+#: settings/viewmodes/viewsettingstab.cpp:79
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr "1"
 
-#: settings/viewmodes/viewsettingstab.cpp:84
+#: settings/viewmodes/viewsettingstab.cpp:80
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr "2"
 
-#: settings/viewmodes/viewsettingstab.cpp:85
+#: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr "3"
 
-#: settings/viewmodes/viewsettingstab.cpp:86
+#: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr "4"
 
-#: settings/viewmodes/viewsettingstab.cpp:87
+#: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr "5"
 
-#: settings/viewmodes/viewsettingstab.cpp:88
+#: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Num. massimo di righe:"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:89
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Illimitata"
 
-#: settings/viewmodes/viewsettingstab.cpp:94
+#: settings/viewmodes/viewsettingstab.cpp:90
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Piccola"
 
-#: settings/viewmodes/viewsettingstab.cpp:95
+#: settings/viewmodes/viewsettingstab.cpp:91
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Media"
 
-#: settings/viewmodes/viewsettingstab.cpp:96
+#: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Grande"
 
-#: settings/viewmodes/viewsettingstab.cpp:97
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Larghezza massima:"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:97
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Espandibili"
 
-#: settings/viewmodes/viewsettingstab.cpp:102
+#: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Cartelle:"
 
-#: settings/viewmodes/viewsettingstab.cpp:105
+#: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr "Facendo clic in un punto qualsiasi della riga"
 
-#: settings/viewmodes/viewsettingstab.cpp:106
+#: settings/viewmodes/viewsettingstab.cpp:102
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr "Facendo clic sull'icona o sul nome"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:113
+#: settings/viewmodes/viewsettingstab.cpp:110
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Apri file e cartelle:"
 
-#: settings/viewmodes/viewsettingstab.cpp:119
+#: settings/viewmodes/viewsettingstab.cpp:116
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Numero di elementi"
 
-#: settings/viewmodes/viewsettingstab.cpp:120
+#: settings/viewmodes/viewsettingstab.cpp:117
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Dimensione del contenuto, fino a "
 
-#: settings/viewmodes/viewsettingstab.cpp:128
+#: settings/viewmodes/viewsettingstab.cpp:125
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " livello di profondità"
 msgstr[1] " livelli di profondità"
 
-#: settings/viewmodes/viewsettingstab.cpp:137
+#: settings/viewmodes/viewsettingstab.cpp:134
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Visualizzazioni della dimensione delle cartelle:"
 
-#: settings/viewmodes/viewsettingstab.cpp:146
+#: settings/viewmodes/viewsettingstab.cpp:143
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relativa (ad es. «%1»)"
 
-#: settings/viewmodes/viewsettingstab.cpp:149
+#: settings/viewmodes/viewsettingstab.cpp:145
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Assoluta (ad es. «%1»)"
 
-#: settings/viewmodes/viewsettingstab.cpp:156
+#: settings/viewmodes/viewsettingstab.cpp:151
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Stile della data:"
 
-#: settings/viewmodes/viewsettingstab.cpp:320
-#: statusbar/dolphinstatusbar.cpp:320
+#: settings/viewmodes/viewsettingstab.cpp:313
+#: statusbar/dolphinstatusbar.cpp:321
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4416,59 +4413,59 @@ msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Informazioni aggiuntive"
 
-#: settings/viewpropertiesdialog.cpp:133
+#: settings/viewpropertiesdialog.cpp:132
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Scegli cosa vedere su ogni file o cartella:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Modalità di visualizzazione:"
 
-#: settings/viewpropertiesdialog.cpp:144
+#: settings/viewpropertiesdialog.cpp:143
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Ordinamento:"
 
-#: settings/viewpropertiesdialog.cpp:148
+#: settings/viewpropertiesdialog.cpp:147
 #, kde-format
 msgid "View options:"
 msgstr "Opzioni di visualizzazione:"
 
-#: settings/viewpropertiesdialog.cpp:176
+#: settings/viewpropertiesdialog.cpp:166
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Cartella attuale"
 
-#: settings/viewpropertiesdialog.cpp:179
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Cartella attuale e le sottocartelle"
 
-#: settings/viewpropertiesdialog.cpp:181
+#: settings/viewpropertiesdialog.cpp:169
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Tutte le cartelle"
 
-#: settings/viewpropertiesdialog.cpp:190
+#: settings/viewpropertiesdialog.cpp:178
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Applica a:"
 
-#: settings/viewpropertiesdialog.cpp:195
+#: settings/viewpropertiesdialog.cpp:183
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Usa come impostazioni predefinite della vista"
 
-#: settings/viewpropertiesdialog.cpp:351
+#: settings/viewpropertiesdialog.cpp:335
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4478,7 +4475,7 @@ msgstr ""
 "Le proprietà di visualizzazione di tutte le sottocartelle saranno "
 "modificate. Vuoi continuare?"
 
-#: settings/viewpropertiesdialog.cpp:391
+#: settings/viewpropertiesdialog.cpp:369
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4487,53 +4484,53 @@ msgstr ""
 "Le proprietà di visualizzazione di tutte le cartelle saranno cambiate. Vuoi "
 "continuare?"
 
-#: settings/viewpropsprogressinfo.cpp:35
+#: settings/viewpropsprogressinfo.cpp:33
 #, kde-format
 msgctxt "@title:window"
 msgid "Applying View Properties"
 msgstr "Applicazione proprietà di visualizzazione"
 
-#: settings/viewpropsprogressinfo.cpp:47 settings/viewpropsprogressinfo.cpp:111
+#: settings/viewpropsprogressinfo.cpp:45 settings/viewpropsprogressinfo.cpp:107
 #, kde-format
 msgctxt "@info:progress"
 msgid "Counting folders: %1"
 msgstr "Conteggio cartelle: %1"
 
-#: settings/viewpropsprogressinfo.cpp:127
+#: settings/viewpropsprogressinfo.cpp:123
 #, kde-format
 msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Cartelle: %1"
 
-#: statusbar/dolphinstatusbar.cpp:52
+#: statusbar/dolphinstatusbar.cpp:53
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Ingrandimento:"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:57
 #, kde-format
 msgid "Zoom"
 msgstr "Ingrandimento"
 
-#: statusbar/dolphinstatusbar.cpp:57
+#: statusbar/dolphinstatusbar.cpp:58
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Imposta la dimensione delle icone dei file."
 
-#: statusbar/dolphinstatusbar.cpp:71
+#: statusbar/dolphinstatusbar.cpp:72
 #, kde-format
 msgid "Stop"
 msgstr "Ferma"
 
-#: statusbar/dolphinstatusbar.cpp:73
+#: statusbar/dolphinstatusbar.cpp:74
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Ferma il caricamento"
 
-#: statusbar/dolphinstatusbar.cpp:128
+#: statusbar/dolphinstatusbar.cpp:129
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4554,25 +4551,25 @@ msgstr ""
 "item><item><emphasis>Informazioni sullo spazio</emphasis> relative al "
 "dispositivo di archiviazione attuale.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:263
+#: statusbar/dolphinstatusbar.cpp:264
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Mostra il cursore dello zoom"
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:268
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Mostra le informazioni sullo spazio"
 
-#: statusbar/statusbarspaceinfo.cpp:117
+#: statusbar/statusbarspaceinfo.cpp:116
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 liberi"
 
-#: statusbar/statusbarspaceinfo.cpp:118
+#: statusbar/statusbarspaceinfo.cpp:117
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
@@ -4588,25 +4585,25 @@ msgstr "Cestino svuotato"
 msgid "The Trash was emptied."
 msgstr "Il cestino è stato svuotato."
 
-#: userfeedback/placesdatasource.cpp:24
+#: userfeedback/placesdatasource.cpp:25
 #, kde-format
 msgctxt "name of kuserfeedback data source provided by dolphin"
 msgid "Places"
 msgstr "Risorse"
 
-#: userfeedback/placesdatasource.cpp:30
+#: userfeedback/placesdatasource.cpp:31
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "Count of available Network Shares"
 msgstr "Numero delle condivisioni di rete disponibili"
 
-#: userfeedback/settingsdatasource.cpp:23
+#: userfeedback/settingsdatasource.cpp:24
 #, kde-format
 msgctxt "name of kuserfeedback data source provided by dolphin"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: userfeedback/settingsdatasource.cpp:28
+#: userfeedback/settingsdatasource.cpp:29
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
@@ -4617,17 +4614,17 @@ msgstr "Un sottoinsieme delle impostazioni di Dolphin."
 msgid "Select Remote Charset"
 msgstr "Seleziona set di caratteri remoto"
 
-#: views/dolphinremoteencoding.cpp:93
+#: views/dolphinremoteencoding.cpp:90
 #, kde-format
 msgid "Default"
 msgstr "Predefinito"
 
-#: views/dolphinremoteencoding.cpp:102
+#: views/dolphinremoteencoding.cpp:99
 #, kde-format
 msgid "Reload"
 msgstr "Ricarica"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:630
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4635,7 +4632,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "1 cartella selezionata"
 msgstr[1] "%1 cartelle selezionate"
 
-#: views/dolphinview.cpp:643
+#: views/dolphinview.cpp:631
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4643,7 +4640,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "1 file selezionato"
 msgstr[1] "%1 file selezionati"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:633
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4651,7 +4648,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "1 cartella"
 msgstr[1] "%1 cartelle"
 
-#: views/dolphinview.cpp:646
+#: views/dolphinview.cpp:634
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4659,38 +4656,38 @@ msgid_plural "%1 Files"
 msgstr[0] "1 file"
 msgstr[1] "%1 file"
 
-#: views/dolphinview.cpp:650
+#: views/dolphinview.cpp:638
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:640
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:644
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 cartelle, 0 file"
 
-#: views/dolphinview.cpp:878 views/dolphinview.cpp:887
+#: views/dolphinview.cpp:856 views/dolphinview.cpp:865
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "Copia di %1"
 
-#: views/dolphinview.cpp:1046
+#: views/dolphinview.cpp:1024
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Sei sicuro di voler aprire un elemento?"
 msgstr[1] "Sei sicuro di voler aprire %1 elementi?"
 
-#: views/dolphinview.cpp:1052
+#: views/dolphinview.cpp:1036
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4698,45 +4695,45 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Apri %1 elemento"
 msgstr[1] "Apri %1 elementi"
 
-#: views/dolphinview.cpp:1185
+#: views/dolphinview.cpp:1166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Spaziatura laterale"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1189
+#: views/dolphinview.cpp:1170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Larghezza automatica delle colonne"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1194
+#: views/dolphinview.cpp:1175
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Larghezza delle colonne personalizzata"
 
-#: views/dolphinview.cpp:1770
+#: views/dolphinview.cpp:1744
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operazione di cestinamento completata."
 
-#: views/dolphinview.cpp:1779
+#: views/dolphinview.cpp:1753
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operazione di eliminazione completata."
 
-#: views/dolphinview.cpp:1914
+#: views/dolphinview.cpp:1885
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Rinomina e nascondi"
 
-#: views/dolphinview.cpp:1921
+#: views/dolphinview.cpp:1894
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4746,7 +4743,7 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarlo?"
 
-#: views/dolphinview.cpp:1923
+#: views/dolphinview.cpp:1896
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4756,105 +4753,105 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarla?"
 
-#: views/dolphinview.cpp:1925
+#: views/dolphinview.cpp:1898
 #, kde-format
 msgid "Hide this File?"
 msgstr "Vuoi nascondere questo file?"
 
-#: views/dolphinview.cpp:1925
+#: views/dolphinview.cpp:1898
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Vuoi nascondere questa cartella?"
 
-#: views/dolphinview.cpp:1981
+#: views/dolphinview.cpp:1952
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "La posizione è vuota."
 
-#: views/dolphinview.cpp:1983
+#: views/dolphinview.cpp:1954
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "La posizione «%1» non è valida."
 
-#: views/dolphinview.cpp:2229
+#: views/dolphinview.cpp:2208
 #, kde-format
 msgid "Loading..."
 msgstr "Caricamento in corso..."
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2227
 #, kde-format
 msgid "Loading canceled"
 msgstr "Caricamento annullato"
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2229
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nessun elemento corrispondente al filtro"
 
-#: views/dolphinview.cpp:2252
+#: views/dolphinview.cpp:2231
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nessun elemento corrispondente alla ricerca"
 
-#: views/dolphinview.cpp:2254
+#: views/dolphinview.cpp:2233
 #, kde-format
 msgid "Trash is empty"
 msgstr "Il cestino è vuoto"
 
-#: views/dolphinview.cpp:2257
+#: views/dolphinview.cpp:2236
 #, kde-format
 msgid "No tags"
 msgstr "Nessuna etichetta"
 
-#: views/dolphinview.cpp:2260
+#: views/dolphinview.cpp:2239
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nessun file etichettato con «%1»"
 
-#: views/dolphinview.cpp:2264
+#: views/dolphinview.cpp:2243
 #, kde-format
 msgid "No recently used items"
 msgstr "Non ci sono elementi utilizzati di recente"
 
-#: views/dolphinview.cpp:2266
+#: views/dolphinview.cpp:2245
 #, kde-format
 msgid "No shared folders found"
 msgstr "Non è stata trovata alcuna cartella condivisa"
 
-#: views/dolphinview.cpp:2268
+#: views/dolphinview.cpp:2247
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Non sono state trovate risorse di rete pertinenti"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2249
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Non è stato trovato alcun dispositivo MTP compatibile"
 
-#: views/dolphinview.cpp:2272
+#: views/dolphinview.cpp:2251
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nessun dispositivo Apple trovato"
 
-#: views/dolphinview.cpp:2274
+#: views/dolphinview.cpp:2253
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Non è stato trovato alcun dispositivo Bluetooth"
 
-#: views/dolphinview.cpp:2276
+#: views/dolphinview.cpp:2255
 #, kde-format
 msgid "Folder is empty"
 msgstr "La cartella è vuota"
 
-#: views/dolphinviewactionhandler.cpp:91
+#: views/dolphinviewactionhandler.cpp:80
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder..."
 msgstr "Crea cartella..."
 
-#: views/dolphinviewactionhandler.cpp:100
+#: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4865,7 +4862,7 @@ msgstr ""
 "contemporanea di più elementi equivale ad avere i nuovi nomi che "
 "differiscono solo per un numero."
 
-#: views/dolphinviewactionhandler.cpp:110
+#: views/dolphinviewactionhandler.cpp:101
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4877,7 +4874,7 @@ msgstr ""
 "filename>.<nl/>Il cestino è un archivio temporaneo dove gli elementi possono "
 "essere eliminati se è necessario recuperare spazio disco."
 
-#: views/dolphinviewactionhandler.cpp:121
+#: views/dolphinviewactionhandler.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4887,25 +4884,25 @@ msgstr ""
 "Elimina completamente gli elementi nella tua selezione attuale. Non possono "
 "essere ripristinati tramite metodi ordinari."
 
-#: views/dolphinviewactionhandler.cpp:131
+#: views/dolphinviewactionhandler.cpp:123
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Elimina (utilizza scorciatoia per il cestino)"
 
-#: views/dolphinviewactionhandler.cpp:137
+#: views/dolphinviewactionhandler.cpp:129
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Duplica qui"
 
-#: views/dolphinviewactionhandler.cpp:145
+#: views/dolphinviewactionhandler.cpp:137
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Proprietà"
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -4920,44 +4917,44 @@ msgstr ""
 "configurare opzioni avanzate come la gestione dei permessi di lettura e "
 "scrittura."
 
-#: views/dolphinviewactionhandler.cpp:157
+#: views/dolphinviewactionhandler.cpp:149
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Copia posizione"
 
-#: views/dolphinviewactionhandler.cpp:159
+#: views/dolphinviewactionhandler.cpp:150
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 "Questo copierà il percorso del primo elemento selezionato negli appunti."
 
-#: views/dolphinviewactionhandler.cpp:168
+#: views/dolphinviewactionhandler.cpp:158
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Cestina..."
 
-#: views/dolphinviewactionhandler.cpp:169
+#: views/dolphinviewactionhandler.cpp:159
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Elimina…"
 
-#: views/dolphinviewactionhandler.cpp:170
+#: views/dolphinviewactionhandler.cpp:160
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Duplica qui…"
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Copia posizione…"
 
-#: views/dolphinviewactionhandler.cpp:200
+#: views/dolphinviewactionhandler.cpp:190
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -4974,7 +4971,7 @@ msgstr ""
 "utile per navigare attraverso le immagini quando l'opzione "
 "<interface>Anteprima</interface> è abilitata.</para>"
 
-#: views/dolphinviewactionhandler.cpp:207
+#: views/dolphinviewactionhandler.cpp:197
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -4986,7 +4983,7 @@ msgstr ""
 "e i file in colonne con i nomi accanto alle icone. </para><para>Questo aiuta "
 "ad avere una panoramica nella cartelle con molti elementi.</para>"
 
-#: views/dolphinviewactionhandler.cpp:211
+#: views/dolphinviewactionhandler.cpp:201
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -5008,60 +5005,60 @@ msgstr ""
 "modo, puoi visualizzare i contenuti di più cartelle nello stesso elenco.</"
 "para>"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:211
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Mode"
 msgstr "Modalità di visualizzazione"
 
-#: views/dolphinviewactionhandler.cpp:231
+#: views/dolphinviewactionhandler.cpp:219
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Aumenta la dimensione delle icone."
 
-#: views/dolphinviewactionhandler.cpp:234
+#: views/dolphinviewactionhandler.cpp:222
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Ripristina livello di zoom"
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Zoom predefinito"
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:224
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Ripristina la dimensione delle icone al valore predefinito."
 
-#: views/dolphinviewactionhandler.cpp:244
+#: views/dolphinviewactionhandler.cpp:230
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Questo riduce la dimensione delle icone."
 
-#: views/dolphinviewactionhandler.cpp:247
+#: views/dolphinviewactionhandler.cpp:233
 #, kde-format
 msgctxt "@action:inmenu menu of zoom actions"
 msgid "Zoom"
 msgstr "Ingrandimento"
 
-#: views/dolphinviewactionhandler.cpp:255
+#: views/dolphinviewactionhandler.cpp:241
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Mostra anteprime"
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:242
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Mostra l'anteprima di file e cartelle"
 
-#: views/dolphinviewactionhandler.cpp:257
+#: views/dolphinviewactionhandler.cpp:244
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5073,49 +5070,49 @@ msgstr ""
 "effettivo del file o della cartella.<nl/>Ad esempio, le icone delle immagini "
 "diventano versioni ridimensionate delle immagini."
 
-#: views/dolphinviewactionhandler.cpp:265
+#: views/dolphinviewactionhandler.cpp:252
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Prima le cartelle"
 
-#: views/dolphinviewactionhandler.cpp:269
+#: views/dolphinviewactionhandler.cpp:256
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "File nascosti per ultimi"
 
-#: views/dolphinviewactionhandler.cpp:277
+#: views/dolphinviewactionhandler.cpp:264
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Ordina per"
 
-#: views/dolphinviewactionhandler.cpp:312
+#: views/dolphinviewactionhandler.cpp:299
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Mostra informazioni aggiuntive"
 
-#: views/dolphinviewactionhandler.cpp:323
+#: views/dolphinviewactionhandler.cpp:310
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Mostra in Gruppi"
 
-#: views/dolphinviewactionhandler.cpp:324
+#: views/dolphinviewactionhandler.cpp:311
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Raggruppa file e cartelle in base alla loro prima lettera."
 
-#: views/dolphinviewactionhandler.cpp:329
+#: views/dolphinviewactionhandler.cpp:316
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Mostra i file nascosti"
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:318
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5131,13 +5128,13 @@ msgstr ""
 "perché il loro nome inizia con un «.». In generale, non è necessario che gli "
 "utenti vi accedano, motivo per cui sono nascosti.</para>"
 
-#: views/dolphinviewactionhandler.cpp:340
+#: views/dolphinviewactionhandler.cpp:328
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
 msgstr "Regola lo stile di visualizzazione della vista..."
 
-#: views/dolphinviewactionhandler.cpp:342
+#: views/dolphinviewactionhandler.cpp:331
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5146,103 +5143,103 @@ msgstr ""
 "Apre una finestra nella quale tutte le proprietà della vista della cartella "
 "possono essere modificate."
 
-#: views/dolphinviewactionhandler.cpp:646
+#: views/dolphinviewactionhandler.cpp:627
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Icone"
 
-#: views/dolphinviewactionhandler.cpp:647
+#: views/dolphinviewactionhandler.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Modalità vista a icone"
 
-#: views/dolphinviewactionhandler.cpp:657
+#: views/dolphinviewactionhandler.cpp:638
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compatta"
 
-#: views/dolphinviewactionhandler.cpp:658
+#: views/dolphinviewactionhandler.cpp:639
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Modalità vista compatta"
 
-#: views/dolphinviewactionhandler.cpp:668
+#: views/dolphinviewactionhandler.cpp:649
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Dettagli"
 
-#: views/dolphinviewactionhandler.cpp:669
+#: views/dolphinviewactionhandler.cpp:650
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Modalità vista dettagliata"
 
-#: views/dolphinviewactionhandler.cpp:692
+#: views/dolphinviewactionhandler.cpp:673
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:693
+#: views/dolphinviewactionhandler.cpp:674
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:695
+#: views/dolphinviewactionhandler.cpp:676
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Prima i più grandi"
 
-#: views/dolphinviewactionhandler.cpp:696
+#: views/dolphinviewactionhandler.cpp:677
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Prima i più piccoli"
 
-#: views/dolphinviewactionhandler.cpp:698
+#: views/dolphinviewactionhandler.cpp:679
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Prima i più nuovi"
 
-#: views/dolphinviewactionhandler.cpp:699
+#: views/dolphinviewactionhandler.cpp:680
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Prima i più datati"
 
-#: views/dolphinviewactionhandler.cpp:701
+#: views/dolphinviewactionhandler.cpp:682
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Prima i più alti"
 
-#: views/dolphinviewactionhandler.cpp:702
+#: views/dolphinviewactionhandler.cpp:683
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Prima i più bassi"
 
-#: views/dolphinviewactionhandler.cpp:704
+#: views/dolphinviewactionhandler.cpp:685
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Decrescente"
 
-#: views/dolphinviewactionhandler.cpp:705
+#: views/dolphinviewactionhandler.cpp:686
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Crescente"
 
-#: views/dolphinviewactionhandler.cpp:804
+#: views/dolphinviewactionhandler.cpp:784
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -5255,12 +5252,12 @@ msgstr "Azioni per la vista attuale"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:812
+#: views/dolphinviewactionhandler.cpp:793
 #, kde-format
 msgid "Actions for %1"
 msgstr "Azioni per %1"
 
-#: views/dolphinviewactionhandler.cpp:819
+#: views/dolphinviewactionhandler.cpp:800
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -5270,7 +5267,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Azione per un elemento selezionato"
 msgstr[1] "Azioni per %1 elementi selezionati"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:228
+#: views/versioncontrol/versioncontrolobserver.cpp:221
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information..."

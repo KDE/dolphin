@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2021-03-26 09:22+0100\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -17,131 +17,131 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 22.12.0\n"
 
-#: servicemenuinstaller.cpp:44
+#: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "Instalace nabídky služeb selhala"
 
-#: servicemenuinstaller.cpp:72
+#: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "Instalace \"%1\" selhala, ukončeno se stavem \"%2\""
 
-#: servicemenuinstaller.cpp:104
+#: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "Odinstalace \"%1\" selhala, ukončeno se stavem \"%2\""
 
-#: servicemenuinstaller.cpp:117
+#: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
 msgstr "Soubor neexistuje."
 
-#: servicemenuinstaller.cpp:126
+#: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "Neznámá chyba při instalaci balíčku"
 
-#: servicemenuinstaller.cpp:181
+#: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "Nepodporovaný typ archivu %1: %2"
 
-#: servicemenuinstaller.cpp:190
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr "Příkaz pro rozbalení pro %1 se nepodařilo spustit"
 
-#: servicemenuinstaller.cpp:195
+#: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "Proces neskončil v rozumném čase: %1 %2"
 
-#: servicemenuinstaller.cpp:199
+#: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "Rozbalení %1 selhalo"
 
-#: servicemenuinstaller.cpp:232
+#: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "Instalační skript nelze spustit %1"
 
-#: servicemenuinstaller.cpp:255
+#: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "Nelze nastavit oprávnění pro %1: %2"
 
-#: servicemenuinstaller.cpp:272
-#, kde-format
-msgctxt "Separator between arguments"
-msgid "\", \""
-msgstr "\", \""
-
-#: servicemenuinstaller.cpp:272
+#: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr "Instalační skript %1 selhal, zkoušené argumenty \"%2\"."
 
-#: servicemenuinstaller.cpp:286
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "Nelze vytvořit cestu %1"
 
-#: servicemenuinstaller.cpp:300
+#: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "Nelze zkopírovat soubor .desktop z %1 do %2: %3"
 
-#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "Nelze odstranit adresáře %1"
 
-#: servicemenuinstaller.cpp:318
+#: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "Nelze vytvořit adresář %1"
 
-#: servicemenuinstaller.cpp:357
+#: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "Selhalo hledání instalačního skriptu v %1"
 
-#: servicemenuinstaller.cpp:371
+#: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "Nelze odstranit soubor desktop %1: %2"
 
-#: servicemenuinstaller.cpp:416
+#: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "Selhalo hledání odinstalačního skriptu v %1"
 
-#: servicemenuinstaller.cpp:435
+#: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "Příkaz ke spuštění: nainstalovat nebo odinstalovat."
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "Cesta k archivu."
 
-#: servicemenuinstaller.cpp:441
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
 msgstr "Je potřeba příkaz."
 
-#: servicemenuinstaller.cpp:444
+#: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
 msgstr "Je potřeba cesta k archivu."
 
-#: servicemenuinstaller.cpp:460
+#: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "Nepodporovaný příkaz %1"

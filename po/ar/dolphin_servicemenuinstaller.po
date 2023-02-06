@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-02-06 01:03+0000\n"
 "PO-Revision-Date: 2021-07-01 23:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -18,131 +18,131 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Lokalize 19.12.3\n"
 
-#: servicemenuinstaller.cpp:44
+#: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
 msgstr "فشل في تثبيت قائمة خدمات دولفين"
 
-#: servicemenuinstaller.cpp:72
+#: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
 msgstr "فشل في تثبيت \"%1\" ، خرج بحالة \"%2\""
 
-#: servicemenuinstaller.cpp:104
+#: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
 msgstr "فشل في إلغاء تثبيت \"%1\" ، خرج بحالة \"%2\""
 
-#: servicemenuinstaller.cpp:117
+#: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
 msgstr "الملف ليس موجودا."
 
-#: servicemenuinstaller.cpp:126
+#: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
 msgstr "خطأ مجهول عند تثبيت الحزمة"
 
-#: servicemenuinstaller.cpp:181
+#: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
 msgstr "نوع الأرشيف %1 غير مدعوم: %2"
 
-#: servicemenuinstaller.cpp:190
+#: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
 msgstr "فشل في تشغيل أمر فك الضغط لـ%1"
 
-#: servicemenuinstaller.cpp:195
+#: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
 msgstr "لم تتم العملية في وقت معقول: %1 %2"
 
-#: servicemenuinstaller.cpp:199
+#: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
 msgstr "فشل في فك ضغط  %1"
 
-#: servicemenuinstaller.cpp:232
+#: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
 msgstr "فشل في تشغيل سكربت تثبيت  %1"
 
-#: servicemenuinstaller.cpp:255
+#: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
 msgstr "فشل في ضبط تصاريح %1: %2"
 
-#: servicemenuinstaller.cpp:272
-#, kde-format
-msgctxt "Separator between arguments"
-msgid "\", \""
-msgstr "\"، \""
-
-#: servicemenuinstaller.cpp:272
+#: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr "السكربت المثبت لـ %1  فشل و المعاملات المستعملة هي \"%2\"."
 
-#: servicemenuinstaller.cpp:286
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\"، \""
+
+#: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
 msgstr "فشل إنشاء مسار %1"
 
-#: servicemenuinstaller.cpp:300
+#: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
 msgstr "فشل نسخ ملف  .desktop  %1 إلى %2: %3"
 
-#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
 msgstr "فشل في إزالة دليل  %1"
 
-#: servicemenuinstaller.cpp:318
+#: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
 msgstr "فشل إنشاء الدّليل %1"
 
-#: servicemenuinstaller.cpp:357
+#: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
 msgstr "فشل في العثور على سكربت  التثبيت في %1"
 
-#: servicemenuinstaller.cpp:371
+#: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
 msgstr "فشل إزالة ملف  .desktop  : %1: %2"
 
-#: servicemenuinstaller.cpp:416
+#: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
 msgstr "فشل في العثور على سكربت إلغاء التثبيت في %1"
 
-#: servicemenuinstaller.cpp:435
+#: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
 msgstr "الأمر للتنفيذه: تثبيت أو إلغاء التثبيت"
 
-#: servicemenuinstaller.cpp:436
+#: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
 msgstr "المسار للأرشيف."
 
-#: servicemenuinstaller.cpp:441
+#: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
 msgstr "الأمر مطلوب"
 
-#: servicemenuinstaller.cpp:444
+#: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
 msgstr "المسار إلى الأرشيف مطلوب."
 
-#: servicemenuinstaller.cpp:460
+#: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
 msgstr "%1 أمر غير مدعوم"
