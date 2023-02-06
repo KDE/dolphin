@@ -1786,7 +1786,8 @@ void DolphinMainWindow::setupActions()
     actionCollection()->addAction(m_backAction->objectName(), m_backAction);
 
     auto backShortcuts = m_backAction->shortcuts();
-    backShortcuts.append(QKeySequence(Qt::Key_Backspace));
+    // Prepend this shortcut, to avoid being hidden by the two-slot UI (#371130)
+    backShortcuts.prepend(QKeySequence(Qt::Key_Backspace));
     actionCollection()->setDefaultShortcuts(m_backAction, backShortcuts);
 
     DolphinRecentTabsMenu *recentTabsMenu = new DolphinRecentTabsMenu(this);
