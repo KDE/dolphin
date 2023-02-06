@@ -38,14 +38,14 @@ target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt${QT_MAJOR_VERSIO
 ecm_add_test(kitemlistkeyboardsearchmanagertest.cpp LINK_LIBRARIES dolphinprivate Qt${QT_MAJOR_VERSION}::Test)
 
 # DolphinSearchBox
-if (KF5Baloo_FOUND)
+if (KF6Baloo_FOUND)
     ecm_add_test(dolphinsearchboxtest.cpp
     TEST_NAME dolphinsearchboxtest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt${QT_MAJOR_VERSION}::Test)
 endif()
 
 # DolphinQuery
-if (KF5Baloo_FOUND)
+if (KF6Baloo_FOUND)
     ecm_add_test(dolphinquerytest.cpp
     TEST_NAME dolphinquerytest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt${QT_MAJOR_VERSION}::Test)

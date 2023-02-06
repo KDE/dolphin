@@ -5,8 +5,8 @@ add_executable(servicemenuinstaller servicemenuinstaller.cpp)
 target_link_libraries(servicemenuinstaller PRIVATE
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Gui
-    KF5::I18n
-    KF5::CoreAddons
+    KF6::I18n
+    KF6::CoreAddons
 )
 
 if(HAVE_PACKAGEKIT)

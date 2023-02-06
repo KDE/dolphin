@@ -8,10 +8,10 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(Dolphin VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.101.0")
+set(KF6_MIN_VERSION "5.102.0")
 
 # ECM setup
-find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
+find_package(ECM ${KF6_MIN_VERSION} CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(KDEInstallDirs)
@@ -58,7 +58,7 @@ if (UNIX AND NOT APPLE)
     endif()
 endif()
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     KCMUtils
     NewStuff
     CoreAddons
@@ -89,11 +89,11 @@ if(KUserFeedback_FOUND)
     set(HAVE_KUSERFEEDBACK TRUE)
 endif()
 
-find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
+find_package(KF6 ${KF6_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
     DocTools
 )
-set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities libraries"
+set_package_properties(KF6Activities PROPERTIES DESCRIPTION "KActivities libraries"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
@@ -111,31 +111,31 @@ if(PackageKitQt${QT_MAJOR_VERSION}_FOUND)
     set(HAVE_PACKAGEKIT TRUE)
 endif()
 
-find_package(KF5Baloo ${KF5_MIN_VERSION})
-set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
+find_package(KF6Baloo ${KF6_MIN_VERSION})
+set_package_properties(KF6Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(KF5BalooWidgets 19.07.70)
-set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
+find_package(KF6BalooWidgets 19.07.70)
+set_package_properties(KF6BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                       )
 
-find_package(KF5FileMetaData ${KF5_MIN_VERSION})
-set_package_properties(KF5FileMetaData PROPERTIES
+find_package(KF6FileMetaData ${KF6_MIN_VERSION})
+set_package_properties(KF6FileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
                        PURPOSE "For accessing file metadata labels"
                       )
 
-if (KF5Activities_FOUND)
+if (KF6Activities_FOUND)
     set(HAVE_KACTIVITIES TRUE)
 endif()
 
-if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
+if (KF6Baloo_FOUND AND KF6BalooWidgets_FOUND AND KF6FileMetaData_FOUND)
     message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
 else()
@@ -211,7 +211,7 @@ ecm_qt_install_logging_categories(
         )
 
 ki18n_install(po)
-if(KF5DocTools_FOUND)
+if(KF6DocTools_FOUND)
     kdoctools_install(po)
 endif()
 
