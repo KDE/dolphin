@@ -20,7 +20,6 @@
 #include <KMessageBox>
 #include <KPluginMetaData>
 #include <KService>
-#include <KServiceTypeTrader>
 #include <kio_version.h>
 #include <kiocore_export.h>
 #include <kservice_export.h>
@@ -282,13 +281,6 @@ void ContextMenuSettingsPage::loadServices()
     const auto locations = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("kio/servicemenus"), QStandardPaths::LocateDirectory);
     QStringList files = KFileUtils::findAllUniqueFiles(locations);
 
-#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 90)
-    const KService::List services = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
-    for (const KService::Ptr &service : services) {
-        files << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
-    }
-#endif
-
     for (const auto &file : qAsConst(files)) {
         const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
 
@@ -306,18 +298,6 @@ void ContextMenuSettingsPage::loadServices()
             }
         }
     }
-
-    // Load service plugins, this is deprecated in KIO 5.82
-#if KIOCORE_BUILD_DEPRECATED_SINCE(5, 82)
-    const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("KFileItemAction/Plugin"));
-    for (const KService::Ptr &service : pluginServices) {
-        const QString desktopEntryName = service->desktopEntryName();
-        if (!isInServicesList(desktopEntryName)) {
-            const bool checked = showGroup.readEntry(desktopEntryName, true);
-            addRow(service->icon(), service->name(), desktopEntryName, checked);
-        }
-    }
-#endif
 
     // Load JSON-based plugins that implement the KFileItemActionPlugin interface
     const auto jsonPlugins = KPluginMetaData::findPlugins(QStringLiteral("kf" QT_STRINGIFY(QT_VERSION_MAJOR)) + QStringLiteral("/kfileitemaction"));
