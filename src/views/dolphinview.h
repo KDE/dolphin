@@ -924,6 +924,10 @@ private:
     bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
     QPoint m_restoredContentsPosition;
 
+    // Used for tracking the accumulated scroll amount (for zooming with high
+    // resolution scroll wheels)
+    int m_controlWheelAccumulatedDelta;
+
     QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;

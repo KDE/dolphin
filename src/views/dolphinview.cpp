@@ -931,6 +931,11 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
             }
         }
         break;
+    case QEvent::KeyRelease:
+        if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Control) {
+            m_controlWheelAccumulatedDelta = 0;
+        }
+        break;
     case QEvent::FocusIn:
         if (watched == m_container) {
             setActive(true);
@@ -969,10 +974,16 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
 void DolphinView::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
-        const QPoint numDegrees = event->angleDelta() / 8;
-        const QPoint numSteps = numDegrees / 15;
+        m_controlWheelAccumulatedDelta += event->angleDelta().y();
 
-        setZoomLevel(zoomLevel() + numSteps.y());
+        if (m_controlWheelAccumulatedDelta <= -QWheelEvent::DefaultDeltasPerStep) {
+            slotDecreaseZoom();
+            m_controlWheelAccumulatedDelta += QWheelEvent::DefaultDeltasPerStep;
+        } else if (m_controlWheelAccumulatedDelta >= QWheelEvent::DefaultDeltasPerStep) {
+            slotIncreaseZoom();
+            m_controlWheelAccumulatedDelta -= QWheelEvent::DefaultDeltasPerStep;
+        }
+
         event->accept();
     } else {
         event->ignore();
