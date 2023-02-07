@@ -215,7 +215,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewModeActions->addAction(compactAction);
     viewModeActions->addAction(detailsAction);
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
-    connect(viewModeActions, &KSelectAction::triggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+    connect(viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 
     QAction *zoomInAction = KStandardAction::zoomIn(this, &DolphinViewActionHandler::zoomIn, m_actionCollection);
     zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));
