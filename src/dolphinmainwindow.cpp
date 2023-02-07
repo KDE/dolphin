@@ -2504,15 +2504,23 @@ void DolphinMainWindow::setupWhatsThis()
 
     // Help menu
 
+    auto setStandardActionWhatsThis = [this](KStandardAction::StandardAction actionId,
+                                             const QString &whatsThis) {
+        // Check for the existence of an action since it can be restricted through the Kiosk system
+        if (auto *action = actionCollection()->action(KStandardAction::name(actionId))) {
+            action->setWhatsThis(whatsThis);
+        }
+    };
+
     // i18n: If the external link isn't available in your language it might make
     // sense to state the external link's language in brackets to not
     // frustrate the user. If there are multiple languages that the user might
     // know with a reasonable chance you might want to have 2 external links.
     // The same might be true for any external link you translate.
-    actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents))->setWhatsThis(xi18nc("@info:whatsthis handbook", "<para>This opens the Handbook for this application. It provides explanations for every part of <emphasis>Dolphin</emphasis>.</para><para>If you want more elaborate introductions to the different features of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"));
+    setStandardActionWhatsThis(KStandardAction::HelpContents, xi18nc("@info:whatsthis handbook", "<para>This opens the Handbook for this application. It provides explanations for every part of <emphasis>Dolphin</emphasis>.</para><para>If you want more elaborate introductions to the different features of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"));
     // (The i18n call should be completely in the line following the i18n: comment without any line breaks within the i18n call or the comment might not be correctly extracted. See: https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1 )
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::WhatsThis,
         xi18nc("@info:whatsthis whatsthis button",
         "<para>This is the button that invokes the help feature you are "
         "using right now! Click it, then click any component of this "
@@ -2524,7 +2532,7 @@ void DolphinMainWindow::setupWhatsThis()
         "UserBase Wiki</link>.</para><para>The \"What's this?\" help is "
         "missing in most other windows so don't get too used to this.</para>"));
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::ReportBug))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::ReportBug,
         xi18nc("@info:whatsthis","<para>This opens a "
         "window that will guide you through reporting errors or flaws "
         "in this application or in other KDE software.</para>"
@@ -2533,7 +2541,7 @@ void DolphinMainWindow::setupWhatsThis()
         "<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>"
         "click here</link>.</para>"));
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::Donate))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::Donate,
         xi18nc("@info:whatsthis", "<para>This opens a "
         "<emphasis>web page</emphasis> where you can donate to "
         "support the continued work on this application and many "
@@ -2545,18 +2553,18 @@ void DolphinMainWindow::setupWhatsThis()
         "<para><emphasis>KDE e.V.</emphasis> is the non-profit "
         "organization behind the KDE community.</para>"));
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::SwitchApplicationLanguage,
         xi18nc("@info:whatsthis",
         "With this you can change the language this application uses."
         "<nl/>You can even set secondary languages which will be used "
         "if texts are not available in your preferred language."));
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::AboutApp))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::AboutApp,
         xi18nc("@info:whatsthis","This opens a "
         "window that informs you about the version, license, "
         "used libraries and maintainers of this application."));
 
-    actionCollection()->action(KStandardAction::name(KStandardAction::AboutKDE))->setWhatsThis(
+    setStandardActionWhatsThis(KStandardAction::AboutKDE,
         xi18nc("@info:whatsthis","This opens a "
         "window with information about <emphasis>KDE</emphasis>. "
         "The KDE community are the people behind this free software."
