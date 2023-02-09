@@ -12,7 +12,7 @@
 #include <KIO/Job>
 
 DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection *collection, QObject *parent)
-    : KNewFileMenu(collection, QStringLiteral("new_menu"), parent)
+    : KNewFileMenu(parent) // TODO Correct port?
 {
     DolphinNewFileMenuObserver::instance().attach(this);
 }

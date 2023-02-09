@@ -29,7 +29,7 @@ public:
 
     QList<QWidget *> createItemWidgets(const QModelIndex &) const override;
 
-    void updateItemWidgets(const QList<QWidget *> widgets, const QStyleOptionViewItem &option, const QPersistentModelIndex &index) const override;
+    void updateItemWidgets(const QList<QWidget *> &widgets, const QStyleOptionViewItem &option, const QPersistentModelIndex &index) const override;
 
 Q_SIGNALS:
     void requestServiceConfiguration(const QModelIndex &index);

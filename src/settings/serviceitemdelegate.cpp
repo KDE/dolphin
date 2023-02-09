@@ -60,7 +60,7 @@ QList<QWidget *> ServiceItemDelegate::createItemWidgets(const QModelIndex &) con
     return {checkBox, configureButton};
 }
 
-void ServiceItemDelegate::updateItemWidgets(const QList<QWidget *> widgets, const QStyleOptionViewItem &option, const QPersistentModelIndex &index) const
+void ServiceItemDelegate::updateItemWidgets(const QList<QWidget *> &widgets, const QStyleOptionViewItem &option, const QPersistentModelIndex &index) const
 {
     QCheckBox *checkBox = static_cast<QCheckBox *>(widgets[0]);
     QPushButton *configureButton = static_cast<QPushButton *>(widgets[1]);

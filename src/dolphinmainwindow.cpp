@@ -2282,13 +2282,7 @@ void DolphinMainWindow::updateFileAndEditActions()
 
     if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
         DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
-        KFileItem capabilitiesDestination;
-
-        if (tabPage->primaryViewActive()) {
-            capabilitiesDestination = tabPage->secondaryViewContainer()->url();
-        } else {
-            capabilitiesDestination = tabPage->primaryViewContainer()->url();
-        }
+        KFileItem capabilitiesDestination(tabPage->primaryViewActive() ? tabPage->secondaryViewContainer()->url() : tabPage->primaryViewContainer()->url());
 
         copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
         moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable());

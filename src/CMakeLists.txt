@@ -23,7 +23,7 @@ generate_export_header(dolphinvcs BASE_NAME dolphinvcs)
 
 target_link_libraries(
     dolphinvcs PUBLIC
-    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt6::Widgets
 )
 
 set_target_properties(dolphinvcs PROPERTIES
@@ -193,30 +193,31 @@ generate_export_header(dolphinprivate BASE_NAME dolphin)
 target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
-    Qt${QT_MAJOR_VERSION}::Concurrent
-    Qt${QT_MAJOR_VERSION}::Gui
-    KF5::I18n
-    KF5::IconThemes
-    KF5::KIOCore
-    KF5::KIOWidgets
-    KF5::KIOFileWidgets
-    KF5::Completion
-    KF5::TextWidgets
-    KF5::ConfigCore
-    KF5::NewStuff
-    KF5::NewStuffWidgets    # KNSWidgets::Button
-    KF5::Parts
-    KF5::WindowSystem
-    KF5::WidgetsAddons
-    KF5::Codecs
+    Qt6::Concurrent
+    Qt6::Gui
+    KF6::I18n
+    KF6::IconThemes
+    KF6::KIOCore
+    KF6::KIOWidgets
+    KF6::KIOFileWidgets
+    KF6::Completion
+    KF6::TextWidgets
+    KF6::ConfigCore
+    KF6::NewStuffWidgets    # KNSWidgets::Button
+    KF6::Parts
+    KF6::WindowSystem
+    KF6::WidgetsAddons
+    KF6::Codecs
+
+    KF6::MoreTools
 )
 
 if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate PUBLIC
-        KF5::FileMetaData
-        KF5::Baloo
-        KF5::BalooWidgets
+        KF6::FileMetaData
+        KF6::Baloo
+        KF6::BalooWidgets
     )
 endif()
 
@@ -248,7 +249,7 @@ target_link_libraries(dolphinpart
     dolphinprivate
 )
 
-install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
+install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/parts)
 install(FILES dolphinpartactions.desktop DESTINATION "${KDE_INSTALL_DATADIR}/dolphin/")
 
 ##########################################
@@ -427,17 +428,17 @@ target_sources(dolphinstatic PRIVATE
 target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
     dolphinprivate
-    KF5::CoreAddons
-    KF5::KCMUtils
-    KF5::DBusAddons
-    KF5::Notifications
-    Phonon::phonon4qt${QT_MAJOR_VERSION}
+    KF6::CoreAddons
+    KF6::KCMUtils
+    KF6::DBusAddons
+    KF6::Notifications
+    Phonon::phonon4qt6
 )
 
 if (HAVE_KACTIVITIES)
     target_link_libraries(
         dolphinstatic
-        KF5::Activities
+        KF6::Activities
     )
 endif()
 
@@ -469,15 +470,11 @@ target_link_libraries(dolphin
     PRIVATE
     dolphinprivate
     dolphinstatic
-    KF5::Crash
+    KF6::Crash
 )
 
 if (HAVE_X11)
-    if (QT_MAJOR_VERSION STREQUAL "5")
-        target_link_libraries(dolphin PRIVATE Qt5::X11Extras)
-    else()
-        target_link_libraries(dolphin PRIVATE Qt::GuiPrivate)
-    endif()
+    target_link_libraries(dolphin PRIVATE Qt::GuiPrivate)
 endif()
 
 include(DbusInterfaceMacros)

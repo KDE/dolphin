@@ -20,7 +20,6 @@
 #include <KMessageBox>
 #include <KPluginMetaData>
 #include <KService>
-#include <KServiceTypeTrader>
 #include <kio_version.h>
 #include <kiocore_export.h>
 #include <kservice_export.h>

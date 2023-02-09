@@ -7,7 +7,7 @@ set (RELEASE_SERVICE_VERSION_MICRO "70")
 set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 project(Dolphin VERSION ${RELEASE_SERVICE_VERSION})
 
-set(QT_MIN_VERSION "5.15.2")
+set(QT_MIN_VERSION "6.4.0")
 set(KF5_MIN_VERSION "5.101.0")
 
 # ECM setup
@@ -42,7 +42,7 @@ ecm_setup_version("5.0.0" VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
     Concurrent
     Widgets
@@ -58,7 +58,7 @@ if (UNIX AND NOT APPLE)
     endif()
 endif()
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     KCMUtils
     NewStuff
     CoreAddons
@@ -79,6 +79,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Codecs
 )
 
+find_package(KF6MoreTools)
 find_package(KUserFeedback 1.2.0)
 set_package_properties(KUserFeedback
         PROPERTIES TYPE OPTIONAL
@@ -89,43 +90,43 @@ if(KUserFeedback_FOUND)
     set(HAVE_KUSERFEEDBACK TRUE)
 endif()
 
-find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
+find_package(KF6 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
     DocTools
 )
-set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities libraries"
+set_package_properties(KF6Activities PROPERTIES DESCRIPTION "KActivities libraries"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
                       )
 
-find_package(Phonon4Qt${QT_MAJOR_VERSION} CONFIG REQUIRED)
+find_package(Phonon4Qt6 CONFIG REQUIRED)
 
-find_package(PackageKitQt${QT_MAJOR_VERSION})
-set_package_properties(PackageKitQt${QT_MAJOR_VERSION}
+find_package(PackageKitQt6)
+set_package_properties(PackageKitQt6
         PROPERTIES DESCRIPTION "Software Manager integration"
         TYPE OPTIONAL
         PURPOSE "Used in the service menu installer"
         )
-if(PackageKitQt${QT_MAJOR_VERSION}_FOUND)
+if(PackageKitQt6_FOUND)
     set(HAVE_PACKAGEKIT TRUE)
 endif()
 
-find_package(KF5Baloo ${KF5_MIN_VERSION})
+find_package(KF6Baloo ${KF5_MIN_VERSION})
 set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(KF5BalooWidgets 19.07.70)
+find_package(KF6BalooWidgets 19.07.70)
 set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
                       )
 
-find_package(KF5FileMetaData ${KF5_MIN_VERSION})
-set_package_properties(KF5FileMetaData PROPERTIES
+find_package(KF6FileMetaData ${KF5_MIN_VERSION})
+set_package_properties(KF6FileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
                        PURPOSE "For accessing file metadata labels"
