@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2023-01-14 04:12+0100\n"
+"PO-Revision-Date: 2023-02-08 12:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -171,6 +171,8 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
+"ტერმინალის პანელში ჯერ კიდევ გაშვებულია პროგრამა '%1'. დარწმუნებული "
+"ბრძანდებით, რომ გნებავთ, გახვიდეთ?"
 
 #: dolphinmainwindow.cpp:1131
 #, kde-format
@@ -535,7 +537,7 @@ msgstr "ჩატვირთვის შეჩერება"
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
-msgstr ""
+msgstr "ეს მიმდინარე საქაღალდის შემცველობის ჩატვირთვას შეაჩერებს."
 
 #: dolphinmainwindow.cpp:1769
 #, kde-format
@@ -577,7 +579,7 @@ msgstr "ჩანართის დახურვის გაუქმებ�
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
-msgstr ""
+msgstr "ეს დახურულ ჩანართში დაგაბრუნებთ."
 
 #: dolphinmainwindow.cpp:1825
 #, kde-kuit-format
@@ -1200,7 +1202,7 @@ msgstr "Select"
 #: dolphinpart.cpp:488
 #, kde-format
 msgid "Select all items matching this pattern:"
-msgstr ""
+msgstr "ყველა ელემენტის, რომლებიც ამ შაბლონს ემთხვევა, მონიშვნა:"
 
 #: dolphinpart.cpp:494
 #, kde-format
@@ -1211,7 +1213,7 @@ msgstr "მონიშვნის მოხსნა"
 #: dolphinpart.cpp:495
 #, kde-format
 msgid "Unselect all items matching this pattern:"
-msgstr ""
+msgstr "ყველა ელემენტზე, რომლებიც ამ შაბლონს ემთხვევა, მონიშვნის მოხსნა:"
 
 #. i18n: ectx: Menu (edit)
 #: dolphinpart.rc:5
@@ -1230,7 +1232,7 @@ msgstr "მონიშნული"
 #: dolphinpart.rc:24
 #, kde-format
 msgid "&View"
-msgstr "_ხედი"
+msgstr "&ხედი"
 
 #. i18n: ectx: Menu (go)
 #: dolphinpart.rc:33
@@ -1333,7 +1335,7 @@ msgstr ""
 #: dolphinviewcontainer.cpp:110
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
-msgstr ""
+msgstr "Dolphin-ის root მომხმარებლით გაშვება შეიძლება საშიში იყოს. ფრთხილად."
 
 #: dolphinviewcontainer.cpp:547 search/dolphinsearchbox.cpp:290
 #, kde-format
@@ -2853,7 +2855,7 @@ msgstr "წაშლა"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr ""
+msgstr "'დაკოპირებისა' და 'გადატანის' ბრძანებები"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
@@ -2895,19 +2897,19 @@ msgstr "მინიატურის ზომა"
 #: settings/dolphin_compactmodesettings.kcfg:27
 #, kde-format
 msgid "Maximum text width index (0 means unlimited)"
-msgstr ""
+msgstr "ტექსტის სიგანის ინდექსის მაქსიმუმი (0 ნიშნავს შეუზღუდავს)"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'კოპირებისა' და 'გადატანის' ჩვენება"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ადგილებში დამატების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
@@ -3253,7 +3255,7 @@ msgstr "ხაზშივე გადარქმევა"
 #: settings/dolphin_generalsettings.kcfg:83
 #, kde-format
 msgid "Show selection toggle"
-msgstr ""
+msgstr "მონიშვნის გადართვის ჩვენება"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
@@ -3341,7 +3343,7 @@ msgstr ""
 #: settings/dolphin_iconsmodesettings.kcfg:27
 #, kde-format
 msgid "Text width index"
-msgstr ""
+msgstr "ტექსტის სიგანის ინდექსი"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:31
@@ -3558,7 +3560,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
-msgstr ""
+msgstr "გამშვები ფაილის გახსნისას:"
 
 #: settings/general/confirmationssettingspage.cpp:75
 #, kde-format
@@ -4370,13 +4372,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
-msgstr ""
+msgstr "სვეტის ავტომატური სიგანეები"
 
 #: views/dolphinview.cpp:1166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
-msgstr ""
+msgstr "სვეტის სიგანის ხელით მითითება"
 
 #: views/dolphinview.cpp:1742
 #, kde-format
@@ -4418,7 +4420,7 @@ msgstr "დავმალო ეს ფაილი?"
 #: views/dolphinview.cpp:1898
 #, kde-format
 msgid "Hide this Folder?"
-msgstr ""
+msgstr "დავმალო ეს საქაღალდე?"
 
 #: views/dolphinview.cpp:1954
 #, kde-format
@@ -4470,27 +4472,27 @@ msgstr ""
 #: views/dolphinview.cpp:2237
 #, kde-format
 msgid "No recently used items"
-msgstr ""
+msgstr "ახლახანს გამოყენებული ფაილებსი გარეშე"
 
 #: views/dolphinview.cpp:2239
 #, kde-format
 msgid "No shared folders found"
-msgstr ""
+msgstr "გაზიარებული ფაილები ვერ ვიპოვე"
 
 #: views/dolphinview.cpp:2241
 #, kde-format
 msgid "No relevant network resources found"
-msgstr ""
+msgstr "შესაბამისი ქსელური რესურსები ვერ ვიპოვე"
 
 #: views/dolphinview.cpp:2243
 #, kde-format
 msgid "No MTP-compatible devices found"
-msgstr ""
+msgstr "MTP-სთან თავსებადი მოწყობილობები ვერ ვიპოვე"
 
 #: views/dolphinview.cpp:2245
 #, kde-format
 msgid "No Bluetooth devices found"
-msgstr ""
+msgstr "ბლუთუზის მოწყობილობები ვერ ვიპოვე"
 
 #: views/dolphinview.cpp:2247
 #, kde-format
@@ -4635,7 +4637,7 @@ msgstr "ხედვის რეჟიმი"
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
-msgstr ""
+msgstr "ეს ხატულის ზომას გაზრდის."
 
 #: views/dolphinviewactionhandler.cpp:234
 #, kde-format
@@ -4652,13 +4654,13 @@ msgstr "ნაგულისხმებ მნიშვნელობაზ�
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr ""
+msgstr "ეს ხატულის ზომას ნაგულისხმებ ზომაზე დააბრუნებს."
 
 #: views/dolphinviewactionhandler.cpp:244
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
-msgstr ""
+msgstr "ეს ხატულის ზომას შეამცირებს."
 
 #: views/dolphinviewactionhandler.cpp:247
 #, kde-format
@@ -4676,7 +4678,7 @@ msgstr "გადახედვების ჩვენება"
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
-msgstr ""
+msgstr "ფაილებსა და საქაღალდეების მინიატურების ჩვენება"
 
 #: views/dolphinviewactionhandler.cpp:257
 #, kde-kuit-format
@@ -4744,7 +4746,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
-msgstr ""
+msgstr "ხედის ჩვენების სტილის სწორება..."
 
 #: views/dolphinviewactionhandler.cpp:342
 #, kde-format

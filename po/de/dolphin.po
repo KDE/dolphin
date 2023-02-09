@@ -4,7 +4,7 @@
 # Markus Slopianka <markus.s@kdemail.net>, 2009.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
 # Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
-# Frederik Schwarzer <schwarzer@kde.org>, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2022.
+# Frederik Schwarzer <schwarzer@kde.org>, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2022, 2023.
 # Rolf Eike Beer <kde@opensource.sf-tec.de>, 2012.
 # Jonas Schürmann <jonasschuermann@aol.de>, 2012.
 # Frank Steinmetzger <dev@felsenfleischer.de>, 2021.
@@ -14,15 +14,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2022-09-09 11:45+0200\n"
-"Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
+"PO-Revision-Date: 2023-02-09 00:40+0100\n"
+"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2845,12 +2845,10 @@ msgid "Query Results from '%1'"
 msgstr "Suchergebnisse von „%1“"
 
 #: selectionmode/bottombarcontentscontainer.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
+msgstr "Wählen Sie die zu kopierenden Dateien und Ordner aus."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2871,20 +2869,16 @@ msgstr ""
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Dies wählt alle Dateien und Ordner in der aktuellen Ansicht aus."
+msgstr "Wählen Sie die rüber zu kopierenden Dateien und Ordner aus."
 
 #: selectionmode/bottombarcontentscontainer.cpp:224
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Dies wählt alle Dateien und Ordner in der aktuellen Ansicht aus."
+msgstr "Wählen Sie die auszuschneidenden Dateien und Ordner aus."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:230
@@ -2894,12 +2888,10 @@ msgid "Cancel Cutting"
 msgstr "Ausschneiden abbrechen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:257
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
+msgstr "Wählen Sie die zu löschenden Dateien und Ordner aus."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2911,12 +2903,10 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:275
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
+msgstr "Wählen Sie die zu duplizierenden Dateien und Ordner aus."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:281
@@ -2938,7 +2928,7 @@ msgstr "Mehr"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Wählen Sie die rüber zu verschiebenden Dateien und Ordner aus."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:346
@@ -2952,6 +2942,7 @@ msgstr "Verschieben abbrechen"
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
+"Wählen Sie die in den Papierkorb zu verschiebenden Dateien und Ordner aus."
 
 #: selectionmode/bottombarcontentscontainer.cpp:376
 #, kde-kuit-format
@@ -3057,14 +3048,12 @@ msgstr[1] "%2 endgültig löschen"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:603
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Hier duplizieren"
-msgstr[1] "Hier duplizieren"
+msgstr[0] "%2 duplizieren"
+msgstr[1] "%2 duplizieren"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3296,7 +3285,7 @@ msgstr "Seitlicher Randabstand"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Gesamte Zeile hervorheben"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4314,22 +4303,20 @@ msgstr "Ordner:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Durch einen Klick irgendwo in der Zeile"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Durch einen Klick auf Symbol oder Namen"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Nach Dateien und Ordnern suchen"
+msgstr "Dateien und Ordner öffnen:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
