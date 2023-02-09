@@ -79,6 +79,7 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Codecs
 )
 
+find_package(KF6MoreTools)
 find_package(KUserFeedback 1.2.0)
 set_package_properties(KUserFeedback
         PROPERTIES TYPE OPTIONAL

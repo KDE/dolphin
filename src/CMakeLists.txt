@@ -203,12 +203,13 @@ target_link_libraries(
     KF6::Completion
     KF6::TextWidgets
     KF6::ConfigCore
-    KF6::NewStuff
     KF6::NewStuffWidgets    # KNSWidgets::Button
     KF6::Parts
     KF6::WindowSystem
     KF6::WidgetsAddons
     KF6::Codecs
+
+    KF6::MoreTools
 )
 
 if(HAVE_BALOO)
