@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2023-02-07 11:01\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2972,25 +2972,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "退出选择模式"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "选择右键菜单中要显示的服务："
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "搜索..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "下载新服务..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -2998,25 +2998,25 @@ msgid ""
 "settings."
 msgstr "更新了版本控制系统的设置后，必须重启 Dolphin 才能使其生效。"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "现在重新启动吗？"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "删除"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "“复制到”和“移动到”命令"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3671,12 +3671,6 @@ msgstr "关闭拆分视图时关闭活动窗格"
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr "取消勾选时，关闭拆分视图时将关闭非活动窗格"
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "配置 %1 的预览图"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3767,36 +3761,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "状态栏"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "显示预览图的项目类型："
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "本机文件超过此大小时，不显示预览图："
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr "不作限制"
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "远程文件超过此大小时，不显示预览图："
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, kde-format
 msgid "No previews"
 msgstr "不显示预览图"
@@ -5074,3 +5068,7 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "正在更新版本信息..."
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "配置 %1 的预览图"

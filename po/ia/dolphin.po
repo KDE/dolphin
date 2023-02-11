@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2023-02-08 12:14+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -3086,25 +3086,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Exita Modo de Selection"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Selige qual servicios deberea esser monstrate in le menu de contexto:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Cerca..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Discarga nove servicios..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3114,25 +3114,25 @@ msgstr ""
 "Dolphin debe esser initiate de nove per applicar le preferentias actualisate "
 "del systema de controlo de version"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Re-Initia nunc?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Dele"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Commandos de 'Copia a' e 'Move a'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3812,12 +3812,6 @@ msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Quando deativate, extinguer le vista dividite claudera le pannello inactive"
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Configura vista preliminari per %1"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3909,36 +3903,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Barra de stato"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Monstra vistas preliminar in le vista pro:"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "Salta vistas preliminar pro files de supra:"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr "MiB"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr "Necun limite"
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "Salta vistas preliminar pro files remote de supra:"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, kde-format
 msgid "No previews"
 msgstr "Nulle vistas preliminar"
@@ -5250,6 +5244,10 @@ msgstr[1] "Actiones per %1 elementos selectionate"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Il actualisa le information de version..."
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "Configura vista preliminari per %1"
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr ""

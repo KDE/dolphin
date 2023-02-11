@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2020-01-12 13:17+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -3214,26 +3214,26 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Selección"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Escolla os servizos que desexe ver no menú de contexto:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, fuzzy, kde-format
 #| msgid "Search..."
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Buscar…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Descargar servizos novos…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3247,25 +3247,25 @@ msgstr ""
 "Hai que reiniciar Dolphin para aplicar as opcións actualizadas dos sistemas "
 "de control de versión."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Ordes «Copiar en» e «Mover a»"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3955,12 +3955,6 @@ msgstr "Desactivar a vista dividida pecha o panel activo"
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr "Cando se desactiva, desactivar a vista previa pechará o panel inactivo"
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Configurar a vista previa de %1"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -4051,38 +4045,38 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Barra de estado"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Mostrar vistas previas na vista de:"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Skip previews for remote files above:"
 msgid "Skip previews for local files above:"
 msgstr "Saltar as vistas previas dos ficheiros remotos de máis de:"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "Saltar as vistas previas dos ficheiros remotos de máis de:"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
@@ -5458,6 +5452,10 @@ msgstr[1] ""
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Estase a actualizar a información da versión…"
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "Configurar a vista previa de %1"
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr ""

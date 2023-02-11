@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -2980,25 +2980,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "चयन"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "खोजें..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "नई सेवाएँ डाउनलोड करें..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3006,25 +3006,25 @@ msgid ""
 "settings."
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "अभी पुनः प्रारंभ करें?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "मिटाएँ"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'यहाँ नक़ल करें' तथा  'यहाँ स्थानांतरित करें' समादेश"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3681,12 +3681,6 @@ msgstr ""
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "%1 के लिए पूर्वावलोकन विन्यस्त करें"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3777,36 +3771,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "स्थिति पट्टी"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "इसके लिए दृश्य में पूर्वावलोकन दिखाएं :"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "ऊपर दी गई स्थानीय फ़ाइलों के लिए पूर्वावलोकन छोड़ें :"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr "MiB"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr "कोई सीमा नहीं"
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "ऊपर दूरस्थ फ़ाइलों के लिए पूर्वावलोकन छोड़ें :"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, kde-format
 msgid "No previews"
 msgstr "पूर्वावलोकन नहीं"
@@ -5080,6 +5074,10 @@ msgstr[1] "%1 चयनित वस्तुओं के लिए क्र�
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "संस्करण की जानकारी अद्यतित हो रही है"
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "%1 के लिए पूर्वावलोकन विन्यस्त करें"
 
 #~ msgctxt "separator in list of apps blocking device unmount"
 #~ msgid ", "

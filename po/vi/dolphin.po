@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2023-01-07 21:58+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -3045,25 +3045,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Thoát khỏi chế độ chọn"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Chọn những dịch vụ nào sẽ hiển thị trong trình đơn ngữ cảnh:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Tìm kiếm..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Tải về dịch vụ mới..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3073,25 +3073,25 @@ msgstr ""
 "Dolphin phải được khởi động lại để áp dụng các thiết lập mới cập nhật trong "
 "hệ thống quản lí phiên bản."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Khởi động lại ngay?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Xoá"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Lệnh 'Chép vào' và 'Chuyển vào'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3765,12 +3765,6 @@ msgstr "Tắt chế độ xem chia đôi sẽ đóng ô đang hoạt động"
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr "Khi không chọn, tắt chế độ xem chia đôi sẽ đóng ô bất hoạt"
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Cấu hình Xem thử cho %1"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3861,36 +3855,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Thanh trạng thái"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Hiện xem thử trong khung xem cho:"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "Bỏ qua xem thử cho các tệp cục bộ lớn hơn:"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr "Không giới hạn"
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "Bỏ qua xem thử cho các tệp ở xa lớn hơn:"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, kde-format
 msgid "No previews"
 msgstr "Không xem thử"
@@ -5190,6 +5184,10 @@ msgstr[0] "Hành động cho %1 thứ đã chọn"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Đang cập nhật thông tin phiên bản..."
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "Cấu hình Xem thử cho %1"
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr ""

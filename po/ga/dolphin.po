@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -3106,14 +3106,14 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Roghnúchán"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr ""
 "Roghnaigh na seirbhísí ba mhaith leat taispeáint sa roghchlár comhthéacs:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -3121,13 +3121,13 @@ msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Cuardaigh..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Íosluchtaigh Seirbhísí Nua..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3141,25 +3141,25 @@ msgstr ""
 "Ní mór duit Dolphin a atosú chun na socruithe nua a bhaineann le córais "
 "rialaithe leaganacha a chur i bhfeidhm."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Scrios"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Orduithe 'Cóipeáil Go' agus 'Bog Go'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3848,12 +3848,6 @@ msgstr ""
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr ""
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
@@ -3954,7 +3948,7 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Barra Stádais"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Show previews for:"
@@ -3962,32 +3956,32 @@ msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Taispeáin réamhamharc ar:"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
 #| msgid "Local files above:"
 msgid "Skip previews for local files above:"
 msgstr "Comhaid logánta níos mó ná:"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -3112,13 +3112,13 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "ಆಯ್ಕೆ"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "ಸನ್ನಿವೇಶ ಪರಿವಿಡಿಯಲ್ಲಿ ಯಾವ ಸೇವೆಗಳನ್ನು ತೋರಿಸಬೇಕು ಎಂದು ಆರಿಸಿ:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -3126,13 +3126,13 @@ msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "ಹುಡುಕು..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "ಹೊಸ ಸೇವೆಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡು..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3146,13 +3146,13 @@ msgstr ""
 "ಆವೃತ್ತಿ ನಿಯಂತ್ರಕ ವ್ಯವಸ್ಥೆಯ (ವರ್ಶನ್ ಕಂಟ್ರೋಲ್) ಸಂಯೋಜನೆಗಳನ್ನು ಅನ್ವಯಿಸಲು ಡಾಲ್ಫಿನ್ ಅನ್ನು ಮರು "
 "ಪ್ರಾರಂಭಿಸಬೇಕು."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -3160,7 +3160,7 @@ msgctxt "@option:check"
 msgid "Delete"
 msgstr "ಅಳಿಸಿಹಾಕು"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show 'Copy To' and 'Move To' commands"
@@ -3168,7 +3168,7 @@ msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'ಇದಕ್ಕೆ ನಕಲಿಸು' ಹಾಗು 'ಇದಕ್ಕೆ ಸ್ಥಳಾಂತರಿಸು' ಆದೇಶವನ್ನು ತೋರಿಸು"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3882,12 +3882,6 @@ msgstr ""
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr ""
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
@@ -3994,7 +3988,7 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಕೆ"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Show previews for"
@@ -4002,26 +3996,26 @@ msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "ಇವುಗಳಿಗಾಗಿ ಮುನ್ನೋಟಗಳನ್ನು ತೋರಿಸು"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
 #| msgid "Remote files above:"
 msgid "Skip previews for local files above:"
 msgstr "ಮೇಲಿನ ದೂರಸ್ಥ ಕಡತಗಳು:"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, fuzzy, kde-format
 #| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
 #| msgid "Remote files above:"
@@ -4029,7 +4023,7 @@ msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "ಮೇಲಿನ ದೂರಸ್ಥ ಕಡತಗಳು:"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"

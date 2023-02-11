@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 01:01+0000\n"
+"POT-Creation-Date: 2023-02-11 01:00+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -3063,7 +3063,7 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "තේරිම"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:63
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Configure which services should be shown in the context menu."
@@ -3071,7 +3071,7 @@ msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Configure which services should be shown in the context menu."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -3079,13 +3079,13 @@ msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "සොයන්න..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:95
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "නව සේවා බාගන්න..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:209
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3097,13 +3097,13 @@ msgid ""
 "settings."
 msgstr "යාවත් කළ වෙලුම් පාලන පද්ධති සැකසුම් යෙදීම සඳහා Dolphin යළි ආරම්ඹ කළ යුතුම වේ."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:211
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:251
+#: settings/contextmenu/contextmenusettingspage.cpp:250
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -3111,7 +3111,7 @@ msgctxt "@option:check"
 msgid "Delete"
 msgstr "මකන්න"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:255
+#: settings/contextmenu/contextmenusettingspage.cpp:254
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show 'Copy To' and 'Move To' commands"
@@ -3119,7 +3119,7 @@ msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'පිටපත් වන්නේ' සහ 'ගෙනයන්නේ' විධාන පෙන්වන්න"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:303
+#: settings/contextmenu/contextmenusettingspage.cpp:295
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3825,12 +3825,6 @@ msgstr ""
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "%1  සඳහා පෙරදසුන සකසන්න"
-
 #: settings/general/confirmationssettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
@@ -3937,7 +3931,7 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "තත්ත්ව තීරුවස"
 
-#: settings/general/previewssettingspage.cpp:43
+#: settings/general/previewssettingspage.cpp:42
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Show previews for"
@@ -3945,26 +3939,26 @@ msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "සඳහා පූර්‍වදසුන පෙන්වන්න:"
 
-#: settings/general/previewssettingspage.cpp:64
+#: settings/general/previewssettingspage.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Sort files by"
 msgid "Skip previews for local files above:"
 msgstr "ගොනු පිළිවෙළ"
 
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
+#: settings/general/previewssettingspage.cpp:61
+#: settings/general/previewssettingspage.cpp:74
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:63
 #, kde-format
 msgid "No limit"
 msgstr ""
 
-#: settings/general/previewssettingspage.cpp:77
+#: settings/general/previewssettingspage.cpp:70
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Sort files by"
@@ -3972,7 +3966,7 @@ msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "ගොනු පිළිවෙළ"
 
-#: settings/general/previewssettingspage.cpp:83
+#: settings/general/previewssettingspage.cpp:76
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
@@ -5381,6 +5375,10 @@ msgstr[1] ""
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "සංස්කරණ තොරතුරු යාවත්කාලීන කරමින්"
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Preview for %1"
+#~ msgstr "%1  සඳහා පෙරදසුන සකසන්න"
 
 #, fuzzy
 #~| msgctxt "@info:credit"
