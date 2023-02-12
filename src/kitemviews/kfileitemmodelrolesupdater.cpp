@@ -422,6 +422,10 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         m_hoverSequenceLoadedItems.clear();
 
         killPreviewJob();
+
+        if (m_scanDirectories) {
+            m_directoryContentsCounter->stopWorker();
+        }
     } else {
         // Only remove the items from m_finishedItems. They will be removed
         // from the other sets later on.
@@ -537,7 +541,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
 
     QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
 
-    QHash<QByteArray, QVariant> data = rolesData(item);
+    QHash<QByteArray, QVariant> data = rolesData(item, index);
 
     const QStringList overlays = data["iconOverlays"].toStringList();
     // Strangely KFileItem::overlays() returns empty string-values, so
@@ -1210,13 +1214,10 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
 
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && !item.isSlow() && item.isDir()) {
-        const QString path = item.localPath();
-        if (m_scanDirectories) {
-            m_directoryContentsCounter->scanDirectory(path);
-        }
+        startDirectorySizeCounting(item, index);
     } else {
         // Probably the sort role is a baloo role - just determine all roles.
-        data = rolesData(item);
+        data = rolesData(item, index);
     }
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
@@ -1252,7 +1253,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
         QHash<QByteArray, QVariant> data;
         if (resolveAll) {
-            data = rolesData(item);
+            data = rolesData(item, index);
         }
 
         if (!item.iconName().isEmpty()) {
@@ -1273,7 +1274,19 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
     return false;
 }
 
-QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem &item)
+void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
+{
+    // Tell m_directoryContentsCounter that we want to count the items
+    // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
+    if (m_scanDirectories && item.isLocalFile()) {
+        const QString path = item.localPath();
+        const auto priority = index >= m_firstVisibleIndex && index <= m_lastVisibleIndex ? KDirectoryContentsCounter::PathCountPriority::High
+                                                                                          : KDirectoryContentsCounter::PathCountPriority::Normal;
+        m_directoryContentsCounter->scanDirectory(path, priority);
+    }
+}
+
+QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index)
 {
     QHash<QByteArray, QVariant> data;
 
@@ -1281,16 +1294,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if ((getSizeRole || getIsExpandableRole) && !item.isSlow() && item.isDir()) {
-        if (item.isLocalFile()) {
-            // Tell m_directoryContentsCounter that we want to count the items
-            // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
-            if (m_scanDirectories) {
-                const QString path = item.localPath();
-                m_directoryContentsCounter->scanDirectory(path);
-            }
-        } else if (getSizeRole) {
-            data.insert("size", -1); // -1 indicates an unknown number of items
-        }
+        startDirectorySizeCounting(item, index);
     }
 
     if (m_roles.contains("extension")) {

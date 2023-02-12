@@ -36,7 +36,7 @@ public:
      *
      * @return The number of items.
      */
-    static CountResult subItemsCount(const QString &path, Options options);
+    CountResult subItemsCount(const QString &path, Options options);
 
 Q_SIGNALS:
     /**
@@ -53,6 +53,15 @@ public Q_SLOTS:
     // is needed here. Just using 'Options' is OK for the compiler, but
     // confuses moc.
     void countDirectoryContents(const QString &path, KDirectoryContentsCounterWorker::Options options);
+    void stop();
+
+private:
+#ifndef Q_OS_WIN
+    KDirectoryContentsCounterWorker::CountResult
+    walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDirectoriesOnly, const uint allowedRecursiveLevel);
+#endif
+
+    bool m_stopping = false;
 };
 
 Q_DECLARE_METATYPE(KDirectoryContentsCounterWorker::Options)

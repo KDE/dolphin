@@ -21,6 +21,8 @@ class KDirectoryContentsCounter : public QObject
     Q_OBJECT
 
 public:
+    enum PathCountPriority { Normal, High };
+
     explicit KDirectoryContentsCounter(KFileItemModel *model, QObject *parent = nullptr);
     ~KDirectoryContentsCounter() override;
 
@@ -35,7 +37,12 @@ public:
      * Uses a cache internally to speed up first result,
      * but emit again result when the cache was updated
      */
-    void scanDirectory(const QString &path);
+    void scanDirectory(const QString &path, PathCountPriority priority);
+
+    /**
+     * Stops the work until new input is passed
+     */
+    void stopWorker();
 
 Q_SIGNALS:
     /**
@@ -46,13 +53,12 @@ Q_SIGNALS:
 
     void requestDirectoryContentsCount(const QString &path, KDirectoryContentsCounterWorker::Options options);
 
+    void stop();
+
 private Q_SLOTS:
     void slotResult(const QString &path, int count, long size);
     void slotDirWatchDirty(const QString &path);
     void slotItemsRemoved();
-
-private:
-    void startWorker(const QString &path);
 
 private:
     KFileItemModel *m_model;

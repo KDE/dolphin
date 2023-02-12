@@ -25,7 +25,7 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject *parent
 
 #ifndef Q_OS_WIN
 KDirectoryContentsCounterWorker::CountResult
-walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDirectoriesOnly, const uint allowedRecursiveLevel)
+KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDirectoriesOnly, const uint allowedRecursiveLevel)
 {
     int count = -1;
     long size = -1;
@@ -36,7 +36,7 @@ walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDir
         QT_DIRENT *dirEntry;
         QT_STATBUF buf;
 
-        while ((dirEntry = QT_READDIR(dir))) {
+        while (!m_stopping && (dirEntry = QT_READDIR(dir))) {
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
                     // Skip "." or hidden files
@@ -64,7 +64,7 @@ walkDir(const QString &dirPath, const bool countHiddenFiles, const bool countDir
                         size += buf.st_size;
                     }
                 }
-                if (dirEntry->d_type == DT_DIR) {
+                if (!m_stopping && dirEntry->d_type == DT_DIR) {
                     // recursion for dirs
                     auto subdirResult = walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, allowedRecursiveLevel - 1);
                     if (subdirResult.size > 0) {
@@ -106,8 +106,18 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
 #endif
 }
 
+void KDirectoryContentsCounterWorker::stop()
+{
+    m_stopping = true;
+}
+
 void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path, Options options)
 {
+    m_stopping = false;
+
     auto res = subItemsCount(path, options);
-    Q_EMIT result(path, res.count, res.size);
+
+    if (!m_stopping) {
+        Q_EMIT result(path, res.count, res.size);
+    }
 }

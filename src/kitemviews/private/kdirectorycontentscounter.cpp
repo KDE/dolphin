@@ -44,6 +44,7 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel *model, QObj
     m_worker->moveToThread(m_workerThread);
 
     connect(this, &KDirectoryContentsCounter::requestDirectoryContentsCount, m_worker, &KDirectoryContentsCounterWorker::countDirectoryContents);
+    connect(this, &KDirectoryContentsCounter::stop, m_worker, &KDirectoryContentsCounterWorker::stop);
     connect(m_worker, &KDirectoryContentsCounterWorker::result, this, &KDirectoryContentsCounter::slotResult);
 
     m_dirWatcher = new KDirWatch(this);
@@ -71,11 +72,6 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
     }
 }
 
-void KDirectoryContentsCounter::scanDirectory(const QString &path)
-{
-    startWorker(path);
-}
-
 void KDirectoryContentsCounter::slotResult(const QString &path, int count, long size)
 {
     m_workerIsBusy = false;
@@ -91,11 +87,11 @@ void KDirectoryContentsCounter::slotResult(const QString &path, int count, long 
     if (!m_priorityQueue.empty()) {
         const QString firstPath = m_priorityQueue.front();
         m_priorityQueue.pop_front();
-        startWorker(firstPath);
+        scanDirectory(firstPath, PathCountPriority::High);
     } else if (!m_queue.empty()) {
         const QString firstPath = m_queue.front();
         m_queue.pop_front();
-        startWorker(firstPath);
+        scanDirectory(firstPath, PathCountPriority::Normal);
     }
 
     if (s_cache->contains(resolvedPath)) {
@@ -127,7 +123,7 @@ void KDirectoryContentsCounter::slotDirWatchDirty(const QString &path)
             return;
         }
 
-        startWorker(path);
+        scanDirectory(path, PathCountPriority::High);
     }
 }
 
@@ -156,7 +152,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
     }
 }
 
-void KDirectoryContentsCounter::startWorker(const QString &path)
+void KDirectoryContentsCounter::scanDirectory(const QString &path, PathCountPriority priority)
 {
     const QString resolvedPath = QFileInfo(path).canonicalFilePath();
     const bool alreadyInCache = s_cache->contains(resolvedPath);
@@ -168,10 +164,16 @@ void KDirectoryContentsCounter::startWorker(const QString &path)
     }
 
     if (m_workerIsBusy) {
+        // only enqueue path not yet in queue
         if (std::find(m_queue.begin(), m_queue.end(), path) == m_queue.end()
             && std::find(m_priorityQueue.begin(), m_priorityQueue.end(), path) == m_priorityQueue.end()) {
-            if (alreadyInCache) {
-                m_queue.push_back(path);
+            if (priority == PathCountPriority::Normal) {
+                if (alreadyInCache) {
+                    // if we already knew the dir size, it gets lower priority
+                    m_queue.push_back(path);
+                } else {
+                    m_queue.push_front(path);
+                }
             } else {
                 // append to priority queue
                 m_priorityQueue.push_back(path);
@@ -191,6 +193,13 @@ void KDirectoryContentsCounter::startWorker(const QString &path)
         Q_EMIT requestDirectoryContentsCount(path, options);
         m_workerIsBusy = true;
     }
+}
+
+void KDirectoryContentsCounter::stopWorker()
+{
+    m_queue.clear();
+    m_priorityQueue.clear();
+    Q_EMIT stop();
 }
 
 QThread *KDirectoryContentsCounter::m_workerThread = nullptr;

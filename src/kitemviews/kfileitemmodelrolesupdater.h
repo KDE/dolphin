@@ -319,7 +319,7 @@ private:
 
     enum ResolveHint { ResolveFast, ResolveAll };
     bool applyResolvedRoles(int index, ResolveHint hint);
-    QHash<QByteArray, QVariant> rolesData(const KFileItem &item);
+    QHash<QByteArray, QVariant> rolesData(const KFileItem &item, int index);
 
     /**
      * Must be invoked if a property has been changed that affects
@@ -334,6 +334,8 @@ private:
     void trimHoverSequenceLoadedItems();
 
 private:
+    void startDirectorySizeCounting(const KFileItem &item, int index);
+
     enum State { Idle, Paused, ResolvingSortRole, ResolvingAllRoles, PreviewJobRunning };
 
     State m_state;
