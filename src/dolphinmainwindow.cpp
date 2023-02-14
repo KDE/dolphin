@@ -1426,7 +1426,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
         connect(oldViewContainer->view(), &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
 
         // Disconnect other slots.
-        disconnect(nullptr,
+        disconnect(oldViewContainer,
                    &DolphinViewContainer::selectionModeChanged,
                    actionCollection()->action(QStringLiteral("toggle_selection_mode")),
                    &QAction::setChecked);
