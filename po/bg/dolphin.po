@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-11 01:00+0000\n"
-"PO-Revision-Date: 2023-01-22 20:18+0100\n"
+"PO-Revision-Date: 2023-02-13 11:56+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -2085,15 +2085,12 @@ msgstr "Автор"
 #: kitemviews/kfileitemmodel.cpp:2687
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Издател"
 
 #: kitemviews/kfileitemmodel.cpp:2688
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Брой редове"
+msgstr "Брой страници"
 
 #: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"

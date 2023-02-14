@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-11 01:00+0000\n"
-"PO-Revision-Date: 2023-02-02 11:40+0000\n"
+"PO-Revision-Date: 2023-02-13 17:19+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2081,15 +2081,12 @@ msgstr "Höfundur"
 #: kitemviews/kfileitemmodel.cpp:2687
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Útgefandi"
 
 #: kitemviews/kfileitemmodel.cpp:2688
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Línufjöldi"
+msgstr "Síðufjöldi"
 
 #: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"

@@ -4942,7 +4942,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "Nastavit náhled pro %1"
