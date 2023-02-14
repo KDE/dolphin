@@ -93,6 +93,9 @@ Q_SIGNALS:
      */
     void sortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
+    void columnUnHovered(int roleIndex);
+    void columnHovered(int roleIndex);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
@@ -158,7 +161,8 @@ private:
         int x;
         int xDec;
         int index;
-    } m_movingRole;
+    };
+    MovingRole m_movingRole;
 };
 
 #endif

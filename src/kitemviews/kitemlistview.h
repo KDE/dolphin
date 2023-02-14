@@ -327,6 +327,9 @@ Q_SIGNALS:
      */
     void scrollingStopped();
 
+    void columnHovered(int roleIndex);
+    void columnUnHovered(int roleIndex);
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void setItemSize(const QSizeF &size);

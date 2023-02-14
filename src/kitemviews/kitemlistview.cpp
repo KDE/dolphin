@@ -601,6 +601,8 @@ void KItemListView::setHeaderVisible(bool visible)
         connect(m_headerWidget, &KItemListHeaderWidget::columnMoved, this, &KItemListView::slotHeaderColumnMoved);
         connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged, this, &KItemListView::sortOrderChanged);
         connect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged, this, &KItemListView::sortRoleChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::columnHovered, this, &KItemListView::columnHovered);
+        connect(m_headerWidget, &KItemListHeaderWidget::columnUnHovered, this, &KItemListView::columnUnHovered);
 
         m_layouter->setHeaderHeight(headerSize.height());
         m_headerWidget->setVisible(true);
@@ -610,6 +612,8 @@ void KItemListView::setHeaderVisible(bool visible)
         disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved, this, &KItemListView::slotHeaderColumnMoved);
         disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged, this, &KItemListView::sortOrderChanged);
         disconnect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged, this, &KItemListView::sortRoleChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnHovered, this, &KItemListView::columnHovered);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnUnHovered, this, &KItemListView::columnUnHovered);
 
         m_layouter->setHeaderHeight(0);
         m_headerWidget->setVisible(false);

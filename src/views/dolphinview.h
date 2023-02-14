@@ -886,7 +886,7 @@ private:
 
     void updatePlaceholderLabel();
 
-    void tryShowNameToolTip(QHelpEvent *event);
+    bool tryShowNameToolTip(QHelpEvent *event);
 
 private:
     void updatePalette();
@@ -938,6 +938,9 @@ private:
     QUrl m_twoClicksRenamingItemUrl;
     QLabel *m_placeholderLabel;
     QTimer *m_showLoadingPlaceholderTimer;
+
+    /// The information roleIndex of the list column header currently hovered
+    int m_hoveredColumnHearderRoleIndex;
 
     /// Used for selection mode. @see setSelectionMode()
     std::unique_ptr<QProxyStyle> m_proxyStyle;

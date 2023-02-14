@@ -78,6 +78,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     , m_assureVisibleCurrentIndex(false)
     , m_isFolderWritable(true)
     , m_dragging(false)
+    , m_selectNextItem(false)
     , m_url(url)
     , m_viewPropertiesContext()
     , m_mode(DolphinView::IconsView)
@@ -87,7 +88,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     , m_view(nullptr)
     , m_container(nullptr)
     , m_toolTipManager(nullptr)
-    , m_selectNextItem(false)
     , m_selectionChangedTimer(nullptr)
     , m_currentItemUrl()
     , m_scrollToCurrentItem(false)
@@ -210,6 +210,14 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinItemListView::sortRoleChanged, this, &DolphinView::slotSortRoleChangedByHeader);
     connect(m_view, &DolphinItemListView::visibleRolesChanged, this, &DolphinView::slotVisibleRolesChangedByHeader);
     connect(m_view, &DolphinItemListView::roleEditingCanceled, this, &DolphinView::slotRoleEditingCanceled);
+
+    connect(m_view, &DolphinItemListView::columnHovered, this, [this](int roleIndex) {
+        m_hoveredColumnHearderRoleIndex = roleIndex;
+    });
+    connect(m_view, &DolphinItemListView::columnUnHovered, this, [this](int roleIndex) {
+        Q_UNUSED(roleIndex)
+        m_hoveredColumnHearderRoleIndex = -1;
+    });
     connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished, this, &DolphinView::slotHeaderColumnWidthChangeFinished);
     connect(m_view->header(), &KItemListHeader::sidePaddingChanged, this, &DolphinView::slotSidePaddingWidthChanged);
 
@@ -961,9 +969,18 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
         }
         break;
 
-    case QEvent::ToolTip:
-        tryShowNameToolTip(static_cast<QHelpEvent *>(event));
+    case QEvent::ToolTip: {
+        const auto helpEvent = static_cast<QHelpEvent *>(event);
+        if (tryShowNameToolTip(helpEvent)) {
+            return true;
 
+        } else if (m_hoveredColumnHearderRoleIndex != -1) {
+            const auto roleInfo = KFileItemModel::rolesInformation().at(m_hoveredColumnHearderRoleIndex);
+            QToolTip::showText(helpEvent->globalPos(), roleInfo.tooltip, this);
+            return true;
+        }
+        break;
+    }
     default:
         break;
     }
@@ -2300,13 +2317,13 @@ void DolphinView::updatePlaceholderLabel()
     m_placeholderLabel->setVisible(true);
 }
 
-void DolphinView::tryShowNameToolTip(QHelpEvent *event)
+bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
 {
     if (!GeneralSettings::showToolTips() && m_mode == DolphinView::IconsView) {
         const std::optional<int> index = m_view->itemAt(event->pos());
 
         if (!index.has_value()) {
-            return;
+            return false;
         }
 
         // Check whether the filename has been elided
@@ -2317,6 +2334,8 @@ void DolphinView::tryShowNameToolTip(QHelpEvent *event)
             const QString text = item.text();
             const QPoint pos = mapToGlobal(event->pos());
             QToolTip::showText(pos, text);
+            return true;
         }
     }
+    return false;
 }

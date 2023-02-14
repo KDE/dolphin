@@ -372,6 +372,7 @@ void KItemListHeaderWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverLeaveEvent(event);
     if (m_hoveredRoleIndex != -1) {
+        Q_EMIT columnUnHovered(m_hoveredRoleIndex);
         m_hoveredRoleIndex = -1;
         update();
     }
@@ -488,8 +489,15 @@ void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF &pos)
 void KItemListHeaderWidget::updateHoveredRoleIndex(const QPointF &pos)
 {
     const int hoverIndex = roleIndexAt(pos);
+
     if (m_hoveredRoleIndex != hoverIndex) {
+        if (m_hoveredRoleIndex != -1) {
+            Q_EMIT columnUnHovered(m_hoveredRoleIndex);
+        }
         m_hoveredRoleIndex = hoverIndex;
+        if (m_hoveredRoleIndex != -1) {
+            Q_EMIT columnHovered(m_hoveredRoleIndex);
+        }
         update();
     }
 }
