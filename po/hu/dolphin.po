@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-11 01:00+0000\n"
+"POT-Creation-Date: 2023-02-15 01:01+0000\n"
 "PO-Revision-Date: 2022-02-01 10:13+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -44,7 +44,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Visszaállítás"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1524
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1527
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -128,46 +128,40 @@ msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Visszavonja az <interface>Előre|Vissza</interface> műveletet."
 
-#: dolphinmainwindow.cpp:511
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Could not access <filename>%1</filename>."
-msgstr "Nem lehet hozzáférni a(z) <filename>%1</filename> fájlhoz."
-
-#: dolphinmainwindow.cpp:540 dolphinmainwindow.cpp:586
+#: dolphinmainwindow.cpp:543 dolphinmainwindow.cpp:589
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Megerősítés"
 
-#: dolphinmainwindow.cpp:544
+#: dolphinmainwindow.cpp:547
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "A %1 &bezárása"
 
-#: dolphinmainwindow.cpp:546
+#: dolphinmainwindow.cpp:549
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "A lap &bezárása"
 
-#: dolphinmainwindow.cpp:555
+#: dolphinmainwindow.cpp:558
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "Több lap is meg van nyitva, biztosan ki szeretne lépni?"
 
-#: dolphinmainwindow.cpp:557 dolphinmainwindow.cpp:607
+#: dolphinmainwindow.cpp:560 dolphinmainwindow.cpp:610
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ne kérdezzen rá többször"
 
-#: dolphinmainwindow.cpp:595
+#: dolphinmainwindow.cpp:598
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "&Terminál panel megjelenítése"
 
-#: dolphinmainwindow.cpp:605
+#: dolphinmainwindow.cpp:608
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -176,19 +170,19 @@ msgstr ""
 "A(z) „%1” program még mindig fut a Terminál panelen. Biztosan ki szeretne "
 "lépni?"
 
-#: dolphinmainwindow.cpp:1108
+#: dolphinmainwindow.cpp:1111
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1 megnyitása"
 
-#: dolphinmainwindow.cpp:1117 dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1120 dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Előnyben részesített kereső megnyitása"
 
-#: dolphinmainwindow.cpp:1156
+#: dolphinmainwindow.cpp:1159
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to open 1 item?"
 #| msgid_plural "Are you sure you want to open %1 items?"
@@ -197,7 +191,7 @@ msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Biztosan meg szeretne nyitni 1 elemet?"
 msgstr[1] "Biztosan meg szeretne nyitni %1 elemet?"
 
-#: dolphinmainwindow.cpp:1168
+#: dolphinmainwindow.cpp:1171
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open Terminal"
@@ -207,25 +201,25 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Terminál megnyitása"
 msgstr[1] "Terminál megnyitása"
 
-#: dolphinmainwindow.cpp:1370
+#: dolphinmainwindow.cpp:1373
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Beállítások"
 
-#: dolphinmainwindow.cpp:1530
+#: dolphinmainwindow.cpp:1533
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Ú&j ablak"
 
-#: dolphinmainwindow.cpp:1531
+#: dolphinmainwindow.cpp:1534
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Új Dolphin ablak nyitása"
 
-#: dolphinmainwindow.cpp:1533
+#: dolphinmainwindow.cpp:1536
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -235,13 +229,13 @@ msgstr ""
 "Ezzel megnyit egy, a jelenlegivel megegyező ablakot a jelenlegi hellyel és "
 "nézettel.<nl/>Az elemeket ide-oda húzhatja az ablakok között."
 
-#: dolphinmainwindow.cpp:1540
+#: dolphinmainwindow.cpp:1543
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Új lap"
 
-#: dolphinmainwindow.cpp:1542
+#: dolphinmainwindow.cpp:1545
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -253,25 +247,25 @@ msgstr ""
 "nézettel.<nl/>A lap egy újabb nézet ezen az ablakon belül. Az elemeket ide-"
 "oda húzogathatja a lapok között."
 
-#: dolphinmainwindow.cpp:1551
+#: dolphinmainwindow.cpp:1554
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Hozzáadás a Helyekhez"
 
-#: dolphinmainwindow.cpp:1553
+#: dolphinmainwindow.cpp:1556
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Ezzel hozzáadhatja a kijelölt mappát a Helyek panelhez."
 
-#: dolphinmainwindow.cpp:1558
+#: dolphinmainwindow.cpp:1561
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "A lap bezárása"
 
-#: dolphinmainwindow.cpp:1560
+#: dolphinmainwindow.cpp:1563
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -281,13 +275,13 @@ msgstr ""
 "Ezzel bezárhatja a jelenleg nézett lapot. Ha nincs több lap, az ablakot "
 "zárja be."
 
-#: dolphinmainwindow.cpp:1565
+#: dolphinmainwindow.cpp:1568
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Bezárja ezt az ablakot."
 
-#: dolphinmainwindow.cpp:1573
+#: dolphinmainwindow.cpp:1576
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -303,13 +297,13 @@ msgstr ""
 "rögtön egymás mellett helyezkednek el a billentyűzeten: <shortcut>Ctrl+X</"
 "shortcut>, <shortcut>Ctrl+C</shortcut> és <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1580
+#: dolphinmainwindow.cpp:1583
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1582
+#: dolphinmainwindow.cpp:1585
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -322,7 +316,7 @@ msgstr ""
 ">Ezután használja a <emphasis>Beillesztés</emphasis> műveletet a vágólapról "
 "az új helyre másolásukhoz. Az elemek törlődnek az eredeti helyükről."
 
-#: dolphinmainwindow.cpp:1589
+#: dolphinmainwindow.cpp:1592
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy"
@@ -330,7 +324,7 @@ msgctxt "@action"
 msgid "Copy…"
 msgstr "Másolás"
 
-#: dolphinmainwindow.cpp:1591
+#: dolphinmainwindow.cpp:1594
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -342,13 +336,13 @@ msgstr ""
 ">Ezután használja a <emphasis>Beillesztés</emphasis> műveletet a vágólapról "
 "az új helyre másolásukhoz."
 
-#: dolphinmainwindow.cpp:1600
+#: dolphinmainwindow.cpp:1603
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: dolphinmainwindow.cpp:1602
+#: dolphinmainwindow.cpp:1605
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -360,13 +354,13 @@ msgstr ""
 "elemeket.<nl/>Ha az elemek a <emphasis>Kivágás</emphasis> művelettel "
 "kerültek a vágólapra, törlődnek a régi helyükről."
 
-#: dolphinmainwindow.cpp:1609
+#: dolphinmainwindow.cpp:1612
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
 msgstr "Másolás az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1610
+#: dolphinmainwindow.cpp:1613
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -374,7 +368,7 @@ msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
 msgstr "Másolás az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1612
+#: dolphinmainwindow.cpp:1615
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -384,19 +378,19 @@ msgstr ""
 "Az <emphasis>aktív</emphasis> nézetből az inaktív osztott nézetbe másolja a "
 "kijelölt elemeket."
 
-#: dolphinmainwindow.cpp:1615
+#: dolphinmainwindow.cpp:1618
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Másolás az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1620
+#: dolphinmainwindow.cpp:1623
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
 msgstr "Áthelyezés az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1621
+#: dolphinmainwindow.cpp:1624
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Inactive Split View"
@@ -404,7 +398,7 @@ msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
 msgstr "Áthelyezés az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1623
+#: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -414,25 +408,25 @@ msgstr ""
 "Az <emphasis>aktív</emphasis> nézetből az inaktív osztott nézetbe helyezi át "
 "a kijelölt elemeket."
 
-#: dolphinmainwindow.cpp:1626
+#: dolphinmainwindow.cpp:1629
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Áthelyezés az inaktív osztott nézetbe"
 
-#: dolphinmainwindow.cpp:1631
+#: dolphinmainwindow.cpp:1634
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Szűrő…"
 
-#: dolphinmainwindow.cpp:1632
+#: dolphinmainwindow.cpp:1635
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Szűrősáv megjelenítése"
 
-#: dolphinmainwindow.cpp:1634
+#: dolphinmainwindow.cpp:1637
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -445,30 +439,30 @@ msgstr ""
 "szöveget írhat be az éppen megjelenített fájlok és mappák szűréséhez. Csak "
 "azok maradnak meg a nézetben, amiknek a neve tartalmazza a beírt szöveget."
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1649
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Szűrősor ki/be"
 
-#: dolphinmainwindow.cpp:1647
+#: dolphinmainwindow.cpp:1650
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Szűrő"
 
-#: dolphinmainwindow.cpp:1655 search/dolphinsearchbox.cpp:330
+#: dolphinmainwindow.cpp:1658 search/dolphinsearchbox.cpp:330
 #, kde-format
 msgid "Search..."
 msgstr "Keresés…"
 
-#: dolphinmainwindow.cpp:1656
+#: dolphinmainwindow.cpp:1659
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Mappák és fájlok keresése"
 
-#: dolphinmainwindow.cpp:1658
+#: dolphinmainwindow.cpp:1661
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -483,20 +477,20 @@ msgstr ""
 "keresősávon, így vethet rá egy pillantást, miközben részletezzük a "
 "beállításokat.</para>"
 
-#: dolphinmainwindow.cpp:1669
+#: dolphinmainwindow.cpp:1672
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Keresősáv ki/be"
 
-#: dolphinmainwindow.cpp:1670
+#: dolphinmainwindow.cpp:1673
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Keresés"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1678
+#: dolphinmainwindow.cpp:1681
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Search for files and folders"
@@ -506,7 +500,7 @@ msgstr "Mappák és fájlok keresése"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1681
+#: dolphinmainwindow.cpp:1684
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Select"
@@ -514,7 +508,7 @@ msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Kijelölés"
 
-#: dolphinmainwindow.cpp:1684
+#: dolphinmainwindow.cpp:1687
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -526,19 +520,19 @@ msgid ""
 "items.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1706
+#: dolphinmainwindow.cpp:1709
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Ezzel kijelöli az összes fájlt és mappát a jelenlegi helyen."
 
-#: dolphinmainwindow.cpp:1710 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1713 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Kijelölés megfordítása"
 
-#: dolphinmainwindow.cpp:1712
+#: dolphinmainwindow.cpp:1715
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -548,7 +542,7 @@ msgstr ""
 "Ezzel kijelöli az összes <emphasis>nem</emphasis> kijelölt objektumot a "
 "jelenleg kijelöltek helyett."
 
-#: dolphinmainwindow.cpp:1728
+#: dolphinmainwindow.cpp:1731
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -560,43 +554,43 @@ msgstr ""
 "para><para>Így egyszerre két helyet nézhet, és elemeket mozgathat azok "
 "között.</para>Ezután kattintson újra ide a nézetek kombinálásához."
 
-#: dolphinmainwindow.cpp:1737
+#: dolphinmainwindow.cpp:1740
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Gyűjtő"
 
-#: dolphinmainwindow.cpp:1738
+#: dolphinmainwindow.cpp:1741
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Megnyitja a gyűjtő virtuális mappát egy osztott ablakban"
 
-#: dolphinmainwindow.cpp:1748
+#: dolphinmainwindow.cpp:1751
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Leállítás"
 
-#: dolphinmainwindow.cpp:1749
+#: dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "A betöltés leállítása"
 
-#: dolphinmainwindow.cpp:1750
+#: dolphinmainwindow.cpp:1753
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Ezzel leállítja a jelenlegi mappa tartalmának betöltését."
 
-#: dolphinmainwindow.cpp:1755
+#: dolphinmainwindow.cpp:1758
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Szerkeszthető hely"
 
-#: dolphinmainwindow.cpp:1757
+#: dolphinmainwindow.cpp:1760
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -610,13 +604,13 @@ msgstr ""
 "jobbra kattintva is átválthat szerkesztésre, majd vissza a szerkesztett hely "
 "megerősítésével."
 
-#: dolphinmainwindow.cpp:1765
+#: dolphinmainwindow.cpp:1768
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Cserélési hely"
 
-#: dolphinmainwindow.cpp:1770
+#: dolphinmainwindow.cpp:1773
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -626,19 +620,19 @@ msgstr ""
 "Ez átvált a hely szerkesztésére és kijelöli azt, így gyorsan megadhat egy "
 "másik helyet."
 
-#: dolphinmainwindow.cpp:1800
+#: dolphinmainwindow.cpp:1803
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "A lap bezárásának visszavonása"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Ezzel visszatér az előzőleg bezárt lapra."
 
-#: dolphinmainwindow.cpp:1809
+#: dolphinmainwindow.cpp:1812
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -652,7 +646,7 @@ msgstr ""
 "<interface>áthelyezés</interface> egy másik helyre, vagy a <filename>Kukába</"
 "filename>. <nl/>A nem visszavonható változtatások megerősítést kérnek."
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -664,13 +658,13 @@ msgstr ""
 "fiókhoz tartozik egy <filename>Saját mappa</filename>, amely az adatait "
 "tartalmazza."
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1848
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Fájlok összehasonlítása"
 
-#: dolphinmainwindow.cpp:1853
+#: dolphinmainwindow.cpp:1856
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -682,13 +676,13 @@ msgstr ""
 "para><para>Használja a <emphasis>További keresési eszközök</emphasis> menüt "
 "a beállításukhoz.</para>"
 
-#: dolphinmainwindow.cpp:1861
+#: dolphinmainwindow.cpp:1864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Terminál megnyitása"
 
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -701,7 +695,7 @@ msgstr ""
 "információkért használja a terminál alkalmazás súgóját.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1871
+#: dolphinmainwindow.cpp:1874
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open Terminal"
@@ -709,7 +703,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Terminál megnyitása"
 
-#: dolphinmainwindow.cpp:1873
+#: dolphinmainwindow.cpp:1876
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -726,19 +720,19 @@ msgstr ""
 "nézett helyen.</para><para>A terminálokkal kapcsolatos további "
 "információkért használja a terminál alkalmazás súgóját.</para>"
 
-#: dolphinmainwindow.cpp:1881 dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:1884 dolphinmainwindow.cpp:2627
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Fókusz a terminál panelre"
 
-#: dolphinmainwindow.cpp:1889
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Könyvjelzők"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1902
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -750,79 +744,79 @@ msgid ""
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1932
+#: dolphinmainwindow.cpp:1935
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Váltás a(z) %1. lapra"
 
-#: dolphinmainwindow.cpp:1945
+#: dolphinmainwindow.cpp:1948
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Váltás az utolsó lapra"
 
-#: dolphinmainwindow.cpp:1951
+#: dolphinmainwindow.cpp:1954
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Következő lap"
 
-#: dolphinmainwindow.cpp:1952
+#: dolphinmainwindow.cpp:1955
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Következő lap"
 
-#: dolphinmainwindow.cpp:1958
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Előző lap"
 
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Előző lap"
 
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1969
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Cél megjelenítése"
 
-#: dolphinmainwindow.cpp:1972
+#: dolphinmainwindow.cpp:1975
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Megnyitás új lapon"
 
-#: dolphinmainwindow.cpp:1977
+#: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Megnyitás új lapokon"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:1985
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Megnyitás új ablakban"
 
-#: dolphinmainwindow.cpp:1994
+#: dolphinmainwindow.cpp:1997
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Panelek feloldása"
 
-#: dolphinmainwindow.cpp:1996
+#: dolphinmainwindow.cpp:1999
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Panelek zárolása"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2002
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -835,13 +829,13 @@ msgstr ""
 "a paneleket.<nl/>A nem zárolt panelek az ablak másik oldalára húzhatók, és "
 "van bezárás gombjuk.<nl/>A zárolt panelek sokkal jobban beágyazódnak."
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2011
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Jellemzők"
 
-#: dolphinmainwindow.cpp:2031
+#: dolphinmainwindow.cpp:2034
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -856,7 +850,7 @@ msgstr ""
 "interface> vagy a <interface>Nézet|Panelek</interface> menüben találja.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2041
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -872,7 +866,7 @@ msgstr ""
 "információi jelennek meg.<nl/>Egy elem esetén annak előnézete is megjelenik."
 "</para>"
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2049
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -888,13 +882,13 @@ msgstr ""
 "gombbal kattintva állíthatja be, hogy mi és milyen részletességgel "
 "szerepeljen itt.</para>"
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2058
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Mappák"
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2079
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -906,7 +900,7 @@ msgstr ""
 "oldalán.<nl/><nl/>Az a <emphasis>fájlrendszer</emphasis> mappáit jeleníti "
 "meg egy <emphasis>faszerkezetben</emphasis>."
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2084
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -920,13 +914,13 @@ msgstr ""
 "hogy oda ugorjon. Kattintson a mappa bal oldalánál lévő nyílra az almappái "
 "megtekintéséhez. Így gyorsan váltogathat a mappák között.</para>"
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2094
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminál"
 
-#: dolphinmainwindow.cpp:2116
+#: dolphinmainwindow.cpp:2119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -944,7 +938,7 @@ msgstr ""
 "feladatokhoz. Többet megtudhat a terminálokról az önálló "
 "terminálalkalmazások (például Konsole) súgójának a használatával.</para>"
 
-#: dolphinmainwindow.cpp:2124
+#: dolphinmainwindow.cpp:2127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -962,19 +956,19 @@ msgstr ""
 "Többet megtudhat a terminálokról az önálló terminálalkalmazások (például "
 "Konsole) súgójának a használatával.</para>"
 
-#: dolphinmainwindow.cpp:2141
+#: dolphinmainwindow.cpp:2144
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Helyek"
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2171
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Rejtett helyek megjelenítése"
 
-#: dolphinmainwindow.cpp:2172
+#: dolphinmainwindow.cpp:2175
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -984,7 +978,7 @@ msgstr ""
 "Ez megjeleníti a helyek panelen az összes elrejtett helyet. Ezek félig "
 "átlátszóak lesznek, hacsak nem szünteti meg a rejtett tulajdonságukat."
 
-#: dolphinmainwindow.cpp:2184
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1001,7 +995,7 @@ msgstr ""
 "is, ahol a nemrég mentett fájlokat vagy egy bizonyos típusú fájlokat "
 "találhatja meg.</para>"
 
-#: dolphinmainwindow.cpp:2191
+#: dolphinmainwindow.cpp:2194
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1027,13 +1021,13 @@ msgstr ""
 "<interface>Rejtett helyek megjelenítése</interface> opciót a megjelenítéshez."
 "</para>"
 
-#: dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:2208
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Panelek megjelenítése"
 
-#: dolphinmainwindow.cpp:2317
+#: dolphinmainwindow.cpp:2320
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1049,43 +1043,43 @@ msgstr ""
 "könyvtár, amely a számítógéphez kapcsolódó összes adatot tartalmazza - a "
 "<emphasis>gyökérkönyvtár</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2398
+#: dolphinmainwindow.cpp:2401
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Bezárás"
 
-#: dolphinmainwindow.cpp:2399
+#: dolphinmainwindow.cpp:2402
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Bal oldali nézet bezárása"
 
-#: dolphinmainwindow.cpp:2402
+#: dolphinmainwindow.cpp:2405
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Bezárás"
 
-#: dolphinmainwindow.cpp:2403
+#: dolphinmainwindow.cpp:2406
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Jobb oldali nézet bezárása"
 
-#: dolphinmainwindow.cpp:2407
+#: dolphinmainwindow.cpp:2410
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Osztott nézet"
 
-#: dolphinmainwindow.cpp:2408
+#: dolphinmainwindow.cpp:2411
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Osztott nézet"
 
-#: dolphinmainwindow.cpp:2456
+#: dolphinmainwindow.cpp:2459
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1112,7 +1106,7 @@ msgstr ""
 "megnyitása</interface> gombon keresztül a <emphasis>Eszköztáron</emphasis>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2463
+#: dolphinmainwindow.cpp:2466
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1147,7 +1141,7 @@ msgstr ""
 "jobb egérgombbal megnyitható menüben. Kattintson a jobb gombbal egy gombra, "
 "ha meg akarja jeleníteni vagy el akarja rejteni a szövegét.</para>"
 
-#: dolphinmainwindow.cpp:2475
+#: dolphinmainwindow.cpp:2478
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1175,7 +1169,7 @@ msgstr ""
 "link>. Ez megnyitja a <emphasis>Kézikönyv</emphasis> egy oldalát, amely az "
 "alapokat tárgyalja.</para>"
 
-#: dolphinmainwindow.cpp:2491
+#: dolphinmainwindow.cpp:2494
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1189,7 +1183,7 @@ msgstr ""
 "billentyűkombinációkat, amelyek egyidejű lenyomása egy műveletet vált ki. "
 "Ebben az alkalmazásban az összes parancs kiváltható így.</para>"
 
-#: dolphinmainwindow.cpp:2497
+#: dolphinmainwindow.cpp:2500
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1208,7 +1202,7 @@ msgstr ""
 "összes elemet, amit a <interface>Vezérlő</interface> menüben vagy a "
 "<interface>Menüsávon</interface> lát, az eszköztáron is elhelyezheti.</para>"
 
-#: dolphinmainwindow.cpp:2501
+#: dolphinmainwindow.cpp:2504
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1227,7 +1221,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2524
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of handbook text with link"
 #| msgid ""
@@ -1248,7 +1242,7 @@ msgstr ""
 "File_Management'>kattintson ide</link>. Ez megnyitja a KDE UserBase Wiki "
 "dedikált oldalát.</para>"
 
-#: dolphinmainwindow.cpp:2526
+#: dolphinmainwindow.cpp:2529
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of whatsthis button text with link"
 #| msgid ""
@@ -1274,7 +1268,7 @@ msgstr ""
 "súgó a legtöbb más ablakban hiányzik, ezért ne szokjon hozzá túlságosan.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2540
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1293,7 +1287,7 @@ msgstr ""
 "készítsen hibajelentést a lehető leghatékonyabb  módon, <link url='https://"
 "community.kde.org/Get_Involved/Bug_Reporting'>kattintson ide</link>.</para>."
 
-#: dolphinmainwindow.cpp:2546
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1315,7 +1309,7 @@ msgstr ""
 "találkozóinak, és egyebeknek a költségeit.</para><para>A <emphasis>KDE e.V.</"
 "emphasis> a non-profit szervezet a KDE közösség mögött.</para>"
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2562
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1327,7 +1321,7 @@ msgstr ""
 "nyelveket is beállíthat, amelyeket akkor fog használni, ha a szövegek nem "
 "állnak rendelkezésre az Ön által preferált nyelven."
 
-#: dolphinmainwindow.cpp:2564
+#: dolphinmainwindow.cpp:2567
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1337,7 +1331,7 @@ msgstr ""
 "Ez megnyit egy ablakot, amely tájékoztatja Önt a verzióról, a licencről, a "
 "használt függvénykönyvtárakról és az alkalmazás karbantartóiról."
 
-#: dolphinmainwindow.cpp:2569
+#: dolphinmainwindow.cpp:2572
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1351,7 +1345,7 @@ msgstr ""
 "alkalmazást, de nem tud a KDE-ről, vagy szeretne látni egy aranyos sárkányt, "
 "vessen rá egy pillantást!"
 
-#: dolphinmainwindow.cpp:2627 dolphinmainwindow.cpp:2631
+#: dolphinmainwindow.cpp:2630 dolphinmainwindow.cpp:2634
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -1849,92 +1843,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2261
+#: kitemviews/kfileitemmodel.cpp:2265
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2263
+#: kitemviews/kfileitemmodel.cpp:2267
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Egyéb"
 
-#: kitemviews/kfileitemmodel.cpp:2295
+#: kitemviews/kfileitemmodel.cpp:2299
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Mappák"
 
-#: kitemviews/kfileitemmodel.cpp:2303
+#: kitemviews/kfileitemmodel.cpp:2307
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Kicsi"
 
-#: kitemviews/kfileitemmodel.cpp:2305
+#: kitemviews/kfileitemmodel.cpp:2309
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Közepes"
 
-#: kitemviews/kfileitemmodel.cpp:2307
+#: kitemviews/kfileitemmodel.cpp:2311
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Nagy"
 
-#: kitemviews/kfileitemmodel.cpp:2352
+#: kitemviews/kfileitemmodel.cpp:2356
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Ma"
 
-#: kitemviews/kfileitemmodel.cpp:2355
+#: kitemviews/kfileitemmodel.cpp:2359
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: kitemviews/kfileitemmodel.cpp:2358
+#: kitemviews/kfileitemmodel.cpp:2362
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2362
+#: kitemviews/kfileitemmodel.cpp:2366
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2371
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Egy héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2370
+#: kitemviews/kfileitemmodel.cpp:2374
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Két héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2373
+#: kitemviews/kfileitemmodel.cpp:2377
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Három héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2377
+#: kitemviews/kfileitemmodel.cpp:2381
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Korábban ebben a hónapban"
 
-#: kitemviews/kfileitemmodel.cpp:2391
+#: kitemviews/kfileitemmodel.cpp:2395
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1944,7 +1938,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Tegnap' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2398
+#: kitemviews/kfileitemmodel.cpp:2402
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1952,7 +1946,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2411
+#: kitemviews/kfileitemmodel.cpp:2415
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1960,7 +1954,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2415
+#: kitemviews/kfileitemmodel.cpp:2419
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1968,7 +1962,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2423
+#: kitemviews/kfileitemmodel.cpp:2427
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1978,7 +1972,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Egy héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2430
+#: kitemviews/kfileitemmodel.cpp:2434
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1986,7 +1980,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2444
+#: kitemviews/kfileitemmodel.cpp:2448
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1996,7 +1990,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Két héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2451
+#: kitemviews/kfileitemmodel.cpp:2455
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2004,7 +1998,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2465
+#: kitemviews/kfileitemmodel.cpp:2469
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2014,7 +2008,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Három héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2472
+#: kitemviews/kfileitemmodel.cpp:2476
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2022,7 +2016,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2486
+#: kitemviews/kfileitemmodel.cpp:2490
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2032,7 +2026,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Korábban ekkor:' yyyy MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2493
+#: kitemviews/kfileitemmodel.cpp:2497
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2040,7 +2034,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2511
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2048,7 +2042,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "yyyy MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2511
+#: kitemviews/kfileitemmodel.cpp:2515
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2056,108 +2050,114 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2551 kitemviews/kfileitemmodel.cpp:2564
-#: kitemviews/kfileitemmodel.cpp:2577
+#: kitemviews/kfileitemmodel.cpp:2555 kitemviews/kfileitemmodel.cpp:2568
+#: kitemviews/kfileitemmodel.cpp:2581
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Olvasás, "
 
-#: kitemviews/kfileitemmodel.cpp:2554 kitemviews/kfileitemmodel.cpp:2567
-#: kitemviews/kfileitemmodel.cpp:2580
+#: kitemviews/kfileitemmodel.cpp:2558 kitemviews/kfileitemmodel.cpp:2571
+#: kitemviews/kfileitemmodel.cpp:2584
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Írás, "
 
-#: kitemviews/kfileitemmodel.cpp:2557 kitemviews/kfileitemmodel.cpp:2570
-#: kitemviews/kfileitemmodel.cpp:2583
+#: kitemviews/kfileitemmodel.cpp:2561 kitemviews/kfileitemmodel.cpp:2574
+#: kitemviews/kfileitemmodel.cpp:2587
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Futtatás, "
 
-#: kitemviews/kfileitemmodel.cpp:2559 kitemviews/kfileitemmodel.cpp:2572
-#: kitemviews/kfileitemmodel.cpp:2585
+#: kitemviews/kfileitemmodel.cpp:2563 kitemviews/kfileitemmodel.cpp:2576
+#: kitemviews/kfileitemmodel.cpp:2589
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Tiltott"
 
-#: kitemviews/kfileitemmodel.cpp:2587
+#: kitemviews/kfileitemmodel.cpp:2591
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Felhasználó: %1 | Csoport: %2 | Egyéb: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2676
+#: kitemviews/kfileitemmodel.cpp:2681
 msgctxt "@label"
 msgid "Name"
 msgstr "Név"
 
-#: kitemviews/kfileitemmodel.cpp:2677
+#: kitemviews/kfileitemmodel.cpp:2682
 msgctxt "@label"
 msgid "Size"
 msgstr "Méret"
 
-#: kitemviews/kfileitemmodel.cpp:2678
+#: kitemviews/kfileitemmodel.cpp:2683
 msgctxt "@label"
 msgid "Modified"
 msgstr "Módosítás"
 
-#: kitemviews/kfileitemmodel.cpp:2679
+#: kitemviews/kfileitemmodel.cpp:2683 kitemviews/kfileitemmodel.cpp:2684
+#: kitemviews/kfileitemmodel.cpp:2685
+msgctxt "@tooltip"
+msgid "The date format can be selected in settings."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
 msgid "Created"
 msgstr "Létrehozva"
 
-#: kitemviews/kfileitemmodel.cpp:2680
+#: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Hozzáférés"
 
-#: kitemviews/kfileitemmodel.cpp:2681
+#: kitemviews/kfileitemmodel.cpp:2686
 msgctxt "@label"
 msgid "Type"
 msgstr "Típus"
 
-#: kitemviews/kfileitemmodel.cpp:2682
+#: kitemviews/kfileitemmodel.cpp:2687
 msgctxt "@label"
 msgid "Rating"
 msgstr "Értékelés"
 
-#: kitemviews/kfileitemmodel.cpp:2683
+#: kitemviews/kfileitemmodel.cpp:2688
 msgctxt "@label"
 msgid "Tags"
 msgstr "Címkék"
 
-#: kitemviews/kfileitemmodel.cpp:2684
+#: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"
 msgid "Comment"
 msgstr "Megjegyzés"
 
-#: kitemviews/kfileitemmodel.cpp:2685
+#: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@label"
 msgid "Title"
 msgstr "Cím"
 
-#: kitemviews/kfileitemmodel.cpp:2685 kitemviews/kfileitemmodel.cpp:2686
-#: kitemviews/kfileitemmodel.cpp:2687 kitemviews/kfileitemmodel.cpp:2688
-#: kitemviews/kfileitemmodel.cpp:2689 kitemviews/kfileitemmodel.cpp:2690
+#: kitemviews/kfileitemmodel.cpp:2690 kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2692 kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2694 kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Document"
 msgstr "Dokumentum"
 
-#: kitemviews/kfileitemmodel.cpp:2686
+#: kitemviews/kfileitemmodel.cpp:2691
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2687
+#: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2688
+#: kitemviews/kfileitemmodel.cpp:2693
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Line Count"
@@ -2165,155 +2165,162 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Sorok száma"
 
-#: kitemviews/kfileitemmodel.cpp:2689
+#: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Szavak száma"
 
-#: kitemviews/kfileitemmodel.cpp:2690
+#: kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Sorok száma"
 
-#: kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2696
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Fényképezés dátuma"
 
-#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2692
-#: kitemviews/kfileitemmodel.cpp:2693 kitemviews/kfileitemmodel.cpp:2694
-#: kitemviews/kfileitemmodel.cpp:2695
+#: kitemviews/kfileitemmodel.cpp:2696 kitemviews/kfileitemmodel.cpp:2697
+#: kitemviews/kfileitemmodel.cpp:2698 kitemviews/kfileitemmodel.cpp:2699
+#: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Image"
 msgstr "Kép"
 
-#: kitemviews/kfileitemmodel.cpp:2692
+#: kitemviews/kfileitemmodel.cpp:2697
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Méretek"
 
-#: kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2698
 msgctxt "@label"
 msgid "Width"
 msgstr "Szélesség"
 
-#: kitemviews/kfileitemmodel.cpp:2694
+#: kitemviews/kfileitemmodel.cpp:2699
 msgctxt "@label"
 msgid "Height"
 msgstr "Magasság"
 
-#: kitemviews/kfileitemmodel.cpp:2695
+#: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Tájolás"
 
-#: kitemviews/kfileitemmodel.cpp:2696
+#: kitemviews/kfileitemmodel.cpp:2701
 msgctxt "@label"
 msgid "Artist"
 msgstr "Előadó"
 
-#: kitemviews/kfileitemmodel.cpp:2696 kitemviews/kfileitemmodel.cpp:2697
-#: kitemviews/kfileitemmodel.cpp:2698 kitemviews/kfileitemmodel.cpp:2699
-#: kitemviews/kfileitemmodel.cpp:2700 kitemviews/kfileitemmodel.cpp:2701
-#: kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2701 kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2703 kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2705 kitemviews/kfileitemmodel.cpp:2706
+#: kitemviews/kfileitemmodel.cpp:2707
 msgctxt "@label"
 msgid "Audio"
 msgstr "Hang"
 
-#: kitemviews/kfileitemmodel.cpp:2697
+#: kitemviews/kfileitemmodel.cpp:2702
 msgctxt "@label"
 msgid "Genre"
 msgstr "Műfaj"
 
-#: kitemviews/kfileitemmodel.cpp:2698
+#: kitemviews/kfileitemmodel.cpp:2703
 msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2699
+#: kitemviews/kfileitemmodel.cpp:2704
 msgctxt "@label"
 msgid "Duration"
 msgstr "Időtartam"
 
-#: kitemviews/kfileitemmodel.cpp:2700
+#: kitemviews/kfileitemmodel.cpp:2705
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Bitsebesség"
 
-#: kitemviews/kfileitemmodel.cpp:2701
+#: kitemviews/kfileitemmodel.cpp:2706
 msgctxt "@label"
 msgid "Track"
 msgstr "Szám"
 
-#: kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2707
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Kiadás éve"
 
-#: kitemviews/kfileitemmodel.cpp:2703
+#: kitemviews/kfileitemmodel.cpp:2708
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Méretarány"
 
-#: kitemviews/kfileitemmodel.cpp:2703 kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2708 kitemviews/kfileitemmodel.cpp:2709
 msgctxt "@label"
 msgid "Video"
 msgstr "Videó"
 
-#: kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2709
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Képkockaszám"
 
-#: kitemviews/kfileitemmodel.cpp:2705
+#: kitemviews/kfileitemmodel.cpp:2710
 msgctxt "@label"
 msgid "Path"
 msgstr "Útvonal"
 
-#: kitemviews/kfileitemmodel.cpp:2705 kitemviews/kfileitemmodel.cpp:2706
-#: kitemviews/kfileitemmodel.cpp:2707 kitemviews/kfileitemmodel.cpp:2708
-#: kitemviews/kfileitemmodel.cpp:2709 kitemviews/kfileitemmodel.cpp:2710
-#: kitemviews/kfileitemmodel.cpp:2711 kitemviews/kfileitemmodel.cpp:2712
+#: kitemviews/kfileitemmodel.cpp:2710 kitemviews/kfileitemmodel.cpp:2711
+#: kitemviews/kfileitemmodel.cpp:2712 kitemviews/kfileitemmodel.cpp:2713
+#: kitemviews/kfileitemmodel.cpp:2714 kitemviews/kfileitemmodel.cpp:2715
+#: kitemviews/kfileitemmodel.cpp:2716 kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "Other"
 msgstr "Egyéb"
 
-#: kitemviews/kfileitemmodel.cpp:2706
+#: kitemviews/kfileitemmodel.cpp:2711
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2707
+#: kitemviews/kfileitemmodel.cpp:2712
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Törlési idő"
 
-#: kitemviews/kfileitemmodel.cpp:2708
+#: kitemviews/kfileitemmodel.cpp:2713
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Hivatkozás célja"
 
-#: kitemviews/kfileitemmodel.cpp:2709
+#: kitemviews/kfileitemmodel.cpp:2714
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Letöltve innen"
 
-#: kitemviews/kfileitemmodel.cpp:2710
+#: kitemviews/kfileitemmodel.cpp:2715
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Jogosultságok"
 
-#: kitemviews/kfileitemmodel.cpp:2711
+#: kitemviews/kfileitemmodel.cpp:2715
+msgctxt "@tooltip"
+msgid ""
+"The permission format can be changed in settings. Options are Textual, "
+"Numeric (Octal) or Combined formats"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
 msgid "Owner"
 msgstr "Tulajdonos"
 
-#: kitemviews/kfileitemmodel.cpp:2712
+#: kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "User Group"
 msgstr "Felhasználócsoport"
 
-#: kitemviews/kfileitemmodel.cpp:2811
+#: kitemviews/kfileitemmodel.cpp:2817
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -3170,25 +3177,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Kijelölés"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:63
+#: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "A helyi menüben megjelenítendő szolgáltatások kiválasztása:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:68
+#: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Keresés…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:95
+#: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Új szolgáltatások letöltése…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:208
+#: settings/contextmenu/contextmenusettingspage.cpp:209
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3198,25 +3205,25 @@ msgstr ""
 "Újra kell indítania a Dolphint a frissített verziókezelő rendszer "
 "beállításainak alkalmazásához."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:210
+#: settings/contextmenu/contextmenusettingspage.cpp:211
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Újraindítja most?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:250
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Törlés"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:254
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "„Másolás” és „Áthelyezés” parancs"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:295
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3355,6 +3362,14 @@ msgstr "Rekurzív mappa méretkorlát"
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
 msgstr "ha igaz, rövid relatív dátumok jelennek meg, ha nem, rövid dátumok"
+
+#. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:55
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgid "Permissions style format"
+msgstr "Jogosultságok"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3888,6 +3903,12 @@ msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Ha ki van kapcsolva, az osztott nézet kikapcsolása bezárja az inaktív panelt"
 
+#: settings/general/configurepreviewplugindialog.cpp:36
+#, kde-format
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "%1 előnézetének beállítása"
+
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3978,36 +3999,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Állapotsáv"
 
-#: settings/general/previewssettingspage.cpp:42
+#: settings/general/previewssettingspage.cpp:43
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Előnézet megjelenítése a következőkhöz:"
 
-#: settings/general/previewssettingspage.cpp:57
+#: settings/general/previewssettingspage.cpp:64
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "Ha a helyi fájl nagyobb mint:"
 
-#: settings/general/previewssettingspage.cpp:61
-#: settings/general/previewssettingspage.cpp:74
+#: settings/general/previewssettingspage.cpp:68
+#: settings/general/previewssettingspage.cpp:81
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/general/previewssettingspage.cpp:63
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgid "No limit"
 msgstr "Nincs korlát"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:77
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "Ha a távoli fájl nagyobb mint:"
 
-#: settings/general/previewssettingspage.cpp:76
+#: settings/general/previewssettingspage.cpp:83
 #, kde-format
 msgid "No previews"
 msgstr "Nincs előnézet"
@@ -4190,152 +4211,152 @@ msgctxt "@action:button Choose font"
 msgid "Choose..."
 msgstr "Választás…"
 
-#: settings/viewmodes/viewsettingstab.cpp:53
+#: settings/viewmodes/viewsettingstab.cpp:56
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "Alapértelmezett ikonméret:"
 
-#: settings/viewmodes/viewsettingstab.cpp:60
+#: settings/viewmodes/viewsettingstab.cpp:63
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "Előnézet ikonmérete:"
 
-#: settings/viewmodes/viewsettingstab.cpp:66
+#: settings/viewmodes/viewsettingstab.cpp:69
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr "Címke betűtípus:"
 
-#: settings/viewmodes/viewsettingstab.cpp:71
+#: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "Kicsi"
 
-#: settings/viewmodes/viewsettingstab.cpp:72
+#: settings/viewmodes/viewsettingstab.cpp:75
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "Közepes"
 
-#: settings/viewmodes/viewsettingstab.cpp:73
+#: settings/viewmodes/viewsettingstab.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "Nagy"
 
-#: settings/viewmodes/viewsettingstab.cpp:74
+#: settings/viewmodes/viewsettingstab.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "Hatalmas"
 
-#: settings/viewmodes/viewsettingstab.cpp:75
+#: settings/viewmodes/viewsettingstab.cpp:78
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "Címkeszélesség:"
 
-#: settings/viewmodes/viewsettingstab.cpp:78
+#: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr "Korlátlan"
 
-#: settings/viewmodes/viewsettingstab.cpp:79
+#: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr "1"
 
-#: settings/viewmodes/viewsettingstab.cpp:80
+#: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr "2"
 
-#: settings/viewmodes/viewsettingstab.cpp:81
+#: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr "3"
 
-#: settings/viewmodes/viewsettingstab.cpp:82
+#: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr "4"
 
-#: settings/viewmodes/viewsettingstab.cpp:83
+#: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr "5"
 
-#: settings/viewmodes/viewsettingstab.cpp:84
+#: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Maximális sorszám:"
 
-#: settings/viewmodes/viewsettingstab.cpp:89
+#: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Korlátlan"
 
-#: settings/viewmodes/viewsettingstab.cpp:90
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Kicsi"
 
-#: settings/viewmodes/viewsettingstab.cpp:91
+#: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Közepes"
 
-#: settings/viewmodes/viewsettingstab.cpp:92
+#: settings/viewmodes/viewsettingstab.cpp:95
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Nagy"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:96
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Maximális szélesség:"
 
-#: settings/viewmodes/viewsettingstab.cpp:97
+#: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Kibontható"
 
-#: settings/viewmodes/viewsettingstab.cpp:98
+#: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Mappák:"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:102
+#: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:110
+#: settings/viewmodes/viewsettingstab.cpp:113
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Search for files and folders"
@@ -4343,50 +4364,76 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Mappák és fájlok keresése"
 
-#: settings/viewmodes/viewsettingstab.cpp:116
+#: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Elemek száma"
 
-#: settings/viewmodes/viewsettingstab.cpp:117
+#: settings/viewmodes/viewsettingstab.cpp:120
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "A tartalom száma, "
 
-#: settings/viewmodes/viewsettingstab.cpp:125
+#: settings/viewmodes/viewsettingstab.cpp:128
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " szint mélységig"
 msgstr[1] " szint mélységig"
 
-#: settings/viewmodes/viewsettingstab.cpp:134
+#: settings/viewmodes/viewsettingstab.cpp:137
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "A mappaméret jelentése:"
 
-#: settings/viewmodes/viewsettingstab.cpp:143
+#: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relatív (pl.: „%1”)"
 
-#: settings/viewmodes/viewsettingstab.cpp:145
+#: settings/viewmodes/viewsettingstab.cpp:148
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Abszolút (pl.: „%1”)"
 
-#: settings/viewmodes/viewsettingstab.cpp:151
+#: settings/viewmodes/viewsettingstab.cpp:154
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Dátumformátum:"
 
-#: settings/viewmodes/viewsettingstab.cpp:313
+#: settings/viewmodes/viewsettingstab.cpp:157
+#, kde-format
+msgctxt "option:radio as symbolic style "
+msgid "Symbolic (e.g. 'drwxr-xr-x')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:159
+#, kde-format
+msgctxt "option:radio as numeric style"
+msgid "Numeric (Octal) (e.g. '755')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:161
+#, kde-format
+msgctxt "option:radio as combined style"
+msgid "Combined (e.g. 'drwxr-xr-x (755)')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:163
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgctxt "@title:group"
+msgid "Permissions style:"
+msgstr "Jogosultságok"
+
+#: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
 #, kde-format
 msgctxt "@info:tooltip"
@@ -4748,43 +4795,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 megnyitása"
 msgstr[1] "%1 megnyitása"
 
-#: views/dolphinview.cpp:1180
+#: views/dolphinview.cpp:1181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1184
+#: views/dolphinview.cpp:1185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatikus oszlopszélesség"
 
-#: views/dolphinview.cpp:1189
+#: views/dolphinview.cpp:1190
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Egyéni oszlopszélesség"
 
-#: views/dolphinview.cpp:1760
+#: views/dolphinview.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "A kuka művelet befejeződött."
 
-#: views/dolphinview.cpp:1770
+#: views/dolphinview.cpp:1771
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "A törlés sikerült."
 
-#: views/dolphinview.cpp:1926
+#: views/dolphinview.cpp:1927
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Átnevezés és rejtés"
 
-#: views/dolphinview.cpp:1935
+#: views/dolphinview.cpp:1936
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4793,7 +4840,7 @@ msgstr ""
 "Ha a fájl nevének elejére egy pontot tesz, az elrejti a fájlt a nézetből.\n"
 "Még mindig át akarja nevezni?"
 
-#: views/dolphinview.cpp:1937
+#: views/dolphinview.cpp:1938
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4802,97 +4849,97 @@ msgstr ""
 "Ha a mappa nevének elejére egy pontot tesz, az elrejti a mappát a nézetből.\n"
 "Még mindig át akarja nevezni?"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1940
 #, kde-format
 msgid "Hide this File?"
 msgstr "Elrejti ezt a fájlt?"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1940
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Elrejti ezt a mappát?"
 
-#: views/dolphinview.cpp:1993
+#: views/dolphinview.cpp:1994
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Az útvonal üres."
 
-#: views/dolphinview.cpp:1995
+#: views/dolphinview.cpp:1996
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "A(z) „%1” útvonal érvénytelen."
 
-#: views/dolphinview.cpp:2249
+#: views/dolphinview.cpp:2250
 #, kde-format
 msgid "Loading..."
 msgstr "Betöltés…"
 
-#: views/dolphinview.cpp:2268
+#: views/dolphinview.cpp:2269
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Mappa betöltése…"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2271
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nincsenek találatok a szűrőre"
 
-#: views/dolphinview.cpp:2272
+#: views/dolphinview.cpp:2273
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nincsenek találatok a keresésre"
 
-#: views/dolphinview.cpp:2274
+#: views/dolphinview.cpp:2275
 #, kde-format
 msgid "Trash is empty"
 msgstr "A Kuka üres."
 
-#: views/dolphinview.cpp:2277
+#: views/dolphinview.cpp:2278
 #, kde-format
 msgid "No tags"
 msgstr "Nincsenek címkék"
 
-#: views/dolphinview.cpp:2280
+#: views/dolphinview.cpp:2281
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nincsenek „%1” címkéjű fájlok"
 
-#: views/dolphinview.cpp:2284
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "No recently used items"
 msgstr "Nincsenek nemrég használt elemek"
 
-#: views/dolphinview.cpp:2286
+#: views/dolphinview.cpp:2287
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nem találhatók megosztott mappák"
 
-#: views/dolphinview.cpp:2288
+#: views/dolphinview.cpp:2289
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nem található releváns hálózati erőforrás"
 
-#: views/dolphinview.cpp:2290
+#: views/dolphinview.cpp:2291
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nem találhatók MTP kompatibilis eszközök"
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2293
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "Nem találhatók Bluetooth eszközök"
 
-#: views/dolphinview.cpp:2294
+#: views/dolphinview.cpp:2295
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nem találhatók Bluetooth eszközök"
 
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2297
 #, kde-format
 msgid "Folder is empty"
 msgstr "A mappa üres"
@@ -5333,9 +5380,9 @@ msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Verzióinformációk frissítése…"
 
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "%1 előnézetének beállítása"
+#~ msgctxt "@info"
+#~ msgid "Could not access <filename>%1</filename>."
+#~ msgstr "Nem lehet hozzáférni a(z) <filename>%1</filename> fájlhoz."
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr "Egy vagy több fájl az eszközről meg van nyitva egy alkalmazásban."

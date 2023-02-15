@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-11 01:00+0000\n"
+"POT-Creation-Date: 2023-02-15 01:01+0000\n"
 "PO-Revision-Date: 2023-01-07 21:58+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -40,7 +40,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Khôi phục"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1524
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1527
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -124,47 +124,41 @@ msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Hành động này đảo ngược hành động <interface>Đi|Lùi</interface>."
 
-#: dolphinmainwindow.cpp:511
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Could not access <filename>%1</filename>."
-msgstr "Không truy cập được <filename>%1</filename>."
-
-#: dolphinmainwindow.cpp:540 dolphinmainwindow.cpp:586
+#: dolphinmainwindow.cpp:543 dolphinmainwindow.cpp:589
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Xác nhận"
 
-#: dolphinmainwindow.cpp:544
+#: dolphinmainwindow.cpp:547
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "Th&oát %1"
 
-#: dolphinmainwindow.cpp:546
+#: dolphinmainwindow.cpp:549
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Đóng &thẻ hiện tại"
 
-#: dolphinmainwindow.cpp:555
+#: dolphinmainwindow.cpp:558
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr ""
 "Bạn có nhiều thẻ mở trong cửa sổ này, bạn có chắc chắn muốn thoát không?"
 
-#: dolphinmainwindow.cpp:557 dolphinmainwindow.cpp:607
+#: dolphinmainwindow.cpp:560 dolphinmainwindow.cpp:610
 #, kde-format
 msgid "Do not ask again"
 msgstr "Đừng hỏi lại"
 
-#: dolphinmainwindow.cpp:595
+#: dolphinmainwindow.cpp:598
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Hiện bảng \"Dòng &lệnh\""
 
-#: dolphinmainwindow.cpp:605
+#: dolphinmainwindow.cpp:608
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -173,50 +167,50 @@ msgstr ""
 "Chương trình '%1' vẫn đang chạy trong bảng \"Dòng lệnh\". Bạn có chắc chắn "
 "muốn thoát không?"
 
-#: dolphinmainwindow.cpp:1108
+#: dolphinmainwindow.cpp:1111
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Mở %1"
 
-#: dolphinmainwindow.cpp:1117 dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1120 dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Mở công cụ tìm kiếm ưa thích"
 
-#: dolphinmainwindow.cpp:1156
+#: dolphinmainwindow.cpp:1159
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Bạn có chắc chắn muốn mở %1 cửa sổ dòng lệnh?"
 
-#: dolphinmainwindow.cpp:1168
+#: dolphinmainwindow.cpp:1171
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "Mở %1 trình dòng lệnh"
 
-#: dolphinmainwindow.cpp:1370
+#: dolphinmainwindow.cpp:1373
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Cấu hình"
 
-#: dolphinmainwindow.cpp:1530
+#: dolphinmainwindow.cpp:1533
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "&Cửa sổ mới"
 
-#: dolphinmainwindow.cpp:1531
+#: dolphinmainwindow.cpp:1534
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Mở một cửa sổ Dolphin mới"
 
-#: dolphinmainwindow.cpp:1533
+#: dolphinmainwindow.cpp:1536
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -226,13 +220,13 @@ msgstr ""
 "Hành động này mở một cửa sổ mới giống như cửa sổ này với địa điểm và khung "
 "xem hiện tại.<nl/>Bạn có thể kéo thả các thứ giữa các cửa sổ."
 
-#: dolphinmainwindow.cpp:1540
+#: dolphinmainwindow.cpp:1543
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Thẻ mới"
 
-#: dolphinmainwindow.cpp:1542
+#: dolphinmainwindow.cpp:1545
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -244,25 +238,25 @@ msgstr ""
 "hiện tại.<nl/>Thẻ là một khung xem bổ sung bên trong cửa sổ này. Bạn có thể "
 "kéo thả các thứ giữa các thẻ."
 
-#: dolphinmainwindow.cpp:1551
+#: dolphinmainwindow.cpp:1554
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Thêm vào bảng Địa điểm"
 
-#: dolphinmainwindow.cpp:1553
+#: dolphinmainwindow.cpp:1556
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Hành động này thêm thư mục được chọn vào bảng \"Địa điểm\"."
 
-#: dolphinmainwindow.cpp:1558
+#: dolphinmainwindow.cpp:1561
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Đóng thẻ"
 
-#: dolphinmainwindow.cpp:1560
+#: dolphinmainwindow.cpp:1563
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -272,13 +266,13 @@ msgstr ""
 "Hành động này đóng thẻ đang xem. Nếu không còn thêm thẻ nào thì cửa sổ này "
 "sẽ đóng."
 
-#: dolphinmainwindow.cpp:1565
+#: dolphinmainwindow.cpp:1568
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Hành động này đóng cửa sổ này."
 
-#: dolphinmainwindow.cpp:1573
+#: dolphinmainwindow.cpp:1576
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -294,13 +288,13 @@ msgstr ""
 "trên bàn phím: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</shortcut> và "
 "<shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1580
+#: dolphinmainwindow.cpp:1583
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Cắt…"
 
-#: dolphinmainwindow.cpp:1582
+#: dolphinmainwindow.cpp:1585
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -313,13 +307,13 @@ msgstr ""
 "<nl/>Dùng hành động <emphasis>Dán</emphasis> tiếp theo đó để chép chúng từ "
 "bảng nháp vào địa điểm mới. Các thứ này sẽ bị xoá khỏi địa điểm ban đầu."
 
-#: dolphinmainwindow.cpp:1589
+#: dolphinmainwindow.cpp:1592
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Chép…"
 
-#: dolphinmainwindow.cpp:1591
+#: dolphinmainwindow.cpp:1594
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -331,13 +325,13 @@ msgstr ""
 "<nl/>Dùng hành động <emphasis>Dán</emphasis> tiếp theo đó để chép chúng từ "
 "bảng nháp vào địa điểm mới."
 
-#: dolphinmainwindow.cpp:1600
+#: dolphinmainwindow.cpp:1603
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Dán"
 
-#: dolphinmainwindow.cpp:1602
+#: dolphinmainwindow.cpp:1605
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -349,19 +343,19 @@ msgstr ""
 "xem.<nl/>Nếu các thứ đó được thêm vào bảng nháp bằng hành động "
 "<emphasis>Cắt</emphasis> thì chúng sẽ bị xoá khỏi địa điểm cũ."
 
-#: dolphinmainwindow.cpp:1609
+#: dolphinmainwindow.cpp:1612
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
 msgstr "Chép sang khung xem chia đôi bất hoạt"
 
-#: dolphinmainwindow.cpp:1610
+#: dolphinmainwindow.cpp:1613
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
 msgstr "Chép sang khung xem chia đôi bất hoạt…"
 
-#: dolphinmainwindow.cpp:1612
+#: dolphinmainwindow.cpp:1615
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -371,25 +365,25 @@ msgstr ""
 "Hành động này chép các thứ đang được chọn ở khung xem <emphasis>hoạt động</"
 "emphasis> sang khung xem bất hoạt."
 
-#: dolphinmainwindow.cpp:1615
+#: dolphinmainwindow.cpp:1618
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Chép sang khung xem chia đôi bất hoạt"
 
-#: dolphinmainwindow.cpp:1620
+#: dolphinmainwindow.cpp:1623
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
 msgstr "Di chuyển sang khung xem chia đôi bất hoạt"
 
-#: dolphinmainwindow.cpp:1621
+#: dolphinmainwindow.cpp:1624
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
 msgstr "Di chuyển sang khung xem chia đôi bất hoạt…"
 
-#: dolphinmainwindow.cpp:1623
+#: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -399,25 +393,25 @@ msgstr ""
 "Hành động này di chuyển các thứ đang được chọn ở khung xem <emphasis>hoạt "
 "động</emphasis> sang khung xem bất hoạt."
 
-#: dolphinmainwindow.cpp:1626
+#: dolphinmainwindow.cpp:1629
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Di chuyển sang khung xem chia đôi bất hoạt"
 
-#: dolphinmainwindow.cpp:1631
+#: dolphinmainwindow.cpp:1634
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Lọc..."
 
-#: dolphinmainwindow.cpp:1632
+#: dolphinmainwindow.cpp:1635
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Hiện thanh lọc"
 
-#: dolphinmainwindow.cpp:1634
+#: dolphinmainwindow.cpp:1637
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -430,30 +424,30 @@ msgstr ""
 ">Tại đây bạn có thể nhập chữ để lọc các tệp và thư mục đang hiển thị. Chỉ "
 "những cái nào có tên chứa phần chữ đó mới được giữ lại trong khung xem."
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1649
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Ẩn/hiện thanh lọc"
 
-#: dolphinmainwindow.cpp:1647
+#: dolphinmainwindow.cpp:1650
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Lọc"
 
-#: dolphinmainwindow.cpp:1655 search/dolphinsearchbox.cpp:330
+#: dolphinmainwindow.cpp:1658 search/dolphinsearchbox.cpp:330
 #, kde-format
 msgid "Search..."
 msgstr "Tìm kiếm..."
 
-#: dolphinmainwindow.cpp:1656
+#: dolphinmainwindow.cpp:1659
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Tìm kiếm tệp và thư mục"
 
-#: dolphinmainwindow.cpp:1658
+#: dolphinmainwindow.cpp:1661
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -468,20 +462,20 @@ msgstr ""
 "para><para>Dùng tiếp phần trợ giúp này ở thanh tìm kiếm để xem giải thích về "
 "các thiết lập.</para>"
 
-#: dolphinmainwindow.cpp:1669
+#: dolphinmainwindow.cpp:1672
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Bật/tắt thanh tìm kiếm"
 
-#: dolphinmainwindow.cpp:1670
+#: dolphinmainwindow.cpp:1673
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Tìm kiếm"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1678
+#: dolphinmainwindow.cpp:1681
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -489,13 +483,13 @@ msgstr "Chọn tệp và thư mục"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1681
+#: dolphinmainwindow.cpp:1684
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Chọn"
 
-#: dolphinmainwindow.cpp:1684
+#: dolphinmainwindow.cpp:1687
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -513,19 +507,19 @@ msgstr ""
 "độ này, một thanh truy cập nhanh ở dưới sẽ hiển thị các hành động có thể cho "
 "các thứ hiện đang được chọn.</para>"
 
-#: dolphinmainwindow.cpp:1706
+#: dolphinmainwindow.cpp:1709
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Hành động này chọn tất cả tệp và thư mục ở địa điểm hiện tại."
 
-#: dolphinmainwindow.cpp:1710 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1713 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Đảo chọn lựa"
 
-#: dolphinmainwindow.cpp:1712
+#: dolphinmainwindow.cpp:1715
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -535,7 +529,7 @@ msgstr ""
 "Hành động này chọn tất cả các mục mà hiện bạn đang <emphasis>không</"
 "emphasis> chọn."
 
-#: dolphinmainwindow.cpp:1728
+#: dolphinmainwindow.cpp:1731
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -548,43 +542,43 @@ msgstr ""
 "di chuyển nhanh chóng các thứ giữa các địa điểm đó.</para>Bấm lại vào đây để "
 "ghép hai khung xem lại."
 
-#: dolphinmainwindow.cpp:1737
+#: dolphinmainwindow.cpp:1740
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Cất"
 
-#: dolphinmainwindow.cpp:1738
+#: dolphinmainwindow.cpp:1741
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Mở một cửa sổ chia đôi hiển thị thư mục ảo cất giữ"
 
-#: dolphinmainwindow.cpp:1748
+#: dolphinmainwindow.cpp:1751
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Dừng"
 
-#: dolphinmainwindow.cpp:1749
+#: dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Dừng tải"
 
-#: dolphinmainwindow.cpp:1750
+#: dolphinmainwindow.cpp:1753
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Hành động này dừng việc tải nội dung của thư mục hiện tại."
 
-#: dolphinmainwindow.cpp:1755
+#: dolphinmainwindow.cpp:1758
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Địa điểm sửa được"
 
-#: dolphinmainwindow.cpp:1757
+#: dolphinmainwindow.cpp:1760
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -598,13 +592,13 @@ msgstr ""
 "sửa bằng cách bấm vào bên phải của địa điểm và kết thúc bằng cách xác nhận "
 "địa điểm đã sửa."
 
-#: dolphinmainwindow.cpp:1765
+#: dolphinmainwindow.cpp:1768
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Thay thế địa điểm"
 
-#: dolphinmainwindow.cpp:1770
+#: dolphinmainwindow.cpp:1773
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -614,19 +608,19 @@ msgstr ""
 "Hành động này bắt đầu việc sửa địa điểm và chọn luôn cả dòng để bạn có thể "
 "nhanh chóng nhập một địa điểm khác."
 
-#: dolphinmainwindow.cpp:1800
+#: dolphinmainwindow.cpp:1803
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Đảo ngược việc đóng thẻ"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Hành động này đưa bạn lại thẻ đã đóng trước đây."
 
-#: dolphinmainwindow.cpp:1809
+#: dolphinmainwindow.cpp:1812
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -641,7 +635,7 @@ msgstr ""
 "<filename>thùng rác</filename>.<nl/>Các thay đổi không đảo ngược được sẽ yêu "
 "cầu xác nhận của bạn."
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -653,13 +647,13 @@ msgstr ""
 "dùng có <filename>Nhà</filename> riêng, chứa dữ liệu của danh khoản đó, bao "
 "gồm các thư mục chứa dữ liệu ứng dụng cá nhân."
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1848
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "So sánh tệp"
 
-#: dolphinmainwindow.cpp:1853
+#: dolphinmainwindow.cpp:1856
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -671,13 +665,13 @@ msgstr ""
 "para><para>Dùng trình đơn<emphasis>Công cụ tìm kiếm khác</emphasis> để điều "
 "chỉnh.</para>"
 
-#: dolphinmainwindow.cpp:1861
+#: dolphinmainwindow.cpp:1864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Mở dòng lệnh"
 
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -690,13 +684,13 @@ msgstr ""
 "thêm về các dòng lệnh.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1871
+#: dolphinmainwindow.cpp:1874
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Mở dòng lệnh tại đây"
 
-#: dolphinmainwindow.cpp:1873
+#: dolphinmainwindow.cpp:1876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -708,19 +702,19 @@ msgstr ""
 "điểm của các thứ đang được chọn.</para><para>Sử dụng trợ giúp trong ứng dụng "
 "dòng lệnh để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:1881 dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:1884 dolphinmainwindow.cpp:2627
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Nhắm vào bảng \"Dòng lệnh\""
 
-#: dolphinmainwindow.cpp:1889
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Dấu nhớ"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1902
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -739,79 +733,79 @@ msgstr ""
 "interface> thì đơn giản hơn và nhỏ, khiến việc kích hoạt các hành động nâng "
 "cao sẽ tốn thời gian hơn.</para>"
 
-#: dolphinmainwindow.cpp:1932
+#: dolphinmainwindow.cpp:1935
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Kích hoạt thẻ %1"
 
-#: dolphinmainwindow.cpp:1945
+#: dolphinmainwindow.cpp:1948
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Kích hoạt thẻ cuối cùng"
 
-#: dolphinmainwindow.cpp:1951
+#: dolphinmainwindow.cpp:1954
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Thẻ sau"
 
-#: dolphinmainwindow.cpp:1952
+#: dolphinmainwindow.cpp:1955
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Kích hoạt thẻ sau"
 
-#: dolphinmainwindow.cpp:1958
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Thẻ trước"
 
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Kích hoạt thẻ trước"
 
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1969
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Hiện đích"
 
-#: dolphinmainwindow.cpp:1972
+#: dolphinmainwindow.cpp:1975
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Mở trong thẻ mới"
 
-#: dolphinmainwindow.cpp:1977
+#: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Mở trong thẻ mới"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:1985
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Mở trong cửa sổ mới"
 
-#: dolphinmainwindow.cpp:1994
+#: dolphinmainwindow.cpp:1997
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Bỏ khoá các bảng"
 
-#: dolphinmainwindow.cpp:1996
+#: dolphinmainwindow.cpp:1999
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Khoá các bảng"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2002
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -825,13 +819,13 @@ msgstr ""
 "phía kia của cửa sổ và có một nút đóng.<nl/>Các bảng bị khoá thì trông thanh "
 "gọn hơn."
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2011
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Thông tin"
 
-#: dolphinmainwindow.cpp:2031
+#: dolphinmainwindow.cpp:2034
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -841,7 +835,7 @@ msgstr ""
 "<para>Để hiện hoặc ẩn các bảng như thế này, mở <interface>Trình đơn|Bảng</"
 "interface> hoặc <interface>Xem|Bảng</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2041
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -857,7 +851,7 @@ msgstr ""
 "hiện thông tin về thư mục đang xem.<nl/>Với từng thứ riêng lẻ thì nó hiện "
 "một phần xem thử cho nội dung của thứ đó.</para>"
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2049
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -873,13 +867,13 @@ msgstr ""
 "dung của thứ đó.</para><para>Bấm phải để điều chỉnh nội dung và cách thức "
 "hiển thị các chi tiết ở đây.</para>"
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2058
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Thư mục"
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2079
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -891,7 +885,7 @@ msgstr ""
 "sổ.<nl/><nl/>Nó hiển thị các thư mục của <emphasis>hệ thống tệp</emphasis> "
 "trong một <emphasis>khung xem cây</emphasis>."
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2084
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -905,13 +899,13 @@ msgstr ""
 "mục để đi đến đó. Bấm vào mũi tên bên trái một thư mục để thấy các thư mục "
 "con của nó. Bảng này cho phép chuyển nhanh giữa bất kì thư mục nào.</para>"
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2094
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Dòng lệnh"
 
-#: dolphinmainwindow.cpp:2116
+#: dolphinmainwindow.cpp:2119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -929,7 +923,7 @@ msgstr ""
 "cho các tác vụ nâng cao. Sử dụng trợ giúp trong một ứng dụng dòng lệnh độc "
 "lập, như Konsole, để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:2124
+#: dolphinmainwindow.cpp:2127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -947,19 +941,19 @@ msgstr ""
 "cho các tác vụ nâng cao. Sử dụng trợ giúp trong một ứng dụng dòng lệnh độc "
 "lập, như Konsole, để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:2141
+#: dolphinmainwindow.cpp:2144
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Địa điểm"
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2171
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Hiện các địa điểm ẩn"
 
-#: dolphinmainwindow.cpp:2172
+#: dolphinmainwindow.cpp:2175
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -970,7 +964,7 @@ msgstr ""
 "ẩn đi. Chúng sẽ hiện bán trong suốt trừ khi bạn bỏ chọn thuộc tính ẩn của "
 "chúng."
 
-#: dolphinmainwindow.cpp:2184
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -986,7 +980,7 @@ msgstr ""
 "cũng chứa các khu vực để tìm các tệp mới lưu gần đây hoặc các tệp thuộc một "
 "kiểu nhất định.</para>"
 
-#: dolphinmainwindow.cpp:2191
+#: dolphinmainwindow.cpp:2194
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1010,13 +1004,13 @@ msgstr ""
 "trong bảng này và chọn <interface>Hiện các địa điểm ẩn</interface> để hiện "
 "lại khu vực hoặc mục đó.</para>"
 
-#: dolphinmainwindow.cpp:2205
+#: dolphinmainwindow.cpp:2208
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Hiện các bảng"
 
-#: dolphinmainwindow.cpp:2317
+#: dolphinmainwindow.cpp:2320
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1031,43 +1025,43 @@ msgstr ""
 "đỉnh của hệ thống phân cấp này là một thư mục chứa tất cả dữ liệu kết nối "
 "với máy tính này—<emphasis>thư mục gốc</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2398
+#: dolphinmainwindow.cpp:2401
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Đóng"
 
-#: dolphinmainwindow.cpp:2399
+#: dolphinmainwindow.cpp:2402
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Đóng khung xem bên trái"
 
-#: dolphinmainwindow.cpp:2402
+#: dolphinmainwindow.cpp:2405
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Đóng"
 
-#: dolphinmainwindow.cpp:2403
+#: dolphinmainwindow.cpp:2406
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Đóng khung xem bên phải"
 
-#: dolphinmainwindow.cpp:2407
+#: dolphinmainwindow.cpp:2410
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Chia đôi"
 
-#: dolphinmainwindow.cpp:2408
+#: dolphinmainwindow.cpp:2411
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Chia đôi khung xem"
 
-#: dolphinmainwindow.cpp:2456
+#: dolphinmainwindow.cpp:2459
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1085,7 +1079,7 @@ msgstr ""
 "đó hầu hết nội dung của nó có thể tìm thấy ở nút <interface>Trình đơn</"
 "interface> trên <emphasis>Thanh công cụ</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2463
+#: dolphinmainwindow.cpp:2466
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1108,7 +1102,7 @@ msgstr ""
 "đổi được trong trình đơn bấm phải. Bấm phải vào một nút nếu bạn muốn hiện "
 "hay ẩn chữ của nó.</para>"
 
-#: dolphinmainwindow.cpp:2475
+#: dolphinmainwindow.cpp:2478
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1136,7 +1130,7 @@ msgstr ""
 "html'>bấm vào đây</link>. Nó sẽ mở ra một trang trong <emphasis>Sổ tay</"
 "emphasis> bao hàm các nội dung cơ bản.</para>"
 
-#: dolphinmainwindow.cpp:2491
+#: dolphinmainwindow.cpp:2494
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1150,7 +1144,7 @@ msgstr ""
 "khi các phím đó được bấm đồng thời. Tất cả các lệnh trong ứng dụng này có "
 "thể được kích hoạt bằng cách này.</para>"
 
-#: dolphinmainwindow.cpp:2497
+#: dolphinmainwindow.cpp:2500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1163,7 +1157,7 @@ msgstr ""
 "thấy trong <interface>Trình đơn</interface> đều có thể đặt được vào Thanh "
 "công cụ.</para>"
 
-#: dolphinmainwindow.cpp:2501
+#: dolphinmainwindow.cpp:2504
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1182,7 +1176,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2524
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1199,7 +1193,7 @@ msgstr ""
 "File_Management'>bấm vào đây</link>. Nó sẽ mở ra trang chuyên biệt trong "
 "Wiki Cơ sở Người dùng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2526
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1221,7 +1215,7 @@ msgstr ""
 "KDE</link>.</para><para>Phần lớn các cửa sổ khác đều thiếu kiểu trợ giúp "
 "\"Đây là cái gì?\" nên đừng quá quen với nó.</para>"
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2540
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1237,7 +1231,7 @@ msgstr ""
 "Get_Involved/Bug_Reporting'>Bấm vào đây</link> để biết cách làm bản báo lỗi "
 "của bạn thật hiệu quả.</para>"
 
-#: dolphinmainwindow.cpp:2546
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1258,7 +1252,7 @@ msgstr ""
 "khoản như máy chủ, hội nghị người đóng góp, v.v.</para><para><emphasis>KDE e."
 "V.</emphasis> là tổ chức phi lợi nhuận đứng sau cộng đồng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2562
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1270,7 +1264,7 @@ msgstr ""
 ">Bạn còn có thể đặt các ngôn ngữ thứ cấp để dùng khi các đoạn chữ không có "
 "trong ngôn ngữ mà bạn ưu tiên."
 
-#: dolphinmainwindow.cpp:2564
+#: dolphinmainwindow.cpp:2567
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1280,7 +1274,7 @@ msgstr ""
 "Hành động này mở một cửa sổ thông tin cho bạn về phiên bản, giấy phép, các "
 "thư viện được dùng và các bảo trì viên của ứng dụng này."
 
-#: dolphinmainwindow.cpp:2569
+#: dolphinmainwindow.cpp:2572
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1294,7 +1288,7 @@ msgstr ""
 "ứng dụng này nhưng chưa biết về KDE hoặc bạn muốn thấy một con rồng dễ "
 "thương thì hãy thử ghé xem!"
 
-#: dolphinmainwindow.cpp:2627 dolphinmainwindow.cpp:2631
+#: dolphinmainwindow.cpp:2630 dolphinmainwindow.cpp:2634
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -1749,92 +1743,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2261
+#: kitemviews/kfileitemmodel.cpp:2265
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2263
+#: kitemviews/kfileitemmodel.cpp:2267
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Khác"
 
-#: kitemviews/kfileitemmodel.cpp:2295
+#: kitemviews/kfileitemmodel.cpp:2299
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Thư mục"
 
-#: kitemviews/kfileitemmodel.cpp:2303
+#: kitemviews/kfileitemmodel.cpp:2307
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Nhỏ"
 
-#: kitemviews/kfileitemmodel.cpp:2305
+#: kitemviews/kfileitemmodel.cpp:2309
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Vừa"
 
-#: kitemviews/kfileitemmodel.cpp:2307
+#: kitemviews/kfileitemmodel.cpp:2311
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Lớn"
 
-#: kitemviews/kfileitemmodel.cpp:2352
+#: kitemviews/kfileitemmodel.cpp:2356
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Hôm nay"
 
-#: kitemviews/kfileitemmodel.cpp:2355
+#: kitemviews/kfileitemmodel.cpp:2359
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Hôm qua"
 
-#: kitemviews/kfileitemmodel.cpp:2358
+#: kitemviews/kfileitemmodel.cpp:2362
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2362
+#: kitemviews/kfileitemmodel.cpp:2366
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2371
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Một tuần trước"
 
-#: kitemviews/kfileitemmodel.cpp:2370
+#: kitemviews/kfileitemmodel.cpp:2374
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Hai tuần trước"
 
-#: kitemviews/kfileitemmodel.cpp:2373
+#: kitemviews/kfileitemmodel.cpp:2377
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Ba tuần trước"
 
-#: kitemviews/kfileitemmodel.cpp:2377
+#: kitemviews/kfileitemmodel.cpp:2381
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Tháng này"
 
-#: kitemviews/kfileitemmodel.cpp:2391
+#: kitemviews/kfileitemmodel.cpp:2395
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1844,7 +1838,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Hôm qua' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2398
+#: kitemviews/kfileitemmodel.cpp:2402
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1852,7 +1846,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2411
+#: kitemviews/kfileitemmodel.cpp:2415
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1860,7 +1854,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2415
+#: kitemviews/kfileitemmodel.cpp:2419
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1868,7 +1862,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2423
+#: kitemviews/kfileitemmodel.cpp:2427
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1878,7 +1872,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Một tuần trước' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2430
+#: kitemviews/kfileitemmodel.cpp:2434
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1886,7 +1880,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2444
+#: kitemviews/kfileitemmodel.cpp:2448
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1896,7 +1890,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Hai tuần trước' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2451
+#: kitemviews/kfileitemmodel.cpp:2455
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -1904,7 +1898,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2465
+#: kitemviews/kfileitemmodel.cpp:2469
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1914,7 +1908,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Ba tuần trước' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2472
+#: kitemviews/kfileitemmodel.cpp:2476
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -1922,7 +1916,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2486
+#: kitemviews/kfileitemmodel.cpp:2490
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1932,7 +1926,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Trước đây vào' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2493
+#: kitemviews/kfileitemmodel.cpp:2497
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -1940,7 +1934,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2511
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -1948,7 +1942,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2511
+#: kitemviews/kfileitemmodel.cpp:2515
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -1956,108 +1950,114 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2551 kitemviews/kfileitemmodel.cpp:2564
-#: kitemviews/kfileitemmodel.cpp:2577
+#: kitemviews/kfileitemmodel.cpp:2555 kitemviews/kfileitemmodel.cpp:2568
+#: kitemviews/kfileitemmodel.cpp:2581
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Đọc,"
 
-#: kitemviews/kfileitemmodel.cpp:2554 kitemviews/kfileitemmodel.cpp:2567
-#: kitemviews/kfileitemmodel.cpp:2580
+#: kitemviews/kfileitemmodel.cpp:2558 kitemviews/kfileitemmodel.cpp:2571
+#: kitemviews/kfileitemmodel.cpp:2584
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Ghi,"
 
-#: kitemviews/kfileitemmodel.cpp:2557 kitemviews/kfileitemmodel.cpp:2570
-#: kitemviews/kfileitemmodel.cpp:2583
+#: kitemviews/kfileitemmodel.cpp:2561 kitemviews/kfileitemmodel.cpp:2574
+#: kitemviews/kfileitemmodel.cpp:2587
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Thực thi,"
 
-#: kitemviews/kfileitemmodel.cpp:2559 kitemviews/kfileitemmodel.cpp:2572
-#: kitemviews/kfileitemmodel.cpp:2585
+#: kitemviews/kfileitemmodel.cpp:2563 kitemviews/kfileitemmodel.cpp:2576
+#: kitemviews/kfileitemmodel.cpp:2589
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Cấm"
 
-#: kitemviews/kfileitemmodel.cpp:2587
+#: kitemviews/kfileitemmodel.cpp:2591
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Người dùng: %1 | Nhóm: %2 | Khác: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2676
+#: kitemviews/kfileitemmodel.cpp:2681
 msgctxt "@label"
 msgid "Name"
 msgstr "Tên"
 
-#: kitemviews/kfileitemmodel.cpp:2677
+#: kitemviews/kfileitemmodel.cpp:2682
 msgctxt "@label"
 msgid "Size"
 msgstr "Kích thước"
 
-#: kitemviews/kfileitemmodel.cpp:2678
+#: kitemviews/kfileitemmodel.cpp:2683
 msgctxt "@label"
 msgid "Modified"
 msgstr "Chỉnh sửa"
 
-#: kitemviews/kfileitemmodel.cpp:2679
+#: kitemviews/kfileitemmodel.cpp:2683 kitemviews/kfileitemmodel.cpp:2684
+#: kitemviews/kfileitemmodel.cpp:2685
+msgctxt "@tooltip"
+msgid "The date format can be selected in settings."
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
 msgid "Created"
 msgstr "Tạo"
 
-#: kitemviews/kfileitemmodel.cpp:2680
+#: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Truy cập"
 
-#: kitemviews/kfileitemmodel.cpp:2681
+#: kitemviews/kfileitemmodel.cpp:2686
 msgctxt "@label"
 msgid "Type"
 msgstr "Kiểu"
 
-#: kitemviews/kfileitemmodel.cpp:2682
+#: kitemviews/kfileitemmodel.cpp:2687
 msgctxt "@label"
 msgid "Rating"
 msgstr "Đánh giá"
 
-#: kitemviews/kfileitemmodel.cpp:2683
+#: kitemviews/kfileitemmodel.cpp:2688
 msgctxt "@label"
 msgid "Tags"
 msgstr "Thẻ gắn"
 
-#: kitemviews/kfileitemmodel.cpp:2684
+#: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"
 msgid "Comment"
 msgstr "Chú thích"
 
-#: kitemviews/kfileitemmodel.cpp:2685
+#: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@label"
 msgid "Title"
 msgstr "Tiêu đề"
 
-#: kitemviews/kfileitemmodel.cpp:2685 kitemviews/kfileitemmodel.cpp:2686
-#: kitemviews/kfileitemmodel.cpp:2687 kitemviews/kfileitemmodel.cpp:2688
-#: kitemviews/kfileitemmodel.cpp:2689 kitemviews/kfileitemmodel.cpp:2690
+#: kitemviews/kfileitemmodel.cpp:2690 kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2692 kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2694 kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Document"
 msgstr "Tài liệu"
 
-#: kitemviews/kfileitemmodel.cpp:2686
+#: kitemviews/kfileitemmodel.cpp:2691
 msgctxt "@label"
 msgid "Author"
 msgstr "Tác giả"
 
-#: kitemviews/kfileitemmodel.cpp:2687
+#: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2688
+#: kitemviews/kfileitemmodel.cpp:2693
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Line Count"
@@ -2065,155 +2065,162 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Số dòng"
 
-#: kitemviews/kfileitemmodel.cpp:2689
+#: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Số lượng từ"
 
-#: kitemviews/kfileitemmodel.cpp:2690
+#: kitemviews/kfileitemmodel.cpp:2695
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Số dòng"
 
-#: kitemviews/kfileitemmodel.cpp:2691
+#: kitemviews/kfileitemmodel.cpp:2696
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Ngày chụp"
 
-#: kitemviews/kfileitemmodel.cpp:2691 kitemviews/kfileitemmodel.cpp:2692
-#: kitemviews/kfileitemmodel.cpp:2693 kitemviews/kfileitemmodel.cpp:2694
-#: kitemviews/kfileitemmodel.cpp:2695
+#: kitemviews/kfileitemmodel.cpp:2696 kitemviews/kfileitemmodel.cpp:2697
+#: kitemviews/kfileitemmodel.cpp:2698 kitemviews/kfileitemmodel.cpp:2699
+#: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Image"
 msgstr "Ảnh"
 
-#: kitemviews/kfileitemmodel.cpp:2692
+#: kitemviews/kfileitemmodel.cpp:2697
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Kích thước"
 
-#: kitemviews/kfileitemmodel.cpp:2693
+#: kitemviews/kfileitemmodel.cpp:2698
 msgctxt "@label"
 msgid "Width"
 msgstr "Độ rộng"
 
-#: kitemviews/kfileitemmodel.cpp:2694
+#: kitemviews/kfileitemmodel.cpp:2699
 msgctxt "@label"
 msgid "Height"
 msgstr "Độ cao"
 
-#: kitemviews/kfileitemmodel.cpp:2695
+#: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Hướng"
 
-#: kitemviews/kfileitemmodel.cpp:2696
+#: kitemviews/kfileitemmodel.cpp:2701
 msgctxt "@label"
 msgid "Artist"
 msgstr "Nghệ sĩ"
 
-#: kitemviews/kfileitemmodel.cpp:2696 kitemviews/kfileitemmodel.cpp:2697
-#: kitemviews/kfileitemmodel.cpp:2698 kitemviews/kfileitemmodel.cpp:2699
-#: kitemviews/kfileitemmodel.cpp:2700 kitemviews/kfileitemmodel.cpp:2701
-#: kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2701 kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2703 kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2705 kitemviews/kfileitemmodel.cpp:2706
+#: kitemviews/kfileitemmodel.cpp:2707
 msgctxt "@label"
 msgid "Audio"
 msgstr "Âm thanh"
 
-#: kitemviews/kfileitemmodel.cpp:2697
+#: kitemviews/kfileitemmodel.cpp:2702
 msgctxt "@label"
 msgid "Genre"
 msgstr "Thể loại"
 
-#: kitemviews/kfileitemmodel.cpp:2698
+#: kitemviews/kfileitemmodel.cpp:2703
 msgctxt "@label"
 msgid "Album"
 msgstr "Bộ"
 
-#: kitemviews/kfileitemmodel.cpp:2699
+#: kitemviews/kfileitemmodel.cpp:2704
 msgctxt "@label"
 msgid "Duration"
 msgstr "Thời lượng"
 
-#: kitemviews/kfileitemmodel.cpp:2700
+#: kitemviews/kfileitemmodel.cpp:2705
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Tốc độ bit"
 
-#: kitemviews/kfileitemmodel.cpp:2701
+#: kitemviews/kfileitemmodel.cpp:2706
 msgctxt "@label"
 msgid "Track"
 msgstr "Bài"
 
-#: kitemviews/kfileitemmodel.cpp:2702
+#: kitemviews/kfileitemmodel.cpp:2707
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Năm phát hành"
 
-#: kitemviews/kfileitemmodel.cpp:2703
+#: kitemviews/kfileitemmodel.cpp:2708
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Tỉ lệ hình"
 
-#: kitemviews/kfileitemmodel.cpp:2703 kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2708 kitemviews/kfileitemmodel.cpp:2709
 msgctxt "@label"
 msgid "Video"
 msgstr "Phim"
 
-#: kitemviews/kfileitemmodel.cpp:2704
+#: kitemviews/kfileitemmodel.cpp:2709
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Tốc độ khung hình"
 
-#: kitemviews/kfileitemmodel.cpp:2705
+#: kitemviews/kfileitemmodel.cpp:2710
 msgctxt "@label"
 msgid "Path"
 msgstr "Đường dẫn"
 
-#: kitemviews/kfileitemmodel.cpp:2705 kitemviews/kfileitemmodel.cpp:2706
-#: kitemviews/kfileitemmodel.cpp:2707 kitemviews/kfileitemmodel.cpp:2708
-#: kitemviews/kfileitemmodel.cpp:2709 kitemviews/kfileitemmodel.cpp:2710
-#: kitemviews/kfileitemmodel.cpp:2711 kitemviews/kfileitemmodel.cpp:2712
+#: kitemviews/kfileitemmodel.cpp:2710 kitemviews/kfileitemmodel.cpp:2711
+#: kitemviews/kfileitemmodel.cpp:2712 kitemviews/kfileitemmodel.cpp:2713
+#: kitemviews/kfileitemmodel.cpp:2714 kitemviews/kfileitemmodel.cpp:2715
+#: kitemviews/kfileitemmodel.cpp:2716 kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "Other"
 msgstr "Khác"
 
-#: kitemviews/kfileitemmodel.cpp:2706
+#: kitemviews/kfileitemmodel.cpp:2711
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Phần mở rộng tệp"
 
-#: kitemviews/kfileitemmodel.cpp:2707
+#: kitemviews/kfileitemmodel.cpp:2712
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Thời gian xoá"
 
-#: kitemviews/kfileitemmodel.cpp:2708
+#: kitemviews/kfileitemmodel.cpp:2713
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Đích của liên kết"
 
-#: kitemviews/kfileitemmodel.cpp:2709
+#: kitemviews/kfileitemmodel.cpp:2714
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Tải về từ"
 
-#: kitemviews/kfileitemmodel.cpp:2710
+#: kitemviews/kfileitemmodel.cpp:2715
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Quyền truy cập"
 
-#: kitemviews/kfileitemmodel.cpp:2711
+#: kitemviews/kfileitemmodel.cpp:2715
+msgctxt "@tooltip"
+msgid ""
+"The permission format can be changed in settings. Options are Textual, "
+"Numeric (Octal) or Combined formats"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
 msgid "Owner"
 msgstr "Chủ sở hữu"
 
-#: kitemviews/kfileitemmodel.cpp:2712
+#: kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "User Group"
 msgstr "Nhóm người dùng"
 
-#: kitemviews/kfileitemmodel.cpp:2811
+#: kitemviews/kfileitemmodel.cpp:2817
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -3045,25 +3052,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Thoát khỏi chế độ chọn"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:63
+#: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Chọn những dịch vụ nào sẽ hiển thị trong trình đơn ngữ cảnh:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:68
+#: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Tìm kiếm..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:95
+#: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Tải về dịch vụ mới..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:208
+#: settings/contextmenu/contextmenusettingspage.cpp:209
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3073,25 +3080,25 @@ msgstr ""
 "Dolphin phải được khởi động lại để áp dụng các thiết lập mới cập nhật trong "
 "hệ thống quản lí phiên bản."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:210
+#: settings/contextmenu/contextmenusettingspage.cpp:211
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Khởi động lại ngay?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:250
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Xoá"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:254
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Lệnh 'Chép vào' và 'Chuyển vào'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:295
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3229,6 +3236,14 @@ msgstr "Giới hạn số mức thư mục con để tính kích thước thư m
 msgid "if true we use short relative dates, if not short dates"
 msgstr ""
 "nếu đúng thì dùng ngày tương đối dạng ngắn, nếu sai dùng ngày dạng ngắn"
+
+#. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:55
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgid "Permissions style format"
+msgstr "Quyền truy cập"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3765,6 +3780,12 @@ msgstr "Tắt chế độ xem chia đôi sẽ đóng ô đang hoạt động"
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr "Khi không chọn, tắt chế độ xem chia đôi sẽ đóng ô bất hoạt"
 
+#: settings/general/configurepreviewplugindialog.cpp:36
+#, kde-format
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Cấu hình Xem thử cho %1"
+
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
@@ -3855,36 +3876,36 @@ msgctxt "@title:tab Status Bar settings"
 msgid "Status Bar"
 msgstr "Thanh trạng thái"
 
-#: settings/general/previewssettingspage.cpp:42
+#: settings/general/previewssettingspage.cpp:43
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Hiện xem thử trong khung xem cho:"
 
-#: settings/general/previewssettingspage.cpp:57
+#: settings/general/previewssettingspage.cpp:64
 #, kde-format
 msgid "Skip previews for local files above:"
 msgstr "Bỏ qua xem thử cho các tệp cục bộ lớn hơn:"
 
-#: settings/general/previewssettingspage.cpp:61
-#: settings/general/previewssettingspage.cpp:74
+#: settings/general/previewssettingspage.cpp:68
+#: settings/general/previewssettingspage.cpp:81
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/general/previewssettingspage.cpp:63
+#: settings/general/previewssettingspage.cpp:70
 #, kde-format
 msgid "No limit"
 msgstr "Không giới hạn"
 
-#: settings/general/previewssettingspage.cpp:70
+#: settings/general/previewssettingspage.cpp:77
 #, kde-format
 msgctxt "@label"
 msgid "Skip previews for remote files above:"
 msgstr "Bỏ qua xem thử cho các tệp ở xa lớn hơn:"
 
-#: settings/general/previewssettingspage.cpp:76
+#: settings/general/previewssettingspage.cpp:83
 #, kde-format
 msgid "No previews"
 msgstr "Không xem thử"
@@ -4069,200 +4090,226 @@ msgctxt "@action:button Choose font"
 msgid "Choose..."
 msgstr "Chọn..."
 
-#: settings/viewmodes/viewsettingstab.cpp:53
+#: settings/viewmodes/viewsettingstab.cpp:56
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "Cỡ biểu tượng mặc định:"
 
-#: settings/viewmodes/viewsettingstab.cpp:60
+#: settings/viewmodes/viewsettingstab.cpp:63
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "Cỡ biểu tượng xem thử:"
 
-#: settings/viewmodes/viewsettingstab.cpp:66
+#: settings/viewmodes/viewsettingstab.cpp:69
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr "Phông chữ của nhãn:"
 
-#: settings/viewmodes/viewsettingstab.cpp:71
+#: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "Nhỏ"
 
-#: settings/viewmodes/viewsettingstab.cpp:72
+#: settings/viewmodes/viewsettingstab.cpp:75
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "Vừa"
 
-#: settings/viewmodes/viewsettingstab.cpp:73
+#: settings/viewmodes/viewsettingstab.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "Lớn"
 
-#: settings/viewmodes/viewsettingstab.cpp:74
+#: settings/viewmodes/viewsettingstab.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "Rất lớn"
 
-#: settings/viewmodes/viewsettingstab.cpp:75
+#: settings/viewmodes/viewsettingstab.cpp:78
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "Độ rộng nhãn:"
 
-#: settings/viewmodes/viewsettingstab.cpp:78
+#: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr "Không giới hạn"
 
-#: settings/viewmodes/viewsettingstab.cpp:79
+#: settings/viewmodes/viewsettingstab.cpp:82
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr "1"
 
-#: settings/viewmodes/viewsettingstab.cpp:80
+#: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr "2"
 
-#: settings/viewmodes/viewsettingstab.cpp:81
+#: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr "3"
 
-#: settings/viewmodes/viewsettingstab.cpp:82
+#: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr "4"
 
-#: settings/viewmodes/viewsettingstab.cpp:83
+#: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr "5"
 
-#: settings/viewmodes/viewsettingstab.cpp:84
+#: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "Số dòng tối đa:"
 
-#: settings/viewmodes/viewsettingstab.cpp:89
+#: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "Không giới hạn"
 
-#: settings/viewmodes/viewsettingstab.cpp:90
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "Nhỏ"
 
-#: settings/viewmodes/viewsettingstab.cpp:91
+#: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "Vừa"
 
-#: settings/viewmodes/viewsettingstab.cpp:92
+#: settings/viewmodes/viewsettingstab.cpp:95
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "Lớn"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:96
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "Độ rộng tối đa:"
 
-#: settings/viewmodes/viewsettingstab.cpp:97
+#: settings/viewmodes/viewsettingstab.cpp:100
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "Mở rộng được"
 
-#: settings/viewmodes/viewsettingstab.cpp:98
+#: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "Thư mục:"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:104
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr "Bấm vào bất cứ chỗ nào trong dòng"
 
-#: settings/viewmodes/viewsettingstab.cpp:102
+#: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr "Bấm vào biểu tượng hoặc tên"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:110
+#: settings/viewmodes/viewsettingstab.cpp:113
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Mở tệp và thư mục:"
 
-#: settings/viewmodes/viewsettingstab.cpp:116
+#: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Số lượng các thứ"
 
-#: settings/viewmodes/viewsettingstab.cpp:117
+#: settings/viewmodes/viewsettingstab.cpp:120
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Kích cỡ nội dung, tính đến "
 
-#: settings/viewmodes/viewsettingstab.cpp:125
+#: settings/viewmodes/viewsettingstab.cpp:128
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " mức thư mục con"
 
-#: settings/viewmodes/viewsettingstab.cpp:134
+#: settings/viewmodes/viewsettingstab.cpp:137
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Phần kích thước thư mục sẽ hiển thị:"
 
-#: settings/viewmodes/viewsettingstab.cpp:143
+#: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Tương đối (vd. '%1')"
 
-#: settings/viewmodes/viewsettingstab.cpp:145
+#: settings/viewmodes/viewsettingstab.cpp:148
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Tuyệt đối (vd. '%1')"
 
-#: settings/viewmodes/viewsettingstab.cpp:151
+#: settings/viewmodes/viewsettingstab.cpp:154
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Kiểu cách ngày:"
 
-#: settings/viewmodes/viewsettingstab.cpp:313
+#: settings/viewmodes/viewsettingstab.cpp:157
+#, kde-format
+msgctxt "option:radio as symbolic style "
+msgid "Symbolic (e.g. 'drwxr-xr-x')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:159
+#, kde-format
+msgctxt "option:radio as numeric style"
+msgid "Numeric (Octal) (e.g. '755')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:161
+#, kde-format
+msgctxt "option:radio as combined style"
+msgid "Combined (e.g. 'drwxr-xr-x (755)')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:163
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgctxt "@title:group"
+msgid "Permissions style:"
+msgstr "Quyền truy cập"
+
+#: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
 #, kde-format
 msgctxt "@info:tooltip"
@@ -4617,43 +4664,43 @@ msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "Mở %1 thứ"
 
-#: views/dolphinview.cpp:1180
+#: views/dolphinview.cpp:1181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Phần lót bên"
 
-#: views/dolphinview.cpp:1184
+#: views/dolphinview.cpp:1185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Độ rộng cột tự động"
 
-#: views/dolphinview.cpp:1189
+#: views/dolphinview.cpp:1190
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Độ rộng cột tự chọn"
 
-#: views/dolphinview.cpp:1760
+#: views/dolphinview.cpp:1761
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Đã hoàn tất thao tác vứt."
 
-#: views/dolphinview.cpp:1770
+#: views/dolphinview.cpp:1771
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Đã hoàn tất thao tác xoá."
 
-#: views/dolphinview.cpp:1926
+#: views/dolphinview.cpp:1927
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Đổi tên và ẩn"
 
-#: views/dolphinview.cpp:1935
+#: views/dolphinview.cpp:1936
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4662,7 +4709,7 @@ msgstr ""
 "Thêm dấu chấm vào đầu tên tệp sẽ ẩn nó đi khỏi khung xem.\n"
 "Bạn vẫn muốn đổi tên nó chứ?"
 
-#: views/dolphinview.cpp:1937
+#: views/dolphinview.cpp:1938
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4671,94 +4718,94 @@ msgstr ""
 "Thêm dấu chấm vào đầu tên thư mục sẽ ẩn nó đi khỏi khung xem.\n"
 "Bạn vẫn muốn đổi tên nó chứ?"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1940
 #, kde-format
 msgid "Hide this File?"
 msgstr "Ẩn tệp này?"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1940
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Ẩn thư mục này?"
 
-#: views/dolphinview.cpp:1993
+#: views/dolphinview.cpp:1994
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Địa điểm này trống."
 
-#: views/dolphinview.cpp:1995
+#: views/dolphinview.cpp:1996
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Địa điểm '%1' không hợp lệ."
 
-#: views/dolphinview.cpp:2249
+#: views/dolphinview.cpp:2250
 #, kde-format
 msgid "Loading..."
 msgstr "Đang tải..."
 
-#: views/dolphinview.cpp:2268
+#: views/dolphinview.cpp:2269
 #, kde-format
 msgid "Loading canceled"
 msgstr "Việc tải bị huỷ"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2271
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Không có thứ nào khớp với bộ lọc"
 
-#: views/dolphinview.cpp:2272
+#: views/dolphinview.cpp:2273
 #, kde-format
 msgid "No items matching the search"
 msgstr "Không có thứ nào khớp với tìm kiếm"
 
-#: views/dolphinview.cpp:2274
+#: views/dolphinview.cpp:2275
 #, kde-format
 msgid "Trash is empty"
 msgstr "Thùng rác trống"
 
-#: views/dolphinview.cpp:2277
+#: views/dolphinview.cpp:2278
 #, kde-format
 msgid "No tags"
 msgstr "Không thẻ gắn nào"
 
-#: views/dolphinview.cpp:2280
+#: views/dolphinview.cpp:2281
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Không có tệp nào được gắn thẻ \"%1\""
 
-#: views/dolphinview.cpp:2284
+#: views/dolphinview.cpp:2285
 #, kde-format
 msgid "No recently used items"
 msgstr "Không có thứ nào dùng gần đây"
 
-#: views/dolphinview.cpp:2286
+#: views/dolphinview.cpp:2287
 #, kde-format
 msgid "No shared folders found"
 msgstr "Không tìm thấy thư mục chia sẻ nào"
 
-#: views/dolphinview.cpp:2288
+#: views/dolphinview.cpp:2289
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Không tìm thấy tài nguyên mạng thích hợp nào"
 
-#: views/dolphinview.cpp:2290
+#: views/dolphinview.cpp:2291
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Không tìm thấy thiết bị nào tương thích với MTP"
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2293
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Không tìm thấy thiết bị Apple nào"
 
-#: views/dolphinview.cpp:2294
+#: views/dolphinview.cpp:2295
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Không tìm thấy thiết bị Bluetooth nào"
 
-#: views/dolphinview.cpp:2296
+#: views/dolphinview.cpp:2297
 #, kde-format
 msgid "Folder is empty"
 msgstr "Thư mục trống"
@@ -5185,9 +5232,9 @@ msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Đang cập nhật thông tin phiên bản..."
 
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "Cấu hình Xem thử cho %1"
+#~ msgctxt "@info"
+#~ msgid "Could not access <filename>%1</filename>."
+#~ msgstr "Không truy cập được <filename>%1</filename>."
 
 #~ msgid "One or more files on this device are open within an application."
 #~ msgstr ""
