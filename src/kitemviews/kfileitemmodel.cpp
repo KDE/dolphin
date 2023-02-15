@@ -2712,7 +2712,7 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "originUrl",           OriginUrlRole,           kli18nc("@label", "Downloaded From"),      kli18nc("@label", "Other"),    KLazyLocalizedString(),                    true,            false },
-        { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),    kli18nc("@tooltip", "The permission format can be changed in settings. Options are Textual, Numeric (Octal) or Combined formats"),        false,           false },
+        { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),    kli18nc("@tooltip", "The permission format can be changed in settings. Options are Symbolic, Numeric (Octal) or Combined formats"),        false,           false },
         { "owner",               OwnerRole,               kli18nc("@label", "Owner"),                kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "group",               GroupRole,               kli18nc("@label", "User Group"),           kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
     };
