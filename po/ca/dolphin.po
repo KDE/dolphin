@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 01:01+0000\n"
-"PO-Revision-Date: 2023-02-05 10:43+0100\n"
+"POT-Creation-Date: 2023-02-16 01:02+0000\n"
+"PO-Revision-Date: 2023-02-15 12:39+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2040,7 +2040,7 @@ msgstr "Modificat"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "El format de la data es pot seleccionar a la configuració."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2238,11 +2238,18 @@ msgid "Permissions"
 msgstr "Permisos"
 
 #: kitemviews/kfileitemmodel.cpp:2715
+#, fuzzy
+#| msgctxt "@tooltip"
+#| msgid ""
+#| "The permission format can be changed in settings. Options are Textual, "
+#| "Numeric (Octal) or Combined formats"
 msgctxt "@tooltip"
 msgid ""
-"The permission format can be changed in settings. Options are Textual, "
+"The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"El format dels permisos es pot seleccionar a la configuració. Les opcions "
+"són text, numèric (octal) o formats combinats"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -3293,11 +3300,9 @@ msgstr "si és cert, usarem dates relatives curtes, si no dates curtes"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Permisos"
+msgstr "Format d'estil dels permisos"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4349,27 +4354,25 @@ msgstr "Estil de la data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbòlic (p. ex. «drwxr-xr-x»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numèric (octal) (p. ex. «755»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Combinat (p. ex. «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Permisos"
+msgstr "Estil dels permisos:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -5303,7 +5306,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "S'està actualitzant la informació de la versió..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "No s'ha pogut accedir a <filename>%1</filename>."

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 01:01+0000\n"
+"POT-Creation-Date: 2023-02-16 01:02+0000\n"
 "PO-Revision-Date: 2023-01-31 14:56+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2004,7 +2004,7 @@ msgstr "Oprávnění"
 #: kitemviews/kfileitemmodel.cpp:2715
 msgctxt "@tooltip"
 msgid ""
-"The permission format can be changed in settings. Options are Textual, "
+"The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
@@ -3046,11 +3046,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Oprávnění"
+msgstr ""
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3577,7 +3575,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr ""
+msgstr "Nastavit náhled pro %1"
 
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
@@ -4095,12 +4093,10 @@ msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Oprávnění"
+msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4989,7 +4985,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "Nelze přistupovat k <filename>%1</filename>."

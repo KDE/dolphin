@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 01:01+0000\n"
-"PO-Revision-Date: 2023-02-05 09:36+0200\n"
+"POT-Creation-Date: 2023-02-16 01:02+0000\n"
+"PO-Revision-Date: 2023-02-15 08:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -2067,7 +2067,7 @@ msgstr "Змінено"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Формат дати можна вибрати у параметрах програми."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2265,11 +2265,18 @@ msgid "Permissions"
 msgstr "Права доступу"
 
 #: kitemviews/kfileitemmodel.cpp:2715
+#, fuzzy
+#| msgctxt "@tooltip"
+#| msgid ""
+#| "The permission format can be changed in settings. Options are Textual, "
+#| "Numeric (Octal) or Combined formats"
 msgctxt "@tooltip"
 msgid ""
-"The permission format can be changed in settings. Options are Textual, "
+"The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Формат запису прав доступу можна змінити у параметрах. Можна вибрати "
+"«символічний», «числовий (вісімковий)» або «комбінований» формат."
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -3340,11 +3347,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Права доступу"
+msgstr "Формат стилю прав доступу"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4394,27 +4399,25 @@ msgstr "Стиль дат:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Символічний (наприклад «drwxr-xr-x»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Числовий (вісімковий) (наприклад, «755»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Комбінований (наприклад, «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Права доступу"
+msgstr "Стиль прав доступу:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

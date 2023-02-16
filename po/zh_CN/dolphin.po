@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 01:01+0000\n"
-"PO-Revision-Date: 2023-02-07 11:01\n"
+"POT-Creation-Date: 2023-02-16 01:02+0000\n"
+"PO-Revision-Date: 2023-02-15 11:04\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2136,7 +2136,7 @@ msgstr "权限"
 #: kitemviews/kfileitemmodel.cpp:2715
 msgctxt "@tooltip"
 msgid ""
-"The permission format can be changed in settings. Options are Textual, "
+"The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
@@ -3405,7 +3405,7 @@ msgstr "所有文件夹是否使用相同的视图属性"
 #: settings/dolphin_generalsettings.kcfg:67
 #, kde-format
 msgid "Browse through archives"
-msgstr "浏览归档文件内容"
+msgstr "浏览压缩包内容"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:71
@@ -3690,7 +3690,7 @@ msgstr "取消勾选时，关闭拆分视图时将关闭非活动窗格"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr "配置 %1 的预览图"
+msgstr ""
 
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
