@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-02 00:46+0000\n"
-"PO-Revision-Date: 2023-02-07 11:05\n"
+"PO-Revision-Date: 2023-02-15 11:07\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -46,7 +46,7 @@ msgstr "安装软件包时发生未知错误"
 #: servicemenuinstaller.cpp:181
 #, kde-format
 msgid "Unsupported archive type %1: %2"
-msgstr "不支持的归档类型 %1：%2"
+msgstr "不支持的压缩包类型 %1：%2"
 
 #: servicemenuinstaller.cpp:190
 #, kde-format
@@ -130,7 +130,7 @@ msgstr "要执行的命令：install 或 uninstall。"
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
-msgstr "归档的路径。"
+msgstr "压缩包的路径。"
 
 #: servicemenuinstaller.cpp:441
 #, kde-format
@@ -140,7 +140,7 @@ msgstr "命令是必需的。"
 #: servicemenuinstaller.cpp:444
 #, kde-format
 msgid "Path to archive is required."
-msgstr "归档路径是必需的。"
+msgstr "压缩包的路径是必填项。"
 
 #: servicemenuinstaller.cpp:460
 #, kde-format
