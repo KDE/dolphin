@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-16 01:02+0000\n"
-"PO-Revision-Date: 2023-02-05 20:00+0100\n"
+"PO-Revision-Date: 2023-02-16 14:10+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2033,7 +2033,7 @@ msgstr "Modificato"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Il formato della data può essere selezionato nelle impostazioni."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2236,6 +2236,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Il formato dei permessi può essere modificato nelle impostazioni. Le opzioni "
+"prevedono i formati simbolici, numerici (ottali) o combinati"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -3286,11 +3288,9 @@ msgstr "se vero usiamo date relative brevi, altrimenti date brevi"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Permessi"
+msgstr "Formato dello stile dei permessi"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4348,27 +4348,25 @@ msgstr "Stile della data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbolico (ad es. «drwxr-xr-x»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numerico (ottale) (ad es. «755»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Combinato (ad es. «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Permessi:"
+msgstr "Stile dei permessi:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-16 01:02+0000\n"
-"PO-Revision-Date: 2023-02-06 07:55+0100\n"
+"PO-Revision-Date: 2023-02-16 07:25+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "X-Generator: Poedit 3.2.2\n"
 
@@ -2035,7 +2035,7 @@ msgstr "Spremenjeno"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Oblika datuma je lahko izbrana v nastavitvah."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2238,6 +2238,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Obliko dovoljenja lahko spremenite v nastavitvah. Možnosti so simbolično, "
+"številsko (oktalno) ali kombinirani formati"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -3294,11 +3296,9 @@ msgstr "če je true, uporabljamo kratke relativne datume, če ne kratke datume"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Dovoljenja"
+msgstr "Oblika sloga dovoljenja"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4346,27 +4346,25 @@ msgstr "Slog datuma:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbolična (npr. 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Številska (oktalno) (npr. '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinirana (npr. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Dovoljenja"
+msgstr "Slog dovoljenja:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-16 01:02+0000\n"
-"PO-Revision-Date: 2023-02-07 07:49+0100\n"
+"PO-Revision-Date: 2023-02-16 05:40+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3014,11 +3014,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "წვდომები"
+msgstr "წვდომის სტილის ფორმატი"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4007,7 +4005,7 @@ msgstr "შემცბელობის ზომა. მაქს "
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] " დონით ქვეშ"
+msgstr[0] " დონის სიღრმეზე"
 msgstr[1] " დონით ქვეშ"
 
 #: settings/viewmodes/viewsettingstab.cpp:137
@@ -4053,12 +4051,10 @@ msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "წვდომები"
+msgstr "წვდომების სტილი:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

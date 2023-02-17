@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-16 01:02+0000\n"
-"PO-Revision-Date: 2023-02-15 11:44+0300\n"
+"PO-Revision-Date: 2023-02-16 10:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2213,17 +2213,12 @@ msgid "Permissions"
 msgstr "İzinler"
 
 #: kitemviews/kfileitemmodel.cpp:2715
-#, fuzzy
-#| msgctxt "@tooltip"
-#| msgid ""
-#| "The permission format can be changed in settings. Options are Textual, "
-#| "Numeric (Octal) or Combined formats"
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
-"İzin biçimi ayarlardan seçilebilir. Seçenekler: Metinsel, Sayısal (Sekizlik) "
+"İzin biçimi ayarlardan seçilebilir. Seçenekler: Sembolik, Sayısal (Sekizlik) "
 "veya Birleştirilmiş"
 
 #: kitemviews/kfileitemmodel.cpp:2716
