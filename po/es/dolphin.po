@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-16 01:02+0000\n"
-"PO-Revision-Date: 2023-02-16 01:03+0100\n"
+"PO-Revision-Date: 2023-02-17 18:19+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2248,18 +2248,13 @@ msgid "Permissions"
 msgstr "Permisos"
 
 #: kitemviews/kfileitemmodel.cpp:2715
-#, fuzzy
-#| msgctxt "@tooltip"
-#| msgid ""
-#| "The permission format can be changed in settings. Options are Textual, "
-#| "Numeric (Octal) or Combined formats"
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 "El formato de los permisos se puede cambiar en las preferencias. Las "
-"opciones son «Textual», «Numérico (octal)» o «Combinado»."
+"opciones son «Simbólico», «Numérico (octal)» o «Combinado»."
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
