@@ -39,6 +39,7 @@
         "Description[vi]": "Cấu hình các thiết lập chung cho trình quản lí tệp",
         "Description[x-test]": "xxConfigure general file manager settingsxx",
         "Description[zh_CN]": "配置文件管理器常规设置",
+        "Description[zh_TW]": "配置一般檔案管理員設定",
         "Icon": "system-file-manager",
         "Name": "General",
         "Name[ar]": "عامّ",
@@ -79,6 +80,7 @@
         "Name[vi]": "Chung",
         "Name[x-test]": "xxGeneralxx",
         "Name[zh_CN]": "常规",
+        "Name[zh_TW]": "一般",
         "ServiceTypes": [
             "KCModule"
         ]

@@ -39,6 +39,7 @@
         "Description[vi]": "Cấu hình các chế độ xem trình quản lí tệp",
         "Description[x-test]": "xxConfigure file manager view modesxx",
         "Description[zh_CN]": "配置文件管理器视图模式",
+        "Description[zh_TW]": "設定檔案管理員檢視模式",
         "Icon": "preferences-desktop-icons",
         "Name": "View Modes",
         "Name[ar]": "أوضاع المنظور",
