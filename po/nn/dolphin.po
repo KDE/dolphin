@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-16 01:02+0000\n"
+"POT-Creation-Date: 2023-02-19 01:01+0000\n"
 "PO-Revision-Date: 2023-02-09 21:48+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -4556,7 +4556,7 @@ msgstr "Standard"
 msgid "Reload"
 msgstr "Last om att"
 
-#: views/dolphinview.cpp:631
+#: views/dolphinview.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4564,7 +4564,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "1 mappe merkt"
 msgstr[1] "%1 mapper merkte"
 
-#: views/dolphinview.cpp:632
+#: views/dolphinview.cpp:640
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4572,7 +4572,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "1 merkt fil"
 msgstr[1] "%1 merkte filer"
 
-#: views/dolphinview.cpp:634
+#: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4580,7 +4580,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "1 mappe"
 msgstr[1] "%1 mapper"
 
-#: views/dolphinview.cpp:635
+#: views/dolphinview.cpp:643
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4588,38 +4588,38 @@ msgid_plural "%1 Files"
 msgstr[0] "1 fil"
 msgstr[1] "%1 filer"
 
-#: views/dolphinview.cpp:639
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:641
+#: views/dolphinview.cpp:649
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 mapper, 0 filer"
 
-#: views/dolphinview.cpp:859 views/dolphinview.cpp:868
+#: views/dolphinview.cpp:867 views/dolphinview.cpp:876
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1-kopi"
 
-#: views/dolphinview.cpp:1038
+#: views/dolphinview.cpp:1055
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Er du sikker på at du vil opna 1 element?"
 msgstr[1] "Er du sikker på at du vil opna %1 element?"
 
-#: views/dolphinview.cpp:1050
+#: views/dolphinview.cpp:1067
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4627,43 +4627,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Opna %1 element"
 msgstr[1] "Opna %1 element"
 
-#: views/dolphinview.cpp:1181
+#: views/dolphinview.cpp:1198
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Luft før første kolonne"
 
-#: views/dolphinview.cpp:1185
+#: views/dolphinview.cpp:1202
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatiske kolonnebreidder"
 
-#: views/dolphinview.cpp:1190
+#: views/dolphinview.cpp:1207
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Tilpassa kolonnebreidder"
 
-#: views/dolphinview.cpp:1761
+#: views/dolphinview.cpp:1778
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Papirkorghandlinga er fullført."
 
-#: views/dolphinview.cpp:1771
+#: views/dolphinview.cpp:1788
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Slettinga er fullført."
 
-#: views/dolphinview.cpp:1927
+#: views/dolphinview.cpp:1944
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Endra filnamn og gøym"
 
-#: views/dolphinview.cpp:1936
+#: views/dolphinview.cpp:1953
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4672,7 +4672,7 @@ msgstr ""
 "Viss du har eit punktum fremst i filnamnet, vert fila gøymd.\n"
 "Er du sikker på at du vil endra filnamnet?"
 
-#: views/dolphinview.cpp:1938
+#: views/dolphinview.cpp:1955
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4681,94 +4681,94 @@ msgstr ""
 "Viss du har eit punktum fremst i filnamnet, vert mappa gøymd.\n"
 "Er du sikker på at du vil endra filnamnet?"
 
-#: views/dolphinview.cpp:1940
+#: views/dolphinview.cpp:1957
 #, kde-format
 msgid "Hide this File?"
 msgstr "Gøyma fila?"
 
-#: views/dolphinview.cpp:1940
+#: views/dolphinview.cpp:1957
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Gøyma mappa?"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:2011
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Adressa er tom."
 
-#: views/dolphinview.cpp:1996
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Adressa «%1» er ugyldig."
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2267
 #, kde-format
 msgid "Loading..."
 msgstr "Lastar …"
 
-#: views/dolphinview.cpp:2269
+#: views/dolphinview.cpp:2286
 #, kde-format
 msgid "Loading canceled"
 msgstr "Avbroten henting"
 
-#: views/dolphinview.cpp:2271
+#: views/dolphinview.cpp:2288
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Ingen element i samsvar med filteret"
 
-#: views/dolphinview.cpp:2273
+#: views/dolphinview.cpp:2290
 #, kde-format
 msgid "No items matching the search"
 msgstr "Ingen element i samsvar med søket"
 
-#: views/dolphinview.cpp:2275
+#: views/dolphinview.cpp:2292
 #, kde-format
 msgid "Trash is empty"
 msgstr "Papirkorga er tom"
 
-#: views/dolphinview.cpp:2278
+#: views/dolphinview.cpp:2295
 #, kde-format
 msgid "No tags"
 msgstr "Ingen merkelappar"
 
-#: views/dolphinview.cpp:2281
+#: views/dolphinview.cpp:2298
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Ingen filer merkte med «%1»"
 
-#: views/dolphinview.cpp:2285
+#: views/dolphinview.cpp:2302
 #, kde-format
 msgid "No recently used items"
 msgstr "Ingen nyleg brukte element"
 
-#: views/dolphinview.cpp:2287
+#: views/dolphinview.cpp:2304
 #, kde-format
 msgid "No shared folders found"
 msgstr "Fann ingen delte mapper"
 
-#: views/dolphinview.cpp:2289
+#: views/dolphinview.cpp:2306
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Fann ikkje nokon relevante nettverksressursar"
 
-#: views/dolphinview.cpp:2291
+#: views/dolphinview.cpp:2308
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Fann ingen MTP-kompatible opptakseiningar"
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2310
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Fann ingen Apple-einingar"
 
-#: views/dolphinview.cpp:2295
+#: views/dolphinview.cpp:2312
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Fann ingen Bluetooth-einingar"
 
-#: views/dolphinview.cpp:2297
+#: views/dolphinview.cpp:2314
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mappa er tom"
