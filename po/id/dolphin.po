@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-19 01:01+0000\n"
-"PO-Revision-Date: 2023-01-12 09:43+0700\n"
-"Last-Translator: Linerly <linerly@protonmail.com>\n"
+"PO-Revision-Date: 2023-02-19 10:10+0700\n"
+"Last-Translator: Aziz Adam Adrian <4.adam.adrian@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Aziz Adam Adrian,Andhika Padmawan,Arif Budiman,Wantoyo,Linerly"
+msgstr "Adam Adrian,Andhika Padmawan,Arif Budiman,Wantoyo,Linerly"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -304,7 +304,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Potong..."
 
 #: dolphinmainwindow.cpp:1585
 #, kde-kuit-format
@@ -321,12 +321,10 @@ msgstr ""
 "akan dihapus dari lokasi awalnya."
 
 #: dolphinmainwindow.cpp:1592
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Salin"
+msgstr "Salin..."
 
 #: dolphinmainwindow.cpp:1594
 #, kde-kuit-format
@@ -366,12 +364,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Salin ke Tampilan Belah Tak Aktif"
 
 #: dolphinmainwindow.cpp:1613
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Salin ke Tampilan Belah Tak Aktif"
+msgstr "Salin ke Tampilan Belah Tak Aktif..."
 
 #: dolphinmainwindow.cpp:1615
 #, kde-kuit-format
@@ -396,12 +392,10 @@ msgid "Move to Inactive Split View"
 msgstr "Pindahkan ke Tampilan Belah Tak Aktif"
 
 #: dolphinmainwindow.cpp:1624
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Pindahkan ke Tampilan Belah Tak Aktif"
+msgstr "Pindahkan ke Tampilan Belah Tak Aktif..."
 
 #: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
@@ -497,19 +491,15 @@ msgstr "Cari"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1681
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Cari file dan folder"
+msgstr "Pilih File dan Folder"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1684
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Pilih"
@@ -1532,12 +1522,10 @@ msgstr "Tutup Tab"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:499
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2296,35 +2284,31 @@ msgstr "Pengelola File"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022 Para Pengembang Dolphin"
 
 #: main.cpp:96
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Pemelihara (sejak 2018) dan pengembang"
+msgstr "Pemelihara (sejak 2021) dan pengembang"
 
 #: main.cpp:99
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Pemelihara (sejak 2018) dan pengembang"
+msgstr "Pemelihara (sejak 2021) dan pengembang (sejak 2019)"
 
 #: main.cpp:102
 #, kde-format
@@ -2333,12 +2317,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Pemelihara (2014-2018) dan pengembang"
+msgstr "Pemelihara (2018-2021) dan pengembang"
 
 #: main.cpp:105
 #, kde-format
@@ -2456,9 +2438,7 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin akan terbuka secara eksplisit di jendela baru."
 
 #: main.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Mulaikan Daemon Dolphin (hanya dibutuhkan untuk Antarmuka DBus)"
@@ -3058,14 +3038,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Gandakan Disini"
-msgstr[1] "Gandakan Disini"
+msgstr[0] "Gandakan %2"
+msgstr[1] "Gandakan %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3073,14 +3051,12 @@ msgstr[1] "Gandakan Disini"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Pindah ke Tong Sampah"
-msgstr[1] "Pindah ke Tong Sampah"
+msgstr[0] "Pindah %2 ke Tong Sampah"
+msgstr[1] "Pindah %2 ke Tong Sampah"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3088,14 +3064,12 @@ msgstr[1] "Pindah ke Tong Sampah"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "&Ganti Nama"
-msgstr[1] "&Ganti Nama"
+msgstr[0] "Ganti Nama %2"
+msgstr[1] "Ganti Nama %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3118,20 +3092,16 @@ msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Pemilihan"
+msgstr "Mode Pemilihan"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Pemilihan"
+msgstr "Keluar Dari Mode Pemilihan"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
@@ -3320,11 +3290,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Perizinan"
+msgstr "Format gaya perizinan"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -4320,12 +4288,10 @@ msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Cari file dan folder"
+msgstr "Buka file dan folder:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4389,12 +4355,10 @@ msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Perizinan"
+msgstr "Gaya perizinan:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4749,14 +4713,12 @@ msgstr[0] "Apakah Anda yakin ingin membuka 1 butir?"
 msgstr[1] "Apakah Anda yakin ingin membuka %1 butir?"
 
 #: views/dolphinview.cpp:1067
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "Buka %1"
-msgstr[1] "Buka %1"
+msgstr[0] "Buka %1 Butir"
+msgstr[1] "Buka %1 Butir"
 
 #: views/dolphinview.cpp:1198
 #, kde-format
@@ -4842,11 +4804,9 @@ msgid "Loading..."
 msgstr "Memuat..."
 
 #: views/dolphinview.cpp:2286
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Memuat folder..."
+msgstr "Pemuatan dibatalkan"
 
 #: views/dolphinview.cpp:2288
 #, kde-format
@@ -4894,10 +4854,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Tidak ada peranti yang kompatibel dengan MTP ditemukan"
 
 #: views/dolphinview.cpp:2310
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Tidak ada peranti Bluetooth yang ditemukan"
+msgstr "Tidak ada peranti Apple yang ditemukan"
 
 #: views/dolphinview.cpp:2312
 #, kde-format
@@ -4993,36 +4952,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Ini akan menyalin jalur butir pertama yang dipilih ke clipboard."
 
 #: views/dolphinviewactionhandler.cpp:160
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Pindah ke Tempat Sampah"
+msgstr "Pindahkan ke Tempat Sampah..."
 
 #: views/dolphinviewactionhandler.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Hapus"
+msgstr "Hapus..."
 
 #: views/dolphinviewactionhandler.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Gandakan Disini"
+msgstr "Gandakan Disini..."
 
 #: views/dolphinviewactionhandler.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Salin Lokasi"
+msgstr "Salin Lokasi..."
 
 #: views/dolphinviewactionhandler.cpp:192
 #, kde-kuit-format
