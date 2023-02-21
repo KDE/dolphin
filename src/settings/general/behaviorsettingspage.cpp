@@ -82,8 +82,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl &url, QWidget *parent)
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // 'Switch between panes of split views with tab key'
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Switch between split views panes with tab key"));
-    topLayout->addRow(i18nc("@title:group", "Split views: "), m_useTabForSplitViewSwitch);
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between panes with Tab key"));
+    topLayout->addRow(i18nc("@title:group", "Split view: "), m_useTabForSplitViewSwitch);
 
     // 'Close active pane when turning off split view'
     m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes active pane"));
