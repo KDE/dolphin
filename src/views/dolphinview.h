@@ -940,7 +940,7 @@ private:
     QTimer *m_showLoadingPlaceholderTimer;
 
     /// The information roleIndex of the list column header currently hovered
-    int m_hoveredColumnHearderRoleIndex;
+    std::optional<int> m_hoveredColumnHearderRoleIndex;
 
     /// Used for selection mode. @see setSelectionMode()
     std::unique_ptr<QProxyStyle> m_proxyStyle;
