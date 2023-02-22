@@ -28,6 +28,7 @@ Dependencies:
     'frameworks/kcodecs': '@stable'
     'libraries/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
+    'libraries/kmoretools': '@latest'
 
 - 'on': ['Linux', 'FreeBSD']
   'require':
