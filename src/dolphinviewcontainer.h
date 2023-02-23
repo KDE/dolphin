@@ -66,6 +66,7 @@ public:
      * The URL navigator is synchronized with this URL.
      */
     QUrl url() const;
+    KFileItem rootItem() const;
 
     /**
      * If \a active is true, the view container will marked as active. The active

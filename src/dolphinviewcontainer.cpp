@@ -206,6 +206,11 @@ QUrl DolphinViewContainer::url() const
     return m_view->url();
 }
 
+KFileItem DolphinViewContainer::rootItem() const
+{
+    return m_view->rootItem();
+}
+
 void DolphinViewContainer::setActive(bool active)
 {
     m_searchBox->setActive(active);

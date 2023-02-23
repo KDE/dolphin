@@ -2285,9 +2285,9 @@ void DolphinMainWindow::updateFileAndEditActions()
         KFileItem capabilitiesDestination;
 
         if (tabPage->primaryViewActive()) {
-            capabilitiesDestination = tabPage->secondaryViewContainer()->url();
+            capabilitiesDestination = tabPage->secondaryViewContainer()->rootItem();
         } else {
-            capabilitiesDestination = tabPage->primaryViewContainer()->url();
+            capabilitiesDestination = tabPage->primaryViewContainer()->rootItem();
         }
 
         copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
