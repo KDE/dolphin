@@ -58,7 +58,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl &url, QWidget *parent)
     topLayout->addRow(QString(), m_caseInsensitiveSorting);
     topLayout->addRow(QString(), m_caseSensitiveSorting);
 
-    // Splitted Views
+    // Split Views
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // 'Switch between panes of split views with tab key'
