@@ -21,7 +21,7 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget *parent)
     , m_columns()
     , m_columnWidths()
     , m_preferredColumnWidths()
-    , m_hoveredRoleIndex(-1)
+    , m_hoveredIndex(-1)
     , m_pressedRoleIndex(-1)
     , m_roleOperation(NoRoleOperation)
     , m_pressedMousePos()
@@ -365,15 +365,15 @@ void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *even
 void KItemListHeaderWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverEnterEvent(event);
-    updateHoveredRoleIndex(event->pos());
+    updateHoveredIndex(event->pos());
 }
 
 void KItemListHeaderWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsWidget::hoverLeaveEvent(event);
-    if (m_hoveredRoleIndex != -1) {
-        Q_EMIT columnUnHovered(m_hoveredRoleIndex);
-        m_hoveredRoleIndex = -1;
+    if (m_hoveredIndex != -1) {
+        Q_EMIT columnUnHovered(m_hoveredIndex);
+        m_hoveredIndex = -1;
         update();
     }
 }
@@ -383,8 +383,8 @@ void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsWidget::hoverMoveEvent(event);
 
     const QPointF &pos = event->pos();
-    updateHoveredRoleIndex(pos);
-    if ((m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) || isAbovePaddingGrip(pos, PaddingGrip::Leading)
+    updateHoveredIndex(pos);
+    if ((m_hoveredIndex >= 0 && isAboveRoleGrip(pos, m_hoveredIndex)) || isAbovePaddingGrip(pos, PaddingGrip::Leading)
         || isAbovePaddingGrip(pos, PaddingGrip::Trailing)) {
         setCursor(Qt::SplitHCursor);
     } else {
@@ -424,7 +424,7 @@ void KItemListHeaderWidget::paintRole(QPainter *painter, const QByteArray &role,
     if (window() && window()->isActiveWindow()) {
         option.state |= QStyle::State_Active;
     }
-    if (m_hoveredRoleIndex == orderIndex) {
+    if (m_hoveredIndex == orderIndex) {
         option.state |= QStyle::State_MouseOver;
     }
     if (m_pressedRoleIndex == orderIndex) {
@@ -486,17 +486,17 @@ void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF &pos)
     }
 }
 
-void KItemListHeaderWidget::updateHoveredRoleIndex(const QPointF &pos)
+void KItemListHeaderWidget::updateHoveredIndex(const QPointF &pos)
 {
     const int hoverIndex = roleIndexAt(pos);
 
-    if (m_hoveredRoleIndex != hoverIndex) {
-        if (m_hoveredRoleIndex != -1) {
-            Q_EMIT columnUnHovered(m_hoveredRoleIndex);
+    if (m_hoveredIndex != hoverIndex) {
+        if (m_hoveredIndex != -1) {
+            Q_EMIT columnUnHovered(m_hoveredIndex);
         }
-        m_hoveredRoleIndex = hoverIndex;
-        if (m_hoveredRoleIndex != -1) {
-            Q_EMIT columnHovered(m_hoveredRoleIndex);
+        m_hoveredIndex = hoverIndex;
+        if (m_hoveredIndex != -1) {
+            Q_EMIT columnHovered(m_hoveredIndex);
         }
         update();
     }

@@ -93,8 +93,8 @@ Q_SIGNALS:
      */
     void sortRoleChanged(const QByteArray &current, const QByteArray &previous);
 
-    void columnUnHovered(int roleIndex);
-    void columnHovered(int roleIndex);
+    void columnUnHovered(int columnIndex);
+    void columnHovered(int columnIndex);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -118,7 +118,7 @@ private:
     void paintRole(QPainter *painter, const QByteArray &role, const QRectF &rect, int orderIndex, QWidget *widget = nullptr) const;
 
     void updatePressedRoleIndex(const QPointF &pos);
-    void updateHoveredRoleIndex(const QPointF &pos);
+    void updateHoveredIndex(const QPointF &pos);
     int roleIndexAt(const QPointF &pos) const;
     bool isAboveRoleGrip(const QPointF &pos, int roleIndex) const;
     bool isAbovePaddingGrip(const QPointF &pos, PaddingGrip paddingGrip) const;
@@ -151,7 +151,7 @@ private:
     QHash<QByteArray, qreal> m_columnWidths;
     QHash<QByteArray, qreal> m_preferredColumnWidths;
 
-    int m_hoveredRoleIndex;
+    int m_hoveredIndex;
     int m_pressedRoleIndex;
     RoleOperation m_roleOperation;
     QPointF m_pressedMousePos;

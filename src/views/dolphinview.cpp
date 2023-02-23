@@ -211,12 +211,11 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinItemListView::visibleRolesChanged, this, &DolphinView::slotVisibleRolesChangedByHeader);
     connect(m_view, &DolphinItemListView::roleEditingCanceled, this, &DolphinView::slotRoleEditingCanceled);
 
-    connect(m_view, &DolphinItemListView::columnHovered, this, [this](int roleIndex) {
-        m_hoveredColumnHeaderRoleIndex = roleIndex;
+    connect(m_view, &DolphinItemListView::columnHovered, this, [this](int columnIndex) {
+        m_hoveredColumnHeaderIndex = columnIndex;
     });
-    connect(m_view, &DolphinItemListView::columnUnHovered, this, [this](int roleIndex) {
-        Q_UNUSED(roleIndex)
-        m_hoveredColumnHeaderRoleIndex = std::nullopt;
+    connect(m_view, &DolphinItemListView::columnUnHovered, this, [this](int /* columnIndex */) {
+        m_hoveredColumnHeaderIndex = std::nullopt;
     });
     connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished, this, &DolphinView::slotHeaderColumnWidthChangeFinished);
     connect(m_view->header(), &KItemListHeader::sidePaddingChanged, this, &DolphinView::slotSidePaddingWidthChanged);
@@ -974,10 +973,16 @@ bool DolphinView::eventFilter(QObject *watched, QEvent *event)
         if (tryShowNameToolTip(helpEvent)) {
             return true;
 
-        } else if (m_hoveredColumnHeaderRoleIndex) {
-            const auto roleInfo = KFileItemModel::rolesInformation().at(*m_hoveredColumnHeaderRoleIndex);
-            QToolTip::showText(helpEvent->globalPos(), roleInfo.tooltip, this);
-            return true;
+        } else if (m_hoveredColumnHeaderIndex) {
+            const auto rolesInfo = KFileItemModel::rolesInformation();
+            const auto visibleRole = m_visibleRoles.value(*m_hoveredColumnHeaderIndex);
+
+            for (const KFileItemModel::RoleInfo &info : rolesInfo) {
+                if (visibleRole == info.role) {
+                    QToolTip::showText(helpEvent->globalPos(), info.tooltip, this);
+                    return true;
+                }
+            }
         }
         break;
     }
