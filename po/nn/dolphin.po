@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-19 01:01+0000\n"
-"PO-Revision-Date: 2023-02-09 21:48+0100\n"
+"PO-Revision-Date: 2023-02-23 18:50+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -1133,6 +1133,9 @@ msgid ""
 "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
+"<para>Opnar eit vindauge der du kan velja kva knappar som skal visast på "
+"<emphasis>verktøylinja</emphasis>.</para><para>Alt som du ser i "
+"<interface>menyen</interface>, kan òg leggjast på verktøylinja.</para>"
 
 #: dolphinmainwindow.cpp:2504
 #, kde-kuit-format
@@ -1450,7 +1453,7 @@ msgstr "%1 | (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1583,6 +1586,8 @@ msgstr "Ugyldig protokoll"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Gjeldande mappe er endra, og <filename>%1</filename> er ikkje lenger "
+"tilgjengeleg."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -1964,7 +1969,7 @@ msgstr "Endra"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Du kan endra datoformatet i innstillingane."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2016,12 +2021,12 @@ msgstr "Forfattar"
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Forlag"
 
 #: kitemviews/kfileitemmodel.cpp:2693
 msgctxt "@label"
 msgid "Page Count"
-msgstr ""
+msgstr "Sidetal"
 
 #: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
@@ -2167,6 +2172,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Du kan endra formateringa av løyve i innstillingane. Alternativa er symbol, "
+"siffer (oktal) og kombinert."
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -4241,29 +4248,32 @@ msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Datostil:"
 
+# Sjå òg tilhøyrande hjelptekst.
 #: settings/viewmodes/viewsettingstab.cpp:157
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Symbol (eks. «drwxr-xr-x»)"
 
+# Sjå òg tilhøyrande hjelptekst.
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Siffer (oktal) (eks. «755»)"
 
+# Sjå òg tilhøyrande hjelptekst.
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinert (eks. «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr ""
+msgstr "Løyveformatering:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

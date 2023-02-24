@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-19 01:01+0000\n"
+"POT-Creation-Date: 2023-02-24 01:01+0000\n"
 "PO-Revision-Date: 2010-10-26 21:40+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -3804,46 +3804,54 @@ msgstr "ગોઠવણી:"
 
 #: settings/general/behaviorsettingspage.cpp:65
 #, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "ટીપ્પણીઓ બતાવો"
+msgctxt "option:check split view panes"
+msgid "Switch between panes with Tab key"
+msgstr ""
 
 #: settings/general/behaviorsettingspage.cpp:66
-#: settings/general/behaviorsettingspage.cpp:74
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr ""
-
-#: settings/general/behaviorsettingspage.cpp:70
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "પસંદગી નિશાની બતાવો"
-
-#: settings/general/behaviorsettingspage.cpp:78
 #, fuzzy, kde-format
-#| msgid "Rename inline"
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "અંદરનું નામ બદલો"
+#| msgctxt "@info"
+#| msgid "Split view"
+msgctxt "@title:group"
+msgid "Split view: "
+msgstr "છૂટો દેખાવ"
 
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "option:check"
-msgid "Switch between split views panes with tab key"
-msgstr ""
-
-#: settings/general/behaviorsettingspage.cpp:86
+#: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr ""
 
-#: settings/general/behaviorsettingspage.cpp:88
+#: settings/general/behaviorsettingspage.cpp:71
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:77
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "ટીપ્પણીઓ બતાવો"
+
+#: settings/general/behaviorsettingspage.cpp:78
+#: settings/general/behaviorsettingspage.cpp:86
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:82
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "પસંદગી નિશાની બતાવો"
+
+#: settings/general/behaviorsettingspage.cpp:90
+#, fuzzy, kde-format
+#| msgid "Rename inline"
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "અંદરનું નામ બદલો"
 
 #: settings/general/configurepreviewplugindialog.cpp:36
 #, kde-format
@@ -4749,7 +4757,7 @@ msgstr "મૂળભૂત"
 msgid "Reload"
 msgstr "ફરી લાવો"
 
-#: views/dolphinview.cpp:639
+#: views/dolphinview.cpp:638
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4757,7 +4765,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "૧ ફોલ્ડર પસંદ કરેલ છે"
 msgstr[1] "%1 ફોલ્ડરો પસંદ કરેલ છે"
 
-#: views/dolphinview.cpp:640
+#: views/dolphinview.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4765,7 +4773,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "૧ ફાઇલ પસંદ કરેલ છે"
 msgstr[1] "%1 ફાઇલો પસંદ કરેલ છે"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:641
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -4775,7 +4783,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "ફોલ્ડર"
 msgstr[1] "ફોલ્ડર"
 
-#: views/dolphinview.cpp:643
+#: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4783,19 +4791,19 @@ msgid_plural "%1 Files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:649
+#: views/dolphinview.cpp:648
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:653
+#: views/dolphinview.cpp:652
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4803,20 +4811,20 @@ msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "ફોલ્ડરો પ્રથમ"
 
-#: views/dolphinview.cpp:867 views/dolphinview.cpp:876
+#: views/dolphinview.cpp:866 views/dolphinview.cpp:875
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1055
+#: views/dolphinview.cpp:1060
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1067
+#: views/dolphinview.cpp:1072
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -4826,27 +4834,27 @@ msgid_plural "Open %1 Items"
 msgstr[0] "માર્ગ"
 msgstr[1] "માર્ગ"
 
-#: views/dolphinview.cpp:1198
+#: views/dolphinview.cpp:1203
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1202
+#: views/dolphinview.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "સ્થંભ પહોળાઇ"
 
-#: views/dolphinview.cpp:1207
+#: views/dolphinview.cpp:1212
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "સ્થંભ પહોળાઇ"
 
-#: views/dolphinview.cpp:1778
+#: views/dolphinview.cpp:1783
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -4854,136 +4862,136 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "કચરાપેટીમાં ખસેડવાની પ્રક્રિયા પૂર્ણ થઇ."
 
-#: views/dolphinview.cpp:1788
+#: views/dolphinview.cpp:1793
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "દૂર કરવાની પ્રક્રિયા પૂરી થઇ."
 
-#: views/dolphinview.cpp:1944
+#: views/dolphinview.cpp:1949
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "અંદરનું નામ બદલો"
 
-#: views/dolphinview.cpp:1953
+#: views/dolphinview.cpp:1958
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1955
+#: views/dolphinview.cpp:1960
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1957
+#: views/dolphinview.cpp:1962
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "છુપાવેલી ફાઇલો બતાવો"
 
-#: views/dolphinview.cpp:1957
+#: views/dolphinview.cpp:1962
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "ઘર ફોલ્ડર"
 
-#: views/dolphinview.cpp:2011
+#: views/dolphinview.cpp:2016
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "સ્થળ ખાલી છે."
 
-#: views/dolphinview.cpp:2013
+#: views/dolphinview.cpp:2018
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "સ્થળ '%1' અયોગ્ય છે."
 
-#: views/dolphinview.cpp:2267
+#: views/dolphinview.cpp:2272
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading..."
 msgstr "ફોલ્ડરો લાવે છે..."
 
-#: views/dolphinview.cpp:2286
+#: views/dolphinview.cpp:2291
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "ફોલ્ડરો લાવે છે..."
 
-#: views/dolphinview.cpp:2288
+#: views/dolphinview.cpp:2293
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "આ શૈલી સાથે મેળ ખાતી બધી વસ્તુઓ પસંદ કરો:"
 
-#: views/dolphinview.cpp:2290
+#: views/dolphinview.cpp:2295
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "આ શૈલી સાથે મેળ ખાતી બધી વસ્તુઓ પસંદ કરો:"
 
-#: views/dolphinview.cpp:2292
+#: views/dolphinview.cpp:2297
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "સ્થળ ખાલી છે."
 
-#: views/dolphinview.cpp:2295
+#: views/dolphinview.cpp:2300
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2298
+#: views/dolphinview.cpp:2303
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2307
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "હાલમાં બંધ કરેલ ટેબ્સ"
 
-#: views/dolphinview.cpp:2304
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2311
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2308
+#: views/dolphinview.cpp:2313
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2310
+#: views/dolphinview.cpp:2315
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "કોઈ વસ્તુઓ મળી નહી."
 
-#: views/dolphinview.cpp:2312
+#: views/dolphinview.cpp:2317
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2314
+#: views/dolphinview.cpp:2319
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
