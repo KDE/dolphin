@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2022-10-30 10:17+0100\n"
+"PO-Revision-Date: 2023-02-23 18:50+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -1142,6 +1142,9 @@ msgid ""
 "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
+"<para>Opnar eit vindauge der du kan velja kva knappar som skal visast på "
+"<emphasis>verktøylinja</emphasis>.</para><para>Alt som du ser i "
+"<interface>menyen</interface>, kan òg leggjast på verktøylinja.</para>"
 
 #: dolphinmainwindow.cpp:2545
 #, kde-kuit-format
