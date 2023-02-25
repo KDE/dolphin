@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2023-02-15 11:07\n"
+"PO-Revision-Date: 2023-02-24 12:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -142,7 +142,7 @@ msgstr "无法访问 <filename>%1</filename>。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "确认"
+msgstr "请求确认"
 
 #: dolphinmainwindow.cpp:561
 #, kde-format
@@ -153,13 +153,13 @@ msgstr "退出 %1(&Q)"
 #: dolphinmainwindow.cpp:562
 #, kde-format
 msgid "C&lose Current Tab"
-msgstr "关闭当前标签(&L)"
+msgstr "关闭当前标签页(&L)"
 
 #: dolphinmainwindow.cpp:571
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "此窗口含有多个打开的标签，您确认要退出吗？"
+msgstr "此窗口中有多个打开的标签页，您确定要退出吗？"
 
 #: dolphinmainwindow.cpp:573 dolphinmainwindow.cpp:625
 #, kde-format
@@ -1655,7 +1655,7 @@ msgstr[0] "%1 个项目"
 msgctxt "@item:intable"
 msgid "%1 item"
 msgid_plural "%1 items"
-msgstr[0] "%1 项"
+msgstr[0] "%1 个项目"
 
 #: kitemviews/kfileitemlistwidget.cpp:100
 #, kde-format
@@ -2739,7 +2739,7 @@ msgstr "取消剪切"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "选择要永久删除的文件和文件夹。"
+msgstr "选择要彻底删除的文件和文件夹。"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2887,7 +2887,7 @@ msgstr[0] "剪切 %2 项到剪贴板"
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] "永久删除 %2 项"
+msgstr[0] "彻底删除 %2 项"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3750,7 +3750,7 @@ msgstr "预览图"
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
-msgstr "确认"
+msgstr "请求确认"
 
 #: settings/general/generalsettingspage.cpp:45
 #, kde-format
