@@ -6,7 +6,7 @@
 # Fernando Boaglio <boaglio@kde.org>, 2008.
 # Doutor Zero <doutor.zero@gmail.com>, 2007, 2008.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2017, 2018, 2019, 2020, 2021, 2022.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Aracele Torres <araceletorres@gmail.com>, 2010, 2011, 2016, 2017.
 # Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
 # Camila Moura <camila.moura@kde.org>, 2017.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-24 01:01+0000\n"
-"PO-Revision-Date: 2022-12-20 09:48-0300\n"
+"PO-Revision-Date: 2023-02-24 16:11-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -826,17 +826,13 @@ msgid "Information"
 msgstr "Informações"
 
 #: dolphinmainwindow.cpp:2034
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Para mostrar ou ocultar painéis como este, vá para <interface>Controle|"
+"<para>Para mostrar ou ocultar painéis como este, vá para <interface>Menu|"
 "Painéis</interface> ou <interface>Exibir|Painéis</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2041
@@ -1073,15 +1069,7 @@ msgid "Split view"
 msgstr "Divide a área de exibição"
 
 #: dolphinmainwindow.cpp:2459
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1096,22 +1084,11 @@ msgstr ""
 "um dos menus nesta barra para ver seu conteúdo.</para><para>A Barra de menus "
 "pode ser ocultada ao desmarcar <interface>Configurações|Mostrar barra de "
 "menus</interface>. Assim, a maior parte do seu conteúdo ficará disponível "
-"através de um botão <interface>Controle</interface> na <emphasis>Barra de "
+"através de um botão <interface>Menu</interface> na <emphasis>Barra de "
 "ferramentas</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2466
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1125,13 +1102,12 @@ msgid ""
 msgstr ""
 "<para>Esta é a <emphasis>Barra de ferramentas</emphasis>. Ela permite acesso "
 "rápido a ações usadas com frequência.</para><para>Ela é altamente "
-"personalizável. Todos os itens visíveis no menu <interface>Controle</"
-"interface> ou na <interface>Barra de menus</interface> podem ser inseridas "
-"na Barra de ferramentas. Basta clicar com o botão direito nela e selecionar "
-"<interface>Configurar barras de ferramentas…</interface> ou procurar por "
-"essa ação no menu <interface>Controle</interface> ou "
-"<interface>Configurações</interface>. </para><para>A localização da barra e "
-"o estilo dos botões também pode ser alterada no menu que aparece com clique "
+"personalizável. Todos os itens visíveis no <interface>Menu</interface> ou na "
+"<interface>Barra de menus</interface> podem ser inseridas na Barra de "
+"ferramentas. Basta clicar com o botão direito nela e selecionar "
+"<interface>Configurar barras de ferramentas…</interface> ou encontre essa "
+"ação no <interface>menu</interface>. </para><para>A localização da barra e o "
+"estilo dos botões também pode ser alterada no menu que aparece com clique "
 "direito. Clique com o botão direito em um botão se você quiser exibir ou "
 "ocultar seu texto.</para>"
 
@@ -1179,13 +1155,7 @@ msgstr ""
 "ser ativados desta maneira.</para>"
 
 #: dolphinmainwindow.cpp:2500
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1194,8 +1164,8 @@ msgid ""
 msgstr ""
 "<para>Isto abre uma janela na qual você poderá definir quais botões aparecem "
 "na <emphasis>Barra de ferramentas</emphasis>.</para><para>Todos os itens "
-"visíveis no menu <interface>Controle</interface> ou na <interface>Barra de "
-"menu</interface> também podem ser colocados na Barra de ferramentas.</para>"
+"visíveis no menu <interface>Menu</interface> também podem ser colocados na "
+"Barra de ferramentas.</para>"
 
 #: dolphinmainwindow.cpp:2504
 #, kde-kuit-format
@@ -1217,13 +1187,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2524
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1232,10 +1196,12 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Caso você deseja instruções mais elaboradas a respeito dos diversos "
-"recursos do <emphasis>Dolphin</emphasis> <link url=' https://userbase.kde."
-"org/Dolphin/File_Management'>clique aqui</link>. Isto irá abrir a página "
-"correspondente na KDE UserBase Wiki.</para>"
+"<para>Isto abre o manual deste aplicativo. Ele fornece explicações para cada "
+"parte do <emphasis>Dolphin</emphasis>.</para><para>Caso você deseja "
+"instruções mais elaboradas a respeito dos diversos recursos do "
+"<emphasis>Dolphin</emphasis> <link url=' https://userbase.kde.org/Dolphin/"
+"File_Management'>clique aqui</link>. Isto irá abrir a página correspondente "
+"na KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2529
 #, fuzzy, kde-kuit-format

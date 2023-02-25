@@ -3530,20 +3530,16 @@ msgid "Sorting mode: "
 msgstr "Režim řazení: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Přepínat mezi rozdělenými panely Tabulátorem"
+msgstr ""
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Rozdělit pohled"
+msgstr ""
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format

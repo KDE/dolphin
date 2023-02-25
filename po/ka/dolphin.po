@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-24 01:01+0000\n"
-"PO-Revision-Date: 2023-02-16 05:40+0100\n"
+"PO-Revision-Date: 2023-02-24 05:10+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -477,6 +477,7 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr ""
+"ეს მიმდინარე მდებარეობაზე არსებულ ყველა ფაილსა და საქაღალდეს მონიშნავს."
 
 #: dolphinmainwindow.cpp:1713 dolphinpart.cpp:168
 #, kde-format
@@ -3494,12 +3495,10 @@ msgid "Switch between panes with Tab key"
 msgstr ""
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "ხედის გაყოფა"
+msgstr "ხედის გაყოფა: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-24 01:01+0000\n"
-"PO-Revision-Date: 2023-02-15 11:04\n"
+"PO-Revision-Date: 2023-02-24 12:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -136,7 +136,7 @@ msgstr "撤销 <interface>转到 | 返回</interface> 操作。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "确认"
+msgstr "请求确认"
 
 #: dolphinmainwindow.cpp:547
 #, kde-format
@@ -147,13 +147,13 @@ msgstr "退出 %1(&Q)"
 #: dolphinmainwindow.cpp:549
 #, kde-format
 msgid "C&lose Current Tab"
-msgstr "关闭当前标签(&L)"
+msgstr "关闭当前标签页(&L)"
 
 #: dolphinmainwindow.cpp:558
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "此窗口含有多个打开的标签，您确认要退出吗？"
+msgstr "此窗口中有多个打开的标签页，您确定要退出吗？"
 
 #: dolphinmainwindow.cpp:560 dolphinmainwindow.cpp:610
 #, kde-format
@@ -1668,7 +1668,7 @@ msgstr[0] "%1 个项目"
 msgctxt "@item:intable"
 msgid "%1 item"
 msgid_plural "%1 items"
-msgstr[0] "%1 项"
+msgstr[0] "%1 个项目"
 
 #: kitemviews/kfileitemlistwidget.cpp:99
 #, kde-format
@@ -1936,7 +1936,7 @@ msgstr "修改时间"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "日期格式可以在设置中更改。"
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2138,7 +2138,7 @@ msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
-msgstr ""
+msgstr "权限格式可以在设置中更改。可选项有符号式、数字式 (八进制)、组合式。"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2755,7 +2755,7 @@ msgstr "取消剪切"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "选择要永久删除的文件和文件夹。"
+msgstr "选择要彻底删除的文件和文件夹。"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2903,7 +2903,7 @@ msgstr[0] "剪切 %2 项到剪贴板"
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] "永久删除 %2 项"
+msgstr[0] "彻底删除 %2 项"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3163,11 +3163,9 @@ msgstr "如果选中，则使用短式相对日期；如果不选中，则使用
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "权限"
+msgstr "权限格式风格"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3700,7 +3698,7 @@ msgstr "单击重命名"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr ""
+msgstr "配置 %1 的预览图"
 
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
@@ -3784,7 +3782,7 @@ msgstr "预览图"
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
-msgstr "确认"
+msgstr "请求确认"
 
 #: settings/general/generalsettingspage.cpp:45
 #, kde-format
@@ -4201,27 +4199,25 @@ msgstr "日期样式："
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "符号式 (例如“drwxr-xr-x”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "数字式 (八进制) (例如“755”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "组合式 (例如“drwxr-xr-x (755)”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "权限"
+msgstr "权限格式："
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -5125,7 +5121,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "正在更新版本信息..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "无法访问 <filename>%1</filename>。"

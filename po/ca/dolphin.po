@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-24 01:01+0000\n"
-"PO-Revision-Date: 2023-02-16 09:03+0100\n"
+"PO-Revision-Date: 2023-02-24 13:01+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3796,22 +3796,16 @@ msgid "Sorting mode: "
 msgstr "Mode d'ordenació: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr ""
-"Commuta entre les subfinestres de les vistes dividides amb la tecla de "
-"tabulació"
+msgstr "Commuta entre les subfinestres amb la tecla de tabulació"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Vista dividida"
+msgstr "Vista dividida: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
