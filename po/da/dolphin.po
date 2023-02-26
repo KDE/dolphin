@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-24 01:01+0000\n"
+"POT-Creation-Date: 2023-02-26 01:01+0000\n"
 "PO-Revision-Date: 2022-08-20 18:10+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -1363,52 +1363,52 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Kørsel af Dolphin som root kan være farligt. Pas godt på."
 
-#: dolphinviewcontainer.cpp:505 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Søg efter %1 i %2"
 
-#: dolphinviewcontainer.cpp:541
+#: dolphinviewcontainer.cpp:546
 #, kde-format
 msgid "Search"
 msgstr "Søg"
 
-#: dolphinviewcontainer.cpp:543
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search for %1"
 msgstr "Søg efter %1"
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:632
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "Indlæser mappe..."
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "Sorterer..."
 
-#: dolphinviewcontainer.cpp:646
+#: dolphinviewcontainer.cpp:651
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "Søger..."
 
-#: dolphinviewcontainer.cpp:667
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ingen elementer fundet."
 
-#: dolphinviewcontainer.cpp:798
+#: dolphinviewcontainer.cpp:803
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin understøtter ikke hjemmesider, webbrowseren er blevet startet"
 
-#: dolphinviewcontainer.cpp:801
+#: dolphinviewcontainer.cpp:806
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1417,13 +1417,13 @@ msgstr ""
 "Protokollen er ikke understøttet af Dolphin, standardprogrammet er blevet "
 "startet"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:812
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ugyldig protokol"
 
-#: dolphinviewcontainer.cpp:911
+#: dolphinviewcontainer.cpp:916
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

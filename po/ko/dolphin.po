@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-24 01:01+0000\n"
+"POT-Creation-Date: 2023-02-26 01:01+0000\n"
 "PO-Revision-Date: 2022-08-09 13:14+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1567,65 +1567,65 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Dolphin을 루트 권한으로 실행하면 위험할 수도 있습니다. 사용에 주의하십시오."
 
-#: dolphinviewcontainer.cpp:505 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%2에서 %1 검색"
 
-#: dolphinviewcontainer.cpp:541
+#: dolphinviewcontainer.cpp:546
 #, kde-format
 msgid "Search"
 msgstr "검색"
 
-#: dolphinviewcontainer.cpp:543
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search for %1"
 msgstr "%1 검색"
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:632
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "폴더 불러오는 중..."
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "정렬 중..."
 
-#: dolphinviewcontainer.cpp:646
+#: dolphinviewcontainer.cpp:651
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "찾는 중..."
 
-#: dolphinviewcontainer.cpp:667
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "항목이 없습니다."
 
-#: dolphinviewcontainer.cpp:798
+#: dolphinviewcontainer.cpp:803
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin은 웹 페이지를 지원하지 않으므로 웹 브라우저가 실행되었습니다"
 
-#: dolphinviewcontainer.cpp:801
+#: dolphinviewcontainer.cpp:806
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin이 지원하지 않는 프로토콜이므로 기본 프로그램이 실행되었습니다"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:812
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "잘못된 프로토콜"
 
-#: dolphinviewcontainer.cpp:911
+#: dolphinviewcontainer.cpp:916
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

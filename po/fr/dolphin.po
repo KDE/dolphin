@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-24 01:01+0000\n"
-"PO-Revision-Date: 2023-02-16 19:43+0100\n"
+"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"PO-Revision-Date: 2023-02-24 20:46+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -1635,53 +1635,53 @@ msgstr ""
 "Exécuter Dolphin en tant que superutilisateur peut s'avérer dangereux. Soyez "
 "prudent."
 
-#: dolphinviewcontainer.cpp:505 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Chercher « %1 » dans « %2 »"
 
-#: dolphinviewcontainer.cpp:541
+#: dolphinviewcontainer.cpp:546
 #, kde-format
 msgid "Search"
 msgstr "Rechercher"
 
-#: dolphinviewcontainer.cpp:543
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search for %1"
 msgstr "Recherche de %1"
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:632
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "Chargement du dossier…"
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "Tri…"
 
-#: dolphinviewcontainer.cpp:646
+#: dolphinviewcontainer.cpp:651
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "Recherche…"
 
-#: dolphinviewcontainer.cpp:667
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: dolphinviewcontainer.cpp:798
+#: dolphinviewcontainer.cpp:803
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne prend pas en charge les pages web, le navigateur a été lancé"
 
-#: dolphinviewcontainer.cpp:801
+#: dolphinviewcontainer.cpp:806
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1690,13 +1690,13 @@ msgstr ""
 "Protocole non pris en charge par Dolphin, l'application par défaut a été "
 "lancée"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:812
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocole non valable"
 
-#: dolphinviewcontainer.cpp:911
+#: dolphinviewcontainer.cpp:916
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3864,20 +3864,16 @@ msgid "Sorting mode: "
 msgstr "Mode de tri :"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Basculer entre les vues scindées avec la touche « Tab »"
+msgstr "Basculer entre les panneaux avec la touche « Tab »"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Scinder la vue"
+msgstr "Scinder la vue :"
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
