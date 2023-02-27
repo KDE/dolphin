@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 01:01+0000\n"
-"PO-Revision-Date: 2023-02-16 14:10+0100\n"
+"PO-Revision-Date: 2023-02-24 23:44+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3796,21 +3796,16 @@ msgid "Sorting mode: "
 msgstr "Modalità di ordinamento:"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr ""
-"Passa attraverso i pannelli della vista divisa con il tasto di tabulazione"
+msgstr "Passa da un riquadro all'altro con il tasto Tab"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Vista divisa"
+msgstr "Vista divisa: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
