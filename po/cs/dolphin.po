@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 01:01+0000\n"
-"PO-Revision-Date: 2023-02-17 09:28+0100\n"
+"PO-Revision-Date: 2023-02-24 15:14+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -3533,13 +3533,13 @@ msgstr "Režim řazení: "
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr ""
+msgstr "Přepnout mezi panely pomocí klávesy Tab"
 
 #: settings/general/behaviorsettingspage.cpp:66
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr ""
+msgstr "Rozdělit pohled: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
