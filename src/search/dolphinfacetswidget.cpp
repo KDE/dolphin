@@ -104,6 +104,11 @@ void DolphinFacetsWidget::changeEvent(QEvent *event)
     }
 }
 
+QSize DolphinFacetsWidget::minimumSizeHint() const
+{
+    return QSize(0, m_typeSelector->minimumHeight());
+}
+
 void DolphinFacetsWidget::resetSearchTerms()
 {
     m_typeSelector->setCurrentIndex(0);

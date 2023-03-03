@@ -48,6 +48,8 @@ public:
 
     void setFacetType(const QString &type);
 
+    QSize minimumSizeHint() const override;
+
 Q_SIGNALS:
     void facetChanged();
 
