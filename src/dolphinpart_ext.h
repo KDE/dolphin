@@ -7,16 +7,16 @@
 #ifndef DOLPHINPART_EXT_H
 #define DOLPHINPART_EXT_H
 
-#include <kparts/browserextension.h>
-#include <kparts/fileinfoextension.h>
-#include <kparts/listingfilterextension.h>
-#include <kparts/listingnotificationextension.h>
+#include <KParts/FileInfoExtension>
+#include <KParts/ListingFilterExtension>
+#include <KParts/ListingNotificationExtension>
+#include <KParts/NavigationExtension>
 
 #include <QUrl>
 
 class DolphinPart;
 
-class DolphinPartBrowserExtension : public KParts::BrowserExtension
+class DolphinPartBrowserExtension : public KParts::NavigationExtension
 {
     Q_OBJECT
 public:

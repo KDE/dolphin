@@ -85,7 +85,7 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
     });
     connect(m_view, &DolphinView::tabRequested, this, &DolphinPart::createNewWindow);
     connect(m_view, &DolphinView::requestContextMenu, this, &DolphinPart::slotOpenContextMenu);
-    connect(m_view, &DolphinView::selectionChanged, m_extension, &KParts::BrowserExtension::selectionInfo);
+    connect(m_view, &DolphinView::selectionChanged, m_extension, &KParts::NavigationExtension::selectionInfo);
     connect(m_view, &DolphinView::selectionChanged, this, &DolphinPart::slotSelectionChanged);
     connect(m_view, &DolphinView::requestItemInfo, this, &DolphinPart::slotRequestItemInfo);
     connect(m_view, &DolphinView::modeChanged, this, &DolphinPart::viewModeChanged); // relay signal
@@ -362,8 +362,8 @@ void DolphinPart::createNewWindow(const QUrl &url)
 
 void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item, const KFileItemList &selectedItems, const QUrl &)
 {
-    KParts::BrowserExtension::PopupFlags popupFlags =
-        KParts::BrowserExtension::DefaultPopupItems | KParts::BrowserExtension::ShowProperties | KParts::BrowserExtension::ShowUrlOperations;
+    KParts::NavigationExtension::PopupFlags popupFlags =
+        KParts::NavigationExtension::DefaultPopupItems | KParts::NavigationExtension::ShowProperties | KParts::NavigationExtension::ShowUrlOperations;
 
     KFileItem item(_item);
 
@@ -384,7 +384,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item,
 
     KFileItemListProperties capabilities(items);
 
-    KParts::BrowserExtension::ActionGroupMap actionGroups;
+    KParts::NavigationExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
     editActions += m_view->versionControlActions(m_view->selectedItems());
 
@@ -409,7 +409,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item,
                 m_removeAction->update();
             }
         } else {
-            popupFlags |= KParts::BrowserExtension::NoDeletion;
+            popupFlags |= KParts::NavigationExtension::NoDeletion;
         }
 
         if (supportsMoving) {
@@ -420,7 +420,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item,
         // since otherwise the created file would not be visible.
         // But in treeview mode we should allow it.
         if (m_view->itemsExpandable())
-            popupFlags |= KParts::BrowserExtension::ShowCreateDirectory;
+            popupFlags |= KParts::NavigationExtension::ShowCreateDirectory;
     }
 
     actionGroups.insert(QStringLiteral("editactions"), editActions);

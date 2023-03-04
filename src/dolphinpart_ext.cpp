@@ -10,20 +10,20 @@
 #include "views/dolphinview.h"
 
 DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart *part)
-    : KParts::BrowserExtension(part)
+    : KParts::NavigationExtension(part)
     , m_part(part)
 {
 }
 
 void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
 {
-    KParts::BrowserExtension::restoreState(stream);
+    KParts::NavigationExtension::restoreState(stream);
     m_part->view()->restoreState(stream);
 }
 
 void DolphinPartBrowserExtension::saveState(QDataStream &stream)
 {
-    KParts::BrowserExtension::saveState(stream);
+    KParts::NavigationExtension::saveState(stream);
     m_part->view()->saveState(stream);
 }
 
