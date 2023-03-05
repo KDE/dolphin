@@ -33,4 +33,5 @@ Dependencies:
   'require':
     'frameworks/baloo': '@stable'
     'libraries/baloo-widgets': '@same'
+    'third-party/packagekit-qt': '@latest'
 
