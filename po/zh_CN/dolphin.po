@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
 "PO-Revision-Date: 2023-02-24 12:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2623,20 +2623,20 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "取消选择"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr "，"
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, kde-format
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
 msgstr[0] "标签：%2"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Tags"

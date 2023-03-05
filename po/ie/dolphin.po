@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
 "PO-Revision-Date: 2022-11-06 08:18+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -2478,13 +2478,13 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "Deselecter"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr ", "
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, kde-format
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
@@ -2492,7 +2492,7 @@ msgid_plural "Tags: %2"
 msgstr[0] "Etiquette: %2"
 msgstr[1] "Etiquettes: %2"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Tags"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
-"PO-Revision-Date: 2023-02-11 08:31+0100\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
+"PO-Revision-Date: 2023-03-04 08:44+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -2031,7 +2031,7 @@ msgstr "Ostatnio zmieniany"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Zapis daty można zmienić w ustawieniach."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2234,6 +2234,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Zapis uprawnień można zmienić w ustawieniach. Można wybrać symboliczny, "
+"numeryczny (ósemkowy) lub oba na raz"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2723,13 +2725,13 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "Wyczyść zaznaczenie"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr ", "
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, kde-format
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
@@ -2738,7 +2740,7 @@ msgstr[0] "Znacznik: %2"
 msgstr[1] "Znaczniki: %2"
 msgstr[2] "Znaczniki: %2"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Tags"
@@ -3289,11 +3291,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Uprawnienia"
+msgstr "Zapis uprawnień"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3790,20 +3790,16 @@ msgid "Sorting mode: "
 msgstr "Tryb szeregowania: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Przełącz pomiędzy widokami katalogów klawiszem tab"
+msgstr "Klawisz tab przełącza pomiędzy widokami"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Podziel widok"
+msgstr "Podziel widok: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4348,27 +4344,25 @@ msgstr "Zapis daty:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Symbolicznie (np. 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numerycznie (ósemkowo) (np. '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Oba (np. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Uprawnienia:"
+msgstr "Zapis uprawnień:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321

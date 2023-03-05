@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -2717,13 +2717,13 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "उनटू चयन"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr ""
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Tag:"
@@ -2733,7 +2733,7 @@ msgid_plural "Tags: %2"
 msgstr[0] "टैग"
 msgstr[1] "टैग"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Tags"

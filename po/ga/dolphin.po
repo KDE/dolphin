@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -2705,13 +2705,13 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "Inbhéartaigh an Rogha"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr ""
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Tag:"
@@ -2724,7 +2724,7 @@ msgstr[2] "Clib:"
 msgstr[3] "Clib:"
 msgstr[4] "Clib:"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, fuzzy, kde-format
 #| msgctxt "@label Indicator when no tags defined"
 #| msgid "No Tags"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 01:01+0000\n"
+"POT-Creation-Date: 2023-03-05 00:56+0000\n"
 "PO-Revision-Date: 2023-02-27 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1191,7 +1191,7 @@ msgstr ""
 "<emphasis>دولفين</emphasis>.</para><para> إذا كنت تريد مقدمات أكثر تفصيلا "
 "للميزات المختلفة لـ <emphasis> دولفين </emphasis> <link url='https://"
 "userbase.kde.org/Dolphin/File_Management'> انقر هنا </link>. سيفتح الصفحة "
-"المخصصة في ويكي قاعدة مستخدمي كدي. </para>"
+"المخصصة في ويكي قاعدة مستخدمي كِيدِي. </para>"
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
@@ -1211,8 +1211,8 @@ msgstr ""
 "الفأرة في حالة عدم توفر مساعدة بشأن المكون. </para><para> هناك طريقتان "
 "أخريان للحصول على المساعدة: <link url = 'help:/dolphin/index.html'> دليل "
 "دولفين </link> و <link url = 'https://userbase.kde.org/Dolphin/"
-"File_Management'> ويكي قاعدة مستخدمي كدي </link>. </para> <para> مساعدة \"ما "
-"هذا؟\" مفقودة في معظم النوافذ الأخرى ، لذا لا تعتاد على ذلك. </para>"
+"File_Management'> ويكي قاعدة مستخدمي كِيدِي </link>. </para> <para> مساعدة "
+"\"ما هذا؟\" مفقودة في معظم النوافذ الأخرى ، لذا لا تعتاد على ذلك. </para>"
 
 #: dolphinmainwindow.cpp:2540
 #, kde-kuit-format
@@ -1225,7 +1225,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 "<para> هذا يفتح نافذة ستوجهك خلال الإبلاغ عن الأخطاء أو العيوب في هذا "
-"التطبيق أو في برامج كدي الأخرى. </para><para>  تقارير الأخطاء عالية الجودة "
+"التطبيق أو في برامج كِيدِي الأخرى. </para><para>  تقارير الأخطاء عالية الجودة "
 "محل تقدير كبير. لمعرفة كيفية جعل تقرير الأخطاء الخاص بك فعالاً قدر الإمكان "
 "<link url = 'https: //community.kde.org/Get_Involved/Bug_Reporting'> انقر "
 "هنا </link>. </para> "
@@ -1245,11 +1245,11 @@ msgid ""
 msgstr ""
 "<para> هذا يفتح <emphasis> صفحة ويب</emphasis> حيث يمكنك التبرع لدعم العمل "
 "المستمر على هذا التطبيق والعديد من المشاريع الأخرى بواسطة مجتمع <emphasis> "
-"كدي </emphasis>. </para> <para> التبرع هو أسهل وأسرع طريقة لدعم كدي "
-"ومشاريعها بكفاءة. مشاريع كدي متاحة مجانًا ، لذلك فإن تبرعك ضروري لتغطية "
+"كِيدِي </emphasis>. </para> <para> التبرع هو أسهل وأسرع طريقة لدعم كِيدِي "
+"ومشاريعها بكفاءة. مشاريع كِيدِي متاحة مجانًا ، لذلك فإن تبرعك ضروري لتغطية "
 "الأشياء التي تتطلب أموالًا مثل الخوادم ، واجتماعات المساهمين ، وما إلى ذلك. "
 "المجتمع. </para><para><emphasis>KDE e.V.</emphasis> هي منظمة غير ربحية تقف "
-"خلف مجتمع كدي.</para>"
+"خلف مجتمع كِيدِي.</para>"
 
 #: dolphinmainwindow.cpp:2562
 #, kde-kuit-format
@@ -1282,9 +1282,9 @@ msgid ""
 "this application but don't know about KDE or want to see a cute dragon have "
 "a look!"
 msgstr ""
-"هذا يفتح نافذة تحتوي على معلومات حول <emphasis> كدي </emphasis>. مجتمع كدي "
+"هذا يفتح نافذة تحتوي على معلومات حول <emphasis> كِيدِي </emphasis>. مجتمع كِيدِي "
 "هم الأشخاص الذين يقفون وراء هذا البرنامج المجاني. <nl/> إذا كنت تحب استخدام "
-"هذا التطبيق ولكنك لا تعرف عن كدي أو تريد أن ترى تنينًا لطيفًا ، ألق نظرة!"
+"هذا التطبيق ولكنك لا تعرف عن كِيدِي أو تريد أن ترى تنينًا لطيفًا ، ألق نظرة!"
 
 #: dolphinmainwindow.cpp:2630 dolphinmainwindow.cpp:2634
 #, kde-format
@@ -2730,13 +2730,13 @@ msgctxt "@action:inmenu"
 msgid "Clear Selection"
 msgstr "امحُ التّحديد"
 
-#: search/dolphinfacetswidget.cpp:248
+#: search/dolphinfacetswidget.cpp:253
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
 msgstr "، "
 
-#: search/dolphinfacetswidget.cpp:249
+#: search/dolphinfacetswidget.cpp:254
 #, kde-format
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
@@ -2748,7 +2748,7 @@ msgstr[3] "الوسوم: %2"
 msgstr[4] "الوسوم: %2"
 msgstr[5] "الوسوم: %2"
 
-#: search/dolphinfacetswidget.cpp:251
+#: search/dolphinfacetswidget.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Tags"
@@ -3856,7 +3856,7 @@ msgstr "اضبط معاينة %1"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
-msgstr "اطلب التأكيد في كلّ تطبيقات كدي عند:"
+msgstr "اطلب التأكيد في كلّ تطبيقات كِيدِي عند:"
 
 #: settings/general/confirmationssettingspage.cpp:49
 #, kde-format
@@ -5419,7 +5419,7 @@ msgstr "يحدّث معلومات الإصدار..."
 #~ "flaws in this application or in other KDE software.</para>"
 #~ msgstr ""
 #~ "<para> هذا يفتح نافذة ترشدك خلال الإبلاغ عن الأخطاء أو العيوب في هذا "
-#~ "التطبيق أو في برامج كدي الأخرى. </para> "
+#~ "التطبيق أو في برامج كِيدِي الأخرى. </para> "
 
 #~ msgctxt "@info:credit"
 #~ msgid ""
