@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-03-04 08:44+0100\n"
+"PO-Revision-Date: 2023-03-05 09:05+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3462,7 +3462,7 @@ msgstr "Czy użytkownikowi wolno zmieniać adres URL"
 #: settings/dolphin_generalsettings.kcfg:22
 #, kde-format
 msgid "Text completion mode of the URL Navigator"
-msgstr "Tryb uzupełniania tekstu dla poruszania się po URL"
+msgstr "Tryb uzupełniania tekstu dla przemieszczanie się po URL"
 
 #. i18n: ectx: label, entry (ShowFullPath), group (General)
 #: settings/dolphin_generalsettings.kcfg:26
@@ -3706,7 +3706,7 @@ msgstr "Tryby widoku"
 #, kde-format
 msgctxt "@title:group"
 msgid "Navigation"
-msgstr "Poruszanie się"
+msgstr "Przemieszczanie się"
 
 #: settings/dolphinsettingsdialog.cpp:88
 #, kde-format
