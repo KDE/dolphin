@@ -6,14 +6,14 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2010, 2011, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2009.
 # Marcin Kocur <marcin2006@gmail.com>, 2009.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Ignacy Kajdan <ignacy.kajdan@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2022-11-23 20:45+0100\n"
+"PO-Revision-Date: 2023-03-05 09:05+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3446,7 +3446,7 @@ msgstr "Czy użytkownikowi wolno zmieniać adres URL"
 #: settings/dolphin_generalsettings.kcfg:22
 #, kde-format
 msgid "Text completion mode of the URL Navigator"
-msgstr "Tryb uzupełniania tekstu dla poruszania się po URL"
+msgstr "Tryb uzupełniania tekstu dla przemieszczanie się po URL"
 
 #. i18n: ectx: label, entry (ShowFullPath), group (General)
 #: settings/dolphin_generalsettings.kcfg:26
@@ -3690,7 +3690,7 @@ msgstr "Tryby widoku"
 #, kde-format
 msgctxt "@title:group"
 msgid "Navigation"
-msgstr "Poruszanie się"
+msgstr "Przemieszczanie się"
 
 #: settings/dolphinsettingsdialog.cpp:94
 #, kde-format
