@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-24 12:43\n"
+"PO-Revision-Date: 2023-03-11 04:52\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -136,7 +136,7 @@ msgstr "撤销 <interface>转到 | 返回</interface> 操作。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "请求确认"
+msgstr "确认操作"
 
 #: dolphinmainwindow.cpp:547
 #, kde-format
@@ -3643,20 +3643,16 @@ msgid "Sorting mode: "
 msgstr "排序方式："
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "按 Tab 键在拆分视图的左右窗格之间切换"
+msgstr "按 Tab 键切换窗格"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "拆分视图"
+msgstr "拆分视图:："
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -3782,7 +3778,7 @@ msgstr "预览图"
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
-msgstr "请求确认"
+msgstr "确认操作"
 
 #: settings/general/generalsettingspage.cpp:45
 #, kde-format
@@ -4657,12 +4653,12 @@ msgstr "加载已取消"
 #: views/dolphinview.cpp:2293
 #, kde-format
 msgid "No items matching the filter"
-msgstr "没有匹配该筛选条件的项目"
+msgstr "没有匹配此筛选条件的项目"
 
 #: views/dolphinview.cpp:2295
 #, kde-format
 msgid "No items matching the search"
-msgstr "没有匹配搜索的项"
+msgstr "没有匹配此搜索条件的项目"
 
 #: views/dolphinview.cpp:2297
 #, kde-format
