@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-24 12:43\n"
+"PO-Revision-Date: 2023-03-11 04:55\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/dolphin/dolphin.pot\n"
-"X-Crowdin-File-ID: 5263\n"
+"X-Crowdin-File: /kf5-stable/messages/dolphin/dolphin.pot\n"
+"X-Crowdin-File-ID: 4076\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -136,7 +136,7 @@ msgstr "撤销 <interface>转到 | 返回</interface> 操作。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "请求确认"
+msgstr "确认操作"
 
 #: dolphinmainwindow.cpp:547
 #, kde-format
@@ -1425,10 +1425,12 @@ msgstr "关闭标签页"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:499
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status files (size)"
+#| msgid "%1 (%2)"
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 | (%2)"
+msgstr "%1 (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1436,7 +1438,7 @@ msgstr "%1 | (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr "(%1) | %2"
+msgstr ""
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1561,7 +1563,7 @@ msgstr "无效的协议"
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
-msgstr "当前位置已经更改，<filename>%1</filename> 已经无法访问。"
+msgstr ""
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -1936,7 +1938,7 @@ msgstr "修改时间"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr "日期格式可以在设置中更改。"
+msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -1988,12 +1990,15 @@ msgstr "作者"
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
-msgstr "出版商"
+msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2693
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "页数"
+msgstr "行数"
 
 #: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
@@ -2138,7 +2143,7 @@ msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
-msgstr "权限格式可以在设置中更改。可选项有符号式、数字式 (八进制)、组合式。"
+msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2325,10 +2330,12 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin 将明确地在新窗口中打开。"
 
 #: main.cpp:136
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "启动 Dolphin 守护进程 (只在使用 DBus 接口时需要)。"
+msgstr "启动 Dolphin 守护进程 (只在使用 DBus 接口时需要)"
 
 #: main.cpp:137
 #, kde-format
@@ -3163,9 +3170,11 @@ msgstr "如果选中，则使用短式相对日期；如果不选中，则使用
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
 msgid "Permissions style format"
-msgstr "权限格式风格"
+msgstr "权限"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3782,7 +3791,7 @@ msgstr "预览图"
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
-msgstr "请求确认"
+msgstr "确认操作"
 
 #: settings/general/generalsettingspage.cpp:45
 #, kde-format
@@ -4199,25 +4208,27 @@ msgstr "日期样式："
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "符号式 (例如“drwxr-xr-x”)"
+msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "数字式 (八进制) (例如“755”)"
+msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "组合式 (例如“drwxr-xr-x (755)”)"
+msgstr ""
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "权限格式："
+msgstr "权限"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4657,12 +4668,12 @@ msgstr "加载已取消"
 #: views/dolphinview.cpp:2293
 #, kde-format
 msgid "No items matching the filter"
-msgstr "没有匹配该筛选条件的项目"
+msgstr "没有匹配此筛选条件的项目"
 
 #: views/dolphinview.cpp:2295
 #, kde-format
 msgid "No items matching the search"
-msgstr "没有匹配搜索的项"
+msgstr "没有匹配此搜索条件的项目"
 
 #: views/dolphinview.cpp:2297
 #, kde-format
@@ -4700,9 +4711,10 @@ msgid "No MTP-compatible devices found"
 msgstr "没有找到 MTP 兼容设备"
 
 #: views/dolphinview.cpp:2315
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
-msgstr "未发现苹果设备"
+msgstr "没有找到蓝牙设备"
 
 #: views/dolphinview.cpp:2317
 #, kde-format
@@ -5121,3 +5133,23 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "正在更新版本信息..."
+
+#~ msgctxt "@info"
+#~ msgid "Could not access <filename>%1</filename>."
+#~ msgstr "无法访问 <filename>%1</filename>。"
+
+#~ msgid "One or more files on this device are open within an application."
+#~ msgstr "此设备中有文件正被其他应用程序打开。"
+
+#~ msgid ""
+#~ "One or more files on this device are opened in application <application>"
+#~ "\"%2\"</application>."
+#~ msgid_plural ""
+#~ "One or more files on this device are opened in following applications: "
+#~ "<application>%2</application>."
+#~ msgstr[0] ""
+#~ "此设备中有文件正被以下应用程序打开：<application>%2</application>。"
+
+#~ msgctxt "separator in list of apps blocking device unmount"
+#~ msgid ", "
+#~ msgstr "，"
