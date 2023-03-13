@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-14 22:02+0530\n"
+"PO-Revision-Date: 2023-03-12 17:01+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1911,7 +1911,7 @@ msgstr "மாற்றப்பட்டது"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "தேதிகளின் வடிவத்தை அமைப்புகளில் மாற்றலாம்"
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2114,6 +2114,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"அனுமதிகளுக்கான வடிவத்தை அமைப்புகளில் மாற்றலாம். எழுத்துகளாகவோ, எண்ம‍மாகவோ, இரண்டும் கலந்த‍"
+"தாகவோ அவற்றை காட்டுமாறு அமைக்கலாம்."
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2799,6 +2801,10 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>தேர்ந்தெடுத்திருந்த கோப்புகளும் அடைவுகளும் பிடிப்புப்பலகையில் சேர்க்கப்பட்டுள்ளன."
+"<emphasis>ஒட்டு</emphasis> எனும் தேர்வைப் பயன்படுத்தி பிடிப்புப்பலகையிலிருந்து அவற்றை "
+"விரும்பிய இடத்திற்கு மாற்றலாம். மற்ற செயலிகளில் <emphasis>ஒட்டு</emphasis> எனும் வசதி "
+"இருந்தால், அவற்றை அச்செயலிகளிலும் பயன்படுத்தலாம்.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
@@ -3149,11 +3155,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "அனுமதிகள்"
+msgstr "அனுமதிகள் காட்டப்படும் வடிவம்"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3646,20 +3650,16 @@ msgid "Sorting mode: "
 msgstr "வரிசைப்படுத்தும் முறை:"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "தத்தல் விசையைக் கொண்டு துண்டாக்கப்பட்ட காட்சிகளுக்கிடையே தாவு"
+msgstr "தத்தல் விசையைக் கொண்டு காட்சிப்பகுதிகளுக்கிடையே தாவு"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "துண்டாக்கப்பட்ட காட்சிமுறை"
+msgstr "துண்டாக்கப்பட்ட காட்சிமுறை:"
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4205,27 +4205,25 @@ msgstr "தேதி எப்படிக் காட்டப்படும�
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "எழுத்துவடிவம் (எ.கா. 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "எண்மவடிவம் (எ.கா. '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "இரண்டும் (எ.கா. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@option:check Additional Information"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "அனுமதிகள்"
+msgstr "அனுமதிகள் காட்டப்படும் வடிவம்:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
