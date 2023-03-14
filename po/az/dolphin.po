@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-19 18:45+0400\n"
+"PO-Revision-Date: 2023-03-12 18:27+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -1212,14 +1212,7 @@ msgstr ""
 "səhifəni açacaq.</para>"
 
 #: dolphinmainwindow.cpp:2529
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1231,19 +1224,18 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Köməkçi məlumatlar üçün iki mənbə mövcuddur: <link url='help:/dolphin/"
-"index.html'>Dolphin əl kitabçası</link> və <link url='https://userbase.kde."
-"org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>\"Bu nədir"
-"\" funksiyası bir çox pəncərələrdə mövcud deyil. və buna görə də ona yardım "
-"mənbəyi kimi baxmaq olmaz.</para>"
+"<para>Bu, hazırda istifadə etdiyiniz tətbiqin yardım funksiyasını çağıran "
+"bir düymədir: Bu düyməyə və sonra bu tətbiqin hər hansı bir hissəsinə "
+"vuraraq \"Bu nədir?\" sualını verin. Bu hissə üçün bir kömək əlçatan deyilsə "
+"o zaman kursor öz görünüşünü dəyişəcək.</para><para>Kömək əldə etmək üçün "
+"iki başqa yol var: <link url='help:/dolphin/index.html'>Dolphin Sorğu Kitabı "
+"</link> və <link url='https://userbase.kde.org/Dolphin/File_Management'>KDE "
+"UserBase Wiki</link> portalı.</para><para>\"Bu nədir?\" funksiyası bir çox "
+"pəncərələrdə əlçatan deyil, belə ki, ona sorğunuza cavab tapmaq üçün əsas "
+"mənbə kimi baxmayın.</para>"
 
 #: dolphinmainwindow.cpp:2540
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1252,10 +1244,12 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Xətalar haqqında dəqiq məlumat daha qiymətlidir.Xəta hesabatının "
-"mümkün qədər keyfiyyətli və dəqiq tərtib edilməsini öyrənmək üçün <link "
-"url='https://community.kde.org/Get_Involved/Bug_Reporting'>klikləyin</link>."
-"</para>"
+"<para>Bu, bu tətbiqdəki və başqa KDE proqram təminatındakı qüsurlar və "
+"xətalar haqqında hesabat verilməsində sizə bələdçilik edəcək bir pəncərəni "
+"açır.</para><para>Yüksək keyfiyyətlə hazırlanmış xəta hesabatları daha çox "
+"qiymətləndirilir. Xəta hesabtlarınızın necə mükün qədər effektiv "
+"hazırlanmasını öyrənmək istəsəniz <link url='https://community.kde.org/"
+"Get_Involved/Bug_Reporting'>buraya vurun</link>.</para>"
 
 #: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
@@ -1510,12 +1504,10 @@ msgstr "Vərəqi bağlamaq"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:499
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1523,7 +1515,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1660,6 +1652,7 @@ msgstr "Pozulmuş protokol"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Cari yerləşmə yeri dəyişdirilib, <filename>%1</filename> artıq mövcud deyil."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2041,7 +2034,7 @@ msgstr "Dəyişiklik tarixi"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Tarix formatını ayarlardan seçə bilərsiniz."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2093,15 +2086,12 @@ msgstr "Müəllif"
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Nəşriyyat"
 
 #: kitemviews/kfileitemmodel.cpp:2693
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Sətirlərin sayı"
+msgstr "Səhifə sayı"
 
 #: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
@@ -2247,6 +2237,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"İcazə formatı ayarlardan dəyişdirilə bilər. Parametrlər Simvolik, Rəqəmsal "
+"(səkkizli) və ya Birləşdirilmiş formatlardır"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2279,35 +2271,31 @@ msgstr "Fayl meneceri"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022 Dolphin tərtibatçıları"
 
 #: main.cpp:96
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Müşayətçi (since 2018) and developer"
+msgstr "Dəstəkçi (2021-ci ildən) və tərtibatçı"
 
 #: main.cpp:99
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Müşayətçi (since 2018) and developer"
+msgstr "Dəstəkçi (2021-ci ildən) və tərtibatçı (2021-ci ildən)"
 
 #: main.cpp:102
 #, kde-format
@@ -2316,12 +2304,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Müşayətçi (2014-2018) və tərtibatçı"
+msgstr "Dəstəkçi (2018-2021) və tərtibatçı"
 
 #: main.cpp:105
 #, kde-format
@@ -2439,13 +2425,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin yeni pəncərədə açılacaq."
 
 #: main.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
-"Dolphin arxa plan xidmətini başlatmaq (yalnız DBus interfeysi üçün lazımdır)"
+"Dolphin arxa fon xidmətini başlat (yalnız DBus interfeysi üçün tələb olunur)"
 
 #: main.cpp:137
 #, kde-format
@@ -2831,12 +2815,10 @@ msgid "Query Results from '%1'"
 msgstr "\"%1\" axtarışının nəticələri"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Arqument kimi göstərilən fayl və qovluqlar seçiləcəkdir."
+msgstr "Kopyalanmalı olan faylları və qovluqları seç."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2846,45 +2828,39 @@ msgstr "Arqument kimi göstərilən fayl və qovluqlar seçiləcəkdir."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Kopyalanmanı ləğv et"
 
 #: selectionmode/bottombarcontentscontainer.cpp:190
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Yerləşdiyi yerləri kopyalanmalı olan fayl və qovluları seç."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Bu, hazırkı mövqedəki faylları və qovluqları seçir."
+msgstr "Üzərinə kopyalanmalı olan faylları və qovluqları seç."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Bu, hazırkı mövqedəki faylları və qovluqları seçir."
+msgstr "Kəsilməli olan faylları və qovliuqları seç."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Kəsilməni ləğv et"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Arqument kimi göstərilən fayl və qovluqlar seçiləcəkdir."
+msgstr "Həmişəlik silinməli olan faylları və qovluqları seç."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2893,22 +2869,20 @@ msgstr "Arqument kimi göstərilən fayl və qovluqlar seçiləcəkdir."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Ləğv et"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Arqument kimi göstərilən fayl və qovluqlar seçiləcəkdir."
+msgstr "Burada təkrarı yaradılmalı olan fayl və qovluqları seç."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Təkrarını yaratmağı ləğv et"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2916,27 +2890,27 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Daha çox"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:359
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Üzərinə köçürülməli olan faylları və qovluqları seç."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Köçürülməni ləğv et"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Səbətə atılmalı olan faylları və qovluqları seç."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2947,25 +2921,29 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Seçilmiş fayllar və ya qovluqlar mübadilə yaddaşına kopyalandı. İndi "
+"<emphasis>Yerləşdir</emphasis> əməli ilə onları mübadilə yaddaşından "
+"istənilən yerə yerləşdirmək olar. Bunları hətta uyğun <emphasis>Yerləşdir</"
+"emphasis> əməlləri ilə başqa tətbiqlərdə də yerləşdirmək olar.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Mübadilə yaddaşından yerləşdir"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Bu xatırlatmanı ləğv et"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Mənə yenidən xatırladılmasın"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -2974,13 +2952,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Adları dəyişdirilməli olan faylları və qovluqları seç.\n"
+"Birdən çox seçilmiş elementin toplu olaraq adını dəyişmək mümkündür."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Xatırlatmanı ləğv et"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2992,8 +2972,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mübadilə yaddaşına kopyala: %2"
+msgstr[1] "Mübadilə yaddaşına kopyala: %2"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3005,8 +2985,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 yerini mübadilə yaddaşına kopyala"
+msgstr[1] "%2 yerini mübadilə yaddaşına kopyala"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3018,8 +2998,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mübadilə yaddşına kəs: %2"
+msgstr[1] "Mübadilə yaddşına kəs: %2"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3031,8 +3011,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Həmişəlik sil: %2"
+msgstr[1] "Həmişəlik sil: %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3040,14 +3020,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Burada surətini yaradın"
-msgstr[1] "Burada surətini yaradın"
+msgstr[0] "Təkrarını yarat: %2"
+msgstr[1] "Təkrarını yarat: %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3055,14 +3033,12 @@ msgstr[1] "Burada surətini yaradın"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Səbətə atmaq"
-msgstr[1] "Səbətə atmaq"
+msgstr[0] "Səbətə at: %2"
+msgstr[1] "Səbətə at: %2"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3070,14 +3046,12 @@ msgstr[1] "Səbətə atmaq"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Ad dəyişmə..."
-msgstr[1] "Ad dəyişmə..."
+msgstr[0] "Adını dəyiş: %2"
+msgstr[1] "Addını dəyiş: %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3092,28 +3066,34 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Seçim rejimi</title><para>İdarə ediləcək və ya üzərində iş görüləcək "
+"faylları və ya qovluqları seç.<list><item>Bir faylı və ya qovluğu seçmək "
+"üçün üzərinə bas. </item><item>Seçimi ləğv etmək üçün artıq seçilmiş faylın "
+"və ya qovluğun üzərinə bas</item><item>Boş yerə basmaqla seçim "
+"<emphasis>ləğv edilmir</emphasis>.</item><item>Dördbucaqlı şəkildə seçim "
+"(hər hansı boş sahədən tutb çəkdikdə) onun daxilindəki elementlərin seçim "
+"vəziyyətinə əksinə dəyişir.</item></list></para><para>Aşağıdakı mövcud "
+"düymələr elementlərin seçim vəziyyətindən asılı olaraq dəyişir. </para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Seçim rejimi. Faylları və ya qovluqları seçmək və ya seçimləri ləğv etmək "
+"üçün üzərinə vurun."
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Seçim"
+msgstr "Seçim rejimi"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Seçim"
+msgstr "Seçim rejimindən çıx"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
@@ -3277,7 +3257,7 @@ msgstr "Sütun abzası"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Tam sətri vurğula"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3308,11 +3288,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Giriş icazələri"
+msgstr "Giriş icazələrinin görünüş forması"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3594,6 +3572,9 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Aşağıdakı seçim rejimindəki düymələrdən istifadə edilərək kəsmək və ya "
+"kopyalamaq əməlləri icra olunduqdan sonra asan yerləşdirmək üçün bir panel "
+"göstərilsin."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3803,20 +3784,16 @@ msgid "Sorting mode: "
 msgstr "Çeşidləmə rejimi: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Tab düyməsi vasitəsi ilə aktiv pəncərələr arası keçid etmək"
+msgstr "Panelləri Tab düyməsi ilə dəyiş"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Baxış sahəsini iki panelə bölür"
+msgstr "Bölünmə görünüşü:"
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4298,22 +4275,20 @@ msgstr "Qovluqlar:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Sətirdə hər hansı bir yerə vurmaqla"
 
 #: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Nişanın adına və ya adına vurmaqla"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Fayllar və Qovluqların axtarışı"
+msgstr "Faylları və qovluqları aç:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4362,27 +4337,25 @@ msgstr "Tarix forması:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simvolik (məs., drwxr-xr-x)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Rəqəmsal (səkkizli) (məs., 755)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Birləşdirilmiş (məs., drwxr-xr-x (755))"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Giriş icazələri"
+msgstr "Giriş icazələri tərzi:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4878,10 +4851,9 @@ msgid "No MTP-compatible devices found"
 msgstr "MTP-yə uyğun cihazlar tapılmadı"
 
 #: views/dolphinview.cpp:2315
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Bluetooth cihazı tapılmadı"
+msgstr "Heç bir Apple cihazı tapılmadı"
 
 #: views/dolphinview.cpp:2317
 #, kde-format
@@ -4978,36 +4950,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Bu ilk seçilən elementin yolunu mübadilə buferinə kopyalayacaq."
 
 #: views/dolphinviewactionhandler.cpp:160
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Səbətə atmaq"
+msgstr "Səbətə at..."
 
 #: views/dolphinviewactionhandler.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Silmək"
+msgstr "Sil..."
 
 #: views/dolphinviewactionhandler.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Burada surətini yaradın"
+msgstr "Təkrarını yarat..."
 
 #: views/dolphinviewactionhandler.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopyalama Yeri"
+msgstr "Yerini kopyala..."
 
 #: views/dolphinviewactionhandler.cpp:192
 #, kde-kuit-format
