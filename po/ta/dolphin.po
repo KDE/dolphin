@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-03-12 17:01+0530\n"
+"PO-Revision-Date: 2023-03-19 11:23+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -1470,17 +1470,17 @@ msgstr ""
 #: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
-msgstr "%1 என்பதை %2-இல் தேடு"
+msgstr "%1 என்பதை %2-இல் தேடியது"
 
 #: dolphinviewcontainer.cpp:546
 #, kde-format
 msgid "Search"
-msgstr "தேடு"
+msgstr "தேடல்"
 
 #: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search for %1"
-msgstr "%1 என்பதைத் தேடு"
+msgstr "%1 என்பதற்கான தேடல்"
 
 #: dolphinviewcontainer.cpp:632
 #, kde-format
