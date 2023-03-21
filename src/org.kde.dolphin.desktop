@@ -134,6 +134,7 @@ Keywords[da]=filer;filhåndtering;stifinder;filbrowsing;samba;netværksressource
 Keywords[de]=Dateien;Dateiverwaltung;Netzwerkfreigaben;
 Keywords[el]=αρχεία;διαχείριση αρχείων;περιήγηση;samba;δικτυακοί πόροι;Εξερευνητής;Αναζήτηση;
 Keywords[en_GB]=files;file management;file browsing;samba;network shares;Explorer;Finder;
+Keywords[eo]=dosieroj;dosieradministrado;dosierfoliumado;samba;retkunhavigoj;Explorer;Finder;
 Keywords[es]=archivos;gestión de archivos;administración de archivos;exploración de archivos;samba;recursos compartidos de red;gestor de archivos;administrador de archivos;explorador;buscador;
 Keywords[eu]=fitxategiak;fitxategi kudeaketa;fitxategiak arakatzea;samba;sare partekatzeak; Esploratzailea;Bilatzailea;
 Keywords[fi]=tiedostot;tiedostonhallinta;tiedostojen selaus;samba;verkko;verkkojaot;Explorer;Finder;
