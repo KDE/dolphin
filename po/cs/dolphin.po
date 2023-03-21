@@ -4674,7 +4674,7 @@ msgstr "Kopírovat umístění"
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
-msgstr ""
+msgstr "Zkopírovat do schránky cestu první vybrané položky."
 
 #: views/dolphinviewactionhandler.cpp:160
 #, kde-format
