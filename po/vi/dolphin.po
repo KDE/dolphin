@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-20 11:08+0100\n"
+"PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
 "Language: vi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3734,20 +3734,16 @@ msgid "Sorting mode: "
 msgstr "Chế độ sắp xếp: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Chuyển giữa các ô của khung xem chia đôi bằng phím tab"
+msgstr "Chuyển giữa các ô bằng phím tab"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Chia đôi khung xem"
+msgstr "Khung xem chia: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
