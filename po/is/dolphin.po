@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-17 00:59+0000\n"
-"PO-Revision-Date: 2023-02-13 17:19+0000\n"
+"PO-Revision-Date: 2023-03-21 14:44+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2029,7 +2029,7 @@ msgstr "Breytt"
 #: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Snið dagsetninga er hægt að velja í stillingunum."
 
 #: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"
@@ -2232,6 +2232,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Snið aðgangsheimilda er hægt að velja í stillingunum. Valkostirnir eru "
+"Táknrænt, Tölulegt (Octal) eða Samsett"
 
 #: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
@@ -3272,11 +3274,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Heimildir"
+msgstr "Snið á stíl aðgangsheimilda"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3770,20 +3770,16 @@ msgid "Sorting mode: "
 msgstr "Röðun: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Fara á milli hluta í tvískiptu yfirliti með dálklykli (TAB)"
+msgstr "Skiptu á milli hluta með dálklykli (TAB)"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Tvískipta yfirliti"
+msgstr "Kljúfa sýn: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4330,27 +4326,25 @@ msgstr "Stíll dagsetninga:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Táknrænt (t.d. 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Tölulegt (Octal) (t.d. '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Samsett (t.d. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Heimildir"
+msgstr "Stíll aðgangsheimilda:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
