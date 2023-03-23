@@ -4962,7 +4962,8 @@ msgstr "Copia la ubicació"
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
-msgstr "Copiarà el camí del primer element seleccionat al porta-retalls."
+msgstr ""
+"Copiarà el camí del primer element seleccionat a dins del porta-retalls."
 
 #: views/dolphinviewactionhandler.cpp:160
 #, kde-format
