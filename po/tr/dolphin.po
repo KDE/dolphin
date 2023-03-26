@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-17 00:59+0000\n"
+"POT-Creation-Date: 2023-03-26 00:50+0000\n"
 "PO-Revision-Date: 2023-03-15 13:47+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2501,8 +2501,16 @@ msgstr "Önizlemeleri göster"
 msgid "Auto-Play media files"
 msgstr "Ortam dosyalarını otomatik oynat"
 
-#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Show Filter Bar"
+msgid "Show item on hover"
+msgstr "Süzgeç Çubuğunu Göster"
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
 msgstr "Tarih görüntüleme biçimi"
@@ -2520,12 +2528,20 @@ msgid "Auto-Play media files"
 msgstr "Ortam dosyalarını otomatik oynat"
 
 #: panels/information/informationpanel.cpp:163
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Show Filter Bar"
+msgctxt "@action:inmenu"
+msgid "Show item on hover"
+msgstr "Süzgeç Çubuğunu Göster"
+
+#: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure..."
 msgstr "Yapılandır..."
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

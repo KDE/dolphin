@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-17 00:59+0000\n"
+"POT-Creation-Date: 2023-03-26 00:50+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -2415,8 +2415,16 @@ msgstr "បាន​បង្ហាញ​ទិដ្ឋភាព​មើល​
 msgid "Auto-Play media files"
 msgstr ""
 
-#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgid "Show item on hover"
+msgstr "បង្ហាញ​របារ​តម្រង"
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
 msgstr ""
@@ -2434,12 +2442,20 @@ msgid "Auto-Play media files"
 msgstr ""
 
 #: panels/information/informationpanel.cpp:163
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgctxt "@action:inmenu"
+msgid "Show item on hover"
+msgstr "បង្ហាញ​របារ​តម្រង"
+
+#: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure..."
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​​​​..."
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-17 00:59+0000\n"
+"POT-Creation-Date: 2023-03-26 00:50+0000\n"
 "PO-Revision-Date: 2021-06-02 18:56+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2344,8 +2344,16 @@ msgstr "Parādīti priekšskatījumi"
 msgid "Auto-Play media files"
 msgstr "Auto atskaņot multimediju datnes"
 
-#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgid "Show item on hover"
+msgstr "Rādīt filtra joslu"
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
 msgstr "Datumu attēlošanas formāts"
@@ -2363,12 +2371,20 @@ msgid "Auto-Play media files"
 msgstr "Auto atskaņot multimediju datnes"
 
 #: panels/information/informationpanel.cpp:163
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgctxt "@action:inmenu"
+msgid "Show item on hover"
+msgstr "Rādīt filtra joslu"
+
+#: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure..."
 msgstr "Konfigurēt..."
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-17 00:59+0000\n"
+"POT-Creation-Date: 2023-03-26 00:50+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -2519,8 +2519,16 @@ msgstr "ముందస్తు వీక్షణం"
 msgid "Auto-Play media files"
 msgstr ""
 
-#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgid "Show item on hover"
+msgstr "ఫిల్టర్ బార్‌ను చూపుము"
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
 msgstr ""
@@ -2541,13 +2549,21 @@ msgstr ""
 
 #: panels/information/informationpanel.cpp:163
 #, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgctxt "@action:inmenu"
+msgid "Show item on hover"
+msgstr "ఫిల్టర్ బార్‌ను చూపుము"
+
+#: panels/information/informationpanel.cpp:168
+#, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Change Tags..."
 msgctxt "@action:inmenu"
 msgid "Configure..."
 msgstr "టాగ్సును మార్చుము..."
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

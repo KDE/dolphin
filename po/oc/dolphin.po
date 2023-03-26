@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-17 00:59+0000\n"
+"POT-Creation-Date: 2023-03-26 00:50+0000\n"
 "PO-Revision-Date: 2008-08-05 22:26+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -2474,8 +2474,16 @@ msgstr "Ulhada"
 msgid "Auto-Play media files"
 msgstr ""
 
-#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Additional information"
+msgid "Show item on hover"
+msgstr "Entresenha adicionalas"
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
 msgstr ""
@@ -2496,13 +2504,21 @@ msgstr ""
 
 #: panels/information/informationpanel.cpp:163
 #, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Additional information"
+msgctxt "@action:inmenu"
+msgid "Show item on hover"
+msgstr "Entresenha adicionalas"
+
+#: panels/information/informationpanel.cpp:168
+#, fuzzy, kde-format
 #| msgctxt "@action:button Choose font"
 #| msgid "Choose..."
 msgctxt "@action:inmenu"
 msgid "Configure..."
 msgstr "Causir..."
 
-#: panels/information/informationpanel.cpp:169
+#: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
