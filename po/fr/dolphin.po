@@ -2984,7 +2984,7 @@ msgstr ""
 "papier. Maintenant, l'action <emphasis>Coller</emphasis> peut être utilisée "
 "pour les transférer à partir du presse-papier à tout autre emplacement. Ils "
 "peuvent même être transférés vers d’autres applications en utilisant leurs "
-"actions respectives  <emphasis>Coller</emphasis>. </para>"
+"actions respectives <emphasis>Coller</emphasis>. </para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
