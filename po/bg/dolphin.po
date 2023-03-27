@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-26 00:50+0000\n"
-"PO-Revision-Date: 2023-02-24 17:47+0100\n"
+"PO-Revision-Date: 2023-03-26 17:34+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2522,11 +2522,9 @@ msgstr "Автоматично изпълнение на медийни файл
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Показване на лентата на филтъра"
+msgstr "Показване на елемент при посочване"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2547,12 +2545,10 @@ msgid "Auto-Play media files"
 msgstr "Автоматично изпълнение на медийни файлове"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Показване на лентата на филтъра"
+msgstr "Показване на елемент при посочване"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format

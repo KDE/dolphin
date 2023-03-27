@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-26 00:50+0000\n"
-"PO-Revision-Date: 2023-03-11 04:52\n"
+"PO-Revision-Date: 2023-03-26 02:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3811,7 +3811,7 @@ msgstr "显示预览图的项目类型："
 #: settings/general/previewssettingspage.cpp:64
 #, kde-format
 msgid "Skip previews for local files above:"
-msgstr "本机文件超过此大小时，不显示预览图："
+msgstr "本地文件超过此大小时，不显示预览图："
 
 #: settings/general/previewssettingspage.cpp:68
 #: settings/general/previewssettingspage.cpp:81
