@@ -287,7 +287,7 @@
     <p xml:lang="uk">Dolphin здатен показувати файли і теки із багатьох «хмарних» служб інтернету та віддалених комп'ютерів так, наче усі ці дані зберігаються на вашому робочому комп'ютері.</p>
     <p xml:lang="vi">Dolphin có thể hiển thị tệp và thư mục từ nhiều dịch vụ đám mây Liên Mạng và các máy ở xa khác như thể chúng ở ngay trên máy tính của bạn vậy.</p>
     <p xml:lang="x-test">xxDolphin can display files and folders from many Internet cloud services and other remote machines as if they were right there on your desktop.xx</p>
-    <p xml:lang="zh-CN">Dolphin 可以显示多种云存储服务和远程计算机中的文件和文件夹，使用体验与本机文件完全一致。</p>
+    <p xml:lang="zh-CN">Dolphin 可以显示多种云存储服务和远程计算机中的文件和文件夹，使用体验与本地文件完全一致。</p>
     <p xml:lang="zh-TW">Dolphin 可以把許多網路雲端服務或是其他遠端裝置上的檔案當作好像在您的桌面上一樣顯示出來。</p>
     <p>Dolphin also comes with an integrated terminal that allows you to run commands on the current folder. You can extend the capabilities of Dolphin even further with powerful plugins to adapt it to your workflow. You can use the git integration plugin to interact with git repositories, or the Nextcloud plugin to synchronize your files online, and much more.</p>
     <p xml:lang="ar">يأتي دولفين أيضًا مع محطة طرفية متكاملة تتيح لك تشغيل الأوامر في المجلد الحالي. يمكنك توسيع إمكانيات دولفين إلى أبعد من ذلك باستخدام المكونات الإضافية القوية لتكييفها مع سير عملك. يمكنك استخدام المكون الإضافي git للتكامل للتفاعل مع مستودعات git ، أو المكون الإضافي Nextcloud لمزامنة ملفاتك عبر الإنترنت ، وغير ذلك الكثير.</p>
