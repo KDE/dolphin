@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-26 00:50+0000\n"
-"PO-Revision-Date: 2023-03-26 02:18\n"
+"PO-Revision-Date: 2023-03-27 11:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2422,11 +2422,9 @@ msgstr "自动播放媒体文件"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "显示筛选栏"
+msgstr "悬浮时显示项目"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2447,12 +2445,10 @@ msgid "Auto-Play media files"
 msgstr "自动播放媒体文件"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "显示筛选栏"
+msgstr "悬浮时显示项目"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
