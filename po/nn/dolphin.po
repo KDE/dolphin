@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-26 00:50+0000\n"
-"PO-Revision-Date: 2023-03-19 14:28+0100\n"
+"PO-Revision-Date: 2023-03-31 21:11+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -2460,7 +2460,7 @@ msgstr "Spel automatisk av mediefiler"
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
 #, kde-format
 msgid "Show item on hover"
-msgstr ""
+msgstr "Vis når peikaren er over"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
