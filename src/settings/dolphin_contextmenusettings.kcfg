@@ -42,5 +42,13 @@
             <label>Show 'Open Terminal' in context menu.</label>
             <default>true</default>
         </entry>
+        <entry name="ShowCopyToOtherSplitView" type="Bool">
+            <label>Show 'Copy to other split view' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowMoveToOtherSplitView" type="Bool">
+            <label>Show 'Move to other split view' in context menu.</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>

@@ -257,6 +257,16 @@ void DolphinContextMenu::addItemContextMenu()
         m_copyToMenu.addActionsTo(this);
     }
 
+    if (m_mainWindow->isSplitViewEnabledInCurrentTab()) {
+        if (ContextMenuSettings::showCopyToOtherSplitView()) {
+            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("copy_to_inactive_split_view")));
+        }
+
+        if (ContextMenuSettings::showMoveToOtherSplitView()) {
+            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("move_to_inactive_split_view")));
+        }
+    }
+
     // insert 'Properties...' entry
     addSeparator();
     QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));

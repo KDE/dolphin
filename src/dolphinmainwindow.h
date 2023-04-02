@@ -118,6 +118,7 @@ public:
 
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
+    bool isSplitViewEnabledInCurrentTab() const;
 
 public Q_SLOTS:
     /**

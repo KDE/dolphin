@@ -88,6 +88,8 @@
 #include <QTimer>
 #include <QToolButton>
 
+#include <algorithm>
+
 namespace
 {
 // Used for GeneralSettings::version() to determine whether
@@ -263,6 +265,11 @@ bool DolphinMainWindow::isInformationPanelEnabled() const
 #else
     return false;
 #endif
+}
+
+bool DolphinMainWindow::isSplitViewEnabledInCurrentTab() const
+{
+    return m_tabWidget->currentTabPage()->splitViewEnabled();
 }
 
 void DolphinMainWindow::openFiles(const QStringList &files, bool splitView)
@@ -1609,8 +1616,8 @@ void DolphinMainWindow::setupActions()
                         + cutCopyPastePara);
 
     QAction *copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
-    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Inactive Split View"));
-    m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Inactive Split View…"));
+    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Other View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Other View…"));
     copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy",
                                                "This copies the selected items from "
                                                "the <emphasis>active</emphasis> view to the inactive split view."));
@@ -1620,8 +1627,8 @@ void DolphinMainWindow::setupActions()
     connect(copyToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::copyToInactiveSplitView);
 
     QAction *moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
-    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Inactive Split View"));
-    m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Inactive Split View…"));
+    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Other View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Other View…"));
     moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move",
                                                "This moves the selected items from "
                                                "the <emphasis>active</emphasis> view to the inactive split view."));
@@ -2280,7 +2287,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
     }
 
-    if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
+    if (m_tabWidget->currentTabPage()->splitViewEnabled() && !list.isEmpty()) {
         DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
         KFileItem capabilitiesDestination;
 
@@ -2290,8 +2297,14 @@ void DolphinMainWindow::updateFileAndEditActions()
             capabilitiesDestination = tabPage->primaryViewContainer()->rootItem();
         }
 
-        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
-        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable());
+        const auto destUrl = capabilitiesDestination.url();
+        const bool allNotTargetOrigin = std::all_of(list.cbegin(), list.cend(), [destUrl](const KFileItem &item) {
+            return item.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash) != destUrl;
+        });
+
+        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable() && allNotTargetOrigin);
+        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable()
+                                          && allNotTargetOrigin);
     } else {
         copyToOtherViewAction->setEnabled(false);
         moveToOtherViewAction->setEnabled(false);
