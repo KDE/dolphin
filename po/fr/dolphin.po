@@ -16,16 +16,15 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # William Oprandi <william.oprandi@gmail.com>, 2019, 2020.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
+# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022, 2023.
 #
-# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:56+0000\n"
-"PO-Revision-Date: 2023-02-24 20:46+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"PO-Revision-Date: 2023-03-28 15:17+0200\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -378,13 +377,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
-msgstr "Copier vers l'affichage séparé inactif"
+msgstr "Copier vers la vue fractionnée inactive"
 
 #: dolphinmainwindow.cpp:1613
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Copier dans la vue fractionnée inactive..."
+msgstr "Copier vers la vue fractionnée inactive…"
 
 #: dolphinmainwindow.cpp:1615
 #, kde-kuit-format
@@ -394,25 +393,25 @@ msgid ""
 "the inactive split view."
 msgstr ""
 "Ceci copie les éléments sélectionnés de l'affichage <emphasis>actif</"
-"emphasis> vers l'affichage séparé inactif."
+"emphasis> vers la vue fractionnée inactive."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
-msgstr "Copier vers l'affichage séparé inactif."
+msgstr "Copier vers la vue fractionnée inactive"
 
 #: dolphinmainwindow.cpp:1623
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
-msgstr "Déplacer vers l'affichage séparé inactif"
+msgstr "Déplacer vers la vue fractionnée inactive"
 
 #: dolphinmainwindow.cpp:1624
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Déplacer vers la vue fractionnée inactive..."
+msgstr "Déplacer vers la vue fractionnée inactive…"
 
 #: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
@@ -421,14 +420,14 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
-"Ceci copie les éléments sélectionnés de l'affichage <emphasis>actif</"
-"emphasis> vers l'affichage scindé inactif."
+"Ceci copie les éléments sélectionnés de la vue <emphasis>active</emphasis> "
+"vers la vue fractionnée inactive."
 
 #: dolphinmainwindow.cpp:1629
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr "Déplacer vers l'affichage séparé inactif"
+msgstr "Déplacer vers la vue fractionnée inactive"
 
 # | msgid "String"
 #: dolphinmainwindow.cpp:1634
