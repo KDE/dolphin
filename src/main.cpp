@@ -54,10 +54,16 @@ int main(int argc, char **argv)
     // Prohibit using sudo or kdesu (but allow using the root user directly)
     if (getuid() == 0) {
         if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Running Dolphin with sudo can cause bugs and expose you to security vulnerabilities." << std::endl;
+            std::cout << "Running Dolphin with sudo is not supported as it can cause bugs and expose you to security vulnerabilities. Instead, install the "
+                         "`kio-admin` package from your distro and use it to manage root-owned locations by right-clicking on them and selecting \"Open as "
+                         "Administrator\"."
+                      << std::endl;
             return EXIT_FAILURE;
         } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Running Dolphin with kdesu can cause bugs and expose you to security vulnerabilities." << std::endl;
+            std::cout << "Running Dolphin with kdesu is not supported as it can cause bugs and expose you to security vulnerabilities. Instead, install the "
+                         "`kio-admin` package from your distro and use it to manage root-owned locations by right-clicking on them and selecting \"Open as "
+                         "Administrator\"."
+                      << std::endl;
             return EXIT_FAILURE;
         }
     }
