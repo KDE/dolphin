@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2762,7 +2762,7 @@ msgstr "prypynić"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "Pamier značkoŭ na paneli razmiaščenniaŭ (-1 aznačaje \"aŭtamatyčna\")"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"

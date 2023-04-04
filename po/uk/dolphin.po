@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
-"PO-Revision-Date: 2023-03-26 08:38+0300\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
+"PO-Revision-Date: 2023-04-03 14:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -357,20 +357,16 @@ msgstr ""
 "із попереднього місця розташування."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Копіювати до неактивної панелі розділеного перегляду"
+msgstr "Копіювати на іншу панель перегляду"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Копіювати до неактивної панелі розділеного перегляду…"
+msgstr "Копіювати на іншу панель перегляду…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -389,20 +385,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Копіювати до неактивної панелі розділеного перегляду"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Пересунути на неактивну панель розділеного перегляду"
+msgstr "Пересунути на іншу панель перегляду"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Пересунути на неактивну панель розділеного перегляду…"
+msgstr "Пересунути на іншу панель перегляду…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2637,7 +2629,7 @@ msgstr "призупинити"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "Розмір піктограм на панелі «Місця» (-1 — «автоматичний»)"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -3317,17 +3309,19 @@ msgstr "Показувати пункт «Відкрити термінал» у
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Показувати пункт «Копіювати адресу» у контекстному меню."
+msgstr ""
+"Показувати пункт «Копіювати на іншу панель розділеного перегляду» у "
+"контекстному меню."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Показувати пункт «Критерій упорядковування» у контекстному меню."
+msgstr ""
+"Показувати пункт «Пересунути на іншу панель розділеного перегляду» у "
+"контекстному меню."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27

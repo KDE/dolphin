@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
 "PO-Revision-Date: 2023-03-28 15:17+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -2655,7 +2655,7 @@ msgstr ""
 "Taille des icônes dans le panneau « Emplacements » (Une valeur de -1 "
 "signifie « Automatique »)"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"

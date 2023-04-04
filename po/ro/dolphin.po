@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
 "PO-Revision-Date: 2022-08-14 15:53+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -2653,7 +2653,7 @@ msgstr "pauză"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "Dimensiunea pictogramelor în panoul Locuri (-1 înseamnă „automată”)"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
-"PO-Revision-Date: 2023-03-30 12:01+0200\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
+"PO-Revision-Date: 2023-04-03 11:41+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -350,20 +350,16 @@ msgstr ""
 "removite ab lor vetere location."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copia a vista dividite inactive"
+msgstr "Copia a altere vista"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copia a vista dividite inactive…"
+msgstr "Copia a altere vista…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -382,20 +378,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Copia a vista dividite inactive"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Move a vista dividite inactive"
+msgstr "Move a altere vista"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Move a vista dividite inactive…"
+msgstr "Move a altere vista …"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2598,7 +2590,7 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "Grandor de icones in le Pannello de Placias (-1 significa \"automatic\")"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -3219,7 +3211,7 @@ msgstr "Monstra 'Adde a Placias'  in menu de contexto."
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "Monstra 'Ordina per' in menu e contexto."
+msgstr "Monstra 'Ordina per' in menu de contexto."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
@@ -3260,17 +3252,15 @@ msgstr "Monstra  'Aperi Terminal' in menu de contexto."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Monstra  'Copia Location' in menu de contexto"
+msgstr "Monstra  'Copia a altere vista dividite' in menu de contexto."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Monstra 'Ordina per' in menu e contexto."
+msgstr "Monstra 'Move a altre vista dividite' in menu de contexto."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
-"PO-Revision-Date: 2023-03-28 12:55+0200\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
+"PO-Revision-Date: 2023-04-03 15:55+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -347,20 +347,16 @@ msgstr ""
 "posizione."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copia nella vista divisa inattiva"
+msgstr "Copia nell'altra vista"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copia nella vista divisa inattiva..."
+msgstr "Copia nell'altra vista…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -379,20 +375,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Copia nella vista divisa inattiva"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Sposta nella vista divisa inattiva"
+msgstr "Sposta nell'altra vista"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Sposta nella vista divisa inattiva..."
+msgstr "Sposta nell'altra vista…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2600,7 +2592,7 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "Dimensione delle icone del pannello Risorse (-1 significa «automatica»)"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -3264,17 +3256,15 @@ msgstr "Mostra «Apri terminale» nel menu contestuale."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Mostra i comandi «Copia posizione» nel menu contestuale."
+msgstr "Mostra «Copia nell'altra vista divisa» nel menu contestuale."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Mostra «Ordina per» nel menu contestuale."
+msgstr "Mostra «Sposta nell'altra vista divisa» nel menu contestuale."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27

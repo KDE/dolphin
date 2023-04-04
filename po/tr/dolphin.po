@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-03 00:48+0000\n"
-"PO-Revision-Date: 2023-03-29 21:02+0300\n"
+"POT-Creation-Date: 2023-04-04 00:49+0000\n"
+"PO-Revision-Date: 2023-04-03 13:37+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -351,20 +351,16 @@ msgstr ""
 "eski konumlarından kaldırılırlar."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Etkin Olmayan Bölünmüş Görünüme Kopyala"
+msgstr "Diğer Görünüme Kopyala"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Etkin Olmayan Bölünmüş Görünüme Kopyala…"
+msgstr "Diğer Görünüme Kopyala…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -383,20 +379,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Etkin Olmayan Bölünmüş Görünüme Kopyala"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Etkin Olmayan Bölünmüş Görünüme Taşı"
+msgstr "Diğer Görünüme Taşı"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Etkin Olmayan Bölünmüş Görünüme Taşı…"
+msgstr "Diğer Görünüme Taşı…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2581,7 +2573,7 @@ msgstr "duraklat"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "Yerler Paneli'ndeki simgelerin boyutu (-1 \"otomatik\" demektir)"
 
-#: panels/places/placespanel.cpp:46
+#: panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
@@ -3241,17 +3233,15 @@ msgstr "Bağlam menüsünde 'Uçbirimi Aç' göster."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Bağlam menüsünde 'Konumu Kopyala' göster."
+msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Taşı'yı gösterin."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Bağlam menüsünde 'Şuna Göre Sırala'yı göster."
+msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Kopyala'yı gösterin."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
