@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-04 00:49+0000\n"
-"PO-Revision-Date: 2023-03-26 19:31+0200\n"
+"PO-Revision-Date: 2023-04-04 03:36+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -361,20 +361,16 @@ msgstr ""
 "ubicación anterior."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copiar a la vista dividida inactiva"
+msgstr "Copiar a otra vista"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copiar a la vista dividida inactiva..."
+msgstr "Copiar a otra vista..."
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -393,20 +389,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Copiar a la vista dividida inactiva"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Mover a la vista dividida inactiva"
+msgstr "Mover a otra vista"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Mover a la vista dividida inactiva..."
+msgstr "Mover a otra vista..."
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -3284,17 +3276,15 @@ msgstr "Mostrar «Abrir en terminal» en el menú de contexto."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Mostrar «Copiar ubicación» en el menú de contexto."
+msgstr "Mostrar «Copiar a otra vista dividida» en el menú de contexto."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Mostrar «Ordenar por» en el menú de contexto."
+msgstr "Mostrar «Mover a otra vista dividida» en el menú de contexto."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27

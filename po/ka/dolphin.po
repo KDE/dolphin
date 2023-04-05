@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-04 00:49+0000\n"
-"PO-Revision-Date: 2023-03-27 06:39+0200\n"
+"PO-Revision-Date: 2023-04-04 06:50+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -327,20 +327,16 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "არააქტიურ გაყოფილ ხედზე კოპირება"
+msgstr "სხვა ხედზე კოპირება"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "არააქტიურ გაყოფილ ხედზე კოპირება…"
+msgstr "სხვა ხედზე კოპირება…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -357,20 +353,16 @@ msgid "Copy to Inactive Split View"
 msgstr "არააქტიურ გაყოფილ ხედზე კოპირება"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა"
+msgstr "სხვა ხედზე გადასვლა"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა…"
+msgstr "სხვა ხედზე გადატანა…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2993,17 +2985,15 @@ msgstr "კონტექსტურ მენიუში 'ტერმინ
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "კონტექსტურ მენიუში 'მდებარეობის კოპირების' ჩვენება."
+msgstr "კონტექსტურ მენიუში 'სხვა გაყოფილ ხედზე გადატანის ' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "კონტექსტურ მენიუში 'დალაგების' ჩვენება."
+msgstr "კონტექსტურ მენიუში 'სხვა გაყოფილ ხედზე გადატანის' ჩვენება."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
