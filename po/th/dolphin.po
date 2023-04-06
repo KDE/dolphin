@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:49+0000\n"
+"POT-Creation-Date: 2023-04-06 00:49+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -2185,57 +2185,29 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "ข้อผิดพลาดที่ไม่รู้จัก"
 
-#: main.cpp:90
+#: main.cpp:96
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "Dolphin"
 msgid "Dolphin"
 msgstr "ดอลฟิน"
 
-#: main.cpp:92
+#: main.cpp:98
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "โปรแกรมจัดการแฟ้ม"
 
-#: main.cpp:94
+#: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr ""
 
-#: main.cpp:96
-#, kde-format
-msgctxt "@info:credit"
-msgid "Felix Ernst"
-msgstr ""
-
-#: main.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
-msgctxt "@info:credit"
-msgid "Maintainer (since 2021) and developer"
-msgstr "ผู้ดูแลและผู้พัฒนา"
-
-#: main.cpp:99
-#, kde-format
-msgctxt "@info:credit"
-msgid "Méven Car"
-msgstr ""
-
-#: main.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
-msgctxt "@info:credit"
-msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "ผู้ดูแลและผู้พัฒนา"
-
 #: main.cpp:102
 #, kde-format
 msgctxt "@info:credit"
-msgid "Elvis Angelaccio"
+msgid "Felix Ernst"
 msgstr ""
 
 #: main.cpp:103
@@ -2243,13 +2215,13 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (since 2021) and developer"
 msgstr "ผู้ดูแลและผู้พัฒนา"
 
 #: main.cpp:105
 #, kde-format
 msgctxt "@info:credit"
-msgid "Emmanuel Pescosta"
+msgid "Méven Car"
 msgstr ""
 
 #: main.cpp:106
@@ -2257,13 +2229,13 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "ผู้ดูแลและผู้พัฒนา"
 
 #: main.cpp:108
 #, kde-format
 msgctxt "@info:credit"
-msgid "Frank Reininghaus"
+msgid "Elvis Angelaccio"
 msgstr ""
 
 #: main.cpp:109
@@ -2271,16 +2243,44 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2018-2021) and developer"
 msgstr "ผู้ดูแลและผู้พัฒนา"
 
 #: main.cpp:111
 #, kde-format
 msgctxt "@info:credit"
+msgid "Emmanuel Pescosta"
+msgstr ""
+
+#: main.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2014-2018) and developer"
+msgstr "ผู้ดูแลและผู้พัฒนา"
+
+#: main.cpp:114
+#, kde-format
+msgctxt "@info:credit"
+msgid "Frank Reininghaus"
+msgstr ""
+
+#: main.cpp:115
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2012-2014) and developer"
+msgstr "ผู้ดูแลและผู้พัฒนา"
+
+#: main.cpp:117
+#, kde-format
+msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:112
+#: main.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2288,68 +2288,68 @@ msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "ผู้ดูแลและผู้พัฒนา"
 
-#: main.cpp:114
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr ""
 
-#: main.cpp:114 main.cpp:115 main.cpp:116 main.cpp:117 main.cpp:118
-#: main.cpp:119 main.cpp:120
+#: main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124
+#: main.cpp:125 main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "ผู้พัฒนา"
 
-#: main.cpp:115
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:116
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:117
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:118
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:119
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:120
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:121
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:121
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "เอกสารคู่มือ"
 
-#: main.cpp:131
+#: main.cpp:137
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "The files and directories passed as arguments will be selected."
@@ -2357,25 +2357,25 @@ msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "แฟ้มและไดเรกทอรีที่เป็นอาร์กิวเมนต์จะถูกเลือก"
 
-#: main.cpp:133
+#: main.cpp:139
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr ""
 
-#: main.cpp:134
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:136
+#: main.cpp:142
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:137
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
