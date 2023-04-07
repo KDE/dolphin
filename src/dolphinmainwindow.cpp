@@ -989,7 +989,7 @@ void DolphinMainWindow::popoutSplitView()
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (!tabPage->splitViewEnabled())
         return;
-    openNewWindow(tabPage->activeViewContainer()->url());
+    openNewWindow((GeneralSettings::closeActiveSplitView() ? tabPage->activeViewContainer() : tabPage->inactiveViewContainer())->url());
     tabPage->setSplitViewEnabled(false, WithAnimation);
     updateSplitActions();
 }
