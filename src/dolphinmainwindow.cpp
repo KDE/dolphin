@@ -118,6 +118,7 @@ DolphinMainWindow::DolphinMainWindow()
     , m_sessionSaveTimer(nullptr)
     , m_sessionSaveWatcher(nullptr)
     , m_sessionSaveScheduled(false)
+    , m_splitViewAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
 
@@ -1830,14 +1831,15 @@ void DolphinMainWindow::setupActions()
     // setup 'View' menu
     // (note that most of it is set up in DolphinViewActionHandler)
 
-    QAction *split = actionCollection()->addAction(QStringLiteral("split_view"));
-    split->setWhatsThis(xi18nc("@info:whatsthis find",
-                               "<para>This splits "
-                               "the folder view below into two autonomous views.</para><para>This "
-                               "way you can see two locations at once and move items between them "
-                               "quickly.</para>Click this again afterwards to recombine the views."));
-    actionCollection()->setDefaultShortcut(split, Qt::Key_F3);
-    connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
+    m_splitViewAction = actionCollection()->add<KActionMenu>(QStringLiteral("split_view"));
+    m_splitViewAction->setWhatsThis(xi18nc("@info:whatsthis find",
+                                           "<para>This splits "
+                                           "the folder view below into two autonomous views.</para><para>This "
+                                           "way you can see two locations at once and move items between them "
+                                           "quickly.</para>Click this again afterwards to recombine the views."));
+    m_splitViewAction->setPopupMode(QToolButton::MenuButtonPopup);
+    actionCollection()->setDefaultShortcut(m_splitViewAction, Qt::Key_F3);
+    connect(m_splitViewAction, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
     QAction *popoutSplit = actionCollection()->addAction(QStringLiteral("popout_split_view"));
     popoutSplit->setWhatsThis(xi18nc("@info:whatsthis",
@@ -1845,6 +1847,7 @@ void DolphinMainWindow::setupActions()
                                      "view out into a new window."));
     popoutSplit->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     actionCollection()->setDefaultShortcut(popoutSplit, Qt::SHIFT | Qt::Key_F3);
+    m_splitViewAction->addAction(popoutSplit);
     connect(popoutSplit, &QAction::triggered, this, &DolphinMainWindow::popoutSplitView);
 
     QAction *stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
@@ -2525,29 +2528,29 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
 
 void DolphinMainWindow::updateSplitActions()
 {
-    QAction *splitAction = actionCollection()->action(QStringLiteral("split_view"));
     QAction *popoutSplitAction = actionCollection()->action(QStringLiteral("popout_split_view"));
     const DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (GeneralSettings::closeActiveSplitView() ? tabPage->primaryViewActive() : !tabPage->primaryViewActive()) {
-            splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
-            splitAction->setToolTip(i18nc("@info", "Close left view"));
-            splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
+            m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+            m_splitViewAction->setToolTip(i18nc("@info", "Close left view"));
+            m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
             popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out"));
             popoutSplitAction->setToolTip(i18nc("@info", "Move left split view to a new window"));
         } else {
-            splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
-            splitAction->setToolTip(i18nc("@info", "Close right view"));
-            splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+            m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+            m_splitViewAction->setToolTip(i18nc("@info", "Close right view"));
+            m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
             popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out"));
             popoutSplitAction->setToolTip(i18nc("@info", "Move right split view to a new window"));
         }
-        popoutSplitAction->setVisible(true);
+        popoutSplitAction->setEnabled(true);
     } else {
-        splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
-        splitAction->setToolTip(i18nc("@info", "Split view"));
-        splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
-        popoutSplitAction->setVisible(false);
+        m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
+        m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
+        m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+        popoutSplitAction->setText(i18nc("@action:intoolbar Move active split view to a new window", "Pop out"));
+        popoutSplitAction->setEnabled(false);
     }
 }
 

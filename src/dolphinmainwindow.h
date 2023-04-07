@@ -12,6 +12,7 @@
 #include "config-dolphin.h"
 #include "dolphintabwidget.h"
 #include "selectionmode/bottombar.h"
+#include <KActionMenu>
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
@@ -735,6 +736,7 @@ private:
 
     KToolBarPopupAction *m_backAction;
     KToolBarPopupAction *m_forwardAction;
+    KActionMenu *m_splitViewAction;
 
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;
