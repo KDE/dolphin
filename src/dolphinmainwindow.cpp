@@ -469,7 +469,7 @@ void DolphinMainWindow::openNewWindow(const QUrl &url)
 void DolphinMainWindow::slotSplitViewChanged()
 {
     m_tabWidget->currentTabPage()->setSplitViewEnabled(GeneralSettings::splitView(), WithAnimation);
-    updateSplitAction();
+    updateSplitActions();
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -982,6 +982,15 @@ void DolphinMainWindow::toggleSplitView()
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
     m_tabWidget->updateTabName(m_tabWidget->indexOf(tabPage));
     updateViewActions();
+}
+
+void DolphinMainWindow::popoutSplitView()
+{
+    DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
+    if (!tabPage->splitViewEnabled())
+        return;
+    openNewWindow(tabPage->activeViewContainer()->url());
+    tabPage->setSplitViewEnabled(false, WithAnimation);
 }
 
 void DolphinMainWindow::toggleSplitStash()
@@ -1829,6 +1838,14 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcut(split, Qt::Key_F3);
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
+    QAction *popoutSplit = actionCollection()->addAction(QStringLiteral("popout_split_view"));
+    popoutSplit->setWhatsThis(xi18nc("@info:whatsthis",
+                                     "If the folder view has been split, this will pop the active folder "
+                                     "view out into a new window."));
+    popoutSplit->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
+    actionCollection()->setDefaultShortcut(popoutSplit, Qt::SHIFT | Qt::Key_F3);
+    connect(popoutSplit, &QAction::triggered, this, &DolphinMainWindow::popoutSplitView);
+
     QAction *stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
     actionCollection()->setDefaultShortcut(stashSplit, Qt::CTRL | Qt::Key_S);
     stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
@@ -2417,7 +2434,7 @@ void DolphinMainWindow::updateViewActions()
     QAction *toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
-    updateSplitAction();
+    updateSplitActions();
 }
 
 void DolphinMainWindow::updateGoActions()
@@ -2446,7 +2463,7 @@ void DolphinMainWindow::refreshViews()
         updateWindowTitle();
     }
 
-    updateSplitAction();
+    updateSplitActions();
 
     Q_EMIT settingsChanged();
 }
@@ -2505,24 +2522,31 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(navigator, &KUrlNavigator::newWindowRequested, this, &DolphinMainWindow::openNewWindow);
 }
 
-void DolphinMainWindow::updateSplitAction()
+void DolphinMainWindow::updateSplitActions()
 {
     QAction *splitAction = actionCollection()->action(QStringLiteral("split_view"));
+    QAction *popoutSplitAction = actionCollection()->action(QStringLiteral("popout_split_view"));
     const DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (GeneralSettings::closeActiveSplitView() ? tabPage->primaryViewActive() : !tabPage->primaryViewActive()) {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close left view"));
             splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Pop out left view", "Pop out"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Pop out left view"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close right view"));
             splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Pop out right view", "Pop out"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Pop out right view"));
         }
+        popoutSplitAction->setVisible(true);
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setToolTip(i18nc("@info", "Split view"));
         splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+        popoutSplitAction->setVisible(false);
     }
 }
 

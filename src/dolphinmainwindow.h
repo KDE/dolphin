@@ -343,6 +343,13 @@ private Q_SLOTS:
      */
     void toggleSplitView();
 
+    /**
+     * Pops out a split view.
+     * The active view will be popped out, unless the view is not split,
+     * in which case nothing will happen.
+     */
+    void popoutSplitView();
+
     /** Dedicated action to open the stash:/ ioslave in split view. */
     void toggleSplitStash();
 
@@ -662,7 +669,7 @@ private:
      * otherwise the text is set to "Join". The icon
      * is updated to match with the text and the currently active view.
      */
-    void updateSplitAction();
+    void updateSplitActions();
 
     /**
      * Sets the window sides the toolbar may be moved to based on toolbar contents.
