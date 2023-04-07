@@ -991,6 +991,7 @@ void DolphinMainWindow::popoutSplitView()
         return;
     openNewWindow(tabPage->activeViewContainer()->url());
     tabPage->setSplitViewEnabled(false, WithAnimation);
+    updateSplitActions();
 }
 
 void DolphinMainWindow::toggleSplitStash()
