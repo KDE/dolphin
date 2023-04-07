@@ -2532,14 +2532,14 @@ void DolphinMainWindow::updateSplitActions()
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close left view"));
             splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
-            popoutSplitAction->setText(i18nc("@action:intoolbar Pop out left view", "Pop out"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Pop out left view"));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Move left split view to a new window"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close right view"));
             splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
-            popoutSplitAction->setText(i18nc("@action:intoolbar Pop out right view", "Pop out"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Pop out right view"));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Move right split view to a new window"));
         }
         popoutSplitAction->setVisible(true);
     } else {
