@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-06 01:03+0000\n"
-"PO-Revision-Date: 2023-03-25 12:13+0100\n"
+"PO-Revision-Date: 2023-04-06 22:35+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -50,7 +50,7 @@ msgstr "Non se admite o tipo de arquivo %1: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr "Non se puido executar a orde de descompresor para %1"
+msgstr "Non se puido executar a orde de descompresión para %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format

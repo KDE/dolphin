@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-30 08:51+0400\n"
+"PO-Revision-Date: 2023-04-06 09:42+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -361,20 +361,16 @@ msgstr ""
 "فإنها قد أزيلت من موقعها القديم."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "انسخ إلى العرض المنقسم غير النشط"
+msgstr "انسخ إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "انسخ إلى العرض المنقسم غير النشط…"
+msgstr "انسخ إلى العرض الآخر…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -393,20 +389,16 @@ msgid "Copy to Inactive Split View"
 msgstr "انسخ إلى العرض المنقسم غير النشط"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "انقل إلى العرض المنقسم غير النشط"
+msgstr "انقل إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "انقل إلى العرض المنقسم غير النشط…"
+msgstr "انقل إلى العرض الآخر…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -3290,17 +3282,15 @@ msgstr "اعرض أمر 'افتح الطرفية' في قائمة السياق"
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "اعرض 'انسخ الموقع' في قائمة السياق"
+msgstr "اعرض 'انسخ إلى العرض الآخر' في قائمة السياق"
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "اعرض 'افرز حسب' في قائمة السياق"
+msgstr "اعرض 'انقل إلى العرض الآخر' في قائمة السياق"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27

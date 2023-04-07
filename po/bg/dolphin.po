@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-26 17:34+0200\n"
+"PO-Revision-Date: 2023-04-06 18:12+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -347,20 +347,16 @@ msgstr ""
 "emphasis> те ще бъдат премахнати от първоначалното местоположение."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Копиране в неактивния разделен изглед"
+msgstr "Копиране в другия изглед"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Копиране в неактивния разделен изглед…"
+msgstr "Копиране в другия изглед..."
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -379,20 +375,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Копиране в неактивния разделен изглед"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Преместване в неактивния разделен изглед"
+msgstr "Преместване в другия изглед"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Преместване в неактивния разделен изглед…"
+msgstr "Преместване в другия изглед..."
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -3267,18 +3259,19 @@ msgstr "Показване на командата \"Отваряне на те�
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
 msgstr ""
-"Показване на командите \"Копиране на местоположението\" в контекстното меню."
+"Показване на командите \"Копиране в другия разделен изглед\" в контекстното "
+"меню."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Показване на \"Сортиране по\" в контекстното меню."
+msgstr ""
+"Показване на командите \"Преместване в другия разделен изглед\" в "
+"контекстното меню."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
