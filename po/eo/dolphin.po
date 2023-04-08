@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-12 22:53+0100\n"
+"PO-Revision-Date: 2023-04-07 14:29+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -350,20 +350,16 @@ msgstr ""
 "<emphasis>Tranĉi</emphasis> ili estas forigitaj de sia malnova loko. ."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Kopii al Neaktiva Dividita Vido"
+msgstr "Kopii al Alia Vido"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Kopii al Neaktiva Divido-Vido..."
+msgstr "Kopii al Alia Vido…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -382,20 +378,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopii al Neaktiva Divido-View"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Movi al Neaktiva Dividita Vido"
+msgstr "Movi al Alia Vido"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Movi al Neaktiva Divido-Vido..."
+msgstr "Movi al Alia Vido…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -475,7 +467,7 @@ msgstr ""
 "<emphasis>trovobreton</emphasis>. Tie vi povas enigi serĉajn terminojn kaj "
 "specifi agordojn por trovi la objektojn, kiujn vi serĉas.</para><para>Uzu ĉi "
 "tiun helpon denove sur la trovobreto por ke ni povu rigardi ĝin dum la "
-"klarigo de la agordoj.</para >"
+"klarigo de la agordoj.</para>"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -551,7 +543,7 @@ msgid ""
 "para><para>This way you can see two locations at once and move items between "
 "them quickly.</para>Click this again afterwards to recombine the views."
 msgstr ""
-"<para >Ĉi tio dividas la dosierujon malsupre en du aŭtonomiajn vidojn.</"
+"<para>Ĉi tio dividas la dosierujon malsupre en du aŭtonomiajn vidojn.</"
 "para><para>Tiel vi povas vidi du lokojn samtempe kaj movi erojn inter ili "
 "rapide.</para>Alklaku ĉi tion denove poste por rekombini la vidojn."
 
@@ -691,7 +683,7 @@ msgid ""
 "terminal application.</para>"
 msgstr ""
 "<para>Ĉi tio malfermas <emphasis>terminalo</emphasis> aplikaĵon por la "
-"vidita loko.</para><para >Por lerni pli pri terminaloj uzu la helpon en la "
+"vidita loko.</para><para>Por lerni pli pri terminaloj uzu la helpon en la "
 "terminal-aplikaĵo.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
@@ -709,9 +701,9 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
-"<para >Tio malfermas <emphasis>terminalojn</emphasis> aplikaĵojn por la "
-"lokoj de la elektitaj eroj.</para><para >Por lerni pli pri terminaloj uzu la "
-"helpon en la terminal-aplikaĵo.</para>"
+"<para>Tio malfermas <emphasis>terminalojn</emphasis> aplikaĵojn por la lokoj "
+"de la elektitaj eroj.</para><para>Por lerni pli pri terminaloj uzu la helpon "
+"en la terminal-aplikaĵo.</para>"
 
 #: dolphinmainwindow.cpp:1891 dolphinmainwindow.cpp:2640
 #, kde-format
@@ -738,9 +730,9 @@ msgid ""
 msgstr ""
 "<para>Ĉi tio ŝanĝas inter havi <emphasis>Menubaro</emphasis> kaj havi "
 "<interface>%1</interface> butonon. Ambaŭ enhavas plejparte la samajn agojn "
-"kaj agordajn opciojn.</para><para >La Menubreto okupas pli da spaco sed "
+"kaj agordajn opciojn.</para><para>La Menubreto okupas pli da spaco sed "
 "ebligas rapidan kaj organizitan aliron al ĉiuj agoj kiujn aplikaĵo proponas."
-"</para><para >La <interface> La butono %1</interface> estas pli simpla kaj "
+"</para><para>La <interface> La butono %1</interface> estas pli simpla kaj "
 "malgranda, kio faras ekigi progresintajn agojn pli da tempo.</para>"
 
 #: dolphinmainwindow.cpp:1942
@@ -855,8 +847,8 @@ msgid ""
 "Otherwise it informs you about the currently viewed folder.<nl/>For single "
 "items a preview of their contents is provided.</para>"
 msgstr ""
-"<para > Ĉi tio ŝanĝas la panelon <emphasis>informo</emphasis> ĉe la dekstra "
-"flanko de la fenestro.</para><para >La panelo provizas profundajn informojn "
+"<para> Ĉi tio ŝanĝas la panelon <emphasis>informo</emphasis> ĉe la dekstra "
+"flanko de la fenestro.</para><para>La panelo provizas profundajn informojn "
 "pri la eroj, kiujn via muso ŝvebas super aŭ pri la elektitaj eroj. Alie ĝi "
 "informas vin pri la nuntempe rigardata dosierujo.<nl/>Por unuopaj eroj estas "
 "provizita antaŭrigardo de ilia enhavo.</para>"
@@ -875,7 +867,7 @@ msgstr ""
 "muso ŝvebas, aŭ pri la elektitaj eroj. Alie ĝi informas vin pri la nuntempe "
 "vidita dosierujo.<nl/>Por unuopaj eroj antaŭrigardo de ilia enhavo estas "
 "provizita.</para><para>Vi povas agordi kiuj kaj kiel detaloj estas donitaj "
-"ĉi tie per dekstra klako.</para> >"
+"ĉi tie per dekstra klako.</para>>"
 
 #: dolphinmainwindow.cpp:2065
 #, kde-format
@@ -928,8 +920,8 @@ msgid ""
 msgstr ""
 "<para>Ĉi tio ŝanĝas la panelon <emphasis>terminalo</emphasis> ĉe la malsupro "
 "de la fenestro. <nl/>La loko en la terminalo ĉiam kongruos kun la dosierujo, "
-"por ke vi povu navigi uzante ambaŭ.</para><para >La terminala panelo ne "
-"estas bezonata por baza komputila uzado sed povas esti utila por altnivelaj "
+"por ke vi povu navigi uzante ambaŭ.</para><para>La terminala panelo ne estas "
+"bezonata por baza komputila uzado sed povas esti utila por altnivelaj "
 "taskoj. Por lerni pli pri terminaloj uzu la helpon en memstara terminal-"
 "aplikaĵo kiel Konsole.</para>"
 
@@ -984,7 +976,7 @@ msgid ""
 "type.</para>"
 msgstr ""
 "<para>Ĉi tio ŝanĝas la panelon <emphasis>lokoj</emphasis> ĉe la maldekstra "
-"flanko de la fenestro.</para><para >Ĝi ebligas al vi iri al lokoj, kiujn vi "
+"flanko de la fenestro.</para><para>Ĝi ebligas al vi iri al lokoj, kiujn vi "
 "markis kaj aliri diskon aŭ amaskomunikilaron ligitajn al la komputilo. aŭ al "
 "la reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe konservitajn "
 "dosierojn aŭ dosierojn de certa tipo.</para>"
@@ -1030,7 +1022,7 @@ msgid ""
 "directory that contains all data connected to this computer—the "
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
-"<para >Iru al la dosierujo, kiu enhavas la nuntempe viditan.</para><para "
+"<para>Iru al la dosierujo, kiu enhavas la nuntempe viditan.</para><para "
 ">Ĉiuj dosieroj kaj dosierujoj estas organizitaj en hierarkia "
 "<emphasis>dosiersistemo</emphasis>. Ĉe la supro de ĉi tiu hierarkio estas "
 "dosierujo kiu enhavas ĉiujn datumojn ligitajn al ĉi tiu komputilo—la "
@@ -1085,7 +1077,7 @@ msgid ""
 msgstr ""
 "<para>Ĉi tio estas la <emphasis>Menubaro</emphasis>. Ĝi provizas aliron al "
 "komandoj kaj agordaj opcioj. Maldekstre alklaku iun el la menuoj sur ĉi tiu "
-"breto por vidi ĝian enhavon.</para><para >La Menubreto povas esti kaŝita "
+"breto por vidi ĝian enhavon.</para><para>La Menubreto povas esti kaŝita "
 "malmarkante <interface>Agordoj|Montri Menubreton</interface>. Tiam plejparto "
 "de ĝia enhavo fariĝas disponebla per butono <interface>Menuo</interface> sur "
 "la <emphasis>Ilobreto</emphasis>.</para>"
@@ -1108,7 +1100,7 @@ msgstr ""
 "kiujn vi vidas en la <interface>Menuo</interface> aŭ en la "
 "<interface>Menubreto</interface> povas esti metitaj sur la Ilobreton. Nur "
 "dekstre alklaku ĝin kaj elektu <interface>Agordu Ilobretojn...</interface> "
-"aŭ trovu ĉi tiun agon en la <interface>menuo</interface>.</para><para >La "
+"aŭ trovu ĉi tiun agon en la <interface>menuo</interface>.</para><para>La "
 "loko de la breto kaj la stilo de ĝiaj butonoj ankaŭ povas esti ŝanĝitaj en "
 "dekstra klaka menuo. Dekstre alklaku butonon se vi volas montri aŭ kaŝi ĝian "
 "tekston.</para>"
@@ -1236,7 +1228,7 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para >Tio malfermas fenestron kiu gvidos vin tra raportado de eraroj aŭ "
+"<para>Tio malfermas fenestron kiu gvidos vin tra raportado de eraroj aŭ "
 "difektoj en ĉi tiu aplikaĵo aŭ en alia KDE-programaro.</para><para "
 ">Altkvalitaj cimraportoj estas multe aprezataj. Por lerni kiel fari vian "
 "cimraporton kiel eble plej efika <link url='https://community.kde.org/"
@@ -1535,11 +1527,11 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
-"<para >Ĉi tio priskribas la lokon de la dosieroj kaj dosierujoj montrataj "
-"malsupre.</para><para >La nomo de la aktuale vidita dosierujo legeblas "
+"<para>Ĉi tio priskribas la lokon de la dosieroj kaj dosierujoj montrataj "
+"malsupre.</para><para>La nomo de la aktuale vidita dosierujo legeblas "
 "dekstre. Maldekstre de ĝi estas la nomo de la dosierujo kiu enhavas ĝin. La "
 "tuta linio nomiĝas la <emphasis>vojo</emphasis> al la nuna loko ĉar sekvi ĉi "
-"tiujn dosierujojn de maldekstre dekstren kondukas ĉi tien.</para><para >Tiu "
+"tiujn dosierujojn de maldekstre dekstren kondukas ĉi tien.</para><para>Tiu "
 "ĉi interaga vojo estas pli potenca ol oni atendus. Por lerni pli pri la "
 "bazaj kaj altnivelaj funkcioj de la lokbreto <link url='help:/dolphin/"
 "location-bar.html'>klaku ĉi tie</link>. Ĉi tio malfermos la dediĉitan paĝon "
@@ -2504,11 +2496,9 @@ msgstr "Aŭtomate-ludi amaskomunikilajn dosierojn"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Montri la filtrilobreton"
+msgstr "Montri elementon je musumo"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2529,12 +2519,10 @@ msgid "Auto-Play media files"
 msgstr "Aŭtomate-ludi amaskomunikilajn dosierojn"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Montri la filtrilobreton"
+msgstr "Montri elementon je musumo"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3240,17 +3228,15 @@ msgstr "Montri 'Malfermi Terminalon' en kunteksta menuo."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Montri 'Kopii Lokon' en kunteksta menuo."
+msgstr "Montri 'Kopii al alia dividita vido' en kunteksta menuo."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Montri 'Ordigi laŭ' en kunteksta menuo."
+msgstr "Montri 'Movi al alia dividita vido' en kunteksta menuo."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
