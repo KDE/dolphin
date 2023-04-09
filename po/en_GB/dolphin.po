@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-26 14:30+0100\n"
+"PO-Revision-Date: 2023-04-08 11:10+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -349,20 +349,16 @@ msgstr ""
 "<emphasis>Cut</emphasis> action they are removed from their old location."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copy to Inactive Split View"
+msgstr "Copy to Other View"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copy to Inactive Split View…"
+msgstr "Copy to Other View…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -381,20 +377,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Copy to Inactive Split View"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Move to Inactive Split View"
+msgstr "Move to Other View"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Move to Inactive Split View…"
+msgstr "Move to Other View…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -3231,17 +3223,15 @@ msgstr "Show 'Open Terminal' in context menu."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Show 'Copy Location' in context menu."
+msgstr "Show 'Copy to other split view' in context menu."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Show 'Sort By' in context menu."
+msgstr "Show 'Move to other split view' in context menu."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
