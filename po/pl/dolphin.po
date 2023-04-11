@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-05 09:05+0100\n"
+"PO-Revision-Date: 2023-04-10 11:44+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -354,20 +354,16 @@ msgstr ""
 "<emphasis>Wytnij</emphasis> to są usuwane z ich pierwotnego miejsca."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Skopiuj do nieaktywnego widoku podzielonego"
+msgstr "Skopiuj do innego widoku"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Skopiuj do nieaktywnego widoku podzielonego…"
+msgstr "Skopiuj do innego widoku…"
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -386,20 +382,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Skopiuj do nieaktywnego widoku podzielonego"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Przenieś do nieaktywnego widoku podzielonego"
+msgstr "Przenieś do innego widoku"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Przenieś do nieaktywnego widoku podzielonego…"
+msgstr "Przenieś do innego widoku…"
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -2528,11 +2520,9 @@ msgstr "Samoodtwarzaj pliki multimedialne"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Pokaż pasek filtru"
+msgstr "Pokaż rzecz po najechaniu na nią"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2553,12 +2543,10 @@ msgid "Auto-Play media files"
 msgstr "Samoodtwarzaj pliki multimedialne"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Pokaż pasek filtru"
+msgstr "Pokaż rzecz po najechaniu"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -2570,7 +2558,7 @@ msgstr "Ustawienia..."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
-msgstr "Skondensowana data"
+msgstr "Zwarta data"
 
 #: panels/information/informationpanelcontent.cpp:105
 #, kde-format
@@ -3271,23 +3259,21 @@ msgstr "Pokaż 'Otwórz terminal' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Pokaż 'Skopiuj położenie' w menu podręcznym."
+msgstr "Pokaż 'Skopiuj do innej części widoku' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Pokaż 'Uszereguj wg' w menu podręcznym."
+msgstr "Pokaż 'Przenieś do innej części widoku' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
 #, kde-format
 msgid "Position of columns"
-msgstr "Pozycja kolumn"
+msgstr "Położenie kolumn"
 
 #. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
