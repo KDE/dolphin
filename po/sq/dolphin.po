@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-04-10 01:55-0400\n"
+"PO-Revision-Date: 2023-04-11 01:21-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
 "Language: sq\n"
@@ -1148,12 +1148,10 @@ msgid "Empties Trash to create free space"
 msgstr ""
 
 #: dolphinnavigatorswidgetaction.cpp:254
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Go"
-#| msgid "&Network Folders"
+#, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
-msgstr "&Dosjet e Rrjetit"
+msgstr "Shto skedar rrjeti"
 
 #: dolphinnavigatorswidgetaction.cpp:287
 #, fuzzy, kde-format
@@ -1199,7 +1197,7 @@ msgstr "Pro&gramet"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
-msgstr "&Dosjet e Rrjetit"
+msgstr "&Skedarët e rrjetit"
 
 #: dolphinpart.cpp:181
 #, kde-format
