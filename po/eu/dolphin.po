@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-04-11 00:47+0200\n"
+"PO-Revision-Date: 2023-04-13 21:51+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4986,7 +4986,7 @@ msgstr "Kopiatu kokalekua"
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
-"Honek hautatutako lehenengo elementuaren bide-izena arbelera kopiatuko du."
+"Horrek hautatutako lehenengo elementuaren bide-izena arbelera kopiatuko du."
 
 #: views/dolphinviewactionhandler.cpp:160
 #, kde-format
