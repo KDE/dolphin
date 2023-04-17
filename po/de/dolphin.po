@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-06 00:49+0000\n"
-"PO-Revision-Date: 2023-02-09 00:40+0100\n"
+"PO-Revision-Date: 2023-04-14 23:17+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -358,20 +358,16 @@ msgstr ""
 "wurden, werden sie von ihrer alten Adresse gelöscht."
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "In die inaktive Seite der geteilten Ansicht kopieren"
+msgstr "In die andere Ansicht kopieren"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "In die inaktive Seite der geteilten Ansicht kopieren ..."
+msgstr "In die andere Ansicht kopieren ..."
 
 #: dolphinmainwindow.cpp:1622
 #, kde-kuit-format
@@ -390,20 +386,16 @@ msgid "Copy to Inactive Split View"
 msgstr "In die inaktive Seite der geteilten Ansicht kopieren"
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "In die inaktive Seite der geteilten Ansicht verschieben"
+msgstr "In die andere Ansicht verschieben"
 
 #: dolphinmainwindow.cpp:1631
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "In die inaktive Seite der geteilten Ansicht verschieben ..."
+msgstr "In die andere Ansicht verschieben ..."
 
 #: dolphinmainwindow.cpp:1633
 #, kde-kuit-format
@@ -1700,6 +1692,8 @@ msgstr "Ungültiges Protokoll"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Aktuelle Speicherort aktualisiert. Auf <filename>%1</filename> kann nicht "
+"mehr zugegriffen werden."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2081,7 +2075,7 @@ msgstr "Geändert"
 #: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Das Datumsformat kann in den Einstellungen ausgewählt werden."
 
 #: kitemviews/kfileitemmodel.cpp:2689
 msgctxt "@label"
@@ -2569,11 +2563,9 @@ msgstr "Mediendateien automatisch abspielen"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Filterleiste anzeigen"
+msgstr "Element beim Überfahren anzeigen"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2594,12 +2586,10 @@ msgid "Auto-Play media files"
 msgstr "Mediendateien automatisch abspielen"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Filterleiste anzeigen"
+msgstr "Element beim Überfahren anzeigen"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3305,17 +3295,15 @@ msgstr "„Terminal öffnen“ im Kontextmenü anzeigen."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Eintrag „Adresse kopieren“ im Kontextmenü anzeigen."
+msgstr "Eintrag „In die andere Ansicht kopieren“ im Kontextmenü anzeigen."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Eintrag „Sortieren nach“ im Kontextmenü anzeigen."
+msgstr "Eintrag „In die andere Ansicht verschieben“ im Kontextmenü anzeigen."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3363,11 +3351,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Berechtigungen"
+msgstr "Berechtigungen-Format"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3871,20 +3857,16 @@ msgid "Sorting mode: "
 msgstr "Sortiermodus:"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "Mit der Tabulatortaste zwischen geteilten Ansichten wechseln"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Ansicht teilen"
+msgstr "Geteilte Ansicht:"
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4431,27 +4413,25 @@ msgstr "Datumsstil:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Symbolisch (z. B. 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numerisch (Oktal) (z. B. '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombiniert (z. B. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Zugriffsrechte:"
+msgstr "Berechtigungen-Stil:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
