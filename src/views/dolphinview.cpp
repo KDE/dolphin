@@ -299,7 +299,9 @@ DolphinView::Mode DolphinView::viewMode() const
 void DolphinView::setSelectionModeEnabled(const bool enabled)
 {
     if (enabled) {
-        m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
+        if (!m_proxyStyle) {
+            m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
+        }
         setStyle(m_proxyStyle.get());
         m_view->setStyle(m_proxyStyle.get());
         m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::False);
