@@ -857,7 +857,7 @@ msgstr ""
 "latere dextere del fenestra.</para><para>Le pannello forni information "
 "approfundate re le elementos ubi le mus es planate ore le elementos "
 "seligite. Alteremente illo te informa re le dossier vidite currentemente.<nl/"
-">Per singule elementos un vista preliminari del lor contentos es fornite.</"
+">Per singule elementos un vista preliminar del lor contentos es fornite.</"
 "para>"
 
 #: dolphinmainwindow.cpp:2056
@@ -872,7 +872,7 @@ msgid ""
 msgstr ""
 "<para>Iste pannello forni information approfundate re le elementos ubi tu "
 "mus es planate o re le seligite elementos. Alteremente illo inform te re le "
-"dossier currentemente vidite.<nl/>Per singule elementos un vista preliminari "
+"dossier currentemente vidite.<nl/>Per singule elementos un vista preliminar "
 "del lor contentos es fornite.</para> <para>Tu pote configurar quel e como "
 "detalios es date hic per cliccar a dextera.</para>"
 
@@ -2533,7 +2533,7 @@ msgstr "Formato de como monstrar data"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
-msgstr "Vista preliminari"
+msgstr "Vista preliminar"
 
 #: panels/information/informationpanel.cpp:158
 #, kde-format
@@ -3187,7 +3187,7 @@ msgstr "Grandor de icone"
 #: settings/dolphin_iconsmodesettings.kcfg:23
 #, kde-format
 msgid "Preview size"
-msgstr "Dimension de vista preliminari"
+msgstr "Dimension de vista preliminar"
 
 #. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
 #: settings/dolphin_compactmodesettings.kcfg:27
@@ -3375,7 +3375,7 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Quando iste option es habilitate, un vista preliminari del contento de file "
+"Quando iste option es habilitate, un vista preliminar del contento de file "
 "es monstrate como un icone."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
@@ -3861,7 +3861,7 @@ msgstr "Cambia nomine in linea"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr "Configura vista preliminari per %1"
+msgstr "Configura vista preliminar per %1"
 
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
@@ -4178,7 +4178,7 @@ msgstr "Grandor de icone predefinite:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
-msgstr "Dimension de icone de vista preliminari:"
+msgstr "Dimension de icone de vista preliminar:"
 
 #: settings/viewmodes/viewsettingstab.cpp:69
 #, kde-format
@@ -4447,7 +4447,7 @@ msgstr "Monstra files celate per ultime"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr "Monstrar vista preliminari"
+msgstr "Monstrar vista preliminar"
 
 #: settings/viewpropertiesdialog.cpp:89
 #, kde-format
@@ -5103,7 +5103,7 @@ msgstr "Monstra  vistas preliminar"
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
-msgstr "Monstra vista preliminari de files e dossieres"
+msgstr "Monstra vista preliminar de files e dossieres"
 
 #: views/dolphinviewactionhandler.cpp:246
 #, kde-kuit-format
@@ -5665,7 +5665,7 @@ msgstr "Il actualisa le information de version..."
 
 #~ msgctxt "@action:intoolbar"
 #~ msgid "Preview"
-#~ msgstr "Vista preliminari"
+#~ msgstr "Vista preliminar"
 
 #~ msgid "stop"
 #~ msgstr "stoppa"
@@ -5796,7 +5796,7 @@ msgstr "Il actualisa le information de version..."
 
 #~ msgctxt "@label:listbox"
 #~ msgid "Preview:"
-#~ msgstr "Vista preliminari:"
+#~ msgstr "Vista preliminar:"
 
 #~ msgctxt "@title:group"
 #~ msgid "Text"
@@ -6279,7 +6279,7 @@ msgstr "Il actualisa le information de version..."
 
 #~ msgctxt "@label"
 #~ msgid "Show preview"
-#~ msgstr "Monstra vista preliminari"
+#~ msgstr "Monstra vista preliminar"
 
 #~ msgctxt "@label"
 #~ msgid "Additional information (deprecated, use AdditionInfoV2 instead)"
