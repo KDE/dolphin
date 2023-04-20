@@ -270,6 +270,31 @@ void DolphinMainWindow::openFiles(const QStringList &files, bool splitView)
     openFiles(QUrl::fromStringList(files), splitView);
 }
 
+bool DolphinMainWindow::isOnCurrentDesktop() const
+{
+#if HAVE_X11
+    if (KWindowSystem::isPlatformX11()) {
+        const NET::Properties properties = NET::WMDesktop;
+        KWindowInfo info(this->winId(), properties);
+        return info.isOnCurrentDesktop();
+    }
+#endif
+    return true;
+}
+
+bool DolphinMainWindow::isOnActivity(const QString &activityId) const
+{
+#if HAVE_X11 && HAVE_KACTIVITIES
+    if (KWindowSystem::isPlatformX11()) {
+        const NET::Properties properties = NET::Supported;
+        const NET::Properties2 properties2 = NET::WM2Activities;
+        KWindowInfo info(this->winId(), properties, properties2);
+        return info.activities().contains(activityId);
+    }
+#endif
+    return true;
+}
+
 void DolphinMainWindow::activateWindow(const QString &activationToken)
 {
     window()->setAttribute(Qt::WA_NativeWindow, true);
