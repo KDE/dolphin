@@ -54,12 +54,12 @@ void TerminalPanel::goHome()
     sendCdToTerminal(QDir::homePath(), HistoryPolicy::SkipHistory);
 }
 
-QString TerminalPanel::currentWorkingDirectory()
+bool TerminalPanel::currentWorkingDirectoryIsParentOf(const QString &path) const
 {
     if (m_terminal) {
-        return m_terminal->currentWorkingDirectory();
+        return m_terminal->currentWorkingDirectory().startsWith(path);
     }
-    return QString();
+    return false;
 }
 
 void TerminalPanel::terminalExited()
