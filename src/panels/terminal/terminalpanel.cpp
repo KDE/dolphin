@@ -54,7 +54,7 @@ void TerminalPanel::goHome()
     sendCdToTerminal(QDir::homePath(), HistoryPolicy::SkipHistory);
 }
 
-bool TerminalPanel::currentWorkingDirectoryIsParentOf(const QString &path) const
+bool TerminalPanel::currentWorkingDirectoryIsChildOf(const QString &path) const
 {
     if (m_terminal) {
         return m_terminal->currentWorkingDirectory().startsWith(path);
