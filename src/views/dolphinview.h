@@ -666,7 +666,7 @@ private Q_SLOTS:
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
     void slotRenameDialogRenamingFinished(const QList<QUrl> &urls);
     void slotSelectedItemTextPressed(int index);
-    void slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to);
+    void slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to);
     void slotIncreaseZoom();
     void slotDecreaseZoom();
     void slotSwipeUp();
@@ -928,9 +928,11 @@ private:
     // resolution scroll wheels)
     int m_controlWheelAccumulatedDelta;
 
-    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5
+    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5 and file operations
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;
+    /// Decides whether items created by jobs should automatically be selected.
+    bool m_selectJobCreatedItems;
 
     VersionControlObserver *m_versionControlObserver;
 
@@ -950,6 +952,7 @@ private:
     friend class DolphinDetailsViewTest;
     friend class DolphinMainWindowTest;
     friend class DolphinPart; // Accesses m_model
+    void updateSelectionState();
 };
 
 /// Allow using DolphinView::Mode in QVariant

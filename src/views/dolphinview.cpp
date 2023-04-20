@@ -204,6 +204,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_model, &KFileItemModel::currentDirectoryRemoved, this, &DolphinView::currentDirectoryRemoved);
 
     connect(this, &DolphinView::itemCountChanged, this, &DolphinView::updatePlaceholderLabel);
+    connect(this, &DolphinView::itemCountChanged, this, &DolphinView::updateSelectionState);
 
     m_view->installEventFilter(this);
     connect(m_view, &DolphinItemListView::sortOrderChanged, this, &DolphinView::slotSortOrderChangedByHeader);
@@ -424,6 +425,7 @@ int DolphinView::selectedItemsCount() const
 void DolphinView::markUrlsAsSelected(const QList<QUrl> &urls)
 {
     m_selectedUrls = urls;
+    m_selectJobCreatedItems = false;
 }
 
 void DolphinView::markUrlAsCurrent(const QUrl &url)
@@ -711,6 +713,7 @@ void DolphinView::invertSelection()
 
 void DolphinView::clearSelection()
 {
+    m_selectJobCreatedItems = false;
     m_selectedUrls.clear();
     m_container->controller()->selectionManager()->clearSelection();
 }
@@ -815,7 +818,8 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
     KJobWidgets::setWindow(job, this);
 
     connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
-    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotCopyingDone);
+    connect(job, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
+    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
     KIO::FileUndoManager::self()->recordCopyJob(job);
 }
 
@@ -825,7 +829,8 @@ void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &
     KJobWidgets::setWindow(job, this);
 
     connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
-    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotCopyingDone);
+    connect(job, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
+    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
     KIO::FileUndoManager::self()->recordCopyJob(job);
 }
 
@@ -1355,7 +1360,17 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
             // Mark the dropped urls as selected.
             m_clearSelectionBeforeSelectingNewItems = true;
             m_markFirstNewlySelectedItemAsCurrent = true;
+            m_selectJobCreatedItems = true;
             connect(job, &KIO::DropJob::itemCreated, this, &DolphinView::slotItemCreated);
+            connect(job, &KIO::DropJob::copyJobStarted, this, [this](const KIO::CopyJob *copyJob) {
+                connect(copyJob, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
+                connect(copyJob, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
+                connect(copyJob, &KIO::CopyJob::linking, this, [this](KIO::Job *job, const QString &src, const QUrl &dest) {
+                    Q_UNUSED(job)
+                    Q_UNUSED(src)
+                    slotItemCreated(dest);
+                });
+            });
         }
     }
 }
@@ -1402,7 +1417,7 @@ void DolphinView::slotSelectedItemTextPressed(int index)
     }
 }
 
-void DolphinView::slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to)
+void DolphinView::slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to)
 {
     slotItemCreated(to);
 }
@@ -1413,7 +1428,9 @@ void DolphinView::slotItemCreated(const QUrl &url)
         markUrlAsCurrent(url);
         m_markFirstNewlySelectedItemAsCurrent = false;
     }
-    m_selectedUrls << url;
+    if (m_selectJobCreatedItems && !m_selectedUrls.contains(url)) {
+        m_selectedUrls << url;
+    }
 }
 
 void DolphinView::slotJobResult(KJob *job)
@@ -1421,8 +1438,35 @@ void DolphinView::slotJobResult(KJob *job)
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
     }
+    if (!m_selectJobCreatedItems) {
+        m_selectedUrls.clear();
+        return;
+    }
     if (!m_selectedUrls.isEmpty()) {
         m_selectedUrls = KDirModel::simplifiedUrlList(m_selectedUrls);
+
+        updateSelectionState();
+        if (!m_selectedUrls.isEmpty()) {
+            // not all urls were found, the model may not be up to date
+            // TODO KF6 replace with Qt::singleShotConnection
+            QMetaObject::Connection *const connection = new QMetaObject::Connection;
+            *connection = connect(
+                m_model,
+                &KFileItemModel::directoryLoadingCompleted,
+                this,
+                [this, connection]() {
+                    // the model should now contain all the items created by the job
+                    updateSelectionState();
+                    m_selectJobCreatedItems = false;
+                    m_selectedUrls.clear();
+                    QObject::disconnect(*connection);
+                    delete connection;
+                },
+                Qt::UniqueConnection);
+        } else {
+            m_selectJobCreatedItems = false;
+            m_selectedUrls.clear();
+        }
     }
 }
 
@@ -1684,6 +1728,40 @@ void DolphinView::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUr
     }
 }
 
+void DolphinView::updateSelectionState()
+{
+    if (!m_selectedUrls.isEmpty()) {
+        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+
+        // if there is a selection already, leave it that way
+        // unless some drop/paste job are in the process of creating items
+        if (!selectionManager->hasSelection() || m_selectJobCreatedItems) {
+            if (m_clearSelectionBeforeSelectingNewItems) {
+                selectionManager->clearSelection();
+                m_clearSelectionBeforeSelectingNewItems = false;
+            }
+
+            KItemSet selectedItems = selectionManager->selectedItems();
+
+            QList<QUrl>::iterator it = m_selectedUrls.begin();
+            while (it != m_selectedUrls.end()) {
+                const int index = m_model->index(*it);
+                if (index >= 0) {
+                    selectedItems.insert(index);
+                    it = m_selectedUrls.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
+            if (!selectedItems.isEmpty()) {
+                selectionManager->beginAnchoredSelection(selectionManager->currentItem());
+                selectionManager->setSelectedItems(selectedItems);
+            }
+        }
+    }
+}
+
 void DolphinView::updateViewState()
 {
     if (m_currentItemUrl != QUrl()) {
@@ -1718,35 +1796,7 @@ void DolphinView::updateViewState()
         m_container->verticalScrollBar()->setValue(y);
     }
 
-    if (!m_selectedUrls.isEmpty()) {
-        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-
-        // if there is a selection already, leave it that way
-        if (!selectionManager->hasSelection()) {
-            if (m_clearSelectionBeforeSelectingNewItems) {
-                selectionManager->clearSelection();
-                m_clearSelectionBeforeSelectingNewItems = false;
-            }
-
-            KItemSet selectedItems = selectionManager->selectedItems();
-
-            QList<QUrl>::iterator it = m_selectedUrls.begin();
-            while (it != m_selectedUrls.end()) {
-                const int index = m_model->index(*it);
-                if (index >= 0) {
-                    selectedItems.insert(index);
-                    it = m_selectedUrls.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-
-            if (!selectedItems.isEmpty()) {
-                selectionManager->beginAnchoredSelection(selectionManager->currentItem());
-                selectionManager->setSelectedItems(selectedItems);
-            }
-        }
-    }
+    updateSelectionState();
 }
 
 void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
@@ -2160,6 +2210,8 @@ void DolphinView::pasteToUrl(const QUrl &url)
     KJobWidgets::setWindow(job, this);
     m_clearSelectionBeforeSelectingNewItems = true;
     m_markFirstNewlySelectedItemAsCurrent = true;
+    m_selectJobCreatedItems = true;
+    // TODO KF6 use KIO::PasteJob::copyJobStarted to hook to earlier events copying/moving
     connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
     connect(job, &KIO::PasteJob::result, this, &DolphinView::slotJobResult);
 }
