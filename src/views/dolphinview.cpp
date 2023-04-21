@@ -814,6 +814,14 @@ void DolphinView::copySelectedItemsToClipboard()
 
 void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &destinationUrl)
 {
+    if (selection.isEmpty() || !destinationUrl.isValid()) {
+        return;
+    }
+
+    m_clearSelectionBeforeSelectingNewItems = true;
+    m_markFirstNewlySelectedItemAsCurrent = true;
+    m_selectJobCreatedItems = true;
+
     KIO::CopyJob *job = KIO::copy(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);
 
@@ -825,6 +833,14 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
 
 void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &destinationUrl)
 {
+    if (selection.isEmpty() || !destinationUrl.isValid()) {
+        return;
+    }
+
+    m_clearSelectionBeforeSelectingNewItems = true;
+    m_markFirstNewlySelectedItemAsCurrent = true;
+    m_selectJobCreatedItems = true;
+
     KIO::CopyJob *job = KIO::move(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);
 

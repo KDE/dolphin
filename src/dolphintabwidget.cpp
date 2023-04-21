@@ -325,36 +325,44 @@ void DolphinTabWidget::restoreClosedTab(const QByteArray &state)
 
 void DolphinTabWidget::copyToInactiveSplitView()
 {
-    const DolphinTabPage *tabPage = tabPageAt(currentIndex());
-    DolphinViewContainer *activeViewContainer = currentTabPage()->activeViewContainer();
-    if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
+    const DolphinTabPage *tabPage = currentTabPage();
+    if (!tabPage->splitViewEnabled()) {
         return;
     }
 
-    if (tabPage->primaryViewActive()) {
-        // copy from left panel to right
-        activeViewContainer->view()->copySelectedItems(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
-    } else {
-        // copy from right panel to left
-        activeViewContainer->view()->copySelectedItems(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+    const KFileItemList selectedItems = tabPage->activeViewContainer()->view()->selectedItems();
+    if (selectedItems.isEmpty()) {
+        return;
     }
+
+    DolphinView *inactiveView;
+    if (tabPage->primaryViewActive()) {
+        inactiveView = tabPage->secondaryViewContainer()->view();
+    } else {
+        inactiveView = tabPage->primaryViewContainer()->view();
+    }
+    inactiveView->copySelectedItems(selectedItems, inactiveView->url());
 }
 
 void DolphinTabWidget::moveToInactiveSplitView()
 {
-    const DolphinTabPage *tabPage = tabPageAt(currentIndex());
-    DolphinViewContainer *activeViewContainer = currentTabPage()->activeViewContainer();
-    if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
+    const DolphinTabPage *tabPage = currentTabPage();
+    if (!tabPage->splitViewEnabled()) {
         return;
     }
 
-    if (tabPage->primaryViewActive()) {
-        // move from left panel to right
-        activeViewContainer->view()->moveSelectedItems(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
-    } else {
-        // move from right panel to left
-        activeViewContainer->view()->moveSelectedItems(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+    const KFileItemList selectedItems = tabPage->activeViewContainer()->view()->selectedItems();
+    if (selectedItems.isEmpty()) {
+        return;
     }
+
+    DolphinView *inactiveView;
+    if (tabPage->primaryViewActive()) {
+        inactiveView = tabPage->secondaryViewContainer()->view();
+    } else {
+        inactiveView = tabPage->primaryViewContainer()->view();
+    }
+    inactiveView->moveSelectedItems(selectedItems, inactiveView->url());
 }
 
 void DolphinTabWidget::detachTab(int index)
