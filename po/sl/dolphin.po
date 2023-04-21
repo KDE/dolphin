@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-06 00:49+0000\n"
+"POT-Creation-Date: 2023-04-21 00:50+0000\n"
 "PO-Revision-Date: 2023-04-06 09:51+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -51,7 +51,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Obnovi"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1534
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1559
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -75,119 +75,119 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Odpri pot v novem zavihku"
 
-#: dolphinmainwindow.cpp:303
+#: dolphinmainwindow.cpp:328
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Uspešno kopirano."
 
-#: dolphinmainwindow.cpp:306
+#: dolphinmainwindow.cpp:331
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Uspešno premaknjeno."
 
-#: dolphinmainwindow.cpp:309
+#: dolphinmainwindow.cpp:334
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Uspešno povezano."
 
-#: dolphinmainwindow.cpp:312
+#: dolphinmainwindow.cpp:337
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Uspešno premaknjeno v Smeti."
 
-#: dolphinmainwindow.cpp:315
+#: dolphinmainwindow.cpp:340
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Uspešno preimenovano."
 
-#: dolphinmainwindow.cpp:319
+#: dolphinmainwindow.cpp:344
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Mapa ustvarjena."
 
-#: dolphinmainwindow.cpp:391
+#: dolphinmainwindow.cpp:416
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Pojdi nazaj"
 
-#: dolphinmainwindow.cpp:392
+#: dolphinmainwindow.cpp:417
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Vrni se na prejšnjo ogledano mapo."
 
-#: dolphinmainwindow.cpp:398
+#: dolphinmainwindow.cpp:423
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Pojdi naprej"
 
-#: dolphinmainwindow.cpp:399
+#: dolphinmainwindow.cpp:424
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "To razveljavlja ukaz <interface>Pojdi|Nazaj</interface>."
 
-#: dolphinmainwindow.cpp:550 dolphinmainwindow.cpp:596
+#: dolphinmainwindow.cpp:575 dolphinmainwindow.cpp:621
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Potrditev"
 
-#: dolphinmainwindow.cpp:554
+#: dolphinmainwindow.cpp:579
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "Zapusti %1"
 
-#: dolphinmainwindow.cpp:556
+#: dolphinmainwindow.cpp:581
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Zapri trenutni zavihek"
 
-#: dolphinmainwindow.cpp:565
+#: dolphinmainwindow.cpp:590
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "V tem oknu imate odprtih več zavihkov. Ali res želite končati?"
 
-#: dolphinmainwindow.cpp:567 dolphinmainwindow.cpp:617
+#: dolphinmainwindow.cpp:592 dolphinmainwindow.cpp:642
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ne vprašaj več"
 
-#: dolphinmainwindow.cpp:605
+#: dolphinmainwindow.cpp:630
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Prikaži ploščo &Terminala"
 
-#: dolphinmainwindow.cpp:615
+#: dolphinmainwindow.cpp:640
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr "Program '%1' še vedno teče v Terminalu. Ali ga res želite pokončati?"
 
-#: dolphinmainwindow.cpp:1118
+#: dolphinmainwindow.cpp:1143
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Odpri %1"
 
-#: dolphinmainwindow.cpp:1127 dolphinmainwindow.cpp:1861
+#: dolphinmainwindow.cpp:1152 dolphinmainwindow.cpp:1886
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Odpri priljubljeno orodje za iskanje"
 
-#: dolphinmainwindow.cpp:1166
+#: dolphinmainwindow.cpp:1191
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
@@ -196,7 +196,7 @@ msgstr[1] "Ali res želite odpreti %1 okni terminala?"
 msgstr[2] "Ali res želite odpreti %1 okna terminala?"
 msgstr[3] "Ali res želite odpreti %1 oken terminala?"
 
-#: dolphinmainwindow.cpp:1178
+#: dolphinmainwindow.cpp:1203
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -206,25 +206,25 @@ msgstr[1] "Odpri %1 terminala"
 msgstr[2] "Odpri %1 terminale"
 msgstr[3] "Odpri %1 terminalov"
 
-#: dolphinmainwindow.cpp:1380
+#: dolphinmainwindow.cpp:1405
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Sestavi"
 
-#: dolphinmainwindow.cpp:1540
+#: dolphinmainwindow.cpp:1565
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Novo okno"
 
-#: dolphinmainwindow.cpp:1541
+#: dolphinmainwindow.cpp:1566
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Odpri novo okno z Dolphinom"
 
-#: dolphinmainwindow.cpp:1543
+#: dolphinmainwindow.cpp:1568
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -234,13 +234,13 @@ msgstr ""
 "To odpre novo okno s trenutno lokacijo in pogledom.<nl/>Med oknoma lahko "
 "vlečete in spuščate predmete."
 
-#: dolphinmainwindow.cpp:1550
+#: dolphinmainwindow.cpp:1575
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nov zavihek"
 
-#: dolphinmainwindow.cpp:1552
+#: dolphinmainwindow.cpp:1577
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -252,25 +252,25 @@ msgstr ""
 "<nl/>Zavihek nudi še dodaten pogled v tem oknu. Med zavihkoma lahko vlečete "
 "in spuščate predmete."
 
-#: dolphinmainwindow.cpp:1561
+#: dolphinmainwindow.cpp:1586
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Dodaj na pult Mesta"
 
-#: dolphinmainwindow.cpp:1563
+#: dolphinmainwindow.cpp:1588
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "To doda izbrano mapo na kontrolno ploščo Mesta."
 
-#: dolphinmainwindow.cpp:1568
+#: dolphinmainwindow.cpp:1593
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Zapri zavihek"
 
-#: dolphinmainwindow.cpp:1570
+#: dolphinmainwindow.cpp:1595
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -280,13 +280,13 @@ msgstr ""
 "To bo zaprlo trenutno opazovan zavihek. Če v tem oknu ni več zavihkov, se bo "
 "zaprlo."
 
-#: dolphinmainwindow.cpp:1575
+#: dolphinmainwindow.cpp:1600
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "To zapre okno."
 
-#: dolphinmainwindow.cpp:1583
+#: dolphinmainwindow.cpp:1608
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -302,13 +302,13 @@ msgstr ""
 "tipkovnici postavljene ena zraven druge: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> in <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1590
+#: dolphinmainwindow.cpp:1615
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Izreži…"
 
-#: dolphinmainwindow.cpp:1592
+#: dolphinmainwindow.cpp:1617
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -321,13 +321,13 @@ msgstr ""
 ">Uporabite ukaz <emphasis>Prilepi</emphasis> za nadaljnje kopiranje iz "
 "odložišča na novo lokacijo. Predmeti bodo odstranjeni iz izvorne lokacije."
 
-#: dolphinmainwindow.cpp:1599
+#: dolphinmainwindow.cpp:1624
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Kopiraj…"
 
-#: dolphinmainwindow.cpp:1601
+#: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -339,13 +339,13 @@ msgstr ""
 ">Uporabite ukaz <emphasis>Prilepi</emphasis> za nadaljnje kopiranje iz "
 "odložišča na novo lokacijo."
 
-#: dolphinmainwindow.cpp:1610
+#: dolphinmainwindow.cpp:1635
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Prilepi"
 
-#: dolphinmainwindow.cpp:1612
+#: dolphinmainwindow.cpp:1637
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -357,19 +357,19 @@ msgstr ""
 "mapo..<nl/>Če so bili predmeti dodani na odložišče z ukazom "
 "<emphasis>Izreži</emphasis> bodo odstranjeni iz njihove stare lokacije."
 
-#: dolphinmainwindow.cpp:1619
+#: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Kopiraj v drugi pogled"
 
-#: dolphinmainwindow.cpp:1620
+#: dolphinmainwindow.cpp:1645
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Kopiraj v drugi pogled…"
 
-#: dolphinmainwindow.cpp:1622
+#: dolphinmainwindow.cpp:1647
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -379,25 +379,25 @@ msgstr ""
 "To kopira izbrane predmete iz <emphasis>aktivnega</emphasis> pogleda v "
 "neaktivni razdeljeni pogled."
 
-#: dolphinmainwindow.cpp:1625
+#: dolphinmainwindow.cpp:1650
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Kopiraj v neaktivni razdeljeni pogled"
 
-#: dolphinmainwindow.cpp:1630
+#: dolphinmainwindow.cpp:1655
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Prenesi v drugi pogled"
 
-#: dolphinmainwindow.cpp:1631
+#: dolphinmainwindow.cpp:1656
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Prenesi v drugi pogled…"
 
-#: dolphinmainwindow.cpp:1633
+#: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -407,25 +407,25 @@ msgstr ""
 "To prenese izbrane predmete iz <emphasis>aktivnega</emphasis> pogleda v "
 "neaktivni razdeljeni pogled."
 
-#: dolphinmainwindow.cpp:1636
+#: dolphinmainwindow.cpp:1661
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Prenesi v neaktivni razdeljeni pogled"
 
-#: dolphinmainwindow.cpp:1641
+#: dolphinmainwindow.cpp:1666
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Filter..."
 
-#: dolphinmainwindow.cpp:1642
+#: dolphinmainwindow.cpp:1667
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Pokaži filtrirno vrstico"
 
-#: dolphinmainwindow.cpp:1644
+#: dolphinmainwindow.cpp:1669
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -438,30 +438,30 @@ msgstr ""
 "vnesete besedilo za filtriranje trenutno prikazanih datotek in map. V "
 "prikazu boste videli samo tiste, ki v imenu vsebujejo kriterij filtriranja."
 
-#: dolphinmainwindow.cpp:1656
+#: dolphinmainwindow.cpp:1681
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Preklopi vrstico filtra"
 
-#: dolphinmainwindow.cpp:1657
+#: dolphinmainwindow.cpp:1682
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filter"
 
-#: dolphinmainwindow.cpp:1665 search/dolphinsearchbox.cpp:330
+#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:330
 #, kde-format
 msgid "Search..."
 msgstr "Išči..."
 
-#: dolphinmainwindow.cpp:1666
+#: dolphinmainwindow.cpp:1691
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Poišči datoteke in mape"
 
-#: dolphinmainwindow.cpp:1668
+#: dolphinmainwindow.cpp:1693
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -476,20 +476,20 @@ msgstr ""
 "iskanja, tako da si jo lahko ogledate in so obenem na voljo tudi razlage "
 "nastavitev.</para>"
 
-#: dolphinmainwindow.cpp:1679
+#: dolphinmainwindow.cpp:1704
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Preklapljaj vrstico iskanja"
 
-#: dolphinmainwindow.cpp:1680
+#: dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Poišči"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1688
+#: dolphinmainwindow.cpp:1713
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -497,13 +497,13 @@ msgstr "Izberi datoteke in mape"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1691
+#: dolphinmainwindow.cpp:1716
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Izberi"
 
-#: dolphinmainwindow.cpp:1694
+#: dolphinmainwindow.cpp:1719
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -521,19 +521,19 @@ msgstr ""
 "dostopna letvica na dnu razpoložljive aktivnosti za trenutno izbrani element."
 "</para>"
 
-#: dolphinmainwindow.cpp:1716
+#: dolphinmainwindow.cpp:1741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "To izbere vse datoteke in mape trenutne lokacije."
 
-#: dolphinmainwindow.cpp:1720 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1745 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Obrni izbiro"
 
-#: dolphinmainwindow.cpp:1722
+#: dolphinmainwindow.cpp:1747
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -542,7 +542,7 @@ msgid ""
 msgstr ""
 "To izbere vse predmete, ki jih trenutno <emphasis>niste</emphasis> izbrali."
 
-#: dolphinmainwindow.cpp:1738
+#: dolphinmainwindow.cpp:1763
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -554,43 +554,43 @@ msgstr ""
 "omogoča, da vidite dve lokaciji naenkrat in hitro prestavljate predmete med "
 "njima.</para>Spet kliknite, da bi ponovno sestavili poglede."
 
-#: dolphinmainwindow.cpp:1747
+#: dolphinmainwindow.cpp:1772
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Zaloga"
 
-#: dolphinmainwindow.cpp:1748
+#: dolphinmainwindow.cpp:1773
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Odpre navidezno mapo z zalogo v deljenemu oknu"
 
-#: dolphinmainwindow.cpp:1758
+#: dolphinmainwindow.cpp:1783
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Zaustavi"
 
-#: dolphinmainwindow.cpp:1759
+#: dolphinmainwindow.cpp:1784
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Zaustavi nalaganje"
 
-#: dolphinmainwindow.cpp:1760
+#: dolphinmainwindow.cpp:1785
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "To zaustavi nalaganje vsebin v trenutnem oknu."
 
-#: dolphinmainwindow.cpp:1765
+#: dolphinmainwindow.cpp:1790
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Mesto je mogoče urediti"
 
-#: dolphinmainwindow.cpp:1767
+#: dolphinmainwindow.cpp:1792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -604,13 +604,13 @@ msgstr ""
 "editing by clicking to the right of the location and switch back by "
 "confirming the edited location."
 
-#: dolphinmainwindow.cpp:1775
+#: dolphinmainwindow.cpp:1800
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Zamenjaj Mesto"
 
-#: dolphinmainwindow.cpp:1780
+#: dolphinmainwindow.cpp:1805
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -620,19 +620,19 @@ msgstr ""
 "To preklopi na urejanje lokacije in jo izbere, tako da lahko hitro izbirate "
 "drugo lokacijo."
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1835
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Razveljavi zapiranje zavihka"
 
-#: dolphinmainwindow.cpp:1811
+#: dolphinmainwindow.cpp:1836
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "To vas vrne na prej že zaprti zavihek."
 
-#: dolphinmainwindow.cpp:1819
+#: dolphinmainwindow.cpp:1844
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -647,7 +647,7 @@ msgstr ""
 "<filename>Smeti</filename>. <nl/>Pri spremembah, ki se ne dajo razveljaviti, "
 "boste vprašani za vašo potrditev."
 
-#: dolphinmainwindow.cpp:1848
+#: dolphinmainwindow.cpp:1873
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -659,13 +659,13 @@ msgstr ""
 "svojo mapo <filename>Dom</filename>, ki vsebuje njegove podatke, tudi mape, "
 "ki vsebujejo osebne  podatke za njegove aplikacije."
 
-#: dolphinmainwindow.cpp:1855
+#: dolphinmainwindow.cpp:1880
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Primerjaj datoteki"
 
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -677,13 +677,13 @@ msgstr ""
 "para><para>Uporabite meni <emphasis>Več orodij za iskanje</emphasis> da ga "
 "nastavite.</para>"
 
-#: dolphinmainwindow.cpp:1871
+#: dolphinmainwindow.cpp:1896
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Odpri terminal"
 
-#: dolphinmainwindow.cpp:1873
+#: dolphinmainwindow.cpp:1898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -696,13 +696,13 @@ msgstr ""
 "aplikaciji terminal.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1881
+#: dolphinmainwindow.cpp:1906
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Odpri terminal tukaj"
 
-#: dolphinmainwindow.cpp:1883
+#: dolphinmainwindow.cpp:1908
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -714,19 +714,19 @@ msgstr ""
 "izbranih predmetov.</para><para>Da bi spoznali več o terminalih, uporabite "
 "pomoč pri aplikaciji terminal.</para>"
 
-#: dolphinmainwindow.cpp:1891 dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:1916 dolphinmainwindow.cpp:2665
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Fokus na ploščo terminala"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1924
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "Zaznamki"
 
-#: dolphinmainwindow.cpp:1909
+#: dolphinmainwindow.cpp:1934
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -744,79 +744,79 @@ msgstr ""
 "ponudi.Gumb <interface>%1</interface> je preprostejši in majhen, zaradi "
 "česar je sprožanje naprednih dejanj bolj zamudno.</para>"
 
-#: dolphinmainwindow.cpp:1942
+#: dolphinmainwindow.cpp:1967
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Aktiviraj zavihek %1"
 
-#: dolphinmainwindow.cpp:1955
+#: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Aktiviraj zadnji zavihek"
 
-#: dolphinmainwindow.cpp:1961
+#: dolphinmainwindow.cpp:1986
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Naslednji zavihek"
 
-#: dolphinmainwindow.cpp:1962
+#: dolphinmainwindow.cpp:1987
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Omogoči naslednji zavihek"
 
-#: dolphinmainwindow.cpp:1968
+#: dolphinmainwindow.cpp:1993
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Predhodni zavihek"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1994
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Omogoči predhodni zavihek"
 
-#: dolphinmainwindow.cpp:1976
+#: dolphinmainwindow.cpp:2001
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Prikaži cilj"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:2007
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Odpri v novem zavihku"
 
-#: dolphinmainwindow.cpp:1987
+#: dolphinmainwindow.cpp:2012
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Odpri v novih zavihkih"
 
-#: dolphinmainwindow.cpp:1992
+#: dolphinmainwindow.cpp:2017
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Odpri v novem oknu"
 
-#: dolphinmainwindow.cpp:2004
+#: dolphinmainwindow.cpp:2029
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Odkleni pulte"
 
-#: dolphinmainwindow.cpp:2006
+#: dolphinmainwindow.cpp:2031
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Zakleni pulte"
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:2034
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -830,13 +830,13 @@ msgstr ""
 "drugo stran okna in imajo gumb 'Zapri'.<nl/> Zaklenjene plošče so bolj čisto "
 "vgrajene."
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2043
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Podatki"
 
-#: dolphinmainwindow.cpp:2041
+#: dolphinmainwindow.cpp:2066
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -847,7 +847,7 @@ msgstr ""
 "<interface>Meni |Plošče</interface> ali <interface>Pogled|Plošče</interface>."
 "</para>"
 
-#: dolphinmainwindow.cpp:2048
+#: dolphinmainwindow.cpp:2073
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -863,7 +863,7 @@ msgstr ""
 "obvesti o trenutno gledani mapi.<nl/>Za posamičen predmet je na voljo "
 "predogled njegove vsebine.</para>"
 
-#: dolphinmainwindow.cpp:2056
+#: dolphinmainwindow.cpp:2081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -880,13 +880,13 @@ msgstr ""
 "predogled njegove vsebine.</para><para>Za nastavitve kaj in kako so "
 "predstavljene podrobnosti, kliknite z desni gumb na miški.</para>"
 
-#: dolphinmainwindow.cpp:2065
+#: dolphinmainwindow.cpp:2090
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Mape"
 
-#: dolphinmainwindow.cpp:2086
+#: dolphinmainwindow.cpp:2111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -898,7 +898,7 @@ msgstr ""
 ">Prikaže mape <emphasis>datotečnega sistema</emphasis> v <emphasis>drevesnem "
 "pogledu</emphasis>."
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -912,13 +912,13 @@ msgstr ""
 "odpravite tja. Kliknite puščico na levi strani mape, če si želite ogledati "
 "njene podmape. To omogočahitro preklapljanje med katerimikoli mapami.</para>"
 
-#: dolphinmainwindow.cpp:2101
+#: dolphinmainwindow.cpp:2126
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2126
+#: dolphinmainwindow.cpp:2151
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -936,7 +936,7 @@ msgstr ""
 "uporabna za zahtevne naloge. Da bi se bolje poučili o terminalih, uporabite "
 "pomoč v samostojni aplikaciji terminalov kot npr. Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2134
+#: dolphinmainwindow.cpp:2159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -954,19 +954,19 @@ msgstr ""
 "uporabna za zahtevne naloge. Da bi se bolje poučili o terminalih, uporabite "
 "pomoč v samostojni aplikaciji terminalov kot npr. Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2151
+#: dolphinmainwindow.cpp:2176
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Mesta"
 
-#: dolphinmainwindow.cpp:2178
+#: dolphinmainwindow.cpp:2203
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Pokaži skrita mesta"
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2207
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -976,7 +976,7 @@ msgstr ""
 "To prikaže vsa skrita mesta na pultu Mesta. Prikazana so polprosojna razen, "
 "če odstranite lastnost skritosti."
 
-#: dolphinmainwindow.cpp:2194
+#: dolphinmainwindow.cpp:2219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -992,7 +992,7 @@ msgstr ""
 "Vsebuje tudi razdelke, da najdete zadnje shranjene datoteke ali datoteke "
 "določenih zvrsti.</para>"
 
-#: dolphinmainwindow.cpp:2201
+#: dolphinmainwindow.cpp:2226
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1017,13 +1017,13 @@ msgstr ""
 "kliknite na prazen prostor na tej plošči in izberite <interface>Prikaži "
 "skrita mesta</interface>, da se spet prikažejo.</para>"
 
-#: dolphinmainwindow.cpp:2215
+#: dolphinmainwindow.cpp:2240
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Prikaži plošče"
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1038,43 +1038,43 @@ msgstr ""
 "Na vrhu te hierarhije je korenski imenik, ki vsebuje vse podatke na tem "
 "računalniku - <emphasis>root</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2414
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zapri"
 
-#: dolphinmainwindow.cpp:2415
+#: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Zapri levi prikaz"
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2443
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zapri"
 
-#: dolphinmainwindow.cpp:2419
+#: dolphinmainwindow.cpp:2444
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zapri desni prikaz"
 
-#: dolphinmainwindow.cpp:2423
+#: dolphinmainwindow.cpp:2448
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Razdeli"
 
-#: dolphinmainwindow.cpp:2424
+#: dolphinmainwindow.cpp:2449
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Razdeli prikaz"
 
-#: dolphinmainwindow.cpp:2472
+#: dolphinmainwindow.cpp:2497
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1092,7 +1092,7 @@ msgstr ""
 "interface>. Potem je večina njegove vsebine na voljo prek gumba "
 "<interface>Meni</interface> na <emphasis>Orodni vrstici</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2479
+#: dolphinmainwindow.cpp:2504
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1115,7 +1115,7 @@ msgstr ""
 "vrstice in njen slog gumbov lahko spreminjate tudi v meniju z desnim klikom. "
 "Z desnim klikom na gumb, lahko pokažete ali skrijete besedilo gumba.</para>"
 
-#: dolphinmainwindow.cpp:2491
+#: dolphinmainwindow.cpp:2516
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1142,7 +1142,7 @@ msgstr ""
 "url='help:/dolphin/dolphin-view.html'>kliknite tukaj</link>. Odprla se bo "
 "stran iz  <emphasis>Priročnika</emphasis>, ki pokriva osnove.</para>"
 
-#: dolphinmainwindow.cpp:2507
+#: dolphinmainwindow.cpp:2532
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1156,7 +1156,7 @@ msgstr ""
 "ko jih hkrati pritisnemo. Vsi ukazi v tej aplikaciji se lahko sprožijo tako."
 "</para>"
 
-#: dolphinmainwindow.cpp:2513
+#: dolphinmainwindow.cpp:2538
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1169,7 +1169,7 @@ msgstr ""
 "ki jih vidite v <interface>Meni</interface> se lahko postavijo tudi v orodno "
 "vrstico.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2542
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1188,7 +1188,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2562
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1203,7 +1203,7 @@ msgstr ""
 "userbase.kde.org/Dolphin/File_Management'>kliknite tukaj</link>. Odprla se "
 "bo namenska stran Wiki UserBase KDE.</para>"
 
-#: dolphinmainwindow.cpp:2542
+#: dolphinmainwindow.cpp:2567
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1225,7 +1225,7 @@ msgstr ""
 "para><para>Pomoč \"Kaj je to?\" pri večini drugih oken manjka, zato se na to "
 "ne zanašajte preveč.</para>"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1242,7 +1242,7 @@ msgstr ""
 "url='https: //community.kde.org/Get_Involved/Bug_Reporting'>kliknite tukaj</"
 "link>.</para>"
 
-#: dolphinmainwindow.cpp:2562
+#: dolphinmainwindow.cpp:2587
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1264,7 +1264,7 @@ msgstr ""
 "razvijalcev itd.</para> <para><emphasis>KDE e.V.</emphasis> je neprofitna "
 "organizacija, ki stoji za skupnostjo KDE.</para>"
 
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2600
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1276,7 +1276,7 @@ msgstr ""
 "nastavite sekundarne jezike, ki se bodo uporabljali, če besedila niso na "
 "voljo v vašem želenem jeziku."
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2605
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1286,7 +1286,7 @@ msgstr ""
 "To odpre okno, ki vas seznani z uporabljeno različico, licenco, uporabljene "
 "programske knjižnice in vzdrževalci te aplikacije."
 
-#: dolphinmainwindow.cpp:2585
+#: dolphinmainwindow.cpp:2610
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1299,7 +1299,7 @@ msgstr ""
 "ki stojijo za to brezplačno programsko opremo.<nl/>Če vas veseli uporabljati "
 "to aplikacijo, a še ne veste za KDE si morda lahko ogledate prijaznega zmaja!"
 
-#: dolphinmainwindow.cpp:2643 dolphinmainwindow.cpp:2647
+#: dolphinmainwindow.cpp:2668 dolphinmainwindow.cpp:2672
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -4686,7 +4686,7 @@ msgstr "Privzeto"
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: views/dolphinview.cpp:638
+#: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4696,7 +4696,7 @@ msgstr[1] "Izbrani sta %1 mapi"
 msgstr[2] "Izbrane so %1 mape"
 msgstr[3] "Izbrano je %1 map"
 
-#: views/dolphinview.cpp:639
+#: views/dolphinview.cpp:643
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4706,7 +4706,7 @@ msgstr[1] "Izbrani sta %1 datoteki"
 msgstr[2] "Izbrane so %1 datoteke"
 msgstr[3] "Izbrano je %1 datotek"
 
-#: views/dolphinview.cpp:641
+#: views/dolphinview.cpp:645
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4716,7 +4716,7 @@ msgstr[1] "%1 mapi"
 msgstr[2] "%1 mape"
 msgstr[3] "%1 map"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4726,31 +4726,31 @@ msgstr[1] "%1 datoteki"
 msgstr[2] "%1 datoteke"
 msgstr[3] "%1 datotek"
 
-#: views/dolphinview.cpp:646
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:652
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:652
+#: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 map, 0 datotek"
 
-#: views/dolphinview.cpp:866 views/dolphinview.cpp:875
+#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1060
+#: views/dolphinview.cpp:1067
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4759,7 +4759,7 @@ msgstr[1] "Ali res želite odpreti %1 predmeta?"
 msgstr[2] "Ali res želite odpreti %1 predmete?"
 msgstr[3] "Ali res želite odpreti %1 predmetov?"
 
-#: views/dolphinview.cpp:1072
+#: views/dolphinview.cpp:1079
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4769,43 +4769,43 @@ msgstr[1] "Odpri %1 postavki"
 msgstr[2] "Odpri %1 postavke"
 msgstr[3] "Odpri %1 postavk"
 
-#: views/dolphinview.cpp:1203
+#: views/dolphinview.cpp:1210
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Stranska obloga"
 
-#: views/dolphinview.cpp:1207
+#: views/dolphinview.cpp:1214
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Samodejna širina stolpcev"
 
-#: views/dolphinview.cpp:1212
+#: views/dolphinview.cpp:1219
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Širina stolpcev po meri"
 
-#: views/dolphinview.cpp:1783
+#: views/dolphinview.cpp:1835
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Opravilo Smeti zaključeno."
 
-#: views/dolphinview.cpp:1793
+#: views/dolphinview.cpp:1845
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Brisanje zaključeno."
 
-#: views/dolphinview.cpp:1949
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj in skrij"
 
-#: views/dolphinview.cpp:1958
+#: views/dolphinview.cpp:2010
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4815,7 +4815,7 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:1960
+#: views/dolphinview.cpp:2012
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4825,94 +4825,94 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:1962
+#: views/dolphinview.cpp:2014
 #, kde-format
 msgid "Hide this File?"
 msgstr "Naj skrijem to datoteko?"
 
-#: views/dolphinview.cpp:1962
+#: views/dolphinview.cpp:2014
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Naj skrijem to mapo?"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Mesto je prazno."
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Mesto »%1« je neveljavno."
 
-#: views/dolphinview.cpp:2272
+#: views/dolphinview.cpp:2326
 #, kde-format
 msgid "Loading..."
 msgstr "Nalaganje..."
 
-#: views/dolphinview.cpp:2291
+#: views/dolphinview.cpp:2345
 #, kde-format
 msgid "Loading canceled"
 msgstr "Nalaganje preklicano"
 
-#: views/dolphinview.cpp:2293
+#: views/dolphinview.cpp:2347
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Ni predmetov, ki bi ustrezali filtru"
 
-#: views/dolphinview.cpp:2295
+#: views/dolphinview.cpp:2349
 #, kde-format
 msgid "No items matching the search"
 msgstr "Ni predmetov, ki bi ustrezali iskanju"
 
-#: views/dolphinview.cpp:2297
+#: views/dolphinview.cpp:2351
 #, kde-format
 msgid "Trash is empty"
 msgstr "Smeti so prazne"
 
-#: views/dolphinview.cpp:2300
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No tags"
 msgstr "Ni značk"
 
-#: views/dolphinview.cpp:2303
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Ni datotek z oznako »%1«"
 
-#: views/dolphinview.cpp:2307
+#: views/dolphinview.cpp:2361
 #, kde-format
 msgid "No recently used items"
 msgstr "Ni nedavno uporabljenih predmetov"
 
-#: views/dolphinview.cpp:2309
+#: views/dolphinview.cpp:2363
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nobenih skupnih map ni najti"
 
-#: views/dolphinview.cpp:2311
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Ni najti pomembnih nobenih mrežnih virov"
 
-#: views/dolphinview.cpp:2313
+#: views/dolphinview.cpp:2367
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ni nadene nobene MTP združljive naprave"
 
-#: views/dolphinview.cpp:2315
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ni najdenih Applovih naprav"
 
-#: views/dolphinview.cpp:2317
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ni najdene nobene Bluetooth naprave"
 
-#: views/dolphinview.cpp:2319
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mapa je prazna"
