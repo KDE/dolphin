@@ -62,7 +62,7 @@ Q_SIGNALS:
 
 protected:
     void showEvent(QShowEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     QLineEdit *m_filterInput;
