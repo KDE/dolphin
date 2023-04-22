@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-21 00:50+0000\n"
-"PO-Revision-Date: 2023-03-01 01:16+0100\n"
+"PO-Revision-Date: 2023-04-21 23:32+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -339,20 +339,16 @@ msgstr ""
 "면 이전 위치에서 항목을 삭제합니다."
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "비활성 분할 보기로 복사"
+msgstr "다른 보기로 복사"
 
 #: dolphinmainwindow.cpp:1645
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "비활성 분할 보기로 복사…"
+msgstr "다른 보기로 복사…"
 
 #: dolphinmainwindow.cpp:1647
 #, kde-kuit-format
@@ -371,20 +367,16 @@ msgid "Copy to Inactive Split View"
 msgstr "비활성 분할 보기로 복사"
 
 #: dolphinmainwindow.cpp:1655
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "비활성 분할 보기로 이동"
+msgstr "다른 보기로 이동"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "비활성 분할 보기로 이동…"
+msgstr "다른 보기로 이동…"
 
 #: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
@@ -2455,11 +2447,9 @@ msgstr "미디어 파일 자동 재생"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "필터 표시줄 표시"
+msgstr "마우스를 올렸을 때 항목 표시"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2480,12 +2470,10 @@ msgid "Auto-Play media files"
 msgstr "미디어 파일 자동 재생"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "필터 표시줄 표시"
+msgstr "마우스를 올렸을 때 항목 표시"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3173,17 +3161,15 @@ msgstr "콘텍스트 메뉴에 '터미널 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "콘텍스트 메뉴에 '복사 위치'를 표시합니다."
+msgstr "콘텍스트 메뉴에 '다른 분할된 보기로 복사'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "콘텍스트 메뉴에 '정렬 기준'을 표시합니다."
+msgstr "콘텍스트 메뉴에 '다른 분할된 보기로 이동'을 표시합니다."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
