@@ -164,6 +164,15 @@ DolphinViewContainer *DolphinTabPage::activeViewContainer() const
     return m_primaryViewActive ? m_primaryViewContainer : m_secondaryViewContainer;
 }
 
+DolphinViewContainer *DolphinTabPage::inactiveViewContainer() const
+{
+    if (!splitViewEnabled()) {
+        return nullptr;
+    }
+
+    return primaryViewActive() ? secondaryViewContainer() : primaryViewContainer();
+}
+
 KFileItemList DolphinTabPage::selectedItems() const
 {
     KFileItemList items = m_primaryViewContainer->view()->selectedItems();

@@ -335,12 +335,7 @@ void DolphinTabWidget::copyToInactiveSplitView()
         return;
     }
 
-    DolphinView *inactiveView;
-    if (tabPage->primaryViewActive()) {
-        inactiveView = tabPage->secondaryViewContainer()->view();
-    } else {
-        inactiveView = tabPage->primaryViewContainer()->view();
-    }
+    DolphinView *const inactiveView = tabPage->inactiveViewContainer()->view();
     inactiveView->copySelectedItems(selectedItems, inactiveView->url());
 }
 
@@ -356,12 +351,7 @@ void DolphinTabWidget::moveToInactiveSplitView()
         return;
     }
 
-    DolphinView *inactiveView;
-    if (tabPage->primaryViewActive()) {
-        inactiveView = tabPage->secondaryViewContainer()->view();
-    } else {
-        inactiveView = tabPage->primaryViewContainer()->view();
-    }
+    DolphinView *const inactiveView = tabPage->inactiveViewContainer()->view();
     inactiveView->moveSelectedItems(selectedItems, inactiveView->url());
 }
 
