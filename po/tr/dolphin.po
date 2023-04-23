@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-21 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:51+0000\n"
 "PO-Revision-Date: 2023-04-03 13:37+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1635,18 +1635,18 @@ msgid ""
 msgstr ""
 "Geçerli konum değişti, <filename>%1</filename> artık erişilebilir değil."
 
-#: filterbar/filterbar.cpp:26
+#: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Klasörleri Değiştirirken Süzgeci Koru"
 
-#: filterbar/filterbar.cpp:33
+#: filterbar/filterbar.cpp:34
 #, kde-format
 msgid "Filter..."
 msgstr "Süz..."
 
-#: filterbar/filterbar.cpp:41
+#: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"

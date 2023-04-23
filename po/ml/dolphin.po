@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-21 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:51+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -1531,18 +1531,18 @@ msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:26
+#: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "ഫോള്‍ഡറുകള്‍ മാറ്റുമ്പോള്‍ ഫില്‍റ്റര്‍ സൂക്ഷിക്കുക"
 
-#: filterbar/filterbar.cpp:33
+#: filterbar/filterbar.cpp:34
 #, fuzzy, kde-format
 msgid "Filter..."
 msgstr "അരിപ്പ:"
 
-#: filterbar/filterbar.cpp:41
+#: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-21 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:51+0000\n"
 "PO-Revision-Date: 2023-03-01 07:16\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1657,18 +1657,18 @@ msgid ""
 msgstr ""
 "Бягучае размяшчэнне зменена, <filename>%1</filename> больш не даступны."
 
-#: filterbar/filterbar.cpp:26
+#: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Захоўваць фільтр пры змене каталогаў"
 
-#: filterbar/filterbar.cpp:33
+#: filterbar/filterbar.cpp:34
 #, kde-format
 msgid "Filter..."
 msgstr "Фільтр..."
 
-#: filterbar/filterbar.cpp:41
+#: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-21 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:51+0000\n"
 "PO-Revision-Date: 2023-04-03 14:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1673,18 +1673,18 @@ msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr "Поточне місце змінено, доступ до <filename>%1</filename> втрачено."
 
-#: filterbar/filterbar.cpp:26
+#: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Зберігати фільтрування, якщо змінюється тека"
 
-#: filterbar/filterbar.cpp:33
+#: filterbar/filterbar.cpp:34
 #, kde-format
 msgid "Filter..."
 msgstr "Фільтрувати…"
 
-#: filterbar/filterbar.cpp:41
+#: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"

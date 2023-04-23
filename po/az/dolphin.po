@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-21 00:50+0000\n"
-"PO-Revision-Date: 2023-03-12 18:27+0400\n"
+"POT-Creation-Date: 2023-04-23 00:51+0000\n"
+"PO-Revision-Date: 2023-04-22 12:06+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -348,20 +348,16 @@ msgstr ""
 "silinəcəklər."
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Görünən qeyri-aktiv bölməyə kopyalamaq"
+msgstr "Başqa bir görünüşə kopyala"
 
 #: dolphinmainwindow.cpp:1645
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Aktiv olmayan bölməyə kopyala..."
+msgstr "Başqa bir görünüşə kopyala…"
 
 #: dolphinmainwindow.cpp:1647
 #, kde-kuit-format
@@ -380,20 +376,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Görünən qeyri-aktiv bölməyə kopyalamaq"
 
 #: dolphinmainwindow.cpp:1655
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Qeyri-aktiv bölümə köçürmək"
+msgstr "Başqa bir görünüşə köçür"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Aktiv olmayan bölməyə köçür..."
+msgstr "Başqa bir görünüşə köçür…"
 
 #: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
@@ -1662,18 +1654,18 @@ msgid ""
 msgstr ""
 "Cari yerləşmə yeri dəyişdirilib, <filename>%1</filename> artıq mövcud deyil."
 
-#: filterbar/filterbar.cpp:26
+#: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Qovluqları dəyişərkən süzgəci saxlamaq"
 
-#: filterbar/filterbar.cpp:33
+#: filterbar/filterbar.cpp:34
 #, kde-format
 msgid "Filter..."
 msgstr "Süzgəc..."
 
-#: filterbar/filterbar.cpp:41
+#: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2531,11 +2523,9 @@ msgstr "Mediya faylları avtomatik oynatmaq"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Süzgəc zolağını göstərmək"
+msgstr "Üzərində olduqda lementi göstər"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2556,12 +2546,10 @@ msgid "Auto-Play media files"
 msgstr "Mediya fayllarını avtomatik oynatmaq"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Süzgəc zolağını göstərmək"
+msgstr "Üzərində olduqda lementi göstər"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3267,17 +3255,15 @@ msgstr "Kontekst menyuda \"Terminalda açmaq\" göstərmək."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Kontekst menyuda \"Buraya kopyalamaq\" göstərmək."
+msgstr "Kontekst menyuda \"Digər bölünmüş görünüşə kopyala\" göstərmək."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Kontekst menyuda \"Buna görə çeşidləmək\" göstərilsin"
+msgstr "Kontekst menyuda \"Digər bölünmüş görünüşə köçür\" göstərilsin"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
