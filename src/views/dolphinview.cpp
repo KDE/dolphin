@@ -204,7 +204,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_model, &KFileItemModel::currentDirectoryRemoved, this, &DolphinView::currentDirectoryRemoved);
 
     connect(this, &DolphinView::itemCountChanged, this, &DolphinView::updatePlaceholderLabel);
-    connect(this, &DolphinView::itemCountChanged, this, &DolphinView::updateSelectionState);
 
     m_view->installEventFilter(this);
     connect(m_view, &DolphinItemListView::sortOrderChanged, this, &DolphinView::slotSortOrderChangedByHeader);
