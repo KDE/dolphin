@@ -321,8 +321,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                              << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, KItemSet(), true))
                              << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 0))
                              << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet()))
-                             << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, KItemSet())) // This used to select, but we are now using it to trigger either
-                             // selection mode or "QuickLook". Ctrl+Space still works for selecting as expected.
+                             << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, KItemSet() << 0))
                              << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
                              << qMakePair(KeyPress(Qt::Key_Space), ViewState(14, KItemSet() << 14))
                              << qMakePair(KeyPress(Qt::Key_3), ViewState(15, KItemSet() << 15))
