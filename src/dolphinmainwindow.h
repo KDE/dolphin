@@ -238,6 +238,9 @@ Q_SIGNALS:
     void settingsChanged();
 
 protected:
+    /** @see QObject::event() */
+    bool event(QEvent *event) override;
+
     /** @see QWidget::showEvent() */
     void showEvent(QShowEvent *event) override;
 

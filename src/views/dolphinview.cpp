@@ -1828,6 +1828,11 @@ void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
     }
 }
 
+bool DolphinView::handleSpaceAsNormalKey() const
+{
+    return !m_container->hasFocus() || m_container->controller()->isSearchAsYouTypeActive();
+}
+
 void DolphinView::slotTwoClicksRenamingTimerTimeout()
 {
     const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();

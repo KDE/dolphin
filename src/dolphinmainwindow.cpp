@@ -547,6 +547,19 @@ void DolphinMainWindow::showTarget()
     });
 }
 
+bool DolphinMainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        const QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Space && m_activeViewContainer->view()->handleSpaceAsNormalKey()) {
+            event->accept();
+            return true;
+        }
+    }
+
+    return KXmlGuiWindow::event(event);
+}
+
 void DolphinMainWindow::showEvent(QShowEvent *event)
 {
     KXmlGuiWindow::showEvent(event);
@@ -1722,6 +1735,7 @@ void DolphinMainWindow::setupActions()
         "</para>"));
     toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
     toggleSelectionModeAction->setCheckable(true);
+    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
     connect(toggleSelectionModeAction, &QAction::triggered, this, &DolphinMainWindow::toggleSelectionMode);
 
     // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
