@@ -335,6 +335,17 @@ public:
      */
     void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
+    /**
+     * Check if the space key should be handled as a normal key, even if it's
+     * used as a keyboard shortcut.
+     *
+     * See BUG 465489
+     */
+    bool handleSpaceAsNormalKey() const;
+
+    /** Activates the view if the item list container gets focus. */
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 public Q_SLOTS:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -425,9 +436,6 @@ public Q_SLOTS:
      * to the view.
      */
     void updateViewState();
-
-    /** Activates the view if the item list container gets focus. */
-    bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:
     /**

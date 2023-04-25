@@ -27,6 +27,11 @@ bool KItemListKeyboardSearchManager::shouldClearSearchIfInputTimeReached()
     return (keyboardInputTimeElapsed > m_timeout) || !keyboardTimeWasValid;
 }
 
+bool KItemListKeyboardSearchManager::isSearchAsYouTypeActive() const
+{
+    return !m_searchedString.isEmpty() && !m_keyboardInputTime.hasExpired(m_timeout);
+}
+
 void KItemListKeyboardSearchManager::addKeys(const QString &keys)
 {
     if (shouldClearSearchIfInputTimeReached()) {
@@ -61,11 +66,6 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
         Q_EMIT changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
     }
     m_keyboardInputTime.start();
-}
-
-bool KItemListKeyboardSearchManager::addKeyBeginsNewSearch() const
-{
-    return m_keyboardInputTime.hasExpired(m_timeout) || m_searchedString.isEmpty();
 }
 
 void KItemListKeyboardSearchManager::setTimeout(qint64 milliseconds)

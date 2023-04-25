@@ -34,11 +34,6 @@ public:
      * Add \a keys to the text buffer used for searching.
      */
     void addKeys(const QString &keys);
-    /**
-     * @returns true if the next call to addKeys() will trigger a new search.
-     *          Returns false if the next added key char will be added to the search string that was used previously.
-     */
-    bool addKeyBeginsNewSearch() const;
 
     /**
      * Sets the delay after which the search is cancelled to \a milliseconds.
@@ -50,6 +45,11 @@ public:
     qint64 timeout() const;
 
     void cancelSearch();
+
+    /**
+     * @return \c true if search as you type is active, or \c false otherwise.
+     */
+    bool isSearchAsYouTypeActive() const;
 
 public Q_SLOTS:
 
@@ -71,7 +71,6 @@ Q_SIGNALS:
 private:
     bool shouldClearSearchIfInputTimeReached();
 
-private:
     QString m_searchedString;
     bool m_isSearchRestarted;
     /** Measures the time since the last key press. */

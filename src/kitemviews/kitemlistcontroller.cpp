@@ -228,6 +228,11 @@ bool KItemListController::selectionMode() const
     return m_selectionMode;
 }
 
+bool KItemListController::isSearchAsYouTypeActive() const
+{
+    return m_keyboardManager->isSearchAsYouTypeActive();
+}
+
 bool KItemListController::keyPressEvent(QKeyEvent *event)
 {
     int index = m_selectionManager->currentItem();
@@ -439,10 +444,13 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
                 m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(index);
                 break;
-            } else if (m_keyboardManager->addKeyBeginsNewSearch()) { // File names shouldn't start with a space,
-                // so we can use this press as a keyboard shortcut instead.
-                Q_EMIT selectionModeChangeRequested(!m_selectionMode);
-                break;
+            } else {
+                // Select the current item if it is not selected yet.
+                const int current = m_selectionManager->currentItem();
+                if (!m_selectionManager->isSelected(current)) {
+                    m_selectionManager->setSelected(current);
+                    break;
+                }
             }
         }
         Q_FALLTHROUGH(); // fall through to the default case and add the Space to the current search string.
