@@ -137,6 +137,8 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
             QPainter pixmapPainter(m_hoverCache);
             const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
             drawItemStyleOption(&pixmapPainter, widget, activeState | QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item);
+
+            delete m_hoverCache;
         }
 
         const qreal opacity = painter->opacity();
