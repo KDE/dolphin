@@ -5033,7 +5033,7 @@ msgid ""
 msgstr ""
 "<para>Dit schakelt om naar een compacte weergavemodus een lijst met de "
 "mappen en bestanden in kolommen maakt met de namen naast de pictogrammen. </"
-"para><para>Dit helpt om om overzicht te houden in mappen net veel items.</"
+"para><para>Dit helpt om om overzicht te houden in mappen met veel items.</"
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:203
