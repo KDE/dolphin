@@ -6,7 +6,8 @@
 
 #include "trashsettingspage.h"
 
-#include <KCModuleProxy>
+#include <KCModuleLoader>
+#include <KCModule>
 #include <KPluginMetaData>
 
 #include <QFormLayout>
@@ -16,12 +17,13 @@ TrashSettingsPage::TrashSettingsPage(QWidget *parent)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
-    m_proxy = new KCModuleProxy(KPluginMetaData(QStringLiteral("kcm_trash")));
-    topLayout->addRow(m_proxy);
+    m_kcm = KCModuleLoader::loadModule(KPluginMetaData(QStringLiteral("kcm_trash")));
+
+    topLayout->addRow(m_kcm->widget());
 
     loadSettings();
 
-    connect(m_proxy, &KCModuleProxy::changed, this, &TrashSettingsPage::changed);
+    connect(m_kcm, &KCModule::needsSaveChanged, this, &TrashSettingsPage::changed);
 }
 
 TrashSettingsPage::~TrashSettingsPage()
@@ -30,15 +32,15 @@ TrashSettingsPage::~TrashSettingsPage()
 
 void TrashSettingsPage::applySettings()
 {
-    m_proxy->save();
+    m_kcm->save();
 }
 
 void TrashSettingsPage::restoreDefaults()
 {
-    m_proxy->defaults();
+    m_kcm->defaults();
 }
 
 void TrashSettingsPage::loadSettings()
 {
-    m_proxy->load();
+    m_kcm->load();
 }

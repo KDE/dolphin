@@ -7,8 +7,8 @@ set (RELEASE_SERVICE_VERSION_MICRO "70")
 set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 project(Dolphin VERSION ${RELEASE_SERVICE_VERSION})
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF6_MIN_VERSION "5.102.0")
+set(QT_MIN_VERSION "6.4.0")
+set(KF6_MIN_VERSION "5.240.0")
 
 # ECM setup
 find_package(ECM ${KF6_MIN_VERSION} CONFIG REQUIRED)
@@ -32,14 +32,14 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHIN
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
 )
 
-ecm_setup_version("5.0.0" VARIABLE_PREFIX DOLPHINVCS
+ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHINVCS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/DolphinVcsConfigVersion.cmake"
-                  SOVERSION 5
+                  SOVERSION ${QT_MAJOR_VERSION}
 )
 
-ecm_setup_version("5.0.0" VARIABLE_PREFIX DOLPHINPRIVATE
-                  SOVERSION 5
+ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
+                  SOVERSION ${QT_MAJOR_VERSION}
 )
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
@@ -77,16 +77,17 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     WidgetsAddons
     Codecs
+    MoreTools
 )
 
-find_package(KF6MoreTools)
-find_package(KUserFeedback 1.2.0)
+find_package(KUserFeedbackQt6 1.2.0)
 set_package_properties(KUserFeedback
         PROPERTIES TYPE OPTIONAL
         PURPOSE "Used for submission of telemetry data"
         )
 
-if(KUserFeedback_FOUND)
+if(KUserFeedbackQt6_FOUND)
+    message ("HAVE_KUSERFEEDBACK")
     set(HAVE_KUSERFEEDBACK TRUE)
 endif()
 
@@ -119,7 +120,7 @@ set_package_properties(KF6Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(KF6BalooWidgets 19.07.70)
+find_package(KF6BalooWidgets 23.07.70)
 set_package_properties(KF6BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
@@ -149,11 +150,6 @@ if(WIN32)
 else()
     set(HAVE_TERMINAL TRUE)
 endif()
-
-ecm_set_disabled_deprecation_versions(
-    QT 5.15
-    KF 5.90
-)
 
 add_subdirectory(src)
 add_subdirectory(doc)

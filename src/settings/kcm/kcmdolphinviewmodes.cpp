@@ -10,6 +10,7 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <KCModule>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -19,16 +20,17 @@
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinViewModesConfigModule, "kcmdolphinviewmodes.json")
 
-DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget *parent, const QVariantList &args)
-    : KCModule(parent, args)
+DolphinViewModesConfigModule::DolphinViewModesConfigModule(QObject *parent, const KPluginMetaData &data)
+    : KCModule(qobject_cast<QWidget *>(parent), data)
     , m_tabs()
 {
     setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
-    QVBoxLayout *topLayout = new QVBoxLayout(this);
+    const auto parentWidget = qobject_cast<QWidget *>(parent);
+    QVBoxLayout *topLayout = new QVBoxLayout(parentWidget);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
-    QTabWidget *tabWidget = new QTabWidget(this);
+    QTabWidget *tabWidget = new QTabWidget(parentWidget);
 
     // Initialize 'Icons' tab
     ViewSettingsTab *iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);

@@ -300,7 +300,7 @@ void ContextMenuSettingsPage::loadServices()
     }
 
     // Load JSON-based plugins that implement the KFileItemActionPlugin interface
-    const auto jsonPlugins = KPluginMetaData::findPlugins(QStringLiteral("kf" QT_STRINGIFY(QT_VERSION_MAJOR)) + QStringLiteral("/kfileitemaction"));
+    const auto jsonPlugins = KPluginMetaData::findPlugins(QStringLiteral("kf" QT_STRINGIFY(QT_MAJOR_VERSION)) + QStringLiteral("/kfileitemaction"));
 
     for (const auto &jsonMetadata : jsonPlugins) {
         const QString desktopEntryName = jsonMetadata.pluginId();

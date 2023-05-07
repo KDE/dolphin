@@ -46,15 +46,16 @@
 #include <QStandardPaths>
 #include <QTextDocument>
 
+#include <KPluginFactory>
+
 K_PLUGIN_CLASS_WITH_JSON(DolphinPart, "dolphinpart.json")
 
 DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
-    : KParts::ReadOnlyPart(parent)
+    : KParts::ReadOnlyPart(parent, metaData)
     , m_openTerminalAction(nullptr)
     , m_removeAction(nullptr)
 {
     Q_UNUSED(args)
-    setMetaData(metaData);
 
     m_extension = new DolphinPartBrowserExtension(this);
 

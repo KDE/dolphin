@@ -208,6 +208,7 @@ target_link_libraries(
     KF6::WindowSystem
     KF6::WidgetsAddons
     KF6::Codecs
+    KF6::KCMUtils
 
     KF6::MoreTools
 )
@@ -443,8 +444,8 @@ endif()
 if (HAVE_KUSERFEEDBACK)
     target_link_libraries(
         dolphinstatic
-        KUserFeedbackCore
-        KUserFeedbackWidgets
+        KUserFeedbackCoreQt6
+        KUserFeedbackWidgetsQt6
     )
 endif()
 
@@ -473,7 +474,7 @@ target_link_libraries(dolphin
 
 if (HAVE_X11)
     if (QT_MAJOR_VERSION STREQUAL "5")
-        target_link_libraries(dolphin PRIVATE Qt5::X11Extras)
+        target_link_libraries(dolphin PRIVATE Qt{QT_MAJOR_VERSION}::X11Extras)
     else()
         target_link_libraries(dolphin PRIVATE Qt::GuiPrivate)
     endif()

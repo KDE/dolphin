@@ -42,7 +42,7 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent)
 
 void DolphinNavigatorsWidgetAction::adjustSpacing()
 {
-    m_previousWindowWidth = parentWidget()->window()->width();
+    m_previousWindowWidth = qobject_cast<QWidget *>(parent())->window()->width();
     auto viewGeometries = m_viewGeometriesHelper.viewGeometries();
     const int widthOfSplitterPrimary = viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
     const QList<int> splitterSizes = {widthOfSplitterPrimary, m_splitter->width() - widthOfSplitterPrimary};
@@ -298,7 +298,7 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper(QWidge
 bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Resize) {
-        if (m_navigatorsWidgetAction->parentWidget()->window()->width() != m_navigatorsWidgetAction->m_previousWindowWidth) {
+        if (qobject_cast<QWidget*>(m_navigatorsWidgetAction->parent())->window()->width() != m_navigatorsWidgetAction->m_previousWindowWidth) {
             // The window is being resized which means not all widgets have gotten their new sizes yet.
             // Let's wait a bit so the sizes of the navigatorsWidget and the viewContainers have all
             // had a chance to be updated.

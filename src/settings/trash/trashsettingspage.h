@@ -8,7 +8,7 @@
 
 #include "settings/settingspagebase.h"
 
-class KCModuleProxy;
+class KCModule;
 
 /**
  * @brief Tab page for the 'Trash' settings of the Dolphin settings dialog, it uses the KCM.
@@ -29,7 +29,7 @@ public:
 
 private:
     void loadSettings();
-    KCModuleProxy *m_proxy;
+    KCModule *m_kcm;
 };
 
 #endif

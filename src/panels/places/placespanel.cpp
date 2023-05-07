@@ -142,7 +142,7 @@ static bool isInternalDrag(const QMimeData *mimeData)
 
 void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
 {
-    const QModelIndex index = indexAt(event->pos());
+    const QModelIndex index = indexAt(event->position().toPoint());
     if (index.isValid()) {
         auto *placesModel = static_cast<KFilePlacesModel *>(model());
 

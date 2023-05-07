@@ -19,7 +19,7 @@ class DolphinNavigationConfigModule : public KCModule
     Q_OBJECT
 
 public:
-    DolphinNavigationConfigModule(QWidget *parent, const QVariantList &args);
+    DolphinNavigationConfigModule(QObject *parent);
     ~DolphinNavigationConfigModule() override;
 
     void save() override;

@@ -32,7 +32,7 @@ DolphinTabBar::DolphinTabBar(QWidget *parent)
 void DolphinTabBar::dragEnterEvent(QDragEnterEvent *event)
 {
     const QMimeData *mimeData = event->mimeData();
-    const int index = tabAt(event->pos());
+    const int index = tabAt(event->position().toPoint());
 
     if (mimeData->hasUrls()) {
         event->acceptProposedAction();
@@ -52,7 +52,7 @@ void DolphinTabBar::dragLeaveEvent(QDragLeaveEvent *event)
 void DolphinTabBar::dragMoveEvent(QDragMoveEvent *event)
 {
     const QMimeData *mimeData = event->mimeData();
-    const int index = tabAt(event->pos());
+    const int index = tabAt(event->position().toPoint());
 
     if (mimeData->hasUrls()) {
         updateAutoActivationTimer(index);
@@ -67,7 +67,7 @@ void DolphinTabBar::dropEvent(QDropEvent *event)
     updateAutoActivationTimer(-1);
 
     const QMimeData *mimeData = event->mimeData();
-    const int index = tabAt(event->pos());
+    const int index = tabAt(event->position().toPoint());
 
     if (mimeData->hasUrls()) {
         Q_EMIT tabDropEvent(index, event);
