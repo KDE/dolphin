@@ -26,12 +26,12 @@ Dependencies:
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kfilemetadata': '@latest-kf6'
     'frameworks/kcodecs': '@latest-kf6'
-    'libraries/kuserfeedback': '@latest'
-    'libraries/phonon': '@latest'
-    'libraries/kmoretools': '@latest'
+    'libraries/kuserfeedback': '@latest-kf6'
+    'libraries/phonon': '@latest-kf6'
+    'libraries/kmoretools': '@latest-kf6'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'frameworks/baloo': '@latest-kf6'
-    'libraries/baloo-widgets': '@same'
+    'libraries/baloo-widgets': '@latest-kf6'
 
