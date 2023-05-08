@@ -33,5 +33,5 @@ Dependencies:
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'frameworks/baloo': '@latest-kf6'
-    'libraries/baloo-widgets': '@same'
+    'libraries/baloo-widgets': '@latest'
 
