@@ -81,7 +81,7 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
 )
 
 find_package(KUserFeedbackQt6 1.2.1)
-set_package_properties(KUserFeedback
+set_package_properties(KUserFeedbackQt6
         PROPERTIES TYPE OPTIONAL
         PURPOSE "Used for submission of telemetry data"
         )
