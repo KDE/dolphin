@@ -2,36 +2,36 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['@all']
+- 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
   'require':
-    'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/kcoreaddons': '@stable'
-    'frameworks/kcmutils': '@stable'
-    'frameworks/knewstuff': '@stable'
-    'frameworks/ki18n': '@stable'
-    'frameworks/kdbusaddons': '@stable'
-    'frameworks/kbookmarks': '@stable'
-    'frameworks/kconfig': '@stable'
-    'frameworks/kio': '@stable'
-    'frameworks/kparts': '@stable'
-    'frameworks/solid': '@stable'
-    'frameworks/kiconthemes': '@stable'
-    'frameworks/kcompletion': '@stable'
-    'frameworks/ktextwidgets': '@stable'
-    'frameworks/knotifications': '@stable'
-    'frameworks/kcrash': '@stable'
-    'frameworks/kwindowsystem': '@stable'
-    'frameworks/kactivities': '@stable'
-    'frameworks/kdoctools': '@stable'
-    'frameworks/kwindowsystem': '@stable'
-    'frameworks/kfilemetadata': '@stable'
-    'frameworks/kcodecs': '@stable'
+    'frameworks/extra-cmake-modules': '@latest-kf6'
+    'frameworks/kcoreaddons': '@latest-kf6'
+    'frameworks/kcmutils': '@latest-kf6'
+    'frameworks/knewstuff': '@latest-kf6'
+    'frameworks/ki18n': '@latest-kf6'
+    'frameworks/kdbusaddons': '@latest-kf6'
+    'frameworks/kbookmarks': '@latest-kf6'
+    'frameworks/kconfig': '@latest-kf6'
+    'frameworks/kio': '@latest-kf6'
+    'frameworks/kparts': '@latest-kf6'
+    'frameworks/solid': '@latest-kf6'
+    'frameworks/kiconthemes': '@latest-kf6'
+    'frameworks/kcompletion': '@latest-kf6'
+    'frameworks/ktextwidgets': '@latest-kf6'
+    'frameworks/knotifications': '@latest-kf6'
+    'frameworks/kcrash': '@latest-kf6'
+    'frameworks/kwindowsystem': '@latest-kf6'
+    'frameworks/kactivities': '@latest-kf6'
+    'frameworks/kdoctools': '@latest-kf6'
+    'frameworks/kwindowsystem': '@latest-kf6'
+    'frameworks/kfilemetadata': '@latest-kf6'
+    'frameworks/kcodecs': '@latest-kf6'
     'libraries/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
     'libraries/kmoretools': '@latest'
 
-- 'on': ['Linux', 'FreeBSD']
+- 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
-    'frameworks/baloo': '@stable'
+    'frameworks/baloo': '@latest-kf6'
     'libraries/baloo-widgets': '@same'
 
