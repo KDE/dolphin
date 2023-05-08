@@ -87,7 +87,6 @@ set_package_properties(KUserFeedback
         )
 
 if(KUserFeedbackQt6_FOUND)
-    message ("HAVE_KUSERFEEDBACK")
     set(HAVE_KUSERFEEDBACK TRUE)
 endif()
 
