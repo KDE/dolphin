@@ -26,7 +26,7 @@ Dependencies:
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kfilemetadata': '@latest-kf6'
     'frameworks/kcodecs': '@latest-kf6'
-    'libraries/kuserfeedback': 'latest'
+    'libraries/kuserfeedback': '@latest'
     'libraries/phonon': '@latest'
     'libraries/kmoretools': '@latest'
 
