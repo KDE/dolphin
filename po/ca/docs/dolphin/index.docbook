@@ -1824,7 +1824,7 @@ context menu Icon Size? No different entries ?-->
 >Git</guilabel
 > o <guilabel
 >Subversion</guilabel
-> del mòdul kdesdk, aquests seran mostrats a la llista. Si aquests connectors estan habilitats i entreu en una carpeta que es troba sota el control de versions, l'estat de la versió (ha canviat localment, actualitzada, &etc;) s'indicarà mitjançant icones i tindreu entrades addicionals en el menú contextual com publica, actualitza, afegeix, suprimeix, &etc; </para>
+> del mòdul kdesdk, aquests seran mostrats a la llista. Si aquests connectors estan habilitats i entreu en una carpeta que es troba sota el control de versions, l'estat de la versió (ha canviat localment, actualitzada, &etc;) s'indicarà mitjançant icones i tindreu entrades addicionals en el menú contextual com comet, actualitza, afegeix, suprimeix, &etc; </para>
 <para
 >A la llista de serveis podreu triar si es mostraran les ordres <guimenuitem
 >Copia a</guimenuitem

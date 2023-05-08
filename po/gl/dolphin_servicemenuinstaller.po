@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2019, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-06 01:03+0000\n"
-"PO-Revision-Date: 2019-08-16 11:13+0200\n"
+"PO-Revision-Date: 2023-04-06 22:35+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -25,23 +25,22 @@ msgstr "A instalación do menú de servizo de Dolphin fallou"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "Non se puido instalar «%1», saíuse con estado «%2»"
 
 #: servicemenuinstaller.cpp:99
-#, fuzzy, kde-format
-#| msgid "Failed to run installer script %1"
+#, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "Non se puido executar o script de instalador %1"
+msgstr "Non se puido desinstalar «%1», saíuse con estado «%2»"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
-msgstr ""
+msgstr "O ficheiro non existe!"
 
 #: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
-msgstr ""
+msgstr "Erro descoñecido ao instalar o paquete"
 
 #: servicemenuinstaller.cpp:183
 #, kde-format
@@ -51,7 +50,7 @@ msgstr "Non se admite o tipo de arquivo %1: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr "Non se puido executar a orde de descompresor para %1"
+msgstr "Non se puido executar a orde de descompresión para %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format

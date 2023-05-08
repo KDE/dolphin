@@ -335,6 +335,17 @@ public:
      */
     void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
+    /**
+     * Check if the space key should be handled as a normal key, even if it's
+     * used as a keyboard shortcut.
+     *
+     * See BUG 465489
+     */
+    bool handleSpaceAsNormalKey() const;
+
+    /** Activates the view if the item list container gets focus. */
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 public Q_SLOTS:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -425,9 +436,6 @@ public Q_SLOTS:
      * to the view.
      */
     void updateViewState();
-
-    /** Activates the view if the item list container gets focus. */
-    bool eventFilter(QObject *watched, QEvent *event) override;
 
 Q_SIGNALS:
     /**
@@ -666,7 +674,7 @@ private Q_SLOTS:
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
     void slotRenameDialogRenamingFinished(const QList<QUrl> &urls);
     void slotSelectedItemTextPressed(int index);
-    void slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to);
+    void slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to);
     void slotIncreaseZoom();
     void slotDecreaseZoom();
     void slotSwipeUp();
@@ -928,9 +936,11 @@ private:
     // resolution scroll wheels)
     int m_controlWheelAccumulatedDelta;
 
-    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5
+    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5 and file operations
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;
+    /// Decides whether items created by jobs should automatically be selected.
+    bool m_selectJobCreatedItems;
 
     VersionControlObserver *m_versionControlObserver;
 
@@ -950,6 +960,7 @@ private:
     friend class DolphinDetailsViewTest;
     friend class DolphinMainWindowTest;
     friend class DolphinPart; // Accesses m_model
+    void updateSelectionState();
 };
 
 /// Allow using DolphinView::Mode in QVariant

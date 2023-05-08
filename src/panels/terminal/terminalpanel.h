@@ -45,7 +45,7 @@ public:
      *        home when an unmounting request is received.
      */
     void goHome();
-    QString currentWorkingDirectory();
+    bool currentWorkingDirectoryIsChildOf(const QString &path) const;
     bool isHiddenInVisibleWindow() const;
     bool terminalHasFocus() const;
     bool hasProgramRunning() const;

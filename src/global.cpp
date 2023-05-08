@@ -16,6 +16,9 @@
 #include <KIO/ApplicationLauncherJob>
 #include <KService>
 #include <KWindowSystem>
+#ifdef HAVE_KACTIVITIES
+#include <KActivities/Consumer>
+#endif
 
 #include <QApplication>
 
@@ -140,13 +143,37 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
 
 QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString &preferredService)
 {
+#ifdef HAVE_KACTIVITIES
+    static std::once_flag one_consumer;
+    static KActivities::Consumer *consumer;
+    std::call_once(one_consumer, []() {
+        consumer = new KActivities::Consumer();
+        // ensures the consumer is ready for query
+        QEventLoop loop;
+        QObject::connect(consumer, &KActivities::Consumer::serviceStatusChanged, &loop, &QEventLoop::quit);
+        loop.exec();
+    });
+#endif
+
     QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
-    if (!preferredService.isEmpty()) {
-        QSharedPointer<OrgKdeDolphinMainWindowInterface> preferredInterface(
-            new OrgKdeDolphinMainWindowInterface(preferredService, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
-        if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
-            dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
+    const auto tryAppendInterface = [&dolphinInterfaces](const QString &service) {
+        // Check if instance can handle our URLs
+        QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
+            new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
+        if (interface->isValid() && !interface->lastError().isValid()) {
+#ifdef HAVE_KACTIVITIES
+            const auto currentActivity = consumer->currentActivity();
+            if (currentActivity.isEmpty() || currentActivity == QStringLiteral("00000000-0000-0000-0000-000000000000")
+                || interface->isOnActivity(consumer->currentActivity()))
+#endif
+                if (interface->isOnCurrentDesktop()) {
+                    dolphinInterfaces.append(qMakePair(interface, QStringList()));
+                }
         }
+    };
+
+    if (!preferredService.isEmpty()) {
+        tryAppendInterface(preferredService);
     }
 
     // Look for dolphin instances among all available dbus services.
@@ -158,12 +185,7 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
     for (const QString &service : dbusServices) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
-            // Check if instance can handle our URLs
-            QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
-                new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
-            if (interface->isValid() && !interface->lastError().isValid()) {
-                dolphinInterfaces.append(qMakePair(interface, QStringList()));
-            }
+            tryAppendInterface(service);
         }
     }
 

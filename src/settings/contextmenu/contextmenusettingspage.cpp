@@ -128,6 +128,10 @@ bool ContextMenuSettingsPage::entryVisible(const QString &id)
         return ContextMenuSettings::showDuplicateHere();
     } else if (id == "open_terminal_here") {
         return ContextMenuSettings::showOpenTerminal();
+    } else if (id == "copy_to_inactive_split_view") {
+        return ContextMenuSettings::showCopyToOtherSplitView();
+    } else if (id == "move_to_inactive_split_view") {
+        return ContextMenuSettings::showMoveToOtherSplitView();
     }
     return false;
 }
@@ -150,6 +154,10 @@ void ContextMenuSettingsPage::setEntryVisible(const QString &id, bool visible)
         ContextMenuSettings::setShowDuplicateHere(visible);
     } else if (id == "open_terminal_here") {
         ContextMenuSettings::setShowOpenTerminal(visible);
+    } else if (id == "copy_to_inactive_split_view") {
+        ContextMenuSettings::setShowCopyToOtherSplitView(visible);
+    } else if (id == "move_to_inactive_split_view") {
+        ContextMenuSettings::setShowMoveToOtherSplitView(visible);
     }
 }
 

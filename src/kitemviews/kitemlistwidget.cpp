@@ -49,6 +49,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_selectionToggle(nullptr)
     , m_editedRole()
     , m_iconSize(-1)
+    , m_sidePadding(0)
 {
     connect(&m_hoverSequenceTimer, &QTimer::timeout, this, &KItemListWidget::slotHoverSequenceTimerTimeout);
 }

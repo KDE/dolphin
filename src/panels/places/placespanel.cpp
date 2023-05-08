@@ -14,7 +14,6 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_placespanelsettings.h"
 #include "dolphinplacesmodelsingleton.h"
-#include "global.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "views/draganddrophelper.h"
 
@@ -50,7 +49,7 @@ PlacesPanel::PlacesPanel(QWidget *parent)
 
     connect(this, &PlacesPanel::contextMenuAboutToShow, this, &PlacesPanel::slotContextMenuAboutToShow);
 
-    connect(this, &PlacesPanel::iconSizeChanged, this, [this](const QSize &newSize) {
+    connect(this, &PlacesPanel::iconSizeChanged, this, [](const QSize &newSize) {
         int iconSize = qMin(newSize.width(), newSize.height());
         if (iconSize == 0) {
             // Don't store 0 size, let's keep -1 for default/small/automatic

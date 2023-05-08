@@ -118,6 +118,7 @@ public:
 
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
+    bool isSplitViewEnabledInCurrentTab() const;
 
 public Q_SLOTS:
     /**
@@ -203,6 +204,9 @@ public Q_SLOTS:
     /** @see GeneralSettings::splitViewChanged() */
     void slotSplitViewChanged();
 
+    bool isOnActivity(const QString &activityId) const;
+    bool isOnCurrentDesktop() const;
+
 Q_SIGNALS:
     /**
      * Is sent if the selection of the currently active view has
@@ -234,6 +238,9 @@ Q_SIGNALS:
     void settingsChanged();
 
 protected:
+    /** @see QObject::event() */
+    bool event(QEvent *event) override;
+
     /** @see QWidget::showEvent() */
     void showEvent(QShowEvent *event) override;
 

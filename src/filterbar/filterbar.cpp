@@ -10,6 +10,7 @@
 
 #include <KLocalizedString>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -47,6 +48,9 @@ FilterBar::FilterBar(QWidget *parent)
     hLayout->addWidget(m_lockButton);
     hLayout->addWidget(m_filterInput);
     hLayout->addWidget(closeButton);
+
+    setTabOrder(m_lockButton, closeButton);
+    setTabOrder(closeButton, m_filterInput);
 }
 
 FilterBar::~FilterBar()
@@ -96,10 +100,8 @@ void FilterBar::showEvent(QShowEvent *event)
     }
 }
 
-void FilterBar::keyReleaseEvent(QKeyEvent *event)
+void FilterBar::keyPressEvent(QKeyEvent *event)
 {
-    QWidget::keyReleaseEvent(event);
-
     switch (event->key()) {
     case Qt::Key_Escape:
         if (m_filterInput->text().isEmpty()) {
@@ -107,14 +109,28 @@ void FilterBar::keyReleaseEvent(QKeyEvent *event)
         } else {
             m_filterInput->clear();
         }
-        break;
+        return;
 
     case Qt::Key_Enter:
     case Qt::Key_Return:
         Q_EMIT focusViewRequest();
-        break;
+        return;
+
+    case Qt::Key_Down:
+    case Qt::Key_PageDown:
+    case Qt::Key_Up:
+    case Qt::Key_PageUp: {
+        Q_EMIT focusViewRequest();
+        QWidget *focusWidget = QApplication::focusWidget();
+        if (focusWidget && focusWidget != this) {
+            QApplication::sendEvent(focusWidget, event);
+        }
+        return;
+    }
 
     default:
         break;
     }
+
+    QWidget::keyPressEvent(event);
 }

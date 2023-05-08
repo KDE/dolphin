@@ -121,7 +121,7 @@
   <summary xml:lang="zh-TW">檔案管理員</summary>
   <description>
     <p>Dolphin is KDE's file manager that lets you navigate and browse the contents of your hard drives, USB sticks, SD cards, and more. Creating, moving, or deleting files and folders is simple and fast.</p>
-    <p xml:lang="ar">دولفين هو مدير ملفات كدي الذي يتيح لك التنقل وتصفح محتويات محركات الأقراص الثابتة و USB وبطاقات SD والمزيد. يعد إنشاء الملفات والمجلدات أو نقلها أو حذفها أمرًا بسيطًا وسريعًا.</p>
+    <p xml:lang="ar">دولفين هو مدير ملفات كِيدِي الذي يتيح لك التنقل وتصفح محتويات محركات الأقراص الثابتة و USB وبطاقات SD والمزيد. يعد إنشاء الملفات والمجلدات أو نقلها أو حذفها أمرًا بسيطًا وسريعًا.</p>
     <p xml:lang="az">Dolphin sizin sərt disklərinizin, USB yaddaş qurğularınızın, SD katlarınızın və s. tərkibindəkiləri nəzərdən keçirmənizə imkan verən fayl meneceridir. Faylların və qovluqların yaradılması, Köçürülməsi və ya silinməsi sadə, rahat və cəld icra edilir.</p>
     <p xml:lang="be">Dolphin - гэта кіраўнік файлаў KDE, які дазваляе вам перамяшчацца і праглядаць змесціва вашых цвёрдых дыскаў, USB-назапашвальнікаў, SD-картак і інш. Ствараць, перамяшчаць або выдаляць файлы і каталогі проста і хутка.</p>
     <p xml:lang="bg">Dolphin e файловият мениджър на KDE, който ви позволява да навигирате и да преглеждате съдържанието на вашите твърди дискове, USB, SD карти и др. Създаването, преместването или изтриването на файлове и папки е просто и бързо.</p>
@@ -135,6 +135,7 @@
     <p xml:lang="eu">Dolphin zure disko zurrun, USB memoria, SD txartel, eta gehiagoren edukian nabigatu eta arakatzen uzten dizun KDEren fitxategi-kudeatzailea da. Fitxategi eta karpetak sortzea, mugitzea, edo ezabatzea erraza eta azkarra da.</p>
     <p xml:lang="fi">Dolphin on KDE:n tiedostonhallinta, jolla voit selata kiintolevyjen, USB-tikkujen, SD-korttien ja muiden tallennusvälineiden sisältöä. Tiedostojen ja kansioiden luominen, siirtäminen ja poistaminen on yksinkertaista ja helppoa.</p>
     <p xml:lang="fr">Dolphin est le gestionnaire de fichiers de KDE, vous permettant de naviguer et d'explorer le contenu de vos disques durs, vos clés USB et bien plus. La création, le déplacement ou la suppression de fichiers et de dossiers sont simples et rapides.</p>
+    <p xml:lang="gl">Dolphin é o xestor de ficheiros de KDE que lle permite navegar e explorar o contido dos seus discos duros, memorias USB, tarxetas SD, e máis. Fai que tarefas como crear, mover, e eliminar ficheiros e cartafoles sexan doadas e rápidas.</p>
     <p xml:lang="hi">डॉल्फ़िन केडीई का फ़ाइल प्रबंधक है जो आपको अपनी हार्ड ड्राइव, यूएसबी स्टिक, एसडी कार्ड आदि की सामग्री को संचालन और विचरण करने देता है। इसमें फ़ाइलों और फ़ोल्डरों को बनाना, स्थानांतरित करना या हटाना सरल और तेज़ है।</p>
     <p xml:lang="hu">A Dolphin a KDE fájlkezelője, amely lehetővé teszi a merevlemezei, USB-kulcsai, SD-kártyái és más adathordozói tartalmának böngészését. Gyorsan és egyszerűen hozhat létre, helyezhet át vagy törölhet vele fájlokat és mappákat.</p>
     <p xml:lang="ia">Dolphin es le gerente de file de KDE que te permitte navigar e explorar le contentos de tu discos dur, claves de memoria USB, cartas SD, e altere. Crear, mover o deler file e dossieres es simpe e rapide.</p>
@@ -176,6 +177,7 @@
     <p xml:lang="eu">Dolphin-ek denbora aurreztuko dizuten produktibitate-ezaugarri ugari ditu. Fitxa anitzen eta ikuspegi zatituen ezaugarriek aldi berean karpeta anitz nabigatzen uzten dute, eta fitxategiak ikuspegien artean arrastatu eta jaregin ditzakezu haiek erraz mugitu edo kopiatzeko. Dolphin-en eskuin-klik laster-menuak, besteak beste, fitxategiak konprimatzeko, partekatzeko, eta bikoizteko ekintza azkarrak eskaintzen ditu. Zuk nahi dituzun ekintzak ere erants ditzakezu.</p>
     <p xml:lang="fi">Dolphinin monet tuottavuusominaisuudet säästävät aikaasi. Välilehdet ja jaetut näkyvät mahdollistavat useamman kansion tarkastelun yhtä aikaa, jolloin tiedostoja voi helposti kopioida tai siirtää näkymästä toiseen vetämällä ja pudottamalla. Dolphinin kontekstivalikon tarjoamin pikatoiminnoin tiedostoja voi muun muassa pakata, jakaa ja monistaa. Myös omia mukautettuja toimintoja voi luoda.</p>
     <p xml:lang="fr">Dolphin contient de nombreuses fonctionnalités pour la productivité vous permettant de gagner du temps. Les fonctionnalités d'onglets multiples et d'affichage scindé vous permettent de naviguer dans plusieurs dossiers en même temps. Vous pouvez aussi réaliser facilement des glisser et déposer entre les affichages pour les déplacer ou les copier. Le menu de Dolphin accessible par un clic droit fournit plusieurs actions rapides vous permettant de compresser, partager et dupliquer des fichiers, entre autres actions. Vous pouvez aussi ajouter votre propres actions personnalisées.</p>
+    <p xml:lang="gl">Dolphin contén una morea de funcionalidades de produtividade para aforrarlle tempo. As funcionalidades de lapelas e vista dividida permiten navegar varios cartafoles ao mesmo tempo, e pode arrastrar e soltar ficheiros entre as súas vistas facilmente para movelos ou copialos. O menú de clic dereito de Dolphin fornece moitas accións rápidas que lle permiten comprimir, compartir, e duplicar ficheiros, entre outras cousas. Tamén pode engadir as súas propias accións personalizadas.</p>
     <p xml:lang="hi">डॉल्फिन में बहुत सारी उत्पादकता विशेषताएं होती हैं जो आपका समय बचाएगी। एकाधिक टैब और विभाजित दृश्य सुविधाएं एक ही समय में एकाधिक फ़ोल्डरों को संचालित करने में काम आतीं हैं, और आप फ़ाइलों को स्थानांतरित करने या नकल करने के लिए आसानी से फ़ाइलों को खींच कर छोड़ सकते हैं। डॉल्फ़िन का दाहिना-क्लिक मेनू कई द्रुत क्रियाएं प्रदान करता है जो आपको कई अन्य चीजों के साथ-साथ फ़ाइलों को संपीड़ित, साझा और प्रतिलिपि बनाने देता है। आप अपनी खुद की तदनुकूल कार्रवाइयां भी जोड़ सकते हैं।</p>
     <p xml:lang="hu">A Dolphin számos olyan funkcióval bír, amelyek időt spórolnak Önnek. A lapokkal és osztott nézetekkel egyszerre navigálhat több mappában egyszerre, és könnyen húzhat át fájlokat az egyik nézetből a másikba, átmásolva vagy áthelyezve azokat. A Dolphin jobb gombos menüje rengeteg gyors műveletet biztosít, például tömörítést, megosztást vagy fájlduplikálást. Akár saját műveletekkel is bővítheti azt.</p>
     <p xml:lang="ia">Dolphin contine abundantia de characteristicas de productivitate que te salveguardera tempore. Le characteristicas de multiple schedas e vista dividite permitte navigar dossieres multiple al mesme tempore, e tu pote  facilemente traher e deponer files inter vistas per mover o copiar los. Le menu de pulsar a dextere de Dolphines fornite con multe actiones rapide que te permitte comprimer, compartir, e duplicar files, inter multe altere cosas. Tu anqu pote adder tu actiones personalisate. </p>
@@ -217,6 +219,7 @@
     <p xml:lang="eu">Dolphin oso arina da, baina, aldi berean, zure beharretara egoki dezakezu. Horrek esan nahi du fitxategien kudeaketa zuk nahi duzun modura egin dezakezula. Dolphin-ek hiru ikuspegi modu ezberdin onartzen ditu: fitxategi guztien sareta-ikuspegi klasiko bat, xehetasun gehiago dituen ikuspegi bat, eta zuhaitz-ikuspegi bat. Dolphin-en jokabide gehienak ere konfigura ditzakezu.</p>
     <p xml:lang="fi">Dolphin on hyvin kevyt mutta samalla sovitettavissa tarpeisiisi, joten voit hallita tiedostojasi juuri kuten haluat. Dolphin tukee kolmea eri näkymää: perinteistä ruudukkoa, yksityiskohtaisempaa tilanäkymää ja puunäkymää. Useimpia Dolphinin toiminta-asetuksia voi säätää.</p>
     <p xml:lang="fr">Dolphin est peu consommateur de ressources mais, en même temps, vous pouvez l'adapter à vos besoins spécifiques. Cela signifie que vous pouvez configurer votre gestion de fichiers, exactement comme vous le souhaitez. Dolphin prend en charge trois modes différents d'affichage : un affichage classique en grille pour tous vos fichiers, un affichage plus détaillé et un affichage en arborescence. Vous pouvez configurer la plupart des comportement de Dolphin.</p>
+    <p xml:lang="gl">Dolphin é moi lixeiro, pero ao mesmo tempo pode adaptarse ás súas necesidades concretas. Isto significa que pode xestionar os seus ficheiros como mellor lle pareza. Dolphin permite tres modos de vista distintos: a clásica vista de grade de todos os ficheiros, unha vista máis detallada, e unha vista de árbore. Tamén pode configurar a meirande parte do comportamento de Dolphin.</p>
     <p xml:lang="hi">डॉल्फ़िन बहुत हल्का है, लेकिन साथ ही, आप इसे अपनी विशिष्ट ज़रूरतों के अनुसार अनुकूलित कर सकते हैं। इसका मतलब है कि आप अपने फ़ाइल प्रबंधन को ठीक वैसे ही कर सकते हैं जैसे आप चाहते हैं। डॉल्फ़िन तीन अलग-अलग दृश्य मोड का समर्थन करता है: सभी फ़ाइलों का एक क्लासिक ग्रिड दृश्य, एक अधिक विस्तृत दृश्य और एक ट्री व्यू। आप अधिकांश डॉल्फ़िन के व्यवहार को भी विन्यस्त कर सकते हैं।</p>
     <p xml:lang="hu">A Dolphin pehelysúlyú, ugyanakkor a saját igényeire is szabhatja, vagyis a fájlkezelést teljesen a saját szája íze szerint végezheti. A Dolphin három nézetmódot támogat: a klasszikus rácsnézetet, a részletes nézetet és a fastruktúra nézetet. A legtöbb funkciót módosíthatja.</p>
     <p xml:lang="ia">Dolphin es multe legier, ma al mesme tempore, tu pote adaptar lo a tu necessitates speific. Isto significa que tu pote complir tu gestion de file exactemente in le modo que tu vole. Dolphin supporta tres modos de vista differente: un vista classic de grillia de omne le files, un vista plus detaliate, e un vista a arbore. Tu anque pote configurar le majoritate del comportamento de Dolphin.</p>
@@ -258,6 +261,7 @@
     <p xml:lang="eu">Dolphin-ek Interneteko hodei-zerbitzu askotako eta urruneko beste makina batzuetako fitxategi eta karpetak zure mahaigainean egongo balira bezala erakuts ditzake.</p>
     <p xml:lang="fi">Dolphin osaa näyttää tiedostot ja kansiot monista internetin pilvipalveluista sekä etäkoneilta kuin ne olisivat välittömästi työpöydälläsi.</p>
     <p xml:lang="fr">Dolphin peut afficher des fichiers et des dossiers à partir de nombreux services de stockage sur Internet (Cloud) et d'ordinateurs distants, comme s'ils étaient directement sur votre ordinateur.</p>
+    <p xml:lang="gl">Dolphin pode mostrar ficheiros e cartafoles de moitos servizos de nube de internet e outras máquinas remotas como se estivesen no seu escritorio.</p>
     <p xml:lang="hi">डॉल्फ़िन कई इंटरनेट क्लाउड सेवाओं और अन्य दूरस्थ मशीनों से फ़ाइलें और फ़ोल्डर प्रदर्शित इस प्रकार कर सकता है जैसे कि वे आपके डेस्कटॉप पर ही हैं।</p>
     <p xml:lang="hu">A Dolphin úgy képes fájlokat megjeleníteni számos felhőszolgáltatásból vagy távoli gépekről, mintha azok a saját számítógépén lennének.</p>
     <p xml:lang="ia">Dolphin pote monstrar files e dossieres ab multe servicios cloud de internet e altere machinas remote como si illos esseva exactemente sur tu scriptorio.</p>
@@ -283,7 +287,7 @@
     <p xml:lang="uk">Dolphin здатен показувати файли і теки із багатьох «хмарних» служб інтернету та віддалених комп'ютерів так, наче усі ці дані зберігаються на вашому робочому комп'ютері.</p>
     <p xml:lang="vi">Dolphin có thể hiển thị tệp và thư mục từ nhiều dịch vụ đám mây Liên Mạng và các máy ở xa khác như thể chúng ở ngay trên máy tính của bạn vậy.</p>
     <p xml:lang="x-test">xxDolphin can display files and folders from many Internet cloud services and other remote machines as if they were right there on your desktop.xx</p>
-    <p xml:lang="zh-CN">Dolphin 可以显示多种云存储服务和远程计算机中的文件和文件夹，使用体验与本机文件完全一致。</p>
+    <p xml:lang="zh-CN">Dolphin 可以显示多种云存储服务和远程计算机中的文件和文件夹，使用体验与本地文件完全一致。</p>
     <p xml:lang="zh-TW">Dolphin 可以把許多網路雲端服務或是其他遠端裝置上的檔案當作好像在您的桌面上一樣顯示出來。</p>
     <p>Dolphin also comes with an integrated terminal that allows you to run commands on the current folder. You can extend the capabilities of Dolphin even further with powerful plugins to adapt it to your workflow. You can use the git integration plugin to interact with git repositories, or the Nextcloud plugin to synchronize your files online, and much more.</p>
     <p xml:lang="ar">يأتي دولفين أيضًا مع محطة طرفية متكاملة تتيح لك تشغيل الأوامر في المجلد الحالي. يمكنك توسيع إمكانيات دولفين إلى أبعد من ذلك باستخدام المكونات الإضافية القوية لتكييفها مع سير عملك. يمكنك استخدام المكون الإضافي git للتكامل للتفاعل مع مستودعات git ، أو المكون الإضافي Nextcloud لمزامنة ملفاتك عبر الإنترنت ، وغير ذلك الكثير.</p>
@@ -300,6 +304,7 @@
     <p xml:lang="eu">Dolphin-ek terminal bat ere badu, uneko karpetan komandoak erabiltzeko aukera ematen duena. Dolphin-en gaitasunak are gehiago hedatu ditzakezu zure lan egiteko modura egokitzeko plugin ahaltsuak erabiliz. Git bateratzeko plugina erabil dezakezu Git gordetegiekin elkarreragiteko, edo Nextcloud plugina zure fitxategiak lerroan sinkronizatzeko, eta askoz gehiago.</p>
     <p xml:lang="fi">Dolphinissa on myös sisään rakennettu pääte komentojen suorittamiseksi nykyisessä kansiossa. Dolphinin ominaisuuksia voi myös laajentaa sopimaan työtapaasi tehokkain laajennuksin. Git-integrointiliitännäinen auttaa toimimaan Git-lähteiden kanssa, Nextcloud-liitännäisellä voi synkronoida tiedostot verkkoon jne.</p>
     <p xml:lang="fr">Dolphin est aussi livré avec un terminal intégré, vous permettant d'exécuter des commandes sur votre dossier courant. Vous pouvez étendre les fonctionnalités de Dolphin encore plus avec de puissants modules externes pour s'adapter à vos processus de travail. Vous pouvez utiliser le module externe « git » pour interagir avec les dépôts « git » ou le module externe « Nextcloud » pour synchroniser vos fichiers en ligne et bien d'autres choses encore.</p>
+    <p xml:lang="gl">Dolphin inclúe tamén un terminal integrado que lle permite executar ordes no cartafol actual. Pode estender as capacidades de Dolphin aínda máis con potentes complementos para adaptalo ao seu fluxo de traballo. Pode usar o complemento de integración con Git para interactuar con repositorios de Git, ou o complemento de Nextcloud para sincronizar os seus ficheiros por internet, e moito máis.</p>
     <p xml:lang="hi">डॉल्फ़िन भी एक एकीकृत टर्मिनल के साथ आता है जो आपको वर्तमान फ़ोल्डर पर समादेश चलाने की अनुमति देता है। आप डॉल्फ़िन क्षमताओं को अपने कार्यप्रवाह में अनुकूलित करने के लिए शक्तिशाली प्लग इन के साथ और भी अधिक बढ़ा सकते हैं। आप git रिपॉजिटरी के साथ अंत:क्रिया करने के लिए git एकीकरण प्लगइन का उपयोग कर सकते हैं, या अपनी फ़ाइलों को ऑनलाइन समकालन करने के लिए नेक्स्टक्लाउड प्लगइन का उपयोग कर सकते हैं, और भी बहुत कुछ।</p>
     <p xml:lang="hu">A Dolphin tovább tartalmaz egy integrált terminálemulátort, amely lehetővé teszi parancsok futtatását az aktuális mappában. Bővítményekkel még jobban kiterjesztheti a Dolphin képességeinek határait. A git integrációs bővítménnyek git tárolókat kezelhet, a Nextcloud bővítménnyel szinkronizálhatja fájljait, és így tovább.</p>
     <p xml:lang="ia">Dolphin anque deveni con un terminal integrate que te permitte executar commandos sur le dossier currente. Tu pote extender le capacitates de Dolphin anque plus avante con plugins potente per adaptar lo a tu fluxo de labor. Tu pote usar le plugin de integrationde git per affectar con repositorios de git, o le plugin de Nextcloud per synchronisar tu files in linea, a multe altere.</p>
@@ -403,6 +408,7 @@
       <caption xml:lang="eu">Dolphinen txertatutako terminala</caption>
       <caption xml:lang="fi">Upotettu pääte Dolphinissa</caption>
       <caption xml:lang="fr">Terminal intégré dans Dolphin</caption>
+      <caption xml:lang="gl">Terminal incrustado en Dolphin</caption>
       <caption xml:lang="hi">डॉल्फिन में सन्निहित टर्मिनल</caption>
       <caption xml:lang="hu">Beágyazott terminál a Dolphinban</caption>
       <caption xml:lang="ia">Terminal incorporate in Dolphin</caption>
@@ -450,6 +456,7 @@
       <caption xml:lang="eu">Dolphinek zure fitxategi-kudeatzailea nahi duzun eran konfiguratzen uzten dizu</caption>
       <caption xml:lang="fi">Dolphinilla voit tehdä tiedostonhallintaa juuri kuten haluat</caption>
       <caption xml:lang="fr">Dolphin vous permet de configurer votre gestionnaire de fichiers, exactement comme vous le souhaitez.</caption>
+      <caption xml:lang="gl">Dolphin permítelle configurar o seu xestor de ficheiros como queira</caption>
       <caption xml:lang="hi">डॉल्फ़िन आपको अपने फ़ाइल प्रबंधक को ठीक वैसे ही विन्यस्त करने देता है जैसे आप चाहते हैं </caption>
       <caption xml:lang="hu">A Dolphin lehetővé teszi, hogy úgy állítsa be a fájlkezelőkét, ahogyan szeretné</caption>
       <caption xml:lang="ia">Dolphin te permitte configurar tu gerente de file exactemente como tu lo vole</caption>
@@ -486,10 +493,10 @@
     <binary>dolphin</binary>
   </provides>
   <releases>
+    <release version="23.04.1" date="2023-05-11"/>
+    <release version="23.04.0" date="2023-04-20"/>
     <release version="22.12.3" date="2023-03-02"/>
     <release version="22.12.2" date="2023-02-02"/>
-    <release version="22.12.1" date="2023-01-05"/>
-    <release version="22.12.0" date="2022-12-08"/>
   </releases>
   <content_rating type="oars-1.1"/>
 </component>

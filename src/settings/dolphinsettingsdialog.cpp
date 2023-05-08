@@ -84,7 +84,9 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
                                                                 QStringLiteral("open_in_new_window"),
                                                                 QStringLiteral("copy_location"),
                                                                 QStringLiteral("duplicate"),
-                                                                QStringLiteral("open_terminal_here")});
+                                                                QStringLiteral("open_terminal_here"),
+                                                                QStringLiteral("copy_to_inactive_split_view"),
+                                                                QStringLiteral("move_to_inactive_split_view")});
     KPageWidgetItem *contextMenuSettingsFrame = addPage(contextMenuSettingsPage, i18nc("@title:group", "Context Menu"));
     contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-menu-edit")));
     connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);

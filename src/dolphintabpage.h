@@ -67,6 +67,12 @@ public:
     DolphinViewContainer *activeViewContainer() const;
 
     /**
+     * @return DolphinViewContainer of the inactive view
+     * if split view is enabled, or nullptr otherwise.
+     */
+    DolphinViewContainer *inactiveViewContainer() const;
+
+    /**
      * Returns the selected items. The list is empty if no item has been
      * selected.
      */

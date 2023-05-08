@@ -123,6 +123,11 @@ public:
     void setSelectionModeEnabled(bool enabled);
     bool selectionMode() const;
 
+    /**
+     * @return \c true if search as you type is active, or \c false otherwise.
+     */
+    bool isSearchAsYouTypeActive() const;
+
     bool processEvent(QEvent *event, const QTransform &transform);
 
 Q_SIGNALS:

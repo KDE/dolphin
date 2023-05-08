@@ -62,13 +62,13 @@ void InformationPanel::setSelection(const KFileItemList &selection)
         if ((count == 1) && !selection.first().url().isEmpty()) {
             m_urlCandidate = selection.first().url();
         }
-        m_infoTimer->start();
+        showItemInfo();
     }
 }
 
 void InformationPanel::requestDelayedItemInfo(const KFileItem &item)
 {
-    if (!isVisible()) {
+    if (!isVisible() || !InformationPanelSettings::showHovered()) {
         return;
     }
 
@@ -160,6 +160,11 @@ void InformationPanel::showContextMenu(const QPoint &pos)
     previewAutoPlayAction->setCheckable(true);
     previewAutoPlayAction->setChecked(InformationPanelSettings::previewsAutoPlay());
 
+    QAction *showHoveredAction = popup.addAction(i18nc("@action:inmenu", "Show item on hover"));
+    showHoveredAction->setIcon(QIcon::fromTheme(QStringLiteral("followmouse")));
+    showHoveredAction->setCheckable(true);
+    showHoveredAction->setChecked(InformationPanelSettings::showHovered());
+
     QAction *configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     if (m_inConfigurationMode) {
@@ -188,18 +193,23 @@ void InformationPanel::showContextMenu(const QPoint &pos)
     if (action == previewAction) {
         InformationPanelSettings::setPreviewsShown(isChecked);
         m_content->refreshPreview();
+    } else if (action == previewAutoPlayAction) {
+        InformationPanelSettings::setPreviewsAutoPlay(isChecked);
+        m_content->setPreviewAutoPlay(isChecked);
+    } else if (action == showHoveredAction) {
+        InformationPanelSettings::setShowHovered(isChecked);
+        if (!isChecked) {
+            m_hoveredItem = KFileItem();
+            showItemInfo();
+        }
     } else if (action == configureAction) {
         m_inConfigurationMode = true;
         m_content->configureShownProperties();
-    }
-    if (action == dateformatAction) {
+    } else if (action == dateformatAction) {
         int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
 
         InformationPanelSettings::setDateFormat(dateFormat);
         m_content->refreshMetaData();
-    } else if (action == previewAutoPlayAction) {
-        InformationPanelSettings::setPreviewsAutoPlay(isChecked);
-        m_content->setPreviewAutoPlay(isChecked);
     }
 }
 
@@ -218,7 +228,7 @@ void InformationPanel::showItemInfo()
     } else {
         // The information for exactly one item should be shown
         KFileItem item;
-        if (!m_hoveredItem.isNull()) {
+        if (!m_hoveredItem.isNull() && InformationPanelSettings::showHovered()) {
             item = m_hoveredItem;
         } else if (!m_selection.isEmpty()) {
             Q_ASSERT(m_selection.count() == 1);
@@ -281,8 +291,6 @@ void InformationPanel::slotFileRenamed(const QString &source, const QString &des
             // item is selected, as the name of the item is shown. If this should change
             // in future: Before parsing the whole selection take care to test possible
             // performance bottlenecks when renaming several hundreds of files.
-        } else {
-            m_hoveredItem = KFileItem(destUrl);
         }
 
         showItemInfo();

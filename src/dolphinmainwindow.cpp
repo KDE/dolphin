@@ -88,6 +88,8 @@
 #include <QTimer>
 #include <QToolButton>
 
+#include <algorithm>
+
 namespace
 {
 // Used for GeneralSettings::version() to determine whether
@@ -269,9 +271,39 @@ bool DolphinMainWindow::isInformationPanelEnabled() const
 #endif
 }
 
+bool DolphinMainWindow::isSplitViewEnabledInCurrentTab() const
+{
+    return m_tabWidget->currentTabPage()->splitViewEnabled();
+}
+
 void DolphinMainWindow::openFiles(const QStringList &files, bool splitView)
 {
     openFiles(QUrl::fromStringList(files), splitView);
+}
+
+bool DolphinMainWindow::isOnCurrentDesktop() const
+{
+#if HAVE_X11
+    if (KWindowSystem::isPlatformX11()) {
+        const NET::Properties properties = NET::WMDesktop;
+        KWindowInfo info(this->winId(), properties);
+        return info.isOnCurrentDesktop();
+    }
+#endif
+    return true;
+}
+
+bool DolphinMainWindow::isOnActivity(const QString &activityId) const
+{
+#if HAVE_X11 && HAVE_KACTIVITIES
+    if (KWindowSystem::isPlatformX11()) {
+        const NET::Properties properties = NET::Supported;
+        const NET::Properties2 properties2 = NET::WM2Activities;
+        KWindowInfo info(this->winId(), properties, properties2);
+        return info.activities().contains(activityId);
+    }
+#endif
+    return true;
 }
 
 void DolphinMainWindow::activateWindow(const QString &activationToken)
@@ -517,6 +549,19 @@ void DolphinMainWindow::showTarget()
             KIO::highlightInFileManager({destinationUrl});
         }
     });
+}
+
+bool DolphinMainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::ShortcutOverride) {
+        const QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Space && m_activeViewContainer->view()->handleSpaceAsNormalKey()) {
+            event->accept();
+            return true;
+        }
+    }
+
+    return KXmlGuiWindow::event(event);
 }
 
 void DolphinMainWindow::showEvent(QShowEvent *event)
@@ -1476,7 +1521,7 @@ void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString &mo
         setViewsToHomeIfMountPathOpen(mountPath);
     });
 
-    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectoryIsChildOf(mountPath)) {
         m_tearDownFromPlacesRequested = true;
         m_terminalPanel->goHome();
         // m_placesPanel->proceedWithTearDown() will be called in slotTerminalDirectoryChanged
@@ -1491,7 +1536,7 @@ void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString &mo
         setViewsToHomeIfMountPathOpen(mountPath);
     });
 
-    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectoryIsChildOf(mountPath)) {
         m_tearDownFromPlacesRequested = false;
         m_terminalPanel->goHome();
     }
@@ -1613,8 +1658,8 @@ void DolphinMainWindow::setupActions()
                         + cutCopyPastePara);
 
     QAction *copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
-    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Inactive Split View"));
-    m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Inactive Split View…"));
+    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Other View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Other View…"));
     copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy",
                                                "This copies the selected items from "
                                                "the <emphasis>active</emphasis> view to the inactive split view."));
@@ -1624,8 +1669,8 @@ void DolphinMainWindow::setupActions()
     connect(copyToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::copyToInactiveSplitView);
 
     QAction *moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
-    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Inactive Split View"));
-    m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Inactive Split View…"));
+    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Other View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Other View…"));
     moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move",
                                                "This moves the selected items from "
                                                "the <emphasis>active</emphasis> view to the inactive split view."));
@@ -1694,6 +1739,7 @@ void DolphinMainWindow::setupActions()
         "</para>"));
     toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
     toggleSelectionModeAction->setCheckable(true);
+    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
     connect(toggleSelectionModeAction, &QAction::triggered, this, &DolphinMainWindow::toggleSelectionMode);
 
     // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
@@ -2284,7 +2330,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
     }
 
-    if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
+    if (m_tabWidget->currentTabPage()->splitViewEnabled() && !list.isEmpty()) {
         DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
         KFileItem capabilitiesDestination;
 
@@ -2294,8 +2340,14 @@ void DolphinMainWindow::updateFileAndEditActions()
             capabilitiesDestination = tabPage->primaryViewContainer()->rootItem();
         }
 
-        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
-        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable());
+        const auto destUrl = capabilitiesDestination.url();
+        const bool allNotTargetOrigin = std::all_of(list.cbegin(), list.cend(), [destUrl](const KFileItem &item) {
+            return item.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash) != destUrl;
+        });
+
+        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable() && allNotTargetOrigin);
+        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable()
+                                          && allNotTargetOrigin);
     } else {
         copyToOtherViewAction->setEnabled(false);
         moveToOtherViewAction->setEnabled(false);

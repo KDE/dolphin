@@ -324,8 +324,13 @@ int KFileItemModel::indexForKeyboardSearch(const QString &text, int startFromInd
 
 bool KFileItemModel::supportsDropping(int index) const
 {
-    const KFileItem item = fileItem(index);
-    return !item.isNull() && (item.isDir() || item.isDesktopFile());
+    KFileItem item;
+    if (index == -1) {
+        item = rootItem();
+    } else {
+        item = fileItem(index);
+    }
+    return !item.isNull() && ((item.isDir() && item.isWritable()) || item.isDesktopFile());
 }
 
 QString KFileItemModel::roleDescription(const QByteArray &role) const

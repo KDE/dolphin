@@ -1214,8 +1214,9 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         }
 
         data.insert("type", item.mimeComment());
-    } else if (m_model->sortRole() == "size" && item.isLocalFile() && !item.isSlow() && item.isDir()) {
+    } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
         startDirectorySizeCounting(item, index);
+        return;
     } else {
         // Probably the sort role is a baloo role - just determine all roles.
         data = rolesData(item, index);
@@ -1277,6 +1278,10 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
+    if (item.isSlow()) {
+        return;
+    }
+
     // Tell m_directoryContentsCounter that we want to count the items
     // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
     if (m_scanDirectories && item.isLocalFile()) {
@@ -1294,7 +1299,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
-    if ((getSizeRole || getIsExpandableRole) && !item.isSlow() && item.isDir()) {
+    if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
         startDirectorySizeCounting(item, index);
     }
 

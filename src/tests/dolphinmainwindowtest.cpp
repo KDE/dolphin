@@ -38,6 +38,7 @@ private Q_SLOTS:
     void testWindowTitle();
     void testPlacesPanelWidthResistance();
     void testGoActions();
+    void testOpenFiles();
     void cleanupTestCase();
 
 private:
@@ -417,6 +418,110 @@ void DolphinMainWindowTest::testGoActions()
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->isEnabled());
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
     QVERIFY(m_mainWindow->actionCollection()->action(QStringLiteral("undo_close_tab"))->isEnabled());
+}
+
+void DolphinMainWindowTest::testOpenFiles()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
+    testDir->createDir("a");
+    testDir->createDir("a/b");
+    testDir->createDir("a/b/c");
+    testDir->createDir("a/b/c/d");
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    m_mainWindow->show();
+
+    // We only see the unselected "a" folder in the test dir. There are no other tabs.
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl));
+    QVERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a"));
+    QVERIFY(!m_mainWindow->isUrlOpen(testDirUrl + "/a"));
+    QVERIFY(!m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b"));
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 1);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 0);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0);
+
+    // "a" is already in view, so "opening" "a" should simply select it without opening a new tab.
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 1);
+    QVERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a"));
+
+    // "b" is not in view, so "opening" "b" should open a new active tab of the parent folder "a" and select "b" there.
+    m_mainWindow->openFiles({testDirUrl + "/a/b"}, false);
+    QTRY_VERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a"));
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 1);
+    QTRY_VERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b"));
+    QVERIFY2(!m_mainWindow->isUrlOpen(testDirUrl + "/a/b"), "The directory b is supposed to be visible but not open in its own tab.");
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl));
+    QVERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a"));
+    // "a" is still in view in the first tab, so "opening" "a" should switch to the first tab and select "a" there.
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 0);
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl));
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a"));
+
+    // Directory "a" is already open in the second tab in which "b" is selected, so opening the directory "a" should switch to that tab.
+    m_mainWindow->openDirectories({testDirUrl + "/a"}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 1);
+
+    // In the details view mode directories can be expanded, which changes if openFiles() needs to open a new tab or not to open a file.
+    m_mainWindow->actionCollection()->action(QStringLiteral("details"))->trigger();
+    QTRY_VERIFY(m_mainWindow->activeViewContainer()->view()->itemsExpandable());
+
+    // Expand the already selected "b" with the right arrow key. This should make "c" visible.
+    QVERIFY2(!m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b/c"), "The parent folder wasn't expanded yet, so c shouldn't be visible.");
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Right);
+    QTRY_VERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b/c"));
+    QVERIFY2(!m_mainWindow->isUrlOpen(testDirUrl + "/a/b"), "b is supposed to be expanded, however it shouldn't be open in its own tab.");
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a"));
+
+    // Switch to first tab by opening it even though it is already open.
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 0);
+
+    // "c" is in view in the second tab because "b" is expanded there, so "opening" "c" should switch to that tab and select "c" there.
+    m_mainWindow->openFiles({testDirUrl + "/a/b/c"}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 2);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 1);
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl));
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a"));
+
+    // Opening the directory "c" on the other hand will open it in a new tab even though it is already visible in the view
+    // because openDirecories() and openFiles() serve different purposes. One opens views at urls, the other selects files within views.
+    m_mainWindow->openDirectories({testDirUrl + "/a/b/c/d", testDirUrl + "/a/b/c"}, true);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 3);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 2);
+    QVERIFY(m_mainWindow->m_tabWidget->currentTabPage()->splitViewEnabled());
+    QVERIFY(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b/c")); // It should still be visible in the second tab.
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0);
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a/b/c/d"));
+    QVERIFY(m_mainWindow->isUrlOpen(testDirUrl + "/a/b/c"));
+
+    // "c" is in view in the second tab because "b" is expanded there,
+    // so "opening" "c" should switch to that tab even though "c" as a directory is open in the current tab.
+    m_mainWindow->openFiles({testDirUrl + "/a/b/c"}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 3);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 1);
+    QVERIFY2(m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b/c/d"), "It should be visible in the secondary view of the third tab.");
+
+    // Select "b" and un-expand it with the left arrow key. This should make "c" invisible.
+    m_mainWindow->openFiles({testDirUrl + "/a/b"}, false);
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Left);
+    QTRY_VERIFY(!m_mainWindow->isItemVisibleInAnyView(testDirUrl + "/a/b/c"));
+
+    // "d" is in view in the third tab in the secondary view, so "opening" "d" should select that view.
+    m_mainWindow->openFiles({testDirUrl + "/a/b/c/d"}, false);
+    QCOMPARE(m_mainWindow->m_tabWidget->count(), 3);
+    QCOMPARE(m_mainWindow->m_tabWidget->currentIndex(), 2);
+    QVERIFY(m_mainWindow->m_tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

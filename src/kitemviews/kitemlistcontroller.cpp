@@ -228,6 +228,11 @@ bool KItemListController::selectionMode() const
     return m_selectionMode;
 }
 
+bool KItemListController::isSearchAsYouTypeActive() const
+{
+    return m_keyboardManager->isSearchAsYouTypeActive();
+}
+
 bool KItemListController::keyPressEvent(QKeyEvent *event)
 {
     int index = m_selectionManager->currentItem();
@@ -439,10 +444,13 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
                 m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(index);
                 break;
-            } else if (m_keyboardManager->addKeyBeginsNewSearch()) { // File names shouldn't start with a space,
-                // so we can use this press as a keyboard shortcut instead.
-                Q_EMIT selectionModeChangeRequested(!m_selectionMode);
-                break;
+            } else {
+                // Select the current item if it is not selected yet.
+                const int current = m_selectionManager->currentItem();
+                if (!m_selectionManager->isSelected(current)) {
+                    m_selectionManager->setSelected(current);
+                    break;
+                }
             }
         }
         Q_FALLTHROUGH(); // fall through to the default case and add the Space to the current search string.
@@ -534,7 +542,7 @@ void KItemListController::slotAutoActivationTimeout()
      *
      * See Bug 293200 and 305783
      */
-    if (m_model->supportsDropping(index) && m_view->isUnderMouse()) {
+    if (m_view->isUnderMouse()) {
         if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
@@ -738,6 +746,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
 
     const QPointF pos = transform.map(event->pos());
     KItemListWidget *newHoveredWidget = widgetForDropPos(pos);
+    int index = -1;
 
     if (oldHoveredWidget != newHoveredWidget) {
         m_autoActivationTimer->stop();
@@ -755,25 +764,23 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
             droppingBetweenItems = (m_view->showDropIndicator(pos) >= 0);
         }
 
-        const int index = newHoveredWidget->index();
+        index = newHoveredWidget->index();
 
         if (m_model->isDir(index)) {
             hoveredDir = m_model->url(index);
         }
 
         if (!droppingBetweenItems) {
-            if (m_model->supportsDropping(index)) {
-                // Something has been dragged on an item.
-                m_view->hideDropIndicator();
-                if (!newHoveredWidget->isHovered()) {
-                    newHoveredWidget->setHovered(true);
-                    Q_EMIT itemHovered(index);
-                }
+            // Something has been dragged on an item.
+            m_view->hideDropIndicator();
+            if (!newHoveredWidget->isHovered()) {
+                newHoveredWidget->setHovered(true);
+                Q_EMIT itemHovered(index);
+            }
 
-                if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
-                    m_autoActivationTimer->setProperty("index", index);
-                    m_autoActivationTimer->start();
-                }
+            if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
+                m_autoActivationTimer->setProperty("index", index);
+                m_autoActivationTimer->start();
             }
         } else {
             m_autoActivationTimer->stop();
@@ -790,8 +797,13 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
         event->setDropAction(Qt::IgnoreAction);
         event->ignore();
     } else {
-        event->setDropAction(event->proposedAction());
-        event->accept();
+        if (m_model->supportsDropping(index)) {
+            event->setDropAction(event->proposedAction());
+            event->accept();
+        } else {
+            event->setDropAction(Qt::IgnoreAction);
+            event->ignore();
+        }
     }
     return false;
 }
