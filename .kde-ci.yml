@@ -26,8 +26,8 @@ Dependencies:
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kfilemetadata': '@latest-kf6'
     'frameworks/kcodecs': '@latest-kf6'
-    'libraries/kuserfeedback': '@stable'
-    'libraries/phonon': '@stable'
+    'libraries/kuserfeedback': 'latest'
+    'libraries/phonon': '@latest'
     'libraries/kmoretools': '@latest'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
