@@ -392,7 +392,7 @@ void DolphinTabWidget::tabDropEvent(int index, QDropEvent *event)
         const auto urls = event->mimeData()->urls();
 
         for (const QUrl &url : urls) {
-            auto *job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+            auto *job = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
             connect(job, &KJob::result, this, [this, job]() {
                 if (!job->error() && job->statResult().isDir()) {
                     openNewTab(job->url(), QUrl(), NewTabPosition::AtEnd);

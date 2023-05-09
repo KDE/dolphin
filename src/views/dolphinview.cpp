@@ -623,7 +623,7 @@ void DolphinView::requestStatusBarText()
             return;
         }
 
-        m_statJobForStatusBarText = KIO::statDetails(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
+        m_statJobForStatusBarText = KIO::stat(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
         connect(m_statJobForStatusBarText, &KJob::result, this, &DolphinView::slotStatJobResult);
         m_statJobForStatusBarText->start();
     }

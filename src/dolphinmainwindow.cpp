@@ -538,7 +538,7 @@ void DolphinMainWindow::showTarget()
     const KFileItem link = m_activeViewContainer->view()->selectedItems().at(0);
     const QUrl destinationUrl = link.url().resolved(QUrl(link.linkDest()));
 
-    auto job = KIO::statDetails(destinationUrl, KIO::StatJob::SourceSide, KIO::StatNoDetails);
+    auto job = KIO::stat(destinationUrl, KIO::StatJob::SourceSide, KIO::StatNoDetails);
 
     connect(job, &KJob::finished, this, [this, destinationUrl](KJob *job) {
         KIO::StatJob *statJob = static_cast<KIO::StatJob *>(job);

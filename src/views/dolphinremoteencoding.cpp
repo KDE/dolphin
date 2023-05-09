@@ -87,7 +87,7 @@ void DolphinRemoteEncoding::fillMenu()
     QMenu *menu = m_menu->menu();
     menu->clear();
 
-    menu->addAction(i18n("Default"), this, SLOT(slotDefault()), 0)->setCheckable(true);
+    menu->addAction(i18n("Default"), this, &DolphinRemoteEncoding::slotDefault)->setCheckable(true);
     for (int i = 0; i < m_encodingDescriptions.size(); i++) {
         QAction *action = new QAction(m_encodingDescriptions.at(i), this);
         action->setCheckable(true);
@@ -96,7 +96,7 @@ void DolphinRemoteEncoding::fillMenu()
     }
     menu->addSeparator();
 
-    menu->addAction(i18n("Reload"), this, SLOT(slotReload()), 0);
+    menu->addAction(i18n("Reload"), this, &DolphinRemoteEncoding::slotReload);
     m_idDefault = m_encodingDescriptions.size() + 2;
 
     connect(menu, &QMenu::triggered, this, &DolphinRemoteEncoding::slotItemSelected);

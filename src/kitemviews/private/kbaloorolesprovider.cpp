@@ -112,7 +112,7 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File &f
             });
             values.insert(role, propertyInfo.formatAsDisplayString(list));
         } else {
-            if (propertyInfo.valueType() == QVariant::DateTime) {
+            if (propertyInfo.valueTypeId() == QMetaType::Type::DateTime) {
                 // Let dolphin format later Dates
                 values.insert(role, (*rangeBegin).second);
             } else {

@@ -135,7 +135,7 @@ void StartupSettingsPage::applySettings()
 
     const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
     if (url.isValid() && KProtocolManager::supportsListing(url)) {
-        KIO::StatJob *job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+        KIO::StatJob *job = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
         connect(job, &KJob::result, this, [this, settings, url](KJob *job) {
             if (job->error() == 0 && qobject_cast<KIO::StatJob *>(job)->statResult().isDir()) {
                 settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));

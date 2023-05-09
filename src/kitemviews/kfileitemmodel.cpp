@@ -2565,7 +2565,7 @@ QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
         if (info.permission(QFile::ExeUser)) {
             user += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        user = user.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : user.mid(0, user.count() - 2);
+        user = user.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : user.mid(0, user.length() - 2);
 
         // Set group string
         QString group;
@@ -2578,7 +2578,7 @@ QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
         if (info.permission(QFile::ExeGroup)) {
             group += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        group = group.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : group.mid(0, group.count() - 2);
+        group = group.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : group.mid(0, group.length() - 2);
 
         // Set others string
         QString others;
@@ -2591,7 +2591,7 @@ QList<QPair<int, QVariant>> KFileItemModel::permissionRoleGroups() const
         if (info.permission(QFile::ExeOther)) {
             others += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        others = others.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : others.mid(0, others.count() - 2);
+        others = others.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : others.mid(0, others.length() - 2);
 
         const QString newGroupValue = i18nc("@title:group Files and folders by permissions", "User: %1 | Group: %2 | Others: %3", user, group, others);
         if (newGroupValue != groupValue) {
