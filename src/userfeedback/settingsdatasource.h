@@ -7,7 +7,7 @@
 #ifndef SETTINGSDATASOURCE_H
 #define SETTINGSDATASOURCE_H
 
-#include <KUserFeedback/AbstractDataSource>
+#include <KUserFeedbackQt6/AbstractDataSource>
 
 class DolphinMainWindow;
 

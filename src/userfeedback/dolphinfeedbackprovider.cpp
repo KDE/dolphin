@@ -8,13 +8,13 @@
 #include "placesdatasource.h"
 #include "settingsdatasource.h"
 
-#include <KUserFeedback/ApplicationVersionSource>
-#include <KUserFeedback/LocaleInfoSource>
-#include <KUserFeedback/PlatformInfoSource>
-#include <KUserFeedback/QtVersionSource>
-#include <KUserFeedback/ScreenInfoSource>
-#include <KUserFeedback/StartCountSource>
-#include <KUserFeedback/UsageTimeSource>
+#include <KUserFeedbackQt6/ApplicationVersionSource>
+#include <KUserFeedbackQt6/LocaleInfoSource>
+#include <KUserFeedbackQt6/PlatformInfoSource>
+#include <KUserFeedbackQt6/QtVersionSource>
+#include <KUserFeedbackQt6/ScreenInfoSource>
+#include <KUserFeedbackQt6/StartCountSource>
+#include <KUserFeedbackQt6/UsageTimeSource>
 
 DolphinFeedbackProvider *DolphinFeedbackProvider::instance()
 {
