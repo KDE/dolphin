@@ -16,7 +16,7 @@
 #include <KIO/ApplicationLauncherJob>
 #include <KService>
 #include <KWindowSystem>
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
 #include <KActivities/Consumer>
 #endif
 
@@ -143,7 +143,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
 
 QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString &preferredService)
 {
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
     static std::once_flag one_consumer;
     static KActivities::Consumer *consumer;
     std::call_once(one_consumer, []() {
@@ -161,7 +161,7 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
         QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
             new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
         if (interface->isValid() && !interface->lastError().isValid()) {
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
             const auto currentActivity = consumer->currentActivity();
             if (currentActivity.isEmpty() || currentActivity == QStringLiteral("00000000-0000-0000-0000-000000000000")
                 || interface->isOnActivity(consumer->currentActivity()))
