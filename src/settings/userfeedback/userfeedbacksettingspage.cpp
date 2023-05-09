@@ -7,8 +7,8 @@
 #include "userfeedbacksettingspage.h"
 #include "userfeedback/dolphinfeedbackprovider.h"
 
-#include <KUserFeedback/FeedbackConfigWidget>
-#include <KUserFeedback/Provider>
+#include <KUserFeedbackQt6/FeedbackConfigWidget>
+#include <KUserFeedbackQt6/Provider>
 
 #include <QVBoxLayout>
 

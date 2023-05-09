@@ -7,7 +7,7 @@
 #ifndef DOLPHINFEEDBACKPROVIDER_H
 #define DOLPHINFEEDBACKPROVIDER_H
 
-#include <KUserFeedback/Provider>
+#include <KUserFeedbackQt6/Provider>
 
 class DolphinFeedbackProvider : public KUserFeedback::Provider
 {

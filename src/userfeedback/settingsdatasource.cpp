@@ -9,7 +9,7 @@
 #include "dolphinmainwindow.h"
 
 #include <KLocalizedString>
-#include <KUserFeedback/Provider>
+#include <KUserFeedbackQt6/Provider>
 
 #include <QApplication>
 #include <QVariant>
