@@ -1829,6 +1829,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[ExtensionRole] && !isDir) {
+        // TODO KF6 use KFileItem::suffix 464722
         data.insert(sharedValue("extension"), QFileInfo(item.name()).suffix());
     }
 
