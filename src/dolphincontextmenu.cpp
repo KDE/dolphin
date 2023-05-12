@@ -29,7 +29,6 @@
 #include <KLocalizedString>
 #include <KNewFileMenu>
 #include <KStandardAction>
-#include <kio_version.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -170,15 +169,9 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
 
     // set up 'Create New' menu
     DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     newFileMenu->setNewFolderShortcutAction(m_mainWindow->actionCollection()->action("create_dir"));
-#endif
     newFileMenu->checkUpToDate();
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     newFileMenu->setWorkingDirectory(m_fileInfo.url());
-#else
-    newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
-#endif
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
     connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
     connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
@@ -284,11 +277,7 @@ void DolphinContextMenu::addViewportContextMenu()
     // Set up and insert 'Create New' menu
     KNewFileMenu *newFileMenu = m_mainWindow->newFileMenu();
     newFileMenu->checkUpToDate();
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     newFileMenu->setWorkingDirectory(m_baseUrl);
-#else
-    newFileMenu->setPopupFiles(QList<QUrl>() << m_baseUrl);
-#endif
     addMenu(newFileMenu->menu());
 
     // Show "open with" menu items even if the dir is empty, because there are legitimate

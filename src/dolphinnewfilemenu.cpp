@@ -10,17 +10,11 @@
 
 #include <KActionCollection>
 #include <KIO/Job>
-#include <kio_version.h>
 
 DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection *collection, QObject *parent)
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     : KNewFileMenu(parent)
 {
     Q_UNUSED(collection)
-#else
-    : KNewFileMenu(collection, QStringLiteral("new_menu"), parent)
-{
-#endif
     DolphinNewFileMenuObserver::instance().attach(this);
 }
 

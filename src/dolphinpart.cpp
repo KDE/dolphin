@@ -33,7 +33,6 @@
 #include <KPluginMetaData>
 #include <KSharedConfig>
 #include <KTerminalLauncherJob>
-#include <kio_version.h>
 
 #include <QActionGroup>
 #include <QApplication>
@@ -144,9 +143,7 @@ void DolphinPart::createActions()
 
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     m_newFileMenu->setParentWidget(widget());
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action("create_dir"));
-#endif
     connect(m_newFileMenu->menu(), &QMenu::aboutToShow, this, &DolphinPart::updateNewMenu);
 
     QAction *editMimeTypeAction = actionCollection()->addAction(QStringLiteral("editMimeType"));
@@ -552,11 +549,7 @@ void DolphinPart::updateNewMenu()
     // As requested by KNewFileMenu :
     m_newFileMenu->checkUpToDate();
     // And set the files that the menu apply on :
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     m_newFileMenu->setWorkingDirectory(url());
-#else
-    m_newFileMenu->setPopupFiles(QList<QUrl>() << url());
-#endif
 }
 
 void DolphinPart::updateStatusBar()
@@ -571,11 +564,7 @@ void DolphinPart::updateProgress(int percent)
 
 void DolphinPart::createDirectory()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     m_newFileMenu->setWorkingDirectory(url());
-#else
-    m_newFileMenu->setPopupFiles(QList<QUrl>() << url());
-#endif
     m_newFileMenu->createDirectory();
 }
 

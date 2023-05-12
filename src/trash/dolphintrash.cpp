@@ -9,17 +9,11 @@
 
 #include <KConfig>
 #include <KConfigGroup>
+#include <KIO/DeleteOrTrashJob>
 #include <KLocalizedString>
 #include <KNotification>
-#include <QList>
 
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-#include <KIO/DeleteOrTrashJob>
-#else
-#include <KIO/JobUiDelegate>
-#include <KJobWidgets>
-#endif
+#include <QList>
 
 Trash::Trash()
     : m_trashDirLister(new KDirLister())
@@ -62,22 +56,10 @@ static void notifyEmptied()
 
 void Trash::empty(QWidget *window)
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *emptyJob = new KIO::DeleteOrTrashJob(QList<QUrl>{}, Iface::EmptyTrash, Iface::DefaultConfirmation, window);
     QObject::connect(emptyJob, &KIO::Job::result, notifyEmptied);
     emptyJob->start();
-#else
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window);
-    bool confirmed = uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation);
-    if (confirmed) {
-        KIO::Job *job = KIO::emptyTrash();
-        KJobWidgets::setWindow(job, window);
-        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-        QObject::connect(job, &KIO::Job::result, notifyEmptied);
-    }
-#endif
 }
 
 bool Trash::isEmpty()

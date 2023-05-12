@@ -35,7 +35,7 @@
 #include <KFileItemListProperties>
 #include <KFormat>
 #include <KIO/CopyJob>
-#include <KIO/DeleteJob>
+#include <KIO/DeleteOrTrashJob>
 #include <KIO/DropJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>
@@ -48,11 +48,6 @@
 #include <KUrlMimeData>
 
 #include <kwidgetsaddons_version.h>
-
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-#include <KIO/DeleteOrTrashJob>
-#endif
 
 #include <QAbstractItemView>
 #include <QActionGroup>
@@ -757,43 +752,22 @@ void DolphinView::trashSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Trash, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
     m_selectNextItem = true;
     trashJob->start();
-#else
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window());
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
-        KJobWidgets::setWindow(job, this);
-        connect(job, &KIO::Job::result, this, &DolphinView::slotTrashFileFinished);
-    }
-#endif
 }
 
 void DolphinView::deleteSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
     m_selectNextItem = true;
     trashJob->start();
-#else
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window());
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::del(list);
-        KJobWidgets::setWindow(job, this);
-        connect(job, &KIO::Job::result, this, &DolphinView::slotDeleteFileFinished);
-    }
-#endif
 }
 
 void DolphinView::cutSelectedItemsToClipboard()

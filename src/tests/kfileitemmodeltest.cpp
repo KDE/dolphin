@@ -14,7 +14,6 @@
 
 #include <KDirLister>
 #include <kio/job.h>
-#include <kio_version.h>
 
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
@@ -2479,9 +2478,6 @@ void KFileItemModelTest::testInsertAfterExpand()
 
     // Insert additional files into "a/b/"
     m_testDir->createFile("a/b/2");
-#if KIO_VERSION < QT_VERSION_CHECK(5, 92, 0)
-    QEXPECT_FAIL("", "Requires new API from frameworks", Abort);
-#endif
 
     QVERIFY(!itemsInsertedSpy.wait(5000));
 
