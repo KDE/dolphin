@@ -168,8 +168,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     addOpenWithActions();
 
     // set up 'Create New' menu
-    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-    newFileMenu->setNewFolderShortcutAction(m_mainWindow->actionCollection()->action("create_dir"));
+    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection()->action(QStringLiteral("create_dir")), m_mainWindow);
     newFileMenu->checkUpToDate();
     newFileMenu->setWorkingDirectory(m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());

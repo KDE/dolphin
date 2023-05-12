@@ -8,13 +8,14 @@
 
 #include "views/dolphinnewfilemenuobserver.h"
 
-#include <KActionCollection>
 #include <KIO/Job>
 
-DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection *collection, QObject *parent)
+#include <QAction>
+
+DolphinNewFileMenu::DolphinNewFileMenu(QAction *createDirAction, QObject *parent)
     : KNewFileMenu(parent)
 {
-    Q_UNUSED(collection)
+    setNewFolderShortcutAction(createDirAction);
     DolphinNewFileMenuObserver::instance().attach(this);
 }
 

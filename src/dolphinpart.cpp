@@ -141,9 +141,8 @@ void DolphinPart::createActions()
 {
     // Edit menu
 
-    m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
+    m_newFileMenu = new DolphinNewFileMenu(actionCollection()->action(QStringLiteral("create_dir")), this);
     m_newFileMenu->setParentWidget(widget());
-    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action("create_dir"));
     connect(m_newFileMenu->menu(), &QMenu::aboutToShow, this, &DolphinPart::updateNewMenu);
 
     QAction *editMimeTypeAction = actionCollection()->addAction(QStringLiteral("editMimeType"));

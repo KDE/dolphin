@@ -25,7 +25,7 @@ class DOLPHIN_EXPORT DolphinNewFileMenu : public KNewFileMenu
     Q_OBJECT
 
 public:
-    DolphinNewFileMenu(KActionCollection *collection, QObject *parent);
+    DolphinNewFileMenu(QAction *createDirAction, QObject *parent);
     ~DolphinNewFileMenu() override;
 
 Q_SIGNALS:

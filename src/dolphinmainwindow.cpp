@@ -159,7 +159,8 @@ DolphinMainWindow::DolphinMainWindow()
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
-    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action("create_dir"));
+    Q_CHECK_PTR(actionCollection()->action(QStringLiteral("create_dir")));
+    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action(QStringLiteral("create_dir")));
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
@@ -1551,7 +1552,8 @@ void DolphinMainWindow::setupActions()
     auto hamburgerMenuAction = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
 
     // setup 'File' menu
-    m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
+    m_newFileMenu = new DolphinNewFileMenu(nullptr, this);
+    actionCollection()->addAction(QStringLiteral("new_menu"), m_newFileMenu);
     QMenu *menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
