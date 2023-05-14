@@ -8,7 +8,7 @@
 # zayed <zayed.alsaidi@gmail.com>, 2008, 2012, 2021, 2022, 2023.
 # OsamaKhalid <osamak.wfm@gmail.com>, 2009.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2012.
-# Safa Alfulaij <safaalfulaij@hotmail.con>, 2013, 2014, ٢٠١٦, 2017.
+# Safa Alfulaij <safaalfulaij@hotmail.con>, 2013, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
@@ -1779,7 +1779,7 @@ msgstr "%1 × %2"
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
-msgstr "٠ - ٩"
+msgstr "0 - 9"
 
 #: kitemviews/kfileitemmodel.cpp:2267
 #, kde-format
@@ -2272,7 +2272,7 @@ msgstr "مدير ملفات"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr "© ٢٠٠٦-٢٠١٢ لمطوري دولفين"
+msgstr "© 2006-2012 لمطوري دولفين"
 
 #: main.cpp:96
 #, kde-format
@@ -2284,7 +2284,7 @@ msgstr "Felix Ernst"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "المصين (منذ ٢٠٢١) ومطوّر"
+msgstr "المصين (منذ 2021) ومطوّر"
 
 #: main.cpp:99
 #, kde-format
@@ -2296,7 +2296,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "المصين (منذ٢٠٢١) ومطوّر (منذ ٢٠١٩)"
+msgstr "المصين (منذ2021) ومطوّر (منذ 2019)"
 
 #: main.cpp:102
 #, kde-format
@@ -2308,7 +2308,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "المصين (٢٠١٨-٢٠٢١) ومطوّر"
+msgstr "المصين (2018-2021) ومطوّر"
 
 #: main.cpp:105
 #, kde-format
@@ -2320,7 +2320,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
-msgstr "المصين (٢٠١٤-٢٠١٨) ومطوّر"
+msgstr "المصين (2014-2018) ومطوّر"
 
 #: main.cpp:108
 #, kde-format
@@ -2698,25 +2698,25 @@ msgstr "أيّ تقييم"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "1 or more"
-msgstr "١ أو أكثر"
+msgstr "1 أو أكثر"
 
 #: search/dolphinfacetswidget.cpp:57
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "2 or more"
-msgstr "٢ أو أكثر"
+msgstr "2 أو أكثر"
 
 #: search/dolphinfacetswidget.cpp:58
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "3 or more"
-msgstr "٣ أو أكثر"
+msgstr "3 أو أكثر"
 
 #: search/dolphinfacetswidget.cpp:59
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "4 or more"
-msgstr "٤ أو أكثر"
+msgstr "4 أو أكثر"
 
 #: search/dolphinfacetswidget.cpp:60
 #, kde-format
@@ -4212,31 +4212,31 @@ msgstr "غير محدود"
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
-msgstr "١"
+msgstr "1"
 
 #: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
-msgstr "٢"
+msgstr "2"
 
 #: settings/viewmodes/viewsettingstab.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
-msgstr "٣"
+msgstr "3"
 
 #: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
-msgstr "٤"
+msgstr "4"
 
 #: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
-msgstr "٥"
+msgstr "5"
 
 #: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
@@ -4321,7 +4321,7 @@ msgstr "حجم المحتويات ، حتى "
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] "٠ مستوى عميق"
+msgstr[0] "0 مستوى عميق"
 msgstr[1] " مستوى عميق واحد"
 msgstr[2] " مستويين عميقين"
 msgstr[3] " مستويات عميقة"
@@ -4730,7 +4730,7 @@ msgstr "‏%1 (‏%2)"
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
-msgstr "٠ مجلدات، ٠ ملفات"
+msgstr "0 مجلدات، 0 ملفات"
 
 #: views/dolphinview.cpp:866 views/dolphinview.cpp:875
 #, kde-format
