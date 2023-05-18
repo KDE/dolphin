@@ -148,6 +148,8 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     static KActivities::Consumer *consumer;
     std::call_once(one_consumer, []() {
         consumer = new KActivities::Consumer();
+        // to prevent QGuiApplication::saveStateRequest
+        const QSignalBlocker blocker(qApp);
         // ensures the consumer is ready for query
         QEventLoop loop;
         QObject::connect(consumer, &KActivities::Consumer::serviceStatusChanged, &loop, &QEventLoop::quit);
