@@ -141,41 +141,26 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
     return attached;
 }
 
+QSharedPointer<OrgKdeDolphinMainWindowInterface> dolphinDbusInterface(const QString &service)
+{
+    QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
+        new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
+    if (interface->isValid() && !interface->lastError().isValid()) {
+        return interface;
+    }
+    interface.reset();
+    return interface;
+}
+
 QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString &preferredService)
 {
-#if HAVE_KACTIVITIES
-    static std::once_flag one_consumer;
-    static KActivities::Consumer *consumer;
-    std::call_once(one_consumer, []() {
-        consumer = new KActivities::Consumer();
-        // to prevent QGuiApplication::saveStateRequest
-        const QSignalBlocker blocker(qApp);
-        // ensures the consumer is ready for query
-        QEventLoop loop;
-        QObject::connect(consumer, &KActivities::Consumer::serviceStatusChanged, &loop, &QEventLoop::quit);
-        loop.exec();
-    });
-#endif
-
     QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
-    const auto tryAppendInterface = [&dolphinInterfaces](const QString &service) {
-        // Check if instance can handle our URLs
-        QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
-            new OrgKdeDolphinMainWindowInterface(service, QStringLiteral("/dolphin/Dolphin_1"), QDBusConnection::sessionBus()));
-        if (interface->isValid() && !interface->lastError().isValid()) {
-#if HAVE_KACTIVITIES
-            const auto currentActivity = consumer->currentActivity();
-            if (currentActivity.isEmpty() || currentActivity == QStringLiteral("00000000-0000-0000-0000-000000000000")
-                || interface->isOnActivity(consumer->currentActivity()))
-#endif
-                if (interface->isOnCurrentDesktop()) {
-                    dolphinInterfaces.append(qMakePair(interface, QStringList()));
-                }
-        }
-    };
 
     if (!preferredService.isEmpty()) {
-        tryAppendInterface(preferredService);
+        const auto interface = dolphinDbusInterface(preferredService);
+        if (interface->isValid()) {
+            dolphinInterfaces.append(qMakePair(interface, QStringList()));
+        }
     }
 
     // Look for dolphin instances among all available dbus services.
@@ -187,7 +172,28 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
     for (const QString &service : dbusServices) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
-            tryAppendInterface(service);
+            const auto interface = dolphinDbusInterface(service);
+            if (interface->isValid()) {
+#if HAVE_KACTIVITIES
+                static std::once_flag one_consumer;
+                static KActivities::Consumer *consumer;
+                std::call_once(one_consumer, []() {
+                    consumer = new KActivities::Consumer();
+                    // to prevent QGuiApplication::saveStateRequest
+                    const QSignalBlocker blocker(qApp);
+                    // ensures the consumer is ready for query
+                    QEventLoop loop;
+                    QObject::connect(consumer, &KActivities::Consumer::serviceStatusChanged, &loop, &QEventLoop::quit);
+                    loop.exec();
+                });
+                const auto currentActivity = consumer->currentActivity();
+                if (currentActivity.isEmpty() || currentActivity == QStringLiteral("00000000-0000-0000-0000-000000000000")
+                    || interface->isOnActivity(currentActivity))
+#endif
+                    if (interface->isOnCurrentDesktop()) {
+                        dolphinInterfaces.append(qMakePair(interface, QStringList()));
+                    }
+            }
         }
     }
 
