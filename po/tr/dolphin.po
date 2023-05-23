@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-11 00:49+0000\n"
-"PO-Revision-Date: 2023-04-03 13:37+0300\n"
+"PO-Revision-Date: 2023-05-22 23:33+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3740,13 +3740,13 @@ msgstr "Uyarı"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "Tüm klasörler için ortak görüntüleme biçemini kullan"
+msgstr "Tüm klasörler için ortak görüntüleme biçemi kullan"
 
 #: settings/general/behaviorsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "Her klasör için görüntüleme biçemini hatırla"
+msgstr "Her klasörün kendi görüntüleme biçemini hatırla"
 
 #: settings/general/behaviorsettingspage.cpp:38
 #, kde-format
@@ -4047,7 +4047,7 @@ msgstr "Genel:"
 #, kde-format
 msgctxt "@option:radio Startup Settings"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Son kullanlıan klasörler, sekmeler ve pencere durumu"
+msgstr "Son oturumdaki klasörler, sekmeler ve pencere durumu"
 
 #: settings/startup/startupsettingspage.cpp:67
 #, kde-format
