@@ -203,9 +203,6 @@ public Q_SLOTS:
     /** @see GeneralSettings::splitViewChanged() */
     void slotSplitViewChanged();
 
-    bool isOnActivity(const QString &activityId) const;
-    bool isOnCurrentDesktop() const;
-
 Q_SIGNALS:
     /**
      * Is sent if the selection of the currently active view has
