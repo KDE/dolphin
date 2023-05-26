@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-25 00:48+0000\n"
-"PO-Revision-Date: 2023-04-07 14:29+0100\n"
+"PO-Revision-Date: 2023-05-25 20:33+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -575,7 +575,7 @@ msgstr "Ĉesi ŝargadon"
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
-msgstr "Ĉi tio ĉesigas la ŝarĝon de la enhavo de la nuna dosierujo."
+msgstr "Ĉi tio ĉesigas la ŝargon de la enhavo de la nuna dosierujo."
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -963,7 +963,7 @@ msgid ""
 "will appear semi-transparent unless you uncheck their hide property."
 msgstr ""
 "Ĉi tio montras ĉiujn lokojn en la panelo de lokoj kiuj estis kaŝitaj. Ili "
-"aperos duontravideblaj krom se vi malmarkos ilian kaŝan posedaĵon."
+"aperos duontravideblaj krom se vi malmarkos ilian kaŝadan proprecon."
 
 #: dolphinmainwindow.cpp:2208
 #, kde-kuit-format
@@ -977,9 +977,9 @@ msgid ""
 msgstr ""
 "<para>Ĉi tio ŝanĝas la panelon <emphasis>lokoj</emphasis> ĉe la maldekstra "
 "flanko de la fenestro.</para><para>Ĝi ebligas al vi iri al lokoj, kiujn vi "
-"markis kaj aliri diskon aŭ amaskomunikilaron ligitajn al la komputilo. aŭ al "
-"la reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe konservitajn "
-"dosierojn aŭ dosierojn de certa tipo.</para>"
+"markis kaj aliri diskon aŭ datumportilojn ligitajn al la komputilo. aŭ al la "
+"reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe konservitajn dosierojn "
+"aŭ dosierojn de certa tipo.</para>"
 
 #: dolphinmainwindow.cpp:2215
 #, kde-kuit-format
@@ -996,8 +996,8 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 "<para>Ĉi tio estas la panelo <emphasis>Lokoj</emphasis>. Ĝi permesas vin iri "
-"al lokoj, kiujn vi markis kaj aliri diskon aŭ amaskomunikilaron ligitajn al "
-"la komputilo aŭ al la reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe "
+"al lokoj, kiujn vi markis kaj aliri diskon aŭ datumportilojn ligitajn al la "
+"komputilo aŭ al la reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe "
 "konservitajn dosierojn aŭ dosierojn de certa tipo.</para><para>Alklaku sur "
 "enskribo por iri tien. Klaku per la dekstra musbutono anstataŭe por malfermi "
 "ajnan enskribon en nova langeto aŭ nova fenestro.</para><para>Novaj "
@@ -1325,8 +1325,8 @@ msgstr "Aldoni Retan Dosierujon"
 msgctxt "@action:inmenu"
 msgid "Location Bar"
 msgid_plural "Location Bars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lokobreto"
+msgstr[1] "Lokobretoj"
 
 #: dolphinpart.cpp:149
 #, kde-format
@@ -2010,7 +2010,7 @@ msgstr "Ŝanĝita"
 #: kitemviews/kfileitemmodel.cpp:2691
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "La datformato povas esti elektita en agordoj."
 
 #: kitemviews/kfileitemmodel.cpp:2690
 msgctxt "@label"
@@ -2213,6 +2213,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"La formato de permesoj povas esti ŝanĝata en agordoj. Opcioj estas Simbola, "
+"Numera (okuma) aŭ Kombinita formato"
 
 #: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
@@ -2492,7 +2494,7 @@ msgstr "Antaŭrigardoj montritaj"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Aŭtomate-ludi amaskomunikilajn dosierojn"
+msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -2516,7 +2518,7 @@ msgstr "Antaŭrigardo"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Aŭtomate-ludi amaskomunikilajn dosierojn"
+msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 
 #: panels/information/informationpanel.cpp:163
 #, kde-format
@@ -2960,8 +2962,8 @@ msgstr "Nuligi renomadon"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kopii %2 al la Tondujo"
+msgstr[1] "Kopii %2 al la Tondujo"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2973,8 +2975,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kopii la Lokon de %2 al la Tondujo"
+msgstr[1] "Kopii la Lokon de %2 al la Tondujo"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2986,8 +2988,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tranĉi %2 al la Tondujo"
+msgstr[1] "Tranĉi %2 al la Tondujo"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2999,8 +3001,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Porĉiame Forigi %2"
+msgstr[1] "Porĉiame Forigi %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3012,8 +3014,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Duobligi %2"
+msgstr[1] "Duobligi %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3025,8 +3027,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Movi %2 al la Rubujo"
+msgstr[1] "Movi %2 al la Rubujo"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3038,8 +3040,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Alinomi %2"
+msgstr[1] "Alinomi %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3834,7 +3836,7 @@ msgstr "Renomi enlinie"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr ""
+msgstr "Agordi Antaŭrigardon por %1"
 
 #: settings/general/confirmationssettingspage.cpp:46
 #, kde-format
@@ -4144,7 +4146,7 @@ msgstr "Elekti..."
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
-msgstr "Defaŭlta ikonograndeco:"
+msgstr "Defaŭlta piktogramograndeco:"
 
 #: settings/viewmodes/viewsettingstab.cpp:63
 #, kde-format
@@ -4282,7 +4284,7 @@ msgstr "Klakante ie ajn sur la vico"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Klakante sur ikono aŭ nomo"
+msgstr "Klakante sur piktogramo aŭ nomo"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
@@ -4301,7 +4303,7 @@ msgstr "Nombro de eroj"
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
-msgstr "Grandeco de enhavo, ĝis"
+msgstr "Grandeco de enhavo, ĝis "
 
 #: settings/viewmodes/viewsettingstab.cpp:128
 #, kde-format
@@ -4705,8 +4707,8 @@ msgstr "%1 kopio"
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ĉu vi certas ke vi volas malfermi 1 objekton?"
+msgstr[1] "Ĉu vi certas ke vi volas malfermi %1 objektojn?"
 
 #: views/dolphinview.cpp:1094
 #, kde-format
@@ -4802,7 +4804,7 @@ msgstr "Ŝargante..."
 #: views/dolphinview.cpp:2365
 #, kde-format
 msgid "Loading canceled"
-msgstr "Ŝarĝo nuligita"
+msgstr "Ŝargo nuligita"
 
 #: views/dolphinview.cpp:2367
 #, kde-format
@@ -4889,8 +4891,8 @@ msgid ""
 "from if disk space is needed."
 msgstr ""
 "Ĉi tio movas la erojn en via nuna elekto al la <filename>Rubujo</filename>."
-"<nl/>La rubujo estas provizora stokado de kie aĵoj povas esti forigitaj se "
-"diskspaco estas necesa."
+"<nl/>La rubujo estas provizora konservejo de kie aĵoj povas esti forigitaj "
+"se diskspaco estas necesa."
 
 #: views/dolphinviewactionhandler.cpp:115
 #, kde-kuit-format
@@ -5285,7 +5287,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Ĝisdatigante informojn pri versio..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "Ne eblis aliri <filename>%1</filename>."
