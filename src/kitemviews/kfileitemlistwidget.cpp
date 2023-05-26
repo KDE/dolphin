@@ -67,7 +67,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
         if (values.value("isDir").toBool()) {
             if (!roleValue.isNull() && roleValue != -1) {
                 // The item represents a directory.
-                if (DetailsModeSettings::directorySizeCount()) {
+                if (DetailsModeSettings::directorySizeCount() || roleValue == -2 /* size is invalid */) {
                     //  Show the number of sub directories instead of the file size of the directory.
                     const int count = values.value("count").toInt();
                     text = i18ncp("@item:intable", "%1 item", "%1 items", count);

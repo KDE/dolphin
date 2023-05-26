@@ -129,6 +129,8 @@ void KFileItemModel::refreshDirectory(const QUrl &url)
     }
 
     m_dirLister->openUrl(url, KDirLister::Reload);
+
+    Q_EMIT directoryRefreshing();
 }
 
 QUrl KFileItemModel::directory() const

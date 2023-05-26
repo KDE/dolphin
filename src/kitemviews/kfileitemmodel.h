@@ -218,6 +218,11 @@ Q_SIGNALS:
     void directoryLoadingCompleted();
 
     /**
+     * Is emitted when the model is being refreshed (F5 key press)
+     */
+    void directoryRefreshing();
+
+    /**
      * Is emitted after the loading of a directory has been canceled.
      */
     void directoryLoadingCanceled();

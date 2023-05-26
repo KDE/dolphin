@@ -49,32 +49,32 @@ Q_SIGNALS:
      * Signals that the directory \a path contains \a count items of size \a
      * Size calculation depends on parameter DetailsModeSettings::recursiveDirectorySizeLimit
      */
-    void result(const QString &path, int count, long size);
+    void result(const QString &path, int count, long long size);
 
-    void requestDirectoryContentsCount(const QString &path, KDirectoryContentsCounterWorker::Options options);
-
-    void stop();
+    void requestDirectoryContentsCount(const QString &path, KDirectoryContentsCounterWorker::Options options, int maxRecursiveLevel);
 
 private Q_SLOTS:
-    void slotResult(const QString &path, int count, long size);
+    void slotResult(const QString &path, int count, long long size);
     void slotDirWatchDirty(const QString &path);
     void slotItemsRemoved();
+    void slotDirectoryRefreshing();
+    void scheduleNext();
 
 private:
+    void enqueuePathScanning(const QString &path, bool alreadyInCache, PathCountPriority priority);
+
     KFileItemModel *m_model;
 
     // Used as FIFO queues.
     std::list<QString> m_priorityQueue;
     std::list<QString> m_queue;
 
-    static QThread *m_workerThread;
-
-    KDirectoryContentsCounterWorker *m_worker;
     bool m_workerIsBusy;
 
     KDirWatch *m_dirWatcher;
     QSet<QString> m_watchedDirs; // Required as sadly KDirWatch does not offer a getter method
                                  // to get all watched directories.
+    QString m_currentPath;
 };
 
 #endif

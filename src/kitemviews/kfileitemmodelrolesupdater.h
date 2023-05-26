@@ -260,7 +260,7 @@ private Q_SLOTS:
     void applyChangedBalooRoles(const QString &file);
     void applyChangedBalooRolesForItem(const KFileItem &file);
 
-    void slotDirectoryContentsCountReceived(const QString &path, int count, long size);
+    void slotDirectoryContentsCountReceived(const QString &path, int count, long long size);
 
 private:
     /**
@@ -334,6 +334,9 @@ private:
     void trimHoverSequenceLoadedItems();
 
 private:
+    /**
+     * enqueue directory size counting for KFileItem item at index
+     */
     void startDirectorySizeCounting(const KFileItem &item, int index);
 
     enum State { Idle, Paused, ResolvingSortRole, ResolvingAllRoles, PreviewJobRunning };
@@ -370,7 +373,6 @@ private:
     QSet<QByteArray> m_resolvableRoles;
     QStringList m_enabledPlugins;
     qulonglong m_localFileSizePreviewLimit;
-    bool m_scanDirectories;
 
     // Items for which the sort role still has to be determined.
     QSet<KFileItem> m_pendingSortRoleItems;
