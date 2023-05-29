@@ -103,14 +103,15 @@ void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
 
 void DolphinTabBar::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    const int index = tabAt(event->pos());
+    int index = tabAt(event->pos());
 
     if (index < 0) {
-        // Double click on the empty tabbar area opens a new activated tab
-        // with the url from the current tab.
-        Q_EMIT openNewActivatedTab(currentIndex());
-        return;
+        // empty tabbar area case
+        index = currentIndex();
     }
+    // Double click on the tabbar opens a new activated tab
+    // with the url from the doubleclicked tab or currentTab otherwise.
+    Q_EMIT openNewActivatedTab(index);
 
     QTabBar::mouseDoubleClickEvent(event);
 }
