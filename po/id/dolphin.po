@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:49+0000\n"
-"PO-Revision-Date: 2023-04-03 20:13+0700\n"
+"PO-Revision-Date: 2023-05-28 11:21+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -313,7 +313,7 @@ msgid ""
 "them from the clipboard to a new location. The items will be removed from "
 "their initial location."
 msgstr ""
-"Tindakan ini akan menyalin butir dalam pilihan Anda saat ini ke "
+"Tindakan ini akan menyalin butir dalam pemilihan Anda saat ini ke "
 "<emphasis>papan klip</emphasis>.<nl/>Gunakan tindakan <emphasis>Tempel</"
 "emphasis> setelahnya untuk menyalinnya dari papan klip ke lokasi baru. Butir "
 "akan dihapus dari lokasi awalnya."
@@ -332,7 +332,7 @@ msgid ""
 "emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
 "them from the clipboard to a new location."
 msgstr ""
-"Tindakan ini akan menyalin butir dalam pilihan Anda saat ini ke "
+"Tindakan ini akan menyalin butir dalam pemilihan Anda saat ini ke "
 "<emphasis>papan klip</emphasis><nl/>Gunakan tindakan <emphasis>Tempel</"
 "emphasis> setelahnya untuk menyalinnya dari clip board ke lokasi baru."
 
@@ -513,6 +513,12 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Aplikasi ini hanya mengetahui file atau folder mana yang harus "
+"ditindaklanjuti jika mereka <emphasis>dipilih</emphasis> terlebih dahulu. "
+"Tekan ini untuk menjungkit <emphasis>Mode Pemilihan</emphasis> yang "
+"menjadikan pemilihan dan pembatalan pemilihan sebagai semudah menekan item "
+"sekali.</para><para>Saat dalam mode ini, bilah akses cepat di bagian bawah "
+"menunjukkan tindakan yang tersedia untuk item yang saat ini dipilih.</para>"
 
 #: dolphinmainwindow.cpp:1730
 #, kde-kuit-format
@@ -732,6 +738,13 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Ini beralih antara memiliki <emphasis>Bilah Menu</emphasis> dan "
+"memiliki tombol <interface>%1</interface>. Keduanya sebagian besar berisi "
+"tindakan yang sama dan opsi konfigurasi.</para><para>Bilah Menu memakan "
+"lebih banyak ruang tetapi memungkinkan untuk cepat dan akses yang teratur ke "
+"semua tindakan yang ditawarkan aplikasi.</para><para>Tombol <interface>%1</"
+"interface> lebih sederhana dan kecil yang memicu tindakan lanjutan yang "
+"lebih memakan waktu.</para>"
 
 #: dolphinmainwindow.cpp:1956
 #, kde-format
@@ -2018,7 +2031,7 @@ msgstr "Dimodifikasi"
 #: kitemviews/kfileitemmodel.cpp:2693
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Format tanggal bisa dipilih di pengaturan."
 
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
@@ -2221,6 +2234,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Format perizinan bisa diubah di pengaturan. Opsinya adalah Simbolik, Nomerik "
+"(Oktal) atau format yang Dikombinasikan"
 
 #: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
@@ -2829,7 +2844,7 @@ msgstr "Batalkan Penyalinan"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Pilihlah satu lokasi file atau folder yang mau disalin."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
@@ -2905,7 +2920,7 @@ msgstr "Batalkan Pemindahan"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Pilihlah file dan folder yang mau dipindahkan ke Tong Sampah."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2916,25 +2931,30 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>File dan folder yang dipilih ditambahkan ke Papan Klip. Sekarang "
+"tindakan <emphasis>Tempel</emphasis> bisa digunakan untuk mentransfernya "
+"dari Papan Klip ke lokasi lain. Mereka bahkan bisa ditransfer ke aplikasi "
+"yang lain dengan menggunakan tindakan <emphasis>Tempel</emphasis> masing-"
+"masing.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Tempel dari Papan Klip"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Tutup Pengingat Ini"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Jangan Ingatkan Aku Lagi"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -2943,6 +2963,9 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Pilihlah file atau folder yang mau diubah namanya.\n"
+"Mengubah nama yang banyak tidaklah mungkin ketika beberapa item sedang "
+"dipilih."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
@@ -2961,8 +2984,8 @@ msgstr "Batalkan Pengubahan Nama"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Salin %2 ke Papan Klip"
+msgstr[1] "Salin %2 ke Papan Klip"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2974,8 +2997,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Salin Lokasi %2 ke Papan Klip"
+msgstr[1] "Salin Lokasi %2 ke Papan Klip"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2987,8 +3010,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Potong %2 ke Papan Klip"
+msgstr[1] "Potong %2 ke Papan Klip"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3000,8 +3023,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hapus %2 Secara Permanen"
+msgstr[1] "Hapus %2 Secara Permanen"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3055,12 +3078,22 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Mode Pemilihan</title><para>Pilih file atau folder untuk mengelola "
+"atau memanipulasinya.<list><item>Tekan file atau folder untuk memilihnya.</"
+"item><item>Tekan file atau folder yang sudah dipilih untuk membatalkan "
+"pilihan.</item><item>Menekan area kosong <emphasis>tidak</emphasis> "
+"menghapus pemilihan.</item><item>Pemilihan persegi panjang (dibuat dengan "
+"menyeret dari area kosong) kebalikan status pemilihan pada item.</item></"
+"list></para><para>Tombol tindakan yang tersedia di bagian bawah berubah "
+"tergantung pada pemilihan saat ini.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Mode Pemilihan: Klik di file atau folder untuk memilih atau menghapus "
+"pilihannya."
 
 #: selectionmode/topbar.cpp:59
 #, kde-format
@@ -3244,7 +3277,7 @@ msgstr "Padding Sisi"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Sorot seluruh baris"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3554,7 +3587,7 @@ msgstr "Ubah nama dalam baris"
 #: settings/dolphin_generalsettings.kcfg:83
 #, kde-format
 msgid "Show selection toggle"
-msgstr "Tampilkan pengubah pilihan"
+msgstr "Tampilkan pengubah pemilihan"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
@@ -3563,6 +3596,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Tampilkan sebuah bilah untuk memudahkan penempelan setelah selesai memotong "
+"atau menyalin menggunakan mode pemilihan bilah bagian bawah."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3813,7 +3848,7 @@ msgstr "Beraneka: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Tampilkan penanda pilihan"
+msgstr "Tampilkan penanda pemilihan"
 
 #: settings/general/behaviorsettingspage.cpp:90
 #, kde-format
@@ -4267,13 +4302,13 @@ msgstr "Folder:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Dengan mengeklik di mana saja pada baris"
 
 #: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Dengan mengeklik pada ikon atau nama"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
@@ -4329,19 +4364,19 @@ msgstr "Gaya tanggal:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbolik (misalnya 'drwxr-xr-x')"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numerik (Oktal) (misalnya '755')"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Dikombinasi (misalnya 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
 #, kde-format
@@ -4870,7 +4905,7 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once amounts to their new names differing only in a number."
 msgstr ""
-"Ini akan mengganti nama butir dalam pilihan Anda saat ini.<nl/>Mengganti "
+"Ini akan mengganti nama butir dalam pemilihan Anda saat ini.<nl/>Mengganti "
 "nama beberapa butir sekaligus sama dengan nomor baru mereka dan hanya "
 "dibedakan dengan nomor."
 
@@ -4882,7 +4917,7 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage where items can be deleted "
 "from if disk space is needed."
 msgstr ""
-"Ini akan memindahkan butir dalam pilihan Anda saat ini ke <filename>Tong "
+"Ini akan memindahkan butir dalam pemilihan Anda saat ini ke <filename>Tong "
 "Sampah</filename>.<nl/>Tong Sampah adalah penyimpanan sementara di mana "
 "butir-butir dapat dihapus jika ruang disk diperlukan."
 
@@ -4893,7 +4928,7 @@ msgid ""
 "This deletes the items in your current selection completely. They can not be "
 "recovered by normal means."
 msgstr ""
-"Ini akan menghapus butir dalam pilihan Anda saat ini sepenuhnya. Mereka "
+"Ini akan menghapus butir dalam pemilihan Anda saat ini sepenuhnya. Mereka "
 "tidak dapat dipulihkan dengan cara biasa."
 
 #: views/dolphinviewactionhandler.cpp:125
