@@ -21,7 +21,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Generator: Lokalize 22.12.2\n"
@@ -190,8 +190,7 @@ msgstr "優先される検索ツールを開く"
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "本当に 1 つのターミナルウィンドウを開きますか？"
-msgstr[1] "本当に %1 のターミナルウィンドウを開きますか？"
+msgstr[0] "本当に %1 のターミナルウィンドウを開きますか？"
 
 #: dolphinmainwindow.cpp:1184
 #, kde-format
@@ -199,7 +198,6 @@ msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "%1 ターミナルを開く"
-msgstr[1] "%1 ターミナルを開く"
 
 #: dolphinmainwindow.cpp:1386
 #, kde-format
@@ -1347,7 +1345,6 @@ msgctxt "@action:inmenu"
 msgid "Location Bar"
 msgid_plural "Location Bars"
 msgstr[0] "場所バー"
-msgstr[1] "場所バー"
 
 #: dolphinpart.cpp:149
 #, kde-format
@@ -1713,8 +1710,7 @@ msgstr "\"%1\"、\"%2\"、\"%3\"、\"%4\" と \"%5\""
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "1 個の選択されたファイル"
-msgstr[1] "%1 個の選択されたファイル"
+msgstr[0] "%1 個の選択されたファイル"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
@@ -1722,8 +1718,7 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "1 個の選択されたフォルダ"
-msgstr[1] "%1 個の選択されたフォルダ"
+msgstr[0] "%1 個の選択されたフォルダ"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
 #, kde-format
@@ -1732,24 +1727,21 @@ msgctxt ""
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "1 個の選択されたアイテム"
-msgstr[1] "%1 個の選択されたアイテム"
+msgstr[0] "%1 個の選択されたアイテム"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
-msgstr[0] "1 ファイル"
-msgstr[1] "%1 ファイル"
+msgstr[0] "%1 ファイル"
 
 #: kitemviews/kfileitemlisttostring.cpp:84
 #, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 フォルダ"
-msgstr[1] "%1 フォルダ"
+msgstr[0] "%1 フォルダ"
 
 #: kitemviews/kfileitemlisttostring.cpp:86
 #, kde-format
@@ -1757,8 +1749,7 @@ msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "1 アイテム"
-msgstr[1] "%1 アイテム"
+msgstr[0] "%1 アイテム"
 
 #: kitemviews/kfileitemlistwidget.cpp:73
 #, kde-format
@@ -1766,7 +1757,6 @@ msgctxt "@item:intable"
 msgid "%1 item"
 msgid_plural "%1 items"
 msgstr[0] "%1 アイテム"
-msgstr[1] "%1 アイテム"
 
 #: kitemviews/kfileitemlistwidget.cpp:99
 #, kde-format
@@ -2573,7 +2563,6 @@ msgctxt "@label"
 msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "%1 アイテム選択済み"
-msgstr[1] "%1 アイテム選択済み"
 
 #: panels/information/phononwidget.cpp:153
 #, kde-format
@@ -2749,7 +2738,6 @@ msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
 msgstr[0] "タグ: %2"
-msgstr[1] "タグ: %2"
 
 #: search/dolphinfacetswidget.cpp:256
 #, kde-format
@@ -2987,7 +2975,6 @@ msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
 msgstr[0] ""
-msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3000,7 +2987,6 @@ msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
 msgstr[0] ""
-msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3013,7 +2999,6 @@ msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
 msgstr[0] ""
-msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3026,7 +3011,6 @@ msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
 msgstr[0] ""
-msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3039,7 +3023,6 @@ msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
 msgstr[0] "%2 を複製"
-msgstr[1] "%2 を複製"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3052,7 +3035,6 @@ msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
 msgstr[0] "%2 をごみ箱に移動"
-msgstr[1] "%2 をごみ箱に移動"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3065,7 +3047,6 @@ msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "%2 の名前を変更"
-msgstr[1] "%2 の名前を変更"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -4310,7 +4291,6 @@ msgstr "コンテンツのサイズ、最大"
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " 深い準位"
-msgstr[1] " 深い準位"
 
 #: settings/viewmodes/viewsettingstab.cpp:137
 #, kde-format
@@ -4368,8 +4348,7 @@ msgstr "パーミッション"
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
 msgid_plural "Size: %1 pixels"
-msgstr[0] "サイズ: 1 ピクセル"
-msgstr[1] "サイズ: %1 ピクセル"
+msgstr[0] "サイズ: %1 ピクセル"
 
 #: settings/viewpropertiesdialog.cpp:60
 #, kde-format
@@ -4647,32 +4626,28 @@ msgstr "再読み込み"
 msgctxt "@info:status"
 msgid "1 Folder selected"
 msgid_plural "%1 Folders selected"
-msgstr[0] "1 フォルダ選択済み"
-msgstr[1] "%1 フォルダ選択済み"
+msgstr[0] "%1 フォルダ選択済み"
 
 #: views/dolphinview.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
 msgid_plural "%1 Files selected"
-msgstr[0] "1 ファイル選択済み"
-msgstr[1] "%1 ファイル選択済み"
+msgstr[0] "%1 ファイル選択済み"
 
 #: views/dolphinview.cpp:641
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 フォルダ"
-msgstr[1] "%1 フォルダ"
+msgstr[0] "%1 フォルダ"
 
 #: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
 msgid_plural "%1 Files"
-msgstr[0] "1 ファイル"
-msgstr[1] "%1 ファイル"
+msgstr[0] "%1 ファイル"
 
 #: views/dolphinview.cpp:646
 #, kde-format
@@ -4702,8 +4677,7 @@ msgstr "%1 コピー"
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
-msgstr[0] "本当に 1 項目を開きますか？"
-msgstr[1] "本当に %1 のアイテムを開きますか？"
+msgstr[0] "本当に %1 のアイテムを開きますか？"
 
 #: views/dolphinview.cpp:1072
 #, kde-format
@@ -4711,7 +4685,6 @@ msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "%1 アイテムを開く"
-msgstr[1] "%1 アイテムを開く"
 
 #: views/dolphinview.cpp:1203
 #, kde-format
@@ -5268,8 +5241,7 @@ msgctxt ""
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] "選択された1つのアイテムに対するアクション"
-msgstr[1] "選択された %1 アイテムに対するアクション"
+msgstr[0] "選択された %1 アイテムに対するアクション"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
 #, kde-format

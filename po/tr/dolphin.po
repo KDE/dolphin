@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-05-28 11:44+0300\n"
+"PO-Revision-Date: 2023-05-29 12:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3492,7 +3492,7 @@ msgstr "Ana Dizin URL'si"
 #: settings/dolphin_generalsettings.kcfg:50
 #, kde-format
 msgid "Remember open folders and tabs"
-msgstr "Açık klasörleri ve sekmeleri hatırla"
+msgstr "Açık klasörleri ve sekmeleri anımsa"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:54
@@ -3722,7 +3722,7 @@ msgstr "Tüm klasörler için ortak görüntüleme biçemi kullan"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "Her klasörün kendi görüntüleme biçemini hatırla"
+msgstr "Her klasörün kendi görüntüleme biçemini anımsa"
 
 #: settings/general/behaviorsettingspage.cpp:38
 #, kde-format
