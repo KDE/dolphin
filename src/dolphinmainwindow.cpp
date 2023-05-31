@@ -54,7 +54,6 @@
 #include <KShell>
 #include <KShortcutsDialog>
 #include <KStandardAction>
-#include <KStartupInfo>
 #include <KSycoca>
 #include <KTerminalLauncherJob>
 #include <KToggleAction>
@@ -83,6 +82,10 @@
 #include <QToolButton>
 
 #include <algorithm>
+
+#if HAVE_X11
+#include <KStartupInfo>
+#endif
 
 namespace
 {
@@ -305,8 +308,10 @@ void DolphinMainWindow::activateWindow(const QString &activationToken)
 
     if (KWindowSystem::isPlatformWayland()) {
         KWindowSystem::setCurrentXdgActivationToken(activationToken);
-    } else {
+    } else if (KWindowSystem::isPlatformX11()) {
+#if HAVE_X11
         KStartupInfo::setNewStartupId(window()->windowHandle(), activationToken.toUtf8());
+#endif
     }
 
     KWindowSystem::activateWindow(window()->windowHandle());
