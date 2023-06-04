@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011 Peter Penz <peter.penz19@gmail.com>
- * SPDX-FileCopyrightText: 2021 Felix Ernst <fe.a.ernst@gmail.com>
+ * SPDX-FileCopyrightText: 2021 Felix Ernst <felixernst@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
