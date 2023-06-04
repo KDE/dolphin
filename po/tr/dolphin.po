@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:49+0000\n"
-"PO-Revision-Date: 2023-05-29 12:34+0300\n"
+"PO-Revision-Date: 2023-06-04 02:03+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -291,8 +291,8 @@ msgstr ""
 "<para> <emphasis>Kes, Kopyala</emphasis> ve <emphasis>Yapıştır</emphasis> "
 "birçok uygulama arasında çalışır ve en çok kullanılan komutlar arasındadır. "
 "Bu nedenle <emphasis>klavye kısayolları</emphasis>, klavyede birbirlerinin "
-"hemen yanına yerleştirilmiştir: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl"
-"+C</shortcut> ve <shortcut>Ctrl+V</shortcut>. </para>"
+"hemen yanına yerleştirilmiştir: <shortcut>Kontrol+X</shortcut>, "
+"<shortcut>Kontrol+C</shortcut> ve <shortcut>Kontrol+V</shortcut>. </para>"
 
 #: dolphinmainwindow.cpp:1603
 #, kde-format
@@ -3093,7 +3093,7 @@ msgstr "Seçim Kipinden Çık"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "İçerik menüsünde hangi hizmetlerin gösterileceğini seçin:"
+msgstr "Bağlam menüsünde hangi hizmetlerin gösterileceğini seçin:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
@@ -3181,7 +3181,7 @@ msgstr "En fazla metin genişliği indeksi (0 sınırsız anlamına gelir)"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "İçerik menüsünde 'Buraya Kopyala' ve 'Buraya Taşı' komutlarını göster"
+msgstr "Bağlam menüsünde 'Buraya Kopyala' ve 'Buraya Taşı' komutlarını göster"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
