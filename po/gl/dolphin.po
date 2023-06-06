@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-04-06 22:36+0200\n"
+"PO-Revision-Date: 2023-06-05 13:09+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -433,7 +433,7 @@ msgid ""
 msgstr ""
 "Isto abre a <emphasis>barra de filtro</emphasis> na parte inferior da xanela."
 "<nl/>Nela pode escribir texto para filtrar os ficheiros e cartafoles que se "
-"mostran actualmente. Só os que conteñan o texto no nome seguirán á vista."
+"están a mostrar. Só os que conteñan o texto no nome seguirán á vista."
 
 #: dolphinmainwindow.cpp:1662
 #, kde-format
@@ -516,7 +516,7 @@ msgstr ""
 "<emphasis>modo de selección</emphasis>, que permite seleccionar elementos e "
 "retiralos da selección preméndoos unha vez.</para><para>Neste modo, unha "
 "barra de acceso rápido na parte inferior mostra as accións dispoñíbeis para "
-"os elementos seleccionados actualmente.</para>"
+"os elementos seleccionados.</para>"
 
 #: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
@@ -2264,7 +2264,7 @@ msgstr "Xestor de ficheiros"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr "(C) 2006-2022 O grupo de desenvolvemento de Dolphin"
+msgstr "© 2006-2022 O grupo de desenvolvemento de Dolphin"
 
 #: main.cpp:96
 #, kde-format
@@ -3328,8 +3328,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Esta opción controla o estilo da vista. Os valores que actualmente se "
-"admiten son a vista de iconas (0), detalles (1) e columnas (2)."
+"Esta opción controla o estilo da vista. Os valores admitidos son a vista de "
+"iconas (0), detalles (1) e columnas (2)."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4762,7 +4762,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "Engadir un punto ao comezo do nome do ficheiro o agochará da vista.\n"
-"Quere cambialo de nome de todos xeitos?"
+"Quere cambialo de nome aínda así?"
 
 #: views/dolphinview.cpp:1965
 #, kde-format
@@ -4771,7 +4771,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "Engadir un punto ao comezo do nome do cartafol o agochará da vista.\n"
-"Quere cambialo de nome de todos xeitos?"
+"Quere cambialo de nome aínda así?"
 
 #: views/dolphinview.cpp:1967
 #, kde-format
@@ -4932,9 +4932,9 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 "Isto mostra a lista completa de propiedades dos elementos seleccionados "
-"actualmente nunha nova xanela.<nl/>Se non se selecciona nada a xanela "
-"mostrará o cartafol actual no seu lugar.<nl/>Pode configurar opcións "
-"avanzadas nela como xestionar permisos de lectura e de escritura."
+"nunha nova xanela.<nl/>Se non se selecciona nada a xanela mostrará o "
+"cartafol actual no seu lugar.<nl/>Pode configurar opcións avanzadas nela "
+"como xestionar permisos de lectura e de escritura."
 
 #: views/dolphinviewactionhandler.cpp:151
 #, kde-format
