@@ -8,9 +8,9 @@
 
 #include "settings/viewmodes/viewsettingstab.h"
 
+#include <KCModule>
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KCModule>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -21,16 +21,15 @@
 K_PLUGIN_CLASS_WITH_JSON(DolphinViewModesConfigModule, "kcmdolphinviewmodes.json")
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QObject *parent, const KPluginMetaData &data)
-    : KCModule(qobject_cast<QWidget *>(parent), data)
+    : KCModule(parent, data)
     , m_tabs()
 {
     setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
-    const auto parentWidget = qobject_cast<QWidget *>(parent);
-    QVBoxLayout *topLayout = new QVBoxLayout(parentWidget);
+    QVBoxLayout *topLayout = new QVBoxLayout(widget());
     topLayout->setContentsMargins(0, 0, 0, 0);
 
-    QTabWidget *tabWidget = new QTabWidget(parentWidget);
+    QTabWidget *tabWidget = new QTabWidget(widget());
 
     // Initialize 'Icons' tab
     ViewSettingsTab *iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);

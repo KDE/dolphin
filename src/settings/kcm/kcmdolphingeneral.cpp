@@ -20,16 +20,15 @@
 K_PLUGIN_CLASS_WITH_JSON(DolphinGeneralConfigModule, "kcmdolphingeneral.json")
 
 DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KPluginMetaData &data)
-    : KCModule(qobject_cast<QWidget *>(parent), data)
+    : KCModule(parent, data)
     , m_pages()
 {
     setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
-    const auto parentWidget = qobject_cast<QWidget *>(parent);
-    QVBoxLayout *topLayout = new QVBoxLayout(parentWidget);
+    QVBoxLayout *topLayout = new QVBoxLayout(widget());
     topLayout->setContentsMargins(0, 0, 0, 0);
 
-    QTabWidget *tabWidget = new QTabWidget(parentWidget);
+    QTabWidget *tabWidget = new QTabWidget(widget());
 
     // initialize 'Behavior' tab
     BehaviorSettingsPage *behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
