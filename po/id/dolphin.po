@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-05-28 11:21+0700\n"
+"PO-Revision-Date: 2023-06-12 06:25+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -1622,7 +1622,7 @@ msgstr "Mencari..."
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
-msgstr "Tak ada butir ditemukan."
+msgstr "Item-item tidak ditemukan."
 
 #: dolphinviewcontainer.cpp:803
 #, kde-format
@@ -4841,27 +4841,27 @@ msgstr "Tidak ada butir yang barusan digunakan"
 #: views/dolphinview.cpp:2314
 #, kde-format
 msgid "No shared folders found"
-msgstr "Tidak ada folder bersama yang ditemukan"
+msgstr "Tidak ditemukan folder yang dibagikan"
 
 #: views/dolphinview.cpp:2316
 #, kde-format
 msgid "No relevant network resources found"
-msgstr "Tidak ada sumber daya jaringan yang relevan ditemukan"
+msgstr "Tidak ditemukan sumber daya jaringan yang relevan"
 
 #: views/dolphinview.cpp:2318
 #, kde-format
 msgid "No MTP-compatible devices found"
-msgstr "Tidak ada peranti yang kompatibel dengan MTP ditemukan"
+msgstr "Tidak ditemukan peranti yang kompatibel dengan MTP"
 
 #: views/dolphinview.cpp:2320
 #, kde-format
 msgid "No Apple devices found"
-msgstr "Tidak ada peranti Apple yang ditemukan"
+msgstr "Tidak ditemukan peranti Apple"
 
 #: views/dolphinview.cpp:2322
 #, kde-format
 msgid "No Bluetooth devices found"
-msgstr "Tidak ada peranti Bluetooth yang ditemukan"
+msgstr "Tidak ditemukan peranti Bluetooth"
 
 #: views/dolphinview.cpp:2324
 #, kde-format
