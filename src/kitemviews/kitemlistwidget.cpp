@@ -40,6 +40,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
+    , m_sidePadding(0)
     , m_styleOption()
     , m_siblingsInfo()
     , m_hoverOpacity(0)
@@ -49,7 +50,6 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_selectionToggle(nullptr)
     , m_editedRole()
     , m_iconSize(-1)
-    , m_sidePadding(0)
 {
     connect(&m_hoverSequenceTimer, &QTimer::timeout, this, &KItemListWidget::slotHoverSequenceTimerTimeout);
 }

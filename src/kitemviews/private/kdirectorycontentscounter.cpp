@@ -6,7 +6,7 @@
  */
 
 #include "kdirectorycontentscounter.h"
-#include "dolphin_detailsmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "kitemviews/kfileitemmodel.h"
 
 #include <KDirWatch>
@@ -224,7 +224,7 @@ void KDirectoryContentsCounter::scheduleNext()
     }
 
     m_workerIsBusy = true;
-    Q_EMIT requestDirectoryContentsCount(m_currentPath, options, DetailsModeSettings::recursiveDirectorySizeLimit());
+    Q_EMIT requestDirectoryContentsCount(m_currentPath, options, ContentDisplaySettings::recursiveDirectorySizeLimit());
 }
 
 void KDirectoryContentsCounter::enqueuePathScanning(const QString &path, bool alreadyInCache, PathCountPriority priority)

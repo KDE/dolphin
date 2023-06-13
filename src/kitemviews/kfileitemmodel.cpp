@@ -8,7 +8,7 @@
 
 #include "kfileitemmodel.h"
 
-#include "dolphin_detailsmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "private/kfileitemmodelsortalgorithm.h"
@@ -1991,7 +1991,7 @@ bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QColla
         }
     }
 
-    if (m_sortDirsFirst || (DetailsModeSettings::directorySizeCount() && m_sortRole == SizeRole)) {
+    if (m_sortDirsFirst || (ContentDisplaySettings::directorySizeCount() && m_sortRole == SizeRole)) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -2043,7 +2043,7 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         break;
 
     case SizeRole: {
-        if (DetailsModeSettings::directorySizeCount() && itemA.isDir()) {
+        if (ContentDisplaySettings::directorySizeCount() && itemA.isDir()) {
             // folders first then
             // items A and B are folders thanks to lessThan checks
             auto valueA = a->values.value("count");
@@ -2303,7 +2303,7 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
         KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
-            if (DetailsModeSettings::directorySizeCount() || m_sortDirsFirst) {
+            if (ContentDisplaySettings::directorySizeCount() || m_sortDirsFirst) {
                 newGroupValue = i18nc("@title:group Size", "Folders");
             } else {
                 fileSize = m_itemData.at(i)->values.value("size").toULongLong();

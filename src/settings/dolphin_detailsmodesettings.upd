@@ -6,3 +6,12 @@ Id=rename-leading-padding
 File=dolphinrc
 Group=DetailsMode
 Key=LeadingPadding,SidePadding
+
+#Rename Move content-display from detailsMode
+Id=move-content-display
+File=dolphinrc
+Group=DetailsMode,ContentDisplay
+Key=DirectorySizeCount
+Key=RecursiveDirectorySizeLimit
+Key=UseShortRelativeDates
+Key=UsePermissionsFormat

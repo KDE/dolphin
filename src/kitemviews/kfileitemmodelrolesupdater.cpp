@@ -10,7 +10,6 @@
 #include "kfileitemmodel.h"
 #include "private/kdirectorycontentscounter.h"
 #include "private/kpixmapmodifier.h"
-#include "qdir.h"
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -21,7 +20,7 @@
 #include <KPluginMetaData>
 #include <KSharedConfig>
 
-#include "dolphin_detailsmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 
 #if HAVE_BALOO
 #include "private/kbaloorolesprovider.h"
@@ -1269,7 +1268,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (DetailsModeSettings::directorySizeCount() || item.isSlow() || !item.isLocalFile()) {
+    if (ContentDisplaySettings::directorySizeCount() || item.isSlow() || !item.isLocalFile()) {
         // fastpath no recursion necessary
 
         auto data = m_model->data(index);

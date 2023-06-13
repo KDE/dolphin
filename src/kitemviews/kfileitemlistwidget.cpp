@@ -9,7 +9,7 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
-#include "dolphin_detailsmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 
 #include <KFormat>
 #include <KLocalizedString>
@@ -56,7 +56,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
     // use a hash + switch for a linear runtime.
 
     auto formatDate = [formatter, local](const QDateTime &time) {
-        if (DetailsModeSettings::useShortRelativeDates()) {
+        if (ContentDisplaySettings::useShortRelativeDates()) {
             return formatter.formatRelativeDateTime(time, QLocale::ShortFormat);
         } else {
             return local.toString(time, QLocale::ShortFormat);
@@ -67,7 +67,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
         if (values.value("isDir").toBool()) {
             if (!roleValue.isNull() && roleValue != -1) {
                 // The item represents a directory.
-                if (DetailsModeSettings::directorySizeCount() || roleValue == -2 /* size is invalid */) {
+                if (ContentDisplaySettings::directorySizeCount() || roleValue == -2 /* size is invalid */) {
                     //  Show the number of sub directories instead of the file size of the directory.
                     const int count = values.value("count").toInt();
                     text = i18ncp("@item:intable", "%1 item", "%1 items", count);
@@ -101,14 +101,14 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
     } else if (role == "permissions") {
         const auto permissions = roleValue.value<QVariantList>();
 
-        switch (DetailsModeSettings::usePermissionsFormat()) {
-        case DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat:
+        switch (ContentDisplaySettings::usePermissionsFormat()) {
+        case ContentDisplaySettings::EnumUsePermissionsFormat::SymbolicFormat:
             text = permissions.at(0).toString();
             break;
-        case DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat:
+        case ContentDisplaySettings::EnumUsePermissionsFormat::NumericFormat:
             text = QString::number(permissions.at(1).toInt(), 8);
             break;
-        case DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat:
+        case ContentDisplaySettings::EnumUsePermissionsFormat::CombinedFormat:
             text = QString("%1 (%2)").arg(permissions.at(0).toString()).arg(permissions.at(1).toInt(), 0, 8);
             break;
         }

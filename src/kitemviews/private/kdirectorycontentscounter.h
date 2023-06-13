@@ -47,7 +47,7 @@ public:
 Q_SIGNALS:
     /**
      * Signals that the directory \a path contains \a count items of size \a
-     * Size calculation depends on parameter DetailsModeSettings::recursiveDirectorySizeLimit
+     * Size calculation depends on parameter ContentDisplaySettings::recursiveDirectorySizeLimit
      */
     void result(const QString &path, int count, long long size);
 

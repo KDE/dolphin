@@ -14,7 +14,6 @@
 #include "settings/viewmodes/viewmodesettings.h"
 #include "views/zoomlevelinfo.h"
 
-#include <KFormat>
 #include <KLocalizedString>
 
 #include <QApplication>
@@ -35,12 +34,6 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     , m_widthBox(nullptr)
     , m_maxLinesBox(nullptr)
     , m_expandableFolders(nullptr)
-    , m_recursiveDirectorySizeLimit(nullptr)
-    , m_useRelatetiveDates(nullptr)
-    , m_useShortDates(nullptr)
-    , m_useSymbolicPermissions(nullptr)
-    , m_useNumericPermissions(nullptr)
-    , m_useCombinedPermissions(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
@@ -113,61 +106,6 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         topLayout->addRow(i18nc("@title:group", "Open files and folders:"), m_entireRow);
         // clang-format on
         topLayout->addRow(QString(), m_iconAndNameOnly);
-
-#ifndef Q_OS_WIN
-        // Sorting properties
-        m_numberOfItems = new QRadioButton(i18nc("option:radio", "Number of items"));
-        m_sizeOfContents = new QRadioButton(i18nc("option:radio", "Size of contents, up to "));
-
-        QButtonGroup *sortingModeGroup = new QButtonGroup(this);
-        sortingModeGroup->addButton(m_numberOfItems);
-        sortingModeGroup->addButton(m_sizeOfContents);
-
-        m_recursiveDirectorySizeLimit = new QSpinBox();
-        connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, [this](int value) {
-            m_recursiveDirectorySizeLimit->setSuffix(i18np(" level deep", " levels deep", value));
-        });
-        m_recursiveDirectorySizeLimit->setRange(1, 20);
-        m_recursiveDirectorySizeLimit->setSingleStep(1);
-
-        QHBoxLayout *contentsSizeLayout = new QHBoxLayout();
-        contentsSizeLayout->addWidget(m_sizeOfContents);
-        contentsSizeLayout->addWidget(m_recursiveDirectorySizeLimit);
-
-        topLayout->addRow(i18nc("@title:group", "Folder size displays:"), m_numberOfItems);
-        topLayout->addRow(QString(), contentsSizeLayout);
-#endif
-
-        QDateTime thirtyMinutesAgo = QDateTime::currentDateTime().addSecs(-30 * 60);
-        QLocale local;
-        KFormat formatter(local);
-
-        m_useRelatetiveDates = new QRadioButton(
-            i18nc("option:radio as in relative date", "Relative (e.g. '%1')", formatter.formatRelativeDateTime(thirtyMinutesAgo, QLocale::ShortFormat)));
-        m_useShortDates =
-            new QRadioButton(i18nc("option:radio as in absolute date", "Absolute (e.g. '%1')", local.toString(thirtyMinutesAgo, QLocale::ShortFormat)));
-
-        QButtonGroup *dateFormatGroup = new QButtonGroup(this);
-        dateFormatGroup->addButton(m_useRelatetiveDates);
-        dateFormatGroup->addButton(m_useShortDates);
-
-        topLayout->addRow(i18nc("@title:group", "Date style:"), m_useRelatetiveDates);
-        topLayout->addRow(QString(), m_useShortDates);
-
-        m_useSymbolicPermissions = new QRadioButton(i18nc("option:radio as symbolic style ", "Symbolic (e.g. 'drwxr-xr-x')"));
-
-        m_useNumericPermissions = new QRadioButton(i18nc("option:radio as numeric style", "Numeric (Octal) (e.g. '755')"));
-
-        m_useCombinedPermissions = new QRadioButton(i18nc("option:radio as combined style", "Combined (e.g. 'drwxr-xr-x (755)')"));
-
-        topLayout->addRow(i18nc("@title:group", "Permissions style:"), m_useSymbolicPermissions);
-        topLayout->addRow(QString(), m_useNumericPermissions);
-        topLayout->addRow(QString(), m_useCombinedPermissions);
-
-        QButtonGroup *permissionsFormatGroup = new QButtonGroup(this);
-        permissionsFormatGroup->addButton(m_useSymbolicPermissions);
-        permissionsFormatGroup->addButton(m_useNumericPermissions);
-        permissionsFormatGroup->addButton(m_useCombinedPermissions);
         break;
     }
 
@@ -188,18 +126,6 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     case DetailsMode:
         connect(m_entireRow, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
-#ifndef Q_OS_WIN
-        connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &ViewSettingsTab::changed);
-        connect(m_numberOfItems, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
-        connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
-            m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
-        });
-#endif
-        connect(m_useRelatetiveDates, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
-        connect(m_useShortDates, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
-        connect(m_useSymbolicPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
-        connect(m_useNumericPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
-        connect(m_useCombinedPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
         break;
     default:
         break;
@@ -212,50 +138,35 @@ ViewSettingsTab::~ViewSettingsTab()
 
 void ViewSettingsTab::applySettings()
 {
-    const QFont font = m_fontRequester->currentFont();
-    const bool useSystemFont = (m_fontRequester->mode() == DolphinFontRequester::SystemFont);
-
     switch (m_mode) {
     case IconsMode:
         IconsModeSettings::setTextWidthIndex(m_widthBox->currentIndex());
         IconsModeSettings::setMaximumTextLines(m_maxLinesBox->currentIndex());
+        IconsModeSettings::self()->save();
         break;
     case CompactMode:
         CompactModeSettings::setMaximumTextWidthIndex(m_widthBox->currentIndex());
+        CompactModeSettings::self()->save();
         break;
     case DetailsMode:
+        auto detailsModeSettings = DetailsModeSettings::self();
         // We need side-padding when the full row is a click target to still be able to not click items.
         // So here the default padding is enabled when the full row highlight is enabled.
-        if (m_entireRow->isChecked() && !DetailsModeSettings::highlightEntireRow()) {
-            auto detailsModeSettings = DetailsModeSettings::self();
+        if (m_entireRow->isChecked() && !detailsModeSettings->highlightEntireRow()) {
             const bool usedDefaults = detailsModeSettings->useDefaults(true);
             const uint defaultSidePadding = detailsModeSettings->sidePadding();
             detailsModeSettings->useDefaults(usedDefaults);
-            if (DetailsModeSettings::sidePadding() < defaultSidePadding) {
-                DetailsModeSettings::setSidePadding(defaultSidePadding);
+            if (detailsModeSettings->sidePadding() < defaultSidePadding) {
+                detailsModeSettings->setSidePadding(defaultSidePadding);
             }
-        } else if (!m_entireRow->isChecked() && DetailsModeSettings::highlightEntireRow()) {
+        } else if (!m_entireRow->isChecked() && detailsModeSettings->highlightEntireRow()) {
             // The full row click target is disabled so now most of the view area can be used to interact
             // with the view background. Having an extra side padding has no usability benefit in this case.
-            DetailsModeSettings::setSidePadding(0);
+            detailsModeSettings->setSidePadding(0);
         }
-        DetailsModeSettings::setHighlightEntireRow(m_entireRow->isChecked());
-        DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
-#ifndef Q_OS_WIN
-        DetailsModeSettings::setDirectorySizeCount(m_numberOfItems->isChecked());
-        DetailsModeSettings::setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
-#endif
-        DetailsModeSettings::setUseShortRelativeDates(m_useRelatetiveDates->isChecked());
-
-        if (m_useSymbolicPermissions->isChecked()) {
-            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat);
-        } else if (m_useNumericPermissions->isChecked()) {
-            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat);
-        } else if (m_useCombinedPermissions->isChecked()) {
-            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat);
-        }
-        break;
-    default:
+        detailsModeSettings->setHighlightEntireRow(m_entireRow->isChecked());
+        detailsModeSettings->setExpandableFolders(m_expandableFolders->isChecked());
+        detailsModeSettings->save();
         break;
     }
 
@@ -265,6 +176,9 @@ void ViewSettingsTab::applySettings()
     const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_previewSizeSlider->value());
     settings.setIconSize(iconSize);
     settings.setPreviewSize(previewSize);
+
+    const QFont font = m_fontRequester->currentFont();
+    const bool useSystemFont = (m_fontRequester->mode() == DolphinFontRequester::SystemFont);
 
     settings.setUseSystemFont(useSystemFont);
     settings.setViewFont(font);
@@ -294,21 +208,6 @@ void ViewSettingsTab::loadSettings()
         m_entireRow->setChecked(DetailsModeSettings::highlightEntireRow());
         m_iconAndNameOnly->setChecked(!m_entireRow->isChecked());
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
-#ifndef Q_OS_WIN
-        if (DetailsModeSettings::directorySizeCount()) {
-            m_numberOfItems->setChecked(true);
-            m_recursiveDirectorySizeLimit->setEnabled(false);
-        } else {
-            m_sizeOfContents->setChecked(true);
-            m_recursiveDirectorySizeLimit->setEnabled(true);
-        }
-        m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
-#endif
-        m_useRelatetiveDates->setChecked(DetailsModeSettings::useShortRelativeDates());
-        m_useShortDates->setChecked(!DetailsModeSettings::useShortRelativeDates());
-        m_useSymbolicPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat);
-        m_useNumericPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat);
-        m_useCombinedPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat);
         break;
     default:
         break;

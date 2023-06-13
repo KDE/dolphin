@@ -55,14 +55,6 @@ private:
     QRadioButton *m_entireRow;
     QRadioButton *m_iconAndNameOnly;
     QCheckBox *m_expandableFolders;
-    QRadioButton *m_numberOfItems;
-    QRadioButton *m_sizeOfContents;
-    QSpinBox *m_recursiveDirectorySizeLimit;
-    QRadioButton *m_useRelatetiveDates;
-    QRadioButton *m_useShortDates;
-    QRadioButton *m_useSymbolicPermissions;
-    QRadioButton *m_useNumericPermissions;
-    QRadioButton *m_useCombinedPermissions;
 };
 
 #endif

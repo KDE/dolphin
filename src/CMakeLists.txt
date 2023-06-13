@@ -183,6 +183,7 @@ kconfig_add_kcfg_files(dolphinprivate
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
+    settings/dolphin_contentdisplaysettings.kcfgc
     settings/dolphin_generalsettings.kcfgc
     settings/dolphin_contextmenusettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
@@ -305,6 +306,7 @@ target_sources(dolphinstatic PRIVATE
     settings/viewmodes/viewsettingspage.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp
+    settings/viewmodes/contentdisplaytab.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/mountpointobserver.cpp
     statusbar/mountpointobservercache.cpp
@@ -364,6 +366,7 @@ target_sources(dolphinstatic PRIVATE
     settings/viewmodes/viewsettingspage.h
     settings/viewmodes/viewmodesettings.h
     settings/viewmodes/viewsettingstab.h
+    settings/viewmodes/contentdisplaytab.h
     statusbar/dolphinstatusbar.h
     statusbar/mountpointobserver.h
     statusbar/mountpointobservercache.h
@@ -408,6 +411,7 @@ kconfig_add_kcfg_files(dolphinstatic
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_contextmenusettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
+    settings/dolphin_contentdisplaysettings.kcfgc
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
@@ -544,6 +548,7 @@ if(NOT WIN32)
         settings/dolphin_directoryviewpropertysettings.kcfgc
         settings/dolphin_detailsmodesettings.kcfgc
         settings/dolphin_iconsmodesettings.kcfgc
+        settings/dolphin_contentdisplaysettings.kcfgc
         settings/dolphin_generalsettings.kcfgc
         settings/dolphin_versioncontrolsettings.kcfgc
     )
@@ -586,6 +591,7 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
                settings/dolphin_iconsmodesettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
+               settings/dolphin_contentdisplaysettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 
