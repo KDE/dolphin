@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-27 00:49+0000\n"
+"POT-Creation-Date: 2023-06-14 00:49+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -1300,25 +1300,25 @@ msgstr "برگه‌های اخیرا بسته‌شده"
 msgid "Empty Recently Closed Tabs"
 msgstr "برگه‌های اخیرا بسته‌شده را پاک کن"
 
-#: dolphintabbar.cpp:126
+#: dolphintabbar.cpp:127
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "برگه جدید"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "جداسازی برگه"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "بستن برگه‌های &دیگر‌"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
@@ -1371,7 +1371,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:90
+#: dolphinviewcontainer.cpp:93
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1386,63 +1386,63 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:109
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1 in %2"
 msgstr "جستجو برای"
 
-#: dolphinviewcontainer.cpp:546
+#: dolphinviewcontainer.cpp:547
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
 msgid "Search"
 msgstr "جستجو"
 
-#: dolphinviewcontainer.cpp:548
+#: dolphinviewcontainer.cpp:549
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1"
 msgstr "جستجو برای"
 
-#: dolphinviewcontainer.cpp:632
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "بارگذاری پوشه..."
 
-#: dolphinviewcontainer.cpp:640
+#: dolphinviewcontainer.cpp:641
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "مرتب کردن..."
 
-#: dolphinviewcontainer.cpp:651
+#: dolphinviewcontainer.cpp:652
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "در حال جستجو..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:673
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "هیچ موردی پیدا نشد."
 
-#: dolphinviewcontainer.cpp:803
+#: dolphinviewcontainer.cpp:804
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "دلفین از صفحات وب پشتیبانی نمیکند، مرورگر وب به کار گرفته شد"
 
-#: dolphinviewcontainer.cpp:806
+#: dolphinviewcontainer.cpp:807
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1451,13 +1451,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "دلفین این قرارداد را پشتیبانی نمیکند، کانکرر به کارگیری شد"
 
-#: dolphinviewcontainer.cpp:812
+#: dolphinviewcontainer.cpp:813
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "قرارداد نامعتبر"
 
-#: dolphinviewcontainer.cpp:916
+#: dolphinviewcontainer.cpp:917
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3109,6 +3109,32 @@ msgstr "اندازه پیش‌نمایش"
 msgid "Maximum text width index (0 means unlimited)"
 msgstr "شاخص بیشینه عرض متن"
 
+#. i18n: ectx: label, entry (DirectorySizeCount), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:10
+#, kde-format
+msgid "Whether or not content count is used as directory size"
+msgstr ""
+
+#. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:14
+#, kde-format
+msgid "Recursive directory size limit"
+msgstr ""
+
+#. i18n: ectx: label, entry (UseShortRelativeDates), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:18
+#, kde-format
+msgid "if true we use short relative dates, if not short dates"
+msgstr ""
+
+#. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:22
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgid "Permissions style format"
+msgstr "مجوزها"
+
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
@@ -3206,32 +3232,6 @@ msgstr ""
 #, kde-format
 msgid "Expandable folders"
 msgstr "پوشه‌های قابل انبساط"
-
-#. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:43
-#, kde-format
-msgid "Whether or not content count is used as directory size"
-msgstr ""
-
-#. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:47
-#, kde-format
-msgid "Recursive directory size limit"
-msgstr ""
-
-#. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:51
-#, kde-format
-msgid "if true we use short relative dates, if not short dates"
-msgstr ""
-
-#. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
-msgid "Permissions style format"
-msgstr "مجوزها"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3953,21 +3953,21 @@ msgid "Show space information"
 msgstr "نمایش اطلاعات فضا"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "شمایل‌ها"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:33
+#: settings/viewmodes/viewsettingspage.cpp:40
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "فشرده"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:38
+#: settings/viewmodes/viewsettingspage.cpp:45
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4113,6 +4113,76 @@ msgid ""
 "be applied."
 msgstr "مکان پوشه‌ی خانگی نامعتبر یا ناموجود است، و ممکن است اعمال نشود."
 
+#: settings/viewmodes/contentdisplaytab.cpp:34
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Number of lines:"
+msgctxt "option:radio"
+msgid "Number of items"
+msgstr "تعداد خطوط:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:35
+#, kde-format
+msgctxt "option:radio"
+msgid "Size of contents, up to "
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:43
+#, kde-format
+msgid " level deep"
+msgid_plural " levels deep"
+msgstr[0] ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:52
+#, kde-format
+msgctxt "@title:group"
+msgid "Folder size displays:"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:61
+#, kde-format
+msgctxt "option:radio as in relative date"
+msgid "Relative (e.g. '%1')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:63
+#, kde-format
+msgctxt "option:radio as in absolute date"
+msgid "Absolute (e.g. '%1')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:69
+#, kde-format
+msgctxt "@title:group"
+msgid "Date style:"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:72
+#, kde-format
+msgctxt "option:radio as symbolic style "
+msgid "Symbolic (e.g. 'drwxr-xr-x')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:73
+#, kde-format
+msgctxt "option:radio as numeric style"
+msgid "Numeric (Octal) (e.g. '755')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:74
+#, kde-format
+msgctxt "option:radio as combined style"
+msgid "Combined (e.g. 'drwxr-xr-x (755)')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:76
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Permissions"
+msgctxt "@title:group"
+msgid "Permissions style:"
+msgstr "مجوزها"
+
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
 msgctxt "@item:inlistbox Font"
@@ -4131,7 +4201,15 @@ msgctxt "@action:button Choose font"
 msgid "Choose..."
 msgstr "انتخاب..."
 
-#: settings/viewmodes/viewsettingstab.cpp:56
+#: settings/viewmodes/viewsettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "action:button"
+#| msgid "Content"
+msgctxt "@title:tab how file items columns are displayed"
+msgid "Content Display"
+msgstr "محتوا"
+
+#: settings/viewmodes/viewsettingstab.cpp:49
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
@@ -4139,14 +4217,14 @@ msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "پیش‌فرض:"
 
-#: settings/viewmodes/viewsettingstab.cpp:63
+#: settings/viewmodes/viewsettingstab.cpp:56
 #, fuzzy, kde-format
 #| msgid "Preview size"
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "اندازه پیش‌نمایش"
 
-#: settings/viewmodes/viewsettingstab.cpp:69
+#: settings/viewmodes/viewsettingstab.cpp:62
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Label:"
@@ -4154,7 +4232,7 @@ msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr "برچسب:"
 
-#: settings/viewmodes/viewsettingstab.cpp:74
+#: settings/viewmodes/viewsettingstab.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Small"
@@ -4162,7 +4240,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "کوچک"
 
-#: settings/viewmodes/viewsettingstab.cpp:75
+#: settings/viewmodes/viewsettingstab.cpp:68
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Medium"
@@ -4170,7 +4248,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "متوسط"
 
-#: settings/viewmodes/viewsettingstab.cpp:76
+#: settings/viewmodes/viewsettingstab.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Text width"
 #| msgid "Large"
@@ -4178,7 +4256,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "بزرگ"
 
-#: settings/viewmodes/viewsettingstab.cpp:77
+#: settings/viewmodes/viewsettingstab.cpp:70
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Text width"
 #| msgid "Huge"
@@ -4186,7 +4264,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "بسیار بزرگ"
 
-#: settings/viewmodes/viewsettingstab.cpp:78
+#: settings/viewmodes/viewsettingstab.cpp:71
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Label:"
@@ -4194,86 +4272,86 @@ msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "برچسب:"
 
-#: settings/viewmodes/viewsettingstab.cpp:81
+#: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr "نامحدود"
 
-#: settings/viewmodes/viewsettingstab.cpp:82
+#: settings/viewmodes/viewsettingstab.cpp:75
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr "۱"
 
-#: settings/viewmodes/viewsettingstab.cpp:83
+#: settings/viewmodes/viewsettingstab.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr "۲"
 
-#: settings/viewmodes/viewsettingstab.cpp:84
+#: settings/viewmodes/viewsettingstab.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr "۳"
 
-#: settings/viewmodes/viewsettingstab.cpp:85
+#: settings/viewmodes/viewsettingstab.cpp:78
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr "۴"
 
-#: settings/viewmodes/viewsettingstab.cpp:86
+#: settings/viewmodes/viewsettingstab.cpp:79
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr "۵"
 
-#: settings/viewmodes/viewsettingstab.cpp:87
+#: settings/viewmodes/viewsettingstab.cpp:80
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "بیشینه‌ی خطوط:"
 
-#: settings/viewmodes/viewsettingstab.cpp:92
+#: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr "نامحدود"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "کوچک"
 
-#: settings/viewmodes/viewsettingstab.cpp:94
+#: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "متوسط"
 
-#: settings/viewmodes/viewsettingstab.cpp:95
+#: settings/viewmodes/viewsettingstab.cpp:88
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "بزرگ"
 
-#: settings/viewmodes/viewsettingstab.cpp:96
+#: settings/viewmodes/viewsettingstab.cpp:89
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "بیشینه عرض:"
 
-#: settings/viewmodes/viewsettingstab.cpp:100
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, fuzzy, kde-format
 #| msgid "Expandable folders"
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "پوشه‌های قابل انبساط"
 
-#: settings/viewmodes/viewsettingstab.cpp:101
+#: settings/viewmodes/viewsettingstab.cpp:94
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Folders"
@@ -4281,20 +4359,20 @@ msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "پوشه‌ها"
 
-#: settings/viewmodes/viewsettingstab.cpp:104
+#: settings/viewmodes/viewsettingstab.cpp:97
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:105
+#: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:113
+#: settings/viewmodes/viewsettingstab.cpp:106
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Show preview of files and folders"
@@ -4302,77 +4380,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "نشان دادن پیش‌نمایش پوشه‌ها و پرونده‌ها"
 
-#: settings/viewmodes/viewsettingstab.cpp:119
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Number of lines:"
-msgctxt "option:radio"
-msgid "Number of items"
-msgstr "تعداد خطوط:"
-
-#: settings/viewmodes/viewsettingstab.cpp:120
-#, kde-format
-msgctxt "option:radio"
-msgid "Size of contents, up to "
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:128
-#, kde-format
-msgid " level deep"
-msgid_plural " levels deep"
-msgstr[0] ""
-
-#: settings/viewmodes/viewsettingstab.cpp:137
-#, kde-format
-msgctxt "@title:group"
-msgid "Folder size displays:"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:146
-#, kde-format
-msgctxt "option:radio as in relative date"
-msgid "Relative (e.g. '%1')"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:148
-#, kde-format
-msgctxt "option:radio as in absolute date"
-msgid "Absolute (e.g. '%1')"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:154
-#, kde-format
-msgctxt "@title:group"
-msgid "Date style:"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:157
-#, kde-format
-msgctxt "option:radio as symbolic style "
-msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:159
-#, kde-format
-msgctxt "option:radio as numeric style"
-msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:161
-#, kde-format
-msgctxt "option:radio as combined style"
-msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
-
-#: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
-msgctxt "@title:group"
-msgid "Permissions style:"
-msgstr "مجوزها"
-
-#: settings/viewmodes/viewsettingstab.cpp:344
+#: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:321
 #, kde-format
 msgctxt "@info:tooltip"
