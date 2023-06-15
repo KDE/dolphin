@@ -8,6 +8,8 @@
 
 #include <QRegularExpression>
 
+#include <algorithm>
+
 #include <KFileItem>
 
 KFileItemModelFilter::KFileItemModelFilter()
@@ -56,15 +58,25 @@ QStringList KFileItemModelFilter::mimeTypes() const
     return m_mimeTypes;
 }
 
+void KFileItemModelFilter::setExcludeMimeTypes(const QStringList &types)
+{
+    m_excludeMimeTypes = types;
+}
+
+QStringList KFileItemModelFilter::excludeMimeTypes() const
+{
+    return m_excludeMimeTypes;
+}
+
 bool KFileItemModelFilter::hasSetFilters() const
 {
-    return (!m_pattern.isEmpty() || !m_mimeTypes.isEmpty());
+    return (!m_pattern.isEmpty() || !m_mimeTypes.isEmpty() || !m_excludeMimeTypes.isEmpty());
 }
 
 bool KFileItemModelFilter::matches(const KFileItem &item) const
 {
     const bool hasPatternFilter = !m_pattern.isEmpty();
-    const bool hasMimeTypesFilter = !m_mimeTypes.isEmpty();
+    const bool hasMimeTypesFilter = !m_mimeTypes.isEmpty() || !m_excludeMimeTypes.isEmpty();
 
     // If no filter is set, return true.
     if (!hasPatternFilter && !hasMimeTypesFilter) {
@@ -95,10 +107,18 @@ bool KFileItemModelFilter::matchesPattern(const KFileItem &item) const
 
 bool KFileItemModelFilter::matchesType(const KFileItem &item) const
 {
-    for (const QString &mimeType : qAsConst(m_mimeTypes)) {
-        if (item.mimetype() == mimeType) {
-            return true;
-        }
+    bool excluded = std::any_of(m_excludeMimeTypes.constBegin(), m_excludeMimeTypes.constEnd(), [item](const QString &excludeMimetype) {
+        return item.mimetype() == excludeMimetype;
+    });
+    if (excluded) {
+        return false;
+    }
+
+    bool included = std::any_of(m_mimeTypes.constBegin(), m_mimeTypes.constEnd(), [item](const QString &mimeType) {
+        return item.mimetype() == mimeType;
+    });
+    if (included) {
+        return true;
     }
 
     return m_mimeTypes.isEmpty();

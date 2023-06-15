@@ -105,6 +105,8 @@ KFileItemModel::KFileItemModel(QObject *parent)
     connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
     connect(GeneralSettings::self(), &GeneralSettings::sortingChoiceChanged, this, &KFileItemModel::slotSortingChoiceChanged);
+
+    setShowTrashMime(m_dirLister->showHiddenFiles());
 }
 
 KFileItemModel::~KFileItemModel()
@@ -238,6 +240,27 @@ bool KFileItemModel::sortHiddenLast() const
     return m_sortHiddenLast;
 }
 
+void KFileItemModel::setShowTrashMime(bool show)
+{
+    const auto trashMime = QStringLiteral("application/x-trash");
+    QStringList excludeFilter = m_filter.excludeMimeTypes();
+    bool wasShown = !excludeFilter.contains(trashMime);
+
+    if (show) {
+        if (!wasShown) {
+            excludeFilter.removeAll(trashMime);
+        }
+    } else {
+        if (wasShown) {
+            excludeFilter.append(trashMime);
+        }
+    }
+
+    if (wasShown != show) {
+        setExcludeMimeTypeFilter(excludeFilter);
+    }
+}
+
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
 #if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
@@ -245,6 +268,7 @@ void KFileItemModel::setShowHiddenFiles(bool show)
 #else
     m_dirLister->setShowHiddenFiles(show);
 #endif
+    setShowTrashMime(show);
     m_dirLister->emitChanges();
     if (show) {
         dispatchPendingItemsToInsert();
@@ -738,6 +762,20 @@ void KFileItemModel::setMimeTypeFilters(const QStringList &filters)
 QStringList KFileItemModel::mimeTypeFilters() const
 {
     return m_filter.mimeTypes();
+}
+
+void KFileItemModel::setExcludeMimeTypeFilter(const QStringList &filters)
+{
+    if (m_filter.excludeMimeTypes() != filters) {
+        dispatchPendingItemsToInsert();
+        m_filter.setExcludeMimeTypes(filters);
+        applyFilters();
+    }
+}
+
+QStringList KFileItemModel::excludeMimeTypeFilter() const
+{
+    return m_filter.excludeMimeTypes();
 }
 
 void KFileItemModel::applyFilters()
@@ -1823,7 +1861,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[IsHiddenRole]) {
-        data.insert(sharedValue("isHidden"), item.isHidden());
+        data.insert(sharedValue("isHidden"), item.isHidden() || item.mimetype() == QStringLiteral("application/x-trash"));
     }
 
     if (m_requestRole[NameRole]) {

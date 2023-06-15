@@ -182,6 +182,9 @@ public:
     void setMimeTypeFilters(const QStringList &filters);
     QStringList mimeTypeFilters() const;
 
+    void setExcludeMimeTypeFilter(const QStringList &filters);
+    QStringList excludeMimeTypeFilter() const;
+
     struct RoleInfo {
         QByteArray role;
         QString translation;
@@ -198,6 +201,9 @@ public:
      *         indexing is enabled.
      */
     static QList<RoleInfo> rolesInformation();
+
+    /** set to true to hide application/x-trash files */
+    void setShowTrashMime(bool show);
 
 Q_SIGNALS:
     /**
