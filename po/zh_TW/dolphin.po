@@ -19,15 +19,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-14 00:49+0000\n"
-"PO-Revision-Date: 2023-04-28 15:17+0900\n"
+"PO-Revision-Date: 2023-06-15 04:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
-"Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -336,17 +336,13 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "複製到另一個檢視"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "複製到另一個檢視…"
@@ -366,17 +362,13 @@ msgid "Copy to Inactive Split View"
 msgstr "複製到非作用中的分割檢視"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "移動到另一個檢視"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "移動到另一個檢視…"
@@ -1305,9 +1297,7 @@ msgstr "關閉分頁"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:497
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
 msgstr "%1 | (%2)"
@@ -1858,7 +1848,7 @@ msgstr " 作者"
 #: kitemviews/kfileitemmodel.cpp:2700
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "出版社"
 
 #: kitemviews/kfileitemmodel.cpp:2701
 msgctxt "@label"
@@ -3946,12 +3936,10 @@ msgid "Choose..."
 msgstr "選擇..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "內容"
+msgstr "內容顯示"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
