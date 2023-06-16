@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-14 00:49+0000\n"
-"PO-Revision-Date: 2023-04-06 09:42+0400\n"
+"PO-Revision-Date: 2023-06-15 09:31+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Project-Style: kde\n"
 
 #, kde-format
@@ -4250,12 +4250,10 @@ msgid "Choose..."
 msgstr "اختر..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "المحتوى"
+msgstr "عرض المحتوى"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format

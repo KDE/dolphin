@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-14 00:49+0000\n"
-"PO-Revision-Date: 2023-06-05 13:09+0200\n"
+"PO-Revision-Date: 2023-06-15 07:36+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4230,12 +4230,10 @@ msgid "Choose..."
 msgstr "Escoller…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Contido"
+msgstr "Visualización de contido"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
