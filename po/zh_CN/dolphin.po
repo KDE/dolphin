@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-05-22 14:04\n"
+"PO-Revision-Date: 2023-06-17 04:13\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -136,7 +136,7 @@ msgstr "撤销 <interface>转到 | 返回</interface> 操作。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "确认操作"
+msgstr "请求确认"
 
 #: dolphinmainwindow.cpp:560
 #, kde-format
@@ -616,8 +616,8 @@ msgid ""
 "filename>. <nl/>Changes that can't be undone will ask for your confirmation."
 msgstr ""
 "撤销上一次对文件或文件夹进行的更改操作。<nl/>可撤销的操作包括<interface>创"
-"建、重命名</interface>或<interface>移动</interface>到其他位置或<filename>回收"
-"站</filename>。<nl/>在进行无法撤销的更改之前，程序将要求您确认。"
+"建、重命名</interface>或者<interface>移动</interface>到其他位置或<filename>回"
+"收站</filename>。<nl/>在进行无法撤销的更改之前，程序将要求您确认。"
 
 #: dolphinmainwindow.cpp:1855
 #, kde-kuit-format
@@ -794,8 +794,8 @@ msgid ""
 "embedded more cleanly."
 msgstr ""
 "切换面板的<emphasis>锁定</emphasis>/<emphasis>解锁</emphasis>状态。<nl/>解锁"
-"的面板可以拖放到窗口的另一侧，并且显示关闭按钮。<nl/>锁定的面板在嵌入后显示效"
-"果更为整洁。"
+"的面板可以拖放到窗口的另一侧，并且显示关闭按钮。<nl/>锁定的面板的嵌入效果更加"
+"干净。"
 
 #: dolphinmainwindow.cpp:2025
 #, kde-format
@@ -810,7 +810,7 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>要显示或隐藏这类面板，请前往<interface> 菜单 | 面板</interface>，或者"
+"<para>要显示或者隐藏这类面板，请前往<interface> 菜单 | 面板</interface>，或者"
 "<interface>视图 | 面板</interface>。</para>"
 
 #: dolphinmainwindow.cpp:2055
@@ -943,8 +943,9 @@ msgid ""
 "type.</para>"
 msgstr ""
 "<para>显示/隐藏窗口左侧的<emphasis>常用位置</emphasis>面板。</para><para>您可"
-"以将位置作为书签添加到该面板并点击前往，访问磁盘、连接到本机的存储媒介或网络"
-"对象。该面板中还包含了用于查找最近保存的文件和某种文件类型的小节。</para>"
+"以将位置作为书签添加到该面板，即可在以后点击它们来快速访问磁盘、连接到本机的"
+"存储媒介或网络对象。该面板中还包含了用于查找最近保存的文件和指定的文件类型的"
+"栏目。</para>"
 
 #: dolphinmainwindow.cpp:2208
 #, kde-kuit-format
@@ -1175,7 +1176,7 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>这将打开一个对话框并引导您报告此应用程序或其他 KDE 程序包含的缺陷。</"
+"<para>这将打开一个对话框并引导您报告此应用程序或者其他 KDE 程序包含的缺陷。</"
 "para><para>我们非常欢迎您提供高质量的程序缺陷报告。如需了解如何撰写有用的程序"
 "缺陷报告，请访问<link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>此网页</link>。</para>"
@@ -2729,7 +2730,7 @@ msgstr "取消复制"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr "选择一个要复制位置的文件或文件夹。"
+msgstr "选择一个要复制位置的文件或者文件夹。"
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
@@ -2847,7 +2848,7 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
-"选择要重命名的文件或文件夹。\n"
+"选择要重命名的文件或者文件夹。\n"
 "选中多个项目时，可以批量重命名。"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
@@ -3260,7 +3261,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
-msgstr "这个选项定义正在进行排序的属性 (文字、大小或日期等)。"
+msgstr "这个选项定义正在被排序的属性 (文字、大小、日期等)。"
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -3403,7 +3404,7 @@ msgstr "所有文件夹是否使用相同的视图属性"
 #: settings/dolphin_generalsettings.kcfg:67
 #, kde-format
 msgid "Browse through archives"
-msgstr "浏览压缩包内容"
+msgstr "浏览压缩文件内容"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:71
@@ -3700,13 +3701,13 @@ msgstr "配置 %1 的预览图"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
-msgstr "需要确认才能在所有 KDE 程序中进行以下操作："
+msgstr "在所有 KDE 程序中进行以下操作时请求确认："
 
 #: settings/general/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr "移动文件或文件夹到回收站"
+msgstr "移动文件或者文件夹到回收站"
 
 #: settings/general/confirmationssettingspage.cpp:50
 #, kde-format
@@ -3718,13 +3719,13 @@ msgstr "清空回收站"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
-msgstr "彻底删除文件或文件夹"
+msgstr "彻底删除文件或者文件夹"
 
 #: settings/general/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "需要确认才能在 Dolphin 中进行以下操作："
+msgstr "在 Dolphin 中进行以下操作时请求确认："
 
 #: settings/general/confirmationssettingspage.cpp:56
 #, kde-format
@@ -3778,7 +3779,7 @@ msgstr "预览图"
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
-msgstr "确认操作"
+msgstr "请求确认"
 
 #: settings/general/generalsettingspage.cpp:45
 #, kde-format
@@ -3881,7 +3882,7 @@ msgstr "新标签页位置："
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
-msgstr "将压缩包视作文件夹打开"
+msgstr "将压缩文件作为文件夹打开"
 
 #: settings/navigation/navigationsettingspage.cpp:40
 #, kde-format
@@ -3978,7 +3979,7 @@ msgctxt "@info"
 msgid ""
 "The location for the home folder is invalid or does not exist, it will not "
 "be applied."
-msgstr "主文件夹位置无效或不存在，无法应用。"
+msgstr "主文件夹位置无效或者不存在，无法应用。"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4140,7 +4141,7 @@ msgstr "点击行内任意位置高亮"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "点击图标或文件名高亮"
+msgstr "点击图标或者文件名高亮"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
@@ -4298,7 +4299,7 @@ msgstr "额外信息"
 #: settings/viewpropertiesdialog.cpp:132
 #, kde-format
 msgid "Choose what to see on each file or folder:"
-msgstr "选择要在每个文件或文件夹中查看的内容："
+msgstr "选择要在每个文件或者文件夹中查看的内容："
 
 #: settings/viewpropertiesdialog.cpp:142
 #, kde-format
@@ -4916,8 +4917,8 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
-"勾选此项后，图标将显示文件或文件夹内容的预览。<nl/>例如图像文件的图标将变成该"
-"图像的缩略图。"
+"勾选此项后，图标将显示文件或者文件夹内容的预览。<nl/>例如图像文件的图标将变成"
+"该图像的缩略图。"
 
 #: views/dolphinviewactionhandler.cpp:254
 #, kde-format

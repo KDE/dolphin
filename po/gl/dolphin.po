@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-06-05 13:09+0200\n"
+"PO-Revision-Date: 2023-06-17 13:28+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -828,7 +828,7 @@ msgstr ""
 "Isto cambia entre ter os paneis <emphasis>bloqueados</emphasis> e "
 "<emphasis>desbloqueados</emphasis>.<nl/>Os paneis desbloqueados poden "
 "arrastrarse ao outro lado da xanela e teñen un botón de pechar.<nl/>Os "
-"paneis bloqueados incrústanse dunha maneira máis limpa."
+"paneis bloqueados incrústanse mais limpamente."
 
 #: dolphinmainwindow.cpp:2025
 #, kde-format
@@ -3328,8 +3328,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Esta opción controla o estilo da vista. Os valores admitidos son a vista de "
-"iconas (0), detalles (1) e columnas (2)."
+"Esta opción controla o estilo da vista. Os valores admitidos inclúen a vista "
+"de iconas (0), detalles (1) e columnas (2)."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
