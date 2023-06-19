@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:57+0000\n"
-"PO-Revision-Date: 2023-06-12 06:25+0700\n"
-"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2023-06-16 19:25+0700\n"
+"Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -205,7 +205,7 @@ msgstr[1] "Buka %1 Terminal"
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
-msgstr "Konfigurasikan..."
+msgstr "Konfigurasikan"
 
 #: dolphinmainwindow.cpp:1553
 #, kde-format
