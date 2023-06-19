@@ -2,7 +2,7 @@
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the dolphin package.
 # Laurenţiu Buzdugan <lbuz@rolix.org>, 2008, 2009.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022.
+# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023.
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
 # Ovidiu-Florin BOGDAN <ovidiu.b13@gmail.com>, 2015.
 # Tatiana Țurcanu <turcanu DOT tatiana91 AT gmail DOT com>, 2015.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2022-08-14 15:53+0100\n"
+"PO-Revision-Date: 2023-06-18 18:07+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -301,7 +301,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Decupează…"
 
 #: dolphinmainwindow.cpp:1598
 #, kde-kuit-format
@@ -318,12 +318,10 @@ msgstr ""
 "din locul inițial."
 
 #: dolphinmainwindow.cpp:1605
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Copiere"
+msgstr "Copiază…"
 
 #: dolphinmainwindow.cpp:1607
 #, kde-kuit-format
@@ -363,12 +361,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Copiază în vizualizarea despărțită inactivă"
 
 #: dolphinmainwindow.cpp:1626
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Copiază în vizualizarea despărțită inactivă"
+msgstr "Copiază în vizualizarea despărțită inactivă…"
 
 #: dolphinmainwindow.cpp:1628
 #, kde-kuit-format
@@ -393,12 +389,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mută în vizualizarea despărțită inactivă"
 
 #: dolphinmainwindow.cpp:1637
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Mută în vizualizarea despărțită inactivă"
+msgstr "Mută în vizualizarea despărțită inactivă…"
 
 #: dolphinmainwindow.cpp:1639
 #, kde-kuit-format
@@ -494,19 +488,15 @@ msgstr "Caută"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1694
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Caută fișiere și dosare"
+msgstr "Alege fișiere și dosare"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1697
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Alege"
@@ -522,6 +512,12 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Această aplicație știe pe ce fișiere sau dosare să acționeze doar dacă "
+"acestea sunt <emphasis>alese</emphasis> mai întâi. Apăsați aici pentru a "
+"comuta <emphasis>Regimul de alegere</emphasis> ce face selectarea și "
+"deselectarea simple ca apăsarea pe un element o dată.</para><para>În acest "
+"regim, o bară de acces rapid la fund arată acțiunile disponibile pentru "
+"elementele alese acum.</para>"
 
 #: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
@@ -741,6 +737,12 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Aceasta schimbă între a avea o <emphasis>bară de meniu</emphasis> și a "
+"avea un buton <interface>%1</interface>. Ambele conțin aproximativ aceleași "
+"acțiuni și opțiuni de configurare.</para><para>Bara de meniu ocupă mai mult "
+"spațiu dar permite accesul rapid și organizat la toate acțiunile oferite de "
+"către aplicație.</para><para>Butonul <interface>%1</interface> e mai simplu "
+"și mic, ceea ce face declanșarea acțiunilor avansate mai lentă.</para>"
 
 #: dolphinmainwindow.cpp:1949
 #, kde-format
@@ -835,18 +837,14 @@ msgid "Information"
 msgstr "Informații"
 
 #: dolphinmainwindow.cpp:2048
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
 "<para>Pentru a arăta sau ascunde panouri ca acesta, mergeți la "
-"<interface>Control|Panouri</interface> sau <interface>Vizualizare|Panouri</"
+"<interface>Meniu|Panouri</interface> sau <interface>Vizualizare|Panouri</"
 "interface>.</para>"
 
 #: dolphinmainwindow.cpp:2055
@@ -1081,15 +1079,7 @@ msgid "Split view"
 msgstr "Desparte vizualizarea"
 
 #: dolphinmainwindow.cpp:2473
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1104,22 +1094,11 @@ msgstr ""
 "meniurile de pe această bară pentru a-i vedea conținutul.</para><para>Bara "
 "de meniu poate fi ascunsă prin debifarea  <interface>Configurări|Arată bara "
 "de meniu</interface>. Majoritatea conținutului acesteia devine disponibil "
-"printr-un buton <interface>Control</interface> pe <emphasis>bara de unelte</"
+"printr-un buton <interface>Meniu</interface> pe <emphasis>bara de unelte</"
 "emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2480
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1133,14 +1112,14 @@ msgid ""
 msgstr ""
 "<para>Aceasta e <emphasis>bara de unelte</emphasis>. Ea oferă acces rapid la "
 "acțiuni folosite frecvent.</para><para>Aceasta e foarte personalizabilă. "
-"Toate elementele pe care le vedeți în meniul <interface>Control</interface> "
+"Toate elementele pe care le vedeți în meniul <interface>Meniu</interface> "
 "sau în <interface>bara de meniu</interface> pot fi amplasate pe bara de "
 "unelte. Faceți clic-drept pe ea și alegeți <interface>Configurează barele de "
-"unelte…</interface> sau găsiți această acțiune în meniul <interface>Control</"
-"interface> sau <interface>Configurări</interface>.</para><para>Amplasarea "
-"barei și stilul butoanelor acesteia pot fi, de asemenea, schimbate din "
-"meniul de clic-dreapta. Faceți clic-drept pe un buton dacă doriți să-i "
-"arătați sau ascundeți textul.</para>"
+"unelte…</interface> sau găsiți această acțiune în cadrul "
+"<interface>meniului</interface>.</para><para>Amplasarea barei și stilul "
+"butoanelor acesteia pot fi, de asemenea, schimbate din meniul de clic-"
+"dreapta. Faceți clic-drept pe un buton dacă doriți să-i arătați sau "
+"ascundeți textul.</para>"
 
 #: dolphinmainwindow.cpp:2492
 #, kde-kuit-format
@@ -1186,13 +1165,7 @@ msgstr ""
 "declanșate toate comenzile din această aplicație.</para>"
 
 #: dolphinmainwindow.cpp:2514
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1201,8 +1174,7 @@ msgid ""
 msgstr ""
 "<para>Aceasta deschide o fereastră în care puteți modifica butoanele ce apar "
 "pe <emphasis>bara de unelte</emphasis>.</para><para>Toate elementele din "
-"meniul <interface>Control</interface> sau de pe <interface>bara de meniu</"
-"interface> pot fi amplasate pe bara de unelte.</para>"
+"<interface>meniu</interface> pot fi plasate pe bara de unelte.</para>"
 
 #: dolphinmainwindow.cpp:2518
 #, kde-kuit-format
@@ -1224,13 +1196,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2538
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1239,20 +1205,15 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Dacă doriți o introducere mai desfășurată în diferitele caracteristici "
-"ale <emphasis>Dolphin</emphasis>, <link url='https://userbase.kde.org/"
-"Dolphin/File_Management'>apăsați aici</link>. Aceasta va deschide pagina "
-"dedicată din KDE UserBase Wiki.</para>"
+"<para>Deschide manualul pentru această aplicație. Acesta oferă informații "
+"despre fiecare componentă a <emphasis>Dolphin</emphasis>.</para><para>Dacă "
+"doriți o introducere mai desfășurată în diferitele caracteristici ale "
+"<emphasis>Dolphin</emphasis>, <link url='https://userbase.kde.org/Dolphin/"
+"File_Management'>apăsați aici</link>. Aceasta va deschide pagina dedicată "
+"din KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2543
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1264,19 +1225,18 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Mai sunt alte două căi de a obține ajutor: <link url='help:/dolphin/"
-"index.html'>Manualul Dolphin</link> și <link url='https://userbase.kde.org/"
-"Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>Ajutorul „ce-"
-"i asta?” lipsește din majoritatea celorlalte ferestre, așa că nu vă "
-"obișnuiți prea tare cu acesta.</para>"
+"<para>Acesta e butonul ce invocă caracteristica de ajutor pe care o folosiți "
+"acum! Apăsați-l, apoi apăsați pe orice componentă a acestei aplicații pentru "
+"a întreba „Ce-i asta?” despre ea. Indicatorul mausului își va schimba "
+"aspectul dacă vreun loc nu are ajutor.</para><para>Mai sunt alte două căi de "
+"a obține ajutor: <link url='help:/dolphin/index.html'>Manualul Dolphin</"
+"link> și <link url='https://userbase.kde.org/Dolphin/File_Management'>KDE "
+"UserBase Wiki</link>.</para><para>Ajutorul „Ce-i asta?” lipsește din "
+"majoritatea celorlalte ferestre, așa că nu vă obișnuiți prea tare cu acesta."
+"</para>"
 
 #: dolphinmainwindow.cpp:2554
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1285,7 +1245,9 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Rapoartele calitative de defecte sunt apreciate. Pentru a învăța "
+"<para>Aceasta deschide o fereastră ce vă va ghida prin procesul de raportare "
+"a erorilor sau defectelor din această aplicație sau alte programe KDE.</"
+"para><para>Rapoartele calitative de defecte sunt apreciate. Pentru a învăța "
 "despre cum să faceți raportul de defect cât mai eficient, <link url='https://"
 "community.kde.org/Get_Involved/Bug_Reporting'>apăsați aici</link>.</para>"
 
@@ -1543,12 +1505,10 @@ msgstr "Închide fila"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:499
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1556,7 +1516,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1690,6 +1650,7 @@ msgstr "Protocol nevalid"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Amplasarea actuală s-a schimbat, <filename>%1</filename> nu mai e accesibil."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2082,7 +2043,7 @@ msgstr "Modificat"
 #: kitemviews/kfileitemmodel.cpp:2685
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Formatul datei poate fi ales în configurări."
 
 #: kitemviews/kfileitemmodel.cpp:2684
 msgctxt "@label"
@@ -2134,15 +2095,12 @@ msgstr "Autor"
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Emitent"
 
 #: kitemviews/kfileitemmodel.cpp:2693
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Număr de linii"
+msgstr "Număr de pagini"
 
 #: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
@@ -2288,6 +2246,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Formatul permisiunilor poate fi schimbat în configurări. Puteți alege între "
+"formatele simbolic, numeric (octal), sau combinat"
 
 #: kitemviews/kfileitemmodel.cpp:2716
 msgctxt "@label"
@@ -2474,12 +2434,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin se va deschide explicit într-o fereastră nouă."
 
 #: main.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Pornește serviciul Dolphin (necesar doar pentru interfața DBus)"
+msgstr "Pornește serviciul Dolphin (necesar doar pentru interfața DBus)."
 
 #: main.cpp:137
 #, kde-format
@@ -2510,7 +2468,7 @@ msgstr "Derulare automată"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Cut"
-msgstr "Decupare"
+msgstr "Decupează"
 
 #: panels/folders/treeviewcontextmenu.cpp:62
 #, kde-format
@@ -2868,90 +2826,74 @@ msgid "Query Results from '%1'"
 msgstr "Rezultatele interogării „%1”"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Fișierele și dosarele transmise ca argumente vor fi alese."
+msgstr "Alegeți fișierele și dosarele ce trebuiesc copiate."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:162
 #: selectionmode/bottombarcontentscontainer.cpp:197
 #: selectionmode/bottombarcontentscontainer.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr "Renunță"
+msgstr "Renunță la copiere"
 
 #: selectionmode/bottombarcontentscontainer.cpp:190
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Alegeți un fișier sau dosar al cărui amplasare trebuie copiată."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Aceasta alege toate fișierele și dosarele din amplasarea curentă."
+msgstr "Alegeți fișierele și dosarele ce trebuiesc copiate."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Aceasta alege toate fișierele și dosarele din amplasarea curentă."
+msgstr "Alegeți fișierele și dosarele ce trebuiesc decupate."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr "Renunță"
+msgstr "Renunță la decupare"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Fișierele și dosarele transmise ca argumente vor fi alese."
+msgstr "Alegeți fișierele și dosarele ce trebuiesc șterse pentru totdeauna."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:276
 #: selectionmode/bottombarcontentscontainer.cpp:388
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Renunță"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Fișierele și dosarele transmise ca argumente vor fi alese."
+msgstr "Alegeți fișierele și dosarele ce trebuiesc duplicate aici."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "@item::intable"
-#| msgid "Conflicting"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr "În conflict"
+msgstr "Renunță la duplicare"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2959,29 +2901,27 @@ msgstr "În conflict"
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Mai multe"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:359
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Alegeți fișierele și dosarele ce trebuiesc mutate."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr "Renunță"
+msgstr "Renunță la mutare"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Alegeți fișierele și dosarele ce trebuiesc mutate la gunoi."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2992,25 +2932,29 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Fișierele și dosarele alese au fost adăugate la clipboard. Acțiunea "
+"<emphasis>Lipește</emphasis> poate fi folosită acum pentru a le transfera "
+"din clipboard în orice alt loc. Acestea pot fi transferate și spre alte "
+"aplicații folosind acțiunile lor <emphasis>Lipește</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Lipește din clipboard"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Închide acest sfat"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Nu-mi mai reaminti"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -3019,13 +2963,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Alegeți fișierul sau dosarul ce trebuie redenumit.\n"
+"Redenumirea în serie e posibilă când sunt alese elemente multiple."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Renunță la redenumire"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3037,9 +2983,9 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Copiază %2 în clipboard"
+msgstr[1] "Copiază %2 în clipboard"
+msgstr[2] "Copiază %2 în clipboard"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3051,9 +2997,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Copiază amplasarea %2 în clipboard"
+msgstr[1] "Copiază amplasarea %2 în clipboard"
+msgstr[2] "Copiază amplasarea %2 în clipboard"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3065,9 +3011,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Decupează %2 în clipboard"
+msgstr[1] "Decupează %2 în clipboard"
+msgstr[2] "Decupează %2 în clipboard"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3079,9 +3025,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Șterge %2 pentru totdeauna"
+msgstr[1] "Șterge %2 pentru totdeauna"
+msgstr[2] "Șterge %2 pentru totdeauna"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3089,15 +3035,13 @@ msgstr[2] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Duplică aici"
-msgstr[1] "Duplică aici"
-msgstr[2] "Duplică aici"
+msgstr[0] "Duplică %2"
+msgstr[1] "Duplică %2"
+msgstr[2] "Duplică %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3105,15 +3049,13 @@ msgstr[2] "Duplică aici"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Mută la gunoi"
-msgstr[1] "Mută la gunoi"
-msgstr[2] "Mută la gunoi"
+msgstr[0] "Mută %2 la gunoi"
+msgstr[1] "Mută %2 la gunoi"
+msgstr[2] "Mută %2 la gunoi"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3121,15 +3063,13 @@ msgstr[2] "Mută la gunoi"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "&Redenumește"
-msgstr[1] "&Redenumește"
-msgstr[2] "&Redenumește"
+msgstr[0] "Redenumește %2"
+msgstr[1] "Redenumește %2"
+msgstr[2] "Redenumește %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3144,46 +3084,52 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Regim de alegere</title><para>Alegeți fișiere sau dosare pentru a le "
+"gestiona sau manipula.<list><item>Apăsați pe un fișier sau dosar pentru a-l "
+"selecta.</item><item>Apăsați pe un fișier sau dosar selectat deja pentru a-l "
+"deselecta.</item><item>Apăsarea pe loc gol <emphasis>nu</emphasis> golește "
+"alegerea.</item><item>Dreptunghiurile de selecție (create prin tragerea "
+"dintr-un loc gol) inversează starea de selecție a elementelor din cadrul "
+"acestuia.</item></list></para><para>Butoanele cu acțiuni disponibile de jos "
+"se schimbă în dependență de alegerea actuală.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Regim de alegere: apăsați pe fișiere sau dosare pentru a le selecta sau "
+"deselecta."
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Selecție"
+msgstr "Regim de alegere"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Selecție"
+msgstr "Ieși din regimul de alegere"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "Alege ce servicii trebuie să fie arătate în meniul contextual:"
+msgstr "Alege ce servicii trebuiesc arătate în meniul contextual:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
-msgstr "Căutare..."
+msgstr "Caută…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
-msgstr "Descărcare servicii noi..."
+msgstr "Descarcă servicii noi…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:209
 #, kde-format
@@ -3326,7 +3272,7 @@ msgstr "Umplutură laterală"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Evidențiază tot rândul"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3355,11 +3301,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:55
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Permisiuni"
+msgstr "Formatul stilului permisiunilor"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3648,6 +3592,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Arată o bară pentru lipirea facilă după efectuarea unei copieri sau decupări "
+"folosind bara de jos cu regim de alegere."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3855,20 +3801,16 @@ msgid "Sorting mode: "
 msgstr "Regim de sortare: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Schimbă între panourile vizualizării despărțite prin tasta Tab"
+msgstr "Schimbă între panouri prin tasta Tab"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Desparte vizualizarea"
+msgstr "Desparte vizualizarea: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4353,22 +4295,20 @@ msgstr "Dosare:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Apăsând oriunde pe rând"
 
 #: settings/viewmodes/viewsettingstab.cpp:105
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Apăsând pe pictogramă sau denumire"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Caută fișiere și dosare"
+msgstr "Deschide fișiere și dosare:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4418,27 +4358,25 @@ msgstr "Stilul datei:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbolic (ca „drwxr-xr-x”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:159
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numeric (octal) (ca „755”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:161
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Combinat (ca „drwxr-xr-x (755)”)"
 
 #: settings/viewmodes/viewsettingstab.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Permisiuni:"
+msgstr "Stilul permisiunilor:"
 
 #: settings/viewmodes/viewsettingstab.cpp:344
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4941,10 +4879,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Niciun dispozitiv compatibil cu MTP găsit"
 
 #: views/dolphinview.cpp:2320
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Niciun dispozitiv Bluetooth găsit"
+msgstr "Niciun dispozitiv Apple găsit"
 
 #: views/dolphinview.cpp:2322
 #, kde-format
@@ -5039,36 +4976,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Aceasta va copia calea primului element ales în clipboard."
 
 #: views/dolphinviewactionhandler.cpp:160
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Mută la gunoi"
+msgstr "Mută la gunoi…"
 
 #: views/dolphinviewactionhandler.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Șterge"
+msgstr "Șterge…"
 
 #: views/dolphinviewactionhandler.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Duplică aici"
+msgstr "Duplică aici…"
 
 #: views/dolphinviewactionhandler.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Copiază amplasarea"
+msgstr "Copiază amplasarea…"
 
 #: views/dolphinviewactionhandler.cpp:192
 #, kde-kuit-format
