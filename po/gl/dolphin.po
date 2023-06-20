@@ -165,7 +165,7 @@ msgstr "Non preguntar de novo"
 #: dolphinmainwindow.cpp:611
 #, kde-format
 msgid "Show &Terminal Panel"
-msgstr "Mostrar o panel do &terminal"
+msgstr "Amosar o panel do &terminal"
 
 #: dolphinmainwindow.cpp:621
 #, kde-format
@@ -420,7 +420,7 @@ msgstr "Filtrar…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "Mostrar a barra de filtro"
+msgstr "Amosar a barra de filtro"
 
 #: dolphinmainwindow.cpp:1650
 #, kde-kuit-format
@@ -433,7 +433,7 @@ msgid ""
 msgstr ""
 "Isto abre a <emphasis>barra de filtro</emphasis> na parte inferior da xanela."
 "<nl/>Nela pode escribir texto para filtrar os ficheiros e cartafoles que se "
-"están a mostrar. Só os que conteñan o texto no nome seguirán á vista."
+"están a amosar. Só os que conteñan o texto no nome seguirán á vista."
 
 #: dolphinmainwindow.cpp:1662
 #, kde-format
@@ -784,7 +784,7 @@ msgstr "Activar o separador anterior"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
-msgstr "Mostrar o destino"
+msgstr "Amosar o destino"
 
 #: dolphinmainwindow.cpp:1989
 #, kde-format
@@ -843,8 +843,8 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Para mostrar ou agochar paneis coma este vaia a <interface>Menú|"
-"Paneis</interface> ou <interface>Vista|Paneis</interface>.</para>"
+"<para>Para amosar ou agochar paneis coma este vaia a <interface>Menú|Paneis</"
+"interface> ou <interface>Vista|Paneis</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2055
 #, kde-kuit-format
@@ -860,7 +860,7 @@ msgstr ""
 "xanela.</para><para>O panel fornece información detallada sobre os elementos "
 "sobre os que ten o cursor ou sobre os elementos seleccionados. Senón "
 "infórmao sobre o cartafol actual.<nl/>No caso de elementos individuais "
-"móstrase unha vista previa do seu contido.</para>"
+"amósase unha vista previa do seu contido.</para>"
 
 #: dolphinmainwindow.cpp:2063
 #, kde-kuit-format
@@ -874,7 +874,7 @@ msgid ""
 msgstr ""
 "<para>Este panel fornece información detallada sobre os elementos sobre os "
 "que ten o cursor ou sobre os elementos seleccionados. Senón infórmao sobre o "
-"cartafol actual.<nl/>No caso de elementos individuais móstrase unha vista "
+"cartafol actual.<nl/>No caso de elementos individuais amósase unha vista "
 "previa do seu contido.</para><para>Pode configurar que detalles e como desde "
 "aquí facendo clic dereito.</para>"
 
@@ -963,7 +963,7 @@ msgstr "Lugares"
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
-msgstr "Mostrar os lugares agochados"
+msgstr "Amosar os lugares agochados"
 
 #: dolphinmainwindow.cpp:2189
 #, kde-format
@@ -1013,14 +1013,14 @@ msgstr ""
 "nun novo separador ou nunha nova xanela.</para><para>Pode engadir novas "
 "entradas arrastrando cartafoles ata o panel. Faga clic dereito en calquera "
 "sección ou entrada para agochala. Faga clic dereito nun espazo baleiro do "
-"panel para seleccionar <interface>Mostrar os lugares agochados</interface> "
-"para mostralos de novo.</para>"
+"panel para seleccionar <interface>Amosar os lugares agochados</interface> "
+"para amosalos de novo.</para>"
 
 #: dolphinmainwindow.cpp:2222
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
-msgstr "Mostrar os paneis"
+msgstr "Amosar os paneis"
 
 #: dolphinmainwindow.cpp:2334
 #, kde-kuit-format
@@ -1088,7 +1088,7 @@ msgstr ""
 "<para>Esta é a <emphasis>barra de menú</emphasis>. Fornece acceso a ordes e "
 "opcións de configuración. Faga clic esquerdo en calquera dos menús da barra "
 "para ver o seu contido.</para><para>A barra de menú pode agocharse "
-"desmarcando <interface>Configuración|Mostrar a barra de menú</interface>. "
+"desmarcando <interface>Configuración|Amosar a barra de menú</interface>. "
 "Entón a maior parte do seu contido pasa a estar dispoñíbel mediante un botón "
 "de <interface>menú</interface> na <emphasis>barra de ferramentas</emphasis>."
 "</para>"
@@ -1114,7 +1114,7 @@ msgstr ""
 "<interface>Configurar as barras de ferramentas…</interface> ou atopar a "
 "acción no <interface>menú</interface>.</para><para>Tamén pode cambiar a "
 "localización da barra e o estilo dos seus botóns no menú contextual. Faga "
-"clic dereito nun botón se quere mostrar ou agochar o seu texto.</para>"
+"clic dereito nun botón se quere amosar ou agochar o seu texto.</para>"
 
 #: dolphinmainwindow.cpp:2492
 #, kde-kuit-format
@@ -1539,7 +1539,7 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
-"<para>Isto describe a localización dos ficheiros e cartafoles que se mostran "
+"<para>Isto describe a localización dos ficheiros e cartafoles que se amosan "
 "abaixo.</para><para>O nome do cartafol que está a ver pode lerse á dereita "
 "de todo. Á súa esquerda está o nome do cartafol que o contén. A liña enteira "
 "coñécese como a <emphasis>ruta</emphasis> da localización actual porque "
@@ -2434,7 +2434,7 @@ msgstr "Documento para abrir"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:10
 #, kde-format
 msgid "Hidden files shown"
-msgstr "Móstranse os ficheiros agochados"
+msgstr "Amósanse os ficheiros agochados"
 
 #. i18n: ectx: label, entry (LimitFoldersPanelToHome), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
@@ -2483,7 +2483,7 @@ msgstr "Eliminar"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Hidden Files"
-msgstr "Mostrar os ficheiros agochados"
+msgstr "Amosar os ficheiros agochados"
 
 #: panels/folders/treeviewcontextmenu.cpp:121
 #, kde-format
@@ -2507,7 +2507,7 @@ msgstr "Propiedades"
 #: panels/information/dolphin_informationpanelsettings.kcfg:10
 #, kde-format
 msgid "Previews shown"
-msgstr "Móstranse as vistas previas"
+msgstr "Amósanse as vistas previas"
 
 #. i18n: ectx: label, entry (previewsAutoPlay), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
@@ -2587,7 +2587,7 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
-"O terminal non pode mostrarse porque Konsole non está instalado. Instáleo e "
+"O terminal non pode amosarse porque Konsole non está instalado. Instáleo e "
 "volva abrir o panel."
 
 #: panels/terminal/terminalpanel.cpp:180
@@ -3182,56 +3182,56 @@ msgstr "Índice de anchura máxima do texto (0 significa sen límite)"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Mostrar as ordes «Copiar en» e «Mover a» no menú contextual"
+msgstr "Amosar as ordes «Copiar en» e «Mover a» no menú contextual"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Mostrar «Engadir aos lugares» no menú contextual."
+msgstr "Amosar «Engadir aos lugares» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "Mostrar «Ordenar por» no menú contextual."
+msgstr "Amosar «Ordenar por» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Mostrar «Modo de vista» no menú contextual."
+msgstr "Amosar «Modo de vista» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
 msgstr ""
-"Mostrar «Abrir nun separador» e «Abrir en separadores» no menú contextual."
+"Amosar «Abrir nun separador» e «Abrir en separadores» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Mostrar «Abrir nunha xanela» no menú contextual."
+msgstr "Amosar «Abrir nunha xanela» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Mostrar «Copiar a localización» no menú contextual."
+msgstr "Amosar «Copiar a localización» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr "Mostrar «Duplicar aquí» no menú contextual."
+msgstr "Amosar «Duplicar aquí» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Mostrar «Abrir o terminal» no menú contextual."
+msgstr "Amosar «Abrir o terminal» no menú contextual."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3286,7 +3286,7 @@ msgstr "Formato de estilo dos permisos"
 #, kde-format
 msgctxt "@label"
 msgid "Hidden files shown"
-msgstr "Móstranse os ficheiros agochados"
+msgstr "Amósanse os ficheiros agochados"
 
 #. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:12
@@ -3336,7 +3336,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
-msgstr "Móstranse as vistas previas"
+msgstr "Amósanse as vistas previas"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -3346,8 +3346,8 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Se activa esta opción, móstrase unha vista previa do contido do ficheiro "
-"como unha icona."
+"Se activa esta opción, amósase unha vista previa do contido do ficheiro como "
+"unha icona."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -3396,15 +3396,14 @@ msgstr "Orde para organizar os ficheiros"
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr ""
-"Mostrar primeiro os cartafoles cando se ordenen ficheiros e cartafoles."
+msgstr "Amosar primeiro os cartafoles cando se ordenen ficheiros e cartafoles."
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
-msgstr "Mostrar os ficheiros e cartafoles agochados ao final"
+msgstr "Amosar os ficheiros e cartafoles agochados ao final"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:66
@@ -3457,13 +3456,13 @@ msgstr "Modo de completado do texto do navegador de URL"
 #: settings/dolphin_generalsettings.kcfg:26
 #, kde-format
 msgid "Should the full path be shown inside the location bar"
-msgstr "Indica se debe mostrarse a ruta completa na barra de localización"
+msgstr "Indica se debe amosarse a ruta completa na barra de localización"
 
 #. i18n: ectx: label, entry (ShowFullPathInTitlebar), group (General)
 #: settings/dolphin_generalsettings.kcfg:30
 #, kde-format
 msgid "Should the full path be shown in the title bar"
-msgstr "Indica se debe mostrarse a ruta completa na barra de título"
+msgstr "Indica se debe amosarse a ruta completa na barra de título"
 
 #. i18n: ectx: label, entry (OpenExternallyCalledFolderInNewTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:34
@@ -3496,7 +3495,7 @@ msgid ""
 "UI)"
 msgstr ""
 "Indica se se modificou a configuración de inicio (parámetro interno non "
-"mostrado na UI)"
+"amosado na UI)"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
@@ -3520,7 +3519,7 @@ msgstr "Dividir a vista en dous paneis"
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr "Indica se debe mostrarse a barra de filtro"
+msgstr "Indica se debe amosarse a barra de filtro"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -3561,7 +3560,7 @@ msgstr "Cambiar de nome in situ"
 #: settings/dolphin_generalsettings.kcfg:83
 #, kde-format
 msgid "Show selection toggle"
-msgstr "Mostrar o conmutador da selección"
+msgstr "Amosar o conmutador da selección"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
@@ -3570,8 +3569,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
-"Mostrar unha barra para pegar facilmente despois de cortar ou copiar usando "
-"a barra inferior do modo de selección."
+"Amosar unha barra para pegar facilmente despois de cortar ou copiar usando a "
+"barra inferior do modo de selección."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3595,7 +3594,7 @@ msgstr "A lapela nova ábrese despois da última"
 #: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid "Show tooltips"
-msgstr "Mostrar os consellos"
+msgstr "Amosar os consellos"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3615,19 +3614,19 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:114
 #, kde-format
 msgid "Show the statusbar"
-msgstr "Mostrar a barra de estado"
+msgstr "Amosar a barra de estado"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Mostrar a barra de ampliación na barra de estado"
+msgstr "Amosar a barra de ampliación na barra de estado"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:123
 #, kde-format
 msgid "Show the space information in the statusbar"
-msgstr "Mostrar o espazo de información na barra de estado"
+msgstr "Amosar o espazo de información na barra de estado"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
 #: settings/dolphin_generalsettings.kcfg:127
@@ -3807,7 +3806,7 @@ msgstr "Cando se desactiva, desactivar a vista previa pechará o panel inactivo"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
-msgstr "Mostrar os consellos"
+msgstr "Amosar os consellos"
 
 #: settings/general/behaviorsettingspage.cpp:78
 #: settings/general/behaviorsettingspage.cpp:86
@@ -3820,7 +3819,7 @@ msgstr "Outras opcións: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Mostrar o marcador de selección"
+msgstr "Amosar o marcador de selección"
 
 #: settings/general/behaviorsettingspage.cpp:90
 #, kde-format
@@ -3928,7 +3927,7 @@ msgstr "Barra de estado"
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
-msgstr "Mostrar vistas previas na vista de:"
+msgstr "Amosar vistas previas na vista de:"
 
 #: settings/general/previewssettingspage.cpp:64
 #, kde-format
@@ -3962,19 +3961,19 @@ msgstr "Sen vistas previas"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show status bar"
-msgstr "Mostrar a barra de estado"
+msgstr "Amosar a barra de estado"
 
 #: settings/general/statusbarsettingspage.cpp:23
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Mostrar a barra de ampliación"
+msgstr "Amosar a barra de ampliación"
 
 #: settings/general/statusbarsettingspage.cpp:24
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Mostrar información do espazo"
+msgstr "Amosar información do espazo"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:35
 #: settings/viewmodes/viewsettingspage.cpp:28
@@ -4061,7 +4060,7 @@ msgstr "Usar a localización predeterminada"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
-msgstr "Mostrar no inicio:"
+msgstr "Amosar no inicio:"
 
 #: settings/startup/startupsettingspage.cpp:95
 #, kde-format
@@ -4078,7 +4077,7 @@ msgstr "Novas xanelas:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show filter bar"
-msgstr "Mostrar a barra de filtro"
+msgstr "Amosar a barra de filtro"
 
 #: settings/startup/startupsettingspage.cpp:99
 #, kde-format
@@ -4102,13 +4101,13 @@ msgstr "Xeral:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
-msgstr "Mostrar a ruta completa na barra de localización"
+msgstr "Amosar a ruta completa na barra de localización"
 
 #: settings/startup/startupsettingspage.cpp:108
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "Mostrar a ruta completa na barra do título"
+msgstr "Amosar a ruta completa na barra do título"
 
 #: settings/startup/startupsettingspage.cpp:230
 #, kde-format
@@ -4405,31 +4404,31 @@ msgstr "Descendente"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
-msgstr "Mostrar primeiro os cartafoles"
+msgstr "Amosar primeiro os cartafoles"
 
 #: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr "Mostrar os ficheiros agochados ao final"
+msgstr "Amosar os ficheiros agochados ao final"
 
 #: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr "Mostrar a vista previa"
+msgstr "Amosar a vista previa"
 
 #: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
-msgstr "Mostrar en grupos"
+msgstr "Amosar en grupos"
 
 #: settings/viewpropertiesdialog.cpp:90
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
-msgstr "Mostrar os ficheiros agochados"
+msgstr "Amosar os ficheiros agochados"
 
 #: settings/viewpropertiesdialog.cpp:93
 #, kde-format
@@ -4569,7 +4568,7 @@ msgstr ""
 "<para>Esta é a <emphasis>barra de estado</emphasis>. Contén tres elementos "
 "de maneira predeterminada (de esquerda a dereita):<list><item>Un "
 "<emphasis>campo de texto</emphasis> que mostra o tamaño dos elementos "
-"seleccionados. Se só se selecciona un elemento tamén se mostran o nome e o "
+"seleccionados. Se só se selecciona un elemento tamén se amosan o nome e o "
 "tipo.</item><item>Un <emphasis>control de desprazamento de zoom</emphasis> "
 "que permite axustar o tamaño das iconas da vista.</"
 "item><item><emphasis>Información de espazo</emphasis> sobre o dispositivo de "
@@ -4579,13 +4578,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
-msgstr "Mostrar a barra de ampliación"
+msgstr "Amosar a barra de ampliación"
 
 #: statusbar/dolphinstatusbar.cpp:268
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
-msgstr "Mostrar información do espazo"
+msgstr "Amosar información do espazo"
 
 #: statusbar/statusbarspaceinfo.cpp:116
 #, kde-format
@@ -4932,9 +4931,9 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 "Isto mostra a lista completa de propiedades dos elementos seleccionados "
-"nunha nova xanela.<nl/>Se non se selecciona nada a xanela mostrará o "
-"cartafol actual no seu lugar.<nl/>Pode configurar opcións avanzadas nela "
-"como xestionar permisos de lectura e de escritura."
+"nunha nova xanela.<nl/>Se non se selecciona nada a xanela amosará o cartafol "
+"actual no seu lugar.<nl/>Pode configurar opcións avanzadas nela como "
+"xestionar permisos de lectura e de escritura."
 
 #: views/dolphinviewactionhandler.cpp:151
 #, kde-format
@@ -5016,7 +5015,7 @@ msgstr ""
 "cartafoles e dos ficheiros.</para><para>Prema un detalle na cabeceira dunha "
 "columna para ordenar os elementos segundo el. Prémao de novo para inverter a "
 "orde. Prema a cabeceira co botón dereito do rato para seleccionar que "
-"detalles se mostran.</para><para>Pode ver o contido dun cartafol sen saír da "
+"detalles se amosan.</para><para>Pode ver o contido dun cartafol sen saír da "
 "localización actual premendo á súa esquerda. Así pode ver o contido de "
 "varios cartafoles desde a mesma lista.</para>"
 
@@ -5065,13 +5064,13 @@ msgstr "Ampliación"
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
-msgstr "Mostrar as vistas previas"
+msgstr "Amosar as vistas previas"
 
 #: views/dolphinviewactionhandler.cpp:244
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
-msgstr "Mostrar a vista previa dos ficheiros e dos cartafoles"
+msgstr "Amosar a vista previa dos ficheiros e dos cartafoles"
 
 #: views/dolphinviewactionhandler.cpp:246
 #, kde-kuit-format
@@ -5107,13 +5106,13 @@ msgstr "Ordenar segundo"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
-msgstr "Mostrar información adicional"
+msgstr "Amosar información adicional"
 
 #: views/dolphinviewactionhandler.cpp:312
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
-msgstr "Mostrar en grupos"
+msgstr "Amosar en grupos"
 
 #: views/dolphinviewactionhandler.cpp:313
 #, kde-format
@@ -5125,7 +5124,7 @@ msgstr "Isto agrupa os ficheiros e cartafoles pola súa primeira letra."
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
-msgstr "Mostrar os ficheiros agochados"
+msgstr "Amosar os ficheiros agochados"
 
 #: views/dolphinviewactionhandler.cpp:320
 #, kde-kuit-format
