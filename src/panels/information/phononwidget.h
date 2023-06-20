@@ -7,7 +7,7 @@
 #ifndef PHONONWIDGET_H
 #define PHONONWIDGET_H
 
-#include <Phonon/Global>
+#include <phonon/Global>
 
 #include <QSize>
 #include <QUrl>

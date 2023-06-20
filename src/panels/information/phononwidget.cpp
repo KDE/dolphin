@@ -7,10 +7,10 @@
 #include "phononwidget.h"
 
 #include <KLocalizedString>
-#include <Phonon/AudioOutput>
-#include <Phonon/MediaObject>
-#include <Phonon/SeekSlider>
-#include <Phonon/VideoWidget>
+#include <phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/SeekSlider>
+#include <phonon/VideoWidget>
 
 #include <QShowEvent>
 #include <QStyle>

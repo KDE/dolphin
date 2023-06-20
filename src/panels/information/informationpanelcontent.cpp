@@ -23,8 +23,8 @@
 
 #include <Baloo/FileMetaDataWidget>
 
-#include <Phonon/BackendCapabilities>
-#include <Phonon/MediaObject>
+#include <phonon/BackendCapabilities>
+#include <phonon/MediaObject>
 
 #include <QDialogButtonBox>
 #include <QGesture>
