@@ -37,6 +37,7 @@
 #include <KProtocolManager>
 #include <KShell>
 
+#include <QApplication>
 #include <QDesktopServices>
 #include <QDropEvent>
 #include <QGridLayout>
@@ -343,6 +344,9 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         }
         Q_CHECK_PTR(m_selectionModeTopBar); // there is no point in disabling selectionMode when it wasn't even enabled once.
         Q_CHECK_PTR(m_selectionModeBottomBar);
+        if (m_selectionModeTopBar->isAncestorOf(QApplication::focusWidget()) || m_selectionModeBottomBar->isAncestorOf(QApplication::focusWidget())) {
+            m_view->setFocus();
+        }
         m_selectionModeTopBar->setVisible(false, WithAnimation);
         m_selectionModeBottomBar->setVisible(false, WithAnimation);
         Q_EMIT selectionModeChanged(false);
