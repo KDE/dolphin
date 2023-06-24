@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-06-17 13:28+0200\n"
+"PO-Revision-Date: 2023-06-23 22:51+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -102,7 +102,7 @@ msgstr "Botouse no lixo."
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
-msgstr "Cambiouse de nome."
+msgstr "Renomeouse."
 
 #: dolphinmainwindow.cpp:312
 #, kde-format
@@ -420,7 +420,7 @@ msgstr "Filtrar…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "Amosar a barra de filtro"
+msgstr "Amosar a barra de filtro."
 
 #: dolphinmainwindow.cpp:1650
 #, kde-kuit-format
@@ -456,7 +456,7 @@ msgstr "Buscar…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
-msgstr "Buscar ficheiros e cartafoles"
+msgstr "Buscar ficheiros e cartafoles."
 
 #: dolphinmainwindow.cpp:1674
 #, kde-kuit-format
@@ -512,10 +512,10 @@ msgid ""
 "items.</para>"
 msgstr ""
 "<para>Esta aplicación sabe sobre que ficheiros e cartafoles actual se "
-"primeiro os <emphasis>selecciona</emphasis>. Prema isto para activar o "
+"primeiro os <emphasis>selecciona</emphasis>. Prema isto para conmutar o "
 "<emphasis>modo de selección</emphasis>, que permite seleccionar elementos e "
 "retiralos da selección preméndoos unha vez.</para><para>Neste modo, unha "
-"barra de acceso rápido na parte inferior mostra as accións dispoñíbeis para "
+"barra de acceso rápido na parte inferior amosa as accións dispoñíbeis para "
 "os elementos seleccionados.</para>"
 
 #: dolphinmainwindow.cpp:1723
@@ -564,7 +564,7 @@ msgstr "Reserva"
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr "Abre o directorio virtual de reserva nunha xanela dividida"
+msgstr "Abre o cartafol virtual de reserva nunha xanela dividida"
 
 #: dolphinmainwindow.cpp:1765
 #, kde-format
@@ -893,7 +893,7 @@ msgid ""
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr ""
 "Isto conmuta o panel de <emphasis>cartafoles</emphasis> da esquerda da "
-"xanela.<nl/><nl/>Mostra os cartafoles do <emphasis>sistema de ficheiros</"
+"xanela.<nl/><nl/>Amosa os cartafoles do <emphasis>sistema de ficheiros</"
 "emphasis> nunha <emphasis>vista de árbore</emphasis>."
 
 #: dolphinmainwindow.cpp:2098
@@ -905,7 +905,7 @@ msgid ""
 "Click the arrow to the left of a folder to see its subfolders. This allows "
 "quick switching between any folders.</para>"
 msgstr ""
-"<para>Este panel mostra os cartafoles do <emphasis>sistema de ficheiros</"
+"<para>Este panel amosa os cartafoles do <emphasis>sistema de ficheiros</"
 "emphasis> nunha <emphasis>vista de árbore</emphasis>.</para><para>Prema un "
 "cartafol para ir aquí. Prema a frecha á esquerda dun cartafol para ver os "
 "seus subcartafoles. Isto permite cambiar rapidamente entre calquera cartafol."
@@ -972,7 +972,7 @@ msgid ""
 "This displays all places in the places panel that have been hidden. They "
 "will appear semi-transparent unless you uncheck their hide property."
 msgstr ""
-"Isto mostra todos os lugares do panel de lugares que están agochados. "
+"Isto amosa todos os lugares do panel de lugares que están agochados. "
 "Aparecerán translúcidos a menos que desmarque a súa propiedade de agochar."
 
 #: dolphinmainwindow.cpp:2201
@@ -1034,8 +1034,8 @@ msgid ""
 msgstr ""
 "<para>Ir ao cartafol que contén o actual.</para><para>Todos os ficheiros e "
 "cartafoles organízanse nun <emphasis>sistema de ficheiros</emphasis> "
-"xerárquico. Na parte superior desta xerarquía hai un directorio que contén "
-"todos os datos conectados con este computador: o <emphasis>directorio raíz</"
+"xerárquico. Na parte superior desta xerarquía hai un cartafol que contén "
+"todos os datos conectados con este computador: o <emphasis>cartafol raíz</"
 "emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2415
@@ -1622,7 +1622,7 @@ msgstr "Non se atopou ningún elemento."
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
-msgstr "Dolphin non admite páxinas web, polo que se iniciou o navegador web"
+msgstr "Dolphin non admite páxinas web, polo que se iniciou o navegador web."
 
 #: dolphinviewcontainer.cpp:806
 #, kde-format
@@ -1631,13 +1631,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 "O protocolo non está entre os admitidos por Dolphin, polo que se iniciou a "
-"aplicación predeterminada"
+"aplicación predeterminada."
 
 #: dolphinviewcontainer.cpp:812
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
-msgstr "Este protocolo é incorrecto"
+msgstr "Este protocolo é incorrecto."
 
 #: dolphinviewcontainer.cpp:916
 #, kde-kuit-format
@@ -1651,7 +1651,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "Manter o filtro ao cambiar de cartafoles"
+msgstr "Manter o filtro ao cambiar de cartafol."
 
 #: filterbar/filterbar.cpp:33
 #, kde-format
@@ -1662,7 +1662,7 @@ msgstr "Filtrar…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
-msgstr "Agochar a barra de filtro"
+msgstr "Agochar a barra de filtro."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2465,7 +2465,7 @@ msgstr "Copiar"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename..."
-msgstr "Cambiar de nome…"
+msgstr "Renomear…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2549,7 +2549,7 @@ msgstr "Data condensada"
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr "Escolla os datos que desexe ver:"
+msgstr "Escolla os datos que quere ver:"
 
 #: panels/information/informationpanelcontent.cpp:284
 #, kde-format
@@ -2763,7 +2763,7 @@ msgstr "Gardar a busca para acceder a ela rapidamente no futuro."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
-msgstr "Deixar de buscar"
+msgstr "Deixar de buscar."
 
 #: search/dolphinsearchbox.cpp:361
 #, kde-format
@@ -2947,15 +2947,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
-"Seleccione o ficheiro ou cartafol para cambiar de nome.\n"
-"Pódense cambiar de nome varios elementos á vez."
+"Seleccione o ficheiro ou cartafol para renomear.\n"
+"Pódense renomear varios elementos á vez."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr "Cancelar o cambio de nome"
+msgstr "Cancelar o renomeamento"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3045,8 +3045,8 @@ msgstr[1] "Botar %2 no lixo"
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Cambiar de nome %2"
-msgstr[1] "Cambiar de nome %2"
+msgstr[0] "Renomear %2"
+msgstr[1] "Renomear %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3094,7 +3094,7 @@ msgstr "Saír do modo de selección"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "Escolla os servizos que desexe ver no menú contextual:"
+msgstr "Escolla os servizos que quere ver no menú contextual:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
@@ -3128,13 +3128,13 @@ msgstr "Reiniciar agora?"
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Eliminar."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "Ordes «Copiar en» e «Mover a»"
+msgstr "Ordes «Copiar en» e «Mover a»."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
@@ -3261,13 +3261,13 @@ msgstr "Cartafoles expansíbeis"
 #: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Whether or not content count is used as directory size"
-msgstr "Se usar o número de elementos como tamaño de directorio"
+msgstr "Se usar o número de elementos como tamaño de cartafol"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:47
 #, kde-format
 msgid "Recursive directory size limit"
-msgstr "Límite de tamaño recursivo de directorio"
+msgstr "Límite de tamaño recursivo de cartafol"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:51
@@ -3484,8 +3484,7 @@ msgid ""
 msgstr ""
 "Versión de Dolphin de configuración interna, que se usa principalmente para "
 "determinar se se está a executar unha versión actualizada de Dolphin, para "
-"migrar as entradas de configuración que se eliminaron ou cambiaron de nome, "
-"etc."
+"migrar as entradas de configuración que se eliminaron ou se renomearon, etc."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -3554,7 +3553,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename inline"
-msgstr "Cambiar de nome in situ"
+msgstr "Renomear in situ"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3582,13 +3581,13 @@ msgstr "Usar o tabulador para alternar entre as metades esquerda e dereita"
 #: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Close active pane when toggling off split view"
-msgstr "Pechar o panel activo ao desactivar a vista dividida"
+msgstr "Pechar o panel activo ao conmutar a vista dividida"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr "A lapela nova ábrese despois da última"
+msgstr "O novo separador ábrese despois do último"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
@@ -3600,7 +3599,7 @@ msgstr "Amosar os consellos"
 #: settings/dolphin_generalsettings.kcfg:107
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
-msgstr "Hora desde a que son correctas as propiedades da vista"
+msgstr "Marca de tempo desde a que son correctas as propiedades da vista"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
@@ -3620,7 +3619,7 @@ msgstr "Amosar a barra de estado"
 #: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Amosar a barra de ampliación na barra de estado"
+msgstr "Amosar o control esvaradío de ampliación na barra de estado"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:123
@@ -3783,7 +3782,7 @@ msgstr "Orde: "
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Cambiar entre paneis co tabulador"
+msgstr "Cambiar entre paneis co tabulador."
 
 #: settings/general/behaviorsettingspage.cpp:66
 #, kde-format
@@ -3795,7 +3794,7 @@ msgstr "Vista partida: "
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
-msgstr "Desactivar a vista dividida pecha o panel activo"
+msgstr "Desactivar a vista dividida pecha o panel activo."
 
 #: settings/general/behaviorsettingspage.cpp:71
 #, kde-format
@@ -3806,7 +3805,7 @@ msgstr "Cando se desactiva, desactivar a vista previa pechará o panel inactivo"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
-msgstr "Amosar os consellos"
+msgstr "Amosar os consellos."
 
 #: settings/general/behaviorsettingspage.cpp:78
 #: settings/general/behaviorsettingspage.cpp:86
@@ -3819,13 +3818,13 @@ msgstr "Outras opcións: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Amosar o marcador de selección"
+msgstr "Amosar o marcador de selección."
 
 #: settings/general/behaviorsettingspage.cpp:90
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr "Cambiar de nome in situ"
+msgstr "Renomear in situ."
 
 #: settings/general/configurepreviewplugindialog.cpp:36
 #, kde-format
@@ -3843,19 +3842,19 @@ msgstr "Pedir confirmación en todas as aplicacións de KDE cando:"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr "Se boten ficheiros ou cartafoles no lixo"
+msgstr "Se boten ficheiros ou cartafoles no lixo."
 
 #: settings/general/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
-msgstr "Baleirar o lixo"
+msgstr "Baleirar o lixo."
 
 #: settings/general/confirmationssettingspage.cpp:51
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
-msgstr "Se eliminen ficheiros ou cartafoles"
+msgstr "Se eliminen ficheiros ou cartafoles."
 
 #: settings/general/confirmationssettingspage.cpp:53
 #, kde-format
@@ -3867,13 +3866,13 @@ msgstr "Pedir confirmación en Dolphin cando:"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
-msgstr "Se pechen xanelas con varios separadores"
+msgstr "Se pechen xanelas con varios separadores."
 
 #: settings/general/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Pechar xanelas cun programa executándose no panel de terminal"
+msgstr "Pechar xanelas cun programa executándose no panel de terminal."
 
 #: settings/general/confirmationssettingspage.cpp:64
 #, kde-format
@@ -3894,7 +3893,7 @@ msgstr "Abrir na aplicación"
 #: settings/general/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
-msgstr "Executar un script"
+msgstr "Executar o guión"
 
 #: settings/general/generalsettingspage.cpp:30
 #: settings/kcm/kcmdolphingeneral.cpp:35
@@ -3961,19 +3960,19 @@ msgstr "Sen vistas previas"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show status bar"
-msgstr "Amosar a barra de estado"
+msgstr "Amosar a barra de estado."
 
 #: settings/general/statusbarsettingspage.cpp:23
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Amosar a barra de ampliación"
+msgstr "Amosar o control esvaradío de ampliación."
 
 #: settings/general/statusbarsettingspage.cpp:24
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Amosar información do espazo"
+msgstr "Amosar información do espazo."
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:35
 #: settings/viewmodes/viewsettingspage.cpp:28
@@ -4018,13 +4017,13 @@ msgstr "Abrir novos separadores: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
-msgstr "Abrir os arquivos como cartafoles"
+msgstr "Abrir os arquivos como cartafoles."
 
 #: settings/navigation/navigationsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
-msgstr "Abrir os cartafoles durante as operacións de arrastre"
+msgstr "Abrir os cartafoles durante as operacións de arrastre."
 
 #: settings/navigation/navigationsettingspage.cpp:41
 #, kde-format
@@ -4066,7 +4065,7 @@ msgstr "Amosar no inicio:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
-msgstr "Iniciar no modo de vista partida"
+msgstr "Iniciar no modo de vista partida."
 
 #: settings/startup/startupsettingspage.cpp:96
 #, kde-format
@@ -4077,19 +4076,19 @@ msgstr "Novas xanelas:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show filter bar"
-msgstr "Amosar a barra de filtro"
+msgstr "Amosar a barra de filtro."
 
 #: settings/startup/startupsettingspage.cpp:99
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "Facer a barra de localización editábel"
+msgstr "Facer a barra de localización editábel."
 
 #: settings/startup/startupsettingspage.cpp:104
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new folders in tabs"
-msgstr "Abrir os cartafoles novos en separadores"
+msgstr "Abrir os cartafoles novos en separadores."
 
 #: settings/startup/startupsettingspage.cpp:105
 #, kde-format
@@ -4101,13 +4100,13 @@ msgstr "Xeral:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
-msgstr "Amosar a ruta completa na barra de localización"
+msgstr "Amosar a ruta completa na barra de localización."
 
 #: settings/startup/startupsettingspage.cpp:108
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "Amosar a ruta completa na barra do título"
+msgstr "Amosar a ruta completa na barra do título."
 
 #: settings/startup/startupsettingspage.cpp:230
 #, kde-format
@@ -4261,7 +4260,7 @@ msgstr "Anchura máxima:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
-msgstr "Expansíbeis"
+msgstr "Expansíbeis."
 
 #: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
@@ -4311,7 +4310,7 @@ msgstr[1] " niveis de profundidade"
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
-msgstr "O tamaño do cartafol mostra:"
+msgstr "O tamaño do cartafol amosa:"
 
 #: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
@@ -4361,14 +4360,14 @@ msgstr "Estilo dos permisos:"
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
 msgid_plural "Size: %1 pixels"
-msgstr[0] "Tamaño: 1 píxel"
-msgstr[1] "Tamaño: %1 píxeles"
+msgstr[0] "Tamaño: 1 píxel."
+msgstr[1] "Tamaño: %1 píxeles."
 
 #: settings/viewpropertiesdialog.cpp:60
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Estilo visual da vista:"
+msgstr "Estilo visual da vista"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4404,31 +4403,31 @@ msgstr "Descendente"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
-msgstr "Amosar primeiro os cartafoles"
+msgstr "Amosar primeiro os cartafoles."
 
 #: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr "Amosar os ficheiros agochados ao final"
+msgstr "Amosar os ficheiros agochados ao final."
 
 #: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
-msgstr "Amosar a vista previa"
+msgstr "Amosar a vista previa."
 
 #: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
-msgstr "Amosar en grupos"
+msgstr "Amosar en grupos."
 
 #: settings/viewpropertiesdialog.cpp:90
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
-msgstr "Amosar os ficheiros agochados"
+msgstr "Amosar os ficheiros agochados."
 
 #: settings/viewpropertiesdialog.cpp:93
 #, kde-format
@@ -4486,7 +4485,7 @@ msgstr "Aplicar a:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
-msgstr "Usar como configuración predeterminada de vista"
+msgstr "Usar como configuración predeterminada de vista."
 
 #: settings/viewpropertiesdialog.cpp:335
 #, kde-format
@@ -4551,7 +4550,7 @@ msgstr "Deter"
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
-msgstr "Para de cargar"
+msgstr "Deixar de cargar."
 
 #: statusbar/dolphinstatusbar.cpp:129
 #, kde-kuit-format
@@ -4567,10 +4566,10 @@ msgid ""
 msgstr ""
 "<para>Esta é a <emphasis>barra de estado</emphasis>. Contén tres elementos "
 "de maneira predeterminada (de esquerda a dereita):<list><item>Un "
-"<emphasis>campo de texto</emphasis> que mostra o tamaño dos elementos "
+"<emphasis>campo de texto</emphasis> que amosa o tamaño dos elementos "
 "seleccionados. Se só se selecciona un elemento tamén se amosan o nome e o "
-"tipo.</item><item>Un <emphasis>control de desprazamento de zoom</emphasis> "
-"que permite axustar o tamaño das iconas da vista.</"
+"tipo.</item><item>Un <emphasis>control esvaradío de zoom</emphasis> que "
+"permite axustar o tamaño das iconas da vista.</"
 "item><item><emphasis>Información de espazo</emphasis> sobre o dispositivo de "
 "almacenamento actual.</item></list></para>"
 
@@ -4578,7 +4577,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
-msgstr "Amosar a barra de ampliación"
+msgstr "Amosar o control esvaradío de ampliación"
 
 #: statusbar/dolphinstatusbar.cpp:268
 #, kde-format
@@ -4590,13 +4589,13 @@ msgstr "Amosar información do espazo"
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
-msgstr "%1 libres"
+msgstr "%1 libres."
 
 #: statusbar/statusbarspaceinfo.cpp:117
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr "%1 de %2 libres (%3% usado)"
+msgstr "%1 de %2 libres (%3% usado)."
 
 #: trash/dolphintrash.cpp:56
 #, kde-format
@@ -4652,32 +4651,32 @@ msgstr "Cargar de novo"
 msgctxt "@info:status"
 msgid "1 Folder selected"
 msgid_plural "%1 Folders selected"
-msgstr[0] "Escolleu 1 cartafol"
-msgstr[1] "Escolleu %1 cartafoles"
+msgstr[0] "Escolleu 1 cartafol."
+msgstr[1] "Escolleu %1 cartafoles."
 
 #: views/dolphinview.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
 msgid_plural "%1 Files selected"
-msgstr[0] "Escolleu 1 ficheiro"
-msgstr[1] "Escolleu %1 ficheiros"
+msgstr[0] "Escolleu 1 ficheiro."
+msgstr[1] "Escolleu %1 ficheiros."
 
 #: views/dolphinview.cpp:641
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 cartafol"
-msgstr[1] "%1 cartafoles"
+msgstr[0] "1 cartafol."
+msgstr[1] "%1 cartafoles."
 
 #: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
 msgid_plural "%1 Files"
-msgstr[0] "1 ficheiro"
-msgstr[1] "%1 ficheiros"
+msgstr[0] "1 ficheiro."
+msgstr[1] "%1 ficheiros."
 
 #: views/dolphinview.cpp:646
 #, kde-format
@@ -4689,13 +4688,13 @@ msgstr "%1, %2 (%3)"
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 (%2)."
 
 #: views/dolphinview.cpp:652
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
-msgstr "ningún cartafol nin ficheiro"
+msgstr "0 cartafoles, 0 ficheiros."
 
 #: views/dolphinview.cpp:866 views/dolphinview.cpp:875
 #, kde-format
@@ -4752,7 +4751,7 @@ msgstr "Completouse a operación de eliminado."
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
-msgstr "Cambiar de nome e agochar"
+msgstr "Renomear e agochar"
 
 #: views/dolphinview.cpp:1963
 #, kde-format
@@ -4761,7 +4760,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "Engadir un punto ao comezo do nome do ficheiro o agochará da vista.\n"
-"Quere cambialo de nome aínda así?"
+"Quere renomealo aínda así?"
 
 #: views/dolphinview.cpp:1965
 #, kde-format
@@ -4770,7 +4769,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "Engadir un punto ao comezo do nome do cartafol o agochará da vista.\n"
-"Quere cambialo de nome aínda así?"
+"Quere renomealo aínda así?"
 
 #: views/dolphinview.cpp:1967
 #, kde-format
@@ -4877,9 +4876,8 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once amounts to their new names differing only in a number."
 msgstr ""
-"Isto cambia de nome os elementos da selección actual.<nl/>Cambiar de nome "
-"varios elementos dunha vez supón que os seus novos nomes só cambien nun "
-"número."
+"Isto cambia de nome os elementos da selección actual.<nl/>Renomear varios "
+"elementos dunha vez supón que os seus novos nomes só cambien nun número."
 
 #: views/dolphinviewactionhandler.cpp:102
 #, kde-kuit-format
@@ -4930,8 +4928,8 @@ msgid ""
 "currently viewed folder instead.<nl/>You can configure advanced options "
 "there like managing read- and write-permissions."
 msgstr ""
-"Isto mostra a lista completa de propiedades dos elementos seleccionados "
-"nunha nova xanela.<nl/>Se non se selecciona nada a xanela amosará o cartafol "
+"Isto amosa a lista completa de propiedades dos elementos seleccionados nunha "
+"nova xanela.<nl/>Se non se selecciona nada a xanela amosará o cartafol "
 "actual no seu lugar.<nl/>Pode configurar opcións avanzadas nela como "
 "xestionar permisos de lectura e de escritura."
 
@@ -5137,7 +5135,7 @@ msgid ""
 "hidden.</para>"
 msgstr ""
 "<para>Cando se activa isto os ficheiros e cartafoles <emphasis>agochados</"
-"emphasis> vólvense visíbeis. Mostraranse translúcidos.</para><para>Os "
+"emphasis> vólvense visíbeis. Amosaranse translúcidos.</para><para>Os "
 "ficheiros agochados só se diferencias dos demais en que o seu nome empeza "
 "cun «.». En xeral os usuarios non necesitan acceder a eles, que é polo que "
 "están agochados.</para>"
