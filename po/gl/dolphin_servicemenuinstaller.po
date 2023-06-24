@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-06 01:03+0000\n"
-"PO-Revision-Date: 2023-04-06 22:35+0200\n"
+"PO-Revision-Date: 2023-06-23 23:36+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -65,7 +65,7 @@ msgstr "Non se puido descomprimir %1"
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr "Non se puido executar o script de instalador %1"
+msgstr "Non se puido executar o guión de instalador %1"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
@@ -76,7 +76,7 @@ msgstr "Non se puideron definir os permisos en %1: %2"
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
-msgstr "O script de instalador %1 fallou, intentáronse os argumentos «%2»."
+msgstr "O guión de instalador %1 fallou, intentáronse os argumentos «%2»."
 
 #: servicemenuinstaller.cpp:275
 #, kde-format
@@ -97,17 +97,17 @@ msgstr "Non se puido copiar o ficheiro .desktop %1 a %2: %3"
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr "Non se puido retirar o directorio %1"
+msgstr "Non se puido retirar o cartafol %1"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr "Non se puido crear o directorio %1."
+msgstr "Non se puido crear o cartafol %1."
 
 #: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr "Non se puido atopar o script de instalación en %1"
+msgstr "Non se puido atopar o guión de instalación en %1"
 
 #: servicemenuinstaller.cpp:374
 #, kde-format
@@ -117,7 +117,7 @@ msgstr "Non se puido retirar o ficheiro .desktop %1: %2"
 #: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr "Non se puido atopar un script de desinstalación en %1"
+msgstr "Non se puido atopar un guión de desinstalación en %1"
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
