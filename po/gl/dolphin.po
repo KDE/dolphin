@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:57+0000\n"
-"PO-Revision-Date: 2023-06-23 22:51+0200\n"
+"PO-Revision-Date: 2023-06-24 11:31+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -3754,13 +3754,13 @@ msgstr "Aviso"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "Usar o mesmo estilo visual para todos os cartafoles"
+msgstr "Usar o mesmo estilo visual para todos os cartafoles."
 
 #: settings/general/behaviorsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "Lembrar o estilo visual de cada cartafol"
+msgstr "Lembrar o estilo visual de cada cartafol."
 
 #: settings/general/behaviorsettingspage.cpp:38
 #, kde-format
@@ -3782,19 +3782,19 @@ msgstr "Vista: "
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
-msgstr "Natural"
+msgstr "Natural."
 
 #: settings/general/behaviorsettingspage.cpp:50
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr "Alfabética, ignorando as maiúsculas"
+msgstr "Alfabética, ignorando as maiúsculas."
 
 #: settings/general/behaviorsettingspage.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
-msgstr "Alfabética, distinguindo as maiúsculas"
+msgstr "Alfabética, distinguindo as maiúsculas."
 
 #: settings/general/behaviorsettingspage.cpp:57
 #, kde-format
@@ -4023,13 +4023,13 @@ msgstr "Detalles"
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr "Tras o separador actual"
+msgstr "Tras o separador actual."
 
 #: settings/navigation/navigationsettingspage.cpp:30
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "Ao final da barra de separadores"
+msgstr "Ao final da barra de separadores."
 
 #: settings/navigation/navigationsettingspage.cpp:34
 #, kde-format
@@ -4059,7 +4059,7 @@ msgstr "Xeral: "
 #, kde-format
 msgctxt "@option:radio Startup Settings"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Cartafoles, separadores e estado da xanela da última vez"
+msgstr "Cartafoles, separadores e estado da xanela da última vez."
 
 #: settings/startup/startupsettingspage.cpp:67
 #, kde-format
@@ -4146,13 +4146,13 @@ msgstr ""
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
-msgstr "Número de elementos"
+msgstr "Número de elementos."
 
 #: settings/viewmodes/contentdisplaytab.cpp:35
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
-msgstr "Tamaño do contido, ata"
+msgstr "Tamaño do contido, ata "
 
 #: settings/viewmodes/contentdisplaytab.cpp:43
 #, kde-format
@@ -4171,13 +4171,13 @@ msgstr "O tamaño do cartafol amosa:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Relativa (p. ex. «%1»)"
+msgstr "Relativa (p. ex. «%1»)."
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Absoluta (p. ex. «%1»)"
+msgstr "Absoluta (p. ex. «%1»)."
 
 #: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
@@ -4189,19 +4189,19 @@ msgstr "Estilo de data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Simbólico (p. ex. «drwxr-xr-x»)"
+msgstr "Simbólico (p. ex. «drwxr-xr-x»)."
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numérico (octal) (p. ex. «755»)"
+msgstr "Numérico (octal) (p. ex. «755»)."
 
 #: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Combinado (p. ex. «drwxr-xr-x (755)»)"
+msgstr "Combinado (p. ex. «drwxr-xr-x (755)»)."
 
 #: settings/viewmodes/contentdisplaytab.cpp:76
 #, kde-format
@@ -4369,13 +4369,13 @@ msgstr "Cartafoles:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr "Premendo en calquera parte da fila"
+msgstr "Premendo en calquera parte da fila."
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Premendo na icona ou no nome"
+msgstr "Premendo na icona ou no nome."
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
@@ -4491,19 +4491,19 @@ msgstr "Opcións de vista:"
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
-msgstr "Ao cartafol actual"
+msgstr "Ao cartafol actual."
 
 #: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
-msgstr "O cartafol actual e os subcartafoles"
+msgstr "O cartafol actual e os subcartafoles."
 
 #: settings/viewpropertiesdialog.cpp:169
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
-msgstr "A todos os cartafoles"
+msgstr "A todos os cartafoles."
 
 #: settings/viewpropertiesdialog.cpp:178
 #, kde-format
