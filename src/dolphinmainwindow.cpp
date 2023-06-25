@@ -1766,7 +1766,14 @@ void DolphinMainWindow::setupActions()
     stashSplit->setVisible(sessionInterface && sessionInterface->isServiceRegistered(QStringLiteral("org.kde.kio.StashNotifier")));
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
-    KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
+    QAction *redisplay = KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
+    redisplay->setToolTip(i18nc("@info:tooltip", "Refresh view"));
+    redisplay->setWhatsThis(xi18nc("@info:whatsthis refresh",
+                                   "<para>This refreshes "
+                                   "the folder view.</para>"
+                                   "<para>If the contents of this folder have changed, refreshing will re-scan this folder "
+                                   "and show you a newly-updated view of the files and folders contained here.</para>"
+                                   "<para>If the view is split, this refreshes the one that is currently in focus.</para>"));
 
     QAction *stop = actionCollection()->addAction(QStringLiteral("stop"));
     stop->setText(i18nc("@action:inmenu View", "Stop"));
