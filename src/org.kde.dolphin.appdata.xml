@@ -80,7 +80,7 @@
   <summary xml:lang="eu">Fitxategi-kudeatzailea</summary>
   <summary xml:lang="fi">Tiedostonhallinta</summary>
   <summary xml:lang="fr">Gestionnaire de fichiers</summary>
-  <summary xml:lang="gl">Xestor de ficheiros</summary>
+  <summary xml:lang="gl">Xestor de ficheiros.</summary>
   <summary xml:lang="he">מנהל קבצים</summary>
   <summary xml:lang="hi">फ़ाइल प्रबंधक</summary>
   <summary xml:lang="hu">Fájlkezelő</summary>
@@ -177,7 +177,7 @@
     <p xml:lang="eu">Dolphin-ek denbora aurreztuko dizuten produktibitate-ezaugarri ugari ditu. Fitxa anitzen eta ikuspegi zatituen ezaugarriek aldi berean karpeta anitz nabigatzen uzten dute, eta fitxategiak ikuspegien artean arrastatu eta jaregin ditzakezu haiek erraz mugitu edo kopiatzeko. Dolphin-en eskuin-klik laster-menuak, besteak beste, fitxategiak konprimatzeko, partekatzeko, eta bikoizteko ekintza azkarrak eskaintzen ditu. Zuk nahi dituzun ekintzak ere erants ditzakezu.</p>
     <p xml:lang="fi">Dolphinin monet tuottavuusominaisuudet säästävät aikaasi. Välilehdet ja jaetut näkyvät mahdollistavat useamman kansion tarkastelun yhtä aikaa, jolloin tiedostoja voi helposti kopioida tai siirtää näkymästä toiseen vetämällä ja pudottamalla. Dolphinin kontekstivalikon tarjoamin pikatoiminnoin tiedostoja voi muun muassa pakata, jakaa ja monistaa. Myös omia mukautettuja toimintoja voi luoda.</p>
     <p xml:lang="fr">Dolphin contient de nombreuses fonctionnalités pour la productivité vous permettant de gagner du temps. Les fonctionnalités d'onglets multiples et d'affichage scindé vous permettent de naviguer dans plusieurs dossiers en même temps. Vous pouvez aussi réaliser facilement des glisser et déposer entre les affichages pour les déplacer ou les copier. Le menu de Dolphin accessible par un clic droit fournit plusieurs actions rapides vous permettant de compresser, partager et dupliquer des fichiers, entre autres actions. Vous pouvez aussi ajouter votre propres actions personnalisées.</p>
-    <p xml:lang="gl">Dolphin contén una morea de funcionalidades de produtividade para aforrarlle tempo. As funcionalidades de lapelas e vista dividida permiten navegar varios cartafoles ao mesmo tempo, e pode arrastrar e soltar ficheiros entre as súas vistas facilmente para movelos ou copialos. O menú de clic dereito de Dolphin fornece moitas accións rápidas que lle permiten comprimir, compartir, e duplicar ficheiros, entre outras cousas. Tamén pode engadir as súas propias accións personalizadas.</p>
+    <p xml:lang="gl">Dolphin contén una morea de funcionalidades de produtividade para aforrarlle tempo. As funcionalidades de separadores e vista dividida permiten navegar varios cartafoles ao mesmo tempo, e pode arrastrar e soltar ficheiros entre as súas vistas facilmente para movelos ou copialos. O menú de clic dereito de Dolphin fornece moitas accións rápidas que lle permiten comprimir, compartir, e duplicar ficheiros, entre outras cousas. Tamén pode engadir as súas propias accións personalizadas.</p>
     <p xml:lang="hi">डॉल्फिन में बहुत सारी उत्पादकता विशेषताएं होती हैं जो आपका समय बचाएगी। एकाधिक टैब और विभाजित दृश्य सुविधाएं एक ही समय में एकाधिक फ़ोल्डरों को संचालित करने में काम आतीं हैं, और आप फ़ाइलों को स्थानांतरित करने या नकल करने के लिए आसानी से फ़ाइलों को खींच कर छोड़ सकते हैं। डॉल्फ़िन का दाहिना-क्लिक मेनू कई द्रुत क्रियाएं प्रदान करता है जो आपको कई अन्य चीजों के साथ-साथ फ़ाइलों को संपीड़ित, साझा और प्रतिलिपि बनाने देता है। आप अपनी खुद की तदनुकूल कार्रवाइयां भी जोड़ सकते हैं।</p>
     <p xml:lang="hu">A Dolphin számos olyan funkcióval bír, amelyek időt spórolnak Önnek. A lapokkal és osztott nézetekkel egyszerre navigálhat több mappában egyszerre, és könnyen húzhat át fájlokat az egyik nézetből a másikba, átmásolva vagy áthelyezve azokat. A Dolphin jobb gombos menüje rengeteg gyors műveletet biztosít, például tömörítést, megosztást vagy fájlduplikálást. Akár saját műveletekkel is bővítheti azt.</p>
     <p xml:lang="ia">Dolphin contine abundantia de characteristicas de productivitate que te salveguardera tempore. Le characteristicas de multiple schedas e vista dividite permitte navigar dossieres multiple al mesme tempore, e tu pote  facilemente traher e deponer files inter vistas per mover o copiar los. Le menu de pulsar a dextere de Dolphines fornite con multe actiones rapide que te permitte comprimer, compartir, e duplicar files, inter multe altere cosas. Tu anqu pote adder tu actiones personalisate. </p>
@@ -356,7 +356,7 @@
       <caption xml:lang="eu">Fitxategi-kudeaketa Dolphin-ekin</caption>
       <caption xml:lang="fi">Tiedostonhallinta Dolphinissa</caption>
       <caption xml:lang="fr">Gestion de fichiers dans Dolphin</caption>
-      <caption xml:lang="gl">Xestión de ficheiros en Dolphin</caption>
+      <caption xml:lang="gl">Xestión de ficheiros en Dolphin.</caption>
       <caption xml:lang="he">ניהול קבצים ב־Dolphin</caption>
       <caption xml:lang="hi">डॉल्फिन में फ़ाइल प्रबंधन</caption>
       <caption xml:lang="hu">Fájlkezelés a Dolphinban</caption>
@@ -408,7 +408,7 @@
       <caption xml:lang="eu">Dolphinen txertatutako terminala</caption>
       <caption xml:lang="fi">Upotettu pääte Dolphinissa</caption>
       <caption xml:lang="fr">Terminal intégré dans Dolphin</caption>
-      <caption xml:lang="gl">Terminal incrustado en Dolphin</caption>
+      <caption xml:lang="gl">Terminal incrustado en Dolphin.</caption>
       <caption xml:lang="hi">डॉल्फिन में सन्निहित टर्मिनल</caption>
       <caption xml:lang="hu">Beágyazott terminál a Dolphinban</caption>
       <caption xml:lang="ia">Terminal incorporate in Dolphin</caption>
@@ -456,7 +456,7 @@
       <caption xml:lang="eu">Dolphinek zure fitxategi-kudeatzailea nahi duzun eran konfiguratzen uzten dizu</caption>
       <caption xml:lang="fi">Dolphinilla voit tehdä tiedostonhallintaa juuri kuten haluat</caption>
       <caption xml:lang="fr">Dolphin vous permet de configurer votre gestionnaire de fichiers, exactement comme vous le souhaitez.</caption>
-      <caption xml:lang="gl">Dolphin permítelle configurar o seu xestor de ficheiros como queira</caption>
+      <caption xml:lang="gl">Dolphin permítelle configurar o seu xestor de ficheiros como queira.</caption>
       <caption xml:lang="hi">डॉल्फ़िन आपको अपने फ़ाइल प्रबंधक को ठीक वैसे ही विन्यस्त करने देता है जैसे आप चाहते हैं </caption>
       <caption xml:lang="hu">A Dolphin lehetővé teszi, hogy úgy állítsa be a fájlkezelőkét, ahogyan szeretné</caption>
       <caption xml:lang="ia">Dolphin te permitte configurar tu gerente de file exactemente como tu lo vole</caption>
