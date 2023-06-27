@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-18 00:57+0000\n"
+"POT-Creation-Date: 2023-06-27 00:50+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -173,7 +173,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Mở %1"
 
-#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1882
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -562,31 +562,49 @@ msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Mở một cửa sổ chia đôi hiển thị thư mục ảo cất giữ"
 
+#: dolphinmainwindow.cpp:1770
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Preview"
+msgctxt "@info:tooltip"
+msgid "Refresh view"
+msgstr "Xem thử"
+
 #: dolphinmainwindow.cpp:1772
+#, kde-kuit-format
+msgctxt "@info:whatsthis refresh"
+msgid ""
+"<para>This refreshes the folder view.</para><para>If the contents of this "
+"folder have changed, refreshing will re-scan this folder and show you a "
+"newly-updated view of the files and folders contained here.</para><para>If "
+"the view is split, this refreshes the one that is currently in focus.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1779
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Dừng"
 
-#: dolphinmainwindow.cpp:1773
+#: dolphinmainwindow.cpp:1780
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Dừng tải"
 
-#: dolphinmainwindow.cpp:1774
+#: dolphinmainwindow.cpp:1781
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Hành động này dừng việc tải nội dung của thư mục hiện tại."
 
-#: dolphinmainwindow.cpp:1779
+#: dolphinmainwindow.cpp:1786
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Địa điểm sửa được"
 
-#: dolphinmainwindow.cpp:1781
+#: dolphinmainwindow.cpp:1788
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -600,13 +618,13 @@ msgstr ""
 "sửa bằng cách bấm vào bên phải của địa điểm và kết thúc bằng cách xác nhận "
 "địa điểm đã sửa."
 
-#: dolphinmainwindow.cpp:1789
+#: dolphinmainwindow.cpp:1796
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Thay thế địa điểm"
 
-#: dolphinmainwindow.cpp:1794
+#: dolphinmainwindow.cpp:1801
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -616,19 +634,19 @@ msgstr ""
 "Hành động này bắt đầu việc sửa địa điểm và chọn luôn cả dòng để bạn có thể "
 "nhanh chóng nhập một địa điểm khác."
 
-#: dolphinmainwindow.cpp:1824
+#: dolphinmainwindow.cpp:1831
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Đảo ngược việc đóng thẻ"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1832
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Hành động này đưa bạn lại thẻ đã đóng trước đây."
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1840
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -643,7 +661,7 @@ msgstr ""
 "<filename>thùng rác</filename>.<nl/>Các thay đổi không đảo ngược được sẽ yêu "
 "cầu xác nhận của bạn."
 
-#: dolphinmainwindow.cpp:1862
+#: dolphinmainwindow.cpp:1869
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -655,13 +673,13 @@ msgstr ""
 "dùng có <filename>Nhà</filename> riêng, chứa dữ liệu của danh khoản đó, bao "
 "gồm các thư mục chứa dữ liệu ứng dụng cá nhân."
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1876
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "So sánh tệp"
 
-#: dolphinmainwindow.cpp:1877
+#: dolphinmainwindow.cpp:1884
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -673,13 +691,13 @@ msgstr ""
 "para><para>Dùng trình đơn<emphasis>Công cụ tìm kiếm khác</emphasis> để điều "
 "chỉnh.</para>"
 
-#: dolphinmainwindow.cpp:1885
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Mở dòng lệnh"
 
-#: dolphinmainwindow.cpp:1887
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -692,13 +710,13 @@ msgstr ""
 "thêm về các dòng lệnh.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Mở dòng lệnh tại đây"
 
-#: dolphinmainwindow.cpp:1897
+#: dolphinmainwindow.cpp:1904
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -710,19 +728,19 @@ msgstr ""
 "điểm của các thứ đang được chọn.</para><para>Sử dụng trợ giúp trong ứng dụng "
 "dòng lệnh để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:1905 dolphinmainwindow.cpp:2654
+#: dolphinmainwindow.cpp:1912 dolphinmainwindow.cpp:2661
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Nhắm vào bảng \"Dòng lệnh\""
 
-#: dolphinmainwindow.cpp:1913
+#: dolphinmainwindow.cpp:1920
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Dấu nhớ"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1930
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -741,79 +759,79 @@ msgstr ""
 "interface> thì đơn giản hơn và nhỏ, khiến việc kích hoạt các hành động nâng "
 "cao sẽ tốn thời gian hơn.</para>"
 
-#: dolphinmainwindow.cpp:1956
+#: dolphinmainwindow.cpp:1963
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Kích hoạt thẻ %1"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Kích hoạt thẻ cuối cùng"
 
-#: dolphinmainwindow.cpp:1975
+#: dolphinmainwindow.cpp:1982
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Thẻ sau"
 
-#: dolphinmainwindow.cpp:1976
+#: dolphinmainwindow.cpp:1983
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Kích hoạt thẻ sau"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:1989
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Thẻ trước"
 
-#: dolphinmainwindow.cpp:1983
+#: dolphinmainwindow.cpp:1990
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Kích hoạt thẻ trước"
 
-#: dolphinmainwindow.cpp:1990
+#: dolphinmainwindow.cpp:1997
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Hiện đích"
 
-#: dolphinmainwindow.cpp:1996
+#: dolphinmainwindow.cpp:2003
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Mở trong thẻ mới"
 
-#: dolphinmainwindow.cpp:2001
+#: dolphinmainwindow.cpp:2008
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Mở trong thẻ mới"
 
-#: dolphinmainwindow.cpp:2006
+#: dolphinmainwindow.cpp:2013
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Mở trong cửa sổ mới"
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2025
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Bỏ khoá các bảng"
 
-#: dolphinmainwindow.cpp:2020
+#: dolphinmainwindow.cpp:2027
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Khoá các bảng"
 
-#: dolphinmainwindow.cpp:2023
+#: dolphinmainwindow.cpp:2030
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -827,13 +845,13 @@ msgstr ""
 "phía kia của cửa sổ và có một nút đóng.<nl/>Các bảng bị khoá thì trông thanh "
 "gọn hơn."
 
-#: dolphinmainwindow.cpp:2032
+#: dolphinmainwindow.cpp:2039
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Thông tin"
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2062
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -843,7 +861,7 @@ msgstr ""
 "<para>Để hiện hoặc ẩn các bảng như thế này, mở <interface>Trình đơn|Bảng</"
 "interface> hoặc <interface>Xem|Bảng</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2062
+#: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -859,7 +877,7 @@ msgstr ""
 "hiện thông tin về thư mục đang xem.<nl/>Với từng thứ riêng lẻ thì nó hiện "
 "một phần xem thử cho nội dung của thứ đó.</para>"
 
-#: dolphinmainwindow.cpp:2070
+#: dolphinmainwindow.cpp:2077
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -875,13 +893,13 @@ msgstr ""
 "dung của thứ đó.</para><para>Bấm phải để điều chỉnh nội dung và cách thức "
 "hiển thị các chi tiết ở đây.</para>"
 
-#: dolphinmainwindow.cpp:2079
+#: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Thư mục"
 
-#: dolphinmainwindow.cpp:2100
+#: dolphinmainwindow.cpp:2107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -893,7 +911,7 @@ msgstr ""
 "sổ.<nl/><nl/>Nó hiển thị các thư mục của <emphasis>hệ thống tệp</emphasis> "
 "trong một <emphasis>khung xem cây</emphasis>."
 
-#: dolphinmainwindow.cpp:2105
+#: dolphinmainwindow.cpp:2112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -907,13 +925,13 @@ msgstr ""
 "mục để đi đến đó. Bấm vào mũi tên bên trái một thư mục để thấy các thư mục "
 "con của nó. Bảng này cho phép chuyển nhanh giữa bất kì thư mục nào.</para>"
 
-#: dolphinmainwindow.cpp:2115
+#: dolphinmainwindow.cpp:2122
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Dòng lệnh"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -931,7 +949,7 @@ msgstr ""
 "cho các tác vụ nâng cao. Sử dụng trợ giúp trong một ứng dụng dòng lệnh độc "
 "lập, như Konsole, để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:2148
+#: dolphinmainwindow.cpp:2155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -949,19 +967,19 @@ msgstr ""
 "cho các tác vụ nâng cao. Sử dụng trợ giúp trong một ứng dụng dòng lệnh độc "
 "lập, như Konsole, để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2172
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Địa điểm"
 
-#: dolphinmainwindow.cpp:2192
+#: dolphinmainwindow.cpp:2199
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Hiện các địa điểm ẩn"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2203
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -972,7 +990,7 @@ msgstr ""
 "ẩn đi. Chúng sẽ hiện bán trong suốt trừ khi bạn bỏ chọn thuộc tính ẩn của "
 "chúng."
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -988,7 +1006,7 @@ msgstr ""
 "cũng chứa các khu vực để tìm các tệp mới lưu gần đây hoặc các tệp thuộc một "
 "kiểu nhất định.</para>"
 
-#: dolphinmainwindow.cpp:2215
+#: dolphinmainwindow.cpp:2222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1012,13 +1030,13 @@ msgstr ""
 "trong bảng này và chọn <interface>Hiện các địa điểm ẩn</interface> để hiện "
 "lại khu vực hoặc mục đó.</para>"
 
-#: dolphinmainwindow.cpp:2229
+#: dolphinmainwindow.cpp:2236
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Hiện các bảng"
 
-#: dolphinmainwindow.cpp:2347
+#: dolphinmainwindow.cpp:2354
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1033,43 +1051,43 @@ msgstr ""
 "đỉnh của hệ thống phân cấp này là một thư mục chứa tất cả dữ liệu kết nối "
 "với máy tính này—<emphasis>thư mục gốc</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2435
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Đóng"
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2436
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Đóng khung xem bên trái"
 
-#: dolphinmainwindow.cpp:2432
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Đóng"
 
-#: dolphinmainwindow.cpp:2433
+#: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Đóng khung xem bên phải"
 
-#: dolphinmainwindow.cpp:2437
+#: dolphinmainwindow.cpp:2444
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Chia đôi"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2445
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Chia đôi khung xem"
 
-#: dolphinmainwindow.cpp:2486
+#: dolphinmainwindow.cpp:2493
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1087,7 +1105,7 @@ msgstr ""
 "đó hầu hết nội dung của nó có thể tìm thấy ở nút <interface>Trình đơn</"
 "interface> trên <emphasis>Thanh công cụ</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2493
+#: dolphinmainwindow.cpp:2500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1110,7 +1128,7 @@ msgstr ""
 "đổi được trong trình đơn bấm phải. Bấm phải vào một nút nếu bạn muốn hiện "
 "hay ẩn chữ của nó.</para>"
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2512
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1138,7 +1156,7 @@ msgstr ""
 "html'>bấm vào đây</link>. Nó sẽ mở ra một trang trong <emphasis>Sổ tay</"
 "emphasis> bao hàm các nội dung cơ bản.</para>"
 
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1152,7 +1170,7 @@ msgstr ""
 "khi các phím đó được bấm đồng thời. Tất cả các lệnh trong ứng dụng này có "
 "thể được kích hoạt bằng cách này.</para>"
 
-#: dolphinmainwindow.cpp:2527
+#: dolphinmainwindow.cpp:2534
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1165,7 +1183,7 @@ msgstr ""
 "thấy trong <interface>Trình đơn</interface> đều có thể đặt được vào Thanh "
 "công cụ.</para>"
 
-#: dolphinmainwindow.cpp:2531
+#: dolphinmainwindow.cpp:2538
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1184,7 +1202,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2558
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1201,7 +1219,7 @@ msgstr ""
 "File_Management'>bấm vào đây</link>. Nó sẽ mở ra trang chuyên biệt trong "
 "Wiki Cơ sở Người dùng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2556
+#: dolphinmainwindow.cpp:2563
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1223,7 +1241,7 @@ msgstr ""
 "KDE</link>.</para><para>Phần lớn các cửa sổ khác đều thiếu kiểu trợ giúp "
 "\"Đây là cái gì?\" nên đừng quá quen với nó.</para>"
 
-#: dolphinmainwindow.cpp:2567
+#: dolphinmainwindow.cpp:2574
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1239,7 +1257,7 @@ msgstr ""
 "Get_Involved/Bug_Reporting'>Bấm vào đây</link> để biết cách làm bản báo lỗi "
 "của bạn thật hiệu quả.</para>"
 
-#: dolphinmainwindow.cpp:2576
+#: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1260,7 +1278,7 @@ msgstr ""
 "khoản như máy chủ, hội nghị người đóng góp, v.v.</para><para><emphasis>KDE e."
 "V.</emphasis> là tổ chức phi lợi nhuận đứng sau cộng đồng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2589
+#: dolphinmainwindow.cpp:2596
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1272,7 +1290,7 @@ msgstr ""
 ">Bạn còn có thể đặt các ngôn ngữ thứ cấp để dùng khi các đoạn chữ không có "
 "trong ngôn ngữ mà bạn ưu tiên."
 
-#: dolphinmainwindow.cpp:2594
+#: dolphinmainwindow.cpp:2601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1282,7 +1300,7 @@ msgstr ""
 "Hành động này mở một cửa sổ thông tin cho bạn về phiên bản, giấy phép, các "
 "thư viện được dùng và các bảo trì viên của ứng dụng này."
 
-#: dolphinmainwindow.cpp:2599
+#: dolphinmainwindow.cpp:2606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1296,7 +1314,7 @@ msgstr ""
 "ứng dụng này nhưng chưa biết về KDE hoặc bạn muốn thấy một con rồng dễ "
 "thương thì hãy thử ghé xem!"
 
-#: dolphinmainwindow.cpp:2657 dolphinmainwindow.cpp:2661
+#: dolphinmainwindow.cpp:2664 dolphinmainwindow.cpp:2668
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-18 00:57+0000\n"
+"POT-Creation-Date: 2023-06-27 00:50+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -181,7 +181,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Adkryć %1"
 
-#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1882
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -587,31 +587,49 @@ msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Adkryvaje virtuaĺny kataloh časovaha bufieru ŭ asobnym aknie"
 
+#: dolphinmainwindow.cpp:1770
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Preview"
+msgctxt "@info:tooltip"
+msgid "Refresh view"
+msgstr "Papiaredni prahliad"
+
 #: dolphinmainwindow.cpp:1772
+#, kde-kuit-format
+msgctxt "@info:whatsthis refresh"
+msgid ""
+"<para>This refreshes the folder view.</para><para>If the contents of this "
+"folder have changed, refreshing will re-scan this folder and show you a "
+"newly-updated view of the files and folders contained here.</para><para>If "
+"the view is split, this refreshes the one that is currently in focus.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1779
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Spynić"
 
-#: dolphinmainwindow.cpp:1773
+#: dolphinmainwindow.cpp:1780
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Spynić zahruzku"
 
-#: dolphinmainwindow.cpp:1774
+#: dolphinmainwindow.cpp:1781
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Hetaje dziejannie spyniaje zahruzku zmiesciva biahučaha kataloha."
 
-#: dolphinmainwindow.cpp:1779
+#: dolphinmainwindow.cpp:1786
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Redahavaĺnaje razmiaščennie"
 
-#: dolphinmainwindow.cpp:1781
+#: dolphinmainwindow.cpp:1788
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -624,13 +642,13 @@ msgstr ""
 "vy mieli mahčymasć uviesci adras, pa jakim chočacie pierajsci.<nl/>Vy "
 "taksama možacie redahavać razmiaščennie, pstryknuŭšy sprava ad jaho."
 
-#: dolphinmainwindow.cpp:1789
+#: dolphinmainwindow.cpp:1796
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Zamianić adras razmiaščennia"
 
-#: dolphinmainwindow.cpp:1794
+#: dolphinmainwindow.cpp:1801
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -640,19 +658,19 @@ msgstr ""
 "Hety paramietr robić adras razmiaščennia redahavaĺnym i abiraje jaho, kab vy "
 "mahli chutka ŭviesci inšy adras."
 
-#: dolphinmainwindow.cpp:1824
+#: dolphinmainwindow.cpp:1831
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Adrabić zakryccio ŭkladki"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1832
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Hetaje dziejannie viernie vas na papiaredniuju zakrytuju ŭkladku."
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1840
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -674,7 +692,7 @@ msgstr ""
 "<filename>smietnicu</filename>. <nl/>Zmieny, jakija nieĺha skasavać, buduć "
 "patrabavać pacviardžennia."
 
-#: dolphinmainwindow.cpp:1862
+#: dolphinmainwindow.cpp:1869
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -687,13 +705,13 @@ msgstr ""
 "zmiaščajucca danyja karystaĺnika, u tym liku katalohi, jakija zmiaščajuć "
 "asabistyja danyja dlia prahram."
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1876
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Paraŭnać fajly"
 
-#: dolphinmainwindow.cpp:1877
+#: dolphinmainwindow.cpp:1884
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -705,13 +723,13 @@ msgstr ""
 "para><para>Naladzić jaho možna ŭ mieniu <emphasis>Dadatkovyja instrumienty "
 "pošuku</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:1885
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Adkryć terminal"
 
-#: dolphinmainwindow.cpp:1887
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -724,13 +742,13 @@ msgstr ""
 "skarystajciesia daviedkaj u prahramie terminala.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Adkryć terminal"
 
-#: dolphinmainwindow.cpp:1897
+#: dolphinmainwindow.cpp:1904
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -747,19 +765,19 @@ msgstr ""
 "miescy razmiaščennia abranych eliemientaŭ.</para><para>Kab daviedacca boĺš "
 "pra terminaly, skarystajciesia daviedkaj u prahramie terminala.</para>"
 
-#: dolphinmainwindow.cpp:1905 dolphinmainwindow.cpp:2654
+#: dolphinmainwindow.cpp:1912 dolphinmainwindow.cpp:2661
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Pierajsci na paneĺ terminala"
 
-#: dolphinmainwindow.cpp:1913
+#: dolphinmainwindow.cpp:1920
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Zakladki"
 
-#: dolphinmainwindow.cpp:1923
+#: dolphinmainwindow.cpp:1930
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -778,79 +796,79 @@ msgstr ""
 "para><para>Knopka<interface>%1</interface> boĺš prostaja i malieńkaja, što "
 "robić vypusk dadatkovych dziejanniaŭ boĺš praciahlym.</para>"
 
-#: dolphinmainwindow.cpp:1956
+#: dolphinmainwindow.cpp:1963
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Pierajsci da ŭkladki %1"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Pierajsci da apošniaj ukladki"
 
-#: dolphinmainwindow.cpp:1975
+#: dolphinmainwindow.cpp:1982
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Nastupnaja ŭkladka"
 
-#: dolphinmainwindow.cpp:1976
+#: dolphinmainwindow.cpp:1983
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Pierajsci da nastupnaj ukladki"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:1989
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Papiaredniaja ŭkladka"
 
-#: dolphinmainwindow.cpp:1983
+#: dolphinmainwindow.cpp:1990
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Pierajsci da papiaredniaj ukladki"
 
-#: dolphinmainwindow.cpp:1990
+#: dolphinmainwindow.cpp:1997
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Pakazać metu"
 
-#: dolphinmainwindow.cpp:1996
+#: dolphinmainwindow.cpp:2003
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Adkryć u novaj ukladcy"
 
-#: dolphinmainwindow.cpp:2001
+#: dolphinmainwindow.cpp:2008
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Adkryć u novych ukladkach"
 
-#: dolphinmainwindow.cpp:2006
+#: dolphinmainwindow.cpp:2013
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Adkryć u novym aknie"
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2025
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Razblakavać paneli"
 
-#: dolphinmainwindow.cpp:2020
+#: dolphinmainwindow.cpp:2027
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Zablakavać paneli"
 
-#: dolphinmainwindow.cpp:2023
+#: dolphinmainwindow.cpp:2030
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -864,13 +882,13 @@ msgstr ""
 "možna pieramiascić na inšy bok akna, jany majuć knopku zakryccia.<nl/"
 ">Zablakavanyja paneli ŭbudoŭvajucca boĺš akuratna."
 
-#: dolphinmainwindow.cpp:2032
+#: dolphinmainwindow.cpp:2039
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Zviestki"
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2062
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -881,7 +899,7 @@ msgstr ""
 "<interface>Mieniu|Paneli</interface> abo <interface>Vyhliad|Paneli</"
 "interface>.</para>"
 
-#: dolphinmainwindow.cpp:2062
+#: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -898,7 +916,7 @@ msgstr ""
 "kataloh, jaki vy prahliadajecie.<nl/>Dlia asobnych eliemientaŭ "
 "praduhliedžany papiaredni prahliad ich zmiesciva.</para>"
 
-#: dolphinmainwindow.cpp:2070
+#: dolphinmainwindow.cpp:2077
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -915,13 +933,13 @@ msgstr ""
 "para><para>Tut vy možacie naladzić, jakija zviestki buduć pakazvacca, "
 "pstryknuŭšy pravaj knopkaj myšy.</para >"
 
-#: dolphinmainwindow.cpp:2079
+#: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Katalohi"
 
-#: dolphinmainwindow.cpp:2100
+#: dolphinmainwindow.cpp:2107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -933,7 +951,7 @@ msgstr ""
 "lievaj častcy akna.<nl/><nl/>Na joj pakazvajucca katalohi <emphasis>fajlavaj "
 "sistemy</emphasis> u <emphasis>vyhliadzie dreva</emphasis>."
 
-#: dolphinmainwindow.cpp:2105
+#: dolphinmainwindow.cpp:2112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -948,13 +966,13 @@ msgstr ""
 "kataloha, kab ubačyć ukladzienyja ŭ jaho katalohi. Heta dazvaliaje chutka "
 "pierakliučacca pamiž katalohami.</para>"
 
-#: dolphinmainwindow.cpp:2115
+#: dolphinmainwindow.cpp:2122
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -972,7 +990,7 @@ msgstr ""
 "vykanannia dadatkovych zadač. Kab daviedacca boĺš pra terminaly, "
 "skarystajciesia daviedkaj prahramy terminala nakštalt Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2148
+#: dolphinmainwindow.cpp:2155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -990,19 +1008,19 @@ msgstr ""
 "terminaly, skarystajciesia daviedkaj prahramy terminala nakštalt Konsole.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2172
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Razmiaščenni"
 
-#: dolphinmainwindow.cpp:2192
+#: dolphinmainwindow.cpp:2199
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Pakazvać schavanyja razmiaščenni"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2203
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1013,7 +1031,7 @@ msgstr ""
 "byli schavanyja. Jany buduć vyhliadać napaŭprazrystymi, kali vy nie "
 "prybieracie adznaku z ulascivasci chavannia."
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1030,7 +1048,7 @@ msgstr ""
 "Taksama na paneli josć razdziely dlia pošuku niadaŭna zachavanych fajlaŭ abo "
 "fajlaŭ peŭnaha typu.</para>"
 
-#: dolphinmainwindow.cpp:2215
+#: dolphinmainwindow.cpp:2222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1056,13 +1074,13 @@ msgstr ""
 "pustym miescy na hetaj paneli i abiarycie <interface>Pakazvać schavanyja "
 "razmiaščenni</interface>, kab pakazvać jaho znoŭ.</para>"
 
-#: dolphinmainwindow.cpp:2229
+#: dolphinmainwindow.cpp:2236
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Pakazvać paneli"
 
-#: dolphinmainwindow.cpp:2347
+#: dolphinmainwindow.cpp:2354
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1078,43 +1096,43 @@ msgstr ""
 "znachodzicca kataloh, jaki zmiaščaje ŭsie danyja hetaha kampjutara - "
 "<emphasis>karaniovy kataloh(root)</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2435
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zakryć"
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2436
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Zakryć lievuju paneĺ"
 
-#: dolphinmainwindow.cpp:2432
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zakryć"
 
-#: dolphinmainwindow.cpp:2433
+#: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zakryć pravuju paneĺ"
 
-#: dolphinmainwindow.cpp:2437
+#: dolphinmainwindow.cpp:2444
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Padzialić"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2445
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Padzialić"
 
-#: dolphinmainwindow.cpp:2486
+#: dolphinmainwindow.cpp:2493
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1133,7 +1151,7 @@ msgstr ""
 "častka zmiesciva paneli budzie dastupna praz knopku <interface>Mieniu</"
 "interface> na <emphasis>Paneli instrumientaŭ</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2493
+#: dolphinmainwindow.cpp:2500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1157,7 +1175,7 @@ msgstr ""
 "pstryknuŭšy pravaj knopkaj myšy. Pstryknicie pa knopcy pravaj knopkaj myšy, "
 "kali chočacie pakazać ci schavać tekst.</para>"
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2512
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis main view"
 #| msgid ""
@@ -1199,7 +1217,7 @@ msgstr ""
 "html>nacisnicie siudy</link>. Adkryjecca staronka z <emphasis>Daviednika</"
 "emphasis>, dzie apisvajucca asnoŭnyja funkcyi.</para>"
 
-#: dolphinmainwindow.cpp:2521
+#: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1213,7 +1231,7 @@ msgstr ""
 "peŭnaha dziejannia. Dlia ŭsich zahadaŭ hetaj prahramy možna pryznačyć "
 "spalučennie klaviš.</para>"
 
-#: dolphinmainwindow.cpp:2527
+#: dolphinmainwindow.cpp:2534
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1226,7 +1244,7 @@ msgstr ""
 "jakija vy bačycie ŭ <interface>Mieniu</interface>, možna razmiascić na "
 "paneli instrumientaŭ.</para>"
 
-#: dolphinmainwindow.cpp:2531
+#: dolphinmainwindow.cpp:2538
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1245,7 +1263,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2558
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis handbook"
 #| msgid ""
@@ -1270,7 +1288,7 @@ msgstr ""
 "File_Management>nacisnicie siudy</link>. Adkryjecca staronka z Bazy "
 "karystaĺnika KDE.</para>"
 
-#: dolphinmainwindow.cpp:2556
+#: dolphinmainwindow.cpp:2563
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis whatsthis button"
 #| msgid ""
@@ -1302,7 +1320,7 @@ msgstr ""
 "karystaĺnika KDE</link>.</para><para>Funkcyi \"Što heta?\" niama ŭ boĺšasci "
 "inšych voknaŭ, tamu nie pryvykajcie da hetaha.</para>"
 
-#: dolphinmainwindow.cpp:2567
+#: dolphinmainwindow.cpp:2574
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1326,7 +1344,7 @@ msgstr ""
 "efiektyŭnaj, <link url=https://community.kde.org/Get_Involved/"
 "Bug_Reporting>nacisnicie siudy</link>.</para>"
 
-#: dolphinmainwindow.cpp:2576
+#: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1349,7 +1367,7 @@ msgstr ""
 "ŭdzieĺnikaŭ i h.d.</para><para><emphasis>KDE e.V.</emphasis> - "
 "niekamiercyjnaja arhanizacyja, jakaja vystupaje ad imia KDE.</para>"
 
-#: dolphinmainwindow.cpp:2589
+#: dolphinmainwindow.cpp:2596
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1361,7 +1379,7 @@ msgstr ""
 "navat možacie ŭstaliavać dadatkovyja movy, jakija buduć vykarystoŭvacca, "
 "kali niama tekstu na vašaj pieravažnaj movie."
 
-#: dolphinmainwindow.cpp:2594
+#: dolphinmainwindow.cpp:2601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1371,7 +1389,7 @@ msgstr ""
 "Hetaje dziejannie adkryvaje akno sa zviestkami pra viersii, licenzii, "
 "biblijateki i supravadžaĺnikaŭ hetaj prahramy."
 
-#: dolphinmainwindow.cpp:2599
+#: dolphinmainwindow.cpp:2606
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1392,7 +1410,7 @@ msgstr ""
 "prahramaj, alie vy nie viedajecie pra KDE abo chočacie ŭbačyć pryhožaha "
 "cmoka, pahliadzicie!"
 
-#: dolphinmainwindow.cpp:2657 dolphinmainwindow.cpp:2661
+#: dolphinmainwindow.cpp:2664 dolphinmainwindow.cpp:2668
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
