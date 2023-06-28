@@ -8,7 +8,7 @@
 
 #include "kfileitemmodel.h"
 
-#include "dolphin_detailsmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "private/kfileitemmodelsortalgorithm.h"
@@ -104,6 +104,8 @@ KFileItemModel::KFileItemModel(QObject *parent)
     connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
     connect(GeneralSettings::self(), &GeneralSettings::sortingChoiceChanged, this, &KFileItemModel::slotSortingChoiceChanged);
+
+    setShowTrashMime(m_dirLister->showHiddenFiles());
 }
 
 KFileItemModel::~KFileItemModel()
@@ -128,6 +130,8 @@ void KFileItemModel::refreshDirectory(const QUrl &url)
     }
 
     m_dirLister->openUrl(url, KDirLister::Reload);
+
+    Q_EMIT directoryRefreshing();
 }
 
 QUrl KFileItemModel::directory() const
@@ -235,9 +239,31 @@ bool KFileItemModel::sortHiddenLast() const
     return m_sortHiddenLast;
 }
 
+void KFileItemModel::setShowTrashMime(bool show)
+{
+    const auto trashMime = QStringLiteral("application/x-trash");
+    QStringList excludeFilter = m_filter.excludeMimeTypes();
+    bool wasShown = !excludeFilter.contains(trashMime);
+
+    if (show) {
+        if (!wasShown) {
+            excludeFilter.removeAll(trashMime);
+        }
+    } else {
+        if (wasShown) {
+            excludeFilter.append(trashMime);
+        }
+    }
+
+    if (wasShown != show) {
+        setExcludeMimeTypeFilter(excludeFilter);
+    }
+}
+
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
     m_dirLister->setShowHiddenFiles(show);
+    setShowTrashMime(show);
     m_dirLister->emitChanges();
     if (show) {
         dispatchPendingItemsToInsert();
@@ -723,6 +749,20 @@ void KFileItemModel::setMimeTypeFilters(const QStringList &filters)
 QStringList KFileItemModel::mimeTypeFilters() const
 {
     return m_filter.mimeTypes();
+}
+
+void KFileItemModel::setExcludeMimeTypeFilter(const QStringList &filters)
+{
+    if (m_filter.excludeMimeTypes() != filters) {
+        dispatchPendingItemsToInsert();
+        m_filter.setExcludeMimeTypes(filters);
+        applyFilters();
+    }
+}
+
+QStringList KFileItemModel::excludeMimeTypeFilter() const
+{
+    return m_filter.excludeMimeTypes();
 }
 
 void KFileItemModel::applyFilters()
@@ -1808,7 +1848,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[IsHiddenRole]) {
-        data.insert(sharedValue("isHidden"), item.isHidden());
+        data.insert(sharedValue("isHidden"), item.isHidden() || item.mimetype() == QStringLiteral("application/x-trash"));
     }
 
     if (m_requestRole[NameRole]) {
@@ -1816,6 +1856,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[ExtensionRole] && !isDir) {
+        // TODO KF6 use KFileItem::suffix 464722
         data.insert(sharedValue("extension"), QFileInfo(item.name()).suffix());
     }
 
@@ -1975,7 +2016,7 @@ bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QColla
         }
     }
 
-    if (m_sortDirsFirst || (DetailsModeSettings::directorySizeCount() && m_sortRole == SizeRole)) {
+    if (m_sortDirsFirst || (ContentDisplaySettings::directorySizeCount() && m_sortRole == SizeRole)) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -2027,7 +2068,7 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         break;
 
     case SizeRole: {
-        if (DetailsModeSettings::directorySizeCount() && itemA.isDir()) {
+        if (ContentDisplaySettings::directorySizeCount() && itemA.isDir()) {
             // folders first then
             // items A and B are folders thanks to lessThan checks
             auto valueA = a->values.value("count");
@@ -2287,7 +2328,7 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
         KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
-            if (DetailsModeSettings::directorySizeCount() || m_sortDirsFirst) {
+            if (ContentDisplaySettings::directorySizeCount() || m_sortDirsFirst) {
                 newGroupValue = i18nc("@title:group Size", "Folders");
             } else {
                 fileSize = m_itemData.at(i)->values.value("size").toULongLong();

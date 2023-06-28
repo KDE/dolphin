@@ -50,7 +50,7 @@ public:
 
     class iterator
     {
-        iterator(const KItemRangeList::iterator &rangeIt, int offset)
+        iterator(const KItemRangeList::iterator &rangeIt, int offset = 0)
             : m_rangeIt(rangeIt)
             , m_offset(offset)
         {
@@ -135,7 +135,7 @@ public:
 
     class const_iterator
     {
-        const_iterator(KItemRangeList::const_iterator rangeIt, int offset)
+        const_iterator(KItemRangeList::const_iterator rangeIt, int offset = 0)
             : m_rangeIt(rangeIt)
             , m_offset(offset)
         {
@@ -223,12 +223,79 @@ public:
         friend class KItemSet;
     };
 
+    class const_reverse_iterator
+    {
+    public:
+        const_reverse_iterator(KItemSet::const_iterator rangeIt)
+            : m_current(rangeIt)
+        {
+        }
+
+        const_reverse_iterator(const KItemSet::const_reverse_iterator &other)
+            : m_current(other.base())
+        {
+        }
+
+        int operator*() const
+        {
+            // analog to std::prev
+            auto t = const_iterator(m_current);
+            --t;
+            return *t;
+        }
+
+        inline bool operator==(const const_reverse_iterator &other) const
+        {
+            return m_current == other.m_current;
+        }
+
+        bool operator!=(const const_reverse_iterator &other) const
+        {
+            return !(*this == other);
+        }
+
+        const_reverse_iterator &operator++()
+        {
+            --m_current;
+            return *this;
+        }
+        const_reverse_iterator operator++(int)
+        {
+            auto tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
+        const_reverse_iterator &operator--()
+        {
+            ++m_current;
+            return *this;
+        }
+        const_reverse_iterator operator--(int)
+        {
+            auto tmp = *this;
+            --(*this);
+            return tmp;
+        }
+
+        KItemSet::const_iterator base() const
+        {
+            return m_current;
+        }
+
+    private:
+        KItemSet::const_iterator m_current;
+    };
+
     iterator begin();
     const_iterator begin() const;
     const_iterator constBegin() const;
     iterator end();
     const_iterator end() const;
     const_iterator constEnd() const;
+
+    const_reverse_iterator rend() const;
+    const_reverse_iterator rbegin() const;
 
     int first() const;
     int last() const;
@@ -366,32 +433,32 @@ inline bool KItemSet::remove(int i)
 
 inline KItemSet::iterator KItemSet::begin()
 {
-    return iterator(m_itemRanges.begin(), 0);
+    return iterator(m_itemRanges.begin());
 }
 
 inline KItemSet::const_iterator KItemSet::begin() const
 {
-    return const_iterator(m_itemRanges.begin(), 0);
+    return const_iterator(m_itemRanges.begin());
 }
 
 inline KItemSet::const_iterator KItemSet::constBegin() const
 {
-    return const_iterator(m_itemRanges.constBegin(), 0);
+    return const_iterator(m_itemRanges.constBegin());
 }
 
 inline KItemSet::iterator KItemSet::end()
 {
-    return iterator(m_itemRanges.end(), 0);
+    return iterator(m_itemRanges.end());
 }
 
 inline KItemSet::const_iterator KItemSet::end() const
 {
-    return const_iterator(m_itemRanges.end(), 0);
+    return const_iterator(m_itemRanges.end());
 }
 
 inline KItemSet::const_iterator KItemSet::constEnd() const
 {
-    return const_iterator(m_itemRanges.constEnd(), 0);
+    return const_iterator(m_itemRanges.constEnd());
 }
 
 inline int KItemSet::first() const
@@ -403,6 +470,16 @@ inline int KItemSet::last() const
 {
     const KItemRange &lastRange = m_itemRanges.last();
     return lastRange.index + lastRange.count - 1;
+}
+
+inline KItemSet::const_reverse_iterator KItemSet::rend() const
+{
+    return KItemSet::const_reverse_iterator(constBegin());
+}
+
+inline KItemSet::const_reverse_iterator KItemSet::rbegin() const
+{
+    return KItemSet::const_reverse_iterator(constEnd());
 }
 
 inline KItemSet &KItemSet::operator<<(int i)

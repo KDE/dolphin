@@ -6,7 +6,7 @@
 
 #include "viewsettingspage.h"
 
-#include "views/dolphinview.h"
+#include "contentdisplaytab.h"
 #include "viewsettingstab.h"
 
 #include <KLocalizedString>
@@ -21,7 +21,14 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent)
     QVBoxLayout *topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
-    QTabWidget *tabWidget = new QTabWidget(this);
+    tabWidget = new QTabWidget(this);
+
+    // Content Display Tab
+    contentDisplayTab = new ContentDisplayTab(tabWidget);
+    tabWidget->addTab(contentDisplayTab,
+                      QIcon::fromTheme(QStringLiteral("view-choose")),
+                      i18nc("@title:tab how file items columns are displayed", "Content Display"));
+    connect(contentDisplayTab, &SettingsPageBase::changed, this, &ViewSettingsPage::changed);
 
     // Initialize 'Icons' tab
     ViewSettingsTab *iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
@@ -51,6 +58,8 @@ ViewSettingsPage::~ViewSettingsPage()
 
 void ViewSettingsPage::applySettings()
 {
+    contentDisplayTab->applySettings();
+
     for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
         tab->applySettings();
     }
@@ -58,7 +67,15 @@ void ViewSettingsPage::applySettings()
 
 void ViewSettingsPage::restoreDefaults()
 {
+    if (tabWidget->currentWidget() == contentDisplayTab) {
+        contentDisplayTab->restoreDefaults();
+        return;
+    }
+
     for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
-        tab->restoreDefaultSettings();
+        if (tabWidget->currentWidget() == tab) {
+            tab->restoreDefaultSettings();
+            return;
+        }
     }
 }

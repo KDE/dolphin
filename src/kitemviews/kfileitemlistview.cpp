@@ -41,7 +41,6 @@ KFileItemListView::KFileItemListView(QGraphicsWidget *parent)
     , m_modelRolesUpdater(nullptr)
     , m_updateVisibleIndexRangeTimer(nullptr)
     , m_updateIconSizeTimer(nullptr)
-    , m_scanDirectories(true)
 {
     setAcceptDrops(true);
 
@@ -117,19 +116,6 @@ void KFileItemListView::setLocalFileSizePreviewLimit(const qlonglong size)
 qlonglong KFileItemListView::localFileSizePreviewLimit() const
 {
     return m_modelRolesUpdater ? m_modelRolesUpdater->localFileSizePreviewLimit() : 0;
-}
-
-void KFileItemListView::setScanDirectories(bool enabled)
-{
-    m_scanDirectories = enabled;
-    if (m_modelRolesUpdater) {
-        m_modelRolesUpdater->setScanDirectories(m_scanDirectories);
-    }
-}
-
-bool KFileItemListView::scanDirectories()
-{
-    return m_scanDirectories;
 }
 
 QPixmap KFileItemListView::createDragPixmap(const KItemSet &indexes) const
@@ -269,7 +255,6 @@ void KFileItemListView::onModelChanged(KItemModelBase *current, KItemModelBase *
     if (current) {
         m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel *>(current), this);
         m_modelRolesUpdater->setIconSize(availableIconSize());
-        m_modelRolesUpdater->setScanDirectories(scanDirectories());
 
         applyRolesToModel();
     }

@@ -71,13 +71,6 @@ public:
     void setLocalFileSizePreviewLimit(qlonglong size);
     qlonglong localFileSizePreviewLimit() const;
 
-    /**
-     * If set to true, directories contents are scanned to determine their size
-     * Default true
-     */
-    void setScanDirectories(bool enabled);
-    bool scanDirectories();
-
     QPixmap createDragPixmap(const KItemSet &indexes) const override;
 
     /**
@@ -137,7 +130,6 @@ private:
     KFileItemModelRolesUpdater *m_modelRolesUpdater;
     QTimer *m_updateVisibleIndexRangeTimer;
     QTimer *m_updateIconSizeTimer;
-    bool m_scanDirectories;
 
     friend class KFileItemListViewTest; // For unit testing
 };

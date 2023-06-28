@@ -1,0 +1,4 @@
+File=dolphin_contentdisplaysettings.kcfg
+ClassName=ContentDisplaySettings
+Singleton=yes
+Mutators=true

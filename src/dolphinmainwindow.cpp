@@ -277,31 +277,6 @@ void DolphinMainWindow::openFiles(const QStringList &files, bool splitView)
     openFiles(QUrl::fromStringList(files), splitView);
 }
 
-bool DolphinMainWindow::isOnCurrentDesktop() const
-{
-#if HAVE_X11
-    if (KWindowSystem::isPlatformX11()) {
-        const NET::Properties properties = NET::WMDesktop;
-        KWindowInfo info(this->winId(), properties);
-        return info.isOnCurrentDesktop();
-    }
-#endif
-    return true;
-}
-
-bool DolphinMainWindow::isOnActivity(const QString &activityId) const
-{
-#if HAVE_X11 && HAVE_KACTIVITIES
-    if (KWindowSystem::isPlatformX11()) {
-        const NET::Properties properties = NET::Supported;
-        const NET::Properties2 properties2 = NET::WM2Activities;
-        KWindowInfo info(this->winId(), properties, properties2);
-        return info.activities().contains(activityId);
-    }
-#endif
-    return true;
-}
-
 void DolphinMainWindow::activateWindow(const QString &activationToken)
 {
     window()->setAttribute(Qt::WA_NativeWindow, true);
@@ -1782,7 +1757,14 @@ void DolphinMainWindow::setupActions()
     stashSplit->setVisible(sessionInterface && sessionInterface->isServiceRegistered(QStringLiteral("org.kde.kio.StashNotifier")));
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
-    KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
+    QAction *redisplay = KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
+    redisplay->setToolTip(i18nc("@info:tooltip", "Refresh view"));
+    redisplay->setWhatsThis(xi18nc("@info:whatsthis refresh",
+                                   "<para>This refreshes "
+                                   "the folder view.</para>"
+                                   "<para>If the contents of this folder have changed, refreshing will re-scan this folder "
+                                   "and show you a newly-updated view of the files and folders contained here.</para>"
+                                   "<para>If the view is split, this refreshes the one that is currently in focus.</para>"));
 
     QAction *stop = actionCollection()->addAction(QStringLiteral("stop"));
     stop->setText(i18nc("@action:inmenu View", "Stop"));

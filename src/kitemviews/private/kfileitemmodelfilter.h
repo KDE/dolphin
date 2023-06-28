@@ -45,6 +45,13 @@ public:
     QStringList mimeTypes() const;
 
     /**
+     * Set the list of mimetypes that are used for comparison and excluded with the
+     * item in KFileItemModelFilter::matchesMimeType.
+     */
+    void setExcludeMimeTypes(const QStringList &types);
+    QStringList excludeMimeTypes() const;
+
+    /**
      * @return True if either the pattern or mimetype filters has been set.
      */
     bool hasSetFilters() const;
@@ -73,5 +80,6 @@ private:
                                 // faster comparison in matches().
     QString m_pattern; // Property set by setPattern().
     QStringList m_mimeTypes; // Property set by setMimeTypes()
+    QStringList m_excludeMimeTypes; // Property set by setExcludeMimeTypes()
 };
 #endif

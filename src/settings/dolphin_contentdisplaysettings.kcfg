@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name="dolphinrc"/>
+    <group name="ContentDisplay">
+        <entry name="DirectorySizeCount" type="Bool">
+            <label>Whether or not content count is used as directory size</label>
+            <default>true</default>
+        </entry>
+        <entry name="RecursiveDirectorySizeLimit" type="UInt">
+            <label>Recursive directory size limit</label>
+            <default>10</default>
+        </entry>
+        <entry name="UseShortRelativeDates" type="Bool">
+            <label>if true we use short relative dates, if not short dates</label>
+            <default>true</default>
+        </entry>
+        <entry name="UsePermissionsFormat" type="Enum">
+            <label>Permissions style format</label>
+            <choices>
+                <choice name="SymbolicFormat" />
+                <choice name="NumericFormat" />
+                <choice name="CombinedFormat" />
+            </choices>
+            <default>0</default>
+        </entry>
+    </group>
+</kcfg>

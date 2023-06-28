@@ -237,21 +237,34 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 {
     int index = m_selectionManager->currentItem();
     int key = event->key();
+    const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
 
     // Handle the expanding/collapsing of items
-    if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
-        if (key == Qt::Key_Right) {
-            if (m_model->setExpanded(index, true)) {
-                return true;
+    // expand / collapse all selected directories
+    if (m_view->supportsItemExpanding() && m_model->isExpandable(index) && (key == Qt::Key_Right || key == Qt::Key_Left)) {
+        const bool expandOrCollapse = key == Qt::Key_Right ? true : false;
+        bool shouldReturn = m_model->setExpanded(index, expandOrCollapse);
+
+        // edit in reverse to preserve index of the first handled items
+        const auto selectedItems = m_selectionManager->selectedItems();
+        for (auto it = selectedItems.rbegin(); it != selectedItems.rend(); ++it) {
+            shouldReturn |= m_model->setExpanded(*it, expandOrCollapse);
+            if (!shiftPressed) {
+                m_selectionManager->setSelected(*it);
             }
-        } else if (key == Qt::Key_Left) {
-            if (m_model->setExpanded(index, false)) {
-                return true;
+        }
+        if (shouldReturn) {
+            // update keyboard anchors
+            if (shiftPressed) {
+                m_keyboardAnchorIndex = selectedItems.count() > 0 ? qMin(index, selectedItems.last()) : index;
+                m_keyboardAnchorPos = keyboardAnchorPos(m_keyboardAnchorIndex);
             }
+
+            event->ignore();
+            return true;
         }
     }
 
-    const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
     const bool navigationPressed = key == Qt::Key_Home || key == Qt::Key_End || key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_Up
@@ -327,11 +340,17 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_Up:
         updateKeyboardAnchor();
+        if (shiftPressed && !m_selectionManager->isAnchoredSelectionActive() && m_selectionManager->isSelected(index)) {
+            m_selectionManager->beginAnchoredSelection(index);
+        }
         index = previousRowIndex(index);
         break;
 
     case Qt::Key_Down:
         updateKeyboardAnchor();
+        if (shiftPressed && !m_selectionManager->isAnchoredSelectionActive() && m_selectionManager->isSelected(index)) {
+            m_selectionManager->beginAnchoredSelection(index);
+        }
         index = nextRowIndex(index);
         break;
 

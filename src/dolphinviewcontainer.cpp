@@ -6,8 +6,11 @@
 
 #include "dolphinviewcontainer.h"
 
+#include "dolphin_compactmodesettings.h"
+#include "dolphin_contentdisplaysettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "dolphindebug.h"
 #include "dolphinplacesmodelsingleton.h"
 #include "filterbar/filterbar.h"
@@ -171,11 +174,9 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 
     setSearchModeEnabled(isSearchUrl(url));
 
-    connect(DetailsModeSettings::self(), &KCoreConfigSkeleton::configChanged, this, [=]() {
-        if (view()->viewMode() == DolphinView::Mode::DetailsView) {
-            view()->reload();
-        }
-    });
+    // Update view as the ContentDisplaySettings change
+    // this happens here and not in DolphinView as DolphinviewContainer and DolphinView are not in the same build target ATM
+    connect(ContentDisplaySettings::self(), &KCoreConfigSkeleton::configChanged, m_view, &DolphinView::reload);
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
     connect(placesModel, &KFilePlacesModel::dataChanged, this, &DolphinViewContainer::slotPlacesModelChanged);

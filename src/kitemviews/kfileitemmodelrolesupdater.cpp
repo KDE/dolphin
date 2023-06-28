@@ -20,6 +20,8 @@
 #include <KPluginMetaData>
 #include <KSharedConfig>
 
+#include "dolphin_contentdisplaysettings.h"
+
 #if HAVE_BALOO
 #include "private/kbaloorolesprovider.h"
 #include <Baloo/File>
@@ -72,7 +74,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     , m_resolvableRoles()
     , m_enabledPlugins()
     , m_localFileSizePreviewLimit(0)
-    , m_scanDirectories(true)
     , m_pendingSortRoleItems()
     , m_pendingIndexes()
     , m_pendingPreviewItems()
@@ -321,16 +322,6 @@ qlonglong KFileItemModelRolesUpdater::localFileSizePreviewLimit() const
     return m_localFileSizePreviewLimit;
 }
 
-void KFileItemModelRolesUpdater::setScanDirectories(bool enabled)
-{
-    m_scanDirectories = enabled;
-}
-
-bool KFileItemModelRolesUpdater::scanDirectories() const
-{
-    return m_scanDirectories;
-}
-
 void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl &itemUrl, int seqIdx)
 {
     const KFileItem item = m_model->fileItem(itemUrl);
@@ -423,8 +414,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         m_hoverSequenceLoadedItems.clear();
 
         killPreviewJob();
-
-        if (m_scanDirectories) {
+        if (!m_model->showDirectoriesOnly()) {
             m_directoryContentsCounter->stopWorker();
         }
     } else {
@@ -856,10 +846,10 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long size)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString &path, int count, long long size)
 {
-    const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
+    const bool getSizeRole = m_roles.contains("size");
 
     if (getSizeRole || getIsExpandableRole) {
         const int index = m_model->index(QUrl::fromLocalFile(path));
@@ -1278,18 +1268,71 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (item.isSlow()) {
+    if (ContentDisplaySettings::directorySizeCount() || item.isSlow() || !item.isLocalFile()) {
+        // fastpath no recursion necessary
+
+        auto data = m_model->data(index);
+        if (data.value("size") == -2) {
+            // means job already started
+            return;
+        }
+
+        auto url = item.url();
+        if (!item.localPath().isEmpty()) {
+            // optimization for desktop:/, trash:/
+            url = QUrl::fromLocalFile(item.localPath());
+        }
+
+        data.insert("isExpandable", false);
+        data.insert("count", 0);
+        data.insert("size", -2); // invalid size, -1 means size unknown
+
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        m_model->setData(index, data);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+
+        auto listJob = KIO::listDir(url);
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, index](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+            auto data = m_model->data(index);
+            int origCount = data.value("count").toInt();
+            int entryCount = origCount;
+
+            for (const KIO::UDSEntry &entry : list) {
+                const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
+
+                if (name == QStringLiteral("..") || name == QStringLiteral(".")) {
+                    continue;
+                }
+                if (!m_model->showHiddenFiles() && name.startsWith(QLatin1Char('.'))) {
+                    continue;
+                }
+                if (m_model->showDirectoriesOnly() && !entry.isDir()) {
+                    continue;
+                }
+                ++entryCount;
+            }
+
+            // count has changed
+            if (origCount < entryCount) {
+                QHash<QByteArray, QVariant> data;
+                data.insert("isExpandable", entryCount > 0);
+                data.insert("count", entryCount);
+
+                disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+                m_model->setData(index, data);
+                connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+            }
+        });
         return;
     }
 
     // Tell m_directoryContentsCounter that we want to count the items
     // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
-    if (m_scanDirectories && item.isLocalFile()) {
-        const QString path = item.localPath();
-        const auto priority = index >= m_firstVisibleIndex && index <= m_lastVisibleIndex ? KDirectoryContentsCounter::PathCountPriority::High
-                                                                                          : KDirectoryContentsCounter::PathCountPriority::Normal;
-        m_directoryContentsCounter->scanDirectory(path, priority);
-    }
+    const QString path = item.localPath();
+    const auto priority = index >= m_firstVisibleIndex && index <= m_lastVisibleIndex ? KDirectoryContentsCounter::PathCountPriority::High
+                                                                                      : KDirectoryContentsCounter::PathCountPriority::Normal;
+
+    m_directoryContentsCounter->scanDirectory(path, priority);
 }
 
 QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem &item, int index)
@@ -1304,6 +1347,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 
     if (m_roles.contains("extension")) {
+        // TODO KF6 use KFileItem::suffix 464722
         data.insert("extension", QFileInfo(item.name()).suffix());
     }
 

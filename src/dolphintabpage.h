@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2014 Emmanuel Pescosta <emmanuelpescosta099@gmail.com>
- * SPDX-FileCopyrightText: 2020 Felix Ernst <fe.a.ernst@gmail.com>
+ * SPDX-FileCopyrightText: 2020 Felix Ernst <felixernst@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */

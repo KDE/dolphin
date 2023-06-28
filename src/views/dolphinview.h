@@ -225,8 +225,6 @@ public:
     /** Returns the additional information which should be shown for the items. */
     QList<QByteArray> visibleRoles() const;
 
-    void reload();
-
     /**
      * Refreshes the view to get synchronized with the settings (e.g. icons size,
      * font, ...).
@@ -347,6 +345,9 @@ public:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 public Q_SLOTS:
+
+    void reload();
+
     /**
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).

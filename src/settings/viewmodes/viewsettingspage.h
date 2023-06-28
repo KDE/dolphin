@@ -10,6 +10,8 @@
 
 class ViewSettingsTab;
 class QWidget;
+class ContentDisplayTab;
+class QTabWidget;
 
 /**
  * @brief Page for the 'View' settings of the Dolphin settings dialog.
@@ -32,6 +34,8 @@ public:
     void restoreDefaults() override;
 
 private:
+    ContentDisplayTab *contentDisplayTab;
+    QTabWidget *tabWidget;
     QList<ViewSettingsTab *> m_tabs;
 };
 
