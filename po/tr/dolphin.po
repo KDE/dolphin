@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-14 13:18+0300\n"
+"PO-Revision-Date: 2023-06-27 11:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -560,12 +560,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Ayrı bir pencerede sanal zula dizinini açar"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Önizle"
+msgstr "Görünümü yenile"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -576,6 +574,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Bu, klasör görünümünü yeniler.</para><para>Bu klasörün içeriği "
+"değişmişse yenilemek bu klasörü yeniden tarar ve burada içerilen dosyaların "
+"ve klasörlerin güncellenmiş bir görünümünü gösterir.</para><para>Görünüm "
+"bölünmüşse bu, şu anda odaklı olan bölümü yeniler.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format

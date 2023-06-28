@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-22 10:13+0200\n"
+"PO-Revision-Date: 2023-06-27 11:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -563,12 +563,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Opent de opstapel virtuele map in een gesplitst venster"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Voorbeeld"
+msgstr "Weergave vernieuwen"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -579,6 +577,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Dit vernieuwt de mapweergave.</para><para>Als de inhoud van deze map "
+"is gewijzigd, zal vernieuwen deze map opnieuw scannen en u een bijgewerkte "
+"weergave van de bestanden en mappen hierin tonen.</para><para>Als de "
+"weergave gesplitst is, wordt diegene vernieuwt die nu in focus is.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-14 07:55+0200\n"
+"PO-Revision-Date: 2023-06-27 11:16+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -566,12 +566,10 @@ msgstr ""
 "Obri el directori virtual de modificació temporal en una finestra dividida"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Vista prèvia"
+msgstr "Actualitza la vista"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -582,6 +580,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Açò actualitza la vista de la carpeta.</para><para>Si ha canviat el "
+"contingut d'esta carpeta, l'actualització tornarà a explorar-la i vos "
+"mostrarà una vista actualitzada de nou dels fitxers i carpetes contingudes "
+"ací.</para><para>Si la vista està dividida, açò actualitza la que té "
+"actualment el focus.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format

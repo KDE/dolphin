@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-14 08:33+0300\n"
+"PO-Revision-Date: 2023-06-27 20:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -568,12 +568,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Відкриває віртуальний каталог стосу у частині розділеного вікна"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Перегляд"
+msgstr "Освіжити перегляд"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -584,6 +582,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Результатом є оновлення панелі перегляду тек.</para><para>Якщо вміст "
+"цієї теки було змінено, оновлення призведе до повторного сканування цієї "
+"теки і показу вам оновленого списку файлів і тек, які у ній містяться.</"
+"para><para>Якщо панель перегляду розділено, буде оновлено ту панель, яка "
+"перебуває у фокусі.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
