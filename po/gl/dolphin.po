@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-06-24 11:31+0200\n"
+"PO-Revision-Date: 2023-06-28 07:56+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -29,7 +29,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Miguel Branco, Marce Villarino, Xosé Calvo, Adrián Chaves Fernández"
+msgstr "Miguel Branco, Marce Villarino, Xosé Calvo, Adrian Chaves (Gallaecio)"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -655,9 +655,9 @@ msgid ""
 "their own <filename>Home</filename> that contains their data including "
 "folders that contain personal application data."
 msgstr ""
-"Vaia ao seu <filename>cartafol persoal</filename>.<nl/>Cada conta de usuario "
-"ten un <filename>cartafol persoal</filename> de seu que contén os seus "
-"datos, incluídos cartafoles que conteñen datos persoais de aplicacións."
+"Vaia ao seu <filename>cartafol persoal</filename>.<nl/>Cada conta de persoa "
+"usuaria ten un <filename>cartafol persoal</filename> de seu que contén os "
+"seus datos, incluídos cartafoles que conteñen datos persoais de aplicacións."
 
 #: dolphinmainwindow.cpp:1862
 #, kde-format
@@ -1138,7 +1138,7 @@ msgstr ""
 "aplicación, onde vai ata os ficheiros que quere usar.</para><para>Para unha "
 "introdución detallada e xeral a esta aplicación <link url='https://userbase."
 "kde.org/Dolphin/File_Management#Introduction_to_Dolphin'>prema aquí</link>. "
-"Isto abrirá un artigo introdutorio do <emphasis>wiki de usuarios de KDE</"
+"Isto abrirá un artigo introdutorio do <emphasis>wiki de uso de KDE</"
 "emphasis>.</para><para>Para breves explicacións de todas as funcionalidades "
 "desta <emphasis>vista</emphasis> <link url='help:/dolphin/dolphin-view."
 "html'>prema aquí</link>. Isto abrirá unha páxina do <emphasis>manual</"
@@ -1204,7 +1204,7 @@ msgstr ""
 "parte de <emphasis>Dolphin</emphasis>.</para><para>Se quere instrucións máis "
 "detalladas das distintas funcionalidades de <emphasis>Dolphin</emphasis> "
 "<link url='https://userbase.kde.org/Dolphin/File_Management'>prema aquí</"
-"link>. Abrirá a páxina correspondente do wiki de usuarios de KDE.</para>"
+"link>. Abrirá a páxina correspondente do wiki de uso de KDE.</para>"
 
 #: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
@@ -1225,9 +1225,9 @@ msgstr ""
 "rato cambiará de aspecto se para un punto non existe axuda.</para><para>Hai "
 "outras dúas formas de obter axuda: o <link url='help:/dolphin/index."
 "html'>manual de Dolphin</link> e o <link url='https://userbase.kde.org/"
-"Dolphin/File_Management'>wiki de usuarios de KDE</link>.</para><para>A axuda "
-"«Que é isto?» falta na meirande parte do resto de xanelas así que non se "
-"afaga moito a isto.</para>"
+"Dolphin/File_Management'>wiki de uso de KDE</link>.</para><para>A axuda «Que "
+"é isto?» falta na meirande parte do resto de xanelas así que non se afaga "
+"moito a isto.</para>"
 
 #: dolphinmainwindow.cpp:2554
 #, kde-kuit-format
@@ -1287,7 +1287,7 @@ msgid ""
 "libraries and maintainers of this application."
 msgstr ""
 "Isto abre unha xanela que lle informa sobre a versión, a licenza, as "
-"bibliotecas usadas e os mantedores da aplicación."
+"bibliotecas usadas e as persoas mantedoras da aplicación."
 
 #: dolphinmainwindow.cpp:2586
 #, kde-kuit-format
@@ -1771,7 +1771,7 @@ msgstr "%1 × %2"
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
-msgstr "0 - 9"
+msgstr "0-9"
 
 #: kitemviews/kfileitemmodel.cpp:2267
 #, kde-format
@@ -2006,7 +2006,7 @@ msgstr "Prohibido"
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
-msgstr "Usuario: %1 | Grupo: %2 | Outros: %3"
+msgstr "Usuaria: %1 | Grupo: %2 | Outros: %3"
 
 #: kitemviews/kfileitemmodel.cpp:2681
 msgctxt "@label"
@@ -2074,7 +2074,7 @@ msgstr "Documento"
 #: kitemviews/kfileitemmodel.cpp:2691
 msgctxt "@label"
 msgid "Author"
-msgstr "Autor"
+msgstr "Persoa autora"
 
 #: kitemviews/kfileitemmodel.cpp:2692
 msgctxt "@label"
@@ -2241,7 +2241,7 @@ msgstr "Dono"
 #: kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "User Group"
-msgstr "Grupo de usuarios"
+msgstr "Grupo de persoas usuarias"
 
 #: kitemviews/kfileitemmodel.cpp:2817
 #, kde-format
@@ -2264,7 +2264,7 @@ msgstr "Xestor de ficheiros"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr "© 2006-2022 O grupo de desenvolvemento de Dolphin"
+msgstr "© 2006-2022 O grupo de desenvolvemento de Dolphin."
 
 #: main.cpp:96
 #, kde-format
@@ -2276,7 +2276,7 @@ msgstr "Felix Ernst"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Mantedor (desde 2021) e desenvolvedor"
+msgstr "Mantemento (desde 2021) e desenvolvemento."
 
 #: main.cpp:99
 #, kde-format
@@ -2288,7 +2288,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Mantedor (desde 2021) e desenvolvedor (desde 2019)"
+msgstr "Mantemento (desde 2021) e desenvolvemento (desde 2019)."
 
 #: main.cpp:102
 #, kde-format
@@ -2300,7 +2300,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Mantedor (2021-2018) e desenvolvedor"
+msgstr "Mantemento (2018-2021) e desenvolvemento."
 
 #: main.cpp:105
 #, kde-format
@@ -2312,7 +2312,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
-msgstr "Mantedor (2014-2018) e desenvolvedor"
+msgstr "Mantemento (2018-2014) e desenvolvemento."
 
 #: main.cpp:108
 #, kde-format
@@ -2324,7 +2324,7 @@ msgstr "Frank Reininghaus"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
-msgstr "Mantedor (2012-2014) e desenvolvedor."
+msgstr "Mantemento (2012-2014) e desenvolvemento."
 
 #: main.cpp:111
 #, kde-format
@@ -2336,7 +2336,7 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
-msgstr "Mantedor e desenvolvedor (2006-2012)."
+msgstr "Mantemento e desenvolvemento (2006-2012)."
 
 #: main.cpp:114
 #, kde-format
@@ -2349,7 +2349,7 @@ msgstr "Sebastian Trüg"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
-msgstr "Desenvolvedor."
+msgstr "Desenvolvemento."
 
 #: main.cpp:115
 #, kde-format
@@ -3431,7 +3431,7 @@ msgstr "Último cambio das propiedades"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
-msgstr "A última vez que o usuario cambiou estas propiedades."
+msgstr "A última vez que a persoa usuaria cambiou estas propiedades."
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:82
@@ -3444,7 +3444,7 @@ msgstr "Información adicional"
 #: settings/dolphin_generalsettings.kcfg:18
 #, kde-format
 msgid "Should the URL be editable for the user"
-msgstr "Indica se o URL debería ser editábel polo usuario"
+msgstr "Indica se o URL debería ser editábel pola persoa usuaria"
 
 #. i18n: ectx: label, entry (UrlCompletionMode), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
@@ -4682,7 +4682,7 @@ msgstr[1] "%1 ficheiros."
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
-msgstr "%1, %2 (%3)"
+msgstr "%1, %2 (%3)."
 
 #: views/dolphinview.cpp:648
 #, kde-format
@@ -5137,8 +5137,8 @@ msgstr ""
 "<para>Cando se activa isto os ficheiros e cartafoles <emphasis>agochados</"
 "emphasis> vólvense visíbeis. Amosaranse translúcidos.</para><para>Os "
 "ficheiros agochados só se diferencias dos demais en que o seu nome empeza "
-"cun «.». En xeral os usuarios non necesitan acceder a eles, que é polo que "
-"están agochados.</para>"
+"cun «.». En xeral as persoas usuarias non necesitan acceder a eles, que é "
+"polo que están agochados.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
