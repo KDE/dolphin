@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-23 11:25+0200\n"
+"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"PO-Revision-Date: 2023-06-28 14:12+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -520,12 +520,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Otevře virtuální adresář úschovna v rozděleném okně"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Náhled"
+msgstr "Obnovit pohled"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -1349,7 +1347,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1364,71 +1362,71 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Spuštění Dolphinu jako root může být nebezpečné. Prosím, buďte opatrní."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Hledat %1 v %2"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "Hledat"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Vyhledávám %1"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "Načítá se složka..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "Třídění..."
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "Vyhledávám..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nenalezeny žádné položky."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nepodporuje webové stránky. Byl spuštěn webový prohlížeč"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Neplatný protokol"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

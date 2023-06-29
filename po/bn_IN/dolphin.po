@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-29 00:49+0000\n"
 "PO-Revision-Date: 2009-07-04 22:21+0530\n"
 "Last-Translator: Arindam Ghosh <arindam.foss@gmail.com>\n"
 "Language-Team: Bengali (India) <fedora-trans-bn_IN@redhat.com>\n"
@@ -1400,7 +1400,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1415,39 +1415,39 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Search Toolbar"
 msgid "Search for %1 in %2"
 msgstr "অনুসন্ধান টুলবার"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
 msgid "Search"
 msgstr "অনুসন্ধান..."
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Search Toolbar"
 msgid "Search for %1"
 msgstr "অনুসন্ধান টুলবার"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "ফোল্ডার খোলা হচ্ছে..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -1455,7 +1455,7 @@ msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "অনুসন্ধান..."
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -1463,19 +1463,19 @@ msgctxt "@info"
 msgid "Searching..."
 msgstr "অনুসন্ধান..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ওয়েব পাতা সমর্থন করে না, ওয়েব ব্রাউজার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1484,13 +1484,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin এই  প্রোটোকল সমর্থন করেনা, Konqueror চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

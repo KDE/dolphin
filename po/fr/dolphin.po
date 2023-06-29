@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-29 00:49+0000\n"
 "PO-Revision-Date: 2023-06-18 20:55+0200\n"
 "Last-Translator: Thomas Vergnaud <thomas.vergnaud@mailo.eu>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -1621,7 +1621,7 @@ msgstr ""
 "<link url='help:/dolphin/location-bar.html'>cliquer ici</link>. Ceci ouvrira "
 "la page dédiée dans le manuel utilisateur.</para>"
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1647,60 +1647,60 @@ msgstr ""
 "d'outils de recherche : installer d'autres moyens de rechercher un élément.</"
 "item></list></para>"
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Exécuter Dolphin en tant que superutilisateur peut s'avérer dangereux. Soyez "
 "prudent."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Chercher « %1 » dans « %2 »"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "Rechercher"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Recherche de %1"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "Chargement du dossier…"
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "Tri…"
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "Recherche…"
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne prend pas en charge les pages web, le navigateur a été lancé"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1709,13 +1709,13 @@ msgstr ""
 "Protocole non pris en charge par Dolphin, l'application par défaut a été "
 "lancée"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocole non valable"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

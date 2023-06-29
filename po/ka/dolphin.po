@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-15 09:12+0200\n"
+"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"PO-Revision-Date: 2023-06-28 05:32+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -515,12 +515,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr ""
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "ესკიზი"
+msgstr "ხედის განახლება"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -1343,7 +1341,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1358,74 +1356,75 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Dolphin-ის root მომხმარებლით გაშვება შეიძლება საშიში იყოს. ფრთხილად."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "\"%1\"-ის \"%2\"-ში მოძებნა"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "ძებნა"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "%1-ის მოძებნა"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
 msgstr "საქაღალდის ჩატვირთვა..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
 msgstr "დალაგება…"
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
 msgstr "ძებნა..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ჩანაწერები ნაპოვნი არაა."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "არასწორი პროტოკოლი"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"მიმდინარე მდებარეობა შეიცვალა, <filename>%1</filename> ხელმისაწვდომი აღარაა."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -1807,7 +1806,7 @@ msgstr "შეიცვალა"
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "მონაცემების ფორმატი პარამეტრებში შეგიძლიათ, აირჩიოთ."
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
