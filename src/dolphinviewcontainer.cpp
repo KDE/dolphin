@@ -634,7 +634,7 @@ void DolphinViewContainer::updateStatusBar()
 void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
-        m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
+        m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder…"));
     }
     m_statusBar->setProgress(percent);
 }
@@ -642,7 +642,7 @@ void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
 void DolphinViewContainer::updateDirectorySortingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
-        m_statusBar->setProgressText(i18nc("@info:progress", "Sorting..."));
+        m_statusBar->setProgressText(i18nc("@info:progress", "Sorting…"));
     }
     m_statusBar->setProgress(percent);
 }
@@ -653,7 +653,7 @@ void DolphinViewContainer::slotDirectoryLoadingStarted()
         // Search KIO-slaves usually don't provide any progress information. Give
         // a hint to the user that a searching is done:
         updateStatusBar();
-        m_statusBar->setProgressText(i18nc("@info", "Searching..."));
+        m_statusBar->setProgressText(i18nc("@info", "Searching…"));
         m_statusBar->setProgress(-1);
     } else {
         // Trigger an undetermined progress indication. The progress

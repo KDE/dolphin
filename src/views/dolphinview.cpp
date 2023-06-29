@@ -2343,7 +2343,7 @@ void DolphinView::slotSwipeUp()
 
 void DolphinView::showLoadingPlaceholder()
 {
-    m_placeholderLabel->setText(i18n("Loading..."));
+    m_placeholderLabel->setText(i18n("Loading…"));
     m_placeholderLabel->setVisible(true);
 }
 

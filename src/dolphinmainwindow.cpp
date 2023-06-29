@@ -1651,7 +1651,7 @@ void DolphinMainWindow::setupActions()
     connect(moveToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::moveToInactiveSplitView);
 
     QAction *showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
-    showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter..."));
+    showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter…"));
     showFilterBar->setToolTip(i18nc("@info:tooltip", "Show Filter Bar"));
     showFilterBar->setWhatsThis(xi18nc("@info:whatsthis",
                                        "This opens the "
@@ -1675,7 +1675,7 @@ void DolphinMainWindow::setupActions()
     connect(toggleFilter, &QAction::triggered, this, &DolphinMainWindow::toggleFilterBar);
 
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
-    searchAction->setText(i18n("Search..."));
+    searchAction->setText(i18n("Search…"));
     searchAction->setToolTip(i18nc("@info:tooltip", "Search for files and folders"));
     searchAction->setWhatsThis(xi18nc("@info:whatsthis find",
                                       "<para>This helps you "

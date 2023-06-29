@@ -218,7 +218,7 @@ void VersionControlObserver::updateItemStates()
 
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
-            Q_EMIT infoMessage(i18nc("@info:status", "Updating version information..."));
+            Q_EMIT infoMessage(i18nc("@info:status", "Updating version information…"));
         }
         m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
         connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished, this, &VersionControlObserver::slotThreadFinished);
