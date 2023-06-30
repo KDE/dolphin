@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -407,8 +407,10 @@ msgstr "നിർജ്ജീവമായ സ്പ്ലിറ്റ് കാ�
 
 #: dolphinmainwindow.cpp:1654
 #, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "അരിപ്പ:"
 
 #: dolphinmainwindow.cpp:1655
@@ -449,9 +451,10 @@ msgid "Filter"
 msgstr "അരിപ്പ:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "തിരയുക..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "തിരയുക"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1244,21 +1247,27 @@ msgstr[0] "സ്ഥലവിവരപ്പെട്ടി"
 msgstr[1] "സ്ഥലവിവരപ്പെട്ടി"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "ഫയലിന്റെ തരം മാറ്റുക... (&E)"
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "യോജിക്കുന്ന വസ്തുക്കള്‍ തെരഞ്ഞെടുക്കുക..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "തെരഞ്ഞെടുത്തതില്‍ നിന്ന് യോജിക്കുന്ന വസ്തുക്കള്‍ മാറ്റുക..."
 
 #: dolphinpart.cpp:164
@@ -1292,9 +1301,11 @@ msgid "Autostart"
 msgstr "സ്വയം തുടങ്ങുന്നവ"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ഫയല്‍ തെരയുക..."
 
 #: dolphinpart.cpp:196
@@ -1501,21 +1512,27 @@ msgid "Search for %1"
 msgstr "'%1' തിരയുക"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "അറ തുറക്കുന്നു..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "ക്രമത്തിലാക്കുന്നു..."
+msgid "Sorting…"
+msgstr "വിന്യാസക്രമം:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "തെരഞ്ഞുകൊണ്ടിരിക്കുന്നു..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1557,7 +1574,9 @@ msgstr "ഫോള്‍ഡറുകള്‍ മാറ്റുമ്പോള�
 
 #: filterbar/filterbar.cpp:34
 #, fuzzy, kde-format
-msgid "Filter..."
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
+msgid "Filter…"
 msgstr "അരിപ്പ:"
 
 #: filterbar/filterbar.cpp:42
@@ -2403,9 +2422,11 @@ msgid "Copy"
 msgstr "പകര്‍ത്തുക"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "പേരു് മാറ്റുക..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2491,9 +2512,11 @@ msgid "Show item on hover"
 msgstr "അരിപ്പയുടെ പട്ട കാണിയ്ക്കുക"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "ക്രമീകരിക്കുക..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3071,14 +3094,17 @@ msgstr "അവസരോചിത മെനുവില്‍ കാണിക്�
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "തിരയുക..."
+msgid "Search…"
+msgstr "തിരയുക"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "പുതിയ സേവനങ്ങള്‍ ഡൗണ്‍ലോഡ് ചെയ്യുക..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4186,9 +4212,11 @@ msgid "Custom Font"
 msgstr "നിങ്ങളുടെ അക്ഷരസഞ്ചയം"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "തെരഞ്ഞെടുക്കുക..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4786,7 +4814,7 @@ msgstr "%1 എന്ന സ്ഥാനം അസാധുവാണു്"
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "അറ തുറക്കുന്നു..."
 
 #: views/dolphinview.cpp:2365
@@ -4865,9 +4893,11 @@ msgid "Folder is empty"
 msgstr "അറകള്‍ ആദ്യം"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "പുതിയ അറയുണ്ടാക്കുക..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5115,7 +5145,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, fuzzy, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "അവതരണരീതി സജ്ജീകരിക്കുക..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5250,10 +5280,37 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "പതിപ്പിനെക്കുറിച്ചുള്ള വിവരങ്ങള്‍ പുതുക്കുന്നു..."
+
+#, fuzzy
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "അരിപ്പ:"
+
+#~ msgid "Search..."
+#~ msgstr "തിരയുക..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "ക്രമത്തിലാക്കുന്നു..."
+
+#, fuzzy
+#~ msgid "Filter..."
+#~ msgstr "അരിപ്പ:"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "ക്രമീകരിക്കുക..."
+
+#, fuzzy
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "തിരയുക..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

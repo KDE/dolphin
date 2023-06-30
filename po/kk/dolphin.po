@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2013-07-07 01:53+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -407,11 +407,11 @@ msgstr ""
 
 #: dolphinmainwindow.cpp:1654
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Filter"
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Сүзгі"
+msgid "Filter…"
+msgstr "Сүзгі:"
 
 #: dolphinmainwindow.cpp:1655
 #, fuzzy, kde-format
@@ -449,10 +449,10 @@ msgstr "Сүзгі:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
-msgid "Search..."
-msgstr "Іздеу..."
+#| msgctxt "@title:window"
+#| msgid "Search"
+msgid "Search…"
+msgstr "Іздеу"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1209,21 +1209,27 @@ msgid_plural "Location Bars"
 msgstr[0] "Орын панелі"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "Файл түрін ө&згерту..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Сәйкесті нысандарын таңдау"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Сәйкесті нысандарын таңдаудан босату"
 
 #: dolphinpart.cpp:164
@@ -1257,9 +1263,11 @@ msgid "Autostart"
 msgstr "Автобастау"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Файлды табу..."
 
 #: dolphinpart.cpp:196
@@ -1452,21 +1460,27 @@ msgid "Search for %1"
 msgstr "Іздейтіні"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Қапшықты жүктеу..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Реттеу..."
+msgid "Sorting…"
+msgstr "Реттеу:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Іздеу..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1510,10 +1524,10 @@ msgstr "Қапшықты ауыстырғанда сүзгіні сақтау"
 
 #: filterbar/filterbar.cpp:34
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Filter"
-msgid "Filter..."
-msgstr "Сүзгі"
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
+msgid "Filter…"
+msgstr "Сүзгі:"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2395,9 +2409,11 @@ msgid "Copy"
 msgstr "Көшіріп алу"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Қайта атау..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2483,9 +2499,11 @@ msgid "Show item on hover"
 msgstr "Сүзгі панелін көрсету"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "Баптау..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3095,16 +3113,18 @@ msgstr "Контексті мәзірде қай қызметтер көрсет
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
+#| msgctxt "@title:window"
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Іздеу..."
+msgid "Search…"
+msgstr "Іздеу"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Жаңа қызметтерді жүктеу..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4282,9 +4302,11 @@ msgid "Custom Font"
 msgstr "Қалаған қаріп"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Таңдау..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4911,7 +4933,7 @@ msgstr "'%1' деген орын атауы жарамсыз."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "Қапшықты жүктеу..."
 
 #: views/dolphinview.cpp:2365
@@ -4991,9 +5013,11 @@ msgid "Folder is empty"
 msgstr "Қапшықтар алдында"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Қапшықты құру..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5253,7 +5277,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Көрініс қасиеттерін лайықтау..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5403,10 +5427,46 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Нұқасы туралы мәліметті жаңарту"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Filter"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Сүзгі"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgid "Search..."
+#~ msgstr "Іздеу..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Реттеу..."
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Filter"
+#~ msgid "Filter..."
+#~ msgstr "Сүзгі"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Баптау..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Іздеу..."
 
 #, fuzzy
 #~| msgctxt "@info:status"

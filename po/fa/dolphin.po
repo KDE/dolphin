@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -396,7 +396,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "صافی:"
 
 #: dolphinmainwindow.cpp:1655
@@ -435,10 +435,10 @@ msgstr "صافی:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
-msgid "Search..."
-msgstr "در حال جستجو..."
+#| msgctxt "@title:window"
+#| msgid "Search"
+msgid "Search…"
+msgstr "جستجو"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1188,21 +1188,27 @@ msgid_plural "Location Bars"
 msgstr[0] "میله محل"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&ویرایش نوع پرونده..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "برگزیدن مواردی که مطابقت دارند..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "عدم گزینش مواردی که مطابقت دارند..."
 
 #: dolphinpart.cpp:164
@@ -1236,9 +1242,11 @@ msgid "Autostart"
 msgstr "آغاز خودکار"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "&یافتن پرونده...‌"
 
 #: dolphinpart.cpp:196
@@ -1431,21 +1439,27 @@ msgid "Search for %1"
 msgstr "جستجو برای"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "بارگذاری پوشه..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "مرتب کردن..."
+msgid "Sorting…"
+msgstr "مرتب کردن:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "در حال جستجو..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1491,7 +1505,7 @@ msgstr "نگه داشتن پالایش در هنگام عوض کردن پوشه"
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "صافی:"
 
 #: filterbar/filterbar.cpp:42
@@ -2351,9 +2365,11 @@ msgid "Copy"
 msgstr "رونوشت"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "تغییر نام..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2439,9 +2455,11 @@ msgid "Show item on hover"
 msgstr "نمایش میله پالایش"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "پیکربندی..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3041,16 +3059,18 @@ msgstr "انتخاب کنید که چه خدماتی در منوی راست‌ک
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#| msgctxt "@title:window"
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "در حال جستجو..."
+msgid "Search…"
+msgstr "جستجو"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "بارگیری خدمات جدید..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4214,9 +4234,11 @@ msgid "Custom Font"
 msgstr "قلم سفارشی"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "انتخاب..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4838,7 +4860,7 @@ msgstr "مکان '%1' نامعتبر است."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "بارگذاری پوشه..."
 
 #: views/dolphinview.cpp:2365
@@ -4918,9 +4940,11 @@ msgid "Folder is empty"
 msgstr "ابتدا پوشه‌ها"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "ایجاد پوشه..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5180,7 +5204,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "تنظیم حالت نمایش ویژگیها..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5330,10 +5354,46 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "به روزرسانی اطلاعات نسخه..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "صافی:"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Searching..."
+#~ msgid "Search..."
+#~ msgstr "در حال جستجو..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "مرتب کردن..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "صافی:"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "پیکربندی..."
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Searching..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "در حال جستجو..."
 
 #, fuzzy
 #~| msgctxt "@info:status"

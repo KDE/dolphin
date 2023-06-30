@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2023-06-28 14:12+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -385,10 +385,12 @@ msgid "Move to Inactive Split View"
 msgstr "Přesunout do neaktivního rozděleného pohledu"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Filtr..."
+msgid "Filter…"
+msgstr "Filtr"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -419,9 +421,10 @@ msgid "Filter"
 msgstr "Filtr"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Hledat..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Hledat"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1148,21 +1151,27 @@ msgstr[1] "Panely umístění"
 msgstr[2] "Panely umístění"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "U&pravit typ souboru..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Vybrat odpovídající položky..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Odznačit odpovídající položky..."
 
 #: dolphinpart.cpp:164
@@ -1196,9 +1205,11 @@ msgid "Autostart"
 msgstr "Automatické spuštění"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Najít soubor..."
 
 #: dolphinpart.cpp:196
@@ -1384,21 +1395,27 @@ msgid "Search for %1"
 msgstr "Vyhledávám %1"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Načítá se složka..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Třídění..."
+msgid "Sorting…"
+msgstr "Třídění:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Vyhledávám..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1440,9 +1457,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Ponechat filtr při změně složek"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Filtr..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Filtr"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2251,9 +2270,11 @@ msgid "Copy"
 msgstr "Kopírovat"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Přejmenovat..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2335,10 +2356,12 @@ msgid "Show item on hover"
 msgstr "Zobrazit položku při přejetí myší"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Nastavit..."
+msgid "Configure…"
+msgstr "Nastavit"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2893,15 +2916,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Zvolte, které služby budou v místní nabídce zobrazeny:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Hledat..."
+msgid "Search…"
+msgstr "Hledat"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Stáhnout nové služby..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -3988,9 +4014,11 @@ msgid "Custom Font"
 msgstr "Vlastní písmo"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Vybrat..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4582,8 +4610,9 @@ msgid "The location '%1' is invalid."
 msgstr "Umístění '%1' není platné."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Probíhá načítání..."
 
 #: views/dolphinview.cpp:2365
@@ -4652,9 +4681,11 @@ msgid "Folder is empty"
 msgstr "Složka je prázdná"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Vytvořit složku..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -4897,7 +4928,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5033,7 +5064,31 @@ msgstr[1] "Činnosti pro %1 vybrané položky"
 msgstr[2] "Činnosti pro %1 vybraných položek"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filtr..."
+
+#~ msgid "Search..."
+#~ msgstr "Hledat..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Třídění..."
+
+#~ msgid "Filter..."
+#~ msgstr "Filtr..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Nastavit..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Hledat..."

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -406,11 +406,11 @@ msgstr ""
 
 #: dolphinmainwindow.cpp:1654
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Filter"
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್)"
+msgid "Filter…"
+msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್):"
 
 #: dolphinmainwindow.cpp:1655
 #, fuzzy, kde-format
@@ -448,10 +448,10 @@ msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್):"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
-msgid "Search..."
-msgstr "ಹುಡುಕು..."
+#| msgctxt "@action:button"
+#| msgid "Search"
+msgid "Search…"
+msgstr "ಹುಡುಕು"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1213,21 +1213,27 @@ msgstr[0] "ತಾಣ ಪಟ್ಟಿ "
 msgstr[1] "ತಾಣ ಪಟ್ಟಿ "
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "ಕಡತದ ಬಗೆಯನ್ನು ಸಂಪಾದಿಸು(&E)..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "ತಾಳೆಯಾಗುವ ಅಂಶಗಳನ್ನು ಆರಿಸಿ..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "ತಾಳೆಯಾಗುವ ಅಂಶಗಳನ್ನು ಆರಿಸಿದ್ದನ್ನು ರದ್ದುಗೊಳಿಸಿ..."
 
 #: dolphinpart.cpp:164
@@ -1261,9 +1267,11 @@ msgid "Autostart"
 msgstr "ಸ್ವಯಂಆರಂ"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ಕಡತವನ್ನು ಹುಡುಕು..."
 
 #: dolphinpart.cpp:196
@@ -1457,9 +1465,11 @@ msgid "Search for %1"
 msgstr "ಹುಡುಕು ಪಟ್ಟಿಕೆ"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "ಕಡತಕೋಶವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..."
 
 #: dolphinviewcontainer.cpp:645
@@ -1467,13 +1477,15 @@ msgstr "ಕಡತಕೋಶವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ�
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "ವಿಂಗಡಣೆ:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "ಹುಡುಕಲಾಗುತ್ತಿದೆ..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1517,10 +1529,10 @@ msgstr ""
 
 #: filterbar/filterbar.cpp:34
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Filter"
-msgid "Filter..."
-msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್)"
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
+msgid "Filter…"
+msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್):"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2454,9 +2466,11 @@ msgid "Copy"
 msgstr "ನಕಲಿಸು"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "ಹೆಸರನ್ನು ಬದಲಾಯಿಸು..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2544,9 +2558,11 @@ msgid "Show item on hover"
 msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್) ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "ಸಂರಚಿಸು..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3163,16 +3179,18 @@ msgstr "ಸನ್ನಿವೇಶ ಪರಿವಿಡಿಯಲ್ಲಿ ಯಾವ 
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
+#| msgctxt "@action:button"
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "ಹುಡುಕು..."
+msgid "Search…"
+msgstr "ಹುಡುಕು"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "ಹೊಸ ಸೇವೆಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡು..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4381,9 +4399,11 @@ msgid "Custom Font"
 msgstr "ಇಚ್ಛೆಯ ಅಕ್ಷರಶೈಲಿ"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "ಆರಿಸು..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -5032,7 +5052,7 @@ msgstr "'%1' ಸ್ಥಾನವು ಅಮಾನ್ಯವಾಗಿದೆ."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "ಕಡತಕೋಶವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..."
 
 #: views/dolphinview.cpp:2365
@@ -5112,9 +5132,11 @@ msgid "Folder is empty"
 msgstr "ಕಡತಕೋಶಗಳು ಮೊದಲು"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "ಕಡತಕೋಶವನ್ನು ಸೃಷ್ಟಿಸು..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5372,7 +5394,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "ನೋಟದ ಗುಣಲಕ್ಷಣಗಳನ್ನು ಸರಿಹೊಂದಿಸು..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5525,10 +5547,49 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr " ಆವೃತ್ತಿ ಮಾಹಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ..."
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Filter"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್)"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgid "Search..."
+#~ msgstr "ಹುಡುಕು..."
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "ವಿಂಗಡಣೆ:"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Filter"
+#~ msgid "Filter..."
+#~ msgstr "ಶೋಧಕ (ಫಿಲ್ಟರ್)"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "ಸಂರಚಿಸು..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "ಹುಡುಕು..."
 
 #, fuzzy
 #~| msgctxt "@label:textbox"

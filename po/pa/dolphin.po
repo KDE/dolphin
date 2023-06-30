@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-06-11 09:21-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -392,10 +392,12 @@ msgid "Move to Inactive Split View"
 msgstr ""
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "...ਫਿਲਟਰ"
+msgid "Filter…"
+msgstr "ਫਿਲਟਰ"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -426,9 +428,10 @@ msgid "Filter"
 msgstr "ਫਿਲਟਰ"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "ਖੋਜੋ..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "ਖੋਜੋ"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1160,21 +1163,27 @@ msgstr[0] "ਟਿਕਾਣਾ ਪੱਟੀ"
 msgstr[1] "ਟਿਕਾਣਾ ਪੱਟੀਆਂ"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "ਫਾਇਲ ਟਾਇਪ ਸੋਧ(&E)..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਚੁਣੋ..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਅਣ-ਚੁਣੀਆਂ ਕਰੋ..."
 
 #: dolphinpart.cpp:164
@@ -1208,9 +1217,11 @@ msgid "Autostart"
 msgstr "ਆਟੋ-ਸਟਾਰਟ"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ਫਾਇਲ ਖੋਜ..."
 
 #: dolphinpart.cpp:196
@@ -1397,21 +1408,27 @@ msgid "Search for %1"
 msgstr "%1 ਲਈ ਖੋਜ"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "ਫੋਲਡਰ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "ਲੜੀਬੱਧ..."
+msgid "Sorting…"
+msgstr "ਲੜੀਬੱਧ:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "ਖੋਜ ਜਾਰੀ ਹੈ..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1452,9 +1469,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "ਫੋਲਡਰ ਬਦਲਣ ਦੇ ਦੌਰਾਨ ਫਿਲਟਰ ਰੱਖੋ"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "...ਫਿਲਟਰ"
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "ਫਿਲਟਰ"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2269,9 +2288,11 @@ msgid "Copy"
 msgstr "ਕਾਪੀ ਕਰੋ"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "ਨਾਂ ਬਦਲੋ..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2357,10 +2378,12 @@ msgid "Show item on hover"
 msgstr "ਫਿਲਟਰ ਬਾਰ ਵੇਖੋ"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "ਸੰਰਚਨਾ..."
+msgid "Configure…"
+msgstr "ਸੰਰਚਨਾ"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2929,15 +2952,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "ਚੁਣੋ ਕਿ ਕਿਹੜੀਆਂ ਸਰਵਿਸਾਂ ਨੂੰ ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ ਵੇਖਾਇਆ ਜਾਣਾ ਹੈ:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "ਖੋਜੋ..."
+msgid "Search…"
+msgstr "ਖੋਜੋ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "ਨਵੀਆਂ ਸਰਵਿਸਾਂ ਡਾਊਨਲੋਡ ਕਰੋ..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4022,9 +4048,11 @@ msgid "Custom Font"
 msgstr "ਕਸਟਮ ਫੋਂਟ"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "...ਚੁਣੋ"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4614,8 +4642,9 @@ msgid "The location '%1' is invalid."
 msgstr "ਟਿਕਾਣਾ '%1' ਗਲਤ ਹੈ।"
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "...ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: views/dolphinview.cpp:2365
@@ -4687,9 +4716,11 @@ msgid "Folder is empty"
 msgstr "ਫੋਲਡਰ ਖਾਲੀ ਹੈ"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "ਫੋਲਡਰ ਬਣਾਓ..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -4938,9 +4969,11 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "ਡਿਸਪਲੇਲ ਸਟਾਈਲ ਵੇਖ ਨੂੰ ਅਨੁਕੂਲ ਕਰੋ..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5075,10 +5108,34 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "ਵਰਜ਼ਨ ਜਾਣਕਾਰੀ ਅੱਪਡੇਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "...ਫਿਲਟਰ"
+
+#~ msgid "Search..."
+#~ msgstr "ਖੋਜੋ..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "ਲੜੀਬੱਧ..."
+
+#~ msgid "Filter..."
+#~ msgstr "...ਫਿਲਟਰ"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "ਸੰਰਚਨਾ..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "ਖੋਜੋ..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

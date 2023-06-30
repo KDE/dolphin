@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2020-09-17 20:47+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <kde-i18n-doc@kde.org>\n"
@@ -402,7 +402,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Филтр:"
 
 #: dolphinmainwindow.cpp:1655
@@ -440,9 +440,11 @@ msgid "Filter"
 msgstr "Филтр:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Ҷустуҷӯ..."
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Search"
+msgid "Search…"
+msgstr "Ҷустуҷӯ"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1198,21 +1200,23 @@ msgstr[0] "Строка адреса"
 msgstr[1] "Строка адреса"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Таҳрири намуди файл..."
 
 #: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr ""
 
 #: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr ""
 
 #: dolphinpart.cpp:164
@@ -1246,9 +1250,11 @@ msgid "Autostart"
 msgstr "Худоғозӣ"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Ҷустуҷӯи файл..."
 
 #: dolphinpart.cpp:196
@@ -1441,9 +1447,11 @@ msgid "Search for %1"
 msgstr "Лавҳаи ҷустуҷӯӣ"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Кушоиши ҷузвадон..."
 
 #: dolphinviewcontainer.cpp:645
@@ -1451,13 +1459,15 @@ msgstr "Кушоиши ҷузвадон..."
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "Тартибдиҳӣ:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Идет поиск..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1505,7 +1515,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Филтр:"
 
 #: filterbar/filterbar.cpp:42
@@ -2375,9 +2385,11 @@ msgid "Copy"
 msgstr "Нусха"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Ивази ном..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2465,9 +2477,11 @@ msgid "Show item on hover"
 msgstr "Намоиши навори филтр"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "Танзим кунед..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3054,16 +3068,16 @@ msgstr "Хизматҳоро барои намоиш дар менюи конт�
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#| msgctxt "@action:button"
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Идет поиск..."
+msgid "Search…"
+msgstr "Ҷустуҷӯ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4219,9 +4233,11 @@ msgid "Custom Font"
 msgstr "Ҳарфҳои интихобӣ"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Интихоб кунед..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4851,7 +4867,7 @@ msgstr "Макони '%1' нодуруст аст."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "Кушоиши ҷузвадон..."
 
 #: views/dolphinview.cpp:2365
@@ -4925,9 +4941,11 @@ msgid "Folder is empty"
 msgstr "Аввал ҷузвадонҳо"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Эҷод кардани ҷузвадон..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5187,7 +5205,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5336,10 +5354,46 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Update of version information failed."
 msgctxt "@info:status"
-msgid "Updating version information..."
-msgstr ""
+msgid "Updating version information…"
+msgstr "Не удалось обновить информацию о версиях."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Филтр:"
+
+#~ msgid "Search..."
+#~ msgstr "Ҷустуҷӯ..."
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Тартибдиҳӣ:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "Филтр:"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Танзим кунед..."
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Searching..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Идет поиск..."
 
 #, fuzzy
 #~| msgctxt "@label:textbox"
@@ -5875,10 +5929,6 @@ msgstr ""
 #~ msgctxt "@label:textbox"
 #~ msgid "Find:"
 #~ msgstr "Ҷустуҷӯ:"
-
-#~ msgctxt "@info:status"
-#~ msgid "Update of version information failed."
-#~ msgstr "Не удалось обновить информацию о версиях."
 
 #, fuzzy
 #~| msgctxt "@action:inmenu"

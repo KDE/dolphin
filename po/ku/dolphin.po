@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -408,7 +408,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Parzûn:"
 
 #: dolphinmainwindow.cpp:1655
@@ -449,7 +449,7 @@ msgstr "Parzûn:"
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
-msgid "Search..."
+msgid "Search…"
 msgstr "Darikê Amûran ya Mak"
 
 #: dolphinmainwindow.cpp:1679
@@ -1222,9 +1222,11 @@ msgstr[0] "Cih:"
 msgstr[1] "Cih:"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "Cureyê Pelî &Sererast Bike..."
 
 #: dolphinpart.cpp:153
@@ -1232,14 +1234,16 @@ msgstr "Cureyê Pelî &Sererast Bike..."
 #| msgctxt "@info:tooltip"
 #| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Hêmanê Hilbijêre"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr ""
+msgid "Unselect Items Matching…"
+msgstr "Hêmanê Hilbijêre"
 
 #: dolphinpart.cpp:164
 #, fuzzy, kde-format
@@ -1278,7 +1282,7 @@ msgstr "Xweber bide destpêkirin"
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Pelî bibîne..."
 
 #: dolphinpart.cpp:196
@@ -1481,9 +1485,11 @@ msgid "Search for %1"
 msgstr "Darikê Amûran ya Mak"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Peldank tê barkirin..."
 
 #: dolphinviewcontainer.cpp:645
@@ -1491,14 +1497,16 @@ msgstr "Peldank tê barkirin..."
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "Rêzkirin:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Main Toolbar"
 msgctxt "@info"
-msgid "Searching..."
-msgstr ""
+msgid "Searching…"
+msgstr "Darikê Amûran ya Mak"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1543,7 +1551,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Parzûn:"
 
 #: filterbar/filterbar.cpp:42
@@ -2483,9 +2491,11 @@ msgid "Copy"
 msgstr "Jibergirtin"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Nav biguherîne..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2581,7 +2591,7 @@ msgstr "Darikê Fîltreyê Nîşan Bide"
 #| msgctxt "@label"
 #| msgid "Change Tags..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "Etîketan Biguherîne..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3188,13 +3198,13 @@ msgstr ""
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgctxt "@label:textbox"
-msgid "Search..."
+msgid "Search…"
 msgstr "Darikê Amûran ya Mak"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4451,9 +4461,11 @@ msgid "Custom Font"
 msgstr "Curenivîsê Taybet"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Hilbijartin..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -5119,7 +5131,7 @@ msgstr "Ciyê '%1' vala ye."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "Peldank tê barkirin..."
 
 #: views/dolphinview.cpp:2365
@@ -5200,7 +5212,7 @@ msgstr "Peldank"
 #| msgctxt "@action"
 #| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Peldankê biafirîne..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5477,7 +5489,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Taybetmendiyên Xuyakirinê Mîheng Bike..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5642,8 +5654,48 @@ msgstr[1] ""
 #| msgctxt "@label"
 #| msgid "Additional information"
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Agahiyên pêvek"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Parzûn:"
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgid "Search..."
+#~ msgstr "Darikê Amûran ya Mak"
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Rêzkirin:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "Parzûn:"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Change Tags..."
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Etîketan Biguherîne..."
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Darikê Amûran ya Mak"
 
 #, fuzzy
 #~| msgctxt "@label:textbox"

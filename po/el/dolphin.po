@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-12-29 13:25+0200\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -424,10 +424,12 @@ msgid "Move to Inactive Split View"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Φιλτράρισμα..."
+msgid "Filter…"
+msgstr "Φιλτράρισμα"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -462,9 +464,10 @@ msgid "Filter"
 msgstr "Φιλτράρισμα"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Αναζήτηση..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Αναζήτηση"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1387,21 +1390,27 @@ msgstr[0] "Γραμμή τοποθεσίας"
 msgstr[1] "Γραμμές τοποθεσίας"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Επεξεργασία τύπου αρχείου..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Επιλογή αντικειμένων που ταιριάζουν..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Αποεπιλογή αντικειμένων που ταιριάζουν..."
 
 #: dolphinpart.cpp:164
@@ -1435,9 +1444,11 @@ msgid "Autostart"
 msgstr "Αυτόματη εκκίνηση"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Αναζήτηση αρχείου..."
 
 #: dolphinpart.cpp:196
@@ -1646,21 +1657,27 @@ msgid "Search for %1"
 msgstr "Αναζήτηση για %1"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Φόρτωση φακέλου..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Γίνεται ταξινόμηση..."
+msgid "Sorting…"
+msgstr "Ταξινόμηση:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Γίνεται αναζήτηση..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1704,9 +1721,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Διατήρηση του φίλτρου κατά την αλλαγή φακέλων"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Φίλτρο..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Φιλτράρισμα"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2513,9 +2532,11 @@ msgid "Copy"
 msgstr "Αντιγραφή"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Μετονομασία..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2601,10 +2622,12 @@ msgid "Show item on hover"
 msgstr "Εμφάνιση γραμμής φίλτρων"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Διαμόρφωση..."
+msgid "Configure…"
+msgstr "Διαμόρφωση"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3165,15 +3188,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Επιλέξτε ποιες υπηρεσίες θα εμφανίζονται στο σχετικό μενού:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Αναζήτηση..."
+msgid "Search…"
+msgstr "Αναζήτηση"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Λήψη νέων υπηρεσιών..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4297,9 +4323,11 @@ msgid "Custom Font"
 msgstr "Προσαρμοσμένη"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Επιλογή..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4903,8 +4931,9 @@ msgid "The location '%1' is invalid."
 msgstr "Η τοποθεσία «%1» δεν είναι έγκυρη."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Φόρτωση..."
 
 #: views/dolphinview.cpp:2365
@@ -4973,9 +5002,11 @@ msgid "Folder is empty"
 msgstr "Ο φάκελος είναι άδειος"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Δημιουργία φακέλου..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5256,9 +5287,11 @@ msgstr ""
 "είναι και κρυφά.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Προσαρμογή στιλ εμφάνισης προβολής..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5395,10 +5428,34 @@ msgstr[0] "Ενέργειες για ένα επιλεγμένο αντικεί�
 msgstr[1] "Ενέργειες για %1 επιλεγμένα αντικείμενα"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Ενημέρωση πληροφοριών έκδοσης..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Φιλτράρισμα..."
+
+#~ msgid "Search..."
+#~ msgstr "Αναζήτηση..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Γίνεται ταξινόμηση..."
+
+#~ msgid "Filter..."
+#~ msgstr "Φίλτρο..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Διαμόρφωση..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Αναζήτηση..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

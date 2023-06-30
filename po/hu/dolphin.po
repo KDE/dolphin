@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-02-01 10:13+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -419,10 +419,12 @@ msgid "Move to Inactive Split View"
 msgstr "Áthelyezés az inaktív osztott nézetbe"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Szűrő…"
+msgid "Filter…"
+msgstr "Szűrő"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -456,9 +458,10 @@ msgid "Filter"
 msgstr "Szűrő"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Keresés…"
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Keresés"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1404,21 +1407,27 @@ msgstr[0] "Címsáv"
 msgstr[1] "Címsávok"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "Fájl&típus szerkesztése…"
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Illeszkedő elemek kijelölése…"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Illeszkedő elemek kijelölésének megszüntetése…"
 
 #: dolphinpart.cpp:164
@@ -1452,9 +1461,11 @@ msgid "Autostart"
 msgstr "Automatikus indítás"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Fájlkeresés…"
 
 #: dolphinpart.cpp:196
@@ -1661,21 +1672,27 @@ msgid "Search for %1"
 msgstr "A(z) %1 keresése"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Mappa betöltése…"
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Rendezés…"
+msgid "Sorting…"
+msgstr "Rendezés:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Keresés…"
 
 #: dolphinviewcontainer.cpp:677
@@ -1720,9 +1737,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Szűrő megtartása mappa váltásakor"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Szűrő…"
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Szűrő"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2568,9 +2587,11 @@ msgid "Copy"
 msgstr "Másolás"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Átnevezés…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2656,10 +2677,12 @@ msgid "Show item on hover"
 msgstr "Szűrősáv megjelenítése"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Beállítás…"
+msgid "Configure…"
+msgstr "Beállítások"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3222,15 +3245,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "A helyi menüben megjelenítendő szolgáltatások kiválasztása:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Keresés…"
+msgid "Search…"
+msgstr "Keresés"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Új szolgáltatások letöltése…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4337,9 +4363,11 @@ msgid "Custom Font"
 msgstr "Egyedi betűtípus"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Választás…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4942,8 +4970,9 @@ msgid "The location '%1' is invalid."
 msgstr "A(z) „%1” útvonal érvénytelen."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Betöltés…"
 
 #: views/dolphinview.cpp:2365
@@ -5015,9 +5044,11 @@ msgid "Folder is empty"
 msgstr "A mappa üres"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Új mappa…"
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5302,9 +5333,11 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Nézettulajdonságok módosítása…"
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5445,10 +5478,34 @@ msgstr[0] "Egy kijelölt elem műveletei"
 msgstr[1] "%1 kijelölt elem műveletei"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Verzióinformációk frissítése…"
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Szűrő…"
+
+#~ msgid "Search..."
+#~ msgstr "Keresés…"
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Rendezés…"
+
+#~ msgid "Filter..."
+#~ msgstr "Szűrő…"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Beállítás…"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Keresés…"
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

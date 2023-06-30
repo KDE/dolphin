@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -412,10 +412,12 @@ msgid "Move to Inactive Split View"
 msgstr "Liiguta mitteaktiivsesse poolitatud vaatesse"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Filter ..."
+msgid "Filter…"
+msgstr "Filter"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -450,9 +452,10 @@ msgid "Filter"
 msgstr "Filter"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Otsing ..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Otsing"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1349,21 +1352,27 @@ msgstr[0] "Asukohariba"
 msgstr[1] "Asukoharibad"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Muuda failitüüpi..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Vali sobivad elemendid..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Tühista sobivate elementide valik..."
 
 #: dolphinpart.cpp:164
@@ -1397,9 +1406,11 @@ msgid "Autostart"
 msgstr "Autostart"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Otsi faili..."
 
 #: dolphinpart.cpp:196
@@ -1605,21 +1616,27 @@ msgid "Search for %1"
 msgstr "%1 otsimine"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Kataloogi laadimine..."
 
 #: dolphinviewcontainer.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Sorteerimine ..."
+msgid "Sorting…"
+msgstr "Sorteerimine:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Otsimine ..."
 
 #: dolphinviewcontainer.cpp:677
@@ -1660,9 +1677,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Filtri säilitamine kataloogi vahetamisel"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Filter ..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Filter"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2477,9 +2496,11 @@ msgid "Copy"
 msgstr "Kopeeri"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Nimeta ümber..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2565,10 +2586,12 @@ msgid "Show item on hover"
 msgstr "Filtririba näitamine"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Seadista..."
+msgid "Configure…"
+msgstr "Seadistamine"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3139,15 +3162,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Järgmiste teenuste näitamine kontekstimenüüs:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Otsing ..."
+msgid "Search…"
+msgstr "Otsing"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Laadi alla uusi teenuseid..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4254,9 +4280,11 @@ msgid "Custom Font"
 msgstr "Kohandatud font"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Vali..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4855,8 +4883,9 @@ msgid "The location '%1' is invalid."
 msgstr "Asukoht '%1' on vigane."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Laadimine ..."
 
 #: views/dolphinview.cpp:2365
@@ -4928,9 +4957,11 @@ msgid "Folder is empty"
 msgstr "Kataloog on tühi"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Loo kataloog ..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5204,9 +5235,11 @@ msgstr ""
 "need ongi vaikimisi peidetud.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Muuda vaatestiili omadusi ..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5345,10 +5378,34 @@ msgstr[0] "Toimingud ühe valitud elemendi jaoks"
 msgstr[1] "Toimingud %1 valitud elemendi jaoks"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Versiooniteabe uuendamine ..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filter ..."
+
+#~ msgid "Search..."
+#~ msgstr "Otsing ..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Sorteerimine ..."
+
+#~ msgid "Filter..."
+#~ msgstr "Filter ..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Seadista..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Otsing ..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

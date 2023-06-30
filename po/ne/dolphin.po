@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-29 00:49+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2007-11-05 13:38+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -409,7 +409,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Filter:"
 
 #: dolphinmainwindow.cpp:1655
@@ -450,7 +450,7 @@ msgstr "Filter:"
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
-msgid "Search..."
+msgid "Search…"
 msgstr "Main Toolbar"
 
 #: dolphinmainwindow.cpp:1679
@@ -1225,7 +1225,7 @@ msgstr[1] "Location:"
 #: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr ""
 
 #: dolphinpart.cpp:153
@@ -1233,14 +1233,16 @@ msgstr ""
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Select All"
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Select All"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select All"
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr ""
+msgid "Unselect Items Matching…"
+msgstr "Select All"
 
 #: dolphinpart.cpp:164
 #, fuzzy, kde-format
@@ -1283,7 +1285,7 @@ msgstr ""
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Find File..."
 
 #: dolphinpart.cpp:196
@@ -1497,9 +1499,11 @@ msgid "Search for %1"
 msgstr "Main Toolbar"
 
 #: dolphinviewcontainer.cpp:637
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Loading folder..."
 
 #: dolphinviewcontainer.cpp:645
@@ -1507,14 +1511,16 @@ msgstr "Loading folder..."
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "Sorting:"
 
 #: dolphinviewcontainer.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Main Toolbar"
 msgctxt "@info"
-msgid "Searching..."
-msgstr ""
+msgid "Searching…"
+msgstr "Main Toolbar"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1557,7 +1563,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Filter:"
 
 #: filterbar/filterbar.cpp:42
@@ -2490,9 +2496,11 @@ msgid "Copy"
 msgstr "Copy"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Rename..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2590,7 +2598,7 @@ msgstr "Show Filter Bar"
 #| msgctxt "@info:tooltip"
 #| msgid "Click to add comment..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "Click to add comment..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3195,13 +3203,13 @@ msgstr ""
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgctxt "@label:textbox"
-msgid "Search..."
+msgid "Search…"
 msgstr "Main Toolbar"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4457,7 +4465,7 @@ msgstr ""
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr ""
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -5139,7 +5147,7 @@ msgstr "The location '%1' is invalid."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "Loading folder..."
 
 #: views/dolphinview.cpp:2365
@@ -5220,7 +5228,7 @@ msgstr "Folders"
 #| msgctxt "@info:status"
 #| msgid "Created folder."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Created folder."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5495,7 +5503,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Adjust View Properties..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5660,8 +5668,48 @@ msgstr[1] ""
 #| msgctxt "@label"
 #| msgid "Additional information"
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Additional information"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filter:"
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgid "Search..."
+#~ msgstr "Main Toolbar"
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Sorting:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "Filter:"
+
+#, fuzzy
+#~| msgctxt "@info:tooltip"
+#~| msgid "Click to add comment..."
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Click to add comment..."
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Main Toolbar"
 
 #, fuzzy
 #~| msgctxt "@label:textbox"
