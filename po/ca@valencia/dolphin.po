@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-27 11:16+0200\n"
+"PO-Revision-Date: 2023-06-30 10:41+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -408,12 +408,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mou a la vista dividida inactiva"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtre"
+msgstr "Filtre…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -448,10 +446,9 @@ msgid "Filter"
 msgstr "Filtre"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Busca"
+msgstr "Busca…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1369,28 +1366,22 @@ msgstr[0] "Barra d'ubicació"
 msgstr[1] "Barres d'ubicació"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Edita el tipus de fitxer..."
+msgstr "&Edita el tipus de fitxer…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Selecciona els elements que coincidisquen..."
+msgstr "Selecciona els elements que coincidisquen…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Desselecciona els elements que coincidisquen..."
+msgstr "Desselecciona els elements que coincidisquen…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1423,12 +1414,10 @@ msgid "Autostart"
 msgstr "Inici automàtic"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Busca fitxers..."
+msgstr "Busca fitxers…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1632,28 +1621,22 @@ msgid "Search for %1"
 msgstr "Busca %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "S'està carregant la carpeta..."
+msgstr "S'està carregant la carpeta…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordenació:"
+msgstr "S'està ordenant…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "S'està buscant..."
+msgstr "S'està buscant…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1696,11 +1679,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Mantín el filtre en canviar de carpeta"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtre"
+msgstr "Filtre…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2512,12 +2493,10 @@ msgid "Copy"
 msgstr "Copia"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Canvia el nom..."
+msgstr "Canvia el nom…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2598,12 +2577,10 @@ msgid "Show item on hover"
 msgstr "Mostra l'element en passar-hi per damunt"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Configura"
+msgstr "Configura…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3166,19 +3143,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Seleccioneu els serveis que s'han de mostrar en el menú contextual:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Busca"
+msgstr "Busca…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Baixa serveis nous..."
+msgstr "Baixa serveis nous…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4287,12 +4261,10 @@ msgid "Custom Font"
 msgstr "Tipus de lletra personalitzat"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Tria..."
+msgstr "Tria…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4892,10 +4864,9 @@ msgid "The location '%1' is invalid."
 msgstr "La ubicació «%1» no és vàlida."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "S'està carregant..."
+msgstr "S'està carregant…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4963,12 +4934,10 @@ msgid "Folder is empty"
 msgstr "La carpeta està buida"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Crea una carpeta..."
+msgstr "Crea una carpeta…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5244,12 +5213,10 @@ msgstr ""
 "hi accedisquen, que és el motiu per què estan ocults.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Ajusta l'estil de presentació de la vista..."
+msgstr "Ajusta l'estil de presentació de la vista…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5385,31 +5352,7 @@ msgstr[0] "Accions per a un element seleccionat"
 msgstr[1] "Accions per a %1 elements seleccionats"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "S'està actualitzant la informació de la versió..."
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "Filtre..."
-
-#~ msgid "Search..."
-#~ msgstr "Busca..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "S'està ordenant..."
-
-#~ msgid "Filter..."
-#~ msgstr "Filtre..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "Configura..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "Busca..."
+msgstr "S'està actualitzant la informació de la versió…"

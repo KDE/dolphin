@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-27 11:53+0300\n"
+"PO-Revision-Date: 2023-06-30 12:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -407,12 +407,10 @@ msgid "Move to Inactive Split View"
 msgstr "Etkin Olmayan Bölünmüş Görünüme Taşı"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Süzgeç"
+msgstr "Süz…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -446,10 +444,9 @@ msgid "Filter"
 msgstr "Süzgeç"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Ara"
+msgstr "Ara…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1354,28 +1351,22 @@ msgstr[0] "Konum Çubuğu"
 msgstr[1] "Konum Çubukları"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Dosya Türünü Dü&zenle..."
+msgstr "Dosya Türünü Dü&zenle…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Uyuşan Ögeleri Seç..."
+msgstr "Uyuşan Ögeleri Seç…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Uyuşan Ögeleri Bırak..."
+msgstr "Uyuşan Ögelerin Seçimini Kaldır…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1408,12 +1399,10 @@ msgid "Autostart"
 msgstr "Otomatik başlat"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Dosya Bul..."
+msgstr "Dosya Bul…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1616,28 +1605,22 @@ msgid "Search for %1"
 msgstr "Ara: %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Klasör yükleniyor..."
+msgstr "Klasör yükleniyor…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Sıralama:"
+msgstr "Sıralama…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Aranıyor..."
+msgstr "Aranıyor…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1679,11 +1662,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Klasörleri Değiştirirken Süzgeci Koru"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Süzgeç"
+msgstr "Süz…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2487,12 +2468,10 @@ msgid "Copy"
 msgstr "Kopyala"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Yeniden Adlandır..."
+msgstr "Yeniden Adlandır…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2573,12 +2552,10 @@ msgid "Show item on hover"
 msgstr "Üzerine Gelindiğinde Ögeyi Göster"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Yapılandır"
+msgstr "Yapılandır…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3139,19 +3116,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Bağlam menüsünde hangi hizmetlerin gösterileceğini seçin:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Ara"
+msgstr "Ara…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Yeni Hizmetler İndir..."
+msgstr "Yeni Hizmetler İndir…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4254,12 +4228,10 @@ msgid "Custom Font"
 msgstr "Özel Yazıtipi"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Seç..."
+msgstr "Seç…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4857,10 +4829,9 @@ msgid "The location '%1' is invalid."
 msgstr "'%1' konumu geçersiz."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "Yükleniyor..."
+msgstr "Yükleniyor…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4928,12 +4899,10 @@ msgid "Folder is empty"
 msgstr "Klasör boş"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Klasör Oluştur..."
+msgstr "Klasör Oluştur…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5209,12 +5178,10 @@ msgstr ""
 "gizlidirler.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Görünüm Özelliklerini Ayarla..."
+msgstr "Görünüm Özelliklerini Ayarla…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5349,12 +5316,10 @@ msgstr[0] "Seçili Bir Öge için Eylem"
 msgstr[1] "Seçili %1 Öge için Eylem"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Sürüm bilgisi güncelleniyor..."
+msgstr "Sürüm bilgisi güncelleniyor…"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."
