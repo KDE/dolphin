@@ -450,10 +450,9 @@ msgid "Filter"
 msgstr "Filtro"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Procurar"
+msgstr "Procurar…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1702,11 +1701,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Manter o Filtro ao Mudar de Pasta"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtro"
+msgstr "Filtro…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -4887,10 +4884,9 @@ msgid "The location '%1' is invalid."
 msgstr "A localização '%1' é inválida."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "A carregar..."
+msgstr "A carregar…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
