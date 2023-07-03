@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-18 14:25+0530\n"
+"PO-Revision-Date: 2023-07-02 16:07+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -400,12 +400,10 @@ msgid "Move to Inactive Split View"
 msgstr "குவியத்தில் இல்லாத துண்டாக்கப்பட்ட காட்சிக்கு நகர்த்து"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "வடிகட்டி"
+msgstr "வடிகட்டு…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -439,10 +437,9 @@ msgid "Filter"
 msgstr "வடிகட்டி"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "தேடல்"
+msgstr "தேடு…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -551,12 +548,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "தற்காலிக பிடிப்பு (stash) மெய்நிகர் அடைவைத் திறக்கும்"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "முன்தோற்றம்"
+msgstr "காட்சியைப் புதுப்பி"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -1268,28 +1263,22 @@ msgstr[0] "இடப்பலகை"
 msgstr[1] "இடப்பலகைகள்"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "கோப்பு வகையை &மாற்று..."
+msgstr "கோப்பு வகையை &மாற்றியமை…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "பொருந்தியவற்றை தேர்வு செய்..."
+msgstr "பொருந்துபவற்றை தேர்வு செய்…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "பொருந்திய தேர்வுகளை நிராகரி..."
+msgstr "பொருந்தும் தேர்வுகளை நிராகரி…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1322,12 +1311,10 @@ msgid "Autostart"
 msgstr "தானாகத் துவக்கு"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "கோப்பினைத் தேடுக..."
+msgstr "கோப்பினை கண்டுபிடி…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1512,28 +1499,22 @@ msgid "Search for %1"
 msgstr "%1 என்பதற்கான தேடல்"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "அடைவு ஏற்றப்படுகிறது..."
+msgstr "அடைவு ஏற்றப்படுகிறது…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "வரிசைப்படுத்துதல்:"
+msgstr "வரிசைப்படுத்துகிறது…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "தேடுகிறேன்..."
+msgstr "தேடுகிறது…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1573,11 +1554,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "வேறு அடைவுக்கு செல்லும்போது வடிகட்டியை காலியாக்காதே"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "வடிகட்டி"
+msgstr "வடிகட்டு…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2381,12 +2360,10 @@ msgid "Copy"
 msgstr "நகலெடு"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "மறுபெயரிடு..."
+msgstr "மறுபெயரிடு…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2467,12 +2444,10 @@ msgid "Show item on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே உருப்படியைக் காட்டு"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "அமை"
+msgstr "அமை…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3027,19 +3002,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "வலது-க்ளிக் பட்டியில் எந்த சேவைகள் காட்டப்பட வேண்டும் என்று தேர்ந்தெடுங்கள்:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "தேடல்"
+msgstr "தேடு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "புதிய சேவைகளை பதிவிறக்கு..."
+msgstr "புதிய சேவைகளை பதிவிறக்கு…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4137,12 +4109,10 @@ msgid "Custom Font"
 msgstr "வேறு எழுத்துரு"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "தேர்வு செய்..."
+msgstr "தேர்வு செய்…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4729,8 +4699,7 @@ msgid "The location '%1' is invalid."
 msgstr "'%1' என்ற இடம் முறையற்றது."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "ஏற்றுகிறது…"
 
@@ -4800,12 +4769,10 @@ msgid "Folder is empty"
 msgstr "அடைவு காலியாக உள்ளது"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "அடைவை உருவாக்கு..."
+msgstr "அடைவை உருவாக்கு…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5055,12 +5022,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "காட்சி காட்டப்படும் விதத்தை மாற்று..."
+msgstr "காட்சி காட்டப்படும் விதத்தை மாற்று…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5194,12 +5159,10 @@ msgstr[0] "தேர்வு செய்த ஒரு உருப்படி
 msgstr[1] "தேர்வு செய்த %1 உருப்படிகளுக்கான செயல்கள்"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "பதிப்பு விவரங்கள் புதுப்பிக்கப்படுகின்றன"
+msgstr "பதிப்பு விவரங்கள் புதுப்பிக்கப்படுகின்றன…"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."

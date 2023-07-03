@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-27 22:30+0100\n"
+"PO-Revision-Date: 2023-07-02 22:05+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -406,12 +406,10 @@ msgid "Move to Inactive Split View"
 msgstr "Movi al Neaktiva Dividita Vido"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtrilo"
+msgstr "Filtri…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -446,10 +444,9 @@ msgid "Filter"
 msgstr "Filtrilo"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Serĉi"
+msgstr "Serĉi…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1353,28 +1350,22 @@ msgstr[0] "Lokobreto"
 msgstr[1] "Lokobretoj"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "R&edakti Dosiertipon..."
+msgstr "R&edakti Dosiertipon…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Elekti Erojn Kongruajn..."
+msgstr "Elekti Erojn Kongruajn…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Malelekti Erojn Kongruajn..."
+msgstr "Malelekti Erojn Kongruajn…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1407,12 +1398,10 @@ msgid "Autostart"
 msgstr "Aŭtomata lanĉo"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Trovi dosieron..."
+msgstr "Trovi dosieron…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1614,28 +1603,22 @@ msgid "Search for %1"
 msgstr "Serĉi %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Ŝargas la dosierujon..."
+msgstr "Ŝargante dosierujon…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordigado:"
+msgstr "Ordigante…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Serĉante..."
+msgstr "Serĉante…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1675,11 +1658,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Konservi Filtrilon Trans Dosierujoŝanĝo"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtrilo"
+msgstr "Filtri…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2483,12 +2464,10 @@ msgid "Copy"
 msgstr "Kopii"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Renomi..."
+msgstr "Alinomi…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2569,12 +2548,10 @@ msgid "Show item on hover"
 msgstr "Montri elementon je musumo"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Agordi"
+msgstr "Agordi…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3135,19 +3112,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Elektu kiujn servojn montru en la kunteksta menuo:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Serĉi"
+msgstr "Serĉi…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Elŝuti Novajn Servojn..."
+msgstr "Elŝuti Novajn Servojn…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4251,12 +4225,10 @@ msgid "Custom Font"
 msgstr "Propra tiparo"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Elekti..."
+msgstr "Elekti…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4852,10 +4824,9 @@ msgid "The location '%1' is invalid."
 msgstr "La loko '%1' estas nevalida."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "Ŝargante..."
+msgstr "Ŝargante…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4923,12 +4894,10 @@ msgid "Folder is empty"
 msgstr "Dosierujo estas malplena"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Krei dosierujon..."
+msgstr "Krei dosierujon…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5202,12 +5171,10 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Alĝustigi Vidan Montrostilon..."
+msgstr "Alĝustigi Vidan Montrostilon…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5343,31 +5310,7 @@ msgstr[0] "Agoj por Unu Elektita Ero"
 msgstr[1] "Agoj por %1 Elektitaj Eroj"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Ĝisdatigante informojn pri versio..."
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "Filtrilo..."
-
-#~ msgid "Search..."
-#~ msgstr "Ŝerĉi..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "Ordigado..."
-
-#~ msgid "Filter..."
-#~ msgstr "Filtrilo..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "Agordi..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "Ŝerĉi..."
+msgstr "Ĝisdatigante informojn pri versio…"

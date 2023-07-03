@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-14 12:13+0100\n"
+"PO-Revision-Date: 2023-07-03 01:16+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
 "Language: pt\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-POFile-SpellExtra: Pescosta Emmanuel MMMM yyyy dddd desktop KDiskFree\n"
 "X-POFile-SpellExtra: Filelight Tab Konsole Angelaccio Elvis directory\n"
 "X-POFile-SpellExtra: personalizável xdg install uninstall Baloo MiB MTP\n"
-"X-POFile-SpellExtra: Felix Méven Car deselecção drwxr xr\n"
+"X-POFile-SpellExtra: Felix Méven Car deselecção drwxr xr recém\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -411,12 +411,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mover para a Área Dividida Inactiva"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtro"
+msgstr "Filtro…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -569,12 +567,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Abre a pasta virtual de armazenamento temporário numa janela dividida"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Antevisão"
+msgstr "Actualizar a área"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -585,6 +581,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Isto actualiza a área da pasta.</para><para>Se o conteúdo desta pasta "
+"tiver sido alterado, a actualização irá sondar de novo esta pasta e mostrar-"
+"lhe-á uma vista recém-actualizada dos ficheiros e pastas aqui contidos.</"
+"para><para>Se a área estiver dividida, isto actualiza a que estiver de "
+"momento em primeiro plano.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1370,28 +1371,22 @@ msgstr[0] "Barra de Localização"
 msgstr[1] "Barras de Localização"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Editar o Tipo de Ficheiro..."
+msgstr "&Editar o Tipo de Ficheiro…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Marcar os Itens Correspondentes..."
+msgstr "Marcar os Itens Correspondentes…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Desmarcar os Itens Correspondentes..."
+msgstr "Desmarcar os Itens Correspondentes…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1424,12 +1419,10 @@ msgid "Autostart"
 msgstr "Arranque"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Procurar um Ficheiro..."
+msgstr "Procurar um Ficheiro…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1635,28 +1628,22 @@ msgid "Search for %1"
 msgstr "À procura de %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "A carregar a pasta..."
+msgstr "A carregar a pasta…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordenação:"
+msgstr "A ordenar…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "A procurar..."
+msgstr "A procurar…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -2507,12 +2494,10 @@ msgid "Copy"
 msgstr "Copiar"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Mudar o Nome..."
+msgstr "Mudar o Nome…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2593,12 +2578,10 @@ msgid "Show item on hover"
 msgstr "Mostrar o item à passagem"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Configurar"
+msgstr "Configurar…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3160,19 +3143,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Seleccionar os serviços que deverão aparecer no menu de contexto:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Procurar"
+msgstr "Procurar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Obter Serviços Novos..."
+msgstr "Obter Serviços Novos…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4280,12 +4260,10 @@ msgid "Custom Font"
 msgstr "Tipo de Letra Personalizado"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Escolher..."
+msgstr "Escolher…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4954,12 +4932,10 @@ msgid "Folder is empty"
 msgstr "A pasta está vazia"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Criar uma Pasta..."
+msgstr "Criar uma Pasta…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5238,12 +5214,10 @@ msgstr ""
 "sendo por isso que eles estão escondidos.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Ajustar o Estilo de Apresentação da Vista..."
+msgstr "Ajustar o Estilo de Apresentação da Vista…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5379,31 +5353,7 @@ msgstr[0] "Acções do Item Seleccionado"
 msgstr[1] "Acções dos %1 Itens Seleccionados"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "A actualizar a informação da versão..."
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "Filtro..."
-
-#~ msgid "Search..."
-#~ msgstr "Procurar..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "Ordenação..."
-
-#~ msgid "Filter..."
-#~ msgstr "Filtro..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "Configurar..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "Procurar..."
+msgstr "A actualizar a informação da versão…"
