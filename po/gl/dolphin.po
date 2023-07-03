@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-06-28 07:56+0200\n"
+"PO-Revision-Date: 2023-07-02 18:09+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -1598,13 +1598,13 @@ msgstr "Buscar %1"
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
-msgstr "Estase a cargar o cartafol…"
+msgstr "Cargando o cartafol…"
 
 #: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
-msgstr "Estase a ordenar…"
+msgstr "Ordenando..."
 
 #: dolphinviewcontainer.cpp:651
 #, kde-format
@@ -5283,7 +5283,7 @@ msgstr[1] "Accións para %1 elementos seleccionados"
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information..."
-msgstr "Estase a actualizar a información da versión…"
+msgstr "Actualizando a información da versión…"
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."
