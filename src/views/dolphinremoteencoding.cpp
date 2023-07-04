@@ -215,3 +215,5 @@ void DolphinRemoteEncoding::updateView()
     m_actionHandler->currentView()->setUrl(m_currentURL);
     m_actionHandler->currentView()->reload();
 }
+
+#include "moc_dolphinremoteencoding.cpp"

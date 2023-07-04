@@ -77,3 +77,5 @@ void SpaceInfoObserver::spaceInfoChanged(quint64 size, quint64 available)
         Q_EMIT valuesChanged();
     }
 }
+
+#include "moc_spaceinfoobserver.cpp"

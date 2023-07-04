@@ -191,3 +191,5 @@ void BehaviorSettingsPage::loadSortingChoiceSettings()
         Q_UNREACHABLE();
     }
 }
+
+#include "moc_behaviorsettingspage.cpp"

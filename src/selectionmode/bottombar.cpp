@@ -160,3 +160,5 @@ void BottomBar::resizeEvent(QResizeEvent *resizeEvent)
 
     return QWidget::resizeEvent(resizeEvent);
 }
+
+#include "moc_bottombar.cpp"

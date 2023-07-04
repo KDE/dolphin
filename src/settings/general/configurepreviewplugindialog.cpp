@@ -68,4 +68,6 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString &plugin
     okButton->setDefault(true);
 }
 
+#include "moc_configurepreviewplugindialog.cpp"
+
 #endif // KIO_VERSION

@@ -173,3 +173,5 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
 #endif
 }
+
+#include "moc_confirmationssettingspage.cpp"

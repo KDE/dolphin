@@ -217,3 +217,5 @@ SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent
 
     return new TrashSettingsPage(parent);
 }
+
+#include "moc_dolphinsettingsdialog.cpp"

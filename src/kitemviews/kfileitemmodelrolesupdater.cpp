@@ -1495,3 +1495,5 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
         }
     }
 }
+
+#include "moc_kfileitemmodelrolesupdater.cpp"

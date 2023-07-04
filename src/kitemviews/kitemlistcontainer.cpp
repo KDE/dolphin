@@ -396,3 +396,4 @@ void KItemListContainer::updateScrollOffsetScrollBarPolicy()
 }
 
 #include "kitemlistcontainer.moc"
+#include "moc_kitemlistcontainer.cpp"

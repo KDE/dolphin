@@ -20,3 +20,5 @@ QString KVersionControlPlugin::localRepositoryRoot(const QString & /*directory*/
 {
     return QString();
 }
+
+#include "moc_kversioncontrolplugin.cpp"

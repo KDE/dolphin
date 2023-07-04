@@ -604,3 +604,4 @@ bool DolphinPart::eventFilter(QObject *obj, QEvent *event)
 }
 
 #include "dolphinpart.moc"
+#include "moc_dolphinpart.cpp"

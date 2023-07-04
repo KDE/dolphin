@@ -2698,3 +2698,5 @@ bool DolphinMainWindow::isItemVisibleInAnyView(const QString &urlOfItem)
 {
     return m_tabWidget->isItemVisibleInAnyView(QUrl::fromUserInput(urlOfItem));
 }
+
+#include "moc_dolphinmainwindow.cpp"

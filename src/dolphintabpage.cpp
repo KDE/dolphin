@@ -536,3 +536,5 @@ QSplitterHandle *DolphinTabPageSplitter::createHandle()
 {
     return new DolphinTabPageSplitterHandle(orientation(), this);
 }
+
+#include "moc_dolphintabpage.cpp"

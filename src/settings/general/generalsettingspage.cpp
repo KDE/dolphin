@@ -70,3 +70,5 @@ void GeneralSettingsPage::restoreDefaults()
         page->restoreDefaults();
     }
 }
+
+#include "moc_generalsettingspage.cpp"

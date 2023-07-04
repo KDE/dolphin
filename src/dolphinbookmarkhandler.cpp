@@ -117,3 +117,5 @@ QString DolphinBookmarkHandler::icon(DolphinViewContainer *viewContainer)
 {
     return KIO::iconNameForUrl(viewContainer->url());
 }
+
+#include "moc_dolphinbookmarkhandler.cpp"

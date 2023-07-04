@@ -456,3 +456,5 @@ void DolphinContextMenu::addAdditionalActions(const KFileItemListProperties &pro
         addSeparator();
     }
 }
+
+#include "moc_dolphincontextmenu.cpp"

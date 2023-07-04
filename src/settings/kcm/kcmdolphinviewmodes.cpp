@@ -85,3 +85,5 @@ void DolphinViewModesConfigModule::viewModeChanged()
 }
 
 #include "kcmdolphinviewmodes.moc"
+
+#include "moc_kcmdolphinviewmodes.cpp"

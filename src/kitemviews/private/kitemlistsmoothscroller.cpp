@@ -195,3 +195,5 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent *event)
 
     m_smoothScrolling = previous;
 }
+
+#include "moc_kitemlistsmoothscroller.cpp"

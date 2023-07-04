@@ -437,3 +437,5 @@ void ViewPropertiesDialog::loadSettings()
     m_showHiddenFiles->setChecked(m_viewProps->hiddenFilesShown());
     markAsDirty(false);
 }
+
+#include "moc_viewpropertiesdialog.cpp"

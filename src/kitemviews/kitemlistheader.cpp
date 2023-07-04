@@ -88,3 +88,5 @@ KItemListHeader::KItemListHeader(KItemListView *listView)
     connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished, this, &KItemListHeader::columnWidthChangeFinished);
     connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged, this, &KItemListHeader::sidePaddingChanged);
 }
+
+#include "moc_kitemlistheader.cpp"

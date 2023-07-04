@@ -128,3 +128,5 @@ void ViewPropsProgressInfo::applyViewProperties()
     m_applyViewPropsJob = new ApplyViewPropsJob(m_dir, *m_viewProps);
     connect(m_applyViewPropsJob, &ApplyViewPropsJob::result, this, &ViewPropsProgressInfo::close);
 }
+
+#include "moc_viewpropsprogressinfo.cpp"

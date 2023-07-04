@@ -68,3 +68,5 @@ KFileItemClipboard::KFileItemClipboard()
 
     connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &KFileItemClipboard::updateCutItems);
 }
+
+#include "moc_kfileitemclipboard.cpp"

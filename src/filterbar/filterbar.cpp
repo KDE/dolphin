@@ -134,3 +134,5 @@ void FilterBar::keyPressEvent(QKeyEvent *event)
 
     QWidget::keyPressEvent(event);
 }
+
+#include "moc_filterbar.cpp"

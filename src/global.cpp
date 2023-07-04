@@ -198,3 +198,5 @@ void GlobalConfig::updateAnimationDurationFactor(const KConfigGroup &group, cons
 }
 
 double GlobalConfig::s_animationDurationFactor = -1.0;
+
+#include "moc_global.cpp"

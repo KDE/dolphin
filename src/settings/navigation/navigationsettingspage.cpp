@@ -78,3 +78,5 @@ void NavigationSettingsPage::loadSettings()
     m_openNewTabAfterLastTab->setChecked(GeneralSettings::openNewTabAfterLastTab());
     m_openNewTabAfterCurrentTab->setChecked(!m_openNewTabAfterLastTab->isChecked());
 }
+
+#include "moc_navigationsettingspage.cpp"

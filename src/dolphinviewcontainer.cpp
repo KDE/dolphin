@@ -959,3 +959,5 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 
     return dir.exists() ? dir.path() : QString{};
 }
+
+#include "moc_dolphinviewcontainer.cpp"

@@ -172,3 +172,5 @@ void DolphinTabBar::updateAutoActivationTimer(const int index)
         }
     }
 }
+
+#include "moc_dolphintabbar.cpp"

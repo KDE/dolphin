@@ -489,3 +489,5 @@ void InformationPanelContent::adjustWidgetSizes(int width)
         m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
     }
 }
+
+#include "moc_informationpanelcontent.cpp"

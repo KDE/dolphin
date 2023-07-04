@@ -119,3 +119,5 @@ void TopBar::updateLabelString()
         m_label->setText(m_shortLabelString);
     }
 }
+
+#include "moc_topbar.cpp"

@@ -42,3 +42,5 @@ void TrashSettingsPage::loadSettings()
 {
     m_proxy->load();
 }
+
+#include "moc_trashsettingspage.cpp"

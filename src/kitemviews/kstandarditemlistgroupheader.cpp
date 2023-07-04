@@ -109,3 +109,5 @@ void KStandardItemListGroupHeader::updateCache()
         m_text = text;
     }
 }
+
+#include "moc_kstandarditemlistgroupheader.cpp"

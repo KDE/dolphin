@@ -308,3 +308,5 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl &, const KFileItemList 
 
     updateTagsSelector();
 }
+
+#include "moc_dolphinfacetswidget.cpp"

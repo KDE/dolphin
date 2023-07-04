@@ -85,3 +85,5 @@ bool Trash::isEmpty()
     KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
     return (trashConfig.group("Status").readEntry("Empty", true));
 }
+
+#include "moc_dolphintrash.cpp"

@@ -42,3 +42,5 @@ DolphinNewFileMenuObserver::DolphinNewFileMenuObserver()
 DolphinNewFileMenuObserver::~DolphinNewFileMenuObserver()
 {
 }
+
+#include "moc_dolphinnewfilemenuobserver.cpp"

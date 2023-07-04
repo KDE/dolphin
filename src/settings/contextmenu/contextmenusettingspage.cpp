@@ -380,3 +380,5 @@ void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, c
     m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
     m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
+
+#include "moc_contextmenusettingspage.cpp"

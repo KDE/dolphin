@@ -156,3 +156,5 @@ void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path
     m_stopping = false;
     Q_EMIT finished();
 }
+
+#include "moc_kdirectorycontentscounterworker.cpp"

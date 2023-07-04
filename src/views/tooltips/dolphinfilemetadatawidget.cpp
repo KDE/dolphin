@@ -131,3 +131,5 @@ KFileItemList DolphinFileMetaDataWidget::items() const
 {
     return m_fileMetaDataWidget->items();
 }
+
+#include "moc_dolphinfilemetadatawidget.cpp"

@@ -2418,3 +2418,5 @@ bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
     }
     return false;
 }
+
+#include "moc_dolphinview.cpp"

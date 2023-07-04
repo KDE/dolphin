@@ -229,3 +229,5 @@ void StartupSettingsPage::showSetDefaultDirectoryError()
 {
     KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
 }
+
+#include "moc_startupsettingspage.cpp"

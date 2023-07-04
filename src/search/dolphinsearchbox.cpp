@@ -534,3 +534,5 @@ bool DolphinSearchBox::isIndexingEnabled() const
     return false;
 #endif
 }
+
+#include "moc_dolphinsearchbox.cpp"

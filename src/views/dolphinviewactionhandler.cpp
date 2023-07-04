@@ -820,3 +820,5 @@ void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList &selecti
         }
     }
 }
+
+#include "moc_dolphinviewactionhandler.cpp"

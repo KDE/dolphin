@@ -49,3 +49,5 @@ QMap<QString, QVector<VersionControlObserver::ItemState>> UpdateItemStatesThread
 {
     return m_itemStates;
 }
+
+#include "moc_updateitemstatesthread.cpp"

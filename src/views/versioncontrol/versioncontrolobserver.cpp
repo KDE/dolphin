@@ -323,3 +323,5 @@ bool VersionControlObserver::isVersionControlled() const
 {
     return m_plugin != nullptr;
 }
+
+#include "moc_versioncontrolobserver.cpp"

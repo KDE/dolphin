@@ -117,3 +117,5 @@ void DolphinUrlNavigator::slotReturnPressed()
         setUrlEditable(false);
     }
 }
+
+#include "moc_dolphinurlnavigator.cpp"

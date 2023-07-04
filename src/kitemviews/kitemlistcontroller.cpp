@@ -1831,3 +1831,5 @@ void KItemListController::slotStateChanged(QScroller::State newState)
         m_scrollerIsScrolling = false;
     }
 }
+
+#include "moc_kitemlistcontroller.cpp"

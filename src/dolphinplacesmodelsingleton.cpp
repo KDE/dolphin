@@ -137,3 +137,5 @@ QString DolphinPlacesModelSingleton::applicationNameSuffix()
 {
     return QStringLiteral("-places-panel");
 }
+
+#include "moc_dolphinplacesmodelsingleton.cpp"

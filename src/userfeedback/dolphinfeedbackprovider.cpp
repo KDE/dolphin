@@ -39,3 +39,5 @@ DolphinFeedbackProvider::DolphinFeedbackProvider()
     addDataSource(new PlacesDataSource);
     addDataSource(new SettingsDataSource);
 }
+
+#include "moc_dolphinfeedbackprovider.cpp"

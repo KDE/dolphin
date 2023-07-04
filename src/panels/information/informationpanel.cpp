@@ -419,3 +419,5 @@ void InformationPanel::init()
 
     m_initialized = true;
 }
+
+#include "moc_informationpanel.cpp"

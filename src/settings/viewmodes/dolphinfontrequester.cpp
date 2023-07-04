@@ -85,3 +85,5 @@ void DolphinFontRequester::changeMode(int index)
     setMode((index == CustomFont) ? CustomFont : SystemFont);
     Q_EMIT changed();
 }
+
+#include "moc_dolphinfontrequester.cpp"

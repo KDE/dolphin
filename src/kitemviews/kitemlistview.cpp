@@ -2769,3 +2769,5 @@ void KItemListGroupHeaderCreatorBase::recycle(KItemListGroupHeader *header)
     header->setOpacity(1.0);
     pushRecycleableWidget(header);
 }
+
+#include "moc_kitemlistview.cpp"

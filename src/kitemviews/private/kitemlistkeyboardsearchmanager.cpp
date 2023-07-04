@@ -101,3 +101,5 @@ void KItemListKeyboardSearchManager::slotSelectionChanged(const KItemSet &curren
         cancelSearch();
     }
 }
+
+#include "moc_kitemlistkeyboardsearchmanager.cpp"

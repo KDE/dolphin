@@ -80,3 +80,5 @@ bool DBusInterface::isDaemon() const
 {
     return m_isDaemon;
 }
+
+#include "moc_dbusinterface.cpp"
