@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-17 04:11\n"
+"PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -398,12 +398,10 @@ msgid "Move to Inactive Split View"
 msgstr "移动到非活动拆分视图"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "筛选"
+msgstr "筛选…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -437,10 +435,9 @@ msgid "Filter"
 msgstr "筛选"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "搜索"
+msgstr "搜索…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -548,12 +545,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "在拆分窗口中打开临时存储虚拟目录"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "预览图"
+msgstr "刷新视图"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -564,6 +559,9 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>这将刷新文件夹视图。</para><para>如果此文件夹的内容发生了更改，刷新操作"
+"将重新扫描它的内容并在视图中显示它包含的最新文件和文件夹。</para><para>如果文"
+"件夹视图处于拆分状态，此操作将刷新当前处于焦点的视图。</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1290,28 +1288,22 @@ msgid_plural "Location Bars"
 msgstr[0] "位置栏"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "编辑文件类型(&E)..."
+msgstr "编辑文件类型(&E)…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "选择匹配的项目..."
+msgstr "选择匹配的项目…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "取消选择匹配的项目..."
+msgstr "取消选择匹配的项目…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1344,12 +1336,10 @@ msgid "Autostart"
 msgstr "自动启动"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "查找文件..."
+msgstr "查找文件…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1545,28 +1535,22 @@ msgid "Search for %1"
 msgstr "搜索 %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "正在加载文件夹..."
+msgstr "正在加载文件夹…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "排序方式："
+msgstr "正在排序…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "正在搜索..."
+msgstr "正在搜索…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1606,11 +1590,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "切换文件夹时保留筛选条件"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "筛选"
+msgstr "筛选…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2405,12 +2387,10 @@ msgid "Copy"
 msgstr "复制"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "重命名..."
+msgstr "重命名…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2491,12 +2471,10 @@ msgid "Show item on hover"
 msgstr "悬停时显示项目"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "配置"
+msgstr "配置…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3040,19 +3018,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "选择右键菜单中要显示的服务："
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "搜索"
+msgstr "搜索…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "下载新服务..."
+msgstr "下载新的服务…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4128,12 +4103,10 @@ msgid "Custom Font"
 msgstr "自定义字体"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "选择..."
+msgstr "选择…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4718,10 +4691,9 @@ msgid "The location '%1' is invalid."
 msgstr "位置“%1”无效。"
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "正在加载..."
+msgstr "正在加载…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4789,12 +4761,10 @@ msgid "Folder is empty"
 msgstr "文件夹为空"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "创建文件夹..."
+msgstr "创建文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5057,12 +5027,10 @@ msgstr ""
 "</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "调整视图显示风格..."
+msgstr "调整视图显示风格…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5195,31 +5163,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "对 %1 个选中项目进行操作"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "正在更新版本信息..."
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "筛选..."
-
-#~ msgid "Search..."
-#~ msgstr "搜索..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "正在排序..."
-
-#~ msgid "Filter..."
-#~ msgstr "筛选..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "配置..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "搜索..."
+msgstr "正在更新版本信息…"
