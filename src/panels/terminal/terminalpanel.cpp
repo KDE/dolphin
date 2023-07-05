@@ -140,7 +140,7 @@ void TerminalPanel::showEvent(QShowEvent *event)
 
     if (!m_terminal) {
         m_clearTerminal = true;
-        KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("konsolepart"))).plugin;
+        KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("kf6/parts/konsolepart"))).plugin;
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : nullptr;
         if (m_konsolePart) {
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
