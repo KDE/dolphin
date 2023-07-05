@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
 #, kde-format
@@ -189,6 +189,7 @@ msgstr ""
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "آیا مطمئن هستید می‌خواهید %1 فقره‌ها را باز کنید؟"
+msgstr[1] ""
 
 #: dolphinmainwindow.cpp:1191
 #, fuzzy, kde-format
@@ -198,6 +199,7 @@ msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "باز کردن پایانه"
+msgstr[1] ""
 
 #: dolphinmainwindow.cpp:1393
 #, fuzzy, kde-format
@@ -1186,6 +1188,7 @@ msgctxt "@action:inmenu"
 msgid "Location Bar"
 msgid_plural "Location Bars"
 msgstr[0] "میله محل"
+msgstr[1] ""
 
 #: dolphinpart.cpp:149
 #, fuzzy, kde-format
@@ -1559,6 +1562,7 @@ msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
 msgstr[0] "معکوس کردن انتخاب"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
@@ -1567,6 +1571,7 @@ msgctxt ""
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
 msgstr[0] ""
+msgstr[1] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:71
 #, fuzzy, kde-format
@@ -1578,6 +1583,7 @@ msgctxt ""
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
 msgstr[0] "انتخاب مورد"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, fuzzy, kde-format
@@ -1588,6 +1594,7 @@ msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
 msgstr[0] "%1 پرونده‌ها"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:84
 #, fuzzy, kde-format
@@ -1598,6 +1605,7 @@ msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
 msgstr[0] "%1 پوشه"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:86
 #, fuzzy, kde-format
@@ -1608,13 +1616,15 @@ msgctxt ""
 msgid "One Item"
 msgid_plural "%1 Items"
 msgstr[0] "تغییر نام مورد"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlistwidget.cpp:73
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@item:intable"
 msgid "%1 item"
 msgid_plural "%1 items"
 msgstr[0] "%1 مورد"
+msgstr[1] ""
 
 #: kitemviews/kfileitemlistwidget.cpp:99
 #, kde-format
@@ -2475,11 +2485,12 @@ msgid "Select which data should be shown:"
 msgstr "انتخاب کنید که چه اطلاعاتی باید نمایش داده شود:"
 
 #: panels/information/informationpanelcontent.cpp:284
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "%1 مورد انتخاب شده"
+msgstr[1] ""
 
 #: panels/information/phononwidget.cpp:153
 #, kde-format
@@ -2699,6 +2710,7 @@ msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
 msgstr[0] "%1: %2"
+msgstr[1] ""
 
 #: search/dolphinfacetswidget.cpp:256
 #, fuzzy, kde-format
@@ -2938,6 +2950,7 @@ msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2950,6 +2963,7 @@ msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2962,6 +2976,7 @@ msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2974,6 +2989,7 @@ msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2986,6 +3002,7 @@ msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3000,6 +3017,7 @@ msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
 msgstr[0] "حرکت به زباله‌دان"
+msgstr[1] ""
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3014,6 +3032,7 @@ msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "&تغییر نام"
+msgstr[1] ""
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -4170,6 +4189,7 @@ msgstr ""
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] ""
+msgstr[1] ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
@@ -4422,11 +4442,12 @@ msgstr "نشان دادن پیش‌نمایش پوشه‌ها و پرونده‌
 
 #: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:321
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
 msgid_plural "Size: %1 pixels"
 msgstr[0] "اندازه: %1 پیکسل"
+msgstr[1] ""
 
 #: settings/viewpropertiesdialog.cpp:60
 #, kde-format
@@ -4713,32 +4734,36 @@ msgid "Reload"
 msgstr "بارگذاری مجدد"
 
 #: views/dolphinview.cpp:641
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
 msgid_plural "%1 Folders selected"
 msgstr[0] "%1 پوشه انتخاب شد"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:642
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
 msgid_plural "%1 Files selected"
 msgstr[0] "%1 پرونده انتخاب شد"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:644
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
 msgid_plural "%1 Folders"
 msgstr[0] "%1 پوشه"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:645
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 File"
 msgid_plural "%1 Files"
 msgstr[0] "%1 پرونده‌ها"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:649
 #, kde-format
@@ -4765,10 +4790,11 @@ msgid "%1 copy"
 msgstr ""
 
 #: views/dolphinview.cpp:1082
-#, kde-format
+#, fuzzy, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "آیا مطمئن هستید می‌خواهید %1 فقره‌ها را باز کنید؟"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:1094
 #, fuzzy, kde-format
@@ -4778,6 +4804,7 @@ msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "باز کردن مسیر"
+msgstr[1] ""
 
 #: views/dolphinview.cpp:1225
 #, kde-format
@@ -5352,6 +5379,7 @@ msgctxt ""
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
 msgstr[0] ""
+msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
 #, fuzzy, kde-format
