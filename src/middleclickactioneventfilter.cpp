@@ -59,3 +59,5 @@ bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
 
     return QObject::eventFilter(watched, event);
 }
+
+#include "moc_middleclickactioneventfilter.cpp"

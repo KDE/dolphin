@@ -67,7 +67,7 @@ void TreeViewContextMenu::open(const QPoint &pos)
         popup->addSeparator();
 
         // insert 'Rename'
-        QAction *renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
+        QAction *renameAction = new QAction(i18nc("@action:inmenu", "Rename…"), this);
         renameAction->setEnabled(capabilities.supportsMoving());
         renameAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
         connect(renameAction, &QAction::triggered, this, &TreeViewContextMenu::rename);
@@ -222,3 +222,5 @@ void TreeViewContextMenu::setAutoScrolling(bool enable)
 {
     m_parent->setAutoScrolling(enable);
 }
+
+#include "moc_treeviewcontextmenu.cpp"

@@ -235,3 +235,5 @@ KFileItemListView *KFileItemListWidget::listView()
 {
     return dynamic_cast<KFileItemListView *>(parentItem());
 }
+
+#include "moc_kfileitemlistwidget.cpp"

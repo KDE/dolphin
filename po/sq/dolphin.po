@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2023-04-11 01:21-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -392,10 +392,12 @@ msgid "Move to Inactive Split View"
 msgstr ""
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Filtri..."
+msgid "Filter…"
+msgstr "Filtri"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -431,8 +433,8 @@ msgstr "Filtri"
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Empty Trash"
-msgid "Search..."
-msgstr "Kërko..."
+msgid "Search…"
+msgstr "Kërko"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1182,21 +1184,23 @@ msgstr[0] "Vendndodhja:"
 msgstr[1] "Vendndodhja:"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Modifiko Llojin e Skedarit..."
 
 #: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr ""
 
 #: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr ""
 
 #: dolphinpart.cpp:164
@@ -1232,7 +1236,7 @@ msgstr "Autofillues"
 #: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr ""
 
 #: dolphinpart.cpp:196
@@ -1388,7 +1392,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1403,62 +1407,66 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Empty Trash"
 msgid "Search"
 msgstr "Kërko"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Kërko %1"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Duke ngarkuar folderin..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Renditja..."
+msgid "Sorting…"
+msgstr "Renditja:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Empty Trash"
 msgctxt "@info"
-msgid "Searching..."
-msgstr ""
+msgid "Searching…"
+msgstr "Kërko"
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin nuk i suporton faqet e internetit, u nis shfletuesi i internetit"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1467,13 +1475,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Protokolli nuk suportohet nga Dolphin, u nis Konqueror"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokoll i pavlefshëm"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1486,9 +1494,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr ""
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Filtri..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Filtri"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2333,9 +2343,11 @@ msgid "Copy"
 msgstr "Kopjo"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Riemërto..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2417,10 +2429,12 @@ msgid "Show item on hover"
 msgstr "Shfaq artikullin kur pezullon mbi"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Konfiguro..."
+msgid "Configure…"
+msgstr "Konfiguro"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2976,15 +2990,19 @@ msgid "Select which services should be shown in the context menu:"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Empty Trash"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Kërko..."
+msgid "Search…"
+msgstr "Kërko"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Shkarko shërbime të reja..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4078,9 +4096,11 @@ msgid "Custom Font"
 msgstr "Gërmë e Parazgjedhur"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Zgjidhni..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4684,8 +4704,9 @@ msgid "The location '%1' is invalid."
 msgstr "Vendndodhja '%1' është e pavlefshme."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Duke ngarkuar..."
 
 #: views/dolphinview.cpp:2365
@@ -4755,9 +4776,11 @@ msgid "Folder is empty"
 msgstr "Skedari është i zbrazët"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Krijo skedar..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5004,7 +5027,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Rregullo Parametrat e Shfaqjes..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5155,10 +5178,40 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Additional information"
 msgctxt "@info:status"
-msgid "Updating version information..."
-msgstr ""
+msgid "Updating version information…"
+msgstr "Informacione shtesë"
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filtri..."
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Empty Trash"
+#~ msgid "Search..."
+#~ msgstr "Kërko..."
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Renditja..."
+
+#~ msgid "Filter..."
+#~ msgstr "Filtri..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Konfiguro..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Kërko..."
 
 #~ msgctxt "separator in list of apps blocking device unmount"
 #~ msgid ", "
@@ -5731,10 +5784,6 @@ msgstr ""
 #~ msgctxt "@action:inmenu Sort By"
 #~ msgid "Name"
 #~ msgstr "Emri"
-
-#~ msgctxt "@label"
-#~ msgid "Additional information"
-#~ msgstr "Informacione shtesë"
 
 #, fuzzy
 #~| msgctxt "@info:status files (size)"

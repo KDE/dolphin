@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -398,7 +398,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "តម្រង ៖"
 
 #: dolphinmainwindow.cpp:1655
@@ -437,10 +437,10 @@ msgstr "តម្រង ៖"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
-msgid "Search..."
-msgstr "កំពុង​ស្វែងរក..."
+#| msgctxt "@item"
+#| msgid "Search For"
+msgid "Search…"
+msgstr "ស្វែងរក​"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1198,21 +1198,27 @@ msgid_plural "Location Bars"
 msgstr[0] "របារ​ទីតាំង"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "កែ​សម្រួល​ប្រភេទ​ឯកសារ..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "ជ្រើស​​ការ​ផ្គូផ្គង​ធាតុ..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "មិនជ្រើស​​កា​រផ្គូផ្គង​ធាតុ..."
 
 #: dolphinpart.cpp:164
@@ -1246,9 +1252,11 @@ msgid "Autostart"
 msgstr "ចាប់ផ្តើម​ស្វ័យប្រវត្តិ"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ស្វែងរក​ឯកសារ​..."
 
 #: dolphinpart.cpp:196
@@ -1399,7 +1407,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1414,63 +1422,69 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1 in %2"
 msgstr "ស្វែងរក​"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search"
 msgstr "ស្វែងរក​"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1"
 msgstr "ស្វែងរក​"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "កំពុង​ផ្ទុក​ថត..."
 
-#: dolphinviewcontainer.cpp:641
-#, kde-format
+#: dolphinviewcontainer.cpp:645
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "ការ​តម្រៀប..."
+msgid "Sorting…"
+msgstr "ការ​តម្រៀប ៖"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "កំពុង​ស្វែងរក..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "រកមិនឃើញ​ធាតុ​ទេ"
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ​​មិន​គាំទ្រ​ទំព័រ​បណ្ដាញ​ទេ កម្មវិធី​រុករក​បណ្ដាញ​ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1479,13 +1493,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ពិធីការ​មិន​បាន​គាំទ្រ​ដោយ Dolphin Konqueror ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ពិធីការ​មិន​ត្រឹមត្រូវ"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1501,7 +1515,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "តម្រង ៖"
 
 #: filterbar/filterbar.cpp:42
@@ -2384,9 +2398,11 @@ msgid "Copy"
 msgstr "ចម្លង"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "ប្តូរ​ឈ្មោះ..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2472,9 +2488,11 @@ msgid "Show item on hover"
 msgstr "បង្ហាញ​របារ​តម្រង"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "កំណត់​រចនាសម្ព័ន្ធ​​​​..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3076,16 +3094,18 @@ msgstr "ជ្រើស​សេវា​ណាមួយ ដែល​គួរ�
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#| msgctxt "@item"
+#| msgid "Search For"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "កំពុង​ស្វែងរក..."
+msgid "Search…"
+msgstr "ស្វែងរក​"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "ទាញយក​សេវា​ថ្មី..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4242,9 +4262,11 @@ msgid "Custom Font"
 msgstr "ពុម្ពអក្សរ​ផ្ទាល់ខ្លួន"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "ជ្រើស..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4868,7 +4890,7 @@ msgstr "ទីតាំង '%1' មិនត្រឹមត្រូវ ។"
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "កំពុង​ផ្ទុក​ថត..."
 
 #: views/dolphinview.cpp:2365
@@ -4948,9 +4970,11 @@ msgid "Folder is empty"
 msgstr "ថត​មុន"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "បង្កើត​ថត..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5211,7 +5235,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "លៃតម្រូវ​លក្ខណៈសម្បត្តិ​របស់​ទិដ្ឋភាព..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5361,10 +5385,46 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "កំពុង​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​កំណែ..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "តម្រង ៖"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Searching..."
+#~ msgid "Search..."
+#~ msgstr "កំពុង​ស្វែងរក..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "ការ​តម្រៀប..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "តម្រង ៖"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "កំណត់​រចនាសម្ព័ន្ធ​​​​..."
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Searching..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "កំពុង​ស្វែងរក..."
 
 #, fuzzy
 #~| msgctxt "@info:status"

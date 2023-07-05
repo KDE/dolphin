@@ -357,3 +357,5 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::Geometries DolphinNavigator
     }
     return geometries;
 }
+
+#include "moc_dolphinnavigatorswidgetaction.cpp"

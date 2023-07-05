@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-27 11:45+0200\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"PO-Revision-Date: 2023-06-30 20:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -408,8 +408,8 @@ msgstr "Naar inactieve gesplitste weergave verplaatsen"
 #: dolphinmainwindow.cpp:1654
 #, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Filter..."
+msgid "Filter…"
+msgstr "Filter…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -445,8 +445,8 @@ msgstr "Filter"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, kde-format
-msgid "Search..."
-msgstr "Zoeken..."
+msgid "Search…"
+msgstr "Zoeken…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1360,20 +1360,20 @@ msgstr[1] "Locatiebalken"
 #: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
-msgstr "Bestandstype b&ewerken..."
+msgid "&Edit File Type…"
+msgstr "Bestandstype b&ewerken…"
 
 #: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
-msgstr "Overeenkomende items selecteren..."
+msgid "Select Items Matching…"
+msgstr "Overeenkomende items selecteren…"
 
 #: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr "Overeenkomende items deselecteren..."
+msgid "Unselect Items Matching…"
+msgstr "Overeenkomende items deselecteren…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1408,8 +1408,8 @@ msgstr "Autostart"
 #: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
-msgstr "Bestand zoeken..."
+msgid "Find File…"
+msgstr "Bestand zoeken…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1566,7 +1566,7 @@ msgstr ""
 "locatiebalk <link url='help:/dolphin/location-bar.html'>klik hier</link>. "
 "Dit zal de toepasselijke pagina in het handboek openen.</para>"
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1590,51 +1590,51 @@ msgstr ""
 "toegangstijd of waardering.</item><item>Meer hulpmiddelen voor zoeken: "
 "installeer andere middelen om een item te zoeken.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Dolphin als root uitvoeren kan gevaarlijk zijn. Wees voorzichtig."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Zoeken naar %1 in %2"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "Zoeken"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Zoeken naar %1"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
-msgid "Loading folder..."
-msgstr "Map wordt geladen..."
+msgid "Loading folder…"
+msgstr "Map wordt geladen…"
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, kde-format
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr " Bezig met sorteren..."
+msgid "Sorting…"
+msgstr "Bezig met sorteren…"
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, kde-format
 msgctxt "@info"
-msgid "Searching..."
-msgstr "Bezig met zoeken..."
+msgid "Searching…"
+msgstr "Bezig met zoeken…"
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Geen items gevonden."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -1642,7 +1642,7 @@ msgstr ""
 "Dolphin biedt geen ondersteuning voor webpagina's. De webbrowser wordt "
 "gestart"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1651,13 +1651,13 @@ msgstr ""
 "Dit protocol wordt niet door Dolphin ondersteund, standaard toepassing is "
 "gestart"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ongeldig protocol"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1673,8 +1673,8 @@ msgstr "Filter behouden bij wijziging van mappen"
 
 #: filterbar/filterbar.cpp:34
 #, kde-format
-msgid "Filter..."
-msgstr "Filter..."
+msgid "Filter…"
+msgstr "Filter…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2481,8 +2481,8 @@ msgstr "Kopiëren"
 #: panels/folders/treeviewcontextmenu.cpp:78
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Rename..."
-msgstr "Hernoemen..."
+msgid "Rename…"
+msgstr "Hernoemen…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2565,8 +2565,8 @@ msgstr "Item tonen bij er boven zweven"
 #: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Instellen..."
+msgid "Configure…"
+msgstr "Configureren…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3134,14 +3134,14 @@ msgstr "Selecteer welke diensten getoond moeten worden in het contextmenu:"
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Zoeken..."
+msgid "Search…"
+msgstr "Zoeken…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
-msgstr "Nieuwe services downloaden..."
+msgid "Download New Services…"
+msgstr "Nieuwe services downloaden…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4254,8 +4254,8 @@ msgstr "Aangepast lettertype"
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
 msgctxt "@action:button Choose font"
-msgid "Choose..."
-msgstr "Kiezen..."
+msgid "Choose…"
+msgstr "Kiezen…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4856,8 +4856,8 @@ msgstr "Locatie '%1' is ongeldig."
 
 #: views/dolphinview.cpp:2346
 #, kde-format
-msgid "Loading..."
-msgstr "Bezig met laden..."
+msgid "Loading…"
+msgstr "Bezig met laden…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4927,8 +4927,8 @@ msgstr "Map is leeg"
 #: views/dolphinviewactionhandler.cpp:80
 #, kde-format
 msgctxt "@action"
-msgid "Create Folder..."
-msgstr "Map aanmaken..."
+msgid "Create Folder…"
+msgstr "Map aanmaken…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5210,8 +5210,8 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
-msgstr "Weergavestijl aanpassen..."
+msgid "Adjust View Display Style…"
+msgstr "Weergavestijl van scherm aanpassen…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5219,7 +5219,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
-"Dit opent een venster waain alle mapweergave-eigenschappen aangepast kunnen "
+"Dit opent een venster waarin alle mapweergave-eigenschappen aangepast kunnen "
 "worden."
 
 #: views/dolphinviewactionhandler.cpp:629
@@ -5349,8 +5349,30 @@ msgstr[1] "Acties voor %1 geselecteerde items"
 #: views/versioncontrol/versioncontrolobserver.cpp:221
 #, kde-format
 msgctxt "@info:status"
-msgid "Updating version information..."
-msgstr "Versie-informatie bijwerken..."
+msgid "Updating version information…"
+msgstr "Versie-informatie bijwerken…"
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filter..."
+
+#~ msgid "Search..."
+#~ msgstr "Zoeken..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr " Bezig met sorteren..."
+
+#~ msgid "Filter..."
+#~ msgstr "Filter..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Instellen..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Zoeken..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

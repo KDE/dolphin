@@ -105,3 +105,5 @@ void ServiceItemDelegate::slotConfigureButtonClicked()
 {
     Q_EMIT requestServiceConfiguration(focusedIndex());
 }
+
+#include "moc_serviceitemdelegate.cpp"

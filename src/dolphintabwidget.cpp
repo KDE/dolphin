@@ -595,3 +595,5 @@ const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewSho
 
     return std::nullopt;
 }
+
+#include "moc_dolphintabwidget.cpp"

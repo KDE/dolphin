@@ -237,3 +237,5 @@ void DolphinItemListView::updateGridSize()
     setItemSize(QSizeF(itemWidth, itemHeight));
     endTransaction();
 }
+
+#include "moc_dolphinitemlistview.cpp"

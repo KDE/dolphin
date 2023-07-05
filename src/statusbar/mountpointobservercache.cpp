@@ -87,3 +87,5 @@ void MountPointObserverCache::slotObserverDestroyed(QObject *observer)
         m_updateTimer->stop();
     }
 }
+
+#include "moc_mountpointobservercache.cpp"

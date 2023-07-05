@@ -169,3 +169,5 @@ void KItemListRoleEditor::emitRoleEditingFinished(EditResultDirection direction)
         Q_EMIT roleEditingFinished(m_role, ret);
     }
 }
+
+#include "moc_kitemlistroleeditor.cpp"

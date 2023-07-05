@@ -77,7 +77,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewFileMenu takes care of the GUI stuff.
     QAction *newDirAction = m_actionCollection->addAction(QStringLiteral("create_dir"));
-    newDirAction->setText(i18nc("@action", "Create Folder..."));
+    newDirAction->setText(i18nc("@action", "Create Folder…"));
     m_actionCollection->setDefaultShortcuts(newDirAction, KStandardShortcut::createFolder());
     newDirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     newDirAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
@@ -327,7 +327,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 
     QAction *adjustViewProps = m_actionCollection->addAction(QStringLiteral("view_properties"));
-    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Display Style..."));
+    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Display Style…"));
     adjustViewProps->setIcon(QIcon::fromTheme(QStringLiteral("view-choose")));
     adjustViewProps->setWhatsThis(i18nc("@info:whatsthis",
                                         "This opens a window "
@@ -820,3 +820,5 @@ void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList &selecti
         }
     }
 }
+
+#include "moc_dolphinviewactionhandler.cpp"

@@ -335,3 +335,5 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
 }
+
+#include "moc_dolphinstatusbar.cpp"

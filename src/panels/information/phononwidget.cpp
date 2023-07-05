@@ -261,4 +261,5 @@ void PhononWidget::applyVideoSize()
     }
 }
 
+#include "moc_phononwidget.cpp"
 #include "phononwidget.moc"

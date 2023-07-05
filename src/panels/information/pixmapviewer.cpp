@@ -174,3 +174,5 @@ bool PixmapViewer::isAnimatedMimeType(const QString &mimeType)
         return QMovie::supportedFormats().contains(format);
     });
 }
+
+#include "moc_pixmapviewer.cpp"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -405,7 +405,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "గలని:"
 
 #: dolphinmainwindow.cpp:1655
@@ -446,7 +446,7 @@ msgstr "గలని:"
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
-msgid "Search..."
+msgid "Search…"
 msgstr "మెయిన్ పనిముట్లపట్టీ"
 
 #: dolphinmainwindow.cpp:1679
@@ -1219,9 +1219,11 @@ msgstr[0] "స్థానము:"
 msgstr[1] "స్థానము:"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "(&E) ఫైలు రకమును సరికూర్చుము..."
 
 #: dolphinpart.cpp:153
@@ -1229,14 +1231,16 @@ msgstr "(&E) ఫైలు రకమును సరికూర్చుము..
 #| msgctxt "@info:tooltip"
 #| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "అంశమును ఎంపికచేయుము"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr ""
+msgid "Unselect Items Matching…"
+msgstr "అంశమును ఎంపికచేయుము"
 
 #: dolphinpart.cpp:164
 #, fuzzy, kde-format
@@ -1275,7 +1279,7 @@ msgstr "స్వయంచాలకప్రారంభం"
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ఫైలును కనుగొనుము..."
 
 #: dolphinpart.cpp:196
@@ -1436,7 +1440,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1451,65 +1455,69 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgid "Search for %1 in %2"
 msgstr "మెయిన్ పనిముట్లపట్టీ"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgid "Search"
 msgstr "మెయిన్ పనిముట్లపట్టీ"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgid "Search for %1"
 msgstr "మెయిన్ పనిముట్లపట్టీ"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "వరుసక్రమము:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Main Toolbar"
 msgctxt "@info"
-msgid "Searching..."
-msgstr ""
+msgid "Searching…"
+msgstr "మెయిన్ పనిముట్లపట్టీ"
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "డాల్ఫన్ వెబ్ పేజీలను మద్దతీయదు, వెబ్ "
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1518,13 +1526,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ప్రోటోకాల్ డాల్ఫిన్ చేత మద్దతీయబడదు, కాన్క్వెరర్ ప్రారంభించబడింది"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "సరికాని ప్రోటోకాల్"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1540,7 +1548,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "గలని:"
 
 #: filterbar/filterbar.cpp:42
@@ -2484,9 +2492,11 @@ msgid "Copy"
 msgstr "నకలుతీయి"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "పునఃనామకరణ..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2582,7 +2592,7 @@ msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 #| msgctxt "@label"
 #| msgid "Change Tags..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "టాగ్సును మార్చుము..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3191,13 +3201,13 @@ msgstr ""
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
 msgctxt "@label:textbox"
-msgid "Search..."
+msgid "Search…"
 msgstr "మెయిన్ పనిముట్లపట్టీ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4449,9 +4459,11 @@ msgid "Custom Font"
 msgstr "నిర్ధేశిత"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "ఎంచుకొనుము..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -5120,7 +5132,7 @@ msgstr "స్థానము '%1' సరైనదికాదు."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
 #: views/dolphinview.cpp:2365
@@ -5201,7 +5213,7 @@ msgstr "ఫోల్డర్లు"
 #| msgctxt "@action"
 #| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "ఫోల్డరును సృష్టించుము..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5478,7 +5490,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "వీక్షణ గుణాలను సర్దుము..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5643,8 +5655,48 @@ msgstr[1] ""
 #| msgctxt "@label"
 #| msgid "Additional information"
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "అదనపు సమాచారము"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "గలని:"
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgid "Search..."
+#~ msgstr "మెయిన్ పనిముట్లపట్టీ"
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "వరుసక్రమము:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "గలని:"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Change Tags..."
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "టాగ్సును మార్చుము..."
+
+#, fuzzy
+#~| msgctxt "@title:menu"
+#~| msgid "Main Toolbar"
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "మెయిన్ పనిముట్లపట్టీ"
 
 #, fuzzy
 #~| msgctxt "@label:textbox"

@@ -32,6 +32,7 @@
 #include <KProtocolManager>
 #include <KShell>
 
+#include <QApplication>
 #include <QDesktopServices>
 #include <QDropEvent>
 #include <QGridLayout>
@@ -338,6 +339,9 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         }
         Q_CHECK_PTR(m_selectionModeTopBar); // there is no point in disabling selectionMode when it wasn't even enabled once.
         Q_CHECK_PTR(m_selectionModeBottomBar);
+        if (m_selectionModeTopBar->isAncestorOf(QApplication::focusWidget()) || m_selectionModeBottomBar->isAncestorOf(QApplication::focusWidget())) {
+            m_view->setFocus();
+        }
         m_selectionModeTopBar->setVisible(false, WithAnimation);
         m_selectionModeBottomBar->setVisible(false, WithAnimation);
         Q_EMIT selectionModeChanged(false);
@@ -625,7 +629,7 @@ void DolphinViewContainer::updateStatusBar()
 void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
-        m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
+        m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder…"));
     }
     m_statusBar->setProgress(percent);
 }
@@ -633,7 +637,7 @@ void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
 void DolphinViewContainer::updateDirectorySortingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
-        m_statusBar->setProgressText(i18nc("@info:progress", "Sorting..."));
+        m_statusBar->setProgressText(i18nc("@info:progress", "Sorting…"));
     }
     m_statusBar->setProgress(percent);
 }
@@ -644,7 +648,7 @@ void DolphinViewContainer::slotDirectoryLoadingStarted()
         // Search KIO-slaves usually don't provide any progress information. Give
         // a hint to the user that a searching is done:
         updateStatusBar();
-        m_statusBar->setProgressText(i18nc("@info", "Searching..."));
+        m_statusBar->setProgressText(i18nc("@info", "Searching…"));
         m_statusBar->setProgress(-1);
     } else {
         // Trigger an undetermined progress indication. The progress
@@ -946,3 +950,5 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 
     return dir.exists() ? dir.path() : QString{};
 }
+
+#include "moc_dolphinviewcontainer.cpp"

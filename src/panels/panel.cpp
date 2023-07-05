@@ -59,3 +59,5 @@ void Panel::setUrl(const QUrl &url)
 void Panel::readSettings()
 {
 }
+
+#include "moc_panel.cpp"

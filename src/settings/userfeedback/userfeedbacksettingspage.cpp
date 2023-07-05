@@ -43,3 +43,5 @@ void UserFeedbackSettingsPage::restoreDefaults()
     feedbackProvider->setTelemetryMode(KUserFeedback::Provider::NoTelemetry);
     feedbackProvider->setSurveyInterval(-1);
 }
+
+#include "moc_userfeedbacksettingspage.cpp"

@@ -71,3 +71,5 @@ void ViewModeController::setUrl(const QUrl &url)
         Q_EMIT urlChanged(url);
     }
 }
+
+#include "moc_viewmodecontroller.cpp"

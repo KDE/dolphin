@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2009-12-27 20:56+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -408,7 +408,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Penapis:"
 
 #: dolphinmainwindow.cpp:1655
@@ -447,8 +447,8 @@ msgstr "Penapis:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-msgid "Search..."
-msgstr "Mencari..."
+msgid "Search…"
+msgstr "Cari"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1209,9 +1209,11 @@ msgstr[0] "Bar Lokasi"
 msgstr[1] "Bar Lokasi"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Sunting Jenis Fail..."
 
 #: dolphinpart.cpp:153
@@ -1219,14 +1221,16 @@ msgstr "&Sunting Jenis Fail..."
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Select All"
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Pilih Semua"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select All"
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr ""
+msgid "Unselect Items Matching…"
+msgstr "Pilih Semua"
 
 #: dolphinpart.cpp:164
 #, fuzzy, kde-format
@@ -1263,7 +1267,7 @@ msgstr "Automula"
 #: dolphinpart.cpp:190
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "&Edit Jenis Fail..."
 
 #: dolphinpart.cpp:196
@@ -1423,7 +1427,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1438,70 +1442,70 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 msgid "Search for %1 in %2"
 msgstr "Bar Cari"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 msgid "Search"
 msgstr "Cari"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, fuzzy, kde-format
 msgid "Search for %1"
 msgstr "Bar Cari"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, fuzzy, kde-format
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "Mencari..."
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, fuzzy, kde-format
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Mencari..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1517,7 +1521,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "Penapis:"
 
 #: filterbar/filterbar.cpp:42
@@ -2421,9 +2425,11 @@ msgid "Copy"
 msgstr "Salin"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Namakan semula..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2515,7 +2521,7 @@ msgstr "Papar Bar Carian"
 #| msgctxt "@label"
 #| msgid "Change Tags..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "Tetapkan..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3108,13 +3114,13 @@ msgstr ""
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Mencari..."
+msgid "Search…"
+msgstr "Cari"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4245,9 +4251,11 @@ msgid "Custom Font"
 msgstr "Font Tersendiri"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Pilih..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4885,7 +4893,7 @@ msgstr "Lokasi '%1' tidak sah."
 
 #: views/dolphinview.cpp:2346
 #, fuzzy, kde-format
-msgid "Loading..."
+msgid "Loading…"
 msgstr "Mencari..."
 
 #: views/dolphinview.cpp:2365
@@ -4959,9 +4967,11 @@ msgid "Folder is empty"
 msgstr "Folder Pertama"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Cipta Folder..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5225,7 +5235,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5379,10 +5389,41 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Mengemaskini maklumat versi..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Penapis:"
+
+#, fuzzy
+#~ msgid "Search..."
+#~ msgstr "Mencari..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "Penapis:"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Change Tags..."
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Tetapkan..."
+
+#, fuzzy
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Mencari..."
 
 #, fuzzy
 #~| msgid "Font size"

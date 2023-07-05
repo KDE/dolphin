@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-12-28 01:48+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -417,10 +417,12 @@ msgid "Move to Inactive Split View"
 msgstr "Perkelti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Filtruoti..."
+msgid "Filter…"
+msgstr "Filtruoti"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -451,9 +453,10 @@ msgid "Filter"
 msgstr "Filtruoti"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Ieškoti..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Ieškoti"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1237,21 +1240,27 @@ msgstr[2] "Vietos juostos"
 msgstr[3] "Vietos juostos"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Taisyti failo tipą..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Pažymėti elementus, atitinkančius..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Nuimti žymėjimą nuo elementų atitinkančių..."
 
 #: dolphinpart.cpp:164
@@ -1285,9 +1294,11 @@ msgid "Autostart"
 msgstr "Automatinis paleidimas"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Rasti failą..."
 
 #: dolphinpart.cpp:196
@@ -1438,7 +1449,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1453,73 +1464,79 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Dolphin paleidimas pagrindinio naudotojo (root) teisėmis gali būti "
 "pavojingas. Būkite atsargūs."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Ieškoti %1 ties %2"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "Ieškoti"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Ieškoti %1"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Įkeliamas aplankas..."
 
-#: dolphinviewcontainer.cpp:641
-#, kde-format
+#: dolphinviewcontainer.cpp:645
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Rikiuojama..."
+msgid "Sorting…"
+msgstr "Rikiavimas:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Ieškoma..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nerasta jokių elementų."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin nepalaiko internetinių puslapių, buvo paleista saityno naršyklė"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin nepalaiko šio protokolo, buvo paleista numatytoji programa"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Neteisingas protokolas"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1532,9 +1549,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Išlaikyti filtrą keičiant aplankus"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Filtruoti..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Filtruoti"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2355,9 +2374,11 @@ msgid "Copy"
 msgstr "Kopijuoti"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Pervadinti..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2443,10 +2464,12 @@ msgid "Show item on hover"
 msgstr "Rodyti filtro juostą"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Konfigūruoti..."
+msgid "Configure…"
+msgstr "Konfigūruoti"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3026,15 +3049,18 @@ msgstr ""
 "Pasirinkite, kurios paslaugos turėtų būti rodomos kontekstiniame meniu:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Ieškoti..."
+msgid "Search…"
+msgstr "Ieškoti"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Atsisiųsti naujas paslaugas..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4151,9 +4177,11 @@ msgid "Custom Font"
 msgstr "Tinkintas šriftas"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Pasirinkti..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4759,8 +4787,9 @@ msgid "The location '%1' is invalid."
 msgstr "Vieta „%1“ yra neteisinga."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Įkeliama..."
 
 #: views/dolphinview.cpp:2365
@@ -4829,9 +4858,11 @@ msgid "Folder is empty"
 msgstr "Aplankas tuščias"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Sukurti aplanką..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5082,9 +5113,11 @@ msgstr ""
 "paslėpti.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Derinti rodinio atvaizdavimo stilių..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5222,10 +5255,34 @@ msgstr[2] "Veiksmai, skirti %1 pažymėtų elementų"
 msgstr[3] "Veiksmai, skirti %1 pažymėtam elementui"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Atnaujinama versijos informacija..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Filtruoti..."
+
+#~ msgid "Search..."
+#~ msgstr "Ieškoti..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Rikiuojama..."
+
+#~ msgid "Filter..."
+#~ msgstr "Filtruoti..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Konfigūruoti..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Ieškoti..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

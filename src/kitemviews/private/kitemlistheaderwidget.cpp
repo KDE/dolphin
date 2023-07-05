@@ -614,3 +614,5 @@ qreal KItemListHeaderWidget::roleXPosition(const QByteArray &role) const
 
     return -1;
 }
+
+#include "moc_kitemlistheaderwidget.cpp"

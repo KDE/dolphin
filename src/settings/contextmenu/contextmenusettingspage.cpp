@@ -64,7 +64,7 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
                                this);
     label->setWordWrap(true);
     m_searchLineEdit = new QLineEdit(this);
-    m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search..."));
+    m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search…"));
     connect(m_searchLineEdit, &QLineEdit::textChanged, this, [this](const QString &filter) {
         m_sortModel->setFilterFixedString(filter);
     });
@@ -91,7 +91,7 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
 
 #ifndef Q_OS_WIN
     using NewStuffButton = KNSWidgets::Button;
-    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services..."), QStringLiteral("servicemenu.knsrc"), this);
+    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services…"), QStringLiteral("servicemenu.knsrc"), this);
     connect(downloadButton, &NewStuffButton::dialogFinished, this, [this](const auto &changedEntries) {
         if (!changedEntries.isEmpty()) {
             m_serviceModel->clear();
@@ -359,3 +359,5 @@ void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, c
     m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
     m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
+
+#include "moc_contextmenusettingspage.cpp"

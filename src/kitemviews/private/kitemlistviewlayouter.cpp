@@ -613,3 +613,5 @@ qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
 {
     return 100;
 }
+
+#include "moc_kitemlistviewlayouter.cpp"

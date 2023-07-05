@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
-"PO-Revision-Date: 2023-06-17 04:11\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -400,8 +400,8 @@ msgstr "移动到非活动拆分视图"
 #: dolphinmainwindow.cpp:1654
 #, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "筛选..."
+msgid "Filter…"
+msgstr "筛选…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -436,8 +436,8 @@ msgstr "筛选"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, kde-format
-msgid "Search..."
-msgstr "搜索..."
+msgid "Search…"
+msgstr "搜索…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -545,12 +545,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "在拆分窗口中打开临时存储虚拟目录"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "预览图"
+msgstr "刷新视图"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -561,6 +559,9 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>这将刷新文件夹视图。</para><para>如果此文件夹的内容发生了更改，刷新操作"
+"将重新扫描它的内容并在视图中显示它包含的最新文件和文件夹。</para><para>如果文"
+"件夹视图处于拆分状态，此操作将刷新当前处于焦点的视图。</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1289,20 +1290,20 @@ msgstr[0] "位置栏"
 #: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
-msgstr "编辑文件类型(&E)..."
+msgid "&Edit File Type…"
+msgstr "编辑文件类型(&E)…"
 
 #: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
-msgstr "选择匹配的项目..."
+msgid "Select Items Matching…"
+msgstr "选择匹配的项目…"
 
 #: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr "取消选择匹配的项目..."
+msgid "Unselect Items Matching…"
+msgstr "取消选择匹配的项目…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1337,8 +1338,8 @@ msgstr "自动启动"
 #: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
-msgstr "查找文件..."
+msgid "Find File…"
+msgstr "查找文件…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1492,7 +1493,7 @@ msgstr ""
 "各种功能，请<link url='help:/dolphin/location-bar.html'>点击此处</link>，打开"
 "并查看使用手册中的介绍页面。</para>"
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1513,70 +1514,70 @@ msgstr ""
 "索？</item><item>更多选项：点击此按钮可按照媒体类型，访问时间或评分进行搜索。"
 "</item><item>更多搜索工具：使用和安装其他文件搜索工具。</item></list></para>"
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "以 Root 用户身份运行 Dolphin 是十分危险的。请务必小心。"
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜索 %1"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "搜索"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "搜索 %1"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:637
 #, kde-format
 msgctxt "@info:progress"
-msgid "Loading folder..."
-msgstr "正在加载文件夹..."
+msgid "Loading folder…"
+msgstr "正在加载文件夹…"
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, kde-format
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "正在排序..."
+msgid "Sorting…"
+msgstr "正在排序…"
 
-#: dolphinviewcontainer.cpp:652
+#: dolphinviewcontainer.cpp:656
 #, kde-format
 msgctxt "@info"
-msgid "Searching..."
-msgstr "正在搜索..."
+msgid "Searching…"
+msgstr "正在搜索…"
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "未找到项目。"
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支持显示网页，已启动网页浏览器"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin 不支持此协议，已启动默认应用程序"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1590,8 +1591,8 @@ msgstr "切换文件夹时保留筛选条件"
 
 #: filterbar/filterbar.cpp:34
 #, kde-format
-msgid "Filter..."
-msgstr "筛选..."
+msgid "Filter…"
+msgstr "筛选…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2388,8 +2389,8 @@ msgstr "复制"
 #: panels/folders/treeviewcontextmenu.cpp:78
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Rename..."
-msgstr "重命名..."
+msgid "Rename…"
+msgstr "重命名…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2472,8 +2473,8 @@ msgstr "悬停时显示项目"
 #: panels/information/informationpanel.cpp:168
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "配置..."
+msgid "Configure…"
+msgstr "配置…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3019,14 +3020,14 @@ msgstr "选择右键菜单中要显示的服务："
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, kde-format
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "搜索..."
+msgid "Search…"
+msgstr "搜索…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
-msgstr "下载新服务..."
+msgid "Download New Services…"
+msgstr "下载新的服务…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4104,8 +4105,8 @@ msgstr "自定义字体"
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
 msgctxt "@action:button Choose font"
-msgid "Choose..."
-msgstr "选择..."
+msgid "Choose…"
+msgstr "选择…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4691,8 +4692,8 @@ msgstr "位置“%1”无效。"
 
 #: views/dolphinview.cpp:2346
 #, kde-format
-msgid "Loading..."
-msgstr "正在加载..."
+msgid "Loading…"
+msgstr "正在加载…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4762,8 +4763,8 @@ msgstr "文件夹为空"
 #: views/dolphinviewactionhandler.cpp:80
 #, kde-format
 msgctxt "@action"
-msgid "Create Folder..."
-msgstr "创建文件夹..."
+msgid "Create Folder…"
+msgstr "创建文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5028,8 +5029,8 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
-msgstr "调整视图显示风格..."
+msgid "Adjust View Display Style…"
+msgstr "调整视图显示风格…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5164,5 +5165,5 @@ msgstr[0] "对 %1 个选中项目进行操作"
 #: views/versioncontrol/versioncontrolobserver.cpp:221
 #, kde-format
 msgctxt "@info:status"
-msgid "Updating version information..."
-msgstr "正在更新版本信息..."
+msgid "Updating version information…"
+msgstr "正在更新版本信息…"

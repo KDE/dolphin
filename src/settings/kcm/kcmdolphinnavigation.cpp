@@ -44,3 +44,5 @@ void DolphinNavigationConfigModule::defaults()
 }
 
 #include "kcmdolphinnavigation.moc"
+
+#include "moc_kcmdolphinnavigation.cpp"

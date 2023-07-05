@@ -604,3 +604,5 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.rect = selectionRect().toRect();
     style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
+
+#include "moc_kitemlistwidget.cpp"

@@ -44,3 +44,5 @@ void TrashSettingsPage::loadSettings()
 {
     m_kcm->load();
 }
+
+#include "moc_trashsettingspage.cpp"

@@ -2850,3 +2850,5 @@ void KFileItemModel::slotListerError(KIO::Job *job)
         Q_EMIT errorMessage(!errorString.isEmpty() ? errorString : i18nc("@info:status", "Unknown error."));
     }
 }
+
+#include "moc_kfileitemmodel.cpp"

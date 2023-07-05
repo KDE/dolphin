@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2020-11-01 15:09+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <kde-l10n-he@kde.org>\n"
@@ -407,7 +407,7 @@ msgstr "העברה לתצוגה המפוצלת שאינה פעילה"
 #, fuzzy, kde-format
 #| msgid "Filter..."
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "סינון..."
 
 #: dolphinmainwindow.cpp:1655
@@ -444,9 +444,10 @@ msgid "Filter"
 msgstr "סינון..."
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "חיפוש..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "חיפוש"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1195,21 +1196,27 @@ msgstr[0] "סרגל מיקום"
 msgstr[1] "סרגל מיקום"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&עריכת סוג הקובץ..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "בחירת הפריטים המתאימים..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "ביטול בחירת פריטים המתאימים..."
 
 #: dolphinpart.cpp:164
@@ -1243,9 +1250,11 @@ msgid "Autostart"
 msgstr "הפעלה אוטומטית"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "מציאת קובץ..."
 
 #: dolphinpart.cpp:196
@@ -1396,7 +1405,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1411,57 +1420,63 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "הרצת Dolphin בתור משתמש שורש (root) עלולה להיות מסוכנת. נא להיזהר."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "חיפוש אחר %1 בתוך %2"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "חיפוש"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "חיפוש אחר %1"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "בטעינת התיקייה..."
 
-#: dolphinviewcontainer.cpp:641
-#, kde-format
+#: dolphinviewcontainer.cpp:645
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "מיון..."
+msgid "Sorting…"
+msgstr "מיון לפי:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "מתבצע חיפוש..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "לא נמצאו פריטים מתאימים."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "הצגת דפי רשת אינה נתמכת ב־Dolphin, ולכן דפדפן האינטרנט הופעל"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1470,13 +1485,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "הפרוטוקול לא נתמך על־ידי Dolphin, ולכן Konqueror הופעל"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "פרוטוקול לא תקני"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1489,8 +1504,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "השארת המסנן בעת חיפוש אחר תיקיות"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
+#, fuzzy, kde-format
+#| msgid "Filter..."
+msgid "Filter…"
 msgstr "סינון..."
 
 #: filterbar/filterbar.cpp:42
@@ -2336,9 +2352,11 @@ msgid "Copy"
 msgstr "העתקה"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "שנה שם..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2424,9 +2442,11 @@ msgid "Show item on hover"
 msgstr "הצגת סרגל הסינון"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "הגדרה..."
 
 #: panels/information/informationpanel.cpp:174
@@ -2993,15 +3013,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "בחירת השירותים שיופיעו בתפריט ההקשר:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "חיפוש..."
+msgid "Search…"
+msgstr "חיפוש"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "הורדת שירותים חדשים..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4123,9 +4146,11 @@ msgid "Custom Font"
 msgstr "גופן מותאם אישית"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "בחירה..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4730,7 +4755,7 @@ msgstr "המיקום \"%1\" אינו תקין."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "בטעינת התיקייה..."
 
 #: views/dolphinview.cpp:2365
@@ -4809,9 +4834,11 @@ msgid "Folder is empty"
 msgstr "תיקיות תחילה"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "יצירת תיקייה..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5065,9 +5092,11 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "התאמת סגנון הצגת התצוגות..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5202,10 +5231,36 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "בעדכון המידע על הגרסה..."
+
+#, fuzzy
+#~| msgid "Filter..."
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "סינון..."
+
+#~ msgid "Search..."
+#~ msgstr "חיפוש..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "מיון..."
+
+#~ msgid "Filter..."
+#~ msgstr "סינון..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "הגדרה..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "חיפוש..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

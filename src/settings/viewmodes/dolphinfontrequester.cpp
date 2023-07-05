@@ -29,7 +29,7 @@ DolphinFontRequester::DolphinFontRequester(QWidget *parent)
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
     connect(m_modeCombo, &QComboBox::activated, this, &DolphinFontRequester::changeMode);
 
-    m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose..."), this);
+    m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose…"), this);
     connect(m_chooseFontButton, &QPushButton::clicked, this, &DolphinFontRequester::openFontDialog);
 
     changeMode(m_modeCombo->currentIndex());
@@ -85,3 +85,5 @@ void DolphinFontRequester::changeMode(int index)
     setMode((index == CustomFont) ? CustomFont : SystemFont);
     Q_EMIT changed();
 }
+
+#include "moc_dolphinfontrequester.cpp"

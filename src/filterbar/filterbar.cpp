@@ -31,7 +31,7 @@ FilterBar::FilterBar(QWidget *parent)
     m_filterInput = new QLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonEnabled(true);
-    m_filterInput->setPlaceholderText(i18n("Filter..."));
+    m_filterInput->setPlaceholderText(i18n("Filter…"));
     connect(m_filterInput, &QLineEdit::textChanged, this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 
@@ -134,3 +134,5 @@ void FilterBar::keyPressEvent(QKeyEvent *event)
 
     QWidget::keyPressEvent(event);
 }
+
+#include "moc_filterbar.cpp"

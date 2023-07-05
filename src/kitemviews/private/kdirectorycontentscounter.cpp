@@ -292,3 +292,5 @@ void KDirectoryContentsCounter::stopWorker()
     }
     m_currentPath.clear();
 }
+
+#include "moc_kdirectorycontentscounter.cpp"

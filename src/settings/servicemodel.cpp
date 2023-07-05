@@ -104,3 +104,5 @@ void ServiceModel::clear()
     m_items.clear();
     endRemoveRows();
 }
+
+#include "moc_servicemodel.cpp"

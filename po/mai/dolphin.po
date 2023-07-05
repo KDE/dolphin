@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -407,7 +407,7 @@ msgstr ""
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "फिल्टर:"
 
 #: dolphinmainwindow.cpp:1655
@@ -446,10 +446,10 @@ msgstr "फिल्टर:"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
-msgid "Search..."
-msgstr "खोज..."
+#| msgctxt "@action:button"
+#| msgid "Search"
+msgid "Search…"
+msgstr "खोजू"
 
 #: dolphinmainwindow.cpp:1679
 #, fuzzy, kde-format
@@ -1217,9 +1217,11 @@ msgstr[0] "स्थान पट्टी"
 msgstr[1] "स्थान पट्टी"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "फाइलक प्रकार संपादित करू...(&E)"
 
 #: dolphinpart.cpp:153
@@ -1227,14 +1229,16 @@ msgstr "फाइलक प्रकार संपादित करू...(&E
 #| msgctxt "@info:tooltip"
 #| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "मद चुनू"
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Select Item"
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
-msgstr ""
+msgid "Unselect Items Matching…"
+msgstr "मद चुनू"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1267,9 +1271,11 @@ msgid "Autostart"
 msgstr "स्वतः चालू"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "फाइल ढूँढू..."
 
 #: dolphinpart.cpp:196
@@ -1421,7 +1427,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1436,78 +1442,82 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Search Toolbar"
 msgid "Search for %1 in %2"
 msgstr "मुख्य अओजार पट्टी"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
 msgid "Search"
 msgstr "खोजू"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Search Toolbar"
 msgid "Search for %1"
 msgstr "मुख्य अओजार पट्टी"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "फोल्डर लोड कएल जाए रहल अछि..."
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:645
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
+msgid "Sorting…"
 msgstr "छाँटल जाए रहल अछि:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "खोजि रहल अछि..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1523,7 +1533,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
-msgid "Filter..."
+msgid "Filter…"
 msgstr "फिल्टर:"
 
 #: filterbar/filterbar.cpp:42
@@ -2449,9 +2459,11 @@ msgid "Copy"
 msgstr "कापी करू"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "नाम बदलू..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2539,9 +2551,11 @@ msgid "Show item on hover"
 msgstr "फिल्टर पट्टी देखाबू"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
 msgctxt "@action:inmenu"
-msgid "Configure..."
+msgid "Configure…"
 msgstr "कान्फिगर..."
 
 #: panels/information/informationpanel.cpp:174
@@ -3145,16 +3159,16 @@ msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
 #, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Search..."
+#| msgctxt "@action:button"
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "खोज..."
+msgid "Search…"
+msgstr "खोजू"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
 #, kde-format
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4349,9 +4363,11 @@ msgid "Custom Font"
 msgstr "मनपसिन्न फान्ट"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "चयन करू..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -5009,7 +5025,7 @@ msgstr "स्थान '%1' अवैध अछि."
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
-msgid "Loading..."
+msgid "Loading…"
 msgstr "फोल्डर लोड कएल जाए रहल अछि..."
 
 #: views/dolphinview.cpp:2365
@@ -5085,9 +5101,11 @@ msgid "Folder is empty"
 msgstr "फोल्डर प्रथम"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "फोल्डर बनाबू..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5351,7 +5369,7 @@ msgstr ""
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "दृश्य गुणसभ केँ समायोजित करू..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5506,10 +5524,49 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "बाइली सूचना"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "फिल्टर:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgid "Search..."
+#~ msgstr "खोज..."
+
+#, fuzzy
+#~| msgctxt "@label:listbox"
+#~| msgid "Sorting:"
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "छाँटल जाए रहल अछि:"
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Filter:"
+#~ msgid "Filter..."
+#~ msgstr "फिल्टर:"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "कान्फिगर..."
+
+#, fuzzy
+#~| msgctxt "@label:textbox"
+#~| msgid "Search..."
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "खोज..."
 
 #, fuzzy
 #~| msgctxt "@label:textbox"

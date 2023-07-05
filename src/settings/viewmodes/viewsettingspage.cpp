@@ -79,3 +79,5 @@ void ViewSettingsPage::restoreDefaults()
         }
     }
 }
+
+#include "moc_viewsettingspage.cpp"

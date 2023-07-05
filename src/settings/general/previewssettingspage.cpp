@@ -176,3 +176,5 @@ void PreviewsSettingsPage::loadSettings()
     const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);
     m_remoteFileSizeBox->setValue(maxRemoteMByteSize);
 }
+
+#include "moc_previewssettingspage.cpp"

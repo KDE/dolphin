@@ -165,3 +165,5 @@ QUrl KItemModelBase::directory() const
 {
     return QUrl();
 }
+
+#include "moc_kitemmodelbase.cpp"

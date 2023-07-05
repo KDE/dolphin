@@ -66,3 +66,5 @@ void DolphinUrlNavigatorsController::setCompletionMode(const KCompletion::Comple
 
 std::forward_list<DolphinUrlNavigator *> DolphinUrlNavigatorsController::s_instances;
 bool DolphinUrlNavigatorsController::s_placesSelectorVisible = true;
+
+#include "moc_dolphinurlnavigatorscontroller.cpp"

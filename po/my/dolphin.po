@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -380,10 +380,12 @@ msgid "Move to Inactive Split View"
 msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ရွေ့ပြောင်းမည်"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "စစ်ထုတ်မည်..."
+msgid "Filter…"
+msgstr "စစ်ထုတ်မည်"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -414,9 +416,10 @@ msgid "Filter"
 msgstr "စစ်ထုတ်မည်"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "ရှာရန်..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "ရှာမည်"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1143,21 +1146,27 @@ msgid_plural "Location Bars"
 msgstr[0] "တည်နေရာပြ-တန်း"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Eဖိုင်လ်အမျိုးအစားတည်းဖြတ်မည်..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "ကိုက်ညီသည့်အိုင်တမ်များ ရွေးမည်..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "ကိုက်ညီသည့်အိုင်တမ်များ မရွေးပါ..."
 
 #: dolphinpart.cpp:164
@@ -1191,9 +1200,11 @@ msgid "Autostart"
 msgstr "အလိုအလျောက်စတင်မည်"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "ဖိုင်လ်ရှာမည်..."
 
 #: dolphinpart.cpp:196
@@ -1344,7 +1355,7 @@ msgid ""
 "dedicated page in the Handbook.</para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1359,70 +1370,76 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%2တွင် %1အတွက် ရှာမည်"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "ရှာမည်"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "%1အတွက် ရှာမည်"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "ဖိုလ်ဒါတွန်းတင်နေသည်..."
 
-#: dolphinviewcontainer.cpp:641
-#, kde-format
+#: dolphinviewcontainer.cpp:645
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "စီနေသည်..."
+msgid "Sorting…"
+msgstr "စီသည် -"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "ရှာဖွေနေသည်..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "အိုင်တမ်များ မတွေ့ပါ။"
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "မမှန်ကန်သော ပရိုတိုကော"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1435,9 +1452,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr ""
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "စစ်ထုတ်မည်..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "စစ်ထုတ်မည်"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2235,9 +2254,11 @@ msgid "Copy"
 msgstr "ကူးယူရန်"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "အမည်ပြောင်းမည်..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2323,10 +2344,12 @@ msgid "Show item on hover"
 msgstr "စစ်ထုတ်တန်း ပြမည်"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "ပြင်ဆင်မည်..."
+msgid "Configure…"
+msgstr "ပြင်ဆင်မည်"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2860,15 +2883,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr ""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "ရှာရန်..."
+msgid "Search…"
+msgstr "ရှာမည်"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "ဝန်ဆောင်မှုအသစ်များဒေါင်းလုတ်ဆွဲမည်..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -3947,9 +3973,11 @@ msgid "Custom Font"
 msgstr "ကိုယ်ပိုင်ဓလေ့သတ်မှတ်ထားသော ဖောင့်"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "ရွေးမည်"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4530,8 +4558,9 @@ msgid "The location '%1' is invalid."
 msgstr "တည်နေရာ '%1' သည် မမှန်ကန်ပါ။"
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "တွန်းတင်နေသည်..."
 
 #: views/dolphinview.cpp:2365
@@ -4601,9 +4630,11 @@ msgid "Folder is empty"
 msgstr "ဖိုလ်ဒါသည် ဗလာဖြစ်နေသည်"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "ဖိုလ်ဒါတည်ဆောက်မည်..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -4844,9 +4875,11 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "ရုပ်ပြမြင်ကွင်းစတိုင်ချိန်ညှိမည်..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -4980,10 +5013,34 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "ရွေးချယ်ထားသော အိုင်တမ် %1ခု အတွက် လုပ်ဆောင်ချက်များ"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "ဗားရှင်းဆိုင်ရာ အချက်အလက်များ အပ်ဒိတ်တင်နေသည်..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "စစ်ထုတ်မည်..."
+
+#~ msgid "Search..."
+#~ msgstr "ရှာရန်..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "စီနေသည်..."
+
+#~ msgid "Filter..."
+#~ msgstr "စစ်ထုတ်မည်..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "ပြင်ဆင်မည်..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "ရှာရန်..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

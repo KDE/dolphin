@@ -41,3 +41,5 @@ void MountPointObserver::freeSpaceResult(KIO::Job *job, KIO::filesize_t size, KI
         Q_EMIT spaceInfoChanged(0, 0);
     }
 }
+
+#include "moc_mountpointobserver.cpp"

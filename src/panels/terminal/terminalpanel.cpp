@@ -331,3 +331,5 @@ bool TerminalPanel::terminalHasFocus() const
 
     return hasFocus();
 }
+
+#include "moc_terminalpanel.cpp"

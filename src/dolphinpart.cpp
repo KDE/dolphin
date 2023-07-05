@@ -146,16 +146,16 @@ void DolphinPart::createActions()
     connect(m_newFileMenu->menu(), &QMenu::aboutToShow, this, &DolphinPart::updateNewMenu);
 
     QAction *editMimeTypeAction = actionCollection()->addAction(QStringLiteral("editMimeType"));
-    editMimeTypeAction->setText(i18nc("@action:inmenu Edit", "&Edit File Type..."));
+    editMimeTypeAction->setText(i18nc("@action:inmenu Edit", "&Edit File Type…"));
     connect(editMimeTypeAction, &QAction::triggered, this, &DolphinPart::slotEditMimeType);
 
     QAction *selectItemsMatching = actionCollection()->addAction(QStringLiteral("select_items_matching"));
-    selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
+    selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching…"));
     actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL | Qt::Key_S);
     connect(selectItemsMatching, &QAction::triggered, this, &DolphinPart::slotSelectItemsMatchingPattern);
 
     QAction *unselectItemsMatching = actionCollection()->addAction(QStringLiteral("unselect_items_matching"));
-    unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching..."));
+    unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching…"));
     connect(unselectItemsMatching, &QAction::triggered, this, &DolphinPart::slotUnselectItemsMatchingPattern);
 
     KStandardAction::selectAll(m_view, &DolphinView::selectAll, actionCollection());
@@ -187,7 +187,7 @@ void DolphinPart::createActions()
 
     // Tools menu
     m_findFileAction = KStandardAction::find(this, &DolphinPart::slotFindFile, actionCollection());
-    m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
+    m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File…"));
 
 #ifndef Q_OS_WIN
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
@@ -596,3 +596,4 @@ bool DolphinPart::eventFilter(QObject *obj, QEvent *event)
 }
 
 #include "dolphinpart.moc"
+#include "moc_dolphinpart.cpp"

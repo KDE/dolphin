@@ -275,3 +275,5 @@ void PlacesPanel::connectDeviceSignals(const QModelIndex &index)
 
     connect(storageAccess, &Solid::StorageAccess::teardownRequested, this, &PlacesPanel::slotTearDownRequestedExternally);
 }
+
+#include "moc_placespanel.cpp"

@@ -2317,7 +2317,7 @@ void DolphinView::slotSwipeUp()
 
 void DolphinView::showLoadingPlaceholder()
 {
-    m_placeholderLabel->setText(i18n("Loading..."));
+    m_placeholderLabel->setText(i18n("Loading…"));
     m_placeholderLabel->setVisible(true);
 }
 
@@ -2392,3 +2392,5 @@ bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
     }
     return false;
 }
+
+#include "moc_dolphinview.cpp"

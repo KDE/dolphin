@@ -14,3 +14,5 @@ SettingsPageBase::SettingsPageBase(QWidget *parent)
 SettingsPageBase::~SettingsPageBase()
 {
 }
+
+#include "moc_settingspagebase.cpp"

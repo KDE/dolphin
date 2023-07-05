@@ -65,3 +65,5 @@ void DolphinRemoveAction::update(ShiftState shiftState)
         setEnabled(m_action->isEnabled());
     }
 }
+
+#include "moc_dolphinremoveaction.cpp"

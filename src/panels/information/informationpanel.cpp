@@ -165,7 +165,7 @@ void InformationPanel::showContextMenu(const QPoint &pos)
     showHoveredAction->setCheckable(true);
     showHoveredAction->setChecked(InformationPanelSettings::showHovered());
 
-    QAction *configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
+    QAction *configureAction = popup.addAction(i18nc("@action:inmenu", "Configure…"));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     if (m_inConfigurationMode) {
         configureAction->setEnabled(false);
@@ -419,3 +419,5 @@ void InformationPanel::init()
 
     m_initialized = true;
 }
+
+#include "moc_informationpanel.cpp"

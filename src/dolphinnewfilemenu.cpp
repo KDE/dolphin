@@ -32,3 +32,5 @@ void DolphinNewFileMenu::slotResult(KJob *job)
         KNewFileMenu::slotResult(job);
     }
 }
+
+#include "moc_dolphinnewfilemenu.cpp"

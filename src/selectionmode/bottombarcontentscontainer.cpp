@@ -660,3 +660,5 @@ void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& sel
     }
 }
 // clang-format on
+
+#include "moc_bottombarcontentscontainer.cpp"

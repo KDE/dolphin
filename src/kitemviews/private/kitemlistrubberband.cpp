@@ -74,3 +74,5 @@ bool KItemListRubberBand::isActive() const
 {
     return m_active;
 }
+
+#include "moc_kitemlistrubberband.cpp"

@@ -73,3 +73,5 @@ void StatusBarSettingsPage::loadSettings()
 
     onShowStatusBarToggled();
 }
+
+#include "moc_statusbarsettingspage.cpp"

@@ -79,3 +79,4 @@ bool DolphinDockWidget::isLocked() const
 }
 
 #include "dolphindockwidget.moc"
+#include "moc_dolphindockwidget.cpp"

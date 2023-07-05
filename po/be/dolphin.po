@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-27 00:50+0000\n"
+"POT-Creation-Date: 2023-06-30 00:50+0000\n"
 "PO-Revision-Date: 2023-03-01 07:16\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -418,10 +418,12 @@ msgid "Move to Inactive Split View"
 msgstr "Перамясціць у неактыўную аддзеленую панэль"
 
 #: dolphinmainwindow.cpp:1654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
 msgctxt "@action:inmenu Tools"
-msgid "Filter..."
-msgstr "Фільтр..."
+msgid "Filter…"
+msgstr "Фільтр"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -455,9 +457,10 @@ msgid "Filter"
 msgstr "Фільтр"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, kde-format
-msgid "Search..."
-msgstr "Пошук..."
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search…"
+msgstr "Пошук"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -1371,21 +1374,27 @@ msgstr[2] "Адрасныя панэлі"
 msgstr[3] "Адрасныя панэлі"
 
 #: dolphinpart.cpp:149
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
-msgid "&Edit File Type..."
+msgid "&Edit File Type…"
 msgstr "&Рэдагаваць тып файла..."
 
 #: dolphinpart.cpp:153
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Select Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Select Items Matching..."
+msgid "Select Items Matching…"
 msgstr "Абраць элементы, якія адпавядаюць..."
 
 #: dolphinpart.cpp:158
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
-msgid "Unselect Items Matching..."
+msgid "Unselect Items Matching…"
 msgstr "Скасаваць выбар элементаў, якія адпавядаюць..."
 
 #: dolphinpart.cpp:164
@@ -1419,9 +1428,11 @@ msgid "Autostart"
 msgstr "Аўтазапуск"
 
 #: dolphinpart.cpp:190
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
-msgid "Find File..."
+msgid "Find File…"
 msgstr "Пошук файла..."
 
 #: dolphinpart.cpp:196
@@ -1578,7 +1589,7 @@ msgstr ""
 "<link url='help:/dolphin/location-bar.html'>націсніце сюды</link>. Адкрыецца "
 "адпаведная старонка ў даведніку.</para>"
 
-#: dolphinviewcontainer.cpp:93
+#: dolphinviewcontainer.cpp:94
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1602,59 +1613,65 @@ msgstr ""
 "часу доступу або рэйтынгу.</item><item>Дадатковыя інструменты пошуку: "
 "усталюйце іншыя сродкі для пошуку элемента.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:112
+#: dolphinviewcontainer.cpp:113
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Запуск Dolphin ад імя суперкарыстальніка можа быць небяспечным. Будзьце "
 "пільнымі."
 
-#: dolphinviewcontainer.cpp:511 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:515 search/dolphinsearchbox.cpp:288
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Пошук %1 у %2"
 
-#: dolphinviewcontainer.cpp:547
+#: dolphinviewcontainer.cpp:551
 #, kde-format
 msgid "Search"
 msgstr "Пошук"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:553
 #, kde-format
 msgid "Search for %1"
 msgstr "Пошук %1"
 
-#: dolphinviewcontainer.cpp:633
-#, kde-format
+#: dolphinviewcontainer.cpp:637
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
 msgctxt "@info:progress"
-msgid "Loading folder..."
+msgid "Loading folder…"
 msgstr "Загрузка каталога..."
 
-#: dolphinviewcontainer.cpp:641
-#, kde-format
+#: dolphinviewcontainer.cpp:645
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Sorting:"
 msgctxt "@info:progress"
-msgid "Sorting..."
-msgstr "Сартаванне..."
+msgid "Sorting…"
+msgstr "Сартаванне:"
 
-#: dolphinviewcontainer.cpp:652
-#, kde-format
+#: dolphinviewcontainer.cpp:656
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
 msgctxt "@info"
-msgid "Searching..."
+msgid "Searching…"
 msgstr "Пошук..."
 
-#: dolphinviewcontainer.cpp:673
+#: dolphinviewcontainer.cpp:677
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Не знойдзена элементаў."
 
-#: dolphinviewcontainer.cpp:804
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin не падтрымлівае вэб-старонкі, быў запушчаны вэб-браўзер"
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1662,13 +1679,13 @@ msgid ""
 msgstr ""
 "Пратакол не падтрымліваецца Dolphin, была запушчаная прадвызначаная праграма"
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Хібны пратакол"
 
-#: dolphinviewcontainer.cpp:917
+#: dolphinviewcontainer.cpp:921
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1682,9 +1699,11 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Захоўваць фільтр пры змене каталогаў"
 
 #: filterbar/filterbar.cpp:34
-#, kde-format
-msgid "Filter..."
-msgstr "Фільтр..."
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "Filter"
+msgid "Filter…"
+msgstr "Фільтр"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2502,9 +2521,11 @@ msgid "Copy"
 msgstr "Капіяваць"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Rename..."
 msgctxt "@action:inmenu"
-msgid "Rename..."
+msgid "Rename…"
 msgstr "Змяніць назву..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
@@ -2590,10 +2611,12 @@ msgid "Show item on hover"
 msgstr "Паказваць панэль фільтра"
 
 #: panels/information/informationpanel.cpp:168
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu menu for configure actions"
+#| msgid "Configure"
 msgctxt "@action:inmenu"
-msgid "Configure..."
-msgstr "Наладжванне..."
+msgid "Configure…"
+msgstr "Наладжванне"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3169,15 +3192,18 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Абярыце, якія службы трэба паказваць у кантэкстным меню:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search"
 msgctxt "@label:textbox"
-msgid "Search..."
-msgstr "Пошук..."
+msgid "Search…"
+msgstr "Пошук"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Download New Services..."
 msgctxt "@action:button"
-msgid "Download New Services..."
+msgid "Download New Services…"
 msgstr "Спампаваць новыя службы..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
@@ -4290,9 +4316,11 @@ msgid "Custom Font"
 msgstr "Адвольны шрыфт"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button Choose font"
+#| msgid "Choose..."
 msgctxt "@action:button Choose font"
-msgid "Choose..."
+msgid "Choose…"
 msgstr "Абраць..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
@@ -4903,8 +4931,9 @@ msgid "The location '%1' is invalid."
 msgstr "Размяшчэнне \"%1\" хібнае."
 
 #: views/dolphinview.cpp:2346
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgid "Loading…"
 msgstr "Загрузка..."
 
 #: views/dolphinview.cpp:2365
@@ -4973,9 +5002,11 @@ msgid "Folder is empty"
 msgstr "Каталог пусты"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
 msgctxt "@action"
-msgid "Create Folder..."
+msgid "Create Folder…"
 msgstr "Стварыць каталог..."
 
 #: views/dolphinviewactionhandler.cpp:90
@@ -5251,9 +5282,11 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
-msgid "Adjust View Display Style..."
+msgid "Adjust View Display Style…"
 msgstr "Падладжванне стылю адлюстравання..."
 
 #: views/dolphinviewactionhandler.cpp:333
@@ -5392,10 +5425,34 @@ msgstr[2] "Дзеянні для %1 абраных элементаў"
 msgstr[3] "Дзеянні для %1 абраных элементаў"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Updating version information..."
 msgctxt "@info:status"
-msgid "Updating version information..."
+msgid "Updating version information…"
 msgstr "Абнаўленне звестак пра версію..."
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Filter..."
+#~ msgstr "Фільтр..."
+
+#~ msgid "Search..."
+#~ msgstr "Пошук..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Sorting..."
+#~ msgstr "Сартаванне..."
+
+#~ msgid "Filter..."
+#~ msgstr "Фільтр..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Configure..."
+#~ msgstr "Наладжванне..."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Search..."
+#~ msgstr "Пошук..."
 
 #~ msgctxt "@info"
 #~ msgid "Could not access <filename>%1</filename>."

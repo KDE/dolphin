@@ -82,3 +82,5 @@ void DolphinRecentTabsMenu::handleAction(QAction *action)
         setEnabled(false);
     }
 }
+
+#include "moc_dolphinrecenttabsmenu.cpp"

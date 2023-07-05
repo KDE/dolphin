@@ -146,3 +146,5 @@ void ContentDisplayTab::restoreDefaults()
     loadSettings();
     settings->useDefaults(false);
 }
+
+#include "moc_contentdisplaytab.cpp"

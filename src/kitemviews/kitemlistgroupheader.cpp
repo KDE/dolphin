@@ -226,3 +226,5 @@ QColor KItemListGroupHeader::baseColor() const
     const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
     return styleOption().palette.color(group, normalBaseColorRole());
 }
+
+#include "moc_kitemlistgroupheader.cpp"
