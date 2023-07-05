@@ -2472,6 +2472,7 @@ void DolphinMainWindow::createPanelAction(const QIcon &icon, const QKeySequence 
     panelAction->setText(dockAction->text());
     panelAction->setIcon(icon);
     dockAction->setIcon(icon);
+    dockAction->setEnabled(true);
     actionCollection()->setDefaultShortcut(panelAction, shortcut);
 
     connect(panelAction, &QAction::triggered, dockAction, &QAction::trigger);
