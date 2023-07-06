@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-28 02:53+0000\n"
-"PO-Revision-Date: 2023-03-03 09:55-0300\n"
+"PO-Revision-Date: 2023-07-05 17:48-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2082,12 +2082,9 @@ msgid "Publisher"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2693
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Número de linhas"
+msgstr "Número de páginas"
 
 #: kitemviews/kfileitemmodel.cpp:2694
 msgctxt "@label"
@@ -2419,12 +2416,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "O Dolphin será explicitamente aberto em uma nova janela."
 
 #: main.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Inicia o serviço do Dolphin (necessário apenas para a interface D-Bus)"
+msgstr ""
+"Inicia o serviço do Dolphin (necessário apenas para a interface D-Bus)."
 
 #: main.cpp:137
 #, kde-format
@@ -2972,8 +2968,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Copiar %2 para a área de transferência"
+msgstr[1] "Copiar %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2985,8 +2981,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Copiar a localização de %2 para a área de transferência"
+msgstr[1] "Copiar a localização de %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2998,8 +2994,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cortar %2 para a área de transferência"
+msgstr[1] "Cortar %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3011,8 +3007,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Excluir permanentemente %2"
+msgstr[1] "Excluir permanentemente %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3020,14 +3016,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Duplicar aqui"
-msgstr[1] "Duplicar aqui"
+msgstr[0] "Duplicar %2"
+msgstr[1] "Duplicar %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3035,14 +3029,12 @@ msgstr[1] "Duplicar aqui"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Mover para a Lixeira"
-msgstr[1] "Mover para a Lixeira"
+msgstr[0] "Mover %2 para a Lixeira"
+msgstr[1] "Mover %2 para a Lixeira"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3050,14 +3042,12 @@ msgstr[1] "Mover para a Lixeira"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Renomear..."
-msgstr[1] "Renomear..."
+msgstr[0] "Renomear %2"
+msgstr[1] "Renomear %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3080,20 +3070,16 @@ msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Seleção"
+msgstr "Modo de seleção"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Seleção"
+msgstr "Sair do modo de seleção"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
