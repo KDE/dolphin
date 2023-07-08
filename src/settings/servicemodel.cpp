@@ -6,6 +6,8 @@
 
 #include "servicemodel.h"
 
+#include <QIcon>
+
 ServiceModel::ServiceModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_items()
@@ -30,7 +32,6 @@ bool ServiceModel::insertRows(int row, int count, const QModelIndex &parent)
     for (int i = 0; i < count; ++i) {
         ServiceItem item;
         item.checked = Qt::Unchecked;
-        item.configurable = false;
         m_items.insert(row, item);
     }
     endInsertRows();
@@ -48,9 +49,6 @@ bool ServiceModel::setData(const QModelIndex &index, const QVariant &value, int 
     switch (role) {
     case Qt::CheckStateRole:
         m_items[row].checked = value.value<Qt::CheckState>();
-        break;
-    case ConfigurableRole:
-        m_items[row].configurable = value.toBool();
         break;
     case Qt::DecorationRole:
         m_items[row].icon = value.toString();
@@ -74,12 +72,10 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
     const int row = index.row();
     if (row < rowCount()) {
         switch (role) {
-        case ConfigurableRole:
-            return m_items[row].configurable;
         case Qt::CheckStateRole:
             return m_items[row].checked;
         case Qt::DecorationRole:
-            return m_items[row].icon;
+            return QIcon::fromTheme(m_items[row].icon);
         case Qt::DisplayRole:
             return m_items[row].text;
         case DesktopEntryNameRole:

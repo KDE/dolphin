@@ -7,7 +7,6 @@
 #include "previewssettingspage.h"
 
 #include "dolphin_generalsettings.h"
-#include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
 
 #include <KIO/PreviewJob>

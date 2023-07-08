@@ -10,7 +10,6 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 #include "global.h"
-#include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
 
 #include <KDesktopFile>
@@ -72,7 +71,6 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
     m_listView = new QListView(this);
     QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
 
-    auto *delegate = new ServiceItemDelegate(m_listView, m_listView);
     m_serviceModel = new ServiceModel(this);
     m_sortModel = new QSortFilterProxyModel(this);
     m_sortModel->setSourceModel(m_serviceModel);
@@ -81,7 +79,6 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
     m_sortModel->setFilterRole(Qt::DisplayRole);
     m_sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     m_listView->setModel(m_sortModel);
-    m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, &QListView::clicked, this, &ContextMenuSettingsPage::changed);
 
@@ -267,7 +264,7 @@ void ContextMenuSettingsPage::showEvent(QShowEvent *event)
             for (const QString &id : m_actionIds) {
                 const QAction *action = m_actions->action(id);
                 if (action) {
-                    addRow(action->icon().name(), action->text(), id, entryVisible(id));
+                    addRow(action->icon().name(), KLocalizedString::removeAcceleratorMarker(action->text()), id, entryVisible(id));
                 }
             }
         }

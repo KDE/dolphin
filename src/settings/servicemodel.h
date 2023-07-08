@@ -25,7 +25,7 @@ class ServiceModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum Role { DesktopEntryNameRole = Qt::UserRole, ConfigurableRole };
+    enum Role { DesktopEntryNameRole = Qt::UserRole };
 
     explicit ServiceModel(QObject *parent = nullptr);
     ~ServiceModel() override;
@@ -40,7 +40,6 @@ public:
 private:
     struct ServiceItem {
         Qt::CheckState checked;
-        bool configurable;
         QString icon;
         QString text;
         QString desktopEntryName;

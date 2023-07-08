@@ -300,7 +300,6 @@ target_sources(dolphinstatic PRIVATE
     settings/navigation/navigationsettingspage.cpp
     settings/contextmenu/contextmenusettingspage.cpp
     settings/settingspagebase.cpp
-    settings/serviceitemdelegate.cpp
     settings/servicemodel.cpp
     settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
@@ -359,7 +358,6 @@ target_sources(dolphinstatic PRIVATE
     settings/navigation/navigationsettingspage.h
     settings/contextmenu/contextmenusettingspage.h
     settings/settingspagebase.h
-    settings/serviceitemdelegate.h
     settings/servicemodel.h
     settings/startup/startupsettingspage.h
     settings/trash/trashsettingspage.h
@@ -531,14 +529,12 @@ if(NOT WIN32)
         settings/general/previewssettingspage.cpp
         settings/general/confirmationssettingspage.cpp
         settings/settingspagebase.cpp
-        settings/serviceitemdelegate.cpp
         settings/servicemodel.cpp
         settings/kcm/kcmdolphingeneral.h
         settings/general/behaviorsettingspage.h
         settings/general/previewssettingspage.h
         settings/general/confirmationssettingspage.h
         settings/settingspagebase.h
-        settings/serviceitemdelegate.h
         settings/servicemodel.h
     )
 
