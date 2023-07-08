@@ -175,7 +175,7 @@ void ContextMenuSettingsPage::applySettings()
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
-        const bool checked = model->data(index, Qt::CheckStateRole).toBool();
+        const bool checked = model->data(index, Qt::CheckStateRole).value<Qt::CheckState>() == Qt::Checked;
 
         if (service.startsWith(VersionControlServicePrefix)) {
             if (checked) {
@@ -240,7 +240,7 @@ void ContextMenuSettingsPage::restoreDefaults()
 
         const bool checked =
             !service.startsWith(VersionControlServicePrefix) && service != QLatin1String(DeleteService) && service != QLatin1String(CopyToMoveToService);
-        model->setData(index, checked, Qt::CheckStateRole);
+        model->setData(index, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
     }
 }
 
@@ -357,7 +357,7 @@ void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, c
     m_serviceModel->setData(index, icon, Qt::DecorationRole);
     m_serviceModel->setData(index, text, Qt::DisplayRole);
     m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
-    m_serviceModel->setData(index, checked, Qt::CheckStateRole);
+    m_serviceModel->setData(index, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
 }
 
 #include "moc_contextmenusettingspage.cpp"

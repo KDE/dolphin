@@ -104,7 +104,7 @@ void PreviewsSettingsPage::applySettings()
         m_enabledPreviewPlugins.clear();
         for (int i = 0; i < rowCount; ++i) {
             const QModelIndex index = model->index(i, 0);
-            const bool checked = model->data(index, Qt::CheckStateRole).toBool();
+            const bool checked = model->data(index, Qt::CheckStateRole).value<Qt::CheckState>() == Qt::Checked;
             if (checked) {
                 const QString enabledPlugin = model->data(index, Qt::UserRole).toString();
                 m_enabledPreviewPlugins.append(enabledPlugin);
@@ -153,7 +153,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
-        model->setData(index, show, Qt::CheckStateRole);
+        model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
         model->setData(index, plugin.name(), Qt::DisplayRole);
         model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
     }

@@ -74,7 +74,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget *> &widgets, con
     if (!iconName.isEmpty()) {
         checkBox->setIcon(QIcon::fromTheme(iconName));
     }
-    checkBox->setChecked(model->data(index, Qt::CheckStateRole).toBool());
+    checkBox->setChecked(model->data(index, Qt::CheckStateRole).value<Qt::CheckState>() == Qt::Checked);
 
     const bool configurable = model->data(index, ServiceModel::ConfigurableRole).toBool();
 
@@ -98,7 +98,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget *> &widgets, con
 void ServiceItemDelegate::slotCheckBoxClicked(bool checked)
 {
     QAbstractItemModel *model = const_cast<QAbstractItemModel *>(focusedIndex().model());
-    model->setData(focusedIndex(), checked, Qt::CheckStateRole);
+    model->setData(focusedIndex(), checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
 }
 
 void ServiceItemDelegate::slotConfigureButtonClicked()

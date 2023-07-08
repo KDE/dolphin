@@ -35,10 +35,11 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     void clear();
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
     struct ServiceItem {
-        bool checked;
+        Qt::CheckState checked;
         bool configurable;
         QString icon;
         QString text;

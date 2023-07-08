@@ -29,7 +29,7 @@ bool ServiceModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent, row, row + count - 1);
     for (int i = 0; i < count; ++i) {
         ServiceItem item;
-        item.checked = false;
+        item.checked = Qt::Unchecked;
         item.configurable = false;
         m_items.insert(row, item);
     }
@@ -47,7 +47,7 @@ bool ServiceModel::setData(const QModelIndex &index, const QVariant &value, int 
 
     switch (role) {
     case Qt::CheckStateRole:
-        m_items[row].checked = value.toBool();
+        m_items[row].checked = value.value<Qt::CheckState>();
         break;
     case ConfigurableRole:
         m_items[row].configurable = value.toBool();
@@ -103,6 +103,11 @@ void ServiceModel::clear()
     beginRemoveRows(QModelIndex(), 0, m_items.count());
     m_items.clear();
     endRemoveRows();
+}
+
+Qt::ItemFlags ServiceModel::flags(const QModelIndex &index) const
+{
+    return QAbstractListModel::flags(index) | Qt::ItemIsUserCheckable;
 }
 
 #include "moc_servicemodel.cpp"
