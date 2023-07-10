@@ -1938,7 +1938,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "« Hier » (MMMM, yyyy)"
+msgstr "'Hier' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2448
 #, kde-format
@@ -1972,7 +1972,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr "« Il y a une semaine » (MMMM, yyyy)"
+msgstr "'Il y a une semaine' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2480
 #, kde-format
@@ -1990,7 +1990,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
-msgstr "« Il y a deux semaines » (MMMM, yyyy)"
+msgstr "'Il y a deux semaines' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2501
 #, kde-format
@@ -2008,7 +2008,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "« Il y a trois semaines » (MMMM, yyyy)"
+msgstr "'Il y a trois semaines' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2522
 #, kde-format
@@ -2026,7 +2026,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "« Plus tôt en » MMMM, yyyy"
+msgstr "'Plus tôt en' MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2543
 #, kde-format
