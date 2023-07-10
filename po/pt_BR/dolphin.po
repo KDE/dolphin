@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-03-03 09:55-0300\n"
+"PO-Revision-Date: 2023-07-05 17:48-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
+"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -419,12 +419,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mover para a visualização dividida inativa"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtrar"
+msgstr "Filtrar…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -459,10 +457,9 @@ msgid "Filter"
 msgstr "Filtrar"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Pesquisar"
+msgstr "Pesquisar..."
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -572,12 +569,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Abre a pasta virtual oculta em uma janela dividida"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Visualizar"
+msgstr "Atualizar visualização"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -1373,25 +1368,19 @@ msgstr[0] "Barra de localização"
 msgstr[1] "Barras de localização"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&Editar tipo de arquivo..."
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Selecione os itens correspondentes..."
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Desmarque os itens correspondentes..."
@@ -1427,9 +1416,7 @@ msgid "Autostart"
 msgstr "Iniciar automaticamente"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Localizar arquivo..."
@@ -1635,25 +1622,19 @@ msgid "Search for %1"
 msgstr "Pesquisar por %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Carregando pasta..."
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordenação:"
+msgstr "Ordenação..."
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Pesquisando..."
@@ -1697,11 +1678,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Mantém o filtro ao mudar de pasta"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtrar"
+msgstr "Filtrar..."
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2127,12 +2106,9 @@ msgid "Publisher"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2739
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Número de linhas"
+msgstr "Número de páginas"
 
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
@@ -2464,12 +2440,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "O Dolphin será explicitamente aberto em uma nova janela."
 
 #: main.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Inicia o serviço do Dolphin (necessário apenas para a interface D-Bus)"
+msgstr ""
+"Inicia o serviço do Dolphin (necessário apenas para a interface D-Bus)."
 
 #: main.cpp:143
 #, kde-format
@@ -2508,9 +2483,7 @@ msgid "Copy"
 msgstr "Copiar"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "Renomear..."
@@ -2598,12 +2571,10 @@ msgid "Show item on hover"
 msgstr "Mostrar barra de filtro"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Configurar"
+msgstr "Configurar..."
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3037,8 +3008,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Copiar %2 para a área de transferência"
+msgstr[1] "Copiar %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3050,8 +3021,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Copiar a localização de %2 para a área de transferência"
+msgstr[1] "Copiar a localização de %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3063,8 +3034,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cortar %2 para a área de transferência"
+msgstr[1] "Cortar %2 para a área de transferência"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3076,8 +3047,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Excluir permanentemente %2"
+msgstr[1] "Excluir permanentemente %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3085,14 +3056,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Duplicar aqui"
-msgstr[1] "Duplicar aqui"
+msgstr[0] "Duplicar %2"
+msgstr[1] "Duplicar %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3100,14 +3069,12 @@ msgstr[1] "Duplicar aqui"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Mover para a Lixeira"
-msgstr[1] "Mover para a Lixeira"
+msgstr[0] "Mover %2 para a Lixeira"
+msgstr[1] "Mover %2 para a Lixeira"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3115,14 +3082,12 @@ msgstr[1] "Mover para a Lixeira"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Renomear..."
-msgstr[1] "Renomear..."
+msgstr[0] "Renomear %2"
+msgstr[1] "Renomear %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3145,20 +3110,16 @@ msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Seleção"
+msgstr "Modo de seleção"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Seleção"
+msgstr "Sair do modo de seleção"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
@@ -3167,16 +3128,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Selecione quais serviços devem ser exibidos no menu de contexto:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Pesquisar"
+msgstr "Pesquisar..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Baixar novos serviços..."
@@ -4288,9 +4246,7 @@ msgid "Custom Font"
 msgstr "Fonte personalizada"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Escolher..."
@@ -4894,8 +4850,7 @@ msgid "The location '%1' is invalid."
 msgstr "A localização '%1' é inválida."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Carregando..."
 
@@ -4965,9 +4920,7 @@ msgid "Folder is empty"
 msgstr "A pasta está vazia"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Criar pasta..."
@@ -5246,9 +5199,7 @@ msgstr ""
 "usuários acessarem esse conteúdo e, por isso, estão ocultos.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Ajustar o estilo de exibição..."
@@ -5387,9 +5338,7 @@ msgstr[0] "Ações para um item selecionado"
 msgstr[1] "Ações para %1 itens selecionados"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Atualizando as informações da versão..."

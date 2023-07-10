@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-06-26 18:18+0400\n"
+"PO-Revision-Date: 2023-06-30 13:25+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -404,12 +404,10 @@ msgid "Move to Inactive Split View"
 msgstr "Qeyri-aktiv bölümə köçürmək"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Süzgəc"
+msgstr "Süzgəc..."
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -444,10 +442,9 @@ msgid "Filter"
 msgstr "Süzgəc"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Axtarış"
+msgstr "Axtarış…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -562,12 +559,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Müvəqqəti Paneli açır"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Miniatür"
+msgstr "Görünüşü yeniləyin"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -578,6 +573,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Bu qovluğun görünüşünü təzələyir.</para><para>Əgər qovluğun "
+"tərkibindəkilərə dəyişiklik edilərsə, təzələmə bu qovluğun tərkiblərini "
+"yenidən araşdıracaq və buradakı faylların və qovluqların ən yeni vəziyyətini "
+"göstərəcək.</para><para>Əgər görünüən sahə iki hissəyə bölünərsə, bu, cari "
+"diqqət mərkəzində olan sahəni təzələyir.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1368,28 +1368,22 @@ msgstr[0] "Ünvan sətri"
 msgstr[1] "Ünvan sətri"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Fayl növünə düzəliş &etmək..."
+msgstr "Fayl növünə düzəliş e&din..."
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Uyğun elementləri seçmək..."
+msgstr "Uyğun elementləri seçin..."
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Seçimi ləğv etmək..."
+msgstr "Uyğun elementlərin seçimini ləğv edin..."
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1422,9 +1416,7 @@ msgid "Autostart"
 msgstr "Avtomatik başlatma"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Faylı tapmaq..."
@@ -1631,28 +1623,22 @@ msgid "Search for %1"
 msgstr "%1 axtarışı"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Qovluq açılır..."
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Çeşidləmə:"
+msgstr "Çeşidlənir..."
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Axtarış..."
+msgstr "Axtarılır..."
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1696,11 +1682,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Qovluqları dəyişərkən süzgəci saxlamaq"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Süzgəc"
+msgstr "Süzgəc..."
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2505,12 +2489,10 @@ msgid "Copy"
 msgstr "Kopyalamaq"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Ad dəyişmə..."
+msgstr "Adını dəyişin..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2591,12 +2573,10 @@ msgid "Show item on hover"
 msgstr "Üzərində olduqda lementi göstər"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Ayarla"
+msgstr "Tənzimləyin..."
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3155,19 +3135,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Kontekst menyuda göstəriləcək xidmətlər:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Axtarış"
+msgstr "Axtarış…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Yeni xidmətlər daxil etmək..."
+msgstr "Yeni xidmətlər endirilir..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -4269,12 +4246,10 @@ msgid "Custom Font"
 msgstr "Fərdi şrift"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Seçmək..."
+msgstr "Seçim…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
 #, kde-format
@@ -4872,8 +4847,7 @@ msgid "The location '%1' is invalid."
 msgstr "'%1' ünvan sətiri boşdur."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Yüklənir..."
 
@@ -4943,12 +4917,10 @@ msgid "Folder is empty"
 msgstr "Qovluqlar boşdur"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Qovluq yaratmaq..."
+msgstr "Qovluq yaradın..."
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5227,9 +5199,7 @@ msgstr ""
 "faylları əldə etməsinə ehtiyac yoxdur.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Görünüş tərzini tənzimləmək..."
@@ -5368,9 +5338,7 @@ msgstr[0] "Bi seçilmiş element üçün əməllər"
 msgstr[1] "%1 seçilmiş element üçün əməllər"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Versiyalar haqqında məlumatlar yenilənir..."
