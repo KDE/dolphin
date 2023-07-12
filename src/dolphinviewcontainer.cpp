@@ -193,7 +193,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     // Initialize kactivities resource instance
 
 #if HAVE_KACTIVITIES
-    m_activityResourceInstance = new KActivities::ResourceInstance(window()->winId(), url);
+    m_activityResourceInstance = new KActivities::ResourceInstance(window()->windowHandle(), url);
     m_activityResourceInstance->setParent(this);
 #endif
 }
