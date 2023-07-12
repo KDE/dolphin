@@ -109,21 +109,13 @@ public:
     void save();
 
     /**
-     * @return True if properties for the given URL exist:
-     *         As soon as the properties for an URL have been saved with
-     *         ViewProperties::save(), true will be returned. If false is
-     *         returned, the default view-properties are used.
-     */
-    bool exist() const;
-
-private:
-    /**
      * Returns the destination directory path where the view
      * properties are stored. \a subDir specifies the used sub
      * directory.
      */
     QString destinationDir(const QString &subDir) const;
 
+private:
     /**
      * Returns the view-mode prefix when storing additional properties for
      * a view-mode.
@@ -160,6 +152,11 @@ private:
      *         Is used to be able to remember view-properties for long baloo-URLs.
      */
     static QString directoryHashForUrl(const QUrl &url);
+
+    /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
+    ViewPropertySettings *loadProperties(const QString &folderPath) const;
+    /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
+    ViewPropertySettings *defaultProperties() const;
 
     Q_DISABLE_COPY(ViewProperties)
 
