@@ -374,9 +374,8 @@ void DolphinView::setGroupedSorting(bool grouped)
 
     ViewProperties props(viewPropertiesUrl());
     props.setGroupedSorting(grouped);
-    props.save();
 
-    m_container->controller()->model()->setGroupedSorting(grouped);
+    m_model->setGroupedSorting(grouped);
 
     Q_EMIT groupedSortingChanged(grouped);
 }
