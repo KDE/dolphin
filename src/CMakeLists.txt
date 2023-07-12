@@ -217,6 +217,7 @@ target_link_libraries(
     KF6::WidgetsAddons
     KF6::Codecs
     KF6::KCMUtils
+    KF6::FileMetaData
 
     ${FTS_LIB}
 )
@@ -224,7 +225,6 @@ target_link_libraries(
 if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate PUBLIC
-        KF6::FileMetaData
         KF6::Baloo
         KF6::BalooWidgets
     )
