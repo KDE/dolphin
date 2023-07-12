@@ -164,6 +164,9 @@ private:
     Q_DISABLE_COPY(ViewProperties)
 
 private:
+    ViewPropertySettings *loadProps(const QString &filePath);
+    ViewPropertySettings *defaultProps();
+
     bool m_changedProps;
     bool m_autoSave;
     QString m_filePath;

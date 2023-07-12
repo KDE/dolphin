@@ -210,12 +210,12 @@ target_link_libraries(
     KF5::WindowSystem
     KF5::WidgetsAddons
     KF5::Codecs
+    KF5::FileMetaData
 )
 
 if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate PUBLIC
-        KF5::FileMetaData
         KF5::Baloo
         KF5::BalooWidgets
     )

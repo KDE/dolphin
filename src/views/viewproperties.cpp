@@ -14,6 +14,7 @@
 #include <QCryptographicHash>
 
 #include <KFileItem>
+#include <KFileMetaData/UserMetaData>
 
 namespace
 {
@@ -31,6 +32,101 @@ const char CustomizedDetailsString[] = "CustomizedDetails";
 const char ViewPropertiesFileName[] = ".directory";
 }
 
+ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
+{
+    ViewPropertySettings *node = nullptr;
+    const QString settingsFile = filePath + QDir::separator() + ViewPropertiesFileName;
+    if (QFile::exists(settingsFile)) {
+        node = new ViewPropertySettings(KSharedConfig::openConfig(settingsFile));
+    } else {
+        KFileMetaData::UserMetaData metadata(filePath);
+        if (!metadata.isSupported()) {
+            node = new ViewPropertySettings(KSharedConfig::openConfig(settingsFile));
+        } else if (metadata.hasAttribute("dolphin.viewpropertiesVersion")) {
+            node = new ViewPropertySettings();
+
+            // "" (empty/no value) must match default values set in dolphin_directoryviewpropertysettings.kcfg
+
+            node->setVersion(metadata.attribute("dolphin.viewpropertiesVersion").toInt());
+
+            const auto hiddenFilesShownProp = metadata.attribute("dolphin.HiddenFilesShown");
+            if (hiddenFilesShownProp.length() > 0) {
+                node->setHiddenFilesShown(hiddenFilesShownProp == "true");
+            }
+
+            auto viewModeStr = metadata.attribute("dolphin.ViewMode");
+            auto viewMode = DolphinView::IconsView;
+            if (viewModeStr.length() > 0) {
+                if (viewModeStr == "1") {
+                    viewMode = DolphinView::DetailsView;
+                } else if (viewModeStr == "2") {
+                    viewMode = DolphinView::CompactView;
+                }
+            }
+            node->setViewMode(viewMode);
+
+            const auto previewsShownProp = metadata.attribute("dolphin.PreviewsShown");
+            if (previewsShownProp.length() > 0) {
+                node->setPreviewsShown(previewsShownProp == "true");
+            }
+
+            const auto groupedSortingProp = metadata.attribute("dolphin.GroupedSorting");
+            if (groupedSortingProp.length() > 0) {
+                node->setGroupedSorting(groupedSortingProp == "true");
+            }
+
+            const auto sortRoleProp = metadata.attribute("dolphin.SortRole");
+            if (sortRoleProp.length() > 0) {
+                node->setSortRole(sortRoleProp.toUtf8());
+            }
+
+            const auto sortOrderProp = metadata.attribute("dolphin.SortOrder");
+            if (sortOrderProp.length() > 0) {
+                node->setSortOrder(Qt::DescendingOrder);
+            }
+
+            const auto sortFoldersFirstProp = metadata.attribute("dolphin.SortFoldersFirst");
+            if (sortFoldersFirstProp.length() > 0) {
+                node->setSortFoldersFirst(sortFoldersFirstProp == "true");
+            }
+
+            const auto sortHiddenLastProp = metadata.attribute("dolphin.SortHiddenLast");
+            if (sortHiddenLastProp.length() > 0) {
+                node->setSortHiddenLast(sortHiddenLastProp == "true");
+            }
+
+            const auto visibleRolesProp = metadata.attribute("dolphin.VisibleRoles");
+            if (visibleRolesProp.length() > 0) {
+                node->setVisibleRoles(visibleRolesProp.split(','));
+            }
+
+            const auto headerColumnWitdthsProp = metadata.attribute("dolphin.HeaderColumnWidths");
+            QList<int> headerColumnWitdths;
+            if (headerColumnWitdthsProp.length() > 0) {
+                auto headerColumnWitdthsStr = headerColumnWitdthsProp.split(',');
+                for (auto &widthStr : headerColumnWitdthsStr) {
+                    headerColumnWitdths << widthStr.toInt();
+                }
+            }
+            node->setHeaderColumnWidths(headerColumnWitdths);
+
+            node->setTimestamp(QDateTime::fromString(metadata.attribute("dolphin.Timestamp"), Qt::ISODate));
+        }
+    }
+
+    return node;
+}
+
+ViewPropertySettings *ViewProperties::defaultProps()
+{
+    auto props = loadProps(destinationDir(QStringLiteral("global")));
+    if (props == nullptr) {
+        props = new ViewPropertySettings;
+    }
+
+    return props;
+}
+
 ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
@@ -42,6 +138,7 @@ ViewProperties::ViewProperties(const QUrl &url)
     bool useTrashView = false;
     bool useRecentDocumentsView = false;
     bool useDownloadsView = false;
+    bool usePictureView = false;
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
@@ -89,18 +186,23 @@ ViewProperties::ViewProperties(const QUrl &url)
         if (m_filePath == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
             useDownloadsView = true;
         }
+        if (m_filePath == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+            usePictureView = true;
+        }
     } else {
         m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
     }
 
-    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
-    m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
+    m_node = loadProps(m_filePath);
+    bool useDefaultSettings = useGlobalViewProps;
+    if (m_node == nullptr) {
+        // no settings found for m_filepath, load defaults
+        m_node = defaultProps();
+        useDefaultSettings = true;
+    }
 
-    // If the .directory file does not exist or the timestamp is too old,
-    // use default values instead.
-    const bool useDefaultProps = (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
-        && (!QFile::exists(file) || (m_node->timestamp() < settings->viewPropsTimestamp()));
-    if (useDefaultProps) {
+    // default values for special directories
+    if (useDefaultSettings) {
         if (useSearchView) {
             const QString path = url.path();
 
@@ -132,16 +234,8 @@ ViewProperties::ViewProperties(const QUrl &url)
                 setViewMode(DolphinView::DetailsView);
                 setVisibleRoles({"text", "path", "modificationtime"});
             }
-        } else {
-            // The global view-properties act as default for directories without
-            // any view-property configuration. Constructing a ViewProperties
-            // instance for an empty QUrl ensures that the global view-properties
-            // are loaded.
-            QUrl emptyUrl;
-            ViewProperties defaultProps(emptyUrl);
-            setDirProperties(defaultProps);
-
-            m_changedProps = false;
+        } else if (usePictureView) {
+            setPreviewsShown(true);
         }
     }
 
@@ -413,10 +507,48 @@ void ViewProperties::update()
 void ViewProperties::save()
 {
     qCDebug(DolphinDebug) << "Saving view-properties to" << m_filePath;
-    QDir dir;
-    dir.mkpath(m_filePath);
-    m_node->setVersion(CurrentViewPropertiesVersion);
-    m_node->save();
+
+    KFileMetaData::UserMetaData metadata(m_filePath);
+    if (metadata.isSupported()) {
+        const auto items = m_node->items();
+        const bool allDefault = std::all_of(items.cbegin(), items.cend(), [this](const KConfigSkeletonItem *item) {
+            return item->name() == "Timestamp" || (item->name() == "Version" && m_node->version() == CurrentViewPropertiesVersion) || item->isDefault();
+        });
+        if (allDefault) {
+            for (const auto &item : items) {
+                if (item->name() == "Version") {
+                    metadata.setAttribute("dolphin.viewpropertiesVersion", "");
+                } else {
+                    metadata.setAttribute("dolphin." + item->name(), "");
+                }
+            }
+        } else {
+            // "" (empty/no value) must match default values set in dolphin_directoryviewpropertysettings.kcfg
+            for (const auto &item : items) {
+                if (!item->isDefault()) {
+                    if (item->name() == "Version") {
+                        metadata.setAttribute("dolphin.viewpropertiesVersion", QString::number(m_node->version()));
+                    } else {
+                        metadata.setAttribute("dolphin." + item->name(), item->property().toString());
+                    }
+                } else {
+                    metadata.setAttribute("dolphin." + item->name(), "");
+                }
+            }
+        }
+
+        // remove obsolete .directory file
+        QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
+        if (QFile::exists(settingsFile)) {
+            QFile::remove(settingsFile);
+        }
+    } else {
+        QDir dir;
+        dir.mkpath(m_filePath);
+        m_node->setVersion(CurrentViewPropertiesVersion);
+        m_node->save();
+    }
+
     m_changedProps = false;
 }
 
