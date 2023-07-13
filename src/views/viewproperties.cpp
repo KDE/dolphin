@@ -15,6 +15,7 @@
 
 #include <KFileItem>
 #include <KFileMetaData/UserMetaData>
+#include <KUser>
 
 namespace
 {
@@ -40,21 +41,22 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
         node = new ViewPropertySettings(KSharedConfig::openConfig(settingsFile));
     } else {
         KFileMetaData::UserMetaData metadata(filePath);
+        const auto userId = KUserId::currentUserId().toString();
         if (!metadata.isSupported()) {
             node = new ViewPropertySettings(KSharedConfig::openConfig(settingsFile));
-        } else if (metadata.hasAttribute("dolphin.viewpropertiesVersion")) {
+        } else if (metadata.hasAttribute("kde.fm.viewpropertiesVersion@" + userId)) {
             node = new ViewPropertySettings();
 
             // "" (empty/no value) must match default values set in dolphin_directoryviewpropertysettings.kcfg
 
-            node->setVersion(metadata.attribute("dolphin.viewpropertiesVersion").toInt());
+            node->setVersion(metadata.attribute("kde.fm.viewpropertiesVersion@" + userId).toInt());
 
-            const auto hiddenFilesShownProp = metadata.attribute("dolphin.HiddenFilesShown");
+            const auto hiddenFilesShownProp = metadata.attribute("kde.fm.HiddenFilesShown@" + userId);
             if (hiddenFilesShownProp.length() > 0) {
                 node->setHiddenFilesShown(hiddenFilesShownProp == "true");
             }
 
-            auto viewModeStr = metadata.attribute("dolphin.ViewMode");
+            auto viewModeStr = metadata.attribute("kde.fm.ViewMode@" + userId);
             auto viewMode = DolphinView::IconsView;
             if (viewModeStr.length() > 0) {
                 if (viewModeStr == "1") {
@@ -65,42 +67,42 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
             }
             node->setViewMode(viewMode);
 
-            const auto previewsShownProp = metadata.attribute("dolphin.PreviewsShown");
+            const auto previewsShownProp = metadata.attribute("kde.fm.PreviewsShown@" + userId);
             if (previewsShownProp.length() > 0) {
                 node->setPreviewsShown(previewsShownProp == "true");
             }
 
-            const auto groupedSortingProp = metadata.attribute("dolphin.GroupedSorting");
+            const auto groupedSortingProp = metadata.attribute("kde.fm.GroupedSorting@" + userId);
             if (groupedSortingProp.length() > 0) {
                 node->setGroupedSorting(groupedSortingProp == "true");
             }
 
-            const auto sortRoleProp = metadata.attribute("dolphin.SortRole");
+            const auto sortRoleProp = metadata.attribute("kde.fm.SortRole@" + userId);
             if (sortRoleProp.length() > 0) {
                 node->setSortRole(sortRoleProp.toUtf8());
             }
 
-            const auto sortOrderProp = metadata.attribute("dolphin.SortOrder");
+            const auto sortOrderProp = metadata.attribute("kde.fm.SortOrder@" + userId);
             if (sortOrderProp.length() > 0) {
                 node->setSortOrder(Qt::DescendingOrder);
             }
 
-            const auto sortFoldersFirstProp = metadata.attribute("dolphin.SortFoldersFirst");
+            const auto sortFoldersFirstProp = metadata.attribute("kde.fm.SortFoldersFirst@" + userId);
             if (sortFoldersFirstProp.length() > 0) {
                 node->setSortFoldersFirst(sortFoldersFirstProp == "true");
             }
 
-            const auto sortHiddenLastProp = metadata.attribute("dolphin.SortHiddenLast");
+            const auto sortHiddenLastProp = metadata.attribute("kde.fm.SortHiddenLast@" + userId);
             if (sortHiddenLastProp.length() > 0) {
                 node->setSortHiddenLast(sortHiddenLastProp == "true");
             }
 
-            const auto visibleRolesProp = metadata.attribute("dolphin.VisibleRoles");
+            const auto visibleRolesProp = metadata.attribute("kde.fm.VisibleRoles@" + userId);
             if (visibleRolesProp.length() > 0) {
                 node->setVisibleRoles(visibleRolesProp.split(','));
             }
 
-            const auto headerColumnWitdthsProp = metadata.attribute("dolphin.HeaderColumnWidths");
+            const auto headerColumnWitdthsProp = metadata.attribute("kde.fm.HeaderColumnWidths@" + userId);
             QList<int> headerColumnWitdths;
             if (headerColumnWitdthsProp.length() > 0) {
                 auto headerColumnWitdthsStr = headerColumnWitdthsProp.split(',');
@@ -110,7 +112,7 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
             }
             node->setHeaderColumnWidths(headerColumnWitdths);
 
-            node->setTimestamp(QDateTime::fromString(metadata.attribute("dolphin.Timestamp"), Qt::ISODate));
+            node->setTimestamp(QDateTime::fromString(metadata.attribute("kde.fm.Timestamp@" + userId), Qt::ISODate));
         }
     }
 
@@ -514,12 +516,13 @@ void ViewProperties::save()
         const bool allDefault = std::all_of(items.cbegin(), items.cend(), [this](const KConfigSkeletonItem *item) {
             return item->name() == "Timestamp" || (item->name() == "Version" && m_node->version() == CurrentViewPropertiesVersion) || item->isDefault();
         });
+        const auto userId = KUserId::currentUserId().toString();
         if (allDefault) {
             for (const auto &item : items) {
                 if (item->name() == "Version") {
-                    metadata.setAttribute("dolphin.viewpropertiesVersion", "");
+                    metadata.setAttribute("kde.fm.viewpropertiesVersion@" + userId, "");
                 } else {
-                    metadata.setAttribute("dolphin." + item->name(), "");
+                    metadata.setAttribute("kde.fm." + item->name() + "@" + userId, "");
                 }
             }
         } else {
@@ -527,12 +530,12 @@ void ViewProperties::save()
             for (const auto &item : items) {
                 if (!item->isDefault()) {
                     if (item->name() == "Version") {
-                        metadata.setAttribute("dolphin.viewpropertiesVersion", QString::number(m_node->version()));
+                        metadata.setAttribute("kde.fm.viewpropertiesVersion@" + userId, QString::number(m_node->version()));
                     } else {
-                        metadata.setAttribute("dolphin." + item->name(), item->property().toString());
+                        metadata.setAttribute("kde.fm." + item->name() + "@" + userId, item->property().toString());
                     }
                 } else {
-                    metadata.setAttribute("dolphin." + item->name(), "");
+                    metadata.setAttribute("kde.fm." + item->name() + "@" + userId, "");
                 }
             }
         }
