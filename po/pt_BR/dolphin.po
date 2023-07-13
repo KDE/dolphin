@@ -11,30 +11,33 @@
 # Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
 # Camila Moura <camila.moura@kde.org>, 2017.
 # Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2019, 2021.
+# Geraldo Simiao <geraldosimiao@fedoraproject.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-07-05 17:48-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"PO-Revision-Date: 2023-07-11 23:36-0300\n"
+"Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Diniz Bortolotto, André Marcelo Alvarenga"
+msgstr "Diniz Bortolotto, André Marcelo Alvarenga, Geraldo Simiao"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "diniz.bortolotto@gmail.com, alvarenga@kde.org"
+msgstr ""
+"diniz.bortolotto@gmail.com, alvarenga@kde.org, geraldosimiao@fedoraproject."
+"org"
 
 #: dolphincontextmenu.cpp:124
 #, kde-format
@@ -142,7 +145,7 @@ msgstr "Confirmação"
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
-msgstr "&Sair do %1"
+msgstr "&Sair %1"
 
 #: dolphinmainwindow.cpp:569
 #, kde-format
@@ -198,7 +201,7 @@ msgstr[1] "Deseja realmente abrir %1 janelas de terminal?"
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Abrir 1 terminal"
+msgstr[0] "Abrir %1 terminal"
 msgstr[1] "Abrir %1 terminais"
 
 #: dolphinmainwindow.cpp:1393
@@ -355,20 +358,16 @@ msgstr ""
 "removidos da sua localização antiga."
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Copiar para a visualização dividida inativa"
+msgstr "Copiar para outra visualização"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copiar para a visualização dividida inativa…"
+msgstr "Copiar para a outra visualização…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -387,20 +386,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Copiar para a visualização dividida inativa"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Mover para a visualização dividida inativa"
+msgstr "Mover para outra visualização"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Mover para a visualização dividida inativa…"
+msgstr "Mover para outra visualização…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -520,6 +515,13 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Este aplicativo só sabe quais arquivos ou pastas devem ser usados se "
+"eles forem <emphasis>selecionados</emphasis> primeiro. Pressione para "
+"alternar um <emphasis>Modo de Seleção</emphasis> que torna a seleção e "
+"desmarcação tão fácil quanto pressionar um item uma vez.</"
+"para><para>Enquanto estiver neste modo, uma barra de acesso rápido na parte "
+"inferior mostra as ações disponíveis para os itens atualmente selecionados.</"
+"para>"
 
 #: dolphinmainwindow.cpp:1730
 #, kde-kuit-format
@@ -583,6 +585,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Isto atualiza a visualização da pasta.</para><para>Se o conteúdo desta "
+"pasta foi alterado, a atualização irá verificar novamente esta pasta e "
+"mostrar a você uma visualização recém-atualizada dos arquivos e pastas "
+"contidos aqui.</para> para><para>Se estiver ativada a  visualização "
+"dividida, isso atualizará aquela que está atualmente em foco.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -756,6 +763,12 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Isto alterna entre ter uma <emphasis>Barra de Menu</emphasis> e ter "
+"um<interface>%1</interface>botão. Ambos contêm basicamente as mesmas ações e "
+"opções de configuração.</para><para>A barra de menus ocupa mais espaço, mas "
+"permite um acesso rápido e organizado a todas as ações que um aplicativo "
+"oferece.</para><para>O<interface>botão %1</interface> é mais simples e "
+"pequeno, o que torna o acionamento de ações avançadas mais demorado.</para>"
 
 #: dolphinmainwindow.cpp:1963
 #, kde-format
@@ -1228,14 +1241,7 @@ msgstr ""
 "na KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2563
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1247,19 +1253,18 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Há duas maneiras de conseguir ajuda: O <link url='help:/dolphin/ index."
-"html'>Manual do Dolphin</link> e a <link url='https://userbase.kde. org/"
-"Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para> A ajuda do "
-"\"O que é isto?\" estará faltando na maior parte das outras janelas, então "
-"não dependa tanto deste recurso.</para>"
+"<para>Este é o botão que chama o recurso de ajuda que você está usando "
+"agora! Clique nele e, em seguida, clique em qualquer componente deste "
+"aplicativo para perguntar \"O que é isso?\". O cursor do mouse mudará de "
+"aparência se não houver ajuda disponível para um ponto.</para><para>Existem "
+"duas outras maneiras de obter ajuda: O <link url='help:/dolphin/index."
+"html'>Manual do Dolphin</link> e <link url='https://userbase.kde.org/Dolphin/"
+"File_Management'>KDE UserBase Wiki</link>.</para><para> A ajuda do \"O que é "
+"isto?\" estará faltando na maior parte das outras janelas, então não dependa "
+"tanto deste recurso.</para>"
 
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1268,8 +1273,10 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Relatórios de bugs com alta qualidade serão muito bem apreciados. Para "
-"aprender como tornar seu relatório de bugs o mais eficiente possível, <link "
+"<para>Isto abre uma janela que irá guiá-lo através da comunicação de erros "
+"ou falhas neste aplicativo ou em outro software do KDE.</"
+"para><para>Relatórios de erros de alta qualidade são muito apreciados. Para "
+"saber como tornar seu relatório de bug o mais eficaz possível, <link "
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>clique aqui</"
 "link>.</para>"
 
@@ -1670,6 +1677,7 @@ msgstr "Protocolo inválido"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Localização atual alterada, <filename>%1</filename> não está mais acessível."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -2051,7 +2059,7 @@ msgstr "Modificado"
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "O formato da data pode ser selecionado nas configurações."
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
@@ -2103,7 +2111,7 @@ msgstr "Autor"
 #: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Editor"
 
 #: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
@@ -2254,6 +2262,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"O formato de permissão pode ser alterado nas configurações. As opções são "
+"formatos simbólico, numérico (Octal) ou combinado"
 
 #: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
@@ -2538,11 +2548,9 @@ msgstr "Reproduzir automaticamente arquivos de mídia"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Mostrar barra de filtro"
+msgstr "Mostrar item ao passar o ponteiro do mouse"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2563,12 +2571,10 @@ msgid "Auto-Play media files"
 msgstr "Reproduzir automaticamente arquivos de mídia"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Mostrar barra de filtro"
+msgstr "Mostrar item ao passar o ponteiro do mouse"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -2847,12 +2853,10 @@ msgid "Query Results from '%1'"
 msgstr "Resultados da consulta de '%1'"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
+msgstr "Selecione os arquivos e pastas que devem ser copiados."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2868,39 +2872,34 @@ msgstr "Cancelar cópia"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Selecione um arquivo ou pasta cuja localização deve ser copiada."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Isto seleciona todos os arquivos e pastas na localização atual."
+msgstr "Selecione os arquivos e pastas que devem ser copiados."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Isto seleciona todos os arquivos e pastas na localização atual."
+msgstr "Selecione os arquivos e pastas que devem ser cortados."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Cancelar copiar"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
+msgstr ""
+"Selecione os arquivos e pastas que devem ser excluídos permanentemente."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2912,19 +2911,17 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
+msgstr "Selecione os arquivos e pastas que devem ser duplicados aqui."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Cancelar duplicação"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2939,20 +2936,20 @@ msgstr "Mais"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Selecione os arquivos e pastas que devem ser movidos."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Cancelar mover"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Selecione os arquivos e pastas que devem ser movidos para a lixeira."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2963,6 +2960,11 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Os arquivos e pastas selecionados foram adicionados à área de "
+"transferência. Agora a ação <emphasis>Colar</emphasis> pode ser usada para "
+"transferi-los da área de transferência para qualquer outro local. Eles podem "
+"até mesmo ser transferidos para outros aplicativos usando suas respectivas "
+"ações <emphasis>Colar</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
@@ -2990,13 +2992,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Selecione o arquivo ou pasta que deve ser renomeado.\n"
+" A renomeação em massa é possível quando vários itens são selecionados."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Cancelar renomear"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3102,12 +3106,22 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Modo de Seleção</title><para>Selecione arquivos ou pastas para "
+"gerenciá-los ou manipulá-los.<list><item>Pressione sobre um arquivo ou pasta "
+"para selecioná-lo.</item><item>Pressione sobre um já selecionado arquivo ou "
+"pasta para desmarcá-lo.</item><item>Pressionar uma área vazia <emphasis>não</"
+"emphasis> limpa a seleção.</item><item>Retângulos de seleção (criados "
+"arrastando de uma área vazia) invertem o status de seleção dos itens dentro "
+"deles.</item></list></para><para>Os botões de ação disponíveis na parte "
+"inferior mudam dependendo da seleção atual.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Modo de seleção: Clique nos arquivos ou pastas para selecioná-los ou "
+"desmarcá-los."
 
 #: selectionmode/topbar.cpp:59
 #, kde-format
@@ -3229,11 +3243,9 @@ msgstr "caso verdadeiro datas relativas curtas são usadas, senão datas curtas"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Permissões"
+msgstr "Formato de estilo de permissões"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3292,17 +3304,17 @@ msgstr "Mostrar 'Abrir terminal' no menu de contexto."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Mostrar 'Copiar localização' no menu de contexto."
+msgstr ""
+"Mostrar 'copiar para outra área de exibição dividida ' no menu de contexto."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Mostrar 'Ordenara por' no menu de contexto."
+msgstr ""
+"Mostrar 'mover para outra área de exibição dividida ' no menu de contexto."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3314,13 +3326,13 @@ msgstr "Posição das colunas"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Preenchimento lateral"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Destacar linha inteira"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3529,6 +3541,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
+"Versão de configuração interna do Dolphin, usada principalmente para "
+"determinar se uma versão atualizada do Dolphin está em execução, para migrar "
+"as configurações que foram removidas/renomeadas ... etc"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -3611,6 +3626,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Mostra uma barra para colar facilmente depois que um corte ou cópia foi "
+"feito usando a barra inferior do modo de seleção."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3820,17 +3837,13 @@ msgid "Sorting mode: "
 msgstr "Modo de ordenação: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Alternar entre os painéis de exibições divididas com a tecla TAB"
+msgstr "Alternar entre os painéis com a tecla TAB"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Divide a área de exibição"
@@ -3845,8 +3858,7 @@ msgstr "Desativar a exibição dividida fecha o painel ativo"
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
-"Quando desativado, ao desativar a exibição dividia irá fechar o painel "
-"inativo"
+"Quando desativado, ao encerrar a exibição dividia irá fechar o painel inativo"
 
 #: settings/general/behaviorsettingspage.cpp:77
 #, kde-format
@@ -4252,12 +4264,10 @@ msgid "Choose…"
 msgstr "Escolher..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Conteúdo"
+msgstr "Exibição de conteúdo"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4395,7 +4405,7 @@ msgstr "Pastas:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Ao clicar em qualquer lugar na linha"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
@@ -4777,7 +4787,7 @@ msgstr[1] "Abrir %1 itens"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Preenchimento lateral"
 
 #: views/dolphinview.cpp:1229
 #, kde-format
