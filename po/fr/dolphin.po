@@ -2042,7 +2042,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr "MMMM, aaaa"
+msgstr "MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2561
 #, kde-format
