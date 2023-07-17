@@ -50,9 +50,14 @@ QAccessibleInterface *accessibleInterfaceFactory(const QString &key, QObject *ob
     Q_UNUSED(key)
 
     if (KItemListContainer *container = qobject_cast<KItemListContainer *>(object)) {
+        if (auto controller = container->controller(); controller) {
+            if (KItemListView *view = controller->view(); view && view->accessibleParent()) {
+                return view->accessibleParent();
+            }
+        }
         return new KItemListContainerAccessible(container);
     } else if (KItemListView *view = qobject_cast<KItemListView *>(object)) {
-        return new KItemListViewAccessible(view);
+        return new KItemListViewAccessible(view, view->accessibleParent());
     }
 
     return nullptr;
@@ -336,6 +341,19 @@ KItemListGroupHeaderCreatorBase *KItemListView::groupHeaderCreator() const
     }
     return m_groupHeaderCreator;
 }
+
+#ifndef QT_NO_ACCESSIBILITY
+void KItemListView::setAccessibleParentsObject(KItemListContainer *accessibleParentsObject)
+{
+    Q_ASSERT(!m_accessibleParent);
+    m_accessibleParent = new KItemListContainerAccessible(accessibleParentsObject);
+}
+KItemListContainerAccessible *KItemListView::accessibleParent()
+{
+    Q_CHECK_PTR(m_accessibleParent); // We always want the accessibility tree/hierarchy to be complete.
+    return m_accessibleParent;
+}
+#endif
 
 QSizeF KItemListView::itemSize() const
 {

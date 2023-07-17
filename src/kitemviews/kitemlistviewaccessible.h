@@ -18,11 +18,12 @@
 
 class KItemListView;
 class KItemListContainer;
+class KItemListContainerAccessible;
 
 class DOLPHIN_EXPORT KItemListViewAccessible : public QAccessibleObject, public QAccessibleTableInterface
 {
 public:
-    explicit KItemListViewAccessible(KItemListView *view);
+    explicit KItemListViewAccessible(KItemListView *view, KItemListContainerAccessible *parent);
     ~KItemListViewAccessible() override;
 
     void *interface_cast(QAccessible::InterfaceType type) override;
@@ -81,6 +82,8 @@ private:
         QAccessible::Id id;
     };
     mutable QVector<AccessibleIdWrapper> m_cells;
+
+    KItemListContainerAccessible *m_parent;
 };
 
 class DOLPHIN_EXPORT KItemListAccessibleCell : public QAccessibleInterface, public QAccessibleTableCellInterface
