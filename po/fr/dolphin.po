@@ -608,7 +608,7 @@ msgid ""
 msgstr ""
 "<para>Ceci actualise la vue du dossier. </para><para>Si le contenu du "
 "dossier est modifié, l’actualisation permet d'analyser à nouveau le dossier "
-"et de vous afficher une vue mise à jour  du dossier et des fichiers qu'il "
+"et de vous afficher une vue mise à jour du dossier et des fichiers qu'il "
 "contient. </para><para>Si la vue est scindée, ceci actualise celle qui "
 "possède actuellement le focus. </para>"
 
