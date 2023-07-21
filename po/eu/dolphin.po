@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-04-13 21:51+0200\n"
+"PO-Revision-Date: 2023-07-20 08:44+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -352,20 +352,16 @@ msgstr ""
 "ekintzaren bidez gehitu baziren zeuden kokalekutik kenduko dira."
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Kopiatu ikuspegi zatitu ez-aktibora"
+msgstr "Kopiatu beste ikuspegira"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Kopiatu ikuspegi zatitu ez-aktibora..."
+msgstr "Kopiatu beste ikuspegira…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -384,20 +380,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopiatu ikuspegi zatitu ez-aktibora"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Eraman ikuspegi zatitu ez-aktibora"
+msgstr "Eraman beste ikuspegira"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Eraman ikuspegi zatitu ez-aktibora…"
+msgstr "Eraman beste ikuspegira…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -416,12 +408,10 @@ msgid "Move to Inactive Split View"
 msgstr "Eraman ikuspegi zatitu ez-aktibora"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Iragazi"
+msgstr "Iragazi..."
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -456,10 +446,9 @@ msgid "Filter"
 msgstr "Iragazi"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Bilatu"
+msgstr "Bilatu..."
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -575,12 +564,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Gordelekua alegiazko direktorioa leiho zatitu batean irekitzen du"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Aurreikuspegia"
+msgstr "Berritu ikuspegia"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -591,6 +578,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Horrek karpeta-ikuspegia berritzen du.</para><para>Karpetaren edukia "
+"aldatu bada, berritzean, karpeta berriz aztertu eta betan dauden karpeta eta "
+"fitxategien ikuspegi eguneratua erakutsiko dizu.</para> <para>Ikuspegia "
+"zatituta badago, fokua duena berrituko du.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1371,25 +1362,19 @@ msgstr[0] "Kokaleku-barra"
 msgstr[1] "Kokaleku-barrak"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&Editatu fitxategi mota..."
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Hautatu bat datozen elementuak..."
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Desautatu bat datozen elementuak..."
@@ -1425,9 +1410,7 @@ msgid "Autostart"
 msgstr "Abio automatikoa"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Bilatu fitxategia..."
@@ -1634,25 +1617,19 @@ msgid "Search for %1"
 msgstr "Bilatu %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Karpeta kargatzen..."
+msgstr "Karpeta zamatzen..."
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordena:"
+msgstr "Sailkatzen..."
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Bilatzen..."
@@ -1697,11 +1674,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Mantendu iragazkia karpeta aldatzean"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Iragazi"
+msgstr "Iragazi..."
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2505,12 +2480,10 @@ msgid "Copy"
 msgstr "Kopiatu"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Aldatu izena..."
+msgstr "Berrizendatu..."
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2562,11 +2535,9 @@ msgstr "Automatikoki jo media fitxategiak"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Erakutsi iragazki-barra"
+msgstr "Erakutsi elementua gainetik igarotzean"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2587,20 +2558,16 @@ msgid "Auto-Play media files"
 msgstr "Automatikoki jo media fitxategiak"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Erakutsi iragazki-barra"
+msgstr "Erakutsi elementua gainetik igarotzean"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Konfiguratu"
+msgstr "Konfiguratu..."
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3160,19 +3127,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Hautatu zerbitzuak testuinguruko menuan erakusteko:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Bilatu"
+msgstr "Bilatu…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Deskargatu zerbitzu berriak..."
+msgstr "Zama-jaitsi zerbitzu berriak..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -3327,17 +3291,15 @@ msgstr "Erakutsi «Ireki terminala» testuinguru-menuan."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Erakutsi «Kopiatu kokalekua» testuinguru-menuan."
+msgstr "Erakutsi 'Kopiatu zatitutako beste ikuspegira' testuinguru-menuan."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Erakutsi «Sailkatu honen arabera» testuinguru-menuan."
+msgstr "Erakutsi 'Eraman zatitutako beste ikuspegira' testuinguru-menuan."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -4283,20 +4245,16 @@ msgid "Custom Font"
 msgstr "Letra-tipo pertsonalizatua"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Aukeratu..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Edukia"
+msgstr "Edukia azaltzea"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4889,8 +4847,7 @@ msgid "The location '%1' is invalid."
 msgstr "'%1' kokalekua baliogabea da."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Zamatzen..."
 
@@ -4960,9 +4917,7 @@ msgid "Folder is empty"
 msgstr "Karpetak hutsik dago"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Sortu karpeta..."
@@ -5244,12 +5199,10 @@ msgstr ""
 "horregatik daude ezkutuan.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Doitu ikuspegiaren azaltze estiloa..."
+msgstr "Doitu ikuspegia azaltzeko estiloa..."
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5385,9 +5338,7 @@ msgstr[0] "Hautatutako elementu baterako ekintzak"
 msgstr[1] "Hautatutako %1 elementuetarako ekintzak"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Bertsioaren informazioa eguneratzen..."
