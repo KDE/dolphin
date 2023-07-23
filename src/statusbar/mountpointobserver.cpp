@@ -29,14 +29,16 @@ void MountPointObserver::update()
         delete this;
     } else {
         KIO::FileSystemFreeSpaceJob *job = KIO::fileSystemFreeSpace(m_url);
-        connect(job, &KIO::FileSystemFreeSpaceJob::result, this, &MountPointObserver::freeSpaceResult);
+        connect(job, &KJob::result, this, &MountPointObserver::freeSpaceResult);
     }
 }
 
-void MountPointObserver::freeSpaceResult(KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available)
+void MountPointObserver::freeSpaceResult(KJob *job)
 {
-    if (!job->error()) {
-        Q_EMIT spaceInfoChanged(size, available);
+    const auto fsjob = qobject_cast<KIO::FileSystemFreeSpaceJob*>(job);
+    Q_ASSERT(fsjob);
+    if (!fsjob->error()) {
+        Q_EMIT spaceInfoChanged(fsjob->size(), fsjob->availableSize());
     } else {
         Q_EMIT spaceInfoChanged(0, 0);
     }
