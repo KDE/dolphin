@@ -34,5 +34,6 @@ Dependencies:
   'require':
     'frameworks/baloo': '@latest-kf6'
     'libraries/baloo-widgets': '@latest-kf6'
+    'network/kio-extras': '@latest-kf6'
     'third-party/packagekit-qt': '@latest'
 
