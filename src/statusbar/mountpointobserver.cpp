@@ -33,10 +33,11 @@ void MountPointObserver::update()
     }
 }
 
-void MountPointObserver::freeSpaceResult(KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available)
+void MountPointObserver::freeSpaceResult(KJob *job)
 {
     if (!job->error()) {
-        Q_EMIT spaceInfoChanged(size, available);
+        KIO::FileSystemFreeSpaceJob *freeSpaceJob = static_cast<KIO::FileSystemFreeSpaceJob *>(job);
+        Q_EMIT spaceInfoChanged(freeSpaceJob->size(), freeSpaceJob->availableSize());
     } else {
         Q_EMIT spaceInfoChanged(0, 0);
     }

@@ -87,7 +87,7 @@ public Q_SLOTS:
     void update();
 
 private Q_SLOTS:
-    void freeSpaceResult(KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available);
+    void freeSpaceResult(KJob *job);
 
 private:
     const QUrl m_url;
