@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-05-02 14:50+0300\n"
+"PO-Revision-Date: 2023-07-24 21:44+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2013-01-13 20:43:20+0000\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -421,12 +421,10 @@ msgid "Move to Inactive Split View"
 msgstr "Siirrä passiiviseen jakonäkymään"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Suodatin"
+msgstr "Suodata…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -460,10 +458,9 @@ msgid "Filter"
 msgstr "Suodatin"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Etsi"
+msgstr "Etsi…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -580,12 +577,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Avaa kätkön virtuaalikansion jaettuun ikkunaan"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Esikatselu"
+msgstr "Virkistä näkymä"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -596,6 +591,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Tämä virkistää kansionäkymän.</para><para>Jos kansion sisältö on "
+"muuttunut, virkistäminen tutkii kansion uudelleen, jolloin tiedostojen ja "
+"kansioiden näkymä päivittyy.</para><para>Jaetussa näkymässä tämä virkistää "
+"paraikaa kohdistettuna olevan osan.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1365,25 +1364,19 @@ msgstr[0] "Sijaintirivi"
 msgstr[1] "Sijaintirivit"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Muokkaa tiedostotyyppiä…"
+msgstr "Muokkaa tiedostot&yyppiä…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Valitse täsmäävät kohteet…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Poista valinta täsmääviltä kohteilta…"
@@ -1419,9 +1412,7 @@ msgid "Autostart"
 msgstr "Automaattikäynnistys"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Etsi tiedosto…"
@@ -1626,25 +1617,19 @@ msgid "Search for %1"
 msgstr "Etsi ”%1”"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Ladataan kansion sisältöä…"
+msgstr "Ladataan kansiota…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Lajittelu:"
+msgstr "Lajitellaan…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Etsitään…"
@@ -1690,11 +1675,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Säilytä suodatin vaihdettaessa kansioita"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Suodatin"
+msgstr "Suodata…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2500,9 +2483,7 @@ msgid "Copy"
 msgstr "Kopioi"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "Muuta nimeä…"
@@ -2586,12 +2567,10 @@ msgid "Show item on hover"
 msgstr "Näytä kohde leijuttaessa yllä"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Asetukset"
+msgstr "Asetukset…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3147,16 +3126,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Valitse kontekstivalikossa näytettävät palvelut:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Etsi"
+msgstr "Etsi…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Lataa uusia palveluja…"
@@ -4276,20 +4252,16 @@ msgid "Custom Font"
 msgstr "Muokattu fontti"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Valitse…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Sisällöstä"
+msgstr "Sisältönäkymä"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4877,8 +4849,7 @@ msgid "The location '%1' is invalid."
 msgstr "Sijainti ”%1” on virheellinen."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Ladataan…"
 
@@ -4948,9 +4919,7 @@ msgid "Folder is empty"
 msgstr "Kansio on tyhjä"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Luo kansio…"
@@ -5228,12 +5197,10 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Muokkaa näkymätyyliasetuksia…"
+msgstr "Säädä näkymän tyyliä…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5367,9 +5334,7 @@ msgstr[0] "Toiminnot yhdelle valitulle kohteelle"
 msgstr[1] "Toiminnot %1 valitulle kohteelle"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Päivitetään versiotietoja…"
