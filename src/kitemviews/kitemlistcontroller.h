@@ -355,7 +355,7 @@ private:
     KItemListSelectionManager *m_selectionManager;
     KItemListKeyboardSearchManager *m_keyboardManager;
     std::optional<int> m_pressedIndex;
-    QPointF m_pressedMousePos;
+    QPointF m_pressedMouseGlobalPos;
 
     QTimer *m_autoActivationTimer;
 
