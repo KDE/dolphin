@@ -13,25 +13,26 @@
 # Antonis Geralis <capoiosct@gmail.com>, 2011.
 # Stelios <sstavra@gmail.com>, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2016.
+# George Stefanakis <george.stefanakis@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2022-12-29 13:25+0200\n"
-"Last-Translator: Stelios <sstavra@gmail.com>\n"
-"Language-Team: Greek <kde-i18n-el@kde.org>\n"
+"PO-Revision-Date: 2023-07-26 23:23+0300\n"
+"Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Σπύρος Γεωργαράς, Τούσης Μανώλης, Πέτρος Βιδάλης"
+msgstr "Σπύρος Γεωργαράς, Τούσης Μανώλης, Πέτρος Βιδάλης, Γιώργος Στεφανάκης"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -360,20 +361,16 @@ msgstr ""
 "την <emphasis>Αποκοπή</emphasis> μετακινούνται από την παλιά τους θέση."
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
+msgstr "Αντιγραφή σε Άλλη Προβολή"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή…"
+msgstr "Αντιγραφή σε Άλλη Προβολή…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -392,20 +389,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
+msgstr "Μετακίνηση σε Άλλη Προβολή"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή…"
+msgstr "Μετακίνηση σε Άλλη Προβολή…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -424,12 +417,10 @@ msgid "Move to Inactive Split View"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Φιλτράρισμα"
+msgstr "Φίλτρο…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -464,10 +455,9 @@ msgid "Filter"
 msgstr "Φιλτράρισμα"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Αναζήτηση"
+msgstr "Αναζήτηση…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -584,12 +574,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Ανοίγει τον εικονικό κατάλογο εκκρεμοτήτων σε χωριστό παράθυρο"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Προεπισκόπηση"
+msgstr "Ανανέωση προβολής"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -600,6 +588,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Αυτό ανανεώνει την προβολή του φακέλου.</para><para>Αν τα περιεχόμενα "
+"αυτού του φακέλου έχουν αλλάξει, η ανανέωση θα σαρώσει εκ νέου αυτόν το "
+"φάκελο και θα σας εμφανίσει μια νέα ενημερωμένη προβολή των αρχείων και των "
+"φακέλων που περιέχονται εδώ.</para><para>Αν η προβολή είναι διαιρεμένη, αυτό "
+"ανανεώνει την προβολή που βρίσκεται εκείνη τη στιγμή στο επίκεντρο.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1390,25 +1383,19 @@ msgstr[0] "Γραμμή τοποθεσίας"
 msgstr[1] "Γραμμές τοποθεσίας"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Επεξεργασία τύπου αρχείου..."
+msgstr "&Επεξεργασία τύπου αρχείου…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Επιλογή αντικειμένων που ταιριάζουν..."
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Αποεπιλογή αντικειμένων που ταιριάζουν..."
@@ -1444,12 +1431,10 @@ msgid "Autostart"
 msgstr "Αυτόματη εκκίνηση"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Αναζήτηση αρχείου..."
+msgstr "Εύρεση Αρχείου..."
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1555,12 +1540,10 @@ msgstr "Κλείσιμο καρτέλας"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:497
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1568,7 +1551,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "%1 | (%2)"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1657,28 +1640,22 @@ msgid "Search for %1"
 msgstr "Αναζήτηση για %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Φόρτωση φακέλου..."
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ταξινόμηση:"
+msgstr "Ταξινόμηση…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Γίνεται αναζήτηση..."
+msgstr "Αναζήτηση…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1721,11 +1698,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Διατήρηση του φίλτρου κατά την αλλαγή φακέλων"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Φιλτράρισμα"
+msgstr "Φίλτρο…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2096,7 +2071,7 @@ msgstr "Τροποποιήθηκε"
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Η μορφή ημερομηνίας μπορεί να επιλεγεί στις ρυθμίσεις."
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
@@ -2148,15 +2123,12 @@ msgstr "Συγγραφέας"
 #: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Εκδότης"
 
 #: kitemviews/kfileitemmodel.cpp:2739
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Καταμέτρηση γραμμών"
+msgstr "Αριθμός σελίδων"
 
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
@@ -2302,6 +2274,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Η μορφή των δικαιωμάτων μπορεί να αλλάξει στις ρυθμίσεις. Οι επιλογές είναι "
+"Συμβολικές, Αριθμητική (οκταδική) ή συνδυασμένη μορφή."
 
 #: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
@@ -2532,12 +2506,10 @@ msgid "Copy"
 msgstr "Αντιγραφή"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Μετονομασία..."
+msgstr "Μετονομασία…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2589,11 +2561,9 @@ msgstr "Αρχεία πολυμέσων αυτόματης αναπαραγωγ�
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Εμφάνιση γραμμής φίλτρων"
+msgstr "Εμφάνιση αντικειμένου στην αιώρηση"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2614,20 +2584,16 @@ msgid "Auto-Play media files"
 msgstr "Αρχεία πολυμέσων αυτόματης αναπαραγωγής"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Εμφάνιση γραμμής φίλτρων"
+msgstr "Εμφάνιση αντικειμένου στην αιώρηση"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Διαμόρφωση"
+msgstr "Διαμόρφωση…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3188,16 +3154,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Επιλέξτε ποιες υπηρεσίες θα εμφανίζονται στο σχετικό μενού:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Αναζήτηση"
+msgstr "Αναζήτηση…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Λήψη νέων υπηρεσιών..."
@@ -3295,11 +3258,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Δικαιώματα"
+msgstr "Μορφή στυλ δικαιωμάτων"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3360,17 +3321,17 @@ msgstr "Να εμφανίζεται το 'Άνοιγμα τερματικού' �
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Να εμφανίζεται η 'Αντιγραφή τοποθεσίας' στο σχετικό μενού."
+msgstr ""
+"Προβολή 'Αντιγραφή σε άλλη διαχωρισμένη προβολή' στο μενού περιεχομένων."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Να εμφανίζεται η 'Ταξινόμηση με' στο σχετικό μενού."
+msgstr ""
+"Προβολή 'Μετακίνηση σε άλλη διαχωρισμένη προβολή' στο μενού περιεχομένων."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3895,20 +3856,16 @@ msgid "Sorting mode: "
 msgstr "Τρόπος ταξινόμησης: "
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Εναλλαγή μεταξύ πινάκων διαιρεμένης προβολής με το πλήκτρο tab"
+msgstr "Εναλλαγή μεταξύ των παραθύρων με το πλήκτρο Tab"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Διαίρεση προβολής"
+msgstr "Διαχωρισμένη προβολή: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4288,27 +4245,25 @@ msgstr "Στιλ ημερομηνίας:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Συμβολική (π.χ. 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Αριθμητική (Οκταδική) (π.χ. '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Συνδυασμένη (π.χ. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:76
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Άδειες:"
+msgstr "Μορφή δικαιωμάτων:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4323,20 +4278,16 @@ msgid "Custom Font"
 msgstr "Προσαρμοσμένη"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Επιλογή..."
+msgstr "Επιλογή…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Περιεχόμενο"
+msgstr "Εμφάνιση περιεχομένων"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4931,10 +4882,9 @@ msgid "The location '%1' is invalid."
 msgstr "Η τοποθεσία «%1» δεν είναι έγκυρη."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "Φόρτωση..."
+msgstr "Φόρτωση…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -5002,12 +4952,10 @@ msgid "Folder is empty"
 msgstr "Ο φάκελος είναι άδειος"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Δημιουργία φακέλου..."
+msgstr "Δημιουργία φακέλου…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5287,12 +5235,10 @@ msgstr ""
 "είναι και κρυφά.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Προσαρμογή στιλ εμφάνισης προβολής..."
+msgstr "Ρυθμίστε το στυλ προβολής..."
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5428,9 +5374,7 @@ msgstr[0] "Ενέργειες για ένα επιλεγμένο αντικεί�
 msgstr[1] "Ενέργειες για %1 επιλεγμένα αντικείμενα"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ενημέρωση πληροφοριών έκδοσης..."

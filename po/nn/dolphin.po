@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-07-17 19:02+0200\n"
+"PO-Revision-Date: 2023-07-27 21:20+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -3216,13 +3216,13 @@ msgstr "Vis «Opna terminal» i kontekstmenyen."
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr ""
+msgstr "Vis «Kopier til anna delt vising» i kontekstmenyen."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr ""
+msgstr "Vis «Flytt til anna delt vising» i kontekstmenyen."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
