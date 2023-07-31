@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the kdebase package.
 #
 # Stefan Asserhäll <stefan.asserhall@bredband.net>, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2022-09-25 20:03+0200\n"
+"PO-Revision-Date: 2023-07-25 13:10+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -350,20 +350,16 @@ msgstr ""
 "alternativet <emphasis>Klipp ut</emphasis> tas de bort från sin gamla plats."
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Kopiera till inaktiv delad vy"
+msgstr "Kopiera till andra vyn"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Kopiera till inaktiv delad vy…"
+msgstr "Kopiera till andra vyn…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -382,20 +378,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopiera till inaktiv delad vy"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Flytta till inaktiv delad vy"
+msgstr "Flytta till andra vyn"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Flytta till inaktiv delad vy…"
+msgstr "Flytta till andra vyn…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -414,12 +406,10 @@ msgid "Move to Inactive Split View"
 msgstr "Flytta till inaktiv delad vy"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filter"
+msgstr "Filter…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -453,10 +443,9 @@ msgid "Filter"
 msgstr "Filter"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Sök"
+msgstr "Sök..."
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -571,12 +560,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Öppnar den virtuella gömställeskatalogen i ett delat fönster"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Granska"
+msgstr "Uppdatera vy"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -587,6 +574,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Uppdaterar katalogvyn.</para><para>Om innehållet i katalogen har "
+"ändrats, söks katalogen igenom igen om den uppdateras och visar dig en ny "
+"uppdaterad vy av filerna och katalogerna som finns där.</para><para>Om vyn "
+"delas, uppdaterar det den som för närvarande har fokus.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1359,28 +1350,22 @@ msgstr[0] "Platsrad"
 msgstr[1] "Platsrader"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Redigera filtyp..."
+msgstr "&Redigera filtyp…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Markera matchande objekt..."
+msgstr "Markera matchande objekt…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Avmarkera matchande objekt..."
+msgstr "Avmarkera matchande objekt…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1413,12 +1398,10 @@ msgid "Autostart"
 msgstr "Autostart"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Sök fil..."
+msgstr "Sök fil…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1524,12 +1507,10 @@ msgstr "Stäng flik"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:497
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1537,7 +1518,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1623,28 +1604,22 @@ msgid "Search for %1"
 msgstr "Sök efter %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Läser in katalog..."
+msgstr "Läser in katalog…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Sortering:"
+msgstr "Sorterar…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Söker..."
+msgstr "Söker…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1676,6 +1651,7 @@ msgstr "Felaktigt protokoll"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Nuvarande plats ändrades, <filename>%1</filename> är inte längre tillgänglig."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -1684,11 +1660,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Behåll filter vid katalogbyte"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filter"
+msgstr "Filter…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2059,7 +2033,7 @@ msgstr "Ändrad"
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Datumformat kan väljas i inställningarna."
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
@@ -2111,15 +2085,12 @@ msgstr "Upphovsman"
 #: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Förläggare"
 
 #: kitemviews/kfileitemmodel.cpp:2739
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Radantal"
+msgstr "Sidantal"
 
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
@@ -2265,6 +2236,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Rättighetsformatet kan ändras i inställningarna. Alternativen är Symboliskt, "
+"Numeriskt (oktalt) eller Kombinerat format."
 
 #: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
@@ -2451,12 +2424,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin öppnas explicit i ett nytt fönster."
 
 #: main.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Starta Dolphin-demon (krävs bara för D-Bus gränssnittet)"
+msgstr "Starta Dolphin-demon (krävs bara för D-Bus gränssnittet)."
 
 #: main.cpp:143
 #, kde-format
@@ -2495,12 +2466,10 @@ msgid "Copy"
 msgstr "Kopiera"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Byt namn..."
+msgstr "Byt namn…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2552,11 +2521,9 @@ msgstr "Spela mediafiler automatiskt"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Visa filterrad"
+msgstr "Visa objekt när muspekaren hålls över det"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2577,20 +2544,16 @@ msgid "Auto-Play media files"
 msgstr "Spela mediafiler automatiskt"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Visa filterrad"
+msgstr "Visa objekt när muspekaren hålls över det"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Anpassa"
+msgstr "Anpassa…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3151,19 +3114,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Välj vilka tjänster som ska visas i den sammanhangsberoende menyn:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Sök"
+msgstr "Sök..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Ladda ner nya tjänster..."
+msgstr "Ladda ner nya tjänster…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:217
 #, kde-format
@@ -3255,11 +3215,9 @@ msgstr "Om sant använd korta relativa datum, annars korta datum"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Skydd"
+msgstr "Rättighetsstilformat"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3321,17 +3279,15 @@ msgstr "Visa 'Öppna terminal' i den sammanhangsberoende menyn."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Visa 'Kopiera plats' i den sammanhangsberoende menyn."
+msgstr "Visa 'Kopiera till andra delade vyn' i den sammanhangsberoende menyn."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Visa 'Sortera enligt' i den sammanhangsberoende menyn."
+msgstr "Visa 'Flytta till andra delade vyn' i den sammanhangsberoende menyn."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3349,7 +3305,7 @@ msgstr "Sidovaddering"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Markera hela raden"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3852,20 +3808,16 @@ msgid "Sorting mode: "
 msgstr "Sorteringsmetod:"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Byt mellan delade visningsrutor med tabulatortangent"
+msgstr "Byt mellan rutor med tabulatortangenten"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Delad visning"
+msgstr "Delad visning: "
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4242,27 +4194,25 @@ msgstr "Datumstil:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Symbolisk (t.ex. 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numeriskt (oktalt) (t.ex. '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinerat (t.ex. 'drwxr-xr-x' (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:76
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Skydd:"
+msgstr "Rättighetsstil:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4277,20 +4227,16 @@ msgid "Custom Font"
 msgstr "Eget teckensnitt"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Välj..."
+msgstr "Välj…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Innehåll"
+msgstr "Innehållsvisning"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4428,22 +4374,20 @@ msgstr "Kataloger:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Genom att klicka var som helst på raden"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Genom att klicka på ikon eller namn"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Sök efter filer och kataloger"
+msgstr "Öppna filer och kataloger:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:321
@@ -4885,10 +4829,9 @@ msgid "The location '%1' is invalid."
 msgstr "Platsen '%1' är inte giltig."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "Läser in..."
+msgstr "Läser in…"
 
 #: views/dolphinview.cpp:2365
 #, kde-format
@@ -4941,10 +4884,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Inga MTP-kompatibla enheter hittades"
 
 #: views/dolphinview.cpp:2389
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Inga Blåtandsenheter hittades"
+msgstr "Inga Apple-enheter hittades"
 
 #: views/dolphinview.cpp:2391
 #, kde-format
@@ -4957,12 +4899,10 @@ msgid "Folder is empty"
 msgstr "Katalogen är tom"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Skapa katalog..."
+msgstr "Skapa katalog…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5237,12 +5177,10 @@ msgstr ""
 "att de är dolda.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Justera visningsstil..."
+msgstr "Justera visningsstil…"
 
 #: views/dolphinviewactionhandler.cpp:333
 #, kde-format
@@ -5377,12 +5315,10 @@ msgstr[0] "Åtgärder för ett markerat objekt"
 msgstr[1] "Åtgärder för %1 markerade objekt"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Uppdaterar versionsinformation..."
+msgstr "Uppdaterar versionsinformation…"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."
