@@ -1095,13 +1095,15 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent *event, const QTrans
         }
         const QPointF pressedMousePos = transform.map(event->mapToGraphicsScene(tap->position()));
         m_pressedIndex = m_view->itemAt(pressedMousePos);
-        if (m_pressedIndex.has_value() && !m_selectionManager->isSelected(m_pressedIndex.value())) {
-            m_selectionManager->clearSelection();
-            m_selectionManager->setSelected(m_pressedIndex.value());
+        if (m_pressedIndex.has_value()) {
+            if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
+                m_selectionManager->clearSelection();
+                m_selectionManager->setSelected(m_pressedIndex.value());
+            }
             if (!m_selectionMode) {
                 Q_EMIT selectionModeChangeRequested(true);
             }
-        } else if (!m_pressedIndex.has_value()) {
+        } else {
             m_selectionManager->clearSelection();
             startRubberBand();
         }
