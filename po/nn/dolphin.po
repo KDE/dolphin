@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-07-27 21:20+0200\n"
+"PO-Revision-Date: 2023-08-01 21:31+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -507,12 +507,17 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>I dette programmet kan du gjera handlingar på alle filer og mapper som "
+"er <emphasis>merkte</emphasis>. Trykk her slå på/av <emphasis>merkjemodus</"
+"emphasis>, som lèt deg merkja eller fjerna merking ved å trykkja på filene/"
+"mappene.</para><para>I denne modusen vert det vist ei verktøylinje med "
+"tilgjengelege handlingar ved botnen av vindauget.</para>>"
 
 #: dolphinmainwindow.cpp:1730
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
-msgstr "Merkjer alle filer og mapper i gjeldande mappe."
+msgstr "Merkjer alle filene og mappene i gjeldande mappe."
 
 #: dolphinmainwindow.cpp:1734 dolphinpart.cpp:168
 #, kde-format
@@ -527,7 +532,7 @@ msgid ""
 "This selects all objects that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
-"Merkjer i staden alle element som no <emphasis>ikkje</emphasis> er merkte."
+"Merkjer i staden alle elementa som no <emphasis>ikkje</emphasis> er merkte."
 
 #: dolphinmainwindow.cpp:1752
 #, kde-kuit-format
