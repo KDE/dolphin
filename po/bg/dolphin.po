@@ -5347,29 +5347,3 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "Филтър..."
-
-#~ msgid "Search..."
-#~ msgstr "Търсене..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "Подреждане..."
-
-#~ msgid "Filter..."
-#~ msgstr "Филтър..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "Конфигуриране..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "Търсене ..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "Не може да се осъществи достъп до <filename>%1</filename>."
