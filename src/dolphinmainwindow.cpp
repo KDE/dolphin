@@ -818,10 +818,11 @@ void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 {
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
-    m_backAction->menu()->clear();
+    QMenu *menu = m_backAction->popupMenu();
+    menu->clear();
     for (int i = urlNavigator->historyIndex() + 1; i < urlNavigator->historySize() && entries < MaxNumberOfNavigationentries; ++i, ++entries) {
-        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, m_backAction->menu());
-        m_backAction->menu()->addAction(action);
+        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, menu);
+        menu->addAction(action);
     }
 }
 
@@ -846,10 +847,10 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
 {
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
-    m_forwardAction->menu()->clear();
+    QMenu *menu = m_forwardAction->popupMenu();
     for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
-        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, m_forwardAction->menu());
-        m_forwardAction->menu()->addAction(action);
+        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, menu);
+        menu->addAction(action);
     }
 }
 
@@ -1712,7 +1713,7 @@ void DolphinMainWindow::setupActions()
     toggleSelectionModeToolBarAction->setWhatsThis(toggleSelectionModeAction->whatsThis());
     actionCollection()->addAction(QStringLiteral("toggle_selection_mode_tool_bar"), toggleSelectionModeToolBarAction);
     toggleSelectionModeToolBarAction->setCheckable(true);
-    toggleSelectionModeToolBarAction->setPopupMode(QToolButton::DelayedPopup);
+    toggleSelectionModeToolBarAction->setPopupMode(KToolBarPopupAction::DelayedPopup);
     connect(toggleSelectionModeToolBarAction, &QAction::triggered, toggleSelectionModeAction, &QAction::trigger);
     connect(toggleSelectionModeAction, &QAction::toggled, toggleSelectionModeToolBarAction, &QAction::setChecked);
 
@@ -1801,10 +1802,10 @@ void DolphinMainWindow::setupActions()
         m_backAction->setObjectName(backAction->objectName());
         m_backAction->setShortcuts(backAction->shortcuts());
     }
-    m_backAction->setPopupMode(QToolButton::DelayedPopup);
+    m_backAction->setPopupMode(KToolBarPopupAction::DelayedPopup);
     connect(m_backAction, &QAction::triggered, this, &DolphinMainWindow::goBack);
-    connect(m_backAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowBackPopupMenu);
-    connect(m_backAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoBack);
+    connect(m_backAction->popupMenu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowBackPopupMenu);
+    connect(m_backAction->popupMenu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoBack);
     actionCollection()->addAction(m_backAction->objectName(), m_backAction);
 
     auto backShortcuts = m_backAction->shortcuts();
@@ -1842,18 +1843,18 @@ void DolphinMainWindow::setupActions()
         m_forwardAction->setObjectName(forwardAction->objectName());
         m_forwardAction->setShortcuts(forwardAction->shortcuts());
     }
-    m_forwardAction->setPopupMode(QToolButton::DelayedPopup);
+    m_forwardAction->setPopupMode(KToolBarPopupAction::DelayedPopup);
     connect(m_forwardAction, &QAction::triggered, this, &DolphinMainWindow::goForward);
-    connect(m_forwardAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowForwardPopupMenu);
-    connect(m_forwardAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoForward);
+    connect(m_forwardAction->popupMenu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowForwardPopupMenu);
+    connect(m_forwardAction->popupMenu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoForward);
     actionCollection()->addAction(m_forwardAction->objectName(), m_forwardAction);
     actionCollection()->setDefaultShortcuts(m_forwardAction, m_forwardAction->shortcuts());
 
     // enable middle-click to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotBackForwardActionMiddleClicked);
-    m_backAction->menu()->installEventFilter(middleClickEventFilter);
-    m_forwardAction->menu()->installEventFilter(middleClickEventFilter);
+    m_backAction->popupMenu()->installEventFilter(middleClickEventFilter);
+    m_forwardAction->popupMenu()->installEventFilter(middleClickEventFilter);
     KStandardAction::up(this, &DolphinMainWindow::goUp, actionCollection());
     QAction *homeAction = KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
     homeAction->setWhatsThis(xi18nc("@info:whatsthis",
