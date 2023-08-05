@@ -434,6 +434,7 @@ target_link_libraries(dolphinstatic
     KF6::KCMUtils
     KF6::DBusAddons
     KF6::Notifications
+    KF6::BookmarksWidgets
     Phonon::phonon4qt${QT_MAJOR_VERSION}
 )
 
