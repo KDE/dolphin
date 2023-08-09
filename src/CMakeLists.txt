@@ -213,6 +213,8 @@ target_link_libraries(
     KF6::KCMUtils
 
     KF6::MoreTools
+
+    ${FTS_LIB}
 )
 
 if(HAVE_BALOO)

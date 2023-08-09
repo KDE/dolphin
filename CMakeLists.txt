@@ -27,6 +27,8 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
+include(CheckIncludeFiles)
+include(CheckLibraryExists)
 
 ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHIN
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
@@ -148,6 +150,21 @@ if(WIN32)
     set(HAVE_TERMINAL FALSE)
 else()
     set(HAVE_TERMINAL TRUE)
+endif()
+
+# Compatibility with platforms without native fts (e.g. musl)
+check_include_files("sys/types.h;sys/stat.h;fts.h" HAVE_FTS_H)
+if(HAVE_FTS_H)
+    check_function_exists(fts_open HAVE_FTS_OPEN)
+    if(NOT HAVE_FTS_OPEN)
+        check_library_exists(fts fts_open "" HAVE_LIB_FTS)
+    endif()
+endif()
+
+if(HAVE_LIB_FTS)
+    set(FTS_LIB fts)
+else()
+    set(FTS_LIB "")
 endif()
 
 add_subdirectory(src)
