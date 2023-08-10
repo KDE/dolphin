@@ -629,7 +629,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent *event)
             QStringList(),
             i18n("Do not ask again"),
             &doNotAskAgainCheckboxResult,
-            KMessageBox::Dangerous);
+            KMessageBox::Notify | KMessageBox::Dangerous);
 
         if (doNotAskAgainCheckboxResult) {
             GeneralSettings::setConfirmClosingTerminalRunningProgram(false);
