@@ -1915,7 +1915,7 @@ context menu Icon Size? No different entries ?-->
 
 <sect2 id="preferences-user-feedback">
 <title
->Корзина</title>
+>Обратная связь</title>
 
 <para
 >В этом разделе собраны параметры, которые позволяют настроить отправку информации об использовании &dolphin; разработчикам программы. <screenshot>

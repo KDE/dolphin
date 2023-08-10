@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-04-03 16:10+0300\n"
+"POT-Creation-Date: 2023-08-04 00:48+0000\n"
+"PO-Revision-Date: 2023-08-09 16:26+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -368,20 +368,16 @@ msgstr ""
 "удалены из исходной папки."
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Копировать в неактивную панель"
+msgstr "Копировать в другую панель"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Копировать в неактивную панель…"
+msgstr "Копировать в другую панель…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -400,20 +396,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Копировать в неактивную панель"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Переместить в неактивную панель"
+msgstr "Переместить в другую панель"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Переместить в неактивную панель…"
+msgstr "Переместить в другую панель…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -432,12 +424,10 @@ msgid "Move to Inactive Split View"
 msgstr "Переместить в неактивную панель"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Фильтр"
+msgstr "Фильтр…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -471,10 +461,9 @@ msgid "Filter"
 msgstr "Фильтр"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Поиск"
+msgstr "Поиск…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -592,12 +581,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Открывает временную панель"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Миниатюра"
+msgstr "Обновить вид"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -608,6 +595,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Это действие обновляет содержимое панели.</para> <para>Если содержимое "
+"папки было изменено, после обновления будет показано её актуальное состояние."
+"</para> <para>При использовании двух-панельного режима просмотра будет "
+"обновлена только активная панель.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1400,25 +1391,19 @@ msgstr[2] "Строки адреса"
 msgstr[3] "Строка адреса"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&Изменить тип файла…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Выделить по маске…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Снять выделение по маске…"
@@ -1454,9 +1439,7 @@ msgid "Autostart"
 msgstr "Автозапуск"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Найти файл…"
@@ -1664,28 +1647,22 @@ msgid "Search for %1"
 msgstr "Поиск %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Открытие папки…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Сортировка:"
+msgstr "Сортировка…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Идёт поиск…"
+msgstr "Выполняется поиск…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1731,11 +1708,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Сохранять фильтр при смене папок"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Фильтр"
+msgstr "Фильтр…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2587,9 +2562,7 @@ msgid "Copy"
 msgstr "Копировать"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "Переименовать…"
@@ -2645,11 +2618,9 @@ msgstr "Проигрывать медиафайлы"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Открыть панель фильтра"
+msgstr "Показывать при наведении"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2670,20 +2641,16 @@ msgid "Auto-Play media files"
 msgstr "Проигрывать медиафайлы"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Открыть панель фильтра"
+msgstr "Показывать при наведении"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Настройка"
+msgstr "Настроить…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3264,16 +3231,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Действия, включаемые в контекстные меню файлов и папок:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Поиск"
+msgstr "Поиск…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Загрузить новые действия…"
@@ -3432,17 +3396,15 @@ msgstr "Включить пункт «Открыть терминал» в ко�
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Включить пункт «Копировать расположение» в контекстное меню"
+msgstr "Включить пункт «Копировать в другую панель» в контекстное меню"
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Включить пункт «Сортировка» в контекстное меню"
+msgstr "Включить пункт «Переместить в другую панель» в контекстное меню"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -4382,17 +4344,13 @@ msgid "Custom Font"
 msgstr "Другой шрифт"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Выбрать…"
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
 msgstr "Содержимое"
@@ -4840,7 +4798,7 @@ msgstr "По умолчанию"
 msgid "Reload"
 msgstr "Обновить"
 
-#: views/dolphinview.cpp:641
+#: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4850,7 +4808,7 @@ msgstr[1] "Выбраны %1 папки"
 msgstr[2] "Выбрано %1 папок"
 msgstr[3] "Выбрана %1 папка"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:643
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4860,7 +4818,7 @@ msgstr[1] "Выбраны %1 файла"
 msgstr[2] "Выбрано %1 файлов"
 msgstr[3] "Выбран %1 файл"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:645
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4870,7 +4828,7 @@ msgstr[1] "%1 папки"
 msgstr[2] "%1 папок"
 msgstr[3] "%1 папка"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4880,31 +4838,31 @@ msgstr[1] "%1 файла"
 msgstr[2] "%1 файлов"
 msgstr[3] "%1 файл"
 
-#: views/dolphinview.cpp:649
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1. %2 (%3)"
 
-#: views/dolphinview.cpp:651
+#: views/dolphinview.cpp:652
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 папок, 0 файлов"
 
-#: views/dolphinview.cpp:888 views/dolphinview.cpp:897
+#: views/dolphinview.cpp:889 views/dolphinview.cpp:898
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 (копия)"
 
-#: views/dolphinview.cpp:1082
+#: views/dolphinview.cpp:1083
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4913,7 +4871,7 @@ msgstr[1] "Вы действительно хотите открыть %1 объ
 msgstr[2] "Вы действительно хотите открыть %1 объектов?"
 msgstr[3] "Вы действительно хотите открыть %1 объект?"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1095
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4923,43 +4881,43 @@ msgstr[1] "Открыть %1 объекта"
 msgstr[2] "Открыть %1 объектов"
 msgstr[3] "Открыть объект"
 
-#: views/dolphinview.cpp:1225
+#: views/dolphinview.cpp:1226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Отступ перед столбцом"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1230
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Автоматическая ширина столбцов"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1235
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Выборочная ширина столбцов"
 
-#: views/dolphinview.cpp:1855
+#: views/dolphinview.cpp:1856
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Удаление в корзину выполнено."
 
-#: views/dolphinview.cpp:1865
+#: views/dolphinview.cpp:1866
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Удаление выполнено."
 
-#: views/dolphinview.cpp:2021
+#: views/dolphinview.cpp:2022
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Переименовать и скрыть"
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2031
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4968,7 +4926,7 @@ msgstr ""
 "После добавления точки в начало имени, файл будет скрыт.\n"
 "Продолжить переименование?"
 
-#: views/dolphinview.cpp:2032
+#: views/dolphinview.cpp:2033
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4977,103 +4935,100 @@ msgstr ""
 "После добавления точки в начало имени, папка будет скрыта.\n"
 "Продолжить переименование?"
 
-#: views/dolphinview.cpp:2034
+#: views/dolphinview.cpp:2035
 #, kde-format
 msgid "Hide this File?"
 msgstr "Скрыть файл?"
 
-#: views/dolphinview.cpp:2034
+#: views/dolphinview.cpp:2035
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Скрыть папку?"
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2089
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Путь пуст."
 
-#: views/dolphinview.cpp:2090
+#: views/dolphinview.cpp:2091
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Недопустимый путь «%1»."
 
-#: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#: views/dolphinview.cpp:2347
+#, kde-format
 msgid "Loading…"
 msgstr "Открытие…"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2366
 #, kde-format
 msgid "Loading canceled"
 msgstr "Открытие прервано"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2368
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Не найдено ни одного объекта, соответствующего фильтру."
 
-#: views/dolphinview.cpp:2369
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgid "No items matching the search"
 msgstr "Не найдено ни одного объекта, соответствующего критерию поиска."
 
-#: views/dolphinview.cpp:2371
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "Trash is empty"
 msgstr "В корзине ничего нет."
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No tags"
 msgstr "Нет ни одной метки"
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2378
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Нет ни одного файла с меткой «%1»"
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2382
 #, kde-format
 msgid "No recently used items"
 msgstr "Не найдено ни одного недавно открытого объекта."
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No shared folders found"
 msgstr "Сетевая папка не содержит ни одного файла."
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Не найдено ни одного соответствующего сетевого ресурса."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Не найдено ни одного MTP-совместимого устройства."
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Не найдено ни одного устройства Apple."
 
-#: views/dolphinview.cpp:2391
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Не найдено ни одного устройства Bluetooth."
 
-#: views/dolphinview.cpp:2393
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Folder is empty"
 msgstr "В этой папке ничего нет."
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Создать папку…"
@@ -5354,9 +5309,7 @@ msgstr ""
 "таким объектам.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Настроить режим просмотра…"
@@ -5496,9 +5449,7 @@ msgstr[2] "Действия для %1 выбранных объектов"
 msgstr[3] "Действия для выбранного объекта"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновление информации о версиях…"

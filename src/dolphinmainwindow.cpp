@@ -631,7 +631,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent *event)
             QStringList(),
             i18n("Do not ask again"),
             &doNotAskAgainCheckboxResult,
-            KMessageBox::Dangerous);
+            KMessageBox::Notify | KMessageBox::Dangerous);
 
         if (doNotAskAgainCheckboxResult) {
             GeneralSettings::setConfirmClosingTerminalRunningProgram(false);
@@ -1792,7 +1792,7 @@ void DolphinMainWindow::setupActions()
     replaceLocation->setWhatsThis(xi18nc("@info:whatsthis",
                                          "This switches to editing the location and selects it "
                                          "so you can quickly enter a different location."));
-    actionCollection()->setDefaultShortcut(replaceLocation, Qt::CTRL | Qt::Key_L);
+    actionCollection()->setDefaultShortcuts(replaceLocation, {Qt::CTRL | Qt::Key_L, Qt::ALT | Qt::Key_D});
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
     // setup 'Go' menu

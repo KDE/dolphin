@@ -87,6 +87,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     , m_currentItemUrl()
     , m_scrollToCurrentItem(false)
     , m_restoredContentsPosition()
+    , m_controlWheelAccumulatedDelta(0)
     , m_selectedUrls()
     , m_clearSelectionBeforeSelectingNewItems(false)
     , m_markFirstNewlySelectedItemAsCurrent(false)
@@ -2037,9 +2038,9 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
-            forceUrlsSelection(newUrl, {newUrl});
-
             if (!newNameExistsAlready) {
+                forceUrlsSelection(newUrl, {newUrl});
+
                 // Only connect the result signal if there is no item with the new name
                 // in the model yet, see bug 328262.
                 connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);

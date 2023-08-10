@@ -50,7 +50,7 @@ KItemListController::KItemListController(KItemModelBase *model, KItemListView *v
     , m_selectionManager(new KItemListSelectionManager(this))
     , m_keyboardManager(new KItemListKeyboardSearchManager(this))
     , m_pressedIndex(std::nullopt)
-    , m_pressedMousePos()
+    , m_pressedMouseGlobalPos()
     , m_autoActivationTimer(nullptr)
     , m_swipeGesture(Qt::CustomGesture)
     , m_twoFingerTapGesture(Qt::CustomGesture)
@@ -186,11 +186,13 @@ KItemListController::MouseDoubleClickAction KItemListController::mouseDoubleClic
 
 int KItemListController::indexCloseToMousePressedPosition() const
 {
+    const QPointF pressedMousePos = m_view->transform().map(m_view->scene()->views().first()->mapFromGlobal(m_pressedMouseGlobalPos.toPoint()));
+
     QHashIterator<KItemListWidget *, KItemListGroupHeader *> it(m_view->m_visibleGroups);
     while (it.hasNext()) {
         it.next();
         KItemListGroupHeader *groupHeader = it.value();
-        const QPointF mappedToGroup = groupHeader->mapFromItem(nullptr, m_pressedMousePos);
+        const QPointF mappedToGroup = groupHeader->mapFromItem(nullptr, pressedMousePos);
         if (groupHeader->contains(mappedToGroup)) {
             return it.key()->index();
         }
@@ -580,6 +582,7 @@ bool KItemListController::inputMethodEvent(QInputMethodEvent *event)
 bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform)
 {
     m_mousePress = true;
+    m_pressedMouseGlobalPos = event->screenPos();
 
     if (event->source() == Qt::MouseEventSynthesizedByQt && m_isTouchEvent) {
         return false;
@@ -589,8 +592,8 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent *event, const
         return false;
     }
 
-    m_pressedMousePos = transform.map(event->pos());
-    m_pressedIndex = m_view->itemAt(m_pressedMousePos);
+    const QPointF pressedMousePos = transform.map(event->pos());
+    m_pressedIndex = m_view->itemAt(pressedMousePos);
 
     const Qt::MouseButtons buttons = event->buttons();
 
@@ -616,12 +619,11 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent *event, const 
         return false;
     }
 
-    const QPointF pos = transform.map(event->pos());
-
     if (m_pressedIndex.has_value() && !m_view->rubberBand()->isActive()) {
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
-            if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
+            const auto distance = (event->screenPos() - m_pressedMouseGlobalPos).manhattanLength();
+            if (distance >= QApplication::startDragDistance()) {
                 if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
                     // Always assure that the dragged item gets selected. Usually this is already
                     // done on the mouse-press event, but when using the selection-toggle on a
@@ -1066,13 +1068,12 @@ void KItemListController::tapTriggered(QTapGesture *tap, const QTransform &trans
             m_view->m_tapAndHoldIndicator->setActive(false);
         }
 
-        m_pressedMousePos = transform.map(tap->position());
-        m_pressedIndex = m_view->itemAt(m_pressedMousePos);
-
+        const QPointF pressedMousePos = transform.map(tap->position());
+        m_pressedIndex = m_view->itemAt(pressedMousePos);
         if (m_dragActionOrRightClick) {
             m_dragActionOrRightClick = false;
         } else {
-            onPress(tap->hotSpot().toPoint(), tap->position().toPoint(), Qt::NoModifier, Qt::LeftButton);
+            onPress(m_pressedMouseGlobalPos.toPoint(), tap->position().toPoint(), Qt::NoModifier, Qt::LeftButton);
             onRelease(transform.map(tap->position()), Qt::NoModifier, Qt::LeftButton, true);
         }
         m_isTouchEvent = false;
@@ -1092,23 +1093,24 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent *event, const QTrans
         if (m_pinchGestureInProgress) {
             return;
         }
-        m_pressedMousePos = transform.map(event->mapToGraphicsScene(tap->position()));
-        m_pressedIndex = m_view->itemAt(m_pressedMousePos);
-
-        if (m_pressedIndex.has_value() && !m_selectionManager->isSelected(m_pressedIndex.value())) {
-            m_selectionManager->clearSelection();
-            m_selectionManager->setSelected(m_pressedIndex.value());
+        const QPointF pressedMousePos = transform.map(event->mapToGraphicsScene(tap->position()));
+        m_pressedIndex = m_view->itemAt(pressedMousePos);
+        if (m_pressedIndex.has_value()) {
+            if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
+                m_selectionManager->clearSelection();
+                m_selectionManager->setSelected(m_pressedIndex.value());
+            }
             if (!m_selectionMode) {
                 Q_EMIT selectionModeChangeRequested(true);
             }
-        } else if (!m_pressedIndex.has_value()) {
+        } else {
             m_selectionManager->clearSelection();
             startRubberBand();
         }
 
         Q_EMIT scrollerStop();
 
-        m_view->m_tapAndHoldIndicator->setStartPosition(m_pressedMousePos);
+        m_view->m_tapAndHoldIndicator->setStartPosition(pressedMousePos);
         m_view->m_tapAndHoldIndicator->setActive(true);
 
         m_dragActionOrRightClick = true;
@@ -1183,8 +1185,8 @@ void KItemListController::twoFingerTapTriggered(QGestureEvent *event, const QTra
     }
 
     if (twoTap->state() == Qt::GestureStarted) {
-        m_pressedMousePos = transform.map(twoTap->pos());
-        m_pressedIndex = m_view->itemAt(m_pressedMousePos);
+        const QPointF pressedMousePos = transform.map(twoTap->pos());
+        m_pressedIndex = m_view->itemAt(pressedMousePos);
         if (m_pressedIndex.has_value()) {
             onPress(twoTap->screenPos().toPoint(), twoTap->pos().toPoint(), Qt::ControlModifier, Qt::LeftButton);
             onRelease(transform.map(twoTap->pos()), Qt::ControlModifier, Qt::LeftButton, false);
@@ -1533,14 +1535,16 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
         return true;
     }
 
-    if (m_view->isAboveExpansionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos)) {
+    const QPointF pressedMousePos = m_view->transform().map(pos);
+
+    if (m_view->isAboveExpansionToggle(m_pressedIndex.value_or(-1), pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
         m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
         return true;
     }
 
-    m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos);
+    m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), pressedMousePos);
     if (m_selectionTogglePressed) {
         m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
         // The previous anchored selection has been finished already in
@@ -1606,7 +1610,7 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
         //    clear the selection in mouseReleaseEvent(), unless the items are dragged.
         m_clearSelectionIfItemsAreNotDragged = true;
 
-        if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex.value_or(-1), m_pressedMousePos)) {
+        if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex.value_or(-1), pressedMousePos)) {
             Q_EMIT selectedItemTextPressed(m_pressedIndex.value_or(-1));
         }
     }
@@ -1708,7 +1712,8 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
 
 bool KItemListController::onRelease(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch)
 {
-    const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos);
+    const QPointF pressedMousePos = pos;
+    const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), pressedMousePos);
     if (isAboveSelectionToggle) {
         m_selectionTogglePressed = false;
         return true;
@@ -1792,7 +1797,7 @@ bool KItemListController::onRelease(const QPointF &pos, const Qt::KeyboardModifi
         }
     }
 
-    m_pressedMousePos = QPointF();
+    m_pressedMouseGlobalPos = QPointF();
     m_pressedIndex = std::nullopt;
     m_clearSelectionIfItemsAreNotDragged = false;
     return false;
@@ -1801,7 +1806,7 @@ bool KItemListController::onRelease(const QPointF &pos, const Qt::KeyboardModifi
 void KItemListController::startRubberBand()
 {
     if (m_selectionBehavior == MultiSelection) {
-        QPointF startPos = m_pressedMousePos;
+        QPoint startPos = m_view->transform().map(m_view->scene()->views().first()->mapFromGlobal(m_pressedMouseGlobalPos.toPoint()));
         if (m_view->scrollOrientation() == Qt::Vertical) {
             startPos.ry() += m_view->scrollOffset();
             if (m_view->itemSize().width() < 0) {
