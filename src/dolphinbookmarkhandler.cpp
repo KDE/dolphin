@@ -28,7 +28,7 @@ DolphinBookmarkHandler::DolphinBookmarkHandler(DolphinMainWindow *mainWindow, KA
         QDir().mkpath(bookmarksFile);
         bookmarksFile += QLatin1String("/bookmarks.xml");
     }
-    m_bookmarkManager = KBookmarkManager::managerForFile(bookmarksFile, QStringLiteral("dolphin"));
+    m_bookmarkManager = KBookmarkManager::managerForFile(bookmarksFile);
     m_bookmarkManager->setUpdate(true);
     m_bookmarkMenu.reset(new KBookmarkMenu(m_bookmarkManager, this, menu));
 
