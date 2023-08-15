@@ -50,7 +50,6 @@ static void notifyEmptied()
                          i18n("Trash Emptied"),
                          i18n("The Trash was emptied."),
                          QStringLiteral("user-trash"),
-                         nullptr,
                          KNotification::DefaultEvent);
 }
 
