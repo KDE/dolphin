@@ -1034,12 +1034,9 @@ void KItemListView::updateFont()
 
 void KItemListView::updatePalette()
 {
-    if (scene() && !scene()->views().isEmpty()) {
-        KItemListStyleOption option = styleOption();
-        option.palette = scene()->views().first()->palette();
-
-        setStyleOption(option);
-    }
+    KItemListStyleOption option = styleOption();
+    option.palette = palette();
+    setStyleOption(option);
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList &itemRanges)
