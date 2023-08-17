@@ -7,14 +7,14 @@
 #include "viewsettingspage.h"
 
 #include "contentdisplaytab.h"
+#include "generalviewsettingspage.h"
 #include "viewsettingstab.h"
-
 #include <KLocalizedString>
 
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-ViewSettingsPage::ViewSettingsPage(QWidget *parent)
+ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     : SettingsPageBase(parent)
     , m_tabs()
 {
@@ -22,6 +22,11 @@ ViewSettingsPage::ViewSettingsPage(QWidget *parent)
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     tabWidget = new QTabWidget(this);
+
+    // General View tab
+    GeneralViewSettingsPage *generalViewPage = new GeneralViewSettingsPage(url, tabWidget);
+    tabWidget->addTab(generalViewPage, QIcon::fromTheme(QStringLiteral("description")), i18nc("@title:tab General View settings", "General"));
+    connect(generalViewPage, &GeneralViewSettingsPage::changed, this, &ViewSettingsPage::changed);
 
     // Content Display Tab
     contentDisplayTab = new ContentDisplayTab(tabWidget);

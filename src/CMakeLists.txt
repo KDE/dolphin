@@ -288,25 +288,24 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombar.cpp
     selectionmode/bottombarcontentscontainer.cpp
     selectionmode/topbar.cpp
-    settings/general/behaviorsettingspage.cpp
-    settings/general/configurepreviewplugindialog.cpp
-    settings/general/confirmationssettingspage.cpp
-    settings/general/generalsettingspage.cpp
-    settings/general/previewssettingspage.cpp
-    settings/general/statusbarsettingspage.cpp
+    settings/interface/folderstabssettingspage.cpp
+    settings/interface/statusandlocationbarssettingspage.cpp
+    settings/interface/configurepreviewplugindialog.cpp
+    settings/interface/confirmationssettingspage.cpp
+    settings/interface/interfacesettingspage.cpp
+    settings/interface/previewssettingspage.cpp
     settings/dolphinsettingsdialog.cpp
-    settings/navigation/navigationsettingspage.cpp
     settings/contextmenu/contextmenusettingspage.cpp
     settings/settingspagebase.cpp
     settings/serviceitemdelegate.cpp
     settings/servicemodel.cpp
-    settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
     settings/viewmodes/viewsettingspage.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp
     settings/viewmodes/contentdisplaytab.cpp
+    settings/viewmodes/generalviewsettingspage.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/mountpointobserver.cpp
     statusbar/mountpointobservercache.cpp
@@ -348,25 +347,24 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombar.h
     selectionmode/bottombarcontentscontainer.h
     selectionmode/topbar.h
-    settings/general/behaviorsettingspage.h
-    settings/general/configurepreviewplugindialog.h
-    settings/general/confirmationssettingspage.h
-    settings/general/generalsettingspage.h
-    settings/general/previewssettingspage.h
-    settings/general/statusbarsettingspage.h
+    settings/interface/folderstabssettingspage.h
+    settings/interface/statusandlocationbarssettingspage.h
+    settings/interface/configurepreviewplugindialog.h
+    settings/interface/confirmationssettingspage.h
+    settings/interface/interfacesettingspage.h
+    settings/interface/previewssettingspage.h
     settings/dolphinsettingsdialog.h
-    settings/navigation/navigationsettingspage.h
     settings/contextmenu/contextmenusettingspage.h
     settings/settingspagebase.h
     settings/serviceitemdelegate.h
     settings/servicemodel.h
-    settings/startup/startupsettingspage.h
     settings/trash/trashsettingspage.h
     settings/viewmodes/dolphinfontrequester.h
     settings/viewmodes/viewsettingspage.h
     settings/viewmodes/viewmodesettings.h
     settings/viewmodes/viewsettingstab.h
     settings/viewmodes/contentdisplaytab.h
+    settings/viewmodes/generalviewsettingspage.h
     statusbar/dolphinstatusbar.h
     statusbar/mountpointobserver.h
     statusbar/mountpointobservercache.h
@@ -500,7 +498,6 @@ install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
     add_library(kcm_dolphinviewmodes MODULE)
-    add_library(kcm_dolphinnavigation MODULE)
     add_library(kcm_dolphingeneral MODULE)
 
     target_sources(kcm_dolphinviewmodes PRIVATE
@@ -515,32 +512,37 @@ if(NOT WIN32)
         settings/viewmodes/viewsettingstab.h
         views/zoomlevelinfo.h)
 
-    target_sources(kcm_dolphinnavigation PRIVATE
-        settings/kcm/kcmdolphinnavigation.cpp
-        settings/navigation/navigationsettingspage.cpp
-        settings/settingspagebase.cpp
-        settings/kcm/kcmdolphinnavigation.h
-        settings/navigation/navigationsettingspage.h
-        settings/settingspagebase.h
-    )
-
     target_sources(kcm_dolphingeneral PRIVATE
         settings/kcm/kcmdolphingeneral.cpp
-        settings/general/behaviorsettingspage.cpp
-        settings/general/previewssettingspage.cpp
-        settings/general/configurepreviewplugindialog.cpp
-        settings/general/confirmationssettingspage.cpp
+        settings/interface/folderstabssettingspage.cpp
+        settings/interface/statusandlocationbarssettingspage.cpp
+        settings/interface/previewssettingspage.cpp
+        settings/interface/configurepreviewplugindialog.cpp
+        settings/interface/confirmationssettingspage.cpp
         settings/settingspagebase.cpp
         settings/serviceitemdelegate.cpp
         settings/servicemodel.cpp
+        dolphin_generalsettings.cpp
+        dolphindebug.cpp
+        dolphinmainwindowinterface.cpp
+        views/viewproperties.cpp
+        dolphin_directoryviewpropertysettings.cpp
+        global.cpp
         settings/kcm/kcmdolphingeneral.h
-        settings/general/behaviorsettingspage.h
-        settings/general/previewssettingspage.h
-        settings/general/configurepreviewplugindialog.h
-        settings/general/confirmationssettingspage.h
+        settings/interface/folderstabssettingspage.h
+        settings/interface/statusandlocationbarssettingspage.h
+        settings/interface/previewssettingspage.h
+        settings/interface/configurepreviewplugindialog.h
+        settings/interface/confirmationssettingspage.h
         settings/settingspagebase.h
         settings/serviceitemdelegate.h
         settings/servicemodel.h
+        dolphin_generalsettings.h
+        dolphindebug.h
+        dolphinmainwindowinterface.h
+        views/viewproperties.h
+        dolphin_directoryviewpropertysettings.h
+        global.h
     )
 
     kconfig_add_kcfg_files(kcm_dolphinviewmodes
@@ -553,20 +555,15 @@ if(NOT WIN32)
         settings/dolphin_versioncontrolsettings.kcfgc
     )
 
-    kconfig_add_kcfg_files(kcm_dolphinnavigation
-        settings/dolphin_generalsettings.kcfgc)
-
     kconfig_add_kcfg_files(kcm_dolphingeneral
         settings/dolphin_generalsettings.kcfgc)
 
     target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
-    target_link_libraries(kcm_dolphinnavigation dolphinprivate)
     target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
     install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 
     install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
-    install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
     install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
 endif()
 

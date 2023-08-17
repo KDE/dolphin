@@ -24,7 +24,7 @@ class ViewSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ViewSettingsPage(QWidget *parent);
+    explicit ViewSettingsPage(const QUrl &url, QWidget *parent);
     ~ViewSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
