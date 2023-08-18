@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-#ifndef GENERALSETTINGSPAGE_H
-#define GENERALSETTINGSPAGE_H
+#ifndef INTERFACESETTINGSPAGE_H
+#define INTERFACESETTINGSPAGE_H
 
 #include "settings/settingspagebase.h"
 
@@ -14,21 +14,20 @@ class QUrl;
 class SettingsPageBase;
 
 /**
- * @brief Page for the 'General' settings of the Dolphin settings dialog.
+ * @brief Page for the 'Interface' settings of the Dolphin settings dialog.
  *
- * The general settings include:
- * - Behavior
+ * The interface settings include:
+ * - Folders & Tabs
  * - Previews
  * - Context Menu
- * - Status Bar
  */
-class GeneralSettingsPage : public SettingsPageBase
+class InterfaceSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(const QUrl &url, QWidget *parent);
-    ~GeneralSettingsPage() override;
+    InterfaceSettingsPage(QWidget *parent);
+    ~InterfaceSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
     void applySettings() override;

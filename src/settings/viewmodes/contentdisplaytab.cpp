@@ -6,6 +6,7 @@
 
 #include "contentdisplaytab.h"
 #include "dolphin_contentdisplaysettings.h"
+#include "dolphin_generalsettings.h"
 
 #include <KFormat>
 #include <KLocalizedString>
@@ -18,6 +19,9 @@
 
 ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     : SettingsPageBase(parent)
+    , m_naturalSorting(nullptr)
+    , m_caseSensitiveSorting(nullptr)
+    , m_caseInsensitiveSorting(nullptr)
     , m_numberOfItems(nullptr)
     , m_sizeOfContents(nullptr)
     , m_recursiveDirectorySizeLimit(nullptr)
@@ -28,6 +32,19 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     , m_useCombinedPermissions(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+
+    // Sorting Order
+    m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural"));
+    m_caseInsensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case insensitive"));
+    m_caseSensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case sensitive"));
+
+    QButtonGroup *sortingOrderGroup = new QButtonGroup(this);
+    sortingOrderGroup->addButton(m_naturalSorting);
+    sortingOrderGroup->addButton(m_caseInsensitiveSorting);
+    sortingOrderGroup->addButton(m_caseSensitiveSorting);
+    topLayout->addRow(i18nc("@title:group", "Sorting mode: "), m_naturalSorting);
+    topLayout->addRow(QString(), m_caseInsensitiveSorting);
+    topLayout->addRow(QString(), m_caseSensitiveSorting);
 
 #ifndef Q_OS_WIN
     // Sorting properties
@@ -95,6 +112,9 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     connect(m_useSymbolicPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_useNumericPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_useCombinedPermissions, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+    connect(m_naturalSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+    connect(m_caseInsensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+    connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
 
     loadSettings();
 }
@@ -106,7 +126,7 @@ void ContentDisplayTab::applySettings()
     settings->setDirectorySizeCount(m_numberOfItems->isChecked());
     settings->setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
 #endif
-
+    setSortingChoiceValue();
     settings->setUseShortRelativeDates(m_useRelatetiveDates->isChecked());
 
     if (m_useSymbolicPermissions->isChecked()) {
@@ -137,6 +157,38 @@ void ContentDisplayTab::loadSettings()
     m_useSymbolicPermissions->setChecked(settings->usePermissionsFormat() == ContentDisplaySettings::EnumUsePermissionsFormat::SymbolicFormat);
     m_useNumericPermissions->setChecked(settings->usePermissionsFormat() == ContentDisplaySettings::EnumUsePermissionsFormat::NumericFormat);
     m_useCombinedPermissions->setChecked(settings->usePermissionsFormat() == ContentDisplaySettings::EnumUsePermissionsFormat::CombinedFormat);
+    loadSortingChoiceSettings();
+}
+
+void ContentDisplayTab::setSortingChoiceValue()
+{
+    auto settings = GeneralSettings::self();
+    using Choice = GeneralSettings::EnumSortingChoice;
+    if (m_naturalSorting->isChecked()) {
+        settings->setSortingChoice(Choice::NaturalSorting);
+    } else if (m_caseInsensitiveSorting->isChecked()) {
+        settings->setSortingChoice(Choice::CaseInsensitiveSorting);
+    } else if (m_caseSensitiveSorting->isChecked()) {
+        settings->setSortingChoice(Choice::CaseSensitiveSorting);
+    }
+}
+
+void ContentDisplayTab::loadSortingChoiceSettings()
+{
+    using Choice = GeneralSettings::EnumSortingChoice;
+    switch (GeneralSettings::sortingChoice()) {
+    case Choice::NaturalSorting:
+        m_naturalSorting->setChecked(true);
+        break;
+    case Choice::CaseInsensitiveSorting:
+        m_caseInsensitiveSorting->setChecked(true);
+        break;
+    case Choice::CaseSensitiveSorting:
+        m_caseSensitiveSorting->setChecked(true);
+        break;
+    default:
+        Q_UNREACHABLE();
+    }
 }
 
 void ContentDisplayTab::restoreDefaults()

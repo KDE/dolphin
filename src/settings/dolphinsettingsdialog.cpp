@@ -10,9 +10,7 @@
 #include "contextmenu/contextmenusettingspage.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
-#include "general/generalsettingspage.h"
-#include "navigation/navigationsettingspage.h"
-#include "startup/startupsettingspage.h"
+#include "interface/interfacesettingspage.h"
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
 #if HAVE_KUSERFEEDBACK
@@ -50,29 +48,17 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     connect(box->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
     connect(box->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked, this, &DolphinSettingsDialog::restoreDefaults);
 
-    // General
-    GeneralSettingsPage *generalSettingsPage = new GeneralSettingsPage(url, this);
-    KPageWidgetItem *generalSettingsFrame = addPage(generalSettingsPage, i18nc("@title:group General settings", "General"));
-    generalSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("system-file-manager")));
-    connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    // Interface
+    InterfaceSettingsPage *interfaceSettingsPage = new InterfaceSettingsPage(this);
+    KPageWidgetItem *interfaceSettingsFrame = addPage(interfaceSettingsPage, i18nc("@title:group Interface settings", "Interface"));
+    interfaceSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("system-file-manager")));
+    connect(interfaceSettingsPage, &InterfaceSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
-    // Startup
-    StartupSettingsPage *startupSettingsPage = new StartupSettingsPage(url, this);
-    KPageWidgetItem *startupSettingsFrame = addPage(startupSettingsPage, i18nc("@title:group", "Startup"));
-    startupSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-launch-feedback")));
-    connect(startupSettingsPage, &StartupSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
-
-    // View Modes
-    ViewSettingsPage *viewSettingsPage = new ViewSettingsPage(this);
-    KPageWidgetItem *viewSettingsFrame = addPage(viewSettingsPage, i18nc("@title:group", "View Modes"));
+    // View
+    ViewSettingsPage *viewSettingsPage = new ViewSettingsPage(url, this);
+    KPageWidgetItem *viewSettingsFrame = addPage(viewSettingsPage, i18nc("@title:group", "View"));
     viewSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-icons")));
     connect(viewSettingsPage, &ViewSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
-
-    // Navigation
-    NavigationSettingsPage *navigationSettingsPage = new NavigationSettingsPage(this);
-    KPageWidgetItem *navigationSettingsFrame = addPage(navigationSettingsPage, i18nc("@title:group", "Navigation"));
-    navigationSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-navigation")));
-    connect(navigationSettingsPage, &NavigationSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Context Menu
     auto contextMenuSettingsPage = new ContextMenuSettingsPage(this,
@@ -113,10 +99,8 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     }
 #endif
 
-    m_pages.append(generalSettingsPage);
-    m_pages.append(startupSettingsPage);
+    m_pages.append(interfaceSettingsPage);
     m_pages.append(viewSettingsPage);
-    m_pages.append(navigationSettingsPage);
     m_pages.append(contextMenuSettingsPage);
     if (trashSettingsPage) {
         m_pages.append(trashSettingsPage);

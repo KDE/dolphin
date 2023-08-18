@@ -3,36 +3,41 @@
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-#ifndef STARTUPSETTINGSPAGE_H
-#define STARTUPSETTINGSPAGE_H
+#ifndef FOLDERSTABSSETTINGSPAGE_H
+#define FOLDERSTABSSETTINGSPAGE_H
 
+#include "dolphin_generalsettings.h"
 #include "settings/settingspagebase.h"
 
 #include <QUrl>
+#include <qobject.h>
 
 class QCheckBox;
 class QLineEdit;
+class QLabel;
 class QRadioButton;
 
 /**
- * @brief Page for the 'Startup' settings of the Dolphin settings dialog.
- *
- * The startup settings allow to set the home URL and to configure the
- * state of the view mode, split mode and the filter bar when starting Dolphin.
+ * @brief Tab page for the 'Behavior' settings of the Dolphin settings dialog.
  */
-class StartupSettingsPage : public SettingsPageBase
+class FoldersTabsSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    StartupSettingsPage(const QUrl &url, QWidget *parent);
-    ~StartupSettingsPage() override;
+    FoldersTabsSettingsPage(QWidget *parent);
+    ~FoldersTabsSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
     void applySettings() override;
 
     /** @see SettingsPageBase::restoreDefaults() */
     void restoreDefaults() override;
+
+public:
+    QWidget *m_homeUrlBoxLayoutContainer;
+    QWidget *m_buttonBoxLayoutContainer;
+    QRadioButton *m_homeUrlRadioButton;
 
 private Q_SLOTS:
     void slotSettingsChanged();
@@ -48,17 +53,17 @@ private:
 private:
     QUrl m_url;
     QLineEdit *m_homeUrl;
-    QWidget *m_homeUrlBoxLayoutContainer;
-    QWidget *m_buttonBoxLayoutContainer;
     QRadioButton *m_rememberOpenedTabsRadioButton;
-    QRadioButton *m_homeUrlRadioButton;
+
+    QRadioButton *m_openNewTabAfterLastTab;
+    QRadioButton *m_openNewTabAfterCurrentTab;
 
     QCheckBox *m_splitView;
-    QCheckBox *m_editableUrl;
-    QCheckBox *m_showFullPath;
     QCheckBox *m_filterBar;
     QCheckBox *m_showFullPathInTitlebar;
     QCheckBox *m_openExternallyCalledFolderInNewTab;
+    QCheckBox *m_useTabForSplitViewSwitch;
+    QCheckBox *m_closeActiveSplitView;
 };
 
 #endif

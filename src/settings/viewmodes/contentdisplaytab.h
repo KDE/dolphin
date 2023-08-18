@@ -6,6 +6,8 @@
 #ifndef GENERALTAB_H
 #define GENERALTAB_H
 
+#include "dolphin_contentdisplaysettings.h"
+#include "dolphin_generalsettings.h"
 #include "settings/settingspagebase.h"
 
 class QRadioButton;
@@ -25,6 +27,12 @@ public:
 
 private:
     void loadSettings();
+    void setSortingChoiceValue();
+    void loadSortingChoiceSettings();
+
+    QRadioButton *m_naturalSorting;
+    QRadioButton *m_caseSensitiveSorting;
+    QRadioButton *m_caseInsensitiveSorting;
 
     QRadioButton *m_numberOfItems;
     QRadioButton *m_sizeOfContents;
