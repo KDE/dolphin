@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-18 00:47+0000\n"
+"POT-Creation-Date: 2023-08-19 00:47+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -3743,119 +3743,213 @@ msgstr "Tekstiridade maksimaalne arv (0 tähendab piiramatu)"
 msgid "Enabled plugins"
 msgstr "Lubatud pluginad"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Seadistamine"
 
-#: settings/dolphinsettingsdialog.cpp:55
-#, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "Üldine"
+#: settings/dolphinsettingsdialog.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Interlace Mode"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr "Realaotuse režiim"
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
+#: settings/dolphinsettingsdialog.cpp:59
+#, fuzzy, kde-format
+#| msgid "&View"
 msgctxt "@title:group"
-msgid "Startup"
-msgstr "Käivitamine"
+msgid "View"
+msgstr "&Vaade"
 
-#: settings/dolphinsettingsdialog.cpp:67
-#, kde-format
-msgctxt "@title:group"
-msgid "View Modes"
-msgstr "Vaaterežiimid"
-
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "Liikumine"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Kontekstimenüü"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Prügikast"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Kasutaja tagasiside"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 "Sul on salvestamata muudatusi. Kas salvestada muudatused või unustada need?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: settings/general/behaviorsettingspage.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "Ühine vaatestiil kõigi kataloogide puhul"
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "%1 - eelvaatluse seadistamine"
 
-#: settings/general/behaviorsettingspage.cpp:37
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "Vaatestiil jäetakse iga kataloogi puhul meelde"
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Kinnituse küsimine kõigis KDE rakendustes järgmise toimingu korral:"
 
-#: settings/general/behaviorsettingspage.cpp:38
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "Failide või kataloogide viskamisel prügikasti"
+
+#: settings/interface/confirmationssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Prügikasti tühjendamisel"
+
+#: settings/interface/confirmationssettingspage.cpp:51
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "Failide või kataloogide kustutamisel"
+
+#: settings/interface/confirmationssettingspage.cpp:53
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Kinnituse küsimine Dolphinis:"
+
+#: settings/interface/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "Mitme kaardiga akende sulgemisel"
+
+#: settings/interface/confirmationssettingspage.cpp:60
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr "Töötava terminalipaneeliga akende sulgemisel"
+
+#: settings/interface/confirmationssettingspage.cpp:64
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr "Teostusfaili avamisel:"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Always ask"
+msgstr "Alati küsitakse"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Open in application"
+msgstr "Avatakse rakenduses"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Run script"
+msgstr "Käivitatakse skript"
+
+#: settings/interface/folderstabssettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Startup Settings"
+#| msgid "Folders, tabs, and window state from last time"
+msgctxt "@option:radio Show on startup"
+msgid "Folders, tabs, and window state from last time"
+msgstr "Eelmise korra kataloogid, kaardid ja akna olek"
+
+#: settings/interface/folderstabssettingspage.cpp:67
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Vali kodu asukoht"
+
+#: settings/interface/folderstabssettingspage.cpp:76
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Kasuta aktiivset asukohta"
+
+#: settings/interface/folderstabssettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Kasuta vaikimisi asukohta"
+
+#: settings/interface/folderstabssettingspage.cpp:90
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "Käivitamisel näidatakse:"
+
+#: settings/interface/folderstabssettingspage.cpp:95
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
-"Dolphin loob peidetud .directory-faili igas kataloogis, mille vaateomadusi "
-"muudad."
 
-#: settings/general/behaviorsettingspage.cpp:43
+#: settings/interface/folderstabssettingspage.cpp:96
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Search for files and folders"
+msgctxt "@label:checkbox"
+msgid "Opening Folders:"
+msgstr "Failide ja kataloogide otsimine"
+
+#: settings/interface/folderstabssettingspage.cpp:98
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Täieliku asukoha näitamine tiitliribal"
+
+#: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "Uus &aken"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show filter bar"
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "Filtririba näitamine"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Aktiivse kaardi järel"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "Kaardiriba lõpus"
+
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@title:group"
-msgid "View: "
-msgstr "Vaade:"
+msgid "Open new tabs: "
+msgstr "Uued kaardid avatakse:"
 
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "Loomulik"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "Tähestiku järgi, tõstutundetu"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "Tähestiku järgi, tõstutundlik"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "Sortimisviis:"
-
-#: settings/general/behaviorsettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "option:check"
 #| msgid "Switch between split views panes with tab key"
@@ -3863,7 +3957,7 @@ msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "Liikumine poolitatud vaadete vahel tabeldusklahviga"
 
-#: settings/general/behaviorsettingspage.cpp:66
+#: settings/interface/folderstabssettingspage.cpp:119
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -3871,326 +3965,30 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Poolita vaade"
 
-#: settings/general/behaviorsettingspage.cpp:69
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "Poolitatud vaate väljalülitamine sulgeb aktiivse paneeli"
 
-#: settings/general/behaviorsettingspage.cpp:71
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Märkimata jätmisel sulgeb jagatud vaate väljalülitamine mitteaktiivse paneeli"
 
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "Kohtspikrite näitamine"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "Muu:"
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "Valiku lülitamisvõimaluse näitamine"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "Elemendi kohapeal ümbernimetamine"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "%1 - eelvaatluse seadistamine"
-
-#: settings/general/confirmationssettingspage.cpp:46
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
-msgstr "Kinnituse küsimine kõigis KDE rakendustes järgmise toimingu korral:"
-
-#: settings/general/confirmationssettingspage.cpp:49
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Moving files or folders to trash"
-msgstr "Failide või kataloogide viskamisel prügikasti"
-
-#: settings/general/confirmationssettingspage.cpp:50
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Emptying trash"
-msgstr "Prügikasti tühjendamisel"
-
-#: settings/general/confirmationssettingspage.cpp:51
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Deleting files or folders"
-msgstr "Failide või kataloogide kustutamisel"
-
-#: settings/general/confirmationssettingspage.cpp:53
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in Dolphin when:"
-msgstr "Kinnituse küsimine Dolphinis:"
-
-#: settings/general/confirmationssettingspage.cpp:56
-#, kde-format
-msgctxt "@option:check Ask for confirmation in Dolphin when"
-msgid "Closing windows with multiple tabs"
-msgstr "Mitme kaardiga akende sulgemisel"
-
-#: settings/general/confirmationssettingspage.cpp:60
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Töötava terminalipaneeliga akende sulgemisel"
-
-#: settings/general/confirmationssettingspage.cpp:64
-#, kde-format
-msgctxt "@title:group"
-msgid "When opening an executable file:"
-msgstr "Teostusfaili avamisel:"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Always ask"
-msgstr "Alati küsitakse"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Open in application"
-msgstr "Avatakse rakenduses"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Run script"
-msgstr "Käivitatakse skript"
-
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "Käitumine"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "Eelvaatlused"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "Kinnitused"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "Olekuriba"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "Eelvaatluse näitamine:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Eelvaatlust ei näidata kohalikel failidel, mis on suuremad kui:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr " MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "Piiramata"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Eelvaatlust ei näidata võrgufailidel, mis on suuremad kui:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "Eelvaatlus välja lülitatud"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "Olekuriba näitamine"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "Suurendusliuguri näitamine"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "Ruumiteabe näitamine"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "Ikoonid"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "Kompaktne"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "Üksikasjad"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "Aktiivse kaardi järel"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "Kaardiriba lõpus"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "Uued kaardid avatakse:"
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Arhiivide avamine kataloogina"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "Kataloogide avamine lohistamisel"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "Üldine: "
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
-msgid "Folders, tabs, and window state from last time"
-msgstr "Eelmise korra kataloogid, kaardid ja akna olek"
-
-#: settings/startup/startupsettingspage.cpp:67
-#, kde-format
-msgctxt "@action:button"
-msgid "Select Home Location"
-msgstr "Vali kodu asukoht"
-
-#: settings/startup/startupsettingspage.cpp:76
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Current Location"
-msgstr "Kasuta aktiivset asukohta"
-
-#: settings/startup/startupsettingspage.cpp:79
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Default Location"
-msgstr "Kasuta vaikimisi asukohta"
-
-#: settings/startup/startupsettingspage.cpp:90
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Show on startup:"
-msgstr "Käivitamisel näidatakse:"
-
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Alustamine poolitatud vaaterežiimis"
 
-#: settings/startup/startupsettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
 msgstr "Uued aknad:"
 
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "Filtririba näitamine"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "Redigeeritav asukohariba"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "Uute kataloogide avamine kaartidel"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
-msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "Üldine:"
-
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "Täieliku asukoha näitamine asukoharibal"
-
-#: settings/startup/startupsettingspage.cpp:108
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Täieliku asukoha näitamine tiitliribal"
-
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4198,68 +3996,230 @@ msgid ""
 "be applied."
 msgstr "Kodukataloogi asukoht on vigane või see puudub, seda ei rakendata."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "Kataloogid esimesena"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Eelvaatlused"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Kinnitused"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "Asukohariba"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Eelvaatluse näitamine:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "Eelvaatlust ei näidata kohalikel failidel, mis on suuremad kui:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr " MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "Piiramata"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Eelvaatlust ei näidata võrgufailidel, mis on suuremad kui:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "Eelvaatlus välja lülitatud"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Olekuriba näitamine"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Suurendusliuguri näitamine"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Ruumiteabe näitamine"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "Olekuriba"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Redigeeritav asukohariba"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgid "Location bar:"
+msgstr "Asukohariba"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Täieliku asukoha näitamine asukoharibal"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Käitumine"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Ikoonid"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Kompaktne"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Üksikasjad"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Loomulik"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Tähestiku järgi, tõstutundetu"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Tähestiku järgi, tõstutundlik"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Sortimisviis:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Elementide arv"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Sisu suurus kuni:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] "-tasandiline"
 msgstr[1] "-tasandiline"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Kataloogi suurus näitab:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Suhteline (nt \"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absoluutne (nt \"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Kuupäevastiil:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Permissions:"
@@ -4287,7 +4247,88 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Vali..."
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Ühine vaatestiil kõigi kataloogide puhul"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Vaatestiil jäetakse iga kataloogi puhul meelde"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"Dolphin loob peidetud .directory-faili igas kataloogis, mille vaateomadusi "
+"muudad."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Display Style"
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "Vaatestiil"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Arhiivide avamine kataloogina"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Kataloogide avamine lohistamisel"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Kohtspikrite näitamine"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "Muu:"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Valiku lülitamisvõimaluse näitamine"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Elemendi kohapeal ümbernimetamine"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "Üldine"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Content"
@@ -5384,6 +5425,34 @@ msgstr[1] "Toimingud %1 valitud elemendi jaoks"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Versiooniteabe uuendamine ..."
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "Käivitamine"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "Vaaterežiimid"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "Liikumine"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "Vaade:"
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "Üldine: "
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "Uute kataloogide avamine kaartidel"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "Üldine:"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."
@@ -6823,10 +6892,6 @@ msgstr "Versiooniteabe uuendamine ..."
 #~ msgctxt "@label"
 #~ msgid "Color Depth"
 #~ msgstr "Värvisügavus"
-
-#~ msgctxt "@label"
-#~ msgid "Interlace Mode"
-#~ msgstr "Realaotuse režiim"
 
 #~| msgctxt "@label"
 #~| msgid "Lines:"

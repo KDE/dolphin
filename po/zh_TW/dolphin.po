@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-18 00:47+0000\n"
+"POT-Creation-Date: 2023-08-19 00:47+0000\n"
 "PO-Revision-Date: 2023-06-15 04:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -3448,446 +3448,244 @@ msgstr "最大文字行（0 表示不限制）"
 msgid "Enabled plugins"
 msgstr "已開啟的外掛程式"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "設定"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "一般"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
+#: settings/dolphinsettingsdialog.cpp:59
+#, fuzzy, kde-format
+#| msgid "&View"
 msgctxt "@title:group"
-msgid "Startup"
-msgstr "啟動"
+msgid "View"
+msgstr "檢視(&V)"
 
-#: settings/dolphinsettingsdialog.cpp:67
-#, kde-format
-msgctxt "@title:group"
-msgid "View Modes"
-msgstr "檢視模式"
-
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "導覽"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "內文選單"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "垃圾桶"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "使用者意見回應"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr "您有未儲存的變更。要套用還是捨棄變更？"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: settings/general/behaviorsettingspage.cpp:36
-#, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "對所有資料夾使用共同的顯示樣式"
-
-#: settings/general/behaviorsettingspage.cpp:37
-#, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "記住每個資料夾的顯示樣式"
-
-#: settings/general/behaviorsettingspage.cpp:38
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
-msgstr "Dolphin 將在每個您變更檢視屬性的資料夾建立隱藏的 .directory 檔案。"
-
-#: settings/general/behaviorsettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "View: "
-msgstr "檢視："
-
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "自然"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "字母，不區分大小寫"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "字母，區分大小寫"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "排序模式："
-
-#: settings/general/behaviorsettingspage.cpp:65
-#, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between panes with Tab key"
-msgstr "使用 Tab 鍵在面板間切換"
-
-#: settings/general/behaviorsettingspage.cpp:66
-#, kde-format
-msgctxt "@title:group"
-msgid "Split view: "
-msgstr "分割檢視："
-
-#: settings/general/behaviorsettingspage.cpp:69
-#, kde-format
-msgctxt "option:check"
-msgid "Turning off split view closes active pane"
-msgstr "關閉「分割檢視」時也關閉使用中的視窗"
-
-#: settings/general/behaviorsettingspage.cpp:71
-#, kde-format
-msgid "When deactivated, turning off split view will close the inactive pane"
-msgstr "當停用此功能，關閉「分割檢視」也將關閉未使用中的視窗"
-
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "顯示工具提示"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "雜項："
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "顯示選取標記"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "重新命名內含項目"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
 msgstr "%1 的設定預覽"
 
-#: settings/general/confirmationssettingspage.cpp:46
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "在所有 KDE 應用程式中確認詢問的時機："
 
-#: settings/general/confirmationssettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "將檔案或資料夾移到垃圾桶時"
 
-#: settings/general/confirmationssettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "清空垃圾桶"
 
-#: settings/general/confirmationssettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:51
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "刪除檔案或資料夾時"
 
-#: settings/general/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "在 Dolphin 詢問確認，當："
 
-#: settings/general/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "關閉包含多個分頁的視窗"
 
-#: settings/general/confirmationssettingspage.cpp:60
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "關閉有應用程式在「終端機」面板執行的視窗"
 
-#: settings/general/confirmationssettingspage.cpp:64
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "開啟可執行檔時："
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr "永遠詢問"
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Open in application"
 msgstr "在應用程式開啟"
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr "執行文稿"
 
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "行為"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "預覽"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "確認"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "狀態列"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "要在檢視中顯示預覽的項目："
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "本機檔案超過此大小則不預覽："
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr " MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "無限制"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "遠端檔案超過此大小則不預覽："
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "沒有預覽"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "顯示狀態列"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "顯示縮放滑動條"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "顯示空間資訊"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "圖示"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "簡潔模式"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "詳細資料"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "在目前分頁後方"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "在分頁列尾端"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "新分頁開啟位置："
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "將封存檔案當作資料夾開啟"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "在拖曳操作中開啟資料夾"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "一般："
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
+#: settings/interface/folderstabssettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Startup Settings"
+#| msgid "Folders, tabs, and window state from last time"
+msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "上次的資料夾、分頁及視窗狀態"
 
-#: settings/startup/startupsettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "選擇家目錄位置"
 
-#: settings/startup/startupsettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:76
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "使用目前的位置"
 
-#: settings/startup/startupsettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "使用預設位置"
 
-#: settings/startup/startupsettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "啟動時顯示："
 
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Begin in split view mode"
-msgstr "在分割檢視模式啟動"
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr ""
 
-#: settings/startup/startupsettingspage.cpp:96
-#, kde-format
-msgid "New windows:"
-msgstr "新增視窗："
-
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "顯示過濾器列"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "能夠編輯位置列"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "在分頁中開啟新資料夾"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
+#: settings/interface/folderstabssettingspage.cpp:96
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Open files and folders:"
 msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "一般："
+msgid "Opening Folders:"
+msgstr "檔案與資料夾開啟方式："
 
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "在位置列內顯示完整位置"
-
-#: settings/startup/startupsettingspage.cpp:108
+#: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "在標題列內顯示完整位置"
 
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "新視窗(&W)"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show filter bar"
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "顯示過濾器列"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "在目前分頁後方"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "在分頁列尾端"
+
+#: settings/interface/folderstabssettingspage.cpp:111
+#, kde-format
+msgctxt "@title:group"
+msgid "Open new tabs: "
+msgstr "新分頁開啟位置："
+
+#: settings/interface/folderstabssettingspage.cpp:118
+#, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between panes with Tab key"
+msgstr "使用 Tab 鍵在面板間切換"
+
+#: settings/interface/folderstabssettingspage.cpp:119
+#, kde-format
+msgctxt "@title:group"
+msgid "Split view: "
+msgstr "分割檢視："
+
+#: settings/interface/folderstabssettingspage.cpp:122
+#, kde-format
+msgctxt "option:check"
+msgid "Turning off split view closes active pane"
+msgstr "關閉「分割檢視」時也關閉使用中的視窗"
+
+#: settings/interface/folderstabssettingspage.cpp:124
+#, kde-format
+msgid "When deactivated, turning off split view will close the inactive pane"
+msgstr "當停用此功能，關閉「分割檢視」也將關閉未使用中的視窗"
+
+#: settings/interface/folderstabssettingspage.cpp:127
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Begin in split view mode"
+msgstr "在分割檢視模式啟動"
+
+#: settings/interface/folderstabssettingspage.cpp:128
+#, kde-format
+msgid "New windows:"
+msgstr "新增視窗："
+
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3895,67 +3693,229 @@ msgid ""
 "be applied."
 msgstr "家目錄的位置不合法或不存在，將不會套用。"
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "資料夾優先"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "預覽"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "確認"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "位置工具列"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "要在檢視中顯示預覽的項目："
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "本機檔案超過此大小則不預覽："
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr " MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "無限制"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "遠端檔案超過此大小則不預覽："
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "沒有預覽"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "顯示狀態列"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "顯示縮放滑動條"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "顯示空間資訊"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "狀態列"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "能夠編輯位置列"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgid "Location bar:"
+msgstr "位置工具列"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "在位置列內顯示完整位置"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "行為"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "圖示"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "簡潔模式"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "詳細資料"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "自然"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "字母，不區分大小寫"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "字母，區分大小寫"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "排序模式："
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "項目數"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "內容大小，最大至 "
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " 層深"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "資料夾大小顯示："
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "相對（例如「%1」）"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "絕對（例如「%1」）"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "日期樣式："
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "符號（例如「drwxr-xr-x」）"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "數字（八進制）（例如「755」）"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "合併（例如「drwxr-xr-x (755)」）"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -3981,7 +3941,86 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "選擇..."
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "對所有資料夾使用共同的顯示樣式"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "記住每個資料夾的顯示樣式"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr "Dolphin 將在每個您變更檢視屬性的資料夾建立隱藏的 .directory 檔案。"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Display Style"
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "檢視顯示樣式"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "將封存檔案當作資料夾開啟"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "在拖曳操作中開啟資料夾"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "顯示工具提示"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "雜項："
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "顯示選取標記"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "重新命名內含項目"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "一般"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
@@ -5036,6 +5075,34 @@ msgstr[0] "%1 個已選項目的動作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "更新版本資訊中..."
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "啟動"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "檢視模式"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "導覽"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "檢視："
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "一般："
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "在分頁中開啟新資料夾"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "一般："
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."
