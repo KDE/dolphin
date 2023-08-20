@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-20 08:44+0200\n"
+"PO-Revision-Date: 2023-08-19 10:12+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1460,7 +1460,7 @@ msgstr "Hautapena"
 #: dolphinpart.rc:24
 #, kde-format
 msgid "&View"
-msgstr "&Ikusi"
+msgstr "&Ikuspegia"
 
 #. i18n: ectx: Menu (go)
 #: dolphinpart.rc:33
@@ -3719,14 +3719,13 @@ msgstr "Konfiguratu"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interfazea"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Ikusi"
+msgstr "Ikuspegia"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3829,12 +3828,10 @@ msgid "Run script"
 msgstr "Exekutatu «script»a"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Karpetak, fitxak, eta leihoaren azken aldiko egoera"
+msgstr "Azken aldiko karpetak, fitxak, eta leihoaren egoera"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3864,15 +3861,13 @@ msgstr "Erakutsi abiatzean:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Eduki «Dolphin»en leiho bakarra, karpeta berriak fitxetan irekiz"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Ireki fitxategiak eta karpetak:"
+msgstr "Irekitzen diren karpetak:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3881,17 +3876,13 @@ msgid "Show full path in title bar"
 msgstr "Erakutsi bide-izen osoa helbide-barran"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "&Leiho berria"
+msgstr "Leihoa:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Erakutsi iragazki-barra"
@@ -3961,12 +3952,10 @@ msgstr ""
 "aplikatuko."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Karpetak aurrenik"
+msgstr "Karpetak eta fitxak"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3983,13 +3972,10 @@ msgid "Confirmations"
 msgstr "Berrespenak"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Kokaleku-barra"
+msgstr "Egoera- eta Kokaleku-barrak"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4045,12 +4031,10 @@ msgid "Show space information"
 msgstr "Erakutsi leku librearen informazioa"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Egoera-barra"
+msgstr "Egoera-barra:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4059,12 +4043,9 @@ msgid "Make location bar editable"
 msgstr "Egin kokaleku-barra editagarri"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Kokaleku-barra"
+msgstr "Kokaleku-barra:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4231,12 +4212,10 @@ msgstr ""
 "propietateak aldatzen dituzun direktorio bakoitzean."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Ikuspegiaren azaltze estiloa"
+msgstr "Azalpen estiloa: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4254,7 +4233,7 @@ msgstr "Ireki karpetak arrastatzean"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Arakatzea:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4282,9 +4261,7 @@ msgid "Rename inline"
 msgstr "Aldatu izena lerroan"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Orokorra"

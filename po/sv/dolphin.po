@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-25 13:10+0200\n"
+"PO-Revision-Date: 2023-08-19 08:42+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3702,19 +3702,16 @@ msgid "Configure"
 msgstr "Anpassa"
 
 #: settings/dolphinsettingsdialog.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Interlace Mode"
+#, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr "Inflätningsläge"
+msgstr "Gränssnitt"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Visa"
+msgstr "Visa"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3816,12 +3813,10 @@ msgid "Run script"
 msgstr "Kör skript"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Katalog-, flik- och fönstertillstånd från förra gången"
+msgstr "Kataloger, flikar och fönstertillstånd från förra gången"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3852,14 +3847,13 @@ msgstr "Visa vid start:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Behåll ett enda fönster i Dolphin, och öppna nya kataloger under flikar"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Öppna filer och kataloger:"
+msgstr "Öppnar kataloger:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3868,17 +3862,13 @@ msgid "Show full path in title bar"
 msgstr "Visa fullständig sökväg i namnlisten"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Nytt &fönster"
+msgstr "Fönster:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Visa filterrad"
@@ -3946,12 +3936,10 @@ msgstr ""
 "användas."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Kataloger först"
+msgstr "Kataloger och flikar"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3968,13 +3956,10 @@ msgid "Confirmations"
 msgstr "Bekräftelser"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Platsrad"
+msgstr "Status och platsrader"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4029,12 +4014,10 @@ msgid "Show space information"
 msgstr "Visa utrymmesinformation"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Statusrad"
+msgstr "Statusrad: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4043,12 +4026,9 @@ msgid "Make location bar editable"
 msgstr "Gör platsrad redigerbar"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Platsrad"
+msgstr "Platsrad:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4215,12 +4195,10 @@ msgstr ""
 "visningsegenskaperna ändras för."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Visningsstil"
+msgstr "Visningsstil: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4238,7 +4216,7 @@ msgstr "Öppna kataloger vid dragåtgärder"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Bläddring: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4266,9 +4244,7 @@ msgid "Rename inline"
 msgstr "Byt namn på plats"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Allmänt"

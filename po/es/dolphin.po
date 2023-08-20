@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-01 17:55+0200\n"
+"PO-Revision-Date: 2023-08-19 16:00+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "com>\n"
 "com>\n"
 "com>\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -3753,14 +3753,13 @@ msgstr "Configurar"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interfaz"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Ver"
+msgstr "Vista"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3861,12 +3860,10 @@ msgid "Run script"
 msgstr "Ejecutar script"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Estado de carpetas, pestañas y ventanas del último uso"
+msgstr "Estado de las carpetas, pestañas y ventana del último uso"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3897,14 +3894,13 @@ msgstr "Mostrar al inicio:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Mantener una única ventana de Dolphin, abriendo nuevas carpetas en pestañas"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Abrir archivos y carpetas:"
+msgstr "Apertura de carpetas:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3913,20 +3909,16 @@ msgid "Show full path in title bar"
 msgstr "Mostrar la ruta completa en la barra de título"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Nueva &ventana"
+msgstr "Ventana:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "Mostrar la barra de filtros"
+msgstr "Mostrar la barra de filtro"
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -3990,12 +3982,10 @@ msgid ""
 msgstr "La ubicación de la carpeta personal no es válida y no se aplicará."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Carpetas primero"
+msgstr "Carpetas y pestañas"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4012,13 +4002,10 @@ msgid "Confirmations"
 msgstr "Confirmaciones"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Barra de ubicación"
+msgstr "Barras de estado y de ubicación"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4073,12 +4060,10 @@ msgid "Show space information"
 msgstr "Mostrar información de espacio"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Barra de estado"
+msgstr "Barra de estado: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4087,12 +4072,9 @@ msgid "Make location bar editable"
 msgstr "Hacer la barra de ubicación editable"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Barra de ubicación"
+msgstr "Barra de ubicación:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4259,12 +4241,10 @@ msgstr ""
 "cambie las propiedades de visualización."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Estilo de visualización"
+msgstr "Estilo de visualización: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4282,7 +4262,7 @@ msgstr "Abrir carpetas durante operaciones de arrastre"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Navegación: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4310,9 +4290,7 @@ msgid "Rename inline"
 msgstr "Cambiar nombre en línea"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "General"
