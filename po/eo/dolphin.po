@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-02 22:05+0100\n"
+"PO-Revision-Date: 2023-08-20 21:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3700,14 +3700,13 @@ msgstr "Agordi"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interfaco"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Rigardi"
+msgstr "Rigardi"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3810,9 +3809,7 @@ msgid "Run script"
 msgstr "Lanĉi skripton"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Dosierujoj, langetoj kaj fenestra stato de la lasta fojo"
@@ -3846,14 +3843,13 @@ msgstr "Montri ĉe ekfunkciiĝo:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Teni solan Dolfin-fenestron, malfermante novajn dosierujojn en langetoj"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Malfermi dosierojn kaj dosierujojn:"
+msgstr "Malfermante Dosierujojn:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3862,20 +3858,16 @@ msgid "Show full path in title bar"
 msgstr "Montru plenan vojon en titolbreto"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Nova &Fenestro"
+msgstr "Fenestro:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "Montri la filtrilobreton"
+msgstr "Montri filtrilobreton"
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -3942,12 +3934,10 @@ msgstr ""
 "aplikata."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Unue Dosierujoj"
+msgstr "Dosierujoj && Langetoj"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3964,13 +3954,10 @@ msgid "Confirmations"
 msgstr "Konfirmoj"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Lokobreto"
+msgstr "Status- kaj Lokobretoj"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4025,12 +4012,10 @@ msgid "Show space information"
 msgstr "Montri informon pri spaco"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Statobreto"
+msgstr "Statusbreto: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4039,12 +4024,9 @@ msgid "Make location bar editable"
 msgstr "Fari lokobreton redaktebla"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Lokobreto"
+msgstr "Lokobreto: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4211,12 +4193,10 @@ msgstr ""
 "rigardajn proprietojn."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Vidi Vidigan Stilon"
+msgstr "Bildiga stilo: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4234,7 +4214,7 @@ msgstr "Malfermi dosierujojn dum trenaj operacioj"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Foliumante: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4262,9 +4242,7 @@ msgid "Rename inline"
 msgstr "Renomi enlinie"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Ĝenerala"
@@ -5353,31 +5331,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgctxt "@title:group"
-#~ msgid "Startup"
-#~ msgstr "Komenco"
-
-#~ msgctxt "@title:group"
-#~ msgid "View Modes"
-#~ msgstr "Vidreĝimoj"
-
-#~ msgctxt "@title:group"
-#~ msgid "Navigation"
-#~ msgstr "Navigado"
-
-#~ msgctxt "@title:group"
-#~ msgid "View: "
-#~ msgstr "Vido:"
-
-#~ msgctxt "@title:group"
-#~ msgid "General: "
-#~ msgstr "Ĝenerala: "
-
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "Malfermi novajn dosierujojn en langetoj"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "General:"
-#~ msgstr "Ĝenerala:"

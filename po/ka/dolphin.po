@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-01 08:16+0200\n"
+"PO-Revision-Date: 2023-08-20 07:24+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2620,13 +2620,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr ""
+msgstr "აირჩიეთ ფაილები და საქაღალდეები, რომლებიც გნებავთ, დააკოპიროთ."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr ""
+msgstr "აირჩიეთ ფაილები და საქაღალდეები, რომლებიც გნებავთ, ამოჭრათ."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -2639,7 +2639,7 @@ msgstr "ამოჭრის გაუქმება"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr ""
+msgstr "აირჩიეთ ფაილები და საქაღალდეები, რომლებიც გნებავთ, სამუდამოდ წაშალოთ."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2712,13 +2712,13 @@ msgstr "გაცვლის ბუფერიდან ჩასმა"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "ამ შემხსენებლის მოცილება"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "აღარ გამაფრთხილო"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -3344,7 +3344,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr ""
+msgstr "ახალი ჩანართის ბოლო ჩანართის შემდეგ გაიხსნება"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
@@ -3430,14 +3430,13 @@ msgstr "მორგება"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "ინტერფეისი"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&ხედი"
+msgstr "ხედი"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3472,7 +3471,7 @@ msgstr "ყურადღება"
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
-msgstr ""
+msgstr "%1-ის მინიატურის მორგება"
 
 #: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
@@ -3538,9 +3537,7 @@ msgid "Run script"
 msgstr "სკრიპტის გაშვება"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr ""
@@ -3577,12 +3574,10 @@ msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "ფაილები და საქაღალდეების გახსნა:"
+msgstr "საქაღალდეების გახსნა:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3591,17 +3586,13 @@ msgid "Show full path in title bar"
 msgstr "სათაურის ზოლში სრული ბილიკის ჩვენება"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "&ახალი ფანჯარა"
+msgstr "ფანჯარა:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "ფილტრის ზოლის ჩვენება"
@@ -3667,12 +3658,10 @@ msgid ""
 msgstr ""
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "ჯერ საქაღალდეები"
+msgstr "საქაღალდეები && ჩანართები"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3689,13 +3678,10 @@ msgid "Confirmations"
 msgstr "დადასტურებები"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "მდებარეობის ზოლი"
+msgstr "სტატუსის && მდებარეობის ზოლები"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -3750,12 +3736,10 @@ msgid "Show space information"
 msgstr "ადგილის ინფორმაციის ჩვენება"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "სტატუსის ზოლი"
+msgstr "სტატუსის ზოლი: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3764,12 +3748,9 @@ msgid "Make location bar editable"
 msgstr "მდებარეობის ზოლის ჩასწორებადობა"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "მდებარეობის ზოლი"
+msgstr "მდებარეობის ზოლი:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -3934,12 +3915,10 @@ msgid ""
 msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "ჩვენების სტილის ნახვა"
+msgstr "ჩვენების სტილი: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -3985,9 +3964,7 @@ msgid "Rename inline"
 msgstr "ხაზშივე გადარქმევა"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "საერთო"
@@ -4677,7 +4654,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
-msgstr ""
+msgstr "წაშლა (ნაგვის ყუთში გადატანის მალსახმობით)"
 
 #: views/dolphinviewactionhandler.cpp:131
 #, kde-format

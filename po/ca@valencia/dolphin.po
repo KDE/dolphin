@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-08-07 17:39+0200\n"
+"PO-Revision-Date: 2023-08-19 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1338,7 +1338,7 @@ msgstr "Trau el focus del quadro del terminal"
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr "Introduïu l'URL del servidor (p. ex. smb://[adreça IP])"
+msgstr "Introduïu l'URL del servidor (p. ex., smb://[adreça IP])"
 
 #: dolphinnavigatorswidgetaction.cpp:227
 #, kde-format
@@ -3738,14 +3738,13 @@ msgstr "Configuració"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interfície"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "Vi&sualitza"
+msgstr "Visualitza"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3847,9 +3846,7 @@ msgid "Run script"
 msgstr "Executa un script"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Carpetes, pestanyes i estat de la finestra de l'última vegada"
@@ -3883,14 +3880,13 @@ msgstr "Mostra en iniciar:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Manté una finestra única de Dolphin, obri les carpetes noves en pestanyes"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Obri fitxers i carpetes:"
+msgstr "Obertura de carpetes:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3899,17 +3895,13 @@ msgid "Show full path in title bar"
 msgstr "Mostra el camí sencer en la barra de títol"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "&Finestra nova"
+msgstr "Finestra:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Mostra la barra de filtres"
@@ -3979,12 +3971,10 @@ msgstr ""
 "s'aplicarà."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Primer les carpetes"
+msgstr "Carpetes i pestanyes"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4001,13 +3991,10 @@ msgid "Confirmations"
 msgstr "Confirmacions"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Barra d'ubicació"
+msgstr "Barres d'estat i d'ubicació"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4062,12 +4049,10 @@ msgid "Show space information"
 msgstr "Mostra la informació sobre l'espai"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Barra d'estat"
+msgstr "Barra d'estat: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4076,12 +4061,9 @@ msgid "Make location bar editable"
 msgstr "Fes editable la barra d'ubicació"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Barra d'ubicació"
+msgstr "Barra d'ubicació:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4169,13 +4151,13 @@ msgstr "La mida de la carpeta mostra:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Relativa (p. ex. «%1»)"
+msgstr "Relativa (p. ex., «%1»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Absoluta (p. ex. «%1»)"
+msgstr "Absoluta (p. ex., «%1»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
@@ -4187,19 +4169,19 @@ msgstr "Estil de la data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Simbòlic (p. ex. «drwxr-xr-x»)"
+msgstr "Simbòlic (p. ex., «drwxr-xr-x»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numèric (octal) (p. ex. «755»)"
+msgstr "Numèric (octal) (p. ex., «755»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Combinat (p. ex. «drwxr-xr-x (755)»)"
+msgstr "Combinat (p. ex., «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
@@ -4248,12 +4230,10 @@ msgstr ""
 "les propietats de la vista."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Estil de presentació de la vista"
+msgstr "Estil de la vista: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4271,7 +4251,7 @@ msgstr "Obri les carpetes en les operacions d'arrossegament"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Navegació: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4299,9 +4279,7 @@ msgid "Rename inline"
 msgstr "Canvia el nom en línia"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "General"
@@ -5396,31 +5374,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@title:group"
-#~ msgid "Startup"
-#~ msgstr "Inici"
-
-#~ msgctxt "@title:group"
-#~ msgid "View Modes"
-#~ msgstr "Modes de vista"
-
-#~ msgctxt "@title:group"
-#~ msgid "Navigation"
-#~ msgstr "Navegació"
-
-#~ msgctxt "@title:group"
-#~ msgid "View: "
-#~ msgstr "Vista: "
-
-#~ msgctxt "@title:group"
-#~ msgid "General: "
-#~ msgstr "General: "
-
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "Obri les carpetes noves en pestanyes"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "General:"
-#~ msgstr "General:"

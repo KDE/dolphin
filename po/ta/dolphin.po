@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-19 00:47+0000\n"
-"PO-Revision-Date: 2023-07-02 16:07+0530\n"
+"PO-Revision-Date: 2023-08-20 15:50+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3586,14 +3586,13 @@ msgstr "அமைத்தல்"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "இடைமுகப்பு"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&பார்வை"
+msgstr "பார்வை"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3696,9 +3695,7 @@ msgid "Run script"
 msgstr "சிறுநிரலை இயக்கு"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "போன முறை திறந்திருந்த அடைவுகள், கீற்றுகள், மற்றும் சாளர நிலை"
@@ -3731,15 +3728,13 @@ msgstr "துவங்கும்போது காட்டு:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "புதிய அடைவுகளை கீற்றுகளில் திற (புதிய சாளரத்திற்கு பதிலாக)"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "அடைவுகளையும் கோப்புகளையும் திறப்பது:"
+msgstr "அடைவுகளைத் திறப்பது:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3748,17 +3743,13 @@ msgid "Show full path in title bar"
 msgstr "தலைப்புப் பட்டையில் முழுப் பாதையைக் காட்டு"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "புதிய &சாளரம்"
+msgstr "சாளரம்"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "வடிகட்டிப் பட்டையைக் காட்டு"
@@ -3826,12 +3817,10 @@ msgid ""
 msgstr "முகப்பு அடைவிற்கான இடம் முறையாற்றது அல்லது இல்லாதது, அதனால் செயல்படுத்தப்படாது."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "அடைவுகள் முதலில்"
+msgstr "அடைவுகளும் கீற்றுகளும்"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3848,13 +3837,10 @@ msgid "Confirmations"
 msgstr "உறுதிப்பாடு"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "இடப்பலகை"
+msgstr "நிலை மற்றும் இட பட்டைகள்"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -3909,12 +3895,10 @@ msgid "Show space information"
 msgstr "காலியிட விவரத்தைக் காட்டு"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "நிலைப்பட்டை"
+msgstr "நிலைப்பட்டை:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3923,12 +3907,9 @@ msgid "Make location bar editable"
 msgstr "இடப் பட்டையை திருத்தக்கூடியவாறு செய்"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "இடப்பலகை"
+msgstr "இடப்பட்டை:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4095,12 +4076,10 @@ msgstr ""
 "directory' கோப்பை உருவாக்கும்."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "காட்சி காட்டப்படும் விதம்"
+msgstr "காட்சிமுறை: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4118,7 +4097,7 @@ msgstr "இழுக்கும் போது அடைவுகளைத் 
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "உலாவல்: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4146,12 +4125,10 @@ msgid "Rename inline"
 msgstr "மறுபெயரிடுவதற்கு தனியாக ஒரு சாளரத்தைக் காட்டாதே"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
-msgstr "பொது"
+msgstr "பொதுவானவை"
 
 #: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
