@@ -209,12 +209,12 @@ void DolphinContextMenu::addItemContextMenu()
                 m_mainWindow->activeViewContainer()->view()->markUrlAsCurrent(m_fileInfo.url());
             });
 
-            addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@action:inmenu", "Open Path in New Window"), [this]() {
-                Dolphin::openNewWindow({m_fileInfo.url()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
-            });
-
             addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "Open Path in New Tab"), [this]() {
                 m_mainWindow->openNewTab(KIO::upUrl(m_fileInfo.url()));
+            });
+
+            addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@action:inmenu", "Open Path in New Window"), [this]() {
+                Dolphin::openNewWindow({m_fileInfo.url()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
             });
 
             addSeparator();
