@@ -52,6 +52,8 @@ void KItemListContainerViewport::wheelEvent(QWheelEvent *event)
     event->ignore();
 }
 
+#include <QDebug>
+
 KItemListContainer::KItemListContainer(KItemListController *controller, QWidget *parent)
     : QAbstractScrollArea(parent)
     , m_controller(controller)
@@ -61,6 +63,8 @@ KItemListContainer::KItemListContainer(KItemListController *controller, QWidget 
 {
     Q_ASSERT(controller);
     controller->setParent(this);
+
+    setFrameShape(QFrame::NoFrame);
 
     QGraphicsView *graphicsView = new KItemListContainerViewport(new QGraphicsScene(this), this);
     setViewport(graphicsView);
@@ -101,7 +105,7 @@ void KItemListContainer::setEnabledFrame(bool enable)
 {
     QGraphicsView *graphicsView = qobject_cast<QGraphicsView *>(viewport());
     if (enable) {
-        setFrameShape(QFrame::StyledPanel);
+        // setFrameShape(QFrame::StyledPanel);
         graphicsView->setPalette(palette());
         graphicsView->viewport()->setAutoFillBackground(true);
     } else {

@@ -26,6 +26,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     layout->setContentsMargins(0, 0, 0, 0);
 
     m_splitter = new DolphinTabPageSplitter(Qt::Horizontal, this);
+    m_splitter->setProperty("_breeze_show_handle", true);
     m_splitter->setChildrenCollapsible(false);
     connect(m_splitter, &QSplitter::splitterMoved, this, &DolphinTabPage::splitterMoved);
     layout->addWidget(m_splitter, 1, 0);
