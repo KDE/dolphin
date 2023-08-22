@@ -1189,11 +1189,12 @@ void DolphinMainWindow::openTerminalHere()
             {},
 #endif
             KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()), QStringLiteral("utilities-terminal")),
-            KStandardGuiItem::cancel());
+            KStandardGuiItem::cancel(),
+            QStringLiteral("ConfirmOpenManyTerminals"));
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (answer != KMessageBox::PrimaryAction) {
+        if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
 #else
-        if (answer != KMessageBox::Yes) {
+        if (answer != KMessageBox::Yes && answer != KMessageBox::Continue) {
 #endif
             return;
         }

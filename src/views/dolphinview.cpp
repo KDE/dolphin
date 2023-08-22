@@ -1093,11 +1093,12 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
                                       {},
 #endif
             KGuiItem(i18ncp("@action:button", "Open %1 Item", "Open %1 Items", indexes.count()), QStringLiteral("document-open")),
-            KStandardGuiItem::cancel());
+            KStandardGuiItem::cancel(),
+            QStringLiteral("ConfirmOpenManyFolders"));
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (answer != KMessageBox::PrimaryAction) {
+        if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
 #else
-        if (answer != KMessageBox::Yes) {
+        if (answer != KMessageBox::Yes && answer != KMessageBox::Continue) {
 #endif
             return;
         }
