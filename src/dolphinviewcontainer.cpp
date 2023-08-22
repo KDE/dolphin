@@ -31,6 +31,7 @@
 #else
 #include <KIO/JobUiDelegate>
 #endif
+#include <KApplicationTrader>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -135,6 +136,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::writeStateChanged, this, &DolphinViewContainer::writeStateChanged);
     connect(m_view, &DolphinView::requestItemInfo, this, &DolphinViewContainer::showItemInfo);
     connect(m_view, &DolphinView::itemActivated, this, &DolphinViewContainer::slotItemActivated);
+    connect(m_view, &DolphinView::fileMiddleClickActivated, this, &DolphinViewContainer::slotfileMiddleClickActivated);
     connect(m_view, &DolphinView::itemsActivated, this, &DolphinViewContainer::slotItemsActivated);
     connect(m_view, &DolphinView::redirection, this, &DolphinViewContainer::redirect);
     connect(m_view, &DolphinView::directoryLoadingStarted, this, &DolphinViewContainer::slotDirectoryLoadingStarted);
@@ -737,6 +739,26 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
     job->setShowOpenOrExecuteDialog(true);
     connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
     job->start();
+}
+
+void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
+{
+    KService::List services = KApplicationTrader::queryByMimeType(item.mimetype());
+
+    if (services.length() >= 2) {
+        auto service = services.at(1);
+
+        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
+        job->setUrls({item.url()});
+
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
+        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
+        connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
+        job->start();
+    }
 }
 
 void DolphinViewContainer::slotItemsActivated(const KFileItemList &items)
