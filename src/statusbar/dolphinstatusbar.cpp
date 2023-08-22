@@ -19,8 +19,10 @@
 #include <QHelpEvent>
 #include <QIcon>
 #include <QMenu>
+#include <QPainter>
 #include <QProgressBar>
 #include <QSlider>
+#include <QStyleOption>
 #include <QTimer>
 #include <QToolButton>
 
@@ -44,6 +46,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_delayUpdateTimer(nullptr)
     , m_textTimestamp()
 {
+    setContentsMargins(4, 0, 4, 0);
+
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, this);
     m_label->setWordWrap(true);
@@ -334,6 +338,14 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
+}
+
+void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
+{
+    QPainter p(this);
+    QStyleOption opt;
+    opt.initFrom(this);
+    style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
 }
 
 #include "moc_dolphinstatusbar.cpp"

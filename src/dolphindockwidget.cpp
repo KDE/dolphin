@@ -33,8 +33,7 @@ public:
 
     QSize minimumSizeHint() const override
     {
-        const int border = style()->pixelMetric(QStyle::PM_DockWidgetTitleBarButtonMargin);
-        return QSize(border, border);
+        return QSize(0, 0);
     }
 
     QSize sizeHint() const override
