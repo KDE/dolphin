@@ -111,11 +111,11 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     }
 
     if (m_selected && m_editedRole.isEmpty()) {
-        const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
+        const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active : 0);
         drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
     }
 
-    if (m_current && m_editedRole.isEmpty()) {
+    if (m_current && m_editedRole.isEmpty() && widget->hasFocus()) {
         QStyleOptionFocusRect focusRectOption;
         initStyleOption(&focusRectOption);
         focusRectOption.rect = textFocusRect().toRect();
@@ -135,8 +135,8 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
             m_hoverCache->fill(Qt::transparent);
 
             QPainter pixmapPainter(m_hoverCache);
-            const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
-            drawItemStyleOption(&pixmapPainter, widget, activeState | QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item);
+            const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active | QStyle::State_Enabled : 0);
+            drawItemStyleOption(&pixmapPainter, widget, activeState | QStyle::State_MouseOver | QStyle::State_Item);
         }
 
         const qreal opacity = painter->opacity();

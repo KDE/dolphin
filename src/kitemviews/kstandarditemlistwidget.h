@@ -139,7 +139,7 @@ protected:
     virtual QPalette::ColorRole normalTextColorRole() const;
 
     void setTextColor(const QColor &color);
-    QColor textColor() const;
+    QColor textColor(QWidget *widget) const;
 
     void setOverlay(const QPixmap &overlay);
     QPixmap overlay() const;

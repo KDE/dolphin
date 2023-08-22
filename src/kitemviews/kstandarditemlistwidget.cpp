@@ -386,7 +386,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
     }
 
     painter->setFont(m_customizedFont);
-    painter->setPen(textColor());
+    painter->setPen(textColor(widget));
     const TextInfo *textInfo = m_textInfo.value("text");
 
     if (!textInfo) {
@@ -645,7 +645,7 @@ void KStandardItemListWidget::setTextColor(const QColor &color)
     }
 }
 
-QColor KStandardItemListWidget::textColor() const
+QColor KStandardItemListWidget::textColor(QWidget *widget) const
 {
     if (!isSelected()) {
         if (m_isHidden) {
@@ -655,7 +655,7 @@ QColor KStandardItemListWidget::textColor() const
         }
     }
 
-    const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
+    const QPalette::ColorGroup group = isActiveWindow() && widget->hasFocus() ? QPalette::Active : QPalette::Inactive;
     const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
     return styleOption().palette.color(group, role);
 }
@@ -1015,8 +1015,11 @@ void KStandardItemListWidget::updatePixmapCache()
                 iconName = QStringLiteral("unknown");
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
-            m_pixmap =
-                pixmapForIcon(iconName, overlays, maxIconHeight, m_layout != IconsLayout && isActiveWindow() && isSelected() ? QIcon::Selected : QIcon::Normal);
+            const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
+            m_pixmap = pixmapForIcon(iconName,
+                                     overlays,
+                                     maxIconHeight,
+                                     m_layout != IconsLayout && isActiveWindow() && isSelected() && hasFocus ? QIcon::Selected : QIcon::Normal);
 
         } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
