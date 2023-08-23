@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -56,14 +56,14 @@ msgstr "Oscail Le"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Oscail Conair i bhFuinneog Nua"
+msgid "Open Path in New Tab"
+msgstr "Oscail Conair i gCluaisín Nua"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Oscail Conair i gCluaisín Nua"
+msgid "Open Path in New Window"
+msgstr "Oscail Conair i bhFuinneog Nua"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

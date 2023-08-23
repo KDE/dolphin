@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-07-23 20:26+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -55,14 +55,14 @@ msgstr "경로 열기"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "새 창으로 경로 열기"
+msgid "Open Path in New Tab"
+msgstr "새 탭으로 경로 열기"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "새 탭으로 경로 열기"
+msgid "Open Path in New Window"
+msgstr "새 창으로 경로 열기"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

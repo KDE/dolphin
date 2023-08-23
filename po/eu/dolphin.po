@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-08-19 10:12+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -62,14 +62,14 @@ msgstr "Ireki bide-izena"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Ireki bide-izena leiho berrian"
+msgid "Open Path in New Tab"
+msgstr "Ireki bide-izena fitxa berrian"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Ireki bide-izena fitxa berrian"
+msgid "Open Path in New Window"
+msgstr "Ireki bide-izena leiho berrian"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -59,14 +59,14 @@ msgstr "Adkryć šliach"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Adkryć šliach u novym aknie"
+msgid "Open Path in New Tab"
+msgstr "Adkryć šliach u novaj ukladcy"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Adkryć šliach u novaj ukladcy"
+msgid "Open Path in New Window"
+msgstr "Adkryć šliach u novym aknie"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

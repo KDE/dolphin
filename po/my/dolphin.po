@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -55,14 +55,14 @@ msgstr "လမ်းကြောင်းဖွင့်မည်"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "လမ်းကြောင်းကို ဝင်းဒိုးအသစ်တွင် ဖွင့်မည်"
+msgid "Open Path in New Tab"
+msgstr "လမ်းကြောင်းကို တပ်ဘ်အသစ်တွင်ဖွင့်မည်"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "လမ်းကြောင်းကို တပ်ဘ်အသစ်တွင်ဖွင့်မည်"
+msgid "Open Path in New Window"
+msgstr "လမ်းကြောင်းကို ဝင်းဒိုးအသစ်တွင် ဖွင့်မည်"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

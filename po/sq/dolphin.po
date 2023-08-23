@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-04-11 01:21-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -57,14 +57,14 @@ msgstr "Hape shtegun"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Hape shtegun në një dritare të re"
+msgid "Open Path in New Tab"
+msgstr "Hape shtegun në një llapë të re"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Hape shtegun në një llapë të re"
+msgid "Open Path in New Window"
+msgstr "Hape shtegun në një dritare të re"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

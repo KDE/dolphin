@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-08-20 09:59+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -80,14 +80,14 @@ msgstr "Ouvrir l'emplacement"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
+msgid "Open Path in New Tab"
+msgstr "Ouvrir l'emplacement dans un nouvel onglet"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Ouvrir l'emplacement dans un nouvel onglet"
+msgid "Open Path in New Window"
+msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

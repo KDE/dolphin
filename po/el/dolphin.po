@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-07-26 23:23+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -66,14 +66,14 @@ msgstr "Άνοιγμα διαδρομής"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Άνοιγμα διαδρομής σε νέο παράθυρο"
+msgid "Open Path in New Tab"
+msgstr "Άνοιγμα διαδρομής σε νέα καρτέλα"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Άνοιγμα διαδρομής σε νέα καρτέλα"
+msgid "Open Path in New Window"
+msgstr "Άνοιγμα διαδρομής σε νέο παράθυρο"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

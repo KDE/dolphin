@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2008-05-31 09:43+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -56,19 +56,19 @@ msgstr "Bilan ochish"
 
 #: dolphincontextmenu.cpp:212
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
-msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "&Yangi oyna"
-
-#: dolphincontextmenu.cpp:216
-#, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "New Tab"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Yangi tab"
+
+#: dolphincontextmenu.cpp:216
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@action:inmenu"
+msgid "Open Path in New Window"
+msgstr "&Yangi oyna"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

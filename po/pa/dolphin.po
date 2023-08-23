@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2022-06-11 09:21-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -59,14 +59,14 @@ msgstr "ਪਾਥ ਖੋਲ੍ਹੋ"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
+msgid "Open Path in New Tab"
+msgstr "ਨਵੀਂ ਟੈਬ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "ਨਵੀਂ ਟੈਬ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
+msgid "Open Path in New Window"
+msgstr "ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

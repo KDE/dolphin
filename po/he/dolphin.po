@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2020-11-01 15:09+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <kde-l10n-he@kde.org>\n"
@@ -66,14 +66,14 @@ msgstr "פתיחת נתיב"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "פתיחת הנתיב בחלון חדש"
+msgid "Open Path in New Tab"
+msgstr "פתיחת הנתיב בלשונית חדשה"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "פתיחת הנתיב בלשונית חדשה"
+msgid "Open Path in New Window"
+msgstr "פתיחת הנתיב בחלון חדש"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

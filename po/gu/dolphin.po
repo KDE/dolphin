@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2010-10-26 21:40+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -59,14 +59,14 @@ msgstr "માર્ગ"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "માર્ગ નવી વિન્ડોમાં ખોલો"
+msgid "Open Path in New Tab"
+msgstr "માર્ગ નવી ટેબમાં ખોલો"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "માર્ગ નવી ટેબમાં ખોલો"
+msgid "Open Path in New Window"
+msgstr "માર્ગ નવી વિન્ડોમાં ખોલો"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

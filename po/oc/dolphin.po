@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2008-08-05 22:26+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -57,19 +57,19 @@ msgstr "Pegar"
 
 #: dolphincontextmenu.cpp:212
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
-msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "&Fenèstra nòva"
-
-#: dolphincontextmenu.cpp:216
-#, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "New Tab"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Onglet novèl"
+
+#: dolphincontextmenu.cpp:216
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@action:inmenu"
+msgid "Open Path in New Window"
+msgstr "&Fenèstra nòva"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

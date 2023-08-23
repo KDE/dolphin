@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2010-01-28 23:53+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -59,18 +59,18 @@ msgstr "Вметни"
 #: dolphincontextmenu.cpp:212
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
-#| msgid "Open in New Window"
-msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Отвори во нов прозорец"
-
-#: dolphincontextmenu.cpp:216
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Отвори во ново ливче"
+
+#: dolphincontextmenu.cpp:216
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open in New Window"
+msgctxt "@action:inmenu"
+msgid "Open Path in New Window"
+msgstr "Отвори во нов прозорец"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

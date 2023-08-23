@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-03-21 14:44+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -68,14 +68,14 @@ msgstr "Opna slóð"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Opna slóð í nýjum glugga"
+msgid "Open Path in New Tab"
+msgstr "Opna slóð í nýjum flipa"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Opna slóð í nýjum flipa"
+msgid "Open Path in New Window"
+msgstr "Opna slóð í nýjum glugga"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format

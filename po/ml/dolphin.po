@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-19 00:47+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -62,14 +62,14 @@ msgstr "പാത തുറക്കൂ"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "പുതിയ ജാലകത്തില്‍ തുറക്കുക"
+msgid "Open Path in New Tab"
+msgstr "പുതിയ ടാബിൽ തുറക്കുക"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "പുതിയ ടാബിൽ തുറക്കുക"
+msgid "Open Path in New Window"
+msgstr "പുതിയ ജാലകത്തില്‍ തുറക്കുക"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
