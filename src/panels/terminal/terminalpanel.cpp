@@ -77,18 +77,22 @@ void TerminalPanel::dockVisibilityChanged()
 {
     // Only react when the DockWidget itself (not some parent) is hidden. This way we don't
     // respond when e.g. Dolphin is minimized.
-    if (isHiddenInVisibleWindow() && m_terminal && !hasProgramRunning()) {
-        // Make sure that the following "cd /" command will not affect the view.
-        disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)), this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
+    if (isHiddenInVisibleWindow()) {
+        if (m_konsolePartMissingMessage) {
+            m_konsolePartMissingMessage->hide();
+        } else if (m_terminal && !hasProgramRunning()) {
+            // Make sure that the following "cd /" command will not affect the view.
+            disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)), this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
 
-        // Make sure this terminal does not prevent unmounting any removable drives
-        changeDir(QUrl::fromLocalFile(QStringLiteral("/")));
+            // Make sure this terminal does not prevent unmounting any removable drives
+            changeDir(QUrl::fromLocalFile(QStringLiteral("/")));
 
-        // Because we have disconnected from the part's currentDirectoryChanged()
-        // signal, we have to update m_konsolePartCurrentDirectory manually. If this
-        // was not done, showing the panel again might not set the part's working
-        // directory correctly.
-        m_konsolePartCurrentDirectory = '/';
+            // Because we have disconnected from the part's currentDirectoryChanged()
+            // signal, we have to update m_konsolePartCurrentDirectory manually. If this
+            // was not done, showing the panel again might not set the part's working
+            // directory correctly.
+            m_konsolePartCurrentDirectory = '/';
+        }
     }
 }
 
@@ -168,25 +172,26 @@ void TerminalPanel::showEvent(QShowEvent *event)
                 });
             }
 
-        } else if (!m_konsolePartMissingMessage) {
-            const auto konsoleInstallUrl = QUrl("appstream://org.kde.konsole.desktop");
-            const auto konsoleNotInstalledText = i18n(
-                "Terminal cannot be shown because Konsole is not installed. "
-                "Please install it and then reopen the panel.");
-            m_konsolePartMissingMessage = new KMessageWidget(konsoleNotInstalledText, this);
-            m_konsolePartMissingMessage->setCloseButtonVisible(false);
-            m_konsolePartMissingMessage->hide();
-            if (KIO::DesktopExecParser::hasSchemeHandler(konsoleInstallUrl)) {
-                auto installKonsoleAction = new QAction(i18n("Install Konsole"), this);
-                connect(installKonsoleAction, &QAction::triggered, [konsoleInstallUrl]() {
-                    QDesktopServices::openUrl(konsoleInstallUrl);
-                });
-                m_konsolePartMissingMessage->addAction(installKonsoleAction);
-            }
-            m_layout->addWidget(m_konsolePartMissingMessage);
-            m_layout->addStretch();
-            QTimer::singleShot(0, m_konsolePartMissingMessage, &KMessageWidget::animatedShow);
         } else {
+            if (!m_konsolePartMissingMessage) {
+                const auto konsoleInstallUrl = QUrl("appstream://org.kde.konsole.desktop");
+                const auto konsoleNotInstalledText = i18n(
+                    "Terminal cannot be shown because Konsole is not installed. "
+                    "Please install it and then reopen the panel.");
+                m_konsolePartMissingMessage = new KMessageWidget(konsoleNotInstalledText, this);
+                m_konsolePartMissingMessage->setCloseButtonVisible(false);
+                m_konsolePartMissingMessage->hide();
+                if (KIO::DesktopExecParser::hasSchemeHandler(konsoleInstallUrl)) {
+                    auto installKonsoleAction = new QAction(i18n("Install Konsole"), this);
+                    connect(installKonsoleAction, &QAction::triggered, [konsoleInstallUrl]() {
+                        QDesktopServices::openUrl(konsoleInstallUrl);
+                    });
+                    m_konsolePartMissingMessage->addAction(installKonsoleAction);
+                }
+                m_layout->addWidget(m_konsolePartMissingMessage);
+                m_layout->setSizeConstraint(QLayout::SetMaximumSize);
+            }
+
             m_konsolePartMissingMessage->animatedShow();
         }
     }
