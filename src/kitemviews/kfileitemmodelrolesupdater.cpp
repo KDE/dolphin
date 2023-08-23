@@ -1267,7 +1267,11 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (ContentDisplaySettings::directorySizeCount() || item.isSlow() || !item.isLocalFile()) {
+    if (!item.isLocalFile()) {
+        return;
+    }
+
+    if (ContentDisplaySettings::directorySizeCount() || item.isSlow()) {
         // fastpath no recursion necessary
 
         auto data = m_model->data(index);
@@ -1290,7 +1294,7 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         m_model->setData(index, data);
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
-        auto listJob = KIO::listDir(url);
+        auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
         QObject::connect(listJob, &KIO::ListJob::entries, this, [this, index](const KJob * /*job*/, const KIO::UDSEntryList &list) {
             auto data = m_model->data(index);
             int origCount = data.value("count").toInt();

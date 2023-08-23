@@ -7,7 +7,7 @@
 #ifndef VIEWSETTINGSTAB_H
 #define VIEWSETTINGSTAB_H
 
-#include <QWidget>
+#include "settings/settingspagebase.h"
 
 class DolphinFontRequester;
 class QComboBox;
@@ -19,7 +19,7 @@ class QRadioButton;
 /**
  * @brief Represents one tab of the view-settings page.
  */
-class ViewSettingsTab : public QWidget
+class ViewSettingsTab : public SettingsPageBase
 {
     Q_OBJECT
 
@@ -29,8 +29,8 @@ public:
     explicit ViewSettingsTab(Mode mode, QWidget *parent = nullptr);
     ~ViewSettingsTab() override;
 
-    void applySettings();
-    void restoreDefaultSettings();
+    void applySettings() override;
+    void restoreDefaults() override;
 
 Q_SIGNALS:
     void changed();

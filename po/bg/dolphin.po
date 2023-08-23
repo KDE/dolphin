@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-04 00:48+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-07-10 14:29+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -54,14 +54,14 @@ msgstr "Отваряне на пътя"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Отваряне на пътя в нов прозорец"
+msgid "Open Path in New Tab"
+msgstr "Отваряне на пътя в нов раздел"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Отваряне на пътя в нов раздел"
+msgid "Open Path in New Window"
+msgstr "Отваряне на пътя в нов прозорец"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
@@ -1523,7 +1523,7 @@ msgstr "Затваряне на раздел"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:497
+#: dolphintabwidget.cpp:498
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1531,7 +1531,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:501
+#: dolphintabwidget.cpp:502
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -3722,55 +3722,44 @@ msgstr "Максимален брой редове за текст (0 - без �
 msgid "Enabled plugins"
 msgstr "Включени приставки"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Настройване"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "Общи"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
+#: settings/dolphinsettingsdialog.cpp:59
+#, fuzzy, kde-format
+#| msgid "&View"
 msgctxt "@title:group"
-msgid "Startup"
-msgstr "Стартиране"
+msgid "View"
+msgstr "&Изглед"
 
-#: settings/dolphinsettingsdialog.cpp:67
-#, kde-format
-msgctxt "@title:group"
-msgid "View Modes"
-msgstr "Режими на преглед"
-
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "Навигация"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Контекстно меню"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Кошче"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Обратна връзка"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
@@ -3778,396 +3767,203 @@ msgstr ""
 "Имате незапазени промени. Искате ли да приложите промените или да ги "
 "отхвърлите?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: settings/general/behaviorsettingspage.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "Използване на общ стил на представяне за всички папки"
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Настройки на прегледа за %1"
 
-#: settings/general/behaviorsettingspage.cpp:37
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "Запомняне на стил на представяне за всяка папка"
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Питане за потвърждение във всички приложения на KDE при:"
 
-#: settings/general/behaviorsettingspage.cpp:38
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "Преместване на файлове и папки в кошчето"
+
+#: settings/interface/confirmationssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Изпразване на кошчето"
+
+#: settings/interface/confirmationssettingspage.cpp:51
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "Изтриване на файлове и папки"
+
+#: settings/interface/confirmationssettingspage.cpp:53
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Питане за потвърждение при:"
+
+#: settings/interface/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "Затваряне на прозорци с множество раздели"
+
+#: settings/interface/confirmationssettingspage.cpp:60
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr "Затваряне на прозорци с програма, изпълняваща се в панела Терминал"
+
+#: settings/interface/confirmationssettingspage.cpp:64
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr "При отваряне на изпълним файл:"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Always ask"
+msgstr "Запитване винаги"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Open in application"
+msgstr "Отваряне в приложение"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Run script"
+msgstr "Изпълнение на скрипт"
+
+#: settings/interface/folderstabssettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Startup Settings"
+#| msgid "Folders, tabs, and window state from last time"
+msgctxt "@option:radio Show on startup"
+msgid "Folders, tabs, and window state from last time"
+msgstr "Папки, раздели и състояние на прозореца от последния достъп"
+
+#: settings/interface/folderstabssettingspage.cpp:67
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Избиране на местоположение за домашната папка"
+
+#: settings/interface/folderstabssettingspage.cpp:76
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Използване на текущото местоположение"
+
+#: settings/interface/folderstabssettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Използване на местоположение по подразбиране"
+
+#: settings/interface/folderstabssettingspage.cpp:90
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "Показване при стартиране:"
+
+#: settings/interface/folderstabssettingspage.cpp:95
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
-"Dolphin ще създаде скрит .directory файл във всяка папка, за която променяте "
-"свойствата на изгледа."
 
-#: settings/general/behaviorsettingspage.cpp:43
+#: settings/interface/folderstabssettingspage.cpp:96
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Open files and folders:"
+msgctxt "@label:checkbox"
+msgid "Opening Folders:"
+msgstr "Отваряне на файлове и папки:"
+
+#: settings/interface/folderstabssettingspage.cpp:98
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Показване на пълното местоположение в заглавната лента"
+
+#: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "Нов &прозорец"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show filter bar"
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "Показване на лентата на филтъра"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Зад текущия раздел"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "На края в лентата на разделите"
+
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@title:group"
-msgid "View: "
-msgstr "Изглед: "
+msgid "Open new tabs: "
+msgstr "Отваряне на нови раздели: "
 
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "Естествено"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "Азбучно, без значение на регистъра"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "Азбучно, с отчитане на регистъра"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "Режим на сортиране: "
-
-#: settings/general/behaviorsettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "Превключване между панелите с клавиша Tab"
 
-#: settings/general/behaviorsettingspage.cpp:66
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Разделен изглед:"
 
-#: settings/general/behaviorsettingspage.cpp:69
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "Изключването на разделен изглед затваря активния прозорец"
 
-#: settings/general/behaviorsettingspage.cpp:71
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Когато е деактивирано, изключването на разделен изглед ще затвори неактивния "
 "прозорец"
 
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "Показване на подсказки"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "Разни: "
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "Показване на маркера на селекцията"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "Преименуване на елемент"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Настройки на прегледа за %1"
-
-#: settings/general/confirmationssettingspage.cpp:46
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
-msgstr "Питане за потвърждение във всички приложения на KDE при:"
-
-#: settings/general/confirmationssettingspage.cpp:49
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Moving files or folders to trash"
-msgstr "Преместване на файлове и папки в кошчето"
-
-#: settings/general/confirmationssettingspage.cpp:50
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Emptying trash"
-msgstr "Изпразване на кошчето"
-
-#: settings/general/confirmationssettingspage.cpp:51
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Deleting files or folders"
-msgstr "Изтриване на файлове и папки"
-
-#: settings/general/confirmationssettingspage.cpp:53
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in Dolphin when:"
-msgstr "Питане за потвърждение при:"
-
-#: settings/general/confirmationssettingspage.cpp:56
-#, kde-format
-msgctxt "@option:check Ask for confirmation in Dolphin when"
-msgid "Closing windows with multiple tabs"
-msgstr "Затваряне на прозорци с множество раздели"
-
-#: settings/general/confirmationssettingspage.cpp:60
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Затваряне на прозорци с програма, изпълняваща се в панела Терминал"
-
-#: settings/general/confirmationssettingspage.cpp:64
-#, kde-format
-msgctxt "@title:group"
-msgid "When opening an executable file:"
-msgstr "При отваряне на изпълним файл:"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Always ask"
-msgstr "Запитване винаги"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Open in application"
-msgstr "Отваряне в приложение"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Run script"
-msgstr "Изпълнение на скрипт"
-
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "Поведение"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "Предварителен преглед"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "Потвърждения"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "Лента за състоянието"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "Предварителен преглед за:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Без предварителен преглед за локални файлове с размер над:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr " MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "Без ограничение"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Без предварителен преглед за отдалечени файлове с размер над:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "Без предварителен преглед"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "Показване на лентата за състоянието"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "Показване на плъзгача за мащабиране"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "Показване на информация за пространството"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "Икони"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "Компактно"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "Подробности"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "Зад текущия раздел"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "На края в лентата на разделите"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "Отваряне на нови раздели: "
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Отваряне на архивите като папка"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "Отваряне на папките по време на влачене"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "Общи: "
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
-msgid "Folders, tabs, and window state from last time"
-msgstr "Папки, раздели и състояние на прозореца от последния достъп"
-
-#: settings/startup/startupsettingspage.cpp:67
-#, kde-format
-msgctxt "@action:button"
-msgid "Select Home Location"
-msgstr "Избиране на местоположение за домашната папка"
-
-#: settings/startup/startupsettingspage.cpp:76
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Current Location"
-msgstr "Използване на текущото местоположение"
-
-#: settings/startup/startupsettingspage.cpp:79
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Default Location"
-msgstr "Използване на местоположение по подразбиране"
-
-#: settings/startup/startupsettingspage.cpp:90
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Show on startup:"
-msgstr "Показване при стартиране:"
-
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Започване в режим на разделен изглед"
 
-#: settings/startup/startupsettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
 msgstr "Нови прозорци:"
 
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "Показване на лентата на филтъра"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "Позволяване на редактиране на лентата за местоположение"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "Отваряне на нови папки в раздели"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
-msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "Общи:"
-
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "Показване на пълния път в лентата за местоположение"
-
-#: settings/startup/startupsettingspage.cpp:108
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Показване на пълното местоположение в заглавната лента"
-
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4177,68 +3973,230 @@ msgstr ""
 "Местоположението на домашната папка е невалидно или не съществува и няма да "
 "бъде приложено."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "Папките първо"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Предварителен преглед"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Потвърждения"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "Лента за местоположение"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Предварителен преглед за:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "Без предварителен преглед за локални файлове с размер над:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr " MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "Без ограничение"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Без предварителен преглед за отдалечени файлове с размер над:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "Без предварителен преглед"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Показване на лентата за състоянието"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Показване на плъзгача за мащабиране"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Показване на информация за пространството"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "Лента за състоянието"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Позволяване на редактиране на лентата за местоположение"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgid "Location bar:"
+msgstr "Лента за местоположение"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Показване на пълния път в лентата за местоположение"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Поведение"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Икони"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Компактно"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Подробности"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Естествено"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Азбучно, без значение на регистъра"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Азбучно, с отчитане на регистъра"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Режим на сортиране: "
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Брой елементи"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Размер на съдържанието, до "
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " дълбочина на ниво"
 msgstr[1] " дълбочина на нива"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Размер на папката:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Относително (напр.\"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Абсолютно (напр.\"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Стил на датата:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Символно (напр. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Числено (октално) (напр. \"755\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Комбинирано (напр. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4262,7 +4220,88 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Избиране…"
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Използване на общ стил на представяне за всички папки"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Запомняне на стил на представяне за всяка папка"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"Dolphin ще създаде скрит .directory файл във всяка папка, за която променяте "
+"свойствата на изгледа."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Display Style"
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "Преглед на стила на дисплея"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Отваряне на архивите като папка"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Отваряне на папките по време на влачене"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Показване на подсказки"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "Разни: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Показване на маркера на селекцията"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Преименуване на елемент"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "Общи"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
@@ -5347,3 +5386,31 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "Стартиране"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "Режими на преглед"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "Навигация"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "Изглед: "
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "Общи: "
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "Отваряне на нови папки в раздели"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "Общи:"

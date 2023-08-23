@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-04 00:48+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -61,14 +61,14 @@ msgstr "Buka Alur"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Buka Alur di jendela Baru"
+msgid "Open Path in New Tab"
+msgstr "Buka Alur di Tab Baru"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Buka Alur di Tab Baru"
+msgid "Open Path in New Window"
+msgstr "Buka Alur di jendela Baru"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
@@ -1533,7 +1533,7 @@ msgstr "Tutup Tab"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:497
+#: dolphintabwidget.cpp:498
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1541,7 +1541,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:501
+#: dolphintabwidget.cpp:502
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -3737,55 +3737,44 @@ msgstr "Baris teks maksimum (0 berarti tak terbatas)"
 msgid "Enabled plugins"
 msgstr "Fungsikan plugin"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Konfigurasikan"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "Umum"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
+#: settings/dolphinsettingsdialog.cpp:59
+#, fuzzy, kde-format
+#| msgid "&View"
 msgctxt "@title:group"
-msgid "Startup"
-msgstr "Pemulaian"
+msgid "View"
+msgstr "&Tampilan"
 
-#: settings/dolphinsettingsdialog.cpp:67
-#, kde-format
-msgctxt "@title:group"
-msgid "View Modes"
-msgstr "Mode Tampilan"
-
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "Navigasi"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Menu Konteks"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Tong Sampah"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Umpan Balik Pengguna"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
@@ -3793,396 +3782,203 @@ msgstr ""
 "Anda memiliki perubahan yang tak tersimpan. Apakah Anda ingin menerapkan "
 "perubahan atau membuangnya?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "Peringatan"
 
-#: settings/general/behaviorsettingspage.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "Gunakan gaya display pada umumnya untuk semua folder"
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Konfigurasikan Pratinjau untuk %1"
 
-#: settings/general/behaviorsettingspage.cpp:37
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "Ingat gaya display untuk masing-masing folder"
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Meminta konfirmasi di semua aplikasi KDE ketika:"
 
-#: settings/general/behaviorsettingspage.cpp:38
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "Memindahkan file atau folder ke tong sampah"
+
+#: settings/interface/confirmationssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Mengosongkan tong sampah"
+
+#: settings/interface/confirmationssettingspage.cpp:51
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "Menghapus file atau folder"
+
+#: settings/interface/confirmationssettingspage.cpp:53
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Tanyakan konfirmasi di Dolphin ketika:"
+
+#: settings/interface/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "Penutupan jendela dengan tab yang banyak"
+
+#: settings/interface/confirmationssettingspage.cpp:60
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr "Penutupan jendela dengan program yang berjalan di dalam panel Terminal"
+
+#: settings/interface/confirmationssettingspage.cpp:64
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr "Saat membuka file yang dapat dieksekusi:"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Always ask"
+msgstr "Selalu tanyakan"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Open in application"
+msgstr "Buka di aplikasi"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Run script"
+msgstr "Jalankan skripnya"
+
+#: settings/interface/folderstabssettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Startup Settings"
+#| msgid "Folders, tabs, and window state from last time"
+msgctxt "@option:radio Show on startup"
+msgid "Folders, tabs, and window state from last time"
+msgstr "Keadaan folder, tab, dan jendela dari terakhir kali"
+
+#: settings/interface/folderstabssettingspage.cpp:67
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Pilih Lokasi Beranda"
+
+#: settings/interface/folderstabssettingspage.cpp:76
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Gunakan Lokasi Saat Ini"
+
+#: settings/interface/folderstabssettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Gunakan Lokasi Baku"
+
+#: settings/interface/folderstabssettingspage.cpp:90
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "Tampilkan saat pemulaian:"
+
+#: settings/interface/folderstabssettingspage.cpp:95
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
-"Dolphin akan menciptakan sebuah file .directory yang tersembunyi di masing-"
-"masing folder yang Anda ubah properti tampilannya."
 
-#: settings/general/behaviorsettingspage.cpp:43
+#: settings/interface/folderstabssettingspage.cpp:96
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Open files and folders:"
+msgctxt "@label:checkbox"
+msgid "Opening Folders:"
+msgstr "Buka file dan folder:"
+
+#: settings/interface/folderstabssettingspage.cpp:98
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Tampilkan alur lengkap di dalam bilah judul"
+
+#: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "Jendela &Baru"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show filter bar"
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "Tampilkan bilah filter"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Setelah tab saat ini"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "Di akhir bilah tab"
+
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@title:group"
-msgid "View: "
-msgstr "Tampilan: "
+msgid "Open new tabs: "
+msgstr "Buka Tab Baru: "
 
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "Natural"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "Alfabet, tidak sensitif huruf"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "Alfabet, sensitif huruf"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "Mode Pengurutan: "
-
-#: settings/general/behaviorsettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "Beralih antara panel pakai tuts Tab"
 
-#: settings/general/behaviorsettingspage.cpp:66
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Tampilan belah: "
 
-#: settings/general/behaviorsettingspage.cpp:69
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "Mematikan tampilan belah maka menutup panel yang aktif"
 
-#: settings/general/behaviorsettingspage.cpp:71
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Ketika dinonaktifkan, mematikan tampilan belah maka akan menutup panel tak "
 "aktif"
 
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "Tampilkan tip alat"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "Beraneka: "
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "Tampilkan penanda pemilihan"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "Ubah nama dalam baris"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Konfigurasikan Pratinjau untuk %1"
-
-#: settings/general/confirmationssettingspage.cpp:46
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
-msgstr "Meminta konfirmasi di semua aplikasi KDE ketika:"
-
-#: settings/general/confirmationssettingspage.cpp:49
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Moving files or folders to trash"
-msgstr "Memindahkan file atau folder ke tong sampah"
-
-#: settings/general/confirmationssettingspage.cpp:50
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Emptying trash"
-msgstr "Mengosongkan tong sampah"
-
-#: settings/general/confirmationssettingspage.cpp:51
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Deleting files or folders"
-msgstr "Menghapus file atau folder"
-
-#: settings/general/confirmationssettingspage.cpp:53
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in Dolphin when:"
-msgstr "Tanyakan konfirmasi di Dolphin ketika:"
-
-#: settings/general/confirmationssettingspage.cpp:56
-#, kde-format
-msgctxt "@option:check Ask for confirmation in Dolphin when"
-msgid "Closing windows with multiple tabs"
-msgstr "Penutupan jendela dengan tab yang banyak"
-
-#: settings/general/confirmationssettingspage.cpp:60
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Penutupan jendela dengan program yang berjalan di dalam panel Terminal"
-
-#: settings/general/confirmationssettingspage.cpp:64
-#, kde-format
-msgctxt "@title:group"
-msgid "When opening an executable file:"
-msgstr "Saat membuka file yang dapat dieksekusi:"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Always ask"
-msgstr "Selalu tanyakan"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Open in application"
-msgstr "Buka di aplikasi"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Run script"
-msgstr "Jalankan skripnya"
-
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "Perilaku"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "Pratinjau"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "Konfirmasi"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "Bilah Status"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "Tampilkan pratinjau di dalam tampilan untuk:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Lewati pratinjau untuk file lokal di atas:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr " MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "Tak Dibatasi"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Lewati pratinjau untuk file jarak jauh di atas:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "Tanpa pratinjau"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "Tampilkan bilah Status"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "Tampilkan penggeser pembesaran"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "Tampilkan informasi ruang"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "Ikon"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "Ringkas"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "Perincian"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "Setelah tab saat ini"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "Di akhir bilah tab"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "Buka Tab Baru: "
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Buka arsip sebagai folder"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "Buka folder ketika operasi penarikan"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "Umum:"
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
-msgid "Folders, tabs, and window state from last time"
-msgstr "Keadaan folder, tab, dan jendela dari terakhir kali"
-
-#: settings/startup/startupsettingspage.cpp:67
-#, kde-format
-msgctxt "@action:button"
-msgid "Select Home Location"
-msgstr "Pilih Lokasi Beranda"
-
-#: settings/startup/startupsettingspage.cpp:76
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Current Location"
-msgstr "Gunakan Lokasi Saat Ini"
-
-#: settings/startup/startupsettingspage.cpp:79
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Default Location"
-msgstr "Gunakan Lokasi Baku"
-
-#: settings/startup/startupsettingspage.cpp:90
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Show on startup:"
-msgstr "Tampilkan saat pemulaian:"
-
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Mulai di mode tampilan belah"
 
-#: settings/startup/startupsettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
 msgstr "Jendela baru:"
 
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "Tampilkan bilah filter"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "Buat bilah lokasi dapat diedit"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "Buka folder baru di tab"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
-msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "Umum:"
-
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "Tampilkan alur lengkap di dalam bilah lokasi"
-
-#: settings/startup/startupsettingspage.cpp:108
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Tampilkan alur lengkap di dalam bilah judul"
-
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4192,68 +3988,230 @@ msgstr ""
 "Lokasi untuk folder rumah tidak absah atau tidak ada, lokasi tidak akan "
 "diterapkan."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "Folder Dulu"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Pratinjau"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Konfirmasi"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "Bilah Lokasi"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Tampilkan pratinjau di dalam tampilan untuk:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "Lewati pratinjau untuk file lokal di atas:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr " MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "Tak Dibatasi"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Lewati pratinjau untuk file jarak jauh di atas:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "Tanpa pratinjau"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Tampilkan bilah Status"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Tampilkan penggeser pembesaran"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Tampilkan informasi ruang"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "Bilah Status"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Buat bilah lokasi dapat diedit"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgid "Location bar:"
+msgstr "Bilah Lokasi"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Tampilkan alur lengkap di dalam bilah lokasi"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Perilaku"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Ikon"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Ringkas"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Perincian"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Natural"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Alfabet, tidak sensitif huruf"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Alfabet, sensitif huruf"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Mode Pengurutan: "
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Nomor butir"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Ukuran konten, sampai "
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] "tingkat dalam"
 msgstr[1] "tingkat dalam"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Tampilan ukuran folder:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relatif (misal '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absolut (misal '%1)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Gaya tanggal:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Simbolik (misalnya 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Numerik (Oktal) (misalnya '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Dikombinasi (misalnya 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4279,7 +4237,88 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Pilih..."
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Gunakan gaya display pada umumnya untuk semua folder"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Ingat gaya display untuk masing-masing folder"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"Dolphin akan menciptakan sebuah file .directory yang tersembunyi di masing-"
+"masing folder yang Anda ubah properti tampilannya."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Display Style"
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "Lihat Gaya Tampilan"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Buka arsip sebagai folder"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Buka folder ketika operasi penarikan"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Tampilkan tip alat"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "Beraneka: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Tampilkan penanda pemilihan"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Ubah nama dalam baris"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "Umum"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Content"
@@ -5374,6 +5413,34 @@ msgstr[1] "Aksi untuk %1 Butir Terpilih"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Memperbarui informasi versi..."
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "Pemulaian"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "Mode Tampilan"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "Navigasi"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "Tampilan: "
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "Umum:"
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "Buka folder baru di tab"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "Umum:"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."

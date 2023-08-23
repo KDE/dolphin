@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-04 00:48+0000\n"
-"PO-Revision-Date: 2023-07-02 22:05+0100\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
+"PO-Revision-Date: 2023-08-20 21:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -58,14 +58,14 @@ msgstr "Malfermi Vojon"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Malfermi Vojon en Nova Fenestro"
+msgid "Open Path in New Tab"
+msgstr "Malfermi Vojon en Nova Langeto"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Malfermi Vojon en Nova Langeto"
+msgid "Open Path in New Window"
+msgstr "Malfermi Vojon en Nova Fenestro"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
@@ -1506,7 +1506,7 @@ msgstr "Fermi la langeton"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:497
+#: dolphintabwidget.cpp:498
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1514,7 +1514,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:501
+#: dolphintabwidget.cpp:502
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -3690,55 +3690,43 @@ msgstr "Maksimumaj tekstlinioj (0 signifas senlima)"
 msgid "Enabled plugins"
 msgstr "Ebligitaj kromprogramoj"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Agordi"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "Ĝenerala"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr "Interfaco"
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
-msgctxt "@title:group"
-msgid "Startup"
-msgstr "Komenco"
-
-#: settings/dolphinsettingsdialog.cpp:67
+#: settings/dolphinsettingsdialog.cpp:59
 #, kde-format
 msgctxt "@title:group"
-msgid "View Modes"
-msgstr "Vidreĝimoj"
+msgid "View"
+msgstr "Rigardi"
 
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "Navigado"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Kunteksta Menuo"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Rubujo"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Uzanto Reago"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
@@ -3746,396 +3734,196 @@ msgstr ""
 "Vi havas nekonservitajn ŝanĝojn. Ĉu vi volas apliki la ŝanĝojn aŭ forĵeti "
 "ilin?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "Averto"
 
-#: settings/general/behaviorsettingspage.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "Uzi komunan ekranstilon por ĉiuj dosierujoj"
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Agordi Antaŭrigardon por %1"
 
-#: settings/general/behaviorsettingspage.cpp:37
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "Memori montrostilon por ĉiu dosierujo"
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Peti konfirmon en ĉiuj KDE-aplikaĵoj kiam:"
 
-#: settings/general/behaviorsettingspage.cpp:38
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "Movante dosierojn aŭ dosierujojn al la rubujo"
+
+#: settings/interface/confirmationssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Malplenigante rubon"
+
+#: settings/interface/confirmationssettingspage.cpp:51
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "Forigante dosierojn aŭ dosierujojn"
+
+#: settings/interface/confirmationssettingspage.cpp:53
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Peti konfirmon en Dolfin kiam:"
+
+#: settings/interface/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "Fermante fenestron kun pluraj langetoj"
+
+#: settings/interface/confirmationssettingspage.cpp:60
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr "Fermante fenestrojn kun programo funkcianta en la Terminal-panelo"
+
+#: settings/interface/confirmationssettingspage.cpp:64
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr "Kiam vi malfermas plenumeblan dosieron:"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Always ask"
+msgstr "Ĉiam demandi"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Open in application"
+msgstr "Malfermi en aplikaĵo"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Run script"
+msgstr "Lanĉi skripton"
+
+#: settings/interface/folderstabssettingspage.cpp:45
+#, kde-format
+msgctxt "@option:radio Show on startup"
+msgid "Folders, tabs, and window state from last time"
+msgstr "Dosierujoj, langetoj kaj fenestra stato de la lasta fojo"
+
+#: settings/interface/folderstabssettingspage.cpp:67
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Elekti Hejman Lokon"
+
+#: settings/interface/folderstabssettingspage.cpp:76
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Uzi Nunan Lokon"
+
+#: settings/interface/folderstabssettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Uzi Defaŭltan Lokon"
+
+#: settings/interface/folderstabssettingspage.cpp:90
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "Montri ĉe ekfunkciiĝo:"
+
+#: settings/interface/folderstabssettingspage.cpp:95
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
-"Dolfin kreos kaŝitan .dosierujon en ĉiu dosierujo, por kiu vi ŝanĝas "
-"rigardajn proprietojn."
+"Teni solan Dolfin-fenestron, malfermante novajn dosierujojn en langetoj"
 
-#: settings/general/behaviorsettingspage.cpp:43
+#: settings/interface/folderstabssettingspage.cpp:96
+#, kde-format
+msgctxt "@label:checkbox"
+msgid "Opening Folders:"
+msgstr "Malfermante Dosierujojn:"
+
+#: settings/interface/folderstabssettingspage.cpp:98
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Montru plenan vojon en titolbreto"
+
+#: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "Fenestro:"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, kde-format
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "Montri filtrilobreton"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Post aktuala langeto"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "Fine de la langeto"
+
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@title:group"
-msgid "View: "
-msgstr "Vido:"
+msgid "Open new tabs: "
+msgstr "Malfermi novajn langetojn:"
 
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "Natura"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "Alfabeta, uskleco"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "Alfabeta, uskleco"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "Ordiga reĝimo: "
-
-#: settings/general/behaviorsettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "Ŝalti inter vidfenestroj per tab-klavo"
 
-#: settings/general/behaviorsettingspage.cpp:66
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Dividita vido:"
 
-#: settings/general/behaviorsettingspage.cpp:69
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "Malŝalto de dividita vido fermas aktivan panelon"
 
-#: settings/general/behaviorsettingspage.cpp:71
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "Kiam estas malaktivigita, malŝalti dividitan vidon fermos la neaktivan "
 "panelon"
 
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "Montri la ŝpruchelpilon"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "Diversaĵoj: "
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "Montri elektan markilon"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "Renomi enlinie"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "Agordi Antaŭrigardon por %1"
-
-#: settings/general/confirmationssettingspage.cpp:46
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
-msgstr "Peti konfirmon en ĉiuj KDE-aplikaĵoj kiam:"
-
-#: settings/general/confirmationssettingspage.cpp:49
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Moving files or folders to trash"
-msgstr "Movante dosierojn aŭ dosierujojn al la rubujo"
-
-#: settings/general/confirmationssettingspage.cpp:50
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Emptying trash"
-msgstr "Malplenigante rubon"
-
-#: settings/general/confirmationssettingspage.cpp:51
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Deleting files or folders"
-msgstr "Forigante dosierojn aŭ dosierujojn"
-
-#: settings/general/confirmationssettingspage.cpp:53
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in Dolphin when:"
-msgstr "Peti konfirmon en Dolfin kiam:"
-
-#: settings/general/confirmationssettingspage.cpp:56
-#, kde-format
-msgctxt "@option:check Ask for confirmation in Dolphin when"
-msgid "Closing windows with multiple tabs"
-msgstr "Fermante fenestron kun pluraj langetoj"
-
-#: settings/general/confirmationssettingspage.cpp:60
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Fermante fenestrojn kun programo funkcianta en la Terminal-panelo"
-
-#: settings/general/confirmationssettingspage.cpp:64
-#, kde-format
-msgctxt "@title:group"
-msgid "When opening an executable file:"
-msgstr "Kiam vi malfermas plenumeblan dosieron:"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Always ask"
-msgstr "Ĉiam demandi"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Open in application"
-msgstr "Malfermi en aplikaĵo"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Run script"
-msgstr "Lanĉi skripton"
-
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "Konduto"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "Antaŭrigardo"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "Konfirmoj"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "Statobreto"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "Montri antaŭrigardojn en la vido por:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Preterpasi antaŭprezentojn por lokaj dosieroj supre:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr "MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "Neniu limo"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Preterpasi antaŭprezentojn por foraj dosieroj supre:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "Neniuj antaŭrigardoj"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "Montri statobreton"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "Montri zoman ŝovilon"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "Montri informon pri spaco"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "Piktogramoj"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "Kompakta"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "Detaloj"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "Post aktuala langeto"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "Fine de la langeto"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "Malfermi novajn langetojn:"
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Malfermi arkivon kiel dosierujo"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "Malfermi dosierujojn dum trenaj operacioj"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "Ĝenerala: "
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
-msgid "Folders, tabs, and window state from last time"
-msgstr "Dosierujoj, langetoj kaj fenestra stato de la lasta fojo"
-
-#: settings/startup/startupsettingspage.cpp:67
-#, kde-format
-msgctxt "@action:button"
-msgid "Select Home Location"
-msgstr "Elekti Hejman Lokon"
-
-#: settings/startup/startupsettingspage.cpp:76
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Current Location"
-msgstr "Uzi Nunan Lokon"
-
-#: settings/startup/startupsettingspage.cpp:79
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Default Location"
-msgstr "Uzi Defaŭltan Lokon"
-
-#: settings/startup/startupsettingspage.cpp:90
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Show on startup:"
-msgstr "Montri ĉe ekfunkciiĝo:"
-
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Komenci en apartigita vidreĝimo"
 
-#: settings/startup/startupsettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
 msgstr "Novaj fenestroj:"
 
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "Montri la filtrilobreton"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "Fari lokobreton redaktebla"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "Malfermi novajn dosierujojn en langetoj"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
-msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "Ĝenerala:"
-
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "Montri plenan vojon ene de lokobreto"
-
-#: settings/startup/startupsettingspage.cpp:108
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Montru plenan vojon en titolbreto"
-
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4145,68 +3933,220 @@ msgstr ""
 "La loko por la hejma dosierujo estas nevalida aŭ ne ekzistas, ĝi ne estos "
 "aplikata."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, kde-format
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "Dosierujoj && Langetoj"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Antaŭrigardo"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Konfirmoj"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "Status- kaj Lokobretoj"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Montri antaŭrigardojn en la vido por:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "Preterpasi antaŭprezentojn por lokaj dosieroj supre:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr "MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "Neniu limo"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Preterpasi antaŭprezentojn por foraj dosieroj supre:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "Neniuj antaŭrigardoj"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Montri statobreton"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Montri zoman ŝovilon"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Montri informon pri spaco"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, kde-format
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "Statusbreto: "
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Fari lokobreton redaktebla"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, kde-format
+msgid "Location bar:"
+msgstr "Lokobreto: "
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Montri plenan vojon ene de lokobreto"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Konduto"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Piktogramoj"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Kompakta"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Detaloj"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Natura"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Alfabeta, uskleco"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Alfabeta, uskleco"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Ordiga reĝimo: "
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Nombro de eroj"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Grandeco de enhavo, ĝis "
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " nivelon profunda"
 msgstr[1] " nivelojn profunda"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Dosierujoj montriĝas:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relativo (ekz. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absoluta (ekz. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Datstilo:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Simbola (ekz. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Nombra (Okuma) (ekz. '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Kombinita (ekz. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4230,7 +4170,84 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Elekti…"
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Uzi komunan ekranstilon por ĉiuj dosierujoj"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Memori montrostilon por ĉiu dosierujo"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"Dolfin kreos kaŝitan .dosierujon en ĉiu dosierujo, por kiu vi ŝanĝas "
+"rigardajn proprietojn."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, kde-format
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "Bildiga stilo: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Malfermi arkivon kiel dosierujo"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Malfermi dosierujojn dum trenaj operacioj"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr "Foliumante: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Montri la ŝpruchelpilon"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "Diversaĵoj: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Montri elektan markilon"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Renomi enlinie"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, kde-format
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "Ĝenerala"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"

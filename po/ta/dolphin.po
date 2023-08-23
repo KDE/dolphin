@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-04 00:48+0000\n"
-"PO-Revision-Date: 2023-07-02 16:07+0530\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
+"PO-Revision-Date: 2023-08-20 15:50+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -56,14 +56,14 @@ msgstr "பாதையைத் திற"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "பாதையை புதிய சாளரத்தில் திற"
+msgid "Open Path in New Tab"
+msgstr "பாதையை புதிய கீற்றில் திற"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "பாதையை புதிய கீற்றில் திற"
+msgid "Open Path in New Window"
+msgstr "பாதையை புதிய சாளரத்தில் திற"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
@@ -1419,7 +1419,7 @@ msgstr "கீற்றை மூடு"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:497
+#: dolphintabwidget.cpp:498
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1427,7 +1427,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:501
+#: dolphintabwidget.cpp:502
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -3576,55 +3576,43 @@ msgstr "பெயரின் அதிகபட்ச வரிகள் (0 எ
 msgid "Enabled plugins"
 msgstr "இயக்கப்பட்டுள்ள செருகுநிரல்கள்"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "அமைத்தல்"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "பொது"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr "இடைமுகப்பு"
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
-msgctxt "@title:group"
-msgid "Startup"
-msgstr "துவக்கம்"
-
-#: settings/dolphinsettingsdialog.cpp:67
+#: settings/dolphinsettingsdialog.cpp:59
 #, kde-format
 msgctxt "@title:group"
-msgid "View Modes"
-msgstr "காட்சி முறைகள்"
+msgid "View"
+msgstr "பார்வை"
 
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "உலாவல்"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "வலது-க்ளிக் பட்டி"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "அகற்றிடம்"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "பயனர் கருத்து"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
@@ -3632,396 +3620,195 @@ msgstr ""
 "சேமிக்கப்படாத மாற்றங்கள் உள்ளன. அவற்றை சேமிக்க விரும்புகிறீர்களா, அல்லது கைவிட "
 "விரும்புகிறீர்களா?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 
-#: settings/general/behaviorsettingspage.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "அனைத்து அடைவுகளுக்கும் பொதுவான காட்சி முறையை பயன்படுத்து"
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "%1-க்கு முன்தோற்றத்தை அமைத்தல்"
 
-#: settings/general/behaviorsettingspage.cpp:37
-#, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "ஒவ்வொரு அடைவிற்கும் தனிப்பட்ட காட்சி முறையை நினைவில் கொள்"
-
-#: settings/general/behaviorsettingspage.cpp:38
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
-msgstr ""
-"நீங்கள் ஒரு அடைவின் பார்வைப் பண்புகளை மாற்றினால் டால்பின் அதில் ஒரு மறைந்துள்ள '."
-"directory' கோப்பை உருவாக்கும்."
-
-#: settings/general/behaviorsettingspage.cpp:43
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
-msgid "View: "
-msgstr "காட்சிமுறை:"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "இவற்றை செய்யும்போது அனைத்து கே.டீ.யீ. செயலிகளில் உறுதிப்படுத்து:"
 
-#: settings/general/behaviorsettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "இயல்பானது"
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "கோப்புகள் அல்லது அடைவுகளை அகற்றிடத்துக்கு நகர்த்தும்போது"
 
-#: settings/general/behaviorsettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தாமல்"
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "அகற்றிடத்தை காலியாக்கும்போது"
 
-#: settings/general/behaviorsettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:51
 #, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தி"
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "கோப்புகள் அல்லது அடைவுகளை நீக்கும்போது"
 
-#: settings/general/behaviorsettingspage.cpp:57
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "வரிசைப்படுத்தும் முறை:"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "இவற்றை செய்யும்போது டால்பினில் உறுதிப்படுத்து:"
 
-#: settings/general/behaviorsettingspage.cpp:65
+#: settings/interface/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "பல கீற்றுகளைக் கொண்ட சாளரத்தை மூடும்போது"
+
+#: settings/interface/confirmationssettingspage.cpp:60
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr "முனையப் பலகையில் ஒரு நிரல் ஓடிக்கொண்டிருக்கும்போது சாளரத்தை மூடினால்"
+
+#: settings/interface/confirmationssettingspage.cpp:64
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr "இயக்கவல்ல கோப்பை திறக்கும்போது:"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Always ask"
+msgstr "எப்போதும் கேள்"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Open in application"
+msgstr "செயலியில் திற"
+
+#: settings/interface/confirmationssettingspage.cpp:69
+#, kde-format
+msgid "Run script"
+msgstr "சிறுநிரலை இயக்கு"
+
+#: settings/interface/folderstabssettingspage.cpp:45
+#, kde-format
+msgctxt "@option:radio Show on startup"
+msgid "Folders, tabs, and window state from last time"
+msgstr "போன முறை திறந்திருந்த அடைவுகள், கீற்றுகள், மற்றும் சாளர நிலை"
+
+#: settings/interface/folderstabssettingspage.cpp:67
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "முகப்பு இடத்தை தேர்வு செய்"
+
+#: settings/interface/folderstabssettingspage.cpp:76
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "தற்போதைய இடத்தினைப் பயன்படுத்து"
+
+#: settings/interface/folderstabssettingspage.cpp:79
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "இயல்பிருப்பு இடத்தினைப் பயன்படுத்து"
+
+#: settings/interface/folderstabssettingspage.cpp:90
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "துவங்கும்போது காட்டு:"
+
+#: settings/interface/folderstabssettingspage.cpp:95
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr "புதிய அடைவுகளை கீற்றுகளில் திற (புதிய சாளரத்திற்கு பதிலாக)"
+
+#: settings/interface/folderstabssettingspage.cpp:96
+#, kde-format
+msgctxt "@label:checkbox"
+msgid "Opening Folders:"
+msgstr "அடைவுகளைத் திறப்பது:"
+
+#: settings/interface/folderstabssettingspage.cpp:98
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "தலைப்புப் பட்டையில் முழுப் பாதையைக் காட்டு"
+
+#: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "சாளரம்"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, kde-format
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "வடிகட்டிப் பட்டையைக் காட்டு"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "தற்போதைய கீற்றுக்குப் பிறகு"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "கீற்றுப் பட்டையின் கடைசியில்"
+
+#: settings/interface/folderstabssettingspage.cpp:111
+#, kde-format
+msgctxt "@title:group"
+msgid "Open new tabs: "
+msgstr "புதிய கீற்றுகளை இங்கே திற:"
+
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
 msgstr "தத்தல் விசையைக் கொண்டு காட்சிப்பகுதிகளுக்கிடையே தாவு"
 
-#: settings/general/behaviorsettingspage.cpp:66
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறை:"
 
-#: settings/general/behaviorsettingspage.cpp:69
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறையை முடக்குதல் குவியத்தில் உள்ள பாகத்தை மூடும்"
 
-#: settings/general/behaviorsettingspage.cpp:71
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
 msgstr ""
 "இது குறிக்கப்படவில்லையெனில், துண்டாக்கப்பட்ட காட்சிமுறையை முடக்குதல், செயலில் இல்லாத "
 "காட்சியை மூடும்"
 
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "கருவித்துப்புகளைக் காட்டு"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "மற்றவை:"
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "தேர்வு குறியீட்டை காட்டு"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "மறுபெயரிடுவதற்கு தனியாக ஒரு சாளரத்தைக் காட்டாதே"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
-#, kde-format
-msgctxt "@title:window"
-msgid "Configure Preview for %1"
-msgstr "%1-க்கு முன்தோற்றத்தை அமைத்தல்"
-
-#: settings/general/confirmationssettingspage.cpp:46
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in all KDE applications when:"
-msgstr "இவற்றை செய்யும்போது அனைத்து கே.டீ.யீ. செயலிகளில் உறுதிப்படுத்து:"
-
-#: settings/general/confirmationssettingspage.cpp:49
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Moving files or folders to trash"
-msgstr "கோப்புகள் அல்லது அடைவுகளை அகற்றிடத்துக்கு நகர்த்தும்போது"
-
-#: settings/general/confirmationssettingspage.cpp:50
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Emptying trash"
-msgstr "அகற்றிடத்தை காலியாக்கும்போது"
-
-#: settings/general/confirmationssettingspage.cpp:51
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Deleting files or folders"
-msgstr "கோப்புகள் அல்லது அடைவுகளை நீக்கும்போது"
-
-#: settings/general/confirmationssettingspage.cpp:53
-#, kde-format
-msgctxt "@title:group"
-msgid "Ask for confirmation in Dolphin when:"
-msgstr "இவற்றை செய்யும்போது டால்பினில் உறுதிப்படுத்து:"
-
-#: settings/general/confirmationssettingspage.cpp:56
-#, kde-format
-msgctxt "@option:check Ask for confirmation in Dolphin when"
-msgid "Closing windows with multiple tabs"
-msgstr "பல கீற்றுகளைக் கொண்ட சாளரத்தை மூடும்போது"
-
-#: settings/general/confirmationssettingspage.cpp:60
-#, kde-format
-msgctxt "@option:check Ask for confirmation when"
-msgid "Closing windows with a program running in the Terminal panel"
-msgstr "முனையப் பலகையில் ஒரு நிரல் ஓடிக்கொண்டிருக்கும்போது சாளரத்தை மூடினால்"
-
-#: settings/general/confirmationssettingspage.cpp:64
-#, kde-format
-msgctxt "@title:group"
-msgid "When opening an executable file:"
-msgstr "இயக்கவல்ல கோப்பை திறக்கும்போது:"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Always ask"
-msgstr "எப்போதும் கேள்"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Open in application"
-msgstr "செயலியில் திற"
-
-#: settings/general/confirmationssettingspage.cpp:69
-#, kde-format
-msgid "Run script"
-msgstr "சிறுநிரலை இயக்கு"
-
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "நடத்தை"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "முன்தோற்றங்கள்"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "உறுதிப்பாடு"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "நிலைப்பட்டை"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "இவற்றிற்கு காட்சிப்பகுதியில் முன்தோற்றங்களைக் காட்டு:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "இதைவிட பெரிய உள்ளமைக் கோப்புகளுக்கு முன்தோற்றங்களைக் காட்டாதே:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr " MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "வரம்பு இல்லை"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "இதைவிட பெரிய தொலைக் கோப்புகளுக்கு முன்தோற்றங்களைக் காட்டாதே:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "முன்தோற்றங்கள் வேண்டாம்"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "நிலைப் பட்டையைக் காட்டு"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "உருப்பெருக்க நழுவியைக் காட்டு"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "காலியிட விவரத்தைக் காட்டு"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "சின்னங்கள்"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "சுருக்கமானது"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "விவரமானது"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "தற்போதைய கீற்றுக்குப் பிறகு"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "கீற்றுப் பட்டையின் கடைசியில்"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "புதிய கீற்றுகளை இங்கே திற:"
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "பெட்டகங்களை (archive-களை) அடைவுகளைப் போல் திற"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "இழுக்கும் போது அடைவுகளைத் திற"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "பொதுவானவை:"
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
-msgid "Folders, tabs, and window state from last time"
-msgstr "போன முறை திறந்திருந்த அடைவுகள், கீற்றுகள், மற்றும் சாளர நிலை"
-
-#: settings/startup/startupsettingspage.cpp:67
-#, kde-format
-msgctxt "@action:button"
-msgid "Select Home Location"
-msgstr "முகப்பு இடத்தை தேர்வு செய்"
-
-#: settings/startup/startupsettingspage.cpp:76
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Current Location"
-msgstr "தற்போதைய இடத்தினைப் பயன்படுத்து"
-
-#: settings/startup/startupsettingspage.cpp:79
-#, kde-format
-msgctxt "@action:button"
-msgid "Use Default Location"
-msgstr "இயல்பிருப்பு இடத்தினைப் பயன்படுத்து"
-
-#: settings/startup/startupsettingspage.cpp:90
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Show on startup:"
-msgstr "துவங்கும்போது காட்டு:"
-
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறையில் துவக்கு"
 
-#: settings/startup/startupsettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
 msgstr "புதிய சாளரங்களில்:"
 
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "வடிகட்டிப் பட்டையைக் காட்டு"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "இடப் பட்டையை திருத்தக்கூடியவாறு செய்"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "புதிய அடைவுகளை கீற்றுகளில் திற"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
-msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "பொதுவானவை:"
-
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "இடப் பட்டையில் முழுப் பாதையைக் காட்டு"
-
-#: settings/startup/startupsettingspage.cpp:108
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "தலைப்புப் பட்டையில் முழுப் பாதையைக் காட்டு"
-
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4029,68 +3816,220 @@ msgid ""
 "be applied."
 msgstr "முகப்பு அடைவிற்கான இடம் முறையாற்றது அல்லது இல்லாதது, அதனால் செயல்படுத்தப்படாது."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, kde-format
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "அடைவுகளும் கீற்றுகளும்"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "முன்தோற்றங்கள்"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "உறுதிப்பாடு"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "நிலை மற்றும் இட பட்டைகள்"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "இவற்றிற்கு காட்சிப்பகுதியில் முன்தோற்றங்களைக் காட்டு:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "இதைவிட பெரிய உள்ளமைக் கோப்புகளுக்கு முன்தோற்றங்களைக் காட்டாதே:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr " MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "வரம்பு இல்லை"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "இதைவிட பெரிய தொலைக் கோப்புகளுக்கு முன்தோற்றங்களைக் காட்டாதே:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "முன்தோற்றங்கள் வேண்டாம்"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "நிலைப் பட்டையைக் காட்டு"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "உருப்பெருக்க நழுவியைக் காட்டு"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "காலியிட விவரத்தைக் காட்டு"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, kde-format
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "நிலைப்பட்டை:"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "இடப் பட்டையை திருத்தக்கூடியவாறு செய்"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, kde-format
+msgid "Location bar:"
+msgstr "இடப்பட்டை:"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "இடப் பட்டையில் முழுப் பாதையைக் காட்டு"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "நடத்தை"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "சின்னங்கள்"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "சுருக்கமானது"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "விவரமானது"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "இயல்பானது"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தாமல்"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தி"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "வரிசைப்படுத்தும் முறை:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "உருப்படிகளின் எண்ணிக்கை"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "உள்ளடக்கத்தின் அளவு"
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " நிலை ஆழமாக"
 msgstr[1] " நிலைகள் ஆழமாக"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "அடைவுகளின் அளவு காட்டப்படுவது:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "சார்ந்தது (எ.கா. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "முழுமையானது (எ.கா. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "தேதி எப்படிக் காட்டப்படும்:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "எழுத்துவடிவம் (எ.கா. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "எண்மவடிவம் (எ.கா. '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "இரண்டும் (எ.கா. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4114,7 +4053,84 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "தேர்வு செய்…"
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "அனைத்து அடைவுகளுக்கும் பொதுவான காட்சி முறையை பயன்படுத்து"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "ஒவ்வொரு அடைவிற்கும் தனிப்பட்ட காட்சி முறையை நினைவில் கொள்"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"நீங்கள் ஒரு அடைவின் பார்வைப் பண்புகளை மாற்றினால் டால்பின் அதில் ஒரு மறைந்துள்ள '."
+"directory' கோப்பை உருவாக்கும்."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, kde-format
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "காட்சிமுறை: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "பெட்டகங்களை (archive-களை) அடைவுகளைப் போல் திற"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "இழுக்கும் போது அடைவுகளைத் திற"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr "உலாவல்: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "கருவித்துப்புகளைக் காட்டு"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "மற்றவை:"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "தேர்வு குறியீட்டை காட்டு"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "மறுபெயரிடுவதற்கு தனியாக ஒரு சாளரத்தைக் காட்டாதே"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, kde-format
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "பொதுவானவை"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
@@ -5163,6 +5179,34 @@ msgstr[1] "தேர்வு செய்த %1 உருப்படிகள�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "பதிப்பு விவரங்கள் புதுப்பிக்கப்படுகின்றன…"
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "துவக்கம்"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "காட்சி முறைகள்"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "உலாவல்"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "காட்சிமுறை:"
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "பொதுவானவை:"
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "புதிய அடைவுகளை கீற்றுகளில் திற"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "பொதுவானவை:"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."

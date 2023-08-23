@@ -24,7 +24,7 @@ class ViewSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ViewSettingsPage(QWidget *parent);
+    explicit ViewSettingsPage(const QUrl &url, QWidget *parent);
     ~ViewSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -36,7 +36,7 @@ public:
 private:
     ContentDisplayTab *contentDisplayTab;
     QTabWidget *tabWidget;
-    QList<ViewSettingsTab *> m_tabs;
+    QList<SettingsPageBase *> m_tabs;
 };
 
 #endif

@@ -6,9 +6,10 @@
 
 #include "kcmdolphingeneral.h"
 
-#include "settings/general/behaviorsettingspage.h"
-#include "settings/general/confirmationssettingspage.h"
-#include "settings/general/previewssettingspage.h"
+#include "settings/interface/confirmationssettingspage.h"
+#include "settings/interface/folderstabssettingspage.h"
+#include "settings/interface/interfacesettingspage.h"
+#include "settings/interface/previewssettingspage.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -30,10 +31,10 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KP
 
     QTabWidget *tabWidget = new QTabWidget(widget());
 
-    // initialize 'Behavior' tab
-    BehaviorSettingsPage *behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
-    tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
-    connect(behaviorPage, &BehaviorSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
+    // initialize 'Folders & Tabs' tab
+    FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);
+    tabWidget->addTab(foldersTabsPage, i18nc("@title:tab Behavior settings", "Behavior"));
+    connect(foldersTabsPage, &FoldersTabsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
 
     // initialize 'Previews' tab
     PreviewsSettingsPage *previewsPage = new PreviewsSettingsPage(tabWidget);
@@ -44,7 +45,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KP
     ConfirmationsSettingsPage *confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
     tabWidget->addTab(confirmationsPage, i18nc("@title:tab Confirmations settings", "Confirmations"));
     connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
-    m_pages.append(behaviorPage);
+    m_pages.append(foldersTabsPage);
     m_pages.append(previewsPage);
     m_pages.append(confirmationsPage);
 

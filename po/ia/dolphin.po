@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-04 00:48+0000\n"
+"POT-Creation-Date: 2023-08-23 00:48+0000\n"
 "PO-Revision-Date: 2023-07-02 21:48+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -55,14 +55,14 @@ msgstr "Aperi percurso"
 #: dolphincontextmenu.cpp:212
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Window"
-msgstr "Aperi percurso in nove fenestra"
+msgid "Open Path in New Tab"
+msgstr "Aperi percurso in nove scheda"
 
 #: dolphincontextmenu.cpp:216
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Open Path in New Tab"
-msgstr "Aperi percurso in nove scheda"
+msgid "Open Path in New Window"
+msgstr "Aperi percurso in nove fenestra"
 
 #: dolphinmainwindow.cpp:303
 #, kde-format
@@ -1519,7 +1519,7 @@ msgstr "Claude scheda"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:497
+#: dolphintabwidget.cpp:498
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1527,7 +1527,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:501
+#: dolphintabwidget.cpp:502
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -3715,55 +3715,44 @@ msgstr "Maxime numero de lineas de texto (0 significa sin limite)"
 msgid "Enabled plugins"
 msgstr "Plugins habilitate"
 
-#: settings/dolphinsettingsdialog.cpp:43
+#: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Configura"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
-msgctxt "@title:group General settings"
-msgid "General"
-msgstr "General"
+msgctxt "@title:group Interface settings"
+msgid "Interface"
+msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:61
-#, kde-format
+#: settings/dolphinsettingsdialog.cpp:59
+#, fuzzy, kde-format
+#| msgid "&View"
 msgctxt "@title:group"
-msgid "Startup"
-msgstr "Pone in marcha"
+msgid "View"
+msgstr "&Vista"
 
-#: settings/dolphinsettingsdialog.cpp:67
-#, kde-format
-msgctxt "@title:group"
-msgid "View Modes"
-msgstr "Modos de vistas"
-
-#: settings/dolphinsettingsdialog.cpp:73
-#, kde-format
-msgctxt "@title:group"
-msgid "Navigation"
-msgstr "Navigation"
-
-#: settings/dolphinsettingsdialog.cpp:90
+#: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Menu de contexto"
 
-#: settings/dolphinsettingsdialog.cpp:100
+#: settings/dolphinsettingsdialog.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Corbe"
 
-#: settings/dolphinsettingsdialog.cpp:110
+#: settings/dolphinsettingsdialog.cpp:96
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Responsa del usator"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
@@ -3771,396 +3760,203 @@ msgstr ""
 "Tu ha modificationes non salveguardate.Tu vole applicar tu modificationes o "
 "abandonar illos?"
 
-#: settings/dolphinsettingsdialog.cpp:185
+#: settings/dolphinsettingsdialog.cpp:169
 #, kde-format
 msgid "Warning"
 msgstr "Aviso"
 
-#: settings/general/behaviorsettingspage.cpp:36
-#, kde-format
-msgctxt "@option:radio"
-msgid "Use common display style for all folders"
-msgstr "Usa stilo de monstrar commun pro omne dossieres"
-
-#: settings/general/behaviorsettingspage.cpp:37
-#, kde-format
-msgctxt "@option:radio"
-msgid "Remember display style for each folder"
-msgstr "Memora stylo de monstrar per cata dossier "
-
-#: settings/general/behaviorsettingspage.cpp:38
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
-msgstr ""
-"Dolphin creara un file celate .directory  in cata dossier pro le qual tu "
-"modifica le vista."
-
-#: settings/general/behaviorsettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "View: "
-msgstr "Vista: "
-
-#: settings/general/behaviorsettingspage.cpp:49
-#, kde-format
-msgctxt "option:radio"
-msgid "Natural"
-msgstr "Natural"
-
-#: settings/general/behaviorsettingspage.cpp:50
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case insensitive"
-msgstr "Alphabetic, insensibile al differentia inter majusculas e minusculas"
-
-#: settings/general/behaviorsettingspage.cpp:51
-#, kde-format
-msgctxt "option:radio"
-msgid "Alphabetical, case sensitive"
-msgstr "Alphabetic, sensibile al differentia inter majusculas e minusculas"
-
-#: settings/general/behaviorsettingspage.cpp:57
-#, kde-format
-msgctxt "@title:group"
-msgid "Sorting mode: "
-msgstr "Modo de ordinar: "
-
-#: settings/general/behaviorsettingspage.cpp:65
-#, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between panes with Tab key"
-msgstr "Commuta inter pannellos  con clave de tab"
-
-#: settings/general/behaviorsettingspage.cpp:66
-#, kde-format
-msgctxt "@title:group"
-msgid "Split view: "
-msgstr "Scinde vista: "
-
-#: settings/general/behaviorsettingspage.cpp:69
-#, kde-format
-msgctxt "option:check"
-msgid "Turning off split view closes active pane"
-msgstr "Extinguer le vista dividite claude pannello active"
-
-#: settings/general/behaviorsettingspage.cpp:71
-#, kde-format
-msgid "When deactivated, turning off split view will close the inactive pane"
-msgstr ""
-"Quando deativate, extinguer le vista dividite claudera le pannello inactive"
-
-#: settings/general/behaviorsettingspage.cpp:77
-#, kde-format
-msgctxt "@option:check"
-msgid "Show tooltips"
-msgstr "Monstra consilios"
-
-#: settings/general/behaviorsettingspage.cpp:78
-#: settings/general/behaviorsettingspage.cpp:86
-#, kde-format
-msgctxt "@title:group"
-msgid "Miscellaneous: "
-msgstr "Miscellanea: "
-
-#: settings/general/behaviorsettingspage.cpp:82
-#, kde-format
-msgctxt "@option:check"
-msgid "Show selection marker"
-msgstr "Monstra marcator de selection"
-
-#: settings/general/behaviorsettingspage.cpp:90
-#, kde-format
-msgctxt "option:check"
-msgid "Rename inline"
-msgstr "Cambia nomine in linea"
-
-#: settings/general/configurepreviewplugindialog.cpp:36
+#: settings/interface/configurepreviewplugindialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Preview for %1"
 msgstr "Configura vista preliminar per %1"
 
-#: settings/general/confirmationssettingspage.cpp:46
+#: settings/interface/confirmationssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "Demanda confirmation in omne applicationes de KDE quando:"
 
-#: settings/general/confirmationssettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "Movente files o dossieres al corbe"
 
-#: settings/general/confirmationssettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Il es vacuante le corbe"
 
-#: settings/general/confirmationssettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:51
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "Delente files o dossieres"
 
-#: settings/general/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Demanda confirmation in Dolphin quando:"
 
-#: settings/general/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "Claudente fenestras con multiple schedas"
 
-#: settings/general/confirmationssettingspage.cpp:60
+#: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 "Claudente fenestras con un programma executante in le pannello Terminal"
 
-#: settings/general/confirmationssettingspage.cpp:64
+#: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "Quando il aperi un file executabile:"
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr "Demanda sempre"
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Open in application"
 msgstr "Aperi in applicationes"
 
-#: settings/general/confirmationssettingspage.cpp:69
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr "Exeque Script"
 
-#: settings/general/generalsettingspage.cpp:30
-#: settings/kcm/kcmdolphingeneral.cpp:35
-#, kde-format
-msgctxt "@title:tab Behavior settings"
-msgid "Behavior"
-msgstr "Comportamento"
-
-#: settings/general/generalsettingspage.cpp:35
-#: settings/kcm/kcmdolphingeneral.cpp:40
-#, kde-format
-msgctxt "@title:tab Previews settings"
-msgid "Previews"
-msgstr "Vistas preliminar"
-
-#: settings/general/generalsettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:45
-#, kde-format
-msgctxt "@title:tab Confirmations settings"
-msgid "Confirmations"
-msgstr "Confirmationes"
-
-#: settings/general/generalsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab Status Bar settings"
-msgid "Status Bar"
-msgstr "Barra de stato"
-
-#: settings/general/previewssettingspage.cpp:43
-#, kde-format
-msgctxt "@title:group"
-msgid "Show previews in the view for:"
-msgstr "Monstra vistas preliminar in le vista pro:"
-
-#: settings/general/previewssettingspage.cpp:64
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Salta vistas preliminar pro files de supra:"
-
-#: settings/general/previewssettingspage.cpp:68
-#: settings/general/previewssettingspage.cpp:81
-#, kde-format
-msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
-msgid " MiB"
-msgstr "MiB"
-
-#: settings/general/previewssettingspage.cpp:70
-#, kde-format
-msgid "No limit"
-msgstr "Necun limite"
-
-#: settings/general/previewssettingspage.cpp:77
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Salta vistas preliminar pro files remote de supra:"
-
-#: settings/general/previewssettingspage.cpp:83
-#, kde-format
-msgid "No previews"
-msgstr "Nulle vistas preliminar"
-
-#: settings/general/statusbarsettingspage.cpp:22
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "Monstra barra de stato"
-
-#: settings/general/statusbarsettingspage.cpp:23
-#, kde-format
-msgctxt "@option:check"
-msgid "Show zoom slider"
-msgstr "Monstra glissator de zoom"
-
-#: settings/general/statusbarsettingspage.cpp:24
-#, kde-format
-msgctxt "@option:check"
-msgid "Show space information"
-msgstr "Monstra information de spatio"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:35
-#: settings/viewmodes/viewsettingspage.cpp:35
-#, kde-format
-msgctxt "@title:tab"
-msgid "Icons"
-msgstr "Icones"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:40
-#: settings/viewmodes/viewsettingspage.cpp:40
-#, kde-format
-msgctxt "@title:tab"
-msgid "Compact"
-msgstr "Compacte"
-
-#: settings/kcm/kcmdolphinviewmodes.cpp:45
-#: settings/viewmodes/viewsettingspage.cpp:45
-#, kde-format
-msgctxt "@title:tab"
-msgid "Details"
-msgstr "Detalios"
-
-#: settings/navigation/navigationsettingspage.cpp:29
-#, kde-format
-msgctxt "option:radio"
-msgid "After current tab"
-msgstr "Post scheda currente"
-
-#: settings/navigation/navigationsettingspage.cpp:30
-#, kde-format
-msgctxt "option:radio"
-msgid "At end of tab bar"
-msgstr "Al fin de barra de scheda"
-
-#: settings/navigation/navigationsettingspage.cpp:34
-#, kde-format
-msgctxt "@title:group"
-msgid "Open new tabs: "
-msgstr "Aperi nove schedas:"
-
-#: settings/navigation/navigationsettingspage.cpp:39
-#, kde-format
-msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Aperi files como dossieres"
-
-#: settings/navigation/navigationsettingspage.cpp:40
-#, kde-format
-msgctxt "option:check"
-msgid "Open folders during drag operations"
-msgstr "Aperi dossieres durante operationes de trainar"
-
-#: settings/navigation/navigationsettingspage.cpp:41
-#, kde-format
-msgctxt "@title:group"
-msgid "General: "
-msgstr "General: "
-
-#: settings/startup/startupsettingspage.cpp:45
-#, kde-format
-msgctxt "@option:radio Startup Settings"
+#: settings/interface/folderstabssettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Startup Settings"
+#| msgid "Folders, tabs, and window state from last time"
+msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Dossieres,schedas, e stato de fenestra ab le ultime vice"
 
-#: settings/startup/startupsettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Selige le location domo o initial"
 
-#: settings/startup/startupsettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:76
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Usa le location currente"
 
-#: settings/startup/startupsettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Usa le location predefinite"
 
-#: settings/startup/startupsettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Monstra quando il initia:"
 
-#: settings/startup/startupsettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Begin in split view mode"
-msgstr "Initia in modo de vista scindite"
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr ""
 
-#: settings/startup/startupsettingspage.cpp:96
-#, kde-format
-msgid "New windows:"
-msgstr "Nove fenestras:"
-
-#: settings/startup/startupsettingspage.cpp:97
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show filter bar"
-msgstr "Monstra le barra de filtro"
-
-#: settings/startup/startupsettingspage.cpp:99
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Make location bar editable"
-msgstr "Facer que le barra de location pote esser modificate"
-
-#: settings/startup/startupsettingspage.cpp:104
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Open new folders in tabs"
-msgstr "Aperi nove dossieres in schedas"
-
-#: settings/startup/startupsettingspage.cpp:105
-#, kde-format
+#: settings/interface/folderstabssettingspage.cpp:96
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Open files and folders:"
 msgctxt "@label:checkbox"
-msgid "General:"
-msgstr "General:"
+msgid "Opening Folders:"
+msgstr "Aperi files e dossieres:"
 
-#: settings/startup/startupsettingspage.cpp:106
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path inside location bar"
-msgstr "Monstra le percurso complete intra le barra de location"
-
-#: settings/startup/startupsettingspage.cpp:108
+#: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Monstra le percurso complete in le barra de titulo"
 
-#: settings/startup/startupsettingspage.cpp:230
+#: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgctxt "@label:checkbox"
+msgid "Window:"
+msgstr "Nove &fenestra"
+
+#: settings/interface/folderstabssettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show filter bar"
+msgctxt "@option:check Window Startup Settings"
+msgid "Show filter bar"
+msgstr "Monstra le barra de filtro"
+
+#: settings/interface/folderstabssettingspage.cpp:106
+#, kde-format
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Post scheda currente"
+
+#: settings/interface/folderstabssettingspage.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr "Al fin de barra de scheda"
+
+#: settings/interface/folderstabssettingspage.cpp:111
+#, kde-format
+msgctxt "@title:group"
+msgid "Open new tabs: "
+msgstr "Aperi nove schedas:"
+
+#: settings/interface/folderstabssettingspage.cpp:118
+#, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between panes with Tab key"
+msgstr "Commuta inter pannellos  con clave de tab"
+
+#: settings/interface/folderstabssettingspage.cpp:119
+#, kde-format
+msgctxt "@title:group"
+msgid "Split view: "
+msgstr "Scinde vista: "
+
+#: settings/interface/folderstabssettingspage.cpp:122
+#, kde-format
+msgctxt "option:check"
+msgid "Turning off split view closes active pane"
+msgstr "Extinguer le vista dividite claude pannello active"
+
+#: settings/interface/folderstabssettingspage.cpp:124
+#, kde-format
+msgid "When deactivated, turning off split view will close the inactive pane"
+msgstr ""
+"Quando deativate, extinguer le vista dividite claudera le pannello inactive"
+
+#: settings/interface/folderstabssettingspage.cpp:127
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Begin in split view mode"
+msgstr "Initia in modo de vista scindite"
+
+#: settings/interface/folderstabssettingspage.cpp:128
+#, kde-format
+msgid "New windows:"
+msgstr "Nove fenestras:"
+
+#: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4170,68 +3966,230 @@ msgstr ""
 "Le location pro le dossier domo es invalide o non existe, il non essera "
 "applicate."
 
-#: settings/viewmodes/contentdisplaytab.cpp:34
+#: settings/interface/interfacesettingspage.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "@title:tab Folders & Tabs settings"
+msgid "Folders && Tabs"
+msgstr "Prime le dossieres"
+
+#: settings/interface/interfacesettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:41
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Vistas preliminar"
+
+#: settings/interface/interfacesettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:46
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Confirmationes"
+
+#: settings/interface/interfacesettingspage.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgctxt "@title:tab Status & Location bars settings"
+msgid "Status && Location bars"
+msgstr "Barra de location"
+
+#: settings/interface/previewssettingspage.cpp:43
+#, kde-format
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Monstra vistas preliminar in le vista pro:"
+
+#: settings/interface/previewssettingspage.cpp:64
+#, kde-format
+msgid "Skip previews for local files above:"
+msgstr "Salta vistas preliminar pro files de supra:"
+
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr "MiB"
+
+#: settings/interface/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr "Necun limite"
+
+#: settings/interface/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Salta vistas preliminar pro files remote de supra:"
+
+#: settings/interface/previewssettingspage.cpp:83
+#, kde-format
+msgid "No previews"
+msgstr "Nulle vistas preliminar"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:36
+#, kde-format
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Monstra barra de stato"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Monstra glissator de zoom"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Monstra information de spatio"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@title:group"
+msgid "Status Bar: "
+msgstr "Barra de stato"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Facer que le barra de location pote esser modificate"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+#| msgid_plural "Location Bars"
+msgid "Location bar:"
+msgstr "Barra de location"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Monstra le percurso complete intra le barra de location"
+
+#: settings/kcm/kcmdolphingeneral.cpp:36
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Comportamento"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:40
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Icones"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Compacte"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:50
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Detalios"
+
+#: settings/viewmodes/contentdisplaytab.cpp:37
+#, kde-format
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Natural"
+
+#: settings/viewmodes/contentdisplaytab.cpp:38
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Alphabetic, insensibile al differentia inter majusculas e minusculas"
+
+#: settings/viewmodes/contentdisplaytab.cpp:39
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Alphabetic, sensibile al differentia inter majusculas e minusculas"
+
+#: settings/viewmodes/contentdisplaytab.cpp:45
+#, kde-format
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Modo de ordinar: "
+
+#: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "Numero de elementos:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:35
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "Grandor de contentos, usque"
 
-#: settings/viewmodes/contentdisplaytab.cpp:43
+#: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] "profunde de nivello"
 msgstr[1] "profunde de nivellos"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "Monstra grandor de dossieres:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:61
+#: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relative (p.ex. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absolute (p.ex. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Stilo de Data:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Symbolic (p.ex. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:73
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Numeric (Octal) (p.ex. '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Combined (p.ex.. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:76
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4255,7 +4213,88 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Elige..."
 
-#: settings/viewmodes/viewsettingspage.cpp:30
+#: settings/viewmodes/generalviewsettingspage.cpp:31
+#, kde-format
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Usa stilo de monstrar commun pro omne dossieres"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Memora stylo de monstrar per cata dossier "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:33
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+"Dolphin creara un file celate .directory  in cata dossier pro le qual tu "
+"modifica le vista."
+
+#: settings/viewmodes/generalviewsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Display Style"
+msgctxt "@title:group"
+msgid "Display style: "
+msgstr "Stilo de montrator de vista"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:44
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Aperi files como dossieres"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:45
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Aperi dossieres durante operationes de trainar"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:46
+#, kde-format
+msgctxt "@title:group"
+msgid "Browsing: "
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:53
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Monstra consilios"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr "Miscellanea: "
+
+#: settings/viewmodes/generalviewsettingspage.cpp:58
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Monstra marcator de selection"
+
+#: settings/viewmodes/generalviewsettingspage.cpp:66
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Cambia nomine in linea"
+
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:tab General View settings"
+msgid "General"
+msgstr "General"
+
+#: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
@@ -5345,6 +5384,34 @@ msgstr[1] "Actiones per %1 elementos selectionate"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Il actualisa le information de version..."
+
+#~ msgctxt "@title:group"
+#~ msgid "Startup"
+#~ msgstr "Pone in marcha"
+
+#~ msgctxt "@title:group"
+#~ msgid "View Modes"
+#~ msgstr "Modos de vistas"
+
+#~ msgctxt "@title:group"
+#~ msgid "Navigation"
+#~ msgstr "Navigation"
+
+#~ msgctxt "@title:group"
+#~ msgid "View: "
+#~ msgstr "Vista: "
+
+#~ msgctxt "@title:group"
+#~ msgid "General: "
+#~ msgstr "General: "
+
+#~ msgctxt "@option:check Startup Settings"
+#~ msgid "Open new folders in tabs"
+#~ msgstr "Aperi nove dossieres in schedas"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "General:"
+#~ msgstr "General:"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."

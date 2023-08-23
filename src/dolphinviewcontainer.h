@@ -327,6 +327,11 @@ private Q_SLOTS:
     void slotItemsActivated(const KFileItemList &items);
 
     /**
+     * Handles middle click of file. It opens the file passed using the second application associated with the file's mimetype.
+     */
+    void slotfileMiddleClickActivated(const KFileItem &item);
+
+    /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
      */

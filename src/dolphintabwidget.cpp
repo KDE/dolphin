@@ -15,6 +15,7 @@
 #include <KIO/CommandLauncherJob>
 #include <KLocalizedString>
 #include <KShell>
+#include <KStringHandler>
 #include <kio/global.h>
 
 #include <QApplication>
@@ -507,7 +508,7 @@ QString DolphinTabWidget::tabName(DolphinTabPage *tabPage) const
 
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
-    return name.replace('&', QLatin1String("&&"));
+    return KStringHandler::rsqueeze(name.replace('&', QLatin1String("&&")), 40 /* default maximum visible folder name visible */);
 }
 
 DolphinViewContainer *DolphinTabWidget::viewContainerAt(DolphinTabWidget::ViewIndex viewIndex) const

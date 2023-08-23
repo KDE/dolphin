@@ -453,6 +453,12 @@ Q_SIGNALS:
     void itemActivated(const KFileItem &item);
 
     /**
+     * Is emitted when clicking on a file with the middle mouse button.
+     * @note: This will not be emitted for folders or file archives that will/can be opened like folders.
+     */
+    void fileMiddleClickActivated(const KFileItem &item);
+
+    /**
      * Is emitted when multiple items have been activated by e. g.
      * context menu open with.
      */
