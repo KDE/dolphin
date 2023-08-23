@@ -215,7 +215,7 @@ private:
      */
     void closeRoleEditor();
 
-    static QPixmap pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode);
+    QPixmap pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode) const;
 
     /**
      * @return Preferred size of the rating-image based on the given

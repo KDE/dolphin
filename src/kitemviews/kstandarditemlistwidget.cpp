@@ -1540,13 +1540,18 @@ void KStandardItemListWidget::closeRoleEditor()
     m_roleEditor = nullptr;
 }
 
-QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode)
+QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode) const
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
+    qreal dpr = qApp->devicePixelRatio();
+    if (scene() && !scene()->views().isEmpty()) {
+        dpr = scene()->views().constFirst()->devicePixelRatioF();
+    }
 
-    size *= qApp->devicePixelRatio();
+    size *= dpr;
 
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % ":" % QString::number(mode);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % "@" % QString::number(dpr)
+        % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, &pixmap)) {
@@ -1554,11 +1559,11 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStrin
         if (icon.isNull()) {
             icon = QIcon(name);
         }
-        if (icon.isNull() || icon.pixmap(size / qApp->devicePixelRatio(), size / qApp->devicePixelRatio(), mode).isNull()) {
+        if (icon.isNull() || icon.pixmap(size / dpr, size / dpr, mode).isNull()) {
             icon = fallbackIcon;
         }
 
-        pixmap = icon.pixmap(size / qApp->devicePixelRatio(), size / qApp->devicePixelRatio(), mode);
+        pixmap = icon.pixmap(QSize(size / dpr, size / dpr), dpr, mode);
         if (pixmap.width() != size || pixmap.height() != size) {
             KPixmapModifier::scale(pixmap, QSize(size, size));
         }
@@ -1595,7 +1600,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStrin
 
         QPixmapCache::insert(key, pixmap);
     }
-    pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+    pixmap.setDevicePixelRatio(dpr);
 
     return pixmap;
 }
