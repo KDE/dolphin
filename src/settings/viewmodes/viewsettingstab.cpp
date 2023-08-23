@@ -26,7 +26,7 @@
 #include <QSpinBox>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
-    : QWidget(parent)
+    : SettingsPageBase(parent)
     , m_mode(mode)
     , m_defaultSizeSlider(nullptr)
     , m_previewSizeSlider(nullptr)
@@ -186,7 +186,7 @@ void ViewSettingsTab::applySettings()
     settings.save();
 }
 
-void ViewSettingsTab::restoreDefaultSettings()
+void ViewSettingsTab::restoreDefaults()
 {
     ViewModeSettings settings(m_mode);
     settings.useDefaults(true);

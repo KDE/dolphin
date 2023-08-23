@@ -67,7 +67,7 @@ void DolphinViewModesConfigModule::save()
 void DolphinViewModesConfigModule::defaults()
 {
     for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
-        tab->restoreDefaultSettings();
+        tab->restoreDefaults();
     }
     reparseConfiguration();
 }

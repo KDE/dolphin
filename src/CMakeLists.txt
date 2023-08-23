@@ -505,6 +505,7 @@ if(NOT WIN32)
         settings/viewmodes/dolphinfontrequester.cpp
         settings/viewmodes/viewmodesettings.cpp
         settings/viewmodes/viewsettingstab.cpp
+        settings/settingspagebase.cpp
         views/zoomlevelinfo.cpp
         settings/kcm/kcmdolphinviewmodes.h
         settings/viewmodes/dolphinfontrequester.h

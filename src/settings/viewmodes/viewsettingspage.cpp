@@ -50,6 +50,8 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     tabWidget->addTab(detailsTab, QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@title:tab", "Details"));
     connect(detailsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
+    m_tabs.append(generalViewPage);
+    m_tabs.append(contentDisplayTab);
     m_tabs.append(iconsTab);
     m_tabs.append(compactTab);
     m_tabs.append(detailsTab);
@@ -63,23 +65,16 @@ ViewSettingsPage::~ViewSettingsPage()
 
 void ViewSettingsPage::applySettings()
 {
-    contentDisplayTab->applySettings();
-
-    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
+    for (SettingsPageBase *tab : qAsConst(m_tabs)) {
         tab->applySettings();
     }
 }
 
 void ViewSettingsPage::restoreDefaults()
 {
-    if (tabWidget->currentWidget() == contentDisplayTab) {
-        contentDisplayTab->restoreDefaults();
-        return;
-    }
-
-    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
+    for (SettingsPageBase *tab : qAsConst(m_tabs)) {
         if (tabWidget->currentWidget() == tab) {
-            tab->restoreDefaultSettings();
+            tab->restoreDefaults();
             return;
         }
     }

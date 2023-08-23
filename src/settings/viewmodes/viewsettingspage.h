@@ -36,7 +36,7 @@ public:
 private:
     ContentDisplayTab *contentDisplayTab;
     QTabWidget *tabWidget;
-    QList<ViewSettingsTab *> m_tabs;
+    QList<SettingsPageBase *> m_tabs;
 };
 
 #endif
