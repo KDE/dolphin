@@ -745,8 +745,23 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
 {
     KService::List services = KApplicationTrader::queryByMimeType(item.mimetype());
 
-    if (services.length() >= 2) {
-        auto service = services.at(1);
+    int indexOfAppToOpenFileWith = 1;
+
+    // executable scripts
+    auto mimeType = item.currentMimeType();
+    if (item.isLocalFile() && mimeType.inherits(QStringLiteral("application/x-executable")) && mimeType.inherits(QStringLiteral("text/plain"))
+        && QFileInfo(item.localPath()).isExecutable()) {
+        KConfigGroup cfgGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
+        const QString value = cfgGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
+
+        // in case KIO::WidgetsOpenOrExecuteFileHandler::promptUserOpenOrExecute would not open the file
+        if (value != QLatin1String("open")) {
+            indexOfAppToOpenFileWith = 0;
+        }
+    }
+
+    if (services.length() >= indexOfAppToOpenFileWith + 1) {
+        auto service = services.at(indexOfAppToOpenFileWith);
 
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
         job->setUrls({item.url()});
