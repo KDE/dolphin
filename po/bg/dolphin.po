@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:48+0000\n"
+"POT-Creation-Date: 2023-08-25 00:48+0000\n"
 "PO-Revision-Date: 2023-07-10 14:29+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -1646,13 +1646,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Няма отрити съвпадения."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin не поддържа уеб страници, стартиран е уеб браузър"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:848
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1660,13 +1660,13 @@ msgid ""
 msgstr ""
 "Протоколът не се поддържа от Dolphin. Стартирано е приложение по подразбиране"
 
-#: dolphinviewcontainer.cpp:839
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Невалиден протокол"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:958
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

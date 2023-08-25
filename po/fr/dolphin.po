@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:48+0000\n"
+"POT-Creation-Date: 2023-08-25 00:48+0000\n"
 "PO-Revision-Date: 2023-08-20 09:59+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -1695,14 +1695,14 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne prend pas en charge les pages web, le navigateur a été lancé"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:848
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1711,13 +1711,13 @@ msgstr ""
 "Protocole non pris en charge par Dolphin, l'application par défaut a été "
 "lancée"
 
-#: dolphinviewcontainer.cpp:839
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocole non valable"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:958
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

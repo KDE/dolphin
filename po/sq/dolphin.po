@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:48+0000\n"
+"POT-Creation-Date: 2023-08-25 00:48+0000\n"
 "PO-Revision-Date: 2023-04-11 01:21-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -1459,14 +1459,14 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin nuk i suporton faqet e internetit, u nis shfletuesi i internetit"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:848
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1475,13 +1475,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Protokolli nuk suportohet nga Dolphin, u nis Konqueror"
 
-#: dolphinviewcontainer.cpp:839
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokoll i pavlefshëm"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:958
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
