@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-25 00:48+0000\n"
-"PO-Revision-Date: 2023-07-23 20:26+0200\n"
+"PO-Revision-Date: 2023-08-25 20:58+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -3622,14 +3622,13 @@ msgstr "설정"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "인터페이스"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "보기(&V)"
+msgstr "보기"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3731,9 +3730,7 @@ msgid "Run script"
 msgstr "스크립트 실행"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "마지막으로 사용한 폴더, 탭, 창 상태"
@@ -3766,15 +3763,13 @@ msgstr "시작 시 표시:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Dolphin 창을 한 개만 열어 두고 새 폴더를 탭으로 열기"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "파일이나 폴더 열기:"
+msgstr "폴더 열기:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3783,17 +3778,13 @@ msgid "Show full path in title bar"
 msgstr "제목 표시줄에 전체 경로 표시"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "새 창(&W)"
+msgstr "창:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "필터 표시줄 표시"
@@ -3859,12 +3850,10 @@ msgid ""
 msgstr "홈 폴더의 경로가 잘못되었거나 없으므로 적용하지 않습니다."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "폴더 우선"
+msgstr "폴더와 탭"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3881,13 +3870,10 @@ msgid "Confirmations"
 msgstr "확인"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "위치 표시줄"
+msgstr "상태와 위치 표시줄"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -3942,12 +3928,10 @@ msgid "Show space information"
 msgstr "공간 정보 표시"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "상태 표시줄"
+msgstr "상태 표시줄: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3956,12 +3940,9 @@ msgid "Make location bar editable"
 msgstr "위치 표시줄을 편집 가능으로 설정"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "위치 표시줄"
+msgstr "위치 표시줄:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4126,12 +4107,10 @@ msgstr ""
 "Dolphin에서 보기 속성을 변경한 개별 폴더에 숨김 파일 .directory를 생성합니다."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "보기 표시 스타일"
+msgstr "표시 스타일: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4149,7 +4128,7 @@ msgstr "드래그하는 동안 폴더 열기"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "탐색: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4177,9 +4156,7 @@ msgid "Rename inline"
 msgstr "항목 이름 바로 바꾸기"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "일반"
