@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-25 00:48+0000\n"
-"PO-Revision-Date: 2023-07-02 18:09+0200\n"
+"PO-Revision-Date: 2023-08-26 04:16+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2751,7 +2751,7 @@ msgstr "A cualificación máis alta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear Selection"
-msgstr "Anular a selección"
+msgstr "Baleirar a selección"
 
 #: search/dolphinfacetswidget.cpp:253
 #, kde-format
@@ -3637,7 +3637,7 @@ msgstr "O novo separador ábrese despois do último"
 #: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid "Show tooltips"
-msgstr "Amosar os consellos"
+msgstr "Amosar as indicacións emerxentes."
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3721,14 +3721,13 @@ msgstr "Configurar"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Vista"
+msgstr "Vista"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3829,9 +3828,7 @@ msgid "Run script"
 msgstr "Executar o guión"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Cartafoles, separadores e estado da xanela da última vez."
@@ -3865,14 +3862,14 @@ msgstr "Amosar no inicio:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Usar unha única xanela de Dolphin, e abrir os novos cartafoles en "
+"separadores."
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Abrir ficheiros e cartafoles:"
+msgstr "Apertura de cartafoles:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3881,17 +3878,13 @@ msgid "Show full path in title bar"
 msgstr "Amosar a ruta completa na barra do título."
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Nova &xanela"
+msgstr "Xanela:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Amosar a barra de filtro."
@@ -3959,12 +3952,10 @@ msgstr ""
 "se aplicará."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Primeiro os cartafoles"
+msgstr "Cartafoles e separadores"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3981,13 +3972,10 @@ msgid "Confirmations"
 msgstr "Confirmacións"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Barra de localización"
+msgstr "Barras de estado e de localización"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4042,12 +4030,10 @@ msgid "Show space information"
 msgstr "Amosar información do espazo."
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Barra de estado"
+msgstr "Barra de estado: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4056,12 +4042,9 @@ msgid "Make location bar editable"
 msgstr "Facer a barra de localización editábel."
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Barra de localización"
+msgstr "Barra de localización:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4228,12 +4211,10 @@ msgstr ""
 "cambie as propiedades de vista."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Estilo visual da vista"
+msgstr "Estilo visual: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4251,13 +4232,13 @@ msgstr "Abrir os cartafoles durante as operacións de arrastre."
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Navegación: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
-msgstr "Amosar os consellos."
+msgstr "Amosar as indicacións emerxentes."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:54
 #: settings/viewmodes/generalviewsettingspage.cpp:62
@@ -4279,9 +4260,7 @@ msgid "Rename inline"
 msgstr "Renomear in situ."
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Xeral"
