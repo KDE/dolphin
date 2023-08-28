@@ -1162,7 +1162,7 @@ void DolphinMainWindow::openTerminalHere()
 
     if (urls.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 terminal window?", "Are you sure you want to open %1 terminal windows?", urls.count());
-        const int answer = KMessageBox::warningTwoActions(
+        const int answer = KMessageBox::warningContinueCancel(
             this,
             question,
             {},

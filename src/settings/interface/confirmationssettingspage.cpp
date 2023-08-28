@@ -136,8 +136,8 @@ void ConfirmationsSettingsPage::applySettings()
 
     GeneralSettings *settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
-    settings->setConfirmOpenManyFolders(!m_confirmOpenManyFolders->isChecked());
-    settings->setConfirmOpenManyTerminals(!m_confirmOpenManyTerminals->isChecked());
+    settings->setConfirmOpenManyFolders(m_confirmOpenManyFolders->isChecked());
+    settings->setConfirmOpenManyTerminals(m_confirmOpenManyTerminals->isChecked());
 
 #if HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
@@ -182,8 +182,8 @@ void ConfirmationsSettingsPage::loadSettings()
     // KMessageBox for its dontshowAgain settings are true => Yes, false => No, No value => ask
     // we use default = false to not write false into the rc file, but have no value
     // the UI has inversed meaning compared to the interpretation
-    m_confirmOpenManyFolders->setChecked(!GeneralSettings::confirmOpenManyFolders());
-    m_confirmOpenManyTerminals->setChecked(!GeneralSettings::confirmOpenManyTerminals());
+    m_confirmOpenManyFolders->setChecked(GeneralSettings::confirmOpenManyFolders());
+    m_confirmOpenManyTerminals->setChecked(GeneralSettings::confirmOpenManyTerminals());
 
 #if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
