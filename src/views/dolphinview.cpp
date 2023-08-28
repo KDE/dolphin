@@ -49,10 +49,8 @@
 
 #include <kwidgetsaddons_version.h>
 
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
 #include <KIO/DeleteOrTrashJob>
-#endif
+#include <kio_version.h>
 
 #include <QAbstractItemView>
 #include <QActionGroup>
@@ -758,43 +756,22 @@ void DolphinView::trashSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Trash, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
     m_selectNextItem = true;
     trashJob->start();
-#else
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window());
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
-        KJobWidgets::setWindow(job, this);
-        connect(job, &KIO::Job::result, this, &DolphinView::slotTrashFileFinished);
-    }
-#endif
 }
 
 void DolphinView::deleteSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
     m_selectNextItem = true;
     trashJob->start();
-#else
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window());
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::del(list);
-        KJobWidgets::setWindow(job, this);
-        connect(job, &KIO::Job::result, this, &DolphinView::slotDeleteFileFinished);
-    }
-#endif
 }
 
 void DolphinView::cutSelectedItemsToClipboard()
@@ -1081,25 +1058,14 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
 
     if (indexes.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         const int answer = KMessageBox::warningTwoActions(
             this,
             question,
             {},
-#else
-        const int answer =
-            KMessageBox::warningYesNo(this,
-                                      question,
-                                      {},
-#endif
             KGuiItem(i18ncp("@action:button", "Open %1 Item", "Open %1 Items", indexes.count()), QStringLiteral("document-open")),
             KStandardGuiItem::cancel(),
             QStringLiteral("ConfirmOpenManyFolders"));
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
-#else
-        if (answer != KMessageBox::Yes && answer != KMessageBox::Continue) {
-#endif
             return;
         }
     }
@@ -2025,13 +1991,8 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
                 KGuiItem yesGuiItem(i18nc("@action:button", "Rename and Hide"), QStringLiteral("view-hidden"));
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
                 const auto code =
                     KMessageBox::questionTwoActions(this,
-#else
-                const auto code =
-                    KMessageBox::questionYesNo(this,
-#endif
                                                     oldItem.isFile() ? i18n("Adding a dot to the beginning of this file's name will hide it from view.\n"
                                                                             "Do you still want to rename it?")
                                                                      : i18n("Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -2041,11 +2002,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
                                                     KStandardGuiItem::cancel(),
                                                     QStringLiteral("ConfirmHide"));
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
                 if (code == KMessageBox::SecondaryAction) {
-#else
-                if (code == KMessageBox::No) {
-#endif
                     return;
                 }
             }

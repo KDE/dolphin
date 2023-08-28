@@ -263,11 +263,7 @@ void KFileItemModel::setShowTrashMime(bool show)
 
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
-#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
-    m_dirLister->setShowingDotFiles(show);
-#else
     m_dirLister->setShowHiddenFiles(show);
-#endif
     setShowTrashMime(show);
     m_dirLister->emitChanges();
     if (show) {
@@ -277,11 +273,7 @@ void KFileItemModel::setShowHiddenFiles(bool show)
 
 bool KFileItemModel::showHiddenFiles() const
 {
-#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
-    return m_dirLister->showingDotFiles();
-#else
     return m_dirLister->showHiddenFiles();
-#endif
 }
 
 void KFileItemModel::setShowDirectoriesOnly(bool enabled)
@@ -624,9 +616,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
 
         m_expandedDirs.remove(targetUrl);
         m_dirLister->stop(url);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 92, 0)
         m_dirLister->forgetDirs(url);
-#endif
 
         const int parentLevel = expandedParentsCount(index);
         const int itemCount = m_itemData.count();
@@ -642,9 +632,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
                 const QUrl url = itemData->item.url();
                 m_expandedDirs.remove(targetUrl);
                 m_dirLister->stop(url); // TODO: try to unit-test this, see https://bugs.kde.org/show_bug.cgi?id=332102#c11
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 92, 0)
                 m_dirLister->forgetDirs(url);
-#endif
                 expandedChildren.append(targetUrl);
             }
             ++childIndex;

@@ -22,13 +22,8 @@
 #include <KSharedConfig>
 #include <KUrlMimeData>
 
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
 #include <KIO/DeleteOrTrashJob>
-#else
-#include <KIO/FileUndoManager>
-#include <KIO/JobUiDelegate>
-#endif
+#include <kio_version.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -197,39 +192,16 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *deleteJob = new KIO::DeleteOrTrashJob(QList{m_fileItem.url()}, Iface::Trash, Iface::DefaultConfirmation, m_parent);
     deleteJob->start();
-#else
-    const QList<QUrl> list{m_fileItem.url()};
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(m_parent);
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
-        KJobWidgets::setWindow(job, m_parent);
-        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-    }
-#endif
 }
 
 void TreeViewContextMenu::deleteItem()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     using Iface = KIO::AskUserActionInterface;
     auto *deleteJob = new KIO::DeleteOrTrashJob(QList{m_fileItem.url()}, Iface::Delete, Iface::DefaultConfirmation, m_parent);
     deleteJob->start();
-#else
-    const QList<QUrl> list{m_fileItem.url()};
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(m_parent);
-    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job *job = KIO::del(list);
-        KJobWidgets::setWindow(job, m_parent);
-        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-    }
-#endif
 }
 
 void TreeViewContextMenu::showProperties()

@@ -160,29 +160,17 @@ void DolphinSettingsDialog::closeEvent(QCloseEvent *event)
         return;
     }
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     const auto response = KMessageBox::warningTwoActionsCancel(this,
-#else
-    const auto response = KMessageBox::warningYesNoCancel(this,
-#endif
                                                                i18n("You have unsaved changes. Do you want to apply the changes or discard them?"),
                                                                i18n("Warning"),
                                                                KStandardGuiItem::save(),
                                                                KStandardGuiItem::discard(),
                                                                KStandardGuiItem::cancel());
     switch (response) {
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     case KMessageBox::PrimaryAction:
-#else
-    case KMessageBox::Yes:
-#endif
         applySettings();
         Q_FALLTHROUGH();
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     case KMessageBox::SecondaryAction:
-#else
-    case KMessageBox::No:
-#endif
         event->accept();
         break;
     case KMessageBox::Cancel:

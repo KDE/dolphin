@@ -42,12 +42,7 @@
 #include <KDualAction>
 #include <KFileItemListProperties>
 #include <KIO/CommandLauncherJob>
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KJobWidgets>
@@ -69,9 +64,7 @@
 #include <KUrlNavigator>
 #include <KWindowSystem>
 #include <KXMLGUIFactory>
-
 #include <kio_version.h>
-#include <kwidgetsaddons_version.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -676,20 +669,12 @@ void DolphinMainWindow::readProperties(const KConfigGroup &group)
 void DolphinMainWindow::updateNewMenu()
 {
     m_newFileMenu->checkUpToDate();
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
-#else
-    m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
-#endif
 }
 
 void DolphinMainWindow::createDirectory()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
-#else
-    m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
-#endif
     m_newFileMenu->createDirectory();
 }
 
@@ -1177,25 +1162,14 @@ void DolphinMainWindow::openTerminalHere()
 
     if (urls.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 terminal window?", "Are you sure you want to open %1 terminal windows?", urls.count());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         const int answer = KMessageBox::warningTwoActions(
             this,
             question,
             {},
-#else
-        const int answer = KMessageBox::warningYesNo(
-            this,
-            question,
-            {},
-#endif
             KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()), QStringLiteral("utilities-terminal")),
             KStandardGuiItem::cancel(),
             QStringLiteral("ConfirmOpenManyTerminals"));
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
-#else
-        if (answer != KMessageBox::Yes && answer != KMessageBox::Continue) {
-#endif
             return;
         }
     }
@@ -1265,11 +1239,7 @@ void DolphinMainWindow::handleUrl(const QUrl &url)
         activeViewContainer()->setUrl(url);
     } else {
         m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
         m_lastHandleUrlOpenJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-        m_lastHandleUrlOpenJob->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
         m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
 
         connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this, [this, url](const QString &mimetype) {

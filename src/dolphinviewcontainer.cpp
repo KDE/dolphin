@@ -23,20 +23,16 @@
 #if HAVE_KACTIVITIES
 #include <KActivities/ResourceInstance>
 #endif
+#include <KApplicationTrader>
 #include <KFileItemActions>
 #include <KFilePlacesModel>
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
-#include <KApplicationTrader>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <KProtocolManager>
 #include <KShell>
+#include <kio_version.h>
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -731,11 +727,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
     }
 
     KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl(), item.mimetype());
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
     job->setShowOpenOrExecuteDialog(true);
     connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
     job->start();
@@ -766,11 +758,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
         job->setUrls({item.url()});
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
         job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
         job->start();
     }
