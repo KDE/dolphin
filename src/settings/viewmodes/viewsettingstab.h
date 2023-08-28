@@ -32,9 +32,6 @@ public:
     void applySettings() override;
     void restoreDefaults() override;
 
-Q_SIGNALS:
-    void changed();
-
 private Q_SLOTS:
 
     void slotDefaultSliderMoved(int value);

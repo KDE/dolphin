@@ -123,7 +123,9 @@ public Q_SLOTS:
      * Opens a new tab in the background showing the URL \a primaryUrl and the
      * optional URL \a secondaryUrl.
      */
-    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl(), NewTabPosition position = NewTabPosition::FollowSetting);
+    void openNewTab(const QUrl &primaryUrl,
+                    const QUrl &secondaryUrl = QUrl(),
+                    DolphinTabWidget::NewTabPosition position = DolphinTabWidget::NewTabPosition::FollowSetting);
 
     /**
      * Opens each directory in \p dirs in a separate tab unless it is already open.

@@ -1419,6 +1419,14 @@ void DolphinView::slotItemCreated(const QUrl &url)
     }
 }
 
+void DolphinView::onDirectoryLoadingCompleted()
+{
+    // the model should now contain all the items created by the job
+    updateSelectionState();
+    m_selectJobCreatedItems = false;
+    m_selectedUrls.clear();
+}
+
 void DolphinView::slotJobResult(KJob *job)
 {
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
@@ -1434,21 +1442,7 @@ void DolphinView::slotJobResult(KJob *job)
         updateSelectionState();
         if (!m_selectedUrls.isEmpty()) {
             // not all urls were found, the model may not be up to date
-            // TODO KF6 replace with Qt::singleShotConnection
-            QMetaObject::Connection *const connection = new QMetaObject::Connection;
-            *connection = connect(
-                m_model,
-                &KFileItemModel::directoryLoadingCompleted,
-                this,
-                [this, connection]() {
-                    // the model should now contain all the items created by the job
-                    updateSelectionState();
-                    m_selectJobCreatedItems = false;
-                    m_selectedUrls.clear();
-                    QObject::disconnect(*connection);
-                    delete connection;
-                },
-                Qt::UniqueConnection);
+            connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::onDirectoryLoadingCompleted, Qt::UniqueConnection);
         } else {
             m_selectJobCreatedItems = false;
             m_selectedUrls.clear();

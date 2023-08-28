@@ -1144,7 +1144,8 @@ void DolphinMainWindow::openTerminalHere()
 {
     QList<QUrl> urls = {};
 
-    for (const KFileItem &item : m_activeViewContainer->view()->selectedItems()) {
+    const auto selectedItems = m_activeViewContainer->view()->selectedItems();
+    for (const KFileItem &item : selectedItems) {
         QUrl url = item.targetUrl();
         if (item.isFile()) {
             url.setPath(QFileInfo(url.path()).absolutePath());
@@ -1174,7 +1175,7 @@ void DolphinMainWindow::openTerminalHere()
         }
     }
 
-    for (const QUrl &url : urls) {
+    for (const QUrl &url : std::as_const(urls)) {
         openTerminalJob(url);
     }
 }

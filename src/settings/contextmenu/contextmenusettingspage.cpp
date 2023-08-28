@@ -7,7 +7,6 @@
 #include "contextmenusettingspage.h"
 
 #include "dolphin_contextmenusettings.h"
-#include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 #include "global.h"
 #include "settings/serviceitemdelegate.h"

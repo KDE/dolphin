@@ -22,7 +22,7 @@ DolphinItemListView::DolphinItemListView(QGraphicsWidget *parent)
     : KFileItemListView(parent)
     , m_zoomLevel(0)
 {
-    updateFont();
+    DolphinItemListView::updateFont();
     updateGridSize();
 }
 

@@ -49,11 +49,8 @@ class QTouchEvent;
 class DOLPHIN_EXPORT KItemListController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(KItemModelBase *model READ model WRITE setModel)
-    Q_PROPERTY(KItemListView *view READ view WRITE setView)
-    Q_PROPERTY(SelectionBehavior selectionBehavior READ selectionBehavior WRITE setSelectionBehavior)
-    Q_PROPERTY(AutoActivationBehavior autoActivationBehavior READ autoActivationBehavior WRITE setAutoActivationBehavior)
-    Q_PROPERTY(MouseDoubleClickAction mouseDoubleClickAction READ mouseDoubleClickAction WRITE setMouseDoubleClickAction)
+    Q_PROPERTY(KItemModelBase *model READ model WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(KItemListView *view READ view WRITE setView NOTIFY viewChanged)
 
 public:
     enum SelectionBehavior { NoSelection, SingleSelection, MultiSelection };

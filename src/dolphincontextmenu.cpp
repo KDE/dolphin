@@ -7,7 +7,6 @@
 #include "dolphincontextmenu.h"
 
 #include "dolphin_contextmenusettings.h"
-#include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinplacesmodelsingleton.h"
@@ -16,7 +15,6 @@
 #include "global.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
-#include "views/viewmodecontroller.h"
 
 #include <KActionCollection>
 #include <KFileItemListProperties>

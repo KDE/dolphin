@@ -824,6 +824,8 @@ private Q_SLOTS:
 
     void slotTwoClicksRenamingTimerTimeout();
 
+    void onDirectoryLoadingCompleted();
+
 private:
     void loadDirectory(const QUrl &url, bool reload = false);
 
