@@ -142,4 +142,14 @@
             <emit signal="sortingChoiceChanged" />
         </entry>
     </group>
+    <group name="Notification Messages">
+        <entry name="ConfirmOpenManyFolders" type="Bool">
+            <label>Ask for confirmation when opening many folders at once.</label>
+            <default>false</default>
+        </entry>
+        <entry name="ConfirmOpenManyTerminals" type="Bool">
+            <label>Ask for confirmation when opening many terminals at once.</label>
+            <default>false</default>
+        </entry>
+    </group>
 </kcfg>

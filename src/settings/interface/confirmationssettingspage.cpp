@@ -60,9 +60,12 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
         new QCheckBox(i18nc("@option:check Ask for confirmation when", "Closing windows with a program running in the Terminal panel"), this);
 #endif
 
+    m_confirmOpenManyFolders = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many folders at once"), this);
+    m_confirmOpenManyTerminals = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many terminals at once"), this);
+
     QHBoxLayout *executableScriptLayout = new QHBoxLayout();
     QLabel *executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
-    confirmLabelKde->setWordWrap(true);
+    executableScriptLabel->setWordWrap(true);
     executableScriptLayout->addWidget(executableScriptLabel);
 
     m_confirmScriptExecution = new QComboBox(this);
@@ -81,6 +84,9 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     topLayout->addWidget(m_confirmClosingTerminalRunningProgram);
 #endif
 
+    topLayout->addWidget(m_confirmOpenManyFolders);
+    topLayout->addWidget(m_confirmOpenManyTerminals);
+
     topLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
     topLayout->addLayout(executableScriptLayout);
 
@@ -93,6 +99,8 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmScriptExecution, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmOpenManyFolders, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmOpenManyTerminals, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
 #if HAVE_TERMINAL
     connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
@@ -128,6 +136,8 @@ void ConfirmationsSettingsPage::applySettings()
 
     GeneralSettings *settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
+    settings->setConfirmOpenManyFolders(!m_confirmOpenManyFolders->isChecked());
+    settings->setConfirmOpenManyTerminals(!m_confirmOpenManyTerminals->isChecked());
 
 #if HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
@@ -168,6 +178,12 @@ void ConfirmationsSettingsPage::loadSettings()
     }
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
+
+    // KMessageBox for its dontshowAgain settings are true => Yes, false => No, No value => ask
+    // we use default = false to not write false into the rc file, but have no value
+    // the UI has inversed meaning compared to the interpretation
+    m_confirmOpenManyFolders->setChecked(!GeneralSettings::confirmOpenManyFolders());
+    m_confirmOpenManyTerminals->setChecked(!GeneralSettings::confirmOpenManyTerminals());
 
 #if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
