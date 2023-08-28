@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-07-02 18:09+0200\n"
+"PO-Revision-Date: 2023-08-26 04:16+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2751,7 +2751,7 @@ msgstr "A cualificación máis alta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear Selection"
-msgstr "Anular a selección"
+msgstr "Baleirar a selección"
 
 #: search/dolphinfacetswidget.cpp:253
 #, kde-format
@@ -3637,7 +3637,7 @@ msgstr "O novo separador ábrese despois do último"
 #: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid "Show tooltips"
-msgstr "Amosar os consellos"
+msgstr "Amosar as indicacións emerxentes."
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3849,7 +3849,7 @@ msgstr "Cando se desactiva, desactivar a vista previa pechará o panel inactivo"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
-msgstr "Amosar os consellos."
+msgstr "Amosar as indicacións emerxentes."
 
 #: settings/general/behaviorsettingspage.cpp:78
 #: settings/general/behaviorsettingspage.cpp:86
