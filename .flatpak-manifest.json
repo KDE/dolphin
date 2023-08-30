@@ -1,0 +1,70 @@
+{
+    "id": "org.kde.dolphin",
+    "branch": "master",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-22.08",
+    "sdk": "org.kde.Sdk",
+    "command": "dolphin",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": ["--share=ipc", "--socket=x11", "--socket=wayland", "--filesystem=host" ],
+
+    "modules": [
+        {
+            "name": "lmdb",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/LMDB/lmdb.git",
+                    "tag": "LMDB_0.9.29",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^LMDB_([\\d.]+)$"
+                    },
+                    "commit": "8ad7be2510414b9506ec9f9e24f24d04d9b04a1a"
+                }
+            ],
+            "no-autogen": true,
+            "make-install-args": ["prefix=/app"],
+            "subdir" : "libraries/liblmdb"
+        },
+        {
+            "config-opts": ["-DENABLE_TESTING=OFF" , "-DLMDB_DIR=/app"],
+            "name": "baloo",
+            "buildsystem": "cmake-ninja",
+	    "builddir": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/frameworks/baloo.git",
+                    "tag": "v5.101.0",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$"
+                    },
+                    "commit": "03246908508ec9086171832e615c36bbaa48b6da"
+                }
+            ]
+        },
+        {
+            "config-opts": ["-DENABLE_TESTING=OFF" , "-DLMDB_DIR=/app"],
+            "name": "baloo-widgets",
+            "buildsystem": "cmake-ninja",
+	    "builddir": true,
+            "sources": [ { "type": "git", "url": "https://invent.kde.org/libraries/baloo-widgets.git" } ]
+        },
+        {
+	    "config-opts": ["-DFLATPAK=ON"],
+            "name": "dolphin",
+            "buildsystem": "cmake-ninja",
+	    "builddir": true,
+            "sources": [ { "type": "dir", "path": "." } ]
+        },
+        {
+            "name": "dolphin-plugins",
+            "buildsystem": "cmake-ninja",
+	    "builddir": true,
+            "sources": [ { "type": "git", "url": "https://invent.kde.org/sdk/dolphin-plugins.git" } ]
+        }
+    ]
+}
