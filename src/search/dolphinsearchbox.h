@@ -101,12 +101,6 @@ Q_SIGNALS:
     void searchRequest();
 
     /**
-     * Is emitted when the user has changed a character of
-     * the text that should be used as input for searching.
-     */
-    void searchTextChanged(const QString &text);
-
-    /**
      * Emitted as soon as the search box should get closed.
      */
     void closeRequest();
@@ -118,6 +112,7 @@ Q_SIGNALS:
      */
     void activated();
     void focusViewRequest();
+    void clearRequest();
 
 private Q_SLOTS:
     void emitSearchRequest();

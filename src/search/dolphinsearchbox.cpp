@@ -262,10 +262,10 @@ void DolphinSearchBox::slotSearchTextChanged(const QString &text)
 {
     if (text.isEmpty()) {
         m_startSearchTimer->stop();
+        Q_EMIT clearRequest();
     } else {
         m_startSearchTimer->start();
     }
-    Q_EMIT searchTextChanged(text);
 }
 
 void DolphinSearchBox::slotReturnPressed()

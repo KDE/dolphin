@@ -383,6 +383,7 @@ private Q_SLOTS:
      */
     void startSearching();
     void closeSearchBox();
+    void clearSearchBox();
 
     /**
      * Stops the loading of a directory. Is connected with the "stopPressed" signal

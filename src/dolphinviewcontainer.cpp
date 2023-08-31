@@ -85,6 +85,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_searchBox->hide();
     connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
+    connect(m_searchBox, &DolphinSearchBox::clearRequest, this, &DolphinViewContainer::clearSearchBox);
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
     connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
     m_searchBox->setWhatsThis(xi18nc("@info:whatsthis findbar",
@@ -894,6 +895,20 @@ void DolphinViewContainer::startSearching()
 void DolphinViewContainer::closeSearchBox()
 {
     setSearchModeEnabled(false);
+}
+
+void DolphinViewContainer::clearSearchBox()
+{
+    Q_CHECK_PTR(m_urlNavigatorConnected);
+
+    QUrl url = m_searchBox->searchPath();
+    if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
+        url = Dolphin::homeUrl();
+    }
+
+    // resets the search
+    m_urlNavigatorConnected->setLocationUrl(url);
+    m_searchBox->setVisible(true);
 }
 
 void DolphinViewContainer::stopDirectoryLoading()
