@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-30 00:48+0000\n"
-"PO-Revision-Date: 2023-08-20 07:24+0200\n"
+"PO-Revision-Date: 2023-08-30 06:35+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -247,7 +247,7 @@ msgstr "ადგილებში ჩამატება"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
-msgstr ""
+msgstr "ეს მონიშნულ საქაღალდეს ადგილების პანელზე დაამატებს."
 
 #: dolphinmainwindow.cpp:1553
 #, kde-format
@@ -2186,7 +2186,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
-msgstr ""
+msgstr "Dolphin გაყოფილი ფანჯრით გაეშვება."
 
 #: main.cpp:140
 #, kde-format
@@ -2199,6 +2199,7 @@ msgstr ""
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
+"Dolphin-ის დემონის გაშვება (აუცილებელია, მხოლოდ, DBus-ის ინტერფეისისთვის)."
 
 #: main.cpp:143
 #, kde-format
@@ -2591,13 +2592,13 @@ msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
 "user entered."
 msgid "Query Results from '%1'"
-msgstr ""
+msgstr "შედეგების გამოთხოვნა '%1'-დან"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr ""
+msgstr "აირჩიეთ ფაილები და საქაღალდეები, რომლებიც გნებავთ, დააკოპიროთ."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -3528,12 +3529,10 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Opening Folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "საქაღალდეების გახსნა:"
+msgstr "ერთზე მეტ საქაღალდის ერთდროული გახსნა"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
