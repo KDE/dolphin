@@ -50,6 +50,8 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
     void scrollContentsBy(int dx, int dy) override;
     void wheelEvent(QWheelEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 
 private Q_SLOTS:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);

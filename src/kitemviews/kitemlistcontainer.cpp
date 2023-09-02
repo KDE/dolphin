@@ -175,6 +175,22 @@ void KItemListContainer::wheelEvent(QWheelEvent *event)
     smoothScroller->handleWheelEvent(event);
 }
 
+void KItemListContainer::focusInEvent(QFocusEvent *event)
+{
+    KItemListView *view = m_controller->view();
+    if (view) {
+        QApplication::sendEvent(view, event);
+    }
+}
+
+void KItemListContainer::focusOutEvent(QFocusEvent *event)
+{
+    KItemListView *view = m_controller->view();
+    if (view) {
+        QApplication::sendEvent(view, event);
+    }
+}
+
 void KItemListContainer::slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
     Q_UNUSED(previous)

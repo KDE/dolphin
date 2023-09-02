@@ -386,7 +386,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
     }
 
     painter->setFont(m_customizedFont);
-    painter->setPen(textColor(widget));
+    painter->setPen(textColor(*widget));
     const TextInfo *textInfo = m_textInfo.value("text");
 
     if (!textInfo) {
@@ -645,7 +645,7 @@ void KStandardItemListWidget::setTextColor(const QColor &color)
     }
 }
 
-QColor KStandardItemListWidget::textColor(QWidget *widget) const
+QColor KStandardItemListWidget::textColor(const QWidget &widget) const
 {
     if (!isSelected()) {
         if (m_isHidden) {
@@ -655,7 +655,7 @@ QColor KStandardItemListWidget::textColor(QWidget *widget) const
         }
     }
 
-    const QPalette::ColorGroup group = isActiveWindow() && widget->hasFocus() ? QPalette::Active : QPalette::Inactive;
+    const QPalette::ColorGroup group = isActiveWindow() && widget.hasFocus() ? QPalette::Active : QPalette::Inactive;
     const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
     return styleOption().palette.color(group, role);
 }
@@ -1436,9 +1436,10 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 void KStandardItemListWidget::updateAdditionalInfoTextColor()
 {
     QColor c1;
+    const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
     if (m_customTextColor.isValid()) {
         c1 = m_customTextColor;
-    } else if (isSelected() && (m_layout != DetailsLayout || m_highlightEntireRow)) {
+    } else if (isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
         // The detail text colour needs to match the main text (HighlightedText) for the same level
         // of readability. We short circuit early here to avoid interpolating with another colour.
         m_additionalInfoTextColor = styleOption().palette.color(QPalette::HighlightedText);

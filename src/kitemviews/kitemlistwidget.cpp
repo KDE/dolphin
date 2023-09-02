@@ -115,12 +115,12 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
     }
 
-    if (m_current && m_editedRole.isEmpty() && widget->hasFocus()) {
+    if (m_current && m_editedRole.isEmpty()) {
         QStyleOptionFocusRect focusRectOption;
         initStyleOption(&focusRectOption);
         focusRectOption.rect = textFocusRect().toRect();
         focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item | QStyle::State_KeyboardFocusChange;
-        if (m_selected) {
+        if (m_selected && widget->hasFocus()) {
             focusRectOption.state |= QStyle::State_Selected;
         }
 

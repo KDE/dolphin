@@ -961,6 +961,18 @@ bool KItemListView::event(QEvent *event)
         updateFont();
         break;
 
+    case QEvent::FocusIn:
+        focusInEvent(static_cast<QFocusEvent *>(event));
+        event->accept();
+        return true;
+        break;
+
+    case QEvent::FocusOut:
+        focusOutEvent(static_cast<QFocusEvent *>(event));
+        event->accept();
+        return true;
+        break;
+
     default:
         // Forward all other events to the controller and handle them there
         if (!m_editingRole && m_controller && m_controller->processEvent(event, transform())) {

@@ -326,6 +326,31 @@ void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent *event)
     triggerVisibleIndexRangeUpdate();
 }
 
+void KFileItemListView::focusInEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    updateSelectedWidgets();
+}
+
+void KFileItemListView::focusOutEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    updateSelectedWidgets();
+}
+
+void KFileItemListView::updateSelectedWidgets()
+{
+    const auto visibleWidgets = visibleItemListWidgets();
+    for (KItemListWidget *widget : visibleWidgets) {
+        if (widget->isSelected()) {
+            auto w = qobject_cast<KFileItemListWidget *>(widget);
+            if (w) {
+                w->forceUpdate();
+            }
+        }
+    }
+}
+
 void KFileItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
 {
     KStandardItemListView::slotItemsRemoved(itemRanges);
