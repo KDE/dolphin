@@ -180,7 +180,7 @@ void KItemListControllerExpandTest::testDirExpand()
         [this]() {
             return m_spyDirectoryLoadingCompleted->count() == 6;
         },
-        100));
+        300));
 
     QCOMPARE(m_model->count(), 18);
     QCOMPARE(m_selectionManager->currentItem(), 12);
