@@ -3444,17 +3444,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Zeptat se na potvrzení při zavírání oken s více kartami."
+msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Zeptat se na potvrzení při zavírání oken s více kartami."
+msgstr ""
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3487,11 +3485,10 @@ msgid "Interface"
 msgstr ""
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "Po&hled"
+msgstr "Pohled"
 
 #: settings/dolphinsettingsdialog.cpp:76
 #, kde-format
@@ -3571,12 +3568,10 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Zavírání oken s běžící aplikací v panelu terminálu"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Otevřít soubory a složky:"
+msgstr ""
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
@@ -3606,12 +3601,10 @@ msgid "Run script"
 msgstr "Spustit skript"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Složky, karty a stav okna jako naposled"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3644,12 +3637,10 @@ msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Otevřít soubory a složky:"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3658,20 +3649,16 @@ msgid "Show full path in title bar"
 msgstr "Zobrazit celou cestu v pruhu názvu"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Nové &okno"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "Zobrazit panel pro filtrování"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -3734,12 +3721,10 @@ msgid ""
 msgstr "Umístění domovské složky je neplatné nebo neexistuje a nebude použito."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Složky první"
+msgstr ""
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3756,13 +3741,10 @@ msgid "Confirmations"
 msgstr "Potvrzování"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Panel umístění"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -3817,12 +3799,10 @@ msgid "Show space information"
 msgstr "Zobrazovat informace o volném místě"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Stavový panel"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3831,12 +3811,9 @@ msgid "Make location bar editable"
 msgstr "Povolit úpravy pruhu umístění"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Panel umístění"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4002,12 +3979,10 @@ msgid ""
 msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Styl data:"
+msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4053,12 +4028,10 @@ msgid "Rename inline"
 msgstr "Přejmenovat na místě"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
-msgstr "Obecné"
+msgstr ""
 
 #: settings/viewmodes/viewsettingspage.cpp:35
 #, kde-format
@@ -5104,31 +5077,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@title:group"
-#~ msgid "Startup"
-#~ msgstr "Při spuštění"
-
-#~ msgctxt "@title:group"
-#~ msgid "View Modes"
-#~ msgstr "Režimy pohledu"
-
-#~ msgctxt "@title:group"
-#~ msgid "Navigation"
-#~ msgstr "Navigace"
-
-#~ msgctxt "@title:group"
-#~ msgid "View: "
-#~ msgstr "Pohled: "
-
-#~ msgctxt "@title:group"
-#~ msgid "General: "
-#~ msgstr "Obecné: "
-
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "Otevřít nové složky v kartách"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "General:"
-#~ msgstr "Obecné:"
