@@ -175,7 +175,7 @@ bool DolphinSearchBox::isActive() const
 
 bool DolphinSearchBox::event(QEvent *event)
 {
-    if (event->type() == QEvent::Polish) {
+    if (event->type() == QEvent::Show) {
         init();
     }
     return QWidget::event(event);
@@ -325,6 +325,11 @@ void DolphinSearchBox::saveSettings()
 
 void DolphinSearchBox::init()
 {
+    if (m_searchInput) {
+        // already initialized;
+        return;
+    }
+
     // Create search box
     m_searchInput = new QLineEdit(this);
     m_searchInput->setPlaceholderText(i18n("Search…"));
