@@ -279,6 +279,10 @@ bool DolphinView::isActive() const
 void DolphinView::setViewMode(Mode mode)
 {
     if (mode != m_mode) {
+        // Reset scrollbars before changing the view mode.
+        m_container->horizontalScrollBar()->setValue(0);
+        m_container->verticalScrollBar()->setValue(0);
+
         ViewProperties props(viewPropertiesUrl());
         props.setViewMode(mode);
 
