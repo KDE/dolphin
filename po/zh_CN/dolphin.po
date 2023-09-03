@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-30 00:48+0000\n"
-"PO-Revision-Date: 2023-08-27 03:40\n"
+"PO-Revision-Date: 2023-09-02 02:56\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3559,17 +3559,15 @@ msgstr "选择按照语言习惯、区分大小写、不区分大小写等方式
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "关闭包含多个标签页的窗口时需要用户确认。"
+msgstr "一次打开大量文件夹时请求确认。"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "关闭包含多个标签页的窗口时需要用户确认。"
+msgstr "一次打开大量终端时请求确认。"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3685,18 +3683,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "关闭窗口时终端面板正在运行程序"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Opening Folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "打开文件夹："
+msgstr "一次打开大量文件夹"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "一次打开大量终端"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
