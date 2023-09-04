@@ -382,6 +382,7 @@ private Q_SLOTS:
      * Gets the search URL from the searchbox and starts searching.
      */
     void startSearching();
+    void openSearchBox();
     void closeSearchBox();
 
     /**

@@ -60,7 +60,9 @@ DolphinSearchBox::~DolphinSearchBox()
 
 void DolphinSearchBox::setText(const QString &text)
 {
-    m_searchInput->setText(text);
+    if (m_searchInput->text() != text) {
+        m_searchInput->setText(text);
+    }
 }
 
 QString DolphinSearchBox::text() const
@@ -201,7 +203,7 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent *event)
     QWidget::keyReleaseEvent(event);
     if (event->key() == Qt::Key_Escape) {
         if (m_searchInput->text().isEmpty()) {
-            Q_EMIT closeRequest();
+            emitCloseRequest();
         } else {
             m_searchInput->clear();
         }
@@ -261,7 +263,11 @@ void DolphinSearchBox::slotConfigurationChanged()
 void DolphinSearchBox::slotSearchTextChanged(const QString &text)
 {
     if (text.isEmpty()) {
-        m_startSearchTimer->stop();
+        // Restore URL when search box is cleared by closing and reopening the box.
+        emitCloseRequest();
+        QTimer::singleShot(0, this, [this] {
+            Q_EMIT openRequest();
+        });
     } else {
         m_startSearchTimer->start();
     }
@@ -270,6 +276,10 @@ void DolphinSearchBox::slotSearchTextChanged(const QString &text)
 
 void DolphinSearchBox::slotReturnPressed()
 {
+    if (m_searchInput->text().isEmpty()) {
+        return;
+    }
+
     emitSearchRequest();
     Q_EMIT focusViewRequest();
 }
@@ -443,10 +453,10 @@ void DolphinSearchBox::init()
     loadSettings();
 
     // The searching should be started automatically after the user did not change
-    // the text within one second
+    // the text for a while
     m_startSearchTimer = new QTimer(this);
     m_startSearchTimer->setSingleShot(true);
-    m_startSearchTimer->setInterval(1000);
+    m_startSearchTimer->setInterval(500);
     connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
 }
 
@@ -496,10 +506,7 @@ void DolphinSearchBox::updateFromQuery(const DolphinQuery &query)
         setSearchPath(QUrl::fromLocalFile(QDir::homePath()));
     }
 
-    // If the input box has focus, do not update to avoid messing with user typing
-    if (!m_searchInput->hasFocus()) {
-        setText(query.text());
-    }
+    setText(query.text());
 
     if (query.hasContentSearch()) {
         m_contentButton->setChecked(true);

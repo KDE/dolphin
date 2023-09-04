@@ -84,6 +84,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
     connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
+    connect(m_searchBox, &DolphinSearchBox::openRequest, this, &DolphinViewContainer::openSearchBox);
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
     connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
@@ -889,6 +890,11 @@ void DolphinViewContainer::startSearching()
         m_view->setViewPropertiesContext(QStringLiteral("search"));
         m_urlNavigatorConnected->setLocationUrl(url);
     }
+}
+
+void DolphinViewContainer::openSearchBox()
+{
+    setSearchModeEnabled(true);
 }
 
 void DolphinViewContainer::closeSearchBox()
