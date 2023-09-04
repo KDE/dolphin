@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-30 00:48+0000\n"
-"PO-Revision-Date: 2023-08-26 04:16+0200\n"
+"PO-Revision-Date: 2023-09-03 12:25+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -3695,17 +3695,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Pedir confirmación cando se peche unha xanela con varios separadores."
+msgstr "Pedir confirmación ao abrir moitos cartafoles de golpe."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Pedir confirmación cando se peche unha xanela con varios separadores."
+msgstr "Pedir confirmación ao abrir moitos terminais de golpe."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3821,18 +3819,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Pechar xanelas cun programa executándose no panel de terminal."
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Opening Folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Apertura de cartafoles:"
+msgstr "Apertura de moitos cartafoles de golpe"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Apertura de moitos terminais de golpe"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3927,7 +3923,7 @@ msgstr "Tras o separador actual."
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "Ao final da barra de separadores."
+msgstr "Ao final da barra de lapelas."
 
 #: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
