@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-30 00:48+0000\n"
+"POT-Creation-Date: 2023-09-05 00:47+0000\n"
 "PO-Revision-Date: 2023-03-01 07:16\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -456,7 +456,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Фільтр"
 
-#: dolphinmainwindow.cpp:1650 search/dolphinsearchbox.cpp:330
+#: dolphinmainwindow.cpp:1650 search/dolphinsearchbox.cpp:340
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -1589,7 +1589,7 @@ msgstr ""
 "<link url='help:/dolphin/location-bar.html'>націсніце сюды</link>. Адкрыецца "
 "адпаведная старонка ў даведніку.</para>"
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1613,29 +1613,29 @@ msgstr ""
 "часу доступу або рэйтынгу.</item><item>Дадатковыя інструменты пошуку: "
 "усталюйце іншыя сродкі для пошуку элемента.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:110
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Запуск Dolphin ад імя суперкарыстальніка можа быць небяспечным. Будзьце "
 "пільнымі."
 
-#: dolphinviewcontainer.cpp:513 search/dolphinsearchbox.cpp:288
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Пошук %1 у %2"
 
-#: dolphinviewcontainer.cpp:549
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search"
 msgstr "Пошук"
 
-#: dolphinviewcontainer.cpp:551
+#: dolphinviewcontainer.cpp:552
 #, kde-format
 msgid "Search for %1"
 msgstr "Пошук %1"
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:636
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1643,7 +1643,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Загрузка каталога..."
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:644
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1651,7 +1651,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Сартаванне:"
 
-#: dolphinviewcontainer.cpp:654
+#: dolphinviewcontainer.cpp:655
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1659,19 +1659,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Пошук..."
 
-#: dolphinviewcontainer.cpp:675
+#: dolphinviewcontainer.cpp:676
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Не знойдзена элементаў."
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin не падтрымлівае вэб-старонкі, быў запушчаны вэб-браўзер"
 
-#: dolphinviewcontainer.cpp:836
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1679,13 +1679,13 @@ msgid ""
 msgstr ""
 "Пратакол не падтрымліваецца Dolphin, была запушчаная прадвызначаная праграма"
 
-#: dolphinviewcontainer.cpp:842
+#: dolphinviewcontainer.cpp:843
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Хібны пратакол"
 
-#: dolphinviewcontainer.cpp:946
+#: dolphinviewcontainer.cpp:952
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1828,92 +1828,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2299
+#: kitemviews/kfileitemmodel.cpp:2304
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2301
+#: kitemviews/kfileitemmodel.cpp:2306
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Іншае"
 
-#: kitemviews/kfileitemmodel.cpp:2333
+#: kitemviews/kfileitemmodel.cpp:2338
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Каталогі"
 
-#: kitemviews/kfileitemmodel.cpp:2341
+#: kitemviews/kfileitemmodel.cpp:2346
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Маленькія"
 
-#: kitemviews/kfileitemmodel.cpp:2343
+#: kitemviews/kfileitemmodel.cpp:2348
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Сярэднія"
 
-#: kitemviews/kfileitemmodel.cpp:2345
+#: kitemviews/kfileitemmodel.cpp:2350
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Вялікія"
 
-#: kitemviews/kfileitemmodel.cpp:2390
+#: kitemviews/kfileitemmodel.cpp:2395
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Сёння"
 
-#: kitemviews/kfileitemmodel.cpp:2393
+#: kitemviews/kfileitemmodel.cpp:2398
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Учора"
 
-#: kitemviews/kfileitemmodel.cpp:2396
+#: kitemviews/kfileitemmodel.cpp:2401
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2400
+#: kitemviews/kfileitemmodel.cpp:2405
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2405
+#: kitemviews/kfileitemmodel.cpp:2410
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Тыдзень таму"
 
-#: kitemviews/kfileitemmodel.cpp:2408
+#: kitemviews/kfileitemmodel.cpp:2413
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Два тыдні таму"
 
-#: kitemviews/kfileitemmodel.cpp:2411
+#: kitemviews/kfileitemmodel.cpp:2416
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Тры тыдні таму"
 
-#: kitemviews/kfileitemmodel.cpp:2415
+#: kitemviews/kfileitemmodel.cpp:2420
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Раней у гэтым месяцы"
 
-#: kitemviews/kfileitemmodel.cpp:2429
+#: kitemviews/kfileitemmodel.cpp:2434
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1923,7 +1923,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "\"Учора\" (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2436
+#: kitemviews/kfileitemmodel.cpp:2441
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1931,7 +1931,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2449
+#: kitemviews/kfileitemmodel.cpp:2454
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1939,7 +1939,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2453
+#: kitemviews/kfileitemmodel.cpp:2458
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1947,7 +1947,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2461
+#: kitemviews/kfileitemmodel.cpp:2466
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1957,7 +1957,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Тыдзень таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2468
+#: kitemviews/kfileitemmodel.cpp:2473
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1965,7 +1965,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2482
+#: kitemviews/kfileitemmodel.cpp:2487
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1975,7 +1975,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Два тыдні таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2489
+#: kitemviews/kfileitemmodel.cpp:2494
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -1983,7 +1983,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2503
+#: kitemviews/kfileitemmodel.cpp:2508
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1993,7 +1993,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Тры тыдні таму' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2510
+#: kitemviews/kfileitemmodel.cpp:2515
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2001,7 +2001,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2524
+#: kitemviews/kfileitemmodel.cpp:2529
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2011,7 +2011,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Раней у' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2531
+#: kitemviews/kfileitemmodel.cpp:2536
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2019,7 +2019,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2545
+#: kitemviews/kfileitemmodel.cpp:2550
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2027,7 +2027,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2549
+#: kitemviews/kfileitemmodel.cpp:2554
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2035,257 +2035,257 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2589 kitemviews/kfileitemmodel.cpp:2602
-#: kitemviews/kfileitemmodel.cpp:2615
+#: kitemviews/kfileitemmodel.cpp:2594 kitemviews/kfileitemmodel.cpp:2607
+#: kitemviews/kfileitemmodel.cpp:2620
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Чытанне, "
 
-#: kitemviews/kfileitemmodel.cpp:2592 kitemviews/kfileitemmodel.cpp:2605
-#: kitemviews/kfileitemmodel.cpp:2618
+#: kitemviews/kfileitemmodel.cpp:2597 kitemviews/kfileitemmodel.cpp:2610
+#: kitemviews/kfileitemmodel.cpp:2623
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Запіс, "
 
-#: kitemviews/kfileitemmodel.cpp:2595 kitemviews/kfileitemmodel.cpp:2608
-#: kitemviews/kfileitemmodel.cpp:2621
+#: kitemviews/kfileitemmodel.cpp:2600 kitemviews/kfileitemmodel.cpp:2613
+#: kitemviews/kfileitemmodel.cpp:2626
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Выкананне, "
 
-#: kitemviews/kfileitemmodel.cpp:2597 kitemviews/kfileitemmodel.cpp:2610
-#: kitemviews/kfileitemmodel.cpp:2623
+#: kitemviews/kfileitemmodel.cpp:2602 kitemviews/kfileitemmodel.cpp:2615
+#: kitemviews/kfileitemmodel.cpp:2628
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Забаронена"
 
-#: kitemviews/kfileitemmodel.cpp:2625
+#: kitemviews/kfileitemmodel.cpp:2630
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Карыстальнік: %1 | Група: %2 | Іншыя: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2715
+#: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@label"
 msgid "Name"
 msgstr "Назва"
 
-#: kitemviews/kfileitemmodel.cpp:2716
+#: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
 msgid "Size"
 msgstr "Памер"
 
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
 msgid "Modified"
 msgstr "Зменена"
 
-#: kitemviews/kfileitemmodel.cpp:2717 kitemviews/kfileitemmodel.cpp:2718
-#: kitemviews/kfileitemmodel.cpp:2719
+#: kitemviews/kfileitemmodel.cpp:2722 kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Фармат даты можна абраць у наладах."
 
-#: kitemviews/kfileitemmodel.cpp:2718
+#: kitemviews/kfileitemmodel.cpp:2723
 msgctxt "@label"
 msgid "Created"
 msgstr "Створана"
 
-#: kitemviews/kfileitemmodel.cpp:2719
+#: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Апошні доступ"
 
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Type"
 msgstr "Тып"
 
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2726
 msgctxt "@label"
 msgid "Rating"
 msgstr "Рэйтынг"
 
-#: kitemviews/kfileitemmodel.cpp:2722
+#: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
 msgid "Tags"
 msgstr "Пазнакі"
 
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2728
 msgctxt "@label"
 msgid "Comment"
 msgstr "Каментар"
 
-#: kitemviews/kfileitemmodel.cpp:2724
+#: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
 msgid "Title"
 msgstr "Назва"
 
-#: kitemviews/kfileitemmodel.cpp:2724 kitemviews/kfileitemmodel.cpp:2725
-#: kitemviews/kfileitemmodel.cpp:2726 kitemviews/kfileitemmodel.cpp:2727
-#: kitemviews/kfileitemmodel.cpp:2728 kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2729 kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731 kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2733 kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label"
 msgid "Document"
 msgstr "Дакумент"
 
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
 msgid "Author"
 msgstr "Стваральнік"
 
-#: kitemviews/kfileitemmodel.cpp:2726
+#: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Выдавец"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Колькасць старонак"
 
-#: kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2733
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Колькасць слоў"
 
-#: kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Колькасць радкоў"
 
-#: kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2735
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Дата фатаграфавання"
 
-#: kitemviews/kfileitemmodel.cpp:2730 kitemviews/kfileitemmodel.cpp:2731
-#: kitemviews/kfileitemmodel.cpp:2732 kitemviews/kfileitemmodel.cpp:2733
-#: kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735 kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737 kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Image"
 msgstr "Выява"
 
-#: kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Памеры"
 
-#: kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Width"
 msgstr "Шырыня"
 
-#: kitemviews/kfileitemmodel.cpp:2733
+#: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Height"
 msgstr "Вышыня"
 
-#: kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Арыентацыя"
 
-#: kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Artist"
 msgstr "Выканаўца"
 
-#: kitemviews/kfileitemmodel.cpp:2735 kitemviews/kfileitemmodel.cpp:2736
-#: kitemviews/kfileitemmodel.cpp:2737 kitemviews/kfileitemmodel.cpp:2738
-#: kitemviews/kfileitemmodel.cpp:2739 kitemviews/kfileitemmodel.cpp:2740
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2740 kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744 kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Audio"
 msgstr "Аўдыё"
 
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Genre"
 msgstr "Жанр"
 
-#: kitemviews/kfileitemmodel.cpp:2737
+#: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
 msgid "Album"
 msgstr "Альбом"
 
-#: kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Duration"
 msgstr "Працягласць"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Бітрэйт"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
 msgid "Track"
 msgstr "Кампазіцыя"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Год выпуску"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2747
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Суадносіны бакоў"
 
-#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2747 kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "Video"
 msgstr "Відэа"
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Частата кадраў"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
 msgid "Path"
 msgstr "Шлях"
 
-#: kitemviews/kfileitemmodel.cpp:2744 kitemviews/kfileitemmodel.cpp:2745
-#: kitemviews/kfileitemmodel.cpp:2746 kitemviews/kfileitemmodel.cpp:2747
-#: kitemviews/kfileitemmodel.cpp:2748 kitemviews/kfileitemmodel.cpp:2749
-#: kitemviews/kfileitemmodel.cpp:2750 kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753 kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2755 kitemviews/kfileitemmodel.cpp:2756
 msgctxt "@label"
 msgid "Other"
 msgstr "Іншае"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Пашырэнне файла"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Час выдалення"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Месца прызначэння спасылкі"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2753
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Спампавана з"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Правы доступу"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2294,17 +2294,17 @@ msgstr ""
 "Фармат правоў доступу можна змяніць у наладах. Варыянты: сімвальны, лічбавы "
 "(васьмярковы) або камбінаваны"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2755
 msgctxt "@label"
 msgid "Owner"
 msgstr "Уласнік"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2756
 msgctxt "@label"
 msgid "User Group"
 msgstr "Група карыстальнікаў"
 
-#: kitemviews/kfileitemmodel.cpp:2851
+#: kitemviews/kfileitemmodel.cpp:2856
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -2824,67 +2824,67 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "Дадаць пазнакі"
 
-#: search/dolphinsearchbox.cpp:100
+#: search/dolphinsearchbox.cpp:102
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "Тут (%1)"
 
-#: search/dolphinsearchbox.cpp:101
+#: search/dolphinsearchbox.cpp:103
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "Абмежаваць пошук \"%1\" і ўкладзенымі ў яго каталогамі"
 
-#: search/dolphinsearchbox.cpp:341
+#: search/dolphinsearchbox.cpp:351
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 "Захаваць гэты пошукавы запыт, каб хутка атрымаць доступ да яго ў будучыні"
 
-#: search/dolphinsearchbox.cpp:350
+#: search/dolphinsearchbox.cpp:360
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Выйсці з пошуку"
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:371
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Назва файла"
 
-#: search/dolphinsearchbox.cpp:365
+#: search/dolphinsearchbox.cpp:375
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Змесціва"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:386
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Тут"
 
-#: search/dolphinsearchbox.cpp:380
+#: search/dolphinsearchbox.cpp:390
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "Вашыя файлы"
 
-#: search/dolphinsearchbox.cpp:381
+#: search/dolphinsearchbox.cpp:391
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Пошук у вашым хатнім каталозе"
 
-#: search/dolphinsearchbox.cpp:395
+#: search/dolphinsearchbox.cpp:405
 #, kde-format
 msgid "More Search Tools"
 msgstr "Дадатковыя інструменты пошуку"
 
-#: search/dolphinsearchbox.cpp:455
+#: search/dolphinsearchbox.cpp:465
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
