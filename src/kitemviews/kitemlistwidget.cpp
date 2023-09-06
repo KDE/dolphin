@@ -105,7 +105,17 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option)
 
     if (m_alternateBackground) {
-        const QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
+        QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
+        if (!widget->hasFocus()) {
+            QColor baseColor = m_styleOption.palette.color(QPalette::Base);
+            if (baseColor.lightnessF() > 0.5) {
+                // theme seems light
+                backgroundColor = backgroundColor.lighter(101);
+            } else {
+                // theme seems dark
+                backgroundColor = backgroundColor.darker(101);
+            }
+        }
         const QRectF backgroundRect(0, 0, size().width(), size().height());
         painter->fillRect(backgroundRect, backgroundColor);
     }
