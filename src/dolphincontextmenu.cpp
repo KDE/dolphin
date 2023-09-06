@@ -187,17 +187,19 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
 void DolphinContextMenu::addOpenParentFolderActions()
 {
     addAction(QIcon::fromTheme(QStringLiteral("document-open-folder")), i18nc("@action:inmenu", "Open Path"), [this]() {
-        m_mainWindow->changeUrl(KIO::upUrl(m_fileInfo.url()));
-        m_mainWindow->activeViewContainer()->view()->markUrlsAsSelected({m_fileInfo.url()});
-        m_mainWindow->activeViewContainer()->view()->markUrlAsCurrent(m_fileInfo.url());
+        const QUrl url = m_fileInfo.targetUrl();
+        const QUrl parentUrl = KIO::upUrl(url);
+        m_mainWindow->changeUrl(parentUrl);
+        m_mainWindow->activeViewContainer()->view()->markUrlsAsSelected({url});
+        m_mainWindow->activeViewContainer()->view()->markUrlAsCurrent(url);
     });
 
     addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "Open Path in New Tab"), [this]() {
-        m_mainWindow->openNewTab(KIO::upUrl(m_fileInfo.url()));
+        m_mainWindow->openNewTab(KIO::upUrl(m_fileInfo.targetUrl()));
     });
 
     addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@action:inmenu", "Open Path in New Window"), [this]() {
-        Dolphin::openNewWindow({m_fileInfo.url()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
+        Dolphin::openNewWindow({m_fileInfo.targetUrl()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
     });
 }
 
