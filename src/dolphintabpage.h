@@ -138,6 +138,8 @@ public:
      */
     void setActive(bool active);
 
+    void switchActiveView();
+
 Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer *viewContainer);
     void activeViewUrlChanged(const QUrl &url);
@@ -169,8 +171,6 @@ private Q_SLOTS:
      * It emits the activeViewUrlChanged signal with the url \a newUrl.
      */
     void slotViewUrlRedirection(const QUrl &oldUrl, const QUrl &newUrl);
-
-    void switchActiveView();
 
 private:
     /**

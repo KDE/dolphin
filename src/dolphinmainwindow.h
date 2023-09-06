@@ -477,6 +477,11 @@ private Q_SLOTS:
     void openInNewWindow();
 
     /**
+     * Opens the selected folder in the other inactive split view, enables split view if necessary.
+     */
+    void openInSplitView(const QUrl &url);
+
+    /**
      * Show the target of the selected symlink
      */
     void showTarget();

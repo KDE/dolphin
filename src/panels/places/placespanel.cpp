@@ -47,6 +47,15 @@ PlacesPanel::PlacesPanel(QWidget *parent)
     connect(m_configureTrashAction, &QAction::triggered, this, &PlacesPanel::slotConfigureTrash);
     addAction(m_configureTrashAction);
 
+    m_openInSplitView = new QAction(QIcon::fromTheme(QStringLiteral("view-right-new")), i18nc("@action:inmenu", "Open in Split View"));
+    m_openInSplitView->setPriority(QAction::HighPriority);
+    connect(m_openInSplitView, &QAction::triggered, this, [this]() {
+        const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
+        Q_EMIT openInSplitViewRequested(url);
+    });
+
+    addAction(m_openInSplitView);
+
     connect(this, &PlacesPanel::contextMenuAboutToShow, this, &PlacesPanel::slotContextMenuAboutToShow);
 
     connect(this, &PlacesPanel::iconSizeChanged, this, [](const QSize &newSize) {
@@ -188,6 +197,7 @@ void PlacesPanel::slotContextMenuAboutToShow(const QModelIndex &index, QMenu *me
     const Solid::Device device = placesModel->deviceForIndex(index);
 
     m_configureTrashAction->setVisible(url.scheme() == QLatin1String("trash"));
+    m_openInSplitView->setVisible(url.isValid());
 
     // show customContextMenuActions only on the view's context menu
     if (!url.isValid() && !device.isValid()) {

@@ -122,6 +122,8 @@ bool ContextMenuSettingsPage::entryVisible(const QString &id)
         return ContextMenuSettings::showOpenInNewTab();
     } else if (id == "open_in_new_window") {
         return ContextMenuSettings::showOpenInNewWindow();
+    } else if (id == "open_in_split_view") {
+        return ContextMenuSettings::showOpenInSplitView();
     } else if (id == "copy_location") {
         return ContextMenuSettings::showCopyLocation();
     } else if (id == "duplicate") {
@@ -148,6 +150,8 @@ void ContextMenuSettingsPage::setEntryVisible(const QString &id, bool visible)
         ContextMenuSettings::setShowOpenInNewTab(visible);
     } else if (id == "open_in_new_window") {
         ContextMenuSettings::setShowOpenInNewWindow(visible);
+    } else if (id == "open_in_split_view") {
+        return ContextMenuSettings::setShowOpenInSplitView(visible);
     } else if (id == "copy_location") {
         ContextMenuSettings::setShowCopyLocation(visible);
     } else if (id == "duplicate") {

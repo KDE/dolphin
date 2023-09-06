@@ -68,6 +68,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
                                                                 QStringLiteral("view_mode"),
                                                                 QStringLiteral("open_in_new_tab"),
                                                                 QStringLiteral("open_in_new_window"),
+                                                                QStringLiteral("open_in_split_view"),
                                                                 QStringLiteral("copy_location"),
                                                                 QStringLiteral("duplicate"),
                                                                 QStringLiteral("open_terminal_here"),

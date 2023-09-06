@@ -165,6 +165,10 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
         addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
     }
 
+    if (ContextMenuSettings::showOpenInSplitView()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_split_view")));
+    }
+
     // Insert 'Open With' entries
     addOpenWithActions();
 

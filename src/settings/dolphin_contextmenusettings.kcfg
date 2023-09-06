@@ -30,6 +30,10 @@
             <label>Show 'Open in New Window' in context menu.</label>
             <default>true</default>
         </entry>
+        <entry name="ShowOpenInSplitView" type="Bool">
+            <label>Show 'Open In Split View' in context menu.</label>
+            <default>true</default>
+        </entry>
         <entry name="ShowCopyLocation" type="Bool">
             <label>Show 'Copy Location' in context menu.</label>
             <default>true</default>

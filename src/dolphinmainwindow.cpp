@@ -497,6 +497,32 @@ void DolphinMainWindow::openInNewWindow()
     }
 }
 
+void DolphinMainWindow::openInSplitView(const QUrl &url)
+{
+    QUrl newSplitViewUrl = url;
+
+    if (newSplitViewUrl.isEmpty()) {
+        const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+        if (list.count() == 1) {
+            const KFileItem &item = list.first();
+            newSplitViewUrl = DolphinView::openItemAsFolderUrl(item);
+        }
+    }
+
+    if (newSplitViewUrl.isEmpty()) {
+        return;
+    }
+
+    DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
+    if (tabPage->splitViewEnabled()) {
+        tabPage->switchActiveView();
+        tabPage->activeViewContainer()->setUrl(newSplitViewUrl);
+    } else {
+        tabPage->setSplitViewEnabled(true, WithAnimation, newSplitViewUrl);
+        updateViewActions();
+    }
+}
+
 void DolphinMainWindow::showTarget()
 {
     const KFileItem link = m_activeViewContainer->view()->selectedItems().at(0);
@@ -885,7 +911,6 @@ void DolphinMainWindow::toggleSplitView()
 {
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
-
     updateViewActions();
 }
 
@@ -1985,6 +2010,13 @@ void DolphinMainWindow::setupActions()
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     connect(openInNewWindow, &QAction::triggered, this, &DolphinMainWindow::openInNewWindow);
+
+    QAction *openInSplitViewAction = actionCollection()->addAction(QStringLiteral("open_in_split_view"));
+    openInSplitViewAction->setText(i18nc("@action:inmenu", "Open in Split View"));
+    openInSplitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+    connect(openInSplitViewAction, &QAction::triggered, this, [this]() {
+        openInSplitView(QUrl());
+    });
 }
 
 void DolphinMainWindow::setupDockWidgets()
@@ -2160,6 +2192,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(m_placesPanel, &PlacesPanel::newWindowRequested, this, [this](const QUrl &url) {
         Dolphin::openNewWindow({url}, this);
     });
+    connect(m_placesPanel, &PlacesPanel::openInSplitViewRequested, this, &DolphinMainWindow::openInSplitView);
     connect(m_placesPanel, &PlacesPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged, m_placesPanel, &PlacesPanel::setUrl);
     connect(placesDock, &DolphinDockWidget::visibilityChanged, &DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged);
