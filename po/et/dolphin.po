@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-05 00:47+0000\n"
+"POT-Creation-Date: 2023-09-07 00:47+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -30,37 +30,37 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "qiilaq69@gmail.com"
 
-#: dolphincontextmenu.cpp:122
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Tühjenda prügikast"
 
-#: dolphincontextmenu.cpp:136
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Taasta"
 
-#: dolphincontextmenu.cpp:178 dolphinmainwindow.cpp:1519
+#: dolphincontextmenu.cpp:180 dolphinmainwindow.cpp:1519
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Loo uus"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Ava asukoht"
 
-#: dolphincontextmenu.cpp:206
+#: dolphincontextmenu.cpp:197
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Ava asukoht uuel kaardil"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
@@ -4804,7 +4804,7 @@ msgstr "Vaikimisi"
 msgid "Reload"
 msgstr "Laadi uuesti"
 
-#: views/dolphinview.cpp:640
+#: views/dolphinview.cpp:644
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4812,7 +4812,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "1 kataloog valitud"
 msgstr[1] "%1 kataloogi valitud"
 
-#: views/dolphinview.cpp:641
+#: views/dolphinview.cpp:645
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4820,7 +4820,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "1 fail valitud"
 msgstr[1] "%1 faili valitud"
 
-#: views/dolphinview.cpp:643
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4828,7 +4828,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "1 kataloog"
 msgstr[1] "%1 kataloogi"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:648
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4836,38 +4836,38 @@ msgid_plural "%1 Files"
 msgstr[0] "1 fail"
 msgstr[1] "%1 faili"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:652
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:650
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 kataloogi, 0 faili"
 
-#: views/dolphinview.cpp:866 views/dolphinview.cpp:875
+#: views/dolphinview.cpp:870 views/dolphinview.cpp:879
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 koopia"
 
-#: views/dolphinview.cpp:1060
+#: views/dolphinview.cpp:1064
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Kas tõesti avada 1 element?"
 msgstr[1] "Kas tõesti avada %1 elementi?"
 
-#: views/dolphinview.cpp:1065
+#: views/dolphinview.cpp:1069
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4875,43 +4875,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Ava %1 element"
 msgstr[1] "Ava %1 elementi"
 
-#: views/dolphinview.cpp:1196
+#: views/dolphinview.cpp:1200
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1200
+#: views/dolphinview.cpp:1204
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automaatne veergude laius"
 
-#: views/dolphinview.cpp:1205
+#: views/dolphinview.cpp:1209
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Kohandatud veergude laius"
 
-#: views/dolphinview.cpp:1820
+#: views/dolphinview.cpp:1824
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Viskamine prügikasti tehtud."
 
-#: views/dolphinview.cpp:1830
+#: views/dolphinview.cpp:1834
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Kustutamine tehtud."
 
-#: views/dolphinview.cpp:1986
+#: views/dolphinview.cpp:1990
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Muuda nime ja peida"
 
-#: views/dolphinview.cpp:1990
+#: views/dolphinview.cpp:1994
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4920,7 +4920,7 @@ msgstr ""
 "Punkti lisamine failinime ette peidab selle vaatest.\n"
 "Kas tõesti nime muuta?"
 
-#: views/dolphinview.cpp:1992
+#: views/dolphinview.cpp:1996
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4929,98 +4929,98 @@ msgstr ""
 "Punkti lisamine katalooginime ette peidab selle vaatest.\n"
 "Kas tõesti nime muuta?"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1998
 #, kde-format
 msgid "Hide this File?"
 msgstr "Kas peita see fail?"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1998
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Kas peita see kataloog?"
 
-#: views/dolphinview.cpp:2044
+#: views/dolphinview.cpp:2048
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Asukoht on tühi."
 
-#: views/dolphinview.cpp:2046
+#: views/dolphinview.cpp:2050
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Asukoht '%1' on vigane."
 
-#: views/dolphinview.cpp:2302
+#: views/dolphinview.cpp:2306
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "Laadimine ..."
 
-#: views/dolphinview.cpp:2321
+#: views/dolphinview.cpp:2325
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Kataloogi laadimine..."
 
-#: views/dolphinview.cpp:2323
+#: views/dolphinview.cpp:2327
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Filtrile ei vasta ükski element"
 
-#: views/dolphinview.cpp:2325
+#: views/dolphinview.cpp:2329
 #, kde-format
 msgid "No items matching the search"
 msgstr "Otsingule ei vasta ükski element"
 
-#: views/dolphinview.cpp:2327
+#: views/dolphinview.cpp:2331
 #, kde-format
 msgid "Trash is empty"
 msgstr "Prügikast on tühi"
 
-#: views/dolphinview.cpp:2330
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "No tags"
 msgstr "Silte pole"
 
-#: views/dolphinview.cpp:2333
+#: views/dolphinview.cpp:2337
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgid "No recently used items"
 msgstr "Viimati kasutatud elemente pole"
 
-#: views/dolphinview.cpp:2339
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgid "No shared folders found"
 msgstr "Jagatud katalooge ei leitud"
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2345
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Asjakohaseid võrguressursse ei leitud"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2347
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-ga ühilduvaid seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2349
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "Bluetoothi-seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2351
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetoothi-seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2349
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Folder is empty"
 msgstr "Kataloog on tühi"
