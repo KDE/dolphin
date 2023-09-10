@@ -29,7 +29,7 @@ class DolphinPart : public KParts::ReadOnlyPart
     // Used by konqueror. Technically it means "we want undo enabled if
     // there are things in the undo history and the current part is a dolphin part".
     // Even though it's konqueror doing the undo...
-    Q_PROPERTY(bool supportsUndo READ supportsUndo)
+    Q_PROPERTY(bool supportsUndo READ supportsUndo CONSTANT)
 
     Q_PROPERTY(QString currentViewMode READ currentViewMode WRITE setCurrentViewMode)
 

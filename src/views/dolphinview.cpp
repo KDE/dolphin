@@ -276,6 +276,10 @@ bool DolphinView::isActive() const
 void DolphinView::setViewMode(Mode mode)
 {
     if (mode != m_mode) {
+        // Reset scrollbars before changing the view mode.
+        m_container->horizontalScrollBar()->setValue(0);
+        m_container->verticalScrollBar()->setValue(0);
+
         ViewProperties props(viewPropertiesUrl());
         props.setViewMode(mode);
 
@@ -1055,24 +1059,14 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
 
     if (indexes.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        const int answer = KMessageBox::warningTwoActions(
+        const int answer = KMessageBox::warningContinueCancel(
             this,
             question,
             {},
-#else
-        const int answer =
-            KMessageBox::warningYesNo(this,
-                                      question,
-                                      {},
-#endif
             KGuiItem(i18ncp("@action:button", "Open %1 Item", "Open %1 Items", indexes.count()), QStringLiteral("document-open")),
-            KStandardGuiItem::cancel());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (answer != KMessageBox::PrimaryAction) {
-#else
-        if (answer != KMessageBox::Yes) {
-#endif
+            KStandardGuiItem::cancel(),
+            QStringLiteral("ConfirmOpenManyFolders"));
+        if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
             return;
         }
     }
@@ -1426,6 +1420,14 @@ void DolphinView::slotItemCreated(const QUrl &url)
     }
 }
 
+void DolphinView::onDirectoryLoadingCompleted()
+{
+    // the model should now contain all the items created by the job
+    updateSelectionState();
+    m_selectJobCreatedItems = false;
+    m_selectedUrls.clear();
+}
+
 void DolphinView::slotJobResult(KJob *job)
 {
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
@@ -1441,21 +1443,7 @@ void DolphinView::slotJobResult(KJob *job)
         updateSelectionState();
         if (!m_selectedUrls.isEmpty()) {
             // not all urls were found, the model may not be up to date
-            // TODO KF6 replace with Qt::singleShotConnection
-            QMetaObject::Connection *const connection = new QMetaObject::Connection;
-            *connection = connect(
-                m_model,
-                &KFileItemModel::directoryLoadingCompleted,
-                this,
-                [this, connection]() {
-                    // the model should now contain all the items created by the job
-                    updateSelectionState();
-                    m_selectJobCreatedItems = false;
-                    m_selectedUrls.clear();
-                    QObject::disconnect(*connection);
-                    delete connection;
-                },
-                Qt::UniqueConnection);
+            connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::onDirectoryLoadingCompleted, Qt::UniqueConnection);
         } else {
             m_selectJobCreatedItems = false;
             m_selectedUrls.clear();
@@ -1998,13 +1986,8 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
                 KGuiItem yesGuiItem(i18nc("@action:button", "Rename and Hide"), QStringLiteral("view-hidden"));
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
                 const auto code =
                     KMessageBox::questionTwoActions(this,
-#else
-                const auto code =
-                    KMessageBox::questionYesNo(this,
-#endif
                                                     oldItem.isFile() ? i18n("Adding a dot to the beginning of this file's name will hide it from view.\n"
                                                                             "Do you still want to rename it?")
                                                                      : i18n("Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -2014,11 +1997,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
                                                     KStandardGuiItem::cancel(),
                                                     QStringLiteral("ConfirmHide"));
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
                 if (code == KMessageBox::SecondaryAction) {
-#else
-                if (code == KMessageBox::No) {
-#endif
                     return;
                 }
             }
@@ -2301,7 +2280,7 @@ void DolphinView::copyPathToClipboard()
     if (clipboard == nullptr) {
         return;
     }
-    clipboard->setText(path);
+    clipboard->setText(QDir::toNativeSeparators(path));
 }
 
 void DolphinView::slotIncreaseZoom()

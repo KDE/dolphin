@@ -53,8 +53,8 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(qreal scrollOffset READ scrollOffset WRITE setScrollOffset)
-    Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset)
+    Q_PROPERTY(qreal scrollOffset READ scrollOffset WRITE setScrollOffset NOTIFY scrollOffsetChanged)
+    Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset NOTIFY itemOffsetChanged)
 
 public:
     explicit KItemListView(QGraphicsWidget *parent = nullptr);

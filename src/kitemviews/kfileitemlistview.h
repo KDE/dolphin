@@ -98,6 +98,8 @@ protected:
     void onTransactionBegin() override;
     void onTransactionEnd() override;
     void resizeEvent(QGraphicsSceneResizeEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 
 protected Q_SLOTS:
     void slotItemsRemoved(const KItemRangeList &itemRanges) override;
@@ -127,6 +129,8 @@ private:
     QSize availableIconSize() const;
 
 private:
+    void updateSelectedWidgets();
+
     KFileItemModelRolesUpdater *m_modelRolesUpdater;
     QTimer *m_updateVisibleIndexRangeTimer;
     QTimer *m_updateIconSizeTimer;

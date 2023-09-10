@@ -35,6 +35,9 @@ public:
 
     static KItemListWidgetInformant *createInformant();
 
+    /// Force-update the displayed icon
+    void forceUpdate();
+
 protected:
     virtual void hoverSequenceStarted() override;
     virtual void hoverSequenceIndexChanged(int sequenceIndex) override;

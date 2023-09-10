@@ -203,6 +203,17 @@ void KFileItemListWidget::hoverSequenceStarted()
     view->setHoverSequenceState(itemUrl, 0);
 }
 
+void KFileItemListWidget::forceUpdate()
+{
+    updateAdditionalInfoTextColor();
+    // icon layout does not include the icons in the item selection rectangle
+    // so its icon does not need updating
+    if (listView()->itemLayout() != KStandardItemListView::ItemLayout::IconsLayout) {
+        invalidateIconCache();
+    }
+    update();
+}
+
 void KFileItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
 {
     KFileItemListView *view = listView();

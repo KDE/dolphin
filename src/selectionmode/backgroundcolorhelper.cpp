@@ -46,7 +46,7 @@ void BackgroundColorHelper::controlBackgroundColor(QWidget *widget)
 BackgroundColorHelper::BackgroundColorHelper()
 {
     updateBackgroundColor();
-    QObject::connect(qApp, &QGuiApplication::paletteChanged, [=]() {
+    QObject::connect(qApp, &QGuiApplication::paletteChanged, qApp, [=]() {
         slotPaletteChanged();
     });
 }

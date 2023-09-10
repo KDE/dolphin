@@ -139,7 +139,7 @@ protected:
     virtual QPalette::ColorRole normalTextColorRole() const;
 
     void setTextColor(const QColor &color);
-    QColor textColor() const;
+    QColor textColor(const QWidget &widget) const;
 
     void setOverlay(const QPixmap &overlay);
     QPixmap overlay() const;
@@ -181,6 +181,7 @@ protected:
         QPointF pos;
         QStaticText staticText;
     };
+    void updateAdditionalInfoTextColor();
 
 public Q_SLOTS:
     void finishRoleEditing();
@@ -199,8 +200,6 @@ private:
     void updateIconsLayoutTextCache();
     void updateCompactLayoutTextCache();
     void updateDetailsLayoutTextCache();
-
-    void updateAdditionalInfoTextColor();
 
     void drawPixmap(QPainter *painter, const QPixmap &pixmap);
     void drawSiblingsInformation(QPainter *painter);

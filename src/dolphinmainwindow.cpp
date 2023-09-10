@@ -506,6 +506,32 @@ void DolphinMainWindow::openInNewWindow()
     }
 }
 
+void DolphinMainWindow::openInSplitView(const QUrl &url)
+{
+    QUrl newSplitViewUrl = url;
+
+    if (newSplitViewUrl.isEmpty()) {
+        const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+        if (list.count() == 1) {
+            const KFileItem &item = list.first();
+            newSplitViewUrl = DolphinView::openItemAsFolderUrl(item);
+        }
+    }
+
+    if (newSplitViewUrl.isEmpty()) {
+        return;
+    }
+
+    DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
+    if (tabPage->splitViewEnabled()) {
+        tabPage->switchActiveView();
+        tabPage->activeViewContainer()->setUrl(newSplitViewUrl);
+    } else {
+        tabPage->setSplitViewEnabled(true, WithAnimation, newSplitViewUrl);
+        updateViewActions();
+    }
+}
+
 void DolphinMainWindow::showTarget()
 {
     const KFileItem link = m_activeViewContainer->view()->selectedItems().at(0);
@@ -895,7 +921,6 @@ void DolphinMainWindow::toggleSplitView()
 {
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
-
     updateViewActions();
 }
 
@@ -1154,7 +1179,8 @@ void DolphinMainWindow::openTerminalHere()
 {
     QList<QUrl> urls = {};
 
-    for (const KFileItem &item : m_activeViewContainer->view()->selectedItems()) {
+    const auto selectedItems = m_activeViewContainer->view()->selectedItems();
+    for (const KFileItem &item : selectedItems) {
         QUrl url = item.targetUrl();
         if (item.isFile()) {
             url.setPath(QFileInfo(url.path()).absolutePath());
@@ -1172,29 +1198,19 @@ void DolphinMainWindow::openTerminalHere()
 
     if (urls.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 terminal window?", "Are you sure you want to open %1 terminal windows?", urls.count());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        const int answer = KMessageBox::warningTwoActions(
+        const int answer = KMessageBox::warningContinueCancel(
             this,
             question,
             {},
-#else
-        const int answer = KMessageBox::warningYesNo(
-            this,
-            question,
-            {},
-#endif
             KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()), QStringLiteral("utilities-terminal")),
-            KStandardGuiItem::cancel());
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-        if (answer != KMessageBox::PrimaryAction) {
-#else
-        if (answer != KMessageBox::Yes) {
-#endif
+            KStandardGuiItem::cancel(),
+            QStringLiteral("ConfirmOpenManyTerminals"));
+        if (answer != KMessageBox::PrimaryAction && answer != KMessageBox::Continue) {
             return;
         }
     }
 
-    for (const QUrl &url : urls) {
+    for (const QUrl &url : std::as_const(urls)) {
         openTerminalJob(url);
     }
 }
@@ -2005,6 +2021,13 @@ void DolphinMainWindow::setupActions()
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     connect(openInNewWindow, &QAction::triggered, this, &DolphinMainWindow::openInNewWindow);
+
+    QAction *openInSplitViewAction = actionCollection()->addAction(QStringLiteral("open_in_split_view"));
+    openInSplitViewAction->setText(i18nc("@action:inmenu", "Open in Split View"));
+    openInSplitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+    connect(openInSplitViewAction, &QAction::triggered, this, [this]() {
+        openInSplitView(QUrl());
+    });
 }
 
 void DolphinMainWindow::setupDockWidgets()
@@ -2180,6 +2203,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(m_placesPanel, &PlacesPanel::newWindowRequested, this, [this](const QUrl &url) {
         Dolphin::openNewWindow({url}, this);
     });
+    connect(m_placesPanel, &PlacesPanel::openInSplitViewRequested, this, &DolphinMainWindow::openInSplitView);
     connect(m_placesPanel, &PlacesPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged, m_placesPanel, &PlacesPanel::setUrl);
     connect(placesDock, &DolphinDockWidget::visibilityChanged, &DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged);

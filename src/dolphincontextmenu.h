@@ -95,6 +95,9 @@ private:
     void addAdditionalActions(const KFileItemListProperties &props);
 
 private:
+    void addDirectoryItemContextMenu();
+    void addOpenParentFolderActions();
+
     struct Entry {
         int type;
         QString name;
@@ -110,6 +113,7 @@ private:
         TrashContext = 2,
         TimelineContext = 4,
         SearchContext = 8,
+        RecentlyUsedContext = 16,
     };
 
     DolphinMainWindow *m_mainWindow;
@@ -126,7 +130,6 @@ private:
     KFileCopyToMenu m_copyToMenu;
 
     DolphinRemoveAction *m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
-    void addDirectoryItemContextMenu();
     KFileItemActions *m_fileItemActions;
 };
 

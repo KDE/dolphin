@@ -166,7 +166,7 @@ void BottomBarContentsContainer::addCopyContents()
 
     auto *copyButton = new QPushButton(this);
     // We claim to have PasteContents already so triggering the copy action next won't instantly hide the bottom bar.
-    connect(copyButton, &QAbstractButton::clicked, [this]() {
+    connect(copyButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             m_contents = BottomBar::Contents::PasteContents; // prevents hiding
         }
@@ -174,7 +174,7 @@ void BottomBarContentsContainer::addCopyContents()
     // Connect the copy action as a second step.
     m_mainAction = ActionWithWidget(m_actionCollection->action(KStandardAction::name(KStandardAction::Copy)), copyButton);
     // Finally connect the lambda that actually changes the contents to the PasteContents.
-    connect(copyButton, &QAbstractButton::clicked, [this]() {
+    connect(copyButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
                 // it instantly deletes the button and then the other slots won't be called.
@@ -244,7 +244,7 @@ void BottomBarContentsContainer::addCutContents()
 
     auto *cutButton = new QPushButton(this);
     // We claim to have PasteContents already so triggering the cut action next won't instantly hide the bottom bar.
-    connect(cutButton, &QAbstractButton::clicked, [this]() {
+    connect(cutButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             m_contents = BottomBar::Contents::PasteContents; // prevents hiding
         }
@@ -252,7 +252,7 @@ void BottomBarContentsContainer::addCutContents()
     // Connect the cut action as a second step.
     m_mainAction = ActionWithWidget(m_actionCollection->action(KStandardAction::name(KStandardAction::Cut)), cutButton);
     // Finally connect the lambda that actually changes the contents to the PasteContents.
-    connect(cutButton, &QAbstractButton::clicked, [this]() {
+    connect(cutButton, &QAbstractButton::clicked, this, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
                 // it instantly deletes the button and then the other slots won't be called.

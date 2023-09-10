@@ -32,6 +32,7 @@
 #include <KMessageWidget>
 #include <KProtocolManager>
 #include <KShell>
+#include <kio_version.h>
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -83,6 +84,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
     connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
+    connect(m_searchBox, &DolphinSearchBox::openRequest, this, &DolphinViewContainer::openSearchBox);
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
     connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
@@ -736,17 +738,28 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
 {
     KService::List services = KApplicationTrader::queryByMimeType(item.mimetype());
 
-    if (services.length() >= 2) {
-        auto service = services.at(1);
+    int indexOfAppToOpenFileWith = 1;
+
+    // executable scripts
+    auto mimeType = item.currentMimeType();
+    if (item.isLocalFile() && mimeType.inherits(QStringLiteral("application/x-executable")) && mimeType.inherits(QStringLiteral("text/plain"))
+        && QFileInfo(item.localPath()).isExecutable()) {
+        KConfigGroup cfgGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
+        const QString value = cfgGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
+
+        // in case KIO::WidgetsOpenOrExecuteFileHandler::promptUserOpenOrExecute would not open the file
+        if (value != QLatin1String("open")) {
+            indexOfAppToOpenFileWith = 0;
+        }
+    }
+
+    if (services.length() >= indexOfAppToOpenFileWith + 1) {
+        auto service = services.at(indexOfAppToOpenFileWith);
 
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
         job->setUrls({item.url()});
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
         job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
         job->start();
     }
@@ -877,6 +890,11 @@ void DolphinViewContainer::startSearching()
         m_view->setViewPropertiesContext(QStringLiteral("search"));
         m_urlNavigatorConnected->setLocationUrl(url);
     }
+}
+
+void DolphinViewContainer::openSearchBox()
+{
+    setSearchModeEnabled(true);
 }
 
 void DolphinViewContainer::closeSearchBox()

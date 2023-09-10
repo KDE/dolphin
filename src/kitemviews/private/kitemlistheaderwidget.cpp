@@ -136,7 +136,7 @@ void KItemListHeaderWidget::setSidePadding(qreal width)
 {
     if (m_sidePadding != width) {
         m_sidePadding = width;
-        sidePaddingChanged(width);
+        Q_EMIT sidePaddingChanged(width);
         update();
     }
 }

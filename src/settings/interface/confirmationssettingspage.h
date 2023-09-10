@@ -43,6 +43,8 @@ private:
 
     QCheckBox *m_confirmClosingMultipleTabs;
     QComboBox *m_confirmScriptExecution;
+    QCheckBox *m_confirmOpenManyFolders;
+    QCheckBox *m_confirmOpenManyTerminals;
 };
 
 #endif

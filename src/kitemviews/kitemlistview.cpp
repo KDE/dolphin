@@ -361,7 +361,7 @@ void KItemListView::setGeometry(const QRectF &rect)
         if (m_headerWidget->automaticColumnResizing()) {
             applyAutomaticColumnWidths();
         } else {
-            const qreal requiredWidth = columnWidthsSum();
+            const qreal requiredWidth = columnWidthsSum() + 2 * m_headerWidget->sidePadding();
             const QSizeF dynamicItemSize(qMax(newSize.width(), requiredWidth), m_itemSize.height());
             m_layouter->setItemSize(dynamicItemSize);
         }
@@ -959,6 +959,18 @@ bool KItemListView::event(QEvent *event)
 
     case QEvent::FontChange:
         updateFont();
+        break;
+
+    case QEvent::FocusIn:
+        focusInEvent(static_cast<QFocusEvent *>(event));
+        event->accept();
+        return true;
+        break;
+
+    case QEvent::FocusOut:
+        focusOutEvent(static_cast<QFocusEvent *>(event));
+        event->accept();
+        return true;
         break;
 
     default:
@@ -2265,7 +2277,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 void KItemListView::applyColumnWidthsFromHeader()
 {
     // Apply the new size to the layouter
-    const qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding();
+    const qreal requiredWidth = columnWidthsSum() + 2 * m_headerWidget->sidePadding();
     const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth), m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
 
@@ -2360,9 +2372,9 @@ void KItemListView::applyAutomaticColumnWidths()
     qreal firstColumnWidth = m_headerWidget->columnWidth(firstRole);
     QSizeF dynamicItemSize = m_itemSize;
 
-    qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding()
-        + m_headerWidget->sidePadding(); // Adding the padding a second time so we have the same padding symmetrically on both sides of the view.
-    // This improves UX, looks better and increases the chances of users figuring out that the padding area can be used for deselecting and dropping files.
+    qreal requiredWidth = columnWidthsSum() + 2 * m_headerWidget->sidePadding(); // Adding the padding a second time so we have the same padding
+    // symmetrically on both sides of the view. This improves UX, looks better and increases the chances of users figuring out that the padding
+    // area can be used for deselecting and dropping files.
     const qreal availableWidth = size().width();
     if (requiredWidth < availableWidth) {
         // Stretch the first column to use the whole remaining width

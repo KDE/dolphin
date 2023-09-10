@@ -51,6 +51,7 @@ Q_SIGNALS:
     void storageTearDownRequested(const QString &mountPath);
     void storageTearDownExternallyRequested(const QString &mountPath);
     void storageTearDownSuccessful();
+    void openInSplitViewRequested(const QUrl &url);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -75,6 +76,7 @@ private:
     QPersistentModelIndex m_indexToTearDown;
 
     QAction *m_configureTrashAction;
+    QAction *m_openInSplitView;
     QAction *m_lockPanelsAction;
 };
 

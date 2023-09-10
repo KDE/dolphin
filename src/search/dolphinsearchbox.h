@@ -112,6 +112,11 @@ Q_SIGNALS:
     void closeRequest();
 
     /**
+     * Is emitted when the search box should be opened.
+     */
+    void openRequest();
+
+    /**
      * Is emitted, if the searchbox has been activated by
      * an user interaction
      * @see DolphinSearchBox::setActive()

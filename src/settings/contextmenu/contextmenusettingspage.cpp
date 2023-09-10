@@ -7,7 +7,6 @@
 #include "contextmenusettingspage.h"
 
 #include "dolphin_contextmenusettings.h"
-#include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 #include "global.h"
 #include "settings/servicemodel.h"
@@ -118,6 +117,8 @@ bool ContextMenuSettingsPage::entryVisible(const QString &id)
         return ContextMenuSettings::showOpenInNewTab();
     } else if (id == "open_in_new_window") {
         return ContextMenuSettings::showOpenInNewWindow();
+    } else if (id == "open_in_split_view") {
+        return ContextMenuSettings::showOpenInSplitView();
     } else if (id == "copy_location") {
         return ContextMenuSettings::showCopyLocation();
     } else if (id == "duplicate") {
@@ -144,6 +145,8 @@ void ContextMenuSettingsPage::setEntryVisible(const QString &id, bool visible)
         ContextMenuSettings::setShowOpenInNewTab(visible);
     } else if (id == "open_in_new_window") {
         ContextMenuSettings::setShowOpenInNewWindow(visible);
+    } else if (id == "open_in_split_view") {
+        return ContextMenuSettings::setShowOpenInSplitView(visible);
     } else if (id == "copy_location") {
         ContextMenuSettings::setShowCopyLocation(visible);
     } else if (id == "duplicate") {
@@ -201,24 +204,15 @@ void ContextMenuSettingsPage::applySettings()
         VersionControlSettings::self()->save();
 
         if (!laterSelected) {
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
             KMessageBox::ButtonCode promptRestart =
                 KMessageBox::questionTwoActions(window(),
-#else
-            KMessageBox::ButtonCode promptRestart =
-                KMessageBox::questionYesNo(window(),
-#endif
                                                 i18nc("@info",
                                                       "Dolphin must be restarted to apply the "
                                                       "updated version control system settings."),
                                                 i18nc("@info", "Restart now?"),
                                                 KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
                                                 KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later")));
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
             if (promptRestart == KMessageBox::ButtonCode::PrimaryAction) {
-#else
-            if (promptRestart == KMessageBox::ButtonCode::Yes) {
-#endif
                 Dolphin::openNewWindow();
                 qApp->quit();
             } else {
