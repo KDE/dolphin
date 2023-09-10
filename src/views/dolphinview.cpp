@@ -2283,7 +2283,7 @@ void DolphinView::copyPathToClipboard()
     if (clipboard == nullptr) {
         return;
     }
-    clipboard->setText(path);
+    clipboard->setText(QDir::toNativeSeparators(path));
 }
 
 void DolphinView::slotIncreaseZoom()
