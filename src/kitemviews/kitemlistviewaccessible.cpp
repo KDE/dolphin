@@ -30,7 +30,7 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_)
 
 KItemListViewAccessible::~KItemListViewAccessible()
 {
-    for (AccessibleIdWrapper idWrapper : qAsConst(m_cells)) {
+    for (AccessibleIdWrapper idWrapper : std::as_const(m_cells)) {
         if (idWrapper.isValid) {
             QAccessible::deleteAccessibleInterface(idWrapper.id);
         }

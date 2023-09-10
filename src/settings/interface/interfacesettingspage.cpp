@@ -59,14 +59,14 @@ InterfaceSettingsPage::~InterfaceSettingsPage()
 
 void InterfaceSettingsPage::applySettings()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->applySettings();
     }
 }
 
 void InterfaceSettingsPage::restoreDefaults()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->restoreDefaults();
     }
 }

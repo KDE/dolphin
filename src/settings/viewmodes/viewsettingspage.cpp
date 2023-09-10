@@ -65,14 +65,14 @@ ViewSettingsPage::~ViewSettingsPage()
 
 void ViewSettingsPage::applySettings()
 {
-    for (SettingsPageBase *tab : qAsConst(m_tabs)) {
+    for (SettingsPageBase *tab : std::as_const(m_tabs)) {
         tab->applySettings();
     }
 }
 
 void ViewSettingsPage::restoreDefaults()
 {
-    for (SettingsPageBase *tab : qAsConst(m_tabs)) {
+    for (SettingsPageBase *tab : std::as_const(m_tabs)) {
         if (tabWidget->currentWidget() == tab) {
             tab->restoreDefaults();
             return;

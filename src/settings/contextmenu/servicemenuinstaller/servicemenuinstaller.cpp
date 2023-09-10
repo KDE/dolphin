@@ -172,7 +172,7 @@ void runUncompress(const QString &inputPath, const QString &outputPath)
     const auto mime = QMimeDatabase().mimeTypeForFile(inputPath).name();
 
     UncompressCommand command{};
-    for (const auto &pair : qAsConst(mimeTypeToCommand)) {
+    for (const auto &pair : std::as_const(mimeTypeToCommand)) {
         if (pair.first.contains(mime)) {
             command = pair.second;
             break;

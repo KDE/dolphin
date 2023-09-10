@@ -75,7 +75,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
     }
 
     int activeWindowIndex = -1;
-    for (const auto &interface : qAsConst(dolphinInterfaces)) {
+    for (const auto &interface : std::as_const(dolphinInterfaces)) {
         ++activeWindowIndex;
 
         auto isActiveWindowReply = interface.first->isActiveWindow();
@@ -116,7 +116,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
         }
     }
 
-    for (const auto &interface : qAsConst(dolphinInterfaces)) {
+    for (const auto &interface : std::as_const(dolphinInterfaces)) {
         if (interface.second.isEmpty()) {
             continue;
         }

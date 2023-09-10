@@ -58,14 +58,14 @@ DolphinGeneralConfigModule::~DolphinGeneralConfigModule()
 
 void DolphinGeneralConfigModule::save()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->applySettings();
     }
 }
 
 void DolphinGeneralConfigModule::defaults()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->applySettings();
     }
 }

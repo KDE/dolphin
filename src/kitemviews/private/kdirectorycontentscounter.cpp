@@ -166,7 +166,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
     if (!m_watchedDirs.isEmpty()) {
         // Don't let KDirWatch watch for removed items
         if (allItemsRemoved) {
-            for (const QString &path : qAsConst(m_watchedDirs)) {
+            for (const QString &path : std::as_const(m_watchedDirs)) {
                 m_dirWatcher->removeDir(path);
             }
             m_watchedDirs.clear();

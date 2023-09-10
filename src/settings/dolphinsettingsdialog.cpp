@@ -129,7 +129,7 @@ void DolphinSettingsDialog::enableApply()
 
 void DolphinSettingsDialog::applySettings()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->applySettings();
     }
 
@@ -148,7 +148,7 @@ void DolphinSettingsDialog::applySettings()
 
 void DolphinSettingsDialog::restoreDefaults()
 {
-    for (SettingsPageBase *page : qAsConst(m_pages)) {
+    for (SettingsPageBase *page : std::as_const(m_pages)) {
         page->restoreDefaults();
     }
 }

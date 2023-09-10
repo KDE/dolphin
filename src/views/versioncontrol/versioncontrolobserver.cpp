@@ -105,7 +105,7 @@ QList<QAction *> VersionControlObserver::actions(const KFileItemList &items) con
         return m_plugin->versionControlActions(items);
     } else {
         QList<QAction *> actions;
-        for (const QPointer<KVersionControlPlugin> &plugin : qAsConst(m_plugins)) {
+        for (const QPointer<KVersionControlPlugin> &plugin : std::as_const(m_plugins)) {
             actions << plugin->outOfVersionControlActions(items);
         }
         return actions;
@@ -283,7 +283,7 @@ void VersionControlObserver::initPlugins()
             }
         }
 
-        for (auto &plugin : qAsConst(m_plugins)) {
+        for (auto &plugin : std::as_const(m_plugins)) {
             connect(plugin, &KVersionControlPlugin::itemVersionsChanged, this, &VersionControlObserver::silentDirectoryVerification);
             connect(plugin, &KVersionControlPlugin::infoMessage, this, &VersionControlObserver::infoMessage);
             connect(plugin, &KVersionControlPlugin::errorMessage, this, &VersionControlObserver::errorMessage);
@@ -299,7 +299,7 @@ KVersionControlPlugin *VersionControlObserver::searchPlugin(const QUrl &director
     initPlugins();
 
     // Verify whether the current directory is under a version system
-    for (const QPointer<KVersionControlPlugin> &plugin : qAsConst(m_plugins)) {
+    for (const QPointer<KVersionControlPlugin> &plugin : std::as_const(m_plugins)) {
         if (!plugin) {
             continue;
         }

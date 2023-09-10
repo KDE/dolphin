@@ -195,14 +195,14 @@ KItemSet KItemSet::operator^(const KItemSet &other) const
     const QVector<int>::iterator end = rangeBoundaries.end();
     QVector<int>::iterator it = begin;
 
-    for (const KItemRange &range : qAsConst(m_itemRanges)) {
+    for (const KItemRange &range : std::as_const(m_itemRanges)) {
         *it++ = range.index;
         *it++ = range.index + range.count;
     }
 
     const QVector<int>::iterator middle = it;
 
-    for (const KItemRange &range : qAsConst(other.m_itemRanges)) {
+    for (const KItemRange &range : std::as_const(other.m_itemRanges)) {
         *it++ = range.index;
         *it++ = range.index + range.count;
     }

@@ -66,11 +66,11 @@ static QSet<int> KItemSet2QSet(const KItemSet &itemSet)
     // Check that the conversion was successful.
     Q_ASSERT(itemSet.count() == result.count());
 
-    for (int i : qAsConst(itemSet)) {
+    for (int i : std::as_const(itemSet)) {
         Q_ASSERT(result.contains(i));
     }
 
-    for (int i : qAsConst(result)) {
+    for (int i : std::as_const(result)) {
         Q_ASSERT(itemSet.contains(i));
     }
 

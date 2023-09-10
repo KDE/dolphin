@@ -282,7 +282,7 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl &, const KFileItemList 
 
     const bool onlyOneTag = allTags.count() == 1;
 
-    for (const QString &tagName : qAsConst(allTags)) {
+    for (const QString &tagName : std::as_const(allTags)) {
         QAction *action = tagsMenu->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
         action->setCheckable(true);
         action->setChecked(m_searchTags.contains(tagName));

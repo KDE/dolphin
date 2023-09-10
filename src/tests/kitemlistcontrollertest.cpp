@@ -292,9 +292,9 @@ void KItemListControllerTest::testKeyboardNavigation_data()
             break;
         }
 
-        for (int columnCount : qAsConst(columnCountList)) {
-            for (const KItemListController::SelectionBehavior &selectionBehavior : qAsConst(selectionBehaviorList)) {
-                for (bool groupingEnabled : qAsConst(groupingEnabledList)) {
+        for (int columnCount : std::as_const(columnCountList)) {
+            for (const KItemListController::SelectionBehavior &selectionBehavior : std::as_const(selectionBehaviorList)) {
+                for (bool groupingEnabled : std::as_const(groupingEnabledList)) {
                     QList<QPair<KeyPress, ViewState>> testList;
 
                     // First, key presses which should have the same effect

@@ -167,7 +167,7 @@ void KItemListHeaderWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     qreal x = -m_offset + m_sidePadding;
     int orderIndex = 0;
-    for (const QByteArray &role : qAsConst(m_columns)) {
+    for (const QByteArray &role : std::as_const(m_columns)) {
         const qreal roleWidth = m_columnWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
         paintRole(painter, role, rect, orderIndex, widget);
@@ -507,7 +507,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF &pos) const
     int index = -1;
 
     qreal x = -m_offset + m_sidePadding;
-    for (const QByteArray &role : qAsConst(m_columns)) {
+    for (const QByteArray &role : std::as_const(m_columns)) {
         ++index;
         x += m_columnWidths.value(role);
         if (pos.x() <= x) {
@@ -540,7 +540,7 @@ bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF &pos, PaddingGrip p
         return pos.x() >= (lx - grip) && pos.x() <= lx;
     case Trailing: {
         qreal rx = lx;
-        for (const QByteArray &role : qAsConst(m_columns)) {
+        for (const QByteArray &role : std::as_const(m_columns)) {
             rx += m_columnWidths.value(role);
         }
         return pos.x() >= (rx - grip) && pos.x() <= rx;
@@ -604,7 +604,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
 qreal KItemListHeaderWidget::roleXPosition(const QByteArray &role) const
 {
     qreal x = -m_offset + m_sidePadding;
-    for (const QByteArray &visibleRole : qAsConst(m_columns)) {
+    for (const QByteArray &visibleRole : std::as_const(m_columns)) {
         if (visibleRole == role) {
             return x;
         }

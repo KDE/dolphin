@@ -285,7 +285,7 @@ void ContextMenuSettingsPage::loadServices()
     const auto locations = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("kio/servicemenus"), QStandardPaths::LocateDirectory);
     QStringList files = KFileUtils::findAllUniqueFiles(locations);
 
-    for (const auto &file : qAsConst(files)) {
+    for (const auto &file : std::as_const(files)) {
         const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
 
         const KDesktopFile desktopFile(file);

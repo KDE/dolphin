@@ -59,7 +59,7 @@ DolphinViewModesConfigModule::~DolphinViewModesConfigModule()
 
 void DolphinViewModesConfigModule::save()
 {
-    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
+    for (ViewSettingsTab *tab : std::as_const(m_tabs)) {
         tab->applySettings();
     }
     reparseConfiguration();
@@ -67,7 +67,7 @@ void DolphinViewModesConfigModule::save()
 
 void DolphinViewModesConfigModule::defaults()
 {
-    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
+    for (ViewSettingsTab *tab : std::as_const(m_tabs)) {
         tab->restoreDefaults();
     }
     reparseConfiguration();

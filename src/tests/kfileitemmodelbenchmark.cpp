@@ -74,7 +74,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems_data()
     QList<int> sizes;
     sizes << 100000;
 
-    for (int n : qAsConst(sizes)) {
+    for (int n : std::as_const(sizes)) {
         QStringList allStrings;
         for (int i = 0; i < n; ++i) {
             allStrings << QString::number(i);

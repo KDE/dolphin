@@ -981,7 +981,7 @@ void KFileItemModel::resortAllItems()
     // been moved because of the resorting.
     QList<QUrl> oldUrls;
     oldUrls.reserve(itemCount);
-    for (const ItemData *itemData : qAsConst(m_itemData)) {
+    for (const ItemData *itemData : std::as_const(m_itemData)) {
         oldUrls.append(itemData->item.url());
     }
 
@@ -1226,7 +1226,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList &items)
         indexesToRemoveWithChildren.reserve(m_itemData.count());
 
         const int itemCount = m_itemData.count();
-        for (int index : qAsConst(indexesToRemove)) {
+        for (int index : std::as_const(indexesToRemove)) {
             indexesToRemoveWithChildren.append(index);
 
             const int parentLevel = expandedParentsCount(index);
@@ -1644,7 +1644,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
     case DeletionTimeRole:
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
-        for (ItemData *itemData : qAsConst(itemDataList)) {
+        for (ItemData *itemData : std::as_const(itemDataList)) {
             if (itemData->values.isEmpty()) {
                 itemData->values = retrieveData(itemData->item, itemData->parent);
             }
@@ -1653,7 +1653,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData *> &itemDataList)
 
     case TypeRole:
         // At least store the data including the file type for items with known MIME type.
-        for (ItemData *itemData : qAsConst(itemDataList)) {
+        for (ItemData *itemData : std::as_const(itemDataList)) {
             if (itemData->values.isEmpty()) {
                 const KFileItem item = itemData->item;
                 if (item.isDir() || item.isMimeTypeKnown()) {

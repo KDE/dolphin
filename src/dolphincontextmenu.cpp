@@ -137,7 +137,7 @@ void DolphinContextMenu::addTrashItemContextMenu()
     addAction(QIcon::fromTheme("restoration"), i18nc("@action:inmenu", "Restore"), [this]() {
         QList<QUrl> selectedUrls;
         selectedUrls.reserve(m_selectedItems.count());
-        for (const KFileItem &item : qAsConst(m_selectedItems)) {
+        for (const KFileItem &item : std::as_const(m_selectedItems)) {
             selectedUrls.append(item.url());
         }
 
@@ -224,7 +224,7 @@ void DolphinContextMenu::addItemContextMenu()
     } else {
         // multiple files
         bool selectionHasOnlyDirs = true;
-        for (const auto &item : qAsConst(m_selectedItems)) {
+        for (const auto &item : std::as_const(m_selectedItems)) {
             const QUrl &url = DolphinView::openItemAsFolderUrl(item);
             if (url.isEmpty()) {
                 selectionHasOnlyDirs = false;
