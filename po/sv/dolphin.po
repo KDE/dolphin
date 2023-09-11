@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-10 00:48+0000\n"
-"PO-Revision-Date: 2023-08-29 20:16+0200\n"
+"PO-Revision-Date: 2023-09-10 19:04+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -818,11 +818,10 @@ msgid "Open in New Window"
 msgstr "Öppna i nytt fönster"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Öppna i program"
+msgstr "Öppna i delad vy"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3268,10 +3267,9 @@ msgstr "Visa 'Öppna i nytt fönster' i den sammanhangsberoende menyn."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Visa 'Öppna i nytt fönster' i den sammanhangsberoende menyn."
+msgstr "Visa 'Öppna i delad vy' i den sammanhangsberoende menyn."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38

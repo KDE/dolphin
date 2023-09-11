@@ -6,7 +6,7 @@
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Jaime Robles <jaime@kde.org>, 2007, 2008, 2009.
 # Jaime Robles <jaime@robles.nu>, 2007.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010, 2011, 2012, 2013.
 # Javier Vinal <fjvinal@gmail.com>, 2011.
 # arklad, 2011.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-10 00:48+0000\n"
-"PO-Revision-Date: 2023-08-30 11:14+0200\n"
+"PO-Revision-Date: 2023-09-10 19:32+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "com>\n"
 "com>\n"
 "com>\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -835,11 +835,10 @@ msgid "Open in New Window"
 msgstr "Abrir en ventana nueva"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Abrir en aplicación"
+msgstr "Abrir en vista dividida"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3312,10 +3311,9 @@ msgstr "Mostrar «Abrir en nueva ventana» en el menú de contexto."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Mostrar «Abrir en nueva ventana» en el menú de contexto."
+msgstr "Mostrar «Abrir en vista dividida» en el menú de contexto."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
