@@ -1338,7 +1338,7 @@ msgstr "Trau el focus del quadro del terminal"
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr "Introduïu l'URL del servidor (p. ex. smb://[adreça IP])"
+msgstr "Introduïu l'URL del servidor (p. ex., smb://[adreça IP])"
 
 #: dolphinnavigatorswidgetaction.cpp:227
 #, kde-format
@@ -4210,13 +4210,13 @@ msgstr "La mida de la carpeta mostra:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Relativa (p. ex. «%1»)"
+msgstr "Relativa (p. ex., «%1»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Absoluta (p. ex. «%1»)"
+msgstr "Absoluta (p. ex., «%1»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
@@ -4228,19 +4228,19 @@ msgstr "Estil de la data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "Simbòlic (p. ex. «drwxr-xr-x»)"
+msgstr "Simbòlic (p. ex., «drwxr-xr-x»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "Numèric (octal) (p. ex. «755»)"
+msgstr "Numèric (octal) (p. ex., «755»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "Combinat (p. ex. «drwxr-xr-x (755)»)"
+msgstr "Combinat (p. ex., «drwxr-xr-x (755)»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:76
 #, kde-format
