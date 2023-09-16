@@ -745,11 +745,10 @@ msgid "Open in New Window"
 msgstr "Otevřít v novém okně"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Otevřít v aplikaci"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3045,10 +3044,9 @@ msgstr "Zobrazit 'Otevřít v novém okně' v kontextové nabídce."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Zobrazit 'Otevřít v novém okně' v kontextové nabídce."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
