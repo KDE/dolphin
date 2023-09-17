@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-10 00:48+0000\n"
+"POT-Creation-Date: 2023-09-17 00:47+0000\n"
 "PO-Revision-Date: 2021-06-02 18:56+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2484,14 +2484,14 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Konfigurēt miskasti..."
 
-#: panels/terminal/terminalpanel.cpp:174
+#: panels/terminal/terminalpanel.cpp:179
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
 
-#: panels/terminal/terminalpanel.cpp:180
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid "Install Konsole"
 msgstr "Instalēt Konsole"

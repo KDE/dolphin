@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-10 00:48+0000\n"
-"PO-Revision-Date: 2023-09-02 02:56\n"
+"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"PO-Revision-Date: 2023-09-16 10:08\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -792,11 +792,10 @@ msgid "Open in New Window"
 msgstr "在新窗口中打开"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "在应用程序中打开"
+msgstr "在拆分视图中打开"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -2524,14 +2523,14 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "配置回收站…"
 
-#: panels/terminal/terminalpanel.cpp:174
+#: panels/terminal/terminalpanel.cpp:179
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr "由于未安装 Konsole，无法显示终端。请安装它, 然后重新打开面板。"
 
-#: panels/terminal/terminalpanel.cpp:180
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid "Install Konsole"
 msgstr "安装 Konsole"
@@ -3166,10 +3165,9 @@ msgstr "在右键菜单中显示“在新窗口中打开”。"
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "在右键菜单中显示“在新窗口中打开”。"
+msgstr "在右键菜单中显示“在拆分视图中打开”。"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
