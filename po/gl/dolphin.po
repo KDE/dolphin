@@ -9,14 +9,14 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011, 2012, 2013, 2014.
 # Xosé <xosecalvo@gmail.com>, 2010.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020, 2023.
+# SPDX-FileCopyrightText: 2023 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:47+0000\n"
-"PO-Revision-Date: 2023-09-03 12:25+0200\n"
+"PO-Revision-Date: 2023-09-17 16:21+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -66,7 +66,7 @@ msgstr "Abrir a ruta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
-msgstr "Abrir a ruta nun separador"
+msgstr "Abrir a ruta nunha lapela"
 
 #: dolphincontextmenu.cpp:205
 #, kde-format
@@ -149,13 +149,13 @@ msgstr "&Saír de %1"
 #: dolphinmainwindow.cpp:588
 #, kde-format
 msgid "C&lose Current Tab"
-msgstr "Pechar o separador actua&l"
+msgstr "Pechar a lapela actua&l"
 
 #: dolphinmainwindow.cpp:597
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "Ten varios separadores abertos nesta xanela, seguro que quere saír?"
+msgstr "Ten varias lapelas abertas nesta xanela, seguro que quere saír?"
 
 #: dolphinmainwindow.cpp:599 dolphinmainwindow.cpp:649
 #, kde-format
@@ -235,7 +235,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
-msgstr "Novo separador"
+msgstr "Nova lapela"
 
 #: dolphinmainwindow.cpp:1562
 #, kde-kuit-format
@@ -245,9 +245,9 @@ msgid ""
 "<nl/>A tab is an additional view within this window. You can drag and drop "
 "items between tabs."
 msgstr ""
-"Isto abre un novo <emphasis>separador</emphasis> coa localización e vista "
-"actuais.<nl/>Un separador é unha vista adicional dentro desta xanela. Pode "
-"arrastrar e soltar elementos entre separadores."
+"Isto abre unha nova <emphasis>lapela</emphasis> coa localización e vista "
+"actuais.<nl/>Unha lapela é unha vista adicional dentro desta xanela. Pode "
+"arrastrar e soltar elementos entre lapelas."
 
 #: dolphinmainwindow.cpp:1571
 #, kde-format
@@ -265,7 +265,7 @@ msgstr "Isto engade o cartafol seleccionado ao panel de lugares."
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
-msgstr "Pechar o separador"
+msgstr "Pechar a lapela"
 
 #: dolphinmainwindow.cpp:1580
 #, kde-format
@@ -274,8 +274,7 @@ msgid ""
 "This closes the currently viewed tab. If no more tabs are left this window "
 "will close instead."
 msgstr ""
-"Isto pecha o separador actual. Se non quedan máis separadores a xanela "
-"pecharase."
+"Isto pecha a lapela actual. Se non quedan máis lapelas a xanela pecharase."
 
 #: dolphinmainwindow.cpp:1585
 #, kde-format
@@ -316,7 +315,8 @@ msgid ""
 msgstr ""
 "Isto copia os elementos da selección actual no <emphasis>portapapeis</"
 "emphasis>.<nl/>Use a acción <emphasis>Pegar</emphasis> despois para copialos "
-"do portapapeis a unha nova localización."
+"do portapapeis a unha nova localización. Os elementos retiraranse da súa "
+"localización orixinal."
 
 #: dolphinmainwindow.cpp:1609
 #, kde-format
@@ -644,13 +644,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
-msgstr "Desfacer o peche de separador"
+msgstr "Desfacer o peche de lapela"
 
 #: dolphinmainwindow.cpp:1829
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
-msgstr "Isto devólveo ao último separador pechado."
+msgstr "Con isto volve á última lapela pechada."
 
 #: dolphinmainwindow.cpp:1837
 #, kde-kuit-format
@@ -768,37 +768,37 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
-msgstr "Activar o separador %1"
+msgstr "Activar a lapela %1"
 
 #: dolphinmainwindow.cpp:1973
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
-msgstr "Activar o último separador"
+msgstr "Activar a última lapela"
 
 #: dolphinmainwindow.cpp:1979
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
-msgstr "Seguinte separador"
+msgstr "Seguinte lapela"
 
 #: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
-msgstr "Activar o seguinte separador"
+msgstr "Activar a seguinte lapela"
 
 #: dolphinmainwindow.cpp:1986
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
-msgstr "Separador anterior"
+msgstr "Lapela anterior"
 
 #: dolphinmainwindow.cpp:1987
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
-msgstr "Activar o separador anterior"
+msgstr "Activar a lapela anterior"
 
 #: dolphinmainwindow.cpp:1994
 #, kde-format
@@ -810,13 +810,13 @@ msgstr "Amosar o destino"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
-msgstr "Abrir nun separador"
+msgstr "Abrir nunha lapela"
 
 #: dolphinmainwindow.cpp:2005
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
-msgstr "Abrir en separadores"
+msgstr "Abrir en lapelas"
 
 #: dolphinmainwindow.cpp:2010
 #, kde-format
@@ -825,11 +825,10 @@ msgid "Open in New Window"
 msgstr "Abrir nunha xanela"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Abrir na aplicación"
+msgstr "Abrir nunha vista dividida"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -855,7 +854,7 @@ msgstr ""
 "Isto cambia entre ter os paneis <emphasis>bloqueados</emphasis> e "
 "<emphasis>desbloqueados</emphasis>.<nl/>Os paneis desbloqueados poden "
 "arrastrarse ao outro lado da xanela e teñen un botón de pechar.<nl/>Os "
-"paneis bloqueados incrústanse mais limpamente."
+"paneis bloqueados incrústanse máis limpamente."
 
 #: dolphinmainwindow.cpp:2043
 #, kde-format
@@ -870,7 +869,7 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Para amosar ou agochar paneis coma este vaia a <interface>Menú|Paneis</"
+"<para>Para amosar ou agochar paneis como este vaia a <interface>Menú|Paneis</"
 "interface> ou <interface>Vista|Paneis</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2073
@@ -921,7 +920,7 @@ msgid ""
 msgstr ""
 "Isto conmuta o panel de <emphasis>cartafoles</emphasis> da esquerda da "
 "xanela.<nl/><nl/>Amosa os cartafoles do <emphasis>sistema de ficheiros</"
-"emphasis> nunha <emphasis>vista de árbore</emphasis>."
+"emphasis> nunha <emphasis>vista en árbore</emphasis>."
 
 #: dolphinmainwindow.cpp:2116
 #, kde-kuit-format
@@ -933,7 +932,7 @@ msgid ""
 "quick switching between any folders.</para>"
 msgstr ""
 "<para>Este panel amosa os cartafoles do <emphasis>sistema de ficheiros</"
-"emphasis> nunha <emphasis>vista de árbore</emphasis>.</para><para>Prema un "
+"emphasis> nunha <emphasis>vista en árbore</emphasis>.</para><para>Prema un "
 "cartafol para ir aquí. Prema a frecha á esquerda dun cartafol para ver os "
 "seus subcartafoles. Isto permite cambiar rapidamente entre calquera cartafol."
 "</para>"
@@ -1037,7 +1036,7 @@ msgstr ""
 "computador ou á rede. Tamén contén seccións para atopar ficheiros gardados "
 "recentemente ou ficheiros dun certo tipo.</para><para>Prema unha entrada "
 "para ir a ela. Prema co botón dereito do rato para abrir calquera entrada "
-"nun novo separador ou nunha nova xanela.</para><para>Pode engadir novas "
+"nunha nova lapela ou nunha nova xanela.</para><para>Pode engadir novas "
 "entradas arrastrando cartafoles ata o panel. Faga clic dereito en calquera "
 "sección ou entrada para agochala. Faga clic dereito nun espazo baleiro do "
 "panel para seleccionar <interface>Amosar os lugares agochados</interface> "
@@ -1249,9 +1248,9 @@ msgstr ""
 "<para>Este é o botón que invoca a funcionalidade de axuda que está a usar "
 "agora mesmo! Prémao, e a continuación prema calquera compoñente desta "
 "aplicación para preguntar «Que é isto?» sobre ese compoñente. O cursor do "
-"rato cambiará de aspecto se para un punto non existe axuda.</para><para>Hai "
-"outras dúas formas de obter axuda: o <link url='help:/dolphin/index."
-"html'>manual de Dolphin</link> e o <link url='https://userbase.kde.org/"
+"rato cambiará de aparencia se para un punto non existe axuda.</"
+"para><para>Hai outras dúas formas de obter axuda: o <link url='help:/dolphin/"
+"index.html'>manual de Dolphin</link> e o <link url='https://userbase.kde.org/"
 "Dolphin/File_Management'>wiki de uso de KDE</link>.</para><para>A axuda «Que "
 "é isto?» falta na meirande parte do resto de xanelas así que non se afaga "
 "moito a isto.</para>"
@@ -1267,7 +1266,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 "<para>Isto abre unha xanela que lle asistirá para informar de erros ou "
-"defectos nesta aplicación ou noutro software de KDE.</para><para>Agradécense "
+"defectos nesta aplicación ou noutro programa de KDE.</para><para>Agradécense "
 "moito os informes de erro de boa calidade. <link url='https://community.kde."
 "org/Get_Involved/Bug_Reporting'>Prema aquí</link> para aprender a facer os "
 "seus informes de fallo o máis efectivos posíbel.</para>"
@@ -1491,36 +1490,36 @@ msgstr "Barra de ferramentas de Dolphin"
 #: dolphinrecenttabsmenu.cpp:16
 #, kde-format
 msgid "Recently Closed Tabs"
-msgstr "Separadores pechados recentemente"
+msgstr "Lapelas pechadas recentemente"
 
 #: dolphinrecenttabsmenu.cpp:21
 #, kde-format
 msgid "Empty Recently Closed Tabs"
-msgstr "Baleirar os separadores pechados recentemente"
+msgstr "Baleirar as lapelas pechadas recentemente"
 
 #: dolphintabbar.cpp:127
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
-msgstr "Novo separador"
+msgstr "Nova lapela"
 
 #: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
-msgstr "Desprender o separador"
+msgstr "Desprender a lapela"
 
 #: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
-msgstr "Pechar os outros separadores"
+msgstr "Pechar as outras lapelas"
 
 #: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
-msgstr "Pechar o separador"
+msgstr "Pechar a lapela"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2540,7 +2539,7 @@ msgstr "Amósanse as vistas previas"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Reproducir automaticamente os recursos"
+msgstr "Reproducir automaticamente os ficheiros multimedia"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -2564,7 +2563,7 @@ msgstr "Previsualizar"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Reproducir automaticamente os recursos"
+msgstr "Reproducir automaticamente os ficheiros multimedia"
 
 #: panels/information/informationpanel.cpp:163
 #, kde-format
@@ -3269,8 +3268,7 @@ msgstr "Amosar «Modo de vista» no menú contextual."
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr ""
-"Amosar «Abrir nun separador» e «Abrir en separadores» no menú contextual."
+msgstr "Amosar «Abrir nunha lapela» e «Abrir en lapelas» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
@@ -3280,10 +3278,9 @@ msgstr "Amosar «Abrir nunha xanela» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Amosar «Abrir nunha xanela» no menú contextual."
+msgstr "Amosar «Abrir nunha vista dividida» no menú contextual."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3331,7 +3328,7 @@ msgstr "Recheo lateral"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr "Realizar toda a fila"
+msgstr "Realzar toda a fila"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3529,8 +3526,8 @@ msgid ""
 "Should an externally called folder open in a new tab in an existing Dolphin "
 "instance"
 msgstr ""
-"Debería un cartafol chamado externamente abrirse nun novo separador dunha "
-"instancia existente de Dolphin"
+"Debería un cartafol chamado externamente abrirse nunha nova lapela dunha "
+"instancia existente de Dolphin."
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:38
@@ -3564,7 +3561,7 @@ msgstr "URL de inicio"
 #: settings/dolphin_generalsettings.kcfg:50
 #, kde-format
 msgid "Remember open folders and tabs"
-msgstr "Lembrar os cartafoles e separadores abertos"
+msgstr "Lembrar os cartafoles e lapelas que se abriron"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:54
@@ -3595,7 +3592,7 @@ msgstr "Navegar polo interior dos arquivos"
 #: settings/dolphin_generalsettings.kcfg:71
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
-msgstr "Pedir confirmación cando se peche unha xanela con varios separadores."
+msgstr "Pedir confirmación cando se peche unha xanela con varias lapelas."
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
 #: settings/dolphin_generalsettings.kcfg:75
@@ -3633,7 +3630,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Use tab for switching between right and left split"
-msgstr "Usar o tabulador para alternar entre as metades esquerda e dereita"
+msgstr "Usar Tab para alternar entre as metades esquerda e dereita"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -3645,7 +3642,7 @@ msgstr "Pechar o panel activo ao conmutar a vista dividida"
 #: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr "O novo separador ábrese despois do último"
+msgstr "A nova lapela ábrese despois da última"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
@@ -3664,8 +3661,7 @@ msgstr "Marca de tempo desde a que son correctas as propiedades da vista"
 #, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr ""
-"Utilizar cartafoles que se expanden automaticamente para todos os tipos de "
-"vista"
+"Usar cartafoles que se expanden automaticamente para todos os tipos de vista"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:114
@@ -3824,7 +3820,7 @@ msgstr "Pedir confirmación en Dolphin cando:"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
-msgstr "Se pechen xanelas con varios separadores."
+msgstr "Ao pechar xanelas con varias lapelas."
 
 #: settings/interface/confirmationssettingspage.cpp:60
 #, kde-format
@@ -3869,7 +3865,7 @@ msgstr "Executar o guión"
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Cartafoles, separadores e estado da xanela da última vez."
+msgstr "Os cartafoles, as lapelas e o estado da xanela da última vez."
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3900,8 +3896,7 @@ msgstr "Amosar no inicio:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
-"Usar unha única xanela de Dolphin, e abrir os novos cartafoles en "
-"separadores."
+"Usar unha única xanela de Dolphin, e abrir os novos cartafoles en lapelas."
 
 #: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
@@ -3931,7 +3926,7 @@ msgstr "Amosar a barra de filtro."
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr "Tras o separador actual."
+msgstr "Tras a lapela actual."
 
 #: settings/interface/folderstabssettingspage.cpp:107
 #, kde-format
@@ -3943,13 +3938,13 @@ msgstr "Ao final da barra de lapelas."
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Abrir novos separadores: "
+msgstr "Abrir novas lapelas: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Cambiar entre paneis co tabulador."
+msgstr "Cambiar entre paneis coa tecla Tab."
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -3993,7 +3988,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Cartafoles e separadores"
+msgstr "Cartafoles e lapelas"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4139,7 +4134,7 @@ msgstr "Alfabética, distinguindo as maiúsculas."
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
-msgstr "Orde: "
+msgstr "Método de ordenación: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
@@ -5004,8 +4999,8 @@ msgid ""
 "This deletes the items in your current selection completely. They can not be "
 "recovered by normal means."
 msgstr ""
-"Isto elimina completamente os elementos da selección. Non se poden recuperar "
-"de ningunha forma habitual."
+"Isto elimina completamente os elementos da selección. Non é posíbel "
+"recuperalos de ningunha forma habitual."
 
 #: views/dolphinviewactionhandler.cpp:125
 #, kde-format
@@ -5184,9 +5179,9 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
-"Cando se activa isto, as iconas baséanse nos contidos reais dos ficheiros e "
-"cartafoles.<nl/>Por exemplo, as iconas das imaxes vólvense versións en "
-"miniatura das imaxes."
+"Cando se activa esta opción, as iconas baséanse nos contidos reais dos "
+"ficheiros e cartafoles.<nl/>Por exemplo, as iconas das imaxes vólvense "
+"versións en miniatura das imaxes."
 
 #: views/dolphinviewactionhandler.cpp:254
 #, kde-format
@@ -5240,11 +5235,11 @@ msgid ""
 "general there is no need for users to access them which is why they are "
 "hidden.</para>"
 msgstr ""
-"<para>Cando se activa isto os ficheiros e cartafoles <emphasis>agochados</"
-"emphasis> vólvense visíbeis. Amosaranse translúcidos.</para><para>Os "
-"ficheiros agochados só se diferencias dos demais en que o seu nome empeza "
-"cun «.». En xeral as persoas usuarias non necesitan acceder a eles, que é "
-"polo que están agochados.</para>"
+"<para>Cando se activa esta opción os ficheiros e cartafoles "
+"<emphasis>agochados</emphasis> vólvense visíbeis. Amosaranse translúcidos.</"
+"para><para>Os elementos agochados só se diferencias dos demais en que o seu "
+"nome empeza cun «.». En xeral as persoas usuarias non necesitan acceder a "
+"eles, que é polo que están agochados.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
 #, kde-format

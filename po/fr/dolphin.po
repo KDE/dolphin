@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:47+0000\n"
-"PO-Revision-Date: 2023-09-12 13:27+0200\n"
+"PO-Revision-Date: 2023-09-16 18:22+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -1560,7 +1560,7 @@ msgstr "Nouvel onglet"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
-msgstr "Détacher un onglet"
+msgstr "Détacher l'onglet"
 
 #: dolphintabbar.cpp:129
 #, kde-format
@@ -5474,7 +5474,7 @@ msgstr "Actions pour l'affichage courant"
 #: views/dolphinviewactionhandler.cpp:795
 #, kde-format
 msgid "Actions for %1"
-msgstr "Actions pour « %1 »"
+msgstr "Actions pour %1"
 
 #: views/dolphinviewactionhandler.cpp:802
 #, kde-format
