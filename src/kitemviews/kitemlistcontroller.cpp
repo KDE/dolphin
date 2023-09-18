@@ -654,11 +654,6 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent *event, const 
 
             if (m_view->scrollOrientation() == Qt::Vertical) {
                 endPos.ry() += m_view->scrollOffset();
-                if (m_view->itemSize().width() < 0) {
-                    // Use a special rubberband for views that have only one column and
-                    // expand the rubberband to use the whole width of the view.
-                    endPos.setX(m_view->size().width());
-                }
             } else {
                 endPos.rx() += m_view->scrollOffset();
             }
@@ -1809,11 +1804,6 @@ void KItemListController::startRubberBand()
         QPoint startPos = m_view->transform().map(m_view->scene()->views().first()->mapFromGlobal(m_pressedMouseGlobalPos.toPoint()));
         if (m_view->scrollOrientation() == Qt::Vertical) {
             startPos.ry() += m_view->scrollOffset();
-            if (m_view->itemSize().width() < 0) {
-                // Use a special rubberband for views that have only one column and
-                // expand the rubberband to use the whole width of the view.
-                startPos.setX(0);
-            }
         } else {
             startPos.rx() += m_view->scrollOffset();
         }
