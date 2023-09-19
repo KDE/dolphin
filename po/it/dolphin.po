@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-17 00:47+0000\n"
-"PO-Revision-Date: 2023-08-30 19:20+0200\n"
+"PO-Revision-Date: 2023-09-11 09:17+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -821,11 +821,10 @@ msgid "Open in New Window"
 msgstr "Apri in una nuova finestra"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Apri in applicazione"
+msgstr "Apri nella vista divisa"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3292,10 +3291,9 @@ msgstr "Mostra i comandi «Apri in una nuova finestra» nel menu contestuale."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Mostra i comandi «Apri in una nuova finestra» nel menu contestuale."
+msgstr "Mostra «Apri nella vista divisa» nel menu contestuale."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
