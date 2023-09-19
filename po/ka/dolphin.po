@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-10 00:48+0000\n"
-"PO-Revision-Date: 2023-08-30 06:35+0200\n"
+"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"PO-Revision-Date: 2023-09-11 06:03+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -740,11 +740,10 @@ msgid "Open in New Window"
 msgstr "ახალ ფანჯარაში გახსნა"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "აპლიკაციაში გახსნა"
+msgstr "დაყოფილ ხედში გახსნა"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -2376,14 +2375,14 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "ნაგვის ურნის მორგება…"
 
-#: panels/terminal/terminalpanel.cpp:174
+#: panels/terminal/terminalpanel.cpp:179
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
 
-#: panels/terminal/terminalpanel.cpp:180
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid "Install Konsole"
 msgstr "დააააყენეთ Konsole"
@@ -3016,10 +3015,9 @@ msgstr "კონტექსტურ მენიუში 'ახალ ფ�
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "კონტექსტურ მენიუში 'ახალ ფანჯარაში გახსნის' ჩვენება."
+msgstr "კონტექსტურ მენიუში 'გაყოფილ ხედში გახსნის' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38

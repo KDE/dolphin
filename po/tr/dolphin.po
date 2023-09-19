@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-10 00:48+0000\n"
-"PO-Revision-Date: 2023-08-29 05:35+0300\n"
+"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"PO-Revision-Date: 2023-09-10 10:37+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -818,11 +818,10 @@ msgid "Open in New Window"
 msgstr "Yeni Pencerede Aç"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Uygulamada aç"
+msgstr "Bölünmüş Görünümde Aç"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -2574,7 +2573,7 @@ msgstr "Yoğun Tarih"
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr "Hangi verilerin gösterileceğini seçin:"
+msgstr "Hangi verilerin gösterileceğini seç:"
 
 #: panels/information/informationpanelcontent.cpp:284
 #, kde-format
@@ -2606,7 +2605,7 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Çöp Kutusunu Yapılandır…"
 
-#: panels/terminal/terminalpanel.cpp:174
+#: panels/terminal/terminalpanel.cpp:179
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -2615,7 +2614,7 @@ msgstr ""
 "Konsole kurulu olmadığı için uçbirim gösterilemiyor. Lütfen onu kurun ve "
 "ardından paneli yeniden açın."
 
-#: panels/terminal/terminalpanel.cpp:180
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid "Install Konsole"
 msgstr "Konsole'u Kur"
@@ -3120,7 +3119,7 @@ msgstr "Seçim Kipinden Çık"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "Bağlam menüsünde hangi hizmetlerin gösterileceğini seçin:"
+msgstr "Bağlam menüsünde hangi hizmetlerin gösterileceğini seç:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:68
 #, kde-format
@@ -3238,68 +3237,68 @@ msgstr "Bağlam menüsünde 'Buraya Kopyala' ve 'Buraya Taşı' komutlarını g�
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Bağlam menüsünde 'Yerlere Ekle' göster."
+msgstr "Bağlam menüsünde 'Yerlere Ekle' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "Bağlam menüsünde 'Şuna Göre Sırala'yı göster."
+msgstr "Bağlam menüsünde 'Şuna Göre Sırala' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Bağlam menüsünde 'Görünüm Kipi' göster."
+msgstr "Bağlam menüsünde 'Görünüm Kipi' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "Bağlam menüsünde 'Yeni Sekmede Aç' ve 'Yeni Sekmelerde Aç' göster."
+msgstr ""
+"Bağlam menüsünde 'Yeni Sekmede Aç' ve 'Yeni Sekmelerde Aç' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Bağlam menüsünde 'Yeni Pencerede Aç' göster."
+msgstr "Bağlam menüsünde 'Yeni Pencerede Aç' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Bağlam menüsünde 'Yeni Pencerede Aç' göster."
+msgstr "Bağlam menüsünde 'Bölünmüş Görünümde Aç' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Bağlam menüsünde 'Konumu Kopyala' göster."
+msgstr "Bağlam menüsünde 'Konumu Kopyala' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr "Bağlam menüsünde 'Burada Çoğalt' göster."
+msgstr "Bağlam menüsünde 'Burada Çoğalt' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Bağlam menüsünde 'Uçbirimi Aç' göster."
+msgstr "Bağlam menüsünde 'Uçbirimi Aç' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Taşı'yı gösterin."
+msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Taşı'yı ögesini gösterin."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Kopyala'yı gösterin."
+msgstr "Bağlam menüsünde 'Diğer Bölünmüş Görünüme Kopyala' ögesini gösterin."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
