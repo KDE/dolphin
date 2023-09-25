@@ -8,14 +8,14 @@
 # rokuosan <rokuosan.dev@gmail.com>, 2021.
 # Toda Ryunosuke <toda.ryunosuke@gmail.com>, 2021.
 # Ryuichi Yamada <ryuichi_ya220@outlook.jp>, 2022, 2023.
-# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2007, 2010, 2011, 2012, 2013, 2014, 2016, 2019, 2020, 2021, 2022.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2007, 2010, 2011, 2012, 2013, 2014, 2016, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-02-23 18:31+0900\n"
-"Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
+"PO-Revision-Date: 2023-09-23 21:41-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -350,20 +350,16 @@ msgstr ""
 "合、前の場所からはコピーしたアイテムは削除されます。"
 
 #: dolphinmainwindow.cpp:1632
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "非アクティブな分割ビューにコピー"
+msgstr "他のビューにコピー"
 
 #: dolphinmainwindow.cpp:1633
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "非アクティブな分割ビューにコピー..."
+msgstr "他のビューにコピー…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -372,8 +368,8 @@ msgid ""
 "This copies the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
-"選択したアイテムが<emphasis>アクティブ</emphasis>なビューから非アクティブな"
-"ビューにコピーされます"
+"選択したアイテムが<emphasis>アクティブ</emphasis>なビューから非アクティブな分"
+"割ビューにコピーされます"
 
 #: dolphinmainwindow.cpp:1638
 #, kde-format
@@ -382,20 +378,16 @@ msgid "Copy to Inactive Split View"
 msgstr "非アクティブな分割ビューにコピー"
 
 #: dolphinmainwindow.cpp:1643
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "非アクティブな分割ビューに移動"
+msgstr "他のビューに移動"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "非アクティブな分割ビューに移動..."
+msgstr "他のビューに移動…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -414,12 +406,10 @@ msgid "Move to Inactive Split View"
 msgstr "非アクティブな分割ビューに移動"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "フィルタ"
+msgstr "フィルタ..."
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -453,10 +443,9 @@ msgid "Filter"
 msgstr "フィルタ"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "検索"
+msgstr "検索..."
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -564,12 +553,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "隠し仮想ディレクトリを分割ビューで開く"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "プレビュー"
+msgstr "ビューを更新"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -786,12 +773,10 @@ msgid "Activate Previous Tab"
 msgstr "前のタブをアクティブに"
 
 #: dolphinmainwindow.cpp:1997
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show folders first"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
-msgstr "フォルダを先に表示する"
+msgstr "ターゲットを表示"
 
 #: dolphinmainwindow.cpp:2003
 #, kde-format
@@ -1080,15 +1065,7 @@ msgid "Split view"
 msgstr "ビューを分割"
 
 #: dolphinmainwindow.cpp:2493
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1102,22 +1079,11 @@ msgstr ""
 "のアクセスを提供します。このバーのメニューを左クリックすると、その内容が表示"
 "されます。</para><para><interface>設定→メニューバーを表示</interface>のチェッ"
 "クを外すと、メニューバーを隠すことができます。そうすると、<emphasis>ツール"
-"バー</emphasis>の<interface>コントロール</interface>ボタンからほとんどの内容"
-"を利用できるようになります。</para>"
+"バー</emphasis>の<interface>メニュー</interface>ボタンからほとんどの内容を利"
+"用できるようになります。</para>"
 
 #: dolphinmainwindow.cpp:2500
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1130,14 +1096,13 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 "<para>これが<emphasis>ツールバー</emphasis>です。よく使う操作に素早くアクセス"
-"できます。</para><para>高度なカスタマイズが可能です。<interface>コントロール"
-"</interface>メニューや<interface>メニュー</interface>バーに表示されている項目"
-"は、すべてツールバーに配置することができます。ツールバーを右クリックして"
-"<interface>ツールバーの設定</interface>を選択するか、<interface>コントロール"
-"</interface>または<interface>設定</interface>メニューでこの操作を見つけてくだ"
-"さい。</para><para>ツールバーの位置やボタンのスタイルは、右クリックメニューで"
-"変更することができます。ボタンのテキストを表示/非表示にしたい場合は、ボタンを"
-"右クリックしてください。</para>"
+"できます。</para><para>高度なカスタマイズが可能です。<interface>メニュー</"
+"interface>や<interface>メニュー</interface>バーに表示されている項目は、すべて"
+"ツールバーに配置することができます。ツールバーを右クリックして<interface>ツー"
+"ルバーの設定</interface>を選択するか、<interface>メニュー</interface>でこの操"
+"作を見つけてください。</para><para>ツールバーの位置やボタンのスタイルは、右ク"
+"リックメニューで変更することができます。ボタンのテキストを表示/非表示にしたい"
+"場合は、ボタンを右クリックしてください。</para>"
 
 #: dolphinmainwindow.cpp:2512
 #, kde-kuit-format
@@ -1181,13 +1146,7 @@ msgstr ""
 "ます。</para>"
 
 #: dolphinmainwindow.cpp:2534
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1195,9 +1154,8 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 "<para><emphasis>ツールバー</emphasis>に表示するボタンを変更できるウィンドウを"
-"表示します。</para><para><interface>コントロール</interface>メニューや"
-"<interface>メニュー</interface>バーに表示されているすべての項目は、ツールバー"
-"にも表示できます。</para>"
+"表示します。</para><para><interface>メニュー</interface>に表示されているすべ"
+"ての項目は、ツールバーにも表示できます。</para>"
 
 #: dolphinmainwindow.cpp:2538
 #, kde-kuit-format
@@ -1218,13 +1176,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2558
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1233,19 +1185,15 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para><emphasis>Dolphin</emphasis> の様々な機能をより詳しく紹介したい場合は、"
-"<link url='https://userbase.kde.org/Dolphin/File_Management'>ここをクリック</"
-"link>してください。KDE UserBase Wiki内の専用ページが開きます。</para>"
+"<para>このアプリケーションについてのハンドブックを開きます。ハンドブックは "
+"<emphasis>Dolphin</emphasis> のすべての部分についての説明を提供します。</"
+"para><para><emphasis>Dolphin</emphasis> の様々な機能をより詳しく理解したい場"
+"合は、<link url='https://userbase.kde.org/Dolphin/File_Management'>ここをク"
+"リック</link>してください。KDE UserBase Wiki 内の専用ページが開きます。</"
+"para>"
 
 #: dolphinmainwindow.cpp:2563
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1257,19 +1205,17 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>ヘルプを利用するには他に2つの方法があります。<link url='help:/dolphin/"
-"index.html'>Dolphin Handbook</link> と <link url='https://userbase.kde.org/"
-"Dolphin/File_Management'>KDE UserBase Wiki</link> です。</para><para>他の多く"
-"のウィンドウでは、「これは何？」というヘルプはありませんので、これに慣れすぎ"
-"ないようにしてください。</para>"
+"<para>このボタンであなたが今使用しているヘルプ機能を呼び出せます。まずボタン"
+"をクリックして、このアプリケーションを構成する要素をクリックするとその部分に"
+"ついての「これは何？」情報を見ることができます。ヘルプ情報がない部分ではマウ"
+"スカーソルの見た目が変わります。</para><para>ヘルプを利用するには他に2つの方"
+"法があります。<link url='help:/dolphin/index.html'>Dolphin Handbook</link> "
+"と <link url='https://userbase.kde.org/Dolphin/File_Management'>KDE UserBase "
+"Wiki</link> です。</para><para>他の多くのウィンドウでは、「これは何？」という"
+"ヘルプはありませんので、これに慣れすぎないようにしてください。</para>"
 
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1278,9 +1224,11 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>質の高いバグレポートをお願いします。可能な限り効果的なバグレポートを作"
-"成する方法については、<link url='https://community.kde.org/Get_Involved/"
-"Bug_Reporting'>こちら</link>をご覧ください。</para>"
+"<para>このアプリケーションやその他の KDE ソフトウェアのエラーや不具合を報告す"
+"るための案内ウィンドウを開きます。</para><para>質の高いバグレポートをお願いし"
+"ます。可能な限り効果的なバグレポートを作成する方法については、<link "
+"url='https://community.kde.org/Get_Involved/Bug_Reporting'>こちら</link>をご"
+"覧ください。</para>"
 
 #: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
@@ -1376,25 +1324,19 @@ msgid_plural "Location Bars"
 msgstr[0] "場所バー"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "ファイルタイプを編集(&E)..."
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "マッチするアイテムを選択..."
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "マッチするアイテムの選択を解除..."
@@ -1430,12 +1372,10 @@ msgid "Autostart"
 msgstr "自動起動|/|$[~setProps ~full '移動: 自動起動']"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "ファイルを検索(&F)..."
+msgstr "ファイルを検索..."
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1541,12 +1481,10 @@ msgstr "タブを閉じる(&T)"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:497
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1554,7 +1492,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1638,25 +1576,19 @@ msgid "Search for %1"
 msgstr "%1 を検索"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "フォルダを読み込んでいます..."
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "ソート:"
+msgstr "ソート中..."
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "検索中..."
@@ -1693,6 +1625,7 @@ msgstr "無効なプロトコル"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"場所が変更されたため、<filename>%1</filename> にアクセスできなくなりました。"
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -1701,11 +1634,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "フォルダを変更したときにフィルタを維持する"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "フィルタ"
+msgstr "フィルタ..."
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2461,7 +2392,7 @@ msgstr "引数として指定されたファイルとディレクトリが選択
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
-msgstr "ビューを分割"
+msgstr "Dolphin は分割ビューが有効な状態で起動します。"
 
 #: main.cpp:140
 #, kde-format
@@ -2513,9 +2444,7 @@ msgid "Copy"
 msgstr "コピー(&C)"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "名前変更..."
@@ -2570,11 +2499,9 @@ msgstr "メディアファイルの自動再生"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "フィルタバーを表示する"
+msgstr "マウスオーバーでアイテムを表示"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2595,20 +2522,16 @@ msgid "Auto-Play media files"
 msgstr "メディアファイルの自動再生"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "フィルタバーを表示する"
+msgstr "マウスオーバーでアイテムを表示"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "設定"
+msgstr "設定..."
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2795,7 +2718,7 @@ msgstr "選択をクリア"
 #, kde-format
 msgctxt "String list separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: search/dolphinfacetswidget.cpp:254
 #, kde-format
@@ -2901,20 +2824,16 @@ msgstr "位置をコピーするファイルかフォルダを選択してくだ
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "現在の場所にあるすべてのファイルとフォルダを選択します"
+msgstr "コピーするファイルとフォルダを選択してください。"
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "現在の場所にあるすべてのファイルとフォルダを選択します"
+msgstr "切り取るファイルとフォルダを選択してください。"
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -2924,12 +2843,10 @@ msgid "Cancel Cutting"
 msgstr "切り取りをキャンセル"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "引数として指定されたファイルとディレクトリが選択されています。"
+msgstr "永久的に削除するファイルとフォルダを選択してください。"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2941,12 +2858,10 @@ msgid "Cancel"
 msgstr "キャンセル"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "引数として指定されたファイルとディレクトリが選択されています。"
+msgstr "複製するファイルとフォルダを選択してください。"
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
@@ -2981,7 +2896,7 @@ msgstr "移動をキャンセル"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "ごみ箱に移動するファイルとフォルダを選択してください。"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2998,13 +2913,13 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "クリップボードから貼り付け"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "このリマインダーを無視"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
@@ -3039,7 +2954,7 @@ msgstr "名前変更をキャンセル"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2 をクリップボードにコピー"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3051,7 +2966,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2 の場所をクリップボードにコピー"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3063,7 +2978,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2 をクリップボードに切り取り"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3075,7 +2990,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
+msgstr[0] "%2 を永久的な削除"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3152,16 +3067,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "コンテキストメニューに表示するサービスを選択します:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "検索"
+msgstr "検索..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "新しいサービスをダウンロード..."
@@ -3180,7 +3092,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
-msgstr ""
+msgstr "今すぐ再起動しますか？"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:259
 #, kde-format
@@ -3256,11 +3168,9 @@ msgstr "真の場合は短い相対日付を使用し、そうでない場合は
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "パーミッション"
+msgstr "パーミッションのフォーマット"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3270,10 +3180,9 @@ msgstr "コンテキストメニューに「コピー先」と「移動先」を
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「場所に追加」を表示する"
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
@@ -3283,31 +3192,27 @@ msgstr "コンテキストメニューに「ソート」を表示する"
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「表示モード」を表示する"
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「新しいタブで開く」を表示する"
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「新しいウィンドウで開く」を表示する"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「場所をコピー」を表示する"
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3317,24 +3222,21 @@ msgstr "コンテキストメニューに「ここに複製」を表示します
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「ターミナルを開く」を表示する"
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "コンテキストメニューに「コピー先」と「移動先」を表示する"
+msgstr "コンテキストメニューに「他の分割ビューにコピー」を表示する"
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "コンテキストメニューに「ソート」を表示する"
+msgstr "コンテキストメニューに「他の分割ビューに移動」を表示する"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3825,7 +3727,7 @@ msgstr "表示: "
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
-msgstr "ナチュラル"
+msgstr "自然"
 
 #: settings/general/behaviorsettingspage.cpp:50
 #, kde-format
@@ -3846,20 +3748,16 @@ msgid "Sorting mode: "
 msgstr "ソートモード:"
 
 #: settings/general/behaviorsettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Tab キーで分割ビューのペインを切り替える"
+msgstr "Tab キーでペインを切り替える"
 
 #: settings/general/behaviorsettingspage.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "ビューを分割"
+msgstr "ビューを分割:"
 
 #: settings/general/behaviorsettingspage.cpp:69
 #, kde-format
@@ -4100,7 +3998,7 @@ msgstr "ドラッグ中にフォルダを開く"
 #, kde-format
 msgctxt "@title:group"
 msgid "General: "
-msgstr "一般: "
+msgstr "全般: "
 
 #: settings/startup/startupsettingspage.cpp:45
 #, kde-format
@@ -4136,7 +4034,7 @@ msgstr "起動時の表示:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
-msgstr "ビューを分割する"
+msgstr "分割ビューモードで開始"
 
 #: settings/startup/startupsettingspage.cpp:96
 #, kde-format
@@ -4147,7 +4045,7 @@ msgstr "新しいウィンドウ:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show filter bar"
-msgstr "フィルタバーを表示する"
+msgstr "フィルタバーを表示"
 
 #: settings/startup/startupsettingspage.cpp:99
 #, kde-format
@@ -4165,7 +4063,7 @@ msgstr "新しいフォルダをタブで開く"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "General:"
-msgstr "一般:"
+msgstr "全般:"
 
 #: settings/startup/startupsettingspage.cpp:106
 #, kde-format
@@ -4233,27 +4131,25 @@ msgstr "日付形式: "
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "シンボリック (例: 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:73
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "オクタル (例: '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "複合 (例: 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:76
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "パーミッション"
+msgstr "パーミッションの表示形式:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4268,20 +4164,16 @@ msgid "Custom Font"
 msgstr "カスタムフォント"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "選択..."
 
 #: settings/viewmodes/viewsettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "内容"
+msgstr "表示"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4855,8 +4747,7 @@ msgid "The location '%1' is invalid."
 msgstr "場所 ‘%1’ は無効です。"
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "読み込んでいます..."
 
@@ -4926,9 +4817,7 @@ msgid "Folder is empty"
 msgstr "フォルダは空です"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "フォルダを作成..."
@@ -5203,9 +5092,7 @@ msgstr ""
 "ます。</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "ビューの表示スタイルを調整..."
@@ -5341,31 +5228,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "選択された %1 アイテムに対するアクション"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "バージョン情報を更新しています..."
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "フィルタ..."
-
-#~ msgid "Search..."
-#~ msgstr "検索..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "ソート中..."
-
-#~ msgid "Filter..."
-#~ msgstr "フィルタ..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "設定..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "検索..."
