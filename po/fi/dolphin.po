@@ -3751,11 +3751,10 @@ msgid "Interface"
 msgstr ""
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Näytä"
+msgstr "Näkymä"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
