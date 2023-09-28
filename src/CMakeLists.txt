@@ -23,7 +23,7 @@ generate_export_header(dolphinvcs BASE_NAME dolphinvcs)
 
 target_link_libraries(
     dolphinvcs PUBLIC
-    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt6::Widgets
 )
 
 set_target_properties(dolphinvcs PROPERTIES
@@ -195,8 +195,8 @@ generate_export_header(dolphinprivate BASE_NAME dolphin)
 target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
-    Qt${QT_MAJOR_VERSION}::Concurrent
-    Qt${QT_MAJOR_VERSION}::Gui
+    Qt6::Concurrent
+    Qt6::Gui
     KF6::I18n
     KF6::IconThemes
     KF6::KIOCore
@@ -254,7 +254,7 @@ target_link_libraries(dolphinpart
     dolphinprivate
 )
 
-install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
+install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/parts)
 install(FILES dolphinpartactions.desktop DESTINATION "${KDE_INSTALL_DATADIR}/dolphin/")
 
 ##########################################
@@ -434,7 +434,7 @@ target_link_libraries(dolphinstatic
     KF6::KCMUtils
     KF6::DBusAddons
     KF6::Notifications
-    Phonon::phonon4qt${QT_MAJOR_VERSION}
+    Phonon::phonon4qt6
 )
 
 if (HAVE_KACTIVITIES)

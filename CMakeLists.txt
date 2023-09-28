@@ -37,14 +37,14 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHIN
 ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHINVCS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/DolphinVcsConfigVersion.cmake"
-                  SOVERSION ${QT_MAJOR_VERSION}
+                  SOVERSION 6
 )
 
 ecm_setup_version(${RELEASE_SERVICE_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
-                  SOVERSION ${QT_MAJOR_VERSION}
+                  SOVERSION 6
 )
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
     Concurrent
     Widgets
@@ -102,15 +102,15 @@ set_package_properties(KF6Activities PROPERTIES DESCRIPTION "KActivities librari
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
                       )
 
-find_package(Phonon4Qt${QT_MAJOR_VERSION} CONFIG REQUIRED)
+find_package(Phonon4Qt6 CONFIG REQUIRED)
 
-find_package(PackageKitQt${QT_MAJOR_VERSION})
-set_package_properties(PackageKitQt${QT_MAJOR_VERSION}
+find_package(PackageKitQt6)
+set_package_properties(PackageKitQt6
         PROPERTIES DESCRIPTION "Software Manager integration"
         TYPE OPTIONAL
         PURPOSE "Used in the service menu installer"
         )
-if(PackageKitQt${QT_MAJOR_VERSION}_FOUND)
+if(PackageKitQt6_FOUND)
     set(HAVE_PACKAGEKIT TRUE)
 endif()
 
