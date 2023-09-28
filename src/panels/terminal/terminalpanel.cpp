@@ -47,9 +47,11 @@ TerminalPanel::TerminalPanel(QWidget *parent)
 
 TerminalPanel::~TerminalPanel()
 {
-    // Avoid when QObject cleanup, which comes after our destructor, deletes the konsolePart
-    // and subsequently calls back into our slot when the destructor has already run.
-    disconnect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
+    if (m_konsolePart) {
+        // Avoid when QObject cleanup, which comes after our destructor, deletes the konsolePart
+        // and subsequently calls back into our slot when the destructor has already run.
+        disconnect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
+    }
 }
 
 void TerminalPanel::goHome()
