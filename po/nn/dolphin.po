@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-10 00:48+0000\n"
+"POT-Creation-Date: 2023-09-17 00:47+0000\n"
 "PO-Revision-Date: 2023-08-21 19:58+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -2576,7 +2576,7 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Set opp papirkorga …"
 
-#: panels/terminal/terminalpanel.cpp:174
+#: panels/terminal/terminalpanel.cpp:179
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -2585,7 +2585,7 @@ msgstr ""
 "Kan ikkje visa terminalen, då programmet Konsole ikkje er installert. "
 "Installer programmet og opna panelet på nytt."
 
-#: panels/terminal/terminalpanel.cpp:180
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid "Install Konsole"
 msgstr "Installer Konsole"
