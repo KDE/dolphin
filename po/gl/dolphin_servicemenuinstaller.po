@@ -25,12 +25,12 @@ msgstr "A instalación do menú de servizo de Dolphin fallou"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr "Non se puido instalar «%1», saíuse con estado «%2»"
+msgstr "Non foi posíbel instalar «%1», saíuse con estado «%2»"
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "Non se puido desinstalar «%1», saíuse con estado «%2»"
+msgstr "Non foi posíbel desinstalar «%1», saíuse con estado «%2»"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
@@ -50,7 +50,7 @@ msgstr "Non se admite o tipo de arquivo %1: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr "Non se puido executar a orde de descompresión para %1"
+msgstr "Non foi posíbel executar a orde de descompresión para %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format
@@ -60,17 +60,17 @@ msgstr "O proceso non rematou nun tempo razoábel: %1 %2"
 #: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr "Non se puido descomprimir %1"
+msgstr "Non foi posíbel descomprimir %1"
 
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr "Non se puido executar o guión de instalador %1"
+msgstr "Non foi posíbel executar o guión de instalador %1"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr "Non se puideron definir os permisos en %1: %2"
+msgstr "Non foi posíbel definir os permisos en %1: %2"
 
 #: servicemenuinstaller.cpp:273
 #, kde-format
@@ -87,37 +87,37 @@ msgstr "\", \""
 #: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
-msgstr "Non se puido crear a ruta %1"
+msgstr "Non foi posíbel crear a ruta %1"
 
 #: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr "Non se puido copiar o ficheiro .desktop %1 a %2: %3"
+msgstr "Non foi posíbel copiar o ficheiro .desktop %1 a %2: %3"
 
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr "Non se puido retirar o cartafol %1"
+msgstr "Non foi posíbel retirar o cartafol %1"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr "Non se puido crear o cartafol %1."
+msgstr "Non foi posíbel crear o cartafol %1."
 
 #: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr "Non se puido atopar o guión de instalación en %1"
+msgstr "Non foi posíbel atopar o guión de instalación en %1"
 
 #: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr "Non se puido retirar o ficheiro .desktop %1: %2"
+msgstr "Non foi posíbel retirar o ficheiro .desktop %1: %2"
 
 #: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr "Non se puido atopar un guión de desinstalación en %1"
+msgstr "Non foi posíbel atopar un guión de desinstalación en %1"
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
