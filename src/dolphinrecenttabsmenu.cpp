@@ -5,12 +5,14 @@
  */
 
 #include "dolphinrecenttabsmenu.h"
+#include "search/dolphinquery.h"
 
 #include <KAcceleratorManager>
 #include <KLocalizedString>
 #include <kio/global.h>
 
 #include <QMenu>
+#include <QUrlQuery>
 
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject *parent)
     : KActionMenu(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Recently Closed Tabs"), parent)
@@ -30,7 +32,15 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject *parent)
 void DolphinRecentTabsMenu::rememberClosedTab(const QUrl &url, const QByteArray &state)
 {
     QAction *action = new QAction(menu());
-    action->setText(url.path());
+    if (DolphinQuery::supportsScheme(url.scheme())) {
+        const DolphinQuery query = DolphinQuery::fromSearchUrl(url);
+        action->setText(i18n("Search for %1 in %2", query.text(), query.includeFolder()));
+    } else if (url.scheme() == QLatin1String("filenamesearch")) {
+        const QUrlQuery query(url);
+        action->setText(i18n("Search for %1 in %2", query.queryItemValue(QStringLiteral("search")), query.queryItemValue(QStringLiteral("url"))));
+    } else {
+        action->setText(url.path());
+    }
     action->setData(state);
     const QString iconName = KIO::iconNameForUrl(url);
     action->setIcon(QIcon::fromTheme(iconName));
