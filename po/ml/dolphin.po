@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -1381,15 +1381,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "ഡോള്‍ഫിന്‍ ടൂള്‍ബാര്‍"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "അടുത്തിടെ അടച്ച കിളിവാതിലുകള്‍"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "അടുത്തിടെ അടച്ച കിളിവാതിലുകള്‍ ശൂന്യമാകുക"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "'%1' ല്‍ '%2' തിരയുക"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1501,11 +1507,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "ഡോൾഫിൻ റൂട്ട് ആയി ഉപയോഗിക്കുന്നത് അപകടകരമാണ്. ദയവായി സൂക്ഷിക്കുക."
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "'%1' ല്‍ '%2' തിരയുക"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format

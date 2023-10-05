@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2022-02-01 10:13+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -1542,15 +1542,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "Dolphin eszköztár"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "Nemrég bezárt lapok"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "Nemrég bezárt lapok listájának törlése"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "%1 keresése itt: %2"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1662,11 +1668,6 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "A Dolphin futtatása root felhasználóként veszélyes lehet. Legyen óvatos!"
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "%1 keresése itt: %2"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format

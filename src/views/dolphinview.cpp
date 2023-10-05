@@ -126,6 +126,9 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
 
     m_container = new KItemListContainer(controller, this);
     m_container->installEventFilter(this);
+#ifndef QT_NO_ACCESSIBILITY
+    m_view->setAccessibleParentsObject(m_container);
+#endif
     setFocusProxy(m_container);
     connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] {
         hideToolTip();

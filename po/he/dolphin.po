@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2020-11-01 15:09+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <kde-l10n-he@kde.org>\n"
@@ -1331,15 +1331,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "סרגל הכלים של Dolphin"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "הלשוניות שנסגרו לאחרונה"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "הלשוניות הריקות שנסגרו לאחרונה"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "חיפוש אחר %1 בתוך %2"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1431,11 +1437,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "הרצת Dolphin בתור משתמש שורש (root) עלולה להיות מסוכנת. נא להיזהר."
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "חיפוש אחר %1 בתוך %2"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format

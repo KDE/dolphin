@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2023-07-24 21:44+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1491,15 +1491,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "Dolphinin työkalurivi"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "Viimeksi suljetut välilehdet"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "Tyhjennä viimeksi suljettujen välilehtien historia"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "Etsi ”%1” kohteesta %2"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1607,11 +1613,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Dolphinin käynnistäminen pääkäyttäjänä on vaarallista. Ole varovainen."
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "Etsi ”%1” kohteesta %2"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format
@@ -3751,11 +3752,10 @@ msgid "Interface"
 msgstr ""
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Näytä"
+msgstr "Näkymä"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format

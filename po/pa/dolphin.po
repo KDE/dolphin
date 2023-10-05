@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2022-06-11 09:21-0700\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1298,15 +1298,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "ਡਾਲਫਿਨ ਟੂਲਬਾਰ"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "ਤਾਜ਼ਾ ਬੰਦ ਕੀਤੀਆਂ ਟੈਬਾਂ"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "ਖਾਲੀ ਤਾਜ਼ਾ ਬੰਦ ਕੀਤੀਆਂ ਟੈਬਾਂ"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "%2 ਵਿੱਚ %1 ਲਈ ਖੋਜੋ"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1398,11 +1404,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "ਡਾਲਫਿਨ ਨੂੰ ਰੂਟ ਵਜੋਂ ਚਲਾਉਣਾ ਖ਼ਤਰਨਾਕ ਹੋ ਸਕਦਾ ਹੈ। ਧਿਆਨ ਰੱਖੋ।"
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "%2 ਵਿੱਚ %1 ਲਈ ਖੋਜੋ"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format

@@ -109,6 +109,9 @@ void KItemListControllerTest::initTestCase()
     m_view = new KFileItemListView();
     m_controller = new KItemListController(m_model, m_view, this);
     m_container = new KItemListContainer(m_controller);
+#ifndef QT_NO_ACCESSIBILITY
+    m_view->setAccessibleParentsObject(m_container);
+#endif
     m_controller = m_container->controller();
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
     m_selectionManager = m_controller->selectionManager();

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1587,15 +1587,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "Paneĺ instrumientaŭ Dolphin"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "Niadaŭna zakrytyja ŭkladki"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "Ačyscić spis niadaŭna zakrytych ukladak"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "Pošuk %1 u %2"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1719,11 +1725,6 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Zapusk Dolphin ad imia supierkarystaĺnika moža być niebiaspiečnym. Budźcie "
 "piĺnymi."
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "Pošuk %1 u %2"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format

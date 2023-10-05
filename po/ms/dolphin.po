@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2009-12-27 20:56+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -1351,16 +1351,22 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "Bar Alatan Utama"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "Tab Yang Baru Ditutup"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "Empty Recently Closed Tabs"
 msgstr "Tab Yang Baru Ditutup"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, fuzzy, kde-format
+msgid "Search for %1 in %2"
+msgstr "Bar Cari"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1454,11 +1460,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, fuzzy, kde-format
-msgid "Search for %1 in %2"
-msgstr "Bar Cari"
 
 #: dolphinviewcontainer.cpp:550
 #, fuzzy, kde-format

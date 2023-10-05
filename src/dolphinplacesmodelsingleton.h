@@ -23,7 +23,7 @@ class DolphinPlacesModel : public KFilePlacesModel
     Q_OBJECT
 
 public:
-    explicit DolphinPlacesModel(const QString &alternativeApplicationName, QObject *parent = nullptr);
+    explicit DolphinPlacesModel(QObject *parent = nullptr);
     ~DolphinPlacesModel() override;
 
     bool panelsLocked() const;
@@ -54,9 +54,6 @@ public:
     static DolphinPlacesModelSingleton &instance();
 
     DolphinPlacesModel *placesModel() const;
-    /** A suffix to the application-name of the stored bookmarks is
-     added, which is only read by PlacesItemModel. */
-    static QString applicationNameSuffix();
 
     DolphinPlacesModelSingleton(const DolphinPlacesModelSingleton &) = delete;
     DolphinPlacesModelSingleton &operator=(const DolphinPlacesModelSingleton &) = delete;

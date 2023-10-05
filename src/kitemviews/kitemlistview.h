@@ -21,6 +21,8 @@
 #include <QGraphicsWidget>
 #include <QSet>
 
+class KItemListContainer;
+class KItemListContainerAccessible;
 class KItemListController;
 class KItemListGroupHeaderCreatorBase;
 class KItemListHeader;
@@ -141,6 +143,18 @@ public:
      **/
     void setGroupHeaderCreator(KItemListGroupHeaderCreatorBase *groupHeaderCreator);
     KItemListGroupHeaderCreatorBase *groupHeaderCreator() const;
+
+#ifndef QT_NO_ACCESSIBILITY
+    /**
+     * Uses \a parent to create an accessible object for \a parent. That accessible object will
+     * then be used as the accessible parent of the accessible object for this KItemListView.
+     * Make sure \a parent is the container which contains this specific KItemListView.
+     * This method must be called once before the accessible interface is queried for this class.
+     */
+    void setAccessibleParentsObject(KItemListContainer *accessibleParentsObject);
+    /** The parent of the QAccessibilityInterface of this class. */
+    KItemListContainerAccessible *accessibleParent();
+#endif
 
     /**
      * @return The basic size of all items. The size of an item may be larger than
@@ -711,6 +725,10 @@ private:
     QList<QByteArray> m_visibleRoles;
     mutable KItemListWidgetCreatorBase *m_widgetCreator;
     mutable KItemListGroupHeaderCreatorBase *m_groupHeaderCreator;
+#ifndef QT_NO_ACCESSIBILITY
+    /** The object that will be the parent of this classes QAccessibleInterface. */
+    KItemListContainerAccessible *m_accessibleParent = nullptr;
+#endif
     KItemListStyleOption m_styleOption;
 
     QHash<int, KItemListWidget *> m_visibleItems;

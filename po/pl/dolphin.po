@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
-"PO-Revision-Date: 2023-08-20 10:55+0200\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
+"PO-Revision-Date: 2023-09-24 08:26+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -824,11 +824,10 @@ msgid "Open in New Window"
 msgstr "Otwórz w nowym oknie"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Otwórz go"
+msgstr "Otwórz w oddzielnym widoku"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -1485,15 +1484,21 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "Pasek narzędzi Dolphina"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, kde-format
 msgid "Recently Closed Tabs"
 msgstr "Ostatnio zamknięte karty"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
 msgstr "Zapomnij ostatnio zamknięte karty"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "Szukaj %1 w %2"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1604,11 +1609,6 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Uruchamianie Dolphina jako administrator może okazać się niebezpieczne. "
 "Zachowaj ostrożność."
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, kde-format
-msgid "Search for %1 in %2"
-msgstr "Szukaj %1 w %2"
 
 #: dolphinviewcontainer.cpp:550
 #, kde-format
@@ -3294,10 +3294,9 @@ msgstr "Pokaż 'Otwórz w nowym oknie' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Pokaż 'Otwórz w nowym oknie' w menu podręcznym."
+msgstr "Pokaż 'Otwórz w oddzielnym widoku' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3720,19 +3719,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr ""
-"Pytaj o potwierdzenie podczas zamykania okien z więcej niż jedną kartą."
+msgstr "Pytaj o potwierdzenie przed otwarciem wielu katalogów na raz."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr ""
-"Pytaj o potwierdzenie podczas zamykania okien z więcej niż jedną kartą."
+msgstr "Pytaj o potwierdzenie przed otwarciem wielu terminali na raz."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3762,14 +3757,13 @@ msgstr "Ustawienia"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Interfejs"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Widok"
+msgstr "Widok"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -3849,18 +3843,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Zamykaniu okien z programem wykonywanym w oknie terminala"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Otwórz plik lub katalog:"
+msgstr "Otwieranie wielu katalogów na raz:"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Otwieranie wielu terminali na raz"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3884,9 +3876,7 @@ msgid "Run script"
 msgstr "Wykonaj go"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Katalogi, karty i stan okna z poprzedniej pracy"
@@ -3920,14 +3910,13 @@ msgstr "Po uruchomieniu pokaż:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Pracuj na pojedynczym oknie Dolphina, otwierając nowe katalogi w kartach"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Otwórz plik lub katalog:"
+msgstr "Otwieranie katalogów:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3936,17 +3925,13 @@ msgid "Show full path in title bar"
 msgstr "Pokaż pełną ścieżkę w nazwie okna"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "No&we okno"
+msgstr "Okno:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Pokaż pasek filtra"
@@ -4012,12 +3997,10 @@ msgid ""
 msgstr "Położenie katalogu domowego jest niewłaściwe i nie zostanie użyte."
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Najpierw katalogi"
+msgstr "Katalogi i karty"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4034,13 +4017,10 @@ msgid "Confirmations"
 msgstr "Potwierdzanie"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Pasek położenia"
+msgstr "Pasek stanu i położenia"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4095,12 +4075,10 @@ msgid "Show space information"
 msgstr "Pokaż wykorzystanie przestrzeni"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Pasek stanu"
+msgstr "Pasek stanu: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4109,12 +4087,9 @@ msgid "Make location bar editable"
 msgstr "Zezwól na pisanie na pasku adresu"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Pasek położenia"
+msgstr "Pasek położenia:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4282,12 +4257,10 @@ msgstr ""
 "zmienione właściwości widoku."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Wygląd widoku"
+msgstr "Sposoby wyświetlania: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4305,7 +4278,7 @@ msgstr "Otwieraj katalogi podczas przeciągania"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Przeglądanie: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4333,9 +4306,7 @@ msgid "Rename inline"
 msgstr "Umożliw zmianę nazwy bez otwierania dodatkowego okna"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Ogólne"

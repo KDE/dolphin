@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-17 00:47+0000\n"
+"POT-Creation-Date: 2023-10-05 00:44+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -1361,19 +1361,27 @@ msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
 msgstr "డాల్ఫిన్ పనిముట్లపట్టీ"
 
-#: dolphinrecenttabsmenu.cpp:16
+#: dolphinrecenttabsmenu.cpp:18
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "Recently Closed Tabs"
 msgstr "టాబ్‌ను మూయుము"
 
-#: dolphinrecenttabsmenu.cpp:21
+#: dolphinrecenttabsmenu.cpp:23
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "Empty Recently Closed Tabs"
 msgstr "టాబ్‌ను మూయుము"
+
+#: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Main Toolbar"
+msgid "Search for %1 in %2"
+msgstr "మెయిన్ పనిముట్లపట్టీ"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1467,13 +1475,6 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
-
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Main Toolbar"
-msgid "Search for %1 in %2"
-msgstr "మెయిన్ పనిముట్లపట్టీ"
 
 #: dolphinviewcontainer.cpp:550
 #, fuzzy, kde-format

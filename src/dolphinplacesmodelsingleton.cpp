@@ -13,8 +13,8 @@
 #include <QIcon>
 #include <QMimeData>
 
-DolphinPlacesModel::DolphinPlacesModel(const QString &alternativeApplicationName, QObject *parent)
-    : KFilePlacesModel(alternativeApplicationName, parent)
+DolphinPlacesModel::DolphinPlacesModel(QObject *parent)
+    : KFilePlacesModel(parent)
 {
     connect(&Trash::instance(), &Trash::emptinessChanged, this, &DolphinPlacesModel::slotTrashEmptinessChanged);
 }
@@ -118,7 +118,7 @@ bool DolphinPlacesModel::isTrash(const QModelIndex &index) const
 }
 
 DolphinPlacesModelSingleton::DolphinPlacesModelSingleton()
-    : m_placesModel(new DolphinPlacesModel(KAboutData::applicationData().componentName() + applicationNameSuffix()))
+    : m_placesModel(new DolphinPlacesModel())
 {
 }
 
@@ -131,11 +131,6 @@ DolphinPlacesModelSingleton &DolphinPlacesModelSingleton::instance()
 DolphinPlacesModel *DolphinPlacesModelSingleton::placesModel() const
 {
     return m_placesModel.data();
-}
-
-QString DolphinPlacesModelSingleton::applicationNameSuffix()
-{
-    return QStringLiteral("-places-panel");
 }
 
 #include "moc_dolphinplacesmodelsingleton.cpp"

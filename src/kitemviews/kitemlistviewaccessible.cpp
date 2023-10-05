@@ -21,10 +21,12 @@ KItemListView *KItemListViewAccessible::view() const
     return qobject_cast<KItemListView *>(object());
 }
 
-KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_)
+KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_, KItemListContainerAccessible *parent)
     : QAccessibleObject(view_)
+    , m_parent(parent)
 {
     Q_ASSERT(view());
+    Q_CHECK_PTR(parent);
     m_cells.resize(childCount());
 }
 
@@ -208,8 +210,7 @@ QAccessibleInterface *KItemListViewAccessible::childAt(int x, int y) const
 
 QAccessibleInterface *KItemListViewAccessible::parent() const
 {
-    // FIXME: return KItemListContainerAccessible here
-    return nullptr;
+    return m_parent;
 }
 
 int KItemListViewAccessible::childCount() const
