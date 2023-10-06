@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-05 00:44+0000\n"
+"POT-Creation-Date: 2023-10-06 00:43+0000\n"
 "PO-Revision-Date: 2021-06-02 18:56+0300\n"
 "Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -1450,26 +1450,26 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nekas nav atrasts."
 
-#: dolphinviewcontainer.cpp:834
+#: dolphinviewcontainer.cpp:836
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin neatbalsta tīmekļa lapas, tika palaists tīmekļa pārlūks"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:839
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin neatbalsta šo protokolu, tika palaista noklusējuma programma"
 
-#: dolphinviewcontainer.cpp:843
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Nederīgs protokols"
 
-#: dolphinviewcontainer.cpp:952
+#: dolphinviewcontainer.cpp:954
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4645,7 +4645,7 @@ msgstr "Noklusētais"
 msgid "Reload"
 msgstr "Pārielādēt"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4654,7 +4654,7 @@ msgstr[0] "Izvēlēta %1 mape"
 msgstr[1] "Izvēlētas %1 mapes"
 msgstr[2] "Izvēlēts %1 mapju"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:648
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4663,7 +4663,7 @@ msgstr[0] "Izvēlēta %1 datne"
 msgstr[1] "Izvēlētas %1 datnes"
 msgstr[2] "Izvēlēts %1 datņu"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4672,7 +4672,7 @@ msgstr[0] "%1 mape"
 msgstr[1] "%1 mapes"
 msgstr[2] "%1 mapju"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:651
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4681,31 +4681,31 @@ msgstr[0] "%1 datne"
 msgstr[1] "%1 datnes"
 msgstr[2] "%1 datņu"
 
-#: views/dolphinview.cpp:652
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 mapju, 0 datņu"
 
-#: views/dolphinview.cpp:870 views/dolphinview.cpp:879
+#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1064
+#: views/dolphinview.cpp:1067
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4713,7 +4713,7 @@ msgstr[0] "Vai tiešām vēlaties atvērt %1 elementu?"
 msgstr[1] "Vai tiešām vēlaties atvērt %1 elementus?"
 msgstr[2] "Vai tiešām vēlaties atvērt %1 elementu?"
 
-#: views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1072
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
@@ -4724,149 +4724,149 @@ msgstr[0] "Atvērt %1"
 msgstr[1] "Atvērt %1"
 msgstr[2] "Atvērt %1"
 
-#: views/dolphinview.cpp:1200
+#: views/dolphinview.cpp:1203
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1204
+#: views/dolphinview.cpp:1207
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automātisks kolonnu platums"
 
-#: views/dolphinview.cpp:1209
+#: views/dolphinview.cpp:1212
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Pielāgots kolonnu platums"
 
-#: views/dolphinview.cpp:1824
+#: views/dolphinview.cpp:1827
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Miskastes darbība ir pabeigta."
 
-#: views/dolphinview.cpp:1834
+#: views/dolphinview.cpp:1837
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Dzēšana pabeigta."
 
-#: views/dolphinview.cpp:1990
+#: views/dolphinview.cpp:1993
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Pārdēvēt un paslēpt"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1997
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1996
+#: views/dolphinview.cpp:1999
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgid "Hide this File?"
 msgstr "Slēpt šo datni?"
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Slēpt šo mapi?"
 
-#: views/dolphinview.cpp:2048
+#: views/dolphinview.cpp:2051
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Atrašanās vieta ir tukša."
 
-#: views/dolphinview.cpp:2050
+#: views/dolphinview.cpp:2053
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Atrašanās vieta '%1' nav derīga."
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2309
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Mapes ielāde..."
 
-#: views/dolphinview.cpp:2325
+#: views/dolphinview.cpp:2328
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Mapes ielāde..."
 
-#: views/dolphinview.cpp:2327
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nav filtram atbilstošu vienumu"
 
-#: views/dolphinview.cpp:2329
+#: views/dolphinview.cpp:2332
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nav meklētajam atbilstošu vienumu"
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Trash is empty"
 msgstr "Miskaste ir tukša"
 
-#: views/dolphinview.cpp:2334
+#: views/dolphinview.cpp:2337
 #, kde-format
 msgid "No tags"
 msgstr "Nav birku"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No recently used items"
 msgstr "Nav nesen lietoto vienumu"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nav kopīgotu mapju"
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2348
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nav atbilstošu tīkla resursu"
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nav MTP savietojamu iekārtu"
 
-#: views/dolphinview.cpp:2349
+#: views/dolphinview.cpp:2352
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "Nav Bluetooth iekārtu"
 
-#: views/dolphinview.cpp:2351
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nav Bluetooth iekārtu"
 
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2356
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mape ir tukša"

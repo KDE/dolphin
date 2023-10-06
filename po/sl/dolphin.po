@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-05 00:44+0000\n"
+"POT-Creation-Date: 2023-10-06 00:43+0000\n"
 "PO-Revision-Date: 2023-09-10 07:06+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1641,27 +1641,27 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ni najdenih predmetov."
 
-#: dolphinviewcontainer.cpp:834
+#: dolphinviewcontainer.cpp:836
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne podpira prikaza spletnih strani. Zagnan je bil spletni brskalnik"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:839
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podpira tega protokola. Zagnan je bil privzeti program"
 
-#: dolphinviewcontainer.cpp:843
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Neveljaven protokol"
 
-#: dolphinviewcontainer.cpp:952
+#: dolphinviewcontainer.cpp:954
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4765,7 +4765,7 @@ msgstr "Privzeto"
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4775,7 +4775,7 @@ msgstr[1] "Izbrani sta %1 mapi"
 msgstr[2] "Izbrane so %1 mape"
 msgstr[3] "Izbrano je %1 map"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:648
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4785,7 +4785,7 @@ msgstr[1] "Izbrani sta %1 datoteki"
 msgstr[2] "Izbrane so %1 datoteke"
 msgstr[3] "Izbrano je %1 datotek"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4795,7 +4795,7 @@ msgstr[1] "%1 mapi"
 msgstr[2] "%1 mape"
 msgstr[3] "%1 map"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:651
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4805,31 +4805,31 @@ msgstr[1] "%1 datoteki"
 msgstr[2] "%1 datoteke"
 msgstr[3] "%1 datotek"
 
-#: views/dolphinview.cpp:652
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 map, 0 datotek"
 
-#: views/dolphinview.cpp:870 views/dolphinview.cpp:879
+#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1064
+#: views/dolphinview.cpp:1067
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4838,7 +4838,7 @@ msgstr[1] "Ali res želite odpreti %1 predmeta?"
 msgstr[2] "Ali res želite odpreti %1 predmete?"
 msgstr[3] "Ali res želite odpreti %1 predmetov?"
 
-#: views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1072
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4848,43 +4848,43 @@ msgstr[1] "Odpri %1 postavki"
 msgstr[2] "Odpri %1 postavke"
 msgstr[3] "Odpri %1 postavk"
 
-#: views/dolphinview.cpp:1200
+#: views/dolphinview.cpp:1203
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Stranska obloga"
 
-#: views/dolphinview.cpp:1204
+#: views/dolphinview.cpp:1207
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Samodejna širina stolpcev"
 
-#: views/dolphinview.cpp:1209
+#: views/dolphinview.cpp:1212
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Širina stolpcev po meri"
 
-#: views/dolphinview.cpp:1824
+#: views/dolphinview.cpp:1827
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Opravilo Smeti zaključeno."
 
-#: views/dolphinview.cpp:1834
+#: views/dolphinview.cpp:1837
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Brisanje zaključeno."
 
-#: views/dolphinview.cpp:1990
+#: views/dolphinview.cpp:1993
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj in skrij"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1997
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4894,7 +4894,7 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:1996
+#: views/dolphinview.cpp:1999
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4904,94 +4904,94 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgid "Hide this File?"
 msgstr "Naj skrijem to datoteko?"
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Naj skrijem to mapo?"
 
-#: views/dolphinview.cpp:2048
+#: views/dolphinview.cpp:2051
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Mesto je prazno."
 
-#: views/dolphinview.cpp:2050
+#: views/dolphinview.cpp:2053
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Mesto »%1« je neveljavno."
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2309
 #, kde-format
 msgid "Loading…"
 msgstr "Nalaganje…"
 
-#: views/dolphinview.cpp:2325
+#: views/dolphinview.cpp:2328
 #, kde-format
 msgid "Loading canceled"
 msgstr "Nalaganje preklicano"
 
-#: views/dolphinview.cpp:2327
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Ni predmetov, ki bi ustrezali filtru"
 
-#: views/dolphinview.cpp:2329
+#: views/dolphinview.cpp:2332
 #, kde-format
 msgid "No items matching the search"
 msgstr "Ni predmetov, ki bi ustrezali iskanju"
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Trash is empty"
 msgstr "Smeti so prazne"
 
-#: views/dolphinview.cpp:2334
+#: views/dolphinview.cpp:2337
 #, kde-format
 msgid "No tags"
 msgstr "Ni značk"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Ni datotek z oznako »%1«"
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No recently used items"
 msgstr "Ni nedavno uporabljenih predmetov"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nobenih skupnih map ni najti"
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2348
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Ni najti pomembnih nobenih mrežnih virov"
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ni nadene nobene MTP združljive naprave"
 
-#: views/dolphinview.cpp:2349
+#: views/dolphinview.cpp:2352
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ni najdenih Applovih naprav"
 
-#: views/dolphinview.cpp:2351
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ni najdene nobene Bluetooth naprave"
 
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2356
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mapa je prazna"

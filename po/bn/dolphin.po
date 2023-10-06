@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-05 00:44+0000\n"
+"POT-Creation-Date: 2023-10-06 00:43+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -1499,13 +1499,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "কোন মিল পাওয়া যায়নি।"
 
-#: dolphinviewcontainer.cpp:834
+#: dolphinviewcontainer.cpp:836
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ডলফিন ওয়েব-পেজ সমর্থন করো না, ওয়েব ব্রাউজার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:839
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1514,13 +1514,13 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ডলফিন এই প্রোটোকল-টি সমর্থন করে না, কনকরার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:843
+#: dolphinviewcontainer.cpp:845
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:952
+#: dolphinviewcontainer.cpp:954
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4914,7 +4914,7 @@ msgstr "ডিফল্ট"
 msgid "Reload"
 msgstr "নতুন করে পড়ো"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4922,7 +4922,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "একটি ফোল্ডার নির্বাচিত"
 msgstr[1] "%1-টি ফোল্ডার নির্বাচিত"
 
-#: views/dolphinview.cpp:645
+#: views/dolphinview.cpp:648
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4930,7 +4930,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "একটি ফাইল নির্বাচিত"
 msgstr[1] "%1-টি ফাইল নির্বাচিত"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:650
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -4940,7 +4940,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "ফোল্ডার"
 msgstr[1] "ফোল্ডার"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:651
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4948,19 +4948,19 @@ msgid_plural "%1 Files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:652
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:661
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4968,20 +4968,20 @@ msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "প্রথমে ফোল্ডার"
 
-#: views/dolphinview.cpp:870 views/dolphinview.cpp:879
+#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1064
+#: views/dolphinview.cpp:1067
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1069
+#: views/dolphinview.cpp:1072
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -4991,27 +4991,27 @@ msgid_plural "Open %1 Items"
 msgstr[0] "পাথ"
 msgstr[1] "পাথ"
 
-#: views/dolphinview.cpp:1200
+#: views/dolphinview.cpp:1203
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1204
+#: views/dolphinview.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "কলাম প্রস্থ"
 
-#: views/dolphinview.cpp:1209
+#: views/dolphinview.cpp:1212
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "কলাম প্রস্থ"
 
-#: views/dolphinview.cpp:1824
+#: views/dolphinview.cpp:1827
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -5019,134 +5019,134 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "আবর্জনার বাক্সে সরানো সম্পন্ন।"
 
-#: views/dolphinview.cpp:1834
+#: views/dolphinview.cpp:1837
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "মুছে ফেলা শেষ।"
 
-#: views/dolphinview.cpp:1990
+#: views/dolphinview.cpp:1993
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "নিজস্থানে নামান্তর করো"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1997
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1996
+#: views/dolphinview.cpp:1999
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "লুকানো ফাইল দেখাও"
 
-#: views/dolphinview.cpp:1998
+#: views/dolphinview.cpp:2001
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "গৃহ ফোল্ডার"
 
-#: views/dolphinview.cpp:2048
+#: views/dolphinview.cpp:2051
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "অবস্থান ফাঁকা।"
 
-#: views/dolphinview.cpp:2050
+#: views/dolphinview.cpp:2053
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "অবস্থান '%1' অবৈধ।"
 
-#: views/dolphinview.cpp:2306
+#: views/dolphinview.cpp:2309
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: views/dolphinview.cpp:2325
+#: views/dolphinview.cpp:2328
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: views/dolphinview.cpp:2327
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2329
+#: views/dolphinview.cpp:2332
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2334
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "অবস্থান ফাঁকা।"
 
-#: views/dolphinview.cpp:2334
+#: views/dolphinview.cpp:2337
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2344
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2348
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2349
+#: views/dolphinview.cpp:2352
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "কোন মিল পাওয়া যায়নি।"
 
-#: views/dolphinview.cpp:2351
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2356
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
