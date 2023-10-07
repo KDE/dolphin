@@ -41,7 +41,7 @@ private:
 
 private:
     DolphinMainWindow *m_mainWindow;
-    KBookmarkManager *m_bookmarkManager;
+    std::unique_ptr<KBookmarkManager> m_bookmarkManager;
     QScopedPointer<KBookmarkMenu> m_bookmarkMenu;
 };
 
