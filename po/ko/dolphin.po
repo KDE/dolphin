@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-06 00:43+0000\n"
-"PO-Revision-Date: 2023-08-25 20:58+0200\n"
+"PO-Revision-Date: 2023-10-08 22:40+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -797,11 +797,10 @@ msgid "Open in New Window"
 msgstr "새 창으로 열기"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "앱에서 열기"
+msgstr "분할 보기로 열기"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3193,10 +3192,9 @@ msgstr "콘텍스트 메뉴에 '새 창에서 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "콘텍스트 메뉴에 '새 창에서 열기'를 표시합니다."
+msgstr "콘텍스트 메뉴에 '분할된 보기에서 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3611,17 +3609,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "여러 탭이 열려 있는 창을 닫을 때 사용자에게 물어 봅니다."
+msgstr "한 번에 여러 폴더를 열 때 사용자에게 물어 봅니다."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "여러 탭이 열려 있는 창을 닫을 때 사용자에게 물어 봅니다."
+msgstr "한 번에 여러 터미널을 열 때 사용자에게 물어 봅니다."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3738,18 +3734,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "터미널 패널에서 실행 중인 프로그램이 있는 창을 닫을 때"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Opening Folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "폴더 열기:"
+msgstr "한 번에 여러 폴더를 열 때"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "한 번에 여러 터미널을 열 때"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
