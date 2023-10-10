@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:50+0000\n"
-"PO-Revision-Date: 2023-09-17 16:21+0200\n"
+"PO-Revision-Date: 2023-10-09 14:09+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -4710,21 +4710,23 @@ msgid_plural "%1 Files selected"
 msgstr[0] "Escolleu 1 ficheiro."
 msgstr[1] "Escolleu %1 ficheiros."
 
+# skip-rule: proposta-gl-punto-final
 #: views/dolphinview.cpp:644
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 cartafol."
-msgstr[1] "%1 cartafoles."
+msgstr[0] "1 cartafol"
+msgstr[1] "%1 cartafoles"
 
+# skip-rule: proposta-gl-punto-final
 #: views/dolphinview.cpp:645
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
 msgid_plural "%1 Files"
-msgstr[0] "1 ficheiro."
-msgstr[1] "%1 ficheiros."
+msgstr[0] "1 ficheiro"
+msgstr[1] "%1 ficheiros"
 
 #: views/dolphinview.cpp:649
 #, kde-format
