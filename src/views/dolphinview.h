@@ -344,6 +344,8 @@ public:
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
+    static QString textForSortOrder(const QByteArray &role, Qt::SortOrder order);
+
 public Q_SLOTS:
 
     void reload();

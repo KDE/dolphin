@@ -73,15 +73,17 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
 
-    m_sortOrder = new QComboBox();
-    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
-    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
-
     m_sorting = new QComboBox();
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     for (const KFileItemModel::RoleInfo &info : rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
     }
+
+    m_sortOrder = new QComboBox();
+    m_sortOrder->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    const QByteArray sortRole = m_sorting->currentData().toByteArray();
+    m_sortOrder->addItem(DolphinView::textForSortOrder(sortRole, Qt::SortOrder::AscendingOrder));
+    m_sortOrder->addItem(DolphinView::textForSortOrder(sortRole, Qt::SortOrder::AscendingOrder));
 
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
     m_sortHiddenLast = new QCheckBox(i18nc("@option:check", "Show hidden files last"));
@@ -249,6 +251,8 @@ void ViewPropertiesDialog::slotSortingChanged(int index)
 {
     const QByteArray role = m_sorting->itemData(index).toByteArray();
     m_viewProps->setSortRole(role);
+    m_sortOrder->setItemText(0, DolphinView::textForSortOrder(role, Qt::SortOrder::AscendingOrder));
+    m_sortOrder->setItemText(1, DolphinView::textForSortOrder(role, Qt::SortOrder::AscendingOrder));
     markAsDirty(true);
 }
 

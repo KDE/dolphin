@@ -1804,6 +1804,31 @@ bool DolphinView::handleSpaceAsNormalKey() const
     return !m_container->hasFocus() || m_container->controller()->isSearchAsYouTypeActive();
 }
 
+QString DolphinView::textForSortOrder(const QByteArray &role, Qt::SortOrder order)
+{
+    QString ascending;
+    QString descending;
+
+    if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
+        ascending = i18nc("Sort ascending", "A-Z");
+        descending = i18nc("Sort descending", "Z-A");
+    } else if (role == "size") {
+        ascending = i18nc("Sort ascending", "Smallest First");
+        descending = i18nc("Sort descending", "Largest First");
+    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
+        ascending = i18nc("Sort ascending", "Oldest First");
+        descending = i18nc("Sort descending", "Newest First");
+    } else if (role == "rating") {
+        ascending = i18nc("Sort ascending", "Lowest First");
+        descending = i18nc("Sort descending", "Highest First");
+    } else {
+        ascending = i18nc("Sort ascending", "Ascending");
+        descending = i18nc("Sort descending", "Descending");
+    }
+
+    return order == Qt::AscendingOrder ? ascending : descending;
+}
+
 void DolphinView::slotTwoClicksRenamingTimerTimeout()
 {
     const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
