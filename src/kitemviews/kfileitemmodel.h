@@ -311,8 +311,11 @@ private:
         NameRole,
         SizeRole,
         ModificationTimeRole,
+        ModificationTimeDayWiseRole,
         CreationTimeRole,
+        CreationTimeDayWiseRole,
         AccessTimeRole,
+        AccessTimeDayWiseRole,
         PermissionsRole,
         OwnerRole,
         GroupRole,
@@ -321,6 +324,7 @@ private:
         DestinationRole,
         PathRole,
         DeletionTimeRole,
+        DeletionTimeDayWiseRole,
         // User visible roles available with Baloo:
         CommentRole,
         TagsRole,
@@ -447,7 +451,7 @@ private:
 
     QList<QPair<int, QVariant>> nameRoleGroups() const;
     QList<QPair<int, QVariant>> sizeRoleGroups() const;
-    QList<QPair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
+    QList<QPair<int, QVariant>> timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb, bool daywise = false) const;
     QList<QPair<int, QVariant>> permissionRoleGroups() const;
     QList<QPair<int, QVariant>> ratingRoleGroups() const;
     QList<QPair<int, QVariant>> genericStringRoleGroups(const QByteArray &typeForRole) const;

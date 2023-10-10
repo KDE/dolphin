@@ -17,6 +17,7 @@
 #include <KIO/Job>
 #include <KLocalizedString>
 #include <KUrlMimeData>
+#include <kfileitem.h>
 #include <kio_version.h>
 
 #include <QElapsedTimer>
@@ -387,20 +388,48 @@ QList<QPair<int, QVariant>> KFileItemModel::groups() const
                 return item->item.time(KFileItem::ModificationTime);
             });
             break;
+        case ModificationTimeDayWiseRole:
+            m_groups = timeRoleGroups(
+                [](const ItemData *item) {
+                    return item->item.time(KFileItem::ModificationTime);
+                },
+                true);
+            break;
         case CreationTimeRole:
             m_groups = timeRoleGroups([](const ItemData *item) {
                 return item->item.time(KFileItem::CreationTime);
             });
+            break;
+        case CreationTimeDayWiseRole:
+            m_groups = timeRoleGroups(
+                [](const ItemData *item) {
+                    return item->item.time(KFileItem::CreationTime);
+                },
+                true);
             break;
         case AccessTimeRole:
             m_groups = timeRoleGroups([](const ItemData *item) {
                 return item->item.time(KFileItem::AccessTime);
             });
             break;
+        case AccessTimeDayWiseRole:
+            m_groups = timeRoleGroups(
+                [](const ItemData *item) {
+                    return item->item.time(KFileItem::AccessTime);
+                },
+                true);
+            break;
         case DeletionTimeRole:
             m_groups = timeRoleGroups([](const ItemData *item) {
                 return item->values.value("deletiontime").toDateTime();
             });
+            break;
+        case DeletionTimeDayWiseRole:
+            m_groups = timeRoleGroups(
+                [](const ItemData *item) {
+                    return item->values.value("deletiontime").toDateTime();
+                },
+                true);
             break;
         case PermissionsRole:
             m_groups = permissionRoleGroups();
@@ -2360,7 +2389,7 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
     return groups;
 }
 
-QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const
+QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb, bool daywise) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
@@ -2387,172 +2416,181 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
         const int daysDistance = fileDate.daysTo(currentDate);
 
         QString newGroupValue;
-        if (currentDate.year() == fileDate.year() && currentDate.month() == fileDate.month()) {
-            switch (daysDistance / 7) {
-            case 0:
-                switch (daysDistance) {
+        if (daywise) {
+            newGroupValue = fileTime.toString(i18n("dddd dd MMMM yyyy"));
+        } else {
+            if (currentDate.year() == fileDate.year() && currentDate.month() == fileDate.month()) {
+                switch (daysDistance / 7) {
                 case 0:
-                    newGroupValue = i18nc("@title:group Date", "Today");
+                    switch (daysDistance) {
+                    case 0:
+                        newGroupValue = i18nc("@title:group Date", "Today");
+                        break;
+                    case 1:
+                        newGroupValue = i18nc("@title:group Date", "Yesterday");
+                        break;
+                    default:
+                        newGroupValue = fileTime.toString(i18nc("@title:group Date: The week day name: dddd", "dddd"));
+                        newGroupValue = i18nc(
+                            "Can be used to script translation of \"dddd\""
+                            "with context @title:group Date",
+                            "%1",
+                            newGroupValue);
+                    }
                     break;
                 case 1:
-                    newGroupValue = i18nc("@title:group Date", "Yesterday");
+                    newGroupValue = i18nc("@title:group Date", "One Week Ago");
+                    break;
+                case 2:
+                    newGroupValue = i18nc("@title:group Date", "Two Weeks Ago");
+                    break;
+                case 3:
+                    newGroupValue = i18nc("@title:group Date", "Three Weeks Ago");
+                    break;
+                case 4:
+                case 5:
+                    newGroupValue = i18nc("@title:group Date", "Earlier this Month");
                     break;
                 default:
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: The week day name: dddd", "dddd"));
-                    newGroupValue = i18nc(
-                        "Can be used to script translation of \"dddd\""
-                        "with context @title:group Date",
-                        "%1",
-                        newGroupValue);
-                }
-                break;
-            case 1:
-                newGroupValue = i18nc("@title:group Date", "One Week Ago");
-                break;
-            case 2:
-                newGroupValue = i18nc("@title:group Date", "Two Weeks Ago");
-                break;
-            case 3:
-                newGroupValue = i18nc("@title:group Date", "Three Weeks Ago");
-                break;
-            case 4:
-            case 5:
-                newGroupValue = i18nc("@title:group Date", "Earlier this Month");
-                break;
-            default:
-                Q_ASSERT(false);
-            }
-        } else {
-            const QDate lastMonthDate = currentDate.addMonths(-1);
-            if (lastMonthDate.year() == fileDate.year() && lastMonthDate.month() == fileDate.month()) {
-                if (daysDistance == 1) {
-                    const KLocalizedString format = ki18nc(
-                        "@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a "
-                        "part of the text that should not be formatted as a date",
-                        "'Yesterday' (MMMM, yyyy)");
-                    const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
-                        newGroupValue = i18nc(
-                            "Can be used to script translation of "
-                            "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
-                            "%1",
-                            newGroupValue);
-                    } else {
-                        qCWarning(DolphinDebug).nospace()
-                            << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
-                        const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
-                    }
-                } else if (daysDistance <= 7) {
-                    newGroupValue =
-                        fileTime.toString(i18nc("@title:group Date: "
-                                                "The week day name: dddd, MMMM is full month name "
-                                                "in current locale, and yyyy is full year number.",
-                                                "dddd (MMMM, yyyy)"));
-                    newGroupValue = i18nc(
-                        "Can be used to script translation of "
-                        "\"dddd (MMMM, yyyy)\" with context @title:group Date",
-                        "%1",
-                        newGroupValue);
-                } else if (daysDistance <= 7 * 2) {
-                    const KLocalizedString format = ki18nc(
-                        "@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a "
-                        "part of the text that should not be formatted as a date",
-                        "'One Week Ago' (MMMM, yyyy)");
-                    const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
-                        newGroupValue = i18nc(
-                            "Can be used to script translation of "
-                            "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
-                            "%1",
-                            newGroupValue);
-                    } else {
-                        qCWarning(DolphinDebug).nospace()
-                            << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
-                        const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
-                    }
-                } else if (daysDistance <= 7 * 3) {
-                    const KLocalizedString format = ki18nc(
-                        "@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a "
-                        "part of the text that should not be formatted as a date",
-                        "'Two Weeks Ago' (MMMM, yyyy)");
-                    const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
-                        newGroupValue = i18nc(
-                            "Can be used to script translation of "
-                            "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
-                            "%1",
-                            newGroupValue);
-                    } else {
-                        qCWarning(DolphinDebug).nospace()
-                            << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
-                        const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
-                    }
-                } else if (daysDistance <= 7 * 4) {
-                    const KLocalizedString format = ki18nc(
-                        "@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a "
-                        "part of the text that should not be formatted as a date",
-                        "'Three Weeks Ago' (MMMM, yyyy)");
-                    const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
-                        newGroupValue = i18nc(
-                            "Can be used to script translation of "
-                            "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
-                            "%1",
-                            newGroupValue);
-                    } else {
-                        qCWarning(DolphinDebug).nospace()
-                            << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
-                        const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
-                    }
-                } else {
-                    const KLocalizedString format = ki18nc(
-                        "@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a "
-                        "part of the text that should not be formatted as a date",
-                        "'Earlier on' MMMM, yyyy");
-                    const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
-                        newGroupValue = i18nc(
-                            "Can be used to script translation of "
-                            "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
-                            "%1",
-                            newGroupValue);
-                    } else {
-                        qCWarning(DolphinDebug).nospace()
-                            << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
-                        const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
-                    }
+                    Q_ASSERT(false);
                 }
             } else {
-                newGroupValue =
-                    fileTime.toString(i18nc("@title:group "
-                                            "The month and year: MMMM is full month name in current locale, "
-                                            "and yyyy is full year number",
-                                            "MMMM, yyyy"));
-                newGroupValue = i18nc(
-                    "Can be used to script translation of "
-                    "\"MMMM, yyyy\" with context @title:group Date",
-                    "%1",
-                    newGroupValue);
+                const QDate lastMonthDate = currentDate.addMonths(-1);
+                if (lastMonthDate.year() == fileDate.year() && lastMonthDate.month() == fileDate.month()) {
+                    if (daysDistance == 1) {
+                        const KLocalizedString format = ki18nc(
+                            "@title:group Date: "
+                            "MMMM is full month name in current locale, and yyyy is "
+                            "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark "
+                            "a "
+                            "part of the text that should not be formatted as a date",
+                            "'Yesterday' (MMMM, yyyy)");
+                        const QString translatedFormat = format.toString();
+                        if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                            newGroupValue = fileTime.toString(translatedFormat);
+                            newGroupValue = i18nc(
+                                "Can be used to script translation of "
+                                "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
+                                "%1",
+                                newGroupValue);
+                        } else {
+                            qCWarning(DolphinDebug).nospace()
+                                << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                            const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
+                            newGroupValue = fileTime.toString(untranslatedFormat);
+                        }
+                    } else if (daysDistance <= 7) {
+                        newGroupValue =
+                            fileTime.toString(i18nc("@title:group Date: "
+                                                    "The week day name: dddd, MMMM is full month name "
+                                                    "in current locale, and yyyy is full year number.",
+                                                    "dddd (MMMM, yyyy)"));
+                        newGroupValue = i18nc(
+                            "Can be used to script translation of "
+                            "\"dddd (MMMM, yyyy)\" with context @title:group Date",
+                            "%1",
+                            newGroupValue);
+                    } else if (daysDistance <= 7 * 2) {
+                        const KLocalizedString format = ki18nc(
+                            "@title:group Date: "
+                            "MMMM is full month name in current locale, and yyyy is "
+                            "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark "
+                            "a "
+                            "part of the text that should not be formatted as a date",
+                            "'One Week Ago' (MMMM, yyyy)");
+                        const QString translatedFormat = format.toString();
+                        if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                            newGroupValue = fileTime.toString(translatedFormat);
+                            newGroupValue = i18nc(
+                                "Can be used to script translation of "
+                                "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
+                                "%1",
+                                newGroupValue);
+                        } else {
+                            qCWarning(DolphinDebug).nospace()
+                                << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                            const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
+                            newGroupValue = fileTime.toString(untranslatedFormat);
+                        }
+                    } else if (daysDistance <= 7 * 3) {
+                        const KLocalizedString format = ki18nc(
+                            "@title:group Date: "
+                            "MMMM is full month name in current locale, and yyyy is "
+                            "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark "
+                            "a "
+                            "part of the text that should not be formatted as a date",
+                            "'Two Weeks Ago' (MMMM, yyyy)");
+                        const QString translatedFormat = format.toString();
+                        if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                            newGroupValue = fileTime.toString(translatedFormat);
+                            newGroupValue = i18nc(
+                                "Can be used to script translation of "
+                                "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                                "%1",
+                                newGroupValue);
+                        } else {
+                            qCWarning(DolphinDebug).nospace()
+                                << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                            const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
+                            newGroupValue = fileTime.toString(untranslatedFormat);
+                        }
+                    } else if (daysDistance <= 7 * 4) {
+                        const KLocalizedString format = ki18nc(
+                            "@title:group Date: "
+                            "MMMM is full month name in current locale, and yyyy is "
+                            "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark "
+                            "a "
+                            "part of the text that should not be formatted as a date",
+                            "'Three Weeks Ago' (MMMM, yyyy)");
+                        const QString translatedFormat = format.toString();
+                        if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                            newGroupValue = fileTime.toString(translatedFormat);
+                            newGroupValue = i18nc(
+                                "Can be used to script translation of "
+                                "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                                "%1",
+                                newGroupValue);
+                        } else {
+                            qCWarning(DolphinDebug).nospace()
+                                << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                            const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
+                            newGroupValue = fileTime.toString(untranslatedFormat);
+                        }
+                    } else {
+                        const KLocalizedString format = ki18nc(
+                            "@title:group Date: "
+                            "MMMM is full month name in current locale, and yyyy is "
+                            "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark "
+                            "a "
+                            "part of the text that should not be formatted as a date",
+                            "'Earlier on' MMMM, yyyy");
+                        const QString translatedFormat = format.toString();
+                        if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                            newGroupValue = fileTime.toString(translatedFormat);
+                            newGroupValue = i18nc(
+                                "Can be used to script translation of "
+                                "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
+                                "%1",
+                                newGroupValue);
+                        } else {
+                            qCWarning(DolphinDebug).nospace()
+                                << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                            const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
+                            newGroupValue = fileTime.toString(untranslatedFormat);
+                        }
+                    }
+                } else {
+                    newGroupValue =
+                        fileTime.toString(i18nc("@title:group "
+                                                "The month and year: MMMM is full month name in current locale, "
+                                                "and yyyy is full year number",
+                                                "MMMM, yyyy"));
+                    newGroupValue = i18nc(
+                        "Can be used to script translation of "
+                        "\"MMMM, yyyy\" with context @title:group Date",
+                        "%1",
+                        newGroupValue);
+                }
             }
         }
 
@@ -2720,8 +2758,11 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { "text",                NameRole,                kli18nc("@label", "Name"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
         { "size",                SizeRole,                kli18nc("@label", "Size"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
         { "modificationtime",    ModificationTimeRole,    kli18nc("@label", "Modified"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "modificationtimedaywise",    ModificationTimeDayWiseRole,    kli18nc("@label", "Modified (by day)"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
         { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "creationtimedaywise",        CreationTimeDayWiseRole,        kli18nc("@label", "Created (by day)"),              KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
         { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "accesstimedaywise",          AccessTimeDayWiseRole,          kli18nc("@label", "Accessed (by day)"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
         { "type",                TypeRole,                kli18nc("@label", "Type"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
         { "rating",              RatingRole,              kli18nc("@label", "Rating"),               KLazyLocalizedString(),        KLazyLocalizedString(),                    true,            false },
         { "tags",                TagsRole,                kli18nc("@label", "Tags"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    true,            false },
@@ -2749,6 +2790,7 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "extension",           ExtensionRole,           kli18nc("@label", "File Extension"),       kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "deletiontimedaywise",        DeletionTimeDayWiseRole,        kli18nc("@label", "Deletion Time (by day)"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "originUrl",           OriginUrlRole,           kli18nc("@label", "Downloaded From"),      kli18nc("@label", "Other"),    KLazyLocalizedString(),                    true,            false },
         { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),    kli18nc("@tooltip", "The permission format can be changed in settings. Options are Symbolic, Numeric (Octal) or Combined formats"),        false,           false },
