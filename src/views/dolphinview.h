@@ -24,6 +24,7 @@
 #include <QWidget>
 
 #include <memory>
+#include <utility>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 class QVBoxLayout;
@@ -343,6 +344,8 @@ public:
 
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
+
+    static QStringList textForSortOrder(const QByteArray);
 
 public Q_SLOTS:
 

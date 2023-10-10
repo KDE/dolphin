@@ -58,7 +58,6 @@ Q_SIGNALS:
 private:
     void applyViewProperties();
     void loadSettings();
-    void setSortOrderText(QByteArray role);
 
 private:
     bool m_isDirty;

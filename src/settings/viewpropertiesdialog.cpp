@@ -74,15 +74,15 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
 
     m_sortOrder = new QComboBox();
-    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
-    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
+    const QByteArray sortRole = m_sorting->currentData().toByteArray();
+    m_sortOrder->addItem(DolphinView::textForSortOrder(sortRole).first());
+    m_sortOrder->addItem(DolphinView::textForSortOrder(sortRole).last());
 
     m_sorting = new QComboBox();
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     for (const KFileItemModel::RoleInfo &info : rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
     }
-    setSortOrderText(m_sorting->currentData().toByteArray());
 
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
     m_sortHiddenLast = new QCheckBox(i18nc("@option:check", "Show hidden files last"));
@@ -250,7 +250,8 @@ void ViewPropertiesDialog::slotSortingChanged(int index)
 {
     const QByteArray role = m_sorting->itemData(index).toByteArray();
     m_viewProps->setSortRole(role);
-    setSortOrderText(role);
+    m_sortOrder->setItemText(0, DolphinView::textForSortOrder(role).first());
+    m_sortOrder->setItemText(1, DolphinView::textForSortOrder(role).last());
     markAsDirty(true);
 }
 
@@ -307,32 +308,6 @@ void ViewPropertiesDialog::markAsDirty(bool isDirty)
         m_isDirty = isDirty;
         Q_EMIT isDirtyChanged(isDirty);
     }
-}
-
-void ViewPropertiesDialog::setSortOrderText(QByteArray role)
-{
-    const int descending = 0;
-    const int ascending = 1;
-
-    if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
-        m_sortOrder->setItemText(descending, i18nc("Sort descending", "Z-A"));
-        m_sortOrder->setItemText(ascending, i18nc("Sort ascending", "A-Z"));
-    } else if (role == "size") {
-        m_sortOrder->setItemText(descending, i18nc("Sort descending", "Largest First"));
-        m_sortOrder->setItemText(ascending, i18nc("Sort ascending", "Smallest First"));
-    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
-        m_sortOrder->setItemText(descending, i18nc("Sort descending", "Newest First"));
-        m_sortOrder->setItemText(ascending, i18nc("Sort ascending", "Oldest First"));
-    } else if (role == "rating") {
-        m_sortOrder->setItemText(descending, i18nc("Sort descending", "Highest First"));
-        m_sortOrder->setItemText(ascending, i18nc("Sort ascending", "Lowest First"));
-    } else {
-        m_sortOrder->setItemText(descending, i18nc("Sort descending", "Descending"));
-        m_sortOrder->setItemText(ascending, i18nc("Sort ascending", "Ascending"));
-    }
-
-    slotSortOrderChanged(descending);
-    slotSortOrderChanged(ascending);
 }
 
 void ViewPropertiesDialog::applyViewProperties()

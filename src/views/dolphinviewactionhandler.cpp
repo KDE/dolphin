@@ -671,22 +671,8 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray &role)
     QAction *descending = m_actionCollection->action(QStringLiteral("descending"));
     QAction *ascending = m_actionCollection->action(QStringLiteral("ascending"));
 
-    if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
-        descending->setText(i18nc("Sort descending", "Z-A"));
-        ascending->setText(i18nc("Sort ascending", "A-Z"));
-    } else if (role == "size") {
-        descending->setText(i18nc("Sort descending", "Largest First"));
-        ascending->setText(i18nc("Sort ascending", "Smallest First"));
-    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
-        descending->setText(i18nc("Sort descending", "Newest First"));
-        ascending->setText(i18nc("Sort ascending", "Oldest First"));
-    } else if (role == "rating") {
-        descending->setText(i18nc("Sort descending", "Highest First"));
-        ascending->setText(i18nc("Sort ascending", "Lowest First"));
-    } else {
-        descending->setText(i18nc("Sort descending", "Descending"));
-        ascending->setText(i18nc("Sort ascending", "Ascending"));
-    }
+    descending->setText(DolphinView::textForSortOrder(role).last());
+    ascending->setText(DolphinView::textForSortOrder(role).first());
 
     slotSortOrderChanged(m_currentView->sortOrder());
 }
