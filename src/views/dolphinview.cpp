@@ -270,7 +270,6 @@ void DolphinView::setActive(bool active)
     if (active) {
         m_container->setFocus();
         Q_EMIT activated();
-        Q_EMIT writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -2244,6 +2243,11 @@ void DolphinView::updateWritableState()
     if (m_isFolderWritable != wasFolderWritable) {
         Q_EMIT writeStateChanged(m_isFolderWritable);
     }
+}
+
+bool DolphinView::isFolderWritable() const
+{
+    return m_isFolderWritable;
 }
 
 QUrl DolphinView::viewPropertiesUrl() const

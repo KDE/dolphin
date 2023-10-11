@@ -60,6 +60,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView *view)
     connect(view, &DolphinView::sortRoleChanged, this, &DolphinViewActionHandler::slotSortRoleChanged);
     connect(view, &DolphinView::zoomLevelChanged, this, &DolphinViewActionHandler::slotZoomLevelChanged);
     connect(view, &DolphinView::writeStateChanged, this, &DolphinViewActionHandler::slotWriteStateChanged);
+    slotWriteStateChanged(view->isFolderWritable());
     connect(view, &DolphinView::selectionModeChangeRequested, this, [this](bool enabled) {
         Q_EMIT selectionModeChangeTriggered(enabled);
     });

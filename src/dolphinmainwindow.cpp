@@ -2387,6 +2387,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
 {
     connect(container, &DolphinViewContainer::showFilterBarChanged, this, &DolphinMainWindow::updateFilterBarAction);
     connect(container, &DolphinViewContainer::writeStateChanged, this, &DolphinMainWindow::slotWriteStateChanged);
+    slotWriteStateChanged(container->view()->isFolderWritable());
     connect(container, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinMainWindow::updateSearchAction);
     connect(container, &DolphinViewContainer::captionChanged, this, &DolphinMainWindow::updateWindowTitle);
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
