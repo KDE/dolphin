@@ -138,8 +138,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
 
     QHBoxLayout *sortingLayout = new QHBoxLayout();
     sortingLayout->setContentsMargins(0, 0, 0, 0);
-    sortingLayout->addWidget(m_sortOrder);
     sortingLayout->addWidget(m_sorting);
+    sortingLayout->addWidget(m_sortOrder);
 
     layout->addRow(i18nc("@label:listbox", "View mode:"), m_viewMode);
     layout->addRow(i18nc("@label:listbox", "Sorting:"), sortingLayout);
