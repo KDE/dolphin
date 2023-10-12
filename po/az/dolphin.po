@@ -1,13 +1,14 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
 #
-# Xəyyam Qocayev <xxmn77@gmail.com>, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2023 X əyyam
+# SPDX-FileCopyrightText: 2023 Kheyyam <xxmn77@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-06 00:43+0000\n"
-"PO-Revision-Date: 2023-06-30 13:25+0400\n"
+"PO-Revision-Date: 2023-10-11 18:21+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -824,11 +825,10 @@ msgid "Open in New Window"
 msgstr "Yeni Pəncərədə açmaq"
 
 #: dolphinmainwindow.cpp:2015 panels/places/placespanel.cpp:50
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Tətbiqdə açmaq"
+msgstr "Bölünmüş pəncərədə açın"
 
 #: dolphinmainwindow.cpp:2029
 #, kde-format
@@ -3293,8 +3293,7 @@ msgstr "Kontekst menyuda \"Yeni pəncərədə açmaq\" göstərmək."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
 msgstr "Kontekst menyuda \"Yeni pəncərədə açmaq\" göstərmək."
 
@@ -3714,17 +3713,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Birdən çox vərəq açılan pəncərələrin bağlanmasının təsdiqi soruşulsun."
+msgstr "Eyni anda çoxsaylı qovluq açılmasının təsdiqini soruşmaq."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Birdən çox vərəq açılan pəncərələrin bağlanmasının təsdiqi soruşulsun."
+msgstr "Eyni anda çoxsaylı terminal açılmasının təsdiqini soruşmaq."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3754,14 +3751,13 @@ msgstr "Tənzimləmək"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "İnterfeys"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "Gör&ünüş"
+msgstr "Görünüş"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -3843,18 +3839,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Terminalda əmr icra olunduğu zaman pəncərənin bağlanması"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Faylları və qovluqları aç:"
+msgstr "Çoxsaylı qovluqların eyni vaxtda açılması"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Çoxsaylı terminalların eyni vaxtda açılması"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3878,9 +3872,7 @@ msgid "Run script"
 msgstr "Əmrlər faylını başlatmaq"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Qovluqlar, vərəqlər, və pəncərələrin sonuncu dəfəki vəziyyəti"
@@ -3914,14 +3906,13 @@ msgstr "Başladıqda göstərmək:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Vərəqdə yeni qovluqlar açılarkən Dolphin pəncərəsini olduğu kimi saxlamaq"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Faylları və qovluqları aç:"
+msgstr "Qovluqlar açılır:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3930,17 +3921,13 @@ msgid "Show full path in title bar"
 msgstr "Başlıq sətirində yolu tam göstərmək"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Yeni &pəncərə"
+msgstr "Pəncərə:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Filtr panelini göstərmək"
@@ -4006,12 +3993,10 @@ msgid ""
 msgstr "Ev qovluğu üçün ünvan səhvdir və istifadə oluna bilməz"
 
 #: settings/interface/interfacesettingspage.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Öncə qovluqlar"
+msgstr "Qovluqlar və vərəqlər"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4028,13 +4013,10 @@ msgid "Confirmations"
 msgstr "Təsdiq etmə"
 
 #: settings/interface/interfacesettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Ünvan sətri"
+msgstr "Vəziyyət və ünvan zolaqları"
 
 #: settings/interface/previewssettingspage.cpp:43
 #, kde-format
@@ -4089,12 +4071,10 @@ msgid "Show space information"
 msgstr "Boş disk sahəsi məlimatını göstərmək"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Vəziyyət paneli"
+msgstr "Vəziyyət zolağı:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4103,12 +4083,9 @@ msgid "Make location bar editable"
 msgstr "Ünvan sətrini dəyişdirilə bilən etmək"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Ünvan sətri"
+msgstr "Ünvan sətri:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4275,12 +4252,10 @@ msgstr ""
 "daxilində \".directory\" gizli faylını yaradacaq."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Baxış rejimi"
+msgstr "Görüntü tərzi: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4298,7 +4273,7 @@ msgstr "Daşınan zaman qovluğu açmaq"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Naviqasiya: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4326,9 +4301,7 @@ msgid "Rename inline"
 msgstr "Yerindəcə adını dəyişmək"
 
 #: settings/viewmodes/viewsettingspage.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Əsas"
