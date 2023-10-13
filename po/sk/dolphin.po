@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:43+0000\n"
+"POT-Creation-Date: 2023-10-13 00:44+0000\n"
 "PO-Revision-Date: 2022-07-19 10:04+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -456,7 +456,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Triediť"
 
-#: dolphinmainwindow.cpp:1675 search/dolphinsearchbox.cpp:340
+#: dolphinmainwindow.cpp:1675 search/dolphinsearchbox.cpp:338
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -738,7 +738,7 @@ msgstr ""
 "umiestnenie vybraných položiek.</para><para>Aby ste sa dozvedeli viac o "
 "termináloch, použite nápovedu v terminálovej aplikácií.</para>"
 
-#: dolphinmainwindow.cpp:1909 dolphinmainwindow.cpp:2666
+#: dolphinmainwindow.cpp:1909 dolphinmainwindow.cpp:2667
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1067,43 +1067,43 @@ msgstr ""
 "priečinok, ktorý obsahuje všetky údaje pripojené k tomuto počítaču - "
 "<emphasis>koreňový priečinok</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2441
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2441
+#: dolphinmainwindow.cpp:2442
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Zatvoriť ľavé zobrazenie"
 
-#: dolphinmainwindow.cpp:2444
+#: dolphinmainwindow.cpp:2445
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2445
+#: dolphinmainwindow.cpp:2446
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zatvoriť pravé zobrazenie"
 
-#: dolphinmainwindow.cpp:2449
+#: dolphinmainwindow.cpp:2450
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Rozdeliť"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2451
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Rozdelené zobrazenie"
 
-#: dolphinmainwindow.cpp:2498
+#: dolphinmainwindow.cpp:2499
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1129,7 +1129,7 @@ msgstr ""
 "tlačidlo <interface>Ovládanie</interface> na <emphasis>Paneli nástrojov</"
 "emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2506
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1164,7 +1164,7 @@ msgstr ""
 "tlačidlom. Stlačte pravé tlačidlo myši ak chcete zobraziť alebo skryť ich "
 "text.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2518
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1192,7 +1192,7 @@ msgstr ""
 "dolphin-view.html'>kliknite sem </link>. Toto otvorí stránku z "
 "<emphasis>Príručky</emphasis>, ktorá pokrýva základy.</para>"
 
-#: dolphinmainwindow.cpp:2533
+#: dolphinmainwindow.cpp:2534
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1205,7 +1205,7 @@ msgstr ""
 "<nl/>Tam môžete nastaviť klávesové kombinácie na spustenie akcií, keď sa "
 "stlačia naraz. Všetky príkazy aplikácie môžu byť takto spustené.</para>"
 
-#: dolphinmainwindow.cpp:2539
+#: dolphinmainwindow.cpp:2540
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1224,7 +1224,7 @@ msgstr ""
 "ponuke<interface>Ovládanie</interface>  alebo v <interface>Ponuke</"
 "interface> Tiež môžu byť umiestnené na Paneli nástrojov.</para>"
 
-#: dolphinmainwindow.cpp:2543
+#: dolphinmainwindow.cpp:2544
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1242,7 +1242,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2564
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of handbook text with link"
 #| msgid ""
@@ -1263,7 +1263,7 @@ msgstr ""
 "File_Management'>kliknite sem</link>. Toto otvorí vyhradenú stránku v KDE "
 "UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:2568
+#: dolphinmainwindow.cpp:2569
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of whatsthis button text with link"
 #| msgid ""
@@ -1289,7 +1289,7 @@ msgstr ""
 "para><para>Nápoveda \"Čo je toto?\" chýba vo väčšine ostatných okien tak si "
 "na ňu moc nezvykajte.</para>"
 
-#: dolphinmainwindow.cpp:2579
+#: dolphinmainwindow.cpp:2580
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1308,7 +1308,7 @@ msgstr ""
 "urobiť vaše hlásenia o chybách čo najlepšie <link url='https://community.kde."
 "org/Get_Involved/Bug_Reporting'>kliknite sem</link>.</para>"
 
-#: dolphinmainwindow.cpp:2588
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1330,7 +1330,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> je nezisková organizácia stojaca za "
 "KDE komunitou.</para>"
 
-#: dolphinmainwindow.cpp:2601
+#: dolphinmainwindow.cpp:2602
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1342,7 +1342,7 @@ msgstr ""
 "nastaviť jazyk, ktorý sa použije v prípade ak nie je dostupný váš "
 "preferovaný jazyk."
 
-#: dolphinmainwindow.cpp:2606
+#: dolphinmainwindow.cpp:2607
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1352,7 +1352,7 @@ msgstr ""
 "Toto otvorí okno, ktoré vás informuje o verzií, licencií a použitých "
 "knižniciach a správcoch tejto aplikácie."
 
-#: dolphinmainwindow.cpp:2611
+#: dolphinmainwindow.cpp:2612
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1365,7 +1365,7 @@ msgstr ""
 "ľudia za týmto softvérom.<nl/>Ak radi používate túto aplikáciu ale neviete "
 "veľa o KDE alebo chcete vidieť chutného draka, pozrite sa!"
 
-#: dolphinmainwindow.cpp:2669 dolphinmainwindow.cpp:2673
+#: dolphinmainwindow.cpp:2670 dolphinmainwindow.cpp:2674
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -1542,7 +1542,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Žiadne nedávno zatvorené karty"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:296
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Hľadať %1 v %2"
@@ -2867,54 +2867,54 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "Obmedziť hľadanie na '%1' a podpriečinky"
 
-#: search/dolphinsearchbox.cpp:351
+#: search/dolphinsearchbox.cpp:349
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Uložiť toto hľadanie pre rýchly prístup v budúcnosti"
 
-#: search/dolphinsearchbox.cpp:360
+#: search/dolphinsearchbox.cpp:358
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Ukončiť hľadanie"
 
-#: search/dolphinsearchbox.cpp:371
+#: search/dolphinsearchbox.cpp:369
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Názov súboru"
 
-#: search/dolphinsearchbox.cpp:375
+#: search/dolphinsearchbox.cpp:373
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Obsah"
 
-#: search/dolphinsearchbox.cpp:386
+#: search/dolphinsearchbox.cpp:384
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Odtiaľto"
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:388
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "Vaše súbory"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:389
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Hľadať v domovskom adresári"
 
-#: search/dolphinsearchbox.cpp:405
+#: search/dolphinsearchbox.cpp:403
 #, kde-format
 msgid "More Search Tools"
 msgstr "Viac vyhľadávacích nástrojov"
 
-#: search/dolphinsearchbox.cpp:465
+#: search/dolphinsearchbox.cpp:463
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -4873,7 +4873,7 @@ msgstr "Predvolené"
 msgid "Reload"
 msgstr "Obnoviť"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4882,7 +4882,7 @@ msgstr[0] "Vybraný 1 priečinok"
 msgstr[1] "Vybrané %1 priečinky"
 msgstr[2] "Vybraných %1 priečinkov"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4891,7 +4891,7 @@ msgstr[0] "Vybraný 1 súbor"
 msgstr[1] "Vybrané %1 súbory"
 msgstr[2] "Vybraných %1 súborov"
 
-#: views/dolphinview.cpp:650
+#: views/dolphinview.cpp:649
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4900,7 +4900,7 @@ msgstr[0] "1 priečinok"
 msgstr[1] "%1 priečinky"
 msgstr[2] "%1 priečinkov"
 
-#: views/dolphinview.cpp:651
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4909,31 +4909,31 @@ msgstr[0] "1 súbor"
 msgstr[1] "%1 súbory"
 msgstr[2] "%1 súborov"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:657
+#: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 priečinkov, 0 súborov"
 
-#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
+#: views/dolphinview.cpp:872 views/dolphinview.cpp:881
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 - kópia"
 
-#: views/dolphinview.cpp:1067
+#: views/dolphinview.cpp:1066
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4941,7 +4941,7 @@ msgstr[0] "Naozaj chcete otvoriť 1 položku?"
 msgstr[1] "Naozaj chcete otvoriť %1 položky?"
 msgstr[2] "Naozaj chcete otvoriť %1 položiek?"
 
-#: views/dolphinview.cpp:1072
+#: views/dolphinview.cpp:1071
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4950,43 +4950,43 @@ msgstr[0] "Otvoriť %1"
 msgstr[1] "Otvoriť %1 položiek"
 msgstr[2] "Otvoriť %1"
 
-#: views/dolphinview.cpp:1203
+#: views/dolphinview.cpp:1202
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Bočná výplň"
 
-#: views/dolphinview.cpp:1207
+#: views/dolphinview.cpp:1206
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatické šírky stĺpcov"
 
-#: views/dolphinview.cpp:1212
+#: views/dolphinview.cpp:1211
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Vlastné šírky stĺpcov"
 
-#: views/dolphinview.cpp:1827
+#: views/dolphinview.cpp:1826
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Odstránenie dokončené."
 
-#: views/dolphinview.cpp:1837
+#: views/dolphinview.cpp:1836
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Odstránenie dokončené."
 
-#: views/dolphinview.cpp:1993
+#: views/dolphinview.cpp:1992
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Premenovať a skryť"
 
-#: views/dolphinview.cpp:1997
+#: views/dolphinview.cpp:1996
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4995,7 +4995,7 @@ msgstr ""
 "Pridanie bodky na začiatok názvu súboru ho skryje pred zobrazením.\n"
 "Chcete ho napriek tomu premenovať?"
 
-#: views/dolphinview.cpp:1999
+#: views/dolphinview.cpp:1998
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5004,101 +5004,101 @@ msgstr ""
 "Pridanie bodky na začiatok názvu priečinku ho skryje pred zobrazením.\n"
 "Chcete ho napriek tomu premenovať?"
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2000
 #, kde-format
 msgid "Hide this File?"
 msgstr "Skryť tento súbor?"
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2000
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Skryť tento priečinok?"
 
-#: views/dolphinview.cpp:2051
+#: views/dolphinview.cpp:2050
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Umiestnenie je prázdne"
 
-#: views/dolphinview.cpp:2053
+#: views/dolphinview.cpp:2052
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Umiestnenie '%1' nie je platné."
 
-#: views/dolphinview.cpp:2309
+#: views/dolphinview.cpp:2313
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "Načítava sa..."
 
-#: views/dolphinview.cpp:2328
+#: views/dolphinview.cpp:2332
 #, kde-format
 msgid "Loading canceled"
 msgstr "Načítanie bolo zrušené"
 
-#: views/dolphinview.cpp:2330
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Filtru nezodpovedajú žiadne položky"
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2336
 #, kde-format
 msgid "No items matching the search"
 msgstr "Vyhľadávaniu nezodpovedajú žiadne položky"
 
-#: views/dolphinview.cpp:2334
+#: views/dolphinview.cpp:2338
 #, kde-format
 msgid "Trash is empty"
 msgstr "Kôš je prázdny"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgid "No tags"
 msgstr "Žiadne značky"
 
-#: views/dolphinview.cpp:2340
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Žiadne súbory označené \"%1\""
 
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2348
 #, kde-format
 msgid "No recently used items"
 msgstr "Žiadne naposledy použité položky"
 
-#: views/dolphinview.cpp:2346
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No shared folders found"
 msgstr "Žiadne zdieľané priečinky neboli nájdené"
 
-#: views/dolphinview.cpp:2348
+#: views/dolphinview.cpp:2352
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nenašli sa žiadne relevantné sieťové zdroje"
 
-#: views/dolphinview.cpp:2350
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nenašli sa žiadne zariadenia kompatibilné s MTP"
 
-#: views/dolphinview.cpp:2352
+#: views/dolphinview.cpp:2356
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "Nenašli sa žiadne zariadenia Bluetooth"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2358
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nenašli sa žiadne zariadenia Bluetooth"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2360
 #, kde-format
 msgid "Folder is empty"
 msgstr "Priečinok je prázdny"
 
-#: views/dolphinviewactionhandler.cpp:80
+#: views/dolphinviewactionhandler.cpp:81
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -5106,7 +5106,7 @@ msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Vytvoriť priečinok..."
 
-#: views/dolphinviewactionhandler.cpp:90
+#: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5116,7 +5116,7 @@ msgstr ""
 "Toto premenuje položky v aktuálnom výbere.<nl/>Premenovanie viacerých "
 "položiek naraz vyústi v názvoch odlišných iba číslom na konci. "
 
-#: views/dolphinviewactionhandler.cpp:102
+#: views/dolphinviewactionhandler.cpp:103
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5128,7 +5128,7 @@ msgstr ""
 ">Kôš je dočasné úložisko, kde sa položky môžu vymazať ak je potrebné miesto "
 "na disku."
 
-#: views/dolphinviewactionhandler.cpp:115
+#: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5138,25 +5138,25 @@ msgstr ""
 "Toto úplne odstráni položky v aktuálnom výbere. Potom ich nebude možné "
 "obnoviť bežnými spôsobmi."
 
-#: views/dolphinviewactionhandler.cpp:125
+#: views/dolphinviewactionhandler.cpp:126
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Odstrániť (použitím odkazu na kôš)"
 
-#: views/dolphinviewactionhandler.cpp:131
+#: views/dolphinviewactionhandler.cpp:132
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Duplikovať sem"
 
-#: views/dolphinviewactionhandler.cpp:139
+#: views/dolphinviewactionhandler.cpp:140
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: views/dolphinviewactionhandler.cpp:141
+#: views/dolphinviewactionhandler.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -5170,19 +5170,19 @@ msgstr ""
 "priečinku.<nl/>Tam môžete nastaviť pokročilé možnosti ako oprávnenia na "
 "čítanie a zápis."
 
-#: views/dolphinviewactionhandler.cpp:151
+#: views/dolphinviewactionhandler.cpp:152
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Kopírovať umiestnenie"
 
-#: views/dolphinviewactionhandler.cpp:152
+#: views/dolphinviewactionhandler.cpp:153
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Týmto sa skopíruje cesta prvej vybranej položky do schránky."
 
-#: views/dolphinviewactionhandler.cpp:160
+#: views/dolphinviewactionhandler.cpp:161
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Move to Trash"
@@ -5190,7 +5190,7 @@ msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Presunúť do koša"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:162
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Delete"
@@ -5198,7 +5198,7 @@ msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Odstrániť"
 
-#: views/dolphinviewactionhandler.cpp:162
+#: views/dolphinviewactionhandler.cpp:163
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Duplicate Here"
@@ -5206,7 +5206,7 @@ msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Duplikovať sem"
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@action:incontextmenu"
 #| msgid "Copy Location"
@@ -5214,7 +5214,7 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Kopírovať umiestnenie"
 
-#: views/dolphinviewactionhandler.cpp:192
+#: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -5230,7 +5230,7 @@ msgstr ""
 "je užitočný na prehliadanie obrázkov keď je zapnutá možnosť "
 "<interface>Náhľad</interface>.</para>"
 
-#: views/dolphinviewactionhandler.cpp:199
+#: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -5242,7 +5242,7 @@ msgstr ""
 "priečinky a súbory v stĺpcoch s názvami vedľa ikon. <para></para>Toto vám "
 "pomôže udržať si prehľad v priečinkoch s mnohými položkami.</para>"
 
-#: views/dolphinviewactionhandler.cpp:203
+#: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -5263,60 +5263,60 @@ msgstr ""
 "naľavo od priečinka. Týmto spôsobom si môžete prezrieť obsah viacerých "
 "priečinkov v tom istom zozname.</para>"
 
-#: views/dolphinviewactionhandler.cpp:213
+#: views/dolphinviewactionhandler.cpp:214
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Mode"
 msgstr "Režim zobrazenia"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:222
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Toto zväčší veľkosť ikon."
 
-#: views/dolphinviewactionhandler.cpp:224
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Obnoviť úroveň zväčšenia"
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:226
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Priblížiť na predvolenú úroveň"
 
-#: views/dolphinviewactionhandler.cpp:226
+#: views/dolphinviewactionhandler.cpp:227
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Toto obnoví veľkosť ikon na predvolenú hodnotu."
 
-#: views/dolphinviewactionhandler.cpp:232
+#: views/dolphinviewactionhandler.cpp:233
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Toto zmenší veľkosť ikon."
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:236
 #, kde-format
 msgctxt "@action:inmenu menu of zoom actions"
 msgid "Zoom"
 msgstr "Priblíženie"
 
-#: views/dolphinviewactionhandler.cpp:243
+#: views/dolphinviewactionhandler.cpp:244
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Zobraziť náhľady"
 
-#: views/dolphinviewactionhandler.cpp:244
+#: views/dolphinviewactionhandler.cpp:245
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Zobraziť náhľady súborov a priečinkov"
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5328,49 +5328,49 @@ msgstr ""
 "priečinkov.<nl/>Napríklad, ikony obrázkov sa zmenia na zmenšené verzie "
 "týchto obrázkov."
 
-#: views/dolphinviewactionhandler.cpp:254
+#: views/dolphinviewactionhandler.cpp:255
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Najskôr priečinky"
 
-#: views/dolphinviewactionhandler.cpp:258
+#: views/dolphinviewactionhandler.cpp:259
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Skryté súbory na koniec"
 
-#: views/dolphinviewactionhandler.cpp:266
+#: views/dolphinviewactionhandler.cpp:267
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Zoradiť podľa"
 
-#: views/dolphinviewactionhandler.cpp:301
+#: views/dolphinviewactionhandler.cpp:302
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Zobraziť ďalšie informácie"
 
-#: views/dolphinviewactionhandler.cpp:312
+#: views/dolphinviewactionhandler.cpp:313
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Zobraziť po skupinách"
 
-#: views/dolphinviewactionhandler.cpp:313
+#: views/dolphinviewactionhandler.cpp:314
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Toto zoskupí súbory a priečinky podľa ich prvého písmena."
 
-#: views/dolphinviewactionhandler.cpp:318
+#: views/dolphinviewactionhandler.cpp:319
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Zobraziť skryté súbory"
 
-#: views/dolphinviewactionhandler.cpp:320
+#: views/dolphinviewactionhandler.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5386,7 +5386,7 @@ msgstr ""
 "všeobecnosti používateľ nepotrebuje k týmto položkám pristupovať a preto sú "
 "aj skryté.</para>"
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:331
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Display Style..."
@@ -5394,7 +5394,7 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Upraviť vlastnosti zobrazenia..."
 
-#: views/dolphinviewactionhandler.cpp:333
+#: views/dolphinviewactionhandler.cpp:334
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5403,103 +5403,103 @@ msgstr ""
 "Toto otvorí okno, v ktorom sa dajú prispôsobiť všetky vlastnosti zobrazenia "
 "priečinkov."
 
-#: views/dolphinviewactionhandler.cpp:629
+#: views/dolphinviewactionhandler.cpp:630
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Ikony"
 
-#: views/dolphinviewactionhandler.cpp:630
+#: views/dolphinviewactionhandler.cpp:631
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Režim zobrazenia ikon"
 
-#: views/dolphinviewactionhandler.cpp:640
+#: views/dolphinviewactionhandler.cpp:641
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Kompaktný"
 
-#: views/dolphinviewactionhandler.cpp:641
+#: views/dolphinviewactionhandler.cpp:642
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Režim kompaktného pohľadu"
 
-#: views/dolphinviewactionhandler.cpp:651
+#: views/dolphinviewactionhandler.cpp:652
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: views/dolphinviewactionhandler.cpp:652
+#: views/dolphinviewactionhandler.cpp:653
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Režim zobrazenia podrobností"
 
-#: views/dolphinviewactionhandler.cpp:675
+#: views/dolphinviewactionhandler.cpp:676
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:676
+#: views/dolphinviewactionhandler.cpp:677
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:678
+#: views/dolphinviewactionhandler.cpp:679
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Najskôr najväčšie"
 
-#: views/dolphinviewactionhandler.cpp:679
+#: views/dolphinviewactionhandler.cpp:680
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Najskôr najmenšie"
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:682
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Najskôr najnovšie"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:683
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Najskôr najstaršie"
 
-#: views/dolphinviewactionhandler.cpp:684
+#: views/dolphinviewactionhandler.cpp:685
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Najskôr najvyššie"
 
-#: views/dolphinviewactionhandler.cpp:685
+#: views/dolphinviewactionhandler.cpp:686
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Najskôr najnižšie"
 
-#: views/dolphinviewactionhandler.cpp:687
+#: views/dolphinviewactionhandler.cpp:688
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Zostupne"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:689
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Vzostupne"
 
-#: views/dolphinviewactionhandler.cpp:786
+#: views/dolphinviewactionhandler.cpp:787
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -5512,12 +5512,12 @@ msgstr "Akcie pre aktuálne zobrazenie"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:795
+#: views/dolphinviewactionhandler.cpp:796
 #, kde-format
 msgid "Actions for %1"
 msgstr "Akcie pre %1"
 
-#: views/dolphinviewactionhandler.cpp:802
+#: views/dolphinviewactionhandler.cpp:803
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-06 00:43+0000\n"
+"POT-Creation-Date: 2023-10-13 00:44+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -445,7 +445,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Parzûn:"
 
-#: dolphinmainwindow.cpp:1675 search/dolphinsearchbox.cpp:340
+#: dolphinmainwindow.cpp:1675 search/dolphinsearchbox.cpp:338
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
@@ -709,7 +709,7 @@ msgid ""
 "the terminal application.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1909 dolphinmainwindow.cpp:2666
+#: dolphinmainwindow.cpp:1909 dolphinmainwindow.cpp:2667
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -997,37 +997,37 @@ msgid ""
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2441
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Dadan"
 
-#: dolphinmainwindow.cpp:2441
+#: dolphinmainwindow.cpp:2442
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2444
+#: dolphinmainwindow.cpp:2445
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Dadan"
 
-#: dolphinmainwindow.cpp:2445
+#: dolphinmainwindow.cpp:2446
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2449
+#: dolphinmainwindow.cpp:2450
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Veqetîne"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2451
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -1035,7 +1035,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Moda xuyakirinê parve bike"
 
-#: dolphinmainwindow.cpp:2498
+#: dolphinmainwindow.cpp:2499
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1047,7 +1047,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2505
+#: dolphinmainwindow.cpp:2506
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1061,7 +1061,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2518
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1078,7 +1078,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2533
+#: dolphinmainwindow.cpp:2534
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1088,7 +1088,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2539
+#: dolphinmainwindow.cpp:2540
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1097,7 +1097,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2543
+#: dolphinmainwindow.cpp:2544
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1112,7 +1112,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2564
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1123,7 +1123,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2568
+#: dolphinmainwindow.cpp:2569
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1137,7 +1137,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2579
+#: dolphinmainwindow.cpp:2580
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1148,7 +1148,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2588
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1162,7 +1162,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2601
+#: dolphinmainwindow.cpp:2602
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1171,7 +1171,7 @@ msgid ""
 "in your preferred language."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2606
+#: dolphinmainwindow.cpp:2607
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1179,7 +1179,7 @@ msgid ""
 "libraries and maintainers of this application."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2611
+#: dolphinmainwindow.cpp:2612
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1189,7 +1189,7 @@ msgid ""
 "a look!"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2669 dolphinmainwindow.cpp:2673
+#: dolphinmainwindow.cpp:2670 dolphinmainwindow.cpp:2674
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -1379,7 +1379,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Etîketê Dabide"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:298
+#: dolphinviewcontainer.cpp:514 search/dolphinsearchbox.cpp:296
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Main Toolbar"
@@ -2850,13 +2850,13 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:351
+#: search/dolphinsearchbox.cpp:349
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:360
+#: search/dolphinsearchbox.cpp:358
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Grid spacing"
@@ -2864,7 +2864,7 @@ msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Navbera ixzereyan"
 
-#: search/dolphinsearchbox.cpp:371
+#: search/dolphinsearchbox.cpp:369
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -2872,7 +2872,7 @@ msgctxt "action:button"
 msgid "Filename"
 msgstr "Gerînendeyê Pelan"
 
-#: search/dolphinsearchbox.cpp:375
+#: search/dolphinsearchbox.cpp:373
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2880,13 +2880,13 @@ msgctxt "action:button"
 msgid "Content"
 msgstr "Şirove Lê Zêde Bike..."
 
-#: search/dolphinsearchbox.cpp:386
+#: search/dolphinsearchbox.cpp:384
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:388
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2894,18 +2894,18 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "amedcj@gmail.com"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:389
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:405
+#: search/dolphinsearchbox.cpp:403
 #, kde-format
 msgid "More Search Tools"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:465
+#: search/dolphinsearchbox.cpp:463
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -5043,7 +5043,7 @@ msgstr "Standart:"
 msgid "Reload"
 msgstr "Nûbarkirin"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -5051,7 +5051,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "Peldankek Hatiye Hilbijartin"
 msgstr[1] "%1 Peldank Hatine Hilbijartin"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:647
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -5059,7 +5059,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "Pelek hate hilbijartin"
 msgstr[1] "%1 Pelên te hatin hilbijartin"
 
-#: views/dolphinview.cpp:650
+#: views/dolphinview.cpp:649
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -5067,7 +5067,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "Peldank"
 msgstr[1] "Peldank"
 
-#: views/dolphinview.cpp:651
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -5075,19 +5075,19 @@ msgid_plural "%1 Files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:657
+#: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:660
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -5095,20 +5095,20 @@ msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "Peldank"
 
-#: views/dolphinview.cpp:873 views/dolphinview.cpp:882
+#: views/dolphinview.cpp:872 views/dolphinview.cpp:881
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1067
+#: views/dolphinview.cpp:1066
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1072
+#: views/dolphinview.cpp:1071
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -5118,25 +5118,25 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Veke Bi"
 msgstr[1] "Veke Bi"
 
-#: views/dolphinview.cpp:1203
+#: views/dolphinview.cpp:1202
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1207
+#: views/dolphinview.cpp:1206
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Firehiya Sitûnê"
 
-#: views/dolphinview.cpp:1212
+#: views/dolphinview.cpp:1211
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Firehiya Sitûnê"
 
-#: views/dolphinview.cpp:1827
+#: views/dolphinview.cpp:1826
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -5144,13 +5144,13 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Karê dakirina çopê qediya."
 
-#: views/dolphinview.cpp:1837
+#: views/dolphinview.cpp:1836
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Karê jêbirinê qediya."
 
-#: views/dolphinview.cpp:1993
+#: views/dolphinview.cpp:1992
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rename inline"
@@ -5158,127 +5158,127 @@ msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Bi rêzê de nav biguherîne"
 
-#: views/dolphinview.cpp:1997
+#: views/dolphinview.cpp:1996
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1999
+#: views/dolphinview.cpp:1998
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2000
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Pelên Veşartî Nîşan Bide"
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2000
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Peldanka Malê"
 
-#: views/dolphinview.cpp:2051
+#: views/dolphinview.cpp:2050
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Cî vala ye."
 
-#: views/dolphinview.cpp:2053
+#: views/dolphinview.cpp:2052
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Ciyê '%1' vala ye."
 
-#: views/dolphinview.cpp:2309
+#: views/dolphinview.cpp:2313
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Peldank tê barkirin..."
 
-#: views/dolphinview.cpp:2328
+#: views/dolphinview.cpp:2332
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Peldank tê barkirin..."
 
-#: views/dolphinview.cpp:2330
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2336
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2334
+#: views/dolphinview.cpp:2338
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Cî vala ye."
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2341
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2340
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2348
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "No recently used items"
 msgstr "Etîketê Dabide"
 
-#: views/dolphinview.cpp:2346
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2348
+#: views/dolphinview.cpp:2352
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2350
+#: views/dolphinview.cpp:2354
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2352
+#: views/dolphinview.cpp:2356
 #, kde-format
 msgid "No Apple devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2358
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2360
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
 msgid "Folder is empty"
 msgstr "Peldank"
 
-#: views/dolphinviewactionhandler.cpp:80
+#: views/dolphinviewactionhandler.cpp:81
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."
@@ -5286,7 +5286,7 @@ msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Peldankê biafirîne..."
 
-#: views/dolphinviewactionhandler.cpp:90
+#: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5294,7 +5294,7 @@ msgid ""
 "items at once amounts to their new names differing only in a number."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:102
+#: views/dolphinviewactionhandler.cpp:103
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5303,7 +5303,7 @@ msgid ""
 "from if disk space is needed."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:115
+#: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5311,7 +5311,7 @@ msgid ""
 "recovered by normal means."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:125
+#: views/dolphinviewactionhandler.cpp:126
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Delete (using shortcut for Trash)"
@@ -5319,13 +5319,13 @@ msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Jê Bibe (bi kar anîna kurterê ji bo Sergo)"
 
-#: views/dolphinviewactionhandler.cpp:131
+#: views/dolphinviewactionhandler.cpp:132
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:139
+#: views/dolphinviewactionhandler.cpp:140
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Properties"
@@ -5333,7 +5333,7 @@ msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Taybetmendî"
 
-#: views/dolphinviewactionhandler.cpp:141
+#: views/dolphinviewactionhandler.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -5343,7 +5343,7 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:151
+#: views/dolphinviewactionhandler.cpp:152
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -5351,13 +5351,13 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Cih:"
 
-#: views/dolphinviewactionhandler.cpp:152
+#: views/dolphinviewactionhandler.cpp:153
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:160
+#: views/dolphinviewactionhandler.cpp:161
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Move to Trash"
@@ -5365,7 +5365,7 @@ msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Bavêje Çopê"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:162
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -5373,13 +5373,13 @@ msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Jê bibe"
 
-#: views/dolphinviewactionhandler.cpp:162
+#: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:163
+#: views/dolphinviewactionhandler.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -5387,7 +5387,7 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Cih:"
 
-#: views/dolphinviewactionhandler.cpp:192
+#: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -5398,7 +5398,7 @@ msgid ""
 "interface> option is enabled.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:199
+#: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -5407,7 +5407,7 @@ msgid ""
 "the overview in folders with many items.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:203
+#: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -5420,7 +5420,7 @@ msgid ""
 "of multiple folders in the same list.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:213
+#: views/dolphinviewactionhandler.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "View Mode"
@@ -5428,44 +5428,44 @@ msgctxt "@action:intoolbar"
 msgid "View Mode"
 msgstr "Moda Xuyakirinê"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:222
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:224
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:226
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
 msgid "Zoom To Default"
 msgstr "Standart:"
 
-#: views/dolphinviewactionhandler.cpp:226
+#: views/dolphinviewactionhandler.cpp:227
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:232
+#: views/dolphinviewactionhandler.cpp:233
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:235
+#: views/dolphinviewactionhandler.cpp:236
 #, kde-format
 msgctxt "@action:inmenu menu of zoom actions"
 msgid "Zoom"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:243
+#: views/dolphinviewactionhandler.cpp:244
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show preview"
@@ -5473,7 +5473,7 @@ msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Pêşdîtinê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:244
+#: views/dolphinviewactionhandler.cpp:245
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show preview"
@@ -5481,7 +5481,7 @@ msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Pêşdîtinê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:247
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5490,7 +5490,7 @@ msgid ""
 "the images."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:254
+#: views/dolphinviewactionhandler.cpp:255
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -5498,7 +5498,7 @@ msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Peldank"
 
-#: views/dolphinviewactionhandler.cpp:258
+#: views/dolphinviewactionhandler.cpp:259
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show hidden files"
@@ -5506,7 +5506,7 @@ msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Pelên veşartî nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:266
+#: views/dolphinviewactionhandler.cpp:267
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Sort By"
@@ -5514,7 +5514,7 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Li gorî vê rêz bike"
 
-#: views/dolphinviewactionhandler.cpp:301
+#: views/dolphinviewactionhandler.cpp:302
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Additional Information"
@@ -5522,7 +5522,7 @@ msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Agahiyên Pêvek"
 
-#: views/dolphinviewactionhandler.cpp:312
+#: views/dolphinviewactionhandler.cpp:313
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show in Groups"
@@ -5530,13 +5530,13 @@ msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Di koman de nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:313
+#: views/dolphinviewactionhandler.cpp:314
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:318
+#: views/dolphinviewactionhandler.cpp:319
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
@@ -5544,7 +5544,7 @@ msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Pelên Veşartî Nîşan Bide"
 
-#: views/dolphinviewactionhandler.cpp:320
+#: views/dolphinviewactionhandler.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5555,7 +5555,7 @@ msgid ""
 "hidden.</para>"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:331
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Adjust View Properties..."
@@ -5563,14 +5563,14 @@ msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Taybetmendiyên Xuyakirinê Mîheng Bike..."
 
-#: views/dolphinviewactionhandler.cpp:333
+#: views/dolphinviewactionhandler.cpp:334
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:629
+#: views/dolphinviewactionhandler.cpp:630
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Icons"
@@ -5578,7 +5578,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Sembol"
 
-#: views/dolphinviewactionhandler.cpp:630
+#: views/dolphinviewactionhandler.cpp:631
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -5586,13 +5586,13 @@ msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Moda xuyakirinê parve bike"
 
-#: views/dolphinviewactionhandler.cpp:640
+#: views/dolphinviewactionhandler.cpp:641
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:641
+#: views/dolphinviewactionhandler.cpp:642
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -5600,7 +5600,7 @@ msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Moda xuyakirinê parve bike"
 
-#: views/dolphinviewactionhandler.cpp:651
+#: views/dolphinviewactionhandler.cpp:652
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Details"
@@ -5608,7 +5608,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Kîtekît"
 
-#: views/dolphinviewactionhandler.cpp:652
+#: views/dolphinviewactionhandler.cpp:653
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -5616,19 +5616,19 @@ msgctxt "@info"
 msgid "Details view mode"
 msgstr "Moda xuyakirinê parve bike"
 
-#: views/dolphinviewactionhandler.cpp:675
+#: views/dolphinviewactionhandler.cpp:676
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:676
+#: views/dolphinviewactionhandler.cpp:677
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:678
+#: views/dolphinviewactionhandler.cpp:679
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -5636,7 +5636,7 @@ msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Darikê fîltreyê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:679
+#: views/dolphinviewactionhandler.cpp:680
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -5644,7 +5644,7 @@ msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Darikê fîltreyê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:682
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -5652,7 +5652,7 @@ msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Darikê fîltreyê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:683
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -5660,7 +5660,7 @@ msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Peldank"
 
-#: views/dolphinviewactionhandler.cpp:684
+#: views/dolphinviewactionhandler.cpp:685
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -5668,7 +5668,7 @@ msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Peldank"
 
-#: views/dolphinviewactionhandler.cpp:685
+#: views/dolphinviewactionhandler.cpp:686
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -5676,7 +5676,7 @@ msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Darikê fîltreyê nîşan bide"
 
-#: views/dolphinviewactionhandler.cpp:687
+#: views/dolphinviewactionhandler.cpp:688
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Descending"
@@ -5684,7 +5684,7 @@ msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Ber bi jêr"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:689
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Ascending"
@@ -5692,7 +5692,7 @@ msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ber bi jor"
 
-#: views/dolphinviewactionhandler.cpp:786
+#: views/dolphinviewactionhandler.cpp:787
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -5705,12 +5705,12 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:795
+#: views/dolphinviewactionhandler.cpp:796
 #, kde-format
 msgid "Actions for %1"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:802
+#: views/dolphinviewactionhandler.cpp:803
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
