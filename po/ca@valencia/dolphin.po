@@ -383,13 +383,13 @@ msgstr "Copia a la vista dividida inactiva"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Mou a altres vistes"
+msgstr "Mou cap a altres vistes"
 
 #: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Mou a altres vistes…"
+msgstr "Mou cap a altres vistes…"
 
 #: dolphinmainwindow.cpp:1646
 #, kde-kuit-format
@@ -405,7 +405,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr "Mou a la vista dividida inactiva"
+msgstr "Mou cap a la vista dividida inactiva"
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -2502,7 +2502,7 @@ msgstr "Canvia el nom…"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
-msgstr "Mou a la paperera"
+msgstr "Mou cap a dins de la paperera"
 
 #: panels/folders/treeviewcontextmenu.cpp:101
 #, kde-format
@@ -2950,7 +2950,8 @@ msgstr "Cancel·la el moviment"
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
-"Seleccioneu els fitxers i carpetes que s'haurien de moure a la Paperera."
+"Seleccioneu els fitxers i carpetes que s'haurien de moure cap a dins de la "
+"paperera."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -3180,7 +3181,7 @@ msgstr "Suprimix"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "Ordres «Copia a» i «Mou a»"
+msgstr "Ordres «Copia a» i «Mou cap a»"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:311
 #, kde-format
@@ -3252,7 +3253,7 @@ msgstr "Format d'estil dels permisos"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Mostra les ordres «Copia a» i «Mou a» en el menú contextual"
+msgstr "Mostra les ordres «Copia a» i «Mou cap a» en el menú contextual"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
@@ -3314,7 +3315,7 @@ msgstr "Mostra «Copia a altres vistes dividides» en el menú contextual."
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Mostra «Mou a altres vistes dividides» en el menú contextual."
+msgstr "Mostra «Mou cap a altres vistes dividides» en el menú contextual."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -5020,7 +5021,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Mou a la paperera…"
+msgstr "Mou cap a dins de la paperera…"
 
 #: views/dolphinviewactionhandler.cpp:161
 #, kde-format
