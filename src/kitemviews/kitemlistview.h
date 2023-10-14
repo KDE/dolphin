@@ -59,6 +59,9 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
     Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset NOTIFY itemOffsetChanged)
 
 public:
+    /** The position in the view to which an item should be scrolled to. */
+    enum ViewItemPosition { Beginning, Middle, End, Nearest };
+
     explicit KItemListView(QGraphicsWidget *parent = nullptr);
     ~KItemListView() override;
 
@@ -251,9 +254,10 @@ public:
 
     /**
      * Scrolls to the item with the index \a index so that the item
-     * will be fully visible.
+     * will be fully visible. The item is positioned within the view
+     * as specified by \a viewItemPosition.
      */
-    void scrollToItem(int index);
+    void scrollToItem(int index, ViewItemPosition viewItemPosition = ViewItemPosition::Nearest);
 
     /**
      * If several properties of KItemListView are changed synchronously, it is

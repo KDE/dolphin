@@ -1761,7 +1761,7 @@ void DolphinView::updateViewState()
 
                 // scroll to current item and reset the state
                 if (m_scrollToCurrentItem) {
-                    m_view->scrollToItem(currentIndex);
+                    m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
                     m_scrollToCurrentItem = false;
                 }
                 m_currentItemUrl = QUrl();

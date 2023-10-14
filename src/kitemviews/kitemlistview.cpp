@@ -537,7 +537,7 @@ bool KItemListView::isElided(int index) const
     return m_sizeHintResolver->isElided(index);
 }
 
-void KItemListView::scrollToItem(int index)
+void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
 {
     QRectF viewGeometry = geometry();
     if (m_headerWidget->isVisible()) {
@@ -546,29 +546,65 @@ void KItemListView::scrollToItem(int index)
     }
     QRectF currentRect = itemRect(index);
 
-    // Fix for Bug 311099 - View the underscore when using Ctrl + PagDown
+    // Fix for Bug 311099 - View the underscore when using Ctrl + PageDown
     currentRect.adjust(-m_styleOption.horizontalMargin, -m_styleOption.verticalMargin, m_styleOption.horizontalMargin, m_styleOption.verticalMargin);
 
-    if (!viewGeometry.contains(currentRect)) {
-        qreal newOffset = scrollOffset();
-        if (scrollOrientation() == Qt::Vertical) {
+    qreal newOffset = scrollOffset();
+    if (scrollOrientation() == Qt::Vertical && (currentRect.top() < viewGeometry.top() || currentRect.bottom() > viewGeometry.bottom())) {
+        switch (viewItemPosition) {
+        case Beginning:
+            newOffset += currentRect.top() - viewGeometry.top();
+            break;
+        case Middle:
+            newOffset += 0.5 * (currentRect.top() + currentRect.bottom() - (viewGeometry.top() + viewGeometry.bottom()));
+            break;
+        case End:
+            newOffset += currentRect.bottom() - viewGeometry.bottom();
+            break;
+        case Nearest:
             if (currentRect.top() < viewGeometry.top()) {
                 newOffset += currentRect.top() - viewGeometry.top();
-            } else if (currentRect.bottom() > viewGeometry.bottom()) {
+            } else {
                 newOffset += currentRect.bottom() - viewGeometry.bottom();
             }
-        } else {
-            if (currentRect.left() < viewGeometry.left()) {
+            break;
+        default:
+            Q_UNREACHABLE();
+        }
+    } else if (scrollOrientation() == Qt::Horizontal && (currentRect.left() < viewGeometry.left() || currentRect.right() > viewGeometry.right())) {
+        switch (viewItemPosition) {
+        case Beginning:
+            if (layoutDirection() == Qt::RightToLeft) {
+                newOffset += currentRect.right() - viewGeometry.right();
+            } else {
                 newOffset += currentRect.left() - viewGeometry.left();
-            } else if (currentRect.right() > viewGeometry.right()) {
+            }
+            break;
+        case Middle:
+            newOffset += 0.5 * (currentRect.left() + currentRect.right() - (viewGeometry.left() + viewGeometry.right()));
+            break;
+        case End:
+            if (layoutDirection() == Qt::RightToLeft) {
+                newOffset += currentRect.left() - viewGeometry.left();
+            } else {
                 newOffset += currentRect.right() - viewGeometry.right();
             }
+            break;
+        case Nearest:
+            if (currentRect.left() < viewGeometry.left()) {
+                newOffset += currentRect.left() - viewGeometry.left();
+            } else {
+                newOffset += currentRect.right() - viewGeometry.right();
+            }
+            break;
+        default:
+            Q_UNREACHABLE();
         }
+    }
 
-        if (newOffset != scrollOffset()) {
-            Q_EMIT scrollTo(newOffset);
-            return;
-        }
+    if (newOffset != scrollOffset()) {
+        Q_EMIT scrollTo(newOffset);
+        return;
     }
 
     Q_EMIT scrollingStopped();

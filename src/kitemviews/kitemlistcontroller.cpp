@@ -539,7 +539,7 @@ void KItemListController::slotChangeCurrentItem(const QString &text, bool search
             m_selectionManager->beginAnchoredSelection(index);
         }
 
-        m_view->scrollToItem(index);
+        m_view->scrollToItem(index, KItemListView::ViewItemPosition::Beginning);
     }
 }
 
