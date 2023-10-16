@@ -1574,7 +1574,7 @@ void DolphinMainWindow::setupActions()
                                 "<emphasis>Tab</emphasis> with the current location and view.<nl/>"
                                 "A tab is an additional view within this window. "
                                 "You can drag and drop items between tabs."));
-    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL | Qt::Key_T, Qt::CTRL | Qt::SHIFT | Qt::Key_N});
+    actionCollection()->setDefaultShortcut(newTab, Qt::CTRL | Qt::Key_T);
     connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
 
     QAction *addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
