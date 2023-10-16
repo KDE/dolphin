@@ -269,7 +269,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
     showSpaceInfoAction->setCheckable(true);
     showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
 
-    const QAction *action = menu.exec(QCursor::pos());
+    const QAction *action = menu.exec(event->reason() == QContextMenuEvent::Reason::Mouse ? QCursor::pos() : mapToGlobal(QPoint(width() / 2, height() / 2)));
     if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
