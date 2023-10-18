@@ -176,15 +176,14 @@ void ContextMenuSettingsPage::applySettings()
 
     QStringList enabledPlugins;
 
-    const QAbstractItemModel *model = m_listView->model();
-    for (int i = 0; i < model->rowCount(); ++i) {
-        const QModelIndex index = model->index(i, 0);
-        const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
-        const bool checked = model->data(index, Qt::CheckStateRole).toBool();
+    for (int i = 0; i < m_serviceModel->rowCount(); ++i) {
+        const QModelIndex index = m_serviceModel->index(i, 0);
+        const QString service = m_serviceModel->data(index, ServiceModel::DesktopEntryNameRole).toString();
+        const bool checked = m_serviceModel->data(index, Qt::CheckStateRole).toBool();
 
         if (service.startsWith(VersionControlServicePrefix)) {
             if (checked) {
-                enabledPlugins.append(model->data(index, Qt::DisplayRole).toString());
+                enabledPlugins.append(m_serviceModel->data(index, Qt::DisplayRole).toString());
             }
         } else if (service == QLatin1String(DeleteService)) {
             KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
@@ -229,14 +228,13 @@ void ContextMenuSettingsPage::applySettings()
 
 void ContextMenuSettingsPage::restoreDefaults()
 {
-    QAbstractItemModel *model = m_listView->model();
-    for (int i = 0; i < model->rowCount(); ++i) {
-        const QModelIndex index = model->index(i, 0);
-        const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
+    for (int i = 0; i < m_serviceModel->rowCount(); ++i) {
+        const QModelIndex index = m_serviceModel->index(i, 0);
+        const QString service = m_serviceModel->data(index, ServiceModel::DesktopEntryNameRole).toString();
 
         const bool checked =
             !service.startsWith(VersionControlServicePrefix) && service != QLatin1String(DeleteService) && service != QLatin1String(CopyToMoveToService);
-        model->setData(index, checked, Qt::CheckStateRole);
+        m_serviceModel->setData(index, checked, Qt::CheckStateRole);
     }
 }
 
