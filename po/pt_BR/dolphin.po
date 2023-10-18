@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:44+0000\n"
-"PO-Revision-Date: 2023-09-18 10:05-0300\n"
+"PO-Revision-Date: 2023-10-17 19:48-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -3764,11 +3764,10 @@ msgid "Interface"
 msgstr "Interface"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "E&xibir"
+msgstr "Exibir"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -3851,18 +3850,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Fechar as janelas com um programa em execução no painel do terminal"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Abrir arquivos e pastas:"
+msgstr "Abrindo muitas pastas de uma vez"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Abrindo muitos terminais de uma vez"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3886,9 +3883,7 @@ msgid "Run script"
 msgstr "Executar script"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Pastas, abas e estado das janelas da última vez"
