@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="38">
+<gui name="dolphin" version="39">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -105,6 +105,7 @@
         <text context="@title:menu">Main Toolbar</text>
         <Action name="go_back" />
         <Action name="go_forward" />
+        <Action name="go_up" />
         <Separator name="separator_1" />
         <Action name="icons" />
         <Action name="compact" />
@@ -113,6 +114,9 @@
         <Action name="split_view" />
         <Action name="split_stash" />
         <Action name="toggle_search" />
+        <Separator name="separator_2" />
+        <Action name="show_preview" />
+        <Action name="sort" />
         <Action name="hamburger_menu" />
     </ToolBar>
     <ActionProperties scheme="Default">
@@ -132,5 +136,7 @@
         <Action priority="0" name="edit_paste"/>
         <Action priority="0" name="toggle_search"/>
         <Action priority="0" name="toggle_filter"/>
+        <Action priority="0" name="sort"/>
+        <Action priority="0" name="show_preview"/>
     </ActionProperties>
 </gui>
