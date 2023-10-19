@@ -368,7 +368,7 @@ inline KItemSet &KItemSet::operator=(const KItemSet &other)
 inline int KItemSet::count() const
 {
     int result = 0;
-    for (const KItemRange &range : qAsConst(m_itemRanges)) {
+    for (const KItemRange &range : std::as_const(m_itemRanges)) {
         result += range.count;
     }
     return result;
