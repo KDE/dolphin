@@ -842,7 +842,11 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         QDesktopServices::openUrl(url);
         redirect(QUrl(), m_urlNavigator->locationUrl(1));
     } else {
-        showMessage(i18nc("@info:status", "Invalid protocol"), Error);
+        if (!url.scheme().isEmpty()) {
+            showMessage(i18nc("@info:status", "Invalid protocol '%1'", url.scheme()), Error);
+        } else {
+            showMessage(i18nc("@info:status", "Invalid protocol"), Error);
+        }
         m_urlNavigator->goBack();
     }
 }
