@@ -280,7 +280,7 @@ void ContextMenuSettingsPage::loadServices()
     QStringList files = KFileUtils::findAllUniqueFiles(locations);
 
     for (const auto &file : std::as_const(files)) {
-        const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
+        const QList<KServiceAction> serviceActions = KService(file).actions();
 
         const KDesktopFile desktopFile(file);
         const QString subMenuName = desktopFile.desktopGroup().readEntry("X-KDE-Submenu");
