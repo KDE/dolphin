@@ -12,7 +12,6 @@
 #include "settings/servicemodel.h"
 
 #include <KDesktopFile>
-#include <KDesktopFileActions>
 #include <KFileUtils>
 #include <KLocalizedString>
 #include <KMessageBox>
