@@ -1299,7 +1299,8 @@ void KItemListController::slotRubberBandChanged()
         if (widgetRect.intersects(rubberBandRect)) {
             // Select the full row intersecting with the rubberband rectangle
             const QRectF selectionRect = widget->selectionRect().translated(widgetRect.topLeft());
-            if (selectionRect.intersects(rubberBandRect)) {
+            const QRectF iconRect = widget->iconRect().translated(widgetRect.topLeft());
+            if (selectionRect.intersects(rubberBandRect) || iconRect.intersects(rubberBandRect)) {
                 selectedItems.insert(index);
             }
         }
