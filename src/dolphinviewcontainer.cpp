@@ -728,7 +728,8 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
     }
 
     KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl(), item.mimetype());
-    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    // Auto*Warning*Handling, errors are put in a KMessageWidget by us in slotOpenUrlFinished.
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, this));
     job->setShowOpenOrExecuteDialog(true);
     connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
     job->start();
