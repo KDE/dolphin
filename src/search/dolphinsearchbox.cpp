@@ -265,9 +265,7 @@ void DolphinSearchBox::slotSearchTextChanged(const QString &text)
     if (text.isEmpty()) {
         // Restore URL when search box is cleared by closing and reopening the box.
         emitCloseRequest();
-        QTimer::singleShot(0, this, [this] {
-            Q_EMIT openRequest();
-        });
+        Q_EMIT openRequest();
     } else {
         m_startSearchTimer->start();
     }

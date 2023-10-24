@@ -1205,6 +1205,16 @@ QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, in
     return m_customizedFontMetrics.elidedText(text, Qt::ElideRight, elidingWidth);
 }
 
+QString KStandardItemListWidget::escapeString(const QString &text) const
+{
+    QString escaped(text);
+
+    const QChar returnSymbol(0x21b5);
+    escaped.replace('\n', returnSymbol);
+
+    return escaped;
+}
+
 void KStandardItemListWidget::updateIconsLayoutTextCache()
 {
     //      +------+
@@ -1227,7 +1237,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     // Initialize properties for the "text" role. It will be used as anchor
     // for initializing the position of the other roles.
     TextInfo *nameTextInfo = m_textInfo.value("text");
-    const QString nameText = KStringHandler::preProcessWrap(values["text"].toString());
+    const QString nameText = KStringHandler::preProcessWrap(escapeString(values["text"].toString()));
     nameTextInfo->staticText.setText(nameText);
 
     // Calculate the number of lines required for the name and the required width
@@ -1348,7 +1358,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     qreal y = qRound((widgetHeight - textLinesHeight) / 2);
     const qreal maxWidth = size().width() - x - option.padding;
     for (const QByteArray &role : std::as_const(m_sortedVisibleRoles)) {
-        const QString text = roleText(role, values);
+        const QString text = escapeString(roleText(role, values));
         TextInfo *textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
 
@@ -1407,6 +1417,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         const bool isTextRole = (role == "text");
         if (isTextRole) {
+            text = escapeString(text);
             availableTextWidth -= firstColumnInc - sidePadding();
         }
 

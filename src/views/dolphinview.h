@@ -344,6 +344,11 @@ public:
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
+    /**
+     * Returns whether the folder represented by the current URL is writable.
+     */
+    bool isFolderWritable() const;
+
 public Q_SLOTS:
 
     void reload();
@@ -880,7 +885,7 @@ private:
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by
      * the current URL is writable. If the state has changed, the signal
-     * writeableStateChanged() will be emitted.
+     * writeStateChanged() will be emitted.
      */
     void updateWritableState();
 

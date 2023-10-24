@@ -267,7 +267,6 @@ void DolphinView::setActive(bool active)
     if (active) {
         m_container->setFocus();
         Q_EMIT activated();
-        Q_EMIT writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -1759,7 +1758,7 @@ void DolphinView::updateViewState()
 
                 // scroll to current item and reset the state
                 if (m_scrollToCurrentItem) {
-                    m_view->scrollToItem(currentIndex);
+                    m_view->scrollToItem(currentIndex, KItemListView::ViewItemPosition::Middle);
                     m_scrollToCurrentItem = false;
                 }
                 m_currentItemUrl = QUrl();
@@ -2241,6 +2240,11 @@ void DolphinView::updateWritableState()
     if (m_isFolderWritable != wasFolderWritable) {
         Q_EMIT writeStateChanged(m_isFolderWritable);
     }
+}
+
+bool DolphinView::isFolderWritable() const
+{
+    return m_isFolderWritable;
 }
 
 QUrl DolphinView::viewPropertiesUrl() const

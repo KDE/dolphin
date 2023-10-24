@@ -209,6 +209,13 @@ private:
     QString elideRightKeepExtension(const QString &text, int elidingWidth) const;
 
     /**
+     * Escapes text for display purposes.
+     *
+     * Replaces '\n' with Unicode line break (U+21B5).
+     */
+    QString escapeString(const QString &text) const;
+
+    /**
      * Closes the role editor and returns the focus back
      * to the KItemListContainer.
      */
