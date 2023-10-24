@@ -2062,8 +2062,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
     infoDock->setWidget(infoPanel);
 
-    QAction *infoAction = infoDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-information")), Qt::Key_F11, infoAction, QStringLiteral("show_information_panel"));
+    createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-information")), Qt::Key_F11, infoDock, QStringLiteral("show_information_panel"));
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, &DolphinMainWindow::urlChanged, infoPanel, &InformationPanel::setUrl);
@@ -2106,8 +2105,7 @@ void DolphinMainWindow::setupDockWidgets()
     foldersPanel->setCustomContextMenuActions({lockLayoutAction});
     foldersDock->setWidget(foldersPanel);
 
-    QAction *foldersAction = foldersDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("folder")), Qt::Key_F7, foldersAction, QStringLiteral("show_folders_panel"));
+    createPanelAction(QIcon::fromTheme(QStringLiteral("folder")), Qt::Key_F7, foldersDock, QStringLiteral("show_folders_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, &DolphinMainWindow::urlChanged, foldersPanel, &FoldersPanel::setUrl);
@@ -2146,8 +2144,7 @@ void DolphinMainWindow::setupDockWidgets()
         connect(terminalDock, &DolphinDockWidget::visibilityChanged, m_terminalPanel, &TerminalPanel::dockVisibilityChanged);
         connect(terminalDock, &DolphinDockWidget::visibilityChanged, this, &DolphinMainWindow::slotTerminalPanelVisibilityChanged);
 
-        QAction *terminalAction = terminalDock->toggleViewAction();
-        createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-scripts")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
+        createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-scripts")), Qt::Key_F4, terminalDock, QStringLiteral("show_terminal_panel"));
 
         addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
         connect(this, &DolphinMainWindow::urlChanged, m_terminalPanel, &TerminalPanel::setUrl);
@@ -2193,8 +2190,7 @@ void DolphinMainWindow::setupDockWidgets()
     m_placesPanel->setCustomContextMenuActions({lockLayoutAction});
     placesDock->setWidget(m_placesPanel);
 
-    QAction *placesAction = placesDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("compass")), Qt::Key_F9, placesAction, QStringLiteral("show_places_panel"));
+    createPanelAction(QIcon::fromTheme(QStringLiteral("compass")), Qt::Key_F9, placesDock, QStringLiteral("show_places_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(m_placesPanel, &PlacesPanel::placeActivated, this, &DolphinMainWindow::slotPlaceActivated);
@@ -2490,19 +2486,16 @@ bool DolphinMainWindow::isKompareInstalled() const
     return installed;
 }
 
-void DolphinMainWindow::createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QAction *dockAction, const QString &actionName)
+void DolphinMainWindow::createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QDockWidget *dockWidget, const QString &actionName)
 {
-    QAction *panelAction = actionCollection()->addAction(actionName);
-    panelAction->setCheckable(true);
-    panelAction->setChecked(dockAction->isChecked());
-    panelAction->setText(dockAction->text());
-    panelAction->setIcon(icon);
+    auto dockAction = dockWidget->toggleViewAction();
     dockAction->setIcon(icon);
     dockAction->setEnabled(true);
+
+    QAction *panelAction = actionCollection()->addAction(actionName, dockAction);
     actionCollection()->setDefaultShortcut(panelAction, shortcut);
 
-    connect(panelAction, &QAction::triggered, dockAction, &QAction::trigger);
-    connect(dockAction, &QAction::toggled, panelAction, &QAction::setChecked);
+    connect(panelAction, &QAction::toggled, dockWidget, &QWidget::setVisible);
 }
 // clang-format off
 void DolphinMainWindow::setupWhatsThis()

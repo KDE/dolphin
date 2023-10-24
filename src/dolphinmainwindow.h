@@ -659,11 +659,9 @@ private:
 
     /**
      * Creates an action for showing/hiding a panel, that is accessible
-     * in "Configure toolbars..." and "Configure shortcuts...". This is necessary
-     * as the action for toggling the dock visibility is done by Qt which
-     * is no KAction instance.
+     * in "Configure toolbars..." and "Configure shortcuts...".
      */
-    void createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QAction *dockAction, const QString &actionName);
+    void createPanelAction(const QIcon &icon, const QKeySequence &shortcut, QDockWidget *dockAction, const QString &actionName);
 
     /** Adds "What's This?" texts to many widgets and StandardActions. */
     void setupWhatsThis();
