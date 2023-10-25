@@ -51,16 +51,16 @@ Q_SIGNALS:
     void roleEditingFinished(const QByteArray &role, const QVariant &value);
     void roleEditingCanceled(const QByteArray &role, const QVariant &value);
 
-protected:
-    bool event(QEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
-
-private Q_SLOTS:
+public Q_SLOTS:
     /**
      * Increases the size of the editor in case if there is not
      * enough room for the text.
      */
     void autoAdjustSize();
+
+protected:
+    bool event(QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     /**

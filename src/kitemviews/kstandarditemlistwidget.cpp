@@ -821,6 +821,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
         rect.setWidth(parent->width() - rect.left());
     }
     m_roleEditor->setGeometry(rect.toRect());
+    m_roleEditor->autoAdjustSize();
     m_roleEditor->show();
     m_roleEditor->setFocus();
 }

@@ -139,6 +139,7 @@ void KItemListRoleEditor::autoAdjustSize()
 {
     const qreal frameBorder = 2 * frameWidth();
 
+    document()->adjustSize();
     const qreal requiredWidth = document()->size().width();
     const qreal availableWidth = size().width() - frameBorder;
     if (requiredWidth > availableWidth) {
