@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"POT-Creation-Date: 2023-10-25 02:43+0000\n"
 "PO-Revision-Date: 2023-08-19 10:03+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -3138,7 +3138,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Zama-jaitsi zerbitzu berriak..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3148,25 +3148,25 @@ msgstr ""
 "Dolphin berrabiatu beharra dago bertsio kontrol sistemaren ezarpen "
 "eguneratuak ezartzeko."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:219
+#: settings/contextmenu/contextmenusettingspage.cpp:218
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Orain berrabiatu?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:259
+#: settings/contextmenu/contextmenusettingspage.cpp:257
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:263
+#: settings/contextmenu/contextmenusettingspage.cpp:261
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'Kopiatu hona' eta 'Eraman hona' komandoak"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:311
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

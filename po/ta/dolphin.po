@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"POT-Creation-Date: 2023-10-25 02:43+0000\n"
 "PO-Revision-Date: 2023-07-02 16:07+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -3013,7 +3013,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "புதிய சேவைகளை பதிவிறக்கு…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3022,25 +3022,25 @@ msgid ""
 msgstr ""
 "புதிய version control system அமைப்புகளை செயல்படுத்த டால்பினை மீண்டும் துவக்க வேண்டும்."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:219
+#: settings/contextmenu/contextmenusettingspage.cpp:218
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "இப்போது மீள்துவக்கலாமா?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:259
+#: settings/contextmenu/contextmenusettingspage.cpp:257
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "நீக்குதல்"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:263
+#: settings/contextmenu/contextmenusettingspage.cpp:261
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'வேறிடத்தில் நகலெடு' மற்றும் 'வேறிடத்துக்கு நகர்த்து' என்ற கட்டளைகள்"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:311
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

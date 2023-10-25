@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"POT-Creation-Date: 2023-10-25 02:43+0000\n"
 "PO-Revision-Date: 2023-07-24 21:44+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3138,7 +3138,7 @@ msgid "Download New Services…"
 msgstr "Lataa uusia palveluja…"
 
 # Useiden versionhallintajärjestelmien asetukset
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3148,25 +3148,25 @@ msgstr ""
 "Dolphin tulee käynnistää uudelleen, jotta muutetut "
 "versionhallintajärjestelmien asetukset tulevat voimaan."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:219
+#: settings/contextmenu/contextmenusettingspage.cpp:218
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Käynnistetäänkö uudelleen nyt?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:259
+#: settings/contextmenu/contextmenusettingspage.cpp:257
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Poista"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:263
+#: settings/contextmenu/contextmenusettingspage.cpp:261
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Komennot Kopioi kansioon ja Siirrä kansioon"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:311
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

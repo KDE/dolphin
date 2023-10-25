@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:50+0000\n"
+"POT-Creation-Date: 2023-10-25 02:43+0000\n"
 "PO-Revision-Date: 2023-06-30 10:41+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -90,7 +90,7 @@ msgstr "S'ha enllaçat correctament."
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
-msgstr "S'ha mogut a la paperera correctament."
+msgstr "S'ha mogut cap a la paperera correctament."
 
 #: dolphinmainwindow.cpp:315
 #, kde-format
@@ -675,7 +675,7 @@ msgid ""
 "their own <filename>Home</filename> that contains their data including "
 "folders that contain personal application data."
 msgstr ""
-"Va a la vostra carpeta d'<filename>Inici</filename>.<nl/>Cada compte "
+"Va fins a la vostra carpeta d'<filename>Inici</filename>.<nl/>Cada compte "
 "d'usuari té la seua pròpia carpeta d'<filename>Inici</filename> que conté "
 "les seues dades, incloent-hi les carpetes que contenen les dades personals "
 "de les aplicacions."
@@ -849,7 +849,7 @@ msgid ""
 msgstr ""
 "Canvia entre tindre quadros <emphasis>blocats</emphasis> o "
 "<emphasis>desblocats</emphasis>. <nl/>Els quadros desblocats es poden "
-"arrossegar fins a l'altra banda de la finestra i tenen un botó de tancament. "
+"arrossegar cap a l'altra banda de la finestra i tenen un botó de tancament. "
 "<nl/>Els quadros blocats estan incrustats de manera més neta."
 
 #: dolphinmainwindow.cpp:2039
@@ -865,8 +865,9 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Per a mostrar o ocultar els quadros com este aneu a <interface>Menú|"
-"Quadros</interface> o <interface>Visualitza|Quadros</interface>.</para>"
+"<para>Per a mostrar o ocultar els quadros com este aneu fins a "
+"<interface>Menú --> Quadros</interface> o <interface>Visualitza --> Quadros</"
+"interface>.</para>"
 
 #: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
@@ -1010,10 +1011,10 @@ msgid ""
 "type.</para>"
 msgstr ""
 "<para>Canvia el quadro de <emphasis>llocs</emphasis> de la banda esquerra de "
-"la finestra.</para><para>Permet anar a les ubicacions que heu indicat en les "
-"adreces d'interés i accedir al disc o suport connectat amb l'ordinador o a "
-"la xarxa. També conté seccions per a buscar els fitxers guardats recentment "
-"o els fitxers d'un tipus determinat.</para>"
+"la finestra.</para><para>Permet anar fins a les ubicacions que heu indicat "
+"en les adreces d'interés i accedir al disc o suport connectat amb "
+"l'ordinador o amb la xarxa. També conté seccions per a buscar els fitxers "
+"guardats recentment o els fitxers d'un tipus determinat.</para>"
 
 #: dolphinmainwindow.cpp:2222
 #, kde-kuit-format
@@ -1029,9 +1030,9 @@ msgid ""
 "empty space on this panel and select <interface>Show Hidden Places</"
 "interface> to display it again.</para>"
 msgstr ""
-"<para>Este és el quadro <emphasis>Llocs</emphasis>. Permet anar a les "
+"<para>Este és el quadro <emphasis>Llocs</emphasis>. Permet anar fins a les "
 "ubicacions que heu indicat en les adreces d'interés i accedir al disc o "
-"suport connectat amb l'ordinador o a la xarxa. També conté seccions per a "
+"suport connectat amb l'ordinador o amb la xarxa. També conté seccions per a "
 "buscar els fitxers guardats recentment o els fitxers d'un tipus determinat.</"
 "para><para>Feu clic en una entrada per a anar-hi. De manera alternativa, feu "
 "clic amb el botó dret del ratolí per a obrir l'entrada en una pestanya nova "
@@ -1057,11 +1058,11 @@ msgid ""
 "directory that contains all data connected to this computer—the "
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
-"<para>Va a la carpeta que conté la visualitzada actualment.</para><para>Tots "
-"els fitxers i carpetes estan organitzats en un <emphasis>sistema de fitxers</"
-"emphasis> jeràrquic. En la part superior d'esta jerarquia hi ha un directori "
-"que conté totes les dades connectades a este ordinador - el "
-"<emphasis>directori arrel</emphasis>.</para>"
+"<para>Va fins a la carpeta que conté la visualitzada actualment.</"
+"para><para>Tots els fitxers i carpetes estan organitzats en un "
+"<emphasis>sistema de fitxers</emphasis> jeràrquic. En la part superior "
+"d'esta jerarquia hi ha un directori que conté totes les dades connectades "
+"amb este ordinador -el <emphasis>directori arrel</emphasis>-.</para>"
 
 #: dolphinmainwindow.cpp:2435
 #, kde-format
@@ -1207,7 +1208,7 @@ msgid ""
 "Handbook</interface>."
 msgstr ""
 "Obri una finestra a on es poden canviar moltes opcions d'esta aplicació. Per "
-"a una explicació de les diverses opcions aneu al capítol "
+"a una explicació de les diverses opcions aneu fins al capítol "
 "<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda -> Manual de "
 "Dolphin</interface>."
 
@@ -2964,8 +2965,8 @@ msgid ""
 msgstr ""
 "<para>Els fitxers i carpetes seleccionats s'han afegit al porta-retalls. Ara "
 "l'acció <emphasis>Apega</emphasis> es pot utilitzar per a transferir-los des "
-"del porta-retalls a qualsevol altra ubicació. Fins i tot es poden transferir "
-"a altres aplicacions utilitzant les seues respectives accions "
+"del porta-retalls cap a qualsevol altra ubicació. Fins i tot es poden "
+"transferir cap a altres aplicacions utilitzant les seues respectives accions "
 "<emphasis>Apega</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
@@ -3155,7 +3156,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Baixa serveis nous…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3165,25 +3166,25 @@ msgstr ""
 "S'ha de tornar a iniciar Dolphin per a aplicar la configuració actualitzada "
 "dels sistemes de control de versió."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:219
+#: settings/contextmenu/contextmenusettingspage.cpp:218
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Voleu reiniciar ara?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:259
+#: settings/contextmenu/contextmenusettingspage.cpp:257
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Suprimix"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:263
+#: settings/contextmenu/contextmenusettingspage.cpp:261
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Ordres «Copia a» i «Mou cap a»"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:311
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
