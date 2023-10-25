@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:44+0000\n"
+"POT-Creation-Date: 2023-10-25 00:45+0000\n"
 "PO-Revision-Date: 2008-12-22 22:21+0200\n"
 "Last-Translator: Omer Ensari <oensari@gmail.com>\n"
 "Language-Team: Kurdish <kde-i18n-doc@lists.kde.org>\n"
@@ -3216,7 +3216,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:215
+#: settings/contextmenu/contextmenusettingspage.cpp:214
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3224,13 +3224,13 @@ msgid ""
 "settings."
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -3238,7 +3238,7 @@ msgctxt "@option:check"
 msgid "Delete"
 msgstr "Jê bibe"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:257
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show 'Copy To' and 'Move To' commands"
@@ -3246,7 +3246,7 @@ msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Fermanên 'Jibergirtin' û 'guhestin' nîşan bide"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:305
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, fuzzy, kde-format
 #| msgctxt "@info:status files (size)"
 #| msgid "%1 (%2)"

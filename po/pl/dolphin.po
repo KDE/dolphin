@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:44+0000\n"
+"POT-Creation-Date: 2023-10-25 00:45+0000\n"
 "PO-Revision-Date: 2023-10-07 08:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3158,7 +3158,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Pobierz nowe usługi…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:215
+#: settings/contextmenu/contextmenusettingspage.cpp:214
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3168,25 +3168,25 @@ msgstr ""
 "Należy ponownie uruchomić Dolphina, aby uaktualnić ustawienia systemu do "
 "zarządzania wersjami."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Czy uruchomić ponownie teraz?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Usuń"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:257
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Pokaż polecenia 'Skopiuj do' i 'Przenieś do'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:305
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:44+0000\n"
+"POT-Creation-Date: 2023-10-25 00:45+0000\n"
 "PO-Revision-Date: 2014-03-28 22:43+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -3157,7 +3157,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Aberweter noveas siervices..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:215
+#: settings/contextmenu/contextmenusettingspage.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3171,25 +3171,25 @@ msgstr ""
 "I fåt k' Dolphin soeye renondé po mete èn ouve les apontiaedjes des "
 "sistinmes di controle del modêye metous a djoû."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Disfacer"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:257
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Comandes « Aclaper viè » eyet « Bodjî viè »"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:305
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

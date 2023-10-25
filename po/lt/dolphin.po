@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:44+0000\n"
+"POT-Creation-Date: 2023-10-25 00:45+0000\n"
 "PO-Revision-Date: 2022-12-28 01:48+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3071,7 +3071,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Atsisiųsti naujas paslaugas..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:215
+#: settings/contextmenu/contextmenusettingspage.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3085,25 +3085,25 @@ msgstr ""
 "Norint taikyti atnaujintas versijų tvarkymo sistemų nuostatas, Dolphin "
 "privalo būti paleista iš naujo."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Paleisti iš naujo dabar?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:257
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "„Kopijuoti į“ ir „Perkelti į“ komandos"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:305
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"

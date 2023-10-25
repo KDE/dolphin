@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:44+0000\n"
+"POT-Creation-Date: 2023-10-25 00:45+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -3159,7 +3159,7 @@ msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "ดาวน์โหลดบริการใหม่ ๆ ..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:215
+#: settings/contextmenu/contextmenusettingspage.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -3173,13 +3173,13 @@ msgstr ""
 "ดอลฟินจำเป็นจะต้องเริ่มการทำงานใหม่เพื่อปรับใช้การตั้งค่าต่าง ๆ "
 "ของระบบควบคุมเวอร์ชันที่ได้ปรับปรุงแก้ไขไป"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:217
+#: settings/contextmenu/contextmenusettingspage.cpp:216
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:251
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Delete"
@@ -3187,7 +3187,7 @@ msgctxt "@option:check"
 msgid "Delete"
 msgstr "ลบทิ้ง"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:257
+#: settings/contextmenu/contextmenusettingspage.cpp:255
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show 'Copy To' and 'Move To' commands"
@@ -3195,7 +3195,7 @@ msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "แสดงคำสั่ง 'คัดลอกไปยัง' และ 'ย้ายไปยัง'"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:305
+#: settings/contextmenu/contextmenusettingspage.cpp:303
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
