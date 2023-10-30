@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-25 02:43+0000\n"
-"PO-Revision-Date: 2023-10-07 08:18+0200\n"
+"PO-Revision-Date: 2023-10-29 09:25+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -151,7 +151,7 @@ msgstr "&Zamknij bieżącą kartę"
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "W tym oknie otwartych jest wiele kart. Czy zamknać je mimo tego?"
+msgstr "W tym oknie otwartych jest wiele kart. Czy zamknąć je mimo tego?"
 
 #: dolphinmainwindow.cpp:580 dolphinmainwindow.cpp:630
 #, kde-format
@@ -1662,7 +1662,8 @@ msgstr "Niewłaściwy protokół"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
-"Zmieniono bieżące położenie, <filename>%1</filename> nie jest już dostępny."
+"Przełączono widok na inny katalog, <filename>%1</filename> nie jest już "
+"dostępny."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
