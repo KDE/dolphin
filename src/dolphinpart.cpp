@@ -339,11 +339,7 @@ void DolphinPart::slotItemActivated(const KFileItem &item)
         args.setMimeType(item.mimetype());
     }
 
-    // Ideally, konqueror should be changed to not require trustedSource for directory views,
-    // since the idea was not to need BrowserArguments for non-browser stuff...
-    KParts::BrowserArguments browserArgs;
-    browserArgs.trustedSource = true;
-    Q_EMIT m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
+    Q_EMIT m_extension->openUrlRequest(item.targetUrl(), args);
 }
 
 void DolphinPart::slotItemsActivated(const KFileItemList &items)
