@@ -421,7 +421,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item,
 
     actionGroups.insert(QStringLiteral("editactions"), editActions);
 
-    Q_EMIT m_extension->popupMenu(pos, items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags, actionGroups);
+    Q_EMIT m_extension->popupMenu(pos, items, KParts::OpenUrlArguments(), popupFlags, actionGroups);
 }
 
 void DolphinPart::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl)
