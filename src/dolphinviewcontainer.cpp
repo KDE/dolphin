@@ -71,9 +71,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     , m_statusBarTimer(nullptr)
     , m_statusBarTimestamp()
     , m_autoGrabFocus(true)
-#if HAVE_KACTIVITIES
-    , m_activityResourceInstance(nullptr)
-#endif
 {
     hide();
 
@@ -189,13 +186,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(placesModel, &KFilePlacesModel::rowsRemoved, this, &DolphinViewContainer::slotPlacesModelChanged);
 
     connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
-
-    // Initialize kactivities resource instance
-
-#if HAVE_KACTIVITIES
-    m_activityResourceInstance = new KActivities::ResourceInstance(window()->winId(), url);
-    m_activityResourceInstance->setParent(this);
-#endif
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -219,14 +209,6 @@ void DolphinViewContainer::setActive(bool active)
         m_urlNavigatorConnected->setActive(active);
     }
     m_view->setActive(active);
-
-#if HAVE_KACTIVITIES
-    if (active) {
-        m_activityResourceInstance->notifyFocusedIn();
-    } else {
-        m_activityResourceInstance->notifyFocusedOut();
-    }
-#endif
 }
 
 bool DolphinViewContainer::isActive() const
@@ -592,7 +574,7 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
     }
 
 #if HAVE_KACTIVITIES
-    m_activityResourceInstance->setUri(newUrl);
+    KActivities::ResourceInstance::notifyAccessed(newUrl);
 #endif
 }
 

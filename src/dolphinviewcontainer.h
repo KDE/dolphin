@@ -20,13 +20,6 @@
 #include <QPushButton>
 #include <QWidget>
 
-#if HAVE_KACTIVITIES
-namespace KActivities
-{
-class ResourceInstance;
-}
-#endif
-
 class FilterBar;
 class KMessageWidget;
 class QAction;
@@ -474,11 +467,6 @@ private:
      * connected to this ViewContainer.
      */
     std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
-
-#if HAVE_KACTIVITIES
-private:
-    KActivities::ResourceInstance *m_activityResourceInstance;
-#endif
 };
 
 #endif // DOLPHINVIEWCONTAINER_H
