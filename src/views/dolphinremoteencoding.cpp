@@ -20,11 +20,12 @@
 #include <KCharsets>
 #include <KConfig>
 #include <KConfigGroup>
-#include <KIO/Scheduler>
 #include <KLocalizedString>
 #include <KProtocolInfo>
 #include <KProtocolManager>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QMenu>
 
 #define DATA_KEY QStringLiteral("Charset")
@@ -210,7 +211,11 @@ void DolphinRemoteEncoding::slotDefault()
 
 void DolphinRemoteEncoding::updateView()
 {
-    KIO::Scheduler::emitReparseSlaveConfiguration();
+    QDBusMessage message =
+        QDBusMessage::createSignal(QStringLiteral("/KIO/Scheduler"), QStringLiteral("org.kde.KIO.Scheduler"), QStringLiteral("reparseSlaveConfiguration"));
+    message << QString();
+    QDBusConnection::sessionBus().send(message);
+
     // Reload the page with the new charset
     m_actionHandler->currentView()->setUrl(m_currentURL);
     m_actionHandler->currentView()->reload();
