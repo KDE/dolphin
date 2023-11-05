@@ -21,13 +21,13 @@ Dependencies:
     'frameworks/knotifications': '@stable'
     'frameworks/kcrash': '@stable'
     'frameworks/kwindowsystem': '@stable'
-    'frameworks/kactivities': '@stable'
     'frameworks/kdoctools': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kfilemetadata': '@stable'
     'frameworks/kcodecs': '@stable'
     'frameworks/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
+    'plasma/kactivities': '@stable'
 
 - 'on': ['Linux', 'FreeBSD']
   'require':
