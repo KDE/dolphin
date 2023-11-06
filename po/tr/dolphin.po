@@ -6,13 +6,13 @@
 # Muhammet Kara <muhammet.k@gmail.com>, 2011.
 # obsoleteman <tulliana@gmail.com>, 2007-2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2017, 2018, 2020, 2021.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-25 00:45+0000\n"
-"PO-Revision-Date: 2023-09-10 10:37+0300\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"PO-Revision-Date: 2023-10-30 05:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4803,8 +4803,8 @@ msgstr[1] "%1 ögeyi açmak istediğinizden emin misiniz?"
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "%1 Öge Aç"
-msgstr[1] "%1 Öge Aç"
+msgstr[0] "%1 Ögeyi Aç"
+msgstr[1] "%1 Ögeyi Aç"
 
 #: views/dolphinview.cpp:1202
 #, kde-format
