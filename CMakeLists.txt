@@ -75,7 +75,6 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     WidgetsAddons
     Codecs
-    MoreTools
 )
 
 find_package(KUserFeedbackQt6 1.2.1)

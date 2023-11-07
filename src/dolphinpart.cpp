@@ -28,7 +28,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeEditor>
-#include <KMoreToolsMenuFactory>
 #include <KPluginFactory>
 #include <KPluginMetaData>
 #include <KSharedConfig>
@@ -527,17 +526,10 @@ void DolphinPart::slotOpenTerminal()
 
 void DolphinPart::slotFindFile()
 {
-    QMenu searchTools;
-    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(&searchTools, {"files-find"}, QUrl::fromLocalFile(localFilePathOrHome()));
-    QList<QAction *> actions = searchTools.actions();
-    if (!(actions.isEmpty())) {
-        actions.first()->trigger();
-    } else {
-        KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(QStringLiteral("kfind"), {url().toString()}, this);
-        job->setDesktopName(QStringLiteral("org.kde.kfind"));
-        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
-        job->start();
-    }
+    KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(QStringLiteral("kfind"), {url().toString()}, this);
+    job->setDesktopName(QStringLiteral("org.kde.kfind"));
+    job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+    job->start();
 }
 
 void DolphinPart::updateNewMenu()

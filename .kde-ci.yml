@@ -28,7 +28,6 @@ Dependencies:
     'frameworks/kuserfeedback': '@latest-kf6'
     'plasma/kactivities': '@latest-kf6'
     'libraries/phonon': '@latest-kf6'
-    'libraries/kmoretools': '@latest-kf6'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':

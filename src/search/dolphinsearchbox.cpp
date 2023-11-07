@@ -13,9 +13,10 @@
 #include "dolphinquery.h"
 
 #include "config-dolphin.h"
+#include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
-#include <KMoreToolsMenuFactory>
 #include <KSeparator>
+#include <KService>
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #include <Baloo/Query>
@@ -395,18 +396,24 @@ void DolphinSearchBox::init()
     searchLocationGroup->addButton(m_fromHereButton);
     searchLocationGroup->addButton(m_everywhereButton);
 
-    auto moreSearchToolsButton = new QToolButton(this);
-    moreSearchToolsButton->setAutoRaise(true);
-    moreSearchToolsButton->setPopupMode(QToolButton::InstantPopup);
-    moreSearchToolsButton->setIcon(QIcon::fromTheme("arrow-down-double"));
-    moreSearchToolsButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    moreSearchToolsButton->setText(i18n("More Search Tools"));
-    moreSearchToolsButton->setMenu(new QMenu(this));
-    connect(moreSearchToolsButton->menu(), &QMenu::aboutToShow, moreSearchToolsButton->menu(), [this, moreSearchToolsButton]() {
-        m_menuFactory.reset(new KMoreToolsMenuFactory("dolphin/search-tools"));
-        moreSearchToolsButton->menu()->clear();
-        m_menuFactory->fillMenuFromGroupingNames(moreSearchToolsButton->menu(), {"files-find"}, this->m_searchPath);
-    });
+    KService::Ptr kfind = KService::serviceByDesktopName(QStringLiteral("org.kde.kfind"));
+
+    QToolButton *kfindToolsButton = nullptr;
+    if (kfind) {
+        kfindToolsButton = new QToolButton(this);
+        kfindToolsButton->setAutoRaise(true);
+        kfindToolsButton->setPopupMode(QToolButton::InstantPopup);
+        kfindToolsButton->setIcon(QIcon::fromTheme("arrow-down-double"));
+        kfindToolsButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        kfindToolsButton->setText(i18n("Open %1", kfind->name()));
+        kfindToolsButton->setIcon(QIcon::fromTheme(kfind->icon()));
+
+        connect(kfindToolsButton, &QToolButton::clicked, this, [this, kfind] {
+            auto *job = new KIO::ApplicationLauncherJob(kfind);
+            job->setUrls({m_searchPath});
+            job->start();
+        });
+    }
 
     // Create "Facets" widget
     m_facetsWidget = new DolphinFacetsWidget(this);
@@ -429,7 +436,9 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_fromHereButton);
     optionsLayout->addWidget(m_everywhereButton);
     optionsLayout->addWidget(new KSeparator(Qt::Vertical, this));
-    optionsLayout->addWidget(moreSearchToolsButton);
+    if (kfindToolsButton) {
+        optionsLayout->addWidget(kfindToolsButton);
+    }
     optionsLayout->addStretch(1);
 
     m_optionsScrollArea = new QScrollArea(this);

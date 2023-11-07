@@ -48,7 +48,6 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KShell>
@@ -1127,15 +1126,20 @@ void DolphinMainWindow::toggleShowMenuBar()
 QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 {
     m_searchTools.clear();
-    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(&m_searchTools, {"files-find"}, m_activeViewContainer->url());
-    QList<QAction *> actions = m_searchTools.actions();
-    if (actions.isEmpty()) {
+
+    KService::Ptr kfind = KService::serviceByDesktopName(QStringLiteral("org.kde.kfind"));
+
+    if (!kfind) {
         return nullptr;
     }
-    QAction *action = actions.first();
-    if (action->isSeparator()) {
-        return nullptr;
-    }
+
+    auto *action = new QAction(QIcon::fromTheme(kfind->icon()), kfind->name(), this);
+
+    connect(action, &QAction::triggered, this, [kfind] {
+        auto *job = new KIO::ApplicationLauncherJob(kfind);
+        job->start();
+    });
+
     return action;
 }
 

@@ -8,11 +8,14 @@
 
 #include "spaceinfoobserver.h"
 
-#include <KLocalizedString>
-#include <KMoreToolsMenuFactory>
-
+#include <KIO/ApplicationLauncherJob>
 #include <KIO/Global>
+#include <KLocalizedString>
+#include <KService>
+
+#include <QMenu>
 #include <QMouseEvent>
+#include <QStorageInfo>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
     : KCapacityBar(KCapacityBar::DrawTextInline, parent)
@@ -87,11 +90,60 @@ void StatusBarSpaceInfo::mousePressEvent(QMouseEvent *event)
         // Creates a menu with tools that help to find out more about free
         // disk space for the given url.
 
-        // Note that this object must live long enough in case the user opens
-        // the "Configure..." dialog
-        KMoreToolsMenuFactory menuFactory(QStringLiteral("dolphin/statusbar-diskspace-menu"));
-        menuFactory.setParentWidget(this);
-        auto menu = menuFactory.createMenuFromGroupingNames({"disk-usage", "more:", "disk-partitions"}, m_url);
+        const KService::Ptr filelight = KService::serviceByDesktopName(QStringLiteral("org.kde.filelight"));
+        const KService::Ptr kdiskfree = KService::serviceByDesktopName(QStringLiteral("org.kde.kdf"));
+
+        if (!filelight && !kdiskfree) {
+            // nothing to show
+            return;
+        }
+
+        QMenu *menu = new QMenu(this);
+
+        if (filelight) {
+            QAction *filelightFolderAction = menu->addAction(QIcon::fromTheme(QStringLiteral("filelight")), i18n("Disk Usage Statistics - current folder"));
+
+            menu->connect(filelightFolderAction, &QAction::triggered, menu, [this, filelight](bool) {
+                auto *job = new KIO::ApplicationLauncherJob(filelight);
+                job->setUrls({m_url});
+                job->start();
+            });
+
+            // For remote URLs like FTP analyzing the device makes no sense
+            if (m_url.isLocalFile()) {
+                QAction *filelightDiskAction = menu->addAction(QIcon::fromTheme(QStringLiteral("filelight")), i18n("Disk Usage Statistics - current device"));
+
+                menu->connect(filelightDiskAction, &QAction::triggered, menu, [this, filelight](bool) {
+                    const QStorageInfo info(m_url.toLocalFile());
+
+                    if (info.isValid() && info.isReady()) {
+                        auto *job = new KIO::ApplicationLauncherJob(filelight);
+                        job->setUrls({QUrl::fromLocalFile(info.rootPath())});
+                        job->start();
+                    }
+                });
+            }
+
+            QAction *filelightAllAction = menu->addAction(QIcon::fromTheme(QStringLiteral("filelight")), i18n("Disk Usage Statistics - all devices"));
+
+            menu->connect(filelightAllAction, &QAction::triggered, menu, [this, filelight](bool) {
+                const QStorageInfo info(m_url.toLocalFile());
+
+                if (info.isValid() && info.isReady()) {
+                    auto *job = new KIO::ApplicationLauncherJob(filelight);
+                    job->start();
+                }
+            });
+        }
+
+        if (kdiskfree) {
+            QAction *kdiskfreeAction = menu->addAction(QIcon::fromTheme(QStringLiteral("kdf")), i18n("KDiskFree"));
+
+            connect(kdiskfreeAction, &QAction::triggered, this, [kdiskfree] {
+                auto *job = new KIO::ApplicationLauncherJob(kdiskfree);
+                job->start();
+            });
+        }
 
         menu->exec(QCursor::pos());
     }
