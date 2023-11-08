@@ -8,6 +8,7 @@ Actions=icons;details;compact;
 [Desktop Action icons]
 Name=Icons
 Name[ar]=الأيقونات
+Name[ast]=Iconos
 Name[az]=İkonlar
 Name[be]=Значкі
 Name[bg]=Икони
@@ -88,7 +89,7 @@ Name[eu]=Trinkoa
 Name[fi]=Tiivis
 Name[fr]=Concis
 Name[gl]=Compacta
-Name[he]=חסכונית
+Name[he]=מצומצמת
 Name[hi]=सघन
 Name[hu]=Kompakt
 Name[ia]=Compacte
@@ -133,6 +134,7 @@ Exec=dolphin
 [Desktop Action details]
 Name=Details
 Name[ar]=التّفاصيل
+Name[ast]=Detalles
 Name[az]=Ətraflı
 Name[be]=Падрабязы выгляд
 Name[bg]=Подробности
