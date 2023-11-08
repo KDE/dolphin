@@ -184,6 +184,7 @@ void TerminalPanel::showEvent(QShowEvent *event)
                     "Terminal cannot be shown because Konsole is not installed. "
                     "Please install it and then reopen the panel.");
                 m_konsolePartMissingMessage = new KMessageWidget(konsoleNotInstalledText, this);
+                m_konsolePartMissingMessage->setPosition(KMessageWidget::Footer);
                 m_konsolePartMissingMessage->setCloseButtonVisible(false);
                 m_konsolePartMissingMessage->hide();
                 if (KIO::DesktopExecParser::hasSchemeHandler(konsoleInstallUrl)) {

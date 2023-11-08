@@ -100,6 +100,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 
     m_messageWidget = new KMessageWidget(this);
     m_messageWidget->setCloseButtonVisible(true);
+    m_messageWidget->setPosition(KMessageWidget::Header);
     m_messageWidget->hide();
 
 #ifndef Q_OS_WIN
