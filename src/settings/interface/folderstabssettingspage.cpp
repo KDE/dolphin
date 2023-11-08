@@ -174,7 +174,7 @@ void FoldersTabsSettingsPage::applySettings()
 
     // Remove saved state if "remember open tabs" has been turned off
     if (!m_rememberOpenedTabsRadioButton->isChecked()) {
-        KConfigGroup windowState{KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "WindowState"};
+        KConfigGroup windowState{KSharedConfig::openConfig(QStringLiteral("dolphinrc")), QStringLiteral("WindowState")};
         if (windowState.exists()) {
             windowState.deleteGroup();
         }

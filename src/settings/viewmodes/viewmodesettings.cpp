@@ -24,7 +24,7 @@ ViewModeSettings::ViewModeSettings()
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
     // Migrate old config entries
     if (GeneralSettings::version() < 202) {
-        for (const char *groupName : {"CompactMode", "DetailsMode", "IconsMode"}) {
+        for (const QString &groupName : {QStringLiteral("CompactMode"), QStringLiteral("DetailsMode"), QStringLiteral("IconsMode")}) {
             KConfigGroup group = config->group(groupName);
             const QString family = group.readEntry("FontFamily", QString{});
             if (family.isEmpty()) {

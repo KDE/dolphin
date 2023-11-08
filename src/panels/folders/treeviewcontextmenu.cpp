@@ -75,7 +75,7 @@ void TreeViewContextMenu::open(const QPoint &pos)
 
         // insert 'Move to Trash' and (optionally) 'Delete'
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
-        KConfigGroup configGroup(globalConfig, "KDE");
+        KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
         bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
 
         const QUrl url = m_fileItem.url();

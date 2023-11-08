@@ -209,7 +209,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
         applyButton->setEnabled(isDirty);
     });
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "ViewPropertiesDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), QStringLiteral("ViewPropertiesDialog"));
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 
     loadSettings();
@@ -221,7 +221,7 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     delete m_viewProps;
     m_viewProps = nullptr;
 
-    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "ViewPropertiesDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), QStringLiteral("ViewPropertiesDialog"));
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 

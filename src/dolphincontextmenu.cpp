@@ -357,7 +357,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties 
     addSeparator();
 
     // Insert 'Move to Trash' and/or 'Delete'
-    const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) || !properties.isLocal());
+    const bool showDeleteAction = (KSharedConfig::openConfig()->group(QStringLiteral("KDE")).readEntry("ShowDeleteCommand", false) || !properties.isLocal());
     const bool showMoveToTrashAction = (properties.isLocal() && properties.supportsMoving());
 
     if (showDeleteAction && showMoveToTrashAction) {

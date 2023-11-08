@@ -198,8 +198,8 @@ void DolphinRemoteEncoding::slotDefault()
             qCDebug(DolphinDebug) << "Domain to remove: " << *it;
             if (config.hasGroup(*it)) {
                 config.deleteGroup(*it);
-            } else if (config.group("").hasKey(*it)) {
-                config.group("").deleteEntry(*it); //don't know what group name is supposed to be XXX
+            } else if (config.group(QString()).hasKey(*it)) {
+                config.group(QString()).deleteEntry(*it); // don't know what group name is supposed to be XXX
             }
         }
     }

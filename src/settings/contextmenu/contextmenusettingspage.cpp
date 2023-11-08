@@ -166,7 +166,7 @@ void ContextMenuSettingsPage::applySettings()
     }
 
     KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
-    KConfigGroup showGroup = config.group("Show");
+    KConfigGroup showGroup = config.group(QStringLiteral("Show"));
 
     QStringList enabledPlugins;
 
@@ -181,7 +181,7 @@ void ContextMenuSettingsPage::applySettings()
             }
         } else if (service == QLatin1String(DeleteService)) {
             KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
-            KConfigGroup configGroup(globalConfig, "KDE");
+            KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
             configGroup.writeEntry("ShowDeleteCommand", checked);
             configGroup.sync();
         } else if (service == QLatin1String(CopyToMoveToService)) {
@@ -241,7 +241,7 @@ void ContextMenuSettingsPage::showEvent(QShowEvent *event)
 
         // Add "Show 'Delete' command" as service
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
-        KConfigGroup configGroup(globalConfig, "KDE");
+        KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
         addRow(QStringLiteral("edit-delete"), i18nc("@option:check", "Delete"), DeleteService, configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
 
         // Add "Show 'Copy To' and 'Move To' commands" as service
@@ -270,7 +270,7 @@ void ContextMenuSettingsPage::showEvent(QShowEvent *event)
 void ContextMenuSettingsPage::loadServices()
 {
     const KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
-    const KConfigGroup showGroup = config.group("Show");
+    const KConfigGroup showGroup = config.group(QStringLiteral("Show"));
 
     // Load generic services
     const auto locations = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("kio/servicemenus"), QStandardPaths::LocateDirectory);

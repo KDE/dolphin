@@ -114,12 +114,12 @@ ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
 void ConfirmationsSettingsPage::applySettings()
 {
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::NoGlobals);
-    KConfigGroup confirmationGroup(kioConfig, "Confirmations");
+    KConfigGroup confirmationGroup(kioConfig, QStringLiteral("Confirmations"));
     confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmEmptyTrash", m_confirmEmptyTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
 
-    KConfigGroup scriptExecutionGroup(kioConfig, "Executable scripts");
+    KConfigGroup scriptExecutionGroup(kioConfig, QStringLiteral("Executable scripts"));
     const int index = m_confirmScriptExecution->currentIndex();
     switch (index) {
     case ScriptExecution::AlwaysAsk:
@@ -162,12 +162,12 @@ void ConfirmationsSettingsPage::restoreDefaults()
 void ConfirmationsSettingsPage::loadSettings()
 {
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::IncludeGlobals);
-    const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
+    const KConfigGroup confirmationGroup(kioConfig, QStringLiteral("Confirmations"));
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", ConfirmTrash));
     m_confirmEmptyTrash->setChecked(confirmationGroup.readEntry("ConfirmEmptyTrash", ConfirmEmptyTrash));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", ConfirmDelete));
 
-    const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
+    const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), QStringLiteral("Executable scripts"));
     const QString value = scriptExecutionGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
     if (value == QLatin1String("alwaysAsk")) {
         m_confirmScriptExecution->setCurrentIndex(ScriptExecution::AlwaysAsk);

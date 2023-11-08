@@ -388,7 +388,8 @@ void DolphinPart::slotOpenContextMenu(const QPoint &pos, const KFileItem &_item,
         const bool supportsMoving = capabilities.supportsMoving();
 
         if (capabilities.supportsDeleting()) {
-            const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) || !item.isLocalFile());
+            const bool showDeleteAction =
+                (KSharedConfig::openConfig()->group(QStringLiteral("KDE")).readEntry("ShowDeleteCommand", false) || !item.isLocalFile());
             const bool showMoveToTrashAction = capabilities.isLocal() && supportsMoving;
 
             if (showDeleteAction && showMoveToTrashAction) {
@@ -460,7 +461,7 @@ void DolphinPart::openSelectionDialog(const QString &title, const QString &text,
     dialog->setWindowTitle(title);
     dialog->setLabelText(text);
 
-    const KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group("Select Dialog");
+    const KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group(QStringLiteral("Select Dialog"));
     dialog->setComboBoxEditable(true);
     dialog->setComboBoxItems(group.readEntry("History", QStringList()));
 
@@ -475,7 +476,7 @@ void DolphinPart::openSelectionDialog(const QString &title, const QString &text,
 
             // Need to evaluate this again here, because the captured value is const
             // (even if the const were removed from 'const KConfigGroup group =' above).
-            KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group("Select Dialog");
+            KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group(QStringLiteral("Select Dialog"));
             // Limit the size of the saved history.
             group.writeEntry("History", items.mid(0, 10));
             group.sync();

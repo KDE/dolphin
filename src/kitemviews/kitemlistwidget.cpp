@@ -276,7 +276,7 @@ void KItemListWidget::setHovered(bool hovered)
 
         hoverSequenceStarted();
 
-        const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
+        const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
         const int interval = globalConfig.readEntry("HoverSequenceInterval", 700);
 
         m_hoverSequenceTimer.start(interval);
