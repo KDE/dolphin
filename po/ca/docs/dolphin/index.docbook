@@ -406,9 +406,7 @@
 > i en el <link linkend="view-properties-dialog"
 >diàleg Estil de presentació de la vista</link
 >. De manera predeterminada, aquestes opcions seran recordades per a cada carpeta per separat. Aquest comportament es pot canviar a la secció <link linkend="preferences-dialog-general"
-><quote
->General</quote
-></link
+>«General»</link
 > de la configuració. </para>
 
 <sect3 id="dolphin-view-modes">
@@ -454,9 +452,7 @@
 <para
 >Al menú contextual de la línia de capçalera, podeu afegir o eliminar el farciment lateral marcant o desmarcant l'element corresponent del menú i podeu escollir entre una amplada de columna personalitzada o automàtica. L'amplada automàtica ajustarà totes les columnes una vegada per a mostrar l'element més llarg a tota la columna, a excepció de la columna <guilabel
 >Nom</guilabel
-> on l'extensió se substitueix per <quote
->...</quote
->. </para>
+> on l'extensió se substitueix per «...». </para>
 <para
 >L'ordre de les columnes es pot canviar arrossegant i deixant anar sobre les capçaleres de la columna, a excepció de la capçalera <guilabel
 >Nom</guilabel
@@ -466,11 +462,7 @@
 ><guilabel
 >Carpetes expansibles</guilabel
 ></link
->: Cada subcarpeta de la carpeta actual es pot <quote
->expandir</quote
-> o <quote
->plegar</quote
-> fent clic a les icones <guiicon
+>: Cada subcarpeta de la carpeta actual es pot «expandir» o «plegar» fent clic a les icones <guiicon
 >
 ></guiicon
 > o <guiicon
@@ -639,9 +631,7 @@
 >Si <guilabel
 >Mostra un marcador de selecció</guilabel
 > està habilitada a la pestanya <link linkend="preferences-dialog-general-behavior"
-><quote
->Comportament</quote
-> de la secció <guilabel
+>«Comportament» de la secció <guilabel
 >General</guilabel
 > de la configuració</link
 >, apareixeran uns petits botons <guiicon
@@ -738,11 +728,7 @@ has all features from dolphin ?-->
 >El mode navega</title>
 
 <para
->En el mode <quote
->navega</quote
->, el qual és el predeterminat, el nom de cada carpeta al camí per a la carpeta actual és un botó sobre el qual es pot fer clic per a obrir ràpidament la carpeta. D'altra banda, fer clic al signe <quote
->&gt;</quote
-> a l'esquerra d'una carpeta, obrirà un menú que permet obrir ràpidament una subcarpeta d'aquesta. </para>
+>En el mode «navega», el qual és el predeterminat, el nom de cada carpeta al camí per a la carpeta actual és un botó sobre el qual es pot fer clic per a obrir ràpidament la carpeta. D'altra banda, fer clic al signe «&gt;» a l'esquerra d'una carpeta, obrirà un menú que permet obrir ràpidament una subcarpeta d'aquesta. </para>
 
 <screenshot>
 <screeninfo
@@ -769,9 +755,7 @@ has all features from dolphin ?-->
 >El mode edita</title>
 
 <para
->En el mode navega, en fer clic a l'àrea grisa a la dreta del camí amb el &BER; canviarà la barra de localització al mode <quote
->edita</quote
->, en el qual es pot editar el camí utilitzant el teclat. Per a tornar al mode navega, feu clic a la marca de selecció a la dreta de la barra de localització amb el &BER;. </para>
+>En el mode navega, en fer clic a l'àrea grisa a la dreta del camí amb el &BER; canviarà la barra de localització al mode «edita», en el qual es pot editar el camí utilitzant el teclat. Per a tornar al mode navega, feu clic a la marca de selecció a la dreta de la barra de localització amb el &BER;. </para>
 
 <screenshot>
 <screeninfo
@@ -800,16 +784,14 @@ has all features from dolphin ?-->
 > 
 
 <para
->Per exemple, amb el kioslave <quote
->fish</quote
->, es pot emprar el &dolphin; per a gestionar fitxers i carpetes en una màquina remota que sigui accessible a través de <acronym
+>Per exemple, amb el kioslave «fish», es pot emprar el &dolphin; per a gestionar fitxers i carpetes en una màquina remota que sigui accessible a través de <acronym
 >SSH</acronym
 >. Per a fer-ho, haureu d'escriure <userinput
 >nom_usuari@maquina_remota</userinput
 > dins la barra de localització. La gestió remota de fitxers es pot fer de forma similar sobre les màquines accessibles remotament mitjançant els protocols &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) o webdav.</para>
 
 <para
->També és possible emprar la llista desplegable dels kioslaves per a accedir a l'&systemsettings;, els tipus de lletra, la paperera, altres programes i als dispositius connectats. Vegeu la llista desplegable per a veure la llista completa de les capacitats disponibles dels kioslaves al vostre sistema. </para>
+>També és possible emprar la llista desplegable dels kioslaves per a accedir a l'&systemsettings;, les lletres, la paperera, altres programes i als dispositius connectats. Vegeu la llista desplegable per a veure la llista completa de les capacitats disponibles dels kioslaves al vostre sistema. </para>
 <screenshot>
 <screeninfo
 >Captura de pantalla de la llista de kioslaves</screeninfo>
@@ -838,9 +820,7 @@ has all features from dolphin ?-->
 <para
 >Si el plafó <guilabel
 >Llocs</guilabel
-> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi ràpid accés als <quote
->llocs</quote
-> i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
+> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi ràpid accés als «llocs» i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
 >secció sobre el plafó Llocs</link
 >. </para>
 
@@ -994,11 +974,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >El &dolphin; és capaç de filtrar fitxers, &ead;, només mostrarà a la vista els elements en què el nom contingui un text donat. Per exemple, si només es volen mostrar els fitxers <acronym
 >MP3</acronym
-> d'una carpeta, podeu filtrar per <quote
->.mp3</quote
->. Això farà fora tots els fitxers en què el nom no contingui <quote
->.mp3</quote
->. </para>
+> d'una carpeta, podeu filtrar per «.mp3». Això farà fora tots els fitxers en què el nom no contingui «.mp3». </para>
 
 <para
 >Per a filtrar fitxers, en primer lloc cal habilitar la barra de filtres, sigui prement <keycombo action="simul"
@@ -1058,15 +1034,11 @@ context menu Icon Size? No different entries ?-->
 >*foo*</userinput
 > i <userinput
 >foo</userinput
-> són equivalents), però es poden utilitzar comodins dins el terme de cerca. <quote
-><userinput
+> són equivalents), però es poden utilitzar comodins dins el terme de cerca. «<userinput
 >*</userinput
-></quote
-> coincidirà amb zero o més caràcters, <quote
-><userinput
+>» coincidirà amb zero o més caràcters, «<userinput
 >?</userinput
-></quote
-> només coincidirà amb un únic caràcter.</para>
+>» només coincidirà amb un únic caràcter.</para>
 <para
 >Aquesta característica es pot utilitzar amb el funcionament dels serveis del Baloo, sense aquests serveis, es llançarà un KIOSlave per a proporcionar els resultats de la cerca.</para>
 <para
@@ -1246,9 +1218,7 @@ context menu Icon Size? No different entries ?-->
 >, i amb el <link linkend="view-properties-dialog"
 >diàleg Estil de presentació de la vista</link
 >. En la configuració predeterminada, totes les carpetes empren el mateix estil de presentació de la vista, però el &dolphin; també es pot configurar per a recordar un estil de presentació per carpeta a la <link linkend="preferences-dialog-general-behavior"
->secció <quote
->General</quote
-> de la configuració</link
+>secció «General» de la configuració</link
 >. </para
 ></listitem>
 
@@ -1531,9 +1501,7 @@ context menu Icon Size? No different entries ?-->
     </listitem>
 </itemizedlist>
 <para
->La ubicació d'aquesta també es pot introduir directament o triar en un diàleg que s'obre fent clic al botó que mostra una icona de <quote
->carpeta</quote
->. D'altra banda, la ubicació actual o la ubicació predeterminada (la qual és la carpeta de l'usuari) es pot utilitzar com a carpeta d'inici fent clic al botó corresponent. </para
+>La ubicació d'aquesta també es pot introduir directament o triar en un diàleg que s'obre fent clic al botó que mostra una icona de «carpeta». D'altra banda, la ubicació actual o la ubicació predeterminada (la qual és la carpeta de l'usuari) es pot utilitzar com a carpeta d'inici fent clic al botó corresponent. </para
 ></listitem>
 
 <listitem
@@ -1632,15 +1600,13 @@ context menu Icon Size? No different entries ?-->
 > o <guilabel
 >Vista prèvia</guilabel
 > s'utilitzen si les vistes prèvies estan habilitades o inhabilitades, respectivament. Cal tenir en compte que la mida de la icona es pot canviar fàcilment amb el control lliscant de zoom a la barra d'estat si l'opció corresponent està habilitada a la secció <link linkend="preferences-dialog-general-statusbar"
-><quote
->General</quote
-> de la configuració</link
+>«General» de la configuració</link
 >. </para
 ></listitem>
 
 <listitem
 ><para
->Una opció per al tipus de lletra utilitzat en el mode de vista: es pot triar o bé el tipus de lletra del sistema o un tipus de lletra personalitzat. </para
+>Una opció per a la lletra utilitzada en el mode de vista: es pot triar o bé la lletra del sistema o una lletra personalitzada. </para
 ></listitem>
 
 </itemizedlist>
@@ -1714,13 +1680,9 @@ context menu Icon Size? No different entries ?-->
 >Estil de la data</guilabel
 > es pot utilitzar per a configurar el mode per a mostrar les dates en el &dolphin;. És possible triar entre <guilabel
 >Relativa</guilabel
-> (&pex;, <quote
->Ahir, 3:00pm</quote
->) o <guilabel
+> (&pex;, «Ahir, 3:00pm») o <guilabel
 >Absoluta</guilabel
-> (&pex;, <quote
->2020-12-23 15:00</quote
->). </para>
+> (&pex;, «2020-12-23 15:00»). </para>
 </listitem>
 </itemizedlist>
 </para>
@@ -3060,9 +3022,7 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><action
 >Desfà</action
-> una acció <quote
->Enrere</quote
->.</para
+> una acció «Enrere».</para
 ></listitem>
 </varlistentry>
 

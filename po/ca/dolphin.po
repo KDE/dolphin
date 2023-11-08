@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2023-09-10 10:10+0200\n"
+"PO-Revision-Date: 2023-11-07 13:05+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1670,12 +1670,10 @@ msgstr ""
 "predeterminada"
 
 #: dolphinviewcontainer.cpp:829
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Protocol no vàlid"
+msgstr "Protocol no vàlid «%1»"
 
 #: dolphinviewcontainer.cpp:831
 #, kde-format
@@ -3215,7 +3213,7 @@ msgstr "%1: %2"
 #: settings/dolphin_iconsmodesettings.kcfg:12
 #, kde-format
 msgid "Use system font"
-msgstr "Usa el tipus de lletra del sistema"
+msgstr "Usa la lletra del sistema"
 
 #. i18n: ectx: label, entry (IconSize), group (IconsMode)
 #. i18n: ectx: label, entry (IconSize), group (DetailsMode)
@@ -4233,13 +4231,13 @@ msgstr "Estil dels permisos:"
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "System Font"
-msgstr "Tipus de lletra del sistema"
+msgstr "Lletra del sistema"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:29
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "Custom Font"
-msgstr "Tipus de lletra personalitzat"
+msgstr "Lletra personalitzada"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format
@@ -4346,7 +4344,7 @@ msgstr "Mida de la vista prèvia de les icones:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
-msgstr "Tipus de lletra de les etiquetes:"
+msgstr "Lletra de les etiquetes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:67
 #, kde-format
@@ -5413,35 +5411,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "Configura la vista prèvia per a %1"
-
-#~ msgctxt "@title:group"
-#~ msgid "Startup"
-#~ msgstr "Inici"
-
-#~ msgctxt "@title:group"
-#~ msgid "View Modes"
-#~ msgstr "Modes de vista"
-
-#~ msgctxt "@title:group"
-#~ msgid "Navigation"
-#~ msgstr "Navegació"
-
-#~ msgctxt "@title:group"
-#~ msgid "View: "
-#~ msgstr "Vista: "
-
-#~ msgctxt "@title:group"
-#~ msgid "General: "
-#~ msgstr "General: "
-
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "Obre les carpetes noves en pestanyes"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "General:"
-#~ msgstr "General:"

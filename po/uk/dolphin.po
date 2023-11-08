@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2023-09-10 08:28+0300\n"
+"PO-Revision-Date: 2023-11-07 13:19+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1690,12 +1690,10 @@ msgstr ""
 "програму"
 
 #: dolphinviewcontainer.cpp:829
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Некоректний протокол"
+msgstr "Некоректний протокол «%1»"
 
 #: dolphinviewcontainer.cpp:831
 #, kde-format
