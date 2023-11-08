@@ -45,7 +45,7 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     m_previousWindowWidth = qobject_cast<QWidget *>(parent())->window()->width();
     auto viewGeometries = m_viewGeometriesHelper.viewGeometries();
     const int widthOfSplitterPrimary = viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
-    const QList<int> splitterSizes = {widthOfSplitterPrimary, m_splitter->width() - widthOfSplitterPrimary};
+    const QList<int> splitterSizes = {widthOfSplitterPrimary, m_splitter->width() - widthOfSplitterPrimary - m_splitter->handleWidth()};
     m_splitter->setSizes(splitterSizes);
 
     // primary side of m_splitter
