@@ -245,6 +245,8 @@ int main(int argc, char **argv)
         }
     }
 
+    mainWindow->setSessionAutoSaveEnabled(GeneralSettings::rememberOpenedTabs());
+
 #if HAVE_KUSERFEEDBACK
     auto feedbackProvider = DolphinFeedbackProvider::instance();
     Q_UNUSED(feedbackProvider)

@@ -79,6 +79,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QToolButton>
+#include <QtConcurrentRun>
 
 #include <algorithm>
 
@@ -114,6 +115,9 @@ DolphinMainWindow::DolphinMainWindow()
     , m_tearDownFromPlacesRequested(false)
     , m_backAction(nullptr)
     , m_forwardAction(nullptr)
+    , m_sessionSaveTimer(nullptr)
+    , m_sessionSaveWatcher(nullptr)
+    , m_sessionSaveScheduled(false)
 {
     Q_INIT_RESOURCE(dolphin);
 
@@ -676,18 +680,74 @@ void DolphinMainWindow::closeEvent(QCloseEvent *event)
         }
     }
 
-    if (GeneralSettings::rememberOpenedTabs()) {
-        KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
-        KConfig *config = KConfigGui::sessionConfig();
-        saveGlobalProperties(config);
-        savePropertiesInternal(config, 1);
-        config->sync();
+    if (m_sessionSaveTimer && (m_sessionSaveTimer->isActive() || m_sessionSaveWatcher->isRunning())) {
+        const bool sessionSaveTimerActive = m_sessionSaveTimer->isActive();
+
+        m_sessionSaveTimer->stop();
+        m_sessionSaveWatcher->disconnect();
+        m_sessionSaveWatcher->waitForFinished();
+
+        if (sessionSaveTimerActive || m_sessionSaveScheduled) {
+            slotSaveSession();
+        }
     }
 
     GeneralSettings::setVersion(CurrentDolphinVersion);
     GeneralSettings::self()->save();
 
     KXmlGuiWindow::closeEvent(event);
+}
+
+void DolphinMainWindow::slotSaveSession()
+{
+    m_sessionSaveScheduled = false;
+
+    if (m_sessionSaveWatcher->isRunning()) {
+        // The previous session is still being saved - schedule another save.
+        m_sessionSaveWatcher->disconnect();
+        connect(m_sessionSaveWatcher, &QFutureWatcher<void>::finished, this, &DolphinMainWindow::slotSaveSession, Qt::SingleShotConnection);
+        m_sessionSaveScheduled = true;
+    } else if (!m_sessionSaveTimer->isActive()) {
+        // No point in saving the session if the timer is running (since it will save the session again when it times out).
+        KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
+        KConfig *config = KConfigGui::sessionConfig();
+        saveGlobalProperties(config);
+        savePropertiesInternal(config, 1);
+
+        auto future = QtConcurrent::run([config]() {
+            config->sync();
+        });
+        m_sessionSaveWatcher->setFuture(future);
+    }
+}
+
+void DolphinMainWindow::setSessionAutoSaveEnabled(bool enable)
+{
+    if (enable) {
+        if (!m_sessionSaveTimer) {
+            m_sessionSaveTimer = new QTimer(this);
+            m_sessionSaveWatcher = new QFutureWatcher<void>(this);
+            m_sessionSaveTimer->setSingleShot(true);
+            m_sessionSaveTimer->setInterval(22000);
+
+            connect(m_sessionSaveTimer, &QTimer::timeout, this, &DolphinMainWindow::slotSaveSession);
+        }
+
+        connect(m_tabWidget, &DolphinTabWidget::urlChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
+        connect(m_tabWidget, &DolphinTabWidget::tabCountChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
+        connect(m_tabWidget, &DolphinTabWidget::activeViewChanged, m_sessionSaveTimer, qOverload<>(&QTimer::start), Qt::UniqueConnection);
+    } else if (m_sessionSaveTimer) {
+        m_sessionSaveTimer->stop();
+        m_sessionSaveWatcher->disconnect();
+        m_sessionSaveScheduled = false;
+
+        m_sessionSaveWatcher->waitForFinished();
+
+        m_sessionSaveTimer->deleteLater();
+        m_sessionSaveWatcher->deleteLater();
+        m_sessionSaveTimer = nullptr;
+        m_sessionSaveWatcher = nullptr;
+    }
 }
 
 void DolphinMainWindow::saveProperties(KConfigGroup &group)

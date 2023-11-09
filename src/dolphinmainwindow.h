@@ -20,6 +20,7 @@
 #include "panels/information/informationpanel.h"
 #endif
 
+#include <QFutureWatcher>
 #include <QIcon>
 #include <QList>
 #include <QMenu>
@@ -115,6 +116,14 @@ public:
      * the window is not displaying an invalid location.
      */
     void setViewsToHomeIfMountPathOpen(const QString &mountPath);
+
+    /**
+     * Enables or disables the session autosaving feature.
+     *
+     * @param enable If true, saves the session automatically after a fixed
+     *               time interval from the last state change.
+     */
+    void setSessionAutoSaveEnabled(bool enable);
 
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
@@ -619,6 +628,11 @@ private Q_SLOTS:
      */
     void slotKeyBindings();
 
+    /**
+     * Saves the session.
+     */
+    void slotSaveSession();
+
 private:
     /**
      * Sets up the various menus and actions and connects them.
@@ -717,6 +731,10 @@ private:
 
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;
+
+    QTimer *m_sessionSaveTimer;
+    QFutureWatcher<void> *m_sessionSaveWatcher;
+    bool m_sessionSaveScheduled;
 
     friend class DolphinMainWindowTest;
 };

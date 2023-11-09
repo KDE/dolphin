@@ -111,6 +111,11 @@ Q_SIGNALS:
      */
     void currentUrlChanged(const QUrl &url);
 
+    /**
+     * Is emitted when the url of any tab has been changed (including the current tab).
+     */
+    void urlChanged(const QUrl &url);
+
 public Q_SLOTS:
     /**
      * Opens a new view with the current URL that is part of a tab and activates

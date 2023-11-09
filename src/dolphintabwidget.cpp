@@ -426,6 +426,8 @@ void DolphinTabWidget::tabUrlChanged(const QUrl &url)
         if (index == currentIndex()) {
             Q_EMIT currentUrlChanged(url);
         }
+
+        Q_EMIT urlChanged(url);
     }
 }
 
