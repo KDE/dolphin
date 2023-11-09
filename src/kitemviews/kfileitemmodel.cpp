@@ -1196,12 +1196,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList &items)
 
     for (const KFileItem &item : items) {
         if (item.url() == currentDir) {
-            // #473377: Delay emitting currentDirectoryRemoved() to avoid modifying KCoreDirLister
-            // before KCoreDirListerCache::deleteDir() returns.
-            QTimer::singleShot(0, this, [this] {
-                Q_EMIT currentDirectoryRemoved();
-            });
-
+            Q_EMIT currentDirectoryRemoved();
             return;
         }
 

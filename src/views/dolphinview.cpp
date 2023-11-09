@@ -200,7 +200,8 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
     connect(m_model, &KFileItemModel::urlIsFileError, this, &DolphinView::urlIsFileError);
     connect(m_model, &KFileItemModel::fileItemsChanged, this, &DolphinView::fileItemsChanged);
-    connect(m_model, &KFileItemModel::currentDirectoryRemoved, this, &DolphinView::currentDirectoryRemoved);
+    // #473377: Use a QueuedConnection to avoid modifying KCoreDirLister before KCoreDirListerCache::deleteDir() returns.
+    connect(m_model, &KFileItemModel::currentDirectoryRemoved, this, &DolphinView::currentDirectoryRemoved, Qt::QueuedConnection);
 
     connect(this, &DolphinView::itemCountChanged, this, &DolphinView::updatePlaceholderLabel);
 
@@ -740,17 +741,18 @@ void DolphinView::renameSelectedItems()
     if (items.count() == 1 && GeneralSettings::renameInline()) {
         const int index = m_model->index(items.first());
 
-        QMetaObject::Connection *const connection = new QMetaObject::Connection;
-        *connection = connect(m_view, &KItemListView::scrollingStopped, this, [=]() {
-            QObject::disconnect(*connection);
-            delete connection;
+        connect(
+            m_view,
+            &KItemListView::scrollingStopped,
+            this,
+            [this, index]() {
+                m_view->editRole(index, "text");
 
-            m_view->editRole(index, "text");
+                hideToolTip();
 
-            hideToolTip();
-
-            connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
-        });
+                connect(m_view, &DolphinItemListView::roleEditingFinished, this, &DolphinView::slotRoleEditingFinished);
+            },
+            Qt::SingleShotConnection);
         m_view->scrollToItem(index);
 
     } else {
