@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-09 01:39+0000\n"
-"PO-Revision-Date: 2023-11-08 01:32+0200\n"
+"PO-Revision-Date: 2023-11-09 14:06+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2814,9 +2814,7 @@ msgid "Search in your home directory"
 msgstr "חיפוש בתיקיית הבית שלך"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "פתיחת %1"
 
@@ -4649,22 +4647,22 @@ msgstr "הצגת מידע על מקום פנוי"
 #: statusbar/statusbarspaceinfo.cpp:104
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "סטטיסטיקת ניצולת כוננים - תיקייה נוכחית"
 
 #: statusbar/statusbarspaceinfo.cpp:114
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "סטטיסטיקת ניצולת כוננים - התקן נוכחי"
 
 #: statusbar/statusbarspaceinfo.cpp:127
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "סטטיסטיקת ניצולת כוננים- כל ההתקנים"
 
 #: statusbar/statusbarspaceinfo.cpp:140
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:168
 #, kde-format

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-09 01:39+0000\n"
-"PO-Revision-Date: 2023-11-07 21:26+0100\n"
+"PO-Revision-Date: 2023-11-08 23:50+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: \n"
 "Language: ast\n"
@@ -247,7 +247,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
-msgstr ""
+msgstr "Zarrar la llingüeta"
 
 #: dolphinmainwindow.cpp:1595
 #, kde-format
@@ -688,7 +688,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
-msgstr ""
+msgstr "Llingüeta siguiente"
 
 #: dolphinmainwindow.cpp:1995
 #, kde-format
@@ -700,7 +700,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
-msgstr ""
+msgstr "Llingüeta anterior"
 
 #: dolphinmainwindow.cpp:2002
 #, kde-format
@@ -742,13 +742,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
-msgstr ""
+msgstr "Desbloquiar los paneles"
 
 #: dolphinmainwindow.cpp:2046
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
-msgstr ""
+msgstr "Bloquiar los paneles"
 
 #: dolphinmainwindow.cpp:2049
 #, kde-kuit-format
@@ -1168,7 +1168,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
-msgstr ""
+msgstr "Ap&licaciones"
 
 #: dolphinpart.cpp:179
 #, kde-format
@@ -1233,7 +1233,7 @@ msgstr "&Editar"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Selection"
-msgstr ""
+msgstr "Seleición"
 
 #. i18n: ectx: Menu (view)
 #: dolphinpart.rc:24
@@ -1252,7 +1252,7 @@ msgstr "&Dir"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
-msgstr ""
+msgstr "Ferramientes"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: dolphinpart.rc:51
@@ -1281,7 +1281,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
-msgstr ""
+msgstr "Llingüeta nueva"
 
 #: dolphintabbar.cpp:128
 #, kde-format
@@ -1299,7 +1299,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
-msgstr ""
+msgstr "Zarrar la llingüeta"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1307,7 +1307,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr ""
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1800,7 +1800,7 @@ msgstr "Nome"
 #: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@label"
 msgid "Size"
-msgstr ""
+msgstr "Tamañu"
 
 #: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
@@ -1826,17 +1826,17 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Type"
-msgstr ""
+msgstr "Tipu"
 
 #: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Rating"
-msgstr ""
+msgstr "Valoración"
 
 #: kitemviews/kfileitemmodel.cpp:2726
 msgctxt "@label"
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetes"
 
 #: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
@@ -1915,7 +1915,7 @@ msgstr "Orientación"
 #: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Artist"
-msgstr ""
+msgstr "Artista"
 
 #: kitemviews/kfileitemmodel.cpp:2739 kitemviews/kfileitemmodel.cpp:2740
 #: kitemviews/kfileitemmodel.cpp:2741 kitemviews/kfileitemmodel.cpp:2742
@@ -1948,7 +1948,7 @@ msgstr ""
 #: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Track"
-msgstr ""
+msgstr "Pista"
 
 #: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
@@ -2233,13 +2233,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Cut"
-msgstr ""
+msgstr "Cortar"
 
 #: panels/folders/treeviewcontextmenu.cpp:54
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
 #, kde-format
@@ -4706,7 +4706,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
-msgstr ""
+msgstr "Duplicar equí"
 
 #: views/dolphinviewactionhandler.cpp:140
 #, kde-format
@@ -4740,19 +4740,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr ""
+msgstr "Tirar a la papelera…"
 
 #: views/dolphinviewactionhandler.cpp:162
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr ""
+msgstr "Desaniciar…"
 
 #: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr ""
+msgstr "Duplicar equí…"
 
 #: views/dolphinviewactionhandler.cpp:164
 #, kde-format
