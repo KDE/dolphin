@@ -8,7 +8,7 @@
 
 #include <KLocalizedString>
 #include <KMountPoint>
-#include <KUserFeedbackQt6/Provider>
+#include <KUserFeedback/Provider>
 #include <Solid/Device>
 #include <Solid/NetworkShare>
 #include <Solid/StorageAccess>

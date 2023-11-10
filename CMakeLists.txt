@@ -77,13 +77,13 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Codecs
 )
 
-find_package(KUserFeedbackQt6 1.2.1)
-set_package_properties(KUserFeedbackQt6
+find_package(KF6UserFeedback ${KF6_MIN_VERSION})
+set_package_properties(KF6UserFeedback
         PROPERTIES TYPE OPTIONAL
         PURPOSE "Used for submission of telemetry data"
         )
 
-if(KUserFeedbackQt6_FOUND)
+if(KF6UserFeedback_FOUND)
     set(HAVE_KUSERFEEDBACK TRUE)
 endif()
 

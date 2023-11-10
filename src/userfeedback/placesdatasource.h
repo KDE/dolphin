@@ -7,7 +7,7 @@
 #ifndef PLACESDATASOURCE_H
 #define PLACESDATASOURCE_H
 
-#include <KUserFeedbackQt6/AbstractDataSource>
+#include <KUserFeedback/AbstractDataSource>
 
 class DolphinMainWindow;
 

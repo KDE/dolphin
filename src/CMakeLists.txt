@@ -447,8 +447,8 @@ endif()
 if (HAVE_KUSERFEEDBACK)
     target_link_libraries(
         dolphinstatic
-        KUserFeedbackCoreQt6
-        KUserFeedbackWidgetsQt6
+        KF6::UserFeedbackCore
+        KF6::UserFeedbackWidgets
     )
 endif()
 
