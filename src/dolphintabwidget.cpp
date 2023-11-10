@@ -35,12 +35,12 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     connect(tabBar, &DolphinTabBar::openNewActivatedTab, this, QOverload<int>::of(&DolphinTabWidget::openNewActivatedTab));
     connect(tabBar, &DolphinTabBar::tabDropEvent, this, &DolphinTabWidget::tabDropEvent);
     connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
-    tabBar->hide();
 
     setTabBar(tabBar);
     setDocumentMode(true);
     setElideMode(Qt::ElideRight);
     setUsesScrollButtons(true);
+    setTabBarAutoHide(true);
 }
 
 DolphinTabPage *DolphinTabWidget::currentTabPage() const
@@ -451,7 +451,7 @@ void DolphinTabWidget::tabInserted(int index)
 {
     QTabWidget::tabInserted(index);
 
-    if (count() > 1) {
+    if (tabBar()->isVisible()) {
         // Resolve all pending tab icons
         for (int i = 0; i < count(); ++i) {
             const QUrl url = tabPageAt(i)->activeViewContainer()->url();
@@ -464,8 +464,6 @@ void DolphinTabWidget::tabInserted(int index)
                 tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
             }
         }
-
-        tabBar()->show();
     }
 
     Q_EMIT tabCountChanged(count());
@@ -474,12 +472,6 @@ void DolphinTabWidget::tabInserted(int index)
 void DolphinTabWidget::tabRemoved(int index)
 {
     QTabWidget::tabRemoved(index);
-
-    // If only one tab is left, then remove the tab entry so that
-    // closing the last tab is not possible.
-    if (count() < 2) {
-        tabBar()->hide();
-    }
 
     Q_EMIT tabCountChanged(count());
 }
