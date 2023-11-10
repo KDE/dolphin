@@ -29,6 +29,7 @@ apps:
         - mount-observe
         - removable-media
         - network-observe
+        - udisks2
         command-chain:
         - snap/command-chain/desktop-launch
 assumes:
@@ -53,9 +54,9 @@ plugs:
 environment:
     SNAP_DESKTOP_RUNTIME: $SNAP/kf5
     HOME: $SNAP_REAL_HOME
-    XDG_CACHE_HOME: $SNAP_USER_COMMON/.cache
-    XDG_CONFIG_HOME: $SNAP_USER_COMMON/.config
-    XDG_DATA_HOME: $SNAP_USER_COMMON/.local/share
+    XDG_CACHE_HOME: $SNAP/.cache
+    XDG_CONFIG_HOME: $SNAP/.config
+    XDG_DATA_HOME: $SNAP/.local/share
 hooks:
     configure:
         plugs:
