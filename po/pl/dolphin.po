@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-09 01:39+0000\n"
+"POT-Creation-Date: 2023-11-11 01:45+0000\n"
 "PO-Revision-Date: 2023-10-07 08:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -732,7 +732,7 @@ msgstr ""
 "miejsca.</para><para>Aby dowiedzieć się więcej o terminalach, należy "
 "przywołać pomoc w aplikacji terminala.</para>"
 
-#: dolphinmainwindow.cpp:1924 dolphinmainwindow.cpp:2676
+#: dolphinmainwindow.cpp:1924 dolphinmainwindow.cpp:2677
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -941,7 +941,7 @@ msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2163
+#: dolphinmainwindow.cpp:2164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -959,7 +959,7 @@ msgstr ""
 "bardziej zaawansowanych zadań. Więcej o terminalach znajduje się w pomocy do "
 "samodzielnej aplikacji terminala takiej jak Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2171
+#: dolphinmainwindow.cpp:2172
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -977,19 +977,19 @@ msgstr ""
 "zadań. Więcej o terminalach znajduje się w pomocy do samodzielnej aplikacji "
 "terminala takiej jak Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2188
+#: dolphinmainwindow.cpp:2189
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Miejsca"
 
-#: dolphinmainwindow.cpp:2215
+#: dolphinmainwindow.cpp:2216
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Pokaż ukryte miejsca"
 
-#: dolphinmainwindow.cpp:2219
+#: dolphinmainwindow.cpp:2220
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -999,7 +999,7 @@ msgstr ""
 "To wyświetla wszystkie miejsca, które zostały ukryte w panelu miejsc. Będą "
 "wyświetlane jako pół widoczne do czasu odznaczenia ich jako ukryte."
 
-#: dolphinmainwindow.cpp:2231
+#: dolphinmainwindow.cpp:2232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1015,7 +1015,7 @@ msgstr ""
 "także grupy do znajdywania ostatnio zapisanych plików lub plików danego "
 "rodzaju.</para>"
 
-#: dolphinmainwindow.cpp:2238
+#: dolphinmainwindow.cpp:2239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1040,13 +1040,13 @@ msgstr ""
 "przyciskiem na puste pole na tym panelu, a następnie wybranie "
 "<interface>Pokaż ukryte miejsca</interface> pokaże je ponownie.</para>"
 
-#: dolphinmainwindow.cpp:2252
+#: dolphinmainwindow.cpp:2253
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Pokaż panele"
 
-#: dolphinmainwindow.cpp:2370
+#: dolphinmainwindow.cpp:2371
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1062,43 +1062,43 @@ msgstr ""
 "jest katalog, który zawiera wszystkie dane podłączone do tego komputera —"
 "<emphasis>katalog główny</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2452
+#: dolphinmainwindow.cpp:2453
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zamknij"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Zamknij lewy widok"
 
-#: dolphinmainwindow.cpp:2456
+#: dolphinmainwindow.cpp:2457
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zamknij"
 
-#: dolphinmainwindow.cpp:2457
+#: dolphinmainwindow.cpp:2458
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zamknij prawy widok"
 
-#: dolphinmainwindow.cpp:2461
+#: dolphinmainwindow.cpp:2462
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Podziel"
 
-#: dolphinmainwindow.cpp:2462
+#: dolphinmainwindow.cpp:2463
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Podziel widok"
 
-#: dolphinmainwindow.cpp:2508
+#: dolphinmainwindow.cpp:2509
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1116,7 +1116,7 @@ msgstr ""
 "staje się widoczna po naciśnięciu przycisku <interface>Menu</interface> na "
 "<emphasis>Pasku narzędzi</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2515
+#: dolphinmainwindow.cpp:2516
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,7 +1139,7 @@ msgstr ""
 "położenie tego paska i wygląd jego przycisków w menu podręcznym. Naciśnięcie "
 "prawym na przycisku, pokaże lub ukryje jego tekst.</para>"
 
-#: dolphinmainwindow.cpp:2527
+#: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1167,7 +1167,7 @@ msgstr ""
 "view.html'>tutaj</link>. To otworzy stronę z <emphasis>Podręcznika</"
 "emphasis> która opisuje podstawy.</para>"
 
-#: dolphinmainwindow.cpp:2543
+#: dolphinmainwindow.cpp:2544
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1181,7 +1181,7 @@ msgstr ""
 "naciśnięciu ich jednocześnie. Wszystkie polecenia w tej aplikacji można "
 "wydać w ten sposób.</para>"
 
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2550
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1194,7 +1194,7 @@ msgstr ""
 "wszystkie rzeczy, które widać w <interface>Menu</interface> lub na pasku "
 "narzędzi.</para>"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2554
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1212,7 +1212,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2573
+#: dolphinmainwindow.cpp:2574
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1229,7 +1229,7 @@ msgstr ""
 "File_Management'>tutaj</link>. Zostanie otwarta osobna strona w Wiki bazy "
 "użytkowników KDE.</para>"
 
-#: dolphinmainwindow.cpp:2578
+#: dolphinmainwindow.cpp:2579
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1252,7 +1252,7 @@ msgstr ""
 "o<emphasis>Zarządzaniu plikami</emphasis>.</para><para>Pomocy \"Co to?\" "
 "brakuje w wielu innych oknach, więc nie ma co na niej polegać.</para>"
 
-#: dolphinmainwindow.cpp:2589
+#: dolphinmainwindow.cpp:2590
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1268,7 +1268,7 @@ msgstr ""
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>tutaj</link>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2598
+#: dolphinmainwindow.cpp:2599
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1290,7 +1290,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> jest organizacją non-profit stojącą "
 "za społecznością.</para>"
 
-#: dolphinmainwindow.cpp:2611
+#: dolphinmainwindow.cpp:2612
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1302,7 +1302,7 @@ msgstr ""
 "ustawić język zapasowy, który będzie używany, gdy tekst w głównym języku nie "
 "jest dostępny."
 
-#: dolphinmainwindow.cpp:2616
+#: dolphinmainwindow.cpp:2617
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1312,7 +1312,7 @@ msgstr ""
 "To otwiera okno z danymi o wydaniu, licencji, wykorzystywanych bibliotekach "
 "oraz opiekunach tej aplikacji."
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2622
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1326,7 +1326,7 @@ msgstr ""
 "aplikację, lecz nie wiesz niczego o KDE lub chcesz zobaczyć uroczego smoka, "
 "to zajrzyj!"
 
-#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
+#: dolphinmainwindow.cpp:2680 dolphinmainwindow.cpp:2684
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -1495,7 +1495,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Zapomnij ostatnio zamknięte karty"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:496 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:497 search/dolphinsearchbox.cpp:297
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Szukaj %1 w %2"
@@ -1603,54 +1603,54 @@ msgstr ""
 "item><item>Więcej narzędzi wyszukiwania: Wgraj inne programy do wyszukiwania "
 "elementów.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:108
+#: dolphinviewcontainer.cpp:109
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Uruchamianie Dolphina jako administrator może okazać się niebezpieczne. "
 "Zachowaj ostrożność."
 
-#: dolphinviewcontainer.cpp:532
+#: dolphinviewcontainer.cpp:533
 #, kde-format
 msgid "Search"
 msgstr "Szukaj"
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search for %1"
 msgstr "Szukaj %1"
 
-#: dolphinviewcontainer.cpp:618
+#: dolphinviewcontainer.cpp:619
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Wczytywanie katalogu..."
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:627
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Szeregowanie…"
 
-#: dolphinviewcontainer.cpp:637
+#: dolphinviewcontainer.cpp:638
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Szukanie…"
 
-#: dolphinviewcontainer.cpp:658
+#: dolphinviewcontainer.cpp:659
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nic nie znaleziono."
 
-#: dolphinviewcontainer.cpp:819
+#: dolphinviewcontainer.cpp:820
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nie obsługuje stron www, uruchomiono przeglądarkę www"
 
-#: dolphinviewcontainer.cpp:822
+#: dolphinviewcontainer.cpp:823
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1658,7 +1658,7 @@ msgid ""
 msgstr ""
 "Dolphin nie obsługuje tego protokołu, został uruchomiona domyślna aplikacja"
 
-#: dolphinviewcontainer.cpp:829
+#: dolphinviewcontainer.cpp:830
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1666,13 +1666,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Niewłaściwy protokół"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Niewłaściwy protokół"
 
-#: dolphinviewcontainer.cpp:941
+#: dolphinviewcontainer.cpp:942
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2641,7 +2641,7 @@ msgstr ""
 "Nie można wyświetlić terminalu, bo nie wgrano aplikacji Konsola. Wgraj ją i "
 "spróbuj ponownie otworzyć ten panel."
 
-#: panels/terminal/terminalpanel.cpp:190
+#: panels/terminal/terminalpanel.cpp:191
 #, kde-format
 msgid "Install Konsole"
 msgstr "Wgraj Konsolę"
@@ -4473,7 +4473,7 @@ msgid "Open files and folders:"
 msgstr "Otwórz plik lub katalog:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:321
+#: statusbar/dolphinstatusbar.cpp:325
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4643,35 +4643,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Katalogi: %1"
 
-#: statusbar/dolphinstatusbar.cpp:53
+#: statusbar/dolphinstatusbar.cpp:57
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Powiększenie:"
 
-#: statusbar/dolphinstatusbar.cpp:57
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgid "Zoom"
 msgstr "Powiększenie"
 
-#: statusbar/dolphinstatusbar.cpp:58
+#: statusbar/dolphinstatusbar.cpp:62
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Ustawia rozmiar ikon plików."
 
-#: statusbar/dolphinstatusbar.cpp:72
+#: statusbar/dolphinstatusbar.cpp:76
 #, kde-format
 msgid "Stop"
 msgstr "Zatrzymaj"
 
-#: statusbar/dolphinstatusbar.cpp:74
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Zatrzymaj wczytywanie"
 
-#: statusbar/dolphinstatusbar.cpp:129
+#: statusbar/dolphinstatusbar.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4691,13 +4691,13 @@ msgstr ""
 "dostosowanie rozmiaru ikon na widoku.</item><item><emphasis>Dane o "
 "przestrzeni</emphasis> dla bieżącego nośnika pamięci.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:264
+#: statusbar/dolphinstatusbar.cpp:268
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Pokaż suwak powiększania"
 
-#: statusbar/dolphinstatusbar.cpp:268
+#: statusbar/dolphinstatusbar.cpp:272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
