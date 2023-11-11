@@ -249,6 +249,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                      "contents.<nl/>For example the icons of images become scaled "
                                      "down versions of the images."));
     showPreview->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
+    m_actionCollection->setDefaultShortcut(showPreview, QKeySequence(Qt::Key_F12));
     connect(showPreview, &KToggleAction::triggered, this, &DolphinViewActionHandler::togglePreview);
 
     KToggleAction *sortFoldersFirst = m_actionCollection->add<KToggleAction>(QStringLiteral("folders_first"));
