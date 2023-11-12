@@ -24,6 +24,7 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget *tabWidget = new QTabWidget(this);
+    tabWidget->setDocumentMode(true);
 
     // initialize 'Folders & Tabs' tab
     FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);

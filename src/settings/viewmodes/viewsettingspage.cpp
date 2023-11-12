@@ -22,6 +22,7 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     tabWidget = new QTabWidget(this);
+    tabWidget->setDocumentMode(true);
 
     // General View tab
     GeneralViewSettingsPage *generalViewPage = new GeneralViewSettingsPage(url, tabWidget);
