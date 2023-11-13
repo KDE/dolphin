@@ -1906,12 +1906,12 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Ayarlanabilir bir gün sayısından daha eski olan dosyalar otomatik olarak silinebilir. </para
+>Ayarlanabilir bir gün sayısından daha eski olan dosyalar kendiliğinden silinebilir. </para
 ></listitem>
 
 <listitem
 ><para
->Çöp kutusunun boyutu, disk boyutunun yapılandırılabilir bir yüzdesi ile sınırlanabilir. Bu sınıra ulaşılırsa bir uyarı verir veya en eski veya en büyük dosyalar otomatik olarak silinebilir. </para
+>Çöp kutusunun boyutu, disk boyutunun yapılandırılabilir bir yüzdesi ile sınırlanabilir. Bu sınıra ulaşılırsa bir uyarı verir veya en eski veya en büyük dosyalar kendiliğinden silinebilir. </para
 ></listitem>
 
 </itemizedlist>
