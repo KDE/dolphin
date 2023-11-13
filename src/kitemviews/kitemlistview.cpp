@@ -402,6 +402,10 @@ qreal KItemListView::verticalPageStep() const
 
 std::optional<int> KItemListView::itemAt(const QPointF &pos) const
 {
+    if (headerBoundaries().contains(pos)) {
+        return std::nullopt;
+    }
+
     QHashIterator<int, KItemListWidget *> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();

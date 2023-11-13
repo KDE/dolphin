@@ -425,28 +425,6 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         break;
     }
 
-    case Qt::Key_Menu: {
-        // Emit the signal itemContextMenuRequested() in case if at least one
-        // item is selected. Otherwise the signal viewContextMenuRequested() will be emitted.
-        const KItemSet selectedItems = m_selectionManager->selectedItems();
-        int index = -1;
-        if (selectedItems.count() >= 2) {
-            const int currentItemIndex = m_selectionManager->currentItem();
-            index = selectedItems.contains(currentItemIndex) ? currentItemIndex : selectedItems.first();
-        } else if (selectedItems.count() == 1) {
-            index = selectedItems.first();
-        }
-
-        if (index >= 0) {
-            const QRectF contextRect = m_view->itemContextRect(index);
-            const QPointF pos(m_view->scene()->views().first()->mapToGlobal(contextRect.bottomRight().toPoint()));
-            Q_EMIT itemContextMenuRequested(index, pos);
-        } else {
-            Q_EMIT viewContextMenuRequested(QCursor::pos());
-        }
-        break;
-    }
-
     case Qt::Key_Escape:
         if (m_selectionMode) {
             Q_EMIT selectionModeChangeRequested(false);
@@ -701,19 +679,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
     }
 
     if (event->button() & Qt::RightButton) {
-        m_selectionManager->clearSelection();
-        if (index.has_value()) {
-            m_selectionManager->setSelected(index.value());
-            Q_EMIT itemContextMenuRequested(index.value(), event->screenPos());
-        } else {
-            const QRectF headerBounds = m_view->headerBoundaries();
-            if (headerBounds.contains(event->pos())) {
-                Q_EMIT headerContextMenuRequested(event->screenPos());
-            } else {
-                Q_EMIT viewContextMenuRequested(event->screenPos());
-            }
-        }
-        return true;
+        return false;
     }
 
     bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)
@@ -722,6 +688,59 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
         Q_EMIT itemActivated(index.value());
     }
     return false;
+}
+
+bool KItemListController::contextMenuEvent(QContextMenuEvent *event)
+{
+    if (event->reason() == QContextMenuEvent::Keyboard) {
+        // Emit the signal itemContextMenuRequested() if at least one item is selected.
+        // Otherwise the signal viewContextMenuRequested() will be emitted.
+        const KItemSet selectedItems = m_selectionManager->selectedItems();
+        int index = -1;
+        if (selectedItems.count() >= 2) {
+            const int currentItemIndex = m_selectionManager->currentItem();
+            index = selectedItems.contains(currentItemIndex) ? currentItemIndex : selectedItems.first();
+        } else if (selectedItems.count() == 1) {
+            index = selectedItems.first();
+        }
+
+        if (index >= 0) {
+            const QRectF contextRect = m_view->itemContextRect(index);
+            const QPointF pos(m_view->scene()->views().first()->mapToGlobal(contextRect.bottomRight().toPoint()));
+            Q_EMIT itemContextMenuRequested(index, pos);
+        } else {
+            Q_EMIT viewContextMenuRequested(event->globalPos());
+        }
+        return true;
+    }
+
+    const auto pos = event->pos();
+    const auto globalPos = event->globalPos();
+
+    if (m_view->headerBoundaries().contains(pos)) {
+        Q_EMIT headerContextMenuRequested(globalPos);
+        return true;
+    }
+
+    const auto pressedItem = m_view->itemAt(pos);
+    // We only open a context menu for the pressed item if it is selected.
+    // That's because the same click might have de-selected the item or because the press was only in the row of the item but not on it.
+    if (pressedItem && m_selectionManager->selectedItems().contains(pressedItem.value())) {
+        // The selection rectangle for an item was clicked
+        Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), globalPos);
+        return true;
+    }
+
+    // Remove any hover highlights so the context menu doesn't look like it applies to a row.
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (KItemListWidget *widget : widgets) {
+        if (widget->isHovered()) {
+            widget->setHovered(false);
+            Q_EMIT itemUnhovered(widget->index());
+        }
+    }
+    Q_EMIT viewContextMenuRequested(globalPos);
+    return true;
 }
 
 bool KItemListController::dragEnterEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform)
@@ -1208,6 +1227,8 @@ bool KItemListController::processEvent(QEvent *event, const QTransform &transfor
         return mouseReleaseEvent(static_cast<QGraphicsSceneMouseEvent *>(event), QTransform());
     case QEvent::GraphicsSceneMouseDoubleClick:
         return mouseDoubleClickEvent(static_cast<QGraphicsSceneMouseEvent *>(event), QTransform());
+    case QEvent::ContextMenu:
+        return contextMenuEvent(static_cast<QContextMenuEvent *>(event));
     case QEvent::GraphicsSceneWheel:
         return wheelEvent(static_cast<QGraphicsSceneWheelEvent *>(event), QTransform());
     case QEvent::GraphicsSceneDragEnter:
@@ -1393,6 +1414,10 @@ KItemListWidget *KItemListController::widgetForPos(const QPointF &pos) const
 {
     Q_ASSERT(m_view);
 
+    if (m_view->headerBoundaries().contains(pos)) {
+        return nullptr;
+    }
+
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
@@ -1407,6 +1432,10 @@ KItemListWidget *KItemListController::widgetForPos(const QPointF &pos) const
 KItemListWidget *KItemListController::widgetForDropPos(const QPointF &pos) const
 {
     Q_ASSERT(m_view);
+
+    if (m_view->headerBoundaries().contains(pos)) {
+        return nullptr;
+    }
 
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
@@ -1617,12 +1646,6 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
     }
 
     if (rightClick) {
-        // Do header hit check and short circuit before commencing any state changing effects
-        if (m_view->headerBoundaries().contains(pos)) {
-            Q_EMIT headerContextMenuRequested(screenPos);
-            return true;
-        }
-
         // Stop rubber band from persisting after right-clicks
         KItemListRubberBand *rubberBand = m_view->rubberBand();
         if (rubberBand->isActive()) {
@@ -1634,7 +1657,6 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
 
     if (m_pressedIndex.has_value()) {
         // The hover highlight area of an item is being pressed.
-        m_selectionManager->setCurrentItem(m_pressedIndex.value());
         const auto row = m_view->m_visibleItems.value(m_pressedIndex.value()); // anything outside of row.contains() will be the empty region of the row rect
         const bool hitTargetIsRowEmptyRegion = !row->contains(row->mapFromItem(m_view, pos));
         // again, when this method returns false, a rubberBand selection is created as the event is not consumed;
@@ -1642,17 +1664,12 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
         bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
 
         if (rightClick && hitTargetIsRowEmptyRegion) {
-            // We have a right click outside the icon and text rect but within the hover highlight area
-            // but it is unclear if this means that a selection rectangle for an item was clicked or the background of the view.
-            if (m_selectionManager->selectedItems().contains(m_pressedIndex.value())) {
-                // The selection rectangle for an item was clicked
-                Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
-            } else {
-                row->setHovered(false); // Removes the hover highlight so the context menu doesn't look like it applies to the row.
-                Q_EMIT viewContextMenuRequested(screenPos);
-            }
+            // We have a right click outside the icon and text rect but within the hover highlight area.
+            // We don't want items to get selected through this, so we return now.
             return true;
         }
+
+        m_selectionManager->setCurrentItem(m_pressedIndex.value());
 
         switch (m_selectionBehavior) {
         case NoSelection:
@@ -1690,17 +1707,7 @@ bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, c
             break;
         }
 
-        if (rightClick) {
-            Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
-        }
         return !createRubberBand;
-    }
-
-    if (rightClick) {
-        // header right click handling would have been done before this so just normal context
-        // menu here is fine
-        Q_EMIT viewContextMenuRequested(screenPos);
-        return true;
     }
 
     return false;

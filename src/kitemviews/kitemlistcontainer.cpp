@@ -138,6 +138,21 @@ void KItemListContainer::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void KItemListContainer::contextMenuEvent(QContextMenuEvent *event)
+{
+    // Note copied from the keyPressEvent() method above because the same reasons probably also apply here.
+    // TODO: We should find a better way to handle the context menu events in the view.
+    // The reasons why we need this hack are:
+    // 1. Without reimplementing contextMenuEvent() here, the event would not reach the QGraphicsView.
+    // 2. By default, the KItemListView does not have the keyboard focus in the QGraphicsScene, so
+    //    simply sending the event to the QGraphicsView which is the KItemListContainer's viewport
+    //    does not work.
+    KItemListView *view = m_controller->view();
+    if (view) {
+        QApplication::sendEvent(view, event);
+    }
+}
+
 void KItemListContainer::showEvent(QShowEvent *event)
 {
     QAbstractScrollArea::showEvent(event);

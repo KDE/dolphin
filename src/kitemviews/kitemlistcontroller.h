@@ -24,6 +24,7 @@ class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
 class KItemListView;
 class KItemListWidget;
+class QContextMenuEvent;
 class QGestureEvent;
 class QGraphicsSceneHoverEvent;
 class QGraphicsSceneDragDropEvent;
@@ -313,6 +314,7 @@ private:
     bool mouseMoveEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
     bool mouseReleaseEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
     bool mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, const QTransform &transform);
+    bool contextMenuEvent(QContextMenuEvent *event);
     bool dragEnterEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
     bool dragLeaveEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
     bool dragMoveEvent(QGraphicsSceneDragDropEvent *event, const QTransform &transform);
