@@ -235,7 +235,6 @@ protected:
     const KItemListWidgetInformant *informant() const;
 
 private Q_SLOTS:
-    void slotHoverAnimationFinished();
     void slotHoverSequenceTimerTimeout();
 
 private:
@@ -263,7 +262,6 @@ private:
 
     qreal m_hoverOpacity;
     mutable QPixmap *m_hoverCache;
-    QPropertyAnimation *m_hoverAnimation;
 
     int m_hoverSequenceIndex;
     QTimer m_hoverSequenceTimer;

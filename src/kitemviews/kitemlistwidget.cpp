@@ -45,7 +45,6 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_siblingsInfo()
     , m_hoverOpacity(0)
     , m_hoverCache(nullptr)
-    , m_hoverAnimation(nullptr)
     , m_hoverSequenceIndex(0)
     , m_selectionToggle(nullptr)
     , m_editedRole()
@@ -65,10 +64,8 @@ void KItemListWidget::setIndex(int index)
         delete m_selectionToggle;
         m_selectionToggle = nullptr;
 
-        if (m_hoverAnimation) {
-            m_hoverAnimation->stop();
-            m_hoverOpacity = 0;
-        }
+        m_hoverOpacity = 0;
+
         clearHoverCache();
 
         m_index = index;
@@ -116,6 +113,7 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
                 backgroundColor = backgroundColor.darker(101);
             }
         }
+
         const QRectF backgroundRect(0, 0, size().width(), size().height());
         painter->fillRect(backgroundRect, backgroundColor);
     }
@@ -256,20 +254,11 @@ void KItemListWidget::setHovered(bool hovered)
 
     m_hovered = hovered;
 
-    if (!m_hoverAnimation) {
-        m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
-        const int duration = style()->styleHint(QStyle::SH_Widget_Animate) ? 200 : 1;
-        m_hoverAnimation->setDuration(duration);
-        connect(m_hoverAnimation, &QPropertyAnimation::finished, this, &KItemListWidget::slotHoverAnimationFinished);
-    }
-    m_hoverAnimation->stop();
-
     m_hoverSequenceIndex = 0;
 
     if (hovered) {
-        const qreal startValue = qMax(hoverOpacity(), qreal(0.1));
-        m_hoverAnimation->setStartValue(startValue);
-        m_hoverAnimation->setEndValue(1.0);
+        setHoverOpacity(1.0);
+
         if (m_enabledSelectionToggle && !(QApplication::mouseButtons() & Qt::LeftButton)) {
             initializeSelectionToggle();
         }
@@ -281,14 +270,16 @@ void KItemListWidget::setHovered(bool hovered)
 
         m_hoverSequenceTimer.start(interval);
     } else {
-        m_hoverAnimation->setStartValue(hoverOpacity());
-        m_hoverAnimation->setEndValue(0.0);
+        setHoverOpacity(0.0);
+
+        if (m_selectionToggle) {
+            m_selectionToggle->deleteLater();
+            m_selectionToggle = nullptr;
+        }
 
         hoverSequenceEnded();
         m_hoverSequenceTimer.stop();
     }
-
-    m_hoverAnimation->start();
 
     hoveredChanged(hovered);
     update();
@@ -552,14 +543,6 @@ qreal KItemListWidget::hoverOpacity() const
 int KItemListWidget::hoverSequenceIndex() const
 {
     return m_hoverSequenceIndex;
-}
-
-void KItemListWidget::slotHoverAnimationFinished()
-{
-    if (!m_hovered && m_selectionToggle) {
-        m_selectionToggle->deleteLater();
-        m_selectionToggle = nullptr;
-    }
 }
 
 void KItemListWidget::slotHoverSequenceTimerTimeout()
