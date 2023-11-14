@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 01:39+0000\n"
+"POT-Creation-Date: 2023-11-14 01:40+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -4049,7 +4049,7 @@ msgstr ""
 "Lokacija za početni direktorij nije valjana ili ne postoji, pa neće biti "
 "primijenjena."
 
-#: settings/interface/interfacesettingspage.cpp:30
+#: settings/interface/interfacesettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4057,21 +4057,21 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Prvo direktoriji"
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Pregledi"
 
-#: settings/interface/interfacesettingspage.cpp:40
+#: settings/interface/interfacesettingspage.cpp:41
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Potvrđivanja"
 
-#: settings/interface/interfacesettingspage.cpp:45
+#: settings/interface/interfacesettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"
@@ -4175,21 +4175,21 @@ msgid "Behavior"
 msgstr "Ponašanje"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Ikone"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "Sabij"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:50
+#: settings/viewmodes/viewsettingspage.cpp:51
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4388,7 +4388,7 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "Preimenuj unutar linije"
 
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:29
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -4396,7 +4396,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Opšte"
 
-#: settings/viewmodes/viewsettingspage.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Content"

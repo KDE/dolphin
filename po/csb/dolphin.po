@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 01:39+0000\n"
+"POT-Creation-Date: 2023-11-14 01:40+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -4140,7 +4140,7 @@ msgstr ""
 "Pòłożenié domôcégò katalogù je zmiłkòwé, abò gò ni ma, ë ni mòże bëc "
 "nastôwioné."
 
-#: settings/interface/interfacesettingspage.cpp:30
+#: settings/interface/interfacesettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4148,14 +4148,14 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Wprzód katalodżi"
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Pòdzérczi"
 
-#: settings/interface/interfacesettingspage.cpp:40
+#: settings/interface/interfacesettingspage.cpp:41
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
@@ -4164,7 +4164,7 @@ msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Pòcwierdzenié"
 
-#: settings/interface/interfacesettingspage.cpp:45
+#: settings/interface/interfacesettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgid "Location"
 msgctxt "@title:tab Status & Location bars settings"
@@ -4268,21 +4268,21 @@ msgid "Behavior"
 msgstr "Zachòwanié "
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Ikònë"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr ""
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:50
+#: settings/viewmodes/viewsettingspage.cpp:51
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4486,7 +4486,7 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "Zmieni w réze"
 
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:29
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -4494,7 +4494,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Òglowé"
 
-#: settings/viewmodes/viewsettingspage.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@item::inlistbox"
 #| msgid "Comment"

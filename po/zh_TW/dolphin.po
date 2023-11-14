@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 01:39+0000\n"
+"POT-Creation-Date: 2023-11-14 01:40+0000\n"
 "PO-Revision-Date: 2023-06-15 04:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -3740,7 +3740,7 @@ msgid ""
 "be applied."
 msgstr "家目錄的位置不合法或不存在，將不會套用。"
 
-#: settings/interface/interfacesettingspage.cpp:30
+#: settings/interface/interfacesettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -3748,21 +3748,21 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "資料夾優先"
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "預覽"
 
-#: settings/interface/interfacesettingspage.cpp:40
+#: settings/interface/interfacesettingspage.cpp:41
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "確認"
 
-#: settings/interface/interfacesettingspage.cpp:45
+#: settings/interface/interfacesettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"
@@ -3858,21 +3858,21 @@ msgid "Behavior"
 msgstr "行為"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "圖示"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "簡潔模式"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:50
+#: settings/viewmodes/viewsettingspage.cpp:51
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4059,7 +4059,7 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "重新命名內含項目"
 
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:29
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -4067,7 +4067,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "一般"
 
-#: settings/viewmodes/viewsettingspage.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:36
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"

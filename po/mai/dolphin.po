@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 01:39+0000\n"
+"POT-Creation-Date: 2023-11-14 01:40+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -4093,7 +4093,7 @@ msgid ""
 "be applied."
 msgstr "घर फोल्डर क' स्थान अवैध अछि आओर एकरा लागू नहि कएल जएताह."
 
-#: settings/interface/interfacesettingspage.cpp:30
+#: settings/interface/interfacesettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4101,14 +4101,14 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "फोल्डर प्रथम"
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "पूर्वावलोकन"
 
-#: settings/interface/interfacesettingspage.cpp:40
+#: settings/interface/interfacesettingspage.cpp:41
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
@@ -4117,7 +4117,7 @@ msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "पुष्टिकरण"
 
-#: settings/interface/interfacesettingspage.cpp:45
+#: settings/interface/interfacesettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Location Bar"
@@ -4223,21 +4223,21 @@ msgid "Behavior"
 msgstr "व्यवहार"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "प्रतीक"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr ""
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:50
+#: settings/viewmodes/viewsettingspage.cpp:51
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4438,7 +4438,7 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "इनलाइन नाम बदलू"
 
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:29
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -4446,7 +4446,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "सामान्य"
 
-#: settings/viewmodes/viewsettingspage.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@item::inlistbox"
 #| msgid "Comment"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 01:39+0000\n"
+"POT-Creation-Date: 2023-11-14 01:40+0000\n"
 "PO-Revision-Date: 2023-11-11 07:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3848,27 +3848,27 @@ msgid ""
 "be applied."
 msgstr "主文件夹位置无效或者不存在，无法应用。"
 
-#: settings/interface/interfacesettingspage.cpp:30
+#: settings/interface/interfacesettingspage.cpp:31
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "文件夹和标签页"
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "预览图"
 
-#: settings/interface/interfacesettingspage.cpp:40
+#: settings/interface/interfacesettingspage.cpp:41
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "请求确认"
 
-#: settings/interface/interfacesettingspage.cpp:45
+#: settings/interface/interfacesettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
@@ -3956,21 +3956,21 @@ msgid "Behavior"
 msgstr "行为"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "图标"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "紧凑"
 
 #: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:50
+#: settings/viewmodes/viewsettingspage.cpp:51
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4155,13 +4155,13 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "单击重命名"
 
-#: settings/viewmodes/viewsettingspage.cpp:28
+#: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "常规"
 
-#: settings/viewmodes/viewsettingspage.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:36
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
