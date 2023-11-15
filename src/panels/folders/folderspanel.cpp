@@ -161,6 +161,9 @@ void FoldersPanel::showEvent(QShowEvent *event)
         connect(m_controller, &KItemListController::itemDropEvent, this, &FoldersPanel::slotItemDropEvent);
 
         KItemListContainer *container = new KItemListContainer(m_controller, this);
+#ifndef QT_NO_ACCESSIBILITY
+        view->setAccessibleParentsObject(container);
+#endif
         container->setEnabledFrame(false);
 
         QVBoxLayout *layout = new QVBoxLayout(this);
