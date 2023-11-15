@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 01:40+0000\n"
-"PO-Revision-Date: 2023-11-08 14:22+0100\n"
+"PO-Revision-Date: 2023-11-14 13:10+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4427,17 +4427,17 @@ msgstr "Zobrazovat informace o volném místě"
 #: statusbar/statusbarspaceinfo.cpp:104
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Statistika použití disku - současná složka"
 
 #: statusbar/statusbarspaceinfo.cpp:114
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Statistika použití disku - současné zařízení"
 
 #: statusbar/statusbarspaceinfo.cpp:127
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Statistika použití disku - všechna zařízení"
 
 #: statusbar/statusbarspaceinfo.cpp:140
 #, kde-format

@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 01:40+0000\n"
-"PO-Revision-Date: 2023-11-08 15:51-0300\n"
+"PO-Revision-Date: 2023-11-14 13:26-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -2853,9 +2853,7 @@ msgid "Search in your home directory"
 msgstr "Procurar na sua pasta pessoal"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Abrir %1"
 
@@ -3301,10 +3299,9 @@ msgstr "Mostrar 'Abrir em nova janela' no menu de contexto."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Mostrar 'Abrir em nova janela' no menu de contexto."
+msgstr "Mostrar 'Abrir em visualização dividida' no menu de contexto."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3729,17 +3726,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Solicitar confirmação ao fechar janelas com várias abas."
+msgstr "Solicitar confirmação ao abrir várias pastas de uma vez."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Solicitar confirmação ao fechar janelas com várias abas."
+msgstr "Solicitar confirmação ao abrir vários terminais de uma vez."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3918,15 +3913,13 @@ msgstr "Mostrar ao iniciar:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Manter uma janela única do Dolphin, abrindo as pastas novas em abas"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Abrir arquivos e pastas:"
+msgstr "Abrindo pastas:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -4714,22 +4707,22 @@ msgstr "Mostrar informações de espaço"
 #: statusbar/statusbarspaceinfo.cpp:104
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Estatísticas de uso do disco - pasta atual"
 
 #: statusbar/statusbarspaceinfo.cpp:114
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Estatísticas de uso do disco - dispositivo atual"
 
 #: statusbar/statusbarspaceinfo.cpp:127
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Estatísticas de uso do disco - todos os dispositivos"
 
 #: statusbar/statusbarspaceinfo.cpp:140
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:168
 #, kde-format

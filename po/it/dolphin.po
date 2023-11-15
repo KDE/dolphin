@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-14 01:40+0000\n"
-"PO-Revision-Date: 2023-11-08 09:25+0100\n"
+"PO-Revision-Date: 2023-11-12 10:39+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2847,9 +2847,7 @@ msgid "Search in your home directory"
 msgstr "Cerca nella tua cartella home"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Apri %1"
 
@@ -4714,22 +4712,22 @@ msgstr "Mostra le informazioni sullo spazio"
 #: statusbar/statusbarspaceinfo.cpp:104
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Statistiche sull'utilizzo del disco - cartella attuale"
 
 #: statusbar/statusbarspaceinfo.cpp:114
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Statistiche sull'utilizzo del disco - dispositivo attuale"
 
 #: statusbar/statusbarspaceinfo.cpp:127
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Statistiche sull'utilizzo del disco - tutti i dispositivi"
 
 #: statusbar/statusbarspaceinfo.cpp:140
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:168
 #, kde-format
