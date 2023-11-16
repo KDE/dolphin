@@ -640,11 +640,11 @@ void DolphinView::emitStatusBarText(const int folderCount, const int fileCount, 
     if (selection == HasSelection) {
         // At least 2 items are selected because the case of 1 selected item is handled in
         // DolphinView::requestStatusBarText().
-        foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-        filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
+        foldersText = i18ncp("@info:status", "1 folder selected", "%1 folders selected", folderCount);
+        filesText = i18ncp("@info:status", "1 file selected", "%1 files selected", fileCount);
     } else {
-        foldersText = i18ncp("@info:status", "1 Folder", "%1 Folders", folderCount);
-        filesText = i18ncp("@info:status", "1 File", "%1 Files", fileCount);
+        foldersText = i18ncp("@info:status", "1 folder", "%1 folders", folderCount);
+        filesText = i18ncp("@info:status", "1 file", "%1 files", fileCount);
     }
 
     if (fileCount > 0 && folderCount > 0) {
@@ -654,7 +654,7 @@ void DolphinView::emitStatusBarText(const int folderCount, const int fileCount, 
     } else if (folderCount > 0) {
         summary = foldersText;
     } else {
-        summary = i18nc("@info:status", "0 Folders, 0 Files");
+        summary = i18nc("@info:status", "0 folders, 0 files");
     }
     Q_EMIT statusBarTextChanged(summary);
 }
