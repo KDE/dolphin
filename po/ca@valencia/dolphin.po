@@ -90,7 +90,7 @@ msgstr "S'ha enllaçat correctament."
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
-msgstr "S'ha mogut cap a la paperera correctament."
+msgstr "S'ha mogut cap a dins de la paperera correctament."
 
 #: dolphinmainwindow.cpp:316
 #, kde-format
@@ -3093,8 +3093,8 @@ msgstr[1] "Duplica %2"
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Mou %2 a la paperera"
-msgstr[1] "Mou %2 a la paperera"
+msgstr[0] "Mou %2 cap a dins de la paperera"
+msgstr[1] "Mou %2 cap a dins de la paperera"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3818,7 +3818,7 @@ msgstr "Demana confirmació en totes les aplicacions KDE quan:"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr "Es moguen fitxers o carpetes a la paperera"
+msgstr "Es moguen fitxers o carpetes cap a dins de la paperera"
 
 #: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
