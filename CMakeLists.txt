@@ -88,9 +88,9 @@ if(KUserFeedbackQt6_FOUND)
 endif()
 
 find_package(KF6 ${KF6_MIN_VERSION} OPTIONAL_COMPONENTS
-    Activities
     DocTools
 )
+find_package(KF6Activities)
 set_package_properties(KF6Activities PROPERTIES DESCRIPTION "KActivities libraries"
                        URL "https://www.kde.org"
                        TYPE OPTIONAL
