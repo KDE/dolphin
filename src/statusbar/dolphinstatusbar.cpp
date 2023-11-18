@@ -46,8 +46,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_delayUpdateTimer(nullptr)
     , m_textTimestamp()
 {
-    setContentsMargins(4, 0, 4, 0);
-
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, this);
     m_label->setWordWrap(true);
@@ -117,7 +115,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_progressBar->setMaximumWidth(fontMetrics.averageCharWidth() * 20);
 
     QHBoxLayout *topLayout = new QHBoxLayout(this);
-    topLayout->setContentsMargins(2, 0, 2, 0);
+    updateContentsMargins();
     topLayout->setSpacing(4);
     topLayout->addWidget(m_label, 1);
     topLayout->addWidget(m_zoomLabel);
@@ -284,6 +282,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
         GeneralSettings::setShowSpaceInfo(visible);
         m_spaceInfo->setVisible(visible);
     }
+    updateContentsMargins();
 }
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
@@ -338,10 +337,22 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
+    updateContentsMargins();
+}
+
+void DolphinStatusBar::updateContentsMargins()
+{
+    if (GeneralSettings::showSpaceInfo()) {
+        // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
+        layout()->setContentsMargins(6, 0, 2, 0);
+    } else {
+        layout()->setContentsMargins(6, 0, 6, 0);
+    }
 }
 
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
 {
+    Q_UNUSED(paintEvent)
     QPainter p(this);
     QStyleOption opt;
     opt.initFrom(this);

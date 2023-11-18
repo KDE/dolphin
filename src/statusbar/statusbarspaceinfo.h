@@ -6,13 +6,16 @@
 #ifndef STATUSBARSPACEINFO_H
 #define STATUSBARSPACEINFO_H
 
-#include <KCapacityBar>
-
 #include <QUrl>
+#include <QWidget>
 
 class QHideEvent;
 class QShowEvent;
+class QMenu;
 class QMouseEvent;
+class QToolButton;
+
+class KCapacityBar;
 
 class SpaceInfoObserver;
 
@@ -20,7 +23,7 @@ class SpaceInfoObserver;
  * @short Shows the available space for the volume represented
  *        by the given URL as part of the status bar.
  */
-class StatusBarSpaceInfo : public KCapacityBar
+class StatusBarSpaceInfo : public QWidget
 {
     Q_OBJECT
 
@@ -40,13 +43,17 @@ public:
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
+
+    void updateMenu();
 
 private Q_SLOTS:
     void slotValuesChanged();
 
 private:
     QScopedPointer<SpaceInfoObserver> m_observer;
+    KCapacityBar *m_capacityBar;
+    QToolButton *m_textInfoButton;
+    QMenu *m_buttonMenu;
     QUrl m_url;
     bool m_ready;
     bool m_shown;

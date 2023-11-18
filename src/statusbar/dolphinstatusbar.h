@@ -121,6 +121,8 @@ private:
      */
     void setExtensionsVisible(bool visible);
 
+    void updateContentsMargins();
+
 private:
     QString m_text;
     QString m_defaultText;
