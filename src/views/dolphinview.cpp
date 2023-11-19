@@ -1147,7 +1147,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
 {
     ViewProperties props(viewPropertiesUrl());
 
-    QPointer<QMenu> menu = new QMenu(QApplication::activeWindow());
+    QPointer<QMenu> menu = new QMenu(this);
 
     KItemListView *view = m_container->controller()->view();
     const QList<QByteArray> visibleRolesSet = view->visibleRoles();
