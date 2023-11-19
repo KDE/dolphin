@@ -5352,10 +5352,3 @@ msgstr[1] "Handlingar for %1 merkte element"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "More Search Tools"
-#~ msgstr "Fleire søkjeverktøy"
-
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "Set opp førehandsvising for %1"
