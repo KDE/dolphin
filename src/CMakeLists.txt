@@ -83,6 +83,7 @@ target_sources(dolphinprivate PRIVATE
     kitemviews/private/kitemlistsmoothscroller.cpp
     kitemviews/private/kitemlistviewanimation.cpp
     kitemviews/private/kitemlistviewlayouter.cpp
+    kitemviews/private/kitemviewsutils.cpp
     kitemviews/private/kpixmapmodifier.cpp
     settings/applyviewpropsjob.cpp
     settings/viewmodes/viewmodesettings.cpp

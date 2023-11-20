@@ -5,6 +5,7 @@
  */
 
 #include "dolphinfileitemlistwidget.h"
+#include "../kitemviews/private/kitemviewsutils.h"
 
 #include "dolphindebug.h"
 
@@ -77,7 +78,7 @@ void DolphinFileItemListWidget::refreshCache()
     setTextColor(color);
 }
 
-QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version, int size)
+QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version, int size) const
 {
     int overlayHeight = KIconLoader::SizeSmall;
     if (size >= KIconLoader::SizeEnormous) {
@@ -122,7 +123,8 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVe
         break;
     }
 
-    return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight));
+    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
+    return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight), dpr);
 }
 
 #include "moc_dolphinfileitemlistwidget.cpp"

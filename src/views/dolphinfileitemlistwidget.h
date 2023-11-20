@@ -29,7 +29,7 @@ protected:
     void refreshCache() override;
 
 private:
-    static QPixmap overlayForState(KVersionControlPlugin::ItemVersion version, int size);
+    QPixmap overlayForState(KVersionControlPlugin::ItemVersion version, int size) const;
 };
 
 #endif

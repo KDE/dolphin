@@ -10,6 +10,7 @@
 #include "kfileitemmodel.h"
 #include "private/kfileitemclipboard.h"
 #include "private/kitemlistroleeditor.h"
+#include "private/kitemviewsutils.h"
 #include "private/kpixmapmodifier.h"
 
 #include <KIconEffect>
@@ -965,6 +966,7 @@ void KStandardItemListWidget::updatePixmapCache()
     const bool iconOnTop = (m_layout == IconsLayout);
     const KItemListStyleOption &option = styleOption();
     const qreal padding = option.padding;
+    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
     const int widgetIconSize = iconSize();
     const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : widgetIconSize;
@@ -1025,7 +1027,7 @@ void KStandardItemListWidget::updatePixmapCache()
         } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
             // is scaled to the maximum available size.
-            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * qApp->devicePixelRatio());
+            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * dpr);
         }
 
         if (m_pixmap.isNull()) {
@@ -1073,8 +1075,8 @@ void KStandardItemListWidget::updatePixmapCache()
     const int maxScaledIconHeight = scaledIconSize;
 
     m_scaledPixmapSize = m_pixmap.size();
-    m_scaledPixmapSize.scale(maxScaledIconWidth * qApp->devicePixelRatio(), maxScaledIconHeight * qApp->devicePixelRatio(), Qt::KeepAspectRatio);
-    m_scaledPixmapSize = m_scaledPixmapSize / qApp->devicePixelRatio();
+    m_scaledPixmapSize.scale(maxScaledIconWidth * dpr, maxScaledIconHeight * dpr, Qt::KeepAspectRatio);
+    m_scaledPixmapSize = m_scaledPixmapSize / dpr;
 
     if (iconOnTop) {
         // Center horizontally and align on bottom within the icon-area
@@ -1171,7 +1173,7 @@ void KStandardItemListWidget::updateTextsCache()
         if (ratingSize.width() > availableWidth) {
             ratingSize.rwidth() = availableWidth;
         }
-        const qreal dpr = qApp->devicePixelRatio();
+        const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
         m_rating = QPixmap(ratingSize.toSize() * dpr);
         m_rating.setDevicePixelRatio(dpr);
         m_rating.fill(Qt::transparent);
@@ -1473,9 +1475,10 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
 void KStandardItemListWidget::drawPixmap(QPainter *painter, const QPixmap &pixmap)
 {
     if (m_scaledPixmapSize != pixmap.size() / pixmap.devicePixelRatio()) {
+        const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
         QPixmap scaledPixmap = pixmap;
-        KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize * qApp->devicePixelRatio());
-        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+        KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize * dpr);
+        scaledPixmap.setDevicePixelRatio(dpr);
         painter->drawPixmap(m_pixmapPos, scaledPixmap);
 
 #ifdef KSTANDARDITEMLISTWIDGET_DEBUG
@@ -1559,10 +1562,7 @@ void KStandardItemListWidget::closeRoleEditor()
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode) const
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
-    qreal dpr = qApp->devicePixelRatio();
-    if (scene() && !scene()->views().isEmpty()) {
-        dpr = scene()->views().constFirst()->devicePixelRatioF();
-    }
+    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
     size *= dpr;
 

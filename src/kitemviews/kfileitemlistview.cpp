@@ -9,6 +9,7 @@
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
 #include "kfileitemmodelrolesupdater.h"
+#include "private/kitemviewsutils.h"
 #include "private/kpixmapmodifier.h"
 
 #include <KIconLoader>
@@ -157,7 +158,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet &indexes) const
         yCount = xCount;
     }
 
-    const qreal dpr = scene()->views()[0]->devicePixelRatio();
+    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
     // Draw the selected items into the grid cells.
     QPixmap dragPixmap(QSize(xCount * size + xCount, yCount * size + yCount) * dpr);
     dragPixmap.setDevicePixelRatio(dpr);
@@ -255,6 +256,7 @@ void KFileItemListView::onModelChanged(KItemModelBase *current, KItemModelBase *
     if (current) {
         m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel *>(current), this);
         m_modelRolesUpdater->setIconSize(availableIconSize());
+        m_modelRolesUpdater->setDevicePixelRatio(KItemViewsUtils::devicePixelRatio(this));
 
         applyRolesToModel();
     }
@@ -414,6 +416,7 @@ void KFileItemListView::updateIconSize()
     }
 
     m_modelRolesUpdater->setIconSize(availableIconSize());
+    m_modelRolesUpdater->setDevicePixelRatio(KItemViewsUtils::devicePixelRatio(this));
 
     // Update the visible index range (which has most likely changed after the
     // icon size change) before unpausing m_modelRolesUpdater.
