@@ -351,7 +351,7 @@ bool InformationPanelContent::gestureEvent(QGestureEvent *event)
 void InformationPanelContent::showIcon(const KFileItem &item)
 {
     m_outdatedPreviewTimer->stop();
-    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(m_preview->height(), m_preview->width());
+    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(m_preview->size(), devicePixelRatioF());
     KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
     m_preview->setPixmap(pixmap);
 }
