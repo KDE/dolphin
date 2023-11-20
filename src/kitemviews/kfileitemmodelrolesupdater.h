@@ -89,6 +89,9 @@ public:
     void setIconSize(const QSize &size);
     QSize iconSize() const;
 
+    void setDevicePixelRatio(qreal devicePixelRatio);
+    qreal devicePixelRatio() const;
+
     /**
      * Sets the range of items that are visible currently. The roles
      * of visible items are resolved first.
@@ -366,6 +369,7 @@ private:
 
     KFileItemModel *m_model;
     QSize m_iconSize;
+    qreal m_devicePixelRatio;
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
     int m_maximumVisibleItems;

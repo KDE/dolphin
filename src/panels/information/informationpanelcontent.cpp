@@ -178,6 +178,7 @@ void InformationPanelContent::refreshPixmapView()
     m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, QSize(m_preview->width(), m_preview->height()), &plugins);
     m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
     m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
+    m_previewJob->setDevicePixelRatio(devicePixelRatioF());
     if (m_previewJob->uiDelegate()) {
         KJobWidgets::setWindow(m_previewJob, this);
     }

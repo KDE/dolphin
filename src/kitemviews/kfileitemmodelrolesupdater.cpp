@@ -67,6 +67,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     , m_finishedItems()
     , m_model(model)
     , m_iconSize()
+    , m_devicePixelRatio(1.0)
     , m_firstVisibleIndex(0)
     , m_lastVisibleIndex(-1)
     , m_maximumVisibleItems(50)
@@ -156,6 +157,25 @@ void KFileItemModelRolesUpdater::setIconSize(const QSize &size)
 QSize KFileItemModelRolesUpdater::iconSize() const
 {
     return m_iconSize;
+}
+
+void KFileItemModelRolesUpdater::setDevicePixelRatio(qreal devicePixelRatio)
+{
+    if (m_devicePixelRatio != devicePixelRatio) {
+        m_devicePixelRatio = devicePixelRatio;
+        if (m_state == Paused) {
+            m_iconSizeChangedDuringPausing = true;
+        } else if (m_previewShown) {
+            // A dpr change requires the regenerating of all previews.
+            m_finishedItems.clear();
+            startUpdating();
+        }
+    }
+}
+
+qreal KFileItemModelRolesUpdater::devicePixelRatio() const
+{
+    return m_devicePixelRatio;
 }
 
 void KFileItemModelRolesUpdater::setVisibleIndexRange(int index, int count)
@@ -992,7 +1012,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     }
 
     KIO::PreviewJob *job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
-
+    job->setDevicePixelRatio(m_devicePixelRatio);
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && !itemSubSet.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
@@ -1038,8 +1058,8 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
             }
         }
     } else if (!pixmap.isNull()) {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
-        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
+        scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
     }
 
     return scaledPixmap;

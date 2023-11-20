@@ -79,8 +79,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
 
-    KIO::PreviewJob::setDefaultDevicePixelRatio(app.devicePixelRatio());
-
     KCrash::initialize();
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
