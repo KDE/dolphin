@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-14 01:40+0000\n"
+"POT-Creation-Date: 2023-11-22 01:37+0000\n"
 "PO-Revision-Date: 2023-02-28 21:17+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -2143,181 +2143,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "अज्ञात त्रुटि"
 
-#: main.cpp:96
+#: main.cpp:94
 #, kde-format
 msgid "Dolphin"
 msgstr "डॉल्फ़िन"
 
-#: main.cpp:98
+#: main.cpp:96
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "फ़ाइल प्रबंधक"
 
-#: main.cpp:100
+#: main.cpp:98
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) २००६-२०२२ डॉल्फिन डेवलपर्स"
 
-#: main.cpp:102
+#: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "फेलिक्स अर्न्स्ट"
 
-#: main.cpp:103
+#: main.cpp:101
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "प्रबंधक (२०१८ से) तथा डेवलपर"
 
-#: main.cpp:105
+#: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "मेवेन कार"
 
-#: main.cpp:106
+#: main.cpp:104
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "प्रबंधक (२०१८ से) तथा डेवलपर (२०१९ से)"
 
-#: main.cpp:108
+#: main.cpp:106
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "एल्विस एंजेलैसिओ"
 
-#: main.cpp:109
+#: main.cpp:107
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "प्रबंधक (२०१४-२०१८) तथा डेवलपर"
 
-#: main.cpp:111
+#: main.cpp:109
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "इमैनुएल पेस्कोस्टा"
 
-#: main.cpp:112
+#: main.cpp:110
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "प्रबंधक (२०१४-२०१८) तथा डेवलपर"
 
-#: main.cpp:114
+#: main.cpp:112
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "फ्रैंक रीनिंगहॉस"
 
-#: main.cpp:115
+#: main.cpp:113
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "प्रबंधक(२०१२-२०१४) तथा डेवलपर"
 
-#: main.cpp:117
+#: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "पीटर पेन्ज"
 
-#: main.cpp:118
+#: main.cpp:116
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "प्रबंधक तथा डेवलपर (२००६-२०१२)"
 
-#: main.cpp:120
+#: main.cpp:118
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "सेबेस्तियन त्रुग"
 
-#: main.cpp:120 main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124
-#: main.cpp:125 main.cpp:126
+#: main.cpp:118 main.cpp:119 main.cpp:120 main.cpp:121 main.cpp:122
+#: main.cpp:123 main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "डेवलपर"
 
-#: main.cpp:121
+#: main.cpp:119
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "डेविड फ़ॉउर"
 
-#: main.cpp:122
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "एरॉन जे. सीगो"
 
-#: main.cpp:123
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "राफेल फर्नांडीज लोपेज"
 
-#: main.cpp:124
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "केविन ऑटेन्स"
 
-#: main.cpp:125
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "होल्जर फ्रेदर"
 
-#: main.cpp:126
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "मैक्स ब्लेजेजाक"
 
-#: main.cpp:127
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "माइकल ऑस्टिन"
 
-#: main.cpp:127
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "दस्तावेज़ीकरण"
 
-#: main.cpp:137
+#: main.cpp:135
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "आर्ग्यूमेंट के रूप में पास की गई फ़ाइलों और फ़ोल्डरों का चयन किया जाएगा।"
 
-#: main.cpp:139
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "डॉल्फिन विभाजित दृश्य के साथ खुलेगा ।"
 
-#: main.cpp:140
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "डॉल्फिन स्पष्ट रूप से एक नई विंडो में खुलेगा ।"
 
-#: main.cpp:142
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "डॉल्फिन डेमन प्रारंभ करें (केवल DBus इंटरफ़ेस के लिए आवश्यक)।"
 
-#: main.cpp:143
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -2463,7 +2463,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "चुनें कि कौन सा डेटा दिखाया जाना चाहिए :"
 
-#: panels/information/informationpanelcontent.cpp:284
+#: panels/information/informationpanelcontent.cpp:285
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -4618,36 +4618,47 @@ msgid "Reload"
 msgstr "री-लोड"
 
 #: views/dolphinview.cpp:643
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 Folder selected"
+#| msgid_plural "%1 Folders selected"
 msgctxt "@info:status"
-msgid "1 Folder selected"
-msgid_plural "%1 Folders selected"
+msgid "1 folder selected"
+msgid_plural "%1 folders selected"
 msgstr[0] "१ फ़ोल्डर चयनित है"
 msgstr[1] "%1 फ़ोल्डर चयनित हैं"
 
 #: views/dolphinview.cpp:644
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 File selected"
+#| msgid_plural "%1 Files selected"
 msgctxt "@info:status"
-msgid "1 File selected"
-msgid_plural "%1 Files selected"
+msgid "1 file selected"
+msgid_plural "%1 files selected"
 msgstr[0] "१ फ़ाइल चयनित"
 msgstr[1] "%1 फ़ाइलें चयनित"
 
 #: views/dolphinview.cpp:646
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 Folder"
+#| msgid_plural "%1 Folders"
 msgctxt "@info:status"
-msgid "1 Folder"
-msgid_plural "%1 Folders"
+msgid "1 folder"
+msgid_plural "%1 folders"
 msgstr[0] "१ फ़ोल्डर"
 msgstr[1] "%1 फ़ोल्डर"
 
 #: views/dolphinview.cpp:647
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "action:button"
+#| msgid "Your files"
 msgctxt "@info:status"
-msgid "1 File"
-msgid_plural "%1 Files"
-msgstr[0] "१ फ़ाइल"
-msgstr[1] "%1 फ़ाइलें"
+msgid "1 file"
+msgid_plural "%1 files"
+msgstr[0] "आपकी फ़ाइलें"
+msgstr[1] "आपकी फ़ाइलें"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4662,9 +4673,11 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "0 Folders, 0 Files"
 msgctxt "@info:status"
-msgid "0 Folders, 0 Files"
+msgid "0 folders, 0 files"
 msgstr "० फ़ोल्डर, ० फ़ाइलें"
 
 #: views/dolphinview.cpp:869 views/dolphinview.cpp:878
@@ -5222,6 +5235,12 @@ msgstr[1] "%1 चयनित वस्तुओं के लिए क्र�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "संस्करण की जानकारी अद्यतित हो रही है..."
+
+#~ msgctxt "@info:status"
+#~ msgid "1 File"
+#~ msgid_plural "%1 Files"
+#~ msgstr[0] "१ फ़ाइल"
+#~ msgstr[1] "%1 फ़ाइलें"
 
 #~ msgid "More Search Tools"
 #~ msgstr "और खोज़ औज़ार"
