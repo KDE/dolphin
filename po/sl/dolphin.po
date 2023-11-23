@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-22 01:37+0000\n"
-"PO-Revision-Date: 2023-11-09 14:31+0100\n"
+"PO-Revision-Date: 2023-11-22 07:31+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "X-Generator: Poedit 3.4.1\n"
 
@@ -3564,8 +3564,8 @@ msgid ""
 "were removed/renamed ...etc"
 msgstr ""
 "Interna konfiguracijska različica Dolphina, ki se uporablja predvsem za "
-"določitev ali deluje posodobljena različica Dolphina za seljenje postavk "
-"konfiguracije, so bili odstranjene/preimenovane ...itd."
+"določitev ali deluje posodobljena različica Dolphina za preselitev postavk "
+"konfiguracije, ki so bili odstranjene/preimenovane ...itd."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -4786,36 +4786,27 @@ msgid "Reload"
 msgstr "Znova naloži"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] "Izbrana je %1 mapa"
-msgstr[1] "Izbrani sta %1 mapi"
-msgstr[2] "Izbrane so %1 mape"
-msgstr[3] "Izbrano je %1 map"
+msgstr[0] "Izbrana %1 mapa"
+msgstr[1] "Izbrani %1 mapi"
+msgstr[2] "Izbrane %1 mape"
+msgstr[3] "Izbrano %1 map"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] "Izbrana je %1 datoteka"
-msgstr[1] "Izbrani sta %1 datoteki"
-msgstr[2] "Izbrane so %1 datoteke"
-msgstr[3] "Izbrano je %1 datotek"
+msgstr[0] "Izbrana %1 datoteka"
+msgstr[1] "Izbrani %1 datoteki"
+msgstr[2] "Izbrane %1 datoteke"
+msgstr[3] "Izbrano %1 datotek"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4825,16 +4816,14 @@ msgstr[2] "%1 mape"
 msgstr[3] "%1 map"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Vaše datoteke"
-msgstr[1] "Vaše datoteke"
-msgstr[2] "Vaše datoteke"
-msgstr[3] "Vaše datoteke"
+msgstr[0] "%1 datoteka"
+msgstr[1] "%1 datoteki"
+msgstr[2] "%1 datoteke"
+msgstr[3] "%1 datotek"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4849,9 +4838,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 map, 0 datotek"

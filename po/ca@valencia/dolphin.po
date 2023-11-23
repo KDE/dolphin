@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-22 01:37+0000\n"
-"PO-Revision-Date: 2023-11-09 13:02+0100\n"
+"PO-Revision-Date: 2023-11-22 11:37+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4792,10 +4792,7 @@ msgid "Reload"
 msgstr "Actualitza"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4803,10 +4800,7 @@ msgstr[0] "S'ha seleccionat 1 carpeta"
 msgstr[1] "S'han seleccionat %1 carpetes"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4814,10 +4808,7 @@ msgstr[0] "S'ha seleccionat 1 fitxer"
 msgstr[1] "S'han seleccionat %1 fitxers"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4825,14 +4816,12 @@ msgstr[0] "1 carpeta"
 msgstr[1] "%1 carpetes"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Els vostres arxius"
-msgstr[1] "Els vostres arxius"
+msgstr[0] "1 fitxer"
+msgstr[1] "%1 fitxers"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4847,9 +4836,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 carpetes, 0 fitxers"
@@ -5446,9 +5433,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "1 fitxer"
-#~ msgstr[1] "%1 fitxers"

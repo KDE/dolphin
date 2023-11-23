@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-22 01:37+0000\n"
-"PO-Revision-Date: 2023-11-09 08:29+0200\n"
+"PO-Revision-Date: 2023-11-22 23:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4839,10 +4839,7 @@ msgid "Reload"
 msgstr "Перезавантажити"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4852,10 +4849,7 @@ msgstr[2] "Позначено %1 тек"
 msgstr[3] "Позначено одну теку"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4865,10 +4859,7 @@ msgstr[2] "Позначено %1 файлів"
 msgstr[3] "Позначено один файл"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4878,16 +4869,14 @@ msgstr[2] "%1 тек"
 msgstr[3] "Одна тека"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Ваші файли"
-msgstr[1] "Ваші файли"
-msgstr[2] "Ваші файли"
-msgstr[3] "Ваші файли"
+msgstr[0] "%1 файл"
+msgstr[1] "%1 файли"
+msgstr[2] "%1 файлів"
+msgstr[3] "Один файл"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4902,9 +4891,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 тек, 0 файлів"

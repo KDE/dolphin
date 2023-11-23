@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-22 01:37+0000\n"
-"PO-Revision-Date: 2023-11-09 11:48+0300\n"
+"PO-Revision-Date: 2023-11-22 14:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4757,47 +4757,36 @@ msgid "Reload"
 msgstr "Yeniden Yükle"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] "%1 klasör seçili"
+msgstr[0] "1 klasör seçili"
 msgstr[1] "%1 klasör seçili"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] "%1 dosya seçili"
+msgstr[0] "1 dosya seçili"
 msgstr[1] "%1 dosya seçili"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
-msgstr[0] "%1 Klasör"
-msgstr[1] "%1 Klasör"
+msgstr[0] "1 klasör"
+msgstr[1] "%1 klasör"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Dosyaların"
-msgstr[1] "Dosyaların"
+msgstr[0] "1 dosya"
+msgstr[1] "%1 dosya"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4812,12 +4801,10 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
-msgstr "0 Klasör, 0 Dosya"
+msgstr "0 klasör, 0 dosya"
 
 #: views/dolphinview.cpp:869 views/dolphinview.cpp:878
 #, kde-format

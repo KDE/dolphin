@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-22 01:37+0000\n"
-"PO-Revision-Date: 2023-11-09 20:08+0100\n"
+"PO-Revision-Date: 2023-11-22 06:38+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4749,10 +4749,7 @@ msgid "Reload"
 msgstr "Reŝargi"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4760,10 +4757,7 @@ msgstr[0] "1 dosierujo elektita"
 msgstr[1] "%1 dosierujoj elektitaj"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4771,25 +4765,20 @@ msgstr[0] "1 dosierujo elektita"
 msgstr[1] "%1 dosierujoj elektitaj"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
-msgstr[0] "1 Dosierujo"
-msgstr[1] "%1 Dosierujoj"
+msgstr[0] "1 dosierujo"
+msgstr[1] "%1 dosierujoj"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Viaj dosieroj"
-msgstr[1] "Viaj dosieroj"
+msgstr[0] "1 dosiero"
+msgstr[1] "%1 dosieroj"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4804,12 +4793,10 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
-msgstr "0 Dosierujoj, 0 Dosieroj"
+msgstr "0 dosierujoj, 0 dosieroj"
 
 #: views/dolphinview.cpp:869 views/dolphinview.cpp:878
 #, kde-format
@@ -5401,12 +5388,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "1 Dosiero"
-#~ msgstr[1] "%1 Dosieroj"
-
-#~ msgid "More Search Tools"
-#~ msgstr "Pli da Serĉaj Iloj"
