@@ -26,13 +26,13 @@ Dependencies:
     'frameworks/kfilemetadata': '@latest-kf6'
     'frameworks/kcodecs': '@latest-kf6'
     'frameworks/kuserfeedback': '@latest-kf6'
-    'plasma/kactivities': '@latest-kf6'
     'libraries/phonon': '@latest-kf6'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'frameworks/baloo': '@latest-kf6'
     'libraries/baloo-widgets': '@latest-kf6'
+    'plasma/kactivities': '@latest-kf6'
     'third-party/packagekit-qt': '@latest'
 
 - 'on': ['Linux/Qt6', 'Windows/Qt6', 'macOS/Qt6']
