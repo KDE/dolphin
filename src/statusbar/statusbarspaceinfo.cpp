@@ -99,6 +99,11 @@ void StatusBarSpaceInfo::hideEvent(QHideEvent *event)
     QWidget::hideEvent(event);
 }
 
+QSize StatusBarSpaceInfo::minimumSizeHint() const
+{
+    return QSize();
+}
+
 void StatusBarSpaceInfo::updateMenu()
 {
     m_buttonMenu->clear();

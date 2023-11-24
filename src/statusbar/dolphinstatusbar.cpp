@@ -52,7 +52,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_label->setTextFormat(Qt::PlainText);
 
     // Initialize zoom slider's explanatory label
-    m_zoomLabel = new QLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), this);
+    m_zoomLabel = new KSqueezedTextLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), this);
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
