@@ -27,7 +27,7 @@ Dependencies:
     'frameworks/kcodecs': '@stable'
     'frameworks/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
-    'plasma/kactivities': '@stable'
+    'plasma/plasma-activities': '@stable'
 
 - 'on': ['Linux', 'FreeBSD']
   'require':
