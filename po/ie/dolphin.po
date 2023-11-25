@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-22 01:37+0000\n"
+"POT-Creation-Date: 2023-11-25 01:35+0000\n"
 "PO-Revision-Date: 2022-11-06 08:18+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -4231,7 +4231,7 @@ msgid "Open files and folders:"
 msgstr "Aperter files e fólderes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:324
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4396,35 +4396,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Fólderes: %1"
 
-#: statusbar/dolphinstatusbar.cpp:57
+#: statusbar/dolphinstatusbar.cpp:55
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Scale:"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:59
 #, fuzzy, kde-format
 msgid "Zoom"
 msgstr "Scale"
 
-#: statusbar/dolphinstatusbar.cpp:62
+#: statusbar/dolphinstatusbar.cpp:60
 #, fuzzy, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Arangear icones in ranges secun li grandore"
 
-#: statusbar/dolphinstatusbar.cpp:76
+#: statusbar/dolphinstatusbar.cpp:74
 #, fuzzy, kde-format
 msgid "Stop"
 msgstr "Stoppar"
 
-#: statusbar/dolphinstatusbar.cpp:78
+#: statusbar/dolphinstatusbar.cpp:76
 #, fuzzy, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Cargante..."
 
-#: statusbar/dolphinstatusbar.cpp:133
+#: statusbar/dolphinstatusbar.cpp:131
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4437,45 +4437,45 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:268
+#: statusbar/dolphinstatusbar.cpp:266
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Monstrar li glissator de scale"
 
-#: statusbar/dolphinstatusbar.cpp:272
+#: statusbar/dolphinstatusbar.cpp:270
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Null information pri spacie"
 
-#: statusbar/statusbarspaceinfo.cpp:104
+#: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:114
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:127
+#: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:140
+#: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:168
+#: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 líber"
 
-#: statusbar/statusbarspaceinfo.cpp:169
+#: statusbar/statusbarspaceinfo.cpp:186
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
