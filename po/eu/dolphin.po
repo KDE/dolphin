@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 01:35+0000\n"
-"PO-Revision-Date: 2023-11-07 22:57+0100\n"
+"PO-Revision-Date: 2023-11-26 01:15+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2839,9 +2839,7 @@ msgid "Search in your home directory"
 msgstr "Bilatu zure etxeko direktorioan"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Ireki %1"
 
@@ -4694,22 +4692,22 @@ msgstr "Erakutsi leku librearen informazioa"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Diskoaren erabilera estatistikak - uneko karpeta"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Diskoaren erabilera estatistikak - uneko gailua"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Diskoaren erabilera estatistikak - gailua guztiak"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4773,32 +4771,23 @@ msgid "Reload"
 msgstr "Birkargatu"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] "Karpeta 1 hautatuta"
-msgstr[1] "%1 karpeta hautatuta"
+msgstr[0] "Karpeta 1 hautatu da"
+msgstr[1] "%1 karpeta hautatu dira"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] "Fitxategi 1 hautatuta"
-msgstr[1] "%1 fitxategi hautatuta"
+msgstr[0] "Fitxategi 1 hautatu da"
+msgstr[1] "%1 fitxategi hautatu dira"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4806,14 +4795,12 @@ msgstr[0] "Karpeta 1"
 msgstr[1] "%1 karpeta"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Zure fitxategiak"
-msgstr[1] "Zure fitxategiak"
+msgstr[0] "Fitxategi 1"
+msgstr[1] "%1 fitxategi"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4828,9 +4815,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 karpeta, 0 fitxategi"

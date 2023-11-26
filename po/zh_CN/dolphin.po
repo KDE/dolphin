@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 01:35+0000\n"
-"PO-Revision-Date: 2023-11-19 03:37\n"
+"PO-Revision-Date: 2023-11-25 02:26\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -32,9 +32,8 @@ msgstr ""
 "kde-china@kde.org, angel_to_love@outlook.com, 073plan@gmail.com, "
 "chaofeng111@gmail.com, fundawang@linux.net.cn, i@guoyunhe.me, hh."
 "li99@outlook.com, cavendish.qi@gmail.com, lilith.ex@gmail.com, liushuyu@aosc."
-"io, shuizhuyuanluo@126.com, phoenixlzx@archlinuxcn.org, tysontan@tysontan."
-"com, lark@linux.net.cn, wengxt@gmail.com, jxiong@offtopic.org, yahzee@d3eye."
-"com"
+"io, shuizhuyuanluo@126.com, phoenixlzx@archlinuxcn.org, tds00@qq.com, "
+"lark@linux.net.cn, wengxt@gmail.com, jxiong@offtopic.org, yahzee@d3eye.com"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -401,13 +400,13 @@ msgstr "移动到非活动拆分视图"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "筛选…"
+msgstr "过滤…"
 
 #: dolphinmainwindow.cpp:1667
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "显示筛选栏"
+msgstr "显示过滤栏"
 
 #: dolphinmainwindow.cpp:1669
 #, kde-kuit-format
@@ -418,21 +417,21 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
-"这将打开窗口底部的<emphasis>筛选栏</emphasis>。<nl/> 您可以输入文本来对视图中"
-"的文件和文件夹进行筛选显示。视图将仅列出那些在名称中包含了您输入文本的文件和"
+"这将打开窗口底部的<emphasis>过滤栏</emphasis>。<nl/> 您可以输入文本来对视图中"
+"的文件和文件夹进行过滤显示。视图将仅列出那些在名称中包含了您输入文本的文件和"
 "文件夹。"
 
 #: dolphinmainwindow.cpp:1681
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
-msgstr "显示/隐藏筛选栏"
+msgstr "显示/隐藏过滤栏"
 
 #: dolphinmainwindow.cpp:1682
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
-msgstr "筛选"
+msgstr "过滤"
 
 #: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
 #, kde-format
@@ -1600,18 +1599,18 @@ msgstr "当前位置已经更改，<filename>%1</filename> 已经无法访问。
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "切换文件夹时保留筛选条件"
+msgstr "切换文件夹时保留过滤条件"
 
 #: filterbar/filterbar.cpp:34
 #, kde-format
 msgid "Filter…"
-msgstr "筛选…"
+msgstr "过滤…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
-msgstr "隐藏筛选栏"
+msgstr "隐藏过滤栏"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3454,7 +3453,7 @@ msgstr "将视图拆分为两个面板"
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr "是否显示筛选栏"
+msgstr "是否显示过滤栏"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -4623,43 +4622,32 @@ msgid "Reload"
 msgstr "重新加载"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "已选中 %1 个文件夹"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "已选中 %1 个文件"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
 msgstr[0] "%1 个文件夹"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "您的文件"
+msgstr[0] "%1 个文件"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4674,9 +4662,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 个文件夹，0 个文件"
@@ -4789,7 +4775,7 @@ msgstr "加载已取消"
 #: views/dolphinview.cpp:2331
 #, kde-format
 msgid "No items matching the filter"
-msgstr "没有匹配此筛选条件的项目"
+msgstr "没有匹配此过滤条件的项目"
 
 #: views/dolphinview.cpp:2333
 #, kde-format
@@ -5253,8 +5239,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "%1 个文件"
