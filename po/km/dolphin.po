@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 01:35+0000\n"
+"POT-Creation-Date: 2023-11-27 01:38+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -788,7 +788,7 @@ msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "បើក​នៅ​ក្នុង​បង្អួច​ថ្មី"
 
-#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:50
+#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"
@@ -2553,7 +2553,7 @@ msgstr ""
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "ទំហំ​រូបតំណាង​នៅ​​​​លើ​បន្ទះ​​ទីតាំង​ (-១ មាន​ន័យ​ថា \"ប្រើ​ទំហំ​តូច​​នៃ​រចនាប័ទ្ម\")"
 
-#: panels/places/placespanel.cpp:45
+#: panels/places/placespanel.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."

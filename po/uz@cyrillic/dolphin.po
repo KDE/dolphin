@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 01:35+0000\n"
+"POT-Creation-Date: 2023-11-27 01:38+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -795,7 +795,7 @@ msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Янги ойнада очиш"
 
-#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:50
+#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"
@@ -2591,7 +2591,7 @@ msgstr ""
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 
-#: panels/places/placespanel.cpp:45
+#: panels/places/placespanel.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Change..."

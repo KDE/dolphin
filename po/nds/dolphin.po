@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 01:35+0000\n"
+"POT-Creation-Date: 2023-11-27 01:38+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -790,7 +790,7 @@ msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "As nieg Finster opmaken"
 
-#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:50
+#: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"
@@ -2574,7 +2574,7 @@ msgstr ""
 "Grött vun de Lüttbiller binnen dat Steden-Paneel (-1 meent dat Muster sien "
 "lütte Grött)"
 
-#: panels/places/placespanel.cpp:45
+#: panels/places/placespanel.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
