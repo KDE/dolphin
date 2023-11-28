@@ -5324,15 +5324,3 @@ msgstr[0] "選択された %1 アイテムに対するアクション"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "バージョン情報を更新しています..."
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "%1 ファイル"
-
-#~ msgid "More Search Tools"
-#~ msgstr "他の検索ツール"
-
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "%1 のプレビューを設定"
