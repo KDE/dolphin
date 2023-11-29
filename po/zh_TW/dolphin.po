@@ -13,21 +13,21 @@
 # Jeff Huang <s8321414@gmail.com>, 2016, 2017, 2018.
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
 # Emoji <contact-forward@thost3.de>, 2022.
-# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2023.
+# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-27 01:38+0000\n"
-"PO-Revision-Date: 2023-06-15 04:33+0900\n"
+"PO-Revision-Date: 2023-11-29 19:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
-"Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -388,12 +388,10 @@ msgid "Move to Inactive Split View"
 msgstr "移動到非作用中的分割檢視"
 
 #: dolphinmainwindow.cpp:1666
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "過濾器"
+msgstr "過濾…"
 
 #: dolphinmainwindow.cpp:1667
 #, kde-format
@@ -424,10 +422,9 @@ msgid "Filter"
 msgstr "過濾器"
 
 #: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "搜尋"
+msgstr "搜尋…"
 
 #: dolphinmainwindow.cpp:1691
 #, kde-format
@@ -526,12 +523,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "在分割視窗中開啟暫存的虛擬目錄"
 
 #: dolphinmainwindow.cpp:1782
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "預覽"
+msgstr "更新檢視"
 
 #: dolphinmainwindow.cpp:1784
 #, kde-kuit-format
@@ -756,11 +751,10 @@ msgid "Open in New Window"
 msgstr "在新視窗開啟"
 
 #: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "在應用程式開啟"
+msgstr "用分割檢視開啟"
 
 #: dolphinmainwindow.cpp:2044
 #, kde-format
@@ -1168,28 +1162,22 @@ msgid_plural "Location Bars"
 msgstr[0] "位置工具列"
 
 #: dolphinpart.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "編輯檔案型態(&E)"
+msgstr "編輯檔案型態(&E)…"
 
 #: dolphinpart.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "選取符合項目..."
+msgstr "選取符合項目…"
 
 #: dolphinpart.cpp:157
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "取消選取符合項目..."
+msgstr "取消選取符合項目…"
 
 #: dolphinpart.cpp:163
 #, kde-format
@@ -1222,12 +1210,10 @@ msgid "Autostart"
 msgstr "自動啟動"
 
 #: dolphinpart.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "尋找檔案..."
+msgstr "尋找檔案…"
 
 #: dolphinpart.cpp:195
 #, kde-format
@@ -1412,28 +1398,22 @@ msgid "Search for %1"
 msgstr "搜尋 %1"
 
 #: dolphinviewcontainer.cpp:619
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "載入資料夾中..."
+msgstr "載入資料夾中…"
 
 #: dolphinviewcontainer.cpp:627
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "排序："
+msgstr "排序中…"
 
 #: dolphinviewcontainer.cpp:638
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "搜尋中..."
+msgstr "搜尋中…"
 
 #: dolphinviewcontainer.cpp:659
 #, kde-format
@@ -1455,12 +1435,10 @@ msgid ""
 msgstr "此通訊協定不受 Dolphin 支援，已啟動預設應用程式"
 
 #: dolphinviewcontainer.cpp:830
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "不合法的協定"
+msgstr "無效協定 '%1'"
 
 #: dolphinviewcontainer.cpp:832
 #, kde-format
@@ -1481,11 +1459,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "變更資料夾後仍保留過濾器"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "過濾器"
+msgstr "過濾…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2280,12 +2256,10 @@ msgid "Copy"
 msgstr "複製"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "重新命名..."
+msgstr "重新命名…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -2366,12 +2340,10 @@ msgid "Show item on hover"
 msgstr "游標停留時顯示項目"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "設定"
+msgstr "設定…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2627,9 +2599,7 @@ msgid "Search in your home directory"
 msgstr "在家目錄中搜尋"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "開啟 %1"
 
@@ -2908,19 +2878,16 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "選擇內文選單中要顯示哪些服務："
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "搜尋"
+msgstr "搜尋…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "下載新的服務..."
+msgstr "下載新的服務…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -3052,10 +3019,9 @@ msgstr "在選單中顯示「在新視窗開啟」。"
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "在選單中顯示「在新視窗開啟」。"
+msgstr "在選單中顯示「用分割檢視開啟」。"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3457,17 +3423,15 @@ msgstr "選擇自然、區分大小寫或是不區分大小寫的項目 排序�
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "關閉包含多個分頁的視窗時先詢問確認"
+msgstr "開啟多個資料夾時先詢問確認。"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "關閉包含多個分頁的視窗時先詢問確認"
+msgstr "開啟多個終端機時先詢問確認。"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3497,14 +3461,13 @@ msgstr "設定"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "介面"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "檢視(&V)"
+msgstr "檢視"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -3578,18 +3541,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "關閉有應用程式在「終端機」面板執行的視窗"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "檔案與資料夾開啟方式："
+msgstr "開啟多個資料夾時"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "同時開啟數個終端機時"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3613,12 +3574,10 @@ msgid "Run script"
 msgstr "執行文稿"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "上次的資料夾、分頁及視窗狀態"
+msgstr "上次使用時的資料夾、分頁及視窗狀態"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3648,15 +3607,13 @@ msgstr "啟動時顯示："
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "保持單個 Dolphin 視窗，在新分頁開啟資料夾"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "檔案與資料夾開啟方式："
+msgstr "資料夾開啟方式："
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3665,17 +3622,13 @@ msgid "Show full path in title bar"
 msgstr "在標題列內顯示完整位置"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "新視窗(&W)"
+msgstr "視窗："
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "顯示過濾器列"
@@ -3741,12 +3694,10 @@ msgid ""
 msgstr "家目錄的位置不合法或不存在，將不會套用。"
 
 #: settings/interface/interfacesettingspage.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "資料夾優先"
+msgstr "資料夾與分頁"
 
 #: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3763,13 +3714,10 @@ msgid "Confirmations"
 msgstr "確認"
 
 #: settings/interface/interfacesettingspage.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "位置工具列"
+msgstr "狀態列與位置工具列"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -3824,12 +3772,10 @@ msgid "Show space information"
 msgstr "顯示空間資訊"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "狀態列"
+msgstr "狀態列："
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3838,12 +3784,9 @@ msgid "Make location bar editable"
 msgstr "能夠編輯位置列"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "位置工具列"
+msgstr "位置工具列："
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -3981,24 +3924,22 @@ msgid "Custom Font"
 msgstr "自訂字型"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "選擇..."
+msgstr "選擇…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:31
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "對所有資料夾使用共同的顯示樣式"
+msgstr "對所有資料夾使用共同的顯示方式"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:32
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "記住每個資料夾的顯示樣式"
+msgstr "記住每個資料夾的顯示方式"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:33
 #, kde-format
@@ -4009,12 +3950,10 @@ msgid ""
 msgstr "Dolphin 將在每個您變更檢視屬性的資料夾建立隱藏的 .directory 檔案。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:38
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "檢視顯示樣式"
+msgstr "顯示方式："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4032,7 +3971,7 @@ msgstr "在拖曳操作中開啟資料夾"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "瀏覽："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -4060,9 +3999,7 @@ msgid "Rename inline"
 msgstr "重新命名內含項目"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "一般"
@@ -4236,7 +4173,7 @@ msgstr[0] "大小：%1 像素"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "檢視顯示樣式"
+msgstr "檢視顯示方式"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4450,22 +4387,22 @@ msgstr "顯示空間資訊"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "磁碟用量統計 - 目前資料夾"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "磁碟用量統計 - 目前裝置"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "磁碟用量統計 - 所有裝置"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree 磁碟空間程式"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4529,43 +4466,32 @@ msgid "Reload"
 msgstr "重新載入"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "已選取 %1 個資料夾"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "已選取 %1 個檔案"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
 msgstr[0] "%1 個資料夾"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "您的檔案"
+msgstr[0] "%1 個檔案"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4580,9 +4506,7 @@ msgid "%1 (%2)"
 msgstr "%1（%2）"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 個資料夾，0 個檔案"
@@ -4683,8 +4607,7 @@ msgid "The location '%1' is invalid."
 msgstr "此位置 %1 是無效的。"
 
 #: views/dolphinview.cpp:2310
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "載入中…"
 
@@ -4754,12 +4677,10 @@ msgid "Folder is empty"
 msgstr "資料夾是空的"
 
 #: views/dolphinviewactionhandler.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "建立資料夾..."
+msgstr "建立資料夾…"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
@@ -5011,12 +4932,10 @@ msgstr ""
 "「.」開頭。通常使用者不需要存取它們，這也是它們為什麼隱藏的原因。</para>"
 
 #: views/dolphinviewactionhandler.cpp:332
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "調整檢視顯示樣式…"
+msgstr "調整檢視顯示方式…"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -5149,12 +5068,10 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "%1 個已選項目的動作"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "更新版本資訊中..."
+msgstr "更新版本資訊中…"
 
 #~ msgctxt "@info:status"
 #~ msgid "1 File"
