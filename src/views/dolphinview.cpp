@@ -308,8 +308,8 @@ void DolphinView::setSelectionModeEnabled(const bool enabled)
         m_view->setStyle(m_proxyStyle.get());
         m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::False);
     } else {
-        setStyle(QApplication::style());
-        m_view->setStyle(QApplication::style());
+        setStyle(nullptr);
+        m_view->setStyle(nullptr);
         m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     }
     m_container->controller()->setSelectionModeEnabled(enabled);
