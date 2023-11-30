@@ -737,6 +737,7 @@ private:
     KToolBarPopupAction *m_backAction;
     KToolBarPopupAction *m_forwardAction;
     KActionMenu *m_splitViewAction;
+    QAction *m_splitViewMenuAction;
 
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;

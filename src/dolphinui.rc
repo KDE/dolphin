@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="38">
+<gui name="dolphin" version="39">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -49,7 +49,7 @@
             <Action name="show_in_groups" />
             <Action name="show_hidden_files" />
             <Separator/>
-            <Action name="split_view" />
+            <Action name="split_view_menu" />
             <Action name="popout_split_view" />
             <Action name="split_stash" />
             <Action name="redisplay" />

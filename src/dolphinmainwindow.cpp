@@ -119,6 +119,7 @@ DolphinMainWindow::DolphinMainWindow()
     , m_sessionSaveWatcher(nullptr)
     , m_sessionSaveScheduled(false)
     , m_splitViewAction(nullptr)
+    , m_splitViewMenuAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
 
@@ -1832,14 +1833,21 @@ void DolphinMainWindow::setupActions()
     // (note that most of it is set up in DolphinViewActionHandler)
 
     m_splitViewAction = actionCollection()->add<KActionMenu>(QStringLiteral("split_view"));
+    m_splitViewMenuAction = actionCollection()->addAction(QStringLiteral("split_view_menu"));
+
     m_splitViewAction->setWhatsThis(xi18nc("@info:whatsthis find",
                                            "<para>This splits "
                                            "the folder view below into two autonomous views.</para><para>This "
                                            "way you can see two locations at once and move items between them "
                                            "quickly.</para>Click this again afterwards to recombine the views."));
+    m_splitViewMenuAction->setWhatsThis(m_splitViewAction->whatsThis());
+
+    // only set it for the menu version
+    actionCollection()->setDefaultShortcut(m_splitViewMenuAction, Qt::Key_F3);
+
     m_splitViewAction->setPopupMode(QToolButton::MenuButtonPopup);
-    actionCollection()->setDefaultShortcut(m_splitViewAction, Qt::Key_F3);
     connect(m_splitViewAction, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
+    connect(m_splitViewMenuAction, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
     QAction *popoutSplit = actionCollection()->addAction(QStringLiteral("popout_split_view"));
     popoutSplit->setWhatsThis(xi18nc("@info:whatsthis",
@@ -2552,6 +2560,11 @@ void DolphinMainWindow::updateSplitActions()
         popoutSplitAction->setText(i18nc("@action:intoolbar Move active split view to a new window", "Pop out"));
         popoutSplitAction->setEnabled(false);
     }
+
+    // Update state from toolbar action
+    m_splitViewMenuAction->setText(m_splitViewAction->text());
+    m_splitViewMenuAction->setToolTip(m_splitViewAction->toolTip());
+    m_splitViewMenuAction->setIcon(m_splitViewAction->icon());
 }
 
 void DolphinMainWindow::updateAllowedToolbarAreas()
