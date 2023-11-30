@@ -437,10 +437,10 @@ target_link_libraries(dolphinstatic
     Phonon::phonon4qt6
 )
 
-if (HAVE_KACTIVITIES)
+if (HAVE_PLASMA_ACTIVITIES)
     target_link_libraries(
         dolphinstatic
-        KF6::Activities
+        Plasma::Activities
     )
 endif()
 

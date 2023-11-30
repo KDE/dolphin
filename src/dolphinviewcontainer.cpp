@@ -20,8 +20,8 @@
 #include "statusbar/dolphinstatusbar.h"
 
 #include <KActionCollection>
-#if HAVE_KACTIVITIES
-#include <KActivities/ResourceInstance>
+#if HAVE_PLASMA_ACTIVITIES
+#include <PlasmaActivities/ResourceInstance>
 #endif
 #include <KApplicationTrader>
 #include <KFileItemActions>
@@ -574,7 +574,7 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
         m_urlNavigator->setLocationUrl(newUrl);
     }
 
-#if HAVE_KACTIVITIES
+#if HAVE_PLASMA_ACTIVITIES
     KActivities::ResourceInstance::notifyAccessed(newUrl);
 #endif
 }
