@@ -1855,7 +1855,6 @@ void DolphinMainWindow::setupActions()
                                      "view out into a new window."));
     popoutSplit->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     actionCollection()->setDefaultShortcut(popoutSplit, Qt::SHIFT | Qt::Key_F3);
-    m_splitViewAction->addAction(popoutSplit);
     connect(popoutSplit, &QAction::triggered, this, &DolphinMainWindow::popoutSplitView);
 
     QAction *stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
@@ -2553,12 +2552,14 @@ void DolphinMainWindow::updateSplitActions()
             popoutSplitAction->setToolTip(i18nc("@info", "Move right split view to a new window"));
         }
         popoutSplitAction->setEnabled(true);
+        m_splitViewAction->addAction(popoutSplitAction);
     } else {
         m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
         m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
         popoutSplitAction->setText(i18nc("@action:intoolbar Move active split view to a new window", "Pop out"));
         popoutSplitAction->setEnabled(false);
+        m_splitViewAction->removeAction(popoutSplitAction);
     }
 
     // Update state from toolbar action
