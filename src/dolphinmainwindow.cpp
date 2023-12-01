@@ -2552,14 +2552,20 @@ void DolphinMainWindow::updateSplitActions()
             popoutSplitAction->setToolTip(i18nc("@info", "Move right split view to a new window"));
         }
         popoutSplitAction->setEnabled(true);
-        m_splitViewAction->addAction(popoutSplitAction);
+        if (!m_splitViewAction->menu()) {
+            m_splitViewAction->setMenu(new QMenu);
+            m_splitViewAction->addAction(popoutSplitAction);
+        }
     } else {
         m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
         m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
         popoutSplitAction->setText(i18nc("@action:intoolbar Move active split view to a new window", "Pop out"));
         popoutSplitAction->setEnabled(false);
-        m_splitViewAction->removeAction(popoutSplitAction);
+        if (m_splitViewAction->menu()) {
+            m_splitViewAction->removeAction(popoutSplitAction);
+            m_splitViewAction->setMenu(nullptr);
+        }
     }
 
     // Update state from toolbar action
