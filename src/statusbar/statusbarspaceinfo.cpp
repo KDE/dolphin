@@ -184,7 +184,11 @@ void StatusBarSpaceInfo::slotValuesChanged()
 
     m_textInfoButton->setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
     setToolTip(i18nc("tooltip:status Free disk space", "%1 free out of %2 (%3% used)", KIO::convertSize(available), KIO::convertSize(size), percentUsed));
-    m_textInfoButton->setToolTip(toolTip());
+    m_textInfoButton->setToolTip(i18nc("@info:tooltip for the free disk space button",
+                                       "%1 free out of %2 (%3% used)\nPress to manage disk space usage.",
+                                       KIO::convertSize(available),
+                                       KIO::convertSize(size),
+                                       percentUsed));
     setUpdatesEnabled(false);
     m_capacityBar->setValue(percentUsed);
     setUpdatesEnabled(true);
