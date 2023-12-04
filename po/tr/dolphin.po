@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-27 01:38+0000\n"
-"PO-Revision-Date: 2023-11-22 14:07+0300\n"
+"PO-Revision-Date: 2023-12-03 14:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2801,7 +2801,7 @@ msgstr "Aramayı durdur"
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
-msgstr "Dosya adı"
+msgstr "Dosya Adı"
 
 #: search/dolphinsearchbox.cpp:374
 #, kde-format
