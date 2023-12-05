@@ -295,11 +295,6 @@ void KStandardItemListWidget::setLayout(Layout layout)
     }
 }
 
-KStandardItemListWidget::Layout KStandardItemListWidget::layout() const
-{
-    return m_layout;
-}
-
 void KStandardItemListWidget::setHighlightEntireRow(bool highlightEntireRow)
 {
     if (m_highlightEntireRow != highlightEntireRow) {

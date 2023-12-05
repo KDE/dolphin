@@ -88,6 +88,14 @@ public:
         return m_nameFilter;
     }
 
+    /**
+     * Don't use this. Always @returns an empty list. It only exists to silence moc.
+     */
+    QList<QUrl> filesToSelect() const
+    {
+        return QList<QUrl>();
+    }
+
 protected:
     /**
      * We reimplement openUrl so no need to implement openFile.
@@ -214,10 +222,6 @@ private Q_SLOTS:
      * Called by konqueror --select
      */
     void setFilesToSelect(const QList<QUrl> &files);
-    QList<QUrl> filesToSelect() const
-    {
-        return QList<QUrl>();
-    } // silence moc
 
     bool eventFilter(QObject *, QEvent *) override;
 

@@ -80,7 +80,6 @@ public:
     ~KStandardItemListWidget() override;
 
     void setLayout(Layout layout);
-    Layout layout() const;
 
     void setHighlightEntireRow(bool highlightEntireRow);
     bool highlightEntireRow() const;
