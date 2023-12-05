@@ -27,11 +27,11 @@ Dependencies:
     'frameworks/kcodecs': '@stable'
     'frameworks/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
-    'plasma/plasma-activities': '@stable'
 
 - 'on': ['Linux', 'FreeBSD']
   'require':
     'frameworks/baloo': '@stable'
     'libraries/baloo-widgets': '@same'
+    'plasma/plasma-activities': '@stable'
     'third-party/packagekit-qt': '@latest'
 
