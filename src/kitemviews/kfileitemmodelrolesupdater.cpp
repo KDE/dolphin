@@ -1315,7 +1315,11 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, index](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+            int index = m_model->index(item);
+            if (index < 0) {
+                return;
+            }
             auto data = m_model->data(index);
             int origCount = data.value("count").toInt();
             int entryCount = origCount;
