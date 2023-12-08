@@ -1306,8 +1306,6 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
             url = QUrl::fromLocalFile(item.localPath());
         }
 
-        data.insert("isExpandable", false);
-        data.insert("count", 0);
         data.insert("size", -2); // invalid size, -1 means size unknown
 
         disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
