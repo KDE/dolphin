@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-27 01:38+0000\n"
-"PO-Revision-Date: 2023-09-10 18:21+0530\n"
+"PO-Revision-Date: 2023-12-08 21:18+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1543,12 +1543,10 @@ msgid ""
 msgstr "இந்த நெறிமுறையை டால்பின் ஆதரிக்காது, இயல்பிருப்பு செயலி தொடக்கப்பட்டுள்ளது."
 
 #: dolphinviewcontainer.cpp:830
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "செல்லுபடியாகாத நெறிமுறை"
+msgstr "செல்லுபடியாகாத நெறிமுறை '%1'"
 
 #: dolphinviewcontainer.cpp:832
 #, kde-format
@@ -2722,9 +2720,7 @@ msgid "Search in your home directory"
 msgstr "முகப்பு அடைவில் தேடுங்கள்"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "%1-ஐ திற"
 
@@ -4550,17 +4546,17 @@ msgstr "காலியிட விவரத்தைக் காட்டு"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "வட்டு பயன்பாட்டு விவரங்கள் - தற்போதைய அடைவு"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "வட்டு பயன்பாட்டு விவரங்கள் - தற்போதைய சாதனம்"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "வட்டு பயன்பாட்டு விவரங்கள் - அனைத்து சாதனங்களும்"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
@@ -4629,10 +4625,7 @@ msgid "Reload"
 msgstr "மீளேற்று"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4640,10 +4633,7 @@ msgstr[0] "1 அடைவு தேர்வு செய்யப்பட்�
 msgstr[1] "%1 அடைவுகள் தேர்வு செய்யப்பட்டுள்ளன"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4651,10 +4641,7 @@ msgstr[0] "1 கோப்பு தேர்வு செய்யப்பட�
 msgstr[1] "%1 கோப்புகள் தேர்வு செய்யப்பட்டுள்ளன"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4662,14 +4649,12 @@ msgstr[0] "1 அடைவு"
 msgstr[1] "%1 அடைவுகள்"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "உங்கள் கோப்புகள்"
-msgstr[1] "உங்கள் கோப்புகள்"
+msgstr[0] "1 கோப்பு"
+msgstr[1] "%1 கோப்புகள்"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4684,9 +4669,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 அடைவுகள், 0 கோப்புகள்"
