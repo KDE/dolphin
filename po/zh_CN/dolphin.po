@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-27 01:38+0000\n"
-"PO-Revision-Date: 2023-11-25 02:26\n"
+"PO-Revision-Date: 2023-12-09 09:25\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4051,7 +4051,7 @@ msgstr "符号式 (例如“drwxr-xr-x”)"
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "数字式 (八进制) (例如“755”)"
+msgstr "数字式 (例如“755”) (八进制)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
