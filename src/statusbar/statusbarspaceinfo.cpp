@@ -14,6 +14,7 @@
 #include <KLocalizedString>
 #include <KService>
 
+#include <QDesktopServices>
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QMouseEvent>
@@ -115,7 +116,17 @@ void StatusBarSpaceInfo::updateMenu()
     const KService::Ptr kdiskfree = KService::serviceByDesktopName(QStringLiteral("org.kde.kdf"));
 
     if (!filelight && !kdiskfree) {
-        // nothing to show
+        QAction *installFilelight =
+            m_buttonMenu->addAction(QIcon::fromTheme(QStringLiteral("filelight")), i18n("Install Filelight to View Disk Usage Statistics…"));
+
+        connect(installFilelight, &QAction::triggered, this, [] {
+#ifdef Q_OS_WIN
+            QDesktopServices::openUrl(QUrl("https://apps.kde.org/filelight"));
+#else
+            QDesktopServices::openUrl(QUrl("appstream://org.kde.filelight.desktop"));
+#endif
+        });
+
         return;
     }
 
