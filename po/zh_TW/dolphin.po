@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-27 01:38+0000\n"
-"PO-Revision-Date: 2023-11-29 19:25+0900\n"
+"PO-Revision-Date: 2023-12-13 16:49+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -288,6 +288,10 @@ msgid ""
 "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr ""
+"<para><emphasis>剪下、複製</emphasis>與<emphasis>貼上</emphasis>在很多應用程"
+"式之間都能運作，是最常用的幾個動作。這也是為什麼它們的<emphasis>鍵盤快捷鍵</"
+"emphasis>很明顯的放在鍵盤上彼此的旁邊：<shortcut>Ctrl+X</shortcut>、"
+"<shortcut>Ctrl+C</shortcut> 和 <shortcut>Ctrl+V</shortcut>。</para>"
 
 #: dolphinmainwindow.cpp:1615
 #, kde-format
@@ -408,6 +412,8 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"這會在視窗下方開啟<emphasis>過濾器列</emphasis>。<nl/>在此您可以輸入文字來過"
+"濾目前顯示的檔案和資料夾。只有名稱包含所輸入文字的項目會繼續顯示。"
 
 #: dolphinmainwindow.cpp:1681
 #, kde-format
@@ -571,6 +577,9 @@ msgid ""
 "editing by clicking to the right of the location and switch back by "
 "confirming the edited location."
 msgstr ""
+"這會切換<emphasis>位置工具列</emphasis>可編輯狀態，讓您能直接輸入您想要前往的"
+"位置。<nl/>您也可以點擊位置右方來切換至編輯模式，確認編輯後的位置之後會切換回"
+"來。"
 
 #: dolphinmainwindow.cpp:1808
 #, kde-format
@@ -584,7 +593,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This switches to editing the location and selects it so you can quickly "
 "enter a different location."
-msgstr ""
+msgstr "這會切換為編輯位置的狀態並選取位置文字，讓您能快速輸入另一個位置。"
 
 #: dolphinmainwindow.cpp:1843
 #, kde-format
@@ -596,7 +605,7 @@ msgstr "復原關閉分頁"
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
-msgstr ""
+msgstr "這會讓您回到之前關閉的分頁。"
 
 #: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
@@ -3345,7 +3354,7 @@ msgstr "顯示選取切換"
 msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
-msgstr ""
+msgstr "使用選取模式下方工具列進行剪下或複製後，顯示方便快速貼上的工具列。"
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -4810,6 +4819,11 @@ msgid ""
 "location by clicking to the left of it. This way you can view the contents "
 "of multiple folders in the same list.</para>"
 msgstr ""
+"<para>這會切換到列表一個以資料夾與檔案詳細資訊為中心的列表檢視模式。</"
+"para><para>點擊資訊的欄位標頭來依該資訊排序項目。再點一次來反轉排序。要選取要"
+"顯示哪些資訊，請在標頭上點擊滑鼠右鍵。</para><para>您可以點擊一個資料夾左方來"
+"檢視它的內容而不離開目前位置。這樣您可以在同一個列表裡檢視多個資料夾的內容。"
+"</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
