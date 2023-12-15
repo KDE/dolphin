@@ -260,6 +260,13 @@ void KFileItemModel::setShowTrashMime(bool show)
     }
 }
 
+void KFileItemModel::scheduleResortAllItems()
+{
+    if (!m_resortAllItemsTimer->isActive()) {
+        m_resortAllItemsTimer->start();
+    }
+}
+
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
     m_dirLister->setShowHiddenFiles(show);

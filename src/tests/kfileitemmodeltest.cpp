@@ -92,6 +92,7 @@ private Q_SLOTS:
     void testDeleteFileMoreThanOnce();
     void testInsertAfterExpand();
     void testCurrentDirRemoved();
+    void testSizeSortingAfterRefresh();
 
 private:
     QStringList itemsInModel() const;
@@ -844,6 +845,108 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
     QCOMPARE(itemsInModel(),
              QStringList() << "folder"
                            << "file");
+}
+
+void KFileItemModelTest::testSizeSortingAfterRefresh()
+{
+    // testDir structure is as follows
+    // ./
+    // ├─ a
+    // ├─ b
+    // ├─ c/
+    // │  ├─ c-2/
+    // │  │  ├─ c-3
+    // │  ├─ c-1
+    // ├─ d
+    // ├─ e
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
+    QVERIFY(itemsMovedSpy.isValid());
+
+    // Create some files with different sizes and modification times to check the different sorting options
+    QDateTime now = QDateTime::currentDateTime();
+
+    QSet<QByteArray> roles;
+    roles.insert("text");
+    roles.insert("isExpanded");
+    roles.insert("isExpandable");
+    roles.insert("expandedParentsCount");
+    m_model->setRoles(roles);
+
+    m_testDir->createDir("c/c-2");
+    m_testDir->createFile("c/c-2/c-3");
+    m_testDir->createFile("c/c-1");
+
+    m_testDir->createFile("a", "A file", now.addDays(-3));
+    m_testDir->createFile("b", "A larger file", now.addDays(0));
+    m_testDir->createDir("c", now.addDays(-2));
+    m_testDir->createFile("d", "The largest file in this directory", now.addDays(-1));
+    m_testDir->createFile("e", "An even larger file", now.addDays(-4));
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    int index = m_model->index(QUrl(m_testDir->url().url() + "/c"));
+    m_model->setExpanded(index, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    index = m_model->index(QUrl(m_testDir->url().url() + "/c/c-2"));
+    m_model->setExpanded(index, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Default: Sort by Name, ascending
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "d"
+                           << "e");
+
+    // Sort by Size, ascending, before refresh
+    m_model->setSortRole("size");
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "e"
+                           << "d");
+
+    // Refresh directory
+    m_model->refreshDirectory(m_model->directory());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Expand folders again
+    index = m_model->index(QUrl(m_testDir->url().url() + "/c"));
+    m_model->setExpanded(index, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    index = m_model->index(QUrl(m_testDir->url().url() + "/c/c-2"));
+    m_model->setExpanded(index, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Sort by Size, ascending, after refresh
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(itemsInModel(),
+             QStringList() << "c"
+                           << "c-2"
+                           << "c-3"
+                           << "c-1"
+                           << "a"
+                           << "b"
+                           << "e"
+                           << "d");
 }
 
 void KFileItemModelTest::testSorting()

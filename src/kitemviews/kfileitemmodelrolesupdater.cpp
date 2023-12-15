@@ -1346,6 +1346,9 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
                 disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
                 m_model->setData(index, data);
                 connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+                if (m_model->sortRole() == "size") {
+                    m_model->scheduleResortAllItems();
+                }
             }
         });
         return;

@@ -205,6 +205,8 @@ public:
     /** set to true to hide application/x-trash files */
     void setShowTrashMime(bool show);
 
+    void scheduleResortAllItems();
+
 Q_SIGNALS:
     /**
      * Is emitted if the loading of a directory has been started. It is
