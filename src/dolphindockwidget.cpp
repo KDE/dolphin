@@ -64,7 +64,7 @@ void DolphinDockWidget::setLocked(bool lock)
                 m_dockTitleBar = new DolphinDockTitleBar(this);
             }
             setTitleBarWidget(m_dockTitleBar);
-            setFeatures(QDockWidget::NoDockWidgetFeatures);
+            setFeatures(QDockWidget::DockWidgetClosable);
         } else {
             setTitleBarWidget(nullptr);
             setFeatures(DefaultDockWidgetFeatures);
