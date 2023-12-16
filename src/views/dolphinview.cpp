@@ -1422,10 +1422,12 @@ void DolphinView::slotItemCreated(const QUrl &url)
     }
 }
 
-void DolphinView::onDirectoryLoadingCompleted()
+void DolphinView::onDirectoryLoadingCompletedAfterJob()
 {
     // the model should now contain all the items created by the job
-    updateSelectionState();
+    m_selectJobCreatedItems = true; // to make sure we overwrite selection
+    // update the view: scroll into View and selection
+    updateViewState();
     m_selectJobCreatedItems = false;
     m_selectedUrls.clear();
 }
@@ -1445,7 +1447,7 @@ void DolphinView::slotJobResult(KJob *job)
         updateSelectionState();
         if (!m_selectedUrls.isEmpty()) {
             // not all urls were found, the model may not be up to date
-            connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::onDirectoryLoadingCompleted, Qt::UniqueConnection);
+            connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::onDirectoryLoadingCompletedAfterJob, Qt::SingleShotConnection);
         } else {
             m_selectJobCreatedItems = false;
             m_selectedUrls.clear();
