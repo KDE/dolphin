@@ -513,7 +513,7 @@ msgstr ""
 "primer s'han <emphasis>seleccionat</emphasis>. Premeu açò per a canviar el "
 "<emphasis>Mode de selecció</emphasis> que fa que seleccionar i "
 "desseleccionar siga tan fàcil com prémer un element una vegada.</"
-"para><para>Mentre està en este mode, a la part inferior es mostra una barra "
+"para><para>Mentre està en este mode, en la part inferior es mostra una barra "
 "d'accés ràpid amb les accions disponibles per als elements seleccionats.</"
 "para>"
 
