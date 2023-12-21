@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-19 01:35+0000\n"
-"PO-Revision-Date: 2023-12-17 11:26\n"
+"PO-Revision-Date: 2023-12-20 11:22\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4800,7 +4800,7 @@ msgstr "没有标记为“%1”的文件"
 #: views/dolphinview.cpp:2347
 #, kde-format
 msgid "No recently used items"
-msgstr "没有最近使用的项"
+msgstr "没有最近使用过的项目"
 
 #: views/dolphinview.cpp:2349
 #, kde-format
