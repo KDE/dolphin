@@ -46,6 +46,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_delayUpdateTimer(nullptr)
     , m_textTimestamp()
 {
+    setProperty("_breeze_statusbar_separator", true);
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, this);
     m_label->setWordWrap(true);
