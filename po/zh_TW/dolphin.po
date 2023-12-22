@@ -3,6 +3,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
+# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
 # Frank Weng (a.k.a. Franklin) <franklin@mail.everfocus.com.tw>, 2007.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
@@ -13,13 +14,13 @@
 # Jeff Huang <s8321414@gmail.com>, 2016, 2017, 2018.
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
 # Emoji <contact-forward@thost3.de>, 2022.
-# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-19 01:35+0000\n"
-"PO-Revision-Date: 2023-12-13 16:49+0900\n"
+"PO-Revision-Date: 2023-12-22 03:59+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.01.80\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -308,6 +309,9 @@ msgid ""
 "them from the clipboard to a new location. The items will be removed from "
 "their initial location."
 msgstr ""
+"這會複製您目前選取範圍中的項目到 <emphasis>剪貼簿</emphasis>。<nl/>之後使用 "
+"<emphasis>貼上</emphasis> 動作來將它們複製到新的位置。項目將會從原本的位置移"
+"除。"
 
 #: dolphinmainwindow.cpp:1624
 #, kde-format
@@ -323,6 +327,8 @@ msgid ""
 "emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
 "them from the clipboard to a new location."
 msgstr ""
+"這會複製您目前選取範圍中的項目到 <emphasis>剪貼簿</emphasis>。<nl/>之後使用 "
+"<emphasis>貼上</emphasis> 動作來將它們複製到新的位置。"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-format
@@ -338,6 +344,9 @@ msgid ""
 "currently viewed folder.<nl/>If the items were added to the clipboard by the "
 "<emphasis>Cut</emphasis> action they are removed from their old location."
 msgstr ""
+"這會複製您的<emphasis>剪貼簿</emphasis>中的項目到目前檢視的資料夾。<nl/>如果"
+"剪貼簿中的項目是被<emphasis>剪下</emphasis>動作加入的，複製後它們將會被從原本"
+"的位置移除。"
 
 #: dolphinmainwindow.cpp:1644
 #, kde-format
@@ -358,6 +367,7 @@ msgid ""
 "This copies the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"這會從<emphasis>作用中</emphasis>檢視複製選取項目到非作用中的分割檢視。"
 
 #: dolphinmainwindow.cpp:1650
 #, kde-format
@@ -384,6 +394,7 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"這會從<emphasis>作用中</emphasis>檢視移動選取項目到非作用中的分割檢視。"
 
 #: dolphinmainwindow.cpp:1661
 #, kde-format
@@ -447,6 +458,9 @@ msgid ""
 "objects you are looking for.</para><para>Use this help again on the find bar "
 "so we can have a look at it while the settings are explained.</para>"
 msgstr ""
+"<para>這會開啟一個<emphasis>尋找列</emphasis>來幫助您尋找檔案和資料夾。在其中"
+"您可以輸入搜尋字串或指定設定來找到您在找的物件。</para><para>在尋找列上再次使"
+"用這個說明的話可以邊看著它邊說明它的設定。</para>"
 
 #: dolphinmainwindow.cpp:1704
 #, kde-format
@@ -486,6 +500,10 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>這個應用程式需要先<emphasis>選取</emphasis>檔案或資料夾才知道要對哪些項"
+"目套用動作。按此來切換 <emphasis>選取模式</emphasis> 功能，只需要按一次項目就"
+"可以選取或取消選取它。</para><para>在此模式中，下方會有一個快速功能列，顯示目"
+"前選取的項目可用的動作。</para>"
 
 #: dolphinmainwindow.cpp:1742
 #, kde-kuit-format
@@ -497,7 +515,7 @@ msgstr "這會選擇所有在目前路徑的檔案以及資料夾。"
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
-msgstr "反向選擇"
+msgstr "反轉選取"
 
 #: dolphinmainwindow.cpp:1748
 #, kde-kuit-format
@@ -515,6 +533,9 @@ msgid ""
 "para><para>This way you can see two locations at once and move items between "
 "them quickly.</para>Click this again afterwards to recombine the views."
 msgstr ""
+"<para>這會分割下方的資料夾檢視成兩個獨立的檢視。</para><para>這樣您可以同時看"
+"到兩個位置，並快速地在它們之間移動項目。</para>再按一次這個來重新合併兩個檢"
+"視。"
 
 #: dolphinmainwindow.cpp:1773
 #, kde-format
@@ -543,6 +564,9 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>這會重新整理資料夾檢視。</para><para>如果這個資料夾的內容被變更了，重新"
+"整理會在重新掃描它之後向您顯示更新的檔案和資料夾列表。</para><para>分割檢視時"
+"這會重新整理目前焦點所在的檢視。</para>"
 
 #: dolphinmainwindow.cpp:1791
 #, kde-format
@@ -616,6 +640,9 @@ msgid ""
 "interface> them to a different location or to the <filename>Trash</"
 "filename>. <nl/>Changes that can't be undone will ask for your confirmation."
 msgstr ""
+"這會復原您對檔案或資料夾所進行的上一個變更。<nl/>可以復原的變更包含"
+"<interface>建立、重新命名、移動到另一個位置</interface>或<interface>移動</"
+"interface>到<filename>垃圾桶</filename>。<nl/>不能復原的變更會先詢問確認。"
 
 #: dolphinmainwindow.cpp:1881
 #, kde-kuit-format
@@ -679,7 +706,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "焦點移至終端機面板"
+msgstr "聚焦於終端機面板"
 
 #: dolphinmainwindow.cpp:1932
 #, kde-format
@@ -786,6 +813,9 @@ msgid ""
 "other side of the window and have a close button.<nl/>Locked panels are "
 "embedded more cleanly."
 msgstr ""
+"這會切換面板<emphasis>鎖定</emphasis>或是<emphasis>解除鎖定</emphasis>。解除"
+"鎖定的面板可以被拖曳到視窗另一邊並且會有一個關閉的按鈕。<nl/>鎖定的面板會比較"
+"乾淨的嵌入在介面中。"
 
 #: dolphinmainwindow.cpp:2058
 #, kde-format
@@ -800,6 +830,8 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
+"<para>要顯示或隱藏這種面板請使用<interface>選單|面板</interface>或<interface>"
+"檢視|面板</interface>。</para>"
 
 #: dolphinmainwindow.cpp:2087
 #, kde-kuit-format
@@ -1124,6 +1156,8 @@ msgid ""
 "This opens a window that informs you about the version, license, used "
 "libraries and maintainers of this application."
 msgstr ""
+"這會開啟一個視窗告訴您這個應用程式的版本、授權、使用的函式庫與維護者有關的資"
+"訊。"
 
 #: dolphinmainwindow.cpp:2622
 #, kde-kuit-format
@@ -1134,6 +1168,9 @@ msgid ""
 "this application but don't know about KDE or want to see a cute dragon have "
 "a look!"
 msgstr ""
+"這會開啟一個包含關於 <emphasis>KDE</emphasis> 的資訊的視窗。KDE 社群是這個自"
+"由軟體背後的人們。<nl/>如果您喜歡使用這個應用程式但不知道 KDE 或是想要看看一"
+"隻可愛的龍，那就進來看看吧！"
 
 #: dolphinmainwindow.cpp:2680 dolphinmainwindow.cpp:2684
 #, kde-format
@@ -2861,6 +2898,11 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>選取模式</title><para>選取檔案或資料夾來管理或操控它們。<list><item>點"
+"擊檔案或資料夾來選取它。</item><item>點擊已選取的檔案或資料夾來取消選取它。</"
+"item><item>點擊空白區域<emphasis>不會</emphasis>清除選取。</item><item>選取矩"
+"形（從空白區域拖曳時會出現的）會反轉範圍內的項目的選取狀態。</item></list></"
+"para><para>下方可用的動作按鈕會依目前選取項目改變。</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
@@ -2878,7 +2920,7 @@ msgstr "選取模式"
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "退出選取模式"
+msgstr "離開選取模式"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:59
 #, kde-format
@@ -2982,7 +3024,7 @@ msgstr "遞迴目錄大小限制"
 #: settings/dolphin_contentdisplaysettings.kcfg:18
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
-msgstr ""
+msgstr "若為真使用短的相對日期，否則使用短日期"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
@@ -3277,6 +3319,8 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
+"Dolphin 的內部設定版本，主要用來判斷是否在執行更新版的 Dolphin 以移轉被移除、"
+"重新命名等等變更的設定項目"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42

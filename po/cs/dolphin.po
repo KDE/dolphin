@@ -4542,15 +4542,13 @@ msgstr[1] "%1 složky"
 msgstr[2] "%1 složek"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Vaše soubory"
-msgstr[1] "Vaše soubory"
-msgstr[2] "Vaše soubory"
+msgstr[0] "1 soubor"
+msgstr[1] "%1 soubory"
+msgstr[2] "%1 souborů"
 
 #: views/dolphinview.cpp:651
 #, kde-format
