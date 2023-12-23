@@ -1338,16 +1338,24 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
                 ++entryCount;
             }
 
-            // count has changed
-            if (origCount < entryCount) {
-                QHash<QByteArray, QVariant> data;
-                data.insert("isExpandable", entryCount > 0);
-                data.insert("count", entryCount);
+            QHash<QByteArray, QVariant> newData;
+            QVariant expandable = data.value("isExpandable");
+            if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
+                // if expandable has changed
+                newData.insert("isExpandable", entryCount > 0);
+            }
 
+            if (origCount != entryCount) {
+                // count has changed
+                newData.insert("count", entryCount);
+            }
+
+            if (!newData.isEmpty()) {
                 disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-                m_model->setData(index, data);
+                m_model->setData(index, newData);
                 connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
-                if (m_model->sortRole() == "size") {
+
+                if (newData.contains("count") && m_model->sortRole() == "size") {
                     m_model->scheduleResortAllItems();
                 }
             }
