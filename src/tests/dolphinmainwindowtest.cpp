@@ -13,8 +13,11 @@
 #include "testdir.h"
 
 #include <KActionCollection>
+#include <KConfig>
+#include <KConfigGui>
 
 #include <QAccessible>
+#include <QFileSystemWatcher>
 #include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -43,6 +46,7 @@ private Q_SLOTS:
     void testGoActions();
     void testOpenFiles();
     void testAccessibilityAncestorTree();
+    void testAutoSaveSession();
     void cleanupTestCase();
 
 private:
@@ -559,6 +563,41 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
         testedObjects.insert(currentlyFocusedObject); // Add it to testedObjects so we won't test it again later.
         QTest::keyClick(m_mainWindow.get(), Qt::Key::Key_Tab, Qt::ShiftModifier); // ShiftModifier because the Tab cycle is currently broken going forward.
     }
+}
+
+void DolphinMainWindowTest::testAutoSaveSession()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    // Create config file
+    KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
+    KConfig *config = KConfigGui::sessionConfig();
+    m_mainWindow->saveGlobalProperties(config);
+    m_mainWindow->savePropertiesInternal(config, 1);
+    config->sync();
+
+    // Setup watcher for config file changes
+    const QString configFileName = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/" + KConfigGui::sessionConfig()->name();
+    QFileSystemWatcher *configWatcher = new QFileSystemWatcher({configFileName}, this);
+    QSignalSpy spySessionSaved(configWatcher, &QFileSystemWatcher::fileChanged);
+
+    // Enable session autosave.
+    m_mainWindow->setSessionAutoSaveEnabled(true);
+
+    // Open a new tab
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+    tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::tempPath()));
+    QCOMPARE(tabWidget->count(), 2);
+
+    // Wait till a session save occurs
+    QVERIFY(spySessionSaved.wait(60000));
+
+    // Disable session autosave.
+    m_mainWindow->setSessionAutoSaveEnabled(false);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
