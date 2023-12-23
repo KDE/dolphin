@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-19 01:35+0000\n"
+"POT-Creation-Date: 2023-12-23 01:47+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -1345,7 +1345,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "ផ្ទាំង​ដែល​បាន​បិទ​ថ្មី​ទទេ"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:497 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -1443,21 +1443,21 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:533
+#: dolphinviewcontainer.cpp:534
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search"
 msgstr "ស្វែងរក​"
 
-#: dolphinviewcontainer.cpp:535
+#: dolphinviewcontainer.cpp:536
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1"
 msgstr "ស្វែងរក​"
 
-#: dolphinviewcontainer.cpp:619
+#: dolphinviewcontainer.cpp:620
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1465,7 +1465,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "កំពុង​ផ្ទុក​ថត..."
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:628
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1473,7 +1473,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ការ​តម្រៀប ៖"
 
-#: dolphinviewcontainer.cpp:638
+#: dolphinviewcontainer.cpp:639
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1481,19 +1481,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "កំពុង​ស្វែងរក..."
 
-#: dolphinviewcontainer.cpp:659
+#: dolphinviewcontainer.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "រកមិនឃើញ​ធាតុ​ទេ"
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:821
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ​​មិន​គាំទ្រ​ទំព័រ​បណ្ដាញ​ទេ កម្មវិធី​រុករក​បណ្ដាញ​ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:823
+#: dolphinviewcontainer.cpp:824
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1502,7 +1502,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ពិធីការ​មិន​បាន​គាំទ្រ​ដោយ Dolphin Konqueror ត្រូវ​បាន​ចាប់ផ្ដើម"
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:831
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1510,13 +1510,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ពិធីការ​មិន​ត្រឹមត្រូវ"
 
-#: dolphinviewcontainer.cpp:832
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ពិធីការ​មិន​ត្រឹមត្រូវ"
 
-#: dolphinviewcontainer.cpp:942
+#: dolphinviewcontainer.cpp:943
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

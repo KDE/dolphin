@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-19 01:35+0000\n"
-"PO-Revision-Date: 2023-12-22 03:59+0900\n"
+"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"PO-Revision-Date: 2023-12-22 19:41+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.01.80\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -869,6 +869,8 @@ msgid ""
 "window.<nl/><nl/>It shows the folders of the <emphasis>file system</"
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr ""
+"這會切換視窗左邊的<emphasis>資料夾</emphasis>面板。<nl/><nl/>它會以<emphasis>"
+"樹狀圖</emphasis>方式顯示<emphasis>檔案系統</emphasis>的資料夾。"
 
 #: dolphinmainwindow.cpp:2129
 #, kde-kuit-format
@@ -879,6 +881,9 @@ msgid ""
 "Click the arrow to the left of a folder to see its subfolders. This allows "
 "quick switching between any folders.</para>"
 msgstr ""
+"<para>這個面板會以<emphasis>樹狀檢視</emphasis>來顯示<emphasis>檔案系統</"
+"emphasis>中的資料夾。</para><para>點擊一個資料夾來前往它。點擊資料夾左方的箭"
+"頭來看它的子資料夾。這讓您可以快速在資料夾之間切換。</para>"
 
 #: dolphinmainwindow.cpp:2139
 #, kde-format
@@ -897,6 +902,11 @@ msgid ""
 "learn more about terminals use the help in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
+"<para>這會切換視窗下方的<emphasis>終端機</emphasis>面板。<nl/>終端機的位置會"
+"與上方資料夾檢視同步，所以不管是用終端機還是資料夾檢視在資料夾間移動都是可以"
+"的。</para><para>終端機面板在普通的電腦使用上不會有需要，但是對於進階的工作是"
+"很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明。"
+"</para>"
 
 #: dolphinmainwindow.cpp:2172
 #, kde-kuit-format
@@ -909,6 +919,11 @@ msgid ""
 "about terminals use the help in a standalone terminal application like "
 "Konsole.</para>"
 msgstr ""
+"<para>這是<emphasis>終端機</emphasis>面板。它的運作方式跟正常終端機一樣，不過"
+"會與資料夾檢視同步位置，所以不管是用終端機還是資料夾檢視在資料夾間移動都是可"
+"以的。</para><para>終端機面板在普通的電腦使用上不會有需要，但是對於進階的工作"
+"是很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說"
+"明。</para>"
 
 #: dolphinmainwindow.cpp:2189
 #, kde-format
@@ -942,6 +957,9 @@ msgid ""
 "also contains sections to find recently saved files or files of a certain "
 "type.</para>"
 msgstr ""
+"<para>這會切換視窗左邊的<emphasis>快速存取</emphasis>面板。</para><para>這個"
+"面板讓您能夠快速前往加入書籤的位置，或是存取附加到電腦上或區域網路上的磁碟或"
+"媒體。它也包含讓您尋找最近儲存的檔案以及某些類型的檔案的區塊。</para>"
 
 #: dolphinmainwindow.cpp:2239
 #, kde-kuit-format
@@ -957,6 +975,12 @@ msgid ""
 "empty space on this panel and select <interface>Show Hidden Places</"
 "interface> to display it again.</para>"
 msgstr ""
+"<para>這是<emphasis>快速存取</emphasis>面板。它讓您能夠快速前往加入書籤的位"
+"置，或是存取附加到電腦上或區域網路上的磁碟或媒體。它也包含讓您尋找最近儲存的"
+"檔案以及某些類型的檔案的區塊。</para><para>點擊項目來前往該位置。用右鍵來點擊"
+"來在新分頁或視窗開啟該位置。</para><para>新項目可以透過拖曳資料夾到這個面板來"
+"新增。右鍵點擊任何區塊或項目來隱藏它。右鍵點擊這個面板的空白區域並選取"
+"<interface>顯示隱藏位置</interface>來重新顯示它。</para>"
 
 #: dolphinmainwindow.cpp:2253
 #, kde-format
@@ -1339,7 +1363,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "清空最近關閉的分頁"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:497 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜尋 %1"
@@ -1433,66 +1457,66 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "以管理員權限執行 Dolphin 可能有危險性，請小心使用。"
 
-#: dolphinviewcontainer.cpp:533
+#: dolphinviewcontainer.cpp:534
 #, kde-format
 msgid "Search"
 msgstr "搜尋"
 
-#: dolphinviewcontainer.cpp:535
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search for %1"
 msgstr "搜尋 %1"
 
-#: dolphinviewcontainer.cpp:619
+#: dolphinviewcontainer.cpp:620
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "載入資料夾中…"
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "排序中…"
 
-#: dolphinviewcontainer.cpp:638
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "搜尋中…"
 
-#: dolphinviewcontainer.cpp:659
+#: dolphinviewcontainer.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "找不到任何項目。"
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:821
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支援網頁，已啟動瀏覽器"
 
-#: dolphinviewcontainer.cpp:823
+#: dolphinviewcontainer.cpp:824
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "此通訊協定不受 Dolphin 支援，已啟動預設應用程式"
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:831
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "無效協定 '%1'"
 
-#: dolphinviewcontainer.cpp:832
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "不合法的協定"
 
-#: dolphinviewcontainer.cpp:942
+#: dolphinviewcontainer.cpp:943
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

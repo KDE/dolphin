@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-19 01:35+0000\n"
+"POT-Creation-Date: 2023-12-23 01:47+0000\n"
 "PO-Revision-Date: 2023-11-23 11:36+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1464,7 +1464,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "הלשוניות הריקות שנסגרו לאחרונה"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:497 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "חיפוש אחר %1 בתוך %2"
@@ -1572,66 +1572,66 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "הרצת Dolphin בתור משתמש על (root) עלולה להיות מסוכנת. נא להיזהר."
 
-#: dolphinviewcontainer.cpp:533
+#: dolphinviewcontainer.cpp:534
 #, kde-format
 msgid "Search"
 msgstr "חיפוש"
 
-#: dolphinviewcontainer.cpp:535
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search for %1"
 msgstr "חיפוש אחר %1"
 
-#: dolphinviewcontainer.cpp:619
+#: dolphinviewcontainer.cpp:620
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "התיקייה נטענת…"
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "מתבצע מיון…"
 
-#: dolphinviewcontainer.cpp:638
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "מתבצע חיפוש…"
 
-#: dolphinviewcontainer.cpp:659
+#: dolphinviewcontainer.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "לא נמצאו פריטים מתאימים."
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:821
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "אין תמיכה בהצגת אתרים ב־Dolphin, ולכן דפדפן האינטרנט הופעל"
 
-#: dolphinviewcontainer.cpp:823
+#: dolphinviewcontainer.cpp:824
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "הפרוטוקול לא נתמך על־ידי Dolphin, ולכן הופעל ביישום אחר"
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:831
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "הפרוטוקול ‚%1’ שגוי"
 
-#: dolphinviewcontainer.cpp:832
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "פרוטוקול שגוי"
 
-#: dolphinviewcontainer.cpp:942
+#: dolphinviewcontainer.cpp:943
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

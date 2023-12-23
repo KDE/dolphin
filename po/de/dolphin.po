@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-19 01:35+0000\n"
+"POT-Creation-Date: 2023-12-23 01:47+0000\n"
 "PO-Revision-Date: 2023-07-01 18:40+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1542,7 +1542,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Liste kürzlich geschlossener Unterfenster leeren"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:497 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Suchen nach %1 in %2"
@@ -1656,47 +1656,47 @@ msgstr ""
 "Die Ausführung von Dolphin als Systemverwalter kann gefährlich sein. Bitte "
 "beachten Sie das."
 
-#: dolphinviewcontainer.cpp:533
+#: dolphinviewcontainer.cpp:534
 #, kde-format
 msgid "Search"
 msgstr "Suchen"
 
-#: dolphinviewcontainer.cpp:535
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search for %1"
 msgstr "Suchen nach %1"
 
-#: dolphinviewcontainer.cpp:619
+#: dolphinviewcontainer.cpp:620
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ordner wird geladen ..."
 
-#: dolphinviewcontainer.cpp:627
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Wird sortiert …"
 
-#: dolphinviewcontainer.cpp:638
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Suchvorgang ..."
 
-#: dolphinviewcontainer.cpp:659
+#: dolphinviewcontainer.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Keine Elemente gefunden."
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:821
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin unterstützt keine Webseiten; der Webbrowser wurde gestartet."
 
-#: dolphinviewcontainer.cpp:823
+#: dolphinviewcontainer.cpp:824
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1705,7 +1705,7 @@ msgstr ""
 "Das Protokoll wird von Dolphin nicht unterstützt; die zugehörige "
 "Standardanwendung wurde gestartet."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:831
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1713,13 +1713,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ungültiges Protokoll"
 
-#: dolphinviewcontainer.cpp:832
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ungültiges Protokoll"
 
-#: dolphinviewcontainer.cpp:942
+#: dolphinviewcontainer.cpp:943
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
