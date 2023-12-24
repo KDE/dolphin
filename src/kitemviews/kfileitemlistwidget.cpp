@@ -109,7 +109,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
             text = QString::number(permissions.at(1).toInt(), 8);
             break;
         case ContentDisplaySettings::EnumUsePermissionsFormat::CombinedFormat:
-            text = QString("%1 (%2)").arg(permissions.at(0).toString()).arg(permissions.at(1).toInt(), 0, 8);
+            text = QLatin1String("%1 (%2)").arg(permissions.at(0).toString()).arg(permissions.at(1).toInt(), 0, 8);
             break;
         }
     } else {

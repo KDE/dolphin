@@ -151,7 +151,7 @@ void DolphinRemoteEncoding::slotItemSelected(QAction *action)
     if (action) {
         int id = action->data().toInt();
 
-        KConfig config(("kio_" + m_currentURL.scheme() + "rc").toLatin1());
+        KConfig config(QLatin1String("kio_%1rc").arg(m_currentURL.scheme()));
         QString host = m_currentURL.host();
         if (m_menu->menu()->actions().at(id)->isChecked()) {
             QString charset = KCharsets::charsets()->encodingForName(m_encodingDescriptions.at(id));
@@ -169,9 +169,9 @@ void DolphinRemoteEncoding::slotDefault()
 {
     // We have no choice but delete all higher domain level
     // settings here since it affects what will be matched.
-    KConfig config(("kio_" + m_currentURL.scheme() + "rc").toLatin1());
+    KConfig config(QLatin1String("kio_%1rc").arg(m_currentURL.scheme()));
 
-    QStringList partList = m_currentURL.host().split('.', Qt::SkipEmptyParts);
+    QStringList partList = m_currentURL.host().split(QLatin1Char('.'), Qt::SkipEmptyParts);
     if (!partList.isEmpty()) {
         partList.erase(partList.begin());
 

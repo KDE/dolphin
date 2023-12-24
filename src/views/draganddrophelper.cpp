@@ -38,8 +38,8 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
 {
     const QMimeData *mimeData = event->mimeData();
     if (isArkDndMimeType(mimeData)) {
-        const QString remoteDBusClient = mimeData->data(arkDndServiceMimeType());
-        const QString remoteDBusPath = mimeData->data(arkDndPathMimeType());
+        const QString remoteDBusClient = QString::fromUtf8(mimeData->data(arkDndServiceMimeType()));
+        const QString remoteDBusPath = QString::fromUtf8(mimeData->data(arkDndPathMimeType()));
 
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient,
                                                               remoteDBusPath,

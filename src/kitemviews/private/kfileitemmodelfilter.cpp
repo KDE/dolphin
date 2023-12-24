@@ -31,7 +31,7 @@ void KFileItemModelFilter::setPattern(const QString &filter)
     m_pattern = filter;
     m_lowerCasePattern = filter.toLower();
 
-    if (filter.contains('*') || filter.contains('?') || filter.contains('[')) {
+    if (filter.contains(QLatin1Char('*')) || filter.contains(QLatin1Char('?')) || filter.contains(QLatin1Char('['))) {
         if (!m_regExp) {
             m_regExp = new QRegularExpression();
             m_regExp->setPatternOptions(QRegularExpression::CaseInsensitiveOption);

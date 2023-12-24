@@ -76,7 +76,7 @@ void KItemModelBase::setSortOrder(Qt::SortOrder order)
 
 QString KItemModelBase::roleDescription(const QByteArray &role) const
 {
-    return role;
+    return QString::fromLatin1(role);
 }
 
 QList<QPair<int, QVariant>> KItemModelBase::groups() const

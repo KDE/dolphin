@@ -44,7 +44,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job *, const KIO::UDSEntryList &list)
 
             QUrl url(m_dir);
             url = url.adjusted(QUrl::StripTrailingSlash);
-            url.setPath(url.path() + '/' + name);
+            url.setPath(url.path() + QLatin1Char('/') + name);
 
             Q_ASSERT(m_viewProps);
 
