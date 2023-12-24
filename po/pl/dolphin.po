@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-23 01:47+0000\n"
-"PO-Revision-Date: 2023-11-11 13:41+0100\n"
+"PO-Revision-Date: 2023-12-23 11:49+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmai.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4781,10 +4781,7 @@ msgid "Reload"
 msgstr "Wczytaj ponownie"
 
 #: views/dolphinview.cpp:643
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4793,22 +4790,16 @@ msgstr[1] "Zaznaczono %1 katalogi"
 msgstr[2] "Zaznaczono %1 katalogów"
 
 #: views/dolphinview.cpp:644
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] "Zaznaczono %1 plik"
+msgstr[0] "Zaznaczono 1 plik"
 msgstr[1] "Zaznaczono %1 pliki"
 msgstr[2] "Zaznaczono %1 plików"
 
 #: views/dolphinview.cpp:646
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4817,15 +4808,13 @@ msgstr[1] "%1 katalogi"
 msgstr[2] "%1 katalogów"
 
 #: views/dolphinview.cpp:647
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "W moich plikach"
-msgstr[1] "W moich plikach"
-msgstr[2] "W moich plikach"
+msgstr[0] "1 plik"
+msgstr[1] "%1 pliki"
+msgstr[2] "%1 plików"
 
 #: views/dolphinview.cpp:651
 #, kde-format
@@ -4840,9 +4829,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 katalogów, 0 plików"
@@ -4851,15 +4838,15 @@ msgstr "0 katalogów, 0 plików"
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
-msgstr "%1 (kopia)"
+msgstr "%1 kopia"
 
 #: views/dolphinview.cpp:1063
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
-msgstr[0] "Czy na pewno chcesz otworzyć jeden element?"
-msgstr[1] "Czy na pewno chcesz otworzyć %1 elementy?"
-msgstr[2] "Czy na pewno chcesz otworzyć %1 elementów?"
+msgstr[0] "Czy na pewno chcesz otworzyć tę jedną rzecz?"
+msgstr[1] "Czy na pewno chcesz otworzyć te %1 rzeczy?"
+msgstr[2] "Czy na pewno chcesz otworzyć te %1 rzeczy?"
 
 #: views/dolphinview.cpp:1068
 #, kde-format
