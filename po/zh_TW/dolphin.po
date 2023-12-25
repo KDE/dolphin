@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-23 01:47+0000\n"
-"PO-Revision-Date: 2023-12-22 19:41+0900\n"
+"PO-Revision-Date: 2023-12-25 01:45+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -670,6 +670,8 @@ msgid ""
 "para><para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</"
 "para>"
 msgstr ""
+"<para>這會為目前檢視的位置開啟偏好的搜尋工具。</para><para>使用 <emphasis>更"
+"多搜尋工具</emphasis> 選單來設定它。</para>"
 
 #: dolphinmainwindow.cpp:1904
 #, kde-format
@@ -685,6 +687,8 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help in the "
 "terminal application.</para>"
 msgstr ""
+"<para>這會在目前檢視的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
+"para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1914
@@ -701,6 +705,8 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
+"<para>這會在所選項目的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
+"para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
 
 #: dolphinmainwindow.cpp:1924 dolphinmainwindow.cpp:2677
 #, kde-format
@@ -998,6 +1004,9 @@ msgid ""
 "directory that contains all data connected to this computer—the "
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
+"<para>移動到包含目前檢視資料夾的上層資料夾。</para><para>所有檔案和資料夾都是"
+"以階層方式置放於<emphasis>檔案系統</emphasis>之中。這個階層昂的頂端是包含連線"
+"到此電腦的所有資料的目錄——也就是<emphasis>根目錄</emphasis>。</para>"
 
 #: dolphinmainwindow.cpp:2453
 #, kde-format
@@ -1046,6 +1055,10 @@ msgid ""
 "become available through a <interface>Menu</interface> button on the "
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
+"<para>這是<emphasis>選單列</emphasis>。它提供指令與設定選項的存取。左鍵點擊任"
+"何選單來看它的內容。</para><para>選單列可以透過取消勾選<interface>設定|顯示選"
+"單列</interface>來隱藏。隱藏之後它的大部分內容還是會整理在<emphasis>工具列</"
+"emphasis>上的<interface>選單</interface>按鈕當中。</para>"
 
 #: dolphinmainwindow.cpp:2516
 #, kde-kuit-format
@@ -1060,6 +1073,12 @@ msgid ""
 "style of its buttons can also be changed in the right-click menu. Right-"
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
+"<para>這是<emphasis>工具列</emphasis>。它提供常用動作的快速存取。</"
+"para><para>工具列可以隨意自訂。所有在<interface>選單</interface>或<interface>"
+"選單列</interface>裡的項目都可以放在工具列中。要自訂它，只要右鍵點擊工具列並"
+"選取<interface>設定工具列…</interface>，或是在<interface>選單</interface>中找"
+"這個動作，就可以了。</para><para>工具列的位置和它的按鈕的風格也可以在右鍵選單"
+"中變更。右鍵點擊按鈕來隱藏或顯示它的文字說明。</para>"
 
 #: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
@@ -1106,6 +1125,9 @@ msgid ""
 "<emphasis>Configuring Dolphin</emphasis> in <interface>Help|Dolphin "
 "Handbook</interface>."
 msgstr ""
+"這會開啟一個視窗讓您調整這個應用程式的各種設定。關於各個選項的說明請見"
+"<interface>說明|Dolphin 手冊</interface>當中的<emphasis>設定 Dolphin</"
+"emphasis>章節。"
 
 #. i18n: If the external link isn't available in your language it might make
 #. sense to state the external link's language in brackets to not
