@@ -6,7 +6,6 @@
 
 #include "generalviewsettingspage.h"
 #include "dolphin_generalsettings.h"
-#include "dolphinmainwindow.h"
 #include "views/viewproperties.h"
 
 #include <KLocalizedString>
@@ -21,7 +20,6 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     , m_url(url)
     , m_localViewProps(nullptr)
     , m_globalViewProps(nullptr)
-    , m_showToolTips(nullptr)
     , m_showSelectionToggle(nullptr)
     , m_renameInline(nullptr)
 {
