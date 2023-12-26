@@ -13,6 +13,7 @@
 
 #include <KConfig>
 #include <KConfigGroup>
+#include <KIO/ListJob>
 #include <KIO/PreviewJob>
 #include <KIconLoader>
 #include <KJobWidgets>

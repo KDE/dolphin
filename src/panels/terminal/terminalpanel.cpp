@@ -8,7 +8,7 @@
 
 #include <KActionCollection>
 #include <KIO/DesktopExecParser>
-#include <KIO/Job>
+#include <KIO/StatJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageWidget>

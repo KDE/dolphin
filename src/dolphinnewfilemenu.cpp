@@ -8,7 +8,7 @@
 
 #include "views/dolphinnewfilemenuobserver.h"
 
-#include <KIO/Job>
+#include <KIO/Global>
 
 #include <QAction>
 

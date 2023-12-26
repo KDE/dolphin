@@ -11,6 +11,7 @@
 #define APPLYVIEWPROPSJOB_H
 
 #include <KIO/Job>
+#include <KIO/UDSEntry>
 
 #include <QUrl>
 

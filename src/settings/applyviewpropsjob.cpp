@@ -10,6 +10,7 @@
 #include "applyviewpropsjob.h"
 
 #include "views/viewproperties.h"
+#include <KIO/ListJob>
 
 ApplyViewPropsJob::ApplyViewPropsJob(const QUrl &dir, const ViewProperties &viewProps)
     : KIO::Job()

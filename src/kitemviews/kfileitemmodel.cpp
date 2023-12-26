@@ -15,6 +15,7 @@
 
 #include <KDirLister>
 #include <KIO/Job>
+#include <KIO/ListJob>
 #include <KLocalizedString>
 #include <KUrlMimeData>
 
@@ -25,7 +26,6 @@
 #include <QRecursiveMutex>
 #include <QTimer>
 #include <QWidget>
-#include <algorithm>
 #include <klazylocalizedstring.h>
 
 Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
