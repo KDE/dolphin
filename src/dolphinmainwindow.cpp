@@ -1722,7 +1722,7 @@ void DolphinMainWindow::setupActions()
         "</para>"));
     toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
     toggleSelectionModeAction->setCheckable(true);
-    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
+    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space);
     connect(toggleSelectionModeAction, &QAction::triggered, this, &DolphinMainWindow::toggleSelectionMode);
 
     // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
@@ -2221,7 +2221,7 @@ void DolphinMainWindow::setupDockWidgets()
                                             "all places in the places panel that have been hidden. They will "
                                             "appear semi-transparent unless you uncheck their hide property."));
 
-    connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked) {
+    connect(actionShowAllPlaces, &QAction::triggered, this, [this](bool checked) {
         m_placesPanel->setShowAll(checked);
     });
     connect(m_placesPanel, &PlacesPanel::allPlacesShownChanged, actionShowAllPlaces, &QAction::setChecked);
@@ -2265,7 +2265,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(actionShowAllPlaces);
     panelsMenu->addAction(lockLayoutAction);
 
-    connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this] {
+    connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces] {
         actionShowAllPlaces->setEnabled(DolphinPlacesModelSingleton::instance().placesModel()->hiddenCount());
     });
 }
