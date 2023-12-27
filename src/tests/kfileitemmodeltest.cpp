@@ -13,7 +13,7 @@
 #include <QTimer>
 
 #include <KDirLister>
-#include <kio/job.h>
+#include <KIO/SimpleJob>
 
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
@@ -1756,10 +1756,10 @@ void KFileItemModelTest::collapseParentOfHiddenItems()
     // Set a name filter that matches nothing -> nothing should remain.
     m_model->setNameFilter("xyz");
     QCOMPARE(itemsRemovedSpy.count(), 1);
-    QCOMPARE(m_model->count(), 0); //Everything is hidden
+    QCOMPARE(m_model->count(), 0); // Everything is hidden
     QCOMPARE(itemsInModel(), QStringList());
 
-    //Filter by the file names. Folder "d" will be hidden since it was collapsed
+    // Filter by the file names. Folder "d" will be hidden since it was collapsed
     m_model->setNameFilter("1");
     QCOMPARE(itemsRemovedSpy.count(), 1); // nothing was removed, itemsRemovedSpy count will remain the same:
     QCOMPARE(m_model->count(), 6); // 6 items: "a/", "a/b/", "a/b/c", "a/b/c/1", "a/b/1", "a/1"
