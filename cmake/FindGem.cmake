@@ -9,7 +9,7 @@
 set(FINDGEM_MODULES_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 function(find_gem GEM_NAME)
-    set(GEM_PACKAGE "Gem:${GEM_NAME}")
+    set(GEM_PACKAGE "Gem_${GEM_NAME}")
 
     configure_file(${FINDGEM_MODULES_DIR}/FindGem.cmake.in Find${GEM_PACKAGE}.cmake @ONLY)
 
