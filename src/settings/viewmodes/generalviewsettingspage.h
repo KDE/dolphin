@@ -6,6 +6,7 @@
 #ifndef GENERALVIEWSETTINGSPAGE_H
 #define GENERALVIEWSETTINGSPAGE_H
 
+#include "config-dolphin.h"
 #include "settings/settingspagebase.h"
 #include <qradiobutton.h>
 
@@ -37,14 +38,15 @@ private:
 
 private:
     QUrl m_url;
-    QRadioButton *m_localViewProps;
-    QRadioButton *m_globalViewProps;
-    QCheckBox *m_showToolTips;
-    QLabel *m_configureToolTips;
-    QCheckBox *m_showSelectionToggle;
-    QCheckBox *m_renameInline;
-    QCheckBox *m_openArchivesAsFolder;
-    QCheckBox *m_autoExpandFolders;
+    QRadioButton *m_localViewProps = nullptr;
+    QRadioButton *m_globalViewProps = nullptr;
+#if HAVE_BALOO
+    QCheckBox *m_showToolTips = nullptr;
+#endif
+    QCheckBox *m_showSelectionToggle = nullptr;
+    QCheckBox *m_renameInline = nullptr;
+    QCheckBox *m_openArchivesAsFolder = nullptr;
+    QCheckBox *m_autoExpandFolders = nullptr;
 };
 
 #endif

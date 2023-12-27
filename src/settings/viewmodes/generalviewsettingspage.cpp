@@ -19,11 +19,6 @@
 GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *parent)
     : SettingsPageBase(parent)
     , m_url(url)
-    , m_localViewProps(nullptr)
-    , m_globalViewProps(nullptr)
-    , m_showToolTips(nullptr)
-    , m_showSelectionToggle(nullptr)
-    , m_renameInline(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
