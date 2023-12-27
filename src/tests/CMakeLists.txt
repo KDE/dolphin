@@ -70,10 +70,10 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
 find_gem(test-unit)
-set_package_properties(Gem:test-unit PROPERTIES
+set_package_properties(Gem_test-unit PROPERTIES
     TYPE RECOMMENDED
     DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
-if (Gem:test-unit_FOUND)
+if (Gem_test-unit_FOUND)
     add_test(NAME servicemenutest
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/contextmenu/test/test_run.rb)
 endif()
