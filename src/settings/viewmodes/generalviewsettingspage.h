@@ -39,6 +39,7 @@ private:
     QUrl m_url;
     QRadioButton *m_localViewProps;
     QRadioButton *m_globalViewProps;
+    QCheckBox *m_showToolTips;
     QLabel *m_configureToolTips;
     QCheckBox *m_showSelectionToggle;
     QCheckBox *m_renameInline;
