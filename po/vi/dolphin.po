@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -4246,19 +4246,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Chọn..."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Dùng kiểu cách hiển thị chung cho tất cả các thư mục"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Nhớ kiểu cách hiển thị cho mỗi thư mục"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4268,7 +4268,7 @@ msgstr ""
 "Dolphin sẽ tạo ra một tệp .directory ẩn ở mỗi thư mục mà bạn thay đổi các "
 "thuộc tính xem."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "View Display Style"
@@ -4276,44 +4276,44 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Kiểu cách hiển thị khung xem"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Mở các kho trữ như là thư mục"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Mở thư mục khi thực hiện thao tác kéo"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "Hiện chú giải"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Hỗn hợp: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Hiện dấu chọn"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"

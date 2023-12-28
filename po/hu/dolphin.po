@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2022-02-01 10:13+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4375,19 +4375,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Választás…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Egységes megjelenítési stílus használata minden mappában"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Megjelenítési stílus megjegyzése minden mappához"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4397,7 +4397,7 @@ msgstr ""
 "A Dolphin létrehoz egy .directory fájlt minden mappában, ahol megváltoztatja "
 "a nézettulajdonságokat."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "View Display Style"
@@ -4405,44 +4405,44 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Nézettulajdonság stílusa"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "A tömörített fájlok megnyitása mappa formátumban történjen"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Nyitott mappák húzás közben"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "Tippek megjelenítése"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Egyéb: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Kijelölő kapcsoló"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"

@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2023-11-23 11:24+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
@@ -4321,19 +4321,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Sélectionner…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Utiliser un style d'affichage commun pour tous les dossiers"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Mémoriser le style d'affichage pour chaque dossier"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4343,50 +4343,50 @@ msgstr ""
 "Dolphin créera un fichier caché « .directory » dans chaque dossier dont vous "
 "modifiez les propriétés d'affichage."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Style d'affichage :"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Ouvrir les archives en tant que dossier"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Ouvrir les dossiers pendant les opérations de glisser-déposer"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Navigation"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "Afficher les infobulles"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Divers : "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Afficher l'indicateur de sélection"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2023-11-22 23:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -4294,19 +4294,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Вибрати…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Використовувати загальний стиль показу для всіх тек"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Запам’ятовувати стиль показу для кожної теки"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4316,50 +4316,50 @@ msgstr ""
 "Dolphin створюватиме прихований файл .directory у кожній теці, для якої ви "
 "змінюватимете властивості перегляду."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Стиль показу:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Відкривати архіви як теки"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Відкривати теки під час дій з перетягування"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Навігація: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "Показувати підказки"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Інше: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Показувати позначку вибору"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"

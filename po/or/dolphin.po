@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2009-01-07 17:06+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
@@ -4326,7 +4326,7 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "ପସନ୍ଦ କରନ୍ତୁ..."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Use common view properties for all folders"
@@ -4334,7 +4334,7 @@ msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "ସମସ୍ତ ଫୋଲଡ଼ରଗୁଡ଼ିକ ପାଇଁ ସାଧାରଣ ଦୃଶ୍ୟ ଗୁଣଧର୍ମ ବ୍ୟବହାର କରନ୍ତୁ"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Remember view properties for each folder"
@@ -4342,7 +4342,7 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "ପ୍ରତ୍ୟେକ ଫୋଲଡ଼ର ପାଇଁ ଦୃଶ୍ୟ ଗୁଣଧର୍ମକୁ ମନେରଖନ୍ତୁ"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4350,7 +4350,7 @@ msgid ""
 "properties for."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -4358,44 +4358,44 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "ଲଗାନ୍ତୁ"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "ଉପକରଣ ସୂଚନା ଦର୍ଶାନ୍ତୁ"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Rename Item"

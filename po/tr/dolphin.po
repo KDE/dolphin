@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
-"PO-Revision-Date: 2023-12-03 14:56+0300\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
+"PO-Revision-Date: 2023-12-27 14:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.01.85\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -512,7 +512,7 @@ msgstr ""
 "hangi dosyalar veya klasörler üzerinde işlem yapılması gerektiğini bilir. "
 "Seçmeyi ve seçimi kaldırmayı bir ögeye bir kez basmak kadar kolay duruma "
 "getiren <emphasis>Seçim Kipi</emphasis> arasında geçim yapmak için buna "
-"basın.</para><para>Bu kipteyken alttaki hızlı erişim çubuğu, seçili ögeler "
+"basın.</para><para>Bu kipteyken alttaki tez erişim çubuğu, seçili ögeler "
 "için var olan eylemleri gösterir.</para>"
 
 #: dolphinmainwindow.cpp:1742
@@ -545,8 +545,8 @@ msgid ""
 msgstr ""
 "<para>Bu, aşağıdaki klasör görünümünü iki özerk görünüme böler.</"
 "para><para>Bu şekilde, iki konumu aynı anda görebilir ve ögeleri aralarında "
-"hızla taşıyabilirsiniz.</para>Görünümleri yeniden birleştirmek için daha "
-"sonra buna yeniden tıklayın."
+"tez taşıyabilirsiniz.</para>Görünümleri yeniden birleştirmek için daha sonra "
+"buna yeniden tıklayın."
 
 #: dolphinmainwindow.cpp:1773
 #, kde-format
@@ -631,8 +631,8 @@ msgid ""
 "This switches to editing the location and selects it so you can quickly "
 "enter a different location."
 msgstr ""
-"Bu, konumu düzenlemeye geçer ve seçer, böylece hızlı bir şekilde farklı bir "
-"konuma girebilirsiniz."
+"Bu, konumu düzenlemeye geçer ve seçer, böylece tez farklı bir konuma "
+"girebilirsiniz."
 
 #: dolphinmainwindow.cpp:1843
 #, kde-format
@@ -929,7 +929,7 @@ msgstr ""
 "<para>Bu panel <emphasis>dosya sistemi</emphasis> klasörlerini "
 "<emphasis>ağaç görünümünde</emphasis> gösterir.</para><para>Gitmek için bir "
 "klasöre tıklayın. Alt klasörlerini görmek için bir klasörün solundaki oku "
-"tıklayın. Bu, herhangi bir klasör arasında hızlı geçişe izin verir.</para>"
+"tıklayın. Bu, herhangi bir klasör arasında tez geçişe izin verir.</para>"
 
 #: dolphinmainwindow.cpp:2139
 #, kde-format
@@ -1124,15 +1124,14 @@ msgid ""
 "style of its buttons can also be changed in the right-click menu. Right-"
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
-"<para>Bu, <emphasis>Araç Çubuğu</emphasis>'dur. Sık kullanılan eylemlere "
-"hızlı erişim sağlar.</para><para>Oldukça özelleştirilebilirdir."
-"<interface>Menü</interface>'de veya <interface>Menü Çubuğu</interface>'nda "
-"gördüğünüz tüm ögeler, Araç Çubuğu'na yerleştirilebilir. Yalnızca üzerine "
-"sağ tıklayın ve <interface>Araç Çubuklarını Yapılandır…</interface> "
-"seçeneğini seçin veya bu eylemi <interface>Menü</interface>'de bulun.</"
-"para><para>Çubuğun konumu ve düğmelerinin biçemi, sağ tık menüsünden "
-"değiştirilebilir. Metnini göstermek veya gizlemek için bir düğmenin üzerine "
-"sağ tıklayın.</para>"
+"<para>Bu, <emphasis>Araç Çubuğu</emphasis>'dur. Sık kullanılan eylemlere tez "
+"erişim sağlar.</para><para>Oldukça özelleştirilebilirdir.<interface>Menü</"
+"interface>'de veya <interface>Menü Çubuğu</interface>'nda gördüğünüz tüm "
+"ögeler, Araç Çubuğu'na yerleştirilebilir. Yalnızca üzerine sağ tıklayın ve "
+"<interface>Araç Çubuklarını Yapılandır…</interface> seçeneğini seçin veya bu "
+"eylemi <interface>Menü</interface>'de bulun.</para><para>Çubuğun konumu ve "
+"düğmelerinin biçemi, sağ tık menüsünden değiştirilebilir. Metnini göstermek "
+"veya gizlemek için bir düğmenin üzerine sağ tıklayın.</para>"
 
 #: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
@@ -2789,7 +2788,7 @@ msgstr "Aramayı '%1' ve alt klasörleriyle sınırlandır"
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
-msgstr "İleride yeniden hızlıca erişmek için bu aramayı kaydet"
+msgstr "İleride yeniden tez erişmek için bu aramayı kaydet"
 
 #: search/dolphinsearchbox.cpp:359
 #, kde-format
@@ -4211,19 +4210,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Seç…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "Tüm klasörler için ortak görüntüleme biçemi kullan"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Her klasörün kendi görüntüleme biçemini anımsa"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4233,50 +4232,50 @@ msgstr ""
 "Dolphin, görünüm özelliklerini değiştirdiğiniz her klasörde gizli bir ."
 "directory dosyası oluşturacaktır."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Görüntüleme biçemi: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Arşivleri klasör gibi aç"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Sürükleme işlemleri sırasında klasörleri aç"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Tarama: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "İpuçlarını göster"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Çeşitli:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Seçim işaretçisini göster"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"

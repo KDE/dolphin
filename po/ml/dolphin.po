@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-23 01:47+0000\n"
+"POT-Creation-Date: 2023-12-28 01:34+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -4220,19 +4220,19 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "തെരഞ്ഞെടുക്കുക..."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:31
+#: settings/viewmodes/generalviewsettingspage.cpp:26
 #, fuzzy, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "എല്ലാ അറകള്‍ക്കും ഒരേ അവതരണരീതി"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:32
+#: settings/viewmodes/generalviewsettingspage.cpp:27
 #, fuzzy, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "ഓരോ അറയുടേയും അവതരണരീതി ഓര്‍ത്തുവെയ്ക്കുക"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:33
+#: settings/viewmodes/generalviewsettingspage.cpp:28
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -4241,7 +4241,7 @@ msgid ""
 msgstr ""
 "അവതരണ ഗുണം മാറ്റുന്ന ഓരോ അറകള്‍ക്കും ഡോൾഫിൻ മറഞ്ഞിരിക്കുന്ന .directory രേഖ ഉണ്ടാക്കുന്നതാണ് "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:38
+#: settings/viewmodes/generalviewsettingspage.cpp:33
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Date:"
@@ -4249,44 +4249,44 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "തിയ്യതി:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:44
+#: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "ആര്‍ക്കൈവുകള്‍ അറകളായി കാണിക്കുക"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:45
+#: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "വലിച്ചിടുമ്പോള്‍ അറകള്‍ തുറക്കുക"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:46
+#: settings/viewmodes/generalviewsettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "സൂചനകള്‍ കാണിയ്ക്കുക"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:57
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "പലവക:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "തെരഞ്ഞെടുത്തതു് അടയാളപ്പെടുത്തുന്നതു് കാണിയ്ക്കുക"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:66
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, fuzzy, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
