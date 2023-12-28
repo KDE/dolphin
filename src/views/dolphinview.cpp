@@ -863,9 +863,12 @@ void DolphinView::duplicateSelectedItems()
 
     const QMimeDatabase db;
 
+    m_clearSelectionBeforeSelectingNewItems = true;
+    m_markFirstNewlySelectedItemAsCurrent = true;
+    m_selectJobCreatedItems = true;
+
     // Duplicate all selected items and append "copy" to the end of the file name
     // but before the filename extension, if present
-    QList<QUrl> newSelection;
     for (const auto &item : itemList) {
         const QUrl originalURL = item.url();
         const QString originalDirectoryPath = originalURL.adjusted(QUrl::RemoveFilename).path();
@@ -890,15 +893,14 @@ void DolphinView::duplicateSelectedItems()
         }
 
         KIO::CopyJob *job = KIO::copyAs(originalURL, duplicateURL);
+        job->setAutoRename(true);
         KJobWidgets::setWindow(job, this);
 
-        if (job) {
-            newSelection << duplicateURL;
-            KIO::FileUndoManager::self()->recordCopyJob(job);
-        }
+        connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
+        connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
+        connect(job, &KIO::CopyJob::copyingLinkDone, this, &DolphinView::slotItemLinkCreatedFromJob);
+        KIO::FileUndoManager::self()->recordCopyJob(job);
     }
-
-    forceUrlsSelection(newSelection.first(), newSelection);
 }
 
 void DolphinView::stopLoading()
@@ -1418,6 +1420,11 @@ void DolphinView::slotSelectedItemTextPressed(int index)
 }
 
 void DolphinView::slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to)
+{
+    slotItemCreated(to);
+}
+
+void DolphinView::slotItemLinkCreatedFromJob(KIO::Job *, const QUrl &, const QString &, const QUrl &to)
 {
     slotItemCreated(to);
 }

@@ -695,6 +695,7 @@ private Q_SLOTS:
     void slotRenameDialogRenamingFinished(const QList<QUrl> &urls);
     void slotSelectedItemTextPressed(int index);
     void slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to);
+    void slotItemLinkCreatedFromJob(KIO::Job *, const QUrl &, const QString &, const QUrl &to);
     void slotIncreaseZoom();
     void slotDecreaseZoom();
     void slotSwipeUp();
