@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:34+0000\n"
+"POT-Creation-Date: 2023-12-29 01:38+0000\n"
 "PO-Revision-Date: 2023-12-23 08:00\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4318,7 +4318,7 @@ msgid "Open files and folders:"
 msgstr "打开文件和文件夹："
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:324
+#: statusbar/dolphinstatusbar.cpp:325
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4482,35 +4482,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "文件夹数量：%1"
 
-#: statusbar/dolphinstatusbar.cpp:55
+#: statusbar/dolphinstatusbar.cpp:56
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "缩放："
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgid "Zoom"
 msgstr "缩放"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "设置文件图标大小。"
 
-#: statusbar/dolphinstatusbar.cpp:74
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgid "Stop"
 msgstr "停止"
 
-#: statusbar/dolphinstatusbar.cpp:76
+#: statusbar/dolphinstatusbar.cpp:77
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "停止加载"
 
-#: statusbar/dolphinstatusbar.cpp:131
+#: statusbar/dolphinstatusbar.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4528,13 +4528,13 @@ msgstr ""
 "emphasis>，用于调整视图中图标的大小。</item><item><emphasis>空间信息</"
 "emphasis>，用于显示当前位置的存储设备的可用空间。</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:266
+#: statusbar/dolphinstatusbar.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "显示缩放滑动条"
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:271
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:34+0000\n"
+"POT-Creation-Date: 2023-12-29 01:38+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -4462,7 +4462,7 @@ msgid "Open files and folders:"
 msgstr "അറകളും ഫയലുകളും തിരയുക"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:324
+#: statusbar/dolphinstatusbar.cpp:325
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4629,36 +4629,36 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "അറകള്‍: %1"
 
-#: statusbar/dolphinstatusbar.cpp:55
+#: statusbar/dolphinstatusbar.cpp:56
 #, fuzzy, kde-format
 #| msgid "Zoom"
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "വലുതാക്കുക"
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgid "Zoom"
 msgstr "വലുതാക്കുക"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "ഫയൽ ഐക്കണുകളുടെ വലിപ്പം നിർണയിക്കുന്നു"
 
-#: statusbar/dolphinstatusbar.cpp:74
+#: statusbar/dolphinstatusbar.cpp:75
 #, fuzzy, kde-format
 msgid "Stop"
 msgstr "നിര്‍ത്തുക"
 
-#: statusbar/dolphinstatusbar.cpp:76
+#: statusbar/dolphinstatusbar.cpp:77
 #, fuzzy, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "ലോഡിങ്ങ് നിര്‍ത്തുക"
 
-#: statusbar/dolphinstatusbar.cpp:131
+#: statusbar/dolphinstatusbar.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4671,13 +4671,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:266
+#: statusbar/dolphinstatusbar.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "വലിപ്പം മാറ്റാനുള്ള സ്ലൈഡര്‍ കാണിയ്ക്കുക"
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:271
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

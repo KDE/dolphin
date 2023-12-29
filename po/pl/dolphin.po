@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:34+0000\n"
+"POT-Creation-Date: 2023-12-29 01:38+0000\n"
 "PO-Revision-Date: 2023-12-23 11:49+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmai.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -4469,7 +4469,7 @@ msgid "Open files and folders:"
 msgstr "Otwórz plik lub katalog:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:324
+#: statusbar/dolphinstatusbar.cpp:325
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4639,35 +4639,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Katalogi: %1"
 
-#: statusbar/dolphinstatusbar.cpp:55
+#: statusbar/dolphinstatusbar.cpp:56
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Powiększenie:"
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgid "Zoom"
 msgstr "Powiększenie"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Ustawia rozmiar ikon plików."
 
-#: statusbar/dolphinstatusbar.cpp:74
+#: statusbar/dolphinstatusbar.cpp:75
 #, kde-format
 msgid "Stop"
 msgstr "Zatrzymaj"
 
-#: statusbar/dolphinstatusbar.cpp:76
+#: statusbar/dolphinstatusbar.cpp:77
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Zatrzymaj wczytywanie"
 
-#: statusbar/dolphinstatusbar.cpp:131
+#: statusbar/dolphinstatusbar.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4687,13 +4687,13 @@ msgstr ""
 "dostosowanie rozmiaru ikon na widoku.</item><item><emphasis>Dane o "
 "przestrzeni</emphasis> dla bieżącego nośnika pamięci.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:266
+#: statusbar/dolphinstatusbar.cpp:267
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Pokaż suwak powiększania"
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:271
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

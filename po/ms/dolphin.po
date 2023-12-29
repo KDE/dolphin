@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:34+0000\n"
+"POT-Creation-Date: 2023-12-29 01:38+0000\n"
 "PO-Revision-Date: 2009-12-27 20:56+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -4502,7 +4502,7 @@ msgid "Open files and folders:"
 msgstr "Papar fail tersembunyi"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:324
+#: statusbar/dolphinstatusbar.cpp:325
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4675,38 +4675,38 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:55
+#: statusbar/dolphinstatusbar.cpp:56
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:74
+#: statusbar/dolphinstatusbar.cpp:75
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "Henti"
 
-#: statusbar/dolphinstatusbar.cpp:76
+#: statusbar/dolphinstatusbar.cpp:77
 #, fuzzy, kde-format
 #| msgid "Show rating"
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Papar kadaran"
 
-#: statusbar/dolphinstatusbar.cpp:131
+#: statusbar/dolphinstatusbar.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4719,7 +4719,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:266
+#: statusbar/dolphinstatusbar.cpp:267
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show zoom slider"
@@ -4727,7 +4727,7 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Papar peleret zoom"
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:271
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show space information"

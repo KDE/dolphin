@@ -230,7 +230,7 @@
 
 <listitem
 ><para
->Araç çubuğu, sık kullanılan eylemlere hızlı erişim için kullanılır. Araç çubuğu, üzerinde &RMB; ile sağ tıklanarak ve bağlam menüsünden <menuchoice
+>Araç çubuğu, sık kullanılan eylemlere tez erişim için kullanılır. Araç çubuğu, üzerinde &RMB; ile sağ tıklanarak ve bağlam menüsünden <menuchoice
 ><guimenuitem
 >Araç Çubuklarını Yapılandır...</guimenuitem
 ></menuchoice
@@ -288,7 +288,7 @@
 ><guilabel
 >Yerler</guilabel
 > paneli</link
->, yer imlerine eklenmiş konumlara, disklere ve diğer ortamlara hızlı erişim sağlar. </para>
+>, yer imlerine eklenmiş konumlara, disklere ve diğer ortamlara tez erişim sağlar. </para>
 <para
 >Masaüstü arama ve dosya indeksleme, &systemsettings;'nın <guilabel
 >Dosya Arama</guilabel
@@ -775,9 +775,9 @@ has all features from dolphin ?-->
 <para
 >Öntanımlı olan <quote
 >kırıntı</quote
-> kipinde, geçerli klasörün yolundaki her bir klasör adı, o klasörü hızlı bir şekilde açmak için tıklanabilen bir düğmedir. Ayrıca, bir klasörün sağındaki <quote
+> kipinde, geçerli klasörün yolundaki her bir klasör adı, o klasörü tez açmak için tıklanabilen bir düğmedir. Ayrıca, bir klasörün sağındaki <quote
 >&gt;</quote
-> işaretine tıklamak, o klasörün bir alt klasörünü hızlı bir şekilde açmanızı sağlayan bir menüyü açar. </para>
+> işaretine tıklamak, o klasörün bir alt klasörünü tez açmanızı sağlayan bir menüyü açar. </para>
 
 <screenshot>
 <screeninfo
@@ -875,7 +875,7 @@ has all features from dolphin ?-->
 >Yerler</guilabel
 > paneli gizliyse her iki kipte de yolun önünde ek bir simge görüntülenecektir. Bu simgeye, <quote
 >yerlere</quote
-> ve depolama ortamına hızlı erişim sağlayan bir menüyü açmak için &LMB; ile tıklanabilir. Ayrıntılar için <link linkend="places-panel"
+> ve depolama ortamına tez erişim sağlayan bir menüyü açmak için &LMB; ile tıklanabilir. Ayrıntılar için <link linkend="places-panel"
 >Yerler Paneli hakkındaki bölüme</link
 > göz atın. </para>
 
@@ -995,19 +995,19 @@ context menu Icon Size? No different entries ?-->
 
 <sect1 id="quick-tips">
 <title
->Hızlı İpuçları</title>
+>Tez İpuçları</title>
 
 <para
 >&dolphin; kullanırken zamandan kazanmanızı sağlayacak birkaç ipucu. </para>
 
 <sect2 id="quick-bookmarking">
 <title
->Hızlı Yer İmlerine Ekleme</title>
+>Tez Yer İmlerine Ekleme</title>
 
 <para
 >Geçerli klasör için <guilabel
 >Yerler</guilabel
-> panelinde hızlı bir şekilde yer imi oluşturmak için çalışma alanına &RMB; ile tıklayın ve içerik menüsünde <menuchoice
+> panelinde tez yer imi oluşturmak için çalışma alanına &RMB; ile tıklayın ve içerik menüsünde <menuchoice
 ><guimenuitem
 >Yerlere Ekle</guimenuitem
 ></menuchoice
@@ -1158,7 +1158,7 @@ context menu Icon Size? No different entries ?-->
 > çubuğuyla birlikte kullanabilir veya aramayı süzgeç ifadesiyle eşleşen dosyalarla sınırlandırabilirsiniz.</para>
 
 <para
->Bir aramaya gelecekte yeniden hızlı bir şekilde erişmek üzere <guilabel
+>Bir aramaya gelecekte yeniden tez erişmek üzere <guilabel
 >Yerler</guilabel
 > panelindeki <guilabel
 >Ara</guilabel
@@ -1175,7 +1175,7 @@ context menu Icon Size? No different entries ?-->
 >Depolama Ortamı Bağlama</title>
 
 <para
->Depolama ortamlarını hızlı bir şekilde bağlamanın yolu <guilabel
+>Depolama ortamlarını tez bağlamanın yolu <guilabel
 >Yerler</guilabel
 > panelinde ögenin üzerine tıklamaktır. Bu eylem, aygıtı bağlar ve &dolphin; içinde açar. </para>
 
@@ -1804,7 +1804,7 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><guilabel
 >Sürükleme işlemleri sırasında klasörleri aç</guilabel
-> etkinleştirilmişse fareyle bir ögeyi sürükleyip bir klasörün üzerine getirdikten sonra kısa bir süre beklemek o klasörü açar. Bu, ögeleri klasör hiyerarşisinde birkaç düzeyde daha derin olan klasörlere hızlı bir şekilde taşımanıza veya kopyalamanıza olanak tanır. </para
+> etkinleştirilmişse fareyle bir ögeyi sürükleyip bir klasörün üzerine getirdikten sonra kısa bir süre beklemek o klasörü açar. Bu, ögeleri klasör hiyerarşisinde birkaç düzeyde daha derin olan klasörlere tez taşımanıza veya kopyalamanıza olanak tanır. </para
 ></listitem>
 
 </itemizedlist>
@@ -2038,7 +2038,7 @@ context menu Icon Size? No different entries ?-->
 </screenshot
 ><guilabel
 >Görünüm Özellikleri</guilabel
-> iletişim kutusu, aynı anda birçok klasör için görünüm biçemlerini hızlı bir şekilde değiştirmek için kullanılabilir. Bu, <guilabel
+> iletişim kutusu, aynı anda birçok klasör için görünüm biçemlerini tez değiştirmek için kullanılabilir. Bu, <guilabel
 >Şuna uygula</guilabel
 > bölümünde yapılan seçime bağlı olarak geçerli klasör, tüm alt klasörler dahil geçerli klasör ve hatta tüm klasörler için yapılabilir. </para>
 
