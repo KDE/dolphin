@@ -29,7 +29,7 @@
             "subdir" : "libraries/liblmdb"
         },
         {
-            "config-opts": ["-DENABLE_TESTING=OFF" , "-DLMDB_DIR=/app"],
+            "config-opts": ["-DENABLE_TESTING=OFF", "-DLMDB_DIR=/app"],
             "name": "baloo",
             "buildsystem": "cmake-ninja",
 	    "builddir": true,
@@ -37,21 +37,16 @@
                 {
                     "type": "git",
                     "url": "https://invent.kde.org/frameworks/baloo.git",
-                    "tag": "v5.101.0",
-                    "x-checker-data": {
-                        "type": "git",
-                        "tag-pattern": "^v([\\d.]+)$"
-                    },
-                    "commit": "03246908508ec9086171832e615c36bbaa48b6da"
+		    "branch": "master"
                 }
             ]
         },
         {
-            "config-opts": ["-DENABLE_TESTING=OFF" , "-DLMDB_DIR=/app"],
+            "config-opts": ["-DENABLE_TESTING=OFF", "-DQT_MAJOR_VERSION=6", "-DLMDB_DIR=/app"],
             "name": "baloo-widgets",
             "buildsystem": "cmake-ninja",
 	    "builddir": true,
-            "sources": [ { "type": "git", "url": "https://invent.kde.org/libraries/baloo-widgets.git" } ]
+            "sources": [ { "type": "git", "url": "https://invent.kde.org/libraries/baloo-widgets.git", "branch": "master"} ]
         },
         {
 	    "config-opts": ["-DFLATPAK=ON"],
