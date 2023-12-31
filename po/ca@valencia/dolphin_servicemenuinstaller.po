@@ -24,7 +24,7 @@ msgstr ""
 #: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
-msgstr "Ha fallat la instal·lació del menú de servei de Dolphin"
+msgstr "No s'ha pogut instal·lar el menú de servei de Dolphin"
 
 #: servicemenuinstaller.cpp:70
 #, kde-format
