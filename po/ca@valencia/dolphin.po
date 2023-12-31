@@ -309,7 +309,7 @@ msgid ""
 "them from the clipboard to a new location. The items will be removed from "
 "their initial location."
 msgstr ""
-"Copia els elements de la selecció actual al <emphasis>porta-retalls</"
+"Copia els elements de la selecció actual a dins del <emphasis>porta-retalls</"
 "emphasis>.<nl/>Després utilitzeu l'acció <emphasis>Apega</emphasis> per a "
 "copiar-los des del porta-retalls a una ubicació nova. Els elements "
 "s'eliminaran de la seua ubicació inicial."
@@ -328,7 +328,7 @@ msgid ""
 "emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
 "them from the clipboard to a new location."
 msgstr ""
-"Copia els elements de la selecció actual al <emphasis>porta-retalls</"
+"Copia els elements de la selecció actual a dins del <emphasis>porta-retalls</"
 "emphasis>.<nl/>Després utilitzeu l'acció <emphasis>Apega</emphasis> per a "
 "copiar-los des del porta-retalls a una ubicació nova."
 
@@ -398,8 +398,8 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
-"Mou els elements seleccionats des de la vista <emphasis>activa</emphasis> a "
-"la vista dividida inactiva."
+"Mou els elements seleccionats des de la vista <emphasis>activa</emphasis> "
+"cap a la vista dividida inactiva."
 
 #: dolphinmainwindow.cpp:1661
 #, kde-format
@@ -663,9 +663,9 @@ msgid ""
 msgstr ""
 "Desfà l'últim canvi que heu fet en els fitxers o en les carpetes. <nl/>Estos "
 "canvis inclouen la seua <interface>creació, canviat el nom</interface> i "
-"<interface>moviment</interface> a una ubicació diferent o a la "
-"<filename>Paperera</filename>. <nl/>Els canvis que no es poden desfer i se "
-"us demanarà la vostra confirmació."
+"<interface>moviment</interface> cap a una ubicació diferent o cap a dins de "
+"la <filename>Paperera</filename>. <nl/>Els canvis que no es podran desfer i "
+"se us demanarà la vostra confirmació."
 
 #: dolphinmainwindow.cpp:1881
 #, kde-kuit-format
@@ -1043,7 +1043,7 @@ msgstr ""
 "para><para>Feu clic en una entrada per a anar-hi. De manera alternativa, feu "
 "clic amb el botó dret del ratolí per a obrir l'entrada en una pestanya nova "
 "o a una finestra nova.</para><para>Es poden afegir entrades noves "
-"arrossegant carpetes a este quadro. Feu clic dret en qualsevol secció o "
+"arrossegant carpetes cap a este quadro. Feu clic dret en qualsevol secció o "
 "entrada per a ocultar-la. Feu clic dret en un espai buit d'este quadro i "
 "seleccioneu <interface>Mostra els llocs ocults</interface> per a tornar-los "
 "a veure.</para>"
@@ -1140,11 +1140,11 @@ msgid ""
 msgstr ""
 "<para>Esta és la <emphasis>Barra d'eines</emphasis>. Permet un accés ràpid a "
 "les accions utilitzades amb freqüència.</para><para>És molt personalitzable. "
-"Tots els elements que veeu al <interface>Menú</interface> o en la "
+"Tots els elements que veeu en el <interface>Menú</interface> o en la "
 "<interface>Barra de menús</interface> es poden situar en la barra d'eines. "
 "Només cal fer-hi clic dret i seleccionar <interface>Configura les barres "
-"d'eines…</interface> o busqueu esta acció al <interface>Menú</interface>.</"
-"para><para>La ubicació de la barra i l'estil dels seus botons també es pot "
+"d'eines…</interface> o busqueu esta acció en el <interface>Menú</interface>."
+"</para><para>La ubicació de la barra i l'estil dels seus botons també es pot "
 "canviar amb el menú en fer clic dret. Feu clic dret en un botó si voleu "
 "mostrar o amagar el seu text.</para>"
 
@@ -1201,7 +1201,7 @@ msgid ""
 msgstr ""
 "<para>Obri una finestra en què es poden canviar els botons que apareixen en "
 "la <emphasis>Barra d'eines</emphasis>.</para><para>Tots els elements que "
-"veeu al <interface>Menú</interface> també es poden situar en la barra "
+"veeu en el <interface>Menú</interface> també es poden situar en la barra "
 "d'eines.</para>"
 
 #: dolphinmainwindow.cpp:2554
@@ -1259,8 +1259,8 @@ msgstr ""
 "dues altres maneres per a aconseguir ajuda: el <link url='help:/dolphin/"
 "index.html'>Manual de Dolphin</link> i el <link url='https://userbase.kde."
 "org/Dolphin/File_Management/ca'>Wiki UserBase de KDE</link>.</"
-"para><para>L'ajuda «Què és açò?» falta a la majoria de les altres finestres, "
-"per tant, no vos hi acostumeu massa.</para>"
+"para><para>L'ajuda «Què és açò?» falta en la majoria de les altres "
+"finestres, per tant, no vos hi acostumeu massa.</para>"
 
 #: dolphinmainwindow.cpp:2590
 #, kde-kuit-format
@@ -1604,13 +1604,13 @@ msgstr ""
 "<para>Ajuda a buscar fitxers i carpetes. Introduïu un <emphasis>terme de "
 "busca</emphasis> i especifiqueu les opcions de busca amb els botons de la "
 "part inferior:<list><item>Nom de fitxer/Contingut: L'element que esteu "
-"buscant conté els termes de busca al seu nom de fitxer o al seu contingut? "
-"<nl/>No es buscarà en el contingut de les imatges, ni dels fitxers d'àudio i "
-"vídeo.</item><item>Des d'ací/Per tot arreu: Voleu buscar en esta carpeta i "
-"les seues subcarpetes o per tot arreu?</item><item>Més opcions: Feu clic ací "
-"per a buscar per tipus de suport, data i hora d'accés o valoració.</"
-"item><item>Més eines de busca: Instal·la altres recursos per a buscar un "
-"element.</item></list></para>"
+"buscant conté els termes de busca en el seu nom de fitxer o en el seu "
+"contingut? <nl/>No es buscarà en el contingut de les imatges, ni dels "
+"fitxers d'àudio i vídeo.</item><item>Des d'ací/Per tot arreu: Voleu buscar "
+"en esta carpeta i les seues subcarpetes o per tot arreu?</item><item>Més "
+"opcions: Feu clic ací per a buscar per tipus de suport, data i hora d'accés "
+"o valoració.</item><item>Més eines de busca: Instal·la altres recursos per a "
+"buscar un element.</item></list></para>"
 
 #: dolphinviewcontainer.cpp:109
 #, kde-format
@@ -2071,7 +2071,7 @@ msgstr "Modificat"
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr "El format de la data es pot seleccionar a la configuració."
+msgstr "El format de la data es pot seleccionar en la configuració."
 
 #: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
@@ -2274,7 +2274,7 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
-"El format dels permisos es pot seleccionar a la configuració. Les opcions "
+"El format dels permisos es pot seleccionar en la configuració. Les opcions "
 "són simbòlic, numèric (octal) o formats combinats"
 
 #: kitemviews/kfileitemmodel.cpp:2761
@@ -2459,7 +2459,7 @@ msgstr "Dolphin s'iniciarà amb una vista dividida."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
-msgstr "Dolphin s'obrirà explícitament a una finestra nova."
+msgstr "Dolphin s'obrirà explícitament en una finestra nova."
 
 #: main.cpp:140
 #, kde-format
@@ -2850,7 +2850,7 @@ msgstr "Els vostres arxius"
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
-msgstr "Busca al vostre directori d'inici"
+msgstr "Busca en el vostre directori d'inici"
 
 #: search/dolphinsearchbox.cpp:408
 #, kde-format
@@ -3028,8 +3028,8 @@ msgstr "Cancel·la el canvi de nom"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] "Copia %2 al porta-retalls"
-msgstr[1] "Copia %2 al porta-retalls"
+msgstr[0] "Copia %2 a dins del porta-retalls"
+msgstr[1] "Copia %2 a dins del porta-retalls"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3041,8 +3041,8 @@ msgstr[1] "Copia %2 al porta-retalls"
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] "Copia la ubicació de %2 al porta-retalls"
-msgstr[1] "Copia la ubicació de %2 al porta-retalls"
+msgstr[0] "Copia la ubicació de %2 a dins del porta-retalls"
+msgstr[1] "Copia la ubicació de %2 a dins del porta-retalls"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3054,8 +3054,8 @@ msgstr[1] "Copia la ubicació de %2 al porta-retalls"
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] "Retalla %2 al porta-retalls"
-msgstr[1] "Retalla %2 al porta-retalls"
+msgstr[0] "Retalla %2 a dins del porta-retalls"
+msgstr[1] "Retalla %2 a dins del porta-retalls"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -4265,7 +4265,7 @@ msgid ""
 "Dolphin will create a hidden .directory file in each folder you change view "
 "properties for."
 msgstr ""
-"Dolphin crearà un fitxer «.directory» ocult a cada carpeta en què canvieu "
+"Dolphin crearà un fitxer «.directory» ocult en cada carpeta en què canvieu "
 "les propietats de la vista."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:33
@@ -5034,9 +5034,9 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage where items can be deleted "
 "from if disk space is needed."
 msgstr ""
-"Mou els elements de la selecció actual a la <filename>Paperera</filename>. "
-"<nl/>La paperera és un emmagatzematge temporal a on els elements es poden "
-"eliminar si es necessita espai en el disc."
+"Mou els elements de la selecció actual cap a dins de la <filename>Paperera</"
+"filename>. <nl/>La paperera és un emmagatzematge temporal a on els elements "
+"es poden eliminar si es necessita espai en el disc."
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
@@ -5076,7 +5076,7 @@ msgid ""
 "there like managing read- and write-permissions."
 msgstr ""
 "Mostra una llista completa de propietats dels elements actualment "
-"seleccionats a una finestra nova. <nl/>Si no s'ha seleccionat res, la "
+"seleccionats en una finestra nova. <nl/>Si no s'ha seleccionat res, la "
 "finestra mostrarà la carpeta visualitzada actualment. <nl/>Podeu configurar "
 "opcions avançades com gestionar els permisos de lectura i escriptura."
 
@@ -5287,7 +5287,7 @@ msgstr ""
 "emphasis> seran visibles. Es mostraran de manera semitransparent.</"
 "para><para>Els elements ocults només diferixen dels altres en el fet què el "
 "seu nom comença per un «.». En general no hi ha necessitat que els usuaris "
-"hi accedisquen, que és el motiu per què estan ocults.</para>"
+"hi accedisquen, el qual és el motiu per què estan ocults.</para>"
 
 #: views/dolphinviewactionhandler.cpp:332
 #, kde-format
