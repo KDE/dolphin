@@ -3,7 +3,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2023 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
 # Frank Weng (a.k.a. Franklin) <franklin@mail.everfocus.com.tw>, 2007.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 01:38+0000\n"
-"PO-Revision-Date: 2023-12-25 01:45+0900\n"
+"PO-Revision-Date: 2024-01-02 19:30+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1106,6 +1106,9 @@ msgid ""
 "when they are pressed simultaneously. All commands in this application can "
 "be triggered this way.</para>"
 msgstr ""
+"<para>這會在一個新視窗中顯示<emphasis>鍵盤快捷鍵</emphasis>一覽。<nl/>在此您"
+"也可以設定同時按下鍵盤組合時要觸發的動作。此應用程式中所有命令皆可以此方式觸"
+"發。</para>"
 
 #: dolphinmainwindow.cpp:2550
 #, kde-kuit-format
@@ -1115,6 +1118,9 @@ msgid ""
 "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
+"<para>這會開啟一個視窗讓您變更哪些按鈕要出現在<emphasis>工具列</emphasis>上。"
+"</para><para>您可以將<interface>選單</interface>當中任何項目放置於工具列中。"
+"</para>"
 
 #: dolphinmainwindow.cpp:2554
 #, kde-kuit-format
@@ -1144,6 +1150,11 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
+"<para>這會開啟這個應用程式的手冊。它提供 <emphasis>Dolphin</emphasis> 所有部"
+"分的說明。</para><para>如果您需要 <emphasis>Dolphin</emphasis> 不同功能的詳細"
+"介紹，<link url='https://userbase.kde.org/Dolphin/File_Management'>請點擊此處"
+"</link>。它會開啟 KDE UserBase Wiki 當中對應的頁面。</para><para>註：目前手冊"
+"和 UserBasse Wiki 都沒有中文版。</para>"
 
 #: dolphinmainwindow.cpp:2579
 #, kde-kuit-format
@@ -1458,6 +1469,12 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
+"<para>此項目描述下方所顯示的檔案與資料夾的位置。</para><para>目前檢視資料夾的"
+"名稱在最右邊。在它左邊是包含它的資料夾。這整行叫做目前位置的<emphasis>路徑</"
+"emphasis>，因為從左到右跟著路徑中的資料夾走就會走到目前位置。</para><para>這"
+"個互動式的路徑可能比您預想的還要強大。請<link url='help:/dolphin/location-"
+"bar.html'>參閱此處</link>以取得關於位置列的基礎與進階功能的更多資訊。這會在手"
+"冊當中開啟它對應的頁面。</para>"
 
 #: dolphinviewcontainer.cpp:89
 #, kde-kuit-format
@@ -1473,6 +1490,12 @@ msgid ""
 "access time or rating.</item><item>More Search Tools: Install other means to "
 "find an item.</item></list></para>"
 msgstr ""
+"<para>這會幫您找到檔案或資料夾。輸入<emphasis>搜尋字串</emphasis>，並利用下方"
+"按鈕指定搜尋設定：<list><item>檔案名稱/內容：您要尋找的項目是在它的檔案名稱中"
+"還是它的內容中包含搜尋字串？<nl/>不會搜尋影像、音效或影片檔案的內容。</"
+"item><item>從這裡/任何地方：您要在這個資料夾和它的子資料夾中搜尋，還是要在所"
+"有地方搜尋？</item><item>更多選項：點此來依媒體類型、存取時間或評價來搜尋。</"
+"item><item>更多搜尋工具：安裝其他尋找項目的方式。</item></list></para>"
 
 #: dolphinviewcontainer.cpp:109
 #, kde-format
@@ -4887,6 +4910,10 @@ msgid ""
 "This mode is handy to browse through pictures when the <interface>Preview</"
 "interface> option is enabled.</para>"
 msgstr ""
+"<para>這會切換到注重於資料夾和檔案圖示的檢視模式。在這個模式中很容易分辨檔案"
+"和資料夾，也很容易分辨出<emphasis>檔案型態</emphasis>不同的項目。</"
+"para><para>啟用<interface>預覽</interface>選項時這個模式很適合用來瀏覽圖片。"
+"</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -4896,6 +4923,9 @@ msgid ""
 "in columns with the names beside the icons.</para><para>This helps to keep "
 "the overview in folders with many items.</para>"
 msgstr ""
+"<para>這會切換到簡潔檢視模式，在此模式中資料夾和檔案會以欄位方式顯示，在圖示"
+"旁有名稱。</para><para>這對於在有很多項目的資料夾中把握其中內容的概要很有幫"
+"助。</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
