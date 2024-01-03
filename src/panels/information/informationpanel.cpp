@@ -9,7 +9,7 @@
 #include "informationpanelcontent.h"
 
 #include <KDirNotify>
-#include <KIO/Job>
+#include <KIO/StatJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 
