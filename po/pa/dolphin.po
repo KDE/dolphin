@@ -2,7 +2,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2018, 2019, 2020, 2021, 2022, 2023 A S Alam <aalam@users.sf.net>
+# SPDX-FileCopyrightText: 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024 A S Alam <aalam@users.sf.net>
 # AP S Alam <aalam@users.sf.net>, 2007.
 # Amanpreet Singh Alam <apreet.alam@gmail.com>, 2008.
 # Amanpreet Singh <aalam@users.sf.net>, 2008.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 01:38+0000\n"
-"PO-Revision-Date: 2023-12-22 21:24-0600\n"
+"PO-Revision-Date: 2024-01-03 14:04-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -489,7 +489,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
-msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫ਼ਾਈਲਾਂ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
+msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫਾਇਲ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
 
 #: dolphinmainwindow.cpp:1746 dolphinpart.cpp:167
 #, kde-format
@@ -2192,7 +2192,7 @@ msgstr "ਆਰੋਨ ਜੇ. ਸੀਆਗੋ"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
-msgstr "ਰਾਫਾਈਲ ਫਰਨਾਂਡੀਜ਼ ਲੋਪੀਜ਼"
+msgstr "ਰਾਫਾਇਲ ਫਰਨਾਂਡੀਜ਼ ਲੋਪੀਜ਼"
 
 #: main.cpp:122
 #, kde-format
@@ -2676,7 +2676,7 @@ msgstr ""
 #| msgid "This selects all files and folders in the current location."
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫ਼ਾਈਲਾਂ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
+msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫਾਇਲ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
 #, fuzzy, kde-format
@@ -2684,7 +2684,7 @@ msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀ�
 #| msgid "This selects all files and folders in the current location."
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫ਼ਾਈਲਾਂ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
+msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫਾਇਲ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -3224,7 +3224,7 @@ msgstr "ਜਦੋਂ ਇਹ ਚੋਣ ਯੋਗ ਕੀਤੀ ਜਾਵੇਗੀ 
 #, kde-format
 msgctxt "@label"
 msgid "Sort files by"
-msgstr "ਫਾਇਲ ਰਾਹੀਂ ਲੜੀਬੱਧ"
+msgstr "ਫਾਇਲਾਂ ਰਾਹੀਂ ਲੜੀਬੱਧ"
 
 #. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:44
@@ -3585,7 +3585,7 @@ msgstr "ਰੱਦੀ ਖਾਲੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
-msgstr "ਫਾਇਲ ਜਾਂ ਫੋਲਡਰ ਹਟਾਉਣੇ"
+msgstr "ਫਾਇਲਾਂ ਜਾਂ ਫੋਲਡਰ ਹਟਾਉਣੇ"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4655,7 +4655,7 @@ msgstr ""
 #: views/dolphinview.cpp:1999
 #, kde-format
 msgid "Hide this File?"
-msgstr "ਇਹ ਫਾਈਲ ਲੁਕਾਉਣੀ ਹੈ?"
+msgstr "ਇਹ ਫਾਇਲ ਲੁਕਾਉਣੀ ਹੈ?"
 
 #: views/dolphinview.cpp:1999
 #, kde-format
