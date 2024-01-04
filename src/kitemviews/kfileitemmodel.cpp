@@ -99,7 +99,8 @@ KFileItemModel::KFileItemModel(QObject *parent)
     // for a lot of items within a quite small timeslot. To prevent expensive resortings the
     // resorting is postponed until the timer has been exceeded.
     m_resortAllItemsTimer = new QTimer(this);
-    m_resortAllItemsTimer->setInterval(50);
+    m_resortAllItemsTimer->setInterval(100); // 100 is a middle ground between sorting too frequently which makes the view unreadable
+                                             // and sorting too infrequently which leads to users seeing an outdated sort order.
     m_resortAllItemsTimer->setSingleShot(true);
     connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
