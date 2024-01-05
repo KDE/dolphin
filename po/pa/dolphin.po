@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 01:38+0000\n"
-"PO-Revision-Date: 2024-01-03 14:04-0600\n"
+"PO-Revision-Date: 2024-01-04 09:58-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -108,7 +108,7 @@ msgstr "ਬਣਾਇਆ ਫੋਲਡਰ।"
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
-msgstr "ਪਿੱਛੇ ਜਾਉ"
+msgstr "ਪਿੱਛੇ ਜਾਓ"
 
 #: dolphinmainwindow.cpp:393
 #, kde-format
@@ -120,7 +120,7 @@ msgstr "ਪਿਛਲੇ ਵੇਖ ਗਏ ਫੋਲਡਰ ਉੱਤੇ ਵਾਪ�
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
-msgstr "ਅੱਗੇ ਜਾਉ"
+msgstr "ਅੱਗੇ ਜਾਓ"
 
 #: dolphinmainwindow.cpp:400
 #, kde-kuit-format
@@ -181,13 +181,11 @@ msgid "Open Preferred Search Tool"
 msgstr "ਤਰਜੀਹੀ ਖੋਜ ਟੂਲ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:1204
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "ਕੀ ਤੁਸੀਂ 1 ਆਈਟਮ ਖੋਲ੍ਹਣੀ ਚਾਹੁੰਦੇ ਹੋ?"
-msgstr[1] "ਕੀ ਤੁਸੀਂ %1 ਆਈਟਮਾਂ ਖੋਲ੍ਹਣੀਆਂ ਚਾਹੁੰਦੇ ਹੋ?"
+msgstr[0] "ਕੀ ਤੁਸੀਂ 1 ਟਰਮੀਨਲ ਵਿੰਡੋ ਖੋਲ੍ਹਣੀ ਚਾਹੁੰਦੇ ਹੋ?"
+msgstr[1] "ਕੀ ਤੁਸੀਂ %1 ਟਰਮੀਨਲ ਵਿੰਡੋ ਖੋਲ੍ਹਣੀਆਂ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: dolphinmainwindow.cpp:1209
 #, kde-format
@@ -328,20 +326,16 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:1645
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ…"
 
 #: dolphinmainwindow.cpp:1647
 #, kde-kuit-format
@@ -350,28 +344,26 @@ msgid ""
 "This copies the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"ਇਹ <emphasis>ਸਰਗਰਮ</emphasis> ਝਲਕ ਵਿਚੋਂ ਚੁਣੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਨਾ-ਸਰਗਰਮ ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਕਾਪੀ "
+"ਕਰਦੀ ਹੈ।"
 
 #: dolphinmainwindow.cpp:1650
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
-msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:1655
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "ਰੱਦੀ 'ਚ ਭੇਜੋ"
+msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਭੇਜੋ"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr "ਹੋਰ ਝਲਕ ਵਿੱਚ ਭੇਜੋ…"
 
 #: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
@@ -380,12 +372,14 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"ਇਹ <emphasis>ਸਰਗਰਮ</emphasis> ਝਲਕ ਵਿਚੋਂ ਚੁਣੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਨਾ-ਸਰਗਰਮ ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਭੇਜਦੀ "
+"ਹੈ।"
 
 #: dolphinmainwindow.cpp:1661
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਭੇਜੋ"
 
 #: dolphinmainwindow.cpp:1666
 #, kde-format
@@ -456,19 +450,15 @@ msgstr "ਖੋਜੋ"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1713
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਖੋਜੋ"
+msgstr "ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1716
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "ਚੁਣੋ"
@@ -524,15 +514,13 @@ msgstr "ਲੁਕਾਏ"
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr ""
+msgstr "ੇ"
 
 #: dolphinmainwindow.cpp:1782
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "ਝਲਕ"
+msgstr "ਝਲਕ ਨੂੰ ਤਾਜ਼ਾ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:1784
 #, kde-kuit-format
@@ -582,7 +570,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
-msgstr "ਟਿਕਾਣਾ ਬਦਲੋ"
+msgstr "ਟਿਕਾਣੇ ਨੂੰ ਬਦਲੋ"
 
 #: dolphinmainwindow.cpp:1813
 #, kde-kuit-format
@@ -622,12 +610,15 @@ msgid ""
 "their own <filename>Home</filename> that contains their data including "
 "folders that contain personal application data."
 msgstr ""
+"ਆਪਣੇ <filename>ਘਰ</filename> ਫੋਲਡਰ ਉੱਤੇ ਜਾਓ।<nl/>ਹਰ ਵਰਤੋਂਕਾਰ ਖਾਤੇ ਕੋਲ ਆਪਣਾ "
+"<filename>ਘਰ (home)</filename> ਫੋਲਡਰ ਹੁੰਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਨਿੱਜੀ ਐਪਲੀਕੇਸ਼ਨ ਡਾਟਾ ਰੱਖਣ ਵਾਲੇ "
+"ਫੋਲਡਰਾਂ ਸਮੇਤ ਡਾਟਾ ਹੁੰਦਾ ਹੈ।"
 
 #: dolphinmainwindow.cpp:1888
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
-msgstr "ਫਾਇਲ ਤੁਲਨਾ"
+msgstr "ਫਾਇਲਾਂ ਦੀ ਤੁਲਨਾ"
 
 #: dolphinmainwindow.cpp:1896
 #, kde-kuit-format
@@ -642,7 +633,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
-msgstr "ਟਰਮੀਨਲ ਖੋਲ੍ਹੋ"
+msgstr "ਟਰਮੀਨਲ ਨੂੰ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:1906
 #, kde-kuit-format
@@ -658,7 +649,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "ਟਰਮੀਨਲ ਇੱਥੇ ਖੋਲ੍ਹੋ"
+msgstr "ਟਰਮੀਨਲ ਨੂੰ ਇੱਥੇ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:1916
 #, kde-kuit-format
@@ -754,23 +745,22 @@ msgid "Open in New Window"
 msgstr "ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਖੋਲ੍ਹੋ"
+msgstr "ਵੰਡੀ ਗਈ ਝਲਕ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: dolphinmainwindow.cpp:2044
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
-msgstr "ਪੈਨਲ ਅਣ-ਲਾਕ ਕਰੋ"
+msgstr "ਪੈਨਲਾਂ ਨੂੰ ਅਣ-ਲਾਕ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:2046
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
-msgstr "ਪੈਨਲ ਲਾਕ ਕਰੋ"
+msgstr "ਪੈਨਲਾਂ ਨੂੰ ਲਾਕ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:2049
 #, kde-kuit-format
@@ -795,6 +785,8 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
+"<para>ਇਸ ਵਰਗੇ ਪੈਨਲਾਂ ਨੂੰ ਵੇਖਾਉਣ ਜਾਂ ਓਹਲੇ ਕਰਨ ਲਈ <interface>ਮੇਨੂ|ਪੈਨਲ</interface> ਜਾਂ "
+"<interface>ਵੇਖੋ|ਪੈਨਲ</interface> ਉੱਤੇ ਜਾਓ।</para>"
 
 #: dolphinmainwindow.cpp:2087
 #, kde-kuit-format
@@ -1107,6 +1099,8 @@ msgid ""
 "even set secondary languages which will be used if texts are not available "
 "in your preferred language."
 msgstr ""
+"ਇਸ ਨਾਲ ਤੁਸੀਂ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਵਲੋਂ ਵਰਤੀ ਜਾਂਦੀ ਭਾਸ਼ਾ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ।<nl/>ਤੁਸੀਂ ਸੈਕੰਡਰੀ ਭਾਸ਼ਾ ਵੀ ਦੇ "
+"ਸਕਦੇ ਹੋ ਤਾਂ ਕਿ ਜੇ ਕੋਈ ਵੀ ਲਿਖਤ ਤੁਹਾਡੀ ਪਸੰਦ ਦੀ ਭਾਸ਼e ਵਿੱਚ ਨਾ ਹੋਵੇ ਤਾਂ ਦੂਜੀ ਭਾਸ਼ਾ ਵਰਤੀ ਜਾਵੇ।"
 
 #: dolphinmainwindow.cpp:2617
 #, kde-kuit-format
@@ -1115,6 +1109,8 @@ msgid ""
 "This opens a window that informs you about the version, license, used "
 "libraries and maintainers of this application."
 msgstr ""
+"ਇਹ ਤੁਹਾਡੇ ਵਸਾਤੇ ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਦੇ ਵਰਜ਼ਨ, ਲਸੰਸ, ਵਰਤੀਆਂ ਲਾਇਬਰੇਰੀਆਂ ਅਤੇ ਪਰਬੰਧਕਾਂ ਬਾਰੇ ਜਾਣਕਾਰੀ "
+"ਦਿੰਦੀ ਹੋਈ ਵਿੰਡੋ ਖੋਲ੍ਹਦੀ ਹੈ।"
 
 #: dolphinmainwindow.cpp:2622
 #, kde-kuit-format
@@ -1135,7 +1131,7 @@ msgstr "ਟਰਮੀਨਲ ਪੈਨਲ ਦਾ ਫੋਕਸ ਹਟਾਓ"
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr ""
+msgstr "ਸਰਵਰ ਦਾ URL ਦਿਓ (ਜਿਵੇਂ ਕਿ smb://[ip address])"
 
 #: dolphinnavigatorswidgetaction.cpp:227
 #, kde-format
@@ -1146,7 +1142,7 @@ msgstr "ਰੱਦੀ ਖਾਲੀ ਕਰੋ"
 #: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgid "Empties Trash to create free space"
-msgstr ""
+msgstr "ਥਾਂ ਖਾਲੀ ਕਰਨ ਲਈ ਰੱਦੀ ਨੂੰ ਖਾਲੀ ਕਰਦਾ ਹੈ"
 
 #: dolphinnavigatorswidgetaction.cpp:254
 #, kde-format
@@ -1163,28 +1159,22 @@ msgstr[0] "ਟਿਕਾਣਾ ਪੱਟੀ"
 msgstr[1] "ਟਿਕਾਣਾ ਪੱਟੀਆਂ"
 
 #: dolphinpart.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "ਫਾਇਲ ਟਾਇਪ ਸੋਧ(&E)..."
+msgstr "…ਫਾਇਲ ਕਿਸਮ ਨੂੰ ਸੋਧ(&E)"
 
 #: dolphinpart.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਚੁਣੋ..."
+msgstr "…ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਚੁਣੋ"
 
 #: dolphinpart.cpp:157
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਅਣ-ਚੁਣੀਆਂ ਕਰੋ..."
+msgstr "…ਰਲਦੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਅਣ-ਚੁਣੋ"
 
 #: dolphinpart.cpp:163
 #, kde-format
@@ -1196,7 +1186,7 @@ msgstr "ਸਭ ਅਣ-ਚੁਣੇ"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
-msgstr "ਐਪਲੀਕੇਸ਼ਨ(&l)"
+msgstr "ਐਪਲੀਕੇਸ਼ਨਾਂ(&l)"
 
 #: dolphinpart.cpp:179
 #, kde-format
@@ -1217,12 +1207,10 @@ msgid "Autostart"
 msgstr "ਆਟੋ-ਸਟਾਰਟ"
 
 #: dolphinpart.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "ਫਾਇਲ ਖੋਜ..."
+msgstr "…ਫਾਇਲ ਨੂੰ ਲੱਭੋ"
 
 #: dolphinpart.cpp:195
 #, kde-format
@@ -1444,12 +1432,10 @@ msgid ""
 msgstr "ਪਰੋਟੋਕਾਲ ਡਾਲਫਿਨ ਵਲੋਂ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਮੂਲ ਐਪਲੀਕੇਸ਼ਨ ਲਾਂਚ ਕੀਤੀ ਗਈ ਹੈ"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
+msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ '%1'"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -1461,7 +1447,7 @@ msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
-msgstr ""
+msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਬਦਲਿਆ ਗਿਆ, <filename>%1</filename> ਹੁਣ ਪਹੁੰਚ ਯੋਗ ਨਹੀਂ ਹੈ।"
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -1518,14 +1504,12 @@ msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
 msgstr "\"%1\", \"%2\", \"%3\", \"%4\" ਅਤੇ \"%5\""
 
 #: kitemviews/kfileitemlisttostring.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Invert Selection"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "ਉਲਟ ਚੋਣ"
-msgstr[1] "ਉਲਟ ਚੋਣ"
+msgstr[0] "ਇੱਕ ਚੁਣੀ ਫਾਇਲ"
+msgstr[1] "%1 ਚੁਣੀਆਂ ਫਾਇਲਾਂ"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
@@ -1533,20 +1517,18 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ਇੱਕ ਚੁਣਿਆ ਫੋਲਡਰ"
+msgstr[1] "%1 ਚੁਣੇ ਫੋਲਡਰ"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Select Item"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "ਆਈਟਮ ਚੁਣੋ"
-msgstr[1] "ਆਈਟਮ ਚੁਣੋ"
+msgstr[0] "ਇੱਕ ਚੁਣੀ ਆਈਟਮ"
+msgstr[1] "%1 ਚੁਣੀਆਂ ਆਈਟਮਾਂ"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
@@ -1902,17 +1884,14 @@ msgid "Publisher"
 msgstr "ਪਬਲਿਸ਼ਰ"
 
 #: kitemviews/kfileitemmodel.cpp:2738
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "ਲਾਈਨ ਗਿਣਤੀ"
+msgstr "ਸਫ਼ਿਆਂ ਦੀ ਗਿਣਤੀ"
 
 #: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Word Count"
-msgstr "ਸ਼ਬਦ ਗਿਣਤੀ"
+msgstr "ਸ਼ਬਦਾਂ ਦੀ ਗਿਣਤੀ"
 
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
@@ -1922,7 +1901,7 @@ msgstr "ਲਾਈਨ ਗਿਣਤੀ"
 #: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Date Photographed"
-msgstr "ਫੋਟੋ ਖਿੱਚਣ ਦੀ ਮਿਤੀ"
+msgstr "ਫੋਟੋ ਖਿੱਚਣ ਦੀ ਤਾਰੀਖ"
 
 #: kitemviews/kfileitemmodel.cpp:2741 kitemviews/kfileitemmodel.cpp:2742
 #: kitemviews/kfileitemmodel.cpp:2743 kitemviews/kfileitemmodel.cpp:2744
@@ -2085,7 +2064,7 @@ msgstr "ਫਾਇਲ ਮੈਨੇਜਰ"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) ੨੦੦੬-੨੦੨੨ ਡਾਲਫਿਨ ਡਿਵੈਲਪਰ"
 
 #: main.cpp:100
 #, kde-format
@@ -2106,12 +2085,10 @@ msgid "Méven Car"
 msgstr "ਮੇਵਨ ਕਾਰ"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "ਪਰਬੰਧਕ ( ੨੦੧੮ ਤੋਂ) ਅਤੇ ਡਿਵੈਲਪਰ"
+msgstr "ਪਰਬੰਧਕ ( ੨੦੨੧ ਤੋਂ) ਅਤੇ ਡਿਵੈਲਪਰ (੨੦੧੯ ਤੋਂ)"
 
 #: main.cpp:106
 #, kde-format
@@ -2120,9 +2097,7 @@ msgid "Elvis Angelaccio"
 msgstr ""
 
 #: main.cpp:107
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੧੪-੨੦੧੮) ਅਤੇ ਡਿਵੈਲਪਰ"
@@ -2246,7 +2221,7 @@ msgstr "ਡਾਲਫਿਨ ਖਾਸ ਤੌਰ ਉੱਤੇ ਨਵੀਂ ਵਿ�
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr ""
+msgstr "ਡਾਲਫਿਨ ਡੈਮਨ ਸ਼ੁਰੂ ਕਰੋ (ਸਿਰਫ਼ DBus ਇੰਟਰਫੇਸ ਲਈ ਹੀ ਚਾਹੀਦੀ ਹੈ)।"
 
 #: main.cpp:141
 #, kde-format
@@ -2264,7 +2239,7 @@ msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਵੇਖੋ"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
 #, kde-format
 msgid "Limit folders panel to home directory if inside home"
-msgstr ""
+msgstr "ਜੇ ਘਰ ਵਿੱਚ ਹੋਵੋ ਤਾਂ ਫੋਲਡਰਾਂ ਨੂੰ ਘਰ ਡਾਇਰੈਕਟਰੀ ਤੱਕ ਸੀਮਤ ਕਰੋ"
 
 #. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
@@ -2340,17 +2315,15 @@ msgstr "ਮੀਡਿਆ ਫਾਇਲਾਂ ਆਪੇ-ਚਲਾਓ"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "ਫਿਲਟਰ ਬਾਰ ਵੇਖੋ"
+msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
 #, kde-format
 msgid "Date display format"
-msgstr "ਤਾਰੀਖ ਵੇਖਾਉਣ ਫਾਰਮੈਟ"
+msgstr "ਤਾਰੀਖ ਵੇਖਾਉਣ ਦਾ ਫਾਰਮੈਟ"
 
 #: panels/information/informationpanel.cpp:153
 #, kde-format
@@ -2362,15 +2335,13 @@ msgstr "ਝਲਕ"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "ਮੀਡਿਆ ਫਾਇਲਾਂ ਆਪੇ-ਚਲਾਓ"
+msgstr "ਮੀਡਿਆ ਫਾਇਲਾਂ ਨੂੰ ਆਪੇ-ਚਲਾਓ"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "ਫਿਲਟਰ ਬਾਰ ਵੇਖੋ"
+msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -2426,6 +2397,8 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
+"ਕਨਸੋਲ (konsole) ਇੰਸਟਾਲ ਨਾ ਹੋਣ ਕਰਕੇ ਟਰਮੀਨਲ ਵੇਖਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ। ਉਸ ਨੂੰ ਇੰਸਟਾਲ ਕਰਕੇ "
+"ਪੈਨਲ ਨੂੰ ਫੇਰ ਖੋਲ੍ਹੋ।"
 
 #: panels/terminal/terminalpanel.cpp:191
 #, kde-format
@@ -2594,7 +2567,7 @@ msgstr "ਖੋਜ ਨੂੰ '%1' ਅਤੇ ਇਸ ਦੇ ਸਬ-ਫੋਲਡਰ�
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
-msgstr ""
+msgstr "ਭਵਿੱਖ ਵਿੱਚ ਵਰਤਣ ਵਾਸਤੇ ਫੌਰੀ ਪਹੁੰਚ ਲਈ ਇਸ ਖੋਜ ਨੂੰ ਸੰਭਾਲੋ"
 
 #: search/dolphinsearchbox.cpp:359
 #, kde-format
@@ -2646,12 +2619,10 @@ msgid "Query Results from '%1'"
 msgstr "'%1' ਤੋਂ ਕਿਊਰੀ ਨਤੀਜੇ"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦੇਣ ਲਈ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਦੀ ਚੋਣ ਕੀਤੀ ਜਾਵੇਗੀ।"
+msgstr "ਕਾਪੀ ਕੀਤੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2667,24 +2638,20 @@ msgstr "ਕਾਪੀ ਕਰਨਾ ਰੱਦ ਕਰੋ"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "ਟਿਕਾਣਾ ਕਾਪੀ ਕੀਤੇ ਜਾਣ ਲਈ ਇੱਕ ਫਾਇਲ ਜਾਂ ਫੋਲਡਰ ਚੁਣੋ।"
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫਾਇਲ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
+msgstr "ਕਾਪੀ ਕੀਤੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "ਇਹ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਵਿੱਚ ਸਾਰੀਆਂ ਫਾਇਲ ਤੇ ਫੋਲਡਰ ਚੁਣਦਾ ਹੈ।"
+msgstr "ਕੱਟੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -2694,12 +2661,10 @@ msgid "Cancel Cutting"
 msgstr "ਕੱਟਣਾ ਰੱਦ ਕਰੋ"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦੇਣ ਲਈ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਦੀ ਚੋਣ ਕੀਤੀ ਜਾਵੇਗੀ।"
+msgstr "ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਈਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2711,12 +2676,10 @@ msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦੇਣ ਲਈ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਦੀ ਚੋਣ ਕੀਤੀ ਜਾਵੇਗੀ।"
+msgstr "ਇੱਥੇ ਡੁਪਲੀਕੇਟ ਬਣਾਈਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
@@ -2738,20 +2701,20 @@ msgstr "ਹੋਰ"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "ਭੇਜੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr "ਭੇਜਨਾ ਰੱਦ ਕਰੋ"
+msgstr "ਭੇਜਣਾ ਰੱਦ ਕਰੋ"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "ਰੱਦੀ ਵਿੱਚ ਭੇਜੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਚੁਣੋ।"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2789,6 +2752,8 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"ਨਾਂ ਬਦਲੇ ਜਾਣ ਵਾਲੀ ਫਾਇਲ ਜਾਂ ਫੋਲਡਰ ਨੂੰ ਚੁਣੋ।\n"
+"ਜਦੋਂ ਕਈ ਸਾਰੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਚੁਣਿਆ ਜਾਂਦਾ ਹੈ ਤਾਂ ਵੱਡੇ ਪੱਧਰ ਉੱਤੇ ਨਾਂ ਬਦਲੇ ਜਾ ਸਕਦੇ ਹਨ।"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
@@ -2807,8 +2772,8 @@ msgstr "ਨਾਂ ਬਦਲਣਾ ਰੱਦ ਕਰੋ"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr[1] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2820,8 +2785,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 ਦੇ ਟਿਕਾਣੇ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
+msgstr[1] "%2 ਦੇ ਟਿਕਾਣੇ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2833,8 +2798,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕੱਟੋ"
+msgstr[1] "%2 ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕੱਟੋ"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2868,14 +2833,12 @@ msgstr[1] "%2 ਨੂੰ ਡੁਪਲੀਕੇਟ ਬਣਾਓ"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "ਰੱਦੀ 'ਚ ਭੇਜੋ"
-msgstr[1] "ਰੱਦੀ 'ਚ ਭੇਜੋ"
+msgstr[0] "%2 ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਭੇਜੋ"
+msgstr[1] "%2 ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਭੇਜੋ"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2911,20 +2874,16 @@ msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "ਚੋਣ"
+msgstr "ਚੋਣ ਦਾ ਢੰਗ"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "ਚੋਣ"
+msgstr "ਚੋਣ ਦੇ ਢੰਗ ਵਿੱਚੋਂ ਬਾਹਰ"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:59
 #, kde-format
@@ -3017,7 +2976,7 @@ msgstr "ਵੱਧ ਤੋਂ ਵੱਧ ਟੈਕਸਟ ਚੌੜਾਈ ਇੰਡ�
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "Whether or not content count is used as directory size"
-msgstr ""
+msgstr "ਕੀ ਸਮੱਗਰੀ ਗਿਣਤੀ ਨੂੰ ਡਾਇਕੈਟਰੀ ਆਕਾਰ ਵਜੋਂ ਵਰਤਣਾ ਹੈ ਜਾਂ ਨਹੀਂ"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:14
@@ -3033,11 +2992,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "ਅਧਿਕਾਰ"
+msgstr "ਇਜਾਜ਼ਤ ਸਟਾਈਲ ਦਾ ਫਾਰਮੈਟ"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3077,10 +3034,9 @@ msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਨਵੀਂ ਵਿੰਡੋ 
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਖੋਲ੍ਹੋ' ਨੂੰ ਵੇਖਾਓ।"
+msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਖੋਲ੍ਹੋ' ਨੂੰ ਵੇਖਾਓ।"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3102,17 +3058,15 @@ msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਟਰਮੀਨਲ ਖੋਲ�
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਟਿਕਾਣੇ ਨੂੰ ਕਾਪੀ ਕਰੋ' ਨੂੰ ਵੇਖਾਓ।"
+msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਵੰਡੀ ਗਈ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ' ਨੂੰ ਵੇਖਾਓ।"
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਲੜੀਬੱਧ' ਨੂੰ ਵੇਖਾਓ।"
+msgstr "ਪਰਸੰਗ ਮੇਨੂ ਵਿੱਚ 'ਵੰਡੀ ਗਈ ਝਲਕ ਵਿੱਚ ਭੇਜੋ' ਨੂੰ ਵੇਖਾਓ।"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3124,13 +3078,13 @@ msgstr "ਕਾਲਮਾਂ ਦੀ ਸਥਿਤੀ"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "ਬਾਹੀ ਥਾਂ"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "ਪੂਰੀ ਤਰ੍ਹਾਂ ਨੂੰ ਉਘਾੜੋ"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3388,7 +3342,7 @@ msgstr "ਕਈ ਟੈਬਾਂ ਵਾਲੀਆਂ ਵਿੰਡੋਜ਼ ਨੂ�
 msgid ""
 "Ask for confirmation when closing windows with a program that is still "
 "running in the Terminal panel."
-msgstr ""
+msgstr "ਟਰਮੀਨਲ ਪੈਨਲ ਵਿੱਚ ਚੱਲਣ ਵਾਲੇ ਪਰੋਗਰਾਮ ਵਾਲੀ ਵਿੰਡੋ ਨੂੰ ਬੰਦ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਪੁੱਛੋ।"
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
@@ -3414,7 +3368,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Use tab for switching between right and left split"
-msgstr ""
+msgstr "ਸੱਜੀ ਅਤੇ ਖੱਬੀ ਵੰਡ ਥਾਂ ਵਿੱਚ ਜਾਣ ਲਈ ਟੈਬ ਨੂੰ ਵਰਤੋਂ"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -3486,35 +3440,33 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "ਕਈ ਟੈਬਾਂ ਵਾਲੀਆਂ ਵਿੰਡੋਜ਼ ਨੂੰ ਬੰਦ ਕਰਨ ਸਮੇਂ ਪੁੱਛੋ।"
+msgstr "ਜਦੋਂ ਇੱਕ ਵਾਰ ਵਿੱਚ ਬਹੁਤ ਸਾਰੇ ਫੋਲਡਰ ਖੋਲ੍ਹਣੇ ਹੋਣ ਤਾਂ ਤਸਦੀਕ ਕਰੋ"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "ਕਈ ਟੈਬਾਂ ਵਾਲੀਆਂ ਵਿੰਡੋਜ਼ ਨੂੰ ਬੰਦ ਕਰਨ ਸਮੇਂ ਪੁੱਛੋ।"
+msgstr "ਜਦੋਂ ਇੱਕ ਵਾਰ ਵਿੱਚ ਬਹੁਤ ਸਾਰੇ ਟਰਮੀਨਲ ਖੋਲ੍ਹਣੇ ਹੋਣ ਤਾਂ ਤਸਦੀਕ ਕਰੋ"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
 #, kde-format
 msgid "Text width index"
-msgstr "ਟੈਕਸਟ ਚੌੜਾਈ ਇੰਡੈਕਸ"
+msgstr "ਲਿਖਤ ਚੌੜਾਈ ਇੰਡੈਕਸ"
 
 #. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Maximum textlines (0 means unlimited)"
-msgstr "ਵੱਧ ਤੋਂ ਵੱਧ ਟੈਕਸਟ-ਲਾਈਨਾਂ (0 ਭਾਵ ਬੇਅੰਤ)"
+msgstr "ਵੱਧ ਤੋਂ ਵੱਧ ਲਿਖਤ-ਲਾਈਨਾਂ (0 ਭਾਵ ਬੇਅੰਤ)"
 
 #. i18n: ectx: label, entry (enabledPlugins), group (VersionControl)
 #: settings/dolphin_versioncontrolsettings.kcfg:10
 #, kde-format
 msgid "Enabled plugins"
-msgstr "ਪਲੱਗਇਨ ਚਾਲੂ ਹਨ"
+msgstr "ਸਮਰੱਥ ਕੀਤੀਆਂ ਪਲੱਗਇਨ"
 
 #: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
@@ -3606,18 +3558,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਵਿੱਚ ਖੋਜੋ"
+msgstr "ਬਹੁਤ ਸਾਰੇ ਫੋਲਡਰ ਇਕੱਠੇ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "ਬਹੁਤ ਸਾਰੇ ਟਰਮੀਨਲ ਇਕੱਠੇ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3644,7 +3594,7 @@ msgstr "ਸਕ੍ਰਿਪਟ ਚਲਾਓ"
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr ""
+msgstr "ਪਿਛਲੀ ਵਾਰ ਤੋਂ ਫੋਲਡਰ, ਟੈਬਾਂ, ਅਤੇ ਵਿੰਡੋ ਦੀ ਸਥਿਤੀ"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3656,13 +3606,13 @@ msgstr "ਘਰ ਟਿਕਾਣਾ ਚੁਣੋ"
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
-msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਵਰਤੋਂ"
+msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਨੂੰ ਵਰਤੋਂ"
 
 #: settings/interface/folderstabssettingspage.cpp:79
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
-msgstr "ਡਿਫਾਲਟ ਟਿਕਾਣਾ ਵਰਤੋਂ"
+msgstr "ਡਿਫਾਲਟ ਟਿਕਾਣੇ ਨੂੰ ਵਰਤੋਂ"
 
 #: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
@@ -3674,13 +3624,13 @@ msgstr "ਸ਼ੁਰੂ ਵੇਲੇ ਵੇਖਾਓ:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "ਇੱਕ ਹੀ ਡਾਲਫਿਲ ਵਿੰਡੋ ਨੂੰ ਰੱਖੋ, ਨਵੇਂ ਫੋਲਡਰਾਂ ਨੂੰ ਟੈਬਾਂ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "ਫੋਲਡਰ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ\""
+msgstr "ਫੋਲਡਰ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3695,12 +3645,10 @@ msgid "Window:"
 msgstr "ਵਿੰਡੋ:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "ਫਿਲਟਰ ਪੱਟੀ ਵੇਖੋ"
+msgstr "ਫਿਲਟਰ ਪੱਟੀ ਨੂੰ ਵੇਖਾਓ"
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -3718,30 +3666,30 @@ msgstr "ਟੈਬ ਪੱਟੀ ਦੇ ਅੰਤ ਉੱਤੇ"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "ਨਵੀਆਂ ਟੈਬਾਂ ਖੋਲ੍ਹੋ:"
+msgstr "ਨਵੀਆਂ ਟੈਬਾਂ ਨੂੰ ਖੋਲ੍ਹੋ:"
 
 #: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr ""
+msgstr "ਟੈਬ ਸਵਿੱਚ ਨਾਲ ਬਾਹੀਆਂ ਵਿੱਚ ਬਦਲੋ"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "ਝਲਕ ਵੰਡੋ:"
+msgstr "ਵੰਡੀ ਝਲਕ:"
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
-msgstr ""
+msgstr "ਸਰਗਰਮ ਬਾਹੀ ਨੂੰ ਬੰਦ ਕਰਨ ਨਾਲ ਵੰਡੀ ਝਲਕ ਨੂੰ ਬੰਦ ਕਰੋ"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
-msgstr ""
+msgstr "ਜਦੋਂ ਨਾ-ਸਰਗਰਮ ਕੀਤਾ ਤਾਂ ਵੰਡੀ ਝਲਕ ਨੂੰ ਬੰਦ ਕਰਨ ਨਾਲ ਨਾ-ਸਰਗਰਮ ਬਾਹੀ ਬੰਦ ਹੋਵੇਗੀ"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -3900,13 +3848,13 @@ msgstr "ਕੁਦਰਤੀ"
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr ""
+msgstr "ਵਰਣਮਾਲਾ, ਅੱਖਰ ਅਕਾਰ ਉੱਤੇ ਨਿਰਭਰ"
 
 #: settings/viewmodes/contentdisplaytab.cpp:39
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
-msgstr ""
+msgstr "ਵਰਣਮਾਲਾ, ਅੱਖਰ ਅਕਾਰ ਉੱਤੇ ਨਾ ਨਿਰਭਰ"
 
 #: settings/viewmodes/contentdisplaytab.cpp:45
 #, kde-format
@@ -4018,6 +3966,8 @@ msgid ""
 "Dolphin will create a hidden .directory file in each folder you change view "
 "properties for."
 msgstr ""
+"ਜਿੱਥੇ ਵੀ ਤੁਸੀਂ ਝਲਕ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਬਦਲੋਗੇ ਤਾਂ ਡਾਲਫਿਨ ਹਰ ਫੋਲਡਰ ਵਿੱਚ ਲੁਕਵੀਂ .directory ਫਾਇਲ "
+"ਬਣਾਏਗੀ।"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:33
 #, kde-format
@@ -4216,13 +4166,13 @@ msgstr "ਫੋਲਡਰ:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "ਕਤਾਰ ਵਿੱਚ ਕਿਤੇ ਵੀ ਕਲਿੱਕ ਕਰਕੇ"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "ਆਈਕਾਨ ਜਾਂ ਨਾਂ ਉੱਤੇ ਕਲਿੱਕ ਕਰਕੇ"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
@@ -4606,7 +4556,7 @@ msgstr[1] "%1 ਆਈਟਮਾਂ ਨੂੰ ਖੋਲ੍ਹੋ"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "ਬਾਹੀ ਥਾਂ"
 
 #: views/dolphinview.cpp:1203
 #, kde-format
@@ -4644,6 +4594,8 @@ msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"ਇਸ ਫਾਇਲ ਦੇ ਨਾਂ ਦੇ ਅੱਗੇ ਬਿੰਦੀ (.) ਜੋੜਨ ਨਾਲ ਇਸ ਨੂੰ ਝਲਕ ਵਿੱਚੋਂ ਲੁਕਾਇਆ ਜਾਵੇਗਾ।\n"
+"ਕੀ ਤੁਸੀਂ ਹਾਲੇ ਵੀ ਇਸ ਦਾ ਨਾਂ ਬਦਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: views/dolphinview.cpp:1997
 #, kde-format
@@ -4651,6 +4603,8 @@ msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"ਇਸ ਫੋਲਡਰ ਦੇ ਨਾਂ ਦੇ ਅੱਗੇ ਬਿੰਦੀ (.) ਜੋੜਨ ਨਾਲ ਇਸ ਨੂੰ ਝਲਕ ਵਿੱਚੋਂ ਲੁਕਾਇਆ ਜਾਵੇਗਾ।\n"
+"ਕੀ ਤੁਸੀਂ ਹਾਲੇ ਵੀ ਇਸ ਦਾ ਨਾਂ ਬਦਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: views/dolphinview.cpp:1999
 #, kde-format
@@ -4707,7 +4661,7 @@ msgstr "ਕੋਈ ਟੈਗ ਨਹੀਂ ਹੈ"
 #: views/dolphinview.cpp:2343
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr ""
+msgstr "\"%1\" ਟੈਗ ਵਾਲੀ ਕੋਈ ਫਾਇਲ ਨਹੀਂ ਹੈ"
 
 #: views/dolphinview.cpp:2347
 #, kde-format
@@ -4813,7 +4767,7 @@ msgstr "ਟਿਕਾਣਾ ਕਾਪੀ ਕਰੋ"
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
-msgstr ""
+msgstr "ਇਹ ਪਹਿਲੀ ਚੁਣੀ ਹੋਈ ਆਈਟਮ ਦੇ ਮਾਰਗ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰੇਗਾ।"
 
 #: views/dolphinviewactionhandler.cpp:161
 #, kde-format
@@ -4917,13 +4871,13 @@ msgstr "ਜ਼ੂਮ"
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
-msgstr "ਝਲਕਾਂ ਵੇਖੋ"
+msgstr "ਝਲਕਾਂ ਵੇਖਾਓ"
 
 #: views/dolphinviewactionhandler.cpp:245
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
-msgstr "ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਦੀ ਝਲਕ ਵੇਖੋ"
+msgstr "ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰਾਂ ਦੀ ਝਲਕ ਵੇਖੋ"
 
 #: views/dolphinviewactionhandler.cpp:247
 #, kde-kuit-format
@@ -4933,6 +4887,8 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
+"ਜਦੋਂ ਇਹ ਸਮਰੱਥ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਤਾਂ ਅਸਲ ਫਾਇਲ ਜਾਂ ਫੋਲਡਰ ਦੀ ਸਮਗੱਰੀ ਮੁਤਾਬਕ ਆਈਕਾਨ ਹੁੰਦੇ ਹਨ।<nl/"
+">ਮਿਸਾਲ ਵਜੋਂ ਚਿੱਤਰਾਂ ਦੇ ਆਈਕਾਨ ਚਿੱਤਰਾਂ ਦੇ ਛੋਟੇ ਬਣਾਏ ਵਰਜ਼ਨ ਹੁੰਦੇ ਹਨ।"
 
 #: views/dolphinviewactionhandler.cpp:256
 #, kde-format
@@ -4991,7 +4947,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "ਡਿਸਪਲੇਅ ਸਟਾਈਲ ਵੇਖ ਨੂੰ ਅਨੁਕੂਲ ਕਰੋ…"
+msgstr "ਡਿਸਪਲੇਅ ਸਟਾਈਲ ਵੇਖਣ ਨੂੰ ਮੁਆਫ਼ਕ ਕਰੋ…"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -4999,6 +4955,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
+"ਇਹ ਵਿੰਡੋ ਖੋਲ੍ਹਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਸਾਰੇ ਫੋਲਡਰਾਂ ਲਈ ਵੇਖਣ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਅਡਜੱਸਟ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
 
 #: views/dolphinviewactionhandler.cpp:631
 #, kde-format
@@ -5121,8 +5078,8 @@ msgctxt ""
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ਇੱਕ ਚੁਣੀ ਆਈਟਮ ਲਈ ਕਾਰਵਾਈਆਂ"
+msgstr[1] "%1 ਚੁਣੀਆਂ ਆਈਟਮਾਂ ਲਈ ਕਾਰਵਾਈਆਂ"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
 #, kde-format
