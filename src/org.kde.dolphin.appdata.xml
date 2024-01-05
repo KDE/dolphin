@@ -152,6 +152,7 @@
     <p xml:lang="nb">Dolphin er KDEs filbehandler, som du kan bruke til å bla gjennom innholdet på harddisker, minnepenner/-kort og lignende. Den gjør det kjapt og enkelt å opprette, flytte og slette filer og mapper.</p>
     <p xml:lang="nl">Dolphin is de bestandsbeheerder van KDE die u laat navigeren en bladeren de inhoud van uw vaste schijven, USB-sticks, SD-cards en meer. Aanmaken, verplaatsen of verwijderen van bestanden en mappen is eenvoudig en snel.</p>
     <p xml:lang="nn">Dolphin er KDEs filhandsamar, som du kan bruka til å bla gjennom innhaldet på harddiskar, minnepinnar/-kort og liknande. Han gjer det svært kjapt og enkelt å oppretta, flytta og sletta filer og mapper.</p>
+    <p xml:lang="pa">ਡਾਲਫਿਨ ਕੇਡੀਈ ਦਾ ਫਾਇਲ ਮੈਨੇਜਰ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ ਆਪਣੀਆਂ ਹਾਰਡ ਡਰਾਇਵਾਂ, USB ਡਰਾਇਵਾਂ, SD ਕਾਰਡਾਂ, ਤੇ ਹੋਰਾਂ ਦੀ ਸਮਗੱਰੀ ਦੀ ਝਲਕ ਲੈਣ ਲਈ ਸਹਾਇਕ ਹੈ। ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰਾਂ ਨੂੰ ਬਣਾਉਣਾ, ਏਧਰ ਓਧਰ ਕਰਨਾ ਜਾਂ ਹਟਾਉਣਾ ਸਰਲ ਅਤੇ ਤੇਜ਼ ਹੁੰਦਾ ਹੈ।</p>
     <p xml:lang="pl">Dolphin jest programem do zarządzania plikami w KDE, który umożliwia przeglądanie zawartości twoich dysków twardych, pendrajwów, kart SD oraz więcej. Tworzenie, przenoszenie, czy usuwanie plików za jego pomocą jest proste i szybkie.</p>
     <p xml:lang="pt">O Dolphin é o gestor de ficheiros do KDE que lhe permite navegar e percorrer o conteúdo dos seus discos rígidos, unidades USB, cartões SD, entre outros. A criação, movimentação ou remoção de ficheiros e pastas é simples e rápida.</p>
     <p xml:lang="pt-BR">O Dolphin é o gerenciador de arquivos da KDE que permite a você navegar pelo conteúdo dos seus discos, dispositivos USB, cartões SD, dentre outros. Criar, mover ou deletar arquivos e pastas é simples e rápido.</p>
@@ -437,6 +438,7 @@
       <caption xml:lang="nb">Innebygd terminal i Dolphin</caption>
       <caption xml:lang="nl">Ingebedde terminal in Dolphin</caption>
       <caption xml:lang="nn">Innebygd terminal i Dolphin</caption>
+      <caption xml:lang="pa">ਡਾਲਫਿਨ ਵਿੱਚ ਮੌਜੂਦ ਟਰਮੀਨਲ</caption>
       <caption xml:lang="pl">Osadzony terminal w Dolphinie</caption>
       <caption xml:lang="pt">Terminal Incorporado no Dolphin</caption>
       <caption xml:lang="pt-BR">Terminal incorporado no Dolphin</caption>
