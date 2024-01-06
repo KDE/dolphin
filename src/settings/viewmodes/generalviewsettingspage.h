@@ -47,6 +47,7 @@ private:
     QCheckBox *m_renameInline = nullptr;
     QCheckBox *m_openArchivesAsFolder = nullptr;
     QCheckBox *m_autoExpandFolders = nullptr;
+    QCheckBox *m_hideXtrashFiles = nullptr;
 };
 
 #endif

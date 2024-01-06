@@ -141,6 +141,10 @@
             <default>0</default>
             <emit signal="sortingChoiceChanged" />
         </entry>
+        <entry name="HideXTrashFile" type="Bool">
+            <label>Also hide files with application/x-trash mimetype</label>
+            <default>false</default>
+        </entry>
     </group>
     <group name="Notification Messages">
         <entry name="ConfirmOpenManyFolders" type="Bool">

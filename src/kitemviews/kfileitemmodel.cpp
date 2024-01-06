@@ -105,7 +105,7 @@ KFileItemModel::KFileItemModel(QObject *parent)
 
     connect(GeneralSettings::self(), &GeneralSettings::sortingChoiceChanged, this, &KFileItemModel::slotSortingChoiceChanged);
 
-    setShowTrashMime(m_dirLister->showHiddenFiles());
+    setShowTrashMime(m_dirLister->showHiddenFiles() || !GeneralSettings::hideXTrashFile());
 }
 
 KFileItemModel::~KFileItemModel()
@@ -239,25 +239,18 @@ bool KFileItemModel::sortHiddenLast() const
     return m_sortHiddenLast;
 }
 
-void KFileItemModel::setShowTrashMime(bool show)
+void KFileItemModel::setShowTrashMime(bool showTrashMime)
 {
     const auto trashMime = QStringLiteral("application/x-trash");
     QStringList excludeFilter = m_filter.excludeMimeTypes();
-    bool wasShown = !excludeFilter.contains(trashMime);
 
-    if (show) {
-        if (!wasShown) {
-            excludeFilter.removeAll(trashMime);
-        }
-    } else {
-        if (wasShown) {
-            excludeFilter.append(trashMime);
-        }
+    if (showTrashMime) {
+        excludeFilter.removeAll(trashMime);
+    } else if (!excludeFilter.contains(trashMime)) {
+        excludeFilter.append(trashMime);
     }
 
-    if (wasShown != show) {
-        setExcludeMimeTypeFilter(excludeFilter);
-    }
+    setExcludeMimeTypeFilter(excludeFilter);
 }
 
 void KFileItemModel::scheduleResortAllItems()
@@ -270,7 +263,7 @@ void KFileItemModel::scheduleResortAllItems()
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
     m_dirLister->setShowHiddenFiles(show);
-    setShowTrashMime(show);
+    setShowTrashMime(show || !GeneralSettings::hideXTrashFile());
     m_dirLister->emitChanges();
     if (show) {
         dispatchPendingItemsToInsert();

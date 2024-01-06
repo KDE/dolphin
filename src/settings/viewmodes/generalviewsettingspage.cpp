@@ -14,6 +14,7 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QMimeDatabase>
 #include <QVBoxLayout>
 
 GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *parent)
@@ -61,6 +62,14 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"));
     topLayout->addRow(QString(), m_renameInline);
 
+    m_hideXtrashFiles = new QCheckBox(i18nc("option:check", "Also hide backup files while hiding hidden files"));
+    QMimeDatabase db;
+    QMimeType mime = db.mimeTypeForName(QStringLiteral("application/x-trash"));
+    m_hideXtrashFiles->setToolTip(i18nc("@info:tooltip %1 are the file patterns for mimetype application/x-trash",
+                                        "Backup files are the files whose mime-type is application/x-trash, patterns: %1",
+                                        (mime.globPatterns().join(", "))));
+    topLayout->addRow(QString(), m_hideXtrashFiles);
+
     loadSettings();
 
     connect(m_localViewProps, &QRadioButton::toggled, this, &GeneralViewSettingsPage::changed);
@@ -73,6 +82,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 #endif
     connect(m_showSelectionToggle, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_renameInline, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
+    connect(m_hideXtrashFiles, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
 }
 
 GeneralViewSettingsPage::~GeneralViewSettingsPage()
@@ -90,6 +100,7 @@ void GeneralViewSettingsPage::applySettings()
 #endif
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
+    settings->setHideXTrashFile(m_hideXtrashFiles->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
     settings->save();
     if (useGlobalViewProps) {
@@ -120,6 +131,7 @@ void GeneralViewSettingsPage::loadSettings()
 #endif
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_renameInline->setChecked(GeneralSettings::renameInline());
+    m_hideXtrashFiles->setChecked(GeneralSettings::hideXTrashFile());
 
     m_localViewProps->setChecked(!useGlobalViewProps);
     m_globalViewProps->setChecked(useGlobalViewProps);
