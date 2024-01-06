@@ -205,9 +205,17 @@ public:
      */
     void resetZoomLevel();
 
+    /**
+     * Updates the view properties of the current URL to the
+     * sorting given by \a role.
+     */
     void setSortRole(const QByteArray &role);
     QByteArray sortRole() const;
 
+    /**
+     * Updates the view properties of the current URL to the
+     * sort order given by \a order.
+     */
     void setSortOrder(Qt::SortOrder order);
     Qt::SortOrder sortOrder() const;
 
@@ -723,18 +731,6 @@ private Q_SLOTS:
      * @see emitStatusBarText()
      */
     void slotStatJobResult(KJob *job);
-
-    /**
-     * Updates the view properties of the current URL to the
-     * sorting given by \a role.
-     */
-    void updateSortRole(const QByteArray &role);
-
-    /**
-     * Updates the view properties of the current URL to the
-     * sort order given by \a order.
-     */
-    void updateSortOrder(Qt::SortOrder order);
 
     /**
      * Updates the view properties of the current URL to the
