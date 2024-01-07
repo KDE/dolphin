@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 01:38+0000\n"
+"POT-Creation-Date: 2024-01-07 01:55+0000\n"
 "PO-Revision-Date: 2023-11-22 06:34+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4757,7 +4757,7 @@ msgstr "ნაგულისხმევი"
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: views/dolphinview.cpp:643
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -4765,7 +4765,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "არჩეულია 1 საქაღალდე"
 msgstr[1] "არჩეულია %1 საქაღალდე"
 
-#: views/dolphinview.cpp:644
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -4773,7 +4773,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "არჩეულია 1 ფაილი"
 msgstr[1] "არჩეულია %1 ფაილი"
 
-#: views/dolphinview.cpp:646
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -4781,7 +4781,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 საქაღალდე"
 msgstr[1] "%1 საქაღალდე"
 
-#: views/dolphinview.cpp:647
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -4789,38 +4789,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 ფაილი"
 msgstr[1] "%1 ფაილი"
 
-#: views/dolphinview.cpp:651
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:653
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:657
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 საქაღალდე, 0 ფაილი"
 
-#: views/dolphinview.cpp:869 views/dolphinview.cpp:878
+#: views/dolphinview.cpp:880 views/dolphinview.cpp:889
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 ასლი"
 
-#: views/dolphinview.cpp:1063
+#: views/dolphinview.cpp:1074
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "მართლა გნებავთ 1 ელემენტის გახსნა?"
 msgstr[1] "მართლა გნებავთ %1 ელემენტის გახსნა?"
 
-#: views/dolphinview.cpp:1068
+#: views/dolphinview.cpp:1079
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4828,43 +4828,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 ჩანაწერის გახსნა"
 msgstr[1] "%1 ჩანაწერის გახსნა"
 
-#: views/dolphinview.cpp:1199
+#: views/dolphinview.cpp:1210
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "გვერდის შევსება"
 
-#: views/dolphinview.cpp:1203
+#: views/dolphinview.cpp:1214
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "სვეტის ავტომატური სიგანეები"
 
-#: views/dolphinview.cpp:1208
+#: views/dolphinview.cpp:1219
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "სვეტის სიგანის ხელით მითითება"
 
-#: views/dolphinview.cpp:1825
+#: views/dolphinview.cpp:1815
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ნაგვის ყუთში გადატანის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:1835
+#: views/dolphinview.cpp:1825
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "წაშლის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:1991
+#: views/dolphinview.cpp:1978
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "გადარქმევა და დამალვა"
 
-#: views/dolphinview.cpp:1995
+#: views/dolphinview.cpp:1982
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4873,7 +4873,7 @@ msgstr ""
 "ფაილის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:1997
+#: views/dolphinview.cpp:1984
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4882,94 +4882,94 @@ msgstr ""
 "საქაღალდის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:1999
+#: views/dolphinview.cpp:1986
 #, kde-format
 msgid "Hide this File?"
 msgstr "დავმალო ეს ფაილი?"
 
-#: views/dolphinview.cpp:1999
+#: views/dolphinview.cpp:1986
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "დავმალო ეს საქაღალდე?"
 
-#: views/dolphinview.cpp:2049
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "მდებარეობა ცარიელია."
 
-#: views/dolphinview.cpp:2051
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "მდებარეობა\"%1\" არასწორია."
 
-#: views/dolphinview.cpp:2312
+#: views/dolphinview.cpp:2299
 #, kde-format
 msgid "Loading…"
 msgstr "იტვირთება…"
 
-#: views/dolphinview.cpp:2331
+#: views/dolphinview.cpp:2318
 #, kde-format
 msgid "Loading canceled"
 msgstr "ჩატვირთვა გაუქმდა"
 
-#: views/dolphinview.cpp:2333
+#: views/dolphinview.cpp:2320
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ფილტრს ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2322
 #, kde-format
 msgid "No items matching the search"
 msgstr "ძებნას ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2337
+#: views/dolphinview.cpp:2324
 #, kde-format
 msgid "Trash is empty"
 msgstr "ურნა ცარიელია"
 
-#: views/dolphinview.cpp:2340
+#: views/dolphinview.cpp:2327
 #, kde-format
 msgid "No tags"
 msgstr "ჭდეების გარეშე"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ფაილები ჭდით \"%1\" აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "No recently used items"
 msgstr "ახლახანს გამოყენებული ფაილებსი გარეშე"
 
-#: views/dolphinview.cpp:2349
+#: views/dolphinview.cpp:2336
 #, kde-format
 msgid "No shared folders found"
 msgstr "გაზიარებული ფაილები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2351
+#: views/dolphinview.cpp:2338
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "შესაბამისი ქსელური რესურსები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-სთან თავსებადი მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2355
+#: views/dolphinview.cpp:2342
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Apple -ის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2357
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ბლუთუზის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2359
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "Folder is empty"
 msgstr "საქაღალდე ცარიელია"
