@@ -6,15 +6,15 @@
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2007, 2008, 2010, 2011, 2013.
 # Maciej Wikło <maciej.wiklo@wp.pl>, 2009.
 # Marcin Kocur <marcin2006@gmail.com>, 2009.
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 # Ignacy Kajdan <ignacy.kajdan@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-07 01:55+0000\n"
-"PO-Revision-Date: 2023-12-23 11:49+0100\n"
-"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmai.com>\n"
+"PO-Revision-Date: 2024-01-07 13:16+0100\n"
+"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -151,7 +151,7 @@ msgstr "&Zamknij bieżącą kartę"
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "W tym oknie otwartych jest wiele kart. Czy zamknać je mimo tego?"
+msgstr "W tym oknie otwartych jest wiele kart. Czy zamknąć je mimo tego?"
 
 #: dolphinmainwindow.cpp:607 dolphinmainwindow.cpp:657
 #, kde-format
@@ -1675,7 +1675,8 @@ msgstr "Niewłaściwy protokół"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
-"Zmieniono bieżące położenie, <filename>%1</filename> nie jest już dostępny."
+"Przełączono widok na inny katalog, <filename>%1</filename> nie jest już "
+"dostępny."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -2196,7 +2197,7 @@ msgstr "Czas trwania"
 #: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "Bitrate"
-msgstr "Szybkość transmisji"
+msgstr "Szybkość bitowa"
 
 #: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@label"
