@@ -2,7 +2,7 @@
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the dolphin package.
 # Laurenţiu Buzdugan <lbuz@rolix.org>, 2008, 2009.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023.
+# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023, 2024.
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
 # Ovidiu-Florin BOGDAN <ovidiu.b13@gmail.com>, 2015.
 # Tatiana Țurcanu <turcanu DOT tatiana91 AT gmail DOT com>, 2015.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-25 02:43+0000\n"
-"PO-Revision-Date: 2023-06-18 18:07+0100\n"
+"PO-Revision-Date: 2024-01-07 16:26+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -411,12 +411,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mută în vizualizarea despărțită inactivă"
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtrează"
+msgstr "Filtrează…"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-format
@@ -451,10 +449,9 @@ msgid "Filter"
 msgstr "Filtrează"
 
 #: dolphinmainwindow.cpp:1678 search/dolphinsearchbox.cpp:330
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Caută"
+msgstr "Caută…"
 
 #: dolphinmainwindow.cpp:1679
 #, kde-format
@@ -570,12 +567,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Deschide dosarul virtual cu depozit temporar într-o fereastră separată"
 
 #: dolphinmainwindow.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Previzualizează"
+msgstr "Împrospătează vizualizarea"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -586,6 +581,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Aceasta împrospătează vizualizarea dosarului.</para><para>Dacă "
+"conținutul acestui dosar s-a modificat, împrospătarea va reciti dosarul și "
+"va arăta o vizualizare actualizată a fișierelor și dosarelor conținute aici."
+"</para><para>Dacă vizualizarea e despărțită, aceasta împrospătează pe cea "
+"care e focalizată momentan.</para>"
 
 #: dolphinmainwindow.cpp:1779
 #, kde-format
@@ -1369,28 +1369,22 @@ msgstr[1] "Bare de amplasare"
 msgstr[2] "Bare de amplasare"
 
 #: dolphinpart.cpp:149
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Modificar&e tip de fișier..."
+msgstr "Modifică tipul fiși&erului…"
 
 #: dolphinpart.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Selectare elemente ce se potrivesc..."
+msgstr "Selectează elemente ce se potrivesc…"
 
 #: dolphinpart.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Deselectare elemente ce se potrivesc..."
+msgstr "Deselectează elemente ce se potrivesc…"
 
 #: dolphinpart.cpp:164
 #, kde-format
@@ -1423,18 +1417,16 @@ msgid "Autostart"
 msgstr "Pornire automată"
 
 #: dolphinpart.cpp:190
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Căutare fișier..."
+msgstr "Găsește fișier…"
 
 #: dolphinpart.cpp:196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
-msgstr "Deschide &consolă"
+msgstr "Deschide &terminalul"
 
 #: dolphinpart.cpp:451
 #, kde-format
@@ -1631,28 +1623,22 @@ msgid "Search for %1"
 msgstr "Caută %1"
 
 #: dolphinviewcontainer.cpp:637
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Se încarcă dosarul..."
+msgstr "Se încarcă dosarul…"
 
 #: dolphinviewcontainer.cpp:645
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Sortează:"
+msgstr "Se sortează…"
 
 #: dolphinviewcontainer.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Se caută..."
+msgstr "Se caută…"
 
 #: dolphinviewcontainer.cpp:677
 #, kde-format
@@ -1694,11 +1680,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Păstrează filtrul la schimbarea dosarului"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtrează"
+msgstr "Filtrează…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -2514,12 +2498,10 @@ msgid "Copy"
 msgstr "Copiere"
 
 #: panels/folders/treeviewcontextmenu.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Redenumire..."
+msgstr "Redenumește…"
 
 #: panels/folders/treeviewcontextmenu.cpp:91
 #, kde-format
@@ -2600,12 +2582,10 @@ msgid "Show item on hover"
 msgstr "Arată elementul la planare"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Configurează"
+msgstr "Configurează…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3173,16 +3153,13 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "Alege ce servicii trebuiesc arătate în meniul contextual:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Caută"
+msgstr "Caută…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Descarcă servicii noi…"
@@ -3630,7 +3607,7 @@ msgstr "Răsfoire arhive"
 #: settings/dolphin_generalsettings.kcfg:71
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
-msgstr "Cere confirmare la închiderea ferestrelelor cu mai multe file."
+msgstr "Cere confirmare la închiderea ferestrelor cu mai multe file."
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
 #: settings/dolphin_generalsettings.kcfg:75
@@ -4291,9 +4268,7 @@ msgid "Custom Font"
 msgstr "Font personalizat"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Alege…"
@@ -4750,9 +4725,9 @@ msgstr "Reîncarcă"
 msgctxt "@info:status"
 msgid "1 Folder selected"
 msgid_plural "%1 Folders selected"
-msgstr[0] "1 dosar selectat"
-msgstr[1] "%1 dosare selectate"
-msgstr[2] "%1 de dosare selectate"
+msgstr[0] "1 dosar ales"
+msgstr[1] "%1 dosare alese"
+msgstr[2] "%1 de dosare alese"
 
 #: views/dolphinview.cpp:642
 #, kde-format
@@ -4901,8 +4876,7 @@ msgid "The location '%1' is invalid."
 msgstr "Amplasarea „%1” nu este validă."
 
 #: views/dolphinview.cpp:2346
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Se încarcă…"
 
@@ -4972,12 +4946,10 @@ msgid "Folder is empty"
 msgstr "Dosarul e gol"
 
 #: views/dolphinviewactionhandler.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Creează dosar..."
+msgstr "Creează dosar…"
 
 #: views/dolphinviewactionhandler.cpp:90
 #, kde-kuit-format
@@ -5253,9 +5225,7 @@ msgstr ""
 "le acceseze, de aceea sunt ascunse.</para>"
 
 #: views/dolphinviewactionhandler.cpp:330
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Ajustează stilul de afișare a vizualizării…"
@@ -5395,12 +5365,10 @@ msgstr[1] "Acțiuni pentru %1 elemente alese"
 msgstr[2] "Acțiuni pentru %1 de elemente alese"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Se actualizează informațiile de versiune..."
+msgstr "Se actualizează informațiile de versiune…"
 
 #~ msgctxt "@action:inmenu Tools"
 #~ msgid "Filter..."
