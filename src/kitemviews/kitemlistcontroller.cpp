@@ -295,6 +295,20 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    // For right to left languages, exchange right and left arrow keys.
+    if (m_view->layoutDirection() == Qt::RightToLeft) {
+        switch (key) {
+        case Qt::Key_Left:
+            key = Qt::Key_Right;
+            break;
+        case Qt::Key_Right:
+            key = Qt::Key_Left;
+            break;
+        default:
+            break;
+        }
+    }
+
     const bool selectSingleItem = m_selectionBehavior != NoSelection && itemCount == 1 && navigationPressed;
 
     if (selectSingleItem) {
@@ -1470,9 +1484,12 @@ int KItemListController::nextRowIndex(int index) const
         return index;
     }
 
+    const bool leftToRight = m_view->layoutDirection() != Qt::RightToLeft;
+
     // Calculate the index of the last column inside the row of the current index
     int lastColumnIndex = index;
-    while (keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex)) {
+    while ((leftToRight && keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex))
+           || (!leftToRight && keyboardAnchorPos(lastColumnIndex + 1) < keyboardAnchorPos(lastColumnIndex))) {
         ++lastColumnIndex;
         if (lastColumnIndex >= maxIndex) {
             return index;
@@ -1484,7 +1501,9 @@ int KItemListController::nextRowIndex(int index) const
     int nextRowIndex = lastColumnIndex + 1;
     int searchIndex = nextRowIndex;
     qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(nextRowIndex));
-    while (searchIndex < maxIndex && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex)) {
+    while (searchIndex < maxIndex
+           && ((leftToRight && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex))
+               || (!leftToRight && keyboardAnchorPos(searchIndex + 1) < keyboardAnchorPos(searchIndex)))) {
         ++searchIndex;
         const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {
@@ -1502,9 +1521,12 @@ int KItemListController::previousRowIndex(int index) const
         return index;
     }
 
+    const bool leftToRight = m_view->layoutDirection() != Qt::RightToLeft;
+
     // Calculate the index of the first column inside the row of the current index
     int firstColumnIndex = index;
-    while (keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex)) {
+    while ((leftToRight && keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex))
+           || (!leftToRight && keyboardAnchorPos(firstColumnIndex - 1) > keyboardAnchorPos(firstColumnIndex))) {
         --firstColumnIndex;
         if (firstColumnIndex <= 0) {
             return index;
@@ -1516,7 +1538,9 @@ int KItemListController::previousRowIndex(int index) const
     int previousRowIndex = firstColumnIndex - 1;
     int searchIndex = previousRowIndex;
     qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(previousRowIndex));
-    while (searchIndex > 0 && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex)) {
+    while (searchIndex > 0
+           && ((leftToRight && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex))
+               || (!leftToRight && keyboardAnchorPos(searchIndex - 1) > keyboardAnchorPos(searchIndex)))) {
         --searchIndex;
         const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {
