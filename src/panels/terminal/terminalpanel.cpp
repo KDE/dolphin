@@ -70,6 +70,7 @@ bool TerminalPanel::currentWorkingDirectoryIsChildOf(const QString &path) const
 void TerminalPanel::terminalExited()
 {
     m_terminal = nullptr;
+    m_konsolePart = nullptr;
     Q_EMIT hideTerminalPanel();
 }
 
