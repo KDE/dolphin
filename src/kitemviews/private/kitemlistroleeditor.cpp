@@ -18,6 +18,7 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent)
     setAcceptRichText(false);
     enableFindReplace(false);
     document()->setDocumentMargin(0);
+    setCheckSpellingEnabled(false);
 
     if (parent) {
         parent->installEventFilter(this);
