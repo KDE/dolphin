@@ -230,6 +230,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     QTest::addColumn<int>("columnCount");
     QTest::addColumn<KItemListController::SelectionBehavior>("selectionBehavior");
     QTest::addColumn<bool>("groupingEnabled");
+    QTest::addColumn<Qt::LayoutDirection>("layoutDirection");
     QTest::addColumn<QList<QPair<KeyPress, ViewState>>>("testList");
 
     QList<KFileItemListView::ItemLayout> layoutList;
@@ -256,6 +257,13 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     groupingEnabledNames[false] = "ungrouped";
     groupingEnabledList.append(true);
     groupingEnabledNames[true] = "grouping enabled";
+
+    QList<Qt::LayoutDirection> layoutDirectionList;
+    QHash<Qt::LayoutDirection, QString> layoutDirectionNames;
+    layoutDirectionList.append(Qt::LeftToRight);
+    layoutDirectionNames[Qt::LeftToRight] = "Left-to-Right LayoutDirection";
+    layoutDirectionList.append(Qt::RightToLeft);
+    layoutDirectionNames[Qt::RightToLeft] = "Right-to-Left LayoutDirection";
 
     for (const KFileItemListView::ItemLayout &layout : layoutList) {
         // The following settings depend on the layout.
@@ -294,176 +302,191 @@ void KItemListControllerTest::testKeyboardNavigation_data()
             previousRowKey = Qt::Key_Up;
             break;
         }
+        for (auto layoutDirection : std::as_const(layoutDirectionList)) {
+            if (layoutDirection == Qt::RightToLeft) {
+                switch (layout) {
+                case KFileItemListView::IconsLayout:
+                    std::swap(nextItemKey, previousItemKey);
+                    break;
+                case KFileItemListView::CompactLayout:
+                    std::swap(nextItemKey, previousItemKey);
+                    break;
+                default:
+                    break;
+                }
+            }
+            for (int columnCount : std::as_const(columnCountList)) {
+                for (const KItemListController::SelectionBehavior &selectionBehavior : std::as_const(selectionBehaviorList)) {
+                    for (bool groupingEnabled : std::as_const(groupingEnabledList)) {
+                        QList<QPair<KeyPress, ViewState>> testList;
 
-        for (int columnCount : std::as_const(columnCountList)) {
-            for (const KItemListController::SelectionBehavior &selectionBehavior : std::as_const(selectionBehaviorList)) {
-                for (bool groupingEnabled : std::as_const(groupingEnabledList)) {
-                    QList<QPair<KeyPress, ViewState>> testList;
-
-                    // First, key presses which should have the same effect
-                    // for any layout and any number of columns.
-                    testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet() << 1))
-                             << qMakePair(KeyPress(Qt::Key_Return), ViewState(1, KItemSet() << 1, true))
-                             << qMakePair(KeyPress(Qt::Key_Enter), ViewState(1, KItemSet() << 1, true))
-                             << qMakePair(KeyPress(nextItemKey), ViewState(2, KItemSet() << 2))
-                             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
-                             << qMakePair(KeyPress(Qt::Key_Return), ViewState(3, KItemSet() << 2 << 3, true))
-                             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(2, KItemSet() << 2))
-                             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
-                             << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 2 << 3))
-                             << qMakePair(KeyPress(Qt::Key_Return), ViewState(4, KItemSet() << 2 << 3, true))
-                             << qMakePair(KeyPress(previousItemKey), ViewState(3, KItemSet() << 3))
-                             << qMakePair(KeyPress(Qt::Key_Home, Qt::ShiftModifier), ViewState(0, KItemSet() << 0 << 1 << 2 << 3))
-                             << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3))
-                             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 2 << 3))
-                             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3))
-                             << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 19))
-                             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(18, KItemSet() << 18 << 19))
-                             << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0))
-                             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet()))
-                             << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, KItemSet(), true))
-                             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 0))
-                             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet()))
-                             << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, KItemSet() << 0))
-                             << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
-                             << qMakePair(KeyPress(Qt::Key_Space), ViewState(14, KItemSet() << 14))
-                             << qMakePair(KeyPress(Qt::Key_3), ViewState(15, KItemSet() << 15))
-                             << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
-                             << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
-                             << qMakePair(KeyPress(Qt::Key_E), ViewState(14, KItemSet() << 14))
-                             << qMakePair(KeyPress(Qt::Key_E), ViewState(15, KItemSet() << 15))
-                             << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
-                             << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
-                             << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0))
-                             << qMakePair(KeyPress(Qt::Key_Escape), ViewState(0, KItemSet()));
-
-                    // Next, we test combinations of key presses which only work for a
-                    // particular number of columns and either enabled or disabled grouping.
-
-                    // One column.
-                    if (columnCount == 1) {
-                        testList << qMakePair(KeyPress(nextRowKey), ViewState(1, KItemSet() << 1))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(2, KItemSet() << 1 << 2))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ControlModifier), ViewState(3, KItemSet() << 1 << 2))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(2, KItemSet() << 2))
-                                 << qMakePair(KeyPress(previousItemKey), ViewState(1, KItemSet() << 1))
-                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
-                    }
-
-                    // Multiple columns: we test both 3 and 5 columns with grouping
-                    // enabled or disabled. For each case, the layout of the items
-                    // in the view is shown (both using file names and indices) to
-                    // make it easier to understand what the tests do.
-
-                    if (columnCount == 3 && !groupingEnabled) {
-                        // 3 columns, no grouping:
-                        //
-                        // a1 a2 a3 |  0  1  2
-                        // b1 c1 c2 |  3  4  5
-                        // c3 c4 c5 |  6  7  8
-                        // d1 d2 d3 |  9 10 11
-                        // d4 e1 e2 | 12 13 14
-                        // e3 e4 e5 | 15 16 17
-                        // e6 e7    | 18 19
-                        testList << qMakePair(KeyPress(nextRowKey), ViewState(3, KItemSet() << 3))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 3))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(7, KItemSet() << 7))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 7 << 8))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(9, KItemSet() << 7 << 8 << 9))
-                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 7 << 8))
-                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7))
-                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 6 << 7))
-                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(5, KItemSet() << 5 << 6 << 7))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 6 << 7))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(10, KItemSet() << 10))
-                                 << qMakePair(KeyPress(nextItemKey), ViewState(11, KItemSet() << 11))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(14, KItemSet() << 14))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 19))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(16, KItemSet() << 16))
-                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
-                    }
-
-                    if (columnCount == 5 && !groupingEnabled) {
-                        // 5 columns, no grouping:
-                        //
-                        // a1 a2 a3 b1 c1 |  0  1  2  3  4
-                        // c2 c3 c4 c5 d1 |  5  6  7  8  9
-                        // d2 d3 d4 e1 e2 | 10 11 12 13 14
-                        // e3 e4 e5 e6 e7 | 15 16 17 18 19
-                        testList << qMakePair(KeyPress(nextRowKey), ViewState(5, KItemSet() << 5))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(6, KItemSet() << 5))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(11, KItemSet() << 11))
-                                 << qMakePair(KeyPress(nextItemKey), ViewState(12, KItemSet() << 12))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(17, KItemSet() << 12 << 13 << 14 << 15 << 16 << 17))
-                                 << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(12, KItemSet() << 12))
-                                 << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7 << 8 << 9 << 10 << 11 << 12))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(12, KItemSet() << 12))
-                                 << qMakePair(KeyPress(Qt::Key_End, Qt::ControlModifier), ViewState(19, KItemSet() << 12))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(14, KItemSet() << 14))
-                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
-                    }
-
-                    if (columnCount == 3 && groupingEnabled) {
-                        // 3 columns, with grouping:
-                        //
-                        // a1 a2 a3 |  0  1  2
-                        // b1       |  3
-                        // c1 c2 c3 |  4  5  6
-                        // c4 c5    |  7  8
-                        // d1 d2 d3 |  9 10 11
-                        // d4       | 12
-                        // e1 e2 e3 | 13 14 15
-                        // e4 e5 e6 | 16 17 18
-                        // e7       | 19
+                        // First, key presses which should have the same effect
+                        // for any layout and any number of columns.
                         testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet() << 1))
+                                 << qMakePair(KeyPress(Qt::Key_Return), ViewState(1, KItemSet() << 1, true))
+                                 << qMakePair(KeyPress(Qt::Key_Enter), ViewState(1, KItemSet() << 1, true))
                                  << qMakePair(KeyPress(nextItemKey), ViewState(2, KItemSet() << 2))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 2 << 3 << 4 << 5 << 6))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(8, KItemSet() << 8))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(11, KItemSet() << 11))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(12, KItemSet() << 11))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(13, KItemSet() << 13))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(16, KItemSet() << 16))
-                                 << qMakePair(KeyPress(nextItemKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
+                                 << qMakePair(KeyPress(Qt::Key_Return), ViewState(3, KItemSet() << 2 << 3, true))
+                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(2, KItemSet() << 2))
+                                 << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
+                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 2 << 3))
+                                 << qMakePair(KeyPress(Qt::Key_Return), ViewState(4, KItemSet() << 2 << 3, true))
+                                 << qMakePair(KeyPress(previousItemKey), ViewState(3, KItemSet() << 3))
+                                 << qMakePair(KeyPress(Qt::Key_Home, Qt::ShiftModifier), ViewState(0, KItemSet() << 0 << 1 << 2 << 3))
+                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3))
+                                 << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 2 << 3))
+                                 << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3))
+                                 << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 19))
+                                 << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(18, KItemSet() << 18 << 19))
+                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0))
+                                 << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet()))
+                                 << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, KItemSet(), true))
+                                 << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 0))
+                                 << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet()))
+                                 << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, KItemSet() << 0))
+                                 << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
+                                 << qMakePair(KeyPress(Qt::Key_Space), ViewState(14, KItemSet() << 14))
+                                 << qMakePair(KeyPress(Qt::Key_3), ViewState(15, KItemSet() << 15))
+                                 << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
+                                 << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
+                                 << qMakePair(KeyPress(Qt::Key_E), ViewState(14, KItemSet() << 14))
+                                 << qMakePair(KeyPress(Qt::Key_E), ViewState(15, KItemSet() << 15))
+                                 << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
+                                 << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
+                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0))
+                                 << qMakePair(KeyPress(Qt::Key_Escape), ViewState(0, KItemSet()));
+
+                        // Next, we test combinations of key presses which only work for a
+                        // particular number of columns and either enabled or disabled grouping.
+
+                        // One column.
+                        if (columnCount == 1) {
+                            testList << qMakePair(KeyPress(nextRowKey), ViewState(1, KItemSet() << 1))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(2, KItemSet() << 1 << 2))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ControlModifier), ViewState(3, KItemSet() << 1 << 2))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(2, KItemSet() << 2))
+                                     << qMakePair(KeyPress(previousItemKey), ViewState(1, KItemSet() << 1))
+                                     << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                        }
+
+                        // Multiple columns: we test both 3 and 5 columns with grouping
+                        // enabled or disabled. For each case, the layout of the items
+                        // in the view is shown (both using file names and indices) to
+                        // make it easier to understand what the tests do.
+
+                        if (columnCount == 3 && !groupingEnabled) {
+                            // 3 columns, no grouping:
+                            //
+                            // a1 a2 a3 |  0  1  2
+                            // b1 c1 c2 |  3  4  5
+                            // c3 c4 c5 |  6  7  8
+                            // d1 d2 d3 |  9 10 11
+                            // d4 e1 e2 | 12 13 14
+                            // e3 e4 e5 | 15 16 17
+                            // e6 e7    | 18 19
+                            testList << qMakePair(KeyPress(nextRowKey), ViewState(3, KItemSet() << 3))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 3))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(7, KItemSet() << 7))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 7 << 8))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(9, KItemSet() << 7 << 8 << 9))
+                                     << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 7 << 8))
+                                     << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7))
+                                     << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 6 << 7))
+                                     << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(5, KItemSet() << 5 << 6 << 7))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 6 << 7))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(10, KItemSet() << 10))
+                                     << qMakePair(KeyPress(nextItemKey), ViewState(11, KItemSet() << 11))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(14, KItemSet() << 14))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 19))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(16, KItemSet() << 16))
+                                     << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                        }
+
+                        if (columnCount == 5 && !groupingEnabled) {
+                            // 5 columns, no grouping:
+                            //
+                            // a1 a2 a3 b1 c1 |  0  1  2  3  4
+                            // c2 c3 c4 c5 d1 |  5  6  7  8  9
+                            // d2 d3 d4 e1 e2 | 10 11 12 13 14
+                            // e3 e4 e5 e6 e7 | 15 16 17 18 19
+                            testList << qMakePair(KeyPress(nextRowKey), ViewState(5, KItemSet() << 5))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(6, KItemSet() << 5))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(11, KItemSet() << 11))
+                                     << qMakePair(KeyPress(nextItemKey), ViewState(12, KItemSet() << 12))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(17, KItemSet() << 12 << 13 << 14 << 15 << 16 << 17))
+                                     << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(12, KItemSet() << 12))
+                                     << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 7 << 8 << 9 << 10 << 11 << 12))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(12, KItemSet() << 12))
+                                     << qMakePair(KeyPress(Qt::Key_End, Qt::ControlModifier), ViewState(19, KItemSet() << 12))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(14, KItemSet() << 14))
+                                     << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                        }
+
+                        if (columnCount == 3 && groupingEnabled) {
+                            // 3 columns, with grouping:
+                            //
+                            // a1 a2 a3 |  0  1  2
+                            // b1       |  3
+                            // c1 c2 c3 |  4  5  6
+                            // c4 c5    |  7  8
+                            // d1 d2 d3 |  9 10 11
+                            // d4       | 12
+                            // e1 e2 e3 | 13 14 15
+                            // e4 e5 e6 | 16 17 18
+                            // e7       | 19
+                            testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet() << 1))
+                                     << qMakePair(KeyPress(nextItemKey), ViewState(2, KItemSet() << 2))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 2 << 3 << 4 << 5 << 6))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(8, KItemSet() << 8))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(11, KItemSet() << 11))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(12, KItemSet() << 11))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(13, KItemSet() << 13))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(16, KItemSet() << 16))
+                                     << qMakePair(KeyPress(nextItemKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                        }
+
+                        if (columnCount == 5 && groupingEnabled) {
+                            // 5 columns, with grouping:
+                            //
+                            // a1 a2 a3       |  0  1  2
+                            // b1             |  3
+                            // c1 c2 c3 c4 c5 |  4  5  6  7  8
+                            // d1 d2 d3 d4    |  9 10 11 12
+                            // e1 e2 e3 e4 e5 | 13 14 15 16 17
+                            // e6 e7          | 18 19
+                            testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet() << 1))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 1 << 2 << 3))
+                                     << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(5, KItemSet() << 1 << 2 << 3 << 4 << 5))
+                                     << qMakePair(KeyPress(nextItemKey), ViewState(6, KItemSet() << 6))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(7, KItemSet() << 6))
+                                     << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(8, KItemSet() << 6))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(12, KItemSet() << 12))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
+                                     << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
+                                     << qMakePair(KeyPress(Qt::Key_End, Qt::ShiftModifier), ViewState(19, KItemSet() << 17 << 18 << 19))
+                                     << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(14, KItemSet() << 14 << 15 << 16 << 17))
+                                     << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
+                        }
+
+                        const QString testName = layoutNames[layout] + ", " + QString("%1 columns, ").arg(columnCount)
+                            + selectionBehaviorNames[selectionBehavior] + ", " + groupingEnabledNames[groupingEnabled] + ", "
+                            + layoutDirectionNames[layoutDirection];
+
+                        const QByteArray testNameAscii = testName.toLatin1();
+
+                        QTest::newRow(testNameAscii.data())
+                            << layout << scrollOrientation << columnCount << selectionBehavior << groupingEnabled << layoutDirection << testList;
                     }
-
-                    if (columnCount == 5 && groupingEnabled) {
-                        // 5 columns, with grouping:
-                        //
-                        // a1 a2 a3       |  0  1  2
-                        // b1             |  3
-                        // c1 c2 c3 c4 c5 |  4  5  6  7  8
-                        // d1 d2 d3 d4    |  9 10 11 12
-                        // e1 e2 e3 e4 e5 | 13 14 15 16 17
-                        // e6 e7          | 18 19
-                        testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet() << 1))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 1 << 2 << 3))
-                                 << qMakePair(KeyPress(nextRowKey, Qt::ShiftModifier), ViewState(5, KItemSet() << 1 << 2 << 3 << 4 << 5))
-                                 << qMakePair(KeyPress(nextItemKey), ViewState(6, KItemSet() << 6))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(7, KItemSet() << 6))
-                                 << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(8, KItemSet() << 6))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(12, KItemSet() << 12))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 19))
-                                 << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 17))
-                                 << qMakePair(KeyPress(Qt::Key_End, Qt::ShiftModifier), ViewState(19, KItemSet() << 17 << 18 << 19))
-                                 << qMakePair(KeyPress(previousRowKey, Qt::ShiftModifier), ViewState(14, KItemSet() << 14 << 15 << 16 << 17))
-                                 << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
-                    }
-
-                    const QString testName = layoutNames[layout] + ", " + QString("%1 columns, ").arg(columnCount) + selectionBehaviorNames[selectionBehavior]
-                        + ", " + groupingEnabledNames[groupingEnabled];
-
-                    const QByteArray testNameAscii = testName.toLatin1();
-
-                    QTest::newRow(testNameAscii.data()) << layout << scrollOrientation << columnCount << selectionBehavior << groupingEnabled << testList;
                 }
             }
         }
@@ -484,7 +507,11 @@ void KItemListControllerTest::testKeyboardNavigation()
     QFETCH(int, columnCount);
     QFETCH(KItemListController::SelectionBehavior, selectionBehavior);
     QFETCH(bool, groupingEnabled);
+    QFETCH(Qt::LayoutDirection, layoutDirection);
     QFETCH(QList<keyPressViewStatePair>, testList);
+
+    QApplication::setLayoutDirection(layoutDirection);
+    m_view->setLayoutDirection(layoutDirection);
 
     m_view->setItemLayout(layout);
     QCOMPARE(m_view->itemLayout(), layout);
@@ -504,7 +531,9 @@ void KItemListControllerTest::testKeyboardNavigation()
     QSignalSpy spySingleItemActivated(m_controller, &KItemListController::itemActivated);
     QSignalSpy spyMultipleItemsActivated(m_controller, &KItemListController::itemsActivated);
 
+    int rowCount = 0;
     while (!testList.isEmpty()) {
+        ++rowCount;
         const QPair<KeyPress, ViewState> test = testList.takeFirst();
         const Qt::Key key = test.first.m_key;
         const Qt::KeyboardModifiers modifier = test.first.m_modifier;
@@ -514,7 +543,13 @@ void KItemListControllerTest::testKeyboardNavigation()
 
         QTest::keyClick(m_container, key, modifier);
 
-        QCOMPARE(m_selectionManager->currentItem(), current);
+        QVERIFY2(m_selectionManager->currentItem() == current,
+                 qPrintable(QString("currentItem() returns index %1 but %2 would be expected. Before this, key \"%3\" was pressed. This test case is defined "
+                                    "in row %4 of the testList from KItemListControllerTest::testKeyboardNavigation_data().")
+                                .arg(m_selectionManager->currentItem())
+                                .arg(current)
+                                .arg(QKeySequence(key).toString())
+                                .arg(rowCount)));
         switch (selectionBehavior) {
         case KItemListController::NoSelection:
             QVERIFY(m_selectionManager->selectedItems().isEmpty());
