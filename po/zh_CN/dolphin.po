@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:55+0000\n"
+"POT-Creation-Date: 2024-01-11 00:39+0000\n"
 "PO-Revision-Date: 2024-01-06 03:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2529,14 +2529,14 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "配置回收站…"
 
-#: panels/terminal/terminalpanel.cpp:184
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr "由于未安装 Konsole，无法显示终端。请安装它, 然后重新打开面板。"
 
-#: panels/terminal/terminalpanel.cpp:191
+#: panels/terminal/terminalpanel.cpp:192
 #, kde-format
 msgid "Install Konsole"
 msgstr "安装 Konsole"

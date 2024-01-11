@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-07 01:55+0000\n"
+"POT-Creation-Date: 2024-01-11 00:39+0000\n"
 "PO-Revision-Date: 2024-01-04 17:19+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -2608,7 +2608,7 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Agordi Rubujon…"
 
-#: panels/terminal/terminalpanel.cpp:184
+#: panels/terminal/terminalpanel.cpp:185
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -2617,7 +2617,7 @@ msgstr ""
 "Terminalo ne povas esti montrita ĉar Konsole ne estas instalita. Bonvolu "
 "instali ĝin kaj poste remalfermi la panelon."
 
-#: panels/terminal/terminalpanel.cpp:191
+#: panels/terminal/terminalpanel.cpp:192
 #, kde-format
 msgid "Install Konsole"
 msgstr "Instali Konsole"
