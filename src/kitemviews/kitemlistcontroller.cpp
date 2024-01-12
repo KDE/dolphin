@@ -532,6 +532,8 @@ void KItemListController::slotAutoActivationTimeout()
         return;
     }
 
+    // Removed isUnderMouse due to it not working on Wayland
+    // see https://bugreports.qt.io/browse/QTBUG-120908
     if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
         const bool expanded = m_model->isExpanded(index);
         m_model->setExpanded(index, !expanded);
