@@ -70,6 +70,11 @@ public:
     void refreshViews();
 
     /**
+     * Update the name of the tab with the index \a index.
+     */
+    void updateTabName(int index);
+
+    /**
      * @return Whether any of the tab pages has @p url opened
      * in their primary or secondary view.
      */

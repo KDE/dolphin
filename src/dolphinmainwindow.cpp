@@ -920,6 +920,7 @@ void DolphinMainWindow::toggleSplitView()
 {
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
+    m_tabWidget->updateTabName(m_tabWidget->indexOf(tabPage));
     updateViewActions();
 }
 

@@ -104,9 +104,15 @@ void DolphinTabWidget::refreshViews()
 
     const int tabCount = count();
     for (int i = 0; i < tabCount; ++i) {
-        tabBar()->setTabText(i, tabName(tabPageAt(i)));
+        updateTabName(i);
         tabPageAt(i)->refreshViews();
     }
+}
+
+void DolphinTabWidget::updateTabName(int index)
+{
+    Q_ASSERT(index >= 0);
+    tabBar()->setTabText(index, tabName(tabPageAt(index)));
 }
 
 bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
@@ -163,9 +169,7 @@ void DolphinTabWidget::openNewTab(const QUrl &primaryUrl, const QUrl &secondaryU
     connect(tabPage, &DolphinTabPage::activeViewChanged, this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged, this, &DolphinTabWidget::tabUrlChanged);
     connect(tabPage->activeViewContainer(), &DolphinViewContainer::captionChanged, this, [this, tabPage]() {
-        const int tabIndex = indexOf(tabPage);
-        Q_ASSERT(tabIndex >= 0);
-        tabBar()->setTabText(tabIndex, tabName(tabPage));
+        updateTabName(indexOf(tabPage));
     });
 
     if (position == NewTabPosition::FollowSetting) {
@@ -407,7 +411,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl &url)
 {
     const int index = indexOf(qobject_cast<QWidget *>(sender()));
     if (index >= 0) {
-        tabBar()->setTabText(index, tabName(tabPageAt(index)));
+        updateTabName(index);
         tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
         if (tabBar()->isVisible()) {
             // ensure the path url ends with a slash to have proper folder icon for remote folders
