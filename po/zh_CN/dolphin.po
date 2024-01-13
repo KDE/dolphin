@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-11 00:39+0000\n"
+"POT-Creation-Date: 2024-01-13 00:40+0000\n"
 "PO-Revision-Date: 2024-01-06 03:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4570,6 +4570,16 @@ msgstr "剩余 %1"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
+msgstr "%1 可用，总容量 %2 (已用 %3%)"
+
+#: statusbar/statusbarspaceinfo.cpp:188
+#, fuzzy, kde-format
+#| msgctxt "tooltip:status Free disk space"
+#| msgid "%1 free out of %2 (%3% used)"
+msgctxt "@info:tooltip for the free disk space button"
+msgid ""
+"%1 free out of %2 (%3% used)\n"
+"Press to manage disk space usage."
 msgstr "%1 可用，总容量 %2 (已用 %3%)"
 
 #: trash/dolphintrash.cpp:50

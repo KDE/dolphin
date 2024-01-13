@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-11 00:39+0000\n"
+"POT-Creation-Date: 2024-01-13 00:40+0000\n"
 "PO-Revision-Date: 2024-01-03 23:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4704,6 +4704,16 @@ msgstr "%1 boş"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
+msgstr "%1/%2 boş (%​%3 kullanılıyor)"
+
+#: statusbar/statusbarspaceinfo.cpp:188
+#, fuzzy, kde-format
+#| msgctxt "tooltip:status Free disk space"
+#| msgid "%1 free out of %2 (%3% used)"
+msgctxt "@info:tooltip for the free disk space button"
+msgid ""
+"%1 free out of %2 (%3% used)\n"
+"Press to manage disk space usage."
 msgstr "%1/%2 boş (%​%3 kullanılıyor)"
 
 #: trash/dolphintrash.cpp:50

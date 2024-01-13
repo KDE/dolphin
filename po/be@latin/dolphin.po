@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-11 00:39+0000\n"
+"POT-Creation-Date: 2024-01-13 00:40+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5016,6 +5016,16 @@ msgstr "Voĺna %1"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
+msgstr "%1 voĺna z %2 (%3% vykarystoŭvajecca)"
+
+#: statusbar/statusbarspaceinfo.cpp:188
+#, fuzzy, kde-format
+#| msgctxt "tooltip:status Free disk space"
+#| msgid "%1 free out of %2 (%3% used)"
+msgctxt "@info:tooltip for the free disk space button"
+msgid ""
+"%1 free out of %2 (%3% used)\n"
+"Press to manage disk space usage."
 msgstr "%1 voĺna z %2 (%3% vykarystoŭvajecca)"
 
 #: trash/dolphintrash.cpp:50

@@ -237,7 +237,7 @@
 ><para
 >La <link linkend="dolphin-view"
 >vista</link
->, mostra tots els fitxers i carpetes a la carpeta actual. </para
+> mostra tots els fitxers i carpetes a la carpeta actual. </para
 ></listitem>
 
 <listitem
@@ -820,7 +820,7 @@ has all features from dolphin ?-->
 <para
 >Si el plafó <guilabel
 >Llocs</guilabel
-> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi ràpid accés als «llocs» i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
+> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi accés ràpidament als «llocs» i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
 >secció sobre el plafó Llocs</link
 >. </para>
 
