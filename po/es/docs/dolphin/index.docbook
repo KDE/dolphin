@@ -2511,7 +2511,7 @@ context menu Icon Size? No different entries ?-->
 >Activa y desactiva la <link linkend="filter-files"
 >barra de filtrado</link
 >.</action
-> También puede usar el acceso rápido de teclado alternativo <keycombo action="simul"
+> También puede usar el atajo de teclado alternativo <keycombo action="simul"
 >&Shift;<keycap
 >/</keycap
 ></keycombo
@@ -2802,7 +2802,7 @@ context menu Icon Size? No different entries ?-->
 ><para
 ><action
 >Muestra todos los archivos y subcarpetas ocultos que contenga la carpeta actual.</action
-> Existe un acceso rápido de teclado alternativo <keycombo action="simul"
+> Existe un atajo de teclado alternativo <keycombo action="simul"
 >&Ctrl;<keycap
 >H</keycap
 ></keycombo

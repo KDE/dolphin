@@ -6,7 +6,7 @@
 # Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
 # Jaime Robles <jaime@kde.org>, 2007, 2008, 2009.
 # Jaime Robles <jaime@robles.nu>, 2007.
-# SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
 # Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010, 2011, 2012, 2013.
 # Javier Vinal <fjvinal@gmail.com>, 2011.
 # arklad, 2011.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-11 00:39+0000\n"
-"PO-Revision-Date: 2023-11-22 03:07+0100\n"
+"PO-Revision-Date: 2024-01-11 02:16+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "com>\n"
 "com>\n"
 "com>\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -297,7 +297,7 @@ msgid ""
 msgstr ""
 "<para><emphasis>Cortar, copiar</emphasis> y <emphasis>pegar</emphasis> "
 "funcionan entre muchas aplicaciones y están entre las órdenes más usadas. "
-"Por ello, sus <emphasis>accesos rápidos de teclado</emphasis> suelen estar "
+"Por ello, sus <emphasis>atajos de teclado</emphasis> suelen estar "
 "visiblemente situados unos al lado de los otros en el teclado: <shortcut>Ctrl"
 "+X</shortcut>, <shortcut>Ctrl+C</shortcut> y <shortcut>Ctrl+V</shortcut>.</"
 "para>"
@@ -1199,10 +1199,10 @@ msgid ""
 "when they are pressed simultaneously. All commands in this application can "
 "be triggered this way.</para>"
 msgstr ""
-"<para>Esto abre una ventana que lista los <emphasis>accesos rápidos de "
-"teclado</emphasis>.<nl/>En ella puede configurar combinaciones de teclas "
-"para lanzar acciones cuando se pulsan simultáneamente. Todas las órdenes de "
-"esta aplicación se pueden ejecutar de este modo.</para>"
+"<para>Esto abre una ventana que lista los <emphasis>atajos de teclado</"
+"emphasis>.<nl/>En ella puede configurar combinaciones de teclas para lanzar "
+"acciones cuando se pulsan simultáneamente. Todas las órdenes de esta "
+"aplicación se pueden ejecutar de este modo.</para>"
 
 #: dolphinmainwindow.cpp:2550
 #, kde-kuit-format
@@ -5063,7 +5063,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
-msgstr "Borrar (usando acceso rápido a la papelera)"
+msgstr "Borrar (usando atajo de teclado para la papelera)"
 
 #: views/dolphinviewactionhandler.cpp:132
 #, kde-format
