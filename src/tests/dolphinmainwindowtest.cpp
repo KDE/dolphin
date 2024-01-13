@@ -65,7 +65,7 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     // Without this call the searchbox doesn't get FocusIn events.
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -94,7 +94,7 @@ void DolphinMainWindowTest::testActiveViewAfterClosingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -139,7 +139,7 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -180,7 +180,7 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -210,7 +210,7 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
@@ -240,7 +240,7 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
     QFETCH(QUrl, activeViewUrl);
     m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu *>("new_menu");
@@ -266,7 +266,7 @@ void DolphinMainWindowTest::testWindowTitle()
     QFETCH(QUrl, activeViewUrl);
     m_mainWindow->openDirectories({activeViewUrl}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     QFETCH(QString, expectedWindowTitle);
@@ -282,7 +282,7 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
     m_mainWindow->resize(800, m_mainWindow->height()); // make sure the size is sufficient so a places panel resize shouldn't be necessary.
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
@@ -357,7 +357,7 @@ void DolphinMainWindowTest::testGoActions()
     QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
     m_mainWindow->openDirectories({childDirUrl}, false); // Open "b" dir
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
     QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
 
@@ -532,7 +532,7 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data(), 20000));
     QVERIFY(m_mainWindow->isVisible());
 
     std::set<const QObject *> testedObjects; // Makes sure we stop testing if we arrive at an item that was already tested.
