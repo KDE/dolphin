@@ -1,9 +1,9 @@
 # Translation of dolphin.po to Catalan
-# Copyright (C) 2007-2023 This_file_is_part_of_KDE
+# Copyright (C) 2007-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-25 02:43+0000\n"
-"PO-Revision-Date: 2023-06-30 10:41+0200\n"
+"PO-Revision-Date: 2024-01-12 15:10+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1250,7 +1250,7 @@ msgstr ""
 "<para>Aquest és el botó que invoca la característica d'ajuda que esteu "
 "emprant ara mateix! Feu-hi clic, a continuació feu clic a qualsevol "
 "component d'aquesta aplicació per demanar «Què és això?». El cursor del "
-"ratolí canviara d'aparença si no hi ha cap ajuda disponible d'un punt.</"
+"ratolí canviarà d'aparença si no hi ha cap ajuda disponible d'un punt.</"
 "para><para>Hi ha dues altres maneres per a aconseguir ajuda: el <link "
 "url='help:/dolphin/index.html'>Manual del Dolphin</link> i el <link "
 "url='https://userbase.kde.org/Dolphin/File_Management/ca'>Wiki UserBase del "
@@ -2982,7 +2982,7 @@ msgstr "Enganxa des del porta-retalls"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr "Descarta aquesta recordatori"
+msgstr "Descarta aquest recordatori"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
@@ -3117,8 +3117,8 @@ msgstr ""
 "per a desseleccionar-lo.</item><item>Prémer una àrea buida <emphasis>no</"
 "emphasis> neteja la selecció.</item><item>Els rectangles de selecció (creats "
 "arrossegant des d'una àrea buida) inverteix l'estat de selecció dels "
-"elements de dins dins.</item></list></para><para>Els botons d'acció "
-"disponibles a la part inferior canvien depenent de la selecció actual.</para>"
+"elements de dins.</item></list></para><para>Els botons d'acció disponibles a "
+"la part inferior canvien depenent de la selecció actual.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
@@ -3547,7 +3547,7 @@ msgid ""
 "were removed/renamed ...etc"
 msgstr ""
 "Versió de la configuració interna del Dolphin, usada principalment per a "
-"determinar si s'està executant un versió actualitzada del Dolphin, així com "
+"determinar si s'està executant una versió actualitzada del Dolphin, així com "
 "per a migrar les entrades de configuració que s'han eliminat/canviat de nom, "
 "etc."
 
@@ -3632,8 +3632,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
-"Mostra una barra per a enganxar fàcilment després de fer un retallat o un "
-"copiat usant la barra inferior del mode de selecció."
+"Mostra una barra per a enganxar fàcilment després de fer un retallat o una "
+"còpia usant la barra inferior del mode de selecció."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -5208,7 +5208,7 @@ msgid ""
 msgstr ""
 "<para>Quan està activada, els fitxers i carpetes <emphasis>ocultes</"
 "emphasis> són visibles. Es mostraran de manera semitransparent.</"
-"para><para>Els elements ocults només difereixen dels altres en el fet què el "
+"para><para>Els elements ocults només difereixen dels altres en el fet que el "
 "seu nom comença per un «.». En general no hi ha necessitat que els usuaris "
 "hi accedeixin, que és el motiu per què estan ocults.</para>"
 
