@@ -1121,7 +1121,6 @@ void DolphinView::slotItemMiddleClicked(int index)
     const KFileItem &item = m_model->fileItem(index);
     const QUrl &url = openItemAsFolderUrl(item);
     const auto modifiers = QGuiApplication::keyboardModifiers();
-    const QString &archiveProtocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
     if (!url.isEmpty()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
@@ -1129,7 +1128,7 @@ void DolphinView::slotItemMiddleClicked(int index)
         } else {
             Q_EMIT tabRequested(url);
         }
-    } else if (!archiveProtocol.isEmpty() && isTabsForFilesEnabled()) {
+    } else if (isTabsForFilesEnabled()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
             Q_EMIT activeTabRequested(item.url());
