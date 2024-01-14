@@ -1,9 +1,9 @@
 # Translation of dolphin.po to Catalan (Valencian)
-# Copyright (C) 2007-2023 This_file_is_part_of_KDE
+# Copyright (C) 2007-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-25 02:43+0000\n"
-"PO-Revision-Date: 2023-06-30 10:41+0200\n"
+"PO-Revision-Date: 2024-01-12 15:10+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1248,7 +1248,7 @@ msgid ""
 msgstr ""
 "<para>Este és el botó que invoca la característica d'ajuda que esteu emprant "
 "ara mateix! Feu-hi clic, a continuació feu clic en qualsevol component "
-"d'esta aplicació per a demanar «Què és açò?». El cursor del ratolí canviara "
+"d'esta aplicació per a demanar «Què és açò?». El cursor del ratolí canviarà "
 "d'aparença si no hi ha cap ajuda disponible d'un punt.</para><para>Hi ha "
 "dues altres maneres per a aconseguir ajuda: el <link url='help:/dolphin/"
 "index.html'>Manual de Dolphin</link> i el <link url='https://userbase.kde."
@@ -2980,7 +2980,7 @@ msgstr "Apega des del porta-retalls"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr "Descarta esta recordatori"
+msgstr "Descarta este recordatori"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
@@ -3115,8 +3115,8 @@ msgstr ""
 "per a desseleccionar-lo.</item><item>Prémer una àrea buida <emphasis>no</"
 "emphasis> neteja la selecció.</item><item>Els rectangles de selecció (creats "
 "arrossegant des d'una àrea buida) invertix l'estat de selecció dels elements "
-"de dins dins.</item></list></para><para>Els botons d'acció disponibles a la "
-"part inferior canvien depenent de la selecció actual.</para>"
+"de dins.</item></list></para><para>Els botons d'acció disponibles a la part "
+"inferior canvien depenent de la selecció actual.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
@@ -3544,7 +3544,7 @@ msgid ""
 "were removed/renamed ...etc"
 msgstr ""
 "Versió de la configuració interna de Dolphin, utilitzada principalment per a "
-"determinar si s'està executant un versió actualitzada de Dolphin, així com "
+"determinar si s'està executant una versió actualitzada de Dolphin, així com "
 "per a migrar les entrades de configuració que s'han eliminat/canviat de nom, "
 "etc."
 
@@ -3630,8 +3630,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
-"Mostra una barra per a apegar amb facilitat després de fer un retallat o un "
-"copiat utilitzant la barra inferior del mode de selecció."
+"Mostra una barra per a apegar amb facilitat després de fer un retallat o una "
+"còpia utilitzant la barra inferior del mode de selecció."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -5210,7 +5210,7 @@ msgid ""
 msgstr ""
 "<para>Quan se selecciona, els fitxers i carpetes <emphasis>ocultes</"
 "emphasis> seran visibles. Es mostraran de manera semitransparent.</"
-"para><para>Els elements ocults només diferixen dels altres en el fet què el "
+"para><para>Els elements ocults només diferixen dels altres en el fet que el "
 "seu nom comença per un «.». En general no hi ha necessitat que els usuaris "
 "hi accedisquen, el qual és el motiu per què estan ocults.</para>"
 
