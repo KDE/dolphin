@@ -3,13 +3,13 @@
 #
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2021, 2022, 2023 g.sora <g.sora@tiscali.it>
 # Giovanni Sora <g.sora@tioscali.it>, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
-# giovanni <g.sora@tiscali.it>, 2023.
+# giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-15 00:39+0000\n"
-"PO-Revision-Date: 2023-11-22 10:44+0100\n"
+"PO-Revision-Date: 2024-01-15 18:11+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -3721,7 +3721,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Anque cela files con application/x-trash mimetype"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4314,7 +4314,7 @@ msgstr "Cambia nomine in linea"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Ancq1ue cela files de retrocopia durante que ilcela files celate"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4323,7 +4323,7 @@ msgctxt ""
 msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
-msgstr ""
+msgstr "1Exclude omne files cuje nomine contine un del patronos: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4752,14 +4752,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 libere de %2 (%3% usate)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 libere de %2 (%3% usate)"
+msgstr ""
+"%1 libere de %2 (%3% usate)\n"
+"Pressa per gere uso de spatio de disco."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format

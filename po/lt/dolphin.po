@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-15 00:39+0000\n"
-"PO-Revision-Date: 2022-12-28 01:48+0200\n"
+"PO-Revision-Date: 2024-01-16 01:50+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -453,10 +453,9 @@ msgid "Filter"
 msgstr "Filtruoti"
 
 #: dolphinmainwindow.cpp:1751 search/dolphinsearchbox.cpp:339
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Ieškoti"
+msgstr "Ieškoti…"
 
 #: dolphinmainwindow.cpp:1752
 #, kde-format
@@ -1247,12 +1246,10 @@ msgstr[2] "Vietos juostos"
 msgstr[3] "Vietos juostos"
 
 #: dolphinpart.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Taisyti failo tipą..."
+msgstr "&Taisyti failo tipą…"
 
 #: dolphinpart.cpp:152
 #, fuzzy, kde-format
@@ -1301,12 +1298,10 @@ msgid "Autostart"
 msgstr "Automatinis paleidimas"
 
 #: dolphinpart.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Rasti failą..."
+msgstr "Rasti failą…"
 
 #: dolphinpart.cpp:195
 #, kde-format
@@ -1418,12 +1413,10 @@ msgstr "Užverti kortelę"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:496
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1495,28 +1488,22 @@ msgid "Search for %1"
 msgstr "Ieškoti %1"
 
 #: dolphinviewcontainer.cpp:620
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Įkeliamas aplankas..."
+msgstr "Įkeliamas aplankas…"
 
 #: dolphinviewcontainer.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Rikiavimas:"
+msgstr "Rikiuojama…"
 
 #: dolphinviewcontainer.cpp:639
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Ieškoma..."
+msgstr "Ieškoma…"
 
 #: dolphinviewcontainer.cpp:660
 #, kde-format
@@ -2754,9 +2741,7 @@ msgid "Search in your home directory"
 msgstr "Ieškoti namų kataloge"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Atverti %1"
 
@@ -4186,12 +4171,10 @@ msgid "Custom Font"
 msgstr "Tinkintas šriftas"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Pasirinkti..."
+msgstr "Pasirinkti…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:27
 #, kde-format
@@ -4761,10 +4744,7 @@ msgid "Reload"
 msgstr "Įkelti iš naujo"
 
 #: views/dolphinview.cpp:655
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4774,10 +4754,7 @@ msgstr[2] "Pažymėta %1 aplankų"
 msgstr[3] "Pažymėtas %1 aplankas"
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4787,10 +4764,7 @@ msgstr[2] "Pažymėta %1 failų"
 msgstr[3] "Pažymėtas %1 failas"
 
 #: views/dolphinview.cpp:658
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4800,16 +4774,14 @@ msgstr[2] "%1 aplankų"
 msgstr[3] "%1 aplankas"
 
 #: views/dolphinview.cpp:659
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Jūsų failai"
-msgstr[1] "Jūsų failai"
-msgstr[2] "Jūsų failai"
-msgstr[3] "Jūsų failai"
+msgstr[0] "1 failas"
+msgstr[1] "%1 failai"
+msgstr[2] "%1 failų"
+msgstr[3] "%1 failas"
 
 #: views/dolphinview.cpp:663
 #, kde-format
@@ -4824,9 +4796,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:669
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 aplankų, 0 failų"
@@ -4935,10 +4905,9 @@ msgid "The location '%1' is invalid."
 msgstr "Vieta „%1“ yra neteisinga."
 
 #: views/dolphinview.cpp:2307
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
-msgstr "Įkeliama..."
+msgstr "Įkeliama…"
 
 #: views/dolphinview.cpp:2326
 #, kde-format
@@ -5006,12 +4975,10 @@ msgid "Folder is empty"
 msgstr "Aplankas tuščias"
 
 #: views/dolphinviewactionhandler.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Sukurti aplanką..."
+msgstr "Sukurti aplanką…"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format

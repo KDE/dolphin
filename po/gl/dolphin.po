@@ -9,22 +9,22 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2011, 2012, 2013, 2014.
 # Xosé <xosecalvo@gmail.com>, 2010.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2016, 2017.
-# SPDX-FileCopyrightText: 2023 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-15 00:39+0000\n"
-"PO-Revision-Date: 2023-11-23 17:18+0100\n"
+"PO-Revision-Date: 2024-01-15 19:37+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3714,7 +3714,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Agochar tamén os ficheiros co tipo MIME application/x-trash."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4304,6 +4304,7 @@ msgstr "Renomear in situ."
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
+"Agochar tamén ficheiros de salvagarda ao agochar os ficheiros agochados."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4313,6 +4314,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Os ficheiros de salvagarda son os que teñen o tipo MIME application/x-trash. "
+"Padróns: %1."
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4741,14 +4744,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 de %2 libres (%3% usado)."
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 de %2 libres (%3% usado)."
+msgstr ""
+"%1 de %2 libres (%3% usado).\n"
+"Prema para xestionar o uso de espazo de disco."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
