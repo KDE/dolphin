@@ -146,11 +146,13 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     // This is made using a heavily-modified QLabel rather than a KTitleWidget
     // because KTitleWidget can't be told to turn off mouse-selectable text
     m_placeholderLabel = new QLabel(this);
+    // Don't consume mouse events
+    m_placeholderLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+
     QFont placeholderLabelFont;
     // To match the size of a level 2 Heading/KTitleWidget
     placeholderLabelFont.setPointSize(qRound(placeholderLabelFont.pointSize() * 1.3));
     m_placeholderLabel->setFont(placeholderLabelFont);
-    m_placeholderLabel->setTextInteractionFlags(Qt::NoTextInteraction);
     m_placeholderLabel->setWordWrap(true);
     m_placeholderLabel->setAlignment(Qt::AlignCenter);
     // Match opacity of QML placeholder label component
@@ -163,10 +165,6 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     auto *centeringLayout = new QVBoxLayout(m_container);
     centeringLayout->addWidget(m_placeholderLabel);
     centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
-    m_placeholderLabel->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(m_placeholderLabel, &QWidget::customContextMenuRequested, this, [this](const QPoint &pos) {
-        slotViewContextMenuRequested(m_placeholderLabel->mapToGlobal(pos));
-    });
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
