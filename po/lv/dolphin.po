@@ -2,7 +2,8 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Maris Nartiss <maris.kde@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2015, 2019, 2020, 2021.
+# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
+# Maris Nartiss <maris.kde@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2015, 2019, 2020, 2021, 2024.
 # Linux localization project <viesturs.zarins@mii.lu.lv>, 2007.
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2007, 2008.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
@@ -12,33 +13,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-15 00:39+0000\n"
-"PO-Revision-Date: 2021-06-02 18:56+0300\n"
-"Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
-"Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2024-01-17 00:39+0000\n"
+"PO-Revision-Date: 2024-01-16 09:57+0200\n"
+"Last-Translator: Māris Nartišs <maris.kde@gmail.com>\n"
+"Language-Team: \n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 20.08.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Māris Nartišs, Viesturs Zariņš, Einārs Sprūģis"
+msgstr "Māris Nartišs, Viesturs Zariņš, Einārs Sprūģis, Toms Trasūns"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "maris.kde@gmail.com, viesturs.zarins@mii.lu.lv, einars8@gmail.com"
+msgstr ""
+"maris.kde@gmail.com, viesturs.zarins@mii.lu.lv, einars8@gmail.com, toms."
+"trasuns@posteo.net"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
-msgstr "Iztukšot miskasti"
+msgstr "Iztukšot atkritni"
 
 #: dolphincontextmenu.cpp:137
 #, kde-format
@@ -92,7 +95,7 @@ msgstr "Sekmīgi piesaitēts."
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
-msgstr "Sekmīgi izmests miskastē."
+msgstr "Sekmīgi izmests atkritnē."
 
 #: dolphinmainwindow.cpp:320
 #, kde-format
@@ -128,7 +131,7 @@ msgstr "Iet uz priekšu"
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
-msgstr ""
+msgstr "Šī darbība atsauc <interface>Iet atpakaļ</interface> darbību."
 
 #: dolphinmainwindow.cpp:594 dolphinmainwindow.cpp:640
 #, kde-format
@@ -151,7 +154,7 @@ msgstr "Ai&zvērt aktīvo cilni"
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
-msgstr "Jums šajā logā ir atvērtas vairākas cilnes. Vai tiešām vēlaties iziet?"
+msgstr "Šajā logā ir atvērtas vairākas cilnes. Vai tiešām vēlaties iziet?"
 
 #: dolphinmainwindow.cpp:611 dolphinmainwindow.cpp:661
 #, kde-format
@@ -161,7 +164,7 @@ msgstr "Turpmāk nevaicāt"
 #: dolphinmainwindow.cpp:649
 #, kde-format
 msgid "Show &Terminal Panel"
-msgstr "Rādī&t komandrindas paneli"
+msgstr "Rādī&t termināļa paneli"
 
 #: dolphinmainwindow.cpp:659
 #, kde-format
@@ -169,6 +172,8 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
+"Termināļa panelī joprojām darbojas programmā „%1“. Vai tiešām vēlaties to "
+"izdzēst?"
 
 #: dolphinmainwindow.cpp:1216
 #, kde-format
@@ -183,25 +188,21 @@ msgid "Open Preferred Search Tool"
 msgstr "Atvērt iecienīto meklēšanas rīku"
 
 #: dolphinmainwindow.cpp:1265
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Vai tiešām vēlaties atvērt %1 elementu?"
-msgstr[1] "Vai tiešām vēlaties atvērt %1 elementus?"
-msgstr[2] "Vai tiešām vēlaties atvērt %1 elementu?"
+msgstr[0] "Vai tiešām vēlaties atvērt %1 termināļa logu?"
+msgstr[1] "Vai tiešām vēlaties atvērt %1 termināļa logus?"
+msgstr[2] "Vai tiešām vēlaties atvērt %1 termināļa logu?"
 
 #: dolphinmainwindow.cpp:1270
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Atvērt termināli"
-msgstr[1] "Atvērt termināli"
-msgstr[2] "Atvērt termināli"
+msgstr[0] "Atvērt %1 termināli"
+msgstr[1] "Atvērt %1 termināļus"
+msgstr[2] "Atvērt %1 termināļu"
 
 #: dolphinmainwindow.cpp:1465
 #, kde-format
@@ -219,7 +220,7 @@ msgstr "Jauns &logs"
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
-msgstr "Atvērt jaunu Dolphin logu"
+msgstr "Atvērt jaunu „Dolphin“ logu"
 
 #: dolphinmainwindow.cpp:1629
 #, kde-kuit-format
@@ -228,6 +229,8 @@ msgid ""
 "This opens a new window just like this one with the current location and "
 "view.<nl/>You can drag and drop items between windows."
 msgstr ""
+"Šī darbība atver jaunu logu, kas ir vienāds ar esošo atvērto logu.<nl/>Varat "
+"ievilkt un nomest vienumus starp atvērtajiem logiem."
 
 #: dolphinmainwindow.cpp:1636
 #, kde-format
@@ -243,6 +246,9 @@ msgid ""
 "<nl/>A tab is an additional view within this window. You can drag and drop "
 "items between tabs."
 msgstr ""
+"Šī darbība atver jaunu <emphasis>cilni</emphasis> pašreizējā vietā un skatā."
+"<nl/>Cilne nozīmē papildu skatu šajā logā. Varat vilkt un nomest vienumus "
+"starp cilnēm."
 
 #: dolphinmainwindow.cpp:1647
 #, kde-format
@@ -254,7 +260,7 @@ msgstr "Pievienot vietām"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
-msgstr ""
+msgstr "Šī darbība izvēlēto mapi pievienos panelī pie iecienītākajām vietām."
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -269,12 +275,14 @@ msgid ""
 "This closes the currently viewed tab. If no more tabs are left this window "
 "will close instead."
 msgstr ""
+"Šī darbība aizver šobrīd atvērto cilni. Ja šī ir pēdējā cilne, tad kopā ar "
+"to aizvērsies viss logs."
 
 #: dolphinmainwindow.cpp:1661
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
-msgstr "Šis aizver šo logu."
+msgstr "Šī darbība aizver šo logu."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-kuit-format
@@ -286,12 +294,17 @@ msgid ""
 "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr ""
+"<para><emphasis>Izgriezt, kopēt </emphasis> un <emphasis>ielīmēt</emphasis> "
+"darbojas starp daudzām programmām un ir starp visbiežāk lietotajām komandām. "
+"Tieši tāpēc to <emphasis>tastatūras saīsnes</emphasis> uz tastatūras ir "
+"uzskatāmi novietotas viena otrai blakus: <shortcut>Ctrl+X</shortcut>, "
+"<shortcut>Ctrl+C</shortcut> un <shortcut>Ctrl+V</shortcut>.</para>"
 
 #: dolphinmainwindow.cpp:1676
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Izgriezt..."
 
 #: dolphinmainwindow.cpp:1678
 #, kde-kuit-format
@@ -302,14 +315,16 @@ msgid ""
 "them from the clipboard to a new location. The items will be removed from "
 "their initial location."
 msgstr ""
+"Šī darbība atlasītos vienumus iekopē <emphasis>starpliktuvē</emphasis>.<nl/"
+">Pēc tam izmantojiet <emphasis>Ielīmēt</emphasis> darbību, lai tās no "
+"starpliktuves nokopētu jaunā vietā. Pēc šīs darbības vienums tiks aizvākts "
+"no savas sākotnējās atrašanās vietas."
 
 #: dolphinmainwindow.cpp:1685
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopēt"
+msgstr "Kopēt..."
 
 #: dolphinmainwindow.cpp:1687
 #, kde-kuit-format
@@ -319,6 +334,9 @@ msgid ""
 "emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
 "them from the clipboard to a new location."
 msgstr ""
+"Šī darbība atlasītos vienumus iekopē <emphasis>starpliktuvē</emphasis>.<nl/"
+">Pēc tam izmantojiet<emphasis>Ielīmēt</emphasis> darbību, lai tās no "
+"starpliktuves nokopētu izvēlētajā jaunajā vietā."
 
 #: dolphinmainwindow.cpp:1696
 #, kde-format
@@ -334,18 +352,22 @@ msgid ""
 "currently viewed folder.<nl/>If the items were added to the clipboard by the "
 "<emphasis>Cut</emphasis> action they are removed from their old location."
 msgstr ""
+"Šī darbība vienumus nokopē no <emphasis>starpliktuves</emphasis> uz "
+"attiecīgajā brīdī atvērto mapi.<nl/>Ja vienumi ir iekopēti starpliktuvē ar "
+"<emphasis>Izgriezt</emphasis> darbību, tie tiks dzēsti no savas sākotnējas "
+"atrašanās vietas."
 
 #: dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr ""
+msgstr "Kopēt uz otru skatu"
 
 #: dolphinmainwindow.cpp:1706
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr ""
+msgstr "Kopēt uz otru skatu..."
 
 #: dolphinmainwindow.cpp:1708
 #, kde-kuit-format
@@ -354,28 +376,26 @@ msgid ""
 "This copies the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"Šī darbība kopē atlasītos vienumus no <emphasis>aktīvā</emphasis> skata uz "
+"neaktīvo sadalīto skatu."
 
 #: dolphinmainwindow.cpp:1711
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
-msgstr ""
+msgstr "Kopēt uz neaktīvo sadalīto skatu"
 
 #: dolphinmainwindow.cpp:1716
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Pārvietot uz miskasti"
+msgstr "Pārvietot uz otru skatu"
 
 #: dolphinmainwindow.cpp:1717
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Pārvietot uz miskasti"
+msgstr "Pārvietot uz otru skatu..."
 
 #: dolphinmainwindow.cpp:1719
 #, kde-kuit-format
@@ -384,28 +404,26 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"Šī darbība pārvieto atlasītos vienumus no <emphasis>aktīvā</emphasis> skata "
+"uz neaktīvo sadalīto skatu."
 
 #: dolphinmainwindow.cpp:1722
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "Pārvietot uz neaktīvo sadalīto skatu"
 
 #: dolphinmainwindow.cpp:1727
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtrs"
+msgstr "Filtrēt..."
 
 #: dolphinmainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "Rādīt filtra joslu"
+msgstr "Parādīt filtra joslu"
 
 #: dolphinmainwindow.cpp:1730
 #, kde-kuit-format
@@ -416,6 +434,9 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"Šī darbība atver <emphasis>Filtra joslu</emphasis> loga apakšējā daļā.<nl/"
+">Tajā varat ievadīt tekstu, lai filtrētu parādītās datnes un mapes. Skatā "
+"būs parādītas tikai tās datnes un mapes, kas nosaukumā satur ievadīto tekstu."
 
 #: dolphinmainwindow.cpp:1742
 #, kde-format
@@ -430,10 +451,9 @@ msgid "Filter"
 msgstr "Filtrs"
 
 #: dolphinmainwindow.cpp:1751 search/dolphinsearchbox.cpp:339
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Meklēt"
+msgstr "Meklēt..."
 
 #: dolphinmainwindow.cpp:1752
 #, kde-format
@@ -450,6 +470,10 @@ msgid ""
 "objects you are looking for.</para><para>Use this help again on the find bar "
 "so we can have a look at it while the settings are explained.</para>"
 msgstr ""
+"<para>Šis rīks palīdzēs atrast datnes un mapes, atverot <emphasis>meklēšanas "
+"joslu</emphasis>. Šajā joslā varat ievadīt meklēto tekstu un norādīt "
+"meklēšanas nosacījumus.</para><para>Izmantojiet šo palīdzību atkal "
+"meklēšanas joslā, lai iepazītos ar izskaidrotiem iestatījumiem.</para>"
 
 #: dolphinmainwindow.cpp:1765
 #, kde-format
@@ -465,22 +489,18 @@ msgstr "Meklēt"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1774
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Meklēt datnes un mapes"
+msgstr "Atlasīt datnes un mapes"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
-msgstr "Izvēlēties"
+msgstr "Atlasīt"
 
 #: dolphinmainwindow.cpp:1780
 #, kde-kuit-format
@@ -493,12 +513,18 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Šī programma var saprast, ar kurām datnēm un mapēm tai ir jāveic "
+"darbības tikai tad, ja tās ir <emphasis>atlasītas</emphasis>. Nospiediet šo, "
+"lai pārslēgtu <emphasis>Atlasīšanas režīmu</emphasis>, kas atlasīšanu un "
+"izņemšanu no atlases vienkāršo līdz vienam klikšķim.</para><para>Esot šajā "
+"režīmā, jums ir pieejama ātrās piekļuves josla, kurā ir redzamas pieejamās "
+"un ar atlasītajiem vienumiem veicamās darbības.</para>"
 
 #: dolphinmainwindow.cpp:1803
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
-msgstr ""
+msgstr "Šī darbība atlasa visas datnes un mapes pašreizējā atvērtajā vietā."
 
 #: dolphinmainwindow.cpp:1807 dolphinpart.cpp:167
 #, kde-format
@@ -513,6 +539,8 @@ msgid ""
 "This selects all objects that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
+"Šī darbība atlasa visus objektus, kurus šobrīd jūs <emphasis>neatlasījāt</"
+"emphasis>."
 
 #: dolphinmainwindow.cpp:1825
 #, kde-kuit-format
@@ -522,26 +550,27 @@ msgid ""
 "para><para>This way you can see two locations at once and move items between "
 "them quickly.</para>Click this again afterwards to recombine the views."
 msgstr ""
+"<para>Šī darbība sadala mapes skatu divus atsevišķos skatos.</para><para>Tas "
+"ļauj redzēt divas vietas uzreiz un starp tiem viegli pārvietot datnes un "
+"mapes.</para>Lai atgrieztos pie viena skata, spiediet vēlreiz."
 
 #: dolphinmainwindow.cpp:1834
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
-msgstr ""
+msgstr "Krātuve"
 
 #: dolphinmainwindow.cpp:1835
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr ""
+msgstr "Atver virtuālu krātuves mapi sadalītā skatā."
 
 #: dolphinmainwindow.cpp:1843
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Priekšskatījums"
+msgstr "Pārlādēt skatu"
 
 #: dolphinmainwindow.cpp:1845
 #, kde-kuit-format
@@ -552,6 +581,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Šī darbība pārlādē mapes skatu.</para><para>Ja šīs mapes saturs ir "
+"mainījies, pārlādēšanas no jauna noskenēs šo mapi un parādīs aktuālo datņu "
+"un mapju skatu.</para><para>Ja skats ir sadalīts, pārlādēts tiks tikai "
+"aktīvais skats.</para>"
 
 #: dolphinmainwindow.cpp:1852
 #, kde-format
@@ -569,7 +602,7 @@ msgstr "Apturēt ielādi"
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
-msgstr ""
+msgstr "Šī rīcība apturēs mapes satura ielādi."
 
 #: dolphinmainwindow.cpp:1859
 #, kde-format
@@ -586,6 +619,10 @@ msgid ""
 "editing by clicking to the right of the location and switch back by "
 "confirming the edited location."
 msgstr ""
+"Šī darbība pārslēdz <emphasis>Vietas joslas</emphasis> rediģēšanas režīmu, "
+"kas ļauj tiešā veidā ievadīt ceļu līdz vietai, kur vēlaties iet.<nl/>Tāpat "
+"varat pārslēgties uz rediģēšanu, klikšķinot peles labo pogu uz atrašanās "
+"vietu un pārslēdzoties atpakaļ, apstiprinot rediģēto vietu."
 
 #: dolphinmainwindow.cpp:1869
 #, kde-format
@@ -600,6 +637,8 @@ msgid ""
 "This switches to editing the location and selects it so you can quickly "
 "enter a different location."
 msgstr ""
+"Šī darbība pārslēdzas uz vietas rediģēšanu un to atlasa, ļaujot jums ātri "
+"ievadīt citu vietu."
 
 #: dolphinmainwindow.cpp:1904
 #, kde-format
@@ -611,7 +650,7 @@ msgstr "Atsaukt cilnes aizvēršanu"
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
-msgstr ""
+msgstr "Šī darbība jūs atgriež iepriekš aizvērtajā cilnē."
 
 #: dolphinmainwindow.cpp:1913
 #, kde-kuit-format
@@ -622,6 +661,10 @@ msgid ""
 "interface> them to a different location or to the <filename>Trash</"
 "filename>. <nl/>Changes that can't be undone will ask for your confirmation."
 msgstr ""
+"Šī darbība atsauc pēdējās veiktās datņu vai mapju izmaiņas.<nl/>Starp šādām "
+"izmaiņām ir to <interface>izveidošana, pārsaukšana</interface> un "
+"<interface>pārvietošana</interface> uz citu vietu vai uz <filename>Atkritni</"
+"filename>. <nl/>Mēģinot veikt neatsaucamas izmaiņas, tās būs jāapstiprina."
 
 #: dolphinmainwindow.cpp:1942
 #, kde-kuit-format
@@ -631,6 +674,9 @@ msgid ""
 "their own <filename>Home</filename> that contains their data including "
 "folders that contain personal application data."
 msgstr ""
+"Dodieties uz savu <filename>Mājas</filename> mapi.<nl/>Katram lietotāja "
+"kontam ir sava <filename>Mājas</filename> mape, kas satur visus lietotāja "
+"datus, tostarp mapes ar personīgajiem programmu datiem."
 
 #: dolphinmainwindow.cpp:1949
 #, kde-format
@@ -646,6 +692,9 @@ msgid ""
 "para><para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</"
 "para>"
 msgstr ""
+"<para>Šī darbība apskatāmajā vietā atver iecienītāko meklēšanas rīku.</"
+"para><para>Lietojiet <emphasis>Vairāk meklēšanas rīku</emphasis> izvēlni, "
+"lai to pārvaldītu.</para>"
 
 #: dolphinmainwindow.cpp:1965
 #, kde-format
@@ -661,15 +710,16 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help in the "
 "terminal application.</para>"
 msgstr ""
+"<para>Šī darbība apskatāmajā vietā atver <emphasis>termināļa</emphasis> "
+"programmu.</para><para>Lai uzzinātu vairāk par termināļu lietošanu, "
+"apskatiet palīdzības sadaļu termināļa programmā.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1975
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Atvērt termināli"
+msgstr "Atvērt termināli šeit"
 
 #: dolphinmainwindow.cpp:1977
 #, kde-kuit-format
@@ -679,12 +729,15 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
+"<para>Atlasīto vienumu atrašanās vietās atver <emphasis>termināļa</emphasis> "
+"programmu.</para><para>Lai uzzinātu vairāk par termināļu lietošanu, "
+"apskatiet palīdzības sadaļu termināļa programmā.</para>"
 
 #: dolphinmainwindow.cpp:1985 dolphinmainwindow.cpp:2738
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "Fokuss uz komandrindas paneli"
+msgstr "Padarīt aktīvu termināļa paneli"
 
 #: dolphinmainwindow.cpp:1993
 #, kde-format
@@ -703,6 +756,12 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Šī darbība pārslēdzas starp <emphasis>Izvēļņu joslu</emphasis> un "
+"<interface>%1</interface> pogu. Abas iespējas satur gandrīz vienādas "
+"darbības un konfigurācijas iespējas.</para><para>Izvēļņu josla aizņem vairāk "
+"vietas, bet sniedz ātru un sakārtotu pieeju pie visām programmas darbībām.</"
+"para><para>Savukārt <interface>%1</interface> poga ir vienkārša un maza, kas "
+"var paildzināt dažādu retāk izmantotu darbību ieslēgšanu un atrašanu.</para>"
 
 #: dolphinmainwindow.cpp:2036
 #, kde-format
@@ -765,11 +824,10 @@ msgid "Open in New Window"
 msgstr "Atvērt jaunā logā"
 
 #: dolphinmainwindow.cpp:2091 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Atvērt lietotnē"
+msgstr "Atvērt sadalītā skatā"
 
 #: dolphinmainwindow.cpp:2105
 #, kde-format
@@ -792,6 +850,10 @@ msgid ""
 "other side of the window and have a close button.<nl/>Locked panels are "
 "embedded more cleanly."
 msgstr ""
+"Šī iespēja pārslēdzas starp <emphasis>slēgtiem</emphasis> un "
+"<emphasis>atslēgtiem</emphasis> paneļiem.<nl/>Atslēgtus paneļus iespējams "
+"vilkt uz logu otru pusi un tiem ir aizvēršanas poga.<nl/>Slēgti paneļi daudz "
+"vienmērīgāk iegulstas logā."
 
 #: dolphinmainwindow.cpp:2119
 #, kde-format
@@ -806,6 +868,9 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
+"<para>Lai parādītu vai paslēptu šāda veida paneļus, ejiet uz "
+"<interface>Izvēlne|Paneļi</interface> vai <interface>Skats|Paneļi</"
+"interface>.</para>"
 
 #: dolphinmainwindow.cpp:2148
 #, kde-kuit-format
@@ -817,6 +882,12 @@ msgid ""
 "Otherwise it informs you about the currently viewed folder.<nl/>For single "
 "items a preview of their contents is provided.</para>"
 msgstr ""
+"<para> Šī poga parāda vai paslēpj <emphasis>informācijas</emphasis> paneli "
+"loga labajā pusē.</para><para>Informācijas panelis sniedz papildu "
+"informāciju par vienumiem, uz kuriem atrodas peles kursors, vai par "
+"atlasītajiem vienumiem. Pretējā gadījumā tajā ir parādīta informācija par "
+"pašreiz atvērto mapi.<nl/>Atsevišķi atlasītiem vienumiem tiek sniegts satura "
+"priekšskatījums.</para>"
 
 #: dolphinmainwindow.cpp:2156
 #, kde-kuit-format
@@ -828,6 +899,12 @@ msgid ""
 "contents is provided.</para><para>You can configure which and how details "
 "are given here by right-clicking.</para>"
 msgstr ""
+"<para>Šajā panelī ir sniegta paplašināta informācija par vienumiem, kam "
+"virsū ir peles kursors, vai par atlasītajiem vienumiem. Pretējā gadījumā tas "
+"satur informāciju par pašreiz apskatīto mapi.<nl/>Ja ir atlasīts atsevišķs "
+"vienums, šis panelis sniedz tās satura priekšskatījumu.</para><para>Varat "
+"pielāgot, kāda informācija un kādā veidā tiek sniegta, ar peles labo klikšķi."
+"</para>"
 
 #: dolphinmainwindow.cpp:2165
 #, kde-format
@@ -843,6 +920,9 @@ msgid ""
 "window.<nl/><nl/>It shows the folders of the <emphasis>file system</"
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr ""
+"Šī poga parāda/paslēpj <emphasis>mapju</emphasis> paneli loga kreisajā pusē."
+"<nl/><nl/>Šis panelis rāda <emphasis>datņu sistēmas</emphasis> mapes, "
+"izmantojot <emphasis>koka skatu</emphasis>."
 
 #: dolphinmainwindow.cpp:2190
 #, kde-kuit-format
@@ -853,6 +933,10 @@ msgid ""
 "Click the arrow to the left of a folder to see its subfolders. This allows "
 "quick switching between any folders.</para>"
 msgstr ""
+"<para>Šis panelis parāda mapes <emphasis>datņu sistēmā</emphasis>, "
+"izmantojot <emphasis>koka skatu</emphasis>.</para><para>Spiediet uz mapes, "
+"lai to atvērtu. Spiediet uz bultas pa kreisi no mapes, lai redzētu tās "
+"apakšmapes. Tas ļauj ātri pārslēgties starp mapēm.</para>"
 
 #: dolphinmainwindow.cpp:2200
 #, kde-format
@@ -871,6 +955,12 @@ msgid ""
 "learn more about terminals use the help in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
+"<para>Šī poga parāda/paslēpj <emphasis>termināļa</emphasis> paneli loga "
+"apakšā.<nl/>Atrašanās vieta terminālī vienmēr atbildīs mapes skatam, tāpēc "
+"navigācijai varat izmantot abus.</para><para>Termināļa panelis nav "
+"nepieciešams vienkāršai datora lietošanai, bet var būt noderīgs sarežģītāku "
+"uzdevumu veikšanai. Lai uzzinātu vairāk par termināļiem, skatiet atsevišķu "
+"termināļa programmu (piemēram, „Konsole“) palīdzības sadaļu.</para>"
 
 #: dolphinmainwindow.cpp:2233
 #, kde-kuit-format
@@ -883,6 +973,12 @@ msgid ""
 "about terminals use the help in a standalone terminal application like "
 "Konsole.</para>"
 msgstr ""
+"<para>Šis ir <emphasis>termināļa</emphasis> panelis. Tas uzvedas kā parasts "
+"terminālis, bet vieta tajā atbildīs „Dolphin“ skatā atvērtajai vietai, tāpēc "
+"navigācijai varat izmantot jebkuru no tiem.</para><para>Termināļa panelis "
+"nav nepieciešams vienkāršai datora lietošanai, bet var būt noderīgs "
+"sarežģītāku uzdevumu veikšanai. Lai uzzinātu vairāk par termināļiem, skatiet "
+"atsevišķu termināļa programmu (piemēram, „Konsole“) palīdzības sadaļu.</para>"
 
 #: dolphinmainwindow.cpp:2250
 #, kde-format
@@ -903,6 +999,8 @@ msgid ""
 "This displays all places in the places panel that have been hidden. They "
 "will appear semi-transparent unless you uncheck their hide property."
 msgstr ""
+"Šī iespēja parāda visas vietas vietu panelī, kas ir paslēptas. Tās būs "
+"parādīts puscaurspīdīgas, kamēr nenoņemsiet to paslēpšanu."
 
 #: dolphinmainwindow.cpp:2293
 #, kde-kuit-format
@@ -914,6 +1012,11 @@ msgid ""
 "also contains sections to find recently saved files or files of a certain "
 "type.</para>"
 msgstr ""
+"<para>Šī iespēja ieslēdz/izslēdz <emphasis>vietu</emphasis> paneli loga "
+"kreisajā pusē.</para><para>Tas ļauj iet uz vietām, kuras ievietojat "
+"grāmatzīmēs, un piekļūt diskiem un datoram vai tīklam pievienotām krātuvēm. "
+"Tāpat tas satur sadaļas, lai atrastu nesen saglabātās datnes vai noteikta "
+"tipa datnes.</para>"
 
 #: dolphinmainwindow.cpp:2300
 #, kde-kuit-format
@@ -929,6 +1032,16 @@ msgid ""
 "empty space on this panel and select <interface>Show Hidden Places</"
 "interface> to display it again.</para>"
 msgstr ""
+"<para>Šis ir <emphasis>Vietu</emphasis> panelis. Tas ļauj iet uz vietām, "
+"kuras ievietojat grāmatzīmēs, un piekļūt diskiem un datoram vai tīklam "
+"pievienotām krātuvēm. Tāpat tas satur sadaļas, lai atrastu nesen saglabātās "
+"datnes vai noteikta tipa datnes.</para><para>Spiediet uz ieraksta, lai to "
+"apmeklētu. Spiediet ar peles labo pogu, lai ierakstu atvērtu jaunā cilnē vai "
+"jaunā logā.</para><para>Jaunus ierakstus ir iespējams pievienot, ievelkot "
+"mapes šajā panelī. Spiediet labo peles pogu uz jebkuras atlases vai "
+"ieraksta, lai to paslēptu. Spiediet labo peles klikšķi tukšā vietā šajā "
+"panelī un atlasiet <interface>Parādīt paslēptas vietas</interface>, lai to "
+"atkal parādītu.</para>"
 
 #: dolphinmainwindow.cpp:2314
 #, kde-format
@@ -946,6 +1059,10 @@ msgid ""
 "directory that contains all data connected to this computer—the "
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
+"<para>Ejiet uz mapi, kas satur pašreiz apskatīto mapi.</para><para>Visas "
+"datnes un mapes ir sakārtotas hierarhiskā <emphasis>datņu sistēmā</"
+"emphasis>. Šīs hierarhijas augšā ir mape, kas satur visus datoram "
+"pievienotos datus — datora <emphasis>saknes mape</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2514
 #, kde-format
@@ -994,6 +1111,12 @@ msgid ""
 "become available through a <interface>Menu</interface> button on the "
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
+"<para>Šī ir <emphasis>Izvēļņu josla</emphasis>. Tā sniedz pieeju komandām un "
+"konfigurācijas iespējām. Spiediet peles kreiso pogu uz šīs joslas, lai "
+"atvērtu tās saturu.</para><para>Izvēļņu joslu iespējams paslēpt, noņemot "
+"atzīmi <interface>Iestatījumi|Rādīt izvēļņu joslu</interface>. Tādā gadījumā "
+"lielākā daļa tās satura būs pieejama <interface>Izvēlnes</interface> pogā, "
+"kuru redzēsiet <emphasis>Rīkjoslā</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2577
 #, kde-kuit-format
@@ -1008,6 +1131,15 @@ msgid ""
 "style of its buttons can also be changed in the right-click menu. Right-"
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
+"<para>Šī ir <emphasis>Rīkjosla</emphasis>. Tā sniedz ātru pieeju biežāk "
+"lietotajām darbībām.</para><para>To varat pielāgot, kā vēlaties. Visus "
+"vienumi, ko redzat <interface>Izvēlnē</interface> vai <interface>Izvēļņu "
+"joslā</interface> varat novietot arī rīkjoslā. Lai to izdarīto, spiediet "
+"labo peles taustiņu un atlasiet <interface>Pielāgot rīkjoslas…</interface> "
+"vai atrodiet šo darbību <interface>izvēlnē</interface>.</para><para>Šīs "
+"joslas atrašanās vieta un pogu stils ir maināms izvēlnē, kas atveras, "
+"spiežot peles labo pogu. Tāpat spiediet peles labo pogu, ja vēlaties parādīt "
+"vai paslēpt tekstu pie ikonām.</para>"
 
 #: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
@@ -1025,6 +1157,17 @@ msgid ""
 "here</link> instead. This will open a page from the <emphasis>Handbook</"
 "emphasis> that covers the basics.</para>"
 msgstr ""
+"<para>Te varat redzēt <emphasis>mapes</emphasis> un <emphasis>datnes</"
+"emphasis>, kas ir vietā, kuru apraksta augšā esošā <interface>Vietas josla</"
+"interface>. Šī zona ir programmas centrālā daļa — tajā jūs atrodat datnes, "
+"kuras vēlaties izmantot.</para><para>Lai iegūtu izsmeļošāku un vispārīgāku "
+"informāciju par šo programmu <link url='https://userbase.kde.org/Dolphin/"
+"File_Management#Introduction_to_Dolphin'>spiediet te</link>. Šī saite satur "
+"iepazīstinošu rakstu no <emphasis>KDE Lietotāju vikilapas</emphasis>.</"
+"para><para>Tomēr īsiem visu šī <emphasis>skata</emphasis> iespēju "
+"skaidrojumiem <link url='help:/dolphin/dolphin-view.html'>klikšķiniet te</"
+"link> . Tas atvērs <emphasis>Rokasgrāmatu</emphasis>, kur ir aprakstīti "
+"programmas lietošanas pamati.</para>"
 
 #: dolphinmainwindow.cpp:2605
 #, kde-kuit-format
@@ -1035,6 +1178,10 @@ msgid ""
 "when they are pressed simultaneously. All commands in this application can "
 "be triggered this way.</para>"
 msgstr ""
+"<para>Šī darbība atver logu, kurā uzskaitītas <emphasis>tastatūras saīsnes</"
+"emphasis>.<nl/>No šīs vietas varat iestatīt taustiņu kombinācijas, kuras, "
+"reizē nospiestas, izraisīs kādu darbību. Visas šajā programmā esošās "
+"darbības iespējams šādi izsaukt.</para>"
 
 #: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
@@ -1044,6 +1191,9 @@ msgid ""
 "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
+"<para>Šī darbība atver logu, kurā varat mainīt, kādas pogas būs redzamas "
+"<emphasis>rīkjoslā</emphasis>.</para><para>Visus ierakstus, kurus redzat "
+"<interface>izvēlnē</interface>, varat novietot arī rīkjoslā.</para>"
 
 #: dolphinmainwindow.cpp:2615
 #, kde-kuit-format
@@ -1054,6 +1204,10 @@ msgid ""
 "<emphasis>Configuring Dolphin</emphasis> in <interface>Help|Dolphin "
 "Handbook</interface>."
 msgstr ""
+"Šī darbība atver logu, kurā varat mainīt dažādus šīs programmas "
+"iestatījumus. Lai iegūtu dažādo iestatījumu skaidrojumus, dodieties uz "
+"nodaļu <emphasis>„Dolphin“ konfigurēšana</emphasis>, ko varat atrast "
+"<interface>Palīdzība|„Dolphin“ rokasgrāmata</interface>."
 
 #. i18n: If the external link isn't available in your language it might make
 #. sense to state the external link's language in brackets to not
@@ -1070,6 +1224,11 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
+"<para>Šī darbība atver programmas rokasgrāmatu. Tā sniedz skaidrojumus visām "
+"<emphasis>„Dolphin“</emphasis> daļām.</para><para>Ja vēlaties sīkākus "
+"skaidrojumos par dažādām <emphasis>„Dolphin“</emphasis> iespējām <link "
+"url='https://userbase.kde.org/Dolphin/File_Management'>spiediet te</link>. "
+"Atvērsies atsevišķa lapa KDE Lietotāju vikilapā.</para>"
 
 #: dolphinmainwindow.cpp:2640
 #, kde-kuit-format
@@ -1084,6 +1243,14 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
+"<para>Šī poga ieslēdz palīdzības iespēju, kuru šobrīd jau lietojat! Spiediet "
+"uz tās, bet pēc tam spiediet uz jebkuras programmas daļas, lai uzzinātu "
+"atbildi uz „Kas tas ir?“. Peles kursors mainīs izskatu, ja šajā vietā "
+"palīdzība nav pieejama.</para><para>Palīdzību varat iegūt vēl divos veidos: "
+"<link url='help:/dolphin/index.html'>„Dolphin“ rokasgrāmatā</link> un <link "
+"url='https://userbase.kde.org/Dolphin/File_Management'>KDE Lietotāju "
+"vikilapā</link>.</para><para>„Kas tas ir?“ palīdzība daudzos logos nav "
+"pieejama, tāpēc pie tās pārāk nepierodiet.</para>"
 
 #: dolphinmainwindow.cpp:2651
 #, kde-kuit-format
@@ -1095,6 +1262,12 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
+"<para>Šī darbība atver logu, kas jūs izvadīs cauri kļūdu un nepilnību par šo "
+"programmu vai citu KDE programmu ziņošanas procesam.</"
+"para><para>Izstrādātāji ir ļoti pateicīgi par augstvērtīgiem kļūdu "
+"ziņojumiem. Lai uzzinātu, kā iesniegt kļūdu ziņojumu tik labi, cik tas ir "
+"iespējams <link url='https://community.kde.org/Get_Involved/"
+"Bug_Reporting'>spiediet</link>.</para>"
 
 #: dolphinmainwindow.cpp:2660
 #, kde-kuit-format
@@ -1109,6 +1282,14 @@ msgid ""
 "para><para><emphasis>KDE e.V.</emphasis> is the non-profit organization "
 "behind the KDE community.</para>"
 msgstr ""
+"<para>Šeit spiežot, atvērsies <emphasis>tīmekļa lapa</emphasis>, kur varat "
+"ziedot, lai atbalstītu nepārtraukto darbu pie šīs programmas un citiem "
+"<emphasis>KDE</emphasis> kopienas projektiem.</para><para>Ziedošana ir "
+"vieglākais un ātrākais veids, kā efektīvi atbalstīt KDE un tā projektus. KDE "
+"projekti ir pieejami bez maksas, tāpēc jūsu ziedojums ir nepieciešams, lai "
+"segtu neizbēgamās izmaksas, piemēram, serveru infrastruktūru, dalībnieku "
+"tikšanās u.c.</para><para><emphasis>KDE e.V.</emphasis> ir bezpeļņas "
+"organizācija, zem kuras darbojas KDE kopiena.</para>"
 
 #: dolphinmainwindow.cpp:2673
 #, kde-kuit-format
@@ -1118,6 +1299,9 @@ msgid ""
 "even set secondary languages which will be used if texts are not available "
 "in your preferred language."
 msgstr ""
+"Ar šo varat mainīt valodu, kuru izmanto šī programma.<nl/>Varat arī norādīt "
+"sekundāro valodu, kas tiks izmantota tad, ja kaut kur trūkst teksta jūsu "
+"vēlamajā valodā."
 
 #: dolphinmainwindow.cpp:2678
 #, kde-kuit-format
@@ -1126,6 +1310,8 @@ msgid ""
 "This opens a window that informs you about the version, license, used "
 "libraries and maintainers of this application."
 msgstr ""
+"Spiežot te, atveras logs, kas jūs informēs par versiju, licenci, "
+"izmantotajām bibliotēkām un šīs programmas uzturētājiem."
 
 #: dolphinmainwindow.cpp:2683
 #, kde-kuit-format
@@ -1136,28 +1322,32 @@ msgid ""
 "this application but don't know about KDE or want to see a cute dragon have "
 "a look!"
 msgstr ""
+"Spiežot te, atvērsies logs ar informāciju par <emphasis>KDE</emphasis>. KDE "
+"kopiena ir visi cilvēki zem šī brīvās programmatūras projekta.<nl/>Ja ar "
+"prieku lietojat šo programmu, bet nezināt, kas ir KDE, vai vēlaties redzēt "
+"jauko pūķi, tad apskatieties!"
 
 #: dolphinmainwindow.cpp:2741 dolphinmainwindow.cpp:2745
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Noņemt fokusu no komandrindas paneļa"
+msgstr "Termināļa paneli padarīt neaktīvu"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr ""
+msgstr "Ievadiet servera URL (piemēram, smb://[ip adrese])"
 
 #: dolphinnavigatorswidgetaction.cpp:227
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
-msgstr "Iztukšot miskasti"
+msgstr "Iztukšot atkritni"
 
 #: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgid "Empties Trash to create free space"
-msgstr ""
+msgstr "Iztukšo atkritni, atbrīvojot vietu datorā"
 
 #: dolphinnavigatorswidgetaction.cpp:254
 #, kde-format
@@ -1175,40 +1365,34 @@ msgstr[1] "Vietas joslas"
 msgstr[2] "Vietas joslu"
 
 #: dolphinpart.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&Rediģēt datnes tipu..."
 
 #: dolphinpart.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Pievienot izvēlei atbilstošos..."
+msgstr "Atlasīt vienumus, kas atbilst..."
 
 #: dolphinpart.cpp:157
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Noņemt izvēli atbilstošajiem..."
+msgstr "Noņemt vienumus visam, kas atbilst..."
 
 #: dolphinpart.cpp:163
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
-msgstr "Noņemt izvēli visam"
+msgstr "Noņemt atlasi visam"
 
 #: dolphinpart.cpp:178
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
-msgstr "&Lietotnes"
+msgstr "&Programmas"
 
 #: dolphinpart.cpp:179
 #, kde-format
@@ -1220,7 +1404,7 @@ msgstr "&Tīkla mapes"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
-msgstr "Miskaste"
+msgstr "Atkritne"
 
 #: dolphinpart.cpp:183
 #, kde-format
@@ -1229,9 +1413,7 @@ msgid "Autostart"
 msgstr "Autopalaišana"
 
 #: dolphinpart.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Atrast datni..."
@@ -1246,7 +1428,7 @@ msgstr "Atvērt &termināli"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
-msgstr "Izvēlēties"
+msgstr "Atlasīt"
 
 #: dolphinpart.cpp:447
 #, kde-format
@@ -1257,25 +1439,25 @@ msgstr "Izvēlēties visus vienumus, kas atbilst šim paraugam:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
-msgstr "Noņemt izvēli"
+msgstr "Noņemt atlasi"
 
 #: dolphinpart.cpp:452
 #, kde-format
 msgid "Unselect all items matching this pattern:"
-msgstr "Neizvēlēties visu, kas atbilst šim paraugam:"
+msgstr "Noņemt atlasi visam, kas atbilst šim paraugam:"
 
 #. i18n: ectx: Menu (edit)
 #: dolphinpart.rc:5
 #, kde-format
 msgid "&Edit"
-msgstr "R&ediģēt"
+msgstr "&Rediģēt"
 
 #. i18n: ectx: Menu (selection)
 #: dolphinpart.rc:15
 #, kde-format
 msgctxt "@title:menu"
 msgid "Selection"
-msgstr "Izvēle"
+msgstr "Atlase"
 
 #. i18n: ectx: Menu (view)
 #: dolphinpart.rc:24
@@ -1301,7 +1483,7 @@ msgstr "Rīki"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
-msgstr "Dolphin rīkjosla"
+msgstr "„Dolphin“ rīkjosla"
 
 #: dolphinrecenttabsmenu.cpp:18
 #, kde-format
@@ -1317,7 +1499,7 @@ msgstr "Iztukšot nesen aizvērto ciļņu sarakstu"
 #: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
 #, kde-format
 msgid "Search for %1 in %2"
-msgstr "Meklēt %1 iekš %2"
+msgstr "Meklēt „%1“ mapē „%2“"
 
 #: dolphintabbar.cpp:127
 #, kde-format
@@ -1346,12 +1528,10 @@ msgstr "Aizvērt cilni"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:496
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1359,7 +1539,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1389,6 +1569,14 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
+"<para>Šī vieta kā adrese apraksta vietu, kurā zemāk ir parādītas datnes un "
+"mapes.</para><para>Šobrīd apskatāmās mapes nosaukums ir lasāms labajā pusē. "
+"Pa kreisi no tā ir redzama mape, kurā tā atrodas. Visa šī rinda tiek dēvēta "
+"par <emphasis>ceļu</emphasis> līdz pašreizējai vietai, jo, sekojot mapēm no "
+"kreisās puses uz labo, nonāksiet šajā vietā.</para><para>Šis interaktīvais "
+"ceļš ir daudz jaudīgāks nekā varbūt domājat. Lai par to uzzinātu vairāk un "
+"iemācītos vietas joslas papildu funkcijām <link url='help:/dolphin/location-"
+"bar.html'>spiediet te</link>. Atvērsies atsevišķa lapa Rokasgrāmatā.</para>"
 
 #: dolphinviewcontainer.cpp:89
 #, kde-kuit-format
@@ -1404,11 +1592,21 @@ msgid ""
 "access time or rating.</item><item>More Search Tools: Install other means to "
 "find an item.</item></list></para>"
 msgstr ""
+"<para>Tas palīdz atrast datnes un mapes. Ievadiet <emphasis>meklējamos "
+"vārdus</emphasis> un precizējiet meklēšanas iestatījumus ar zemāk esošajām "
+"pogām: <list><item>Datnes nosaukums/Saturs: Vai meklējat šos vārdus datnes "
+"nosaukumā vai kāda dokumenta tekstā?<nl/>Tomēr ievērojiet, ka attēlu, skaņas "
+"un video datņu saturs netiks pārskatīts.</item><item>Te/Visur: vai vēlaties "
+"meklēt tikai šajā mapē un tās apakšmapēs, vai arī visā sistēmā?</"
+"item><item>Vairāk iespēju: spiediet te, lai meklētu pēc datnes veida, "
+"piekļuves laika vai vērtējuma.</item><item>Vairāk meklēšanas rīku: "
+"instalējiet citus veidus, kā atrast meklēto.</item></list></para>"
 
 #: dolphinviewcontainer.cpp:109
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
-msgstr "Dolphin darbināšana kā root lietotājam ir bīstama. Esiet uzmanīgi."
+msgstr ""
+"„Dolphin“ palaišana kā saknes lietotājam var būt bīstama. Esiet uzmanīgi."
 
 #: dolphinviewcontainer.cpp:534
 #, kde-format
@@ -1418,28 +1616,22 @@ msgstr "Meklēt"
 #: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search for %1"
-msgstr "Meklēt %1"
+msgstr "Meklēt „%1“"
 
 #: dolphinviewcontainer.cpp:620
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Mapes ielāde..."
+msgstr "Ielādē mapi..."
 
 #: dolphinviewcontainer.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Kārtošana:"
+msgstr "Kārtošana..."
 
 #: dolphinviewcontainer.cpp:639
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Meklē..."
@@ -1454,22 +1646,21 @@ msgstr "Nekas nav atrasts."
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
-msgstr "Dolphin neatbalsta tīmekļa lapas, tika palaists tīmekļa pārlūks"
+msgstr "„Dolphin“ neatbalsta tīmekļa lapas, tāpēc ir atvērts tīmekļa pārlūks"
 
 #: dolphinviewcontainer.cpp:824
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
-msgstr "Dolphin neatbalsta šo protokolu, tika palaista noklusējuma programma"
+msgstr ""
+"„Dolphin“ neatbalsta šo protokolu, tāpēc ir atvērta noklusējuma programma"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Nederīgs protokols"
+msgstr "Nederīgs protokols „%1“"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -1482,19 +1673,19 @@ msgstr "Nederīgs protokols"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Ir mainīta pašreizējā atrašanās vieta, <filename>%1</filename> vairs nav "
+"pieejama."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "Saglabāt filtru kad tiek mainītas mapes"
+msgstr "Saglabāt filtru, mainot mapes"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtrs"
+msgstr "Filtrēt..."
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -1506,14 +1697,14 @@ msgstr "Slēpt filtra joslu"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "„%1“"
 
 #: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr ""
+msgstr "„%1“ un „%2“"
 
 #: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
@@ -1521,7 +1712,7 @@ msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr ""
+msgstr "„%1“, „%2“ un „%3“"
 
 #: kitemviews/kfileitemlisttostring.cpp:37
 #, kde-format
@@ -1529,7 +1720,7 @@ msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr ""
+msgstr "„%1“, „%2“, „%3“ un „%4“"
 
 #: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
@@ -1537,18 +1728,16 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "„%1“, „%2“, „%3“, „%4“ un „%5“"
 
 #: kitemviews/kfileitemlisttostring.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Invert Selection"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Invertēt izvēli"
-msgstr[1] "Invertēt izvēli"
-msgstr[2] "Invertēt izvēli"
+msgstr[0] "Atlasīta %1 datne"
+msgstr[1] "Atlasītas %1 datnes"
+msgstr[2] "Atlasītas %1 datnes"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
@@ -1556,9 +1745,9 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Atlasīta %1 mape"
+msgstr[1] "Atlasītas %1 mapes"
+msgstr[2] "Atlasītas %1 mapes"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
 #, kde-format
@@ -1567,15 +1756,12 @@ msgctxt ""
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Atlasīta %1 vienums"
+msgstr[1] "Atlasīti %1 vienumi"
+msgstr[2] "Atlasīti %1 vienumi"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
@@ -1584,10 +1770,7 @@ msgstr[1] "%1 datnes"
 msgstr[2] "%1 datņu"
 
 #: kitemviews/kfileitemlisttostring.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
@@ -1596,16 +1779,14 @@ msgstr[1] "%1 mapes"
 msgstr[2] "%1 mapju"
 
 #: kitemviews/kfileitemlisttostring.cpp:86
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Rename Item"
+#, kde-format
 msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Pārdēvēt vienumu"
-msgstr[1] "Pārdēvēt vienumu"
-msgstr[2] "Pārdēvēt vienumu"
+msgstr[0] "%1 vienums"
+msgstr[1] "%1 vienumi"
+msgstr[2] "%1 vienumu"
 
 #: kitemviews/kfileitemlistwidget.cpp:73
 #, kde-format
@@ -1620,13 +1801,13 @@ msgstr[2] "%1 vienumu"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2298
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
-msgstr "0 - 9"
+msgstr "0 — 9"
 
 #: kitemviews/kfileitemmodel.cpp:2300
 #, kde-format
@@ -1708,11 +1889,7 @@ msgid "Earlier this Month"
 msgstr "Iepriekš šomēnes"
 
 #: kitemviews/kfileitemmodel.cpp:2428
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: MMMM is full month name in current locale, and yyyy is "
-#| "full year number"
-#| msgid "'Yesterday' (MMMM, yyyy)"
+#, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
 "full year number. You must keep the ' don't use any fancy \" or « or "
@@ -1730,11 +1907,7 @@ msgid "%1"
 msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2448
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: The week day name: dddd, MMMM is full month name in "
-#| "current locale, and yyyy is full year number"
-#| msgid "dddd (MMMM, yyyy)"
+#, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
@@ -1750,11 +1923,7 @@ msgid "%1"
 msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2460
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: MMMM is full month name in current locale, and yyyy is "
-#| "full year number"
-#| msgid "'One Week Ago' (MMMM, yyyy)"
+#, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
 "full year number. You must keep the ' don't use any fancy \" or « or "
@@ -1772,11 +1941,7 @@ msgid "%1"
 msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2481
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: MMMM is full month name in current locale, and yyyy is "
-#| "full year number"
-#| msgid "'Two Weeks Ago' (MMMM, yyyy)"
+#, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
 "full year number. You must keep the ' don't use any fancy \" or « or "
@@ -1794,11 +1959,7 @@ msgid "%1"
 msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2502
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: MMMM is full month name in current locale, and yyyy is "
-#| "full year number"
-#| msgid "'Three Weeks Ago' (MMMM, yyyy)"
+#, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
 "full year number. You must keep the ' don't use any fancy \" or « or "
@@ -1816,18 +1977,14 @@ msgid "%1"
 msgstr "%1"
 
 #: kitemviews/kfileitemmodel.cpp:2523
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@title:group Date: MMMM is full month name in current locale, and yyyy is "
-#| "full year number"
-#| msgid "'Earlier on' MMMM, yyyy"
+#, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
 "full year number. You must keep the ' don't use any fancy \" or « or "
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr "'Senāk' (MMMM, yyyy)"
+msgstr "'Senāk' MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2530
 #, kde-format
@@ -1906,7 +2063,7 @@ msgstr "Modificēts"
 #: kitemviews/kfileitemmodel.cpp:2718
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Datuma formātu varat izvēlēties iestatījumos."
 
 #: kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
@@ -1931,7 +2088,7 @@ msgstr "Vērtējums"
 #: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
 msgid "Tags"
-msgstr "Tagi"
+msgstr "Birkas"
 
 #: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
@@ -1953,20 +2110,17 @@ msgstr "Dokuments"
 #: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Autors"
 
 #: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Izdevējs"
 
 #: kitemviews/kfileitemmodel.cpp:2726
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Rindu skaits"
+msgstr "Lapu skaits"
 
 #: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
@@ -1993,7 +2147,7 @@ msgstr "Attēls"
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label width x height"
 msgid "Dimensions"
-msgstr ""
+msgstr "Izmēri"
 
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
@@ -2013,7 +2167,7 @@ msgstr "Orientācija"
 #: kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label"
 msgid "Artist"
-msgstr "Mākslinieks"
+msgstr "Izpildītājs"
 
 #: kitemviews/kfileitemmodel.cpp:2734 kitemviews/kfileitemmodel.cpp:2735
 #: kitemviews/kfileitemmodel.cpp:2736 kitemviews/kfileitemmodel.cpp:2737
@@ -2041,7 +2195,7 @@ msgstr "Ilgums"
 #: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Bitrate"
-msgstr "Bitātrums"
+msgstr "Bitu ātrums"
 
 #: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
@@ -2051,7 +2205,7 @@ msgstr "Celiņš"
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Release Year"
-msgstr "Laiduma gads"
+msgstr "Izdošanas gads"
 
 #: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
@@ -2066,7 +2220,7 @@ msgstr "Video"
 #: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
 msgid "Frame Rate"
-msgstr "Kadrātrums"
+msgstr "Kadru ātrums"
 
 #: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
@@ -2084,7 +2238,7 @@ msgstr "Citi"
 #: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "Datnes paplašinājums"
 
 #: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
@@ -2112,6 +2266,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Atļauju attēlošanas formātu varat mainīt iestatījumos. Iespējas ir "
+"simbolisks, skaitlisks (oktāls) vai kombinēts formāts"
 
 #: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
@@ -2121,7 +2277,7 @@ msgstr "Īpašnieks"
 #: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "User Group"
-msgstr "Grupa"
+msgstr "Lietotāju grupa"
 
 #: kitemviews/kfileitemmodel.cpp:2850
 #, kde-format
@@ -2144,35 +2300,31 @@ msgstr "Datņu pārvaldnieks"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006—2022 „Dolphin“ izstrādātāji"
 
 #: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Uzturētājs (kopš 2018) un izstrādātājs"
+msgstr "Uzturētājs (kopš 2021. gada) un izstrādātājs"
 
 #: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Uzturētājs (kopš 2018) un izstrādātājs"
+msgstr "Uzturētājs (kopš 2021 gada) un izstrādātājs (kopš 2019. gada)"
 
 #: main.cpp:106
 #, kde-format
@@ -2181,12 +2333,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:107
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Uzturētājs (2014-2018) un izstrādātājs"
+msgstr "Uzturētājs (2018—2021) un izstrādātājs"
 
 #: main.cpp:109
 #, kde-format
@@ -2198,7 +2348,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
-msgstr "Uzturētājs (2014-2018) un izstrādātājs"
+msgstr "Uzturētājs (2014—2018) un izstrādātājs"
 
 #: main.cpp:112
 #, kde-format
@@ -2210,7 +2360,7 @@ msgstr "Frank Reininghaus"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
-msgstr "Uzturētājs (2012-2014) un izstrādātājs"
+msgstr "Uzturētājs (2012—2014) un izstrādātājs"
 
 #: main.cpp:115
 #, kde-format
@@ -2222,7 +2372,7 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
-msgstr "Uzturētājs un izstrādātājs (2006-2012)"
+msgstr "Uzturētājs un izstrādātājs (2006—2012)"
 
 #: main.cpp:118
 #, kde-format
@@ -2289,27 +2439,25 @@ msgstr "Dokumentācija"
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
-msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
+msgstr "Atlasītas tiks datnes un mapes, kas ir norādītas kā argumenti."
 
 #: main.cpp:137
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
-msgstr "Dolphin tiks startēts sadalītajā skatā."
+msgstr "„Dolphin“ ieslēgsies sadalītā skatā."
 
 #: main.cpp:138
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
-msgstr "Dolphin atvērsies jaunā logā."
+msgstr "„Dolphin“ atvērsies jaunā logā."
 
 #: main.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Palaist Dolphin dēmonu (nepieciešams priekš DBus saskarnes)"
+msgstr "Palaist „Dolphin“ dēmonu (nepieciešams tikai „DBus“ saskarnei)."
 
 #: main.cpp:141
 #, kde-format
@@ -2348,9 +2496,7 @@ msgid "Copy"
 msgstr "Kopēt"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "Pārdēvēt..."
@@ -2359,7 +2505,7 @@ msgstr "Pārdēvēt..."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
-msgstr "Pārvietot uz miskasti"
+msgstr "Pārvietot uz atkritni"
 
 #: panels/folders/treeviewcontextmenu.cpp:93
 #, kde-format
@@ -2401,15 +2547,13 @@ msgstr "Parādīti priekšskatījumi"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Auto atskaņot multimediju datnes"
+msgstr "Automātiski atskaņot multimediju datnes"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Rādīt filtra joslu"
+msgstr "Rādīt vienumu, uzliekot peles kursoru"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2427,44 +2571,40 @@ msgstr "Priekšskatījums"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Auto atskaņot multimediju datnes"
+msgstr "Automātiski atskaņot multimediju datnes"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Rādīt filtra joslu"
+msgstr "Rādīt vienumu, uzliekot peles kursoru"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Konfigurēt"
+msgstr "Konfigurēt..."
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
-msgstr "Kompakts datums"
+msgstr "Īsais datums"
 
 #: panels/information/informationpanelcontent.cpp:105
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr "Izvēlieties rādāmos datus:"
+msgstr "Izvēlieties parādāmos datus:"
 
 #: panels/information/informationpanelcontent.cpp:285
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
 msgid_plural "%1 items selected"
-msgstr[0] "Izvēlēta %1 vienība"
-msgstr[1] "Izvēlētas %1 vienības"
-msgstr[2] "Izvēlēts %1 vienību"
+msgstr[0] "Izvēlēts %1 vienums"
+msgstr[1] "Izvēlēti %1 vienumi"
+msgstr[2] "Izvēlēti %1 vienumi"
 
 #: panels/information/phononwidget.cpp:153
 #, kde-format
@@ -2474,24 +2614,19 @@ msgstr "atskaņot"
 #: panels/information/phononwidget.cpp:159
 #, kde-format
 msgid "pause"
-msgstr "pauze"
+msgstr "pauzēt"
 
 #. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
 #: panels/places/dolphin_placespanelsettings.kcfg:11
-#, fuzzy, kde-format
-#| msgid ""
-#| "Size of icons in the Places Panel (-1 means \"use the style's small size"
-#| "\")"
+#, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
-msgstr "Ikonu izmērs vietu panelī (-1 nozīmē \"izmantot stila mazo izmēru\")"
+msgstr "Ikonu izmērs vietu panelī (-1 nozīmē „automātiski“)"
 
 #: panels/places/placespanel.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure Trash..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Konfigurēt miskasti..."
+msgstr "Konfigurēt atkritni..."
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format
@@ -2499,11 +2634,13 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
+"Termināli nevar parādīt, jo nav instalēta „Konsole“. Instalējiet šo "
+"programmu un paneli atveriet no jauna."
 
 #: panels/terminal/terminalpanel.cpp:192
 #, kde-format
 msgid "Install Konsole"
-msgstr "Instalēt Konsole"
+msgstr "Instalēt „Konsole“"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -2599,25 +2736,25 @@ msgstr "Jebkāds vērtējums"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "1 or more"
-msgstr "1 vai vairāk"
+msgstr "1 vai labāks"
 
 #: search/dolphinfacetswidget.cpp:57
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "2 or more"
-msgstr "2 vai vairāk"
+msgstr "2 vai labāks"
 
 #: search/dolphinfacetswidget.cpp:58
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "3 or more"
-msgstr "3 vai vairāk"
+msgstr "3 vai labāks"
 
 #: search/dolphinfacetswidget.cpp:59
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "4 or more"
-msgstr "4 vai vairāk"
+msgstr "4 vai labāks"
 
 #: search/dolphinfacetswidget.cpp:60
 #, kde-format
@@ -2629,7 +2766,7 @@ msgstr "Augstākais vērtējums"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Clear Selection"
-msgstr "Notīrīt izvēli"
+msgstr "Notīrīt atlasi"
 
 #: search/dolphinfacetswidget.cpp:253
 #, kde-format
@@ -2638,15 +2775,13 @@ msgid ", "
 msgstr ", "
 
 #: search/dolphinfacetswidget.cpp:254
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
-msgstr[0] "%1: %2"
-msgstr[1] "%1: %2"
-msgstr[2] "%1: %2"
+msgstr[0] "Birka: %2"
+msgstr[1] "Birkas: %2"
+msgstr[2] "Birku: %2"
 
 #: search/dolphinfacetswidget.cpp:256
 #, kde-format
@@ -2670,7 +2805,7 @@ msgstr "Ierobežot meklēšanu līdz „%1“ un tās apakšmapēm"
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
-msgstr "Saglabāt šo meklēšanu, lai varētu tai turpmāk viegli piekļūt"
+msgstr "Saglabāt šo meklēšanu vieglai atkārtošanai nākotnē"
 
 #: search/dolphinsearchbox.cpp:359
 #, kde-format
@@ -2709,9 +2844,7 @@ msgid "Search in your home directory"
 msgstr "Meklēt mājas mapē"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Atvērt %1"
 
@@ -2721,15 +2854,13 @@ msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
 "user entered."
 msgid "Query Results from '%1'"
-msgstr "'%1' meklēšanas rezultāti"
+msgstr "Meklēšanas rezultāti vaicājumam „%1“"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
+msgstr "Atlasiet kopējamās datnes un mapes."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2739,43 +2870,39 @@ msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Atcelt kopēšanu"
 
 #: selectionmode/bottombarcontentscontainer.cpp:190
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Atlasiet vienu datni vai mapi, kuras atrašanās vietu kopēt."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr ""
+msgstr "Atlasiet datnes un mapes, ko pārkopēt"
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Rādīt priekšskatījumus mapēm un datnēm"
+msgstr "Atlasiet datnes un mapes, kas jāizgriež."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Atcelt izgriežanu"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
+msgstr "Atlasiet datnes un mapes, kuras vēlaties neatgriezeniski dzēst."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2784,22 +2911,20 @@ msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Atcelt"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Datnes un mapes, kas padotas kā argumenti, tiks izvēlētas."
+msgstr "Atlasiet datnes un mapes, kuras vēlaties dublēt"
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Atcelt dublēšanu"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2807,27 +2932,27 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Vairāk"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:359
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Atlasiet datnes un mapes, kuras vēlaties pārvietot."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Atcelt pārvietošanu"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Atlasiet datnes un mapes, kuras vēlaties pārvietot uz atkritni."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2838,25 +2963,30 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Atlasītās datnes un mapes tika pievienotas starpliktuvei. Tagad "
+"<emphasis>Ielīmēšanas</emphasis> darbība var tikt izmantota, lai tās "
+"nosūtīto no starpliktuves uz citām vietām. Tās varat par nosūtīt uz citām "
+"programmām, izmantojot šo programmu attiecīgās <emphasis>Ielīmēšanas</"
+"emphasis> darbības.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Ielīmēt no starpliktuves"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Noņemt šo atgādinājumu"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Vairs neatgādināt"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -2865,13 +2995,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Atlasiet datni vai mapi, kuru vēlaties pārsaukt.\n"
+"Masveida pārsaukšana ir iespējama, atlasot vairākus vienumus."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Atcelt pārsaukšanu."
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2883,9 +3015,9 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopēt %2 uz starpliktuvi"
+msgstr[1] "Kopēt %2 uz starpliktuvi"
+msgstr[2] "Kopēt %2 uz starpliktuvi"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2897,9 +3029,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopēt %2 atrašanās vietu uz starpliktuvi"
+msgstr[1] "Kopēt %2 atrašanās vietu uz starpliktuvi"
+msgstr[2] "Kopēt %2 atrašanās vietu uz starpliktuvi"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2911,9 +3043,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Izgriezt %2 uz starpliktuvi"
+msgstr[1] "Izgriezt %2 uz starpliktuvi"
+msgstr[2] "Izgriezt %2 uz starpliktuvi"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2925,9 +3057,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Neatgriezeniski dzēst %2"
+msgstr[1] "Neatgriezeniski dzēst %2"
+msgstr[2] "Neatgriezeniski dzēst %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2935,15 +3067,13 @@ msgstr[2] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Dublēt šeit"
-msgstr[1] "Dublēt šeit"
-msgstr[2] "Dublēt šeit"
+msgstr[0] "Dublēt %2"
+msgstr[1] "Dublēt %2"
+msgstr[2] "Dublēt %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2951,15 +3081,13 @@ msgstr[2] "Dublēt šeit"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Pārvietot uz miskasti"
-msgstr[1] "Pārvietot uz miskasti"
-msgstr[2] "Pārvietot uz miskasti"
+msgstr[0] "Pārvietot %2 uz atkritni"
+msgstr[1] "Pārvietot %2 uz atkritni"
+msgstr[2] "Pārvietot %2 uz atkritni"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2967,15 +3095,13 @@ msgstr[2] "Pārvietot uz miskasti"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Pā&rdēvēt"
-msgstr[1] "Pā&rdēvēt"
-msgstr[2] "Pā&rdēvēt"
+msgstr[0] "Pārdēvēt %2"
+msgstr[1] "Pārdēvēt %2"
+msgstr[2] "Pārdēvēt %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -2990,69 +3116,68 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Atlasīšanas režīms</title><para>Atlasiet datnes vai mapes, lai tās "
+"pārvaldītu vai izmainītu.<list><item>Press on a file or folder to select it."
+"</item><item>Spiediet uz jau atlasītas datnes vai mapes, lai noņemtu "
+"atlasīšanu.</item><item>Spiežot tukšā vietā, atlasījums <emphasis>nenotīrās</"
+"emphasis>.</item><item>Atlases četrstūri (izveido velkot no tukšas zonas) "
+"apgriež atlases statusu ietvertajiem vienumiem.</item></list></"
+"para><para>Pieejamās darbības pogas skata apakšā mainās atkarībā no atlases."
+"</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Atlases režīms: spiediet uz datnēm vai mapēm, lai tās atlasītu vai noņemtu "
+"atlasi."
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Izvēle"
+msgstr "Atlases režīms"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Izvēle"
+msgstr "Iziet no atlases režīma"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:59
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "Izvēlēties, kurus servisus rādīt konteksta izvēlnē:"
+msgstr "Atlasiet, kurus servisus rādīt konteksta izvēlnē:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Meklēt"
+msgstr "Meklēt..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Lejupielādēt jaunus servisus..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Dolphin must be restarted to apply the updated version control systems "
-#| "settings."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Dolphin must be restarted to apply the updated version control system "
 "settings."
 msgstr ""
 "Lai pielietotu atjauninātos versiju kontroles sistēmu iestatījumus, "
-"jāpārstartē Dolphin."
+"jāpārstartē „Dolphin“."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
-msgstr ""
+msgstr "Pārstartēt tagad?"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:245
 #, kde-format
@@ -3064,7 +3189,7 @@ msgstr "Dzēst"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "'Kopēt uz' un 'Pārvietot uz' komandas"
+msgstr "„Kopēt uz“ un „Pārvietot uz“ komandas"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:290
 #, kde-format
@@ -3112,126 +3237,122 @@ msgstr "Maksimālais teksta platuma indekss (0 nozīmē bez ierobežojuma)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "Whether or not content count is used as directory size"
-msgstr ""
+msgstr "Vai satura vienumu skaits tiek izmantots kā mapes izmērs."
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:14
 #, kde-format
 msgid "Recursive directory size limit"
-msgstr ""
+msgstr "Rekursīvs mapes izmēra ierobežojums"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:18
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
-msgstr ""
+msgstr "Ja patiess, izmantojam īsus relatīvos datumus, ja nav īsie datumi"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Atļaujas"
+msgstr "Atļauju stila fomāts"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Rādīt 'Kopēt uz' un 'Pārvietot uz' komandas konteksta izvēlnē"
+msgstr "Konteksta izvēlnē rādīt „Kopēt uz“ un „Pārvietot uz“ komandas"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Rādīt „Pievienot vietām“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Pievienot vietām“."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr ""
+msgstr "Konteksta izvēlnē rādīt „Kārtot pēc“."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Rādīt „Skata režīms“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Skata režīms“."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "Rādīt „Atvērt jaunā cilnē“ un „Atvērt jaunās cilnēs“ kontekstizvēlnē."
+msgstr ""
+"Konteksta izvēlnē rādīt „Atvērt jaunā cilnē“ un „Atvērt jaunās cilnēs“."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Rādīt „Atvērt jaunā logā“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Atvērt jaunā logā“."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Rādīt „Atvērt jaunā logā“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Atvērt sadalītā skatā“."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Rādīt „Kopēt vietu“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Kopēt vietu“."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr ""
+msgstr "Konteksta izvēlnē rādīt „Dublēt te“."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Rādīt „Atvērt komandrindā“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Atvērt terminālī“."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Rādīt „Kopēt vietu“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt „Kopēt vietu“."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, fuzzy, kde-format
-#| msgid "Show 'Add to Places' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Rādīt „Pievienot vietām“ kontekstizvēlnē."
+msgstr "Konteksta izvēlnē rādīt Pārvietot uz otru sadalīto skatu“."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
 #, kde-format
 msgid "Position of columns"
-msgstr "Kolonu novietojums"
+msgstr "Kolonnu novietojums"
 
 #. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Sānu atstarpes"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Iekrāsot visu rindu"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Expandable folders"
-msgstr "Izplešamas mapes"
+msgstr "Izvēršamas mapes"
 
 #. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:11
@@ -3248,8 +3369,8 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Kad šī opcija ir ieslēgta, slēptās datnes (piemēram, tās, kas sākas ar '.') "
-"tiks rādītas datņu skatā."
+"Kad šī iespēja ir ieslēgta, datņu sarakstā būs redzamas arī slēptās datnes "
+"(piemēram, tās, kas sākas ar „.“)."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -3263,7 +3384,7 @@ msgstr "Versija"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr "Šī opcija nosaka izmantoto skata īpašību versiju."
+msgstr "Šī iespēja nosaka izmantoto skata īpašību versiju."
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -3288,7 +3409,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Previews shown"
-msgstr "Parādīti priekšskatījumi"
+msgstr "Priekšskatījumi tiek rādīti"
 
 #. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:32
@@ -3298,8 +3419,8 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Kad šī opcija ir ieslēgta, datnes priekšskatījums tiek rādīts tās ikonas "
-"vietā."
+"Kad šī iespēja ir ieslēgta, datnes ikonas vietā tiek rādīts tās satura "
+"priekšskatījums."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -3315,7 +3436,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Kad šī opcija ir ieslēgta, sakārtotās vienības tiek kategorizētas grupās."
+"Kad šī iespēja ir ieslēgta, sakārtotie vienumi tiek sadalīti grupās pēc "
+"kategorijas."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -3332,7 +3454,7 @@ msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
 msgstr ""
-"Šī opcija nosaka, pēc kura atribūta (nosaukuma, izmēra, u.c.) tiks veikta "
+"Šī iespēja nosaka, pēc kura atribūta (nosaukuma, izmēra, u.c.) notiks "
 "kārtošana."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
@@ -3347,16 +3469,14 @@ msgstr "Datņu kārtošanas secība"
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr "Rādīt mapes augšā"
+msgstr "Kārtojos datnes un mapes, mapes rādīt pirmās"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
-msgstr "Rādīt priekšskatījumus mapēm un datnēm"
+msgstr "Slēptās datnes un mapes rādīt pēdējās"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:66
@@ -3424,6 +3544,7 @@ msgid ""
 "Should an externally called folder open in a new tab in an existing Dolphin "
 "instance"
 msgstr ""
+"Vai ārēji izsauktu mapi atvērta eksistējoša „Dolphin“ loga jaunā cilnē."
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:38
@@ -3433,6 +3554,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
+"„Dolphin“ konfigurācijas versija, kas pamatā tiek izmantota, lai noteiktu, "
+"vai darbojas atjaunināta „Dolphin“ versija un lai migrētu noņemtus/"
+"pārsauktus u.c. konfigurācijas ierakstus."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -3440,7 +3564,9 @@ msgstr ""
 msgid ""
 "Have the startup settings been modified (internal setting not shown in the "
 "UI)"
-msgstr "Vai palaišanas iestatījumi ir modificēti"
+msgstr ""
+"Vai palaišanas iestatījumi ir modificēti (iekšējie iestatījumi saskarnē "
+"netiek parādīti)"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
@@ -3470,7 +3596,7 @@ msgstr "Vai jārāda filtra josla"
 #: settings/dolphin_generalsettings.kcfg:63
 #, kde-format
 msgid "Should the view properties be used for all folders"
-msgstr "Vai skata īpašības ir jālieto visām mapēm"
+msgstr "Vai visās mapēs lietot vienotas skata īpašības"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
 #: settings/dolphin_generalsettings.kcfg:67
@@ -3491,7 +3617,7 @@ msgid ""
 "Ask for confirmation when closing windows with a program that is still "
 "running in the Terminal panel."
 msgstr ""
-"Vaicāt apstiprinājumu aizverot logus, ja to komandrindas panelī joprojām "
+"Vaicāt apstiprinājumu aizverot logus, ja to termināļa panelī joprojām "
 "darbojas kāda programma."
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
@@ -3513,24 +3639,26 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Rādīt joslu vieglai ielīmēšanai pēc griešanas vai kopēšanas atlases režīmā, "
+"izmantojot apakšējo joslu."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Use tab for switching between right and left split"
-msgstr ""
+msgstr "Izmantot cilni, lai pārslēgtos starp labo un kreiso sadalīto skatu"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Close active pane when toggling off split view"
-msgstr ""
+msgstr "Aizvērt aktīvo skatu, izslēdzot sadalīto skatu"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr ""
+msgstr "Jauna cilne tiks atvērta pēc pēdējās cilnes"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
@@ -3554,19 +3682,19 @@ msgstr "Automātiski izvērst mapes visos skata veidos"
 #: settings/dolphin_generalsettings.kcfg:114
 #, kde-format
 msgid "Show the statusbar"
-msgstr "Rādīt statusjoslu"
+msgstr "Rādīt statusa joslu"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Rādīt mērogošans slīdni statusa jolsā"
+msgstr "Statusa joslā rādīt tālummaiņas slīdni"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:123
 #, kde-format
 msgid "Show the space information in the statusbar"
-msgstr "Rādīt vietas informāciju statusa joslā"
+msgstr "Statusa joslā rādīt informāciju par brīvo vietu"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
 #: settings/dolphin_generalsettings.kcfg:127
@@ -3587,26 +3715,26 @@ msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
 "items"
 msgstr ""
+"Vienumu kārtošanai izmanto dabīgu, lielo burtu ievērojošu vai lielo burtu "
+"neievērojošu secību"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Tāpat arī slēpt datnes ar „application/x-trash“ MIME tipu"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Vaicāt apstiprinājumu, aizverot logus ar vairākām cilnēm."
+msgstr "Vaicāt apstiprinājumu, atverot uzreiz vairākas mapes."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Vaicāt apstiprinājumu, aizverot logus ar vairākām cilnēm."
+msgstr "Vaicāt apstiprinājumu, atverot vienlaicīgi vairākus termināļus."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3627,49 +3755,47 @@ msgid "Enabled plugins"
 msgstr "Ieslēgtie spraudņi"
 
 #: settings/dolphinsettingsdialog.cpp:41
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure"
-msgstr "Konfigurēt"
+msgstr "Konfigurācija"
 
 #: settings/dolphinsettingsdialog.cpp:53
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Saskarne"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Skats"
+msgstr "Skats"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
-msgstr "Kontekstizvēlne"
+msgstr "Konteksta izvēlne"
 
 #: settings/dolphinsettingsdialog.cpp:87
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
-msgstr "Miskaste"
+msgstr "Atkritne"
 
 #: settings/dolphinsettingsdialog.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
-msgstr ""
+msgstr "Lietotāja atgriezeniskā saite"
 
 #: settings/dolphinsettingsdialog.cpp:165
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
+"Jums ir nesaglabātas izmaiņas. Vai vēlaties tās apstiprināt vai noraidīt?"
 
 #: settings/dolphinsettingsdialog.cpp:166
 #, kde-format
@@ -3686,13 +3812,13 @@ msgstr "Prasīt apstiprinājumu visās KDE programmās, kad:"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr "Pārvieto datnes vai mapes uz miskasti"
+msgstr "Pārvieto datnes vai mapes uz atkritni"
 
 #: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
-msgstr "Iztukšojot miskasti"
+msgstr "Iztukšo atkritni"
 
 #: settings/interface/confirmationssettingspage.cpp:51
 #, kde-format
@@ -3704,7 +3830,7 @@ msgstr "Dzēš datnes vai mapes"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "Prasīt apstiprinājumu, kad:"
+msgstr "Prasīt apstiprinājumu „Dolphin“ programmā, kad:"
 
 #: settings/interface/confirmationssettingspage.cpp:56
 #, kde-format
@@ -3716,21 +3842,19 @@ msgstr "Aizver logus ar vairākām cilnēm"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
-msgstr ""
+msgstr "Aizver logus, kad termināļa panelī ir palaista programma"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Meklēt datnes un mapes"
+msgstr "Vairāku mapju vienlaicīga atvēršana"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Vairāku termināļu vienlaicīga atvēršana"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3746,18 +3870,18 @@ msgstr "Vienmēr vaicāt"
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgid "Open in application"
-msgstr "Atvērt lietotnē"
+msgstr "Atvērt programmā"
 
 #: settings/interface/confirmationssettingspage.cpp:72
 #, kde-format
 msgid "Run script"
-msgstr "Darbināt skriptu"
+msgstr "Palaist skriptu"
 
 #: settings/interface/folderstabssettingspage.cpp:45
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr ""
+msgstr "Mapju, ciļņu un logu stāvokli no iepriekšējās reizes"
 
 #: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
@@ -3781,43 +3905,37 @@ msgstr "Izmantot noklusējuma atrašanās vietu"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
-msgstr "Rādīt palaižot:"
+msgstr "Ieslēdzot rādīt:"
 
 #: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Paturēt vienu „Dolphin“ logu, atverot jaunas mapes un cilnes"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Meklēt datnes un mapes"
+msgstr "Mapju atvēršana:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "Rādīt pilnu ceļu virsraksta joslā"
+msgstr "Virsraksta joslā rādīt pilnu ceļu"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Jauns &logs"
+msgstr "Logs:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "Rādīt filtrēšanas joslu"
+msgstr "Rādīt filtra joslu"
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -3835,32 +3953,30 @@ msgstr "Ciļņu joslas beigās"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Atvērt jaunas cilnes:"
+msgstr "Atvērt jaunas cilnes: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr ""
+msgstr "Pārslēgties starp rūtiņām ar „Tab“ taustiņu"
 
 #: settings/interface/folderstabssettingspage.cpp:119
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Sadalīt skatu"
+msgstr "Sadalītais skats: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
-msgstr ""
+msgstr "Sadalītā skata izslēgšana aizver aktīvo rūtiņu"
 
 #: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgid "When deactivated, turning off split view will close the inactive pane"
-msgstr ""
+msgstr "Izslēdzot sadalīto skatu, aizveras neaktīvā puse"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -3871,7 +3987,7 @@ msgstr "Sākt dalītā skata režīmā"
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
 msgid "New windows:"
-msgstr "Jauni logi:"
+msgstr "Jauni programmas logi:"
 
 #: settings/interface/folderstabssettingspage.cpp:260
 #, kde-format
@@ -3883,12 +3999,10 @@ msgstr ""
 "Mājas mapes atrašanās vieta nav derīga vai nepastāv, tā netiks pielietota."
 
 #: settings/interface/interfacesettingspage.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Mapes vispirms"
+msgstr "Mapes un cilnes"
 
 #: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3905,19 +4019,16 @@ msgid "Confirmations"
 msgstr "Apstiprinājumi"
 
 #: settings/interface/interfacesettingspage.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Vietas josla"
+msgstr "Statusa un vietas josla"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
-msgstr "Rādīt priekšskatījumus priekš:"
+msgstr "Rādīt priekšskatījumus:"
 
 #: settings/interface/previewssettingspage.cpp:56
 #, kde-format
@@ -3945,19 +4056,19 @@ msgstr "Nerādīt priekšskatījumus attālinātām datnēm lielākām par:"
 #: settings/interface/previewssettingspage.cpp:75
 #, kde-format
 msgid "No previews"
-msgstr "Nerādīt priekšskatījumu"
+msgstr "Nerādīt priekšskatījumus"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Show status bar"
-msgstr "Rādīt statusjoslu"
+msgstr "Rādīt statusa joslu"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Rādīt mērogošans slīdni"
+msgstr "Rādīt tālummaiņas slīdni"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:38
 #, kde-format
@@ -3966,12 +4077,10 @@ msgid "Show space information"
 msgstr "Rādīt vietas informāciju"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Statusa josla"
+msgstr "Statusa josla: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -3980,12 +4089,9 @@ msgid "Make location bar editable"
 msgstr "Rediģējama atrašanās vietas josla"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Vietas josla"
+msgstr "Vietas josla:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4042,7 +4148,7 @@ msgstr "Pēc alfabēta, reģistrjutīgi"
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
-msgstr "Kārtošana:"
+msgstr "Kārtošanas režīms: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:51
 #, kde-format
@@ -4054,65 +4160,63 @@ msgstr "Vienumu skaits"
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
-msgstr ""
+msgstr "Satura izmērs līdz "
 
 #: settings/viewmodes/contentdisplaytab.cpp:60
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] " līmeni dziļš"
+msgstr[1] " līmeņus dziļš"
+msgstr[2] " līmeņu dziļš"
 
 #: settings/viewmodes/contentdisplaytab.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
-msgstr ""
+msgstr "Mapes izmērs parāda:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:78
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr ""
+msgstr "Relatīvs (piemēram, „%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:80
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr ""
+msgstr "Absolūts (piemēram, „%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
-msgstr ""
+msgstr "Datumu stils:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:89
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Simbolisks (piemēram „drwxr-xr-x“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Skaitlisks (oktāls) (piemēram, „755“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinēts (piemēram, „drwxr-xr-x (755)“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Atļaujas"
+msgstr "Atļauju stils:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4127,9 +4231,7 @@ msgid "Custom Font"
 msgstr "Pielāgots fonts"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Izvēlēties..."
@@ -4153,12 +4255,14 @@ msgid ""
 "Dolphin will create a hidden .directory file in each folder you change view "
 "properties for."
 msgstr ""
+"„Dolphin“ izveidos paslēptu „.directory“ datni katrā mapē, kurā maināt skata "
+"īpašības."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:34
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr ""
+msgstr "Parādīšanas stils: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
@@ -4176,7 +4280,7 @@ msgstr "Atvērt mapes, veicot vilkšanas darbības"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Pārlūkošana: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:49
 #, kde-format
@@ -4189,13 +4293,13 @@ msgstr "Rādīt paskaidres"
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
-msgstr "Dažādi:"
+msgstr "Dažādi: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Rādīt izvēles marķieri"
+msgstr "Rādīt atlases marķieri"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
@@ -4207,7 +4311,7 @@ msgstr "Iegulta pārdēvēšana"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Slēpjot slēptas datnes, paslēpt arī rezerves datnes"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4217,22 +4321,20 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Rezerves datnes ir datnes, kuru MIME tips ir „application/x-trash“ vai "
+"atbilst paraugam: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Vispārīgi"
 
 #: settings/viewmodes/viewsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Saturs"
+msgstr "Satur parādīšana"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4250,7 +4352,7 @@ msgstr "Priekšskatījuma ikonu izmērs:"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
-msgstr "Nosaukuma fonts:"
+msgstr "Datnes/mapes nosaukuma fonts:"
 
 #: settings/viewmodes/viewsettingstab.cpp:67
 #, kde-format
@@ -4280,7 +4382,7 @@ msgstr "Milzīgs"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
-msgstr "Nosaukuma platums:"
+msgstr "Datnes/mapes nosaukuma platums:"
 
 #: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
@@ -4358,7 +4460,7 @@ msgstr "Maksimālais platums:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
-msgstr "Izplešams"
+msgstr "Izvēršamas"
 
 #: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
@@ -4370,22 +4472,20 @@ msgstr "Mapes:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Klikšķinot jebkur rindā"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Klikšķinot uz ikonas vai nosaukuma"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Meklēt datnes un mapes"
+msgstr "Atvērt datnes un mapes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:325
@@ -4401,7 +4501,7 @@ msgstr[2] "Izmērs: %1 pikseļu"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr ""
+msgstr "Skatīt displeja stilu"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4437,15 +4537,13 @@ msgstr "Dilstoši"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
-msgstr "Rādīt mapes vispirms"
+msgstr "Mapes rādīt pirmās"
 
 #: settings/viewpropertiesdialog.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show hidden files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr "Rādīt slēptās datnes"
+msgstr "Slēptās mapes rādīt pēdējās"
 
 #: settings/viewpropertiesdialog.cpp:88
 #, kde-format
@@ -4474,7 +4572,7 @@ msgstr "Papildu informācija"
 #: settings/viewpropertiesdialog.cpp:132
 #, kde-format
 msgid "Choose what to see on each file or folder:"
-msgstr ""
+msgstr "Izvēlieties, ko vēlaties redzēt uz katras datnes un mapes:"
 
 #: settings/viewpropertiesdialog.cpp:142
 #, kde-format
@@ -4521,7 +4619,7 @@ msgstr "Pielietot:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
-msgstr ""
+msgstr "Izmantot kā noklusējuma skata iestatījumus"
 
 #: settings/viewpropertiesdialog.cpp:335
 #, kde-format
@@ -4596,6 +4694,13 @@ msgid ""
 "item><item><emphasis>Space information</emphasis> about the current storage "
 "device.</item></list></para>"
 msgstr ""
+"<para>Šī ir <emphasis>Statusa josla</emphasis>. Tā pēc noklusējuma satur "
+"trīs elementus (no kreisās uz labo):<list><item><emphasis>Teksta lauku</"
+"emphasis>, kurā ir parādīts atlasīto vienumu izmērs. Ja ir atlasīts tikai "
+"viens vienums, šajā laukā parādās arī tā nosaukums un tips.</"
+"item><item><emphasis>Tālummaiņas slīdnis</emphasis>, kas ļauj mainīt skata "
+"ikonu izmēru.</item><item><emphasis>Vietas informācija</emphasis> par "
+"pašreizējo krātuves ierīci.</item></list></para>"
 
 #: statusbar/dolphinstatusbar.cpp:267
 #, kde-format
@@ -4612,34 +4717,34 @@ msgstr "Rādīt vietas informāciju"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Diska lietojuma statistika — pašreizējā mape"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Diska lietojuma statistika — pašreizējā ierīce"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Diska lietojuma statistika — visas ierīces"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
-msgstr "%1 brīvs"
+msgstr "%1 brīva vieta"
 
 #: statusbar/statusbarspaceinfo.cpp:186
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr ""
+msgstr "%1 brīva vieta no %2 (%3% izmantota)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
 #, kde-format
@@ -4648,16 +4753,18 @@ msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
 msgstr ""
+"%1 brīva vieta no %2 (%3% izmantota)\n"
+"Spiediet, lai pārvaldītu diska vietas lietojumu."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
 msgid "Trash Emptied"
-msgstr "Miskaste ir iztukšota"
+msgstr "Atkritne ir iztukšota"
 
 #: trash/dolphintrash.cpp:51
 #, kde-format
 msgid "The Trash was emptied."
-msgstr "Miskaste tika iztukšota."
+msgstr "Atkritne tika iztukšota."
 
 #: userfeedback/placesdatasource.cpp:25
 #, kde-format
@@ -4669,7 +4776,7 @@ msgstr "Vietas"
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "Count of available Network Shares"
-msgstr ""
+msgstr "Pieejamo kopīgoto tīkla resursu skaits"
 
 #: userfeedback/settingsdatasource.cpp:24
 #, kde-format
@@ -4681,7 +4788,7 @@ msgstr "Iestatījumi"
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
-msgstr ""
+msgstr "„Dolphin“ iestatījumu apakškopā"
 
 #: views/dolphinremoteencoding.cpp:39
 #, kde-format
@@ -4696,37 +4803,28 @@ msgstr "Noklusētais"
 #: views/dolphinremoteencoding.cpp:100
 #, kde-format
 msgid "Reload"
-msgstr "Pārielādēt"
+msgstr "Pārlādēt"
 
-#: views/dolphinview.cpp:655
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#: views/dolphinview.cpp:653
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "Izvēlēta %1 mape"
 msgstr[1] "Izvēlētas %1 mapes"
-msgstr[2] "Izvēlēts %1 mapju"
+msgstr[2] "Izvēlētas %1 mapes"
 
-#: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#: views/dolphinview.cpp:654
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "Izvēlēta %1 datne"
 msgstr[1] "Izvēlētas %1 datnes"
-msgstr[2] "Izvēlēts %1 datņu"
+msgstr[2] "Izvēlētas %1 datnes"
 
-#: views/dolphinview.cpp:658
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#: views/dolphinview.cpp:656
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4734,213 +4832,204 @@ msgstr[0] "%1 mape"
 msgstr[1] "%1 mapes"
 msgstr[2] "%1 mapju"
 
-#: views/dolphinview.cpp:659
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#: views/dolphinview.cpp:657
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Jūsu datnes"
-msgstr[1] "Jūsu datnes"
-msgstr[2] "Jūsu datnes"
+msgstr[0] "%1 datne"
+msgstr[1] "%1 datnes"
+msgstr[2] "%1 datņu"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:661
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:663
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#: views/dolphinview.cpp:667
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 mapju, 0 datņu"
 
-#: views/dolphinview.cpp:885 views/dolphinview.cpp:894
+#: views/dolphinview.cpp:883 views/dolphinview.cpp:892
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1078
+#: views/dolphinview.cpp:1076
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
-msgstr[0] "Vai tiešām vēlaties atvērt %1 elementu?"
-msgstr[1] "Vai tiešām vēlaties atvērt %1 elementus?"
-msgstr[2] "Vai tiešām vēlaties atvērt %1 elementu?"
+msgstr[0] "Vai tiešām vēlaties atvērt %1 vienumu?"
+msgstr[1] "Vai tiešām vēlaties atvērt %1 vienumus?"
+msgstr[2] "Vai tiešām vēlaties atvērt %1 vienumu?"
 
-#: views/dolphinview.cpp:1083
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#: views/dolphinview.cpp:1081
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "Atvērt %1"
-msgstr[1] "Atvērt %1"
-msgstr[2] "Atvērt %1"
+msgstr[0] "Atvērt %1 vienumu"
+msgstr[1] "Atvērt %1 vienumus"
+msgstr[2] "Atvērt %1 vienumu"
 
-#: views/dolphinview.cpp:1213
+#: views/dolphinview.cpp:1211
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Sānu atstarpes"
 
-#: views/dolphinview.cpp:1217
+#: views/dolphinview.cpp:1215
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automātisks kolonnu platums"
 
-#: views/dolphinview.cpp:1222
+#: views/dolphinview.cpp:1220
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Pielāgots kolonnu platums"
 
-#: views/dolphinview.cpp:1823
+#: views/dolphinview.cpp:1821
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
-msgstr "Miskastes darbība ir pabeigta."
+msgstr "Atkritnes darbība ir pabeigta."
 
-#: views/dolphinview.cpp:1833
+#: views/dolphinview.cpp:1831
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
-msgstr "Dzēšana pabeigta."
+msgstr "Dzēšana ir pabeigta."
 
-#: views/dolphinview.cpp:1986
+#: views/dolphinview.cpp:1984
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Pārdēvēt un paslēpt"
 
-#: views/dolphinview.cpp:1990
+#: views/dolphinview.cpp:1988
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Punkta pievienošana datnes nosaukuma sākumam to padarīs neredzamu.\n"
+"Vai tiešām vēlaties datni pārsaukt?"
 
-#: views/dolphinview.cpp:1992
+#: views/dolphinview.cpp:1990
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Punkta pievienošana mapes nosaukuma sākumam to padarīs neredzamu.\n"
+"Vai tiešām vēlaties mapi pārsaukt?"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1992
 #, kde-format
 msgid "Hide this File?"
 msgstr "Slēpt šo datni?"
 
-#: views/dolphinview.cpp:1994
+#: views/dolphinview.cpp:1992
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Slēpt šo mapi?"
 
-#: views/dolphinview.cpp:2044
+#: views/dolphinview.cpp:2042
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Atrašanās vieta ir tukša."
 
-#: views/dolphinview.cpp:2046
+#: views/dolphinview.cpp:2044
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
-msgstr "Atrašanās vieta '%1' nav derīga."
+msgstr "Atrašanās vieta „%1“ nav derīga."
 
-#: views/dolphinview.cpp:2307
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#: views/dolphinview.cpp:2305
+#, kde-format
 msgid "Loading…"
-msgstr "Mapes ielāde..."
+msgstr "Ielādē..."
+
+#: views/dolphinview.cpp:2324
+#, kde-format
+msgid "Loading canceled"
+msgstr "Ielāde atcelta"
 
 #: views/dolphinview.cpp:2326
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
-msgid "Loading canceled"
-msgstr "Mapes ielāde..."
-
-#: views/dolphinview.cpp:2328
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nav filtram atbilstošu vienumu"
 
-#: views/dolphinview.cpp:2330
+#: views/dolphinview.cpp:2328
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nav meklētajam atbilstošu vienumu"
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2330
 #, kde-format
 msgid "Trash is empty"
-msgstr "Miskaste ir tukša"
+msgstr "Atkritne ir tukša"
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2333
 #, kde-format
 msgid "No tags"
 msgstr "Nav birku"
 
-#: views/dolphinview.cpp:2338
+#: views/dolphinview.cpp:2336
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr ""
+msgstr "Nav datņu ar birku „%1“"
 
-#: views/dolphinview.cpp:2342
+#: views/dolphinview.cpp:2340
 #, kde-format
 msgid "No recently used items"
 msgstr "Nav nesen lietoto vienumu"
 
-#: views/dolphinview.cpp:2344
+#: views/dolphinview.cpp:2342
 #, kde-format
 msgid "No shared folders found"
-msgstr "Nav kopīgotu mapju"
+msgstr "Nav atrastu kopīgotu mapju"
 
-#: views/dolphinview.cpp:2346
+#: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nav atbilstošu tīkla resursu"
 
-#: views/dolphinview.cpp:2348
+#: views/dolphinview.cpp:2346
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nav MTP savietojamu iekārtu"
 
-#: views/dolphinview.cpp:2350
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#: views/dolphinview.cpp:2348
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Nav Bluetooth iekārtu"
+msgstr "Nav atrastu „Apple“ ierīču"
 
-#: views/dolphinview.cpp:2352
+#: views/dolphinview.cpp:2350
 #, kde-format
 msgid "No Bluetooth devices found"
-msgstr "Nav Bluetooth iekārtu"
+msgstr "Nav „Bluetooth“ iekārtu"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2352
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mape ir tukša"
 
 #: views/dolphinviewactionhandler.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Izveidot mapi..."
@@ -4952,6 +5041,8 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once amounts to their new names differing only in a number."
 msgstr ""
+"Šā darbība pārsauc atlasītos vienumus.<nl/>Vairāku vienumu vienlaicīgas "
+"pārsaukšanas rezultātā to nosaukumi atšķirsies tikai ar skaitļiem."
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-kuit-format
@@ -4961,6 +5052,9 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage where items can be deleted "
 "from if disk space is needed."
 msgstr ""
+"Šī darbība pārvieto atlasītos vienumus uz <filename>Atkritni</filename>.<nl/"
+">Atkritne ir pagaidu krātuve, no kuras iespējams vienumus dzēst, atbrīvojot "
+"vietu uz diska."
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
@@ -4969,12 +5063,14 @@ msgid ""
 "This deletes the items in your current selection completely. They can not be "
 "recovered by normal means."
 msgstr ""
+"Šī darbība neatgriezeniski dzēš atlasītos vienumus. Tos vairs vienkāršā "
+"veidā nevarēsiet atgūt."
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
-msgstr "Dzēst (izmantojot īsceļu uz Miskasti)"
+msgstr "Dzēst (izmantojot īsceļu uz atkritni)"
 
 #: views/dolphinviewactionhandler.cpp:132
 #, kde-format
@@ -4997,6 +5093,10 @@ msgid ""
 "currently viewed folder instead.<nl/>You can configure advanced options "
 "there like managing read- and write-permissions."
 msgstr ""
+"Šī darbība jaunā logā parāda pilnu atlasītu vienumu īpašību sarakstu.<nl/>Ja "
+"nekas nav atlasīts, tad šajā logā parādīsies informācija par attiecīgo "
+"atvērto mapi.<nl/>Varat arī pielāgot papildu iestatījumus šim logam, "
+"piemēram, lasīšanas un rakstīšanas tiesību mainīšanu."
 
 #: views/dolphinviewactionhandler.cpp:152
 #, kde-format
@@ -5008,39 +5108,31 @@ msgstr "Kopēt vietu"
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
-msgstr ""
+msgstr "Šī darbība starpliktuvē iekopēs ceļu uz pirmo atlasīto vienumu."
 
 #: views/dolphinviewactionhandler.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Pārvietot uz miskasti"
+msgstr "Pārvietot uz atkritni..."
 
 #: views/dolphinviewactionhandler.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Dzēst"
+msgstr "Dzēst..."
 
 #: views/dolphinviewactionhandler.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Dublēt šeit"
+msgstr "Dublēt šeit..."
 
 #: views/dolphinviewactionhandler.cpp:164
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopēt vietu"
+msgstr "Kopēt vietu..."
 
 #: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
@@ -5052,6 +5144,11 @@ msgid ""
 "This mode is handy to browse through pictures when the <interface>Preview</"
 "interface> option is enabled.</para>"
 msgstr ""
+"<para>Spiežot šeit, ieslēdzas skata režīms, kura darbības centrā ir mapju un "
+"datņu ikonas. Šis režīms atvieglo mapju atšķiršanu no datnēm un ļauj vieglāk "
+"noteikt dažādus <emphasis>datņu tipus</emphasis>.</para><para> Šis režīms ir "
+"ērts, pārlūkojot attēlus, kad ir ieslēgta <interface>priekšskatīšana</"
+"interface>.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5061,6 +5158,9 @@ msgid ""
 "in columns with the names beside the icons.</para><para>This helps to keep "
 "the overview in folders with many items.</para>"
 msgstr ""
+"<para>Šis režīms pārslēdzas uz kompaktu skata režīmu, kurā kolonnās ir "
+"uzskaitītas mapes un datnes ar nosaukumiem pie ikonām.</para><para>Tas "
+"atvieglo mapju ar daudziem vienumiem pārskatīšanu.</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
@@ -5074,6 +5174,13 @@ msgid ""
 "location by clicking to the left of it. This way you can view the contents "
 "of multiple folders in the same list.</para>"
 msgstr ""
+"<para>Šis režīms pārslēdzas uz saraksta režīmu, kura uzmanības centrā ir "
+"mapju un datņu informācija.</para><para>Spiediet uz kolonnas galvenes, lai "
+"vienumus šķirotu pēc attiecīgās īpašības. Spiediet vēlreiz, lai šķirotu "
+"tāpat, bet pretējā virzienā. Lai atlasītu, kādu informāciju parādīt, "
+"spiediet ar peles labo klikšķi uz galvenes.</para><para>Mapes saturu varat "
+"redzēt, neatstājot pašreizējo vietu, klikšķinot pa labi no tās. Tas var "
+"ārkārtīgi atvieglot vairāku mapju pārskatīšanu vienā sarakstā.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5102,13 +5209,13 @@ msgstr "Tuvināt līdz noklusējumam"
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr ""
+msgstr "Šī darbība atiestata ikonu izmēru uz noklusējuma izmēru."
 
 #: views/dolphinviewactionhandler.cpp:233
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
-msgstr ""
+msgstr "Samazina ikonu izmēru."
 
 #: views/dolphinviewactionhandler.cpp:236
 #, kde-format
@@ -5136,6 +5243,8 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
+"Ieslēdzot šo iespēju, ikonu izskats balstās datņu un mapju faktiskajā saturā."
+"<nl/>Piemēram, attēlu ikonas kļūst par samazinātām attēlu versijām."
 
 #: views/dolphinviewactionhandler.cpp:256
 #, kde-format
@@ -5144,9 +5253,7 @@ msgid "Folders First"
 msgstr "Mapes vispirms"
 
 #: views/dolphinviewactionhandler.cpp:260
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Show Hidden Files"
+#, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Rādīt slēptās datnes"
@@ -5173,7 +5280,7 @@ msgstr "Rādīt grupās"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
-msgstr ""
+msgstr "Sagrupē datnes un mapes pēc pirmā burta."
 
 #: views/dolphinviewactionhandler.cpp:320
 #, kde-format
@@ -5191,14 +5298,17 @@ msgid ""
 "general there is no need for users to access them which is why they are "
 "hidden.</para>"
 msgstr ""
+"<para>Ieslēdzot šo iespēju, kļūst redzamas <emphasis>slēptās</emphasis> "
+"datnes un mapes. Tās parādīsies puscaurspīdīgas.</para><para>Slēptie vienumi "
+"no citiem atšķiras ar to, ka to nosaukumu sākas ar punktu (.). Parasti "
+"lietotājam nav nepieciešamības tiem piekļūt, tāpēc šādi vienumi tiek "
+"paslēpti.</para>"
 
 #: views/dolphinviewactionhandler.cpp:332
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Pielāgot skata attēlošanas īpašības..."
+msgstr "Pielāgot skata attēlošanas stilu..."
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -5206,6 +5316,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
+"Šī darbība atver logu, kurā iespējams mainīt visas mapes skata īpašības."
 
 #: views/dolphinviewactionhandler.cpp:631
 #, kde-format
@@ -5241,7 +5352,7 @@ msgstr "Detaļas"
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
-msgstr "Detaļu skata režīms"
+msgstr "Detalizēts skata režīms"
 
 #: views/dolphinviewactionhandler.cpp:677
 #, kde-format
@@ -5309,7 +5420,7 @@ msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
 "selection is empty when this text is shown."
 msgid "Actions for Current View"
-msgstr ""
+msgstr "Pašreizējā skata darbības"
 
 #. i18n: @action:inmenu menu with actions like copy, paste, rename.
 #. %1 is a textual representation of the currently selected files or folders. This can be the name of
@@ -5319,7 +5430,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:797
 #, kde-format
 msgid "Actions for %1"
-msgstr ""
+msgstr "Darbības ar %1"
 
 #: views/dolphinviewactionhandler.cpp:804
 #, kde-format
@@ -5328,14 +5439,12 @@ msgctxt ""
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Darbības %1 atlasītajam vienumam"
+msgstr[1] "Darbības %1 atlasītajiem vienumiem"
+msgstr[2] "Darbības %1 atlasītajiem vienumiem"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Atjaunina versijas informāciju..."

@@ -1,14 +1,15 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
 #
 # Maris Nartiss <maris.kde@gmail.com>, 2019.
+# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2019-11-10 13:13+0200\n"
-"Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
+"PO-Revision-Date: 2024-01-14 17:36+0200\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
@@ -16,33 +17,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 19.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
-msgstr "Neizdevās instalēt Dolphin apkalpošanas izvēlni"
+msgstr "Neizdevās instalēt „Dolphin“ apkalpošanas izvēlni"
 
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "Neizdevās instalēt „%1“, izgāja ar statusu „%2“"
 
 #: servicemenuinstaller.cpp:99
-#, fuzzy, kde-format
-#| msgid "Failed to run installer script %1"
+#, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "Neizdevās darbināt instalēšanas skriptu %1"
+msgstr "Neizdevās atinstalēt „%1“, izgāja ar statusu „%2“"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
-msgstr ""
+msgstr "Datne neeksistē!"
 
 #: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
-msgstr ""
+msgstr "Nezināma kļūda, instalējot pakotni"
 
 #: servicemenuinstaller.cpp:183
 #, kde-format
@@ -52,7 +52,7 @@ msgstr "Neatbalstīts arhīva tips %1: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr "Neizdevās palaist atspiešanas komandu priekš %1"
+msgstr "Neizdevās palaist atspiešanas komandu ceļam „%1“"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format
@@ -78,13 +78,13 @@ msgstr "Neizdevās iestatīt atļaujas %1: %2"
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
-msgstr "Instalēšanas skripts %1 izgāzās. Izmēģinātie argumenti „%2“."
+msgstr "Instalēšanas skripts %1 neizpildījās. Izmēģinātie argumenti „%2“."
 
 #: servicemenuinstaller.cpp:275
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
-msgstr "\", \""
+msgstr "„, “"
 
 #: servicemenuinstaller.cpp:289
 #, kde-format
@@ -94,12 +94,12 @@ msgstr "Neizdevās izveidot ceļu %1"
 #: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr "Neizdevās kopēt .desktop datni %1 uz %2: %3"
+msgstr "Neizdevās kopēt „.desktop“ datni %1 uz %2: %3"
 
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr "Neizdevās aizvākt mapi %1"
+msgstr "Neizdevās dzēst mapi %1"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
@@ -109,23 +109,23 @@ msgstr "Neizdevās izveidot mapi %1"
 #: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr "Neizdevās atrast instalēšanas skriptu iekš %1"
+msgstr "Neizdevās atrast instalēšanas skriptu ceļā „%1“"
 
 #: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr "Neizdevās aizvākt .desktop datni %1: %2"
+msgstr "Neizdevās dzēst „.desktop“ datni %1: %2"
 
 #: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr "Neizdevās atrast deinstalēšanas skriptu iekš %1"
+msgstr "Neizdevās atrast atinstalēšanas skriptu ceļā „%1“"
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
-msgstr "Izpildāmā komanda: instalēt vai deinstalēt."
+msgstr "Izpildāmā komanda: instalēt vai atinstalēt."
 
 #: servicemenuinstaller.cpp:437
 #, kde-format
@@ -136,12 +136,12 @@ msgstr "Ceļš līdz arhīvam."
 #: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
-msgstr "Komanda ir nepieciešama."
+msgstr "Komanda ir obligāta."
 
 #: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
-msgstr "Ceļš līdz arhīvam ir nepieciešams."
+msgstr "Ceļš līdz arhīvam ir obligāts."
 
 #: servicemenuinstaller.cpp:461
 #, kde-format
