@@ -1845,7 +1845,6 @@ void DolphinMainWindow::setupActions()
     // only set it for the menu version
     actionCollection()->setDefaultShortcut(m_splitViewMenuAction, Qt::Key_F3);
 
-    m_splitViewAction->setPopupMode(QToolButton::MenuButtonPopup);
     connect(m_splitViewAction, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
     connect(m_splitViewMenuAction, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
@@ -2536,6 +2535,14 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
 void DolphinMainWindow::updateSplitActions()
 {
     QAction *popoutSplitAction = actionCollection()->action(QStringLiteral("popout_split_view"));
+
+    auto setActionPopupMode = [this](KActionMenu *action, QToolButton::ToolButtonPopupMode popupMode) {
+        action->setPopupMode(popupMode);
+        if (auto *buttonForAction = qobject_cast<QToolButton *>(toolBar()->widgetForAction(action))) {
+            buttonForAction->setPopupMode(popupMode);
+        }
+    };
+
     const DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (GeneralSettings::closeActiveSplitView() ? tabPage->primaryViewActive() : !tabPage->primaryViewActive()) {
@@ -2553,6 +2560,7 @@ void DolphinMainWindow::updateSplitActions()
         }
         popoutSplitAction->setEnabled(true);
         if (!m_splitViewAction->menu()) {
+            setActionPopupMode(m_splitViewAction, QToolButton::MenuButtonPopup);
             m_splitViewAction->setMenu(new QMenu);
             m_splitViewAction->addAction(popoutSplitAction);
         }
@@ -2565,6 +2573,7 @@ void DolphinMainWindow::updateSplitActions()
         if (m_splitViewAction->menu()) {
             m_splitViewAction->removeAction(popoutSplitAction);
             m_splitViewAction->setMenu(nullptr);
+            setActionPopupMode(m_splitViewAction, QToolButton::DelayedPopup);
         }
     }
 
