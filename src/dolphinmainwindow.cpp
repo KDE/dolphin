@@ -2572,6 +2572,7 @@ void DolphinMainWindow::updateSplitActions()
         popoutSplitAction->setEnabled(false);
         if (m_splitViewAction->menu()) {
             m_splitViewAction->removeAction(popoutSplitAction);
+            m_splitViewAction->menu()->deleteLater();
             m_splitViewAction->setMenu(nullptr);
             setActionPopupMode(m_splitViewAction, QToolButton::DelayedPopup);
         }
