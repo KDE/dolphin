@@ -5,7 +5,7 @@
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # محمد الحرقان <imksa@hotmail.com>, 2008.
 # Anas Husseini <linux.anas@gmail.com>, 2008.
-# zayed <zayed.alsaidi@gmail.com>, 2008, 2012, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2008, 2012, 2021, 2022, 2023, 2024 zayed <zayed.alsaidi@gmail.com>
 # OsamaKhalid <osamak.wfm@gmail.com>, 2009.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2012.
 # Safa Alfulaij <safaalfulaij@hotmail.con>, 2013, 2014, 2016, 2017.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-17 00:39+0000\n"
-"PO-Revision-Date: 2023-08-19 22:09+0400\n"
+"PO-Revision-Date: 2024-01-17 19:14+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Project-Style: kde\n"
 
 #, kde-format
@@ -825,11 +825,10 @@ msgid "Open in New Window"
 msgstr "افتح في نافذة جديدة"
 
 #: dolphinmainwindow.cpp:2091 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "افتح في تطبيق"
+msgstr "افتح في عرض منقسم"
 
 #: dolphinmainwindow.cpp:2105
 #, kde-format
@@ -1644,12 +1643,10 @@ msgid ""
 msgstr "لا يدعم دولفين هذا الميفاق، شُغل التطبيق المبدئي"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "ميفاق غير صالح"
+msgstr "ميفاق غير صالح '%1'"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -2857,9 +2854,7 @@ msgid "Search in your home directory"
 msgstr "ابحث بداخل دليل المنزل"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "افتح %1"
 
@@ -3327,10 +3322,9 @@ msgstr "اعرض 'افتح في نافذة جديدة' في قائمة السي�
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "اعرض 'افتح في نافذة جديدة' في قائمة السياق"
+msgstr "اعرض 'افتح في عرض منقسم' في قائمة السياق"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3743,21 +3737,19 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "قم أيضًا بإخفاء الملفات باستخدام نوع mimetype للتطبيق/x-trash"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "التأكيد عند إغلاق النوافذ ذات الألسنة المتعددة."
+msgstr "اطلب التأكيد عند فتح العديد من الملفات في وقت واحد."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "التأكيد عند إغلاق النوافذ ذات الألسنة المتعددة."
+msgstr "اطلب التأكيد عند فتح العديد من الطرفيات في وقت واحد."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3867,18 +3859,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "عند إغلاق نوافذ تشغل برنامج في لوحة الطرفية"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Opening Folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "فتح المجلدات:"
+msgstr "فتح العديد من الملفات في آن واحد"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "فتح العديد من الطرفيات في آن واحد"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -4336,7 +4326,7 @@ msgstr "غير الاسم في السطر"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "أخف ملفات النسخ الاحتياطيّة عند إخفاء الملفات المخفية"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4757,7 +4747,7 @@ msgstr ""
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
