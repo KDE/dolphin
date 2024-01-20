@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 13:50+0100\n"
+"PO-Revision-Date: 2024-01-19 11:10+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -557,6 +557,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Als de mapweergave is gesplitst, laat dit de actieve mapweergave zien in een "
+"nieuw venster."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1085,13 +1087,13 @@ msgstr "Weergave links sluiten"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Verschijnt"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Linker gesplitste weergave naar een nieuw venster verplaatsen"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1109,13 +1111,13 @@ msgstr "Weergave rechts sluiten"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Verschijnt"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Rechter gesplitste weergave naar een nieuw venster verplaatsen"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1133,7 +1135,7 @@ msgstr "Weergave splitsen"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Verschijnt"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

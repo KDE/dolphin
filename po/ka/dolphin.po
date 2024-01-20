@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 06:03+0100\n"
+"PO-Revision-Date: 2024-01-19 06:21+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -555,6 +555,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"თუ საქაღალდის ხედი გაყოფილია, ეს აქტიური საქაღალდის ხედს ახალ ფანჯარაში "
+"გაიტანს."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1086,13 +1088,13 @@ msgstr "მარცხენა ხედის დახურვა"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "გატანა"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "მარცხენა გაყოფილი ხედის გატანა ახალ ფანჯარაში"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1110,13 +1112,13 @@ msgstr "მარჯვენა ხედვის დახურვა"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "გატანა"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "მარჯვენა გაყოფილი ხედის გატანა ახალ ფანჯარაში"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1134,7 +1136,7 @@ msgstr "ხედის გაყოფა"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "გატანა"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

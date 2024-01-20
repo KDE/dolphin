@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 10:55+0100\n"
+"PO-Revision-Date: 2024-01-19 11:23+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -560,6 +560,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Si la vista de carpeta s'ha dividit, això mostrarà la vista de carpeta "
+"activa en una finestra nova."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1094,13 +1096,13 @@ msgstr "Tanca la vista de l'esquerra"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Mou a fora"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Mou la divisió esquerra a una finestra nova"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1118,13 +1120,13 @@ msgstr "Tanca la vista de la dreta"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Mou a fora"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Mou la divisió dreta a una finestra nova"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1142,7 +1144,7 @@ msgstr "Vista dividida"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Mou a fora"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

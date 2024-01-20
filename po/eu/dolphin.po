@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-15 21:29+0100\n"
+"PO-Revision-Date: 2024-01-19 19:30+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -558,6 +558,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Karpeta-ikuspegia zatitu bada, horrek aktibo dagoen karpeta-ikuspegia leiho "
+"berri batera aterako du."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1090,13 +1092,13 @@ msgstr "Itxi ezkerreko ikuspegia"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atera"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Eraman ezkerreko ikuspegi zatitua leiho berri batera"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1114,13 +1116,13 @@ msgstr "Itxi eskuineko ikuspegia"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atera"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Eraman eskuineko ikuspegi zatitua leiho berri batera"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1138,7 +1140,7 @@ msgstr "Zatitu ikuspegia"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atera"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 12:33+0300\n"
+"PO-Revision-Date: 2024-01-19 12:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.90\n"
+"X-Generator: Lokalize 24.01.95\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -555,6 +555,7 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Klasör görünümü bölündüyse bu, etkin klasörü yeni bir pencereye çıkarır."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1080,13 +1081,13 @@ msgstr "Sol görünümü kapat"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Çıkar"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Sol bölünmüş görünümü yeni bir pencereye çıkar"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1104,13 +1105,13 @@ msgstr "Sağ görünümü kapat"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Çıkar"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Sağ bölünmüş görünümü yeni bir pencereye çıkar"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1128,7 +1129,7 @@ msgstr "Görünümü böl"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Çıkar"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

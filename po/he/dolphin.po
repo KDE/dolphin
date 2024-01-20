@@ -8,13 +8,13 @@
 # elkana bardugo <ttv200@gmail.com>, 2016.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata.
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020.
-# SPDX-FileCopyrightText: 2023 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2023, 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2023-11-23 11:36+0200\n"
+"PO-Revision-Date: 2024-01-19 08:41+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -558,6 +558,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"אם תצוגת התיקיות התפצלה, הגדרה זו תקפיץ את תצוגת התיקייה הפעילה החוצה לחלון "
+"חדש."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1066,13 +1068,13 @@ msgstr "סגירת התצוגה השמאלית"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "הקפצה החוצה"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "העברת תצוגת הפיצול השמאלית לחלון חדש"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1090,13 +1092,13 @@ msgstr "סגירת התצוגה הימנית"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "הקפצה החוצה"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "העברת תצוגת הפיצול הימנית לחלון חדש"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1114,7 +1116,7 @@ msgstr "פיצול תצוגה"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "הקפצה החוצה"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -3715,7 +3717,7 @@ msgstr "בחירה טבעית, תלוי ברשיות או לא תלוי ברשי
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "להסתיר גם קבצים עם סוג המדיה application/x-trash"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4302,7 +4304,7 @@ msgstr "שינוי שם בשורה"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "להסתיר גם קובצי גיבוי כשקבצים מוסתרים מוסתרים"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4312,6 +4314,7 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"קובצי הגיבוי הם קבצים שסוג המדיה שלהם הוא application/x-trash, תבניות: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4736,14 +4739,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 פנויים מתוך %2 (%3% בשימוש)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 פנויים מתוך %2 (%3% בשימוש)"
+msgstr ""
+"%1 פנויים מתוך %2 (%3% בשימוש)\n"
+"יש ללחוץ כדי לנהל את ניצולת הכונן."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
