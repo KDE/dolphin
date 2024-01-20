@@ -6,13 +6,13 @@
 # Kiszel Kristóf <ulysses@kubuntu.org>, 2010, 2017.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2012, 2014, 2015, 2020, 2021.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013, 2014.
-# Kristof Kiszel <ulysses@fsf.hu>, 2021, 2022.
+# SPDX-FileCopyrightText: 2021, 2022, 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-17 02:27+0000\n"
-"PO-Revision-Date: 2022-02-01 10:13+0100\n"
+"PO-Revision-Date: 2024-01-18 11:33+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -20,17 +20,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.07.70\n"
+"X-Generator: Lokalize 24.01.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kiszel Kristóf,Szántó Tamás"
+msgstr "Kiszel Kristóf"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "ulysses@fsf.hu,tszanto@interware.hu"
+msgstr "ulysses@fsf.hu"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -183,23 +183,19 @@ msgid "Open Preferred Search Tool"
 msgstr "Előnyben részesített kereső megnyitása"
 
 #: dolphinmainwindow.cpp:1204
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Biztosan meg szeretne nyitni 1 elemet?"
-msgstr[1] "Biztosan meg szeretne nyitni %1 elemet?"
+msgstr[0] "Biztosan meg szeretne nyitni 1 terminálablakot?"
+msgstr[1] "Biztosan meg szeretne nyitni %1 terminálablakot?"
 
 #: dolphinmainwindow.cpp:1209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Terminál megnyitása"
-msgstr[1] "Terminál megnyitása"
+msgstr[0] "%1 terminál megnyitása"
+msgstr[1] "%1 terminál megnyitása"
 
 #: dolphinmainwindow.cpp:1404
 #, kde-format
@@ -301,7 +297,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Kivágás…"
 
 #: dolphinmainwindow.cpp:1617
 #, kde-kuit-format
@@ -317,12 +313,10 @@ msgstr ""
 "az új helyre másolásukhoz. Az elemek törlődnek az eredeti helyükről."
 
 #: dolphinmainwindow.cpp:1624
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Másolás"
+msgstr "Másolás…"
 
 #: dolphinmainwindow.cpp:1626
 #, kde-kuit-format
@@ -355,20 +349,16 @@ msgstr ""
 "kerültek a vágólapra, törlődnek a régi helyükről."
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Másolás az inaktív osztott nézetbe"
+msgstr "Másolás a másik nézetbe"
 
 #: dolphinmainwindow.cpp:1645
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Másolás az inaktív osztott nézetbe"
+msgstr "Másolás a másik nézetbe…"
 
 #: dolphinmainwindow.cpp:1647
 #, kde-kuit-format
@@ -387,20 +377,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Másolás az inaktív osztott nézetbe"
 
 #: dolphinmainwindow.cpp:1655
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Áthelyezés az inaktív osztott nézetbe"
+msgstr "Áthelyezés a másik nézetbe"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Áthelyezés az inaktív osztott nézetbe"
+msgstr "Áthelyezés a másik nézetbe…"
 
 #: dolphinmainwindow.cpp:1658
 #, kde-kuit-format
@@ -419,12 +405,10 @@ msgid "Move to Inactive Split View"
 msgstr "Áthelyezés az inaktív osztott nézetbe"
 
 #: dolphinmainwindow.cpp:1666
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Szűrő"
+msgstr "Szűrő…"
 
 #: dolphinmainwindow.cpp:1667
 #, kde-format
@@ -458,10 +442,9 @@ msgid "Filter"
 msgstr "Szűrő"
 
 #: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search…"
-msgstr "Keresés"
+msgstr "Keresés…"
 
 #: dolphinmainwindow.cpp:1691
 #, kde-format
@@ -498,22 +481,18 @@ msgstr "Keresés"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1713
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Mappák és fájlok keresése"
+msgstr "Mappák és fájlok kiválasztása"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1716
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
-msgstr "Kijelölés"
+msgstr "Kiválasztás"
 
 #: dolphinmainwindow.cpp:1719
 #, kde-kuit-format
@@ -526,6 +505,12 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Az alkalmazás csak akkor fogja tudni, mely fájlokkal vagy mappákkal "
+"kell dolgoznia, ha azokat először <emphasis>kiválasztja</emphasis>. Nyomja "
+"meg ezt a <emphasis>Kiválasztási mód</emphasis> kapcsolásához, amely egy "
+"elem egyszeri megnyomásával egyszerűvé teszi a kiválasztást és a kiválasztás "
+"megszüntetését.</para><para>Ebben a módban alul egy sávon megjelennek a "
+"jelenleg kiválasztott elemekhez elérhető műveletek.</para>"
 
 #: dolphinmainwindow.cpp:1742
 #, kde-kuit-format
@@ -574,12 +559,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Megnyitja a gyűjtő virtuális mappát egy osztott ablakban"
 
 #: dolphinmainwindow.cpp:1782
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Előnézet"
+msgstr "Nézet frissítése"
 
 #: dolphinmainwindow.cpp:1784
 #, kde-kuit-format
@@ -590,6 +573,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Ezzel frissítheti a mappanézetet.</para><para>Ha a mappa tartalma "
+"megváltozott, a frissítés újra átvizsgálja a mappát és megjeleníti az itt "
+"található fájlok és mappák frissített nézetét.</para><para>Ha a nézet "
+"osztott, csak a fókuszban lévő nézetet frissíti.</para>"
 
 #: dolphinmainwindow.cpp:1791
 #, kde-format
@@ -721,20 +708,13 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1914
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Terminál megnyitása"
+msgstr "Terminál megnyitása itt"
 
 #: dolphinmainwindow.cpp:1916
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -742,7 +722,7 @@ msgid ""
 "the terminal application.</para>"
 msgstr ""
 "<para>Ezzel megnyithatja a <emphasis>terminál</emphasis> alkalmazást a "
-"nézett helyen.</para><para>A terminálokkal kapcsolatos további "
+"kijelölt elem helyén.</para><para>A terminálokkal kapcsolatos további "
 "információkért használja a terminál alkalmazás súgóját.</para>"
 
 #: dolphinmainwindow.cpp:1924 dolphinmainwindow.cpp:2677
@@ -1468,9 +1448,7 @@ msgid "Autostart"
 msgstr "Automatikus indítás"
 
 #: dolphinpart.cpp:189
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Find File..."
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Fájlkeresés…"
@@ -1585,12 +1563,10 @@ msgstr "A lap bezárása"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:490
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1598,7 +1574,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1680,25 +1656,19 @@ msgid "Search for %1"
 msgstr "A(z) %1 keresése"
 
 #: dolphinviewcontainer.cpp:620
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Mappa betöltése…"
 
 #: dolphinviewcontainer.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Sorting:"
+#, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Rendezés:"
+msgstr "Rendezés…"
 
 #: dolphinviewcontainer.cpp:639
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching..."
+#, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Keresés…"
@@ -1727,12 +1697,10 @@ msgstr ""
 "alkalmazás indul el"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Érvénytelen protokoll"
+msgstr "Érvénytelen protokoll: „%1”"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -1753,11 +1721,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Szűrő megtartása mappa váltásakor"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Szűrő"
+msgstr "Szűrő…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -1769,42 +1735,30 @@ msgstr "Szűrősor elrejtése"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "„%1”"
 
 #: kitemviews/kfileitemlisttostring.cpp:26
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are "
-#| "names of files/folders."
-#| msgid "Actions for \"%1\" and \"%2\""
+#, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "„%1” és „%2” műveletei"
+msgstr "„%1” és „%2”"
 
 #: kitemviews/kfileitemlisttostring.cpp:30
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "„%1”, „%2” és „%3” műveletei"
+msgstr "„%1”, „%2” és „%3”"
 
 #: kitemviews/kfileitemlisttostring.cpp:37
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "„%1”, „%2” és „%3” műveletei"
+msgstr "„%1”, „%2”, „%3” és „%4”"
 
 #: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
@@ -1812,52 +1766,37 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "„%1”, „%2”, „%3”, „%4” and „%5”"
 
 #: kitemviews/kfileitemlisttostring.cpp:65
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected File"
-#| msgid_plural "Actions for %1 Selected Files"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Egy kijelölt fájl műveletei"
-msgstr[1] "%1 kijelölt fájl műveletei"
+msgstr[0] "1 kiválasztott fájl"
+msgstr[1] "%1 kiválasztott fájl"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected Folder"
-#| msgid_plural "Actions for %1 Selected Folders"
+#, kde-format
 msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "Egy kijelölt mappa műveletei"
-msgstr[1] "%1 kijelölt mappa műveletei"
+msgstr[0] "1 kiválasztott mappa"
+msgstr[1] "%1 kiválasztott mappa"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Select Item"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "Kijelölés"
-msgstr[1] "Kijelölés"
+msgstr[0] "1 kiválasztott elem"
+msgstr[1] "%1 kiválasztott elem"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
@@ -1865,10 +1804,7 @@ msgstr[0] "1 fájl"
 msgstr[1] "%1 fájl"
 
 #: kitemviews/kfileitemlisttostring.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
@@ -1876,15 +1812,13 @@ msgstr[0] "1 mappa"
 msgstr[1] "%1 mappa"
 
 #: kitemviews/kfileitemlisttostring.cpp:86
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Rename Item"
+#, kde-format
 msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Elem átnevezése"
-msgstr[1] "Elem átnevezése"
+msgstr[0] "1 elem"
+msgstr[1] "%1 elem"
 
 #: kitemviews/kfileitemlistwidget.cpp:73
 #, kde-format
@@ -2207,20 +2141,17 @@ msgstr "Dokumentum"
 #: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Szerző"
 
 #: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Kiadó"
 
 #: kitemviews/kfileitemmodel.cpp:2738
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Sorok száma"
+msgstr "Oldalszám"
 
 #: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
@@ -2398,35 +2329,31 @@ msgstr "Fájlkezelő"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "© A Dolphin fejlesztői, 2006-2022."
 
 #: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Karbantartó (2018 óta) és fejlesztő"
+msgstr "Karbantartó (2021 óta) és fejlesztő"
 
 #: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Karbantartó (2018 óta) és fejlesztő"
+msgstr "Karbantartó (2021 óta) és fejlesztő (2019 óta)"
 
 #: main.cpp:106
 #, kde-format
@@ -2435,12 +2362,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:107
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Karbantartó (2012-2018) és fejlesztő"
+msgstr "Karbantartó (2018-2021) és fejlesztő"
 
 #: main.cpp:109
 #, kde-format
@@ -2603,9 +2528,7 @@ msgid "Copy"
 msgstr "Másolás"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
 msgstr "Átnevezés…"
@@ -2693,12 +2616,10 @@ msgid "Show item on hover"
 msgstr "Szűrősáv megjelenítése"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Beállítások"
+msgstr "Beállítás…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2957,9 +2878,7 @@ msgid "Search in your home directory"
 msgstr "Keresés a saját mappájában"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "%1 megnyitása"
 
@@ -3034,7 +2953,7 @@ msgstr "A paraméterként megadott fájlok és mappák lesznek kijelölve."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
 #, fuzzy, kde-format
@@ -3057,7 +2976,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Több"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:359
@@ -3094,7 +3013,7 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Beillesztés a vágólapról"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
@@ -3181,14 +3100,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Duplikálás itt"
-msgstr[1] "Duplikálás itt"
+msgstr[0] "%2 duplikálása"
+msgstr[1] "%2 duplikálása"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3196,14 +3113,12 @@ msgstr[1] "Duplikálás itt"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:642
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Áthelyezés a Kukába"
-msgstr[1] "Áthelyezés a Kukába"
+msgstr[0] "%2 áthelyezése a Kukába"
+msgstr[1] "%2 áthelyezése a Kukába"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3211,14 +3126,12 @@ msgstr[1] "Áthelyezés a Kukába"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:650
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Átne&vezés"
-msgstr[1] "Átne&vezés"
+msgstr[0] "%2 átnevezése"
+msgstr[1] "%2 átnevezése"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3263,11 +3176,10 @@ msgid "Select which services should be shown in the context menu:"
 msgstr "A helyi menüben megjelenítendő szolgáltatások kiválasztása:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Keresés"
+msgstr "Keresés…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
 #, fuzzy, kde-format
@@ -3874,14 +3786,13 @@ msgstr "Beállítások"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Felület"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Nézet"
+msgstr "Nézet"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -4044,17 +3955,13 @@ msgid "Show full path in title bar"
 msgstr "A teljes elérési út jelenjen meg a címsávban"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Ú&j ablak"
+msgstr "Ablak:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Szűrősáv megjelenítése"
@@ -4078,20 +3985,16 @@ msgid "Open new tabs: "
 msgstr "Megnyitás új lapokon:"
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Váltás az osztott nézetek között a Tab billentyűvel"
+msgstr "Váltás a panelek között a Tab billentyűvel"
 
 #: settings/interface/folderstabssettingspage.cpp:119
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Osztott nézet"
+msgstr "Osztott nézet: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
@@ -4125,12 +4028,10 @@ msgid ""
 msgstr "A megadott saját mappa érvénytelen, ezért nem lesz beállítva."
 
 #: settings/interface/interfacesettingspage.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "A mappák előre"
+msgstr "Mappák és lapok"
 
 #: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4147,13 +4048,10 @@ msgid "Confirmations"
 msgstr "Megerősítés"
 
 #: settings/interface/interfacesettingspage.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Címsáv"
+msgstr "Állapot- és címsáv"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4208,26 +4106,21 @@ msgid "Show space information"
 msgstr "Helyjellemzők"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Állapotsáv"
+msgstr "Állapotsáv: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "Az útvonalsáv legyen szerkeszthető"
+msgstr "A címsáv legyen szerkeszthető"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Címsáv"
+msgstr "Címsáv:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4333,27 +4226,25 @@ msgstr "Dátumformátum:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Szimbolikus (pl. „drwxr-xr-x”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Numerikus (oktális) (pl. „755”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:91
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinált (pl. „drwxr-xr-x (755)”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Jogosultságok"
+msgstr "Jogosultságok formátuma:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4368,9 +4259,7 @@ msgid "Custom Font"
 msgstr "Egyedi betűtípus"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@action:button Choose font"
-#| msgid "Choose..."
+#, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "Választás…"
@@ -4398,12 +4287,10 @@ msgstr ""
 "a nézettulajdonságokat."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:33
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Nézettulajdonság stílusa"
+msgstr "Megjelenítési stílus: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:39
 #, kde-format
@@ -4421,7 +4308,7 @@ msgstr "Nyitott mappák húzás közben"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Böngészés: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:48
 #, kde-format
@@ -4449,20 +4336,16 @@ msgid "Rename inline"
 msgstr "Átnevezés helyben"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Általános"
 
 #: settings/viewmodes/viewsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Tartalom"
+msgstr "Tartalommegjelenítés"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4600,22 +4483,20 @@ msgstr "Mappák:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "A soron bárhová kattintva"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Ikonra vagy névre kattintással"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Mappák és fájlok keresése"
+msgstr "Fájlok és mappák megnyitása:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:325
@@ -4848,22 +4729,22 @@ msgstr "Helyjellemzők megjelenítése"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Lemezhasználati statisztikák - jelenlegi mappa"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Lemezhasználati statisztikák - jelenlegi eszköz"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Lemezhasználati statisztikák - minden eszköz"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4875,7 +4756,7 @@ msgstr "%1 szabad"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr ""
+msgstr "%2/%1 szabad (%3% foglalt)"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4927,10 +4808,7 @@ msgid "Reload"
 msgstr "Újratöltés"
 
 #: views/dolphinview.cpp:652
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4938,10 +4816,7 @@ msgstr[0] "1 mappa kijelölve"
 msgstr[1] "%1 mappa kijelölve"
 
 #: views/dolphinview.cpp:653
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4949,10 +4824,7 @@ msgstr[0] "1 fájl kijelölve"
 msgstr[1] "%1 fájl kijelölve"
 
 #: views/dolphinview.cpp:655
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4960,14 +4832,12 @@ msgstr[0] "1 mappa"
 msgstr[1] "%1 mappa"
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "A fájljai közül"
-msgstr[1] "A fájljai közül"
+msgstr[0] "1 fájl"
+msgstr[1] "%1 fájl"
 
 #: views/dolphinview.cpp:660
 #, kde-format
@@ -4982,9 +4852,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:666
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 mappa, 0 fájl"
@@ -5003,20 +4871,18 @@ msgstr[0] "Biztosan meg szeretne nyitni 1 elemet?"
 msgstr[1] "Biztosan meg szeretne nyitni %1 elemet?"
 
 #: views/dolphinview.cpp:1077
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "%1 megnyitása"
-msgstr[1] "%1 megnyitása"
+msgstr[0] "%1 elem megnyitása"
+msgstr[1] "%1 elem megnyitása"
 
 #: views/dolphinview.cpp:1208
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Oldalsó kitöltés"
 
 #: views/dolphinview.cpp:1212
 #, kde-format
@@ -5089,17 +4955,14 @@ msgid "The location '%1' is invalid."
 msgstr "A(z) „%1” útvonal érvénytelen."
 
 #: views/dolphinview.cpp:2297
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Loading…"
 msgstr "Betöltés…"
 
 #: views/dolphinview.cpp:2316
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Mappa betöltése…"
+msgstr "Betöltés megszakítva"
 
 #: views/dolphinview.cpp:2318
 #, kde-format
@@ -5147,10 +5010,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Nem találhatók MTP kompatibilis eszközök"
 
 #: views/dolphinview.cpp:2340
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Nem találhatók Bluetooth eszközök"
+msgstr "Nem találhatók Apple eszközök"
 
 #: views/dolphinview.cpp:2342
 #, kde-format
@@ -5163,9 +5025,7 @@ msgid "Folder is empty"
 msgstr "A mappa üres"
 
 #: views/dolphinviewactionhandler.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder..."
+#, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Új mappa…"
@@ -5248,36 +5108,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Ez a vágólapra másolja az első kijelölt elem elérési útját."
 
 #: views/dolphinviewactionhandler.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Áthelyezés a Kukába"
+msgstr "Áthelyezés a Kukába…"
 
 #: views/dolphinviewactionhandler.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Törlés"
+msgstr "Törlés…"
 
 #: views/dolphinviewactionhandler.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Duplikálás itt"
+msgstr "Duplikálás itt…"
 
 #: views/dolphinviewactionhandler.cpp:164
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Hely másolása"
+msgstr "Hely másolása…"
 
 #: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
@@ -5452,9 +5304,7 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:332
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Nézettulajdonságok módosítása…"
@@ -5578,11 +5428,7 @@ msgstr "Aktuális nézet műveletei"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: views/dolphinviewactionhandler.cpp:797
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the name "
-#| "of the singular selected file/folder."
-#| msgid "Actions for \"%1\""
+#, kde-format
 msgid "Actions for %1"
 msgstr "„%1” műveletei"
 
@@ -5597,9 +5443,7 @@ msgstr[0] "Egy kijelölt elem műveletei"
 msgstr[1] "%1 kijelölt elem műveletei"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Verzióinformációk frissítése…"
