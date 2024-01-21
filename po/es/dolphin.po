@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 18:45+0100\n"
+"PO-Revision-Date: 2024-01-20 02:31+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -568,6 +568,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Si la vista de carpetas está dividida, esto abrirá la vista de carpetas "
+"activa en una nueva ventana."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1104,13 +1106,13 @@ msgstr "Cerrar vista izquierda"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Salir"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Mover la vista dividida izquierda a una nueva ventana"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1128,13 +1130,13 @@ msgstr "Cerrar vista derecha"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Salir"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Mover la vista dividida derecha a una nueva ventana"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1152,7 +1154,7 @@ msgstr "Vista dividida"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Salir"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-17 19:14+0400\n"
+"PO-Revision-Date: 2024-01-20 19:08+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -564,6 +564,7 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"إذا كان عرض المجلدات مقسوم، فسيؤدي ذلك إلى فصل العرض النشط إلى نافذة جديدة."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1080,13 +1081,13 @@ msgstr "أغلق العرض الأيسر"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "افصل"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "انقل العرض المقسوم الأيسر إلى نافذة جديدة"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1104,13 +1105,13 @@ msgstr "أغلق العرض الأيمن"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "افصل"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "انقل العرض المقسوم الأيمن إلى نافذة جديدة"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1128,7 +1129,7 @@ msgstr "اقسم العرض"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "افصل"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -4374,6 +4375,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"ملفات النسخ الاحتياطي هي الملفات التي يكون نوع mime فيها application/x-"
+"trash، والأنماط:%1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4770,17 +4773,17 @@ msgstr "أظهر معلومات المساحة"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "اعرض إحصائيّات القرص - مجلد الحالي"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "اعرض إحصائيّات القرص - الجهاز الحالي"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "اعرض إحصائيّات القرص - جميع الأجهزة"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
@@ -4800,14 +4803,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "المتبقي %1 من أصل %2 (%3٪ مستخدمة)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "المتبقي %1 من أصل %2 (%3٪ مستخدمة)"
+msgstr ""
+"المتبقي %1 من أصل %2 (%3٪ مستخدمة)\n"
+"اضغط لتدير مساحة القرص."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4859,10 +4862,7 @@ msgid "Reload"
 msgstr "أعد التحميل"
 
 #: views/dolphinview.cpp:653
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4874,10 +4874,7 @@ msgstr[4] "%1 مجلدًا محدّدًا"
 msgstr[5] "%1 مجلد محدد"
 
 #: views/dolphinview.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4889,14 +4886,11 @@ msgstr[4] "%1 ملفًا محدّدًا"
 msgstr[5] "%1 ملف محدد"
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
-msgstr[0] "لا مجلدات"
+msgstr[0] "0 مجلدات"
 msgstr[1] "مجلد واحد"
 msgstr[2] "مجلدان"
 msgstr[3] "%1 مجلدات"
@@ -4904,18 +4898,16 @@ msgstr[4] "%1 مجلدًا"
 msgstr[5] "%1 مجلد"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "ملفاتك"
-msgstr[1] "ملفاتك"
-msgstr[2] "ملفاتك"
-msgstr[3] "ملفاتك"
-msgstr[4] "ملفاتك"
-msgstr[5] "ملفاتك"
+msgstr[0] "0 ملف"
+msgstr[1] "ملف واحد"
+msgstr[2] "ملفان"
+msgstr[3] "%1 ملفّات"
+msgstr[4] "%1 ملف"
+msgstr[5] "%1 ملف"
 
 #: views/dolphinview.cpp:661
 #, kde-format
@@ -4930,9 +4922,7 @@ msgid "%1 (%2)"
 msgstr "‏%1 (‏%2)"
 
 #: views/dolphinview.cpp:667
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 مجلدات، 0 ملفات"

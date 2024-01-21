@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 12:36+0100\n"
+"PO-Revision-Date: 2024-01-20 15:45+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -554,6 +554,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Se la dosieruja vido estis dividita, ĉi tio elŝprucigos la aktivan "
+"dosierujon en novan fenestron."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1079,13 +1081,13 @@ msgstr "Fermi maldekstran vidon"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Elŝprucigi"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Movi maldekstran dividitan vidon al nova fenestro"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1103,13 +1105,13 @@ msgstr "Fermi dekstran vidon"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Elŝprucigi"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Movi dekstran dividitan vidon al nova fenestro"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1127,7 +1129,7 @@ msgstr "Dividita vido"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Elŝprucigi"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

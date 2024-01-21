@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-14 23:50+0900\n"
+"PO-Revision-Date: 2024-01-21 00:41+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.01.90\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -543,7 +543,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
-msgstr ""
+msgstr "如果資料夾檢視已分割，這會將作用中的資料夾分割檢視彈出成新的視窗。"
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1045,13 +1045,13 @@ msgstr "關閉左方檢視"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "彈出"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "將左方分割檢視移至新視窗"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1069,13 +1069,13 @@ msgstr "關閉右方檢視"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "彈出"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "將右方分割檢視移至新視窗"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1093,7 +1093,7 @@ msgstr "分割檢視"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "彈出"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -1229,6 +1229,13 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
+"<para>這個按鈕就是觸發您正在使用的說明功能的按鈕！點擊它之後再點擊應用程式中"
+"的任何元件來詢問「這是什麼？」。游標底下的東西沒有說明的時候會改變外觀，來顯"
+"示沒有可用的說明。</para><para>另外還有兩種方式可以取得說明：<link "
+"url='help:/dolphin/index.html'>Dolphin 手冊</link>和 <link url='https://"
+"userbase.kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>。</"
+"para><para>其他大部分視窗都沒有「這是什麼？」的說明，所以可能不要太仰賴這個功"
+"能。</para>"
 
 #: dolphinmainwindow.cpp:2709
 #, kde-kuit-format
