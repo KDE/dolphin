@@ -1726,7 +1726,8 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
 
     // Trigger a resorting if necessary. Note that this can happen even if the sort
     // role has not changed at all because the file name can be used as a fallback.
-    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
+    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))
+        || (changedRoles.contains("count") && sortRole() == "size")) { // "count" is used in the "size" sort role, so this might require a resorting.
         for (const KItemRange &range : itemRanges) {
             bool needsResorting = false;
 
@@ -1751,7 +1752,7 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
             }
 
             if (needsResorting) {
-                m_resortAllItemsTimer->start();
+                scheduleResortAllItems();
                 return;
             }
         }

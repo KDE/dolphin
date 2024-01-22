@@ -205,8 +205,6 @@ public:
     /** set to true to hide application/x-trash files */
     void setShowTrashMime(bool show);
 
-    void scheduleResortAllItems();
-
 Q_SIGNALS:
     /**
      * Is emitted if the loading of a directory has been started. It is
@@ -463,6 +461,8 @@ private:
      * results in visual clutter for most usecases).
      */
     bool isChildItem(int index) const;
+
+    void scheduleResortAllItems();
 
     /**
      * Is invoked by KFileItemModelRolesUpdater and results in emitting the
