@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-19 00:38+0000\n"
+"POT-Creation-Date: 2024-01-22 00:38+0000\n"
 "PO-Revision-Date: 2023-03-01 07:16\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1563,25 +1563,25 @@ msgstr "Ачысціць спіс нядаўна закрытых укладак
 msgid "Search for %1 in %2"
 msgstr "Пошук %1 у %2"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Новая ўкладка"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Адчапіць укладку"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Закрыць іншыя ўкладкі"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

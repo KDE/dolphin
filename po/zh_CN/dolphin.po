@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-13 05:59\n"
+"POT-Creation-Date: 2024-01-22 00:38+0000\n"
+"PO-Revision-Date: 2024-01-21 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -537,7 +537,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
-msgstr ""
+msgstr "如果文件夹视图已经被拆分，这会将活动文件夹视图弹出到一个新窗口中。"
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1036,13 +1036,13 @@ msgstr "关闭左侧视图"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "弹出"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "移动左侧的拆分视图到新窗口"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1060,13 +1060,13 @@ msgstr "关闭右侧视图"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "弹出"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "移动右侧的拆分视图到新窗口"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1084,7 +1084,7 @@ msgstr "拆分视图"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "弹出"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -1467,25 +1467,25 @@ msgstr "清空最近关闭的标签页"
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜索 %1"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "新建标签页"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "分离标签页"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "关闭其他标签页"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
@@ -3617,7 +3617,7 @@ msgstr "选择按照语言习惯、区分大小写、不区分大小写等方式
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "同时隐藏 MIME 类型为 application/x-trash 的文件"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4202,7 +4202,7 @@ msgstr "单击重命名"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "隐藏隐藏文件时同时隐藏备份文件"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4211,7 +4211,7 @@ msgctxt ""
 msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
-msgstr ""
+msgstr "备份文件是 MIME 类型为 application/x-trash 的文件，模式：%1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4632,14 +4632,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 可用，总容量 %2 (已用 %3%)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 可用，总容量 %2 (已用 %3%)"
+msgstr ""
+"总容量 %2，剩余 %1 (已使用 %3%)\n"
+"点击以管理磁盘空间的使用方式。"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format

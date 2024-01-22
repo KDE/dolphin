@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-19 00:38+0000\n"
-"PO-Revision-Date: 2024-01-07 13:16+0100\n"
+"POT-Creation-Date: 2024-01-22 00:38+0000\n"
+"PO-Revision-Date: 2024-01-21 08:23+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -559,6 +559,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Jeśli widok katalogu został podzielony, to przeniesie to widok bieżącego "
+"katalogu w nowym oknie."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1086,13 +1088,13 @@ msgstr "Zamknij lewy widok"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Przenieś na zewnątrz"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Przenieś lewy widok do nowego okna"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1110,13 +1112,13 @@ msgstr "Zamknij prawy widok"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Przenieś na zewnątrz"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Przenieś prawy widok do nowego okna"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1134,7 +1136,7 @@ msgstr "Podziel widok"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Przenieś na zewnątrz"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -1538,25 +1540,25 @@ msgstr "Zapomnij ostatnio zamknięte karty"
 msgid "Search for %1 in %2"
 msgstr "Szukaj %1 w %2"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nowa karta"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Odłącz kartę"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Zamknij inne karty"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
@@ -3766,7 +3768,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Ukryj także pliki o rodzaju mime application/x-trash"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4354,7 +4356,7 @@ msgstr "Umożliw zmianę nazwy bez otwierania dodatkowego okna"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Ukryj także pliki kopii zapasowych przy ukrywaniu plików"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4364,6 +4366,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Pliki kopii zapasowych to pliki o oznaczeniu mime application/x-trash, "
+"wzorce to: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4792,14 +4796,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 niezajętych z %2 (%3% zajętych)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 niezajętych z %2 (%3% zajętych)"
+msgstr ""
+"%1 niezajętych z %2 (%3% zajętych)\n"
+"Naciśnij, aby zarządzać wykorzystaniem przestrzeni."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format

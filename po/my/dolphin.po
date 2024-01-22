@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-19 00:38+0000\n"
+"POT-Creation-Date: 2024-01-22 00:38+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -1335,25 +1335,25 @@ msgstr "မကြာမီကပိတ်ခဲ့သောတပ်ဘ်မျ
 msgid "Search for %1 in %2"
 msgstr "%2တွင် %1အတွက် ရှာမည်"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "တပ်ဘ်အသစ်"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "တပ်ဘ် ဖြုတ်ပစ်မည်"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "အခြားတပ်ဘ်များပိတ်မည်"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

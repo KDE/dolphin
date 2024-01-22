@@ -3200,7 +3200,7 @@ context menu Icon Size? No different entries ?-->
 </question>
 <answer>
 <para
->La forma més fàcil d'involucrar-se amb el &dolphin; és subscrivint-se a la llista de correu dels desenvolupadors <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>La forma més fàcil d'involucrar-se en el &dolphin; és subscrivint-se a la llista de correu dels desenvolupadors <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
 >kfm-devel</ulink
 > i enviant-hi un correu electrònic. Indicant què podeu fer, quant de temps hi podeu dedicar, &etc; Els desenvolupadors us faran saber què podeu fer en el projecte. Si desitgeu contribuir a la documentació podeu enviar un correu electrònic a la llista de l'<ulink url="mailto:kde-doc-english@kde.org"
 >equip de documentació del &kde;</ulink

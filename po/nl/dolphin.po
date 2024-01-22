@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-19 00:38+0000\n"
+"POT-Creation-Date: 2024-01-22 00:38+0000\n"
 "PO-Revision-Date: 2024-01-19 11:10+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1540,25 +1540,25 @@ msgstr "Recent gesloten tabbladen leegmaken"
 msgid "Search for %1 in %2"
 msgstr "Zoeken naar %1 in %2"
 
-#: dolphintabbar.cpp:127
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nieuw tabblad"
 
-#: dolphintabbar.cpp:128
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Tabblad losmaken"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Andere tabbladen sluiten"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
