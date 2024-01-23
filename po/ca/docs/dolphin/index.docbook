@@ -237,7 +237,7 @@
 ><para
 >La <link linkend="dolphin-view"
 >vista</link
->, mostra tots els fitxers i carpetes a la carpeta actual. </para
+> mostra tots els fitxers i carpetes a la carpeta actual. </para
 ></listitem>
 
 <listitem
@@ -820,7 +820,7 @@ has all features from dolphin ?-->
 <para
 >Si el plafó <guilabel
 >Llocs</guilabel
-> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi ràpid accés als «llocs» i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
+> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi accés ràpidament als «llocs» i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
 >secció sobre el plafó Llocs</link
 >. </para>
 
@@ -3200,7 +3200,7 @@ context menu Icon Size? No different entries ?-->
 </question>
 <answer>
 <para
->La forma més fàcil d'involucrar-se amb el &dolphin; és subscrivint-se a la llista de correu dels desenvolupadors <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>La forma més fàcil d'involucrar-se en el &dolphin; és subscrivint-se a la llista de correu dels desenvolupadors <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
 >kfm-devel</ulink
 > i enviant-hi un correu electrònic. Indicant què podeu fer, quant de temps hi podeu dedicar, &etc; Els desenvolupadors us faran saber què podeu fer en el projecte. Si desitgeu contribuir a la documentació podeu enviar un correu electrònic a la llista de l'<ulink url="mailto:kde-doc-english@kde.org"
 >equip de documentació del &kde;</ulink
