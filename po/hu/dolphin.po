@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-23 02:30+0000\n"
-"PO-Revision-Date: 2024-01-18 11:33+0100\n"
+"PO-Revision-Date: 2024-01-23 12:39+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -810,11 +810,10 @@ msgid "Open in New Window"
 msgstr "Megnyitás új ablakban"
 
 #: dolphinmainwindow.cpp:2030 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Megnyitás alkalmazással"
+msgstr "Megnyitás osztott nézetben"
 
 #: dolphinmainwindow.cpp:2044
 #, kde-format
@@ -848,17 +847,13 @@ msgid "Information"
 msgstr "Jellemzők"
 
 #: dolphinmainwindow.cpp:2080
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>A panelek megjelenítését vagy elrejtését a <interface>Vezérlő|Panelek</"
+"<para>A panelek megjelenítését vagy elrejtését a <interface>Menü|Panelek</"
 "interface> vagy a <interface>Nézet|Panelek</interface> menüben találja.</"
 "para>"
 
@@ -1092,15 +1087,7 @@ msgid "Split view"
 msgstr "Osztott nézet"
 
 #: dolphinmainwindow.cpp:2509
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1114,23 +1101,11 @@ msgstr ""
 "és konfigurációs lehetőségekhez. Kattintson a bal gombbal bármelyik menüre "
 "ezen a sávon a tartalmának megtekintéséhez.</para><para>A menüsor elrejthető "
 "a <interface>Beállítások|Menüsáv megjelenítése</interface> jelölőnégyzet "
-"törlésével. Ekkor a tartalom nagy része elérhetővé válik a <interface>Menü "
-"megnyitása</interface> gombon keresztül a <emphasis>Eszköztáron</emphasis>.</"
-"para>"
+"törlésével. Ekkor a tartalom nagy része elérhetővé válik a <interface>Menü</"
+"interface> gombon keresztül a <emphasis>Eszköztáron</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2516
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1144,14 +1119,14 @@ msgid ""
 msgstr ""
 "<para>Ez az <emphasis>Eszköztár</emphasis>. Gyors hozzáférést biztosít a "
 "gyakran használt műveletekhez.</para><para>Nagymértékben testreszabható. "
-"Minden elem, amit a <interface>Vezérlő</interface> menüben vagy a "
+"Minden elem, amit a <interface>Menüben</interface> vagy a "
 "<interface>Menüsávon</interface> lát, az eszköztáron is elhelyezhető. "
 "Kattintson jobb gombbal, és válassza az <interface>Eszköztárak beállítása…</"
 "interface> lehetőséget, vagy keresse meg ezt a műveletet a "
-"<interface>Vezérlő</interface> vagy <interface>Beállítások</interface> "
-"menüben.</para><para>A sáv helye és a gombok stílusa is megváltoztatható a "
-"jobb egérgombbal megnyitható menüben. Kattintson a jobb gombbal egy gombra, "
-"ha meg akarja jeleníteni vagy el akarja rejteni a szövegét.</para>"
+"<interface>menüben</interface>.</para><para>A sáv helye és a gombok stílusa "
+"is megváltoztatható a jobb egérgombbal megnyitható menüben. Kattintson a "
+"jobb gombbal egy gombra, ha meg akarja jeleníteni vagy el akarja rejteni a "
+"szövegét.</para>"
 
 #: dolphinmainwindow.cpp:2528
 #, kde-kuit-format
@@ -1196,13 +1171,7 @@ msgstr ""
 "Ebben az alkalmazásban az összes parancs kiváltható így.</para>"
 
 #: dolphinmainwindow.cpp:2550
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1211,8 +1180,8 @@ msgid ""
 msgstr ""
 "<para>Ez egy olyan ablakot nyit meg, amelyben megváltoztathatja, hogy mely "
 "gombok jelenjenek meg az <emphasis>Eszköztáron</emphasis>.</para><para>Az "
-"összes elemet, amit a <interface>Vezérlő</interface> menüben vagy a "
-"<interface>Menüsávon</interface> lát, az eszköztáron is elhelyezheti.</para>"
+"összes elemet, amit a <interface>Menüben</interface> lát, az eszköztáron is "
+"elhelyezheti.</para>"
 
 #: dolphinmainwindow.cpp:2554
 #, kde-kuit-format
@@ -1394,25 +1363,19 @@ msgstr[0] "Címsáv"
 msgstr[1] "Címsávok"
 
 #: dolphinpart.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "Fájl&típus szerkesztése…"
 
 #: dolphinpart.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Select Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Illeszkedő elemek kijelölése…"
 
 #: dolphinpart.cpp:157
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Unselect Items Matching..."
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Illeszkedő elemek kijelölésének megszüntetése…"
@@ -2483,12 +2446,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "A Dolphin kifejezetten egy új ablakban fog megnyílni."
 
 #: main.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Dolphin démon indítása (csak a DBus interfészhez szükséges)"
+msgstr "Dolphin démon indítása (csak a DBus interfészhez szükséges)."
 
 #: main.cpp:141
 #, kde-format
@@ -3182,9 +3143,7 @@ msgid "Search…"
 msgstr "Keresés…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Új szolgáltatások letöltése…"
