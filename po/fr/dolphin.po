@@ -16,7 +16,7 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # William Oprandi <william.oprandi@gmail.com>, 2019, 2020.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
 # Thomas Vergnaud <thomas.vergnaud@mailo.eu>, 2023.
 #
@@ -25,17 +25,17 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 00:39+0000\n"
-"PO-Revision-Date: 2023-11-23 11:24+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@kde.org>\n"
+"PO-Revision-Date: 2024-01-23 10:51+0100\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
-"X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
+"X-Environment: kde\n"
+"X-Generator: Lokalize 23.08.4\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -585,6 +585,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Si la vue du dossier a été scindée, cela fera apparaître  la vue du dossier "
+"actif dans une nouvelle fenêtre."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1131,13 +1133,13 @@ msgstr "Fermer la vue de gauche"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Faire apparaître"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Déplacez la vue scindée de gauche vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1155,13 +1157,13 @@ msgstr "Fermer la vue de droite"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Faire apparaître"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Déplacez la vue scindée de droite vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1179,7 +1181,7 @@ msgstr "Scinder la vue"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Faire apparaître"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -3840,6 +3842,8 @@ msgstr ""
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr ""
+"Masquer également les fichiers avec le type « MIME » « application / x-"
+"trash »"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4441,6 +4445,8 @@ msgstr "Renommer en ligne"
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
+"Masquez également les fichiers de sauvegarde tout en masquant les fichiers "
+"masqués"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4450,6 +4456,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Les fichiers de sauvegarde sont les fichiers dont le type « MIME » "
+"« application/x-trash » se présente comme : %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4880,14 +4888,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 libre sur %2 (%3 % utilisé)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 libre sur %2 (%3 % utilisé)"
+msgstr ""
+"%1 libre sur %2 (%3 % utilisé)\n"
+"Veuillez appuyer pour gérer l'utilisation de l'espace disque."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
