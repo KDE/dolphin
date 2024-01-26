@@ -539,29 +539,47 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    std::set<const QObject *> testedObjects; // Makes sure we stop testing if we arrive at an item that was already tested.
     QAccessibleInterface *accessibleInterfaceOfMainWindow = QAccessible::queryAccessibleInterface(m_mainWindow.get());
     Q_CHECK_PTR(accessibleInterfaceOfMainWindow);
 
-    // We will do accessibility checks for every object that gets focus. Focus will be changed using the Tab key.
-    while (qApp->focusObject() && !testedObjects.count(qApp->focusObject())) {
-        const auto currentlyFocusedObject = qApp->focusObject();
-        QAccessibleInterface *accessibleInterface = QAccessible::queryAccessibleInterface(currentlyFocusedObject);
-
-        // The accessibleInterfaces of focused objects might themselves have children.
-        // We go down that hierarchy as far as possible and then test the ancestor tree from there.
-        while (accessibleInterface->childCount() > 0) {
-            accessibleInterface = accessibleInterface->child(0);
-        }
-        while (accessibleInterface != accessibleInterfaceOfMainWindow) {
-            QVERIFY2(accessibleInterface,
-                     qPrintable(QString("%1's accessibleInterface or one of its accessible children doesn't have the main window as an ancestor.")
-                                    .arg(currentlyFocusedObject->metaObject()->className())));
-            accessibleInterface = accessibleInterface->parent();
+    // We will test the accessibility of objects traversing forwards and backwards.
+    int testedObjectsSizeAfterTraversingForwards = 0;
+    for (int i = 0; i < 2; i++) {
+        std::tuple<Qt::Key, Qt::KeyboardModifier> focusChainTraversalKeyCombination = {Qt::Key::Key_Tab, Qt::NoModifier};
+        if (i) {
+            focusChainTraversalKeyCombination = {Qt::Key::Key_Tab, Qt::ShiftModifier};
         }
 
-        testedObjects.insert(currentlyFocusedObject); // Add it to testedObjects so we won't test it again later.
-        QTest::keyClick(m_mainWindow.get(), Qt::Key::Key_Tab, Qt::ShiftModifier); // ShiftModifier because the Tab cycle is currently broken going forward.
+        // We will do accessibility checks for every object that gets focus. Focus will be changed using the focusChainTraversalKeyCombination.
+        std::set<const QObject *> testedObjects; // Makes sure we stop testing when we arrive at an item that was already tested.
+        while (qApp->focusObject() && !testedObjects.count(qApp->focusObject())) {
+            const auto currentlyFocusedObject = qApp->focusObject();
+
+            QAccessibleInterface *accessibleInterface = QAccessible::queryAccessibleInterface(currentlyFocusedObject);
+            // The accessibleInterfaces of focused objects might themselves have children.
+            // We go down that hierarchy as far as possible and then test the ancestor tree from there.
+            while (accessibleInterface->childCount() > 0) {
+                accessibleInterface = accessibleInterface->child(0);
+            }
+            while (accessibleInterface != accessibleInterfaceOfMainWindow) {
+                QVERIFY2(accessibleInterface,
+                         qPrintable(QString("%1's accessibleInterface or one of its accessible children doesn't have the main window as an ancestor.")
+                                        .arg(currentlyFocusedObject->metaObject()->className())));
+                accessibleInterface = accessibleInterface->parent();
+            }
+
+            testedObjects.insert(currentlyFocusedObject); // Add it to testedObjects so we won't test it again later.
+            QTest::keyClick(m_mainWindow.get(), std::get<0>(focusChainTraversalKeyCombination), std::get<1>(focusChainTraversalKeyCombination));
+            QVERIFY2(currentlyFocusedObject != qApp->focusObject(),
+                     "The focus chain is broken. The focused object should have changed after pressing the focusChainTraversalKeyCombination.");
+        }
+
+        if (i == 0) {
+            testedObjectsSizeAfterTraversingForwards = testedObjects.size();
+        } else {
+            QCOMPARE(testedObjects.size(), testedObjectsSizeAfterTraversingForwards); // The size after traversing backwards is different than
+                                                                                      // after going forwards which is probably not intended.
+        }
     }
 }
 

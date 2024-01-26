@@ -13,6 +13,28 @@
 #include <QMimeData>
 #include <QTimer>
 
+class PreventFocusWhileHidden : public QObject
+{
+public:
+    PreventFocusWhileHidden(QObject *parent)
+        : QObject(parent){};
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev) override
+    {
+        switch (ev->type()) {
+        case QEvent::Hide:
+            static_cast<QWidget *>(obj)->setFocusPolicy(Qt::NoFocus);
+            return false;
+        case QEvent::Show:
+            static_cast<QWidget *>(obj)->setFocusPolicy(Qt::TabFocus);
+            return false;
+        default:
+            return false;
+        }
+    };
+};
+
 DolphinTabBar::DolphinTabBar(QWidget *parent)
     : QTabBar(parent)
     , m_autoActivationIndex(-1)
@@ -22,6 +44,9 @@ DolphinTabBar::DolphinTabBar(QWidget *parent)
     setSelectionBehaviorOnRemove(QTabBar::SelectPreviousTab);
     setMovable(true);
     setTabsClosable(true);
+
+    setFocusPolicy(Qt::NoFocus);
+    installEventFilter(new PreventFocusWhileHidden(this));
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
