@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-23 02:30+0000\n"
-"PO-Revision-Date: 2024-01-23 12:39+0100\n"
+"PO-Revision-Date: 2024-01-25 13:16+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -748,6 +748,13 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Ezzel válthat a <emphasis>Menüsáv</emphasis> és a(z) <interface>%1</"
+"interface> gomb között. Mindkettő nagyjából ugyanazokat a műveleteket és "
+"beállítási lehetőségeket tartalmazza.</para><para>A Menüsáv több helyet "
+"foglal el, de lehetővé teszi az alkalmazások által nyújtott összes művelet "
+"gyors és rendezett elérését.</para><para>A(z) <interface>%1</interface> gomb "
+"egyszerűbb és kisebb, de időigényesebbé teszi a speciális műveletek "
+"elindítását.</para>"
 
 #: dolphinmainwindow.cpp:1975
 #, kde-format
@@ -1203,13 +1210,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1218,20 +1219,15 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Ha részletesebb bevezetést szeretne a <emphasis>Dolphin</emphasis> "
-"különböző funkcióiról, <link url='https://userbase.kde.org/Dolphin/"
+"<para>Ez megnyitja az alkalmazás kézikönyvét, amely részletes magyarázatot "
+"ad a <emphasis>Dolphon</emphasis> minden részéhez.</para><para>Ha "
+"részletesebb bevezetést szeretne a <emphasis>Dolphin</emphasis> különböző "
+"funkcióiról, <link url='https://userbase.kde.org/Dolphin/"
 "File_Management'>kattintson ide</link>. Ez megnyitja a KDE UserBase Wiki "
 "dedikált oldalát.</para>"
 
 #: dolphinmainwindow.cpp:2579
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1243,19 +1239,17 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Két egyéb módon is kaphat segítséget: A <link url='help:/dolphin/index."
-"html'>Dolphin kézikönyvében</link> és a <link url='https://userbase.kde.org/"
-"Dolphin/File_Management'>KDE UserBase Wikiben</link>.</para><para>A „Mi ez?” "
-"súgó a legtöbb más ablakban hiányzik, ezért ne szokjon hozzá túlságosan.</"
-"para>"
+"<para>Ez a gomb hívja elő a súgó funkciót, amelyet épp használ. Kattintson "
+"rá, majd kattintson az alkalmazás bármely komponensére a „Mi ez?” kérdés "
+"feltételéhez. Az egérkurzor megváltozik, ha nem érhető el súgó egy ponthoz.</"
+"para><para>Két egyéb módon is kaphat segítséget: A <link url='help:/dolphin/"
+"index.html'>Dolphin kézikönyvében</link> és a <link url='https://userbase."
+"kde.org/Dolphin/File_Management'>KDE UserBase Wikiben</link>.</para><para>A "
+"„Mi ez?” súgó a legtöbb más ablakban hiányzik, ezért ne szokjon hozzá "
+"túlságosan.</para>"
 
 #: dolphinmainwindow.cpp:2590
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1264,9 +1258,12 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>A minőségi hibajelentéseket nagyra értékeljük. Hogy megtanulja, hogyan "
-"készítsen hibajelentést a lehető leghatékonyabb  módon, <link url='https://"
-"community.kde.org/Get_Involved/Bug_Reporting'>kattintson ide</link>.</para>."
+"<para>Ez megnyit egy ablakot, ami végigvezeti Önt az ebben az alkalmazásban "
+"vagy más KDE szoftverben talált hibák bejelentésének folyamatán.</"
+"para><para>A minőségi hibajelentéseket nagyra értékeljük. Hogy megtanulja, "
+"hogyan készítsen hibajelentést a lehető leghatékonyabb  módon, <link "
+"url='https://community.kde.org/Get_Involved/Bug_Reporting'>kattintson ide</"
+"link>.</para>."
 
 #: dolphinmainwindow.cpp:2599
 #, kde-kuit-format
@@ -1676,6 +1673,8 @@ msgstr "Érvénytelen protokoll"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"A jelenlegi hely megváltozott, a(z) <filename>%1</filename> már nem "
+"hozzáférhető többé."
 
 #: filterbar/filterbar.cpp:27
 #, kde-format
@@ -2057,7 +2056,7 @@ msgstr "Módosítás"
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "A dátumformátum a beállításokban választható ki."
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
@@ -2232,7 +2231,7 @@ msgstr "Egyéb"
 #: kitemviews/kfileitemmodel.cpp:2757
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "Fájlkiterjesztés"
 
 #: kitemviews/kfileitemmodel.cpp:2758
 msgctxt "@label"
@@ -2260,6 +2259,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"A jogosultságformátum a beállításokban módosítható. A lehetőségek a "
+"Szimbolikus, Numerikus (oktális) vagy a Kombinált formátum"
 
 #: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
@@ -2544,11 +2545,9 @@ msgstr "Médiafájlok automatikus lejátszása"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Szűrősáv megjelenítése"
+msgstr "Elem megjelenítése rámutatáskor"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2569,12 +2568,10 @@ msgid "Auto-Play media files"
 msgstr "Médiafájlok automatikus lejátszása"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Szűrősáv megjelenítése"
+msgstr "Elem megjelenítése rámutatáskor"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -2852,12 +2849,10 @@ msgid "Query Results from '%1'"
 msgstr "Keresési eredmények - „%1”"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "A paraméterként megadott fájlok és mappák lesznek kijelölve."
+msgstr "Válassza ki a másolandó fájlokat és mappákat."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2867,45 +2862,40 @@ msgstr "A paraméterként megadott fájlok és mappák lesznek kijelölve."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Másolás megszakítása"
 
 #: selectionmode/bottombarcontentscontainer.cpp:190
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
+"Válasszon ki egy fájlt vagy mappát, amelynek a helyét másolni szeretné."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Ezzel kijelöli az összes fájlt és mappát a jelenlegi helyen."
+msgstr "Válassza ki az átmásolandó fájlokat és mappákat."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Ezzel kijelöli az összes fájlt és mappát a jelenlegi helyen."
+msgstr "Válassza ki a kivágandó fájlokat és mappákat."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Kivágás megszakítása"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "A paraméterként megadott fájlok és mappák lesznek kijelölve."
+msgstr "Válassza ki a véglegesen törlendő fájlokat és mappákat."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2917,19 +2907,17 @@ msgid "Cancel"
 msgstr "Mégse"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "A paraméterként megadott fájlok és mappák lesznek kijelölve."
+msgstr "Válassza ki az itt duplikálandó fájlokat és mappákat."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Duplikálás megszakítása"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2944,20 +2932,20 @@ msgstr "Több"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Válassza ki az áthelyezendő fájlokat és mappákat."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Áthelyezés megszakítása"
 
 #: selectionmode/bottombarcontentscontainer.cpp:381
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Válassza ki a Kukába helyezendő fájlokat és mappákat."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -2968,6 +2956,10 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>A kiválasztott fájlok és mappák hozzáadásra kerültek a vágólaphoz. A "
+"<emphasis>Beillesztés</emphasis> művelettel most már bármely más helyre "
+"mozgathatók. Akár más alkalmazásokba is azok megfelelő "
+"<emphasis>Beillesztés</emphasis> műveletét használva.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
@@ -2980,13 +2972,13 @@ msgstr "Beillesztés a vágólapról"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Emlékeztető eltüntetése"
 
 #: selectionmode/bottombarcontentscontainer.cpp:429
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Ne emlékeztessen újra"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -2995,13 +2987,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Válassza ki az átnevezni kívánt fájlt vagy mappát.\n"
+"A tömeges átnevezés csak több elem kiválasztásakor lehetséges."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:454
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Átnevezés megszakítása"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3013,8 +3007,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 másolása a vágólapra"
+msgstr[1] "%2 másolása a vágólapra"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3026,8 +3020,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 helyének másolása a vágólapra"
+msgstr[1] "%2 helyének másolása a vágólapra"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3039,8 +3033,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 kivágása a vágólapra"
+msgstr[1] "%2 kivágása a vágólapra"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3052,8 +3046,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 végleges törlése"
+msgstr[1] "%2 végleges törlése"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3107,28 +3101,34 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Kiválasztó mód</title><para>Válasszon ki fájlokat vagy mappákat a "
+"kezelésükhöz.<list><item>Nyomjon rá egy fájlra vagy mappára a "
+"kiválasztásához.</item><item>Nyomjon rá egy már kiválasztott fájlra vagy "
+"mappára a kiválasztás megszüntetéséhez.</item><item>Az üres területre nyomás "
+"<emphasis>nem</emphasis> törli a kiválasztást.</item><item>A kiválasztó "
+"téglalapok (üres területről húzva) megfordítják a téglalapokba eső elemek "
+"kiválasztási állapotát.</item></list></para><para>Az elérhető műveletek "
+"gombjai a jelenlegi kiválasztástól függenek.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Kiválasztó mód: kattintson fájlokra vagy mappákra a kiválasztásukhoz vagy a "
+"kiválasztás megszüntetéséhez."
 
 #: selectionmode/topbar.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Kijelölés"
+msgstr "Kiválasztó mód"
 
 #: selectionmode/topbar.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Kijelölés"
+msgstr "Kilépés a Kiválasztó módból"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:59
 #, kde-format
@@ -3238,11 +3238,9 @@ msgstr "ha igaz, rövid relatív dátumok jelennek meg, ha nem, rövid dátumok"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgid "Permissions style format"
-msgstr "Jogosultságok"
+msgstr "Jogosultságok stílusformátuma"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3284,10 +3282,9 @@ msgstr "A „Megnyitás új ablakban” megjelenítése a helyi menüben."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "A „Megnyitás új ablakban” megjelenítése a helyi menüben."
+msgstr "A „Megnyitás osztott nézetben” megjelenítése a helyi menüben."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3309,17 +3306,15 @@ msgstr "A „Terminál megnyitása” megjelenítése a helyi menüben."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "A „Hely másolása” megjelenítése a helyi menüben."
+msgstr "A „Másolás a másik osztott nézetbe” megjelenítése a helyi menüben."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "A „Rendezés” megjelenítése a helyi menüben."
+msgstr "Az „Áthelyezés a másik osztott nézetbe” megjelenítése a helyi menüben."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3331,13 +3326,13 @@ msgstr "Oszlopok pozíciója"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Oldalsó kitöltés"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Teljes sor kiemelése"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3546,6 +3541,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
+"A Dolphin belső konfigurációjának verziója, főleg annak meghatározására "
+"szolgál, hogy a Dolphin frissített verziója fut-e, hogy a konfigurációs "
+"bejegyzéseket át lehessen migrálni, amelyek eltávolítottak/átneveztek …stb."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -3626,6 +3624,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Sáv megjelenítése az egyszerű beillesztéshez, miután a kivágás vagy másolás "
+"a kiválasztó mód alsó sávjának használatával megtörtént."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -3705,17 +3705,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:147
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Legyen bezárási megerősítést kérő ablak, ha több lap van megnyitva."
+msgstr "Kérjen megerősítést több mappa egyidejű megnyitásakor."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Legyen bezárási megerősítést kérő ablak, ha több lap van megnyitva."
+msgstr "Kérjen megerősítést több terminál egyidejű megnyitásakor."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3827,18 +3825,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Ablak bezárása a terminál panelben futó alkalmazással"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Mappák és fájlok keresése"
+msgstr "Több mappa egyidejű megnyitásakor"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Több terminál egyidejű megnyitásakor"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3862,9 +3858,7 @@ msgid "Run script"
 msgstr "Szkript futtatása"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Mappák, lapok és ablak állapota a legutóbbi alkalomból"
@@ -3897,15 +3891,13 @@ msgstr "Megjelenítés induláskor:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Egyetlen Dolphin ablak megtartása, új mappák megnyitása lapokon"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Mappák és fájlok keresése"
+msgstr "Mappák megnyitása:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
