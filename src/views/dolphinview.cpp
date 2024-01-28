@@ -468,13 +468,7 @@ int DolphinView::zoomLevel() const
 void DolphinView::setSortRole(const QByteArray &role)
 {
     if (role != sortRole()) {
-        ViewProperties props(viewPropertiesUrl());
-        props.setSortRole(role);
-
-        KItemModelBase *model = m_container->controller()->model();
-        model->setSortRole(role);
-
-        Q_EMIT sortRoleChanged(role);
+        updateSortRole(role);
     }
 }
 
@@ -487,12 +481,7 @@ QByteArray DolphinView::sortRole() const
 void DolphinView::setSortOrder(Qt::SortOrder order)
 {
     if (sortOrder() != order) {
-        ViewProperties props(viewPropertiesUrl());
-        props.setSortOrder(order);
-
-        m_model->setSortOrder(order);
-
-        Q_EMIT sortOrderChanged(order);
+        updateSortOrder(order);
     }
 }
 
@@ -1513,6 +1502,27 @@ void DolphinView::slotStatJobResult(KJob *job)
     emitStatusBarText(folderCount, fileCount, totalFileSize, NoSelection);
 }
 
+void DolphinView::updateSortRole(const QByteArray &role)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortRole(role);
+
+    KItemModelBase *model = m_container->controller()->model();
+    model->setSortRole(role);
+
+    Q_EMIT sortRoleChanged(role);
+}
+
+void DolphinView::updateSortOrder(Qt::SortOrder order)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortOrder(order);
+
+    m_model->setSortOrder(order);
+
+    Q_EMIT sortOrderChanged(order);
+}
+
 void DolphinView::updateSortFoldersFirst(bool foldersFirst)
 {
     ViewProperties props(viewPropertiesUrl());
@@ -1928,7 +1938,10 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray &current, const Q
     Q_UNUSED(previous)
     Q_ASSERT(m_model->sortRole() == current);
 
-    setSortRole(current);
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortRole(current);
+
+    Q_EMIT sortRoleChanged(current);
 }
 
 void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray> &current, const QList<QByteArray> &previous)
