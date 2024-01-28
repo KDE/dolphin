@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 00:39+0000\n"
-"PO-Revision-Date: 2024-01-16 01:50+0200\n"
+"PO-Revision-Date: 2024-01-28 00:54+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -357,20 +357,16 @@ msgstr ""
 "senosios vietos."
 
 #: dolphinmainwindow.cpp:1717
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Kopijuoti į neaktyvų padalytą rodinį"
+msgstr "Kopijuoti į kitą rodinį"
 
 #: dolphinmainwindow.cpp:1718
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Kopijuoti į neaktyvų padalytą rodinį…"
+msgstr "Kopijuoti į kitą rodinį…"
 
 #: dolphinmainwindow.cpp:1720
 #, kde-kuit-format
@@ -387,20 +383,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopijuoti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Perkelti į neaktyvų padalytą rodinį"
+msgstr "Perkelti į kitą rodinį"
 
 #: dolphinmainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Perkelti į neaktyvų padalytą rodinį…"
+msgstr "Perkelti į kitą rodinį…"
 
 #: dolphinmainwindow.cpp:1731
 #, kde-kuit-format
@@ -417,12 +409,10 @@ msgid "Move to Inactive Split View"
 msgstr "Perkelti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1739
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtruoti"
+msgstr "Filtruoti…"
 
 #: dolphinmainwindow.cpp:1740
 #, kde-format
@@ -573,12 +563,10 @@ msgid "Opens the stash virtual directory in a split window"
 msgstr "Atveria slėpynės virtualų katalogą padalytame lange"
 
 #: dolphinmainwindow.cpp:1870
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Preview"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "Peržiūra"
+msgstr "Įkelti rodinį iš naujo"
 
 #: dolphinmainwindow.cpp:1872
 #, kde-kuit-format
@@ -818,11 +806,10 @@ msgid "Open in New Window"
 msgstr "Atverti naujame lange"
 
 #: dolphinmainwindow.cpp:2118 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Atverti programoje"
+msgstr "Atverti padalytame rodinyje"
 
 #: dolphinmainwindow.cpp:2132
 #, kde-format
@@ -1026,13 +1013,13 @@ msgstr "Užverti kairįjį rodinį"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Iškelti"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Perkelti kairįjį padalytą rodinį į naują langą"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1050,13 +1037,13 @@ msgstr "Užverti dešinįjį rodinį"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Iškelti"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Perkelti dešinįjį padalytą rodinį į naują langą"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1074,7 +1061,7 @@ msgstr "Padalytas rodinys"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Iškelti"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -1462,7 +1449,7 @@ msgstr "%1 | (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:60
@@ -1590,11 +1577,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr "Išlaikyti filtrą keičiant aplankus"
 
 #: filterbar/filterbar.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtruoti"
+msgstr "Filtruoti…"
 
 #: filterbar/filterbar.cpp:42
 #, kde-format
@@ -1655,10 +1640,10 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pažymėtas vienas aplankas"
+msgstr[1] "Pažymėti %1 aplankai"
+msgstr[2] "Pažymėta %1 aplankų"
+msgstr[3] "Pažymėtas %1 aplankas"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
 #, kde-format
@@ -1667,10 +1652,10 @@ msgctxt ""
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Pažymėtas vienas elementas"
+msgstr[1] "Pažymėti %1 elementai"
+msgstr[2] "Pažymėta %1 elementų"
+msgstr[3] "Pažymėtas %1 elementas"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
@@ -1979,7 +1964,7 @@ msgstr "Pakeista"
 #: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
-msgstr ""
+msgstr "Datos formatas gali būti pasirinktas nuostatose."
 
 #: kitemviews/kfileitemmodel.cpp:2719
 msgctxt "@label"
@@ -2031,15 +2016,12 @@ msgstr "Autorius"
 #: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
 msgid "Publisher"
-msgstr ""
+msgstr "Leidėjas"
 
 #: kitemviews/kfileitemmodel.cpp:2728
-#, fuzzy
-#| msgctxt "@label"
-#| msgid "Line Count"
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Eilučių skaičius"
+msgstr "Puslapių skaičius"
 
 #: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
@@ -2157,7 +2139,7 @@ msgstr "Kita"
 #: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "Failo prievardis"
 
 #: kitemviews/kfileitemmodel.cpp:2747
 msgctxt "@label"
@@ -2415,12 +2397,10 @@ msgid "Copy"
 msgstr "Kopijuoti"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Pervadinti..."
+msgstr "Pervadinti…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -2472,11 +2452,9 @@ msgstr "Automatiškai atkurti medijos failus"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgid "Show item on hover"
-msgstr "Rodyti filtro juostą"
+msgstr "Rodyti elementą užvedus pelę"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2497,20 +2475,16 @@ msgid "Auto-Play media files"
 msgstr "Automatiškai atkurti medijos failus"
 
 #: panels/information/informationpanel.cpp:163
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Rodyti filtro juostą"
+msgstr "Rodyti elementą užvedus pelę"
 
 #: panels/information/informationpanel.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Konfigūruoti"
+msgstr "Konfigūruoti…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -2914,7 +2888,7 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Įdėti iš iškarpinės"
 
 #: selectionmode/bottombarcontentscontainer.cpp:427
 #, kde-format
@@ -2926,7 +2900,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Daugiau nebepriminti"
 
 #: selectionmode/bottombarcontentscontainer.cpp:446
 #, kde-format
@@ -3090,19 +3064,16 @@ msgstr ""
 "Pasirinkite, kurios paslaugos turėtų būti rodomos kontekstiniame meniu:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Ieškoti"
+msgstr "Ieškoti…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Download New Services..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Atsisiųsti naujas paslaugas..."
+msgstr "Atsisiųsti naujas paslaugas…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, fuzzy, kde-format
@@ -3714,14 +3685,13 @@ msgstr "Konfigūruoti"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Sąsaja"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
-msgstr "&Rodinys"
+msgstr "Rodinys"
 
 #: settings/dolphinsettingsdialog.cpp:77
 #, kde-format
@@ -3867,12 +3837,10 @@ msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Atverti failus ir aplankus:"
+msgstr "Aplankų atvėrimas:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3881,17 +3849,13 @@ msgid "Show full path in title bar"
 msgstr "Lango antraštės juostoje rodyti pilną kelią"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Naujas &langas"
+msgstr "Langas:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Rodyti filtro juostą"
@@ -3915,20 +3879,16 @@ msgid "Open new tabs: "
 msgstr "Atverti naujas korteles: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Perjungti tarp padalytų rodinių naudojant Tab klavišą"
+msgstr "Perjungti tarp polangių naudojant Tab klavišą"
 
 #: settings/interface/folderstabssettingspage.cpp:119
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Split view"
+#, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Padalytas rodinys"
+msgstr "Padalytas rodinys: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
@@ -3964,12 +3924,10 @@ msgstr ""
 "Namų aplanko vieta yra netinkama arba jos nėra, nuostata nebus pritaikyta."
 
 #: settings/interface/interfacesettingspage.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Pirma aplankai"
+msgstr "Aplankai ir kortelės"
 
 #: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -3986,13 +3944,10 @@ msgid "Confirmations"
 msgstr "Patvirtinimai"
 
 #: settings/interface/interfacesettingspage.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Vietos juosta"
+msgstr "Būsenos ir vietos juostos"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4047,12 +4002,10 @@ msgid "Show space information"
 msgstr "Rodyti vietos informaciją"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Būsenos juosta"
+msgstr "Būsenos juosta: "
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4061,12 +4014,9 @@ msgid "Make location bar editable"
 msgstr "Paversti vietos juostą redaguojama"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Vietos juosta"
+msgstr "Vietos juosta:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4189,12 +4139,10 @@ msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Permissions"
+#, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "Leidimai"
+msgstr "Leidimų stilius:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4237,12 +4185,10 @@ msgstr ""
 "directory failą."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Rodinio atvaizdavimo stilius"
+msgstr "Atvaizdavimo stilius: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
@@ -4260,7 +4206,7 @@ msgstr "Tempimo operacijų metu, atverti aplankus"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Naršymas: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:49
 #, kde-format
@@ -4303,20 +4249,16 @@ msgid ""
 msgstr ""
 
 #: settings/viewmodes/viewsettingspage.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
-msgstr "Bendros"
+msgstr "Bendra"
 
 #: settings/viewmodes/viewsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Content"
+#, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "Turinio"
+msgstr "Turinio atvaizdavimas"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
@@ -4708,7 +4650,7 @@ msgstr ""
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4752,7 +4694,7 @@ msgstr "Vietos"
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "Count of available Network Shares"
-msgstr ""
+msgstr "Prieinamų tinklo viešinių skaičius"
 
 #: userfeedback/settingsdatasource.cpp:24
 #, kde-format
@@ -5266,12 +5208,10 @@ msgstr ""
 "paslėpti.</para>"
 
 #: views/dolphinviewactionhandler.cpp:332
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Adjust View Display Style..."
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Derinti rodinio atvaizdavimo stilių..."
+msgstr "Derinti rodinio atvaizdavimo stilių…"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
@@ -5408,12 +5348,10 @@ msgstr[2] "Veiksmai, skirti %1 pažymėtų elementų"
 msgstr[3] "Veiksmai, skirti %1 pažymėtam elementui"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Updating version information..."
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Atnaujinama versijos informacija..."
+msgstr "Atnaujinama versijos informacija…"
 
 #~ msgctxt "@info:status"
 #~ msgid "1 File"
