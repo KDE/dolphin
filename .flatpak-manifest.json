@@ -7,8 +7,21 @@
     "command": "dolphin",
     "tags": ["nightly"],
     "desktop-file-name-suffix": " (Nightly)",
-    "finish-args": ["--share=ipc", "--socket=fallback-x11", "--socket=wayland", "--filesystem=host" ],
-
+    "finish-args": [
+        "--device=dri",
+        "--share=ipc",
+        "--share=network",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--filesystem=host",
+        "--talk-name=org.freedesktop.Flatpak",
+        "--talk-name=org.kde.kded5",
+        "--talk-name=org.kde.kiod5",
+        "--talk-name=org.kde.JobViewServer",
+        "--talk-name=org.kde.kpasswdserver",
+        "--system-talk-name=org.freedesktop.UDisks2"
+    ],
     "modules": [
         {
             "name": "lmdb",
@@ -32,12 +45,12 @@
             "config-opts": ["-DENABLE_TESTING=OFF", "-DLMDB_DIR=/app"],
             "name": "baloo",
             "buildsystem": "cmake-ninja",
-	    "builddir": true,
+            "builddir": true,
             "sources": [
                 {
                     "type": "git",
                     "url": "https://invent.kde.org/frameworks/baloo.git",
-		    "branch": "master"
+                "branch": "master"
                 }
             ]
         },
@@ -45,20 +58,20 @@
             "config-opts": ["-DENABLE_TESTING=OFF", "-DQT_MAJOR_VERSION=6", "-DLMDB_DIR=/app"],
             "name": "baloo-widgets",
             "buildsystem": "cmake-ninja",
-	    "builddir": true,
+            "builddir": true,
             "sources": [ { "type": "git", "url": "https://invent.kde.org/libraries/baloo-widgets.git", "branch": "master"} ]
         },
         {
-	    "config-opts": ["-DFLATPAK=ON"],
+            "config-opts": ["-DFLATPAK=ON"],
             "name": "dolphin",
             "buildsystem": "cmake-ninja",
-	    "builddir": true,
+            "builddir": true,
             "sources": [ { "type": "dir", "path": "." } ]
         },
         {
             "name": "dolphin-plugins",
             "buildsystem": "cmake-ninja",
-	    "builddir": true,
+            "builddir": true,
             "sources": [ { "type": "git", "url": "https://invent.kde.org/sdk/dolphin-plugins.git" } ]
         }
     ]
