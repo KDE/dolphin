@@ -586,6 +586,7 @@ void DolphinMainWindowTest::testAutoSaveSession()
 
     // Enable session autosave.
     m_mainWindow->setSessionAutoSaveEnabled(true);
+    m_mainWindow->m_sessionSaveTimer->setInterval(200); // Lower the interval to speed up the testing
 
     // Open a new tab
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
