@@ -464,9 +464,22 @@ if(FLATPAK)
     target_compile_definitions(dolphin PRIVATE FLATPAK)
 endif()
 
-# Sets the icon on Windows and OSX
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
-ecm_add_app_icon(dolphin ICONS ${ICONS_SRCS})
+# Install the icons on macOS and Windows
+ecm_add_app_icon(dolphin
+    ICONS
+        icons/128-apps-org.kde.dolphin.png
+        icons/16-apps-org.kde.dolphin.png
+        icons/22-apps-org.kde.dolphin.png
+        icons/32-apps-org.kde.dolphin.png
+        icons/48-apps-org.kde.dolphin.png
+        icons/64-apps-org.kde.dolphin.png
+    DESTINATION
+        ${KDE_INSTALL_ICONDIR}
+    THEME
+        hicolor
+)
+
+install(FILES icons/org.kde.dolphin.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
 
 target_link_libraries(dolphin
     PRIVATE
