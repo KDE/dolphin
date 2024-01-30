@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 00:39+0000\n"
-"PO-Revision-Date: 2024-01-04 09:58-0600\n"
+"PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -952,7 +952,7 @@ msgstr "ਖੱਬੀ ਝਲਕ ਬੰਦ ਕਰੋ"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "ਪੌਪ ਆਉਟ"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
@@ -976,7 +976,7 @@ msgstr "ਸੱਜੀ ਝਲਕ ਬੰਦ ਕਰੋ"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "ਪੌਪ ਆਉਟ"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
@@ -1000,7 +1000,7 @@ msgstr "ਝਲਕ ਵੰਡੋ"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "ਪੌਪ ਆਉਟ"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -4492,14 +4492,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%2 ਵਿੱਚੋਂ %1 ਖਾਲੀ (%3% ਵਰਤੀ)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%2 ਵਿੱਚੋਂ %1 ਖਾਲੀ (%3% ਵਰਤੀ)"
+msgstr ""
+"%2 ਵਿੱਚੋਂ %1 ਖਾਲੀ (%3% ਵਰਤੀ)\n"
+"ਡਿਸਕ ਥਾਂ ਵਰਤੋਂ ਦਾ ਇੰਤਜ਼ਾਮ ਕਰਨ ਲਈ ਦਬਾਉ।"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
