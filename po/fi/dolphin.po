@@ -6,7 +6,7 @@
 # Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Jesse Janhonen <jesse.janhonen@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022.
@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-24 00:39+0000\n"
-"PO-Revision-Date: 2023-09-29 09:41+0300\n"
+"PO-Revision-Date: 2024-01-18 17:51+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -843,11 +843,10 @@ msgid "Open in New Window"
 msgstr "Avaa uuteen ikkunaan"
 
 #: dolphinmainwindow.cpp:2118 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Avaa sovellukseen"
+msgstr "Avaa jaettuun näkymään"
 
 #: dolphinmainwindow.cpp:2132
 #, kde-format
@@ -1701,12 +1700,10 @@ msgstr ""
 "Dolphin ei tue tätä yhteyskäytäntöä, joten käynnistetään oletussovellus"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Virheellinen yhteyskäytäntö"
+msgstr "Virheellinen yhteyskäytäntö ”%1”"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -2884,9 +2881,7 @@ msgid "Search in your home directory"
 msgstr "Etsi kotikansiosta"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Avaa %1"
 
@@ -3330,10 +3325,9 @@ msgstr "Näytä kontekstivalikossa ”Avaa uuteen ikkunaan”."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Näytä kontekstivalikossa ”Avaa uuteen ikkunaan”."
+msgstr "Näytä kontekstivalikossa ”Avaa jaettuun näkymään”."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3759,21 +3753,19 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Piilota myös application/x-trash-MIME-tyypin tiedostot"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Vahvista sulkeminen, kun ikkunassa on auki useita välilehtiä."
+msgstr "Pyydä vahvistus useamman kansion avaamiseen kerralla."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Vahvista sulkeminen, kun ikkunassa on auki useita välilehtiä."
+msgstr "Pyydä vahvistus useamman päätteen avaamiseen kerralla."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3803,12 +3795,10 @@ msgstr "Asetukset"
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr ""
+msgstr "Käyttöliittymä"
 
 #: settings/dolphinsettingsdialog.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "View"
+#, kde-format
 msgctxt "@title:group"
 msgid "View"
 msgstr "Näkymä"
@@ -3891,18 +3881,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "suljetaan ikkunaa, kun päätepaneelissa on ohjelma käynnissä"
 
 #: settings/interface/confirmationssettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Avaa tiedostot ja kansiot:"
+msgstr "Avataan useampi kansio kerralla"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Avataan useampi pääte kerralla"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -3926,9 +3914,7 @@ msgid "Run script"
 msgstr "Suorita skripti"
 
 #: settings/interface/folderstabssettingspage.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Viimekertaiset kansiot, välilehdet ja ikkunoiden tila"
@@ -3961,15 +3947,13 @@ msgstr "Näytä käynnistettäessä:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
+msgstr "Käytä yhtä Dolphin-ikkunaa ja avaa uuden kansiot välilehtiin"
 
 #: settings/interface/folderstabssettingspage.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "Avaa tiedostot ja kansiot:"
+msgstr "Avataan kansiot:"
 
 #: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
@@ -3978,17 +3962,13 @@ msgid "Show full path in title bar"
 msgstr "Näytä koko polku otsikkopalkissa"
 
 #: settings/interface/folderstabssettingspage.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
-msgstr "Uusi &ikkuna"
+msgstr "Ikkuna:"
 
 #: settings/interface/folderstabssettingspage.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Näytä suodatusrivi"
@@ -4057,12 +4037,10 @@ msgstr ""
 "takia oteta käyttöön."
 
 #: settings/interface/interfacesettingspage.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Sort"
-#| msgid "Folders First"
+#, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "Kansiot ensin"
+msgstr "Kansiot ja välilehdet"
 
 #: settings/interface/interfacesettingspage.cpp:36
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4079,13 +4057,10 @@ msgid "Confirmations"
 msgstr "Vahvistukset"
 
 #: settings/interface/interfacesettingspage.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "Sijaintirivi"
+msgstr "Tila- ja sijaintirivit"
 
 # *** TARKISTA: ”for” mitä?
 #: settings/interface/previewssettingspage.cpp:41
@@ -4142,12 +4117,10 @@ msgid "Show space information"
 msgstr "Näytä levynkäytön tiedot"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
-#, fuzzy, kde-format
-#| msgctxt "@title:tab Status Bar settings"
-#| msgid "Status Bar"
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar: "
-msgstr "Tilarivi"
+msgstr "Tilarivi:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:47
 #, kde-format
@@ -4156,12 +4129,9 @@ msgid "Make location bar editable"
 msgstr "Muokattava sijaintirivi"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Location Bar"
-#| msgid_plural "Location Bars"
+#, kde-format
 msgid "Location bar:"
-msgstr "Sijaintirivi"
+msgstr "Sijaintirivi:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4329,14 +4299,11 @@ msgstr ""
 "Dolphin luo .directory-piilotiedoston kuhunkin kansioon, jonka "
 "näkymäasetuksia muutat."
 
-# *** TARKISTA: Onko tässä järkeä?
 #: settings/viewmodes/generalviewsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "View Display Style"
+#, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "Näytä näkymätyyli"
+msgstr "Näkymätyyli: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:40
 #, kde-format
@@ -4354,7 +4321,7 @@ msgstr "Avaa kansio vedettäessä kohde sen ylle"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr ""
+msgstr "Selaus: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:49
 #, kde-format
@@ -4385,7 +4352,7 @@ msgstr "Muuta nimeä suoraan"
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Piilota tiedostoja piilotettaessa myös varmuuskopiotiedostot"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4394,12 +4361,10 @@ msgctxt ""
 msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
-msgstr ""
+msgstr "Varmuuskopiotiedostojen MIME-tyyppi on application/x-trash, kuviot: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:group General settings"
-#| msgid "General"
+#, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Perusasetukset"
@@ -4790,22 +4755,22 @@ msgstr "Näytä levynkäytön tiedot"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Levynkäyttötilastot – nykyinen kansio"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Levynkäyttötilastot – nykyinen laite"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Levynkäyttötilastot – kaikki laitteet"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4820,14 +4785,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 vapaana, %2 kaikkiaan (%3 % käytössä)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 vapaana, %2 kaikkiaan (%3 % käytössä)"
+msgstr ""
+"%1 vapaana, %2 kaikkiaan (%3 % käytössä)\n"
+"Napsauta hallitaksesi levytilankäyttöä"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4879,32 +4844,23 @@ msgid "Reload"
 msgstr "Päivitä"
 
 #: views/dolphinview.cpp:653
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "1 kansio valittu"
-msgstr[1] "%1 kansiota valittuna"
+msgstr[1] "%1 kansiota valittu"
 
 #: views/dolphinview.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "1 tiedosto valittu"
-msgstr[1] "%1 tiedostoa valittuna"
+msgstr[1] "%1 tiedostoa valittu"
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4912,14 +4868,12 @@ msgstr[0] "1 kansio"
 msgstr[1] "%1 kansiota"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Tiedostot"
-msgstr[1] "Tiedostot"
+msgstr[0] "1 tiedosto"
+msgstr[1] "%1 tiedostoa"
 
 #: views/dolphinview.cpp:661
 #, kde-format
@@ -4934,9 +4888,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:667
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 kansiota, 0 tiedostoa"
