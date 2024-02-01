@@ -16,8 +16,8 @@
         "--socket=pulseaudio",
         "--filesystem=host",
         "--talk-name=org.freedesktop.Flatpak",
-        "--talk-name=org.kde.kded5",
-        "--talk-name=org.kde.kiod5",
+        "--talk-name=org.kde.kded6",
+        "--talk-name=org.kde.kiod6",
         "--talk-name=org.kde.JobViewServer",
         "--talk-name=org.kde.kpasswdserver",
         "--system-talk-name=org.freedesktop.UDisks2"
