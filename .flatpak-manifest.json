@@ -50,7 +50,7 @@
                 {
                     "type": "git",
                     "url": "https://invent.kde.org/frameworks/baloo.git",
-                "branch": "master"
+                    "tag": "v5.248.0"
                 }
             ]
         },
