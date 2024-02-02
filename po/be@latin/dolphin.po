@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:39+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1641,25 +1641,25 @@ msgstr "Ačyscić spis niadaŭna zakrytych ukladak"
 msgid "Search for %1 in %2"
 msgstr "Pošuk %1 u %2"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:154
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Novaja ŭkladka"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Adčapić ukladku"
 
-#: dolphintabbar.cpp:131
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Zakryć inšyja ŭkladki"
 
-#: dolphintabbar.cpp:132
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

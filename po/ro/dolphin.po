@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:39+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2024-01-07 16:26+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1549,25 +1549,25 @@ msgstr "Șterge istoricul filelor închise recent"
 msgid "Search for %1 in %2"
 msgstr "Caută %1 în %2"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:154
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Filă nouă"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Detașează fila"
 
-#: dolphintabbar.cpp:131
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Închide celelalte file"
 
-#: dolphintabbar.cpp:132
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

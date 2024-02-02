@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:39+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -1542,25 +1542,25 @@ msgstr "Quên các thẻ đóng gần đây"
 msgid "Search for %1 in %2"
 msgstr "Tìm kiếm %1 trong %2"
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:154
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Thẻ mới"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Tách thẻ"
 
-#: dolphintabbar.cpp:131
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Đóng các thẻ khác"
 
-#: dolphintabbar.cpp:132
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

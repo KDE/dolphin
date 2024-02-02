@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:39+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2023-04-11 01:21-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -1370,25 +1370,25 @@ msgstr "Tabelat e Mbyllura së Fundmi"
 msgid "Search for %1 in %2"
 msgstr ""
 
-#: dolphintabbar.cpp:129
+#: dolphintabbar.cpp:154
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Skedë e re"
 
-#: dolphintabbar.cpp:130
+#: dolphintabbar.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr ""
 
-#: dolphintabbar.cpp:131
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Mbyll Fushat e Tjera"
 
-#: dolphintabbar.cpp:132
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
