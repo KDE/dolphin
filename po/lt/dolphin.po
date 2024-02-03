@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-31 02:38+0000\n"
-"PO-Revision-Date: 2024-02-02 01:20+0200\n"
+"PO-Revision-Date: 2024-02-02 15:38+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -3673,7 +3673,7 @@ msgstr "Daugiausiai teksto eilučių (0 reiškia neribotai)"
 #: settings/dolphin_versioncontrolsettings.kcfg:10
 #, kde-format
 msgid "Enabled plugins"
-msgstr "Įjungti papildiniai"
+msgstr "Įjungti įskiepiai"
 
 #: settings/dolphinsettingsdialog.cpp:41
 #, kde-format
