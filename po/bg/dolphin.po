@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 00:39+0000\n"
-"PO-Revision-Date: 2024-01-15 11:08+0100\n"
+"PO-Revision-Date: 2024-02-03 15:59+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -553,6 +553,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Ако изгледът на папката е бил разделен, това ще изведе активния изглед на "
+"папката в нов прозорец."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1090,13 +1092,13 @@ msgstr "Затваряне на левия панел"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Извеждане в нов прозорец"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Преместване на левия разделен изглед в нов прозорец"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1114,13 +1116,13 @@ msgstr "Затваряне на десния панел"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Извеждане в нов прозорец"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Преместване на десния разделен изглед в нов прозорец"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1138,7 +1140,7 @@ msgstr "Разделен изглед"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Извеждане в нов прозорец"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
