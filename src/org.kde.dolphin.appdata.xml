@@ -6,10 +6,13 @@
   <developer_name translate="no">KDE</developer_name>
   <developer_name translate="no" xml:lang="bg">KDE</developer_name>
   <developer_name translate="no" xml:lang="ca">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ca-valencia">KDE</developer_name>
   <developer_name translate="no" xml:lang="eo">KDE</developer_name>
   <developer_name translate="no" xml:lang="es">KDE</developer_name>
   <developer_name translate="no" xml:lang="eu">KDE</developer_name>
+  <developer_name translate="no" xml:lang="fr">KDE</developer_name>
   <developer_name translate="no" xml:lang="he">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ia">KDE</developer_name>
   <developer_name translate="no" xml:lang="ka">KDE</developer_name>
   <developer_name translate="no" xml:lang="nl">KDE</developer_name>
   <developer_name translate="no" xml:lang="pl">KDE</developer_name>
@@ -18,6 +21,8 @@
   <developer_name translate="no" xml:lang="tr">KDE</developer_name>
   <developer_name translate="no" xml:lang="uk">KDE</developer_name>
   <developer_name translate="no" xml:lang="x-test">xxKDExx</developer_name>
+  <developer_name translate="no" xml:lang="zh-CN">KDE</developer_name>
+  <developer_name translate="no" xml:lang="zh-TW">KDE</developer_name>
   <name>Dolphin</name>
   <name xml:lang="ar">دولفين</name>
   <name xml:lang="ast">Dolphin</name>
