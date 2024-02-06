@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 00:39+0000\n"
-"PO-Revision-Date: 2024-02-02 15:37+0200\n"
+"PO-Revision-Date: 2024-02-05 22:38+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -2515,14 +2515,9 @@ msgstr "pristabdyti"
 
 #. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
 #: panels/places/dolphin_placespanelsettings.kcfg:11
-#, fuzzy, kde-format
-#| msgid ""
-#| "Size of icons in the Places Panel (-1 means \"use the style's small size"
-#| "\")"
+#, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
-msgstr ""
-"Piktogramų dydis šiame Vietų skydelyje (-1 reiškia „naudoti mažą stiliaus "
-"dydį“)"
+msgstr "Piktogramų dydis Vietų skydelyje (-1 reiškia „automatinis“)"
 
 #: panels/places/placespanel.cpp:53
 #, kde-format
@@ -2761,12 +2756,10 @@ msgid "Query Results from '%1'"
 msgstr "„%1“ užklausos rezultatai"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti nukopijuoti."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2782,24 +2775,20 @@ msgstr "Atsisakyti kopijavimo"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Pažymėkite vieną failą ar aplanką, kurio vieta turi būti nukopijuota."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Tai pažymi visus, esamoje vietoje esančius, failus ir aplankus."
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti nukopijuoti."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Tai pažymi visus, esamoje vietoje esančius, failus ir aplankus."
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti iškirpti."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -2809,12 +2798,10 @@ msgid "Cancel Cutting"
 msgstr "Atsisakyti iškirpimo"
 
 #: selectionmode/bottombarcontentscontainer.cpp:269
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti ištrinti visam laikui."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2826,12 +2813,10 @@ msgid "Cancel"
 msgstr "Atsisakyti"
 
 #: selectionmode/bottombarcontentscontainer.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
+msgstr "Pažymėkite failus ir aplankus, kurie turėtų būti dubliuoti čia."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
@@ -2853,7 +2838,7 @@ msgstr "Daugiau"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti perkelti."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
@@ -2866,7 +2851,7 @@ msgstr "Atsisakyti perkėlimo"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Pažymėkite failus ir aplankus, kurie turi būti perkelti į šiukšlinę."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
@@ -3071,18 +3056,14 @@ msgid "Download New Services…"
 msgstr "Atsisiųsti naujas paslaugas…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Dolphin must be restarted to apply the updated version control systems "
-#| "settings."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Dolphin must be restarted to apply the updated version control system "
 "settings."
 msgstr ""
-"Norint taikyti atnaujintas versijų tvarkymo sistemų nuostatas, Dolphin "
-"privalo būti paleista iš naujo."
+"Dolphin privalo būti paleista iš naujo, kad pritaikytų atnaujintas versijų "
+"tvarkymo nuostatas."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
@@ -3176,78 +3157,71 @@ msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti �
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Pridėti prie vietų“."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr ""
+msgstr "Rodyti kontekstiniame meniu punktą „Rikiuoti pagal“."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Rodinio veiksena“."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr ""
+"Rodyti kontekstiniame meniu punktus „Atverti naujoje kortelėje“ ir „Atverti "
+"naujose kortelėse“."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Atverti naujame lange“."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Atverti padalytame rodinyje“."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Kopijuoti vietą“."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr ""
+msgstr "Rodyti kontekstiniame meniu punktą „Dubliuoti čia“."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Atverti terminalą“."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Kopijuoti į kitą rodinį“."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, fuzzy, kde-format
-#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Kontekstiniame meniu rodyti komandas „Kopijuoti į“ ir „Perkelti į“"
+msgstr "Rodyti kontekstiniame meniu punktą „Perkelti į kitą rodinį“."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3259,7 +3233,7 @@ msgstr "Stulpelių pozicijos"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Šoninis užpildas"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
@@ -4800,7 +4774,7 @@ msgstr[3] "Atverti %1 elementą"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Šoninis užpildas"
 
 #: views/dolphinview.cpp:1215
 #, kde-format
@@ -4907,7 +4881,7 @@ msgstr "Nėra žymių"
 #: views/dolphinview.cpp:2336
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr ""
+msgstr "Nėra failų pažymėtų žyme „%1“"
 
 #: views/dolphinview.cpp:2340
 #, kde-format
@@ -4922,7 +4896,7 @@ msgstr "Nerasta jokių bendrinamų aplankų"
 #: views/dolphinview.cpp:2344
 #, kde-format
 msgid "No relevant network resources found"
-msgstr ""
+msgstr "Nerasta jokio susijusio tinklo ištekliaus"
 
 #: views/dolphinview.cpp:2346
 #, kde-format
@@ -5015,7 +4989,7 @@ msgstr "Kopijuoti vietą"
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
-msgstr ""
+msgstr "Tai nukopijuos į iškarpinę pirmo pažymėto elemento vietą."
 
 #: views/dolphinviewactionhandler.cpp:161
 #, kde-format
