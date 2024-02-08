@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 00:39+0000\n"
-"PO-Revision-Date: 2024-01-18 17:51+0200\n"
+"PO-Revision-Date: 2024-02-02 17:42+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -570,6 +570,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Jos kansionäkymä on jaettu, tämä ponnauttaa aktiivisen kansionäkymän uuteen "
+"ikkunaan."
 
 # ”kätkö” lienee Lasse Liehun ehdotus?
 #: dolphinmainwindow.cpp:1861
@@ -1092,17 +1094,18 @@ msgctxt "@info"
 msgid "Close left view"
 msgstr "Sulje vasemmanpuoleinen näkymä"
 
+# HUOM! Muutenkin voisi kääntää, mutta yritin välttää esim. verbiä ”irrota” (jottei sekaannu unmount-, eject-komentoihin) ja ”poista” (ilmeisistä syistä) sekä liian pitkiä jonoja (esim. ”siirrä uuteen ikkunaan”).
 #: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Ponnauta"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Siirrä vasemmanpuoleinen jakonäkymä uuteen ikkunaan"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1120,13 +1123,13 @@ msgstr "Sulje oikeanpuoleinen näkymä"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Ponnauta"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Siirrä oikeanpuoleinen jakonäkymä uuteen ikkunaan"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1144,7 +1147,7 @@ msgstr "Puolita näkymä"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Ponnauta"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format

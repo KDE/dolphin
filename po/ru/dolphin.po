@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-02 00:39+0000\n"
-"PO-Revision-Date: 2024-02-04 19:24+0300\n"
+"PO-Revision-Date: 2024-02-07 10:27+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -576,6 +576,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Если используется двухпанельный режим просмотра, это действие откроет "
+"активную панель в новом окне."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -1117,7 +1119,7 @@ msgstr "Закрыть левую панель"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Переместить в новое окно"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
@@ -4456,6 +4458,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Файлы резервных копий — это файлы с MIME-типом «application/x-trash», "
+"соответствующие следующим шаблонам имён файлов: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
