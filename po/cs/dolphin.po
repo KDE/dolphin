@@ -4516,14 +4516,12 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 volné z %2 (%3% použito)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 volné z %2 (%3% použito)"
+msgstr ""
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4575,40 +4573,31 @@ msgid "Reload"
 msgstr "Obnovit"
 
 #: views/dolphinview.cpp:653
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] "Vybrána 1 složka"
-msgstr[1] "Vybrány %1 složky"
-msgstr[2] "Vybráno %1 složek"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: views/dolphinview.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] "Vybrán 1 soubor"
-msgstr[1] "Vybrány %1 soubory"
-msgstr[2] "Vybráno %1 souborů"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
-msgstr[0] "1 složka"
-msgstr[1] "%1 složky"
-msgstr[2] "%1 složek"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: views/dolphinview.cpp:657
 #, kde-format
@@ -4632,12 +4621,10 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:667
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
-msgstr "0 složek, 0 souborů"
+msgstr ""
 
 #: views/dolphinview.cpp:883 views/dolphinview.cpp:892
 #, kde-format
@@ -5190,10 +5177,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "1 soubor"
-#~ msgstr[1] "%1 soubory"
-#~ msgstr[2] "%1 souborů"
