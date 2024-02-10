@@ -828,23 +828,23 @@ has all features from dolphin ?-->
 
 <sect3 id="location-bar-editable-kioslaves">
 <title
->Kioslaves'i Kullanma</title>
+>Kioslaves’i Kullanma</title>
 
 <para
->Düzenlenebilir kipte konum çubuğu boşsa çubuğun önünde sisteminizdeki tüm kioslaves'leri listeleyen bir açılır kutu görünür. Kioslave'ler, &dolphin;'e ve diğer &kde; uygulamalarına pek çok farklı protokol için destek ekleyen, &kde;'ye yerleşik programlardır.</para
+>Düzenlenebilir kipte konum çubuğu boşsa çubuğun önünde sisteminizdeki tüm kioslaves’leri listeleyen bir açılır kutu görünür. Kioslave’ler, &dolphin;’e ve diğer &kde; uygulamalarına pek çok farklı protokol için destek ekleyen, &kde;’ye yerleşik programlardır.</para
 > 
 
 <para
 >Örneğin <quote
 >fish</quote
-> kioslave'i ile &dolphin;, <acronym
+> kioslave’i ile &dolphin;, <acronym
 >SSH</acronym
 > aracılığıyla erişilebilen uzak bir ana bilgisayardaki dosya ve klasörleri yönetmek için kullanılabilir. Bunu yapmak için konum çubuğuna <userinput
 >fish://kullanıcıadı@uzakmakine</userinput
 > yazarsınız. Benzer uzak dosya yönetimi; &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) veya webdav protokolleri üzerinden erişilebilen uzak ana bilgisayarlarda yapılabilir.</para>
 
 <para
->&systemsettings;'na, yazıtiplerine, çöp kutusuna, diğer programlara ve bilgisayarınıza bağlı aygıtlara erişmek için kioslave açılır kutusunu kullanmak da olanaklıdır. Sisteminizdeki kioslave'lerde bulunan yeteneklerin tam listesi için açılır kutuya bakın. </para>
+>&systemsettings;’na, yazıtiplerine, çöp kutusuna, diğer programlara ve bilgisayarınıza bağlı aygıtlara erişmek için kioslave açılır kutusunu kullanmak da olanaklıdır. Sisteminizdeki kioslave’lerde bulunan yeteneklerin tam listesi için açılır kutuya bakın. </para>
 <screenshot>
 <screeninfo
 >Kioslaves listesinin ekran görüntüsü</screeninfo>
@@ -854,11 +854,11 @@ has all features from dolphin ?-->
 </imageobject>
 <textobject>
 <phrase
->Kullanılabilir kioslaves'lerin listesini gösteren konum çubuğu.</phrase>
+>Kullanılabilir kioslaves’lerin listesini gösteren konum çubuğu.</phrase>
 </textobject>
 <caption
 ><para
->Kullanılabilir kioslaves'lerin listesi.</para
+>Kullanılabilir kioslaves’lerin listesi.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -1186,11 +1186,11 @@ context menu Icon Size? No different entries ?-->
 >Geri Al Eylemleri</title>
 
 <para
->&dolphin; dosyalarda yaptığınız değişiklikleri geri alma yeteneğine sahiptir. Örneğin, bir dosyayı Çöp Kutusu'na taşıdıysanız &dolphin; bunu geri alabilir ve özgün konumuna geri taşıyabilir. Bir eylemi geri almak için <keycombo action="simul"
+>&dolphin; dosyalarda yaptığınız değişiklikleri geri alma yeteneğine sahiptir. Örneğin, bir dosyayı Çöp Kutusu’na taşıdıysanız &dolphin; bunu geri alabilir ve özgün konumuna geri taşıyabilir. Bir eylemi geri almak için <keycombo action="simul"
 >&Ctrl;<keycap
 >Z</keycap
 ></keycombo
->'ye basın veya ana menüden <menuchoice
+>’ye basın veya ana menüden <menuchoice
 ><guimenu
 >Düzen</guimenu
 > <guimenuitem
@@ -3234,11 +3234,11 @@ context menu Icon Size? No different entries ?-->
 >Ayarlar ve Yardım Menüsü</title
 > 
 <para
->&dolphin;'deki <guimenu
+>&dolphin;’deki <guimenu
 >Ayarlar</guimenu
 > ve <guimenu
 >Yardım</guimenu
-> menüleri, &kde; uygulamalarındaki ortak menülerdendir; daha fazla bilgi için &kde; Temelleri'ndeki <ulink url="help:/fundamentals/menus.html#menus-settings"
+> menüleri, &kde; uygulamalarındaki ortak menülerdendir; daha fazla bilgi için &kde; Temelleri’ndeki <ulink url="help:/fundamentals/menus.html#menus-settings"
 >Ayarlar Menüsü</ulink
 > ve <ulink url="help:/fundamentals/menus.html#menus-help"
 >Yardım Menüsü</ulink
