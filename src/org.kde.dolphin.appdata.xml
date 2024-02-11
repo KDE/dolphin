@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
   <developer_name translate="no">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ar">كِيدِي</developer_name>
   <developer_name translate="no" xml:lang="bg">KDE</developer_name>
   <developer_name translate="no" xml:lang="ca">KDE</developer_name>
   <developer_name translate="no" xml:lang="ca-valencia">KDE</developer_name>
@@ -14,6 +15,7 @@
   <developer_name translate="no" xml:lang="fr">KDE</developer_name>
   <developer_name translate="no" xml:lang="he">KDE</developer_name>
   <developer_name translate="no" xml:lang="ia">KDE</developer_name>
+  <developer_name translate="no" xml:lang="it">KDE</developer_name>
   <developer_name translate="no" xml:lang="ka">KDE</developer_name>
   <developer_name translate="no" xml:lang="ko">KDE</developer_name>
   <developer_name translate="no" xml:lang="nl">KDE</developer_name>
