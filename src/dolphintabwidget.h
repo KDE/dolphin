@@ -209,6 +209,12 @@ private Q_SLOTS:
     void openNewActivatedTab(int index);
 
     /**
+     * Is connected to the KTabBar signal receivedDragMoveEvent.
+     * Allows dragging and dropping files onto tabs.
+     */
+    void tabDragMoveEvent(int tab, QDragMoveEvent *event);
+
+    /**
      * Is connected to the KTabBar signal receivedDropEvent.
      * Allows dragging and dropping files onto tabs.
      */

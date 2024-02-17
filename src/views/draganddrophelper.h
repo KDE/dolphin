@@ -10,6 +10,8 @@
 
 #include "dolphin_export.h"
 
+#include <KFileItem>
+
 #include <QList>
 #include <QString>
 #include <QUrl>
@@ -39,6 +41,34 @@ public:
      *                  in the mimeData url list.
      */
     static KIO::DropJob *dropUrls(const QUrl &destUrl, QDropEvent *event, QWidget *window);
+
+    /**
+     * Checks if the destination supports dropping.
+     *
+     * @param destUrl   URL of the item destination.
+     * @return          True if the destination is a directory and is writable, or it's a desktop file.
+     *                  False otherwise.
+     */
+    static bool supportsDropping(const QUrl &destUrl);
+
+    /**
+     * Checks if the destination supports dropping.
+     *
+     * @param destItem  The item destination.
+     * @return          True if the destination is a directory and is writable, or it's a desktop file.
+     *                  False otherwise.
+     */
+    static bool supportsDropping(const KFileItem &destItem);
+
+    /**
+     * Updates the drop action according to whether the destination supports dropping.
+     * If supportsDropping(destUrl), set dropAction = proposedAction. Otherwise, set
+     * dropAction = Qt::IgnoreAction.
+     *
+     * @param event     Drop event.
+     * @param destUrl   Destination URL.
+     */
+    static void updateDropAction(QDropEvent *event, const QUrl &destUrl);
 
     /**
      * @return True if destUrl is contained in the urls parameter.

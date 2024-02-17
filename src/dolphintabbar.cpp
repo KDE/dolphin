@@ -80,6 +80,7 @@ void DolphinTabBar::dragMoveEvent(QDragMoveEvent *event)
     const int index = tabAt(event->position().toPoint());
 
     if (mimeData->hasUrls()) {
+        Q_EMIT tabDragMoveEvent(index, event);
         updateAutoActivationTimer(index);
     }
 

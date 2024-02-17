@@ -12,6 +12,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "private/kfileitemmodelsortalgorithm.h"
+#include "views/draganddrophelper.h"
 
 #include <KDirLister>
 #include <KIO/Job>
@@ -348,7 +349,7 @@ bool KFileItemModel::supportsDropping(int index) const
     } else {
         item = fileItem(index);
     }
-    return !item.isNull() && ((item.isDir() && item.isWritable()) || item.isDesktopFile());
+    return !item.isNull() && DragAndDropHelper::supportsDropping(item);
 }
 
 QString KFileItemModel::roleDescription(const QByteArray &role) const

@@ -52,13 +52,41 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
             return nullptr;
         }
 
-        // Drop into a directory or a desktop-file
-        KIO::DropJob *job = KIO::drop(event, destUrl);
-        KJobWidgets::setWindow(job, window);
-        return job;
+        if (supportsDropping(destUrl)) {
+            // Drop into a directory or a desktop-file
+            KIO::DropJob *job = KIO::drop(event, destUrl);
+            KJobWidgets::setWindow(job, window);
+            return job;
+        }
     }
 
     return nullptr;
+}
+
+bool DragAndDropHelper::supportsDropping(const QUrl &destUrl)
+{
+    KFileItem item(destUrl);
+    return supportsDropping(item);
+}
+
+bool DragAndDropHelper::supportsDropping(const KFileItem &destItem)
+{
+    return (destItem.isDir() && destItem.isWritable()) || destItem.isDesktopFile();
+}
+
+void DragAndDropHelper::updateDropAction(QDropEvent *event, const QUrl &destUrl)
+{
+    if (urlListMatchesUrl(event->mimeData()->urls(), destUrl)) {
+        event->setDropAction(Qt::IgnoreAction);
+        event->ignore();
+    }
+    if (supportsDropping(destUrl)) {
+        event->setDropAction(event->proposedAction());
+        event->accept();
+    } else {
+        event->setDropAction(Qt::IgnoreAction);
+        event->ignore();
+    }
 }
 
 void DragAndDropHelper::clearUrlListMatchesUrlCache()

@@ -156,9 +156,13 @@ void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
         // Reject drag ontop of a non-writable protocol
         // We don't know whether we're dropping inbetween or ontop of a place
         // so still allow internal drag events so that re-arranging still works.
-        const QUrl url = placesModel->url(index);
-        if (url.isValid() && !isInternalDrag(event->mimeData()) && !KProtocolManager::supportsWriting(url)) {
-            event->setDropAction(Qt::IgnoreAction);
+        if (!isInternalDrag(event->mimeData())) {
+            const QUrl url = placesModel->url(index);
+            if (!url.isValid() || !KProtocolManager::supportsWriting(url)) {
+                event->setDropAction(Qt::IgnoreAction);
+            } else {
+                DragAndDropHelper::updateDropAction(event, url);
+            }
         }
     }
 

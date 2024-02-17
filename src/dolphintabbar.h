@@ -18,6 +18,7 @@ public:
 
 Q_SIGNALS:
     void openNewActivatedTab(int index);
+    void tabDragMoveEvent(int index, QDragMoveEvent *event);
     void tabDropEvent(int index, QDropEvent *event);
     void tabDetachRequested(int index);
 

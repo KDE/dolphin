@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphintabbar.h"
 #include "dolphinviewcontainer.h"
+#include "views/draganddrophelper.h"
 
 #include <KAcceleratorManager>
 #include <KConfigGroup>
@@ -33,6 +34,7 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
 
     DolphinTabBar *tabBar = new DolphinTabBar(this);
     connect(tabBar, &DolphinTabBar::openNewActivatedTab, this, QOverload<int>::of(&DolphinTabWidget::openNewActivatedTab));
+    connect(tabBar, &DolphinTabBar::tabDragMoveEvent, this, &DolphinTabWidget::tabDragMoveEvent);
     connect(tabBar, &DolphinTabBar::tabDropEvent, this, &DolphinTabWidget::tabDropEvent);
     connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
 
@@ -386,6 +388,14 @@ void DolphinTabWidget::openNewActivatedTab(int index)
     Q_ASSERT(index >= 0);
     const DolphinTabPage *tabPage = tabPageAt(index);
     openNewActivatedTab(tabPage->activeViewContainer()->url());
+}
+
+void DolphinTabWidget::tabDragMoveEvent(int index, QDragMoveEvent *event)
+{
+    if (index >= 0) {
+        DolphinView *view = tabPageAt(index)->activeViewContainer()->view();
+        DragAndDropHelper::updateDropAction(event, view->url());
+    }
 }
 
 void DolphinTabWidget::tabDropEvent(int index, QDropEvent *event)
