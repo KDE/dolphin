@@ -830,6 +830,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
             if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
                 m_autoActivationTimer->setProperty("index", index);
                 m_autoActivationTimer->start();
+                newHoveredWidget->startActivateSoonAnimation(m_autoActivationTimer->remainingTime());
             }
         } else {
             m_autoActivationTimer->stop();

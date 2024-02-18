@@ -438,6 +438,11 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem *option
     return pixmap;
 }
 
+void KItemListWidget::startActivateSoonAnimation(int timeUntilActivation)
+{
+    Q_UNUSED(timeUntilActivation)
+}
+
 void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles)
 {
     Q_UNUSED(current)

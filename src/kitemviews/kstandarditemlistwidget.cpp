@@ -24,6 +24,7 @@
 #include <QGraphicsView>
 #include <QPixmapCache>
 #include <QStyleOption>
+#include <QVariantAnimation>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
 
@@ -589,6 +590,50 @@ QPixmap KStandardItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem
     return clippedPixmap;
 }
 
+void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation)
+{
+    if (m_activateSoonAnimation) {
+        m_activateSoonAnimation->stop(); // automatically DeleteWhenStopped
+    }
+
+    m_activateSoonAnimation = new QVariantAnimation{this};
+    m_activateSoonAnimation->setStartValue(0.0);
+    m_activateSoonAnimation->setEndValue(1.0);
+    m_activateSoonAnimation->setDuration(timeUntilActivation);
+
+    const QVariant originalIconName{data()["iconName"]};
+    connect(m_activateSoonAnimation, &QVariantAnimation::valueChanged, this, [originalIconName, this](const QVariant &value) {
+        auto progress = value.toFloat();
+
+        QVariant wantedIconName;
+        if (progress < 0.333) {
+            wantedIconName = "folder-open";
+        } else if (progress < 0.666) {
+            wantedIconName = originalIconName;
+        } else {
+            wantedIconName = "folder-open";
+        }
+
+        QHash<QByteArray, QVariant> itemData{data()};
+        if (itemData["iconName"] != wantedIconName) {
+            itemData.insert("iconName", wantedIconName);
+            setData(itemData);
+            invalidateIconCache();
+        }
+    });
+
+    connect(m_activateSoonAnimation, &QObject::destroyed, this, [originalIconName, this]() {
+        QHash<QByteArray, QVariant> itemData{data()};
+        if (itemData["iconName"] == "folder-open") {
+            itemData.insert("iconName", originalIconName);
+            setData(itemData);
+            invalidateIconCache();
+        }
+    });
+
+    m_activateSoonAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
 KItemListWidgetInformant *KStandardItemListWidget::createInformant()
 {
     return new KStandardItemListWidgetInformant();
@@ -736,7 +781,9 @@ void KStandardItemListWidget::styleOptionChanged(const KItemListStyleOption &cur
 
 void KStandardItemListWidget::hoveredChanged(bool hovered)
 {
-    Q_UNUSED(hovered)
+    if (!hovered && m_activateSoonAnimation) {
+        m_activateSoonAnimation->stop(); // automatically DeleteWhenStopped
+    }
     m_dirtyLayout = true;
 }
 

@@ -17,6 +17,7 @@
 class KItemListRoleEditor;
 class KItemListStyleOption;
 class KItemListView;
+class QVariantAnimation;
 
 /**
  * @brief standard implementation of the ItemList widget informant for use with KStandardItemListView and KStandardItemModel.
@@ -103,6 +104,8 @@ public:
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
     QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    /** @see KItemListWidget::startActivateSoonAnimation() */
+    void startActivateSoonAnimation(int timeUntilActivation) override;
 
     static KItemListWidgetInformant *createInformant();
 
@@ -281,6 +284,9 @@ private:
 
     KItemListRoleEditor *m_roleEditor;
     KItemListRoleEditor *m_oldRoleEditor;
+
+    /** @see startActivateSoonAnimation() */
+    QPointer<QVariantAnimation> m_activateSoonAnimation;
 
     friend class KStandardItemListWidgetInformant; // Accesses private static methods to be able to
                                                    // share a common layout calculation

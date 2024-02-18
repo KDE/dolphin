@@ -188,6 +188,12 @@ public:
      */
     virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
+    /**
+     * Starts an animation that makes clear that the item will be activated soon.
+     * @param timeUntilActivation time in milliseconds until the item will activate
+     */
+    virtual void startActivateSoonAnimation(int timeUntilActivation);
+
 Q_SIGNALS:
     void roleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
     void roleEditingFinished(int index, const QByteArray &role, const QVariant &value);
