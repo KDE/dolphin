@@ -4,15 +4,15 @@
 # íslensk þýðing Dolphin
 # þýðing byggð á eldri þýðingum Konqueror og KDE
 # Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
-# SPDX-FileCopyrightText: 2022, 2023 Guðmundur Erlingsson <gudmundure@gmail.com>
+# Guðmundur Erlingsson <gudmundure@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 00:39+0000\n"
-"PO-Revision-Date: 2023-12-04 10:07+0000\n"
-"Last-Translator: Guðmundur Erlingsson <gudmundure@gmail.com>\n"
-"Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2024-02-18 00:39+0000\n"
+"PO-Revision-Date: 2023-10-05 09:50+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr ""
 "\n"
 "\n"
 "\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -361,16 +361,20 @@ msgstr ""
 "staðnum."
 
 #: dolphinmainwindow.cpp:1717
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Copy to Inactive Split View"
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Afrita í hitt yfirlitið"
+msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti"
 
 #: dolphinmainwindow.cpp:1718
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Copy to Inactive Split View…"
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Afrita í hitt yfirlitið..."
+msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti..."
 
 #: dolphinmainwindow.cpp:1720
 #, kde-kuit-format
@@ -389,16 +393,20 @@ msgid "Copy to Inactive Split View"
 msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti"
 
 #: dolphinmainwindow.cpp:1728
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Move to Inactive Split View"
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Færa í hitt yfirlitið"
+msgstr "Færa í óvirka hlutann í tvískiptu yfirliti"
 
 #: dolphinmainwindow.cpp:1729
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Move to Inactive Split View…"
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Færa í hitt yfirlitið…"
+msgstr "Færa í óvirkan hluta í tvískiptu yfirliti…"
 
 #: dolphinmainwindow.cpp:1731
 #, kde-kuit-format
@@ -592,11 +600,6 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
-"<para>Þetta endurhleður möppuyfirlitið.</para><para>Ef innihald möppunnar "
-"hefur breyst, þá er hægt að sjá nýuppfært yfirlit yfir skrárnar og möppurnar "
-"í henni með því að endurhlaða og skanna möppuna upp á nýtt.</para><para>Ef "
-"yfirlitsglugginn er tvískiptur verður það yfirlit sem er með fókusinn "
-"endurhlaðið.</para>"
 
 #: dolphinmainwindow.cpp:1879
 #, kde-format
@@ -1544,25 +1547,25 @@ msgstr "Tæma nýlega lokaða flipa"
 msgid "Search for %1 in %2"
 msgstr "Leita að %1 í %2"
 
-#: dolphintabbar.cpp:154
+#: dolphintabbar.cpp:155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nýr flipi"
 
-#: dolphintabbar.cpp:155
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Aftengja flipa"
 
-#: dolphintabbar.cpp:156
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Loka öðrum flipum"
 
-#: dolphintabbar.cpp:157
+#: dolphintabbar.cpp:158
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
@@ -1570,7 +1573,7 @@ msgstr "Loka flipa"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:496
+#: dolphintabwidget.cpp:506
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1578,7 +1581,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:500
+#: dolphintabwidget.cpp:510
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -1702,10 +1705,12 @@ msgstr ""
 "Samskiptareglan er ekki studd af Dolphin, sjálfgefið forrit hefur verið ræst"
 
 #: dolphinviewcontainer.cpp:831
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Invalid protocol"
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Ógild samskiptaregla '%1'"
+msgstr "Ógild samskiptaregla"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -1841,92 +1846,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2300
+#: kitemviews/kfileitemmodel.cpp:2301
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2302
+#: kitemviews/kfileitemmodel.cpp:2303
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Annað"
 
-#: kitemviews/kfileitemmodel.cpp:2334
+#: kitemviews/kfileitemmodel.cpp:2335
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Möppur"
 
-#: kitemviews/kfileitemmodel.cpp:2342
+#: kitemviews/kfileitemmodel.cpp:2343
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Lítið"
 
-#: kitemviews/kfileitemmodel.cpp:2344
+#: kitemviews/kfileitemmodel.cpp:2345
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Miðlungs"
 
-#: kitemviews/kfileitemmodel.cpp:2346
+#: kitemviews/kfileitemmodel.cpp:2347
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Stórt"
 
-#: kitemviews/kfileitemmodel.cpp:2391
+#: kitemviews/kfileitemmodel.cpp:2392
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Í dag"
 
-#: kitemviews/kfileitemmodel.cpp:2394
+#: kitemviews/kfileitemmodel.cpp:2395
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Í gær"
 
-#: kitemviews/kfileitemmodel.cpp:2397
+#: kitemviews/kfileitemmodel.cpp:2398
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2401
+#: kitemviews/kfileitemmodel.cpp:2402
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2406
+#: kitemviews/kfileitemmodel.cpp:2407
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Fyrir viku"
 
-#: kitemviews/kfileitemmodel.cpp:2409
+#: kitemviews/kfileitemmodel.cpp:2410
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Fyrir tveimur vikum"
 
-#: kitemviews/kfileitemmodel.cpp:2412
+#: kitemviews/kfileitemmodel.cpp:2413
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Fyrir þremur vikum"
 
-#: kitemviews/kfileitemmodel.cpp:2416
+#: kitemviews/kfileitemmodel.cpp:2417
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Fyrr í mánuðinum"
 
-#: kitemviews/kfileitemmodel.cpp:2430
+#: kitemviews/kfileitemmodel.cpp:2431
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1936,7 +1941,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Í gær' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2437
+#: kitemviews/kfileitemmodel.cpp:2438
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1944,7 +1949,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2450
+#: kitemviews/kfileitemmodel.cpp:2451
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1952,7 +1957,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2454
+#: kitemviews/kfileitemmodel.cpp:2455
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1960,7 +1965,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2462
+#: kitemviews/kfileitemmodel.cpp:2463
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1970,7 +1975,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Fyrir einni viku' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2469
+#: kitemviews/kfileitemmodel.cpp:2470
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1978,7 +1983,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2483
+#: kitemviews/kfileitemmodel.cpp:2484
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1988,7 +1993,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Fyrir tveimur vikum' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2490
+#: kitemviews/kfileitemmodel.cpp:2491
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -1996,7 +2001,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2504
+#: kitemviews/kfileitemmodel.cpp:2505
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2006,7 +2011,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Fyrir þremur vikum' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2511
+#: kitemviews/kfileitemmodel.cpp:2512
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2014,7 +2019,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2525
+#: kitemviews/kfileitemmodel.cpp:2526
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2024,7 +2029,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Fyrr þann' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2532
+#: kitemviews/kfileitemmodel.cpp:2533
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2032,7 +2037,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2546
+#: kitemviews/kfileitemmodel.cpp:2547
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2040,7 +2045,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2550
+#: kitemviews/kfileitemmodel.cpp:2551
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2048,257 +2053,257 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2590 kitemviews/kfileitemmodel.cpp:2603
-#: kitemviews/kfileitemmodel.cpp:2616
+#: kitemviews/kfileitemmodel.cpp:2591 kitemviews/kfileitemmodel.cpp:2604
+#: kitemviews/kfileitemmodel.cpp:2617
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Lesa, "
 
-#: kitemviews/kfileitemmodel.cpp:2593 kitemviews/kfileitemmodel.cpp:2606
-#: kitemviews/kfileitemmodel.cpp:2619
+#: kitemviews/kfileitemmodel.cpp:2594 kitemviews/kfileitemmodel.cpp:2607
+#: kitemviews/kfileitemmodel.cpp:2620
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Skrifa, "
 
-#: kitemviews/kfileitemmodel.cpp:2596 kitemviews/kfileitemmodel.cpp:2609
-#: kitemviews/kfileitemmodel.cpp:2622
+#: kitemviews/kfileitemmodel.cpp:2597 kitemviews/kfileitemmodel.cpp:2610
+#: kitemviews/kfileitemmodel.cpp:2623
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Keyra, "
 
-#: kitemviews/kfileitemmodel.cpp:2598 kitemviews/kfileitemmodel.cpp:2611
-#: kitemviews/kfileitemmodel.cpp:2624
+#: kitemviews/kfileitemmodel.cpp:2599 kitemviews/kfileitemmodel.cpp:2612
+#: kitemviews/kfileitemmodel.cpp:2625
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Bannað"
 
-#: kitemviews/kfileitemmodel.cpp:2626
+#: kitemviews/kfileitemmodel.cpp:2627
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Notandi: %1 | Hópur: %2 | Aðrir: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2716
+#: kitemviews/kfileitemmodel.cpp:2717
 msgctxt "@label"
 msgid "Name"
 msgstr "Heiti"
 
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2718
 msgctxt "@label"
 msgid "Size"
 msgstr "Stærð"
 
-#: kitemviews/kfileitemmodel.cpp:2718
+#: kitemviews/kfileitemmodel.cpp:2719
 msgctxt "@label"
 msgid "Modified"
 msgstr "Breytt"
 
-#: kitemviews/kfileitemmodel.cpp:2718 kitemviews/kfileitemmodel.cpp:2719
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Snið dagsetninga er hægt að velja í stillingunum."
 
-#: kitemviews/kfileitemmodel.cpp:2719
+#: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@label"
 msgid "Created"
 msgstr "Búið til"
 
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Opnað"
 
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
 msgid "Type"
 msgstr "Gerð"
 
-#: kitemviews/kfileitemmodel.cpp:2722
+#: kitemviews/kfileitemmodel.cpp:2723
 msgctxt "@label"
 msgid "Rating"
 msgstr "Einkunn"
 
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Tags"
 msgstr "Merki"
 
-#: kitemviews/kfileitemmodel.cpp:2724
+#: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Comment"
 msgstr "Athugasemd"
 
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2726
 msgctxt "@label"
 msgid "Title"
 msgstr "Titill"
 
-#: kitemviews/kfileitemmodel.cpp:2725 kitemviews/kfileitemmodel.cpp:2726
-#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2728
-#: kitemviews/kfileitemmodel.cpp:2729 kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2726 kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2728 kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2730 kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Document"
 msgstr "Skjal"
 
-#: kitemviews/kfileitemmodel.cpp:2726
+#: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
 msgid "Author"
 msgstr "Höfundur"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2728
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Útgefandi"
 
-#: kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Síðufjöldi"
 
-#: kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Orðafjöldi"
 
-#: kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Línufjöldi"
 
-#: kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Tökudagur"
 
-#: kitemviews/kfileitemmodel.cpp:2731 kitemviews/kfileitemmodel.cpp:2732
-#: kitemviews/kfileitemmodel.cpp:2733 kitemviews/kfileitemmodel.cpp:2734
-#: kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2732 kitemviews/kfileitemmodel.cpp:2733
+#: kitemviews/kfileitemmodel.cpp:2734 kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Image"
 msgstr "Mynd"
 
-#: kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2733
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Stærðir"
 
-#: kitemviews/kfileitemmodel.cpp:2733
+#: kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label"
 msgid "Width"
 msgstr "Breidd"
 
-#: kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735
 msgctxt "@label"
 msgid "Height"
 msgstr "Hæð"
 
-#: kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Stefna"
 
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Artist"
 msgstr "Flytjandi"
 
-#: kitemviews/kfileitemmodel.cpp:2736 kitemviews/kfileitemmodel.cpp:2737
-#: kitemviews/kfileitemmodel.cpp:2738 kitemviews/kfileitemmodel.cpp:2739
-#: kitemviews/kfileitemmodel.cpp:2740 kitemviews/kfileitemmodel.cpp:2741
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2737 kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2739 kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2741 kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Audio"
 msgstr "Hljóð"
 
-#: kitemviews/kfileitemmodel.cpp:2737
+#: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Genre"
 msgstr "Tegund"
 
-#: kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Album"
 msgstr "Plata"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Duration"
 msgstr "Tímalengd"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Bitahraði"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
 msgid "Track"
 msgstr "Lag"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Útgáfuár"
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Myndhlutfall"
 
-#: kitemviews/kfileitemmodel.cpp:2743 kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2744 kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
 msgid "Video"
 msgstr "Myndskeið"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Rammatíðni"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Path"
 msgstr "Slóð"
 
-#: kitemviews/kfileitemmodel.cpp:2745 kitemviews/kfileitemmodel.cpp:2746
-#: kitemviews/kfileitemmodel.cpp:2747 kitemviews/kfileitemmodel.cpp:2748
-#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
-#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2746 kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2748 kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2750 kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752 kitemviews/kfileitemmodel.cpp:2753
 msgctxt "@label"
 msgid "Other"
 msgstr "Annað"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2747
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Skráarending"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Eyðingartími"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Áfangastaður tengils"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Sótt frá"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Heimildir"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2307,17 +2312,17 @@ msgstr ""
 "Snið aðgangsheimilda er hægt að velja í stillingunum. Valkostirnir eru "
 "Táknrænt, Tölulegt (Octal) eða Samsett"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@label"
 msgid "Owner"
 msgstr "Eigandi"
 
-#: kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753
 msgctxt "@label"
 msgid "User Group"
 msgstr "Notandahópur"
 
-#: kitemviews/kfileitemmodel.cpp:2852
+#: kitemviews/kfileitemmodel.cpp:2853
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -2880,7 +2885,9 @@ msgid "Search in your home directory"
 msgstr "Leita í heimamöppunni þinni"
 
 #: search/dolphinsearchbox.cpp:408
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Open %1"
 msgid "Open %1"
 msgstr "Opna %1"
 
@@ -3318,13 +3325,14 @@ msgstr "Sýna 'Opna í nýjum flipa' og 'Opna í nýjum flipum' í samhengisvalm
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Sýna 'Opna í nýjum glugga' í samhengisvalmynd"
+msgstr "Sýna ''Opna í nýjum glugga' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show 'Open in New Window' in context menu."
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Sýna 'Opna í tvískiptu yfirliti' í samhengisvalmynd"
+msgstr "Sýna ''Opna í nýjum glugga' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3342,19 +3350,21 @@ msgstr "Sýna 'Tvítaka hér' í samhengisvalmynd"
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Sýna 'Opna skjáhermi' í samhengisvalmynd"
+msgstr "Sýna ''Opna skjáhermi' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show 'Copy Location' in context menu."
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Sýna 'Afrita í hitt yfirlitið' í samhengisvalmynd"
+msgstr "Sýna 'Afrita staðsetningu' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Show 'Sort By' in context menu."
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Sýna 'Færa í hitt yfirlitið' í samhengisvalmynd"
+msgstr "Sýna 'Raða eftir' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3395,8 +3405,8 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Þegar þessi valkostur er valinn eru faldar skrár (t.d. þær sem hafa nöfn sem "
-"byrja á '.') sýnilegar í skráayfirlitinu."
+"Þegar þessi valkostur er valinn eru faldar skrár, eins og þær sem hafa nöfn "
+"sem byrja á '.', sýnilegar í skráayfirlitinu."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -3750,15 +3760,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Ask for confirmation when closing windows with multiple tabs."
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Biðja um staðfestingu þegar margar möppur eru opnaðar í einu."
+msgstr "Biðja um staðfestingu þegar gluggum með mörgum flipum er lokað."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:155
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Ask for confirmation when closing windows with multiple tabs."
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Biðja um staðfestingu þegar margir skjáhermar eru opnaðir í einu."
+msgstr "Biðja um staðfestingu þegar gluggum með mörgum flipum er lokað."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -3934,7 +3946,7 @@ msgstr "Sýna við ræsingu:"
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "Nota einn Dolphin-glugga og opna nýjar möppur í flipum"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
@@ -4739,22 +4751,22 @@ msgstr "Sýna upplýsingar um diskpláss"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Talnagögn um disknotkun - þessi mappa"
+msgstr ""
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "Talnagögn um disknotkun - þetta tæki"
+msgstr ""
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr "Talnagögn um disknotkun - öll tæki"
+msgstr ""
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr "KDiskFree"
+msgstr ""
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4828,7 +4840,10 @@ msgid "Reload"
 msgstr "Endurhlaða"
 
 #: views/dolphinview.cpp:653
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 Folder selected"
+#| msgid_plural "%1 Folders selected"
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4836,7 +4851,10 @@ msgstr[0] "1 mappa valin"
 msgstr[1] "%1 möppur valdar"
 
 #: views/dolphinview.cpp:654
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 File selected"
+#| msgid_plural "%1 Files selected"
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4844,7 +4862,10 @@ msgstr[0] "1 skrá valin"
 msgstr[1] "%1 skrár valdar"
 
 #: views/dolphinview.cpp:656
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 Folder"
+#| msgid_plural "%1 Folders"
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4852,12 +4873,14 @@ msgstr[0] "1 mappa"
 msgstr[1] "%1 möppur"
 
 #: views/dolphinview.cpp:657
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "action:button"
+#| msgid "Your files"
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "1 skrá"
-msgstr[1] "%1 skrár"
+msgstr[0] "Skrárnar þínar"
+msgstr[1] "Skrárnar þínar"
 
 #: views/dolphinview.cpp:661
 #, kde-format
@@ -4872,7 +4895,9 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:667
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "0 Folders, 0 Files"
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 möppur, 0 skrár"
@@ -5464,18 +5489,18 @@ msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Uppfæri upplýsingar um útgáfu…"
 
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "1 skrá"
-#~ msgstr[1] "%1 skrár"
-
 #~ msgid "More Search Tools"
 #~ msgstr "Fleiri leitarverkfæri"
 
 #~ msgctxt "@title:window"
 #~ msgid "Configure Preview for %1"
 #~ msgstr "Grunnstilla forskoðun fyrir %1"
+
+#~ msgctxt "@info:status"
+#~ msgid "1 File"
+#~ msgid_plural "%1 Files"
+#~ msgstr[0] "1 skrá"
+#~ msgstr[1] "%1 skrár"
 
 #~ msgctxt "@title:group"
 #~ msgid "Startup"
