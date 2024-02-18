@@ -12,6 +12,13 @@
 
 class KFileItemListView;
 
+/**
+ * @brief ItemList widget informant implementation for use with KFileItems.
+ *
+ * Code that does not expect KFileItems specifically should go to KStandardItemListWidgetInformant.
+ *
+ * @see KItemListWidgetInformant
+ */
 class DOLPHIN_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
 {
 public:
@@ -25,6 +32,13 @@ protected:
     QFont customizedFontForLinks(const QFont &baseFont) const override;
 };
 
+/**
+ * @brief ItemList widget implementation for use with KFileItems.
+ *
+ * Code that does not expect KFileItems specifically should go to KStandardItemListWidget.
+ *
+ * @see KItemListWidget
+ */
 class DOLPHIN_EXPORT KFileItemListWidget : public KStandardItemListWidget
 {
     Q_OBJECT

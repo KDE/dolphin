@@ -18,6 +18,11 @@ class KItemListRoleEditor;
 class KItemListStyleOption;
 class KItemListView;
 
+/**
+ * @brief standard implementation of the ItemList widget informant for use with KStandardItemListView and KStandardItemModel.
+ *
+ * @see KItemListWidgetInformant
+ */
 class DOLPHIN_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetInformant
 {
 public:
@@ -67,7 +72,9 @@ protected:
 };
 
 /**
- * @brief ItemList widget implementation for KStandardItemListView and KStandardItemModel.
+ * @brief standard implementation of an ItemList widget for KStandardItemListView and KStandardItemModel.
+ *
+ * @see KItemListWidget
  */
 class DOLPHIN_EXPORT KStandardItemListWidget : public KItemListWidget
 {

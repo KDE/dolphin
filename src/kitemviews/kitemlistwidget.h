@@ -22,7 +22,8 @@ class KItemListView;
 class QPropertyAnimation;
 
 /**
- * @brief Provides information for creating an instance of KItemListWidget.
+ * @brief Provides generic information for all KItemListWidgets
+ * for which the construction of any specific KItemListWidget isn't required.
  *
  * KItemListView only creates KItemListWidget instances for the visible
  * area. For calculating the required size of all items the expected
