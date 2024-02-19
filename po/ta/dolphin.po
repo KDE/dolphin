@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # ஆமாச்சு <amachu@ubuntu.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Kishore G <kishore96@gmail.com>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-18 00:39+0000\n"
-"PO-Revision-Date: 2023-12-08 21:18+0530\n"
+"PO-Revision-Date: 2024-02-18 18:11+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1055,13 +1055,13 @@ msgstr "இடது காட்சியை மூடு"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "பிரித்தேடு"
 
 #: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "இடது துண்டாக்கப்பட்ட காட்சிப்பகுதியை புதிய சாளரமாக பிரித்தெடுக்கும்"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -1079,13 +1079,13 @@ msgstr "வலது காட்சியை மூடு"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "பிரித்தேடு"
 
 #: dolphinmainwindow.cpp:2559
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "வலது துண்டாக்கப்பட்ட காட்சிப்பகுதியை புதிய சாளரமாக பிரித்தெடுக்கும்"
 
 #: dolphinmainwindow.cpp:2568
 #, kde-format
@@ -1103,7 +1103,7 @@ msgstr "துண்டாக்கப்பட்ட காட்சிமு�
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "பிரித்தேடு"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -3619,7 +3619,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Application/x-trash எனும் மைம்வகையையுடைய கோப்புகளையும் மறை"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4209,7 +4209,7 @@ msgstr "மறுபெயரிடுவதற்கு தனியாக ஒ�
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "கோப்புகளை மறைக்கும்போது காப்புநகல் கோப்புகளையும் மறை"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -4219,6 +4219,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Application/x-trash எனும் மைம்வகையையுடைய கோப்புகள், காப்புநகல் கோப்புகளாக "
+"கருதப்படும். பொருந்தும் பாங்குகள்: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4635,14 +4637,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%2-இல் %1 காலி (%3% பயனில் உள்ளது)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%2-இல் %1 காலி (%3% பயனில் உள்ளது)"
+msgstr ""
+"%2-இல் %1 காலி (%3% பயனில் உள்ளது)\n"
+"வட்டு பயன்பாட்டை நிர்வகிக்க அழுத்தவும்."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format

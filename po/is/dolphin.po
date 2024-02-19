@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # íslensk þýðing Dolphin
 # þýðing byggð á eldri þýðingum Konqueror og KDE
-# Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Guðmundur Erlingsson <gudmundure@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-18 00:39+0000\n"
-"PO-Revision-Date: 2023-10-05 09:50+0000\n"
+"PO-Revision-Date: 2024-02-18 08:39+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -1705,12 +1705,10 @@ msgstr ""
 "Samskiptareglan er ekki studd af Dolphin, sjálfgefið forrit hefur verið ræst"
 
 #: dolphinviewcontainer.cpp:831
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Ógild samskiptaregla"
+msgstr "Ógild samskiptaregla '%1'"
 
 #: dolphinviewcontainer.cpp:833
 #, kde-format
@@ -2885,9 +2883,7 @@ msgid "Search in your home directory"
 msgstr "Leita í heimamöppunni þinni"
 
 #: search/dolphinsearchbox.cpp:408
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Opna %1"
 
@@ -3760,17 +3756,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Biðja um staðfestingu þegar gluggum með mörgum flipum er lokað."
+msgstr "Biðja um staðfestingu þegar margar möppur eru opnaðar í einu."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Biðja um staðfestingu þegar gluggum með mörgum flipum er lokað."
+msgstr "Biðja um staðfestingu þegar margir skjáhermar eru opnaðir í einu."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4751,22 +4745,22 @@ msgstr "Sýna upplýsingar um diskpláss"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Tölfræði notkunar á diskaplássi - þessi mappa"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Tölfræði notkunar á diskaplássi - þetta tæki"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Tölfræði notkunar á diskaplássi - öll tæki"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
@@ -4781,14 +4775,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 laust af %2 (%3% í notkun)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 laust af %2 (%3% í notkun)"
+msgstr ""
+"%1 laust af %2 (%3% í notkun)\n"
+"Ýttu til að stjórna diskaplássi."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4840,10 +4834,7 @@ msgid "Reload"
 msgstr "Endurhlaða"
 
 #: views/dolphinview.cpp:653
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -4851,10 +4842,7 @@ msgstr[0] "1 mappa valin"
 msgstr[1] "%1 möppur valdar"
 
 #: views/dolphinview.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File selected"
-#| msgid_plural "%1 Files selected"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -4862,10 +4850,7 @@ msgstr[0] "1 skrá valin"
 msgstr[1] "%1 skrár valdar"
 
 #: views/dolphinview.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
@@ -4873,14 +4858,12 @@ msgstr[0] "1 mappa"
 msgstr[1] "%1 möppur"
 
 #: views/dolphinview.cpp:657
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Your files"
+#, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
-msgstr[0] "Skrárnar þínar"
-msgstr[1] "Skrárnar þínar"
+msgstr[0] "1 skrá"
+msgstr[1] "%1 skrár"
 
 #: views/dolphinview.cpp:661
 #, kde-format
@@ -4895,9 +4878,7 @@ msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:667
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "0 Folders, 0 Files"
+#, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 möppur, 0 skrár"
