@@ -634,6 +634,11 @@ void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation
     m_activateSoonAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
+bool KStandardItemListWidget::isIconControlledByActivateSoonAnimation() const
+{
+    return m_activateSoonAnimation && data()["iconName"] == "folder-open";
+}
+
 KItemListWidgetInformant *KStandardItemListWidget::createInformant()
 {
     return new KStandardItemListWidgetInformant();
@@ -1027,7 +1032,7 @@ void KStandardItemListWidget::updatePixmapCache()
 
         int sequenceIndex = hoverSequenceIndex();
 
-        if (values.contains("hoverSequencePixmaps")) {
+        if (values.contains("hoverSequencePixmaps") && !isIconControlledByActivateSoonAnimation()) {
             // Use one of the hover sequence pixmaps instead of the default
             // icon pixmap.
 
@@ -1047,7 +1052,7 @@ void KStandardItemListWidget::updatePixmapCache()
             }
         }
 
-        if (m_pixmap.isNull()) {
+        if (m_pixmap.isNull() && !isIconControlledByActivateSoonAnimation()) {
             m_pixmap = values["iconPixmap"].value<QPixmap>();
         }
 

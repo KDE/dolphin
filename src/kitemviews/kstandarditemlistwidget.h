@@ -245,6 +245,9 @@ private:
      */
     static qreal columnPadding(const KItemListStyleOption &option);
 
+    /** @returns whether the usual icon should be shown or not. */
+    bool isIconControlledByActivateSoonAnimation() const;
+
 protected:
     QHash<QByteArray, TextInfo *> m_textInfo; // PlacesItemListWidget needs to access this
 
