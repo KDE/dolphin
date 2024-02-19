@@ -5,21 +5,21 @@
 # Ravishankar Shrivastava <raviratlami@yahoo.com>, 2007.
 # Ravishankar Shrivastava <raviratlami@aol.in>, 2008.
 # G Karunakar <karunakar@indlinux.org>, 2010.
-# Raghavendra Kamath <raghu@raghukamath.com>, 2021, 2022, 2023.
+# Raghavendra Kamath <raghu@raghukamath.com>, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-09 02:34+0000\n"
-"PO-Revision-Date: 2023-02-28 21:17+0530\n"
+"PO-Revision-Date: 2024-02-18 20:58+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
-"Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
+"Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1620,7 +1620,7 @@ msgctxt ""
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
 msgstr[0] "एक चयनित वस्तु"
-msgstr[1] "%1 चयनित वस्तू"
+msgstr[1] "%1 चयनित वस्तु"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
