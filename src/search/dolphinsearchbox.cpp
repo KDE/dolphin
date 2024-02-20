@@ -196,7 +196,9 @@ void DolphinSearchBox::hideEvent(QHideEvent *event)
 {
     Q_UNUSED(event)
     m_startedSearching = false;
-    m_startSearchTimer->stop();
+    if (m_startSearchTimer) {
+        m_startSearchTimer->stop();
+    }
 }
 
 void DolphinSearchBox::keyReleaseEvent(QKeyEvent *event)
