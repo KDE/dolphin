@@ -45,15 +45,6 @@ public:
     /**
      * Checks if the destination supports dropping.
      *
-     * @param destUrl   URL of the item destination.
-     * @return          True if the destination is a directory and is writable, or it's a desktop file.
-     *                  False otherwise.
-     */
-    static bool supportsDropping(const QUrl &destUrl);
-
-    /**
-     * Checks if the destination supports dropping.
-     *
      * @param destItem  The item destination.
      * @return          True if the destination is a directory and is writable, or it's a desktop file.
      *                  False otherwise.

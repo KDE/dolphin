@@ -52,7 +52,12 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
             return nullptr;
         }
 
-        if (supportsDropping(destUrl)) {
+        // TODO: remove this check once Qt is fixed so that it doesn't emit a QDropEvent on Wayland
+        // when we called QDragMoveEvent::ignore()
+        // https://codereview.qt-project.org/c/qt/qtwayland/+/541750
+        KFileItem item(destUrl);
+        // KFileItem(QUrl) only stat local URLs, so we always allow dropping on non-local URLs
+        if (!item.isLocalFile() || supportsDropping(item)) {
             // Drop into a directory or a desktop-file
             KIO::DropJob *job = KIO::drop(event, destUrl);
             KJobWidgets::setWindow(job, window);
@@ -61,12 +66,6 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
     }
 
     return nullptr;
-}
-
-bool DragAndDropHelper::supportsDropping(const QUrl &destUrl)
-{
-    KFileItem item(destUrl);
-    return supportsDropping(item);
 }
 
 bool DragAndDropHelper::supportsDropping(const KFileItem &destItem)
@@ -80,7 +79,8 @@ void DragAndDropHelper::updateDropAction(QDropEvent *event, const QUrl &destUrl)
         event->setDropAction(Qt::IgnoreAction);
         event->ignore();
     }
-    if (supportsDropping(destUrl)) {
+    KFileItem item(destUrl);
+    if (!item.isLocalFile() || supportsDropping(item)) {
         event->setDropAction(event->proposedAction());
         event->accept();
     } else {
