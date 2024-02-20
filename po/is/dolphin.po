@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-18 00:39+0000\n"
-"PO-Revision-Date: 2024-02-18 08:39+0000\n"
+"PO-Revision-Date: 2024-02-19 14:50+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -361,20 +361,16 @@ msgstr ""
 "staðnum."
 
 #: dolphinmainwindow.cpp:1717
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti"
+msgstr "Afrita í aðra sýn"
 
 #: dolphinmainwindow.cpp:1718
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti..."
+msgstr "Afrita í aðra sýn…"
 
 #: dolphinmainwindow.cpp:1720
 #, kde-kuit-format
@@ -393,20 +389,16 @@ msgid "Copy to Inactive Split View"
 msgstr "Afrita í óvirka hlutann í tvískiptu yfirliti"
 
 #: dolphinmainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Færa í óvirka hlutann í tvískiptu yfirliti"
+msgstr "Færa í aðra sýn"
 
 #: dolphinmainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Færa í óvirkan hluta í tvískiptu yfirliti…"
+msgstr "Færa í aðra sýn…"
 
 #: dolphinmainwindow.cpp:1731
 #, kde-kuit-format
@@ -3325,10 +3317,9 @@ msgstr "Sýna ''Opna í nýjum glugga' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Show 'Open in New Window' in context menu."
+#, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Sýna ''Opna í nýjum glugga' í samhengisvalmynd"
+msgstr "Sýna 'Opna í klofinni sýn' í samhengisvalmynd."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -3350,17 +3341,15 @@ msgstr "Sýna ''Opna skjáhermi' í samhengisvalmynd"
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
-#, fuzzy, kde-format
-#| msgid "Show 'Copy Location' in context menu."
+#, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Sýna 'Afrita staðsetningu' í samhengisvalmynd"
+msgstr "Sýna 'Afrita í aðra klofna sýn' í samhengisvalmynd."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
-#, fuzzy, kde-format
-#| msgid "Show 'Sort By' in context menu."
+#, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Sýna 'Raða eftir' í samhengisvalmynd"
+msgstr "Sýna 'Færa í aðra klofna sýn' í samhengisvalmynd."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
