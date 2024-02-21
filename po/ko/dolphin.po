@@ -3092,7 +3092,7 @@ msgstr "선택 모드 끝내기"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "콘텍스트 메뉴에 표시할 서비스를 선택하십시오:"
+msgstr "상황에 맞는 메뉴에 표시할 서비스를 선택하십시오:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
@@ -3202,73 +3202,73 @@ msgstr "권한 스타일 형식"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "콘텍스트 메뉴에 '다음으로 복사' 및 '다음으로 이동' 명령 표시"
+msgstr "상황에 맞는 메뉴에 '다음으로 복사' 및 '다음으로 이동' 명령 표시"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "콘텍스트 메뉴에 '위치에 추가'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '위치에 추가'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "콘텍스트 메뉴에 '정렬 기준'을 표시합니다."
+msgstr "상황에 맞는 메뉴에 '정렬 기준'을 표시합니다."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "콘텍스트 메뉴에 '보기 모드'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '보기 모드'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "콘텍스트 메뉴에 '새 탭에서 열기' 및 '새 탭에서 열기'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '새 탭에서 열기' 및 '새 탭에서 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "콘텍스트 메뉴에 '새 창에서 열기'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '새 창에서 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "콘텍스트 메뉴에 '분할된 보기에서 열기'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '분할된 보기에서 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "콘텍스트 메뉴에 '복사 위치'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '복사 위치'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr "콘텍스트 메뉴에서 '여기에 복제'를 표시합니다."
+msgstr "상황에 맞는 메뉴에서 '여기에 복제'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "콘텍스트 메뉴에 '터미널 열기'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '터미널 열기'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "콘텍스트 메뉴에 '다른 분할된 보기로 복사'를 표시합니다."
+msgstr "상황에 맞는 메뉴에 '다른 분할된 보기로 복사'를 표시합니다."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "콘텍스트 메뉴에 '다른 분할된 보기로 이동'을 표시합니다."
+msgstr "상황에 맞는 메뉴에 '다른 분할된 보기로 이동'을 표시합니다."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3709,7 +3709,7 @@ msgstr "보기"
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
-msgstr "컨텍스트 메뉴"
+msgstr "상황에 맞는 메뉴"
 
 #: settings/dolphinsettingsdialog.cpp:87
 #, kde-format
