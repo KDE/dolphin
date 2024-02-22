@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-09 02:34+0000\n"
+"POT-Creation-Date: 2024-02-22 02:25+0000\n"
 "PO-Revision-Date: 2024-01-21 00:41+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -438,7 +438,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "過濾器"
 
-#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
+#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:341
 #, kde-format
 msgid "Search…"
 msgstr "搜尋…"
@@ -1403,7 +1403,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "清空最近關閉的分頁"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜尋 %1"
@@ -2678,54 +2678,54 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "將搜尋限制至「%1」與其子目錄"
 
-#: search/dolphinsearchbox.cpp:350
+#: search/dolphinsearchbox.cpp:352
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "儲存此搜尋條件以供將來快速尋找"
 
-#: search/dolphinsearchbox.cpp:359
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "離開搜尋"
 
-#: search/dolphinsearchbox.cpp:370
+#: search/dolphinsearchbox.cpp:372
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "檔案名稱"
 
-#: search/dolphinsearchbox.cpp:374
+#: search/dolphinsearchbox.cpp:376
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "內容"
 
-#: search/dolphinsearchbox.cpp:385
+#: search/dolphinsearchbox.cpp:387
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "從這裡"
 
-#: search/dolphinsearchbox.cpp:389
+#: search/dolphinsearchbox.cpp:391
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "您的檔案"
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:392
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "在家目錄中搜尋"
 
-#: search/dolphinsearchbox.cpp:408
+#: search/dolphinsearchbox.cpp:410
 #, kde-format
 msgid "Open %1"
 msgstr "開啟 %1"
 
-#: search/dolphinsearchbox.cpp:472
+#: search/dolphinsearchbox.cpp:474
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "

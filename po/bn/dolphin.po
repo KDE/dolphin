@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-09 02:34+0000\n"
+"POT-Creation-Date: 2024-02-22 02:25+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -438,7 +438,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ফিল্টার:"
 
-#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
+#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:341
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
@@ -1357,7 +1357,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -2817,13 +2817,13 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:350
+#: search/dolphinsearchbox.cpp:352
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:359
+#: search/dolphinsearchbox.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Start searching"
@@ -2831,7 +2831,7 @@ msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "সন্ধান শুরু করো"
 
-#: search/dolphinsearchbox.cpp:370
+#: search/dolphinsearchbox.cpp:372
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -2839,7 +2839,7 @@ msgctxt "action:button"
 msgid "Filename"
 msgstr "ফাইল ম্যানেজার"
 
-#: search/dolphinsearchbox.cpp:374
+#: search/dolphinsearchbox.cpp:376
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2847,7 +2847,7 @@ msgctxt "action:button"
 msgid "Content"
 msgstr "মন্তব্য যোগ করো..."
 
-#: search/dolphinsearchbox.cpp:385
+#: search/dolphinsearchbox.cpp:387
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "From Here"
@@ -2855,7 +2855,7 @@ msgctxt "action:button"
 msgid "From Here"
 msgstr "এখান থেকে"
 
-#: search/dolphinsearchbox.cpp:389
+#: search/dolphinsearchbox.cpp:391
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2863,20 +2863,20 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "deepayan.sarkar@gmail.com"
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:392
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:408
+#: search/dolphinsearchbox.cpp:410
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
 msgid "Open %1"
 msgstr "পাথ"
 
-#: search/dolphinsearchbox.cpp:472
+#: search/dolphinsearchbox.cpp:474
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "

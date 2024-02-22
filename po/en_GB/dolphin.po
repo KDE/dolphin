@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-09 02:34+0000\n"
+"POT-Creation-Date: 2024-02-22 02:25+0000\n"
 "PO-Revision-Date: 2023-06-17 12:08+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -444,7 +444,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filter"
 
-#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:339
+#: dolphinmainwindow.cpp:1690 search/dolphinsearchbox.cpp:341
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -1492,7 +1492,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Empty Recently Closed Tabs"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Search for %1 in %2"
@@ -2801,56 +2801,56 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "Limit search to '%1' and its subfolders"
 
-#: search/dolphinsearchbox.cpp:350
+#: search/dolphinsearchbox.cpp:352
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Save this search to quickly access it again in the future"
 
-#: search/dolphinsearchbox.cpp:359
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Quit searching"
 
-#: search/dolphinsearchbox.cpp:370
+#: search/dolphinsearchbox.cpp:372
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Filename"
 
-#: search/dolphinsearchbox.cpp:374
+#: search/dolphinsearchbox.cpp:376
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Content"
 
-#: search/dolphinsearchbox.cpp:385
+#: search/dolphinsearchbox.cpp:387
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "From Here"
 
-#: search/dolphinsearchbox.cpp:389
+#: search/dolphinsearchbox.cpp:391
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "Your files"
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:392
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Search in your home directory"
 
-#: search/dolphinsearchbox.cpp:408
+#: search/dolphinsearchbox.cpp:410
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
 msgid "Open %1"
 msgstr "Open %1"
 
-#: search/dolphinsearchbox.cpp:472
+#: search/dolphinsearchbox.cpp:474
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
