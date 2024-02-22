@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-18 00:39+0000\n"
+"POT-Creation-Date: 2024-02-22 00:39+0000\n"
 "PO-Revision-Date: 2017-12-17 18:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -437,7 +437,7 @@ msgid "Filter"
 msgstr "Филтер:"
 
 # >> @title:window
-#: dolphinmainwindow.cpp:1763 search/dolphinsearchbox.cpp:339
+#: dolphinmainwindow.cpp:1763 search/dolphinsearchbox.cpp:341
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -1381,7 +1381,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Испразни недавно затворене језичке"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:297
+#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Потражи %1 у %2"
@@ -2895,38 +2895,38 @@ msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:350
+#: search/dolphinsearchbox.cpp:352
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Сачувај ову претрагу ради брзог приступа убудуће"
 
 # rewrite-msgid: /Quit/Stop/
-#: search/dolphinsearchbox.cpp:359
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Прекини тражење"
 
-#: search/dolphinsearchbox.cpp:370
+#: search/dolphinsearchbox.cpp:372
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Име фајла"
 
-#: search/dolphinsearchbox.cpp:374
+#: search/dolphinsearchbox.cpp:376
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Садржај"
 
-#: search/dolphinsearchbox.cpp:385
+#: search/dolphinsearchbox.cpp:387
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Одавдје"
 
-#: search/dolphinsearchbox.cpp:389
+#: search/dolphinsearchbox.cpp:391
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2934,7 +2934,7 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "caslav.ilic@gmx.net"
 
-#: search/dolphinsearchbox.cpp:390
+#: search/dolphinsearchbox.cpp:392
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Limit to Home Directory"
@@ -2942,14 +2942,14 @@ msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Ограничи на домаћу фасциклу"
 
-#: search/dolphinsearchbox.cpp:408
+#: search/dolphinsearchbox.cpp:410
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path"
 msgid "Open %1"
 msgstr "Отвори путању"
 
-#: search/dolphinsearchbox.cpp:472
+#: search/dolphinsearchbox.cpp:474
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
