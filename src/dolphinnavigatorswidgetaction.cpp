@@ -253,8 +253,8 @@ QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const Dolphin
 {
     auto networkFolderButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-add")), i18nc("@action:button", "Add Network Folder"), parent);
     networkFolderButton->setFlat(true);
-    KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
-    connect(networkFolderButton, &QPushButton::clicked, this, [networkFolderButton, service]() {
+    connect(networkFolderButton, &QPushButton::clicked, this, [networkFolderButton]() {
+        const KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
         auto *job = new KIO::ApplicationLauncherJob(service, networkFolderButton);
         auto *delegate = new KNotificationJobUiDelegate;
         delegate->setAutoErrorHandlingEnabled(true);
@@ -262,8 +262,14 @@ QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const Dolphin
         job->start();
     });
     networkFolderButton->hide();
-    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [networkFolderButton, urlNavigator, service]() {
-        networkFolderButton->setVisible(service && urlNavigator->locationUrl().scheme() == QLatin1String("remote"));
+    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [networkFolderButton, urlNavigator]() {
+        if (urlNavigator->locationUrl().scheme() == QLatin1String("remote")) {
+            // Looking up a service can be a bit slow, so we only do it now when it becomes necessary.
+            const KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
+            networkFolderButton->setVisible(service);
+        } else {
+            networkFolderButton->setVisible(false);
+        }
     });
     return networkFolderButton;
 }
