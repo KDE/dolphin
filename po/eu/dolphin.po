@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-22 00:39+0000\n"
+"POT-Creation-Date: 2024-02-24 00:39+0000\n"
 "PO-Revision-Date: 2024-01-19 19:30+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1399,7 +1399,7 @@ msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Gehitu sareko karpeta"
 
-#: dolphinnavigatorswidgetaction.cpp:287
+#: dolphinnavigatorswidgetaction.cpp:293
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

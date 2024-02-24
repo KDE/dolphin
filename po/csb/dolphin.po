@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-22 00:39+0000\n"
+"POT-Creation-Date: 2024-02-24 00:39+0000\n"
 "PO-Revision-Date: 2009-12-09 23:08+0100\n"
 "Last-Translator: Mark Kwidzińśczi <mark@linuxcsb.org>\n"
 "Language-Team: Kaszëbsczi <i18n-csb@linuxcsb.org>\n"
@@ -1246,7 +1246,7 @@ msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "&Sécowé katalodżi"
 
-#: dolphinnavigatorswidgetaction.cpp:287
+#: dolphinnavigatorswidgetaction.cpp:293
 #, fuzzy, kde-format
 #| msgid "Location"
 msgctxt "@action:inmenu"
