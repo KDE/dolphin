@@ -145,6 +145,10 @@
             <label>Also hide files with application/x-trash mimetype</label>
             <default>false</default>
         </entry>
+        <entry name="UseIndexing" type="Bool">
+            <label>Use the file indexer when searching</label>
+            <default>true</default>
+        </entry>
     </group>
     <group name="Notification Messages">
         <entry name="ConfirmOpenManyFolders" type="Bool">

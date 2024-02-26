@@ -7,6 +7,7 @@
 #include "dolphinsearchbox.h"
 #include "global.h"
 
+#include "dolphin_generalsettings.h"
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
 #include "dolphinplacesmodelsingleton.h"
@@ -543,6 +544,11 @@ void DolphinSearchBox::updateFacetsVisible()
 
 bool DolphinSearchBox::isIndexingEnabled() const
 {
+    // If the user has disabled indexed searching in Dolphin's settings, we don't want to use Baloo.
+    if (!GeneralSettings::useIndexing()) {
+        return false;
+    }
+
 #if HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
     return searchInfo.fileIndexingEnabled() && !searchPath().isEmpty() && searchInfo.shouldBeIndexed(searchPath().toLocalFile());

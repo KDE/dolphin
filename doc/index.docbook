@@ -1127,6 +1127,24 @@ The <guilabel>Show space information</guilabel> item can be used to switch on an
 
 </sect3>
 
+<sect3 id="preferences-dialog-general-search">
+<title>Search Tab</title>
+
+<para>
+In this tab, you can configure the search behavior of &dolphin;.
+
+<itemizedlist>
+
+<listitem><para>
+The <guilabel>Use indexing service</guilabel> option allows to enable or disable the usage of the Baloo indexing service for file searches in &dolphin;.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
 </sect2>
 
 <sect2 id="preferences-dialog-startup">

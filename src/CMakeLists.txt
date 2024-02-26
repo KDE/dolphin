@@ -293,6 +293,7 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombarcontentscontainer.cpp
     selectionmode/topbar.cpp
     settings/interface/folderstabssettingspage.cpp
+    settings/interface/searchsettingspage.cpp
     settings/interface/statusandlocationbarssettingspage.cpp
     settings/interface/confirmationssettingspage.cpp
     settings/interface/interfacesettingspage.cpp
@@ -350,6 +351,7 @@ target_sources(dolphinstatic PRIVATE
     selectionmode/bottombarcontentscontainer.h
     selectionmode/topbar.h
     settings/interface/folderstabssettingspage.h
+    settings/interface/searchsettingspage.h
     settings/interface/statusandlocationbarssettingspage.h
     settings/interface/confirmationssettingspage.h
     settings/interface/interfacesettingspage.h
@@ -526,6 +528,7 @@ if(NOT WIN32)
     target_sources(kcm_dolphingeneral PRIVATE
         settings/kcm/kcmdolphingeneral.cpp
         settings/interface/folderstabssettingspage.cpp
+        settings/interface/searchsettingspage.cpp
         settings/interface/statusandlocationbarssettingspage.cpp
         settings/interface/previewssettingspage.cpp
         settings/interface/confirmationssettingspage.cpp
@@ -539,6 +542,7 @@ if(NOT WIN32)
         global.cpp
         settings/kcm/kcmdolphingeneral.h
         settings/interface/folderstabssettingspage.h
+        settings/interface/searchsettingspage.h
         settings/interface/statusandlocationbarssettingspage.h
         settings/interface/previewssettingspage.h
         settings/interface/confirmationssettingspage.h

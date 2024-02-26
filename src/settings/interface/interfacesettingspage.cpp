@@ -9,9 +9,13 @@
 #include "confirmationssettingspage.h"
 #include "folderstabssettingspage.h"
 #include "previewssettingspage.h"
+#include "searchsettingspage.h"
 #include "statusandlocationbarssettingspage.h"
 
 #include <KLocalizedString>
+#if HAVE_BALOO
+#include <Baloo/IndexerConfig>
+#endif
 
 #include <QTabWidget>
 #include <QVBoxLayout>
@@ -50,6 +54,19 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     m_pages.append(previewsPage);
     m_pages.append(confirmationsPage);
     m_pages.append(statusAndLocationBarsPage);
+
+#if HAVE_BALOO
+    const Baloo::IndexerConfig searchInfo;
+
+    // Only relevant if Baloo is enabled
+    if (searchInfo.fileIndexingEnabled()) {
+        // initialize `Search` tab
+        SearchSettingsPage *searchPage = new SearchSettingsPage(tabWidget);
+        tabWidget->addTab(searchPage, i18nc("@title:tab Search settings", "Search"));
+        connect(searchPage, &SearchSettingsPage::changed, this, &InterfaceSettingsPage::changed);
+        m_pages.append(searchPage);
+    }
+#endif
 
     topLayout->addWidget(tabWidget, 0, {});
 }
