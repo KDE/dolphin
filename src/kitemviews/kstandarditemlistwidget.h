@@ -11,6 +11,7 @@
 #include "kitemviews/kitemlistwidget.h"
 
 #include <QPixmap>
+#include <QPointer>
 #include <QPointF>
 #include <QStaticText>
 
