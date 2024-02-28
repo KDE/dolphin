@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-24 00:39+0000\n"
-"PO-Revision-Date: 2024-02-25 19:17+0100\n"
+"PO-Revision-Date: 2024-02-27 12:47+0100\n"
 "Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -389,7 +389,7 @@ msgstr "Kopiraj v neaktivni razdeljeni pogled"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
-msgstr "Prenesi v drugi pogled"
+msgstr "Premakni v drugi pogled"
 
 #: dolphinmainwindow.cpp:1729
 #, kde-format
@@ -404,14 +404,14 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
-"To prenese izbrane predmete iz <emphasis>aktivnega</emphasis> pogleda v "
+"To premakne izbrane predmete iz <emphasis>aktivnega</emphasis> pogleda v "
 "neaktivni razdeljeni pogled."
 
 #: dolphinmainwindow.cpp:1734
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr "Prenesi v neaktivni razdeljeni pogled"
+msgstr "Premakni v neaktivni razdeljeni pogled"
 
 #: dolphinmainwindow.cpp:1739
 #, kde-format
@@ -551,8 +551,8 @@ msgid ""
 "them quickly.</para>Click this again afterwards to recombine the views."
 msgstr ""
 "<para> To razdeli spodnjo mapo v dva neodvisna pogleda.</para><para>To "
-"omogoča, da vidite dve mesti naenkrat in hitro prestavljate predmete med "
-"njima.</para>Spet kliknite, da bi ponovno združili poglede."
+"omogoča, da vidite dve mesti naenkrat in hitro premikate predmete med njima."
+"</para>Spet kliknite, da bi ponovno združili poglede."
 
 #: dolphinmainwindow.cpp:1853
 #, kde-kuit-format
@@ -2550,7 +2550,7 @@ msgstr "Preimenuj …"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Trash"
-msgstr "Premakni v smeti"
+msgstr "Premakni v Smeti"
 
 #: panels/folders/treeviewcontextmenu.cpp:93
 #, kde-format
@@ -2986,7 +2986,7 @@ msgstr "Več"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr "Izberite datoteke in mape, ki naj bodo prenesene."
+msgstr "Izberite datoteke in mape, ki naj bodo premaknjene."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
@@ -2999,7 +2999,7 @@ msgstr "Prekliči premikanje"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr "Izberite datoteke in mape, ki naj bodo prenesene v Smeti."
+msgstr "Izberite datoteke in mape, ki naj bodo premaknjene v Smeti."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-kuit-format
