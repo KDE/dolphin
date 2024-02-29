@@ -11,9 +11,11 @@
 #include "dolphin_export.h"
 
 #include <KFileItem>
+#include <KIO/StatJob>
 
 #include <QList>
 #include <QString>
+#include <QTimer>
 #include <QUrl>
 
 class QDropEvent;
@@ -24,7 +26,7 @@ namespace KIO
 class DropJob;
 }
 
-class DOLPHIN_EXPORT DragAndDropHelper
+class DOLPHIN_EXPORT DragAndDropHelper : public QObject
 {
 public:
     /**
@@ -52,16 +54,6 @@ public:
     static bool supportsDropping(const KFileItem &destItem);
 
     /**
-     * Updates the drop action according to whether the destination supports dropping.
-     * If supportsDropping(destUrl), set dropAction = proposedAction. Otherwise, set
-     * dropAction = Qt::IgnoreAction.
-     *
-     * @param event     Drop event.
-     * @param destUrl   Destination URL.
-     */
-    static void updateDropAction(QDropEvent *event, const QUrl &destUrl);
-
-    /**
      * @return True if destUrl is contained in the urls parameter.
      */
     static bool urlListMatchesUrl(const QList<QUrl> &urls, const QUrl &destUrl);
@@ -84,11 +76,55 @@ public:
      */
     static void clearUrlListMatchesUrlCache();
 
+    DragAndDropHelper(QObject *parent);
+
+    /**
+     * Updates the drop action according to whether the destination supports dropping.
+     * If supportsDropping(destUrl), set dropAction = proposedAction. Otherwise, set
+     * dropAction = Qt::IgnoreAction.
+     *
+     * @param event     Drop event.
+     * @param destUrl   Destination URL.
+     */
+    void updateDropAction(QDropEvent *event, const QUrl &destUrl);
+
 private:
     /**
      * Stores the results of the expensive checks made in urlListMatchesUrl.
      */
     static QHash<QUrl, bool> m_urlListMatchesUrlCache;
+
+    /**
+     * When updateDropAction() is called with a remote URL, we create a StatJob to
+     * check if the destination is a directory or a desktop file. We cache the result
+     * here to avoid doing the stat again on subsequent calls to updateDropAction().
+     */
+    KFileItem m_destItemCache;
+
+    /**
+     * Only keep the cache for 30 seconds, because the stat of the destUrl might change.
+     */
+    QTimer m_destItemCacheInvalidationTimer;
+
+    /**
+     * A StatJob on-fly to fill the cache for a remote URL. We shouldn't create more
+     * than one StatJob at a time, so we keep a pointer to the current one.
+     */
+    KIO::StatJob *m_statJob = nullptr;
+
+    /**
+     * The URL for which the StatJob is running.
+     * Note: We can't use m_statJob->url() because StatJob might resolve the URL to be
+     *       different from what we passed into stat(). E.g. "mtp:<bus-name>" is resolved
+     *       to "mtp:<phone name>"
+     */
+    QUrl m_statJobUrl;
+
+    /**
+     * The last event we received in updateDropAction(), but can't react to yet,
+     * because a StatJob is on-fly.
+     */
+    QDropEvent *m_lastUndecidedEvent = nullptr;
 };
 
 #endif

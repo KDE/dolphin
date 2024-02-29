@@ -73,20 +73,85 @@ bool DragAndDropHelper::supportsDropping(const KFileItem &destItem)
     return (destItem.isDir() && destItem.isWritable()) || destItem.isDesktopFile();
 }
 
+DragAndDropHelper::DragAndDropHelper(QObject *parent)
+    : QObject(parent)
+{
+    m_destItemCacheInvalidationTimer.setSingleShot(true);
+    m_destItemCacheInvalidationTimer.setInterval(30000);
+    connect(&m_destItemCacheInvalidationTimer, &QTimer::timeout, this, [this]() {
+        m_destItemCache = KFileItem();
+    });
+}
+
 void DragAndDropHelper::updateDropAction(QDropEvent *event, const QUrl &destUrl)
 {
+    auto processEvent = [this](QDropEvent *event) {
+        if (supportsDropping(m_destItemCache)) {
+            event->setDropAction(event->proposedAction());
+            event->accept();
+        } else {
+            event->setDropAction(Qt::IgnoreAction);
+            event->ignore();
+        }
+    };
+
+    m_lastUndecidedEvent = nullptr;
+
     if (urlListMatchesUrl(event->mimeData()->urls(), destUrl)) {
         event->setDropAction(Qt::IgnoreAction);
         event->ignore();
+        return;
     }
-    KFileItem item(destUrl);
-    if (!item.isLocalFile() || supportsDropping(item)) {
-        event->setDropAction(event->proposedAction());
-        event->accept();
-    } else {
-        event->setDropAction(Qt::IgnoreAction);
-        event->ignore();
+
+    if (destUrl == m_destItemCache.url()) {
+        // We already received events for this URL, and already have the
+        // stat result cached because:
+        // 1. it's a local file, and we already called KFileItem(destUrl)
+        // 2. it's a remote file, and StatJob finished
+        processEvent(event);
+        return;
     }
+
+    if (m_statJob) {
+        if (destUrl == m_statJobUrl) {
+            // We already received events for this URL. Still waiting for
+            // the stat result. StatJob will process the event when it finishes.
+            m_lastUndecidedEvent = event;
+            return;
+        }
+
+        // We are waiting for the stat result of a different URL. Cancel.
+        m_statJob->kill();
+        m_statJob = nullptr;
+        m_statJobUrl.clear();
+    }
+
+    if (destUrl.isLocalFile()) {
+        // New local URL. KFileItem will stat on demand.
+        m_destItemCache = KFileItem(destUrl);
+        m_destItemCacheInvalidationTimer.start();
+        processEvent(event);
+        return;
+    }
+
+    // New remote URL. Start a StatJob and process the event when it finishes.
+    m_lastUndecidedEvent = event;
+    m_statJob = KIO::stat(destUrl, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+    m_statJobUrl = destUrl;
+    connect(m_statJob, &KIO::StatJob::result, this, [this, processEvent](KJob *job) {
+        KIO::StatJob *statJob = static_cast<KIO::StatJob *>(job);
+
+        m_destItemCache = KFileItem(statJob->statResult(), m_statJobUrl);
+        m_destItemCacheInvalidationTimer.start();
+
+        if (m_lastUndecidedEvent) {
+            processEvent(m_lastUndecidedEvent);
+            m_lastUndecidedEvent = nullptr;
+        }
+
+        m_statJob = nullptr;
+        m_statJobUrl.clear();
+    });
 }
 
 void DragAndDropHelper::clearUrlListMatchesUrlCache()

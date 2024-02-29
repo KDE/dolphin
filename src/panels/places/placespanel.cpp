@@ -15,7 +15,6 @@
 #include "dolphin_placespanelsettings.h"
 #include "dolphinplacesmodelsingleton.h"
 #include "settings/dolphinsettingsdialog.h"
-#include "views/draganddrophelper.h"
 
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
@@ -32,6 +31,7 @@
 
 PlacesPanel::PlacesPanel(QWidget *parent)
     : KFilePlacesView(parent)
+    , m_dragAndDropHelper(this)
 {
     setDropOnPlaceEnabled(true);
     connect(this, &PlacesPanel::urlsDropped, this, &PlacesPanel::slotUrlsDropped);
@@ -161,7 +161,7 @@ void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
             if (!url.isValid() || !KProtocolManager::supportsWriting(url)) {
                 event->setDropAction(Qt::IgnoreAction);
             } else {
-                DragAndDropHelper::updateDropAction(event, url);
+                m_dragAndDropHelper.updateDropAction(event, url);
             }
         }
     }

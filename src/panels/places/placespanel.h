@@ -10,6 +10,7 @@
 #define PLACESPANEL_H
 
 #include "panels/panel.h"
+#include "views/draganddrophelper.h"
 
 #include <KFilePlacesView>
 #include <QUrl>
@@ -78,6 +79,8 @@ private:
     QAction *m_configureTrashAction;
     QAction *m_openInSplitView;
     QAction *m_lockPanelsAction;
+
+    DragAndDropHelper m_dragAndDropHelper;
 };
 
 #endif // PLACESPANEL_H
