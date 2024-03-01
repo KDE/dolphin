@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-24 00:39+0000\n"
-"PO-Revision-Date: 2024-02-05 22:38+0200\n"
+"PO-Revision-Date: 2024-03-01 00:13+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -375,6 +375,8 @@ msgid ""
 "This copies the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"Tai kopijuoja pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
+"neaktyvų padalytą rodinį."
 
 #: dolphinmainwindow.cpp:1723
 #, kde-format
@@ -401,6 +403,8 @@ msgid ""
 "This moves the selected items from the <emphasis>active</emphasis> view to "
 "the inactive split view."
 msgstr ""
+"Tai perkelia pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
+"neaktyvų padalytą rodinį."
 
 #: dolphinmainwindow.cpp:1734
 #, kde-format
@@ -429,6 +433,9 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"Tai lango apačioje atveria <emphasis>Filtro juostą</emphasis>.<nl/> Ten "
+"galite įrašyti tekstą ir filtruoti esamu metu rodomus failus bei aplankus. "
+"Liks rodomi tik tie, kurių pavadinime yra nurodytas tekstas."
 
 #: dolphinmainwindow.cpp:1754
 #, kde-format
@@ -506,6 +513,13 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Ši programa žino, su kuriais failai ar aplankais turi būti atliekami "
+"veiksmai tik tuo atveju, jeigu jie, pirmiausia, yra <emphasis>pažymimi</"
+"emphasis>. Paspauskite tai, norėdami perjungti <emphasis>Žymėjimo veikseną</"
+"emphasis>, kuri vienu spustelėjimu ant elemento leidžia žymėti ir nuimti "
+"žymėjimą.</para><para>Šioje veiksenoje, apačioje atsiranda greitos prieigos "
+"juosta, rodanti prieinamus veiksmus su esamu metu pažymėtais elementais.</"
+"para>"
 
 #: dolphinmainwindow.cpp:1815
 #, kde-kuit-format
@@ -549,6 +563,8 @@ msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
 msgstr ""
+"Jei aplanko rodinys padalytas, tai iškels aktyvaus aplanko rodinį į naują "
+"langą."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
