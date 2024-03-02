@@ -1,0 +1,9 @@
+#Configuration update for Dolphin
+Version=5
+
+#Convert DirectorySizeCount to enum DirectorySizeMode
+Id=convert-directorysizecount-to-directorysizemode
+File=dolphinrc
+Group=ContentDisplay
+Script=dolphin_directorysizemode.py,python3
+

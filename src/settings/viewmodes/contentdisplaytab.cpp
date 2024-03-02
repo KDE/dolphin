@@ -24,6 +24,7 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     , m_caseInsensitiveSorting(nullptr)
     , m_numberOfItems(nullptr)
     , m_sizeOfContents(nullptr)
+    , m_noDirectorySize(nullptr)
     , m_recursiveDirectorySizeLimit(nullptr)
     , m_useRelatetiveDates(nullptr)
     , m_useShortDates(nullptr)
@@ -48,12 +49,14 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
 
 #ifndef Q_OS_WIN
     // Sorting properties
-    m_numberOfItems = new QRadioButton(i18nc("option:radio", "Number of items"));
-    m_sizeOfContents = new QRadioButton(i18nc("option:radio", "Size of contents, up to "));
+    m_numberOfItems = new QRadioButton(i18nc("option:radio", "Show number of items"));
+    m_sizeOfContents = new QRadioButton(i18nc("option:radio", "Show size of contents, up to "));
+    m_noDirectorySize = new QRadioButton(i18nc("option:radio", "Show no size"));
 
     QButtonGroup *sortingModeGroup = new QButtonGroup(this);
     sortingModeGroup->addButton(m_numberOfItems);
     sortingModeGroup->addButton(m_sizeOfContents);
+    sortingModeGroup->addButton(m_noDirectorySize);
 
     m_recursiveDirectorySizeLimit = new QSpinBox();
     connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, [this](int value) {
@@ -66,8 +69,9 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     contentsSizeLayout->addWidget(m_sizeOfContents);
     contentsSizeLayout->addWidget(m_recursiveDirectorySizeLimit);
 
-    topLayout->addRow(i18nc("@title:group", "Folder size displays:"), m_numberOfItems);
+    topLayout->addRow(i18nc("@title:group", "Folder size:"), m_numberOfItems);
     topLayout->addRow(QString(), contentsSizeLayout);
+    topLayout->addRow(QString(), m_noDirectorySize);
 #endif
 
     QDateTime thirtyMinutesAgo = QDateTime::currentDateTime().addSecs(-30 * 60);
@@ -105,6 +109,7 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
         m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
     });
+    connect(m_noDirectorySize, &QRadioButton::toggled, this, &SettingsPageBase::changed);
 #endif
 
     connect(m_useRelatetiveDates, &QRadioButton::toggled, this, &SettingsPageBase::changed);
@@ -123,7 +128,14 @@ void ContentDisplayTab::applySettings()
 {
     auto settings = ContentDisplaySettings::self();
 #ifndef Q_OS_WIN
-    settings->setDirectorySizeCount(m_numberOfItems->isChecked());
+    if (m_numberOfItems->isChecked()) {
+        settings->setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::ContentCount);
+    } else if (m_sizeOfContents->isChecked()) {
+        settings->setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::ContentSize);
+    } else if (m_noDirectorySize->isChecked()) {
+        settings->setDirectorySizeMode(ContentDisplaySettings::EnumDirectorySizeMode::None);
+    }
+
     settings->setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
 #endif
     setSortingChoiceValue();
@@ -143,13 +155,9 @@ void ContentDisplayTab::loadSettings()
 {
     auto settings = ContentDisplaySettings::self();
 #ifndef Q_OS_WIN
-    if (settings->directorySizeCount()) {
-        m_numberOfItems->setChecked(true);
-        m_recursiveDirectorySizeLimit->setEnabled(false);
-    } else {
-        m_sizeOfContents->setChecked(true);
-        m_recursiveDirectorySizeLimit->setEnabled(true);
-    }
+    m_numberOfItems->setChecked(settings->directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount);
+    m_sizeOfContents->setChecked(settings->directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentSize);
+    m_noDirectorySize->setChecked(settings->directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None);
     m_recursiveDirectorySizeLimit->setValue(settings->recursiveDirectorySizeLimit());
 #endif
     m_useRelatetiveDates->setChecked(settings->useShortRelativeDates());

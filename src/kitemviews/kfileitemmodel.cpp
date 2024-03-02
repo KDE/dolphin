@@ -2019,7 +2019,8 @@ bool KFileItemModel::lessThan(const ItemData *a, const ItemData *b, const QColla
         }
     }
 
-    if (m_sortDirsFirst || (ContentDisplaySettings::directorySizeCount() && m_sortRole == SizeRole)) {
+    if (m_sortDirsFirst
+        || (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount && m_sortRole == SizeRole)) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -2071,7 +2072,7 @@ int KFileItemModel::sortRoleCompare(const ItemData *a, const ItemData *b, const 
         break;
 
     case SizeRole: {
-        if (ContentDisplaySettings::directorySizeCount() && itemA.isDir()) {
+        if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount && itemA.isDir()) {
             // folders first then
             // items A and B are folders thanks to lessThan checks
             auto valueA = a->values.value("count");
@@ -2331,7 +2332,7 @@ QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
         KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
-            if (ContentDisplaySettings::directorySizeCount() || m_sortDirsFirst) {
+            if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount || m_sortDirsFirst) {
                 newGroupValue = i18nc("@title:group Size", "Folders");
             } else {
                 fileSize = m_itemData.at(i)->values.value("size").toULongLong();

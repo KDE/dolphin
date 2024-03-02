@@ -1288,11 +1288,11 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (!item.isLocalFile()) {
+    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None || !item.isLocalFile()) {
         return;
     }
 
-    if (ContentDisplaySettings::directorySizeCount() || item.isSlow()) {
+    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount || item.isSlow()) {
         // fastpath no recursion necessary
 
         auto data = m_model->data(index);

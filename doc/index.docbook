@@ -1308,7 +1308,10 @@ are displayed in a tree view, where the sub items can be expanded by &LMB; click
 <guiicon>&gt;</guiicon> icon and collapsed by clicking the <guiicon>v</guiicon> icon.
 </para>
 <para>
-<guilabel>Folder size displays</guilabel> allows defining the property to use then sorting folders by their size. It is possible to sort folders by <guilabel>Number of items</guilabel> or <guilabel>Size of contents</guilabel> and choose a limit to the recursive level (can be useful to constrain unneeded iterations in the deep folder structures or on the slow file systems).
+<guilabel>Folder size</guilabel> allows defining the property to use for sorting folders by their size.
+It is possible to sort folders by number of items by choosing <guilabel>Show number of items</guilabel> or by the size of the contents by choosing <guilabel>Show size of contents</guilabel>.
+The recursion level can be limited, which can be useful to constrain unneeded iterations in deep folder structures or on slow file systems.
+It is also possible to disable displaying folder size by choosing <guilabel>Show no size</guilabel> (which might improve performance in rare cases, however impacts other features like sorting).
 </para>
 <para>
 The <guilabel>Date style</guilabel> option can be used to configure the mode to display dates in &dolphin;. It is possible to choose between <guilabel>Relative</guilabel> (&eg;, <quote>Yesterday, 3:00pm</quote>) or <guilabel>Absolute</guilabel> (&eg;, <quote>2020-12-23 15:00</quote>).

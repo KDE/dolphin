@@ -600,6 +600,8 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 
 install( FILES settings/dolphin_detailsmodesettings.upd
+               settings/dolphin_directorysizemode.upd
+               settings/dolphin_directorysizemode.py
          DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR} )
 
 if(BUILD_TESTING)

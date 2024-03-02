@@ -6,9 +6,20 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name="dolphinrc"/>
     <group name="ContentDisplay">
-        <entry name="DirectorySizeCount" type="Bool">
-            <label>Whether or not content count is used as directory size</label>
-            <default>true</default>
+        <entry name="DirectorySizeMode" type="Enum">
+            <label>How we display the size of directories</label>
+            <choices>
+                <choice name="ContentCount">
+                    <label>Show the content count</label>
+                </choice>
+                <choice name="ContentSize">
+                    <label>Show the content size</label>
+                </choice>
+                <choice name="None">
+                    <label>Do not show any directory size</label>
+                </choice>
+            </choices>
+            <default>ContentCount</default>
         </entry>
         <entry name="RecursiveDirectorySizeLimit" type="UInt">
             <label>Recursive directory size limit</label>
