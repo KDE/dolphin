@@ -1135,8 +1135,9 @@ QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 
     auto *action = new QAction(QIcon::fromTheme(kfind->icon()), kfind->name(), this);
 
-    connect(action, &QAction::triggered, this, [kfind] {
+    connect(action, &QAction::triggered, this, [this, kfind] {
         auto *job = new KIO::ApplicationLauncherJob(kfind);
+        job->setUrls({m_activeViewContainer->url()});
         job->start();
     });
 
