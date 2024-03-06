@@ -1,7 +1,6 @@
 {
     "KPlugin": {
         "Icon": "view-list-icons",
-        "Id": "dolphinpart",
         "InitialPreference": 7,
         "License": "LGPL v2+",
         "MimeTypes": [
