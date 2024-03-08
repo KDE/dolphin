@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 00:39+0000\n"
-"PO-Revision-Date: 2024-01-19 11:23+0100\n"
+"POT-Creation-Date: 2024-03-08 00:39+0000\n"
+"PO-Revision-Date: 2024-03-06 10:55+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1832,7 +1832,7 @@ msgid_plural "%1 Items"
 msgstr[0] "Un element"
 msgstr[1] "%1 elements"
 
-#: kitemviews/kfileitemlistwidget.cpp:73
+#: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
 msgctxt "@item:intable"
 msgid "%1 item"
@@ -1840,99 +1840,99 @@ msgid_plural "%1 items"
 msgstr[0] "%1 element"
 msgstr[1] "%1 elements"
 
-#: kitemviews/kfileitemlistwidget.cpp:99
+#: kitemviews/kfileitemlistwidget.cpp:100
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2301
+#: kitemviews/kfileitemmodel.cpp:2302
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2303
+#: kitemviews/kfileitemmodel.cpp:2304
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Altres"
 
-#: kitemviews/kfileitemmodel.cpp:2335
+#: kitemviews/kfileitemmodel.cpp:2336
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Carpetes"
 
-#: kitemviews/kfileitemmodel.cpp:2343
+#: kitemviews/kfileitemmodel.cpp:2344
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Xicoteta"
 
-#: kitemviews/kfileitemmodel.cpp:2345
+#: kitemviews/kfileitemmodel.cpp:2346
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Mitjana"
 
-#: kitemviews/kfileitemmodel.cpp:2347
+#: kitemviews/kfileitemmodel.cpp:2348
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Gran"
 
-#: kitemviews/kfileitemmodel.cpp:2392
+#: kitemviews/kfileitemmodel.cpp:2393
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Hui"
 
-#: kitemviews/kfileitemmodel.cpp:2395
+#: kitemviews/kfileitemmodel.cpp:2396
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Ahir"
 
-#: kitemviews/kfileitemmodel.cpp:2398
+#: kitemviews/kfileitemmodel.cpp:2399
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2403
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2407
+#: kitemviews/kfileitemmodel.cpp:2408
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Fa una setmana"
 
-#: kitemviews/kfileitemmodel.cpp:2410
+#: kitemviews/kfileitemmodel.cpp:2411
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Fa dues setmanes"
 
-#: kitemviews/kfileitemmodel.cpp:2413
+#: kitemviews/kfileitemmodel.cpp:2414
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Fa tres setmanes"
 
-#: kitemviews/kfileitemmodel.cpp:2417
+#: kitemviews/kfileitemmodel.cpp:2418
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "A principis de mes"
 
 # skip-rule: t-apo_fin
-#: kitemviews/kfileitemmodel.cpp:2431
+#: kitemviews/kfileitemmodel.cpp:2432
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1942,7 +1942,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Ahir' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2438
+#: kitemviews/kfileitemmodel.cpp:2439
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1950,7 +1950,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2451
+#: kitemviews/kfileitemmodel.cpp:2452
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1958,7 +1958,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2455
+#: kitemviews/kfileitemmodel.cpp:2456
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1967,7 +1967,7 @@ msgid "%1"
 msgstr "%1"
 
 # skip-rule: t-apo_fin
-#: kitemviews/kfileitemmodel.cpp:2463
+#: kitemviews/kfileitemmodel.cpp:2464
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1977,7 +1977,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Fa una setmana' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2470
+#: kitemviews/kfileitemmodel.cpp:2471
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1986,7 +1986,7 @@ msgid "%1"
 msgstr "%1"
 
 # skip-rule: t-apo_fin
-#: kitemviews/kfileitemmodel.cpp:2484
+#: kitemviews/kfileitemmodel.cpp:2485
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1996,7 +1996,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Fa dues setmanes' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2491
+#: kitemviews/kfileitemmodel.cpp:2492
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2005,7 +2005,7 @@ msgid "%1"
 msgstr "%1"
 
 # skip-rule: t-apo_fin
-#: kitemviews/kfileitemmodel.cpp:2505
+#: kitemviews/kfileitemmodel.cpp:2506
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2015,7 +2015,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Fa tres setmanes' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2512
+#: kitemviews/kfileitemmodel.cpp:2513
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2024,7 +2024,7 @@ msgid "%1"
 msgstr "%1"
 
 # skip-rule: t-apo_fin
-#: kitemviews/kfileitemmodel.cpp:2526
+#: kitemviews/kfileitemmodel.cpp:2527
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2034,7 +2034,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Abans de' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2533
+#: kitemviews/kfileitemmodel.cpp:2534
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2042,7 +2042,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2547
+#: kitemviews/kfileitemmodel.cpp:2548
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2050,7 +2050,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2551
+#: kitemviews/kfileitemmodel.cpp:2552
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2058,257 +2058,257 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2591 kitemviews/kfileitemmodel.cpp:2604
-#: kitemviews/kfileitemmodel.cpp:2617
+#: kitemviews/kfileitemmodel.cpp:2592 kitemviews/kfileitemmodel.cpp:2605
+#: kitemviews/kfileitemmodel.cpp:2618
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "lectura, "
 
-#: kitemviews/kfileitemmodel.cpp:2594 kitemviews/kfileitemmodel.cpp:2607
-#: kitemviews/kfileitemmodel.cpp:2620
+#: kitemviews/kfileitemmodel.cpp:2595 kitemviews/kfileitemmodel.cpp:2608
+#: kitemviews/kfileitemmodel.cpp:2621
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "escriptura, "
 
-#: kitemviews/kfileitemmodel.cpp:2597 kitemviews/kfileitemmodel.cpp:2610
-#: kitemviews/kfileitemmodel.cpp:2623
+#: kitemviews/kfileitemmodel.cpp:2598 kitemviews/kfileitemmodel.cpp:2611
+#: kitemviews/kfileitemmodel.cpp:2624
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "execució, "
 
-#: kitemviews/kfileitemmodel.cpp:2599 kitemviews/kfileitemmodel.cpp:2612
-#: kitemviews/kfileitemmodel.cpp:2625
+#: kitemviews/kfileitemmodel.cpp:2600 kitemviews/kfileitemmodel.cpp:2613
+#: kitemviews/kfileitemmodel.cpp:2626
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "prohibit"
 
-#: kitemviews/kfileitemmodel.cpp:2627
+#: kitemviews/kfileitemmodel.cpp:2628
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Usuari: %1 | Grup: %2 | Altres: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2718
 msgctxt "@label"
 msgid "Name"
 msgstr "Nom"
 
-#: kitemviews/kfileitemmodel.cpp:2718
+#: kitemviews/kfileitemmodel.cpp:2719
 msgctxt "@label"
 msgid "Size"
 msgstr "Mida"
 
-#: kitemviews/kfileitemmodel.cpp:2719
+#: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@label"
 msgid "Modified"
 msgstr "Modificat"
 
-#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2720
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2720 kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "El format de la data es pot seleccionar en la configuració."
 
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
 msgid "Created"
 msgstr "Creat"
 
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Accedit"
 
-#: kitemviews/kfileitemmodel.cpp:2722
+#: kitemviews/kfileitemmodel.cpp:2723
 msgctxt "@label"
 msgid "Type"
 msgstr "Tipus"
 
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Rating"
 msgstr "Puntuació"
 
-#: kitemviews/kfileitemmodel.cpp:2724
+#: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Tags"
 msgstr "Etiquetes"
 
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2726
 msgctxt "@label"
 msgid "Comment"
 msgstr "Comentari"
 
-#: kitemviews/kfileitemmodel.cpp:2726
+#: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
 msgid "Title"
 msgstr "Títol"
 
-#: kitemviews/kfileitemmodel.cpp:2726 kitemviews/kfileitemmodel.cpp:2727
-#: kitemviews/kfileitemmodel.cpp:2728 kitemviews/kfileitemmodel.cpp:2729
-#: kitemviews/kfileitemmodel.cpp:2730 kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2729 kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731 kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Document"
 msgstr "Document"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2728
 msgctxt "@label"
 msgid "Author"
 msgstr "Autoria"
 
-#: kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Editorial"
 
-#: kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Nombre de pàgines"
 
-#: kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Nombre de paraules"
 
-#: kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Nombre de línies"
 
-#: kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2733
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Data de la fotografia"
 
-#: kitemviews/kfileitemmodel.cpp:2732 kitemviews/kfileitemmodel.cpp:2733
-#: kitemviews/kfileitemmodel.cpp:2734 kitemviews/kfileitemmodel.cpp:2735
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2733 kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735 kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Image"
 msgstr "Imatge"
 
-#: kitemviews/kfileitemmodel.cpp:2733
+#: kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Dimensions"
 
-#: kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735
 msgctxt "@label"
 msgid "Width"
 msgstr "Amplària"
 
-#: kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Height"
 msgstr "Alçària"
 
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Orientació"
 
-#: kitemviews/kfileitemmodel.cpp:2737
+#: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Artist"
 msgstr "Artista"
 
-#: kitemviews/kfileitemmodel.cpp:2737 kitemviews/kfileitemmodel.cpp:2738
-#: kitemviews/kfileitemmodel.cpp:2739 kitemviews/kfileitemmodel.cpp:2740
-#: kitemviews/kfileitemmodel.cpp:2741 kitemviews/kfileitemmodel.cpp:2742
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2738 kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2740 kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Audio"
 msgstr "Àudio"
 
-#: kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Genre"
 msgstr "Gènere"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Album"
 msgstr "Àlbum"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Duration"
 msgstr "Duració"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Taxa de bits"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Track"
 msgstr "Peça"
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Any d'edició"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Relació d'aspecte"
 
-#: kitemviews/kfileitemmodel.cpp:2744 kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2745 kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Video"
 msgstr "Vídeo"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Velocitat dels fotogrames"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2747
 msgctxt "@label"
 msgid "Path"
 msgstr "Camí"
 
-#: kitemviews/kfileitemmodel.cpp:2746 kitemviews/kfileitemmodel.cpp:2747
-#: kitemviews/kfileitemmodel.cpp:2748 kitemviews/kfileitemmodel.cpp:2749
-#: kitemviews/kfileitemmodel.cpp:2750 kitemviews/kfileitemmodel.cpp:2751
-#: kitemviews/kfileitemmodel.cpp:2752 kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2747 kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753 kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@label"
 msgid "Other"
 msgstr "Altres"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Extensió del fitxer"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Hora de la supressió"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Destinació de l'enllaç"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Baixat des de"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Permisos"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2317,17 +2317,17 @@ msgstr ""
 "El format dels permisos es pot seleccionar en la configuració. Les opcions "
 "són simbòlic, numèric (octal) o formats combinats"
 
-#: kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753
 msgctxt "@label"
 msgid "Owner"
 msgstr "Propietari"
 
-#: kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@label"
 msgid "User Group"
 msgstr "Grup d'usuari"
 
-#: kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -3279,26 +3279,46 @@ msgstr "Mida de la vista prèvia"
 msgid "Maximum text width index (0 means unlimited)"
 msgstr "Índex màxim d'amplària del text (0 significa sense límit)"
 
-#. i18n: ectx: label, entry (DirectorySizeCount), group (ContentDisplay)
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
-msgid "Whether or not content count is used as directory size"
-msgstr "Si el comptador de contingut s'utilitza com a mida del directori"
+msgid "How we display the size of directories"
+msgstr ""
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:13
+#, fuzzy, kde-format
+#| msgid "Show the statusbar"
+msgid "Show the content count"
+msgstr "Mostra la barra d'estat"
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:16
+#, fuzzy, kde-format
+#| msgid "Show the statusbar"
+msgid "Show the content size"
+msgstr "Mostra la barra d'estat"
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:19
+#, kde-format
+msgid "Do not show any directory size"
+msgstr ""
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:14
+#: settings/dolphin_contentdisplaysettings.kcfg:25
 #, kde-format
 msgid "Recursive directory size limit"
 msgstr "Límit de la mida recursiva dels directoris"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:18
+#: settings/dolphin_contentdisplaysettings.kcfg:29
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
 msgstr "si és cert, usarem dates relatives curtes, si no dates curtes"
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:22
+#: settings/dolphin_contentdisplaysettings.kcfg:33
 #, kde-format
 msgid "Permissions style format"
 msgstr "Format d'estil dels permisos"
@@ -4183,92 +4203,106 @@ msgctxt "@title:tab"
 msgid "Details"
 msgstr "Detalls"
 
-#: settings/viewmodes/contentdisplaytab.cpp:37
+#: settings/viewmodes/contentdisplaytab.cpp:38
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "Natural"
 
-#: settings/viewmodes/contentdisplaytab.cpp:38
+#: settings/viewmodes/contentdisplaytab.cpp:39
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "Alfabètica, sense distingir entre majúscules i minúscules"
 
-#: settings/viewmodes/contentdisplaytab.cpp:39
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "Alfabètica, distingint entre majúscules i minúscules"
 
-#: settings/viewmodes/contentdisplaytab.cpp:45
+#: settings/viewmodes/contentdisplaytab.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "Mode d'ordenació: "
 
-#: settings/viewmodes/contentdisplaytab.cpp:51
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Number of items"
 msgctxt "option:radio"
-msgid "Number of items"
+msgid "Show number of items"
 msgstr "Nombre d'elements"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Size of contents, up to "
 msgctxt "option:radio"
-msgid "Size of contents, up to "
+msgid "Show size of contents, up to "
 msgstr "Mida del contingut, fins a "
 
-#: settings/viewmodes/contentdisplaytab.cpp:60
+#: settings/viewmodes/contentdisplaytab.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show zoom slider"
+msgctxt "option:radio"
+msgid "Show no size"
+msgstr "Mostra el control lliscant del zoom"
+
+#: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " nivell de profunditat"
 msgstr[1] " nivells de profunditat"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:72
+#, fuzzy, kde-format
+#| msgctxt "@label:checkbox"
+#| msgid "Folders:"
 msgctxt "@title:group"
-msgid "Folder size displays:"
-msgstr "La mida de la carpeta mostra:"
+msgid "Folder size:"
+msgstr "Carpetes:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:78
+#: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relativa (p. ex., «%1»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:80
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absoluta (p. ex., «%1»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:86
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Estil de la data:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:89
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Simbòlic (p. ex., «drwxr-xr-x»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:90
+#: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Numèric (octal) (p. ex., «755»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:91
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Combinat (p. ex., «drwxr-xr-x (755)»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:93
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -4368,7 +4402,7 @@ msgstr "Canvia el nom en línia"
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
-"Oculta també els fitxers de còpia de seguretat em ocultar fitxer ocults"
+"Oculta també els fitxers de còpia de seguretat en ocultar fitxers ocults"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #, kde-format
@@ -5507,3 +5541,10 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
+
+#~ msgid "Whether or not content count is used as directory size"
+#~ msgstr "Si el comptador de contingut s'utilitza com a mida del directori"
+
+#~ msgctxt "@title:group"
+#~ msgid "Folder size displays:"
+#~ msgstr "La mida de la carpeta mostra:"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 00:39+0000\n"
+"POT-Creation-Date: 2024-03-08 00:39+0000\n"
 "PO-Revision-Date: 2024-02-18 18:11+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1704,7 +1704,7 @@ msgid_plural "%1 Items"
 msgstr[0] "ஒரு உருப்படிக்கான"
 msgstr[1] "%1 உருப்படிகளுக்கான"
 
-#: kitemviews/kfileitemlistwidget.cpp:73
+#: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
 msgctxt "@item:intable"
 msgid "%1 item"
@@ -1712,98 +1712,98 @@ msgid_plural "%1 items"
 msgstr[0] "%1 உருப்படி"
 msgstr[1] "%1 உருப்படிகள்"
 
-#: kitemviews/kfileitemlistwidget.cpp:99
+#: kitemviews/kfileitemlistwidget.cpp:100
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2301
+#: kitemviews/kfileitemmodel.cpp:2302
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 – 9"
 
-#: kitemviews/kfileitemmodel.cpp:2303
+#: kitemviews/kfileitemmodel.cpp:2304
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "மற்றவை"
 
-#: kitemviews/kfileitemmodel.cpp:2335
+#: kitemviews/kfileitemmodel.cpp:2336
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "அடைவுகள்"
 
-#: kitemviews/kfileitemmodel.cpp:2343
+#: kitemviews/kfileitemmodel.cpp:2344
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "சிறியவை"
 
-#: kitemviews/kfileitemmodel.cpp:2345
+#: kitemviews/kfileitemmodel.cpp:2346
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "நடுத்தரமானவை"
 
-#: kitemviews/kfileitemmodel.cpp:2347
+#: kitemviews/kfileitemmodel.cpp:2348
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "பெரியவை"
 
-#: kitemviews/kfileitemmodel.cpp:2392
+#: kitemviews/kfileitemmodel.cpp:2393
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "இன்று"
 
-#: kitemviews/kfileitemmodel.cpp:2395
+#: kitemviews/kfileitemmodel.cpp:2396
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "நேற்று"
 
-#: kitemviews/kfileitemmodel.cpp:2398
+#: kitemviews/kfileitemmodel.cpp:2399
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2403
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2407
+#: kitemviews/kfileitemmodel.cpp:2408
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "ஒரு வாரத்துக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2410
+#: kitemviews/kfileitemmodel.cpp:2411
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "இரு வாரங்களுக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2413
+#: kitemviews/kfileitemmodel.cpp:2414
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "மூன்று வாரங்களுக்கு முன்னர்"
 
-#: kitemviews/kfileitemmodel.cpp:2417
+#: kitemviews/kfileitemmodel.cpp:2418
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "முன்னர் இம்மாதத்தில்"
 
-#: kitemviews/kfileitemmodel.cpp:2431
+#: kitemviews/kfileitemmodel.cpp:2432
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1813,7 +1813,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'நேற்று' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2438
+#: kitemviews/kfileitemmodel.cpp:2439
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -1821,7 +1821,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2451
+#: kitemviews/kfileitemmodel.cpp:2452
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -1829,7 +1829,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2455
+#: kitemviews/kfileitemmodel.cpp:2456
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -1837,7 +1837,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2463
+#: kitemviews/kfileitemmodel.cpp:2464
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1847,7 +1847,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'ஒரு வாரம் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2470
+#: kitemviews/kfileitemmodel.cpp:2471
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -1855,7 +1855,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2484
+#: kitemviews/kfileitemmodel.cpp:2485
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1865,7 +1865,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'இரு வாரங்கள் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2491
+#: kitemviews/kfileitemmodel.cpp:2492
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -1873,7 +1873,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2505
+#: kitemviews/kfileitemmodel.cpp:2506
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1883,7 +1883,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'மூன்று வாரங்கள் முன்னர்' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2512
+#: kitemviews/kfileitemmodel.cpp:2513
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -1891,7 +1891,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2526
+#: kitemviews/kfileitemmodel.cpp:2527
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -1901,7 +1901,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "MMMM, yyyy'-இல் முன்னதாக'"
 
-#: kitemviews/kfileitemmodel.cpp:2533
+#: kitemviews/kfileitemmodel.cpp:2534
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -1909,7 +1909,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2547
+#: kitemviews/kfileitemmodel.cpp:2548
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -1917,7 +1917,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2551
+#: kitemviews/kfileitemmodel.cpp:2552
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -1925,257 +1925,257 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2591 kitemviews/kfileitemmodel.cpp:2604
-#: kitemviews/kfileitemmodel.cpp:2617
+#: kitemviews/kfileitemmodel.cpp:2592 kitemviews/kfileitemmodel.cpp:2605
+#: kitemviews/kfileitemmodel.cpp:2618
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "வாசிக்க, "
 
-#: kitemviews/kfileitemmodel.cpp:2594 kitemviews/kfileitemmodel.cpp:2607
-#: kitemviews/kfileitemmodel.cpp:2620
+#: kitemviews/kfileitemmodel.cpp:2595 kitemviews/kfileitemmodel.cpp:2608
+#: kitemviews/kfileitemmodel.cpp:2621
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "எழுத, "
 
-#: kitemviews/kfileitemmodel.cpp:2597 kitemviews/kfileitemmodel.cpp:2610
-#: kitemviews/kfileitemmodel.cpp:2623
+#: kitemviews/kfileitemmodel.cpp:2598 kitemviews/kfileitemmodel.cpp:2611
+#: kitemviews/kfileitemmodel.cpp:2624
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "இயக்க, "
 
-#: kitemviews/kfileitemmodel.cpp:2599 kitemviews/kfileitemmodel.cpp:2612
-#: kitemviews/kfileitemmodel.cpp:2625
+#: kitemviews/kfileitemmodel.cpp:2600 kitemviews/kfileitemmodel.cpp:2613
+#: kitemviews/kfileitemmodel.cpp:2626
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "தடைசெய்யப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:2627
+#: kitemviews/kfileitemmodel.cpp:2628
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "பயனர்: %1 |குழு: %2 | மற்றவர்கள்: %3)"
 
-#: kitemviews/kfileitemmodel.cpp:2717
+#: kitemviews/kfileitemmodel.cpp:2718
 msgctxt "@label"
 msgid "Name"
 msgstr "பெயர்"
 
-#: kitemviews/kfileitemmodel.cpp:2718
+#: kitemviews/kfileitemmodel.cpp:2719
 msgctxt "@label"
 msgid "Size"
 msgstr "அளவு"
 
-#: kitemviews/kfileitemmodel.cpp:2719
+#: kitemviews/kfileitemmodel.cpp:2720
 msgctxt "@label"
 msgid "Modified"
 msgstr "மாற்றப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:2719 kitemviews/kfileitemmodel.cpp:2720
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2720 kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "தேதிகளின் வடிவத்தை அமைப்புகளில் மாற்றலாம்"
 
-#: kitemviews/kfileitemmodel.cpp:2720
+#: kitemviews/kfileitemmodel.cpp:2721
 msgctxt "@label"
 msgid "Created"
 msgstr "உருவாக்கப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:2721
+#: kitemviews/kfileitemmodel.cpp:2722
 msgctxt "@label"
 msgid "Accessed"
 msgstr "அணுகப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:2722
+#: kitemviews/kfileitemmodel.cpp:2723
 msgctxt "@label"
 msgid "Type"
 msgstr "வகை"
 
-#: kitemviews/kfileitemmodel.cpp:2723
+#: kitemviews/kfileitemmodel.cpp:2724
 msgctxt "@label"
 msgid "Rating"
 msgstr "மதிப்பீடு"
 
-#: kitemviews/kfileitemmodel.cpp:2724
+#: kitemviews/kfileitemmodel.cpp:2725
 msgctxt "@label"
 msgid "Tags"
 msgstr "குறிச்சொற்கள்"
 
-#: kitemviews/kfileitemmodel.cpp:2725
+#: kitemviews/kfileitemmodel.cpp:2726
 msgctxt "@label"
 msgid "Comment"
 msgstr "குறிப்பு"
 
-#: kitemviews/kfileitemmodel.cpp:2726
+#: kitemviews/kfileitemmodel.cpp:2727
 msgctxt "@label"
 msgid "Title"
 msgstr "தலைப்பு"
 
-#: kitemviews/kfileitemmodel.cpp:2726 kitemviews/kfileitemmodel.cpp:2727
-#: kitemviews/kfileitemmodel.cpp:2728 kitemviews/kfileitemmodel.cpp:2729
-#: kitemviews/kfileitemmodel.cpp:2730 kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2727 kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2729 kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731 kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Document"
 msgstr "ஆவணம்"
 
-#: kitemviews/kfileitemmodel.cpp:2727
+#: kitemviews/kfileitemmodel.cpp:2728
 msgctxt "@label"
 msgid "Author"
 msgstr "இயற்றியவர்"
 
-#: kitemviews/kfileitemmodel.cpp:2728
+#: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
 msgid "Publisher"
 msgstr "பதிப்பகம்"
 
-#: kitemviews/kfileitemmodel.cpp:2729
+#: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
 msgid "Page Count"
 msgstr "பக்க எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:2730
+#: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Word Count"
 msgstr "சொற்களின் எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:2731
+#: kitemviews/kfileitemmodel.cpp:2732
 msgctxt "@label"
 msgid "Line Count"
 msgstr "வரிகளின் எண்ணிக்கை"
 
-#: kitemviews/kfileitemmodel.cpp:2732
+#: kitemviews/kfileitemmodel.cpp:2733
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "படம் பிடிக்கப்பட்ட தேதி"
 
-#: kitemviews/kfileitemmodel.cpp:2732 kitemviews/kfileitemmodel.cpp:2733
-#: kitemviews/kfileitemmodel.cpp:2734 kitemviews/kfileitemmodel.cpp:2735
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2733 kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735 kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Image"
 msgstr "படம்"
 
-#: kitemviews/kfileitemmodel.cpp:2733
+#: kitemviews/kfileitemmodel.cpp:2734
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "வடிவம்"
 
-#: kitemviews/kfileitemmodel.cpp:2734
+#: kitemviews/kfileitemmodel.cpp:2735
 msgctxt "@label"
 msgid "Width"
 msgstr "அகலம்"
 
-#: kitemviews/kfileitemmodel.cpp:2735
+#: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Height"
 msgstr "உயரம்"
 
-#: kitemviews/kfileitemmodel.cpp:2736
+#: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
 msgid "Orientation"
 msgstr "நோக்குநிலை"
 
-#: kitemviews/kfileitemmodel.cpp:2737
+#: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Artist"
 msgstr "கலைஞர்:"
 
-#: kitemviews/kfileitemmodel.cpp:2737 kitemviews/kfileitemmodel.cpp:2738
-#: kitemviews/kfileitemmodel.cpp:2739 kitemviews/kfileitemmodel.cpp:2740
-#: kitemviews/kfileitemmodel.cpp:2741 kitemviews/kfileitemmodel.cpp:2742
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2738 kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2740 kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Audio"
 msgstr "ஒலி"
 
-#: kitemviews/kfileitemmodel.cpp:2738
+#: kitemviews/kfileitemmodel.cpp:2739
 msgctxt "@label"
 msgid "Genre"
 msgstr "பாடல்வகை"
 
-#: kitemviews/kfileitemmodel.cpp:2739
+#: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Album"
 msgstr "ஆல்பம்"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Duration"
 msgstr "நீடிக்கும் காலம்"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "பிட்விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Track"
 msgstr "பாடல்"
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
 msgid "Release Year"
 msgstr "வெளியான ஆண்டு"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2745
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "உருவ விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:2744 kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2745 kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Video"
 msgstr "ஒளிக்காட்சி"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2746
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "சட்டக விகிதம்"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2747
 msgctxt "@label"
 msgid "Path"
 msgstr "பாதை"
 
-#: kitemviews/kfileitemmodel.cpp:2746 kitemviews/kfileitemmodel.cpp:2747
-#: kitemviews/kfileitemmodel.cpp:2748 kitemviews/kfileitemmodel.cpp:2749
-#: kitemviews/kfileitemmodel.cpp:2750 kitemviews/kfileitemmodel.cpp:2751
-#: kitemviews/kfileitemmodel.cpp:2752 kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2747 kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753 kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@label"
 msgid "Other"
 msgstr "மற்றவை"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "File Extension"
 msgstr "வகைப்பெயர்"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "அகற்றப்பட்ட நேரம்"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2750
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "இணைப்பின் இலக்கு"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2751
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "எங்கிருந்து பதிவிறக்கப்பட்டது"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@label"
 msgid "Permissions"
 msgstr "அனுமதிகள்"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2752
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2184,17 +2184,17 @@ msgstr ""
 "அனுமதிகளுக்கான வடிவத்தை அமைப்புகளில் மாற்றலாம். எழுத்துகளாகவோ, எண்ம‍மாகவோ, இரண்டும் கலந்த‍"
 "தாகவோ அவற்றை காட்டுமாறு அமைக்கலாம்."
 
-#: kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2753
 msgctxt "@label"
 msgid "Owner"
 msgstr "உரிமையாளர்"
 
-#: kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2754
 msgctxt "@label"
 msgid "User Group"
 msgstr "பயனர் குழு"
 
-#: kitemviews/kfileitemmodel.cpp:2853
+#: kitemviews/kfileitemmodel.cpp:2854
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -3133,26 +3133,46 @@ msgstr "முன்தோற்ற அளவு"
 msgid "Maximum text width index (0 means unlimited)"
 msgstr "பெயர்களின் அதிகபட்ச நீளம் (0 என்றால் வரம்பற்றது)"
 
-#. i18n: ectx: label, entry (DirectorySizeCount), group (ContentDisplay)
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
-msgid "Whether or not content count is used as directory size"
-msgstr "உள்ளடக்க எண்ணிக்கை அடைவின் அளவாக கருதப்படுகிறதா"
+msgid "How we display the size of directories"
+msgstr ""
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:13
+#, fuzzy, kde-format
+#| msgid "Show the statusbar"
+msgid "Show the content count"
+msgstr "நிலைப் பட்டையைக் காட்டு"
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:16
+#, fuzzy, kde-format
+#| msgid "Show the statusbar"
+msgid "Show the content size"
+msgstr "நிலைப் பட்டையைக் காட்டு"
+
+#. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:19
+#, kde-format
+msgid "Do not show any directory size"
+msgstr ""
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:14
+#: settings/dolphin_contentdisplaysettings.kcfg:25
 #, kde-format
 msgid "Recursive directory size limit"
 msgstr ""
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:18
+#: settings/dolphin_contentdisplaysettings.kcfg:29
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
 msgstr ""
 
 #. i18n: ectx: label, entry (UsePermissionsFormat), group (ContentDisplay)
-#: settings/dolphin_contentdisplaysettings.kcfg:22
+#: settings/dolphin_contentdisplaysettings.kcfg:33
 #, kde-format
 msgid "Permissions style format"
 msgstr "அனுமதிகள் காட்டப்படும் வடிவம்"
@@ -4025,92 +4045,106 @@ msgctxt "@title:tab"
 msgid "Details"
 msgstr "விவரமானது"
 
-#: settings/viewmodes/contentdisplaytab.cpp:37
+#: settings/viewmodes/contentdisplaytab.cpp:38
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "இயல்பானது"
 
-#: settings/viewmodes/contentdisplaytab.cpp:38
+#: settings/viewmodes/contentdisplaytab.cpp:39
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தாமல்"
 
-#: settings/viewmodes/contentdisplaytab.cpp:39
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "அகரவரிசை, பெரிய மற்றும் சிறிய எழுத்துகளை வித்தியாசப்படுத்தி"
 
-#: settings/viewmodes/contentdisplaytab.cpp:45
+#: settings/viewmodes/contentdisplaytab.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "வரிசைப்படுத்தும் முறை:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:51
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Number of items"
 msgctxt "option:radio"
-msgid "Number of items"
+msgid "Show number of items"
 msgstr "உருப்படிகளின் எண்ணிக்கை"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Size of contents, up to "
 msgctxt "option:radio"
-msgid "Size of contents, up to "
+msgid "Show size of contents, up to "
 msgstr "உள்ளடக்கத்தின் அளவு"
 
-#: settings/viewmodes/contentdisplaytab.cpp:60
+#: settings/viewmodes/contentdisplaytab.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show zoom slider"
+msgctxt "option:radio"
+msgid "Show no size"
+msgstr "உருப்பெருக்க நழுவியைக் காட்டு"
+
+#: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " நிலை ஆழமாக"
 msgstr[1] " நிலைகள் ஆழமாக"
 
-#: settings/viewmodes/contentdisplaytab.cpp:69
-#, kde-format
+#: settings/viewmodes/contentdisplaytab.cpp:72
+#, fuzzy, kde-format
+#| msgctxt "@label:checkbox"
+#| msgid "Folders:"
 msgctxt "@title:group"
-msgid "Folder size displays:"
-msgstr "அடைவுகளின் அளவு காட்டப்படுவது:"
+msgid "Folder size:"
+msgstr "அடைவுகள்:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:78
+#: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "சார்ந்தது (எ.கா. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:80
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "முழுமையானது (எ.கா. '%1')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:86
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "தேதி எப்படிக் காட்டப்படும்:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:89
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "எழுத்துவடிவம் (எ.கா. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:90
+#: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "எண்மவடிவம் (எ.கா. '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:91
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "இரண்டும் (எ.கா. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:93
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
@@ -5307,6 +5341,13 @@ msgstr[1] "தேர்வு செய்த %1 உருப்படிகள�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "பதிப்பு விவரங்கள் புதுப்பிக்கப்படுகின்றன…"
+
+#~ msgid "Whether or not content count is used as directory size"
+#~ msgstr "உள்ளடக்க எண்ணிக்கை அடைவின் அளவாக கருதப்படுகிறதா"
+
+#~ msgctxt "@title:group"
+#~ msgid "Folder size displays:"
+#~ msgstr "அடைவுகளின் அளவு காட்டப்படுவது:"
 
 #~ msgctxt "@info:status"
 #~ msgid "1 File"
