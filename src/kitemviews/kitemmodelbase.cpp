@@ -128,6 +128,12 @@ bool KItemModelBase::supportsDropping(int index) const
     return false;
 }
 
+bool KItemModelBase::canEnterOnHover(int index) const
+{
+    Q_UNUSED(index)
+    return false;
+}
+
 QString KItemModelBase::blacklistItemDropEventMimeType() const
 {
     return QStringLiteral("application/x-dolphin-blacklist-drop");

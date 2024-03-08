@@ -827,11 +827,12 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
                 Q_EMIT itemHovered(index);
             }
 
-            if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
+            if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0 && m_model->canEnterOnHover(index)) {
                 m_autoActivationTimer->setProperty("index", index);
                 m_autoActivationTimer->start();
                 newHoveredWidget->startActivateSoonAnimation(m_autoActivationTimer->remainingTime());
             }
+
         } else {
             m_autoActivationTimer->stop();
             if (newHoveredWidget && newHoveredWidget->isHovered()) {

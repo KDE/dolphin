@@ -160,6 +160,15 @@ public:
     virtual bool supportsDropping(int index) const;
 
     /**
+     * @return True, if the item with the index \a index can be entered in during hover actions.
+     *         Per default false is returned.
+     *
+     *         This is used to check that if the item
+     *         we're hovering on is either directory or a desktop file.
+     */
+    virtual bool canEnterOnHover(int index) const;
+
+    /**
      * @return An internal mimetype to signal that an itemDropEvent() should be rejected by
      *         the receiving model.
      *

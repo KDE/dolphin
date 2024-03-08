@@ -109,6 +109,8 @@ public:
 
     bool supportsDropping(int index) const override;
 
+    bool canEnterOnHover(int index) const override;
+
     QString roleDescription(const QByteArray &role) const override;
 
     QList<QPair<int, QVariant>> groups() const override;

@@ -352,6 +352,17 @@ bool KFileItemModel::supportsDropping(int index) const
     return !item.isNull() && DragAndDropHelper::supportsDropping(item);
 }
 
+bool KFileItemModel::canEnterOnHover(int index) const
+{
+    KFileItem item;
+    if (index == -1) {
+        item = rootItem();
+    } else {
+        item = fileItem(index);
+    }
+    return !item.isNull() && (item.isDir() || item.isDesktopFile());
+}
+
 QString KFileItemModel::roleDescription(const QByteArray &role) const
 {
     static QHash<QByteArray, QString> description;
