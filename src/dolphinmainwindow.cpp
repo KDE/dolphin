@@ -2619,8 +2619,6 @@ void DolphinMainWindow::createPanelAction(const QIcon &icon, const QKeySequence 
 
     QAction *panelAction = actionCollection()->addAction(actionName, dockAction);
     actionCollection()->setDefaultShortcut(panelAction, shortcut);
-
-    connect(panelAction, &QAction::toggled, dockWidget, &QWidget::setVisible);
 }
 // clang-format off
 void DolphinMainWindow::setupWhatsThis()
