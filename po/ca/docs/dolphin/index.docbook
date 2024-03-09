@@ -1669,12 +1669,14 @@ context menu Icon Size? No different entries ?-->
 >. </para>
 <para
 ><guilabel
->La mida de la carpeta mostra:</guilabel
-> permet definir la propietat a emprar i després ordenar les carpetes per la seva mida. És possible ordenar les carpetes per <guilabel
->Nombre d'elements</guilabel
-> o la <guilabel
->Mida del contingut</guilabel
-> i triar un límit per al nivell de recursivitat (pot ser útil per a restringir les iteracions innecessàries en les estructures profundes de carpetes o en els sistemes de fitxers lents). </para>
+>La mida de la carpeta</guilabel
+> permet definir la propietat a emprar per a ordenar les carpetes per la seva mida. És possible ordenar les pel nombre d'elements triant <guilabel
+>Mostra el nombre d'elements</guilabel
+> o per la mida del contingut triant <guilabel
+>Mostra la mida del contingut</guilabel
+>. Es pot limitar el nivell de recursivitat, el qual pot ser útil per a restringir iteracions no necessàries en estructures de carpetes profundes o en sistemes de fitxers lents. També és possible desactivar la visualització de la mida de la carpeta triant <guilabel
+>Mostra sense mida</guilabel
+> (això pot millorar el rendiment en casos rars, però afecta altres característiques com l'ordenació). </para>
 <para
 >L'opció <guilabel
 >Estil de la data</guilabel

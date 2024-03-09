@@ -1700,13 +1700,15 @@ context menu Icon Size? No different entries ?-->
 >v</guiicon
 > con el &LMB;. </para>
 <para
-><guilabel
->El tamaño de la carpeta muestra</guilabel
-> permite definir la propiedad a usar cuando se ordenan las carpetas por tamaño. Es posible ordenar las carpetas por <guilabel
->Número de elementos</guilabel
-> o por <guilabel
->Tamaño del contenido</guilabel
-> y escoger un límite para el nivel de recursividad (puede resultar útil para limitar iteraciones innecesarias en estructuras profundas de carpetas o en sistemas de archivos lentos). </para>
+>El <guilabel
+>Tamaño de carpeta</guilabel
+> permite definir la propiedad que se usará para ordenar las carpetas por su tamaño. Se puede ordenar las carpetas por número de elementos (escogiendo <guilabel
+>Mostrar número de elementos</guilabel
+>) o por el tamaño del contenido (eligiendo <guilabel
+>Mostrar tamaño del contenido</guilabel
+>). Se puede limitar el nivel de recursividad, lo que puede resultar de utilidad para disminuir las iteraciones innecesarias en estructuras de carpetas profundas o en sistemas de archivos lentos. También se puede desactivar la visualización del tamaño de las carpetas escogiendo <guilabel
+>No mostrar tamaño</guilabel
+> (lo que puede mejorar el rendimiento en casos excepcionales, aunque afecta a otras funciones, como la ordenación). </para>
 <para
 >La opción <guilabel
 >Estilo de fechas</guilabel

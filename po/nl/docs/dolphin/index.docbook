@@ -1697,12 +1697,14 @@ context menu Icon Size? No different entries ?-->
 >. </para>
 <para
 ><guilabel
->Tonen op mapgrootte</guilabel
-> biedt het definiëren van de eigenschap om mappen te sorteren op hun grootte. Het is mogelijk om mappen op <guilabel
->Aantal items</guilabel
-> of <guilabel
->Grootte van inhoud</guilabel
-> te sorteren en een grens aan de diepte van de submappen (kan nuttig zijn om onnodige iteraties in de diepte van de mapstructuren te beperken of op de langzame bestandssystemen). </para>
+>Mapgrootte</guilabel
+> biedt het definiëren van de eigenschap om mappen te sorteren op hun grootte. Het is mogelijk om mappen op aantal items te sorteren door <guilabel
+>Aantal items tonen </guilabel
+> te kiezen of op grootte van de inhoud door <guilabel
+>Grootte van inhoud tonen</guilabel
+> te kiezen. De diepte van de submappen kan worden beperkt, wat nuttig kan zijn om onnodige iteraties in de diepte van de mapstructuren te beperken of op de langzame bestandssystemen. Het is ook mogelijk het tonen van de mapgrootte uit te schakelen door <guilabel
+>Geen grootte tonen</guilabel
+> te kiezen (wat prestatie in zeldzame gevallen kan verbeteren, kan echter invloed hebben op andere mogelijkheden zoals sorteren). </para>
 <para
 >De optie <guilabel
 >Datumstijl</guilabel
