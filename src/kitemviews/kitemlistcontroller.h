@@ -331,7 +331,7 @@ private:
     void pinchTriggered(QGestureEvent *event, const QTransform &transform);
     void swipeTriggered(QGestureEvent *event, const QTransform &transform);
     void twoFingerTapTriggered(QGestureEvent *event, const QTransform &transform);
-    bool onPress(const QPoint &screenPos, const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
+    bool onPress(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
     bool onRelease(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
     void startRubberBand();
 

@@ -589,7 +589,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent *event, const
 
     const Qt::MouseButtons buttons = event->buttons();
 
-    if (!onPress(event->screenPos(), event->pos(), event->modifiers(), buttons)) {
+    if (!onPress(event->pos(), event->modifiers(), buttons)) {
         startRubberBand();
         return false;
     }
@@ -1103,7 +1103,7 @@ void KItemListController::tapTriggered(QTapGesture *tap, const QTransform &trans
         if (m_dragActionOrRightClick) {
             m_dragActionOrRightClick = false;
         } else {
-            onPress(m_pressedMouseGlobalPos.toPoint(), tap->position().toPoint(), Qt::NoModifier, Qt::LeftButton);
+            onPress(tap->position().toPoint(), Qt::NoModifier, Qt::LeftButton);
             onRelease(transform.map(tap->position()), Qt::NoModifier, Qt::LeftButton, true);
         }
         m_isTouchEvent = false;
@@ -1218,7 +1218,7 @@ void KItemListController::twoFingerTapTriggered(QGestureEvent *event, const QTra
         const QPointF pressedMousePos = transform.map(twoTap->pos());
         m_pressedIndex = m_view->itemAt(pressedMousePos);
         if (m_pressedIndex.has_value()) {
-            onPress(twoTap->screenPos().toPoint(), twoTap->pos().toPoint(), Qt::ControlModifier, Qt::LeftButton);
+            onPress(twoTap->pos().toPoint(), Qt::ControlModifier, Qt::LeftButton);
             onRelease(transform.map(twoTap->pos()), Qt::ControlModifier, Qt::LeftButton, false);
         }
     }
@@ -1576,7 +1576,7 @@ void KItemListController::updateExtendedSelectionRegion()
     }
 }
 
-bool KItemListController::onPress(const QPoint &screenPos, const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons)
+bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons)
 {
     Q_EMIT mouseButtonPressed(m_pressedIndex.value_or(-1), buttons);
 
