@@ -115,11 +115,11 @@ DolphinMainWindow::DolphinMainWindow()
     , m_tearDownFromPlacesRequested(false)
     , m_backAction(nullptr)
     , m_forwardAction(nullptr)
+    , m_splitViewAction(nullptr)
+    , m_splitViewMenuAction(nullptr)
     , m_sessionSaveTimer(nullptr)
     , m_sessionSaveWatcher(nullptr)
     , m_sessionSaveScheduled(false)
-    , m_splitViewAction(nullptr)
-    , m_splitViewMenuAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
 
