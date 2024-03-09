@@ -9,6 +9,7 @@
 #define BACKGROUNDCOLORHELPER_H
 
 #include <QColor>
+#include <QObject>
 #include <QPointer>
 
 #include <memory>
@@ -21,8 +22,9 @@ namespace SelectionMode
 /**
  * @brief A Singleton class for managing the colors of selection mode widgets.
  */
-class BackgroundColorHelper
+class BackgroundColorHelper : public QObject
 {
+    Q_OBJECT
 public:
     static BackgroundColorHelper *instance();
 
@@ -31,6 +33,9 @@ public:
      * The background color of @p widget will from now on be updated automatically when the palette of the application changes.
      */
     void controlBackgroundColor(QWidget *widget);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     BackgroundColorHelper();

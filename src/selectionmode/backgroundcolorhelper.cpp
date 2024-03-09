@@ -43,12 +43,19 @@ void BackgroundColorHelper::controlBackgroundColor(QWidget *widget)
     m_colorControlledWidgets.emplace_back(widget);
 }
 
+bool BackgroundColorHelper::eventFilter(QObject *obj, QEvent *event)
+{
+    Q_UNUSED(obj);
+    if (event->type() == QEvent::ApplicationPaletteChange) {
+        slotPaletteChanged();
+    }
+    return false;
+}
+
 BackgroundColorHelper::BackgroundColorHelper()
 {
     updateBackgroundColor();
-    QObject::connect(qApp, &QGuiApplication::paletteChanged, qApp, [=]() {
-        slotPaletteChanged();
-    });
+    qApp->installEventFilter(this);
 }
 
 void BackgroundColorHelper::slotPaletteChanged()

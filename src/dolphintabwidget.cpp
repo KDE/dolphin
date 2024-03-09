@@ -23,9 +23,9 @@
 
 DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget *parent)
     : QTabWidget(parent)
+    , m_dragAndDropHelper{this}
     , m_lastViewedTab(nullptr)
     , m_navigatorsWidget{navigatorsWidget}
-    , m_dragAndDropHelper{this}
 {
     KAcceleratorManager::setNoAccel(this);
 
