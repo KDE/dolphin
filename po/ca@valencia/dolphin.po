@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2024-01-14 12:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -735,7 +735,7 @@ msgstr ""
 "dels elements seleccionats.</para><para>Per a aprendre més quant als "
 "terminals utilitzeu l'ajuda en l'aplicació de terminal.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1106,7 +1106,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Vista dividida"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1125,7 +1125,7 @@ msgstr ""
 "seu contingut esdevé disponible a través del botó <interface>Menú</"
 "interface> de la <emphasis>Barra d'eines</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1148,7 +1148,7 @@ msgstr ""
 "canviar amb el menú en fer clic dret. Feu clic dret en un botó si voleu "
 "mostrar o amagar el seu text.</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1177,7 +1177,7 @@ msgstr ""
 "html'>feu clic ací</link>. Açò obrirà una pàgina del <emphasis>Manual</"
 "emphasis> que cobrix els aspectes bàsics.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1191,7 +1191,7 @@ msgstr ""
 "acció quan es premen simultàniament. Totes les ordres d'esta aplicació es "
 "poden activar d'esta manera.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1204,7 +1204,7 @@ msgstr ""
 "veeu en el <interface>Menú</interface> també es poden situar en la barra "
 "d'eines.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1223,7 +1223,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1239,7 +1239,7 @@ msgstr ""
 "<link url='https://userbase.kde.org/Dolphin/File_Management/ca'>feu clic "
 "ací</link>. S'obrirà la pàgina dedicada al Wiki UserBase de KDE.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1262,7 +1262,7 @@ msgstr ""
 "para><para>L'ajuda «Què és açò?» falta en la majoria de les altres "
 "finestres, per tant, no vos hi acostumeu massa.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1278,7 +1278,7 @@ msgstr ""
 "d'error tan efectiu com siga possible <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>feu clic ací</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1300,7 +1300,7 @@ msgstr ""
 "trobades de col·laboradors, etc.</para><para><emphasis>KDE e.V.</emphasis> "
 "és l'organització sense ànim de lucre darrere la comunitat KDE.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1312,7 +1312,7 @@ msgstr ""
 "podeu establir idiomes secundaris que s'empraran si els textos no estan "
 "disponibles en l'idioma preferit."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1322,7 +1322,7 @@ msgstr ""
 "Obri una finestra que informa quant a la versió, llicència, biblioteques "
 "utilitzades i mantenidors d'esta aplicació."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1336,7 +1336,7 @@ msgstr ""
 "vos agrada utilitzar esta aplicació, però no coneixeu la comunitat KDE o "
 "voleu veure un drac bufó, doneu-hi una ullada!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

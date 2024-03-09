@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -731,7 +731,7 @@ msgstr ""
 "điểm của các thứ đang được chọn.</para><para>Sử dụng trợ giúp trong ứng dụng "
 "dòng lệnh để biết thêm về các dòng lệnh.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1097,7 +1097,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Chia đôi khung xem"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1115,7 +1115,7 @@ msgstr ""
 "đó hầu hết nội dung của nó có thể tìm thấy ở nút <interface>Trình đơn</"
 "interface> trên <emphasis>Thanh công cụ</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1138,7 +1138,7 @@ msgstr ""
 "đổi được trong trình đơn bấm phải. Bấm phải vào một nút nếu bạn muốn hiện "
 "hay ẩn chữ của nó.</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1166,7 +1166,7 @@ msgstr ""
 "html'>bấm vào đây</link>. Nó sẽ mở ra một trang trong <emphasis>Sổ tay</"
 "emphasis> bao hàm các nội dung cơ bản.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1180,7 +1180,7 @@ msgstr ""
 "khi các phím đó được bấm đồng thời. Tất cả các lệnh trong ứng dụng này có "
 "thể được kích hoạt bằng cách này.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1193,7 +1193,7 @@ msgstr ""
 "thấy trong <interface>Trình đơn</interface> đều có thể đặt được vào Thanh "
 "công cụ.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1212,7 +1212,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1229,7 +1229,7 @@ msgstr ""
 "File_Management'>bấm vào đây</link>. Nó sẽ mở ra trang chuyên biệt trong "
 "Wiki Cơ sở Người dùng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1251,7 +1251,7 @@ msgstr ""
 "KDE</link>.</para><para>Phần lớn các cửa sổ khác đều thiếu kiểu trợ giúp "
 "\"Đây là cái gì?\" nên đừng quá quen với nó.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1267,7 +1267,7 @@ msgstr ""
 "Get_Involved/Bug_Reporting'>Bấm vào đây</link> để biết cách làm bản báo lỗi "
 "của bạn thật hiệu quả.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1288,7 +1288,7 @@ msgstr ""
 "khoản như máy chủ, hội nghị người đóng góp, v.v.</para><para><emphasis>KDE e."
 "V.</emphasis> là tổ chức phi lợi nhuận đứng sau cộng đồng KDE.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1300,7 +1300,7 @@ msgstr ""
 ">Bạn còn có thể đặt các ngôn ngữ thứ cấp để dùng khi các đoạn chữ không có "
 "trong ngôn ngữ mà bạn ưu tiên."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1310,7 +1310,7 @@ msgstr ""
 "Hành động này mở một cửa sổ thông tin cho bạn về phiên bản, giấy phép, các "
 "thư viện được dùng và các bảo trì viên của ứng dụng này."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1324,7 +1324,7 @@ msgstr ""
 "ứng dụng này nhưng chưa biết về KDE hoặc bạn muốn thấy một con rồng dễ "
 "thương thì hãy thử ghé xem!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2024-01-21 00:41+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -708,7 +708,7 @@ msgstr ""
 "<para>這會在所選項目的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
 "para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1044,7 +1044,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "分割檢視"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1060,7 +1060,7 @@ msgstr ""
 "單列</interface>來隱藏。隱藏之後它的大部分內容還是會整理在<emphasis>工具列</"
 "emphasis>上的<interface>選單</interface>按鈕當中。</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1080,7 +1080,7 @@ msgstr ""
 "這個動作，就可以了。</para><para>工具列的位置和它的按鈕的風格也可以在右鍵選單"
 "中變更。右鍵點擊按鈕來隱藏或顯示它的文字說明。</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1097,7 +1097,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1110,7 +1110,7 @@ msgstr ""
 "也可以設定同時按下鍵盤組合時要觸發的動作。此應用程式中所有命令皆可以此方式觸"
 "發。</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1122,7 +1122,7 @@ msgstr ""
 "</para><para>您可以將<interface>選單</interface>當中任何項目放置於工具列中。"
 "</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1140,7 +1140,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1156,7 +1156,7 @@ msgstr ""
 "</link>。它會開啟 KDE UserBase Wiki 當中對應的頁面。</para><para>註：目前手冊"
 "和 UserBasse Wiki 都沒有中文版。</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1177,7 +1177,7 @@ msgstr ""
 "para><para>其他大部分視窗都沒有「這是什麼？」的說明，所以可能不要太仰賴這個功"
 "能。</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1188,7 +1188,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1202,7 +1202,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1213,7 +1213,7 @@ msgstr ""
 "在此您可以變更此應用程式所使用的語言。<nl/>您還可以設定備用語言，如果偏好語言"
 "有缺乏的文本時便會嘗試各個備用語言。"
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1223,7 +1223,7 @@ msgstr ""
 "這會開啟一個視窗告訴您這個應用程式的版本、授權、使用的函式庫與維護者有關的資"
 "訊。"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1236,7 +1236,7 @@ msgstr ""
 "由軟體背後的人們。<nl/>如果您喜歡使用這個應用程式但不知道 KDE 或是想要看看一"
 "隻可愛的龍，那就進來看看吧！"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

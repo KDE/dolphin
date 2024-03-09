@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -768,7 +768,7 @@ msgstr ""
 "miescy razmiaščennia abranych eliemientaŭ.</para><para>Kab daviedacca boĺš "
 "pra terminaly, skarystajciesia daviedkaj u prahramie terminala.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1142,7 +1142,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Padzialić"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1161,7 +1161,7 @@ msgstr ""
 "častka zmiesciva paneli budzie dastupna praz knopku <interface>Mieniu</"
 "interface> na <emphasis>Paneli instrumientaŭ</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1185,7 +1185,7 @@ msgstr ""
 "pstryknuŭšy pravaj knopkaj myšy. Pstryknicie pa knopcy pravaj knopkaj myšy, "
 "kali chočacie pakazać ci schavać tekst.</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis main view"
 #| msgid ""
@@ -1227,7 +1227,7 @@ msgstr ""
 "html>nacisnicie siudy</link>. Adkryjecca staronka z <emphasis>Daviednika</"
 "emphasis>, dzie apisvajucca asnoŭnyja funkcyi.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1241,7 +1241,7 @@ msgstr ""
 "peŭnaha dziejannia. Dlia ŭsich zahadaŭ hetaj prahramy možna pryznačyć "
 "spalučennie klaviš.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1254,7 +1254,7 @@ msgstr ""
 "jakija vy bačycie ŭ <interface>Mieniu</interface>, možna razmiascić na "
 "paneli instrumientaŭ.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1273,7 +1273,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis handbook"
 #| msgid ""
@@ -1298,7 +1298,7 @@ msgstr ""
 "File_Management>nacisnicie siudy</link>. Adkryjecca staronka z Bazy "
 "karystaĺnika KDE.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis whatsthis button"
 #| msgid ""
@@ -1330,7 +1330,7 @@ msgstr ""
 "karystaĺnika KDE</link>.</para><para>Funkcyi \"Što heta?\" niama ŭ boĺšasci "
 "inšych voknaŭ, tamu nie pryvykajcie da hetaha.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1354,7 +1354,7 @@ msgstr ""
 "efiektyŭnaj, <link url=https://community.kde.org/Get_Involved/"
 "Bug_Reporting>nacisnicie siudy</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1377,7 +1377,7 @@ msgstr ""
 "ŭdzieĺnikaŭ i h.d.</para><para><emphasis>KDE e.V.</emphasis> - "
 "niekamiercyjnaja arhanizacyja, jakaja vystupaje ad imia KDE.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1389,7 +1389,7 @@ msgstr ""
 "navat možacie ŭstaliavać dadatkovyja movy, jakija buduć vykarystoŭvacca, "
 "kali niama tekstu na vašaj pieravažnaj movie."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1399,7 +1399,7 @@ msgstr ""
 "Hetaje dziejannie adkryvaje akno sa zviestkami pra viersii, licenzii, "
 "biblijateki i supravadžaĺnikaŭ hetaj prahramy."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1420,7 +1420,7 @@ msgstr ""
 "prahramaj, alie vy nie viedajecie pra KDE abo chočacie ŭbačyć pryhožaha "
 "cmoka, pahliadzicie!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

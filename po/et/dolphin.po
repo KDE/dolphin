@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -728,7 +728,7 @@ msgstr ""
 "asukohas.</para><para>Terminalide kohta leiab täpsemat teavet "
 "terminalirakenduse abimaterjalis.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1091,7 +1091,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Poolita vaade"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1109,7 +1109,7 @@ msgstr ""
 "juhul näeb enamikku selle sisust <emphasis>tööriistariba</emphasis> nupu "
 "<interface>Menüü</interface> all.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1132,7 +1132,7 @@ msgstr ""
 "muuta paremklõpsuga. Nupul paremklõpsu tehes saab teksti näidata või peita.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1160,7 +1160,7 @@ msgstr ""
 "link>. See avab lehekülje <emphasis>käsiraamatus</emphasis>, mis annab "
 "ülevaate põhiasjadest.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1173,7 +1173,7 @@ msgstr ""
 "saab määrata klahvikombinatsioone, mis koos vajutamisel käivitavad teatava "
 "toimingu. Kõiki selle rakenduse käske saab sel moel käivitada.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1185,7 +1185,7 @@ msgstr ""
 "<emphasis>tööriistaribal</emphasis>.</para><para>Samuti saab tööriistaribale "
 "asetada kõiki kirjeid, mida näeb <interface>menüüs</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1203,7 +1203,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1219,7 +1219,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'>klõpsa siia</link>. "
 "See avab vastava lehekülje KDE UserBase wikis.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of whatsthis button text with link"
 #| msgid ""
@@ -1245,7 +1245,7 @@ msgstr ""
 "<para>\"Mis see on?\" abi väga paljudes muudes akendes ei leia, nii ära "
 "selle peale raudkindlalt looda.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1264,7 +1264,7 @@ msgstr ""
 "kasulikku ja tõhusat veateadet, võib <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>teada saada siin</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1286,7 +1286,7 @@ msgstr ""
 "para><para>KDE kogukonna taga seisab mittetulundusühing <emphasis>KDE e.V.</"
 "emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1298,7 +1298,7 @@ msgstr ""
 "tagavarakeele, mida kasutatakse siis, kui teksti ei ole sinu eelistatud "
 "keelde tõlgitud."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1308,7 +1308,7 @@ msgstr ""
 "See avab akna, mis annab teada rakenduse versiooni, litsentsi, kasutatud "
 "teegid ja hooldajad."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1322,7 +1322,7 @@ msgstr ""
 "seda rakendust, aga ei tea suurt midagi KDE-st või tahad lihtsalt näha "
 "vahvat lohet, uuri aga asja lähemalt!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

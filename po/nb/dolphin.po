@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2023-07-17 11:04+0200\n"
 "Last-Translator: John Ivar Eriksen <jieriksen@runbox.com>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -734,7 +734,7 @@ msgstr ""
 "filenes plassering.</para><para>For å lære mer om terminalen, bruk Hjelp-"
 "funksjonen i terminalprogrammet.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1097,7 +1097,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Delt visning"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1115,7 +1115,7 @@ msgstr ""
 "innholdet blir da tilgjengelig via en <interface>Meny</interface>-knapp på "
 "<emphasis>verktøylinja</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1137,7 +1137,7 @@ msgstr ""
 "tilpassing av knapper kan også endres i høyre-klikkmenyen. Høyre-klikk en "
 "knapp om du vil vise eller gjemme tekst.</para> "
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1165,7 +1165,7 @@ msgstr ""
 "html'>trykk her</link> i stedet. Dette åpner en side fra <emphasis>Håndboka</"
 "emphasis> som dekker det grunnleggende.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1179,7 +1179,7 @@ msgstr ""
 "handling når de trykkes inn samtidig. I dette programmet kan alle kommandoer "
 "utføres på denne måten.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1191,7 +1191,7 @@ msgstr ""
 "<emphasis>verktøylinja</emphasis>.</para><para>Alle elementene du finner i "
 "<interface>Meny</interface> kan plasseres på verktøylinja.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1210,7 +1210,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1227,7 +1227,7 @@ msgstr ""
 "File_Management'>trykk her</link>. Dette åpner en egen side i KDE UserBase "
 "Wiki.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1249,7 +1249,7 @@ msgstr ""
 "link>.</para><para>Hjelpeteksten til  «Hva er dette?» mangler i de fleste "
 "andre vinduer, så ikke bli for knyttet til den.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1265,7 +1265,7 @@ msgstr ""
 "feilrapportene så gode som mulig, <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>trykk her</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1288,7 +1288,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> er den ideelle organisasjonen bak "
 "KDE-fellesskapet.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1300,7 +1300,7 @@ msgstr ""
 "og med velge et sekundærspråk som brukes om tekst ikke er tilgjengelig på "
 "ditt foretrukne språk."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1310,7 +1310,7 @@ msgstr ""
 "Dette åpner et vindu med opplysninger om versjon, lisens, hvilke biblioteker "
 "som er benyttet, og vedlikeholdere av programmet."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1323,7 +1323,7 @@ msgstr ""
 "fellesskapet står bak denne frie programvaren. Om du liker dette programmet, "
 "men ikke kjenner til KDE, eller vil se en søt drage, ta en kikk!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

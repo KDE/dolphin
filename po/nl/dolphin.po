@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2023-11-22 16:48+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -731,7 +731,7 @@ msgstr ""
 "geselecteerde locaties van items.</para><para>Om meer te leren over "
 "terminals gebruikt u de help in de terminaltoepassing.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1097,7 +1097,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "Weergave splitsen"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1115,7 +1115,7 @@ msgstr ""
 "interface>. Daarna zal het meeste van zijn inhoud beschikbaar worden via een "
 "knop <interface>Menu</interface> op de <emphasis>Werkbalk</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1138,7 +1138,7 @@ msgstr ""
 "gewijzigd worden in het menu na rechts klikken. Klik rechts op een knop als "
 "u zijn tekst wilt tonen of verbergen.</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1167,7 +1167,7 @@ msgstr ""
 "html'>klik hier</link>. Dit opent een pagina uit het <emphasis>Handboek</"
 "emphasis> dat de basics dekt.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1181,7 +1181,7 @@ msgstr ""
 "starten wanneer ze tegelijk worden ingedrukt. Alle commando's in deze "
 "toepassing kunnen op deze manier gestart worden.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1194,7 +1194,7 @@ msgstr ""
 "in het <interface>menu</interface> kunnen ook geplaatst worden op de "
 "Werkbalk.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1213,7 +1213,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1230,7 +1230,7 @@ msgstr ""
 "File_Management'>klik hier</link>. Het zal de toepasselijke pagina in de KDE "
 "UserBase Wiki openen.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1253,7 +1253,7 @@ msgstr ""
 "is dit?\" ontbreekt in de meeste andere vensters, gebruik het dus met mate.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1269,7 +1269,7 @@ msgstr ""
 "te leren deze zo effectief mogelijk te maken <link url='https://community."
 "kde.org/Get_Involved/Bug_Reporting'>klik hier</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1291,7 +1291,7 @@ msgstr ""
 "deelnemers, etc.</para><para><emphasis>KDE e.V.</emphasis> is de non-profit "
 "organisatie achter de KDE gemeenschap.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1303,7 +1303,7 @@ msgstr ""
 "zelfs een tweede taal instellen die gebruikt zak worden als teksten niet "
 "beschikbaar zijn in uw taal met voorkeur."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1313,7 +1313,7 @@ msgstr ""
 "Dit opent een venster dat u informeert over de versie, licentie, gebruikte "
 "bibliotheken en onderhouders van deze toepassing."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1327,7 +1327,7 @@ msgstr ""
 "van deze toepassing plezierig vindt maar niets weet over KDE of een grappige "
 "draak wilt zien neem dan een kijkje!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

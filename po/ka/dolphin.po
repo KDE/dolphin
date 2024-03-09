@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-05 02:21+0000\n"
+"POT-Creation-Date: 2024-03-09 02:29+0000\n"
 "PO-Revision-Date: 2023-11-22 06:34+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -729,7 +729,7 @@ msgstr ""
 "ელემენტის მდებარეობისთვის.</para><para>ტერმინალის შესახებ მეტი ინფორმაციის "
 "გასაგებად ტერმინალის აპის დახმარებას მიმართეთ.</para>"
 
-#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:1925 dolphinmainwindow.cpp:2676
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1098,7 +1098,7 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "ხედის გაყოფა"
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1116,7 +1116,7 @@ msgstr ""
 "გამორთვით. მისი შემცველობის უმეტესობა წვდომადი ხდება <interface>მენიუს</"
 "interface> <emphasis>ღილაკზე დაჭერით</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2515
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,7 +1139,7 @@ msgstr ""
 "მაჯვენა ღილაკის დაწკაპუნებით გამოსულ მენიუში მოირგოთ. ტექსტის გამოსაჩენად ან "
 "დასამალად ღილაკზე მარჯვენა ღილაკით დააწკაპუნეთ.</para>"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2527
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1167,7 +1167,7 @@ msgstr ""
 "<link url='help:/dolphin/dolphin-view.html'>აქ დააწკაპუნეთ</link>. ეს "
 "<emphasis>სახელმძღვანელოს</emphasis> გვერდს გაგიხსნით.</para>"
 
-#: dolphinmainwindow.cpp:2545
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1181,7 +1181,7 @@ msgstr ""
 "კომბინაცია, რომელიც ქმედებას გაუშვებს, როცა მათ ერთდროულად დააწვებით. ამ "
 "გზით აპლიკაციის ყველა ფუნქციის გამოძახება შეგიძლიათ.</para>"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1194,7 +1194,7 @@ msgstr ""
 "რასაც <interface>მენიუში</interface> ხედავთ, შეგიძლიათ, ხელსაწყოების პანელზე "
 "მოათავსოთ.</para>"
 
-#: dolphinmainwindow.cpp:2555
+#: dolphinmainwindow.cpp:2553
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1213,7 +1213,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1230,7 +1230,7 @@ msgstr ""
 "File_Management'>აქ დააწკაპუნეთ</link>. ის KDE-ის მომხმარებლების ვიკის "
 "საკუთარ გვერდს გაგიხსნით.</para>"
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2578
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1252,7 +1252,7 @@ msgstr ""
 "File_Management'>KDE მომხმარებლების ვიკი</link>.</para><para> \"რა არის ეს?"
 "\"-ის დახმარება ყველა ფანჯარას არ აქვს, ასე რომ, მთლად ნუ მიეჩვევით.</para>"
 
-#: dolphinmainwindow.cpp:2591
+#: dolphinmainwindow.cpp:2589
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1268,7 +1268,7 @@ msgstr ""
 "თქვენი შეცდომის ანგარიში უფრო ეფექტური, <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>აქ დააწკაპუნეთ</link>.</para>"
 
-#: dolphinmainwindow.cpp:2600
+#: dolphinmainwindow.cpp:2598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1289,7 +1289,7 @@ msgstr ""
 "სერვერები, მოხალისეების შეხვედრები და ა.შ.</para><para><emphasis>KDE e.V.</"
 "emphasis> შემოსავლის-გარეშე ორგანიზაციაა KDE-ის უკან.</para>"
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2611
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1301,7 +1301,7 @@ msgstr ""
 "ასევე დააყენოთ მეორადი ენები, რომლებიც გამოყენებული იქნება, თუ ტექსტი თქვენს "
 "მიერ მითითებულ ენაზე ხელმისაწვდომი არაა."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2616
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1311,7 +1311,7 @@ msgstr ""
 "ეს გახსნის ფანჯარას, რომელიც ამ აპლიკაციის ვერსიის, ლიცენზიის, გამოყენებული "
 "ბიბლიოთეკების და პროექტის ხელმძღვანელის შესახებ ინფორმაციას შეგატყობინებთ."
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1325,7 +1325,7 @@ msgstr ""
 "დგას. <nl/>თუ მოგწონთ ეს აპლიკაცია, მაგრამ არ იცით, რა არის KDE, ან გნებავთ, "
 "ნახოთ საყვარელი დრაკონი, შეიჭყიტეთ!"
 
-#: dolphinmainwindow.cpp:2681 dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2679 dolphinmainwindow.cpp:2683
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
