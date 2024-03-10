@@ -5512,12 +5512,3 @@ msgstr[1] "Handlinger for %1 valgte elementer"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "Hvorvidt innholdstall brukes som mappestørrelse eller ikke"
-
-# Context: What does folder size display.
-# In settings vindow: Folder size displays: --> Choose "Number of items" or "Size of contents". I.e. "w
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "Mappestørrelse viser:"

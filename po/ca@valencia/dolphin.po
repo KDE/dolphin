@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:39+0000\n"
-"PO-Revision-Date: 2024-03-06 10:55+0100\n"
+"PO-Revision-Date: 2024-03-08 09:31+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3283,27 +3283,25 @@ msgstr "Índex màxim d'amplària del text (0 significa sense límit)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Com es mostra la mida dels directoris"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Mostra la barra d'estat"
+msgstr "Mostra el comptador de contingut"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Mostra la barra d'estat"
+msgstr "Mostra la mida del contingut"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "No mostres cap mida del directori"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4228,28 +4226,22 @@ msgid "Sorting mode: "
 msgstr "Mode d'ordenació: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Nombre d'elements"
+msgstr "Mostra el nombre d'elements"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Mida del contingut, fins a "
+msgstr "Mostra la mida del contingut, fins a "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Mostra el control lliscant del zoom"
+msgstr "Mostra sense mida"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4259,12 +4251,10 @@ msgstr[0] " nivell de profunditat"
 msgstr[1] " nivells de profunditat"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Carpetes:"
+msgstr "Mida de la carpeta:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -5541,10 +5531,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "Si el comptador de contingut s'utilitza com a mida del directori"
-
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "La mida de la carpeta mostra:"

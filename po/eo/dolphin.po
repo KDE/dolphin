@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:39+0000\n"
-"PO-Revision-Date: 2024-01-20 15:45+0100\n"
+"PO-Revision-Date: 2024-03-09 09:22+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3250,27 +3250,25 @@ msgstr "Maksimuma teksta larĝa indekso (0 signifas senlima)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Kiel ni montras la grandecon de dosierujoj"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Montri la statobreton"
+msgstr "Montri la kalkulon de enhavo"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Montri la statobreton"
+msgstr "Montri la grandecon de enhavo"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Ne montri iun dosierujan grandecon"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4189,28 +4187,22 @@ msgid "Sorting mode: "
 msgstr "Ordiga reĝimo: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Nombro de eroj"
+msgstr "Montri nombron de eroj"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Grandeco de enhavo, ĝis "
+msgstr "Montri grandecon de enhavo, ĝis "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Montri zoman ŝovilon"
+msgstr "Montri neniun grandecon"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4220,12 +4212,10 @@ msgstr[0] " nivelon profunda"
 msgstr[1] " nivelojn profunda"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Dosierujoj:"
+msgstr "Dosieruja grandeco:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -5495,10 +5485,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "Ĉu aŭ ne enhavo-kalkulo estas uzata kiel dosierujo"
-
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "Dosierujoj montriĝas:"

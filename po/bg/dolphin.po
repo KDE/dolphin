@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:39+0000\n"
-"PO-Revision-Date: 2024-02-03 15:59+0100\n"
+"PO-Revision-Date: 2024-03-09 22:46+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3276,27 +3276,25 @@ msgstr "Индекс на максималната широчина на тек�
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Как се показва размерът на директориите"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Показване на лентата на състоянието"
+msgstr "Показване на броя на обектите"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Показване на лентата на състоянието"
+msgstr "Показване на размера на съдържанието"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Да не се показва размера на директориите"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4220,28 +4218,22 @@ msgid "Sorting mode: "
 msgstr "Режим на сортиране: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Брой елементи"
+msgstr "Показване на броя на елементите"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Размер на съдържанието, до "
+msgstr "Показване на размер на съдържанието, до "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Показване на плъзгача за мащабиране"
+msgstr "Да не се показва размер"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4251,12 +4243,10 @@ msgstr[0] " дълбочина на ниво"
 msgstr[1] " дълбочина на нива"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Папки:"
+msgstr "Размер на папки:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format

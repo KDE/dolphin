@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:39+0000\n"
-"PO-Revision-Date: 2024-01-22 18:49+0100\n"
+"PO-Revision-Date: 2024-03-09 09:55+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3267,27 +3267,25 @@ msgstr "Índice de anchura máxima do texto (0 significa sen límite)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Como se amosa o tamaño dos cartafoles."
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Amosar a barra de estado"
+msgstr "Amosar a cantidade contida"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Amosar a barra de estado"
+msgstr "Amosar o tamaño do contido"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Non amosar o tamaño dos cartafoles"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4204,28 +4202,22 @@ msgid "Sorting mode: "
 msgstr "Método de ordenación: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Número de elementos."
+msgstr "Amosar o número de elementos."
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Tamaño do contido, ata "
+msgstr "Amosar o tamaño do contido ata "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Amosar o control esvaradío de ampliación."
+msgstr "Non amosar o tamaño."
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4235,12 +4227,10 @@ msgstr[0] " nivel de profundidade"
 msgstr[1] " niveis de profundidade"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Cartafoles:"
+msgstr "Tamaño do cartafol:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format

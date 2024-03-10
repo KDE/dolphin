@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:39+0000\n"
-"PO-Revision-Date: 2024-02-29 12:53\n"
+"PO-Revision-Date: 2024-03-09 04:46\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3155,17 +3155,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "显示状态栏"
+msgstr ""
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "显示状态栏"
+msgstr ""
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
@@ -4064,28 +4062,22 @@ msgid "Sorting mode: "
 msgstr "排序方式："
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "文件数量"
+msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "内容大小，最大 "
+msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "显示缩放滑动条"
+msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4094,12 +4086,10 @@ msgid_plural " levels deep"
 msgstr[0] " 级深度"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "文件夹："
+msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -5342,10 +5332,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "是否将内容数量作为目录大小显示"
-
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "文件夹大小显示："

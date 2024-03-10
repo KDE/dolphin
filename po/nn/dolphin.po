@@ -5468,10 +5468,3 @@ msgstr[1] "Handlingar for %1 merkte element"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "Om innhaldstalet skal brukast som mappestorleik"
-
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "Vis mappestorleik som:"
