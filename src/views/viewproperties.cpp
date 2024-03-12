@@ -46,9 +46,7 @@ ViewProperties::ViewProperties(const QUrl &url)
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    if (useGlobalViewProps) {
-        m_filePath = destinationDir(QStringLiteral("global"));
-    } else if (url.scheme().contains(QLatin1String("search"))) {
+    if (url.scheme().contains(QLatin1String("search"))) {
         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
         useSearchView = true;
     } else if (url.scheme() == QLatin1String("trash")) {
@@ -63,6 +61,8 @@ ViewProperties::ViewProperties(const QUrl &url)
     } else if (url.scheme() == QLatin1String("timeline")) {
         m_filePath = destinationDir(QStringLiteral("timeline"));
         useRecentDocumentsView = true;
+    } else if (useGlobalViewProps) {
+        m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
 

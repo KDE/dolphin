@@ -13,7 +13,9 @@
 
 #include <QButtonGroup>
 #include <QCheckBox>
+#include <QFontDatabase>
 #include <QFormLayout>
+#include <QLabel>
 #include <QMimeDatabase>
 #include <QVBoxLayout>
 
@@ -25,14 +27,26 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 
     // Display style
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common display style for all folders"));
+    // i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
+    // The previous sentence is "Use common display style for all folders".
+    QLabel *globalViewPropsLabel = new QLabel(i18nc("@info", "Some special views like search, recent files, or trash will still use a custom display style."));
+    globalViewPropsLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    globalViewPropsLabel->setWordWrap(true);
+    globalViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
     m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember display style for each folder"));
-    m_localViewProps->setToolTip(i18nc("@info", "Dolphin will create a hidden .directory file in each folder you change view properties for."));
+    QLabel *localViewPropsLabel = new QLabel(i18nc("@info", "Dolphin will create a hidden .directory file in each folder you change view properties for."));
+    localViewPropsLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    localViewPropsLabel->setWordWrap(true);
+    localViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     QButtonGroup *viewGroup = new QButtonGroup(this);
     viewGroup->addButton(m_globalViewProps);
     viewGroup->addButton(m_localViewProps);
     topLayout->addRow(i18nc("@title:group", "Display style: "), m_globalViewProps);
+    topLayout->addRow(QString(), globalViewPropsLabel);
     topLayout->addRow(QString(), m_localViewProps);
+    topLayout->addRow(QString(), localViewPropsLabel);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
