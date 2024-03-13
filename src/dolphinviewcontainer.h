@@ -157,7 +157,8 @@ public:
      */
     void readSettings();
 
-    /** Returns true, if the filter bar is visible. */
+    /** @returns true, if the filter bar is visible.
+     *           false, if it is hidden or currently animating towards a hidden state. */
     bool isFilterBarVisible() const;
 
     /** Returns true if the search mode is enabled. */

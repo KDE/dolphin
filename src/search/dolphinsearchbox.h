@@ -7,8 +7,9 @@
 #ifndef DOLPHINSEARCHBOX_H
 #define DOLPHINSEARCHBOX_H
 
+#include "animatedheightwidget.h"
+
 #include <QUrl>
-#include <QWidget>
 
 class DolphinFacetsWidget;
 class DolphinQuery;
@@ -29,7 +30,7 @@ class QVBoxLayout;
  * If Baloo is available and the current folder is indexed, further
  * options are offered.
  */
-class DolphinSearchBox : public QWidget
+class DolphinSearchBox : public AnimatedHeightWidget
 {
     Q_OBJECT
 
@@ -86,8 +87,13 @@ public:
      */
     bool isActive() const;
 
+    /*
+     * @see AnimatedHeightWidget::setVisible()
+     * @see QWidget::setVisible()
+     */
+    void setVisible(bool visible, Animated animated);
+
 protected:
-    bool event(QEvent *event) override;
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -152,6 +158,9 @@ private:
 
     bool isIndexingEnabled() const;
 
+    /** @see AnimatedHeightWidget::preferredHeight() */
+    int preferredHeight() const override;
+
 private:
     QString queryTitle(const QString &text) const;
 
@@ -173,6 +182,8 @@ private:
     QUrl m_searchPath;
 
     QTimer *m_startSearchTimer;
+
+    bool m_initialized;
 };
 
 #endif

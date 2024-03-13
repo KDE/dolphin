@@ -7,8 +7,9 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
+#include "animatedheightwidget.h"
+
 #include <QTime>
-#include <QWidget>
 
 class QUrl;
 class StatusBarSpaceInfo;
@@ -18,6 +19,7 @@ class QToolButton;
 class QSlider;
 class QTimer;
 class KSqueezedTextLabel;
+class QHBoxLayout;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.
@@ -25,7 +27,7 @@ class KSqueezedTextLabel;
  * The statusbar allows to show messages, progress
  * information and space-information of a disk.
  */
-class DolphinStatusBar : public QWidget
+class DolphinStatusBar : public AnimatedHeightWidget
 {
     Q_OBJECT
 
@@ -123,6 +125,9 @@ private:
 
     void updateContentsMargins();
 
+    /** @see AnimatedHeightWidget::preferredHeight() */
+    int preferredHeight() const override;
+
 private:
     QString m_text;
     QString m_defaultText;
@@ -140,6 +145,8 @@ private:
 
     QTimer *m_delayUpdateTimer;
     QTime m_textTimestamp;
+
+    QHBoxLayout *m_topLayout;
 };
 
 #endif

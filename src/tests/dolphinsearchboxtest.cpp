@@ -46,12 +46,12 @@ void DolphinSearchBoxTest::cleanup()
  */
 void DolphinSearchBoxTest::testTextClearing()
 {
-    m_searchBox->show();
+    m_searchBox->setVisible(true, WithoutAnimation);
     QVERIFY(m_searchBox->text().isEmpty());
 
     m_searchBox->setText("xyz");
-    m_searchBox->hide();
-    m_searchBox->show();
+    m_searchBox->setVisible(false, WithoutAnimation);
+    m_searchBox->setVisible(true, WithoutAnimation);
     QCOMPARE(m_searchBox->text(), QString("xyz"));
 
     QTest::keyClick(m_searchBox, Qt::Key_Escape);

@@ -16,18 +16,13 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <QScrollArea>
 #include <QStyle>
 
 using namespace SelectionMode;
 
 TopBar::TopBar(QWidget *parent)
-    : QWidget{parent}
+    : AnimatedHeightWidget{parent}
 {
-    // Showing of this widget is normally animated. We hide it for now and make it small.
-    hide();
-    setMaximumHeight(0);
-
     setToolTip(KToolTipHelper::whatsThisHintOnly());
     setWhatsThis(xi18nc("@info:whatsthis",
                         "<title>Selection Mode</title><para>Select files or folders to manage or manipulate them."
@@ -36,24 +31,9 @@ TopBar::TopBar(QWidget *parent)
                         "<item>Selection rectangles (created by dragging from an empty area) invert the selection status of items within.</item></list></para>"
                         "<para>The available action buttons at the bottom change depending on the current selection.</para>"));
 
-    auto fillParentLayout = new QGridLayout(this);
-    fillParentLayout->setContentsMargins(0, 0, 0, 0);
-
-    // Put the contents into a QScrollArea. This prevents increasing the view width
-    // in case that not enough width for the contents is available. (this trick is also used in bottombar.cpp.)
-    auto scrollArea = new QScrollArea(this);
-    fillParentLayout->addWidget(scrollArea);
-    scrollArea->setFrameShape(QFrame::NoFrame);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setWidgetResizable(true);
-
-    auto contentsContainer = new QWidget(scrollArea);
-    scrollArea->setWidget(contentsContainer);
+    QWidget *contentsContainer = prepareContentsContainer();
 
     BackgroundColorHelper::instance()->controlBackgroundColor(this);
-
-    setMinimumWidth(0);
 
     m_fullLabelString = i18nc("@info label above the view explaining the state", "Selection Mode: Click on files or folders to select or deselect them.");
     m_shortLabelString = i18nc("@info label above the view explaining the state", "Selection Mode");
@@ -69,7 +49,6 @@ TopBar::TopBar(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout(contentsContainer);
     auto contentsMargins = layout->contentsMargins();
     m_preferredHeight = contentsMargins.top() + m_label->sizeHint().height() + contentsMargins.bottom();
-    scrollArea->setMaximumHeight(m_preferredHeight);
     m_closeButton->setFixedHeight(m_preferredHeight);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -79,33 +58,10 @@ TopBar::TopBar(QWidget *parent)
     layout->addWidget(m_closeButton);
 }
 
-void TopBar::setVisible(bool visible, Animated animated)
-{
-    Q_ASSERT_X(animated == WithAnimation, "SelectionModeTopBar::setVisible", "This wasn't implemented.");
-
-    if (m_heightAnimation) {
-        m_heightAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
-    }
-    m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
-    m_heightAnimation->setDuration(2 * style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) * GlobalConfig::animationDurationFactor());
-
-    m_heightAnimation->setStartValue(height());
-    m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
-    if (visible) {
-        show();
-        m_heightAnimation->setEndValue(m_preferredHeight);
-    } else {
-        m_heightAnimation->setEndValue(0);
-        connect(m_heightAnimation, &QAbstractAnimation::finished, this, &QWidget::hide);
-    }
-
-    m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-}
-
 void TopBar::resizeEvent(QResizeEvent *resizeEvent)
 {
     updateLabelString();
-    return QWidget::resizeEvent(resizeEvent);
+    return AnimatedHeightWidget::resizeEvent(resizeEvent);
 }
 
 void TopBar::updateLabelString()

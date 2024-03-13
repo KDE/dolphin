@@ -36,7 +36,7 @@
 #include <QUrlQuery>
 
 DolphinSearchBox::DolphinSearchBox(QWidget *parent)
-    : QWidget(parent)
+    : AnimatedHeightWidget(parent)
     , m_startedSearching(false)
     , m_active(true)
     , m_topLayout(nullptr)
@@ -51,6 +51,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget *parent)
     , m_facetsWidget(nullptr)
     , m_searchPath()
     , m_startSearchTimer(nullptr)
+    , m_initialized(false)
 {
 }
 
@@ -176,12 +177,12 @@ bool DolphinSearchBox::isActive() const
     return m_active;
 }
 
-bool DolphinSearchBox::event(QEvent *event)
+void DolphinSearchBox::setVisible(bool visible, Animated animated)
 {
-    if (event->type() == QEvent::Polish) {
+    if (visible) {
         init();
     }
-    return QWidget::event(event);
+    AnimatedHeightWidget::setVisible(visible, animated);
 }
 
 void DolphinSearchBox::showEvent(QShowEvent *event)
@@ -329,15 +330,23 @@ void DolphinSearchBox::loadSettings()
 
 void DolphinSearchBox::saveSettings()
 {
-    SearchSettings::setLocation(m_fromHereButton->isChecked() ? QStringLiteral("FromHere") : QStringLiteral("Everywhere"));
-    SearchSettings::setWhat(m_fileNameButton->isChecked() ? QStringLiteral("FileName") : QStringLiteral("Content"));
-    SearchSettings::self()->save();
+    if (m_initialized) {
+        SearchSettings::setLocation(m_fromHereButton->isChecked() ? QStringLiteral("FromHere") : QStringLiteral("Everywhere"));
+        SearchSettings::setWhat(m_fileNameButton->isChecked() ? QStringLiteral("FileName") : QStringLiteral("Content"));
+        SearchSettings::self()->save();
+    }
 }
 
 void DolphinSearchBox::init()
 {
+    if (m_initialized) {
+        return; // This object is already initialised.
+    }
+
+    QWidget *contentsContainer = prepareContentsContainer();
+
     // Create search box
-    m_searchInput = new QLineEdit(this);
+    m_searchInput = new QLineEdit(contentsContainer);
     m_searchInput->setPlaceholderText(i18n("Search…"));
     m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonEnabled(true);
@@ -355,7 +364,7 @@ void DolphinSearchBox::init()
     connect(m_saveSearchAction, &QAction::triggered, this, &DolphinSearchBox::slotSearchSaved);
 
     // Create close button
-    QToolButton *closeButton = new QToolButton(this);
+    QToolButton *closeButton = new QToolButton(contentsContainer);
     closeButton->setAutoRaise(true);
     closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
@@ -368,7 +377,7 @@ void DolphinSearchBox::init()
     searchInputLayout->addWidget(closeButton);
 
     // Create "Filename" and "Content" button
-    m_fileNameButton = new QToolButton(this);
+    m_fileNameButton = new QToolButton(contentsContainer);
     m_fileNameButton->setText(i18nc("action:button", "Filename"));
     initButton(m_fileNameButton);
 
@@ -376,25 +385,25 @@ void DolphinSearchBox::init()
     m_contentButton->setText(i18nc("action:button", "Content"));
     initButton(m_contentButton);
 
-    QButtonGroup *searchWhatGroup = new QButtonGroup(this);
+    QButtonGroup *searchWhatGroup = new QButtonGroup(contentsContainer);
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
 
-    m_separator = new KSeparator(Qt::Vertical, this);
+    m_separator = new KSeparator(Qt::Vertical, contentsContainer);
 
     // Create "From Here" and "Your files" buttons
-    m_fromHereButton = new QToolButton(this);
+    m_fromHereButton = new QToolButton(contentsContainer);
     m_fromHereButton->setText(i18nc("action:button", "From Here"));
     initButton(m_fromHereButton);
 
-    m_everywhereButton = new QToolButton(this);
+    m_everywhereButton = new QToolButton(contentsContainer);
     m_everywhereButton->setText(i18nc("action:button", "Your files"));
     m_everywhereButton->setToolTip(i18nc("action:button", "Search in your home directory"));
     m_everywhereButton->setIcon(QIcon::fromTheme(QStringLiteral("user-home")));
     m_everywhereButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     initButton(m_everywhereButton);
 
-    QButtonGroup *searchLocationGroup = new QButtonGroup(this);
+    QButtonGroup *searchLocationGroup = new QButtonGroup(contentsContainer);
     searchLocationGroup->addButton(m_fromHereButton);
     searchLocationGroup->addButton(m_everywhereButton);
 
@@ -402,7 +411,7 @@ void DolphinSearchBox::init()
 
     QToolButton *kfindToolsButton = nullptr;
     if (kfind) {
-        kfindToolsButton = new QToolButton(this);
+        kfindToolsButton = new QToolButton(contentsContainer);
         kfindToolsButton->setAutoRaise(true);
         kfindToolsButton->setPopupMode(QToolButton::InstantPopup);
         kfindToolsButton->setIcon(QIcon::fromTheme("arrow-down-double"));
@@ -418,7 +427,7 @@ void DolphinSearchBox::init()
     }
 
     // Create "Facets" widget
-    m_facetsWidget = new DolphinFacetsWidget(this);
+    m_facetsWidget = new DolphinFacetsWidget(contentsContainer);
     m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_facetsWidget->layout()->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
@@ -426,7 +435,7 @@ void DolphinSearchBox::init()
 
     // Put the options into a QScrollArea. This prevents increasing the view width
     // in case that not enough width for the options is available.
-    QWidget *optionsContainer = new QWidget(this);
+    QWidget *optionsContainer = new QWidget(contentsContainer);
 
     // Apply layout for the options
     QHBoxLayout *optionsLayout = new QHBoxLayout(optionsContainer);
@@ -437,13 +446,13 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_separator);
     optionsLayout->addWidget(m_fromHereButton);
     optionsLayout->addWidget(m_everywhereButton);
-    optionsLayout->addWidget(new KSeparator(Qt::Vertical, this));
+    optionsLayout->addWidget(new KSeparator(Qt::Vertical, contentsContainer));
     if (kfindToolsButton) {
         optionsLayout->addWidget(kfindToolsButton);
     }
     optionsLayout->addStretch(1);
 
-    m_optionsScrollArea = new QScrollArea(this);
+    m_optionsScrollArea = new QScrollArea(contentsContainer);
     m_optionsScrollArea->setFrameShape(QFrame::NoFrame);
     m_optionsScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_optionsScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -452,7 +461,7 @@ void DolphinSearchBox::init()
     m_optionsScrollArea->setWidget(optionsContainer);
     m_optionsScrollArea->setWidgetResizable(true);
 
-    m_topLayout = new QVBoxLayout(this);
+    m_topLayout = new QVBoxLayout(contentsContainer);
     m_topLayout->setContentsMargins(0, Dolphin::LAYOUT_SPACING_SMALL, 0, 0);
     m_topLayout->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     m_topLayout->addLayout(searchInputLayout);
@@ -467,6 +476,8 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(500);
     connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
+
+    m_initialized = true;
 }
 
 QString DolphinSearchBox::queryTitle(const QString &text) const
@@ -539,6 +550,11 @@ void DolphinSearchBox::updateFacetsVisible()
     const bool indexingEnabled = isIndexingEnabled();
     m_facetsWidget->setEnabled(indexingEnabled);
     m_facetsWidget->setVisible(indexingEnabled);
+
+    // The m_facetsWidget might have changed visibility. We smoothly animate towards the updated height.
+    if (isVisible() && isEnabled()) {
+        setVisible(true, WithAnimation);
+    }
 }
 
 bool DolphinSearchBox::isIndexingEnabled() const
@@ -549,6 +565,11 @@ bool DolphinSearchBox::isIndexingEnabled() const
 #else
     return false;
 #endif
+}
+
+int DolphinSearchBox::preferredHeight() const
+{
+    return m_initialized ? m_topLayout->sizeHint().height() : 0;
 }
 
 #include "moc_dolphinsearchbox.cpp"

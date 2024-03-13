@@ -261,6 +261,7 @@ install(FILES dolphinpartactions.desktop DESTINATION "${KDE_INSTALL_DATADIR}/dol
 add_library(dolphinstatic STATIC)
 
 target_sources(dolphinstatic PRIVATE
+    animatedheightwidget.cpp
     dolphinbookmarkhandler.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
@@ -318,6 +319,7 @@ target_sources(dolphinstatic PRIVATE
     global.cpp
     dolphin.qrc
 
+    animatedheightwidget.h
     dolphinbookmarkhandler.h
     dolphindockwidget.h
     dolphinmainwindow.h

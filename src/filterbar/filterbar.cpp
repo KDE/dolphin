@@ -17,10 +17,12 @@
 #include <QToolButton>
 
 FilterBar::FilterBar(QWidget *parent)
-    : QWidget(parent)
+    : AnimatedHeightWidget{parent}
 {
+    QWidget *contentsContainer = prepareContentsContainer();
+
     // Create button to lock text when changing folders
-    m_lockButton = new QToolButton(this);
+    m_lockButton = new QToolButton(contentsContainer);
     m_lockButton->setAutoRaise(true);
     m_lockButton->setCheckable(true);
     m_lockButton->setIcon(QIcon::fromTheme(QStringLiteral("object-unlocked")));
@@ -28,7 +30,7 @@ FilterBar::FilterBar(QWidget *parent)
     connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
     // Create filter editor
-    m_filterInput = new QLineEdit(this);
+    m_filterInput = new QLineEdit(contentsContainer);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonEnabled(true);
     m_filterInput->setPlaceholderText(i18n("Filter…"));
@@ -36,14 +38,14 @@ FilterBar::FilterBar(QWidget *parent)
     setFocusProxy(m_filterInput);
 
     // Create close button
-    QToolButton *closeButton = new QToolButton(this);
+    QToolButton *closeButton = new QToolButton(contentsContainer);
     closeButton->setAutoRaise(true);
     closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
     connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
 
     // Apply layout
-    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    QHBoxLayout *hLayout = new QHBoxLayout(contentsContainer);
     hLayout->setContentsMargins(0, 0, 0, 0);
     hLayout->addWidget(m_lockButton);
     hLayout->addWidget(m_filterInput);
@@ -59,7 +61,7 @@ FilterBar::~FilterBar()
 
 void FilterBar::closeFilterBar()
 {
-    hide();
+    setVisible(false, WithAnimation);
     clear();
     if (m_lockButton) {
         m_lockButton->setChecked(false);
@@ -133,6 +135,11 @@ void FilterBar::keyPressEvent(QKeyEvent *event)
     }
 
     QWidget::keyPressEvent(event);
+}
+
+int FilterBar::preferredHeight() const
+{
+    return std::max(m_filterInput->sizeHint().height(), m_lockButton->sizeHint().height());
 }
 
 #include "moc_filterbar.cpp"

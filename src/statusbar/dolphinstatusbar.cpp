@@ -32,7 +32,7 @@ const int UpdateDelay = 50;
 }
 
 DolphinStatusBar::DolphinStatusBar(QWidget *parent)
-    : QWidget(parent)
+    : AnimatedHeightWidget(parent)
     , m_text()
     , m_defaultText()
     , m_label(nullptr)
@@ -47,16 +47,19 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_textTimestamp()
 {
     setProperty("_breeze_statusbar_separator", true);
+
+    QWidget *contentsContainer = prepareContentsContainer();
+
     // Initialize text label
-    m_label = new KSqueezedTextLabel(m_text, this);
+    m_label = new KSqueezedTextLabel(m_text, contentsContainer);
     m_label->setWordWrap(true);
     m_label->setTextFormat(Qt::PlainText);
 
     // Initialize zoom slider's explanatory label
-    m_zoomLabel = new KSqueezedTextLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), this);
+    m_zoomLabel = new KSqueezedTextLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), contentsContainer);
 
     // Initialize zoom widget
-    m_zoomSlider = new QSlider(Qt::Horizontal, this);
+    m_zoomSlider = new QSlider(Qt::Horizontal, contentsContainer);
     m_zoomSlider->setAccessibleName(i18n("Zoom"));
     m_zoomSlider->setAccessibleDescription(i18nc("Description for zoom-slider (accessibility)", "Sets the size of the file icons."));
     m_zoomSlider->setPageStep(1);
@@ -67,10 +70,10 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     connect(m_zoomSlider, &QSlider::sliderMoved, this, &DolphinStatusBar::showZoomSliderToolTip);
 
     // Initialize space information
-    m_spaceInfo = new StatusBarSpaceInfo(this);
+    m_spaceInfo = new StatusBarSpaceInfo(contentsContainer);
 
     // Initialize progress information
-    m_stopButton = new QToolButton(this);
+    m_stopButton = new QToolButton(contentsContainer);
     m_stopButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     m_stopButton->setAccessibleName(i18n("Stop"));
     m_stopButton->setAutoRaise(true);
@@ -78,10 +81,10 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_stopButton->hide();
     connect(m_stopButton, &QToolButton::clicked, this, &DolphinStatusBar::stopPressed);
 
-    m_progressTextLabel = new QLabel(this);
+    m_progressTextLabel = new QLabel(contentsContainer);
     m_progressTextLabel->hide();
 
-    m_progressBar = new QProgressBar(this);
+    m_progressBar = new QProgressBar(contentsContainer);
     m_progressBar->hide();
 
     m_showProgressBarTimer = new QTimer(this);
@@ -115,18 +118,18 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_progressBar->setFixedHeight(zoomSliderHeight);
     m_progressBar->setMaximumWidth(fontMetrics.averageCharWidth() * 20);
 
-    QHBoxLayout *topLayout = new QHBoxLayout(this);
+    m_topLayout = new QHBoxLayout(contentsContainer);
     updateContentsMargins();
-    topLayout->setSpacing(4);
-    topLayout->addWidget(m_label, 1);
-    topLayout->addWidget(m_zoomLabel);
-    topLayout->addWidget(m_zoomSlider, 1);
-    topLayout->addWidget(m_spaceInfo, 1);
-    topLayout->addWidget(m_stopButton);
-    topLayout->addWidget(m_progressTextLabel);
-    topLayout->addWidget(m_progressBar);
+    m_topLayout->setSpacing(4);
+    m_topLayout->addWidget(m_label, 1);
+    m_topLayout->addWidget(m_zoomLabel);
+    m_topLayout->addWidget(m_zoomSlider, 1);
+    m_topLayout->addWidget(m_spaceInfo, 1);
+    m_topLayout->addWidget(m_stopButton);
+    m_topLayout->addWidget(m_progressTextLabel);
+    m_topLayout->addWidget(m_progressBar);
 
-    setVisible(GeneralSettings::showStatusBar());
+    setVisible(GeneralSettings::showStatusBar(), WithoutAnimation);
     setExtensionsVisible(true);
     setWhatsThis(xi18nc("@info:whatsthis Statusbar",
                         "<para>This is "
@@ -249,7 +252,7 @@ int DolphinStatusBar::zoomLevel() const
 
 void DolphinStatusBar::readSettings()
 {
-    setVisible(GeneralSettings::showStatusBar());
+    setVisible(GeneralSettings::showStatusBar(), WithAnimation);
     setExtensionsVisible(true);
 }
 
@@ -345,9 +348,9 @@ void DolphinStatusBar::updateContentsMargins()
 {
     if (GeneralSettings::showSpaceInfo()) {
         // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
-        layout()->setContentsMargins(6, 0, 2, 0);
+        m_topLayout->setContentsMargins(6, 0, 2, 0);
     } else {
-        layout()->setContentsMargins(6, 0, 6, 0);
+        m_topLayout->setContentsMargins(6, 0, 6, 0);
     }
 }
 
@@ -358,6 +361,11 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QStyleOption opt;
     opt.initFrom(this);
     style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
+}
+
+int DolphinStatusBar::preferredHeight() const
+{
+    return m_spaceInfo->height();
 }
 
 #include "moc_dolphinstatusbar.cpp"

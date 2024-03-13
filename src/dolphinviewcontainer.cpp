@@ -79,7 +79,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_searchBox = new DolphinSearchBox(this);
-    m_searchBox->hide();
+    m_searchBox->setVisible(false, WithoutAnimation);
     connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
     connect(m_searchBox, &DolphinSearchBox::openRequest, this, &DolphinViewContainer::openSearchBox);
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
@@ -112,7 +112,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 
     // Initialize filter bar
     m_filterBar = new FilterBar(this);
-    m_filterBar->setVisible(GeneralSettings::filterBar());
+    m_filterBar->setVisible(GeneralSettings::filterBar(), WithoutAnimation);
 
     connect(m_filterBar, &FilterBar::filterChanged, this, &DolphinViewContainer::setNameFilter);
     connect(m_filterBar, &FilterBar::closeRequest, this, &DolphinViewContainer::closeFilterBar);
@@ -330,7 +330,8 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         m_selectionModeBottomBar->setVisible(false, WithAnimation);
         Q_EMIT selectionModeChanged(false);
 
-        if (m_selectionModeTopBar->isAncestorOf(QApplication::focusWidget()) || m_selectionModeBottomBar->isAncestorOf(QApplication::focusWidget())) {
+        if (!QApplication::focusWidget() || m_selectionModeTopBar->isAncestorOf(QApplication::focusWidget())
+            || m_selectionModeBottomBar->isAncestorOf(QApplication::focusWidget())) {
             m_view->setFocus();
         }
         return;
@@ -448,12 +449,12 @@ void DolphinViewContainer::readSettings()
 
 bool DolphinViewContainer::isFilterBarVisible() const
 {
-    return m_filterBar->isVisible();
+    return m_filterBar->isEnabled(); // Gets disabled in AnimatedHeightWidget while animating towards a hidden state.
 }
 
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
-    m_searchBox->setVisible(enabled);
+    m_searchBox->setVisible(enabled, WithAnimation);
 
     if (enabled) {
         const QUrl &locationUrl = m_urlNavigator->locationUrl();
@@ -585,7 +586,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
     Q_ASSERT(m_filterBar);
     if (visible) {
         m_view->hideToolTip(ToolTipManager::HideBehavior::Instantly);
-        m_filterBar->show();
+        m_filterBar->setVisible(true, WithAnimation);
         m_filterBar->setFocus();
         m_filterBar->selectAll();
     } else {

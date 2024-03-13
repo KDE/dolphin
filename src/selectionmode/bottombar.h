@@ -8,18 +8,16 @@
 #ifndef BOTTOMBAR_H
 #define BOTTOMBAR_H
 
+#include "animatedheightwidget.h"
 #include "global.h"
 
 #include <QAction>
 #include <QPointer>
-#include <QPropertyAnimation>
-#include <QWidget>
 
 class KActionCollection;
 class KFileItemList;
 class QPushButton;
 class QResizeEvent;
-class QScrollArea;
 class QUrl;
 
 namespace SelectionMode
@@ -34,7 +32,7 @@ class BottomBarContentsContainer;
  *
  * The visible contents of the bar are managed in BottomBarContentsContainer. This class serves as a wrapper around it.
  */
-class BottomBar : public QWidget
+class BottomBar : public AnimatedHeightWidget
 {
     Q_OBJECT
 
@@ -73,6 +71,7 @@ public:
      * @param visible   Whether this bar is supposed to be visible long term
      * @param animated  Whether this should be animated. The animation is skipped if the users' settings are configured that way.
      *
+     * @see AnimatedHeightWidget::setVisible()
      * @see QWidget::setVisible()
      */
     void setVisible(bool visible, Animated animated);
@@ -82,9 +81,6 @@ public:
      */
     void resetContents(Contents contents);
     Contents contents() const;
-
-    /** @returns a width of 1 to make sure that this bar never causes side panels to shrink. */
-    QSize sizeHint() const override;
 
 public Q_SLOTS:
     /** Adapts the contents based on the selection in the related view. */
@@ -109,8 +105,6 @@ protected:
     void resizeEvent(QResizeEvent *resizeEvent) override;
 
 private:
-    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget so we can still use it privately.
-
     /**
      * Identical to SelectionModeBottomBar::setVisible() but doesn't change m_allowedToBeVisible.
      * @see SelectionModeBottomBar::setVisible()
@@ -118,9 +112,10 @@ private:
      */
     void setVisibleInternal(bool visible, Animated animated);
 
+    /** @see AnimatedHeightWidget::preferredHeight() */
+    int preferredHeight() const override;
+
 private:
-    /** The only direct child widget of this bar. */
-    QScrollArea *m_scrollArea;
     /** The only direct grandchild of this bar. */
     BottomBarContentsContainer *m_contentsContainer;
 
@@ -128,8 +123,6 @@ private:
      * This is necessary because this bar might have been setVisible(true) but there is no reason to show the bar currently so it was kept hidden.
      * @see SelectionModeBottomBar::setVisible() */
     bool m_allowedToBeVisible = false;
-    /** @see SelectionModeBottomBar::setVisible() */
-    QPointer<QPropertyAnimation> m_heightAnimation;
 };
 
 }

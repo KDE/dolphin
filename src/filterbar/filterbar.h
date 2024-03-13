@@ -9,7 +9,7 @@
 #ifndef FILTERBAR_H
 #define FILTERBAR_H
 
-#include <QWidget>
+#include "animatedheightwidget.h"
 
 class QLineEdit;
 class QToolButton;
@@ -19,7 +19,7 @@ class QToolButton;
  *
  * @author Gregor Kališnik <gregor@podnapisi.net>
  */
-class FilterBar : public QWidget
+class FilterBar : public AnimatedHeightWidget
 {
     Q_OBJECT
 
@@ -63,6 +63,9 @@ Q_SIGNALS:
 protected:
     void showEvent(QShowEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+
+    /** @see AnimatedHeightWidget::preferredHeight() */
+    int preferredHeight() const override;
 
 private:
     QLineEdit *m_filterInput;
