@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"POT-Creation-Date: 2024-03-13 00:40+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -4532,7 +4532,7 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "ఎంచుకొనుము..."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:27
+#: settings/viewmodes/generalviewsettingspage.cpp:29
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Use common view properties for all folders"
@@ -4540,7 +4540,17 @@ msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "అన్ని ఫోల్డర్లకు ఉమ్మడి వీక్షణ గుణాలను వుపయోగించుము"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:28
+#. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
+#. The previous sentence is "Use common display style for all folders".
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Some special views like search, recent files, or trash will still use a "
+"custom display style."
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Remember view properties for each folder"
@@ -4548,7 +4558,7 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "ప్రతి ఫోల్డరుకు వీక్షణ గుణాలను గుర్తుంచుకొనుము"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:29
+#: settings/viewmodes/generalviewsettingspage.cpp:38
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4556,7 +4566,7 @@ msgid ""
 "properties for."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:34
+#: settings/viewmodes/generalviewsettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@option:check Additional Information"
 #| msgid "Date"
@@ -4564,44 +4574,44 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "తేదీ"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:40
+#: settings/viewmodes/generalviewsettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:41
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "డ్రాగ్ కార్యముల సమయంలో ఫోల్డర్లను తెరుస్తుంది"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:42
+#: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "పనిముట్టుచిట్కాను చూపుము"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:50
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:64
+#: settings/viewmodes/generalviewsettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "ఎంపిక గుర్తింపును చూపుము"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:76
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rename inline"
@@ -4609,13 +4619,13 @@ msgctxt "option:check"
 msgid "Rename inline"
 msgstr "ఇన్‌లైన్‌ను పునఃనామకరణ చేయుము"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:65
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"

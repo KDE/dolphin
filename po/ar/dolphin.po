@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"POT-Creation-Date: 2024-03-13 00:40+0000\n"
 "PO-Revision-Date: 2024-01-20 19:08+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4325,19 +4325,29 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "اختر…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:27
+#: settings/viewmodes/generalviewsettingspage.cpp:29
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "استخدم نمط عرض مشترك لجميع المجلدات"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:28
+#. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
+#. The previous sentence is "Use common display style for all folders".
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Some special views like search, recent files, or trash will still use a "
+"custom display style."
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "تذكّر نمط العرض لكلّ مجلد"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:29
+#: settings/viewmodes/generalviewsettingspage.cpp:38
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4346,62 +4356,62 @@ msgid ""
 msgstr ""
 "سيقوم دولفين بإنشاء ملف دليل مخفي في كل مجلد تقوم بتغيير خصائص العرض له."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:34
+#: settings/viewmodes/generalviewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "نمط العرض: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:40
+#: settings/viewmodes/generalviewsettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "افتح الأرشيفات كمجلدات"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:41
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "افتح المجلدات أثناء عمليات السحب"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:42
+#: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "التصفح: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "أظهر التلميحات"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:50
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:64
+#: settings/viewmodes/generalviewsettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "متفرقات: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "أظهر مؤشّر الاختيار"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:76
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
 msgstr "غير الاسم في السطر"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:65
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "أخف ملفات النسخ الاحتياطيّة عند إخفاء الملفات المخفية"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
