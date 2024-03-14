@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
-"PO-Revision-Date: 2024-03-09 04:46\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
+"PO-Revision-Date: 2024-03-13 20:04\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -433,7 +433,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "过滤"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
 msgstr "搜索…"
@@ -1462,7 +1462,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "清空最近关闭的标签页"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜索 %1"
@@ -1568,83 +1568,83 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "以 Root 用户身份运行 Dolphin 是十分危险的。请务必小心。"
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search"
 msgstr "搜索"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, kde-format
 msgid "Search for %1"
 msgstr "搜索 %1"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "正在加载文件夹…"
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "正在排序…"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "正在搜索…"
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "未找到项目。"
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支持显示网页，已启动网页浏览器"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin 不支持此协议，已启动默认应用程序"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "无效的协议“%1”"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr "当前位置已经更改，<filename>%1</filename> 已经无法访问。"
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "切换文件夹时保留过滤条件"
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgid "Filter…"
 msgstr "过滤…"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2724,66 +2724,66 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "添加标签"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "仅当前位置 (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "限制搜索到“%1”及其子文件夹"
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "保存搜索以便日后快速访问"
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "退出搜索"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "文件名"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "内容"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "仅当前位置"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "您的文件"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "在当前用户的主目录中搜索"
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, kde-format
 msgid "Open %1"
 msgstr "打开 %1"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3023,7 +3023,7 @@ msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "重命名 %2 项"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3043,19 +3043,19 @@ msgstr ""
 "item></list></para><para>窗口底部显示了可用的操作按钮，它们会根据当前选中的项"
 "目发生变化。</para>"
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr "选择模式：逐个点击文件或者文件夹来选择/取消选择。"
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "选择模式"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -3151,25 +3151,25 @@ msgstr "最大文本宽度 (0 表示无限制)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "目录大小的显示方式"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
 #, kde-format
 msgid "Show the content count"
-msgstr ""
+msgstr "显示内容数量"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
 #, kde-format
 msgid "Show the content size"
-msgstr ""
+msgstr "显示内容大小"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "不显示任何目录大小信息"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4065,19 +4065,19 @@ msgstr "排序方式："
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr ""
+msgstr "显示项目数量"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr ""
+msgstr "显示内容大小，上限为 "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr ""
+msgstr "不显示大小"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4089,7 +4089,7 @@ msgstr[0] " 级深度"
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr ""
+msgstr "文件夹大小："
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4411,7 +4411,7 @@ msgid "Open files and folders:"
 msgstr "打开文件和文件夹："
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4575,35 +4575,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "文件夹数量：%1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "缩放："
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr "缩放"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "设置文件图标大小。"
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgid "Stop"
 msgstr "停止"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "停止加载"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4621,13 +4621,13 @@ msgstr ""
 "emphasis>，用于调整视图中图标的大小。</item><item><emphasis>空间信息</"
 "emphasis>，用于显示当前位置的存储设备的可用空间。</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "显示缩放滑动条"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

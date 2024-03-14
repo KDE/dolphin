@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2010-10-26 21:40+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -437,7 +437,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ગળણી:"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
@@ -1393,7 +1393,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "હાલમાં બંધ કરેલ ટેબ્સ"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1491,21 +1491,21 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
 msgid "Search"
 msgstr "શોધ"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "શોધ પટ્ટી"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1513,7 +1513,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ફોલ્ડરો લાવે છે..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1521,7 +1521,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ગોઠવણી:"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1529,19 +1529,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "શોધે છે..."
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "કોઈ વસ્તુઓ મળી નહી."
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ડોલ્ફિન વેબ પાનાંઓને આધાર આપતું નથી, વેબ બ્રાઉઝર શરૂ કરવામાં આવ્યું નથી"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1550,7 +1550,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "પ્રોટોકોલ ડોલ્ફિન દ્વારા આધાર અપાતો નથી, કોન્કરર શરૂ કરવામાં આવ્યું છે"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1558,32 +1558,32 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "અયોગ્ય પ્રોટોકોલ"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "અયોગ્ય પ્રોટોકોલ"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr ""
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgid "Filter…"
 msgstr "ગળણી:"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2826,7 +2826,7 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "ટેગ્સ ઉમેરો"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "From Here"
@@ -2834,43 +2834,43 @@ msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "અહી થી"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "શોધ કરવાનું બંધ કરો"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "ફાઇલનામ"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "ટીપ્પણી"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "અહી થી"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2878,20 +2878,20 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "kartik.mistry@gmail.com, pg.radadida@gmail.com"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
 msgid "Open %1"
 msgstr "માર્ગ"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3152,7 +3152,7 @@ msgid_plural "Rename %2"
 msgstr[0] "નામ બદલો (&R)"
 msgstr[1] "નામ બદલો (&R)"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3166,13 +3166,13 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3180,7 +3180,7 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "પસંદગી"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -4713,7 +4713,7 @@ msgid "Open files and folders:"
 msgstr "ફાઇલો અને ફોલ્ડરોનું પૂર્વદર્શન બતાવો"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4888,31 +4888,31 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "ફોલ્ડરો: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "બંધ કરો"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Stop loading"
@@ -4920,7 +4920,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "લાવવાનું બંધ કરો"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4933,13 +4933,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "દેખાવ નાનો/મોટો કરનાર સ્લાઇડર બતાવો"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

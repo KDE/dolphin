@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 00:39+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2024-03-08 03:51+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -441,7 +441,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ფილტრი"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
 msgstr "ძებნა…"
@@ -1533,7 +1533,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "ახლახანს დახურული ჩანართების გასუფთავება"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "\"%1\"-ის \"%2\"-ში მოძებნა"
@@ -1645,47 +1645,47 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Dolphin-ის root მომხმარებლით გაშვება შეიძლება საშიში იყოს. ფრთხილად."
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search"
 msgstr "ძებნა"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, kde-format
 msgid "Search for %1"
 msgstr "%1-ის მოძებნა"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "საქაღალდის ჩატვირთვა…"
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "დალაგება…"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "ძებნა…"
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ჩანაწერები ნაპოვნი არაა."
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin-ს ვებგვერდების მხარდაჭერა არ გააჩნია. გაეშვება ბრაუზერი"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1693,37 +1693,37 @@ msgid ""
 msgstr ""
 "პროტოკოლი Dolphin-ის მიერ მხარდაჭერილი არაა. გაეშვება ნაგულისხმევი აპლიკაცია"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "არასწორი პროტოკოლი '%1'"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "არასწორი პროტოკოლი"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 "მიმდინარე მდებარეობა შეიცვალა, <filename>%1</filename> ხელმისაწვდომი აღარაა."
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "საქაღალდეების შეცვლისას ფილტრის შენარჩუნება"
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgid "Filter…"
 msgstr "ფილტრი…"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2819,66 +2819,66 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "ჭდეების დამატება"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "აქედან (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "ძებნის '%1'-ზე და მის ქვესაქაღალდეებზე შეზღუდვა"
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "შეინახეთ ეს ძებნა, რომ მომავალში იოლად მიაგნოთ"
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "ძებნიდან გასვლა"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "ფაილის სახელი"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "შემცველობა"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "აქედან"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "თქვენი ფაილები"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "თქვენს საწყის საქაღალდეში მოძებნა"
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, kde-format
 msgid "Open %1"
 msgstr "%1-ის გახსნა"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3126,7 +3126,7 @@ msgid_plural "Rename %2"
 msgstr[0] "%2-ის სახელის გადარქმევა"
 msgstr[1] "%2-ის სახელის გადარქმევა"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3148,7 +3148,7 @@ msgstr ""
 "ინვერსიას გამოიწვევს.</item></list></para><para>ხელმისაწვდომი ქმედების "
 "ღილაკები ქვემოთაა ნაჩვენები, მიმდინარე მონიშნულიდან გამომდინარე.</para>"
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
@@ -3156,13 +3156,13 @@ msgstr ""
 "მონიშვნის რეჟიმი: დააწკაპუნეთ ფაილებზე და საქაღალდეებზე მათი მონიშვნის ან "
 "მონიშვნის მოხსნისთვის."
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "არჩევის რეჟიმი"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -4286,19 +4286,29 @@ msgctxt "@action:button Choose font"
 msgid "Choose…"
 msgstr "აირჩიეთ…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:27
+#: settings/viewmodes/generalviewsettingspage.cpp:29
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
 msgstr "საერთო ჩვენების სტილის გამოყენება ყველა საქაღალდისთვის"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:28
+#. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
+#. The previous sentence is "Use common display style for all folders".
+#: settings/viewmodes/generalviewsettingspage.cpp:32
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Some special views like search, recent files, or trash will still use a "
+"custom display style."
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "თითოეული საქაღალდისთვის ცალ-ცალკე სტილის დამახსოვრება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:29
+#: settings/viewmodes/generalviewsettingspage.cpp:38
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4308,62 +4318,62 @@ msgstr ""
 "Dolphin შექმნის დამალულ .directory ფაილს ყოველი საქაღალდისთვის, რომლის ხედის "
 "თვისებებსაც შეცვლით."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:34
+#: settings/viewmodes/generalviewsettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "ჩვენების სტილი: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:40
+#: settings/viewmodes/generalviewsettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "არქივების, როგორც საქაღალდის გახსნა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:41
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "გადათრევისას საქაღალდეების გახსნა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:42
+#: settings/viewmodes/generalviewsettingspage.cpp:56
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "დათვალიერება: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:49
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check"
 msgid "Show tooltips"
 msgstr "მინიშნებების ჩვენება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:50
-#: settings/viewmodes/generalviewsettingspage.cpp:58
+#: settings/viewmodes/generalviewsettingspage.cpp:64
+#: settings/viewmodes/generalviewsettingspage.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "სხვადასხვა: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:54
+#: settings/viewmodes/generalviewsettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "მონიშვნის მაჩვენებლის ჩვენება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:76
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
 msgstr "ხაზშივე გადარქმევა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:65
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "დამალული ფაილების დამალვისას მარქაფის ფაილებიც დაიმალება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -4538,7 +4548,7 @@ msgid "Open files and folders:"
 msgstr "ფაილები და საქაღალდეების გახსნა:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4703,35 +4713,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "საქაღალდეები: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "გადიდება:"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr "გადიდება"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "აყენებს ფაილის ხატულების ზომას."
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgid "Stop"
 msgstr "შეჩერება"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "ჩატვირთვის შეჩერება"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4751,13 +4761,13 @@ msgstr ""
 "item><item><emphasis>ადგილის ინფორმაცია</emphasis> მიმდინარე საცავის "
 "მოწყობილობის შესახებ.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "გადიდების ცოციის ჩვენება"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2021-10-15 10:46+0200\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -423,7 +423,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filter"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -1350,7 +1350,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Njedawno začinjene jězdniki zabyć"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "'%1' pytać w %2"
@@ -1446,17 +1446,17 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search"
 msgstr "Pytać"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, kde-format
 msgid "Search for %1"
 msgstr "'%1' pytać"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1464,7 +1464,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Začitam zapisk..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1472,7 +1472,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sortěrowanje:"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1480,19 +1480,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pytam..."
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Njejsym ničo namakał."
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin njepodpěruje html-strony, browser je so startował"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1500,7 +1500,7 @@ msgid ""
 msgstr ""
 "Protokol njepodpěrowany wot Dolphina; standardna aplikacija je so startowała"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1508,32 +1508,32 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Njekorektny protokol"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Njekorektny protokol"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr ""
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Filter"
 msgid "Filter…"
 msgstr "Filter"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2698,25 +2698,25 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "Nowy etiket..."
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Grid spacing"
@@ -2724,7 +2724,7 @@ msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Wotstawki w rastrje"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "File Manager"
@@ -2732,7 +2732,7 @@ msgctxt "action:button"
 msgid "Filename"
 msgstr "Datajowy rjadowar"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Add Comment..."
@@ -2740,13 +2740,13 @@ msgctxt "action:button"
 msgid "Content"
 msgstr "Přispomnjenje dodać ..."
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2754,20 +2754,20 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "edi.werner@gmx.de"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
 msgid "Open %1"
 msgstr "%1 wočinić"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3036,7 +3036,7 @@ msgstr[1] "Přemjenować"
 msgstr[2] "Přemjenować"
 msgstr[3] "Přemjenować"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3050,13 +3050,13 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3064,7 +3064,7 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Wuzwolenje"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -4654,7 +4654,7 @@ msgid "Open files and folders:"
 msgstr "Přehladku pokazać"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4839,31 +4839,31 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Zapiski: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "Zastajić"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -4871,7 +4871,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Sortěrowanje:"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4884,7 +4884,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show zoom slider"
@@ -4892,7 +4892,7 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "zoomowy přesuwak pokazać"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show space information"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -446,7 +446,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Scagaire:"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Search:"
@@ -1405,7 +1405,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Glan Cluaisíní a Dúnadh le Déanaí"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr ""
@@ -1501,21 +1501,21 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Search:"
 msgid "Search"
 msgstr "Cuardaigh:"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
 msgid "Search for %1"
 msgstr "Cuardaigh"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1523,7 +1523,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Fillteán á luchtú..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1531,7 +1531,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sórtáil:"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1539,13 +1539,13 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Ag cuardach..."
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Níor aimsíodh mír ar bith."
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -1553,7 +1553,7 @@ msgstr ""
 "Ní thacaíonn Dolphin le leathanaigh Ghréasáin; thosaigh an brabhsálaí "
 "Gréasáin anois beag"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1562,7 +1562,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Ní thacaíonn Dolphin leis an bprótacal seo; tosaíodh Konqueror"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1570,32 +1570,32 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Prótacal neamhbhailí"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Prótacal neamhbhailí"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr ""
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgid "Filter…"
 msgstr "Scagaire:"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2843,49 +2843,49 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "Gan Chlibeanna"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "Uaidh Seo (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Ainm comhaid"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Ábhar"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Uaidh Seo"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2893,20 +2893,20 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "kscanne@gmail.com"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
 msgid "Open %1"
 msgstr "Oscail Le"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3186,7 +3186,7 @@ msgstr[2] "&Athainmnigh"
 msgstr[3] "&Athainmnigh"
 msgstr[4] "&Athainmnigh"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3200,13 +3200,13 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3214,7 +3214,7 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Roghnúchán"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -4715,7 +4715,7 @@ msgid "Open files and folders:"
 msgstr "Taispeáin réamhamharc ar chomhaid agus ar fhillteáin"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4897,36 +4897,36 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Fillteáin: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, fuzzy, kde-format
 #| msgid "Zoom"
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Súmáil"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr "Súmáil"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgid "Stop"
 msgstr "Stad"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Stop an luchtú"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4939,13 +4939,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Taispeáin Sleamhnán Súmála"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

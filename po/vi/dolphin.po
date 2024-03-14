@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -446,7 +446,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Lọc"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -1537,7 +1537,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Quên các thẻ đóng gần đây"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Tìm kiếm %1 trong %2"
@@ -1649,17 +1649,17 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Chạy Dolphin với tư cách người dùng root có thể gây nguy hại. Hãy thận trọng."
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, kde-format
 msgid "Search for %1"
 msgstr "Tìm kiếm %1"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1667,7 +1667,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Đang tải thư mục..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1675,7 +1675,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sắp xếp:"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1683,19 +1683,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Đang tìm kiếm..."
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Không tìm thấy thứ gì."
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin không hỗ trợ xem trang web, trình duyệt web đã được khởi chạy"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1703,7 +1703,7 @@ msgid ""
 msgstr ""
 "Giao thức không được Dolphin hỗ trợ, ứng dụng mặc định đã được khởi chạy"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1711,13 +1711,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Giao thức không hợp lệ"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Giao thức không hợp lệ"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1725,20 +1725,20 @@ msgstr ""
 "Địa điểm hiện tại đã thay đổi, <filename>%1</filename> không còn truy cập "
 "được nữa."
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "Giữ bộ lọc khi thay đổi thư mục"
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Filter"
 msgid "Filter…"
 msgstr "Lọc"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2830,68 +2830,68 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "Thêm thẻ gắn"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "Từ đây (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "Giới hạn tìm kiếm trong '%1' và các thư mục con"
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Lưu tìm kiếm này để sau này truy cập lại nhanh"
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Ngừng tìm kiếm"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "Tên tệp"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "Nội dung"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "Từ đây"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "Các tệp của bạn"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "Tìm trong thư mục nhà của bạn"
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
 msgid "Open %1"
 msgstr "Mở %1"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3131,7 +3131,7 @@ msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "Đổi tên %2"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3152,19 +3152,19 @@ msgstr ""
 "của các thứ bên trong nó.</item></list></para><para>Các nút hành động khả "
 "dụng ở bên dưới sẽ thay đổi theo phần chọn hiện thời.</para>"
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr "Chế độ chọn: Bấm vào các tệp hoặc thư mục để chọn hoặc bỏ chọn."
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Chế độ chọn"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -4590,7 +4590,7 @@ msgid "Open files and folders:"
 msgstr "Mở tệp và thư mục:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4758,35 +4758,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Thư mục: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Thu phóng:"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr "Thu phóng"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Đặt cỡ của các biểu tượng tệp."
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgid "Stop"
 msgstr "Dừng"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Dừng tải"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4806,13 +4806,13 @@ msgstr ""
 "trong khung xem.</item><item><emphasis>Thông tin không gian</emphasis> của "
 "thiết bị lưu trữ hiện tại.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Hiện thanh trượt thu phóng"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

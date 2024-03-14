@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -415,7 +415,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "ਫਿਲਟਰ"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
 msgstr "...ਖੋਜੋ"
@@ -1328,7 +1328,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "ਖਾਲੀ ਤਾਜ਼ਾ ਬੰਦ ਕੀਤੀਆਂ ਟੈਬਾਂ"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%2 ਵਿੱਚ %1 ਲਈ ਖੋਜੋ"
@@ -1422,83 +1422,83 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "ਡਾਲਫਿਨ ਨੂੰ ਰੂਟ ਵਜੋਂ ਚਲਾਉਣਾ ਖ਼ਤਰਨਾਕ ਹੋ ਸਕਦਾ ਹੈ। ਧਿਆਨ ਰੱਖੋ।"
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, kde-format
 msgid "Search"
 msgstr "ਖੋਜੋ"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, kde-format
 msgid "Search for %1"
 msgstr "%1 ਲਈ ਖੋਜ"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ਫੋਲਡਰ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ਲੜੀਬੱਧ…"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "…ਖੋਜ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ਕੋਈ ਆਈਟਮ ਨਹੀਂ ਲੱਭੀ।"
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ਡਾਲਫਿਨ ਵੈੱਬ ਪੇਜ਼ਾਂ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਚਲਾਇਆ ਗਿਆ ਹੈ।"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ਪਰੋਟੋਕਾਲ ਡਾਲਫਿਨ ਵਲੋਂ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਮੂਲ ਐਪਲੀਕੇਸ਼ਨ ਲਾਂਚ ਕੀਤੀ ਗਈ ਹੈ"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ '%1'"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਬਦਲਿਆ ਗਿਆ, <filename>%1</filename> ਹੁਣ ਪਹੁੰਚ ਯੋਗ ਨਹੀਂ ਹੈ।"
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr "ਫੋਲਡਰ ਬਦਲਣ ਦੇ ਦੌਰਾਨ ਫਿਲਟਰ ਰੱਖੋ"
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, kde-format
 msgid "Filter…"
 msgstr "...ਫਿਲਟਰ"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2589,66 +2589,66 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "ਟੈਗ ਜੋੜੋ"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "ਇੱਥੇ ਤੋਂ (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr "ਖੋਜ ਨੂੰ '%1' ਅਤੇ ਇਸ ਦੇ ਸਬ-ਫੋਲਡਰਾਂ ਤੱਕ ਸੀਮਤ ਕਰੋ"
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "ਭਵਿੱਖ ਵਿੱਚ ਵਰਤਣ ਵਾਸਤੇ ਫੌਰੀ ਪਹੁੰਚ ਲਈ ਇਸ ਖੋਜ ਨੂੰ ਸੰਭਾਲੋ"
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "ਖੋਜ ਕਰਨੀ ਬੰਦ"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "ਫਾਇਲ-ਨਾਂ"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "ਸਮੱਗਰੀ"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "ਇੱਥੋਂ ਤੋਂ"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
 msgstr "ਤੁਹਾਡੀਆਂ ਫ਼ਾਇਲਾਂ"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr "ਆਪਣੀ ਘਰ ਡਾਇਰੈਕਟਰੀ ਵਿੱਚ ਖੋਜੋ"
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, kde-format
 msgid "Open %1"
 msgstr "%1 ਖੋਲ੍ਹੋ"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -2891,7 +2891,7 @@ msgid_plural "Rename %2"
 msgstr[0] "%2 ਦਾ ਨਾਂ ਬਦਲੋ"
 msgstr[1] "%2 ਦਾ ਨਾਂ ਬਦਲੋ"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -2905,19 +2905,19 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "ਚੋਣ ਦਾ ਢੰਗ"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -4285,7 +4285,7 @@ msgid "Open files and folders:"
 msgstr "ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰ ਖੋਲ੍ਹੋ:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4450,35 +4450,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "ਫੋਲਡਰ: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "ਜ਼ੂਮ:"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr "ਜ਼ੂਮ"
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "ਫਾਇਲ ਆਈਕਾਨ ਦਾ ਆਕਾਰ ਸੈੱਟ ਕਰੋ।"
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, kde-format
 msgid "Stop"
 msgstr "ਰੋਕੋ"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "ਲੋਡ ਕਰਨ ਤੋਂ ਰੋਕੋ"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4491,13 +4491,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "ਜ਼ੂਮ ਸਲਾਈਡਰ ਵੇਖੋ"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

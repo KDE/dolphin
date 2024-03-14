@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:40+0000\n"
+"POT-Creation-Date: 2024-03-14 00:40+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -436,7 +436,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "กรอง:"
 
-#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:341
+#: dolphinmainwindow.cpp:1764 search/dolphinsearchbox.cpp:350
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
@@ -1392,7 +1392,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "แท็บที่ถูกปิดไปล่าสุด"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:498 search/dolphinsearchbox.cpp:299
+#: dolphinviewcontainer.cpp:499 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1490,21 +1490,21 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:534
+#: dolphinviewcontainer.cpp:535
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
 msgid "Search"
 msgstr "ค้นหา"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:537
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "แถบค้นหา"
 
-#: dolphinviewcontainer.cpp:620
+#: dolphinviewcontainer.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1512,7 +1512,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "กำลังโหลดโฟลเดอร์..."
 
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:629
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1520,7 +1520,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "การเรียงลำดับ:"
 
-#: dolphinviewcontainer.cpp:639
+#: dolphinviewcontainer.cpp:640
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1528,19 +1528,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "กำลังค้นหา..."
 
-#: dolphinviewcontainer.cpp:660
+#: dolphinviewcontainer.cpp:661
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ไม่พบรายการใด ๆ"
 
-#: dolphinviewcontainer.cpp:821
+#: dolphinviewcontainer.cpp:822
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ดอลฟินยังไม่รองรับหน้าเว็บ จะทำการเรียกเว็บเบราว์เซอร์แทน"
 
-#: dolphinviewcontainer.cpp:824
+#: dolphinviewcontainer.cpp:825
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1549,7 +1549,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ดอลฟินยังไม่รองรับโพรโทคอลนี้ จะทำการเรียกคอนเควอร์เรอร์แทน"
 
-#: dolphinviewcontainer.cpp:831
+#: dolphinviewcontainer.cpp:832
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1557,32 +1557,32 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:834
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:943
+#: dolphinviewcontainer.cpp:944
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
 
-#: filterbar/filterbar.cpp:27
+#: filterbar/filterbar.cpp:29
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
 msgstr ""
 
-#: filterbar/filterbar.cpp:34
+#: filterbar/filterbar.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
 msgid "Filter…"
 msgstr "กรอง:"
 
-#: filterbar/filterbar.cpp:42
+#: filterbar/filterbar.cpp:44
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
@@ -2830,49 +2830,49 @@ msgctxt "@action:button"
 msgid "Add Tags"
 msgstr "เพิ่มป้ายกำกับ"
 
-#: search/dolphinsearchbox.cpp:103
+#: search/dolphinsearchbox.cpp:104
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
 msgstr "จากที่นี่ (%1)"
 
-#: search/dolphinsearchbox.cpp:104
+#: search/dolphinsearchbox.cpp:105
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:352
+#: search/dolphinsearchbox.cpp:361
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:361
+#: search/dolphinsearchbox.cpp:370
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "หยุดการค้นหา"
 
-#: search/dolphinsearchbox.cpp:372
+#: search/dolphinsearchbox.cpp:381
 #, kde-format
 msgctxt "action:button"
 msgid "Filename"
 msgstr "ชื่อแฟ้ม"
 
-#: search/dolphinsearchbox.cpp:376
+#: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Content"
 msgstr "เนื้อหา"
 
-#: search/dolphinsearchbox.cpp:387
+#: search/dolphinsearchbox.cpp:396
 #, kde-format
 msgctxt "action:button"
 msgid "From Here"
 msgstr "จากที่นี่"
 
-#: search/dolphinsearchbox.cpp:391
+#: search/dolphinsearchbox.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2880,20 +2880,20 @@ msgctxt "action:button"
 msgid "Your files"
 msgstr "drrider@gmail.com, donga.nb@gmail.com"
 
-#: search/dolphinsearchbox.cpp:392
+#: search/dolphinsearchbox.cpp:401
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
 msgstr ""
 
-#: search/dolphinsearchbox.cpp:410
+#: search/dolphinsearchbox.cpp:419
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
 msgid "Open %1"
 msgstr "ตำแหน่ง"
 
-#: search/dolphinsearchbox.cpp:474
+#: search/dolphinsearchbox.cpp:485
 #, kde-format
 msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
@@ -3147,7 +3147,7 @@ msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "เ&ปลี่ยนชื่อ"
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:28
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3161,13 +3161,13 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:58
+#: selectionmode/topbar.cpp:38
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:39
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3175,7 +3175,7 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "การเลือก"
 
-#: selectionmode/topbar.cpp:65
+#: selectionmode/topbar.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -4707,7 +4707,7 @@ msgid "Open files and folders:"
 msgstr "แสดงตัวอย่างของแฟ้มและโฟลเดอร์"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:325
+#: statusbar/dolphinstatusbar.cpp:328
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4881,31 +4881,31 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "โฟลเดอร์: %1"
 
-#: statusbar/dolphinstatusbar.cpp:56
+#: statusbar/dolphinstatusbar.cpp:59
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:61
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:75
+#: statusbar/dolphinstatusbar.cpp:78
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "หยุด"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:80
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Stop loading"
@@ -4913,7 +4913,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "หยุดการโหลด"
 
-#: statusbar/dolphinstatusbar.cpp:132
+#: statusbar/dolphinstatusbar.cpp:135
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4926,13 +4926,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:267
+#: statusbar/dolphinstatusbar.cpp:270
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "แสดงแถบเลื่อนการดูย่อ/ดูขยาย"
 
-#: statusbar/dolphinstatusbar.cpp:271
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
