@@ -212,7 +212,8 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 // Test case for bug #397910
 void DolphinMainWindowTest::testOpenInNewTabTitle()
 {
-    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    const QUrl homePathUrl{QUrl::fromLocalFile(QDir::homePath())};
+    m_mainWindow->openDirectories({homePathUrl}, false);
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
@@ -220,13 +221,14 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
     QVERIFY(tabWidget);
 
-    tabWidget->openNewTab(QUrl::fromLocalFile(QDir::tempPath()));
+    const QUrl tempPathUrl{QUrl::fromLocalFile(QDir::tempPath())};
+    tabWidget->openNewTab(tempPathUrl);
     QCOMPARE(tabWidget->count(), 2);
     QVERIFY(tabWidget->tabText(0) != tabWidget->tabText(1));
-    if (!tabWidget->tabIcon(0).isNull() && !tabWidget->tabIcon(1).isNull()) {
-        QCOMPARE(QStringLiteral("inode-directory"), tabWidget->tabIcon(0).name());
-        QCOMPARE(QStringLiteral("inode-directory"), tabWidget->tabIcon(1).name());
-    }
+
+    QVERIFY2(!tabWidget->tabIcon(0).isNull() && !tabWidget->tabIcon(1).isNull(), "Tabs are supposed to have icons.");
+    QCOMPARE(KIO::iconNameForUrl(homePathUrl), tabWidget->tabIcon(0).name());
+    QCOMPARE(KIO::iconNameForUrl(tempPathUrl), tabWidget->tabIcon(1).name());
 }
 
 void DolphinMainWindowTest::testNewFileMenuEnabled_data()
