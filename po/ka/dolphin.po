@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-14 00:40+0000\n"
-"PO-Revision-Date: 2024-03-08 03:51+0100\n"
+"PO-Revision-Date: 2024-03-14 03:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4301,6 +4301,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"ზოგიერთ სპეციალურ ხედი, როგორებიცაა ძებნა, უახლესი ფაილები ან ნაგვის ყუთი, "
+"ჯერ კიდევ საკუთარ ჩვენების სტილს იყენებენ."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

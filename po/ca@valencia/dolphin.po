@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-14 00:40+0000\n"
-"PO-Revision-Date: 2024-03-08 09:31+0100\n"
+"PO-Revision-Date: 2024-03-13 12:01+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4331,6 +4331,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Algunes vistes especials com ara la busca, els fitxers recents o la paperera "
+"encara utilitzaran un estil de visualització personalitzat."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
