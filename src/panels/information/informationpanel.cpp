@@ -378,6 +378,14 @@ void InformationPanel::markUrlAsInvalid()
     m_resetUrlTimer->start();
 }
 
+void InformationPanel::readSettings()
+{
+    if (m_initialized) {
+        m_content->refreshPreview();
+        m_content->refreshMetaData();
+    }
+}
+
 void InformationPanel::init()
 {
     m_infoTimer = new QTimer(this);

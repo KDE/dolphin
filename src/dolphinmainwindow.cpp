@@ -2162,6 +2162,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, &DolphinMainWindow::selectionChanged, infoPanel, &InformationPanel::setSelection);
     connect(this, &DolphinMainWindow::requestItemInfo, infoPanel, &InformationPanel::requestDelayedItemInfo);
     connect(this, &DolphinMainWindow::fileItemsChanged, infoPanel, &InformationPanel::slotFilesItemChanged);
+    connect(this, &DolphinMainWindow::settingsChanged, infoPanel, &InformationPanel::readSettings);
 #endif
 
     // i18n: This is the last paragraph for the "What's This"-texts of all four panels.

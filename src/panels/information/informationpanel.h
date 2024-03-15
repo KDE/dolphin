@@ -28,6 +28,12 @@ public:
     explicit InformationPanel(QWidget *parent = nullptr);
     ~InformationPanel() override;
 
+    /**
+     * Refreshes the view to get synchronized with the settings (e.g. icons size,
+     * font, ...).
+     */
+    void readSettings() override;
+
 Q_SIGNALS:
     void urlActivated(const QUrl &url);
 

@@ -383,11 +383,18 @@ if(HAVE_BALOO)
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp
         panels/information/phononwidget.cpp
+        settings/interface/panelsettingspage.cpp
         panels/information/informationpanel.h
         panels/information/informationpanelcontent.h
         panels/information/pixmapviewer.h
         panels/information/phononwidget.h
+        settings/interface/panelsettingspage.h
     )
+
+    kconfig_add_kcfg_files(dolphinstatic
+        panels/information/dolphin_informationpanelsettings.kcfgc
+    )
+
 endif()
 
 if(HAVE_KUSERFEEDBACK)
@@ -405,7 +412,6 @@ endif()
 
 kconfig_add_kcfg_files(dolphinstatic
     panels/folders/dolphin_folderspanelsettings.kcfgc
-    panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
