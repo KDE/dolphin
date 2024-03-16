@@ -2,7 +2,7 @@
 # Translators:
 #
 # Volkan Gezer <volkangezer@gmail.com>, 2020.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 24.04.70\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -26,12 +26,12 @@ msgstr "Dolphin hizmeti menü kurulumu başarısız oldu"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr "\"%1\" kurulamadı, \"%2\" durumu ile çıktı"
+msgstr "“%1” kurulamadı, “%2” durumu ile çıktı"
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "\"%1\" kaldırılamadı, \"%2\" durumu ile çıktı"
+msgstr "“%1” kaldırılamadı, “%2” durumu ile çıktı"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
@@ -77,13 +77,13 @@ msgstr "%1:%2 için izinler ayarlanamadı"
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
-msgstr "%1 kurulum betiği başarısız oldu, \"%2\" argümanları denendi."
+msgstr "%1 kurulum betiği başarısız oldu, “%2” argümanları denendi."
 
 #: servicemenuinstaller.cpp:275
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
-msgstr "\", \""
+msgstr "“, ”"
 
 #: servicemenuinstaller.cpp:289
 #, kde-format
