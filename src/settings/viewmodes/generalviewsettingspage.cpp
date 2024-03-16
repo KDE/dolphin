@@ -116,6 +116,7 @@ void GeneralViewSettingsPage::applySettings()
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setHideXTrashFile(m_hideXtrashFiles->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
+    settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->save();
     if (useGlobalViewProps) {
         // Remember the global view properties by applying the current view properties.
