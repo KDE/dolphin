@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-14 00:40+0000\n"
+"POT-Creation-Date: 2024-03-16 00:40+0000\n"
 "PO-Revision-Date: 2023-07-01 18:40+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -747,7 +747,7 @@ msgstr ""
 "Adresse.</para><para>Um mehr über Terminals zu erfahren, benutzen Sie die "
 "Hilfe in der Terminal-Anwendung.</para>"
 
-#: dolphinmainwindow.cpp:2013 dolphinmainwindow.cpp:2795
+#: dolphinmainwindow.cpp:2013 dolphinmainwindow.cpp:2796
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -871,7 +871,7 @@ msgid "Information"
 msgstr "Informationen"
 
 # Weiß einer, von welchem "Controls" hier der Autor spricht? Der "Control button" bei ausgeblendeter Menüleiste heißt "Show menu", nicht "Control".
-#: dolphinmainwindow.cpp:2169
+#: dolphinmainwindow.cpp:2170
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -882,7 +882,7 @@ msgstr ""
 "<interface>Menü|Seitenleisten anzeigen</interface> oder <interface>Ansicht|"
 "Seitenleisten anzeigen</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2176
+#: dolphinmainwindow.cpp:2177
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -898,7 +898,7 @@ msgstr ""
 "ausgewählte Einträge. Ansonsten informiert es über den aktuellen Ordner.<nl/"
 ">Bei einzelnen Einträgen wird eine Vorschau deren Inhalts angezeigt.</para>"
 
-#: dolphinmainwindow.cpp:2184
+#: dolphinmainwindow.cpp:2185
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -915,13 +915,13 @@ msgstr ""
 "para><para>Welche Details hier wie angezeigt werden, können Sie mit einem "
 "Rechtsklick einstellen.</para>"
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2194
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Ordner"
 
-#: dolphinmainwindow.cpp:2213
+#: dolphinmainwindow.cpp:2214
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -933,7 +933,7 @@ msgstr ""
 "Fensters umgeschaltet.<nl/><nl/>Die Leiste zeigt Ordner des "
 "<emphasis>Dateisystems</emphasis>in einer <emphasis>Baumansicht</emphasis>."
 
-#: dolphinmainwindow.cpp:2218
+#: dolphinmainwindow.cpp:2219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -948,13 +948,13 @@ msgstr ""
 "Ordners, um dessen Unterordner aufzuzeigen. Hiermit können Sie schnell "
 "zwischen verschiedenen Ordnern hin und her wechseln.</para>"
 
-#: dolphinmainwindow.cpp:2228
+#: dolphinmainwindow.cpp:2229
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2253
+#: dolphinmainwindow.cpp:2254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -973,7 +973,7 @@ msgstr ""
 "nützlich erweisen. Um mehr über Terminals zu erfahren, nutzen Sie die Hilfe "
 "in einer vollwertigen Terminal-Anwendung wie Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2262
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -992,19 +992,19 @@ msgstr ""
 "erweisen. Um mehr über Terminals zu erfahren, nutzen Sie die Hilfe in einer "
 "vollwertigen Terminal-Anwendung wie Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Orte"
 
-#: dolphinmainwindow.cpp:2305
+#: dolphinmainwindow.cpp:2306
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Ausgeblendete Orte anzeigen"
 
-#: dolphinmainwindow.cpp:2309
+#: dolphinmainwindow.cpp:2310
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1015,7 +1015,7 @@ msgstr ""
 "wurden. Solange ihre „Ausblenden“-Option aktiv ist, werden sie "
 "halbtransparent dargestellt."
 
-#: dolphinmainwindow.cpp:2321
+#: dolphinmainwindow.cpp:2322
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1032,7 +1032,7 @@ msgstr ""
 "einen Abschnitt zum Auffinden von kürzlich gespeicherten Dateien oder "
 "Dateien bestimmter Typen.</para>"
 
-#: dolphinmainwindow.cpp:2328
+#: dolphinmainwindow.cpp:2329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1059,13 +1059,13 @@ msgstr ""
 "Leiste und wählen <interface>Ausgeblendete Orte anzeigen</interface>, um sie "
 "wieder einzublenden.</para>"
 
-#: dolphinmainwindow.cpp:2342
+#: dolphinmainwindow.cpp:2343
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Seitenleisten anzeigen"
 
-#: dolphinmainwindow.cpp:2460
+#: dolphinmainwindow.cpp:2461
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1081,74 +1081,74 @@ msgstr ""
 "befindet sich ein Ordner, der alle Daten Ihres Computers enthält, "
 "der<emphasis>Basisordner</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2550
+#: dolphinmainwindow.cpp:2551
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Schließen"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Linke Ansicht schließen"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2554
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2554
+#: dolphinmainwindow.cpp:2555
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2556
+#: dolphinmainwindow.cpp:2557
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Schließen"
 
-#: dolphinmainwindow.cpp:2557
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Rechte Ansicht schließen"
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2560
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2560
+#: dolphinmainwindow.cpp:2561
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2569
+#: dolphinmainwindow.cpp:2570
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Teilen"
 
-#: dolphinmainwindow.cpp:2570
+#: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Ansicht teilen"
 
-#: dolphinmainwindow.cpp:2572
+#: dolphinmainwindow.cpp:2573
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
 msgstr ""
 
 # Auch hier wieder dieser „Control button“
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1167,7 +1167,7 @@ msgstr ""
 "Teil der Menüleiste über einen <interface>Menü</interface>-Knopf in der "
 "<emphasis>Werkzeugleiste</emphasis> erreichbar.</para>"
 
-#: dolphinmainwindow.cpp:2634
+#: dolphinmainwindow.cpp:2635
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1204,7 +1204,7 @@ msgstr ""
 "Klicken Sie mit rechts auf einen der Knöpfe, um seinen Text ein- oder "
 "auszublenden.</para>"
 
-#: dolphinmainwindow.cpp:2646
+#: dolphinmainwindow.cpp:2647
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1233,7 +1233,7 @@ msgstr ""
 "emphasis>. Dies öffnet eine <emphasis>Handbuchseite</emphasis>, die die "
 "Grundlagen erklärt.</para>"
 
-#: dolphinmainwindow.cpp:2662
+#: dolphinmainwindow.cpp:2663
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1248,7 +1248,7 @@ msgstr ""
 "dieser Anwendung können auf diese Weise ausgelöst werden.</para>"
 
 # Control menu
-#: dolphinmainwindow.cpp:2668
+#: dolphinmainwindow.cpp:2669
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1268,7 +1268,7 @@ msgstr ""
 "in der <interface>Menüleiste</interface> sehen, können auch in der "
 "Werkzeugleiste abgelegt werden.</para>"
 
-#: dolphinmainwindow.cpp:2672
+#: dolphinmainwindow.cpp:2673
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1287,7 +1287,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2692
+#: dolphinmainwindow.cpp:2693
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of handbook text with link"
 #| msgid ""
@@ -1308,7 +1308,7 @@ msgstr ""
 "userbase.kde.org/Dolphin/File_Management'>klicken Sie hier</link>. Dies "
 "öffnet eine neue Seite des KDE-Userbase-Wikis.</para>"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2698
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of whatsthis button text with link"
 #| msgid ""
@@ -1335,7 +1335,7 @@ msgstr ""
 "Titelleiste) ist in den meisten anderen Fenstern nicht vorhanden, Sie "
 "sollten sich deshalb besser nicht daran gewöhnen.</para>"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2709
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1354,7 +1354,7 @@ msgstr ""
 "community.kde.org/Get_Involved/Bug_Reporting'>Klicken Sie hier</link>, um zu "
 "erfahren, wie man möglichst effektive Fehlerberichte erstellt.</para>"
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2718
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1376,7 +1376,7 @@ msgstr ""
 "Konferenzen usw.</para><para><emphasis>KDE e.V.</emphasis> ist der "
 "gemeinnützige Verein hinter der KDE-Gemeinschaft.</para>"
 
-#: dolphinmainwindow.cpp:2730
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1388,7 +1388,7 @@ msgstr ""
 "<nl/>Sie können auch Zweitsprachen einstellen, welche verwendet werden, wenn "
 "ein Text nicht in Ihrer bevorzugten Sprache verfügbar ist."
 
-#: dolphinmainwindow.cpp:2735
+#: dolphinmainwindow.cpp:2736
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1398,7 +1398,7 @@ msgstr ""
 "Dies öffnet ein Fenster, das die Version, Lizenz, verwendete Bibliotheken "
 "und Betreuer dieser Anwendung anzeigen."
 
-#: dolphinmainwindow.cpp:2740
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1412,7 +1412,7 @@ msgstr ""
 "Sie hier rein, wenn Sie diese Anwendung gern verwenden, aber KDE noch nicht "
 "kennen oder einen niedlichen Drachen sehen wollen."
 
-#: dolphinmainwindow.cpp:2798 dolphinmainwindow.cpp:2802
+#: dolphinmainwindow.cpp:2799 dolphinmainwindow.cpp:2803
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -4126,7 +4126,7 @@ msgid ""
 msgstr ""
 "Die Adresse für den Startordner ist ungültig und wird nicht übernommen."
 
-#: settings/interface/interfacesettingspage.cpp:31
+#: settings/interface/interfacesettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4134,21 +4134,29 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Ordner zuerst"
 
-#: settings/interface/interfacesettingspage.cpp:36
+#: settings/interface/interfacesettingspage.cpp:40
 #: settings/kcm/kcmdolphingeneral.cpp:41
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Vorschauen"
 
-#: settings/interface/interfacesettingspage.cpp:41
+#: settings/interface/interfacesettingspage.cpp:45
 #: settings/kcm/kcmdolphingeneral.cpp:46
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Bestätigungen"
 
-#: settings/interface/interfacesettingspage.cpp:46
+#: settings/interface/interfacesettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Panels"
+msgctxt "@title:tab Panels settings"
+msgid "Panels"
+msgstr "Seitenleisten"
+
+#: settings/interface/interfacesettingspage.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"
@@ -4156,6 +4164,56 @@ msgstr "Bestätigungen"
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "Adressleiste"
+
+#: settings/interface/panelsettingspage.cpp:34
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgctxt "@option:check"
+msgid "Show previews"
+msgstr "Vorschau anzeigen"
+
+#: settings/interface/panelsettingspage.cpp:35
+#, fuzzy, kde-format
+#| msgid "Auto-Play media files"
+msgctxt "@option:check"
+msgid "Auto-play media files"
+msgstr "Mediendateien automatisch abspielen"
+
+#: settings/interface/panelsettingspage.cpp:36
+#, fuzzy, kde-format
+#| msgid "Show item on hover"
+msgctxt "@option:check"
+msgid "Show item on hover"
+msgstr "Element beim Überfahren anzeigen"
+
+#: settings/interface/panelsettingspage.cpp:37
+#, kde-format
+msgctxt "@option:check"
+msgid "Use &long date, for example '%1'"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:38
+#, kde-format
+msgctxt "@option:check"
+msgid "Use &condensed date, for example '%1'"
+msgstr ""
+
+#: settings/interface/panelsettingspage.cpp:44
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Information"
+msgctxt "@label:checkbox"
+msgid "Information Panel:"
+msgstr "Informationen"
+
+#: settings/interface/panelsettingspage.cpp:52
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Panel settings are also available through their context menu. Open it by "
+"pressing the right mouse button on a panel."
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -6029,10 +6087,6 @@ msgstr "Versionsinformationen werden aktualisiert ..."
 #~ msgctxt "@action:inmenu"
 #~ msgid "Tools"
 #~ msgstr "Extras"
-
-#~ msgctxt "@action:inmenu View"
-#~ msgid "Panels"
-#~ msgstr "Seitenleisten"
 
 #~ msgctxt "@action:intoolbar"
 #~ msgid "Preview"

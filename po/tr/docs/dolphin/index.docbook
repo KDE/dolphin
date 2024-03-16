@@ -1732,12 +1732,14 @@ context menu Icon Size? No different entries ?-->
 > simgesine tıklayarak küçültebilirsiniz. </para>
 <para
 ><guilabel
->Klasör boyutu göstergeleri</guilabel
->, kullanılacak özelliğin tanımlanmasına ve ardından klasörlerin boyutlarına göre sıralanmasına olanak tanır. Klasörleri <guilabel
->Öge sayısı</guilabel
-> veya <guilabel
->İçeriğin boyutu</guilabel
->'na göre sıralamak ve özyineleme düzeyi için bir sınır seçmek olanaklıdır (derin klasör yapılarında veya yavaş dosya sistemlerinde). </para>
+>Klasör boyutu</guilabel
+>, özelliği klasörleri boyutlarına göre sıralamak için tanımlamaya olanak tanır. Klasörleri, içlerindeki öge sayılarına göre sıralamak için <guilabel
+>Öge sayısını göster</guilabel
+>’i veya içeriğinin boyutuna göre sıralamak için <guilabel
+>İçeriğin boyutunu göster</guilabel
+>’i kullanın. Özyineleme düzeyi sınırlı olabilir; bu da derin klasör yapılarındaki gereksiz yinelemeleri veya yavaş dosya sistemlerinin yaratacağı kötü etkiyi sınırlamak için yararlıdır. <guilabel
+>Boyutu gösterme</guilabel
+> seçeneğini kullanarak klasör boyutunu görüntülemeyi devre dışı bırakabilirsiniz (bazı nadir görülen durumlarda başarımı artırır; ancak sıralama gibi özellikleri etkiler). </para>
 <para
 ><guilabel
 >Tarih biçemi</guilabel
