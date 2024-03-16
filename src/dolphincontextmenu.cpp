@@ -439,6 +439,21 @@ void DolphinContextMenu::addOpenWithActions()
 {
     // insert 'Open With...' action or sub menu
     m_fileItemActions->insertOpenWithActionsTo(nullptr, this, QStringList{qApp->desktopFileName()});
+
+    // For a single file, hint in "Open with" menu that middle-clicking would open it in the secondary app.
+    if (m_selectedItems.count() == 1 && !m_fileInfo.isDir()) {
+        if (QAction *openWithSubMenu = findChild<QAction *>(QStringLiteral("openWith_submenu"))) {
+            Q_ASSERT(openWithSubMenu->menu());
+            Q_ASSERT(!openWithSubMenu->menu()->isEmpty());
+
+            auto *secondaryApp = openWithSubMenu->menu()->actions().first();
+            // Add it like a keyboard shortcut, Qt uses \t as a separator.
+            if (!secondaryApp->text().contains(QLatin1Char('\t'))) {
+                secondaryApp->setText(secondaryApp->text() + QLatin1Char('\t')
+                                      + i18nc("@action:inmenu Shortcut, middle click to trigger menu item, keep short", "Middle Click"));
+            }
+        }
+    }
 }
 
 void DolphinContextMenu::addAdditionalActions(const KFileItemListProperties &props)
