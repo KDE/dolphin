@@ -176,6 +176,7 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
         layout->addWidget(leadingSpacing);
     }
     auto urlNavigator = new DolphinUrlNavigator(navigatorWidget);
+    urlNavigator->setReadonlyIconEnabled(true);
     layout->addWidget(urlNavigator);
 
     auto emptyTrashButton = newEmptyTrashButton(urlNavigator, navigatorWidget);
