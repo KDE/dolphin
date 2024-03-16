@@ -91,6 +91,7 @@ void GeneralViewSettingsPage::applySettings()
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
+    settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->save();
     if (useGlobalViewProps) {
         // Remember the global view properties by applying the current view properties.
