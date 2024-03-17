@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-15 17:02+0300\n"
+"PO-Revision-Date: 2024-03-16 14:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2553,7 +2553,7 @@ msgstr "Ana Dizine Sınırla"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Scrolling"
-msgstr "Otomatik Sarma"
+msgstr "Kendiliğinden Sarma"
 
 #: panels/folders/treeviewcontextmenu.cpp:132
 #, kde-format
@@ -2571,13 +2571,13 @@ msgstr "Önizlemeleri göster"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Ortam dosyalarını otomatik oynat"
+msgstr "Ortam dosyalarını kendiliğinden çal/oynat"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
 #, kde-format
 msgid "Show item on hover"
-msgstr "Üzerine Gelindiğinde Ögeyi Göster"
+msgstr "Üzerine gelindiğinde ögeyi göster"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -4057,12 +4057,10 @@ msgid "Confirmations"
 msgstr "Doğrulamalar"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Panelleri Kilitle"
+msgstr "Paneller"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4071,46 +4069,40 @@ msgid "Status && Location bars"
 msgstr "Durum ve Konum Çubukları"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Önizleme göster"
+msgstr "Önizlemeleri göster"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Ortam dosyalarını otomatik oynat"
+msgstr "Ortam dosyalarını kendiliğinden çal/oynat"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "Üzerine Gelindiğinde Ögeyi Göster"
+msgstr "Üzerine gelindiğinde ögeyi göster"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "&Uzun tarih kullan; örneğin, “%1”"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "&Kısa tarih kullan; örneğin, “%1”"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Bilgi"
+msgstr "Bilgi paneli:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4119,6 +4111,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Panel ayarlarına bağlam menüsünden de ulaşılabilir. Panel üzerinde farenin "
+"sağ düğmesine basarak açın."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4323,13 +4317,13 @@ msgstr "İzinler biçemi:"
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "System Font"
-msgstr "Sistem Yazıtipi"
+msgstr "Sistem yazıtipi"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:29
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "Custom Font"
-msgstr "Özel Yazıtipi"
+msgstr "Özel yazıtipi"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:32
 #, kde-format

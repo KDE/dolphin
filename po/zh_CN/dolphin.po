@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-15 21:00\n"
+"PO-Revision-Date: 2024-03-16 20:46\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3930,12 +3930,10 @@ msgid "Confirmations"
 msgstr "请求确认"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "锁定面板"
+msgstr ""
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -3944,23 +3942,19 @@ msgid "Status && Location bars"
 msgstr "状态和位置栏"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "显示预览图"
+msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "自动播放媒体文件"
+msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "悬停时显示项目"
@@ -3978,12 +3972,10 @@ msgid "Use &condensed date, for example '%1'"
 msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "信息"
+msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format

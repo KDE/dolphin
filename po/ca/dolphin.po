@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-13 12:01+0100\n"
+"PO-Revision-Date: 2024-03-16 09:47+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4093,12 +4093,10 @@ msgid "Confirmations"
 msgstr "Confirmacions"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Bloqueja els plafons"
+msgstr "Plafons"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4107,23 +4105,19 @@ msgid "Status && Location bars"
 msgstr "Barres d'estat i de localització"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Mostra la vista prèvia"
+msgstr "Mostra les vistes prèvies"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Reprodueix automàticament els fitxers multimèdia"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Mostra l'element en passar-hi per sobre"
@@ -4132,21 +4126,19 @@ msgstr "Mostra l'element en passar-hi per sobre"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Usa la data &llarga, per exemple «%1»"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Usa la data &condensada, per exemple «%1»"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informació"
+msgstr "Plafó d'informació:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4155,6 +4147,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"La configuració del plafó també està disponible a través del seu menú "
+"contextual. Obriu-lo prement el botó dret del ratolí sobre un plafó."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format

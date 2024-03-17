@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-09 09:55+0100\n"
+"PO-Revision-Date: 2024-03-16 23:43+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4070,9 +4070,7 @@ msgid "Confirmations"
 msgstr "Confirmacións"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Paneis"
@@ -4084,46 +4082,40 @@ msgid "Status && Location bars"
 msgstr "Barras de estado e de localización"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Amosar a vista previa."
+msgstr "Amosar as vistas previas."
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Reproducir automaticamente os ficheiros multimedia"
+msgstr "Reproducir automaticamente os ficheiros multimedia."
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "Amosar o elemento ao cubrir"
+msgstr "Amosar o elemento ao cubrir."
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Usar unha data &longa, p. ex. «%1»."
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Usar unha data &curta, p. ex. «%1»."
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Información"
+msgstr "Panel de información:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4132,6 +4124,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"A configuración do panel tamén está dispoñíbel no menú contextual. Para "
+"abrilo prema o botón dereito do rato sobre o panel."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4365,6 +4359,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Algunhas vistas especiais, como as de busca, de ficheiros recentes ou do "
+"lixo, continuarán utilizando un estilo visual de seu."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

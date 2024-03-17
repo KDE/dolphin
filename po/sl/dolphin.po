@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-13 07:44+0100\n"
+"PO-Revision-Date: 2024-03-16 07:19+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4087,12 +4087,10 @@ msgid "Confirmations"
 msgstr "Potrditve"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Zakleni pulte"
+msgstr "Plošče"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4101,23 +4099,19 @@ msgid "Status && Location bars"
 msgstr "Vrstice stanja in naslovne vrstice"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Pokaži predogled"
+msgstr "Pokaži predoglede"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Avtomatično predvajaj medijske datoteke"
+msgstr "Samodejno predvajaj medijske datoteke"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Pokaži postavko pod miškino kazalko"
@@ -4126,21 +4120,19 @@ msgstr "Pokaži postavko pod miškino kazalko"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Uporabi dolgi datum, na primer '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Uporabi strnjeni datum, na primer '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Podatki"
+msgstr "Informacijska plošča:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4149,6 +4141,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Nastavitve plošče so na voljo tudi prek kontekstnega menija. Odprite ga s "
+"pritiskom na desni gumb miške na plošči."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
