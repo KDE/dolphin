@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 02:29+0000\n"
-"PO-Revision-Date: 2024-01-11 02:16+0100\n"
+"PO-Revision-Date: 2024-03-17 02:07+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "com>\n"
 "com>\n"
 "com>\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -3825,7 +3825,7 @@ msgstr "Advertencia"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
-msgstr "Pedir confirmación en todas las aplicaciones KDE al:"
+msgstr "Pedir confirmación en todas las aplicaciones de KDE al:"
 
 #: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
