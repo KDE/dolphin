@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-14 03:46+0100\n"
+"PO-Revision-Date: 2024-03-17 03:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4064,12 +4064,10 @@ msgid "Confirmations"
 msgstr "დადასტურებები"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "პანელების დაბლოკვა"
+msgstr "პანელები"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4078,23 +4076,19 @@ msgid "Status && Location bars"
 msgstr "სტატუსის && მდებარეობის ზოლები"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "გადახედვის ჩვენება"
+msgstr "მინიატურების ჩვენება"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "მედია ფაილების ავტომატური დაკვრა"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "ელემენტის ჩვენება კურსორის გადატარებისას"
@@ -4103,21 +4097,19 @@ msgstr "ელემენტის ჩვენება კურსორი�
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "გამოიყენეთ გრძე&ლი თარიღი. მაგ: '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "გამოიყენეთ მო&კლე თარიღი. მაგ: '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "ინფორმაცია"
+msgstr "ინფორმაციის პანელი:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4126,6 +4118,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"პანელის პარამეტრები ასევე ხელმისაწვდომია მათი კონტექსტური მენიუდან. გახსენით "
+"ის პანელზე მარჯვენა თაგუნას ღილაკზე დაწკაპუნებით."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-01-21 08:23+0100\n"
+"PO-Revision-Date: 2024-03-17 10:56+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3279,27 +3279,25 @@ msgstr "Indeks największej szerokości tekstu (0 oznacza nieograniczoną)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Jak wyświetlamy rozmiar katalogów"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Pokaż pasku stanu"
+msgstr "Pokaż licznik zawartości"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Pokaż pasku stanu"
+msgstr "Pokaż rozmiar zawartości"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Nie pokazuj żadnego rozmiaru katalogu"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4083,9 +4081,7 @@ msgid "Confirmations"
 msgstr "Potwierdzanie"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panele"
@@ -4097,23 +4093,19 @@ msgid "Status && Location bars"
 msgstr "Pasek stanu i położenia"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Pokaż podgląd"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Samoodtwarzaj pliki multimedialne"
+msgstr "Sam odtwarzaj pliki multimedialne"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Pokaż rzecz po najechaniu na nią"
@@ -4122,21 +4114,19 @@ msgstr "Pokaż rzecz po najechaniu na nią"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "&Daty pokazuj jako długie, np. '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "&Daty pokazuj jako zwarte, np. '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Szczegóły"
+msgstr "Panel szczegółów:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4145,6 +4135,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Ustawienia panelu dostępne są również poprzez ich menu podręczne. Aby je "
+"otworzyć, naciśnij prawym na danym panelu."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4273,28 +4265,22 @@ msgid "Sorting mode: "
 msgstr "Tryb szeregowania: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Liczbę jego rzeczy"
+msgstr "Pokaż liczbę rzeczy"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Rozmiar jego zawartości, aż do "
+msgstr "Pokaż rozmiar zawartości, aż do "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Pokaż suwak powiększania"
+msgstr "Nie pokazuj rozmiaru"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4305,12 +4291,10 @@ msgstr[1] " poziomów głębokości"
 msgstr[2] " poziomów głębokości"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Katalogi:"
+msgstr "Rozmiar katalogu:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4387,6 +4371,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Niektóre szczególne widoki takie jak wyszukiwanie, ostatnie pliki, czy kosz "
+"nadal będą używać własnego sposobu wyświetlania."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-10 09:56+0530\n"
+"PO-Revision-Date: 2024-03-17 18:09+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -3936,12 +3936,10 @@ msgid "Confirmations"
 msgstr "உறுதிப்பாடு"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "பேனல்கள்"
+msgstr "பலகைகள்"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -3950,23 +3948,19 @@ msgid "Status && Location bars"
 msgstr "நிலை மற்றும் இட பட்டைகள்"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "முன்தோற்றத்தைக் காட்டுக"
+msgstr "முன்தோற்றம் காட்டுக"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "ஊடகக்கோப்புகளை தானாக இயக்கு"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே உருப்படியைக் காட்டு"
@@ -3975,21 +3969,19 @@ msgstr "சுட்டியை மேல்வைக்கும்போத�
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "&நெடும் தேதியைப் பயன்படுத்து, எ.கா. '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "&சுருக்கமான தேதியைப் பயன்படுத்து, எ.கா. '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "விவரங்கள்"
+msgstr "விவரப் பலகை"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -3997,7 +3989,7 @@ msgctxt "@info"
 msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
-msgstr ""
+msgstr "பலகைகளுக்கான அமைப்புகள் த‍த்தம் வலது-கிளிக் பட்டியிலும் கிடைக்கும்."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4231,6 +4223,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"இருப்பினும், தேடல், சமீப் கோப்புகள், மற்றும் அகற்றிடம் போன்றவை தனிப்பட்ட காட்சிமுறையையே "
+"பயன்படுத்துவன."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

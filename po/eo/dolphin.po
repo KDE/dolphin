@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-09 09:22+0100\n"
+"PO-Revision-Date: 2024-03-17 05:34+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4055,12 +4055,10 @@ msgid "Confirmations"
 msgstr "Konfirmoj"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Ŝlosi Panelojn"
+msgstr "Paneloj"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4069,46 +4067,40 @@ msgid "Status && Location bars"
 msgstr "Status- kaj Lokobretoj"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Montri antaŭrigardon"
+msgstr "Montri antaŭrigardojn"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
+msgstr "Aŭtomate ludi aŭdvidaĵajn dosierojn"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "Montri elementon je musumo"
+msgstr "Montri elementon je musoŝvebo"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Uzi &longan daton, ekzemple '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Uzi &kunpremitan daton, ekzemple '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informoj"
+msgstr "Informpanelo:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4117,6 +4109,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Panelaj agordoj ankaŭ haveblas per ilia kunteksta menuo. Malfermu ĝin per "
+"premante la dekstran musbutonon sur panelo."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4350,6 +4344,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Iuj specialaj vidoj kiel serĉo, lastatempaj dosieroj aŭ rubujo ankoraŭ uzos "
+"propran ekranstilon."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

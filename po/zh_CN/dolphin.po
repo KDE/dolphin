@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-16 20:46\n"
+"PO-Revision-Date: 2024-03-17 20:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3933,7 +3933,7 @@ msgstr "请求确认"
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr ""
+msgstr "面板"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -3945,13 +3945,13 @@ msgstr "状态和位置栏"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr ""
+msgstr "显示预览"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr ""
+msgstr "自动播放媒体文件"
 
 #: settings/interface/panelsettingspage.cpp:36
 #, kde-format
@@ -3963,19 +3963,19 @@ msgstr "悬停时显示项目"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "使用长日期 (例如“%1”)(&L)"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "使用短日期 (例如“%1”)(&C)"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr ""
+msgstr "信息面板："
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -3983,7 +3983,7 @@ msgctxt "@info"
 msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
-msgstr ""
+msgstr "面板的设置也可以通过面板的右键菜单访问。在面板上点击鼠标右键即可打开。"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format

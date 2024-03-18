@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-13 08:32+0200\n"
+"PO-Revision-Date: 2024-03-17 07:35+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4030,9 +4030,7 @@ msgid "Confirmations"
 msgstr "אישורים"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "לוחות"
@@ -4044,23 +4042,19 @@ msgid "Status && Location bars"
 msgstr "שורת מצב וסרגל מקום"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "הצגת תצוגה מקדימה"
+msgstr "הצגת תצוגות מקדימות"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "לנגן קובצי מדיה אוטומטית"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "הצגת פריט בריחוף מעליו"
@@ -4069,21 +4063,19 @@ msgstr "הצגת פריט בריחוף מעליו"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "להשתמש בתאריך &ארוך, למשל ‚%1’"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "להשתמש בתאריך &דחוס, למשל ‚%1’"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "פרטים"
+msgstr "לוח מידע:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4092,6 +4084,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"הגדרות הלוח זמינות גם דרך תפריט ההקשר שלו. אפשר לפתוח אותו בלחיצה על לחצן "
+"העכבר הימני על הלוח."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
