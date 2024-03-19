@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-16 00:40+0000\n"
+"POT-Creation-Date: 2024-03-19 00:40+0000\n"
 "PO-Revision-Date: 2024-03-17 20:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -70,6 +70,13 @@ msgstr "在新标签页中打开路径"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "在新窗口中打开路径"
+
+#: dolphincontextmenu.cpp:453
+#, kde-format
+msgctxt ""
+"@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+msgid "Middle Click"
+msgstr ""
 
 #: dolphinmainwindow.cpp:310
 #, kde-format

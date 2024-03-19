@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-16 00:40+0000\n"
+"POT-Creation-Date: 2024-03-19 00:40+0000\n"
 "PO-Revision-Date: 2021-10-15 10:46+0200\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -62,6 +62,13 @@ msgstr "Puć w nowym jězdniku wočinić"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Puć w nowym woknje wočinić"
+
+#: dolphincontextmenu.cpp:453
+#, kde-format
+msgctxt ""
+"@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+msgid "Middle Click"
+msgstr ""
 
 #: dolphinmainwindow.cpp:310
 #, kde-format

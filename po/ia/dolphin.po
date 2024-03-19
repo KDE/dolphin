@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-15 18:34+0100\n"
+"POT-Creation-Date: 2024-03-19 00:40+0000\n"
+"PO-Revision-Date: 2024-03-18 11:48+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -64,6 +64,13 @@ msgstr "Aperi percurso in nove scheda"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Aperi percurso in nove fenestra"
+
+#: dolphincontextmenu.cpp:453
+#, kde-format
+msgctxt ""
+"@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+msgid "Middle Click"
+msgstr ""
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -4081,9 +4088,7 @@ msgid "Confirmations"
 msgstr "Confirmationes"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Pannellos"
@@ -4095,23 +4100,19 @@ msgid "Status && Location bars"
 msgstr "Barra de Stato && de Location"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Monstrar vista preliminar"
+msgstr "Monstra  vistas preliminar"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Auto-Sona files multimedia"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Monstra elemento quando passa supra"
@@ -4120,21 +4121,19 @@ msgstr "Monstra elemento quando passa supra"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Usa data &longe, pro exemplo '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Usa data &concise, pro exemplo '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Information"
+msgstr "Pannello de information:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4143,6 +4142,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Preferentias de pannello anque es disponibile per lor menu de contexto. "
+"Aperi lo per pressar le button dextere del mus sur un pannello."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format

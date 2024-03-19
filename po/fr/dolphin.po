@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-03-14 08:56+0100\n"
-"Last-Translator: xavier <xavier.besnard@kde.org>\n"
+"POT-Creation-Date: 2024-03-19 00:40+0000\n"
+"PO-Revision-Date: 2024-03-17 10:15+0100\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -88,6 +88,13 @@ msgstr "Ouvrir l'emplacement dans un nouvel onglet"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
+
+#: dolphincontextmenu.cpp:453
+#, kde-format
+msgctxt ""
+"@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+msgid "Middle Click"
+msgstr ""
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -4171,9 +4178,7 @@ msgid "Confirmations"
 msgstr "Confirmations"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panneaux"
@@ -4185,46 +4190,40 @@ msgid "Status && Location bars"
 msgstr "Barres d'état et d'emplacement"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Afficher un aperçu"
+msgstr "Afficher des aperçus"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Lecture automatique des fichiers de média"
+msgstr "Lire automatiquement les fichiers de média"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "Afficher un élément après son survol"
+msgstr "Afficher un élément au survol"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Utiliser un format &long de date, comme par exemple, « %1 »"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Utiliser un format &condensé de date, comme par exemple, « %1 »"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informations"
+msgstr "Panneau d'informations :"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4233,6 +4232,9 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Les paramètres du panneau sont également disponibles grâce à leur menu "
+"contextuel. Veuillez l'ouvrir en appuyant sur le bouton droit de souris "
+"positionné sur un panneau."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format

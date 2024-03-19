@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-16 00:40+0000\n"
-"PO-Revision-Date: 2024-02-19 19:08+0000\n"
+"POT-Creation-Date: 2024-03-19 00:40+0000\n"
+"PO-Revision-Date: 2024-03-14 17:29+0000\n"
 "Last-Translator: Guðmundur Erlingsson <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
@@ -76,6 +76,13 @@ msgstr "Opna slóð í nýjum flipa"
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Opna slóð í nýjum glugga"
+
+#: dolphincontextmenu.cpp:453
+#, kde-format
+msgctxt ""
+"@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+msgid "Middle Click"
+msgstr ""
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -3265,27 +3272,25 @@ msgstr "Hámarks textabreidd (0 þýðir óendanlegt)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Hvernig við sýnum stærð fyrir möppur"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Sýna stöðustikuna"
+msgstr "Sýna fjölda innihaldsatriða"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Sýna stöðustikuna"
+msgstr "Sýna stærð innihalds"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Ekki sýna neina stærð fyrir möppu"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3670,7 +3675,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename inline"
-msgstr "Endurnefna í textalínu tákns"
+msgstr "Hægt að breyta textalínu tákns"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3893,13 +3898,13 @@ msgstr "Gluggum með forrit sem enn er í gangi á skjáhermispjaldi er lokað"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Opna margar möppur í einu"
+msgstr "Margar möppur eru opnaðar í einu"
 
 #: settings/interface/confirmationssettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr "Opna marga skjáherma í einu"
+msgstr "Margir skjáhermar eru opnaðir í einu"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -4004,13 +4009,13 @@ msgstr "Opna nýja flipa: "
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between panes with Tab key"
-msgstr "Skiptu á milli hluta með dálklykli (TAB)"
+msgstr "Skipta á milli hluta með dálklykli (TAB)"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "Kljúfa sýn: "
+msgstr "Tvískipt yfirlit: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
@@ -4191,7 +4196,7 @@ msgstr "Stöðustika: "
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "Gera staðsetningastiku breytanlega"
+msgstr "Gera staðsetningarstiku breytanlega"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
 #, kde-format
@@ -4256,28 +4261,22 @@ msgid "Sorting mode: "
 msgstr "Röðun: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Fjöldi atriða"
+msgstr "Sýna fjölda atriða"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Stærð innihalds, allt að"
+msgstr "Sýna stærð innihalds, allt að"
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Sýna aðdráttarsleða"
+msgstr "Ekki sýna neina stærð"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4287,12 +4286,10 @@ msgstr[0] " stigs dýpt"
 msgstr[1] " stiga dýpt"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Möppur:"
+msgstr "Möppustærð:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4369,6 +4366,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Sum séryfirlit eins og leit, nýlegar skrár eða rusl munu samt nota "
+"sérsniðinn birtingarstíl"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
@@ -4383,8 +4382,8 @@ msgid ""
 "Dolphin will create a hidden .directory file in each folder you change view "
 "properties for."
 msgstr ""
-"Þegar þú breytir birtingareiginleikum möppu býr Dolphin til földu skrána ."
-"directory í þeirri möppu."
+"Þegar þú breytir birtingareiginleikum möppu býr Dolphin til falda skrá, ."
+"directory, í þeirri möppu."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:46
 #, kde-format
@@ -4408,7 +4407,7 @@ msgstr "Opna möppur á meðan dregið er"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr "Vafur: "
+msgstr "Flakk: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
@@ -4433,7 +4432,7 @@ msgstr "Sýna valmerkingu"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr "Endurnefna í textalínu tákns"
+msgstr "Hægt að breyta textalínu tákns"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
@@ -4486,7 +4485,7 @@ msgstr "Letur í textalínu tákna:"
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
-msgstr "Lítið"
+msgstr "Lítil"
 
 #: settings/viewmodes/viewsettingstab.cpp:68
 #, kde-format
@@ -4498,13 +4497,13 @@ msgstr "Miðlungs"
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Large"
-msgstr "Stórt"
+msgstr "Mikil"
 
 #: settings/viewmodes/viewsettingstab.cpp:70
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Huge"
-msgstr "Risastórt"
+msgstr "Mjög mikil"
 
 #: settings/viewmodes/viewsettingstab.cpp:71
 #, kde-format
@@ -4558,13 +4557,13 @@ msgstr "Hámarksfjöldi lína:"
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
-msgstr "Ótakmarkaður"
+msgstr "Ótakmörkuð"
 
 #: settings/viewmodes/viewsettingstab.cpp:86
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
-msgstr "Lítill"
+msgstr "Lítil"
 
 #: settings/viewmodes/viewsettingstab.cpp:87
 #, kde-format
@@ -4576,7 +4575,7 @@ msgstr "Miðlungs"
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
-msgstr "Mikill"
+msgstr "Mikil"
 
 #: settings/viewmodes/viewsettingstab.cpp:89
 #, kde-format
@@ -4699,7 +4698,7 @@ msgstr "Viðbótarupplýsingar"
 #: settings/viewpropertiesdialog.cpp:132
 #, kde-format
 msgid "Choose what to see on each file or folder:"
-msgstr "Veldu hvað eigi að sjást um hverja skrá eða möppu:"
+msgstr "Veldu hvað á að sjást um hverja skrá eða möppu:"
 
 #: settings/viewpropertiesdialog.cpp:142
 #, kde-format
@@ -5429,7 +5428,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Breyta birtingarstíl sýnar…"
+msgstr "Breyta birtingarsniði yfirlits…"
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
