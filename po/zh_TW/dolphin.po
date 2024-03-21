@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-19 00:40+0000\n"
-"PO-Revision-Date: 2024-03-12 02:07+0900\n"
+"PO-Revision-Date: 2024-03-20 18:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -83,7 +83,7 @@ msgstr "在新視窗開啟路徑"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "滑鼠中鍵"
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -3946,12 +3946,10 @@ msgid "Confirmations"
 msgstr "確認"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "鎖定面板"
+msgstr "面板"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -3960,23 +3958,19 @@ msgid "Status && Location bars"
 msgstr "狀態列與位置工具列"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "顯示預覽"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "自動播放媒體檔案"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "游標停留時顯示項目"
@@ -3985,21 +3979,19 @@ msgstr "游標停留時顯示項目"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "使用長日期，例如 '%1'(&L)"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "使用縮短日期，例如 '%1'(&C)"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "資訊"
+msgstr "資訊面板："
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4007,7 +3999,7 @@ msgctxt "@info"
 msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
-msgstr ""
+msgstr "面板設定也可以從內文選單存取。在面板上按滑鼠右鍵即可開啟。"
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4239,7 +4231,7 @@ msgctxt "@info"
 msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
-msgstr ""
+msgstr "某些特殊檢視（像是搜尋、最近檔案、垃圾桶）還是會用自己的顯示方式。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

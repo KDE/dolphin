@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-19 00:40+0000\n"
-"PO-Revision-Date: 2024-03-09 22:46+0100\n"
+"PO-Revision-Date: 2024-03-20 13:26+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -68,7 +68,7 @@ msgstr "Отваряне на пътя в нов прозорец"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Кликване със среден бутон"
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -4093,12 +4093,10 @@ msgid "Confirmations"
 msgstr "Потвърждения"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Panels"
-#| msgid "Lock Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Заключване на панелите"
+msgstr "Панели"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4107,23 +4105,19 @@ msgid "Status && Location bars"
 msgstr "Лента за местоположение и състояние"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Показване на предварителен преглед"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Автоматично изпълнение на медийни файлове"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Показване на елемент при посочване"
@@ -4132,21 +4126,19 @@ msgstr "Показване на елемент при посочване"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Използване на &пълен формат за дата, например '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Използване на &съкратен формат за дата, например '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Информация"
+msgstr "Панел с данни:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4155,6 +4147,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Настройките на панела са достъпни и чрез контекстното им меню. Отворете го, "
+"като натиснете десния бутон на мишката върху панела."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4388,6 +4382,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Някои специални изгледи, като търсене, скорошни файлове или кошче, все още "
+"ще използват персонализиран стил на показване."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format

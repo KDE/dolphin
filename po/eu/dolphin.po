@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-19 00:40+0000\n"
-"PO-Revision-Date: 2024-03-08 18:49+0100\n"
+"PO-Revision-Date: 2024-03-20 22:21+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -76,7 +76,7 @@ msgstr "Ireki bide-izena leiho berrian"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Erdiko klik"
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -4080,9 +4080,7 @@ msgid "Confirmations"
 msgstr "Berrespenak"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panelak"
@@ -4094,23 +4092,19 @@ msgid "Status && Location bars"
 msgstr "Egoera- eta Kokaleku-barrak"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Erakutsi aurreikuspegia"
+msgstr "Erakutsi aurreikuspegiak"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "Automatikoki jo media fitxategiak"
+msgstr "Hedabideetako fitxategiak automatikoki jotzea"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Erakutsi elementua gainetik igarotzean"
@@ -4119,21 +4113,19 @@ msgstr "Erakutsi elementua gainetik igarotzean"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Data &luzea erabili, adibidez '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Data la&burtua erabili, adibidez '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informazioa"
+msgstr "Informazio-panela:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4142,6 +4134,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Panel-ezarpenak haien testuinguru-menutik ere erabilgarri daude. Irekitzeko, "
+"sakatu saguaren eskuineko botoia panelean."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4376,6 +4370,9 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Ikuspegi berezi batzuek, hala nola bilaketak, azken aldiko fitxategiak, edo "
+"zakarrontziak, oraindik, neurrira ipinitako azaltzeko estilo bat erabiliko "
+"dute."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
