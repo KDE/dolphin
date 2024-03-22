@@ -854,7 +854,8 @@ void DolphinMainWindow::updatePasteAction()
     QAction *pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
-    m_disabledActionNotifier->setDisabledReason(pasteAction, DisabledReason::emptyClipboard);
+    m_disabledActionNotifier->setDisabledReason(pasteAction,
+                                                m_activeViewContainer->rootItem().isWritable() ? DisabledReason::emptyClipboard : DisabledReason::noPermission);
     pasteAction->setText(pasteInfo.second);
 }
 
