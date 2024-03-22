@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-19 00:40+0000\n"
-"PO-Revision-Date: 2024-03-19 14:49+0300\n"
+"PO-Revision-Date: 2024-03-21 20:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5036,7 +5036,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 "Bu dosyanın adının başına bir nokta eklemek onu görünümden gizleyecektir.\n"
-"Hala yeniden adlandırmak istiyor musunuz?"
+"Hâlâ yeniden adlandırmak istiyor musunuz?"
 
 #: views/dolphinview.cpp:1990
 #, kde-format
