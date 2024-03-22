@@ -262,6 +262,7 @@ add_library(dolphinstatic STATIC)
 
 target_sources(dolphinstatic PRIVATE
     animatedheightwidget.cpp
+    disabledactionnotifier.cpp
     dolphinbookmarkhandler.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp

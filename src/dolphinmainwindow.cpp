@@ -109,6 +109,7 @@ DolphinMainWindow::DolphinMainWindow()
     , m_remoteEncoding(nullptr)
     , m_settingsDialog()
     , m_bookmarkHandler(nullptr)
+    , m_disabledActionNotifier(nullptr)
     , m_lastHandleUrlOpenJob(nullptr)
     , m_terminalPanel(nullptr)
     , m_placesPanel(nullptr)
@@ -172,6 +173,11 @@ DolphinMainWindow::DolphinMainWindow()
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
+
+    m_disabledActionNotifier = new DisabledActionNotifier(this);
+    connect(m_disabledActionNotifier, &DisabledActionNotifier::disabledActionTriggered, this, [this](const QAction *, QString text) {
+        m_activeViewContainer->showMessage(text, DolphinViewContainer::Warning);
+    });
 
     setupDockWidgets();
 
@@ -848,6 +854,7 @@ void DolphinMainWindow::updatePasteAction()
     QAction *pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
+    m_disabledActionNotifier->setDisabledReason(pasteAction, DisabledReason::emptyClipboard);
     pasteAction->setText(pasteInfo.second);
 }
 
@@ -1378,6 +1385,10 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     // trash:/ is writable but we don't want to create new items in it.
     // TODO: remove the trash check once https://phabricator.kde.org/T8234 is implemented
     newFileMenu()->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
+    // When the menu is disabled, actions in it are disabled later in the event loop, and we need to set the disabled reason after that.
+    QTimer::singleShot(0, this, [this]() {
+        m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_dir")), DisabledReason::noPermission);
+    });
 }
 
 void DolphinMainWindow::openContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url)
@@ -2406,16 +2417,39 @@ void DolphinMainWindow::updateFileAndEditActions()
         const bool enableMoveToTrash = capabilitiesSource.isLocal() && capabilitiesSource.supportsMoving();
 
         renameAction->setEnabled(capabilitiesSource.supportsMoving());
-        moveToTrashAction->setEnabled(enableMoveToTrash);
+        m_disabledActionNotifier->setDisabledReason(renameAction, DisabledReason::noPermission);
         deleteAction->setEnabled(capabilitiesSource.supportsDeleting());
-        deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting() && !enableMoveToTrash);
+        m_disabledActionNotifier->setDisabledReason(deleteAction, DisabledReason::noPermission);
         cutAction->setEnabled(capabilitiesSource.supportsMoving());
+        m_disabledActionNotifier->setDisabledReason(cutAction, DisabledReason::noPermission);
         copyLocation->setEnabled(list.length() == 1);
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
+        m_disabledActionNotifier->setDisabledReason(duplicateAction, DisabledReason::noPermission);
+
+        if (enableMoveToTrash) {
+            moveToTrashAction->setEnabled(true);
+            deleteWithTrashShortcut->setEnabled(false);
+            m_disabledActionNotifier->clearDisabledReason(deleteWithTrashShortcut);
+        } else {
+            moveToTrashAction->setEnabled(false);
+            deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting());
+            m_disabledActionNotifier->setDisabledReason(deleteWithTrashShortcut, DisabledReason::noPermission);
+        }
     }
 
-    if (m_tabWidget->currentTabPage()->splitViewEnabled() && !list.isEmpty()) {
+    if (!m_tabWidget->currentTabPage()->splitViewEnabled()) {
+        // No need to set the disabled reason here, as it's obvious to the user that the reason is the split view being disabled.
+        copyToOtherViewAction->setEnabled(false);
+        m_disabledActionNotifier->clearDisabledReason(copyToOtherViewAction);
+        moveToOtherViewAction->setEnabled(false);
+        m_disabledActionNotifier->clearDisabledReason(moveToOtherViewAction);
+    } else if (list.isEmpty()) {
+        copyToOtherViewAction->setEnabled(false);
+        m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction, DisabledReason::noSelection);
+        moveToOtherViewAction->setEnabled(false);
+        m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, DisabledReason::noSelection);
+    } else {
         DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
         KFileItem capabilitiesDestination;
 
@@ -2430,12 +2464,21 @@ void DolphinMainWindow::updateFileAndEditActions()
             return item.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash) != destUrl;
         });
 
-        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable() && allNotTargetOrigin);
-        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable()
-                                          && allNotTargetOrigin);
-    } else {
-        copyToOtherViewAction->setEnabled(false);
-        moveToOtherViewAction->setEnabled(false);
+        if (!allNotTargetOrigin) {
+            copyToOtherViewAction->setEnabled(false);
+            m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction, DisabledReason::targetInOriginWhenCopy);
+            moveToOtherViewAction->setEnabled(false);
+            m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, DisabledReason::targetInOriginWhenMove);
+        } else if (!capabilitiesDestination.isWritable()) {
+            copyToOtherViewAction->setEnabled(false);
+            m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction, DisabledReason::destinationReadOnly);
+            moveToOtherViewAction->setEnabled(false);
+            m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, DisabledReason::destinationReadOnly);
+        } else {
+            copyToOtherViewAction->setEnabled(true);
+            moveToOtherViewAction->setEnabled(capabilitiesSource.supportsMoving());
+            m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, DisabledReason::noPermission);
+        }
     }
 }
 
