@@ -58,23 +58,5 @@ Q_SIGNALS:
     void disabledActionTriggered(const QAction *action, QString text);
 
 private:
-    void onShortcutActivated(const QAction *action, QStringView reason);
-
     QHash<QAction *, QShortcut *> m_shortcuts;
 };
-
-namespace DisabledReason
-{
-
-// Note: the reason should start with a lowercase letter, because it will be shown in
-// a sentence like "Could not <action>: <reason>".
-
-const QString destinationReadOnly =
-    i18nc("@info reason for disabled action: copy/move files to destination", "you do not have permission to write into the destination folder.");
-const QString emptyClipboard = i18nc("@info reason for disabled action: paste", "the clipboard is empty.");
-const QString noPermission = i18nc("@info reason for disabled action: cut/paste/rename/duplicate files", "you do not have permission in this folder.");
-const QString noSelection = i18nc("@info reason for disabled action: file operations", "no files selected.");
-const QString targetInOriginWhenMove = i18nc("@info reason for disabled action: move files to the other view", "moving a folder onto itself is not possible.");
-const QString targetInOriginWhenCopy = i18nc("@info reason for disabled action: copy files to the other view", "copying a folder onto itself is not possible.");
-
-}
