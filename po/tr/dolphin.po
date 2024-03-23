@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-19 00:40+0000\n"
-"PO-Revision-Date: 2024-03-21 20:38+0300\n"
+"PO-Revision-Date: 2024-03-22 16:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -195,8 +195,8 @@ msgstr "Tercih Edilen Arama Aracını Aç"
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "1 uçbirim penceresi açmak istediğinize emin misiniz?"
-msgstr[1] "%1 uçbirim penceresi açmak istediğinize emin misiniz?"
+msgstr[0] "1 uçbirim penceresi açmak istediğinizden emin misiniz?"
+msgstr[1] "%1 uçbirim penceresi açmak istediğinizden emin misiniz?"
 
 #: dolphinmainwindow.cpp:1283
 #, kde-format
