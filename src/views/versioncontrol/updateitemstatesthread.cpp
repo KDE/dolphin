@@ -26,22 +26,26 @@ UpdateItemStatesThread::~UpdateItemStatesThread()
 void UpdateItemStatesThread::run()
 {
     Q_ASSERT(!m_itemStates.isEmpty());
-    Q_ASSERT(m_plugin);
+    if (!m_plugin) {
+        return;
+    }
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
     QMap<QString, QVector<VersionControlObserver::ItemState>>::iterator it = m_itemStates.begin();
-    for (; it != m_itemStates.end(); ++it) {
+    for (; it != m_itemStates.end() && m_plugin; ++it) {
         if (m_plugin->beginRetrieval(it.key())) {
             QVector<VersionControlObserver::ItemState> &items = it.value();
             const int count = items.count();
-            for (int i = 0; i < count; ++i) {
+            for (int i = 0; i < count && m_plugin; ++i) {
                 const KFileItem &item = items.at(i).first;
                 const KVersionControlPlugin::ItemVersion version = m_plugin->itemVersion(item);
                 items[i].second = version;
             }
         }
 
-        m_plugin->endRetrieval();
+        if (m_plugin) {
+            m_plugin->endRetrieval();
+        }
     }
 }
 

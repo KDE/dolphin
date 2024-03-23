@@ -11,6 +11,7 @@
 #include "views/versioncontrol/versioncontrolobserver.h"
 
 #include <QMutex>
+#include <QPointer>
 #include <QThread>
 
 /**
@@ -41,7 +42,7 @@ protected:
 
 private:
     QMutex *m_globalPluginMutex; // Protects the m_plugin globally
-    KVersionControlPlugin *m_plugin;
+    QPointer<KVersionControlPlugin> m_plugin;
 
     QMap<QString, QVector<VersionControlObserver::ItemState>> m_itemStates;
 };
