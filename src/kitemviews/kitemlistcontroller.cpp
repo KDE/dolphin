@@ -741,7 +741,7 @@ bool KItemListController::contextMenuEvent(QContextMenuEvent *event)
     // That's because the same click might have de-selected the item or because the press was only in the row of the item but not on it.
     if (pressedItem && m_selectionManager->selectedItems().contains(pressedItem.value())) {
         // The selection rectangle for an item was clicked
-        Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), globalPos);
+        Q_EMIT itemContextMenuRequested(pressedItem.value(), globalPos);
         return true;
     }
 
