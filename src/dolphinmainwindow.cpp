@@ -2475,10 +2475,10 @@ void DolphinMainWindow::updateFileAndEditActions()
         if (!allNotTargetOrigin) {
             copyToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction,
-                                                        i18nc("@info", "Could not copy to other view: copying a folder onto itself is not possible."));
+                                                        i18nc("@info", "Could not copy to other view: the other view already contains these items."));
             moveToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction,
-                                                        i18nc("@info", "Could not move to other view: moving a folder onto itself is not possible."));
+                                                        i18nc("@info", "Could not move to other view: the other view already contains these items."));
         } else if (!capabilitiesDestination.isWritable()) {
             copyToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(
