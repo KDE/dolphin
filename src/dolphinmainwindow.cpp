@@ -37,6 +37,7 @@
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KAuthorized>
+#include <KColorSchemeManager>
 #include <KConfig>
 #include <KConfigGui>
 #include <KDualAction>
@@ -132,6 +133,8 @@ DolphinMainWindow::DolphinMainWindow()
     setObjectName(QStringLiteral("Dolphin#"));
 
     setStateConfigGroup("State");
+
+    new KColorSchemeManager(this);
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage, this, &DolphinMainWindow::showErrorMessage);
 
