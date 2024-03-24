@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-19 00:40+0000\n"
+"POT-Creation-Date: 2024-03-24 00:40+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -4897,7 +4897,7 @@ msgid "Open files and folders:"
 msgstr "ముందస్తు వీక్షణం జరిపించుము"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:328
+#: statusbar/dolphinstatusbar.cpp:327
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5078,31 +5078,31 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "ఫోల్డర్లు: %1"
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:58
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:63
+#: statusbar/dolphinstatusbar.cpp:62
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:78
+#: statusbar/dolphinstatusbar.cpp:77
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "ఆపుము"
 
-#: statusbar/dolphinstatusbar.cpp:80
+#: statusbar/dolphinstatusbar.cpp:79
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -5110,7 +5110,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "వరుసక్రమము:"
 
-#: statusbar/dolphinstatusbar.cpp:135
+#: statusbar/dolphinstatusbar.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -5123,7 +5123,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:269
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show zoom slider"
@@ -5131,7 +5131,7 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "జూమ్ స్లైడర్‌ను చూపుము"
 
-#: statusbar/dolphinstatusbar.cpp:274
+#: statusbar/dolphinstatusbar.cpp:273
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show space information"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-19 00:40+0000\n"
+"POT-Creation-Date: 2024-03-24 00:40+0000\n"
 "PO-Revision-Date: 2023-09-10 19:04+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4616,7 +4616,7 @@ msgid "Open files and folders:"
 msgstr "Öppna filer och kataloger:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:328
+#: statusbar/dolphinstatusbar.cpp:327
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -4784,35 +4784,35 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Kataloger: %1"
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:58
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Zoom:"
 
-#: statusbar/dolphinstatusbar.cpp:63
+#: statusbar/dolphinstatusbar.cpp:62
 #, kde-format
 msgid "Zoom"
 msgstr "Zooma"
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Ställer in filikonernas storlek."
 
-#: statusbar/dolphinstatusbar.cpp:78
+#: statusbar/dolphinstatusbar.cpp:77
 #, kde-format
 msgid "Stop"
 msgstr "Stoppa"
 
-#: statusbar/dolphinstatusbar.cpp:80
+#: statusbar/dolphinstatusbar.cpp:79
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Stoppa inläsning"
 
-#: statusbar/dolphinstatusbar.cpp:135
+#: statusbar/dolphinstatusbar.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -4832,13 +4832,13 @@ msgstr ""
 "item><item><emphasis>Utrymmesinformation</emphasis> om den nuvarande "
 "lagringsenheten.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:270
+#: statusbar/dolphinstatusbar.cpp:269
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Visa zoomreglage"
 
-#: statusbar/dolphinstatusbar.cpp:274
+#: statusbar/dolphinstatusbar.cpp:273
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
