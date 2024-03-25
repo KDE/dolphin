@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-24 00:40+0000\n"
-"PO-Revision-Date: 2024-01-16 09:57+0200\n"
-"Last-Translator: Māris Nartišs <maris.kde@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2024-03-24 11:38+0200\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
+"Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -78,37 +78,37 @@ msgstr "Atvērt ceļu jaunā logā"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Peles vidējais klikšķis"
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
-msgstr "Sekmīgi nokopēts."
+msgstr "Nokopēts."
 
 #: dolphinmainwindow.cpp:313
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
-msgstr "Sekmīgi pārvietots."
+msgstr "Pārvietots."
 
 #: dolphinmainwindow.cpp:316
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
-msgstr "Sekmīgi piesaitēts."
+msgstr "Piesaitēts."
 
 #: dolphinmainwindow.cpp:319
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
-msgstr "Sekmīgi izmests atkritnē."
+msgstr "Izmests atkritnē."
 
 #: dolphinmainwindow.cpp:322
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
-msgstr "Sekmīgi pārdēvēts."
+msgstr "Pārdēvēts."
 
 #: dolphinmainwindow.cpp:326
 #, kde-format
@@ -567,7 +567,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the folder view has been split, this will pop the active folder view out "
 "into a new window."
-msgstr ""
+msgstr "Ja mapes skats ir sadalīts, jaunā logā atvērsies aktīvās mapes skats."
 
 #: dolphinmainwindow.cpp:1862
 #, kde-format
@@ -1095,13 +1095,13 @@ msgstr "Aizvērt kreiso skatu"
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atdalīt"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
 msgctxt "@info"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "Pārvietot skata kreiso pusi jaunā logā"
 
 #: dolphinmainwindow.cpp:2557
 #, kde-format
@@ -1119,13 +1119,13 @@ msgstr "Aizvērt labo skatu"
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atdalīt"
 
 #: dolphinmainwindow.cpp:2561
 #, kde-format
 msgctxt "@info"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "Pārvietot skata labo pusi jaunā logā"
 
 #: dolphinmainwindow.cpp:2570
 #, kde-format
@@ -1143,7 +1143,7 @@ msgstr "Sadalīt skatu"
 #, kde-format
 msgctxt "@action:intoolbar Move active split view to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Atdalīt"
 
 #: dolphinmainwindow.cpp:2628
 #, kde-kuit-format
@@ -3282,27 +3282,25 @@ msgstr "Maksimālais teksta platuma indekss (0 nozīmē bez ierobežojuma)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Kā parādīt mapju izmēru"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Rādīt statusa joslu"
+msgstr "Rādīt satura skaitu"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Rādīt statusa joslu"
+msgstr "Rādīt satura izmēru"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Nerādīt mapes izmēru"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4084,9 +4082,7 @@ msgid "Confirmations"
 msgstr "Apstiprinājumi"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Paneļi"
@@ -4098,23 +4094,19 @@ msgid "Status && Location bars"
 msgstr "Statusa un vietas josla"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Rādīt priekšskatījumu"
+msgstr "Rādīt priekšskatījumus"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Automātiski atskaņot multimediju datnes"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Rādīt vienumu, uzliekot peles kursoru"
@@ -4123,21 +4115,19 @@ msgstr "Rādīt vienumu, uzliekot peles kursoru"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Izmantot &garo datumu, piemēram, „%1“"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Izmantot &īso datumu, piemēram, „%1“"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informācija"
+msgstr "Informācijas panelis:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4146,6 +4136,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Paneļa iestatījumi ir pieejami arī konteksta izvēlnē. To varat atvērt, "
+"spiežot peles labo pogu uz paneļa."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4274,28 +4266,22 @@ msgid "Sorting mode: "
 msgstr "Kārtošanas režīms: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Vienumu skaits"
+msgstr "Rādīt vienumu skaitu"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Satura izmērs līdz "
+msgstr "Rādīt satura izmēru līdz "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Rādīt tālummaiņas slīdni"
+msgstr "Nerādīt izmēru"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4306,12 +4292,10 @@ msgstr[1] " līmeņus dziļš"
 msgstr[2] " līmeņu dziļš"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Mapes:"
+msgstr "Mapes izmērs:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4388,6 +4372,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Atsevišķi īpaši skati, piemēram, meklēšana, nesenās datnes vai atkritne "
+"joprojām izmantos pielāgotu stilu."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
