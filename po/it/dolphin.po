@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-24 00:40+0000\n"
-"PO-Revision-Date: 2024-03-13 14:24+0100\n"
+"PO-Revision-Date: 2024-03-19 11:05+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -69,7 +69,7 @@ msgstr "Apri percorso in una nuova finestra"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Clic centrale"
 
 #: dolphinmainwindow.cpp:310
 #, kde-format
@@ -4098,9 +4098,7 @@ msgid "Confirmations"
 msgstr "Conferme"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Pannelli"
@@ -4112,23 +4110,19 @@ msgid "Status && Location bars"
 msgstr "Barre di stato e della posizione"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Mostra l'anteprima"
+msgstr "Mostra le anteprime"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Riproduci automaticamente i file multimediali"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Mostra l'elemento al passaggio del puntatore"
@@ -4137,21 +4131,19 @@ msgstr "Mostra l'elemento al passaggio del puntatore"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Utilizza una data &lunga, ad esempio «%1»"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Utilizza la data &ridotta, ad esempio «%1»"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informazioni"
+msgstr "Pannello informazioni:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4160,6 +4152,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Le impostazioni del pannello sono disponibili anche tramite il menu "
+"contestuale. Aprilo premendo il pulsante destro del mouse su un pannello."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
