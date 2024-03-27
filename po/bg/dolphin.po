@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-24 00:40+0000\n"
-"PO-Revision-Date: 2024-03-20 13:26+0100\n"
+"PO-Revision-Date: 2024-03-25 20:05+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1065,7 +1065,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
-msgstr "Показване на панелите"
+msgstr "Показване на панели"
 
 #: dolphinmainwindow.cpp:2461
 #, kde-kuit-format
@@ -3287,15 +3287,15 @@ msgstr "Как се показва размерът на директориит�
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, kde-format
+#, fuzzy, kde-format
 msgid "Show the content count"
-msgstr "Показване на броя на обектите"
+msgstr "Показване на лентата на състоянието"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, kde-format
+#, fuzzy, kde-format
 msgid "Show the content size"
-msgstr "Показване на размера на съдържанието"
+msgstr "Показване на лентата на състоянието"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
@@ -3693,7 +3693,7 @@ msgstr "Питане при затваряне на много раздели."
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename inline"
-msgstr "Преименуване на елемент"
+msgstr "Преименуване на елемент в прозореца за преглед"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -4093,10 +4093,10 @@ msgid "Confirmations"
 msgstr "Потвърждения"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Панели"
+msgstr "Заключване на панелите"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4105,19 +4105,19 @@ msgid "Status && Location bars"
 msgstr "Лента за местоположение и състояние"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Показване на предварителен преглед"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Автоматично изпълнение на медийни файлове"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Показване на елемент при посочване"
@@ -4135,10 +4135,10 @@ msgid "Use &condensed date, for example '%1'"
 msgstr "Използване на &съкратен формат за дата, например '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Панел с данни:"
+msgstr "Информация"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4200,7 +4200,7 @@ msgstr "Показване на плъзгача за мащабиране"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Показване на информация за пространството"
+msgstr "Показване на данни за дисково пространство"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
 #, kde-format
@@ -4277,22 +4277,22 @@ msgid "Sorting mode: "
 msgstr "Режим на сортиране: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Показване на броя на елементите"
+msgstr "Брой елементи"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Показване на размер на съдържанието, до "
+msgstr "Размер на съдържанието, до "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Да не се показва размер"
+msgstr "Показване на плъзгача за мащабиране"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4302,10 +4302,10 @@ msgstr[0] " дълбочина на ниво"
 msgstr[1] " дълбочина на нива"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Размер на папки:"
+msgstr "Папки:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4448,7 +4448,7 @@ msgstr "Показване на маркера на селекцията"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr "Преименуване на елемент"
+msgstr "Преименуване на елемент в прозореца за преглед"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
@@ -4645,7 +4645,7 @@ msgstr[1] "Големина: %1 пиксела"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Преглед на стила на дисплея"
+msgstr "Стил на прегледа"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4857,7 +4857,7 @@ msgstr "Показване плъзгач за мащабиране"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
-msgstr "Показване на данни за пространството"
+msgstr "Показване на данни за дисково пространство"
 
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
@@ -4892,14 +4892,12 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 свободни от %2 (използвани %3%)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr ""
-"%1 свободни от %2 (използвани %3%)\n"
-"Натиснете за настройки на дисковото пространство."
+msgstr "%1 свободни от %2 (използвани %3%)"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
