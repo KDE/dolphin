@@ -1,21 +1,21 @@
 # Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
 #
-# SPDX-FileCopyrightText: 2022, 2023 Mincho Kondarev <mkondarev@yahoo.de>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Mincho Kondarev <mkondarev@yahoo.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 02:29+0000\n"
-"PO-Revision-Date: 2023-11-22 11:19+0100\n"
+"PO-Revision-Date: 2024-03-25 20:05+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
-"Language-Team: C <kde-i18n-doc@kde.org>\n"
+"Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1048,7 +1048,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
-msgstr "Показване на панелите"
+msgstr "Показване на панели"
 
 #: dolphinmainwindow.cpp:2372
 #, kde-kuit-format
@@ -3629,7 +3629,7 @@ msgstr "Питане при затваряне на много раздели."
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename inline"
-msgstr "Преименуване на елемент"
+msgstr "Преименуване на елемент в прозореца за преглед"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -4078,7 +4078,7 @@ msgstr "Показване на плъзгача за мащабиране"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Показване на информация за пространството"
+msgstr "Показване на данни за дисково пространство"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
 #, kde-format
@@ -4308,7 +4308,7 @@ msgstr "Показване на маркера на селекцията"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr "Преименуване на елемент"
+msgstr "Преименуване на елемент в прозореца за преглед"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -4486,7 +4486,7 @@ msgstr[1] "Големина: %1 пиксела"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Преглед на стила на дисплея"
+msgstr "Стил на прегледа"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -4698,7 +4698,7 @@ msgstr "Показване плъзгач за мащабиране"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
-msgstr "Показване на данни за пространството"
+msgstr "Показване на данни за дисково пространство"
 
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
