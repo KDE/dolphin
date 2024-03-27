@@ -96,7 +96,7 @@ namespace
 const int CurrentDolphinVersion = 202;
 // The maximum number of entries in the back/forward popup menu
 const int MaxNumberOfNavigationentries = 12;
-// The maximum number of "Activate Tab" shortcuts
+// The maximum number of "Go to Tab" shortcuts
 const int MaxActivateTabShortcuts = 9;
 }
 
@@ -1640,7 +1640,7 @@ void DolphinMainWindow::setupActions()
     newWindow->setToolTip(i18nc("@info", "Open a new Dolphin window"));
     newWindow->setWhatsThis(xi18nc("@info:whatsthis",
                                    "This opens a new "
-                                   "window just like this one with the current location and view."
+                                   "window just like this one with the current location."
                                    "<nl/>You can drag and drop items between windows."));
     newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
 
@@ -1649,8 +1649,8 @@ void DolphinMainWindow::setupActions()
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
     newTab->setWhatsThis(xi18nc("@info:whatsthis",
                                 "This opens a new "
-                                "<emphasis>Tab</emphasis> with the current location and view.<nl/>"
-                                "A tab is an additional view within this window. "
+                                "<emphasis>Tab</emphasis> with the current location."
+                                "<nl/>Tabs allow you to quickly switch between multiple locations and views within this window. "
                                 "You can drag and drop items between tabs."));
     actionCollection()->setDefaultShortcut(newTab, Qt::CTRL | Qt::Key_T);
     connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
@@ -1665,10 +1665,11 @@ void DolphinMainWindow::setupActions()
 
     QAction *closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
+    closeTab->setToolTip(i18nc("@info", "Close Tab"));
     closeTab->setWhatsThis(i18nc("@info:whatsthis",
                                  "This closes the "
-                                 "currently viewed tab. If no more tabs are left this window "
-                                 "will close instead."));
+                                 "currently viewed tab. If no more tabs are left, this closes "
+                                 "the whole window instead."));
 
     QAction *quitAction = KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
     quitAction->setWhatsThis(i18nc("@info:whatsthis quit", "This closes this window."));
@@ -1719,9 +1720,10 @@ void DolphinMainWindow::setupActions()
     m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Other View…"));
     copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy",
                                                "This copies the selected items from "
-                                               "the <emphasis>active</emphasis> view to the inactive split view."));
+                                               "the view in focus to the other view. "
+                                               "(Only available while in Split View mode.)"));
     copyToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-    copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to Inactive Split View"));
+    copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to Other View"));
     actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT | Qt::Key_F5);
     connect(copyToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::copyToInactiveSplitView);
 
@@ -1730,9 +1732,10 @@ void DolphinMainWindow::setupActions()
     m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Other View…"));
     moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move",
                                                "This moves the selected items from "
-                                               "the <emphasis>active</emphasis> view to the inactive split view."));
+                                               "the view in focus to the other view. "
+                                               "(Only available while in Split View mode.)"));
     moveToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
-    moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to Inactive Split View"));
+    moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to Other View"));
     actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT | Qt::Key_F6);
     connect(moveToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::moveToInactiveSplitView);
 
@@ -1742,7 +1745,7 @@ void DolphinMainWindow::setupActions()
     showFilterBar->setWhatsThis(xi18nc("@info:whatsthis",
                                        "This opens the "
                                        "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
-                                       "There you can enter a text to filter the files and folders currently displayed. "
+                                       "There you can enter text to filter the files and folders currently displayed. "
                                        "Only those that contain the text in their name will be kept in view."));
     showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL | Qt::Key_I, Qt::Key_Slash});
@@ -1765,10 +1768,10 @@ void DolphinMainWindow::setupActions()
     searchAction->setToolTip(i18nc("@info:tooltip", "Search for files and folders"));
     searchAction->setWhatsThis(xi18nc("@info:whatsthis find",
                                       "<para>This helps you "
-                                      "find files and folders by opening a <emphasis>find bar</emphasis>. "
+                                      "find files and folders by opening a <emphasis>search bar</emphasis>. "
                                       "There you can enter search terms and specify settings to find the "
-                                      "objects you are looking for.</para><para>Use this help again on "
-                                      "the find bar so we can have a look at it while the settings are "
+                                      "items you are looking for.</para><para>Use this help again on "
+                                      "the search bar so we can have a look at it while the settings are "
                                       "explained.</para>"));
 
     // toggle_search acts as a copy of the main searchAction to be used mainly
@@ -1820,7 +1823,7 @@ void DolphinMainWindow::setupActions()
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setWhatsThis(xi18nc("@info:whatsthis invert",
                                          "This selects all "
-                                         "objects that you have currently <emphasis>not</emphasis> selected instead."));
+                                         "items that you have currently <emphasis>not</emphasis> selected instead."));
     invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
     actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
@@ -1836,11 +1839,12 @@ void DolphinMainWindow::setupActions()
     m_splitViewAction = actionCollection()->add<KActionMenu>(QStringLiteral("split_view"));
     m_splitViewMenuAction = actionCollection()->addAction(QStringLiteral("split_view_menu"));
 
-    m_splitViewAction->setWhatsThis(xi18nc("@info:whatsthis find",
-                                           "<para>This splits "
-                                           "the folder view below into two autonomous views.</para><para>This "
-                                           "way you can see two locations at once and move items between them "
-                                           "quickly.</para>Click this again afterwards to recombine the views."));
+    m_splitViewAction->setWhatsThis(xi18nc("@info:whatsthis split",
+                                           "<para>This presents "
+                                           "a second view side-by-side with the current view, so you can see "
+                                           "the contents of two folders at once and easily move items between "
+                                           "them.</para><para>The view that is not \"in focus\" will be dimmed. "
+                                           "</para>Click this button again to close one of the views."));
     m_splitViewMenuAction->setWhatsThis(m_splitViewAction->whatsThis());
 
     // only set it for the menu version
@@ -1851,8 +1855,8 @@ void DolphinMainWindow::setupActions()
 
     QAction *popoutSplit = actionCollection()->addAction(QStringLiteral("popout_split_view"));
     popoutSplit->setWhatsThis(xi18nc("@info:whatsthis",
-                                     "If the folder view has been split, this will pop the active folder "
-                                     "view out into a new window."));
+                                     "If the view has been split, this will pop the view in focus "
+                                     "out into a new window."));
     popoutSplit->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     actionCollection()->setDefaultShortcut(popoutSplit, Qt::SHIFT | Qt::Key_F3);
     connect(popoutSplit, &QAction::triggered, this, &DolphinMainWindow::popoutSplitView);
@@ -1940,10 +1944,10 @@ void DolphinMainWindow::setupActions()
     undoAction->setWhatsThis(xi18nc("@info:whatsthis",
                                     "This undoes "
                                     "the last change you made to files or folders.<nl/>"
-                                    "Such changes include <interface>creating, renaming</interface> "
+                                    "Such changes include <interface>creating</interface>, <interface>renaming</interface> "
                                     "and <interface>moving</interface> them to a different location "
-                                    "or to the <filename>Trash</filename>. <nl/>Changes that can't "
-                                    "be undone will ask for your confirmation."));
+                                    "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be undone "
+                                    "will ask for your confirmation beforehand."));
     undoAction->setEnabled(false); // undo should be disabled by default
 
     {
@@ -1969,8 +1973,8 @@ void DolphinMainWindow::setupActions()
     homeAction->setWhatsThis(xi18nc("@info:whatsthis",
                                     "Go to your "
                                     "<filename>Home</filename> folder.<nl/>Every user account "
-                                    "has their own <filename>Home</filename> that contains their data "
-                                    "including folders that contain personal application data."));
+                                    "has their own <filename>Home</filename> that contains their personal files, "
+                                    "as well as hidden folders for their applications' data and configuration files."));
 
     // setup 'Tools' menu
     QAction *compareFiles = actionCollection()->addAction(QStringLiteral("compare_files"));
@@ -1993,7 +1997,7 @@ void DolphinMainWindow::setupActions()
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
                                           "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
-                                          "<para>To learn more about terminals use the help in the terminal application.</para>"));
+                                          "<para>To learn more about terminals use the help features in the terminal application.</para>"));
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
@@ -2003,7 +2007,7 @@ void DolphinMainWindow::setupActions()
         openTerminalHere->setText(i18nc("@action:inmenu Tools", "Open Terminal Here"));
         openTerminalHere->setWhatsThis(xi18nc("@info:whatsthis",
                                               "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
-                                              "<para>To learn more about terminals use the help in the terminal application.</para>"));
+                                              "<para>To learn more about terminals use the help features in the terminal application.</para>"));
         openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
@@ -2029,10 +2033,10 @@ void DolphinMainWindow::setupActions()
     KToggleAction *showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
                                      "<para>This switches between having a <emphasis>Menubar</emphasis> "
-                                     "and having a <interface>%1</interface> button. Both "
+                                     "and having an <interface>%1</interface> button. Both "
                                      "contain mostly the same actions and configuration options.</para>"
-                                     "<para>The Menubar takes up more space but allows for fast and organised access to all "
-                                     "actions an application has to offer.</para><para>The <interface>%1</interface> button "
+                                     "<para>The Menubar takes up more space but allows for fast and organized access to all "
+                                     "actions an application has to offer.</para><para>The %1 button "
                                      "is simpler and small which makes triggering advanced actions more time consuming.</para>",
                                      hamburgerMenuAction->text().replace('&', "")));
     connect(showMenuBar,
@@ -2061,7 +2065,7 @@ void DolphinMainWindow::setupActions()
 
     for (int i = 0; i < MaxActivateTabShortcuts; ++i) {
         QAction *activateTab = actionCollection()->addAction(QStringLiteral("activate_tab_%1").arg(i));
-        activateTab->setText(i18nc("@action:inmenu", "Activate Tab %1", i + 1));
+        activateTab->setText(i18nc("@action:inmenu", "Go to Tab %1", i + 1));
         activateTab->setEnabled(false);
         connect(activateTab, &QAction::triggered, this, [this, i]() {
             m_tabWidget->activateTab(i);
@@ -2074,21 +2078,22 @@ void DolphinMainWindow::setupActions()
     }
 
     QAction *activateLastTab = actionCollection()->addAction(QStringLiteral("activate_last_tab"));
-    activateLastTab->setText(i18nc("@action:inmenu", "Activate Last Tab"));
+    activateLastTab->setIconText(i18nc("@action:inmenu", "Last Tab"));
+    activateLastTab->setText(i18nc("@action:inmenu", "Go to Last Tab"));
     activateLastTab->setEnabled(false);
     connect(activateLastTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateLastTab);
     actionCollection()->setDefaultShortcut(activateLastTab, Qt::ALT | Qt::Key_0);
 
     QAction *activateNextTab = actionCollection()->addAction(QStringLiteral("activate_next_tab"));
     activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));
-    activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
+    activateNextTab->setText(i18nc("@action:inmenu", "Go to Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateNextTab);
     actionCollection()->setDefaultShortcuts(activateNextTab, nextTabKeys);
 
     QAction *activatePrevTab = actionCollection()->addAction(QStringLiteral("activate_prev_tab"));
     activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
-    activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
+    activatePrevTab->setText(i18nc("@action:inmenu", "Go to Previous Tab"));
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
     actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
@@ -2256,7 +2261,7 @@ void DolphinMainWindow::setupDockWidgets()
                                   "<nl/>The location in the terminal will always match the folder "
                                   "view so you can navigate using either.</para><para>The terminal "
                                   "panel is not needed for basic computer usage but can be useful "
-                                  "for advanced tasks. To learn more about terminals use the help "
+                                  "for advanced tasks. To learn more about terminals use the help features "
                                   "in a standalone terminal application like Konsole.</para>"));
         terminalDock->setWhatsThis(xi18nc("@info:whatsthis",
                                           "<para>This is "
@@ -2264,7 +2269,7 @@ void DolphinMainWindow::setupDockWidgets()
                                           "normal terminal but will match the location of the folder view "
                                           "so you can navigate using either.</para><para>The terminal panel "
                                           "is not needed for basic computer usage but can be useful for "
-                                          "advanced tasks. To learn more about terminals use the help in a "
+                                          "advanced tasks. To learn more about terminals use the help features in a "
                                           "standalone terminal application like Konsole.</para>")
                                    + panelWhatsThis);
     }
@@ -2309,7 +2314,7 @@ void DolphinMainWindow::setupDockWidgets()
     actionShowAllPlaces->setWhatsThis(i18nc("@info:whatsthis",
                                             "This displays "
                                             "all places in the places panel that have been hidden. They will "
-                                            "appear semi-transparent unless you uncheck their hide property."));
+                                            "appear semi-transparent and allow you to uncheck their \"Hide\" property."));
 
     connect(actionShowAllPlaces, &QAction::triggered, this, [this](bool checked) {
         m_placesPanel->setShowAll(checked);
@@ -2551,14 +2556,14 @@ void DolphinMainWindow::updateSplitActions()
             m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             m_splitViewAction->setToolTip(i18nc("@info", "Close left view"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
-            popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Move left split view to a new window"));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Move left view to a new window", "Pop out Left View"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Move left view to a new window"));
         } else {
             m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             m_splitViewAction->setToolTip(i18nc("@info", "Close right view"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
-            popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Move right split view to a new window"));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Move right view to a new window", "Pop out Right View"));
+            popoutSplitAction->setToolTip(i18nc("@info", "Move right view to a new window"));
         }
         popoutSplitAction->setEnabled(true);
         if (!m_splitViewAction->menu()) {
@@ -2570,7 +2575,7 @@ void DolphinMainWindow::updateSplitActions()
         m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
         m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
-        popoutSplitAction->setText(i18nc("@action:intoolbar Move active split view to a new window", "Pop out"));
+        popoutSplitAction->setText(i18nc("@action:intoolbar Move view in focus to a new window", "Pop out"));
         popoutSplitAction->setEnabled(false);
         if (m_splitViewAction->menu()) {
             m_splitViewAction->removeAction(popoutSplitAction);

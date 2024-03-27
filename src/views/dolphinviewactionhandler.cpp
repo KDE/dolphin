@@ -90,7 +90,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     renameAction->setWhatsThis(xi18nc("@info:whatsthis",
                                       "This renames the "
                                       "items in your current selection.<nl/>Renaming multiple items "
-                                      "at once amounts to their new names differing only in a number."));
+                                      "at once results in their new names differing only in a number."));
 
     auto trashAction = KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
     auto trashShortcuts = trashAction->shortcuts();
@@ -102,8 +102,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     trashAction->setWhatsThis(xi18nc("@info:whatsthis",
                                      "This moves the "
                                      "items in your current selection to the <filename>Trash"
-                                     "</filename>.<nl/>The trash is a temporary storage where "
-                                     "items can be deleted from if disk space is needed."));
+                                     "</filename>.<nl/>The trash is a temporary storage location where "
+                                     "items can be deleted later if disk space is needed."));
 
     auto deleteAction = KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
     auto deleteShortcuts = deleteAction->shortcuts();
@@ -114,8 +114,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     }
     deleteAction->setWhatsThis(xi18nc("@info:whatsthis",
                                       "This deletes "
-                                      "the items in your current selection completely. They can "
-                                      "not be recovered by normal means."));
+                                      "the items in your current selection permanently. They "
+                                      "cannot be recovered by normal means."));
 
     // This action is useful for being enabled when KStandardAction::MoveToTrash should be
     // disabled and KStandardAction::DeleteFile is enabled (e.g. non-local files), so that Key_Del
@@ -199,7 +199,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     compactAction->setWhatsThis(xi18nc("@info:whatsthis Compact view mode",
                                        "<para>This switches to a compact view mode that lists the folders "
                                        "and files in columns with the names beside the icons.</para><para>"
-                                       "This helps to keep the overview in folders with many items.</para>"));
+                                       "This helps to give you an overview in folders with many items.</para>"));
     detailsAction->setWhatsThis(xi18nc("@info:whatsthis Details view mode",
                                        "<para>This switches to a list view mode that focuses on folder "
                                        "and file details.</para><para>Click on a detail in the column "
@@ -207,8 +207,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                        "way around. To select which details should be displayed click "
                                        "the header with the right mouse button.</para><para>You can "
                                        "view the contents of a folder without leaving the current "
-                                       "location by clicking to the left of it. This way you can view "
-                                       "the contents of multiple folders in the same list.</para>"));
+                                       "location by clicking the region to the left of it. This way you can "
+                                       "view the contents of multiple folders in the same list.</para>"));
 
     KSelectAction *viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
     viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
@@ -320,11 +320,15 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
     showHiddenFiles->setWhatsThis(xi18nc("@info:whatsthis",
                                          "<para>When "
-                                         "this is enabled <emphasis>hidden</emphasis> files and folders "
+                                         "this is enabled, <emphasis>hidden</emphasis> files and folders "
                                          "are visible. They will be displayed semi-transparent.</para>"
-                                         "<para>Hidden items only differ from other ones in that their "
-                                         "name starts with a \".\". In general there is no need for "
-                                         "users to access them which is why they are hidden.</para>"));
+                                         "<para>Hidden items only differ from normal ones in that their "
+                                         "name starts with a dot (\".\"). Typically, there is no need for "
+                                         "users to access them, which is why they are hidden.</para>"
+                                         "<para>Items can also be hidden if their names are listed in a text file "
+                                         "named \".hidden\". Files with the \"application/x-trash\" MIME type, "
+                                         "such as backup files, can also be hidden by enabling that setting in "
+                                         "Configure Dolphin > View > General.</para>"));
     m_actionCollection->setDefaultShortcuts(showHiddenFiles, KStandardShortcut::showHideHiddenFiles());
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 

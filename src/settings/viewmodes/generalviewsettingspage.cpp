@@ -60,7 +60,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 
 #if HAVE_BALOO
     // 'Show tooltips'
-    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"));
+    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show item information on hover"));
     topLayout->addRow(i18nc("@title:group", "Miscellaneous: "), m_showToolTips);
 #endif
 
@@ -73,7 +73,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
 #endif
 
     // 'Inline renaming of items'
-    m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"));
+    m_renameInline = new QCheckBox(i18nc("option:check", "Rename single items inline"));
+    m_renameInline->setToolTip(i18n("Renaming multiple items is always done with a dialog window."));
     topLayout->addRow(QString(), m_renameInline);
 
     m_hideXtrashFiles = new QCheckBox(i18nc("option:check", "Also hide backup files while hiding hidden files"));

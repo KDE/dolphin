@@ -51,7 +51,7 @@
             <default>true</default>
         </entry>
         <entry name="SplitView" type="Bool">
-            <label>Split the view into two panes</label>
+            <label>Place two views side by side</label>
             <default>false</default>
             <emit signal="splitViewChanged" />
         </entry>
@@ -76,7 +76,7 @@
             <default>true</default>
         </entry>
         <entry name="RenameInline" type="Bool">
-            <label>Rename inline</label>
+            <label>Rename single items inline</label>
             <default>true</default>
         </entry>
         <entry name="ShowSelectionToggle" type="Bool">
@@ -88,11 +88,11 @@
             <default>true</default>
         </entry>
         <entry name="UseTabForSwitchingSplitView" type="Bool">
-            <label>Use tab for switching between right and left split</label>
+            <label>Use tab for switching between right and left view</label>
             <default>false</default>
         </entry>
         <entry name="CloseActiveSplitView" type="Bool">
-            <label>Close active pane when toggling off split view</label>
+            <label>Close the view in focus when turning off split view</label>
             <default>true</default>
         </entry>
         <entry name="OpenNewTabAfterLastTab" type="Bool">
@@ -100,7 +100,7 @@
             <default>false</default>
         </entry>
         <entry name="ShowToolTips" type="Bool">
-            <label>Show tooltips</label>
+            <label>Show item information on hover</label>
             <default>false</default>
         </entry>
         <entry name="ViewPropsTimestamp" type="DateTime" >

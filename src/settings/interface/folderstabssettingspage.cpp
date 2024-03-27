@@ -115,13 +115,14 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // 'Switch between panes of split views with tab key'
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between panes with Tab key"));
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between views with Tab key"));
     topLayout->addRow(i18nc("@title:group", "Split view: "), m_useTabForSplitViewSwitch);
 
     // 'Close active pane when turning off split view'
-    m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes active pane"));
+    m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes the view in focus"));
     topLayout->addRow(QString(), m_closeActiveSplitView);
-    m_closeActiveSplitView->setToolTip(i18n("When deactivated, turning off split view will close the inactive pane"));
+    m_closeActiveSplitView->setToolTip(
+        i18n("When unchecked, the opposite view will be closed. The Close icon always illustrates which view (left or right) will be closed."));
 
     // 'Begin in split view mode'
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Begin in split view mode"));
