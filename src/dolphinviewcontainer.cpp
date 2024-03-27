@@ -646,6 +646,10 @@ void DolphinViewContainer::slotDirectoryLoadingStarted()
         m_statusBar->setProgressText(QString());
         updateDirectoryLoadingProgress(-1);
     }
+
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setReadOnlyBadgeVisible(false);
+    }
 }
 
 void DolphinViewContainer::slotDirectoryLoadingCompleted()
@@ -661,6 +665,10 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
         m_statusBar->setText(i18nc("@info:status", "No items found."));
     } else {
         updateStatusBar();
+    }
+
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
     }
 }
 
