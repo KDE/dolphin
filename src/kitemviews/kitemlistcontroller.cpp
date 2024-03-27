@@ -241,6 +241,8 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
     int key = event->key();
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
 
+    const bool horizontalScrolling = m_view->scrollOrientation() == Qt::Horizontal;
+
     // Handle the expanding/collapsing of items
     // expand / collapse all selected directories
     if (m_view->supportsItemExpanding() && m_model->isExpandable(index) && (key == Qt::Key_Right || key == Qt::Key_Left)) {
@@ -276,7 +278,7 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 
     // For horizontal scroll orientation, transform
     // the arrow keys to simplify the event handling.
-    if (m_view->scrollOrientation() == Qt::Horizontal) {
+    if (horizontalScrolling) {
         switch (key) {
         case Qt::Key_Up:
             key = Qt::Key_Left;
@@ -295,17 +297,31 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    // For right to left languages, exchange right and left arrow keys.
     if (m_view->layoutDirection() == Qt::RightToLeft) {
-        switch (key) {
-        case Qt::Key_Left:
-            key = Qt::Key_Right;
-            break;
-        case Qt::Key_Right:
-            key = Qt::Key_Left;
-            break;
-        default:
-            break;
+        if (horizontalScrolling) {
+            // swap up and down arrow keys
+            switch (key) {
+            case Qt::Key_Up:
+                key = Qt::Key_Down;
+                break;
+            case Qt::Key_Down:
+                key = Qt::Key_Up;
+                break;
+            default:
+                break;
+            }
+        } else if (!m_view->supportsItemExpanding()) {
+            // swap left and right arrow keys
+            switch (key) {
+            case Qt::Key_Left:
+                key = Qt::Key_Right;
+                break;
+            case Qt::Key_Right:
+                key = Qt::Key_Left;
+                break;
+            default:
+                break;
+            }
         }
     }
 
@@ -371,7 +387,7 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         break;
 
     case Qt::Key_PageUp:
-        if (m_view->scrollOrientation() == Qt::Horizontal) {
+        if (horizontalScrolling) {
             // The new current index should correspond to the first item in the current column.
             int newIndex = qMax(index - 1, 0);
             while (newIndex != index && m_view->itemRect(newIndex).topLeft().y() < m_view->itemRect(index).topLeft().y()) {
@@ -399,7 +415,7 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         break;
 
     case Qt::Key_PageDown:
-        if (m_view->scrollOrientation() == Qt::Horizontal) {
+        if (horizontalScrolling) {
             // The new current index should correspond to the last item in the current column.
             int newIndex = qMin(index + 1, m_model->count() - 1);
             while (newIndex != index && m_view->itemRect(newIndex).topLeft().y() > m_view->itemRect(index).topLeft().y()) {
@@ -1486,12 +1502,12 @@ int KItemListController::nextRowIndex(int index) const
         return index;
     }
 
-    const bool leftToRight = m_view->layoutDirection() != Qt::RightToLeft;
+    const bool reversed = m_view->layoutDirection() == Qt::RightToLeft && m_view->scrollOrientation() == Qt::Vertical;
 
     // Calculate the index of the last column inside the row of the current index
     int lastColumnIndex = index;
-    while ((leftToRight && keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex))
-           || (!leftToRight && keyboardAnchorPos(lastColumnIndex + 1) < keyboardAnchorPos(lastColumnIndex))) {
+    while ((!reversed && keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex))
+           || (reversed && keyboardAnchorPos(lastColumnIndex + 1) < keyboardAnchorPos(lastColumnIndex))) {
         ++lastColumnIndex;
         if (lastColumnIndex >= maxIndex) {
             return index;
@@ -1504,8 +1520,8 @@ int KItemListController::nextRowIndex(int index) const
     int searchIndex = nextRowIndex;
     qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(nextRowIndex));
     while (searchIndex < maxIndex
-           && ((leftToRight && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex))
-               || (!leftToRight && keyboardAnchorPos(searchIndex + 1) < keyboardAnchorPos(searchIndex)))) {
+           && ((!reversed && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex))
+               || (reversed && keyboardAnchorPos(searchIndex + 1) < keyboardAnchorPos(searchIndex)))) {
         ++searchIndex;
         const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {
@@ -1523,12 +1539,12 @@ int KItemListController::previousRowIndex(int index) const
         return index;
     }
 
-    const bool leftToRight = m_view->layoutDirection() != Qt::RightToLeft;
+    const bool reversed = m_view->layoutDirection() == Qt::RightToLeft && m_view->scrollOrientation() == Qt::Vertical;
 
     // Calculate the index of the first column inside the row of the current index
     int firstColumnIndex = index;
-    while ((leftToRight && keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex))
-           || (!leftToRight && keyboardAnchorPos(firstColumnIndex - 1) > keyboardAnchorPos(firstColumnIndex))) {
+    while ((!reversed && keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex))
+           || (reversed && keyboardAnchorPos(firstColumnIndex - 1) > keyboardAnchorPos(firstColumnIndex))) {
         --firstColumnIndex;
         if (firstColumnIndex <= 0) {
             return index;
@@ -1541,8 +1557,8 @@ int KItemListController::previousRowIndex(int index) const
     int searchIndex = previousRowIndex;
     qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(previousRowIndex));
     while (searchIndex > 0
-           && ((leftToRight && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex))
-               || (!leftToRight && keyboardAnchorPos(searchIndex - 1) > keyboardAnchorPos(searchIndex)))) {
+           && ((!reversed && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex))
+               || (reversed && keyboardAnchorPos(searchIndex - 1) > keyboardAnchorPos(searchIndex)))) {
         --searchIndex;
         const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {

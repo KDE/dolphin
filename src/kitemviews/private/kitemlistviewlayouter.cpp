@@ -226,8 +226,12 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         // Rotate the logical direction which is always vertical by 90°
         // to get the physical horizontal direction
         QPointF pos(y, x);
-        pos.rx() -= m_scrollOffset;
         sizeHint.transpose();
+        if (QGuiApplication::isRightToLeft()) {
+            pos.rx() = m_size.width() + m_scrollOffset - pos.x() - sizeHint.width();
+        } else {
+            pos.rx() -= m_scrollOffset;
+        }
         return QRectF(pos, sizeHint);
     }
 
@@ -361,7 +365,7 @@ void KItemListViewLayouter::doLayout()
 
     const bool grouped = createGroupHeaders();
 
-    const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
+    const bool horizontalScrolling = m_scrollOrientation == Qt::Horizontal;
     if (horizontalScrolling) {
         // Flip everything so that the layout logically can work like having
         // a vertical scrolling
@@ -377,8 +381,9 @@ void KItemListViewLayouter::doLayout()
         }
     }
 
+    const bool isRightToLeft = QGuiApplication::isRightToLeft();
     m_columnWidth = itemSize.width() + itemMargin.width();
-    const qreal widthForColumns = size.width() - itemMargin.width();
+    const qreal widthForColumns = std::max(size.width() - itemMargin.width(), m_columnWidth);
     m_columnCount = qMax(1, int(widthForColumns / m_columnWidth));
     m_xPosInc = itemMargin.width();
 
@@ -397,7 +402,7 @@ void KItemListViewLayouter::doLayout()
 
     // Calculate the offset of each column, i.e., the x-coordinate where the column starts.
     m_columnOffsets.resize(m_columnCount);
-    qreal currentOffset = QGuiApplication::isRightToLeft() ? widthForColumns : m_xPosInc;
+    qreal currentOffset = isRightToLeft ? widthForColumns : m_xPosInc;
 
     if (grouped && horizontalScrolling) {
         // All group headers will always be aligned on the top and not
@@ -405,16 +410,21 @@ void KItemListViewLayouter::doLayout()
         currentOffset += m_groupHeaderHeight;
     }
 
-    if (QGuiApplication::isLeftToRight())
+    if (isRightToLeft) {
+        for (int column = 0; column < m_columnCount; ++column) {
+            if (horizontalScrolling) {
+                m_columnOffsets[column] = column * m_columnWidth;
+            } else {
+                currentOffset -= m_columnWidth;
+                m_columnOffsets[column] = currentOffset;
+            }
+        }
+    } else {
         for (int column = 0; column < m_columnCount; ++column) {
             m_columnOffsets[column] = currentOffset;
             currentOffset += m_columnWidth;
         }
-    else
-        for (int column = 0; column < m_columnCount; ++column) {
-            m_columnOffsets[column] = currentOffset - m_columnWidth;
-            currentOffset -= m_columnWidth;
-        }
+    }
 
     // Prepare the QVector which stores the y-coordinate for each new row.
     int numberOfRows = (itemCount + m_columnCount - 1) / m_columnCount;

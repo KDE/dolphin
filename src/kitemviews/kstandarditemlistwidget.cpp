@@ -1132,7 +1132,11 @@ void KStandardItemListWidget::updatePixmapCache()
     } else {
         // Center horizontally and vertically within the icon-area
         const TextInfo *textInfo = m_textInfo.value("text");
-        m_pixmapPos.setX(textInfo->pos.x() - 2.0 * padding - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
+        if (QApplication::isRightToLeft() && m_layout == CompactLayout) {
+            m_pixmapPos.setX(size().width() - padding - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
+        } else {
+            m_pixmapPos.setX(textInfo->pos.x() - 2.0 * padding - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
+        }
 
         // Derive icon's vertical center from the center of the text frame, including
         // any necessary adjustment if the font's midline is offset from the frame center
@@ -1175,6 +1179,9 @@ void KStandardItemListWidget::updateTextsCache()
         textOption.setAlignment(Qt::AlignHCenter);
         break;
     case CompactLayout:
+        textOption.setAlignment(QApplication::isRightToLeft() ? Qt::AlignRight : Qt::AlignLeft);
+        textOption.setWrapMode(QTextOption::NoWrap);
+        break;
     case DetailsLayout:
         textOption.setAlignment(Qt::AlignLeft);
         textOption.setWrapMode(QTextOption::NoWrap);
@@ -1404,9 +1411,9 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * lineSpacing;
 
     qreal maximumRequiredTextWidth = 0;
-    const qreal x = option.padding * 3 + iconSize();
+    const qreal x = QApplication::isRightToLeft() ? option.padding : option.padding * 3 + iconSize();
     qreal y = qRound((widgetHeight - textLinesHeight) / 2);
-    const qreal maxWidth = size().width() - x - option.padding;
+    const qreal maxWidth = size().width() - iconSize() - 4 * option.padding;
     for (const QByteArray &role : std::as_const(m_sortedVisibleRoles)) {
         const QString text = escapeString(roleText(role, values));
         TextInfo *textInfo = m_textInfo.value(role);

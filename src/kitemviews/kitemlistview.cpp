@@ -550,6 +550,10 @@ void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
     }
     QRectF currentRect = itemRect(index);
 
+    if (layoutDirection() == Qt::RightToLeft && scrollOrientation() == Qt::Horizontal) {
+        currentRect.moveTo(m_layouter->size().width() - currentRect.right(), 0);
+    }
+
     // Fix for Bug 311099 - View the underscore when using Ctrl + PageDown
     currentRect.adjust(-m_styleOption.horizontalMargin, -m_styleOption.verticalMargin, m_styleOption.horizontalMargin, m_styleOption.verticalMargin);
 

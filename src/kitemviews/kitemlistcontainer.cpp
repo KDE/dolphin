@@ -399,6 +399,11 @@ void KItemListContainer::updateSmoothScrollers(Qt::Orientation orientation)
         m_horizontalSmoothScroller->setPropertyName("scrollOffset");
         m_verticalSmoothScroller->setPropertyName("itemOffset");
     }
+
+    const bool isRightToLeft = m_controller->view()->layoutDirection() == Qt::RightToLeft;
+    QScrollBar *hScrollBar = horizontalScrollBar();
+    hScrollBar->setInvertedAppearance(isRightToLeft && orientation == Qt::Vertical);
+    hScrollBar->setInvertedControls(!isRightToLeft || orientation == Qt::Vertical);
 }
 
 void KItemListContainer::updateScrollOffsetScrollBarPolicy()

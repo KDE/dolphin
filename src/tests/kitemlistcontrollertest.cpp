@@ -309,7 +309,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                     std::swap(nextItemKey, previousItemKey);
                     break;
                 case KFileItemListView::CompactLayout:
-                    std::swap(nextItemKey, previousItemKey);
+                    std::swap(nextRowKey, previousRowKey);
                     break;
                 default:
                     break;
