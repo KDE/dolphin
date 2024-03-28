@@ -134,7 +134,9 @@ DolphinMainWindow::DolphinMainWindow()
 
     setStateConfigGroup("State");
 
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
     new KColorSchemeManager(this);
+#endif
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage, this, &DolphinMainWindow::showErrorMessage);
 
