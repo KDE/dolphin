@@ -56,10 +56,7 @@ DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent)
     container->setLayout(layout);
     m_readOnlyBadge = new QLabel(container);
     m_readOnlyBadge->setPixmap(QIcon::fromTheme(QStringLiteral("emblem-readonly")).pixmap(12, 12));
-    QString userName = qgetenv("USER"); // Linux & Mac
-    if (userName.isEmpty())
-        userName = qgetenv("USERNAME"); // Windows
-    m_readOnlyBadge->setToolTip(i18nc("url navigator, %1 is the user name", "This folder is not writable for you (%1).", userName));
+    m_readOnlyBadge->setToolTip(i18n("url navigator", "This folder is not writable for you."));
     m_readOnlyBadge->hide();
     layout->addWidget(m_readOnlyBadge);
     setBadgeWidget(container);
