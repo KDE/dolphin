@@ -135,7 +135,7 @@ DolphinMainWindow::DolphinMainWindow()
     setStateConfigGroup("State");
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    new KColorSchemeManager(this);
+    new KColorSchemeManager(this); // Sets a sensible color scheme which fixes unreadable icons and text on Windows.
 #endif
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage, this, &DolphinMainWindow::showErrorMessage);
