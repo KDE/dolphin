@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 00:42+0000\n"
+"POT-Creation-Date: 2024-03-29 00:39+0000\n"
 "PO-Revision-Date: 2024-03-20 18:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -54,7 +54,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "還原"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1633
+#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1638
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -85,150 +85,150 @@ msgctxt ""
 msgid "Middle Click"
 msgstr "滑鼠中鍵"
 
-#: dolphinmainwindow.cpp:310
+#: dolphinmainwindow.cpp:315
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "已成功複製。"
 
-#: dolphinmainwindow.cpp:313
+#: dolphinmainwindow.cpp:318
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "已成功移動。"
 
-#: dolphinmainwindow.cpp:316
+#: dolphinmainwindow.cpp:321
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "已成功連結。"
 
-#: dolphinmainwindow.cpp:319
+#: dolphinmainwindow.cpp:324
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "已成功移到垃圾桶。"
 
-#: dolphinmainwindow.cpp:322
+#: dolphinmainwindow.cpp:327
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "已成功重新命名。"
 
-#: dolphinmainwindow.cpp:326
+#: dolphinmainwindow.cpp:331
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "資料夾已建立。"
 
-#: dolphinmainwindow.cpp:398
+#: dolphinmainwindow.cpp:403
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "返回"
 
-#: dolphinmainwindow.cpp:399
+#: dolphinmainwindow.cpp:404
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "回到上次檢視的資料夾。"
 
-#: dolphinmainwindow.cpp:405
+#: dolphinmainwindow.cpp:410
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "向前"
 
-#: dolphinmainwindow.cpp:406
+#: dolphinmainwindow.cpp:411
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "這會復原 <interface>跳至|往回</interface> 動作。"
 
-#: dolphinmainwindow.cpp:596 dolphinmainwindow.cpp:642
+#: dolphinmainwindow.cpp:601 dolphinmainwindow.cpp:647
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "確認"
 
-#: dolphinmainwindow.cpp:600
+#: dolphinmainwindow.cpp:605
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "關閉 %1(&Q)"
 
-#: dolphinmainwindow.cpp:602
+#: dolphinmainwindow.cpp:607
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "關閉目前分頁(&L)"
 
-#: dolphinmainwindow.cpp:611
+#: dolphinmainwindow.cpp:616
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "您在此視窗中開啟了多個分頁。您確定要離開嗎？"
 
-#: dolphinmainwindow.cpp:613 dolphinmainwindow.cpp:663
+#: dolphinmainwindow.cpp:618 dolphinmainwindow.cpp:668
 #, kde-format
 msgid "Do not ask again"
 msgstr "不要再詢問"
 
-#: dolphinmainwindow.cpp:651
+#: dolphinmainwindow.cpp:656
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "顯示終端機面板(&T)"
 
-#: dolphinmainwindow.cpp:661
+#: dolphinmainwindow.cpp:666
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr "程式「%1」仍然在「終端機」面板執行。確定退出？"
 
-#: dolphinmainwindow.cpp:1229
+#: dolphinmainwindow.cpp:1234
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "開啟 %1"
 
-#: dolphinmainwindow.cpp:1238 dolphinmainwindow.cpp:1987
+#: dolphinmainwindow.cpp:1243 dolphinmainwindow.cpp:1992
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "開啟偏好的搜尋工具"
 
-#: dolphinmainwindow.cpp:1278
+#: dolphinmainwindow.cpp:1283
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "您確定要開啟 %1 個終端機視窗嗎？"
 
-#: dolphinmainwindow.cpp:1283
+#: dolphinmainwindow.cpp:1288
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "開啟 %1 個終端機"
 
-#: dolphinmainwindow.cpp:1478
+#: dolphinmainwindow.cpp:1483
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "設定"
 
-#: dolphinmainwindow.cpp:1639
+#: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "新視窗(&W)"
 
-#: dolphinmainwindow.cpp:1640
+#: dolphinmainwindow.cpp:1645
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "開啟新 Dolphin 視窗"
 
-#: dolphinmainwindow.cpp:1642
+#: dolphinmainwindow.cpp:1647
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -241,13 +241,13 @@ msgid ""
 msgstr ""
 "這會開啟一個使用目前位置和檢視的新視窗。<nl/>您可以在視窗之間拖放項目。"
 
-#: dolphinmainwindow.cpp:1649
+#: dolphinmainwindow.cpp:1654
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "新增分頁"
 
-#: dolphinmainwindow.cpp:1651
+#: dolphinmainwindow.cpp:1656
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -263,25 +263,25 @@ msgstr ""
 "這會開啟一個使用目前位置和檢視的新<emphasis>分頁</emphasis>。<nl/>分頁是此視"
 "窗內的額外檢視。您可以在分頁之間拖放項目。"
 
-#: dolphinmainwindow.cpp:1660
+#: dolphinmainwindow.cpp:1665
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "新增到書籤"
 
-#: dolphinmainwindow.cpp:1662
+#: dolphinmainwindow.cpp:1667
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "這會將被選取的資料夾加入書籤。"
 
-#: dolphinmainwindow.cpp:1667
+#: dolphinmainwindow.cpp:1672
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "關閉分頁"
 
-#: dolphinmainwindow.cpp:1668
+#: dolphinmainwindow.cpp:1673
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Close Tab"
@@ -289,7 +289,7 @@ msgctxt "@info"
 msgid "Close Tab"
 msgstr "關閉分頁"
 
-#: dolphinmainwindow.cpp:1670
+#: dolphinmainwindow.cpp:1675
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -301,13 +301,13 @@ msgid ""
 "the whole window instead."
 msgstr "這將會關閉目前分頁。如果在同一視窗裏沒有其他分頁，這將會關閉整個視窗。"
 
-#: dolphinmainwindow.cpp:1675
+#: dolphinmainwindow.cpp:1680
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "這會關閉整個視窗。"
 
-#: dolphinmainwindow.cpp:1683
+#: dolphinmainwindow.cpp:1688
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -322,13 +322,13 @@ msgstr ""
 "emphasis>很明顯的放在鍵盤上彼此的旁邊：<shortcut>Ctrl+X</shortcut>、"
 "<shortcut>Ctrl+C</shortcut> 和 <shortcut>Ctrl+V</shortcut>。</para>"
 
-#: dolphinmainwindow.cpp:1690
+#: dolphinmainwindow.cpp:1695
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "剪下…"
 
-#: dolphinmainwindow.cpp:1692
+#: dolphinmainwindow.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -341,13 +341,13 @@ msgstr ""
 "<emphasis>貼上</emphasis> 動作來將它們複製到新的位置。項目將會從原本的位置移"
 "除。"
 
-#: dolphinmainwindow.cpp:1699
+#: dolphinmainwindow.cpp:1704
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "複製…"
 
-#: dolphinmainwindow.cpp:1701
+#: dolphinmainwindow.cpp:1706
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -358,13 +358,13 @@ msgstr ""
 "這會複製您目前選取範圍中的項目到 <emphasis>剪貼簿</emphasis>。<nl/>之後使用 "
 "<emphasis>貼上</emphasis> 動作來將它們複製到新的位置。"
 
-#: dolphinmainwindow.cpp:1710
+#: dolphinmainwindow.cpp:1715
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "貼上"
 
-#: dolphinmainwindow.cpp:1712
+#: dolphinmainwindow.cpp:1717
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -376,19 +376,19 @@ msgstr ""
 "剪貼簿中的項目是被<emphasis>剪下</emphasis>動作加入的，複製後它們將會被從原本"
 "的位置移除。"
 
-#: dolphinmainwindow.cpp:1719
+#: dolphinmainwindow.cpp:1724
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "複製到另一個檢視"
 
-#: dolphinmainwindow.cpp:1720
+#: dolphinmainwindow.cpp:1725
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "複製到另一個檢視…"
 
-#: dolphinmainwindow.cpp:1722
+#: dolphinmainwindow.cpp:1727
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Copy"
 #| msgid ""
@@ -401,7 +401,7 @@ msgid ""
 msgstr ""
 "這會從<emphasis>作用中</emphasis>檢視複製選取項目到非作用中的分割檢視。"
 
-#: dolphinmainwindow.cpp:1726
+#: dolphinmainwindow.cpp:1731
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -409,19 +409,19 @@ msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "複製到另一個檢視"
 
-#: dolphinmainwindow.cpp:1731
+#: dolphinmainwindow.cpp:1736
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "移動到另一個檢視"
 
-#: dolphinmainwindow.cpp:1732
+#: dolphinmainwindow.cpp:1737
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "移動到另一個檢視…"
 
-#: dolphinmainwindow.cpp:1734
+#: dolphinmainwindow.cpp:1739
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Move"
 #| msgid ""
@@ -434,7 +434,7 @@ msgid ""
 msgstr ""
 "這會從<emphasis>作用中</emphasis>檢視移動選取項目到非作用中的分割檢視。"
 
-#: dolphinmainwindow.cpp:1738
+#: dolphinmainwindow.cpp:1743
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Other View"
@@ -442,19 +442,19 @@ msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "移動到另一個檢視"
 
-#: dolphinmainwindow.cpp:1743
+#: dolphinmainwindow.cpp:1748
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "過濾…"
 
-#: dolphinmainwindow.cpp:1744
+#: dolphinmainwindow.cpp:1749
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "顯示過濾器列"
 
-#: dolphinmainwindow.cpp:1746
+#: dolphinmainwindow.cpp:1751
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -472,30 +472,30 @@ msgstr ""
 "這會在視窗下方開啟<emphasis>過濾器列</emphasis>。<nl/>在此您可以輸入文字來過"
 "濾目前顯示的檔案和資料夾。只有名稱包含所輸入文字的項目會繼續顯示。"
 
-#: dolphinmainwindow.cpp:1758
+#: dolphinmainwindow.cpp:1763
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "切換過濾器列"
 
-#: dolphinmainwindow.cpp:1759
+#: dolphinmainwindow.cpp:1764
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "過濾器"
 
-#: dolphinmainwindow.cpp:1767 search/dolphinsearchbox.cpp:350
+#: dolphinmainwindow.cpp:1772 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
 msgstr "搜尋…"
 
-#: dolphinmainwindow.cpp:1768
+#: dolphinmainwindow.cpp:1773
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "搜尋檔案及資料夾"
 
-#: dolphinmainwindow.cpp:1770
+#: dolphinmainwindow.cpp:1775
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -516,20 +516,20 @@ msgstr ""
 "您可以輸入搜尋字串或指定設定來找到您在找的物件。</para><para>在尋找列上再次使"
 "用這個說明的話可以邊看著它邊說明它的設定。</para>"
 
-#: dolphinmainwindow.cpp:1781
+#: dolphinmainwindow.cpp:1786
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "切換搜尋列"
 
-#: dolphinmainwindow.cpp:1782
+#: dolphinmainwindow.cpp:1787
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "搜尋"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1790
+#: dolphinmainwindow.cpp:1795
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -537,13 +537,13 @@ msgstr "選取檔案及資料夾"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1793
+#: dolphinmainwindow.cpp:1798
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "選取"
 
-#: dolphinmainwindow.cpp:1796
+#: dolphinmainwindow.cpp:1801
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -559,19 +559,19 @@ msgstr ""
 "可以選取或取消選取它。</para><para>在此模式中，下方會有一個快速功能列，顯示目"
 "前選取的項目可用的動作。</para>"
 
-#: dolphinmainwindow.cpp:1819
+#: dolphinmainwindow.cpp:1824
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "這會選擇所有在目前路徑的檔案以及資料夾。"
 
-#: dolphinmainwindow.cpp:1823 dolphinpart.cpp:167
+#: dolphinmainwindow.cpp:1828 dolphinpart.cpp:167
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "反轉選取"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1830
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis invert"
 #| msgid ""
@@ -583,7 +583,7 @@ msgid ""
 "selected instead."
 msgstr "這會選擇所有您目前<emphasis>未</emphasis>選取的檔案以及資料夾。"
 
-#: dolphinmainwindow.cpp:1843
+#: dolphinmainwindow.cpp:1848
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -593,7 +593,7 @@ msgid ""
 "para>Click this button again to close one of the views."
 msgstr ""
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1863
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -605,25 +605,25 @@ msgid ""
 "window."
 msgstr "如果資料夾檢視已分割，這會將作用中的資料夾分割檢視彈出成新的視窗。"
 
-#: dolphinmainwindow.cpp:1866
+#: dolphinmainwindow.cpp:1871
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "暫存"
 
-#: dolphinmainwindow.cpp:1867
+#: dolphinmainwindow.cpp:1872
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "在分割視窗中開啟暫存的虛擬目錄"
 
-#: dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1880
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "更新檢視"
 
-#: dolphinmainwindow.cpp:1877
+#: dolphinmainwindow.cpp:1882
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -636,31 +636,31 @@ msgstr ""
 "整理會在重新掃描它之後向您顯示更新的檔案和資料夾列表。</para><para>分割檢視時"
 "這會重新整理目前焦點所在的檢視。</para>"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1889
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "停止"
 
-#: dolphinmainwindow.cpp:1885
+#: dolphinmainwindow.cpp:1890
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "停止載入"
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1891
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "這會停止載入目前資料夾的內容。"
 
-#: dolphinmainwindow.cpp:1891
+#: dolphinmainwindow.cpp:1896
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "可編輯位置"
 
-#: dolphinmainwindow.cpp:1893
+#: dolphinmainwindow.cpp:1898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -673,13 +673,13 @@ msgstr ""
 "位置。<nl/>您也可以點擊位置右方來切換至編輯模式，確認編輯後的位置之後會切換回"
 "來。"
 
-#: dolphinmainwindow.cpp:1901
+#: dolphinmainwindow.cpp:1906
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "取代位置"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1911
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -687,19 +687,19 @@ msgid ""
 "enter a different location."
 msgstr "這會切換為編輯位置的狀態並選取位置文字，讓您能快速輸入另一個位置。"
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1941
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "復原關閉分頁"
 
-#: dolphinmainwindow.cpp:1937
+#: dolphinmainwindow.cpp:1942
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "這會讓您回到之前關閉的分頁。"
 
-#: dolphinmainwindow.cpp:1945
+#: dolphinmainwindow.cpp:1950
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -720,7 +720,7 @@ msgstr ""
 "<interface>建立、重新命名、移動到另一個位置</interface>或<interface>移動</"
 "interface>到<filename>垃圾桶</filename>。<nl/>不能復原的變更會先詢問確認。"
 
-#: dolphinmainwindow.cpp:1974
+#: dolphinmainwindow.cpp:1979
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -737,13 +737,13 @@ msgstr ""
 "<filename>家目錄</filename>，用來放他們的資料，例如包含個人應用程式資料的資料"
 "夾。"
 
-#: dolphinmainwindow.cpp:1981
+#: dolphinmainwindow.cpp:1986
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "比較檔案"
 
-#: dolphinmainwindow.cpp:1989
+#: dolphinmainwindow.cpp:1994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -754,13 +754,13 @@ msgstr ""
 "<para>這會為目前檢視的位置開啟偏好的搜尋工具。</para><para>使用 <emphasis>更"
 "多搜尋工具</emphasis> 選單來設定它。</para>"
 
-#: dolphinmainwindow.cpp:1997
+#: dolphinmainwindow.cpp:2002
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "開啟終端機"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2004
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -777,13 +777,13 @@ msgstr ""
 "para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2007
+#: dolphinmainwindow.cpp:2012
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "在此開啟終端機"
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:2014
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -799,19 +799,19 @@ msgstr ""
 "<para>這會在所選項目的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
 "para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
 
-#: dolphinmainwindow.cpp:2017 dolphinmainwindow.cpp:2801
+#: dolphinmainwindow.cpp:2022 dolphinmainwindow.cpp:2806
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "聚焦於終端機面板"
 
-#: dolphinmainwindow.cpp:2025
+#: dolphinmainwindow.cpp:2030
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "書籤(&B)"
 
-#: dolphinmainwindow.cpp:2035
+#: dolphinmainwindow.cpp:2040
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -837,13 +837,13 @@ msgstr ""
 "para><para><interface>%1</interface>按鈕較為簡潔，但會讓觸發進階動作變得更花"
 "時間。</para>"
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2073
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2086
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -851,7 +851,7 @@ msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "跳到上個分頁"
 
-#: dolphinmainwindow.cpp:2082
+#: dolphinmainwindow.cpp:2087
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -859,13 +859,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "跳到上個分頁"
 
-#: dolphinmainwindow.cpp:2088
+#: dolphinmainwindow.cpp:2093
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "下一分頁"
 
-#: dolphinmainwindow.cpp:2089
+#: dolphinmainwindow.cpp:2094
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Next Tab"
@@ -873,13 +873,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "下一分頁"
 
-#: dolphinmainwindow.cpp:2095
+#: dolphinmainwindow.cpp:2100
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "前一分頁"
 
-#: dolphinmainwindow.cpp:2096
+#: dolphinmainwindow.cpp:2101
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Previous Tab"
@@ -887,49 +887,49 @@ msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "前一分頁"
 
-#: dolphinmainwindow.cpp:2103
+#: dolphinmainwindow.cpp:2108
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "顯示目標"
 
-#: dolphinmainwindow.cpp:2109
+#: dolphinmainwindow.cpp:2114
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "在新分頁開啟"
 
-#: dolphinmainwindow.cpp:2114
+#: dolphinmainwindow.cpp:2119
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "在新分頁開啟"
 
-#: dolphinmainwindow.cpp:2119
+#: dolphinmainwindow.cpp:2124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "在新視窗開啟"
 
-#: dolphinmainwindow.cpp:2124 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2129 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "用分割檢視開啟"
 
-#: dolphinmainwindow.cpp:2138
+#: dolphinmainwindow.cpp:2143
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "解除鎖定面板"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2145
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "鎖定面板"
 
-#: dolphinmainwindow.cpp:2143
+#: dolphinmainwindow.cpp:2148
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -942,13 +942,13 @@ msgstr ""
 "鎖定的面板可以被拖曳到視窗另一邊並且會有一個關閉的按鈕。<nl/>鎖定的面板會比較"
 "乾淨的嵌入在介面中。"
 
-#: dolphinmainwindow.cpp:2152
+#: dolphinmainwindow.cpp:2157
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "資訊"
 
-#: dolphinmainwindow.cpp:2175
+#: dolphinmainwindow.cpp:2180
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -958,7 +958,7 @@ msgstr ""
 "<para>要顯示或隱藏這種面板請使用<interface>選單|面板</interface>或<interface>"
 "檢視|面板</interface>。</para>"
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -973,7 +973,7 @@ msgstr ""
 "選取任何項目時，它會顯示關於目前檢視的資料夾的資訊。<nl/>只有顯示一個項目的資"
 "訊時，這個面板也會提供該項目的內容預覽。</para>"
 
-#: dolphinmainwindow.cpp:2190
+#: dolphinmainwindow.cpp:2195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -988,13 +988,13 @@ msgstr ""
 "個項目的資訊時，這個面板也會提供該項目的內容預覽。</para><para>您可以在此按右"
 "鍵來設定要顯示哪些細節，以及要如何顯示細節。</para>"
 
-#: dolphinmainwindow.cpp:2199
+#: dolphinmainwindow.cpp:2204
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "資料夾"
 
-#: dolphinmainwindow.cpp:2219
+#: dolphinmainwindow.cpp:2224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1005,7 +1005,7 @@ msgstr ""
 "這會切換視窗左邊的<emphasis>資料夾</emphasis>面板。<nl/><nl/>它會以<emphasis>"
 "樹狀圖</emphasis>方式顯示<emphasis>檔案系統</emphasis>的資料夾。"
 
-#: dolphinmainwindow.cpp:2224
+#: dolphinmainwindow.cpp:2229
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1018,13 +1018,13 @@ msgstr ""
 "emphasis>中的資料夾。</para><para>點擊一個資料夾來前往它。點擊資料夾左方的箭"
 "頭來看它的子資料夾。這讓您可以快速在資料夾之間切換。</para>"
 
-#: dolphinmainwindow.cpp:2234
+#: dolphinmainwindow.cpp:2239
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "終端機"
 
-#: dolphinmainwindow.cpp:2259
+#: dolphinmainwindow.cpp:2264
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1049,7 +1049,7 @@ msgstr ""
 "很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明。"
 "</para>"
 
-#: dolphinmainwindow.cpp:2267
+#: dolphinmainwindow.cpp:2272
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1074,19 +1074,19 @@ msgstr ""
 "是很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說"
 "明。</para>"
 
-#: dolphinmainwindow.cpp:2284
+#: dolphinmainwindow.cpp:2289
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "書籤"
 
-#: dolphinmainwindow.cpp:2311
+#: dolphinmainwindow.cpp:2316
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "顯示隱藏位置"
 
-#: dolphinmainwindow.cpp:2315
+#: dolphinmainwindow.cpp:2320
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1101,7 +1101,7 @@ msgstr ""
 "這會顯示被隱藏的書籤。除非您取消它們的「隱藏」屬性，否則它們會被顯示爲半透"
 "明。"
 
-#: dolphinmainwindow.cpp:2327
+#: dolphinmainwindow.cpp:2332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1115,7 +1115,7 @@ msgstr ""
 "面板讓您能夠快速前往加入書籤的位置，或是存取附加到電腦上或區域網路上的磁碟或"
 "媒體。它也包含讓您尋找最近儲存的檔案以及某些類型的檔案的區塊。</para>"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1136,13 +1136,13 @@ msgstr ""
 "新增。右鍵點擊任何區塊或項目來隱藏它。右鍵點擊這個面板的空白區域並選取"
 "<interface>顯示隱藏位置</interface>來重新顯示它。</para>"
 
-#: dolphinmainwindow.cpp:2348
+#: dolphinmainwindow.cpp:2353
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "顯示面板"
 
-#: dolphinmainwindow.cpp:2466
+#: dolphinmainwindow.cpp:2471
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1156,19 +1156,19 @@ msgstr ""
 "以階層方式置放於<emphasis>檔案系統</emphasis>之中。這個階層昂的頂端是包含連線"
 "到此電腦的所有資料的目錄——也就是<emphasis>根目錄</emphasis>。</para>"
 
-#: dolphinmainwindow.cpp:2556
+#: dolphinmainwindow.cpp:2561
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "關閉"
 
-#: dolphinmainwindow.cpp:2557
+#: dolphinmainwindow.cpp:2562
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "關閉左方檢視"
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2564
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1176,7 +1176,7 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "複製到另一個檢視"
 
-#: dolphinmainwindow.cpp:2560
+#: dolphinmainwindow.cpp:2565
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Move left split view to a new window"
@@ -1184,19 +1184,19 @@ msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "將左方分割檢視移至新視窗"
 
-#: dolphinmainwindow.cpp:2562
+#: dolphinmainwindow.cpp:2567
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "關閉"
 
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2568
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "關閉右方檢視"
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2570
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1204,7 +1204,7 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "複製到另一個檢視"
 
-#: dolphinmainwindow.cpp:2566
+#: dolphinmainwindow.cpp:2571
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Move right split view to a new window"
@@ -1212,19 +1212,19 @@ msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "將右方分割檢視移至新視窗"
 
-#: dolphinmainwindow.cpp:2575
+#: dolphinmainwindow.cpp:2580
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "分割"
 
-#: dolphinmainwindow.cpp:2576
+#: dolphinmainwindow.cpp:2581
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "分割檢視"
 
-#: dolphinmainwindow.cpp:2578
+#: dolphinmainwindow.cpp:2583
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar Move left split view to a new window"
 #| msgid "Pop out"
@@ -1232,7 +1232,7 @@ msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "彈出"
 
-#: dolphinmainwindow.cpp:2633
+#: dolphinmainwindow.cpp:2638
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1248,7 +1248,7 @@ msgstr ""
 "單列</interface>來隱藏。隱藏之後它的大部分內容還是會整理在<emphasis>工具列</"
 "emphasis>上的<interface>選單</interface>按鈕當中。</para>"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2645
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1268,7 +1268,7 @@ msgstr ""
 "這個動作，就可以了。</para><para>工具列的位置和它的按鈕的風格也可以在右鍵選單"
 "中變更。右鍵點擊按鈕來隱藏或顯示它的文字說明。</para>"
 
-#: dolphinmainwindow.cpp:2652
+#: dolphinmainwindow.cpp:2657
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1294,7 +1294,7 @@ msgstr ""
 "dolphin-view.html'>參照此處</link>。這會開啟<emphasis>手冊</emphasis>當中介紹"
 "基礎的頁面。</para>"
 
-#: dolphinmainwindow.cpp:2668
+#: dolphinmainwindow.cpp:2673
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1307,7 +1307,7 @@ msgstr ""
 "也可以設定同時按下鍵盤組合時要觸發的動作。此應用程式中所有命令皆可以此方式觸"
 "發。</para>"
 
-#: dolphinmainwindow.cpp:2674
+#: dolphinmainwindow.cpp:2679
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1319,7 +1319,7 @@ msgstr ""
 "</para><para>您可以將<interface>選單</interface>當中任何項目放置於工具列中。"
 "</para>"
 
-#: dolphinmainwindow.cpp:2678
+#: dolphinmainwindow.cpp:2683
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1337,7 +1337,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2698
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1353,7 +1353,7 @@ msgstr ""
 "</link>。它會開啟 KDE UserBase Wiki 當中對應的頁面。</para><para>註：目前手冊"
 "和 UserBasse Wiki 都沒有中文版。</para>"
 
-#: dolphinmainwindow.cpp:2703
+#: dolphinmainwindow.cpp:2708
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1374,7 +1374,7 @@ msgstr ""
 "para><para>其他大部分視窗都沒有「這是什麼？」的說明，所以可能不要太仰賴這個功"
 "能。</para>"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2719
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1389,7 +1389,7 @@ msgstr ""
 "可能有效，<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>請"
 "點擊此處</link>。</para>"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1408,7 +1408,7 @@ msgstr ""
 "能維持需要金錢的東西，像是伺服器、貢獻者會議等等。</para><para><emphasis>KDE "
 "e.V.</emphasis> 是 KDE 社群背後的非營利組織。</para>"
 
-#: dolphinmainwindow.cpp:2736
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1419,7 +1419,7 @@ msgstr ""
 "在此您可以變更此應用程式所使用的語言。<nl/>您還可以設定備用語言，如果偏好語言"
 "有缺乏的文本時便會嘗試各個備用語言。"
 
-#: dolphinmainwindow.cpp:2741
+#: dolphinmainwindow.cpp:2746
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1429,7 +1429,7 @@ msgstr ""
 "這會開啟一個視窗告訴您這個應用程式的版本、授權、使用的函式庫與維護者有關的資"
 "訊。"
 
-#: dolphinmainwindow.cpp:2746
+#: dolphinmainwindow.cpp:2751
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1442,7 +1442,7 @@ msgstr ""
 "由軟體背後的人們。<nl/>如果您喜歡使用這個應用程式但不知道 KDE 或是想要看看一"
 "隻可愛的龍，那就進來看看吧！"
 
-#: dolphinmainwindow.cpp:2804 dolphinmainwindow.cpp:2808
+#: dolphinmainwindow.cpp:2809 dolphinmainwindow.cpp:2813
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -2373,181 +2373,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "未知的錯誤。"
 
-#: main.cpp:94
+#: main.cpp:98
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:96
+#: main.cpp:100
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "檔案管理員"
 
-#: main.cpp:98
+#: main.cpp:102
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006-2022 Dolphin 開發團隊"
 
-#: main.cpp:100
+#: main.cpp:104
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
-#: main.cpp:101
+#: main.cpp:105
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "維護者 (2021 年起) 和開發者"
 
-#: main.cpp:103
+#: main.cpp:107
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "Méven Car"
 
-#: main.cpp:104
+#: main.cpp:108
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "維護者 (2021 年起) 和開發者 (2019 年起)"
 
-#: main.cpp:106
+#: main.cpp:110
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:107
+#: main.cpp:111
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "維護者 (2018-2021) 和開發者"
 
-#: main.cpp:109
+#: main.cpp:113
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
-#: main.cpp:110
+#: main.cpp:114
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "維護者 (2014-2018) 和開發者"
 
-#: main.cpp:112
+#: main.cpp:116
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:113
+#: main.cpp:117
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "維護者 (2012-2014) 和開發者"
 
-#: main.cpp:115
+#: main.cpp:119
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:116
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "維護者和發展者 (2006-2012)"
 
-#: main.cpp:118
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:118 main.cpp:119 main.cpp:120 main.cpp:121 main.cpp:122
-#: main.cpp:123 main.cpp:124
+#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
+#: main.cpp:127 main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "開發者"
 
-#: main.cpp:119
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:120
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:121
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:122
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:123
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:124
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:125
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:125
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "文件"
 
-#: main.cpp:135
+#: main.cpp:139
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "做為參數傳遞的檔案與目錄將被選取。"
 
-#: main.cpp:137
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin 會以分割檢視模式啟動。"
 
-#: main.cpp:138
+#: main.cpp:142
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin 將確實在新視窗開啟。"
 
-#: main.cpp:140
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "啟動 Dolphin 守護程式（只有 DBus 介面需要）。"
 
-#: main.cpp:141
+#: main.cpp:145
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
