@@ -3,13 +3,13 @@
 #
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2021, 2022, 2023 g.sora <g.sora@tiscali.it>
 # Giovanni Sora <g.sora@tioscali.it>, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
-# giovanni <g.sora@tiscali.it>, 2023.
+# giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 02:29+0000\n"
-"PO-Revision-Date: 2023-11-22 10:44+0100\n"
+"PO-Revision-Date: 2024-03-28 16:15+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -674,7 +674,7 @@ msgid ""
 msgstr ""
 "Vade a tu dossier de <filename>Domo o Initio</filename>.<nl/>Cata conto de "
 "usator ha su proprio <filename>Domo o Initio</filename> que contine su datos "
-"includente dossieres que contine dtos de application personal."
+"includente dossieres que contine datos de application personal."
 
 #: dolphinmainwindow.cpp:1889
 #, kde-format
@@ -754,11 +754,11 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
-"<para>Isto commuta inter haver un <emphasis>Barra de Menu</emphasis> e "
-"haverun <interface>%1</interface> button. Ambes contine plus o minus le "
-"mesme actiones e optiones de configuration.</para><para>Le Barra de Menu "
-"orende plus spatio ma permitte accesso plus rapide e organisate a omne "
-"action qua un application poteofferer.</para><para>Le button  <interface>%1</"
+"<para>Isto commuta inter haver un <emphasis>Barra de Menu</emphasis> e haver "
+"un <interface>%1</interface> button. Ambes contine plus o minus le mesme "
+"actiones e optiones de configuration.</para><para>Le Barra de Menu prende "
+"plus spatio ma permitte accesso plus rapide e organisate a omne action que "
+"un application pote offerer.</para><para>Le button  <interface>%1</"
 "interface> es plus simple e parve  le qual rende actiones discatenante "
 "avantiate plus dispendiose in tempore.</para>"
 
@@ -3650,7 +3650,7 @@ msgstr "Usa tab per commutar inter division dextere e sinistre"
 #: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Close active pane when toggling off split view"
-msgstr "Claude vitro ctive quando commuta vista dividite in off"
+msgstr "Claude vitro active quando commuta vista dividite in off"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
@@ -5020,9 +5020,9 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage where items can be deleted "
 "from if disk space is needed."
 msgstr ""
-"Isto move leelementos intu selection currente al <filename>Corbe</filename>."
-"<nl/>Le corbe es un immagazinage temporanee ubi elementos pote esser delite "
-"ab si il necessita de spatio de disco."
+"Isto move le elementos in tu selection currente al <filename>Corbe</"
+"filename>.<nl/>Le corbe es un immagazinage temporanee ubi elementos pote "
+"esser delite ab si il necessita de spatio de disco."
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
