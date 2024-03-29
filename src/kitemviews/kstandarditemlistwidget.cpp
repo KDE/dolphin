@@ -536,6 +536,7 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
 
+    const QRectF widgetIconRect = iconRect();
     const int widgetIconSize = iconSize();
     int toggleSize = KIconLoader::SizeSmall;
     if (widgetIconSize >= KIconLoader::SizeEnormous) {
@@ -544,7 +545,7 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
         toggleSize = KIconLoader::SizeSmallMedium;
     }
 
-    QPointF pos = iconRect().topLeft();
+    QPointF pos = widgetIconRect.topLeft();
 
     // If the selection toggle has a very small distance to the
     // widget borders, the size of the selection toggle will get
@@ -563,6 +564,10 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
         pos.ry() -= (widgetWidth - toggleSize) / 2;
         toggleSize = widgetWidth;
         pos.setX(0);
+    }
+
+    if (QApplication::isRightToLeft()) {
+        pos.setX(widgetIconRect.right() - (pos.x() + toggleSize - widgetIconRect.left()));
     }
 
     return QRectF(pos, QSizeF(toggleSize, toggleSize));
