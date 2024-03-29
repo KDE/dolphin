@@ -117,7 +117,7 @@ QUrl DolphinSearchBox::urlForSearching() const
     if (isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
-        url.setScheme(QStringLiteral("filenamesearch"));
+        url.setScheme(QStringLiteral("cmdtoolsearch"));
 
         QUrlQuery query;
         query.addQueryItem(QStringLiteral("search"), m_searchInput->text());
@@ -139,7 +139,7 @@ void DolphinSearchBox::fromSearchUrl(const QUrl &url)
     if (DolphinQuery::supportsScheme(url.scheme())) {
         const DolphinQuery query = DolphinQuery::fromSearchUrl(url);
         updateFromQuery(query);
-    } else if (url.scheme() == QLatin1String("filenamesearch")) {
+    } else if (url.scheme() == QLatin1String("filenamesearch") || url.scheme() == QLatin1String("cmdtoolsearch")) {
         const QUrlQuery query(url);
         setText(query.queryItemValue(QStringLiteral("search")));
         if (m_searchPath.scheme() != url.scheme()) {

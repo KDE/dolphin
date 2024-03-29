@@ -2324,7 +2324,8 @@ void DolphinView::updatePlaceholderLabel()
         m_placeholderLabel->setText(i18n("Loading canceled"));
     } else if (!nameFilter().isEmpty()) {
         m_placeholderLabel->setText(i18n("No items matching the filter"));
-    } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")) {
+    } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")
+               || m_url.scheme() == QLatin1String("cmdtoolsearch")) {
         m_placeholderLabel->setText(i18n("No items matching the search"));
     } else if (m_url.scheme() == QLatin1String("trash") && m_url.path() == QLatin1String("/")) {
         m_placeholderLabel->setText(i18n("Trash is empty"));
