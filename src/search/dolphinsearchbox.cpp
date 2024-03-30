@@ -117,16 +117,23 @@ QUrl DolphinSearchBox::urlForSearching() const
     if (isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
+        QString text = m_searchInput->text();
+
+        // don't start searching until the user types a complete tool name
+        if (text.startsWith(QLatin1Char('@')) && text.indexOf(QLatin1Char(' ')) == -1) {
+            return QUrl();
+        }
+
         url.setScheme(QStringLiteral("cmdtoolsearch"));
 
         QUrlQuery query;
-        query.addQueryItem(QStringLiteral("search"), m_searchInput->text());
+        query.addQueryItem(QStringLiteral("search"), text);
         if (m_contentButton->isChecked()) {
             query.addQueryItem(QStringLiteral("checkContent"), QStringLiteral("yes"));
         }
 
         query.addQueryItem(QStringLiteral("url"), searchPath().url());
-        query.addQueryItem(QStringLiteral("title"), queryTitle(m_searchInput->text()));
+        query.addQueryItem(QStringLiteral("title"), queryTitle(text));
 
         url.setQuery(query);
     }
