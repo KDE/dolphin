@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-20 18:18+0900\n"
+"PO-Revision-Date: 2024-03-29 21:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -282,9 +282,7 @@ msgid "Close Tab"
 msgstr "關閉分頁"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "關閉分頁"
@@ -402,9 +400,7 @@ msgstr ""
 "這會從<emphasis>作用中</emphasis>檢視複製選取項目到非作用中的分割檢視。"
 
 #: dolphinmainwindow.cpp:1731
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "複製到另一個檢視"
@@ -435,9 +431,7 @@ msgstr ""
 "這會從<emphasis>作用中</emphasis>檢視移動選取項目到非作用中的分割檢視。"
 
 #: dolphinmainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "移動到另一個檢視"
@@ -841,7 +835,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "跳到分頁 %1"
 
 #: dolphinmainwindow.cpp:2086
 #, fuzzy, kde-format
@@ -849,7 +843,7 @@ msgstr ""
 #| msgid "Activate Last Tab"
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "跳到上個分頁"
+msgstr "上個分頁"
 
 #: dolphinmainwindow.cpp:2087
 #, fuzzy, kde-format
@@ -1169,12 +1163,10 @@ msgid "Close left view"
 msgstr "關閉左方檢視"
 
 #: dolphinmainwindow.cpp:2564
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "複製到另一個檢視"
+msgstr "彈出左方檢視"
 
 #: dolphinmainwindow.cpp:2565
 #, fuzzy, kde-format
@@ -1197,12 +1189,10 @@ msgid "Close right view"
 msgstr "關閉右方檢視"
 
 #: dolphinmainwindow.cpp:2570
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "複製到另一個檢視"
+msgstr "彈出右方檢視"
 
 #: dolphinmainwindow.cpp:2571
 #, fuzzy, kde-format
@@ -1225,9 +1215,7 @@ msgid "Split view"
 msgstr "分割檢視"
 
 #: dolphinmainwindow.cpp:2583
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left split view to a new window"
-#| msgid "Pop out"
+#, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "彈出"
@@ -3649,7 +3637,7 @@ msgstr "記住開啟的資料夾與分頁"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "將兩個檢視並排"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59

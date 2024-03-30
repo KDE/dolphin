@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-23 20:55+0100\n"
+"PO-Revision-Date: 2024-03-29 11:11+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -229,18 +229,14 @@ msgid "Open a new Dolphin window"
 msgstr "Abrir unha nova xanela de Dolphin"
 
 #: dolphinmainwindow.cpp:1647
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Isto abre unha nova xanela como esta coa localización e vista actuais.<nl/"
-">Pode arrastrar e soltar elementos entre xanelas."
+"Isto abre unha nova xanela como esta coa localización actual.<nl/>Pode "
+"arrastrar e soltar elementos entre xanelas."
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -249,21 +245,16 @@ msgid "New Tab"
 msgstr "Nova lapela"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"Isto abre unha nova <emphasis>lapela</emphasis> coa localización e vista "
-"actuais.<nl/>Unha lapela é unha vista adicional dentro desta xanela. Pode "
-"arrastrar e soltar elementos entre lapelas."
+"Isto abre unha nova <emphasis>lapela</emphasis> coa localización actual.<nl/"
+">As lapelas permítenlle cambiar rapidamente entre varias localizacións e "
+"vistas dentro desta xanela. Pode arrastrar e soltar elementos entre lapelas."
 
 #: dolphinmainwindow.cpp:1665
 #, kde-format
@@ -284,19 +275,13 @@ msgid "Close Tab"
 msgstr "Pechar a lapela"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Pechar a lapela"
 
 #: dolphinmainwindow.cpp:1675
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
@@ -395,23 +380,17 @@ msgid "Copy to Other View…"
 msgstr "Copiar na outra vista…"
 
 #: dolphinmainwindow.cpp:1727
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Isto copia os elementos seleccionados da vista <emphasis>activa</emphasis> á "
-"vista dividida inactiva."
+"Isto copia os elementos seleccionados da vista que ten o foco á outra vista. "
+"Só está dispoñíbel no modo de vista dividida."
 
 #: dolphinmainwindow.cpp:1731
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Copiar na outra vista"
@@ -429,23 +408,17 @@ msgid "Move to Other View…"
 msgstr "Move á outra vista…"
 
 #: dolphinmainwindow.cpp:1739
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Isto mover os elementos seleccionados da vista <emphasis>activa</emphasis> á "
-"vista dividida inactiva."
+"Isto move os elementos seleccionados da vista que ten o foco á outra vista. "
+"Só está dispoñíbel no modo de vista dividida."
 
 #: dolphinmainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Move á outra vista"
@@ -463,13 +436,7 @@ msgid "Show Filter Bar"
 msgstr "Amosar a barra de filtro."
 
 #: dolphinmainwindow.cpp:1751
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -505,14 +472,7 @@ msgid "Search for files and folders"
 msgstr "Buscar ficheiros e cartafoles."
 
 #: dolphinmainwindow.cpp:1775
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -522,9 +482,9 @@ msgid ""
 "para>"
 msgstr ""
 "<para>Isto axúdalle a atopar ficheiros e cartafoles abrindo unha "
-"<emphasis>barra de atopar</emphasis>. Nela pode escribir termos de busca e "
-"indicar opcións para atopar os obxectos que busca.</para><para>Use de novo "
-"esta axuda na barra de atopar para podermos botarlle unha ollada mentres se "
+"<emphasis>barra de busca</emphasis>. Nela pode escribir termos de busca e "
+"indicar opcións para atopar os elementos que busca.</para><para>Use de novo "
+"esta axuda na barra de busca para podermos botarlle unha ollada mentres se "
 "explican as opcións.</para>"
 
 #: dolphinmainwindow.cpp:1786
@@ -586,17 +546,13 @@ msgid "Invert Selection"
 msgstr "Inverter a selección"
 
 #: dolphinmainwindow.cpp:1830
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
-"Isto selecciona todos os obxectos que <emphasis>non</emphasis> ten "
+"Isto selecciona todos os elementos que <emphasis>non</emphasis> ten "
 "seleccionados."
 
 #: dolphinmainwindow.cpp:1848
