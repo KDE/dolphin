@@ -144,8 +144,9 @@ private:
     QTimer *m_dirVerificationTimer;
 
     bool m_pluginsInitialized;
-    KVersionControlPlugin *m_plugin;
-    QList<QPointer<KVersionControlPlugin>> m_plugins;
+    // directories have at most one plugin, this is the dectected current one.
+    KVersionControlPlugin *m_currentPlugin;
+    QList<KVersionControlPlugin *> m_plugins;
     UpdateItemStatesThread *m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;

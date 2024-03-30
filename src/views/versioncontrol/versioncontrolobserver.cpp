@@ -26,7 +26,7 @@ VersionControlObserver::VersionControlObserver(QObject *parent)
     , m_model(nullptr)
     , m_dirVerificationTimer(nullptr)
     , m_pluginsInitialized(false)
-    , m_plugin(nullptr)
+    , m_currentPlugin(nullptr)
     , m_updateItemStatesThread(nullptr)
 {
     // The verification timer specifies the timeout until the shown directory
@@ -42,10 +42,20 @@ VersionControlObserver::VersionControlObserver(QObject *parent)
 
 VersionControlObserver::~VersionControlObserver()
 {
-    if (m_plugin) {
-        m_plugin->disconnect(this);
-        m_plugin = nullptr;
+    if (m_currentPlugin) {
+        m_currentPlugin->disconnect(this);
     }
+    if (m_updateItemStatesThread) {
+        m_updateItemStatesThread->requestInterruption();
+        m_updateItemStatesThread->wait();
+        m_updateItemStatesThread->deleteLater();
+    }
+
+    if (m_currentPlugin) {
+        delete m_currentPlugin;
+        m_currentPlugin = nullptr;
+    }
+    m_plugins.clear();
 }
 
 void VersionControlObserver::setModel(KFileItemModel *model)
@@ -102,10 +112,10 @@ QList<QAction *> VersionControlObserver::actions(const KFileItemList &items) con
     }
 
     if (isVersionControlled()) {
-        return m_plugin->versionControlActions(items);
+        return m_currentPlugin->versionControlActions(items);
     } else {
         QList<QAction *> actions;
-        for (const QPointer<KVersionControlPlugin> &plugin : std::as_const(m_plugins)) {
+        for (const KVersionControlPlugin *plugin : std::as_const(m_plugins)) {
             actions << plugin->outOfVersionControlActions(items);
         }
         return actions;
@@ -147,24 +157,24 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    if (m_plugin != nullptr) {
-        if (!rootItem.url().path().startsWith(m_localRepoRoot) || !QFile::exists(m_localRepoRoot + '/' + m_plugin->fileName())) {
-            m_plugin = nullptr;
+    if (m_currentPlugin && rootItem.url().path().startsWith(m_localRepoRoot) && QFile::exists(m_localRepoRoot + '/' + m_currentPlugin->fileName())) {
+        // current directory is still versionned
+        updateItemStates();
+        return;
+    }
 
-            // The directory is not versioned. Reset the verification timer to a higher
-            // value, so that browsing through non-versioned directories is not slown down
-            // by an immediate verification.
-            m_dirVerificationTimer->setInterval(500);
-        } else {
-            // View was versioned but should not be anymore
-            updateItemStates();
-        }
-    } else if ((m_plugin = searchPlugin(rootItem.url()))) {
+    if ((m_currentPlugin = searchPlugin(rootItem.url()))) {
         // The directory is versioned. Assume that the user will further browse through
         // versioned directories and decrease the verification timer.
         m_dirVerificationTimer->setInterval(100);
         updateItemStates();
+        return;
     }
+
+    // The directory is not versioned. Reset the verification timer to a higher
+    // value, so that browsing through non-versioned directories is not slown down
+    // by an immediate verification.
+    m_dirVerificationTimer->setInterval(500);
 }
 
 void VersionControlObserver::slotThreadFinished()
@@ -172,7 +182,7 @@ void VersionControlObserver::slotThreadFinished()
     UpdateItemStatesThread *thread = m_updateItemStatesThread;
     m_updateItemStatesThread = nullptr; // The thread deletes itself automatically (see updateItemStates())
 
-    if (!m_plugin || !thread) {
+    if (!m_currentPlugin || !thread) {
         return;
     }
 
@@ -205,7 +215,7 @@ void VersionControlObserver::slotThreadFinished()
 
 void VersionControlObserver::updateItemStates()
 {
-    Q_ASSERT(m_plugin);
+    Q_ASSERT(m_currentPlugin);
     if (m_updateItemStatesThread) {
         // An update is currently ongoing. Wait until the thread has finished
         // the update (see slotThreadFinished()).
@@ -220,7 +230,7 @@ void VersionControlObserver::updateItemStates()
         if (!m_silentUpdate) {
             Q_EMIT infoMessage(i18nc("@info:status", "Updating version information…"));
         }
-        m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
+        m_updateItemStatesThread = new UpdateItemStatesThread(m_currentPlugin, itemStates);
         connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished, this, &VersionControlObserver::slotThreadFinished);
         connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished, m_updateItemStatesThread, &UpdateItemStatesThread::deleteLater);
 
@@ -271,19 +281,16 @@ void VersionControlObserver::initPlugins()
 
         const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
 
-        QSet<QString> loadedPlugins;
-
         for (const auto &p : plugins) {
             if (enabledPlugins.contains(p.name())) {
                 auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p, parent()).plugin;
                 if (plugin) {
                     m_plugins.append(plugin);
-                    loadedPlugins += p.name();
                 }
             }
         }
 
-        for (auto &plugin : std::as_const(m_plugins)) {
+        for (const auto *plugin : std::as_const(m_plugins)) {
             connect(plugin, &KVersionControlPlugin::itemVersionsChanged, this, &VersionControlObserver::silentDirectoryVerification);
             connect(plugin, &KVersionControlPlugin::infoMessage, this, &VersionControlObserver::infoMessage);
             connect(plugin, &KVersionControlPlugin::errorMessage, this, &VersionControlObserver::errorMessage);
@@ -299,17 +306,14 @@ KVersionControlPlugin *VersionControlObserver::searchPlugin(const QUrl &director
     initPlugins();
 
     // Verify whether the current directory is under a version system
-    for (const QPointer<KVersionControlPlugin> &plugin : std::as_const(m_plugins)) {
-        if (!plugin) {
-            continue;
-        }
-
+    for (KVersionControlPlugin *plugin : std::as_const(m_plugins)) {
         // first naively check if we are at working copy root
         const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
             m_localRepoRoot = directory.path();
             return plugin;
         }
+
         const QString root = plugin->localRepositoryRoot(directory.path());
         if (!root.isEmpty()) {
             m_localRepoRoot = root;
@@ -321,7 +325,7 @@ KVersionControlPlugin *VersionControlObserver::searchPlugin(const QUrl &director
 
 bool VersionControlObserver::isVersionControlled() const
 {
-    return m_plugin != nullptr;
+    return m_currentPlugin != nullptr;
 }
 
 #include "moc_versioncontrolobserver.cpp"
