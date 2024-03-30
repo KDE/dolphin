@@ -469,6 +469,7 @@ void DolphinContextMenu::addAdditionalActions(const KFileItemListProperties &pro
     const DolphinView *view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction *> versionControlActions = view->versionControlActions(m_selectedItems);
     if (!versionControlActions.isEmpty()) {
+        addSeparator();
         addActions(versionControlActions);
         addSeparator();
     }
