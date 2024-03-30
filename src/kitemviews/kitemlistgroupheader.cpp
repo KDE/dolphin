@@ -190,7 +190,7 @@ void KItemListGroupHeader::updateSize()
 
     const int y = (m_scrollOrientation == Qt::Vertical) ? padding : horizontalMargin;
 
-    m_roleBounds = QRectF(horizontalMargin + padding, y, size().width() - 2 * padding - horizontalMargin, roleHeight);
+    m_roleBounds = QRectF(horizontalMargin + padding, y, size().width() - 2 * (padding + horizontalMargin), roleHeight);
 
     update();
 }

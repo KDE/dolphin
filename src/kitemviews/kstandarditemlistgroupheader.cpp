@@ -51,7 +51,8 @@ void KStandardItemListGroupHeader::paintSeparator(QPainter *painter, const QColo
     painter->setPen(color);
 
     if (scrollOrientation() == Qt::Horizontal) {
-        painter->drawLine(0, 0, 0, size().height() - 1);
+        const qreal x = layoutDirection() == Qt::RightToLeft ? size().width() - 1 : 0;
+        painter->drawLine(x, 0, x, size().height() - 1);
     } else {
         if (layoutDirection() == Qt::LeftToRight) {
             painter->drawLine(0, 0, size().width() - 1, 0);

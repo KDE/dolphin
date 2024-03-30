@@ -551,7 +551,7 @@ void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
     QRectF currentRect = itemRect(index);
 
     if (layoutDirection() == Qt::RightToLeft && scrollOrientation() == Qt::Horizontal) {
-        currentRect.moveTo(m_layouter->size().width() - currentRect.right(), 0);
+        currentRect.moveLeft(m_layouter->size().width() - currentRect.right());
     }
 
     // Fix for Bug 311099 - View the underscore when using Ctrl + PageDown

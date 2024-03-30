@@ -228,7 +228,7 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         QPointF pos(y, x);
         sizeHint.transpose();
         if (QGuiApplication::isRightToLeft()) {
-            pos.rx() = m_size.width() + m_scrollOffset - pos.x() - sizeHint.width();
+            pos.rx() = m_size.width() - 1 + m_scrollOffset - pos.x() - sizeHint.width();
         } else {
             pos.rx() -= m_scrollOffset;
         }
@@ -260,7 +260,6 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         pos.ry() -= m_groupHeaderHeight;
         size = QSizeF(m_size.width(), m_groupHeaderHeight);
     } else {
-        pos.rx() -= m_itemMargin.width();
         pos.ry() = 0;
 
         // Determine the maximum width used in the current column. As the
@@ -286,7 +285,14 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         }
 
         size = QSizeF(headerWidth, m_size.height());
+
+        if (QGuiApplication::isRightToLeft()) {
+            pos.setX(firstItemRect.right() + m_itemMargin.width() - size.width());
+        } else {
+            pos.rx() -= m_itemMargin.width();
+        }
     }
+
     return QRectF(pos, size);
 }
 
@@ -402,7 +408,7 @@ void KItemListViewLayouter::doLayout()
 
     // Calculate the offset of each column, i.e., the x-coordinate where the column starts.
     m_columnOffsets.resize(m_columnCount);
-    qreal currentOffset = isRightToLeft ? widthForColumns : m_xPosInc;
+    qreal currentOffset = isRightToLeft && !horizontalScrolling ? widthForColumns : m_xPosInc;
 
     if (grouped && horizontalScrolling) {
         // All group headers will always be aligned on the top and not
@@ -413,7 +419,7 @@ void KItemListViewLayouter::doLayout()
     if (isRightToLeft) {
         for (int column = 0; column < m_columnCount; ++column) {
             if (horizontalScrolling) {
-                m_columnOffsets[column] = column * m_columnWidth;
+                m_columnOffsets[column] = currentOffset + column * m_columnWidth;
             } else {
                 currentOffset -= m_columnWidth;
                 m_columnOffsets[column] = currentOffset;
