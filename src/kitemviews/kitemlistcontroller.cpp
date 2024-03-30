@@ -712,8 +712,11 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
         return false;
     }
 
-    bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)
-        && (event->button() & Qt::LeftButton) && index.has_value() && index.value() < m_model->count();
+    if (m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) {
+        return false;
+    }
+
+    const bool emitItemActivated = index.has_value() && index.value() < m_model->count() && !m_view->isAboveExpansionToggle(index.value(), pos);
     if (emitItemActivated) {
         Q_EMIT itemActivated(index.value());
     }
