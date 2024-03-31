@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-28 19:17\n"
+"PO-Revision-Date: 2024-03-30 19:37\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -228,6 +228,8 @@ msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
+"这将打开一个与当前窗口相同的新窗口，使用当前位置。<nl/>您可以在窗口之间拖放项"
+"目。"
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -243,6 +245,9 @@ msgid ""
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
+"这将打开一个新<emphasis>标签页</emphasis>，使用当前位置。<nl/>标签页是同一窗"
+"口中的额外视图，用于快速在不同位置、不同视图之间切换。您可以在不同标签页之间"
+"拖放项目。"
 
 #: dolphinmainwindow.cpp:1665
 #, kde-format
@@ -274,7 +279,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
-msgstr ""
+msgstr "这将关闭当前正在显示的标签页。如果没有其他的标签页，窗口将会关闭。"
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -369,7 +374,7 @@ msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
-msgstr ""
+msgstr "这将把处在焦点的视图中的所选项目复制到其他视图 (仅在拆分视图中可用。)"
 
 #: dolphinmainwindow.cpp:1731
 #, kde-format
@@ -395,7 +400,7 @@ msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
-msgstr ""
+msgstr "这将把处在焦点的视图中的所选项目移动到其他视图 (仅在拆分视图中可用。)"
 
 #: dolphinmainwindow.cpp:1743
 #, kde-format
@@ -424,6 +429,9 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"这将打开窗口底部的<emphasis>过滤栏</emphasis>。<nl/> 您可以输入文本来对视图中"
+"的文件和文件夹进行过滤显示。视图将仅列出那些在名称中包含了您输入文本的文件和"
+"文件夹。"
 
 #: dolphinmainwindow.cpp:1763
 #, kde-format
@@ -458,6 +466,9 @@ msgid ""
 "search bar so we can have a look at it while the settings are explained.</"
 "para>"
 msgstr ""
+"这将<para>打开<emphasis>搜索栏</emphasis>，用于为您查找文件和文件夹。您可以在"
+"搜索栏中输入搜索条件和设置以查找所需项目。</para><para>在搜索栏上再次使用帮"
+"助，程序将为您介绍搜索设置的有关信息。</para>"
 
 #: dolphinmainwindow.cpp:1786
 #, kde-format
@@ -520,7 +531,7 @@ msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
-msgstr ""
+msgstr "这将选择当前<emphasis>没有</emphasis>选中的所有项目。"
 
 #: dolphinmainwindow.cpp:1848
 #, kde-kuit-format
@@ -531,6 +542,9 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>这将在当前视图的旁边并排显示第二个视图，这样您便可以同时查看两个文件夹"
+"中的内容，并在两个视图之间移动项目。</para><para>不在焦点之内的视图将会变暗。"
+"</para>再次点击此按钮将关闭其中一个视图。"
 
 #: dolphinmainwindow.cpp:1863
 #, kde-kuit-format
@@ -538,7 +552,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
-msgstr ""
+msgstr "如果视图已经拆分，这将把处在焦点的视图弹出到一个新窗口中。"
 
 #: dolphinmainwindow.cpp:1871
 #, kde-format
@@ -643,6 +657,10 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
+"这将撤销上一次对文件或文件夹进行的更改操作。<nl/>可撤销的操作包括<interface>"
+"创建</interface>、<interface>重命名</interface>、<interface>移动</interface>"
+"到其他位置或者<filename>移动到回收站</filename>。<nl/>在进行无法撤销的更改之"
+"前，程序将请求您确认操作。"
 
 #: dolphinmainwindow.cpp:1979
 #, kde-kuit-format
@@ -652,6 +670,9 @@ msgid ""
 "their own <filename>Home</filename> that contains their personal files, as "
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
+"转到您的 <filename>主文件夹</filename> 。<nl/>每个用户的账户都有自己的 "
+"<filename>主文件夹</filename>，它用于存放个人文件、应用程序的个人数据、配置文"
+"件的隐藏文件夹。"
 
 #: dolphinmainwindow.cpp:1986
 #, kde-format
@@ -684,6 +705,8 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
+"<para>这将在当前显示的位置打开<emphasis>终端</emphasis>应用程序。</"
+"para><para>关于终端的更多信息请查看终端应用程序中的帮助信息。</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2012
@@ -700,6 +723,8 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
+"<para>这将在当前所选项目的位置打开<emphasis>终端</emphasis>应用程序窗口。</"
+"para><para>关于终端的更多信息请查看终端应用程序中的帮助信息。</para>"
 
 #: dolphinmainwindow.cpp:2022 dolphinmainwindow.cpp:2806
 #, kde-format
@@ -724,24 +749,29 @@ msgid ""
 "offer.</para><para>The %1 button is simpler and small which makes triggering "
 "advanced actions more time consuming.</para>"
 msgstr ""
+"<para>这将在显示<emphasis>完整菜单</emphasis>模式和显示<interface>%1</"
+"interface>按钮模式之间切换。两种模式显示的操作和配置选项大致相同。</"
+"para><para>完整菜单模式会占用更多的界面空间，但提供的功能更完整，各种操作的分"
+"类排布更加清晰，使用更加便捷。</para><para>%1按钮模式的界面更加简洁，但要访问"
+"高级操作时需要更多点击。</para>"
 
 #: dolphinmainwindow.cpp:2073
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "切换到标签页 %1"
 
 #: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr ""
+msgstr "最后一个标签页"
 
 #: dolphinmainwindow.cpp:2087
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr ""
+msgstr "切换到最后一个标签页"
 
 #: dolphinmainwindow.cpp:2093
 #, kde-format
@@ -753,7 +783,7 @@ msgstr "下一个标签页"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr ""
+msgstr "切换到下一个标签页"
 
 #: dolphinmainwindow.cpp:2100
 #, kde-format
@@ -765,7 +795,7 @@ msgstr "上一个标签页"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr ""
+msgstr "切换到上一个标签页"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -914,6 +944,10 @@ msgid ""
 "learn more about terminals use the help features in a standalone terminal "
 "application like Konsole.</para>"
 msgstr ""
+"<para>这将打开/关闭位于窗口底部的<emphasis>终端</emphasis>面板。<nl/>终端所在"
+"的位置与当前文件夹视图中的位置是一致的，您可以使用两者中的任意一个切换当前位"
+"置。</para><para>终端面板在日常使用中可能派不上用场，但在执行高级任务时非常有"
+"用。要了解终端的相关信息，请查看终端应用 (例如 Konsole) 的帮助。</para>"
 
 #: dolphinmainwindow.cpp:2272
 #, kde-kuit-format
@@ -926,6 +960,10 @@ msgid ""
 "about terminals use the help features in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
+"<para>这是<emphasis>终端</emphasis>面板。它和正常的终端功能相似，但它的位置会"
+"与当前文件夹视图中的位置保持一致，您可以使用两者中的任意一个切换当前位置。</"
+"para><para>终端面板在日常使用中可能派不上用场，但在执行高级任务时非常有用。要"
+"了解终端的相关信息，请查看终端应用 (例如 Konsole) 的帮助。</para>"
 
 #: dolphinmainwindow.cpp:2289
 #, kde-format
@@ -947,6 +985,8 @@ msgid ""
 "will appear semi-transparent and allow you to uncheck their \"Hide\" "
 "property."
 msgstr ""
+"这将显示常用位置面板中的所有已被隐藏的位置。这些位置将以半透明方式显示，以便"
+"您取消勾选它们的“隐藏”状态。"
 
 #: dolphinmainwindow.cpp:2332
 #, kde-kuit-format
@@ -1020,13 +1060,13 @@ msgstr "关闭左侧视图"
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr ""
+msgstr "弹出左视图"
 
 #: dolphinmainwindow.cpp:2565
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr ""
+msgstr "弹出左视图为新窗口"
 
 #: dolphinmainwindow.cpp:2567
 #, kde-format
@@ -1044,13 +1084,13 @@ msgstr "关闭右侧视图"
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr ""
+msgstr "弹出右视图"
 
 #: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr ""
+msgstr "弹出右视图为新窗口"
 
 #: dolphinmainwindow.cpp:2580
 #, kde-format
@@ -1068,7 +1108,7 @@ msgstr "拆分视图"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "弹出"
 
 #: dolphinmainwindow.cpp:2638
 #, kde-kuit-format
@@ -3487,7 +3527,7 @@ msgstr "记住上次关闭时的文件夹和标签页"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "并排显示两个视图"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59
@@ -3525,7 +3565,7 @@ msgstr "在程序仍然在终端面板中运行时关闭窗口需要确认。"
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename single items inline"
-msgstr ""
+msgstr "重命名单个项目"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3545,13 +3585,13 @@ msgstr "在使用选择模式底部工具栏进行剪切或者复制后，显示
 #: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr ""
+msgstr "按 Tab 键切换左、右视图"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr ""
+msgstr "关闭拆分视图时关闭处于焦点的视图"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
@@ -3563,7 +3603,7 @@ msgstr "新标签页将在最后一个标签页之后打开"
 #: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid "Show item information on hover"
-msgstr ""
+msgstr "悬停时显示项目信息"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3855,7 +3895,7 @@ msgstr "新标签页位置："
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr ""
+msgstr "按 Tab 键切换视图"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -3867,7 +3907,7 @@ msgstr "拆分视图:："
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr ""
+msgstr "关闭拆分视图时关闭处于焦点的视图"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -3875,6 +3915,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"如果不选中此项，将关闭不处于焦点的视图。点击关闭图标时它所在的视图就是要被关"
+"闭的视图。"
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -4247,7 +4289,7 @@ msgstr "浏览： "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr ""
+msgstr "悬停时显示项目信息"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4266,12 +4308,12 @@ msgstr "显示选择标记"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr ""
+msgstr "重命名单个项目"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "重命名多个项目时必须打开重命名对话框进行操作。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
@@ -4989,6 +5031,8 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once results in their new names differing only in a number."
 msgstr ""
+"这将重命名当前选中的项目。<nl/>如果同时重命名多个文件，它们将使用相同的主文件"
+"名，仅通过一个数字后缀进行区分。"
 
 #: views/dolphinviewactionhandler.cpp:103
 #, kde-kuit-format
@@ -4998,6 +5042,8 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage location where items can be "
 "deleted later if disk space is needed."
 msgstr ""
+"这将把选中的项目移动到<filename>回收站</filename>。<nl/>回收站是用于临时存储"
+"被删除文件的位置。如果之后磁盘空间不足，回收站中的项目可能会被删除。"
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
@@ -5005,7 +5051,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
-msgstr ""
+msgstr "这将彻底删除当前选中项目。它们将无法通过常规手段进行恢复。"
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-format
@@ -5095,6 +5141,9 @@ msgid ""
 "in columns with the names beside the icons.</para><para>This helps to give "
 "you an overview in folders with many items.</para>"
 msgstr ""
+"<para>这将切换为“紧凑”视图模式。此模式将文件和文件夹显示为多列，文件名显示在"
+"图标的一侧。</para><para>此模式在能在相同的空间内显示更多项目，有助于管理内容"
+"较多的文件夹。</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
 #, kde-kuit-format
@@ -5108,6 +5157,11 @@ msgid ""
 "location by clicking the region to the left of it. This way you can view the "
 "contents of multiple folders in the same list.</para>"
 msgstr ""
+"<para>这将切换为“详情”视图模式，此模式将文件和文件夹显示为单列，并显示它们的"
+"详细信息。</para><para>点击列表的任意一个表头可以按此进行排序。再次点击可以反"
+"向排序。要选择显示的详细信息类型，请右键点击表头。</para><para>您可以查看文件"
+"夹的内容而无需离开当前位置，只需点击左侧的区域展开即可。您可以通过此功能同时"
+"查看多个文件夹中的内容。</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5228,6 +5282,12 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
+"<para>如果启用此项，<emphasis>隐藏</emphasis>文件和文件夹将半透明显示。</"
+"para><para>通常来说用户不需要访问隐藏的项目，因此它们才会被隐藏起来。隐藏项目"
+"和正常项目的区别是隐藏项目的名称有一个半角句点 (“.”) 前缀。</para><para>另一"
+"种隐藏项目的方式是在一个名为“.hidden”的文件中加入需要隐藏的项目的名"
+"称。“application/x-trash” MIME 类型的文件，例如备份文件等，可以在：配置 "
+"Dolphin > 视图 > 常规 标签页中将它们设置为隐藏。</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format

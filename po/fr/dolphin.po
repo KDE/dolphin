@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-20 10:26+0100\n"
+"PO-Revision-Date: 2024-03-29 13:58+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -302,9 +302,7 @@ msgid "Close Tab"
 msgstr "Fermer l'onglet"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Fermer l'onglet"
@@ -430,9 +428,7 @@ msgstr ""
 "emphasis> vers la vue fractionnée inactive."
 
 #: dolphinmainwindow.cpp:1731
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Copier vers une autre vue"
@@ -464,9 +460,7 @@ msgstr ""
 "vers la vue fractionnée inactive."
 
 #: dolphinmainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Déplacer vers une autre vue"
@@ -900,23 +894,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Aller à l'onglet %1"
 
 #: dolphinmainwindow.cpp:2086
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "Activer le dernier onglet"
+msgstr "Dernier onglet"
 
 #: dolphinmainwindow.cpp:2087
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "Activer le dernier onglet"
+msgstr "Aller au dernier onglet"
 
 #: dolphinmainwindow.cpp:2093
 #, kde-format
@@ -925,12 +915,10 @@ msgid "Next Tab"
 msgstr "Onglet suivant"
 
 #: dolphinmainwindow.cpp:2094
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "Onglet suivant"
+msgstr "Aller à l'onglet suivant"
 
 #: dolphinmainwindow.cpp:2100
 #, kde-format
@@ -939,12 +927,10 @@ msgid "Previous Tab"
 msgstr "Onglet précédent"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "Onglet précédent"
+msgstr "Aller à l'onglet précédent"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -1312,9 +1298,7 @@ msgid "Split view"
 msgstr "Scinder la vue"
 
 #: dolphinmainwindow.cpp:2583
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left split view to a new window"
-#| msgid "Pop out"
+#, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Faire apparaître"
@@ -3849,7 +3833,7 @@ msgstr "Se rappeler des dossiers et des onglets ouverts"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Placer deux vues côte à côte"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59
@@ -3936,10 +3920,9 @@ msgstr "Un nouvel onglet sera ouvert après le précédent"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Afficher un élément après son survol"
+msgstr "Afficher les informations d'un élément lors de son survol"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-01-20 19:08+0400\n"
+"PO-Revision-Date: 2024-03-30 10:40+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -29,7 +29,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "فريق عربآيز,زايد السعيدي,أسامة خالد"
+msgstr "فريق عربآيز, زايد السعيدي, أسامة خالد"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -77,7 +77,7 @@ msgstr "افتح المسار في نافذة جديدة"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "النقرة الوسطى"
 
 #: dolphinmainwindow.cpp:315
 #, kde-format
@@ -235,18 +235,14 @@ msgid "Open a new Dolphin window"
 msgstr "افتح نافذة دولفين جديدة"
 
 #: dolphinmainwindow.cpp:1647
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"هذا يفتح نافذة جديدة تمامًا مثل هذه النافذة مع الموقع الحالي والعرض. <nl/> "
-"يمكنك سحب العناصر وإفلاتها بين النوافذ."
+"هذا يفتح نافذة جديدة تمامًا مثل هذه النافذة مع الموقع الحالي.<nl/>يمكنك سحب "
+"العناصر وإفلاتها بين النوافذ."
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -255,21 +251,16 @@ msgid "New Tab"
 msgstr "لسان جديد"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"يؤدي هذا إلى فتح  <emphasis>لسان </emphasis> جديد بالموقع والعرض الحاليين."
-"<nl/> اللسان هو عرض إضافي داخل هذه النافذة. يمكنك سحب العناصر وإفلاتها بين "
-"ألسنة."
+"يؤدي هذا إلى فتح  <emphasis>لسان </emphasis> جديد بالموقع الحالي.<nl/>تتيح "
+"لك الألسنة التبديل بسرعة بين مواقع وطرق عرض متعددة داخل هذه النافذة. يمكنك "
+"سحب العناصر وإفلاتها بين ألسنة."
 
 #: dolphinmainwindow.cpp:1665
 #, kde-format
@@ -290,19 +281,13 @@ msgid "Close Tab"
 msgstr "أغلق اللسان"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "أغلق اللسان"
 
 #: dolphinmainwindow.cpp:1675
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
@@ -401,23 +386,17 @@ msgid "Copy to Other View…"
 msgstr "انسخ إلى العرض الآخر…"
 
 #: dolphinmainwindow.cpp:1727
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"يقوم هذا بنسخ العناصر المحددة من العرض <emphasis>النشط</emphasis> إلى العرض "
-"المنقسم غير النشط."
+"هذا ينسخ العناصر المحددة من العرض النشط إلى العرض المنقسم غير النشط. (متوفر "
+"فقط أثناء وجوده في وضع العرض المنقسم.)"
 
 #: dolphinmainwindow.cpp:1731
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "انسخ إلى العرض الآخر"
@@ -435,23 +414,17 @@ msgid "Move to Other View…"
 msgstr "انقل إلى العرض الآخر…"
 
 #: dolphinmainwindow.cpp:1739
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"يقوم هذا بنقل العناصر المحددة من العرض <emphasis>النشط</emphasis> إلى العرض "
-"المنقسم غير النشط."
+"هذا ينقل العناصر المحددة من العرض النشط إلى العرض المنقسم غير النشط. (متوفر "
+"فقط أثناء وجوده في وضع العرض المنقسم.)"
 
 #: dolphinmainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "انقل إلى العرض الآخر"
@@ -469,13 +442,7 @@ msgid "Show Filter Bar"
 msgstr "أظهر شريط المرشّح"
 
 #: dolphinmainwindow.cpp:1751
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -483,7 +450,7 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
-"هذا يفتح <emphasis> شريط المرشح </emphasis>الجزء السفلي من النافذة. <nl/"
+"هذا يفتح <emphasis> شريط المرشح </emphasis>في الجزء السفلي من النافذة.<nl/"
 ">هناك يمكنك إدخال نص لترشيح الملفات والمجلدات المعروضة حاليًا. لن يتم عرض سوى "
 "تلك التي تحتوي على النص في أسمائها."
 
@@ -511,14 +478,7 @@ msgid "Search for files and folders"
 msgstr "ابحث عن الملفات والمجلدات"
 
 #: dolphinmainwindow.cpp:1775
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -530,8 +490,7 @@ msgstr ""
 "<para> هذا يساعدك في العثور على الملفات والمجلدات عن طريق فتح <emphasis> "
 "شريط البحث </emphasis>. هناك يمكنك إدخال مصطلحات البحث وتحديد الإعدادات "
 "للعثور على الكائنات التي تبحث عنها. </para> <para> استخدم هذه المساعدة مرة "
-"أخرى في شريط البحث حتى نتمكن من إلقاء نظرة عليها أثناء شرح الإعدادات. </para "
-">"
+"أخرى في شريط البحث حتى نتمكن من إلقاء نظرة عليها أثناء شرح الإعدادات. </para>"
 
 #: dolphinmainwindow.cpp:1786
 #, kde-format
@@ -590,17 +549,13 @@ msgid "Invert Selection"
 msgstr "اعكس التحديد"
 
 #: dolphinmainwindow.cpp:1830
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
-"يؤدي هذا إلى تحديد جميع الكائنات التي  <emphasis>لم تقم</emphasis> بتحديدها "
+"يؤدي هذا إلى تحديد جميع الكائنات التي <emphasis>لم تقم</emphasis> بتحديدها "
 "بدلاً من ذلك."
 
 #: dolphinmainwindow.cpp:1848
@@ -612,19 +567,19 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>يقدم هذا طريقة عرض ثانية جنبا إلى جنب مع طريقة العرض الحالية ، لذلك "
+"يمكن رؤية محتويات مجلدين في وقت واحد ونقل العناصر بسهولة بينهم.</"
+"para><para>سيُعتم العرض الذي ليس \"في التركيز\". </para> انقر فوق هذا الزر "
+"مرة أخرى لإغلاق إحدى طرق العرض."
 
 #: dolphinmainwindow.cpp:1863
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the folder view has been split, this will pop the active folder view "
-#| "out into a new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
-"إذا كان عرض المجلدات مقسوم، فسيؤدي ذلك إلى فصل العرض النشط إلى نافذة جديدة."
+"إذا كان عرض المجلدات مقسوما، فسيؤدي ذلك إلى فصل العرض النشط إلى نافذة جديدة."
 
 #: dolphinmainwindow.cpp:1871
 #, kde-format
@@ -724,14 +679,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "هذا يرجعك إلى اللسان المغلق سابقا"
 
 #: dolphinmainwindow.cpp:1950
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -740,18 +688,13 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
-"يؤدي هذا إلى إلغاء آخر تغيير أجريته على الملفات أو المجلدات. <nl/> تتضمن هذه "
-"التغييرات <interface> إنشاء وإعادة تسمية </interface> و <interface> نقلها </"
-"interface> إلى موقع مختلف أو إلى <filename> المهملات </filename>. <nl/> "
-"التغييرات التي لا يمكن التراجع عنها ستطلب منك التأكيد."
+"يؤدي هذا إلى إلغاء آخر تغيير أجريته على الملفات أو المجلدات.<nl/>تتضمن هذه "
+"التغييرات<interface>إنشاء وإعادة تسمية</interface>و <interface>نقلها</"
+"interface>إلى موقع مختلف  أو إلى<filename>المهملات </filename>. <nl/"
+">التغييرات التي لا يمكن التراجع عنها ستطلب منك التأكيد."
 
 #: dolphinmainwindow.cpp:1979
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -786,20 +729,15 @@ msgid "Open Terminal"
 msgstr "افتح الطرفية"
 
 #: dolphinmainwindow.cpp:2004
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
-"<para> هذا يفتح تطبيق <emphasis> الطرفية </emphasis> للموقع المعروض. </para> "
-"<para> لمعرفة المزيد حول الطرفية ، استخدم المساعدة في التطبيق الطرفية. </"
+"<para> هذا يفتح تطبيق <emphasis> الطرفية </emphasis> للموقع  المعروض. </"
+"para><para> لمعرفة المزيد حول الطرفية ، استخدم المساعدة في تطبيق الطرفية. </"
 "para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
@@ -810,21 +748,16 @@ msgid "Open Terminal Here"
 msgstr "افتح الطرفية هنا"
 
 #: dolphinmainwindow.cpp:2014
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
-"<para> هذا يفتح تطبيق <emphasis> الطرفية </emphasis> للموقع المعروض. </para> "
-"<para> لمعرفة المزيد حول الطرفية ، استخدم المساعدة في التطبيق الطرفية. </"
-"para>"
+"<para> هذا يفتح تطبيق <emphasis> الطرفية </emphasis> لمواقع العناصر "
+"المختارة. </para><para> لمعرفة المزيد حول الطرفية، استخدم المساعدة في تطبيق "
+"الطرفية. </para>"
 
 #: dolphinmainwindow.cpp:2022 dolphinmainwindow.cpp:2806
 #, kde-format
@@ -839,16 +772,7 @@ msgid "&Bookmarks"
 msgstr "ال&علامات"
 
 #: dolphinmainwindow.cpp:2040
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -861,31 +785,26 @@ msgstr ""
 "<para> هذا التبديل بين وجود <emphasis>شريط القائمة</emphasis> ووجود زر "
 "<interface>%1</interface>. يحتوي كلاهما في الغالب على نفس الإجراءات وخيارات "
 "الضبط. </para> <para> يشغل شريط القائمة مساحة أكبر ولكنه يسمح بالوصول السريع "
-"والمنظم إلى جميع الإجراءات التي يجب أن يقدمها التطبيق. </para> <para> زر "
-"<interface>%1</interface> أبسط وصغير مما يجعل تشغيل الإجراءات المتقدمة "
-"يستغرق وقتًا أطول. </para>"
+"والمنظم إلى جميع الإجراءات التي يجب أن يقدمها التطبيق. </para> <para> زر %1 "
+"أبسط وصغير مما يجعل تشغيل الإجراءات المتقدمة يستغرق وقتًا أطول. </para>"
 
 #: dolphinmainwindow.cpp:2073
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "انتقل إلى اللسان %1"
 
 #: dolphinmainwindow.cpp:2086
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "فعّل آخر لسان"
+msgstr "آخر لسان"
 
 #: dolphinmainwindow.cpp:2087
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "فعّل آخر لسان"
+msgstr "انتقل إلى  آخر لسان"
 
 #: dolphinmainwindow.cpp:2093
 #, kde-format
@@ -894,12 +813,10 @@ msgid "Next Tab"
 msgstr "اللسان التالي"
 
 #: dolphinmainwindow.cpp:2094
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "اللسان التالي"
+msgstr "انتقل إلى اللسان التالي"
 
 #: dolphinmainwindow.cpp:2100
 #, kde-format
@@ -908,12 +825,10 @@ msgid "Previous Tab"
 msgstr "اللسان السابق"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "اللسان السابق"
+msgstr "انتقل إلى اللسان السابق"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -1055,15 +970,7 @@ msgid "Terminal"
 msgstr "الطرفية"
 
 #: dolphinmainwindow.cpp:2264
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -1080,15 +987,7 @@ msgstr ""
 "المحطات الطرفية ، استخدم المساعدة في تطبيق طرفي مستقل مثل كونسول. </para>"
 
 #: dolphinmainwindow.cpp:2272
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1117,19 +1016,15 @@ msgid "Show Hidden Places"
 msgstr "أظهر الملفات المخفية"
 
 #: dolphinmainwindow.cpp:2320
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
 "will appear semi-transparent and allow you to uncheck their \"Hide\" "
 "property."
 msgstr ""
-"يعرض هذا جميع الأماكن التي تم إخفاؤها في لوحة الأماكن. ستظهر شبه شفافة ما لم "
-"تقم بإلغاء تحديد خاصية الإخفاء الخاصة بهم. "
+"يعرض هذا جميع الأماكن التي أُخفيت في لوحة الأماكن. ستظهر شبه شفافة وتسمح لك "
+"بإلغاء تحديد خاصية \"إخفاء\". الخاصة بهم."
 
 #: dolphinmainwindow.cpp:2332
 #, kde-kuit-format
@@ -1205,17 +1100,13 @@ msgid "Close left view"
 msgstr "أغلق العرض الأيسر"
 
 #: dolphinmainwindow.cpp:2564
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "انسخ إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:2565
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "انقل العرض المقسوم الأيسر إلى نافذة جديدة"
@@ -1233,17 +1124,13 @@ msgid "Close right view"
 msgstr "أغلق العرض الأيمن"
 
 #: dolphinmainwindow.cpp:2570
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "انسخ إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:2571
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "انقل العرض المقسوم الأيمن إلى نافذة جديدة"
@@ -1261,9 +1148,7 @@ msgid "Split view"
 msgstr "اقسم العرض"
 
 #: dolphinmainwindow.cpp:2583
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left split view to a new window"
-#| msgid "Pop out"
+#, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "افصل"
@@ -3439,27 +3324,25 @@ msgstr "فهرس عرض النصّ الأقصى (0 يعني غير محدود)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "كيف نعرض حجم الأدلة"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "أظهر شريط الحالة"
+msgstr "أظهر عدد المحتوى"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "أظهر شريط الحالة"
+msgstr "أظهر حجم المحتوى"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "لا تظهر أيّ حجم دليل"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3799,7 +3682,7 @@ msgstr "تذكر  المجلدات و الألسنة المفتوحة"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "ضَعْ عرضين جنباً إلى جنب"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59
@@ -3835,10 +3718,9 @@ msgstr "اطلب التأكيد عند إغلاق نوافذ ما زالت تش�
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "غير الاسم في السطر"
+msgstr "أعد تسمية العناصر الفردية المضمنة"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3857,16 +3739,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr "استخدم TAB للتّبديل بين قسمي المنظور الأيمن والأيسر"
+msgstr "استخدم tab للتّبديل بين قسمي المنظور الأيمن والأيسر"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
 msgstr "أغلق الجزء النشط عند إيقاف العرض المقسم"
 
@@ -3878,10 +3757,9 @@ msgstr "اللسان الجديد سيفتح بعد أخر لسان"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "أظهر عنصر عند التحويم"
+msgstr "أظهر معلومات العنصر عند التحويم"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -4171,9 +4049,7 @@ msgid "Open new tabs: "
 msgstr "افتح ألسنة جديدة: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "انتقل بين العروض المنقسمة بواسطة مفتاح Tab"
@@ -4185,9 +4061,7 @@ msgid "Split view: "
 msgstr "قسم العرض: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "عند إيقاف العرض المقسم يغلق النشط منها"
@@ -4198,6 +4072,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"عند إلغاء تحديده، سيُغلق العرض المعاكس. توضح أيقونة الإغلاق دائما طريقة العرض "
+"(يساراً أو يميناً) التي ستُغلق."
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -4239,9 +4115,7 @@ msgid "Confirmations"
 msgstr "التأكيدات"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "اللوحات"
@@ -4253,46 +4127,40 @@ msgid "Status && Location bars"
 msgstr "الحالة وشريط الموقع"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "أظهر معاينة"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "التشغيل الآلي لملفات الوسائط"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr "أظهر عنصر عند التحويم"
+msgstr "أظهر العنصر عند التحويم"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "استخدم التا&ريخ الطويل، على سبيل المثال '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "استخدم التا&ريخ الموجز، على سبيل المثال '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "المعلومات"
+msgstr "لوحة المعلومات:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4301,6 +4169,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"تتوفر إعدادات اللوحة أيضا من خلال قائمة السياق الخاصة بها. افتحها بواسطة "
+"الضغط على زر الفأرة الأيمن على اللوحة."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4429,28 +4299,22 @@ msgid "Sorting mode: "
 msgstr "نمط الفرز:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "عدد العناصر"
+msgstr "أظهر عدد العناصر"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "حجم المحتويات ، حتى "
+msgstr "أظهر حجم المحتويات، حتى "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "أظهر منزلقة التكبير"
+msgstr "أظهر أيّ حجم"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4464,12 +4328,10 @@ msgstr[4] " مستوىً عميقا"
 msgstr[5] " مستوى عميق"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "المجلّدات:"
+msgstr "حجم المجلّدات:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4546,6 +4408,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"ستظل بعض طرق العرض الخاصة مثل البحث أو الملفات الحديثة أو المهملات تستخدم "
+"نمط عرض مخصص."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
@@ -4587,11 +4451,10 @@ msgid "Browsing: "
 msgstr "التصفح: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "أظهر عنصر عند التحويم"
+msgstr "أظهر معلومات العنصر عند التحويم"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4607,16 +4470,15 @@ msgid "Show selection marker"
 msgstr "أظهر مؤشّر الاختيار"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "غير الاسم في السطر"
+msgstr "أعد تسمية العناصر الفردية المضمنة"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "تُعاد تسمية عناصر متعددة دائما باستخدام نافذة حوار."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
@@ -5366,11 +5228,7 @@ msgid "Create Folder…"
 msgstr "أنشئ مجلدًا…"
 
 #: views/dolphinviewactionhandler.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
@@ -5380,12 +5238,7 @@ msgstr ""
 "تسمية عناصر متعددة مرة واحدة تعني اختلاف أسمائها الجديدة في رقم فقط."
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -5397,11 +5250,7 @@ msgstr ""
 "هناك حاجة إلى مساحة على القرص."
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
@@ -5493,12 +5342,7 @@ msgstr ""
 "عندما تكون <interface> المعاينة </interface> ممكّنة. </para>"
 
 #: views/dolphinviewactionhandler.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -5510,16 +5354,7 @@ msgstr ""
 "العامة في مجلدات بها العديد من العناصر. </para>"
 
 #: views/dolphinviewactionhandler.cpp:204
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -5535,7 +5370,7 @@ msgstr ""
 "مرة أخرى للفرز في الاتجاه المعاكس. لتحديد التفاصيل التي يجب عرضها ، انقر فوق "
 "الرأس بزر الفأرة الأيمن. </para> <para> يمكنك عرض محتويات المجلد دون مغادرة "
 "الموقع الحالي بالنقر فوق يساره. بهذه الطريقة يمكنك عرض محتويات مجلدات متعددة "
-"في نفس القائمة. </para> "
+"في نفس القائمة. </para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5644,14 +5479,7 @@ msgid "Show Hidden Files"
 msgstr "أظهر الملفات المخفية"
 
 #: views/dolphinviewactionhandler.cpp:322
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -5663,10 +5491,13 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
-"<para> عندما تمكن هذا، ستصبح الملفات والمجلدات<emphasis> المخفية </"
-"emphasis>  مرئية. ستعرض بشكل شبه شفاف. </para> <para> العناصر المخفية تختلف "
-"فقط عن العناصر الأخرى في أن اسمها يبدأ بـ \".\". بشكل عام ليست هناك حاجة "
-"للمستخدمين للوصول إليها وهذا هو سبب إخفاءها. </para>"
+"<para>عند تمكين هذا ، <emphasis>الملفات والمجلدات المخفية</emphasis> ستكون "
+"مرئية. ستُعرض شبه شفافة.</para><para>تختلف العناصر المخفية فقط عن العناصر "
+"العادية من حيث أن اسمها يبدأ بنقطة (\".\"). عادة، ليست هناك حاجة للمستخدمين "
+"للوصول إليها، وهذا هو السبب في أنها مخفية.</para><para>يمكن أيضا إخفاء "
+"العناصر إذا كانت أسماؤها مدرجة في ملف نصي باسم \".hidden\". الملفات التي "
+"تحتوي على \"التطبيق/ x-trash\" نوع MIME، مثل ملفات النسخ الاحتياطي، يمكن "
+"أيضا إخفاؤها عن طريق تمكين هذا الإعداد في تكوين عرض > دولفين > عام.</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format
