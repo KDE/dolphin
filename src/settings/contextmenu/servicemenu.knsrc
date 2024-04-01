@@ -1,6 +1,7 @@
 [KNewStuff3]
 ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=Dolphin Service Menus
+ContentWarning=Executables
 TargetDir=servicemenu-download
 Uncompress=never
 InstallationCommand=servicemenuinstaller install %f
