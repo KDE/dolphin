@@ -1698,6 +1698,11 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
             rubberBand->setActive(false);
             m_view->setAutoScroll(false);
         }
+
+        if (!m_pressedIndex.has_value()) {
+            // We have a right-click in an empty region, don't create rubber band.
+            return true;
+        }
     }
 
     if (m_pressedIndex.has_value()) {
