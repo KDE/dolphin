@@ -114,16 +114,17 @@ QUrl DolphinSearchBox::urlForSearching() const
 {
     QUrl url;
 
-    if (isIndexingEnabled()) {
+    QString text = m_searchInput->text();
+    bool isUsingTool = text.startsWith(QLatin1Char('@'));
+
+    // don't start searching until the user types a complete tool name
+    if (isUsingTool && text.indexOf(QLatin1Char(' ')) == -1) {
+        return QUrl();
+    }
+
+    if (!isUsingTool && isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
-        QString text = m_searchInput->text();
-
-        // don't start searching until the user types a complete tool name
-        if (text.startsWith(QLatin1Char('@')) && text.indexOf(QLatin1Char(' ')) == -1) {
-            return QUrl();
-        }
-
         url.setScheme(QStringLiteral("cmdtoolsearch"));
 
         QUrlQuery query;
