@@ -10,6 +10,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "config-dolphin.h"
+#include "disabledactionnotifier.h"
 #include "dolphintabwidget.h"
 #include "selectionmode/bottombar.h"
 #include <KActionMenu>
@@ -727,6 +728,7 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
     DolphinBookmarkHandler *m_bookmarkHandler;
     SelectionMode::ActionTextHelper *m_actionTextHelper;
+    DisabledActionNotifier *m_disabledActionNotifier;
 
     KIO::OpenUrlJob *m_lastHandleUrlOpenJob;
 
