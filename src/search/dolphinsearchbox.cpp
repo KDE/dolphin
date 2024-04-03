@@ -122,6 +122,8 @@ QUrl DolphinSearchBox::urlForSearching() const
         return QUrl();
     }
 
+    text = text.trimmed();
+
     if (!isUsingTool && isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
