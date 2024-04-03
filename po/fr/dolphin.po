@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-29 13:58+0100\n"
+"PO-Revision-Date: 2024-04-01 10:34+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1250,12 +1250,10 @@ msgid "Pop out Left View"
 msgstr "Copier vers une autre vue"
 
 #: dolphinmainwindow.cpp:2565
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr "Déplacez la vue scindée de gauche vers une nouvelle fenêtre"
+msgstr "Déplacer la vue de gauche vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2567
 #, kde-format
@@ -1278,12 +1276,10 @@ msgid "Pop out Right View"
 msgstr "Copier vers une autre vue"
 
 #: dolphinmainwindow.cpp:2571
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr "Déplacez la vue scindée de droite vers une nouvelle fenêtre"
+msgstr "Déplacer la vue de droite vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2580
 #, kde-format
@@ -3875,10 +3871,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "Renommer en ligne"
+msgstr "Renommer en ligne des éléments individuels"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3898,12 +3893,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr ""
-"Utiliser « Tabulation » pour basculer entre les panneaux droit et gauche"
+msgstr "Utiliser « Tab » pour basculer entre les affichages droit et gauche"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -4229,12 +4221,10 @@ msgid "Open new tabs: "
 msgstr "Ouvrir de nouveaux onglets :"
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Basculer entre les panneaux avec la touche « Tab »"
+msgstr "Basculer entre les vues avec la touche « Tab »"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -4633,11 +4623,10 @@ msgid "Browsing: "
 msgstr "Navigation"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Afficher un élément après son survol"
+msgstr "Afficher les informations des éléments à son survol"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4653,16 +4642,17 @@ msgid "Show selection marker"
 msgstr "Afficher l'indicateur de sélection"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Renommer en ligne"
+msgstr "Renommer en ligne des éléments individuels"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
+"Le renommage d'éléments multiples se fait toujours grâce à une fenêtre de "
+"dialogue."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
@@ -5680,14 +5670,7 @@ msgid "Show Hidden Files"
 msgstr "Afficher les fichiers cachés"
 
 #: views/dolphinviewactionhandler.cpp:322
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -5701,10 +5684,14 @@ msgid ""
 msgstr ""
 "<para>Quand cette option est activée, les fichiers et dossiers "
 "<emphasis>cachés</emphasis> sont visibles. Ils seront affichés de manière "
-"semi-transparente.</para><para>Les éléments cachés diffèrent des autres "
-"uniquement parce que leur nom commence par un « . ». En général, les "
-"utilisateurs n'ont pas besoin d'y accéder, c'est pourquoi ils sont cachés.</"
-"para>"
+"semi-transparente.</para><para>Les éléments masqués diffèrent des autres "
+"uniquement parce que leur nom commence par un caractère « . ». En général, "
+"les utilisateurs n'ont pas besoin d'y accéder, c'est pourquoi ils sont "
+"masqués.</para> <para>Les éléments peuvent également être masqués si leurs "
+"noms sont répertoriés dans un fichier texte nommé « . hidden ». Les fichiers "
+"« MIME » de type « application / x-trash », tels que les fichiers "
+"d'archives, peuvent également être masqués en activant ce paramètre dans le "
+"menu Configurer Dolphin / Affichage / Général.</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format

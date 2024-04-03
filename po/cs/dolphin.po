@@ -223,18 +223,12 @@ msgid "Open a new Dolphin window"
 msgstr "Otevřít nové okno Dolphinu"
 
 #: dolphinmainwindow.cpp:1647
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Toto otevře nové okno stejné jako toto na stejném místě a pohledu.<nl/> Mezi "
-"okny můžete přetahovat položky."
 
 #: dolphinmainwindow.cpp:1654
 #, kde-format
@@ -243,21 +237,13 @@ msgid "New Tab"
 msgstr "Nová karta"
 
 #: dolphinmainwindow.cpp:1656
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"Toto otevře novou <emphasis>kartu</emphasis> na stejném místě a pohledu . "
-"<nl/>Karta je další pohled v tomto okně. Mezi kartami můžete přetahovat "
-"položky."
 
 #: dolphinmainwindow.cpp:1665
 #, kde-format
@@ -278,12 +264,10 @@ msgid "Close Tab"
 msgstr "Zavřít kartu"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
-msgstr "Zavřít kartu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:1675
 #, kde-format
@@ -377,12 +361,10 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1731
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
-msgstr "Kopírovat do druhého pohledu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:1736
 #, kde-format
@@ -405,12 +387,10 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
-msgstr "Přesunout do druhého pohledu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:1748
 #, kde-format
@@ -730,20 +710,16 @@ msgid "Go to Tab %1"
 msgstr ""
 
 #: dolphinmainwindow.cpp:2086
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "Aktivovat poslední kartu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2087
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "Aktivovat poslední kartu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2093
 #, kde-format
@@ -752,12 +728,10 @@ msgid "Next Tab"
 msgstr "Následující karta"
 
 #: dolphinmainwindow.cpp:2094
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "Následující karta"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2100
 #, kde-format
@@ -766,12 +740,10 @@ msgid "Previous Tab"
 msgstr "Předchozí karta"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "Předchozí karta"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -993,12 +965,10 @@ msgid "Close left view"
 msgstr "Zavřít levý pohled"
 
 #: dolphinmainwindow.cpp:2564
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "Kopírovat do druhého pohledu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2565
 #, kde-format
@@ -1019,12 +989,10 @@ msgid "Close right view"
 msgstr "Zavřít pravý pohled"
 
 #: dolphinmainwindow.cpp:2570
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "Kopírovat do druhého pohledu"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2571
 #, kde-format
@@ -3473,10 +3441,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "Přejmenovat na místě"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3494,10 +3461,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
-#, fuzzy, kde-format
-#| msgid "Use tab for switching between right and left split"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr "Použít Tab k přepínání mezi levou a pravou při rozdělení"
+msgstr ""
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -3513,10 +3479,9 @@ msgstr "Nová karta bude otevřena za poslední"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Zobrazit položku při přejetí myší"
+msgstr ""
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3807,12 +3772,10 @@ msgid "Open new tabs: "
 msgstr "Otevřít nové karty: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Přepnout mezi panely pomocí klávesy Tab"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -3821,12 +3784,10 @@ msgid "Split view: "
 msgstr "Rozdělit pohled: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "Vypnutí rozděleného pohledu ukončí aktivní panel"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4203,11 +4164,10 @@ msgid "Browsing: "
 msgstr "Prohlížení: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Zobrazit položku při přejetí myší"
+msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4223,11 +4183,10 @@ msgid "Show selection marker"
 msgstr "Zobrazit značkovač výběru"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Přejmenovat na místě"
+msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
@@ -5330,37 +5289,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@action:inmenu Edit"
-#~ msgid "Copy to Inactive Split View"
-#~ msgstr "Kopírovat do neaktivního rozděleného pohledu"
-
-#~ msgctxt "@action:inmenu Edit"
-#~ msgid "Move to Inactive Split View"
-#~ msgstr "Přesunout do neaktivního rozděleného pohledu"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Tab %1"
-#~ msgstr "Aktivovat kartu %1"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Next Tab"
-#~ msgstr "Aktivovat následující kartu"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Previous Tab"
-#~ msgstr "Aktivovat předchozí kartu"
-
-#~ msgid "Split the view into two panes"
-#~ msgstr "Rozdělit pohled na dva panely"
-
-#~ msgid "Show tooltips"
-#~ msgstr "Zobrazovat nástrojové tipy"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show tooltips"
-#~ msgstr "Zobrazovat nástrojové tipy"
-
-#~ msgctxt "option:check"
-#~ msgid "Rename inline"
-#~ msgstr "Přejmenovat na místě"

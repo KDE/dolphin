@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:39+0000\n"
-"PO-Revision-Date: 2024-03-30 19:37\n"
+"PO-Revision-Date: 2024-04-01 14:44\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4271,7 +4271,7 @@ msgstr "显示风格："
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
-msgstr "将压缩文件作为文件夹打开"
+msgstr "将压缩包视作文件夹打开"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
