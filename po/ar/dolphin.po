@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-30 10:40+0400\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 11:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -185,13 +185,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "لا يمكن اللصق: الحافظة فارغة."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "لا يمكن اللصق: ليست لديك الصلاحيات للكتابة في هذا المجلد."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -235,6 +235,7 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"لا يمكن إنشاء مجلدًا جديدًا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1098,6 +1099,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"لا يمكن إعادة التسمية: ليست لديك الصلاحيات لإعادة تسمية العناصر في هذا "
+"المجلد."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1105,14 +1108,14 @@ msgctxt "@info"
 msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
-msgstr ""
+msgstr "لا يمكن الحذف: ليست لديك الصلاحيات لحذف العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "لا يمكن القص: ليست لديك الصلاحيات لنقل العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1120,33 +1123,33 @@ msgctxt "@info"
 msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "لا يمكن التكرار هنا: ليست لديك الصلاحيات لإنشاء عناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "تعذر النسخ للعرض الآخر: لم يُحدّد أي ملف."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "تعذر النقل للعرض الآخر: لم يُحدّد أي ملف."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "تعذر النسخ للعرض الآخر: يحوي العرض الآخر على هذه العناصر فعلًا."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
-msgstr ""
+msgstr "تعذر النقل للعرض الآخر: يحوي العرض الآخر على هذه العناصر فعلًا."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1155,6 +1158,7 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"تعذر النسخ للعرض الآخر: ليست لديك الصلاحيات للكتابة في المجلد المستهدف."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1163,6 +1167,7 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"تعذر النقل للعرض الآخر: ليست لديك الصلاحيات للكتابة في المجلد المستهدف."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1171,6 +1176,7 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"لا يمكن النقل للعرض الآخر: ليست لديك الصلاحيات لنقل العناصر في هذا المجلد."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5740,7 +5746,7 @@ msgstr[3] "الإجراءات لـ%1 للعناصر المحددة"
 msgstr[4] "الإجراءات لـ%1 عنصرا محددا"
 msgstr[5] "الإجراءات لـ%1 عنصر محدد"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

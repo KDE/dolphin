@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-28 09:58+0100\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 07:13+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -186,13 +186,13 @@ msgstr "Program »%1« še vedno teče v Terminalu. Ali res želite končati?"
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "Ni bilo mogoče prilepiti: odložišče je prazno."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Ni bilo mogoče prilepiti: nimate dovoljenja za pisanje v to mapo."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -232,6 +232,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"Ni bilo mogoče ustvariti nove mape: nimate dovoljenja za ustvarjanje "
+"elementov v tej mapi."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1110,6 +1112,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Ni bilo mogoče preimenovati: nimate dovoljenja za preimenovanje elementov v "
+"tej mapi."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1118,6 +1122,8 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"Ni bilo mogoče izbrisati: nimate dovoljenja za odstranjevanje elementov iz "
+"te mape."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1125,6 +1131,8 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"Ni bilo mogoče izrezati: nimate dovoljenja za premikanje elementov iz te "
+"mape."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1133,18 +1141,20 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Tukaj ni bilo mogoče podvojiti: nimate dovoljenja za ustvarjanje elementov v "
+"tej mapi."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "Ni bilo mogoče kopirati v drug pogled: izbrane ni nobene datoteke."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "Ni bilo mogoče premakniti v drug pogled: izbrane ni nobene datoteke."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1152,6 +1162,7 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"Ni bilo mogoče kopirati v drug pogled: drugi pogled že vsebuje te elemente."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1159,6 +1170,7 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"Ni bilo mogoče premakniti v drug pogled: drugi pogled že vsebuje te elemente."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1167,6 +1179,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ni bilo mogoče kopirati v drug pogled: nimate dovoljenja za pisanje v ciljno "
+"mapo."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1175,6 +1189,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ni bilo mogoče premakniti v drugi pogled: nimate dovoljenja za pisanje v "
+"ciljno mapo."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1183,6 +1199,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Ni bilo mogoče premakniti v drugi pogled: nimate dovoljenja za premikanje "
+"elementov iz te mape."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5733,7 +5751,7 @@ msgstr[1] "Dejanja za %1 izbran predmet"
 msgstr[2] "Dejanja za %1 izbrana predmeta"
 msgstr[3] "Dejanja za %1 izbrane predmete"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

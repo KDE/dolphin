@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-04-03 00:05+0200\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 16:09+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -178,13 +178,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "Не може да се постави: Клипбордът е празен."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Не може да се постави: Нямате разрешение да записвате в тази папка."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -220,6 +220,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"Не може да се създаде нова папка: Нямате разрешение да създавате елементи в "
+"тази папка."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1111,6 +1113,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Не може да се преименува: Нямате разрешение да преименувате елементи в тази "
+"папка."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1119,6 +1123,7 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"Не може да се изтрие: Нямате разрешение да премахвате елементи от тази папка."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1126,6 +1131,8 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"Не може да се изреже: Нямате разрешение да премествате елементи от тази "
+"папка."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1134,18 +1141,20 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Не може да се дублира тук: Нямате разрешение да създавате елементи в тази "
+"папка."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "Не може да се копира в друг панел за преглед: Няма избрани файлове."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "Не може да се премести в друг панел за преглед: Няма избрани файлове."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1153,6 +1162,8 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"Не може да се копира в друг панел за преглед: Другият панел вече съдържа "
+"тези елементи."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1160,6 +1171,8 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"Не може да се премести в друг панел за преглед: Другият панел вече съдържа "
+"тези елементи."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1168,6 +1181,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Не може да се копира в друг панел за преглед: Нямате разрешение да записвате "
+"в папката на местоназначението."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1176,6 +1191,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Не може да се премести в друг панел за преглед: Нямате разрешение да "
+"записвате в папката на местоназначението."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1184,6 +1201,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Не може да се премести в друг панел за преглед: Нямате разрешение да "
+"премествате елементи от тази папка."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5719,7 +5738,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Действия за един избран елемент"
 msgstr[1] "Действия за %1 избрани елемента"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

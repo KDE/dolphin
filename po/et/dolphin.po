@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -5942,7 +5942,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Toimingud ühe valitud elemendi jaoks"
 msgstr[1] "Toimingud %1 valitud elemendi jaoks"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Updating version information..."

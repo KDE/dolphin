@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
 "PO-Revision-Date: 2024-03-28 08:45+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5658,7 +5658,7 @@ msgstr[1] "פעולות על שני פריטים שנבחרו"
 msgstr[2] "פעולות על %1 פריטים שנבחרו"
 msgstr[3] "פעולות על %1 פריטים שנבחרו"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

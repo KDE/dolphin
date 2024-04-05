@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-29 02:44+0100\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-05 00:10+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -189,13 +189,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "No se ha podido pegar: el portapapeles está vacío."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "No se ha podido pegar: no tiene permiso para escribir en esta carpeta."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -231,6 +231,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"No se ha podido crear la nueva carpeta: no tiene permiso para crear "
+"elementos en esta carpeta."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1124,6 +1126,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"No se ha podido cambiar el nombre: no tiene permiso para cambiar el nombre "
+"de los elementos de esta carpeta."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1132,6 +1136,8 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"No se ha podido borrar: no tiene permiso para eliminar elementos de esta "
+"carpeta."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1139,6 +1145,8 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"No se ha podido cortar: no tiene permiso para mover elementos de esta "
+"carpeta."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1147,18 +1155,20 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"No se ha podido duplicar aquí: no tiene permiso para crear elementos en esta "
+"carpeta."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "No se ha podido copiar a otra vista: no se han seleccionado archivos."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "No se ha podido mover a otra vista: no se han seleccionado archivos."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1166,6 +1176,8 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"No se ha podido copiar a otra vista: la otra vista ya contiene estos "
+"elementos."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1173,6 +1185,8 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"No se ha podido mover a otra vista: la otra vista ya contiene estos "
+"elementos."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1181,6 +1195,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"No se ha podido copiar a otra vista: no tiene permiso para escribir en la "
+"carpeta de destino."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1189,6 +1205,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"No se ha podido mover a otra vista: no tiene permiso para escribir en la "
+"carpeta de destino."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1197,6 +1215,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"No se ha podido mover a otra vista: no tiene permiso para mover elementos de "
+"esta carpeta."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5742,7 +5762,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Acciones para 1 elemento seleccionado"
 msgstr[1] "Acciones para %1 elementos seleccionados"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

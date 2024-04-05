@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -5936,7 +5936,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Aksi untuk Satu Butir Terpilih"
 msgstr[1] "Aksi untuk %1 Butir Terpilih"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Updating version information..."

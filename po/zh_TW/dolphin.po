@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-29 21:42+0900\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 17:36+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -189,13 +189,13 @@ msgstr "程式「%1」仍然在「終端機」面板執行。確定退出？"
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "無法貼上：剪貼簿是空的。"
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "無法貼上：您沒有寫入此資料夾的權限。"
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -228,7 +228,7 @@ msgctxt "@info"
 msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
-msgstr ""
+msgstr "無法建立新資料夾：您沒有在此資料夾建立新項目的權限。"
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1161,7 +1161,7 @@ msgstr "顯示面板"
 msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
-msgstr ""
+msgstr "無法重新命名：您沒有在此資料夾重新命名項目的權限。"
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1169,14 +1169,14 @@ msgctxt "@info"
 msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
-msgstr ""
+msgstr "無法刪除：您沒有自此資料夾移除項目的權限。"
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "無法剪下：您沒有從此資料夾移動項目的權限。"
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1184,33 +1184,33 @@ msgctxt "@info"
 msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "無法建立複本：您沒有在此資料夾建立新項目的權限。"
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "無法複製到另一個檢視：未選取檔案。"
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "無法移動到另一個檢視：未選取檔案。"
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "無法複製到兩一個檢視：另一個檢視已經包含這些項目。"
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
-msgstr ""
+msgstr "無法移動到兩一個檢視：另一個檢視已經包含這些項目。"
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1218,7 +1218,7 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "無法複製到另一個檢視：您沒有寫入目的地資料夾的權限。"
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1226,7 +1226,7 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "無法移動到另一個檢視：您沒有寫入目的地資料夾的權限。"
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1234,7 +1234,7 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
-msgstr ""
+msgstr "無法移動到另一個檢視：您沒有從此資料夾移動項目的權限。"
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -1269,12 +1269,10 @@ msgid "Pop out Left View"
 msgstr "彈出左方檢視"
 
 #: dolphinmainwindow.cpp:2624
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr "將左方分割檢視移至新視窗"
+msgstr "將左方檢視移至新視窗"
 
 #: dolphinmainwindow.cpp:2626
 #, kde-format
@@ -1295,12 +1293,10 @@ msgid "Pop out Right View"
 msgstr "彈出右方檢視"
 
 #: dolphinmainwindow.cpp:2630
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr "將右方分割檢視移至新視窗"
+msgstr "將右方檢視移至新視窗"
 
 #: dolphinmainwindow.cpp:2639
 #, kde-format
@@ -3814,10 +3810,9 @@ msgstr "新分頁將會開在目前最後一個分頁後方"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "游標停留時顯示項目"
+msgstr "游標停留時顯示項目資訊"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -4106,12 +4101,10 @@ msgid "Open new tabs: "
 msgstr "新分頁開啟位置："
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "使用 Tab 鍵在面板間切換"
+msgstr "使用 Tab 鍵在檢視間切換"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -4120,12 +4113,10 @@ msgid "Split view: "
 msgstr "分割檢視："
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "關閉「分割檢視」時也關閉使用中的視窗"
+msgstr "關閉「分割檢視」時會關閉使用中的檢視"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4133,6 +4124,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"取消勾選時，將會關閉反面的檢視。關閉圖示會顯示將會關閉哪個檢視（左方或右"
+"方）。"
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -4500,11 +4493,10 @@ msgid "Browsing: "
 msgstr "瀏覽："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "游標停留時顯示項目"
+msgstr "游標停留時顯示項目資訊"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4529,7 +4521,7 @@ msgstr "重新命名內含項目"
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "重新命名多個項目時會利用一個對話框視窗。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
@@ -5241,11 +5233,7 @@ msgid "Create Folder…"
 msgstr "建立資料夾…"
 
 #: views/dolphinviewactionhandler.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
@@ -5255,12 +5243,7 @@ msgstr ""
 "會有一個數字的差別。"
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -5268,19 +5251,15 @@ msgid ""
 "deleted later if disk space is needed."
 msgstr ""
 "這會將您目前所選取的項目移動至 <filename>垃圾桶</filename>。<nl/>垃圾桶是一個"
-"暫時的儲存空間，如果需要磁碟空間時可以從那刪除項目。"
+"暫時的儲存空間，之後如果需要磁碟空間時可以從那刪除項目。"
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
-msgstr "這會刪除在您目前所選取的所有項目。它們將不會能透過正常方式復原。"
+msgstr "這會永久刪除您目前所選取的所有項目。它們將無法透過普通方式復原。"
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-format
@@ -5365,12 +5344,7 @@ msgstr ""
 "</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -5382,16 +5356,7 @@ msgstr ""
 "助。</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -5404,9 +5369,9 @@ msgid ""
 msgstr ""
 "<para>這會切換到列表一個以資料夾與檔案詳細資訊為中心的列表檢視模式。</"
 "para><para>點擊資訊的欄位標頭來依該資訊排序項目。再點一次來反轉排序。要選取要"
-"顯示哪些資訊，請在標頭上點擊滑鼠右鍵。</para><para>您可以點擊一個資料夾左方來"
-"檢視它的內容而不離開目前位置。這樣您可以在同一個列表裡檢視多個資料夾的內容。"
-"</para>"
+"顯示哪些資訊，請在標頭上點擊滑鼠右鍵。</para><para>您可以點擊一個資料夾左方區"
+"域來檢視它的內容而不離開目前位置。這樣您可以在同一個列表裡檢視多個資料夾的內"
+"容。</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5674,7 +5639,7 @@ msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "%1 個已選項目的動作"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-28 12:37+0100\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 13:04+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -181,13 +181,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "Kon niet plakken: het klembord is leeg."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Kon niet plakken: u hebt geen rechten om in deze map te schrijven."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -223,6 +223,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"Kon geen nieuwe map aanmaken: u hebt geen rechten om items in deze map te "
+"aan te maken."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1108,6 +1110,7 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Kon niet hernoemen: u hebt geen rechten om items in deze map te hernoemen."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1116,6 +1119,8 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"Kon niet verwijderen: u hebt geen rechten om items in deze map te "
+"verwijderen."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1123,6 +1128,7 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"Kon niet knippen: u hebt geen rechten om items uit deze map te verplaatsen."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1131,18 +1137,21 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Kon niet dupliceren: u hebt geen rechten om items in deze map te aan te "
+"maken."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "Kon niet kopiëren naar andere weergave: geen bestanden geselecteerd."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
 msgstr ""
+"Kon niet verplaatsen naar andere weergave: geen bestanden geselecteerd."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1150,6 +1159,8 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"Kon niet kopiëren naar andere weergave: de andere weergave bevat deze items "
+"al."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1157,6 +1168,8 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"Kon niet verplaatsen naar andere weergave: de andere weergave bevat deze "
+"items al."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1165,6 +1178,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Kon niet kopiëren naar andere weergave: u hebt geen rechten om in de "
+"bestemmingsmap te schrijven."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1173,6 +1188,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Kon niet verplaatsen naar andere weergave: u hebt geen rechten om in de "
+"bestemmingsmap te schrijven."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1181,6 +1198,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Kon niet verplaatsen naar andere weergave: u hebt geen rechten om items uit "
+"deze map te verplaatsen."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5721,7 +5740,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Acties voor één geselecteerd item"
 msgstr[1] "Acties voor %1 geselecteerde items"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

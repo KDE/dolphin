@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
 "PO-Revision-Date: 2024-04-03 19:14\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5525,7 +5525,7 @@ msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "对 %1 个选中项目进行操作"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -6188,7 +6188,7 @@ msgstr[1] "Dziejanni dlia %1 abranych eliemientaŭ"
 msgstr[2] "Dziejanni dlia %1 abranych eliemientaŭ"
 msgstr[3] "Dziejanni dlia %1 abranych eliemientaŭ"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Updating version information..."

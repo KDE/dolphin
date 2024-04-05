@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-28 05:32+0100\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 08:27+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -179,13 +179,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "ჩასმა შეუძლებელია: ბუფერი ცარიელია."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "ჩასმა შეუძლებელია: ამ საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -222,6 +222,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"ახალი საქაღალდის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის "
+"უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1104,6 +1106,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"სახელის გადარქმევა შეუძლებელია: ამ საქაღალდეში ელემენტების სახელის "
+"გადარქმევის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1111,7 +1115,7 @@ msgctxt "@info"
 msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
-msgstr ""
+msgstr "წაშლა შეუძლებელია: ამ საქაღალდიდან ელემენტების წაშლის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1119,6 +1123,7 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"ამოჭრა შეუძლებელია: ამ საქაღალდიდან ელემენტების გადატანის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1127,32 +1132,34 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"აქ ასლის შექმნა შეუძლებელია: ამ საქაღალდეში ელემენტების შექმნის უფლება არ "
+"გაქვთ."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "სხვა ხედში კოპირება შეუძლებელია: ფაილები არჩეული არაა."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "სხვა ხედში გადატანა შეუძლებელია: ფაილები არჩეული არაა."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "სხვა ხედში კოპირება შეუძლებელია: სხვა ხედი ამ ელემენტებს უკვე შეიცავს."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
-msgstr ""
+msgstr "სხვა ხედში გადატანა შეუძლებელია: სხვა ხედი ამ ელემენტებს უკვე შეიცავს."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1161,6 +1168,7 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"სხვა ხედში კოპირება შეუძლებელია: სამიზნე საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1169,6 +1177,7 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"სხვა ხედში გადატანა შეუძლებელია: სამიზნე საქაღალდეში ჩაწერის უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1177,6 +1186,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"სხვა ხედში გადატანა შეუძლებელია: ამ საქაღალდიდან ელემენტების გადატანის "
+"უფლება არ გაქვთ."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5690,7 +5701,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "ქმედებები 1 მონიშნული ჩანაწერისთვის"
 msgstr[1] "ქმედებები %1 მონიშნული ჩანაწერისთვის"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-28 08:45+0200\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 09:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language-Team: Ukrainian\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,13 +182,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "Не вдалося вставити: немає даних у буфері обміну даних."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Не вдалося вставити: у вас немає прав доступу для запису до цієї теки."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -228,6 +228,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"Не вдалося створити теку: у вас немає прав доступу для створення записів у "
+"цій теці."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1122,6 +1124,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Не вдалося перейменувати: у вас немає прав доступу для перейменування "
+"записів у цій теці."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1130,6 +1134,8 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"Не вдалося вилучити: у вас немає прав доступу для вилучення записів з цієї "
+"теки."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1137,6 +1143,8 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"Не вдалося вирізати: у вас немає прав доступу для пересування записів з цієї "
+"теки."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1145,18 +1153,20 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Не вдалося здублювати сюди: у вас немає прав доступу для створення записів у "
+"цій теці."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "Не вдалося скопіювати на іншу панель перегляду: не позначено файлів."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "Не вдалося пересунути на іншу панель перегляду: не позначено файлів."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1164,6 +1174,8 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"Не вдалося скопіювати на іншу панель перегляду: на іншій панелі перегляду "
+"вже містяться ці записи."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1171,6 +1183,8 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"Не вдалося пересунути на іншу панель перегляду: на іншій панелі перегляду "
+"вже містяться ці записи."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1179,6 +1193,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Не вдалося скопіювати на іншу панель перегляду: у вас немає прав доступу для "
+"запису до теки призначення."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1187,6 +1203,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Не вдалося пересунути на іншу панель перегляду: у вас немає прав доступу для "
+"запису до теки призначення."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1195,6 +1213,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Не вдалося пересунути на іншу панель перегляду: у вас немає прав доступу для "
+"пересування записів з цієї теки."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5792,7 +5812,7 @@ msgstr[1] "Дії для %1 позначених записів"
 msgstr[2] "Дії для %1 позначених записів"
 msgstr[3] "Дії для позначеного запису"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

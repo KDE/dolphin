@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-04-02 16:28+0200\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-03 09:24+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -517,14 +517,7 @@ msgid "Search for files and folders"
 msgstr "Rechercher des fichiers et des dossiers"
 
 #: dolphinmainwindow.cpp:1790
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -537,8 +530,8 @@ msgstr ""
 "l'ouverture d'une <emphasis>barre de recherche</emphasis>. Ainsi, vous "
 "pouvez saisir les termes et spécifier les paramètres pour trouver les objets "
 "que vous recherchez.</para><para>Veuillez consulter cette aide une nouvelle "
-"fois sur la barre de recherche, vous permettant d'avoir des explications sur "
-"l'usage des paramètres.</para>"
+"fois concernant la barre de recherche, vous permettant d'avoir des "
+"explications sur l'usage des paramètres.</para>"
 
 #: dolphinmainwindow.cpp:1801
 #, kde-format
@@ -618,6 +611,11 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Cela présente une deuxième vue côte à côte avec la vue actuelle, de "
+"sorte que vous pouvez voir le contenu de deux dossiers à la fois et déplacer "
+"facilement des éléments entre eux.</para><para>La vue qui n'a pas le "
+"« focus » sera grisée. </para>Veuillez cliquer à nouveau sur ce bouton pour "
+"fermer l'une des vues."
 
 #: dolphinmainwindow.cpp:1878
 #, kde-kuit-format
@@ -731,14 +729,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Ceci vous renvoie vers l'onglet précédemment fermé."
 
 #: dolphinmainwindow.cpp:1965
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -749,18 +740,13 @@ msgid ""
 msgstr ""
 "Ceci annule la dernière modification que vous avez faite sur les fichiers ou "
 "les dossiers.<nl/> De telles modifications concernent <interface>la "
-"création, le renommage</interface> et <interface>le déplacement</interface> "
-"de ceux-ci vers un emplacement différent ou vers la <filename>Corbeille</"
-"filename>. <nl/> Une confirmation vous sera demandée pour les modifications "
-"ne pouvant être annulées."
+"création</interface>,  <interface>le renommage</interface> et <interface>le "
+"déplacement</interface> de ceux-ci vers un emplacement différent ou vers la "
+"<filename>Corbeille</filename>. <nl/> Une confirmation vous sera demandée "
+"pour les modifications ne pouvant être annulées."
 
 #: dolphinmainwindow.cpp:1994
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -769,8 +755,9 @@ msgid ""
 msgstr ""
 "Allez vers votre emplacement <filename>Dossier Personnel</filename>. <nl/> "
 "Chaque compte utilisateur possède leur propre <filename>Dossier Personnel</"
-"filename>, contenant leurs données personnelles, incluant les emplacements "
-"des données personnelles des applications."
+"filename>, contenant leurs données personnelles, y compris les dossiers "
+"masqués pour leurs données des applications et leurs fichiers de "
+"configuration."
 
 #: dolphinmainwindow.cpp:2001
 #, kde-format
@@ -797,12 +784,7 @@ msgid "Open Terminal"
 msgstr "Ouvrir un terminal"
 
 #: dolphinmainwindow.cpp:2019
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
@@ -811,7 +793,8 @@ msgid ""
 msgstr ""
 "<para>Ceci ouvre une application de <emphasis>terminal</emphasis> pour "
 "l'emplacement affiché.</para><para>Pour en apprendre plus sur les terminaux, "
-"veuillez utiliser l'aide de l'application de terminal.</para>"
+"veuillez utiliser les fonctionnalités d'aide pour l'application de terminal."
+"</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2027
@@ -821,12 +804,7 @@ msgid "Open Terminal Here"
 msgstr "Ouvrir un terminal ici"
 
 #: dolphinmainwindow.cpp:2029
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -835,8 +813,8 @@ msgid ""
 msgstr ""
 "<para>Ceci ouvre des applications de <emphasis>terminaux</emphasis> pour les "
 "emplacements des éléments sélectionnés.</para><para>Pour en apprendre plus "
-"sur les terminaux, veuillez utiliser l'aide de l'application de terminal.</"
-"para>"
+"sur les terminaux, veuillez utiliser les fonctionnalités d'aide pour "
+"l'application de terminal.</para>"
 
 #: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
 #, kde-format
@@ -851,16 +829,7 @@ msgid "&Bookmarks"
 msgstr "&Signets"
 
 #: dolphinmainwindow.cpp:2055
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -874,9 +843,9 @@ msgstr ""
 "bouton <interface>%1</interface>. Les deux contiennent essentiellement les "
 "mêmes actions et options de configuration. </para><para>La barre de menus "
 "prend plus d'espace, mais permet un accès rapide et mieux organisé à toutes "
-"les actions qu'une application peut proposer. </para><para>Le bouton "
-"<interface>%1</interface> est plus simple et de plus petite taille, ce qui "
-"rend le déclenchement d'actions avancées plus long. </para>"
+"les actions qu'une application peut proposer. </para><para>Le bouton %1 est "
+"plus simple et de plus petite taille, ce qui rend le lancement d'actions "
+"avancées plus long. </para>"
 
 #: dolphinmainwindow.cpp:2088
 #, kde-format
@@ -1069,15 +1038,7 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: dolphinmainwindow.cpp:2279
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -1093,18 +1054,11 @@ msgstr ""
 "para><para>Le panneau de terminal n'est pas nécessaire pour les utilisations "
 "basiques de votre ordinateur. Mais, il peut être utile pour des tâches "
 "avancées. Pour en savoir plus concernant les terminaux, veuillez utiliser "
-"l'aide dans une application autonome de terminal comme Konsole.</para>"
+"les fonctionnalités d'aide concernant l'application autonome de terminal "
+"comme Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2287
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1120,8 +1074,8 @@ msgstr ""
 "naviguer dans les deux modes.</para><para>Le panneau de terminal n'est pas "
 "nécessaire pour les utilisations basiques de votre ordinateur. Mais, il peut "
 "être utile pour des tâches avancées. Pour en savoir plus concernant les "
-"terminaux, veuillez utiliser l'aide dans une application autonome de "
-"terminal comme Konsole.</para>"
+"terminaux, veuillez utiliser les fonctionnalités d'aide concernant "
+"l'application autonome de terminal comme Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2304
 #, kde-format
@@ -1136,11 +1090,7 @@ msgid "Show Hidden Places"
 msgstr "Afficher les emplacements cachés"
 
 #: dolphinmainwindow.cpp:2335
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1148,8 +1098,8 @@ msgid ""
 "property."
 msgstr ""
 "Ceci affiche tous les emplacements qui ont été masqués, dans le panneau des "
-"emplacements. Ils ré-apparaîtront de façon semi-transparente, sauf si vous "
-"décochez leurs propriété de visibilité."
+"emplacements. Ils ré-apparaîtront de façon semi-transparente et vous "
+"permettront de décochez leurs propriété « Masquer »."
 
 #: dolphinmainwindow.cpp:2347
 #, kde-kuit-format
@@ -4308,6 +4258,9 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"Lorsque cette option n'est pas sélectionnée, la vue opposée sera fermée. "
+"L'icône « Fermer » indique toujours quelle vue (gauche ou droite) sera "
+"fermée."
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -5446,36 +5399,28 @@ msgid "Create Folder…"
 msgstr "Créer un dossier…"
 
 #: views/dolphinviewactionhandler.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once results in their new names differing only in a number."
 msgstr ""
-"Renomme les éléments de votre sélection actuelle.<nl/> Si vous renommez "
-"plusieurs éléments simultanément, leurs nouveaux noms différeront que par un "
-"nombre."
+"Ceci renomme les éléments de votre sélection actuelle.<nl/>Le renommage de "
+"plusieurs éléments simultanément conduit à leur fournir de nouveaux noms ne "
+"différant que par un nombre."
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
 "filename>.<nl/>The trash is a temporary storage location where items can be "
 "deleted later if disk space is needed."
 msgstr ""
-"Déplace les éléments de votre sélection actuelle vers la "
-"<filename>Corbeille</filename>.<nl/> La corbeille est un stockage temporaire "
-"où vous pouvez supprimer les éléments si vous avez besoin d'espace disque."
+"Ceci déplace les éléments de votre sélection actuelle vers la "
+"<filename>Corbeille</filename>.<nl/> La corbeille est un emplacement "
+"temporaire où les éléments peuvent être supprimés si vous avez besoin "
+"d'espace disque."
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
@@ -5574,33 +5519,20 @@ msgstr ""
 "l'option <interface>Aperçu</interface> est activée.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
 "in columns with the names beside the icons.</para><para>This helps to give "
 "you an overview in folders with many items.</para>"
 msgstr ""
-"<para>Bascule sur une vue synthétique énumérant les dossiers et fichiers en "
-"colonnes avec les noms à côté des icônes.</para><para>Permet de conserver la "
-"vue d'ensemble dans les dossiers contenant de nombreux éléments.</para>"
+"<para>Ceci bascule vers une vue synthétique énumérant les dossiers et "
+"fichiers en colonnes avec les noms à côté des icônes.</para><para>Cela vous "
+"aide à conserver la vue d'ensemble des dossiers contenant de nombreux "
+"éléments.</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -5611,15 +5543,15 @@ msgid ""
 "location by clicking the region to the left of it. This way you can view the "
 "contents of multiple folders in the same list.</para>"
 msgstr ""
-"<para>Bascule vers une vue liste qui se concentre sur les détails des "
+"<para>Ceci bascule vers une vue en liste, se concentrant sur les détails des "
 "dossiers et fichiers</para><para>Cliquez sur une information dans l'en-tête "
 "de la colonne pour trier les éléments en fonction de celle-ci. Cliquez à "
 "nouveau pour trier dans l'autre sens. Pour sélectionner quelles informations "
 "doivent être affichées, cliquez sur l'en-tête avec le bouton droit de la "
 "souris.</para><para>Vous pouvez afficher le contenu d'un dossier sans "
-"quitter l'emplacement actuel en cliquant à gauche de celui-ci. De cette "
-"façon, vous pouvez afficher le contenu de plusieurs dossiers dans la même "
-"liste.</para>"
+"quitter l'emplacement actuel en cliquant sur la zone à gauche de celui-ci. "
+"De cette façon, vous pouvez afficher le contenu de plusieurs dossiers dans "
+"la même liste.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5890,7 +5822,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Actions pour un élément sélectionné"
 msgstr[1] "Actions pour %1 éléments sélectionnés"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

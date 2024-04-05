@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-04 00:40+0000\n"
-"PO-Revision-Date: 2024-03-30 00:31+0100\n"
+"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"PO-Revision-Date: 2024-04-04 13:22+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -182,13 +182,13 @@ msgstr "'%1' programa terminalean martxan dago. Ziur zaude irten nahi duzula?"
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "Ezin izan du itsatsi: Arbela hutsik dago."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Ezin izan du itsatsi: Ez duzu karpeta honetan idazteko baimenik."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -224,6 +224,8 @@ msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
 msgstr ""
+"Ezin izan du karpeta berria sortu: Ez duzu karpeta honetan elementu berriak "
+"sortzeko baimenik."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1113,6 +1115,8 @@ msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Ezin izan du berrizendatu: Ez duzu karpeta honetako elementuak "
+"berrizendatzeko baimenik."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1121,6 +1125,7 @@ msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
 msgstr ""
+"Ezin izan du ezabatu: Ez duzu karpeta honetako elementuak kentzeko baimenik."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
@@ -1128,6 +1133,7 @@ msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
 msgstr ""
+"Ezin izan du ebaki: Ez duzu karpeta honetako elementuak mugitzeko baimenik."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1136,18 +1142,20 @@ msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Ezin izan du hemen bikoiztu: Ez duzu karpeta honetan elementuak sortzeko "
+"baimenik."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "Ezin izan du beste ikuspegira kopiatu: Ez da fitxategirik hautatu."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "Ezin izan du beste ikuspegira mugitu: Ez da fitxategirik hautatu."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1155,6 +1163,8 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
 msgstr ""
+"Ezin izan du beste ikuspegira kopiatu: Beste ikuspegiak jada elementu horiek "
+"ditu."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
@@ -1162,6 +1172,8 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
 msgstr ""
+"Ezin izan du beste ikuspegira mugitu: Beste ikuspegiak jada elementu horiek "
+"ditu."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1170,6 +1182,8 @@ msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ezin izan du beste ikuspegira kopiatu: Ez duzu helburuko karpetan idatzeko "
+"baimenik."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1178,6 +1192,8 @@ msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ezin izan du beste ikuspegira mugitu: Ez duzu helburuko karpetan idatzeko "
+"baimenik."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1186,6 +1202,8 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Ezin izan du beste ikuspegira mugitu: Ez duzu karpeta honetako elementuak "
+"mugitzeko baimenik."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
@@ -5715,7 +5733,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Hautatutako elementu baterako ekintzak"
 msgstr[1] "Hautatutako %1 elementuetarako ekintzak"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:221
+#: views/versioncontrol/versioncontrolobserver.cpp:231
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
