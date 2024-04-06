@@ -861,8 +861,8 @@ void DolphinMainWindow::updatePasteAction()
     pasteAction->setEnabled(pasteInfo.first);
     m_disabledActionNotifier->setDisabledReason(pasteAction,
                                                 m_activeViewContainer->rootItem().isWritable()
-                                                    ? i18nc("@info", "Could not paste: The clipboard is empty.")
-                                                    : i18nc("@info", "Could not paste: You do not have permission to write into this folder."));
+                                                    ? i18nc("@info", "Cannot paste: The clipboard is empty.")
+                                                    : i18nc("@info", "Cannot paste: You do not have permission to write into this folder."));
     pasteAction->setText(pasteInfo.second);
 }
 
@@ -1396,7 +1396,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     // When the menu is disabled, actions in it are disabled later in the event loop, and we need to set the disabled reason after that.
     QTimer::singleShot(0, this, [this]() {
         m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_dir")),
-                                                    i18nc("@info", "Could not create new folder: You do not have permission to create items in this folder."));
+                                                    i18nc("@info", "Cannot create new folder: You do not have permission to create items in this folder."));
     });
 }
 
@@ -2431,18 +2431,17 @@ void DolphinMainWindow::updateFileAndEditActions()
         const bool enableMoveToTrash = capabilitiesSource.isLocal() && capabilitiesSource.supportsMoving();
 
         renameAction->setEnabled(capabilitiesSource.supportsMoving());
-        m_disabledActionNotifier->setDisabledReason(renameAction,
-                                                    i18nc("@info", "Could not rename: You do not have permission to rename items in this folder."));
+        m_disabledActionNotifier->setDisabledReason(renameAction, i18nc("@info", "Cannot rename: You do not have permission to rename items in this folder."));
         deleteAction->setEnabled(capabilitiesSource.supportsDeleting());
         m_disabledActionNotifier->setDisabledReason(deleteAction,
-                                                    i18nc("@info", "Could not delete: You do not have permission to remove items from this folder."));
+                                                    i18nc("@info", "Cannot delete: You do not have permission to remove items from this folder."));
         cutAction->setEnabled(capabilitiesSource.supportsMoving());
-        m_disabledActionNotifier->setDisabledReason(cutAction, i18nc("@info", "Could not cut: You do not have permission to move items from this folder."));
+        m_disabledActionNotifier->setDisabledReason(cutAction, i18nc("@info", "Cannot cut: You do not have permission to move items from this folder."));
         copyLocation->setEnabled(list.length() == 1);
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
         m_disabledActionNotifier->setDisabledReason(duplicateAction,
-                                                    i18nc("@info", "Could not duplicate here: You do not have permission to create items in this folder."));
+                                                    i18nc("@info", "Cannot duplicate here: You do not have permission to create items in this folder."));
 
         if (enableMoveToTrash) {
             moveToTrashAction->setEnabled(true);
@@ -2452,7 +2451,7 @@ void DolphinMainWindow::updateFileAndEditActions()
             moveToTrashAction->setEnabled(false);
             deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting());
             m_disabledActionNotifier->setDisabledReason(deleteWithTrashShortcut,
-                                                        i18nc("@info", "Could not delete: You do not have permission to remove items from this folder."));
+                                                        i18nc("@info", "Cannot delete: You do not have permission to remove items from this folder."));
         }
     }
 
@@ -2464,9 +2463,9 @@ void DolphinMainWindow::updateFileAndEditActions()
         m_disabledActionNotifier->clearDisabledReason(moveToOtherViewAction);
     } else if (list.isEmpty()) {
         copyToOtherViewAction->setEnabled(false);
-        m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction, i18nc("@info", "Could not copy to other view: No files selected."));
+        m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction, i18nc("@info", "Cannot copy to other view: No files selected."));
         moveToOtherViewAction->setEnabled(false);
-        m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, i18nc("@info", "Could not move to other view: No files selected."));
+        m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction, i18nc("@info", "Cannot move to other view: No files selected."));
     } else {
         DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
         KFileItem capabilitiesDestination;
@@ -2485,25 +2484,25 @@ void DolphinMainWindow::updateFileAndEditActions()
         if (!allNotTargetOrigin) {
             copyToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(copyToOtherViewAction,
-                                                        i18nc("@info", "Could not copy to other view: The other view already contains these items."));
+                                                        i18nc("@info", "Cannot copy to other view: The other view already contains these items."));
             moveToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(moveToOtherViewAction,
-                                                        i18nc("@info", "Could not move to other view: The other view already contains these items."));
+                                                        i18nc("@info", "Cannot move to other view: The other view already contains these items."));
         } else if (!capabilitiesDestination.isWritable()) {
             copyToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(
                 copyToOtherViewAction,
-                i18nc("@info", "Could not copy to other view: You do not have permission to write into the destination folder."));
+                i18nc("@info", "Cannot copy to other view: You do not have permission to write into the destination folder."));
             moveToOtherViewAction->setEnabled(false);
             m_disabledActionNotifier->setDisabledReason(
                 moveToOtherViewAction,
-                i18nc("@info", "Could not move to other view: You do not have permission to write into the destination folder."));
+                i18nc("@info", "Cannot move to other view: You do not have permission to write into the destination folder."));
         } else {
             copyToOtherViewAction->setEnabled(true);
             moveToOtherViewAction->setEnabled(capabilitiesSource.supportsMoving());
             m_disabledActionNotifier->setDisabledReason(
                 moveToOtherViewAction,
-                i18nc("@info", "Could not move to other view: You do not have permission to move items from this folder."));
+                i18nc("@info", "Cannot move to other view: You do not have permission to move items from this folder."));
         }
     }
 }
