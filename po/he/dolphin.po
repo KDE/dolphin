@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:39+0000\n"
-"PO-Revision-Date: 2024-03-28 08:45+0200\n"
+"PO-Revision-Date: 2024-04-04 08:23+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -187,13 +187,13 @@ msgstr "התוכנית ‚%1’ עדיין רצה בלוח המסוף. בכל ז
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: The clipboard is empty."
-msgstr ""
+msgstr "לא ניתן להדביק: לוח הגזירים ריק."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Could not paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "לא ניתן להדביק: אין לך הרשאה לכתוב לתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -232,7 +232,7 @@ msgctxt "@info"
 msgid ""
 "Could not create new folder: You do not have permission to create items in "
 "this folder."
-msgstr ""
+msgstr "לא ניתן ליצור תיקייה חדשה: אין לך הרשאה ליצור פריטים בתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1082,7 +1082,7 @@ msgstr "הצגת לוחות"
 msgctxt "@info"
 msgid ""
 "Could not rename: You do not have permission to rename items in this folder."
-msgstr ""
+msgstr "אי אפשר לשנות שם: אין לך הרשאה לשנות שמות של פריטים בתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1090,14 +1090,14 @@ msgctxt "@info"
 msgid ""
 "Could not delete: You do not have permission to remove items from this "
 "folder."
-msgstr ""
+msgstr "לא ניתן למחוק: אין לך הרשאה להסיר פריטים מהתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:2440
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "לא ניתן לגזור: אין לך הרשאה להעביר פריטים מהתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:2445
 #, kde-format
@@ -1105,33 +1105,33 @@ msgctxt "@info"
 msgid ""
 "Could not duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "לא ניתן לשכפל כאן: אין לך הרשאה ליצור פריטים בתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:2467
 #, kde-format
 msgctxt "@info"
 msgid "Could not copy to other view: No files selected."
-msgstr ""
+msgstr "לא ניתן להעתיק לתצוגה השנייה: לא נבחרו קבצים."
 
 #: dolphinmainwindow.cpp:2469
 #, kde-format
 msgctxt "@info"
 msgid "Could not move to other view: No files selected."
-msgstr ""
+msgstr "לא ניתן להעביר לתצוגה השנייה: לא נבחרו קבצים."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "אי אפשר להעתיק לתצוגה השנייה: התצוגה השנייה כבר מכילה את הפריטים האלה."
 
 #: dolphinmainwindow.cpp:2491
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Could not move to other view: The other view already contains these items."
-msgstr ""
+msgstr "אי אפשר להעביר לתצוגה השנייה: התצוגה השנייה כבר מכילה את הפריטים האלה."
 
 #: dolphinmainwindow.cpp:2496
 #, kde-format
@@ -1139,7 +1139,7 @@ msgctxt "@info"
 msgid ""
 "Could not copy to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "לא ניתן להעתיק לתצוגה השנייה: אין לך הרשאות לכתוב לתיקיית היעד."
 
 #: dolphinmainwindow.cpp:2500
 #, kde-format
@@ -1147,7 +1147,7 @@ msgctxt "@info"
 msgid ""
 "Could not move to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "לא ניתן להעביר לתצוגה השנייה: אין לך הרשאות לכתוב לתיקיית היעד."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -1156,6 +1156,7 @@ msgid ""
 "Could not move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"לא ניתן להעביר לתצוגה השנייה: צריך הרשאות כדי להעביר פריטים מהתיקייה הזאת."
 
 #: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
