@@ -8,6 +8,9 @@
 #include "dolphin_generalsettings.h"
 #include "testdir.h"
 
+#include <KFileMetaData/UserMetaData>
+#include <kuser.h>
+
 #include <QTest>
 
 class ViewPropertiesTest : public QObject
@@ -83,7 +86,15 @@ void ViewPropertiesTest::testAutoSave()
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    QVERIFY(QFile::exists(dotDirectoryFile));
+    KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
+    if (metadata.isSupported()) {
+        auto loginName = KUser().loginName();
+        auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties@%1").arg(loginName));
+        QVERIFY(!viewProperties.isEmpty());
+        QVERIFY(!QFile::exists(dotDirectoryFile));
+    } else {
+        QVERIFY(QFile::exists(dotDirectoryFile));
+    }
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)
