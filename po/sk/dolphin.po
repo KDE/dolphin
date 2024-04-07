@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"POT-Creation-Date: 2024-04-07 00:40+0000\n"
 "PO-Revision-Date: 2023-12-07 18:49+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
@@ -182,13 +182,13 @@ msgstr ""
 #: dolphinmainwindow.cpp:864
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: The clipboard is empty."
+msgid "Cannot paste: The clipboard is empty."
 msgstr ""
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: You do not have permission to write into this folder."
+msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1244
@@ -224,8 +224,8 @@ msgstr[2] "Otvoriť %1 terminály"
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not create new folder: You do not have permission to create items in "
-"this folder."
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1498
@@ -838,7 +838,7 @@ msgstr ""
 "umiestnenie vybraných položiek.</para><para>Aby ste sa dozvedeli viac o "
 "termináloch, použite nápovedu v terminálovej aplikácií.</para>"
 
-#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
+#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1196,87 +1196,83 @@ msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Zobraziť panely"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2434
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not rename: You do not have permission to rename items in this folder."
+"Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
+#: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not delete: You do not have permission to remove items from this "
+"Cannot delete: You do not have permission to remove items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2439
+#, kde-format
+msgctxt "@info"
+msgid "Cannot cut: You do not have permission to move items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2444
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2466
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2468
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2487
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2490
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not cut: You do not have permission to move items from this folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2445
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not duplicate here: You do not have permission to create items in this "
-"folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2467
-#, kde-format
-msgctxt "@info"
-msgid "Could not copy to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2469
-#, kde-format
-msgctxt "@info"
-msgid "Could not move to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2488
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2491
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not move to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2496
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: You do not have permission to write into the "
+"Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2500
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to write into the "
+"Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2506
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to move items from "
+"Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1292,19 +1288,19 @@ msgstr ""
 "priečinok, ktorý obsahuje všetky údaje pripojené k tomuto počítaču - "
 "<emphasis>koreňový priečinok</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2620
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2620
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Zatvoriť ľavé zobrazenie"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2622
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1312,25 +1308,25 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Kopírovať do iného zobrazenia"
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2623
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2625
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zavrieť"
 
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zatvoriť pravé zobrazenie"
 
-#: dolphinmainwindow.cpp:2629
+#: dolphinmainwindow.cpp:2628
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1338,31 +1334,31 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Kopírovať do iného zobrazenia"
 
-#: dolphinmainwindow.cpp:2630
+#: dolphinmainwindow.cpp:2629
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2639
+#: dolphinmainwindow.cpp:2638
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Rozdeliť"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2639
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Rozdelené zobrazenie"
 
-#: dolphinmainwindow.cpp:2642
+#: dolphinmainwindow.cpp:2641
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1380,7 +1376,7 @@ msgstr ""
 "obsahu stane dostupným cez tlačidlo <interface>Menu</interface> na "
 "<emphasis>Paneli nástrojov</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1403,7 +1399,7 @@ msgstr ""
 "po kliknutí pravým tlačidlom. Stlačte pravé tlačidlo myši ak chcete zobraziť "
 "alebo skryť ich text.</para>"
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2715
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1431,7 +1427,7 @@ msgstr ""
 "dolphin-view.html'>kliknite sem </link>. Toto otvorí stránku z "
 "<emphasis>Príručky</emphasis>, ktorá pokrýva základy.</para>"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1444,7 +1440,7 @@ msgstr ""
 "<nl/>Tam môžete nastaviť klávesové kombinácie na spustenie akcií, keď sa "
 "stlačia naraz. Všetky príkazy aplikácie môžu byť takto spustené.</para>"
 
-#: dolphinmainwindow.cpp:2738
+#: dolphinmainwindow.cpp:2737
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1457,7 +1453,7 @@ msgstr ""
 "vidíte v <interface>Menu</interface> môžu byť umiestnené aj na Paneli "
 "nástrojov.</para>"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1475,7 +1471,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2761
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1491,7 +1487,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'>kliknite sem</link>. "
 "Toto otvorí vyhradenú stránku v KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:2767
+#: dolphinmainwindow.cpp:2766
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1513,7 +1509,7 @@ msgstr ""
 "File_Management'>KDE UserBase Wiki</link>.</para><para>Pomocník \"Čo je toto?"
 "\" chýba vo väčšine ostatných okien tak si na ňu moc nezvykajte.</para>"
 
-#: dolphinmainwindow.cpp:2778
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1529,7 +1525,7 @@ msgstr ""
 "hlásenia o chybách čo najlepšie <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>kliknite sem</link>.</para>"
 
-#: dolphinmainwindow.cpp:2787
+#: dolphinmainwindow.cpp:2786
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1551,7 +1547,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> je nezisková organizácia stojaca za "
 "KDE komunitou.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1563,7 +1559,7 @@ msgstr ""
 "nastaviť jazyk, ktorý sa použije v prípade ak nie je dostupný váš "
 "preferovaný jazyk."
 
-#: dolphinmainwindow.cpp:2805
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1573,7 +1569,7 @@ msgstr ""
 "Toto otvorí okno, ktoré vás informuje o verzií, licencií a použitých "
 "knižniciach a správcoch tejto aplikácie."
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2809
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1586,7 +1582,7 @@ msgstr ""
 "ľudia za týmto softvérom.<nl/>Ak radi používate túto aplikáciu ale neviete "
 "veľa o KDE alebo chcete vidieť chutného draka, pozrite sa!"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

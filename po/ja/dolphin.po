@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"POT-Creation-Date: 2024-04-07 00:40+0000\n"
 "PO-Revision-Date: 2024-01-30 16:09+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -184,13 +184,13 @@ msgstr "プログラム'%1'が現在ターミナルパネルで実行中です�
 #: dolphinmainwindow.cpp:864
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: The clipboard is empty."
+msgid "Cannot paste: The clipboard is empty."
 msgstr ""
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: You do not have permission to write into this folder."
+msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1244
@@ -222,8 +222,8 @@ msgstr[0] "%1 ターミナルを開く"
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not create new folder: You do not have permission to create items in "
-"this folder."
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1498
@@ -819,7 +819,7 @@ msgstr ""
 "す。</para><para>ターミナルについて詳しく知りたい場合はターミナルのヘルプをご"
 "覧ください。</para>"
 
-#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
+#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1160,87 +1160,83 @@ msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "パネルを表示"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2434
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not rename: You do not have permission to rename items in this folder."
+"Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
+#: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not delete: You do not have permission to remove items from this "
+"Cannot delete: You do not have permission to remove items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2439
+#, kde-format
+msgctxt "@info"
+msgid "Cannot cut: You do not have permission to move items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2444
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2466
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2468
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2487
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2490
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not cut: You do not have permission to move items from this folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2445
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not duplicate here: You do not have permission to create items in this "
-"folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2467
-#, kde-format
-msgctxt "@info"
-msgid "Could not copy to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2469
-#, kde-format
-msgctxt "@info"
-msgid "Could not move to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2488
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2491
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not move to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2496
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: You do not have permission to write into the "
+"Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2500
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to write into the "
+"Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2506
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to move items from "
+"Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1256,19 +1252,19 @@ msgstr ""
 "データを含む<emphasis>ルートディレクトリ</emphasis>と呼ばれるディレクトリがあ"
 "ります。</para>"
 
-#: dolphinmainwindow.cpp:2620
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "閉じる(&C)"
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2620
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "左のビューを閉じる"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2622
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1276,25 +1272,25 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "他のビューにコピー"
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2623
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2625
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "閉じる(&C)"
 
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "右のビューを閉じる"
 
-#: dolphinmainwindow.cpp:2629
+#: dolphinmainwindow.cpp:2628
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1302,31 +1298,31 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "他のビューにコピー"
 
-#: dolphinmainwindow.cpp:2630
+#: dolphinmainwindow.cpp:2629
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2639
+#: dolphinmainwindow.cpp:2638
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "分割"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2639
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "ビューを分割"
 
-#: dolphinmainwindow.cpp:2642
+#: dolphinmainwindow.cpp:2641
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1344,7 +1340,7 @@ msgstr ""
 "バー</emphasis>の<interface>メニュー</interface>ボタンからほとんどの内容を利"
 "用できるようになります。</para>"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1366,7 +1362,7 @@ msgstr ""
 "リックメニューで変更することができます。ボタンのテキストを表示/非表示にしたい"
 "場合は、ボタンを右クリックしてください。</para>"
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2715
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1393,7 +1389,7 @@ msgstr ""
 "は<link url='help:/dolphin/dolphin-view.html'>こちら</link> を参照してくださ"
 "い。基本的なことをカバーするハンドブックのページが開きます。</para>"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1407,7 +1403,7 @@ msgstr ""
 "できます。このアプリケーションのコマンドはすべてこの方法で起動することができ"
 "ます。</para>"
 
-#: dolphinmainwindow.cpp:2738
+#: dolphinmainwindow.cpp:2737
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1419,7 +1415,7 @@ msgstr ""
 "表示します。</para><para><interface>メニュー</interface>に表示されているすべ"
 "ての項目は、ツールバーにも表示できます。</para>"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1437,7 +1433,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2761
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1454,7 +1450,7 @@ msgstr ""
 "リック</link>してください。KDE UserBase Wiki 内の専用ページが開きます。</"
 "para>"
 
-#: dolphinmainwindow.cpp:2767
+#: dolphinmainwindow.cpp:2766
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1476,7 +1472,7 @@ msgstr ""
 "Wiki</link> です。</para><para>他の多くのウィンドウでは、「これは何？」という"
 "ヘルプはありませんので、これに慣れすぎないようにしてください。</para>"
 
-#: dolphinmainwindow.cpp:2778
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1492,7 +1488,7 @@ msgstr ""
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>こちら</link>をご"
 "覧ください。</para>"
 
-#: dolphinmainwindow.cpp:2787
+#: dolphinmainwindow.cpp:2786
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1514,7 +1510,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> は、KDE コミュニティを支える非営利団"
 "体です。</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1525,7 +1521,7 @@ msgstr ""
 "このアプリケーションが使用する言語を変更することができます。<nl/>希望する言語"
 "でテキストが利用できない場合に使用される第二言語を設定することもできます。"
 
-#: dolphinmainwindow.cpp:2805
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1536,7 +1532,7 @@ msgstr ""
 "ているライブラリ、メンテナについての情報が表示されます。使用されているライブ"
 "ラリやメンテナについての情報が表示されます。"
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2809
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1550,7 +1546,7 @@ msgstr ""
 "使ってみたいけど、KDE について知らない、かわいいドラゴンを見てみたいという方"
 "は、ぜひご覧ください。"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

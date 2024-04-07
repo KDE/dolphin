@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"POT-Creation-Date: 2024-04-07 00:40+0000\n"
 "PO-Revision-Date: 2024-03-24 11:38+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -185,13 +185,13 @@ msgstr ""
 #: dolphinmainwindow.cpp:864
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: The clipboard is empty."
+msgid "Cannot paste: The clipboard is empty."
 msgstr ""
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: You do not have permission to write into this folder."
+msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1244
@@ -227,8 +227,8 @@ msgstr[2] "Atvērt %1 termināļu"
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not create new folder: You do not have permission to create items in "
-"this folder."
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1498
@@ -844,7 +844,7 @@ msgstr ""
 "programmu.</para><para>Lai uzzinātu vairāk par termināļu lietošanu, "
 "apskatiet palīdzības sadaļu termināļa programmā.</para>"
 
-#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
+#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1204,87 +1204,83 @@ msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Rādīt paneļus"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2434
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not rename: You do not have permission to rename items in this folder."
+"Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
+#: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not delete: You do not have permission to remove items from this "
+"Cannot delete: You do not have permission to remove items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2439
+#, kde-format
+msgctxt "@info"
+msgid "Cannot cut: You do not have permission to move items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2444
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2466
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2468
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2487
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2490
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not cut: You do not have permission to move items from this folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2445
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not duplicate here: You do not have permission to create items in this "
-"folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2467
-#, kde-format
-msgctxt "@info"
-msgid "Could not copy to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2469
-#, kde-format
-msgctxt "@info"
-msgid "Could not move to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2488
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2491
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not move to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2496
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: You do not have permission to write into the "
+"Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2500
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to write into the "
+"Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2506
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to move items from "
+"Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1299,19 +1295,19 @@ msgstr ""
 "emphasis>. Šīs hierarhijas augšā ir mape, kas satur visus datoram "
 "pievienotos datus — datora <emphasis>saknes mape</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2620
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Aizvērt"
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2620
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Aizvērt kreiso skatu"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2622
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1319,7 +1315,7 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Kopēt uz otru skatu"
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2623
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Move left split view to a new window"
@@ -1327,19 +1323,19 @@ msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Pārvietot skata kreiso pusi jaunā logā"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2625
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Aizvērt"
 
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Aizvērt labo skatu"
 
-#: dolphinmainwindow.cpp:2629
+#: dolphinmainwindow.cpp:2628
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Other View"
@@ -1347,7 +1343,7 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Kopēt uz otru skatu"
 
-#: dolphinmainwindow.cpp:2630
+#: dolphinmainwindow.cpp:2629
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Move right split view to a new window"
@@ -1355,19 +1351,19 @@ msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Pārvietot skata labo pusi jaunā logā"
 
-#: dolphinmainwindow.cpp:2639
+#: dolphinmainwindow.cpp:2638
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Sadalīt"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2639
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Sadalīt skatu"
 
-#: dolphinmainwindow.cpp:2642
+#: dolphinmainwindow.cpp:2641
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar Move left split view to a new window"
 #| msgid "Pop out"
@@ -1375,7 +1371,7 @@ msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Atdalīt"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1393,7 +1389,7 @@ msgstr ""
 "lielākā daļa tās satura būs pieejama <interface>Izvēlnes</interface> pogā, "
 "kuru redzēsiet <emphasis>Rīkjoslā</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1416,7 +1412,7 @@ msgstr ""
 "spiežot peles labo pogu. Tāpat spiediet peles labo pogu, ja vēlaties parādīt "
 "vai paslēpt tekstu pie ikonām.</para>"
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2715
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1444,7 +1440,7 @@ msgstr ""
 "link> . Tas atvērs <emphasis>Rokasgrāmatu</emphasis>, kur ir aprakstīti "
 "programmas lietošanas pamati.</para>"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1458,7 +1454,7 @@ msgstr ""
 "reizē nospiestas, izraisīs kādu darbību. Visas šajā programmā esošās "
 "darbības iespējams šādi izsaukt.</para>"
 
-#: dolphinmainwindow.cpp:2738
+#: dolphinmainwindow.cpp:2737
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1470,7 +1466,7 @@ msgstr ""
 "<emphasis>rīkjoslā</emphasis>.</para><para>Visus ierakstus, kurus redzat "
 "<interface>izvēlnē</interface>, varat novietot arī rīkjoslā.</para>"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1489,7 +1485,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2761
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1505,7 +1501,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'>spiediet te</link>. "
 "Atvērsies atsevišķa lapa KDE Lietotāju vikilapā.</para>"
 
-#: dolphinmainwindow.cpp:2767
+#: dolphinmainwindow.cpp:2766
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1527,7 +1523,7 @@ msgstr ""
 "vikilapā</link>.</para><para>„Kas tas ir?“ palīdzība daudzos logos nav "
 "pieejama, tāpēc pie tās pārāk nepierodiet.</para>"
 
-#: dolphinmainwindow.cpp:2778
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1544,7 +1540,7 @@ msgstr ""
 "iespējams <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>spiediet</link>.</para>"
 
-#: dolphinmainwindow.cpp:2787
+#: dolphinmainwindow.cpp:2786
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1566,7 +1562,7 @@ msgstr ""
 "tikšanās u.c.</para><para><emphasis>KDE e.V.</emphasis> ir bezpeļņas "
 "organizācija, zem kuras darbojas KDE kopiena.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1578,7 +1574,7 @@ msgstr ""
 "sekundāro valodu, kas tiks izmantota tad, ja kaut kur trūkst teksta jūsu "
 "vēlamajā valodā."
 
-#: dolphinmainwindow.cpp:2805
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1588,7 +1584,7 @@ msgstr ""
 "Spiežot te, atveras logs, kas jūs informēs par versiju, licenci, "
 "izmantotajām bibliotēkām un šīs programmas uzturētājiem."
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2809
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1602,7 +1598,7 @@ msgstr ""
 "prieku lietojat šo programmu, bet nezināt, kas ir KDE, vai vēlaties redzēt "
 "jauko pūķi, tad apskatieties!"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

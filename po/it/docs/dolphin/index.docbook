@@ -1708,12 +1708,14 @@ context menu Icon Size? No different entries ?-->
 >. </para>
 <para
 ><guilabel
->Visualizzazioni della dimensione delle cartelle</guilabel
-> consente di definire la proprietà da utilizzare quando si ordinano le cartelle in base alla loro dimensione . È possibile ordinare le cartelle in base al <guilabel
->Numero di elementi</guilabel
-> o alla <guilabel
->Dimensione del contenuto</guilabel
-> e scegliere un limite al livello di ricorsività (può essere utile per limitare le iterazioni non necessarie nelle strutture di cartelle profonde o su file system lenti). </para>
+>Dimensione delle cartelle</guilabel
+> consente di definire la proprietà da utilizzare quando si ordinano le cartelle in base alla loro dimensione . È possibile ordinare le cartelle in base al numero di elementi scegliendo <guilabel
+>Mostra il numero di elementi</guilabel
+> o in base alla dimensione del contenuto scegliendo <guilabel
+>Mostra la dimensione del contenuto</guilabel
+>. Il livello di ricorsione può essere limitato, il che può essere utile per limitare le iterazioni non necessarie nelle strutture di cartelle profonde o su file system lenti. È anche possibile disabilitare la visualizzazione delle dimensioni della cartella scegliendo <guilabel
+>Non mostrare la dimensione</guilabel
+> (che potrebbe migliorare le prestazioni in rari casi, ma influisce su altre funzionalità come l'ordinamento). </para>
 <para
 >L'opzione <guilabel
 >Stile della data</guilabel
@@ -1898,7 +1900,7 @@ context menu Icon Size? No different entries ?-->
 
 <sect2 id="preferences-user-feedback">
 <title
->Segnalazioni dell'utente</title>
+>Segnalazioni degli utenti</title>
 
 <para
 >Questo gruppo contiene le impostazioni che controllano le informazioni sull'utilizzo di &dolphin; ai suoi sviluppatori. <screenshot>

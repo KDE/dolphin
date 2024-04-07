@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 00:39+0000\n"
+"POT-Creation-Date: 2024-04-07 00:40+0000\n"
 "PO-Revision-Date: 2024-04-04 16:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -180,15 +180,20 @@ msgstr ""
 "istediğinizden emin misiniz?"
 
 #: dolphinmainwindow.cpp:864
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Could not paste: The clipboard is empty."
 msgctxt "@info"
-msgid "Could not paste: The clipboard is empty."
+msgid "Cannot paste: The clipboard is empty."
 msgstr "Yapıştırılamadı: Pano boş."
 
 #: dolphinmainwindow.cpp:865
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not paste: You do not have permission to write into this folder."
 msgctxt "@info"
-msgid "Could not paste: You do not have permission to write into this folder."
+msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Yapıştırılamadı: Bu klasöre yazma izniniz yok."
 
 #: dolphinmainwindow.cpp:1244
@@ -219,11 +224,15 @@ msgstr[0] "%1 Uçbirim Aç"
 msgstr[1] "%1 Uçbirim Aç"
 
 #: dolphinmainwindow.cpp:1399
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not create new folder: You do not have permission to create items "
+#| "in this folder."
 msgctxt "@info"
 msgid ""
-"Could not create new folder: You do not have permission to create items in "
-"this folder."
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 msgstr ""
 "Yeni klasör oluşturulamadı: Bu klasörde yeni ögeler oluşturma izniniz yok."
 
@@ -776,7 +785,7 @@ msgstr ""
 "uygulaması açar.</para><para>Uçbirim hakkında daha fazla bilgi edinmek için "
 "uçbirim uygulamasındaki yardım özelliklerini kullanın.</para>"
 
-#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
+#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1097,91 +1106,124 @@ msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Panelleri Göster"
 
-#: dolphinmainwindow.cpp:2435
-#, kde-format
+#: dolphinmainwindow.cpp:2434
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not rename: You do not have permission to rename items in this "
+#| "folder."
 msgctxt "@info"
 msgid ""
-"Could not rename: You do not have permission to rename items in this folder."
+"Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 "Yeniden adlandırılamadı: Bu klasördeki ögeleri yeniden adlandırma izniniz "
 "yok."
 
-#: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
-#, kde-format
+#: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not delete: You do not have permission to remove items from this "
+#| "folder."
 msgctxt "@info"
 msgid ""
-"Could not delete: You do not have permission to remove items from this "
-"folder."
+"Cannot delete: You do not have permission to remove items from this folder."
 msgstr "Silinemedi: Bu klasörden öge kaldırma izniniz yok."
 
-#: dolphinmainwindow.cpp:2440
-#, kde-format
+#: dolphinmainwindow.cpp:2439
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not cut: You do not have permission to move items from this folder."
 msgctxt "@info"
-msgid ""
-"Could not cut: You do not have permission to move items from this folder."
+msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "Kesilemedi: Bu klasörden öge taşıma izniniz yok."
 
-#: dolphinmainwindow.cpp:2445
-#, kde-format
+#: dolphinmainwindow.cpp:2444
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not duplicate here: You do not have permission to create items in "
+#| "this folder."
 msgctxt "@info"
 msgid ""
-"Could not duplicate here: You do not have permission to create items in this "
+"Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr "Burada çoğaltılamadı: Bu klasörde öge oluşturma izniniz yok."
 
-#: dolphinmainwindow.cpp:2467
-#, kde-format
+#: dolphinmainwindow.cpp:2466
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Could not copy to other view: No files selected."
 msgctxt "@info"
-msgid "Could not copy to other view: No files selected."
+msgid "Cannot copy to other view: No files selected."
 msgstr "Diğer görünüme kopyalanamadı: Seçili dosya yok."
 
-#: dolphinmainwindow.cpp:2469
-#, kde-format
+#: dolphinmainwindow.cpp:2468
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Could not move to other view: No files selected."
 msgctxt "@info"
-msgid "Could not move to other view: No files selected."
+msgid "Cannot move to other view: No files selected."
 msgstr "Diğer görünüme taşınamadı: Seçili dosya yok."
 
-#: dolphinmainwindow.cpp:2488
-#, kde-format
+#: dolphinmainwindow.cpp:2487
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not copy to other view: The other view already contains these items."
 msgctxt "@info"
-msgid ""
-"Could not copy to other view: The other view already contains these items."
+msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
 "Diğer görünüme kapyalanamadı: Diğer görünüm bu ögeleri halihazırda içeriyor."
 
-#: dolphinmainwindow.cpp:2491
-#, kde-format
+#: dolphinmainwindow.cpp:2490
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not move to other view: The other view already contains these items."
 msgctxt "@info"
-msgid ""
-"Could not move to other view: The other view already contains these items."
+msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
 "Diğer görünüme taşınamadı: Diğer görünüm bu ögeleri halihazırda içeriyor."
 
-#: dolphinmainwindow.cpp:2496
-#, kde-format
+#: dolphinmainwindow.cpp:2495
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not copy to other view: You do not have permission to write into "
+#| "the destination folder."
 msgctxt "@info"
 msgid ""
-"Could not copy to other view: You do not have permission to write into the "
+"Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr "Diğer görünüme kopyalanamadı: Hedef klasöre yazma izniniz yok."
 
-#: dolphinmainwindow.cpp:2500
-#, kde-format
+#: dolphinmainwindow.cpp:2499
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not move to other view: You do not have permission to write into "
+#| "the destination folder."
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to write into the "
+"Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr "Diğer görünüme taşınamadı: Hedef klasöre yazma izniniz yok."
 
-#: dolphinmainwindow.cpp:2506
-#, kde-format
+#: dolphinmainwindow.cpp:2505
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Could not move to other view: You do not have permission to move items "
+#| "from this folder."
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to move items from "
+"Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr "Diğer görünüme taşınamadı: Bu klasörden öge taşıma izniniz yok."
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1196,73 +1238,73 @@ msgstr ""
 "olarak düzenlenmiştir. Bu hiyerarşinin tepesinde birbu bilgisayara bağlı tüm "
 "verileri içeren dizin —<emphasis>kök dizin</emphasis>— bulunur.</para>"
 
-#: dolphinmainwindow.cpp:2620
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Kapat"
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2620
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Sol görünümü kapat"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2622
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Sol Görünümü Çıkar"
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2623
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Sol görünümü yeni bir pencereye taşı"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2625
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Kapat"
 
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Sağ görünümü kapat"
 
-#: dolphinmainwindow.cpp:2629
+#: dolphinmainwindow.cpp:2628
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Sağ Görünümü Çıkar"
 
-#: dolphinmainwindow.cpp:2630
+#: dolphinmainwindow.cpp:2629
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Sağ görünümü yeni bir pencereye taşı"
 
-#: dolphinmainwindow.cpp:2639
+#: dolphinmainwindow.cpp:2638
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Böl"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2639
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Görünümü böl"
 
-#: dolphinmainwindow.cpp:2642
+#: dolphinmainwindow.cpp:2641
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Çıkar"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1281,7 +1323,7 @@ msgstr ""
 "üzerindeki bir <interface>Menü</interface> düğmesi aracılığıyla "
 "kullanılabilir hale gelir.</para>"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1303,7 +1345,7 @@ msgstr ""
 "düğmelerinin biçemi, sağ tık menüsünden değiştirilebilir. Metnini göstermek "
 "veya gizlemek için bir düğmenin üzerine sağ tıklayın.</para>"
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2715
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1331,7 +1373,7 @@ msgstr ""
 "link> tıklayın. Bu, temel bilgileri içeren bir <emphasis>El Kitabı</"
 "emphasis> açacaktır.</para>"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1345,7 +1387,7 @@ msgstr ""
 "kombinasyonlarını ayarlayabilirsiniz. Bu uygulamadaki tüm komutlar bu "
 "şekilde tetiklenebilir.</para>"
 
-#: dolphinmainwindow.cpp:2738
+#: dolphinmainwindow.cpp:2737
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1358,7 +1400,7 @@ msgstr ""
 "interface> arayüzünde gördüğünüz tüm ögeler, Araç Çubuğu’na da "
 "yerleştirilebilir.</para>"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1376,7 +1418,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2761
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1393,7 +1435,7 @@ msgstr ""
 "File_Management'>buraya tıklayın</link>. Bu bağlantı, KDE Kullanıcı Tabanı "
 "Vikisi’ndeki ilgili sayfayı açar.</para>"
 
-#: dolphinmainwindow.cpp:2767
+#: dolphinmainwindow.cpp:2766
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1415,7 +1457,7 @@ msgstr ""
 "Tabanı Vikisi</link>.</para><para>‘Bu Nedir?’ yardımı genelde diğer "
 "uygulamalarda bulunmayabilir, o yüzden buna çok alışmayın.</para>"
 
-#: dolphinmainwindow.cpp:2778
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1432,7 +1474,7 @@ msgstr ""
 "<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>buraya "
 "tıklayın</link>.</para>"
 
-#: dolphinmainwindow.cpp:2787
+#: dolphinmainwindow.cpp:2786
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1454,7 +1496,7 @@ msgstr ""
 "şeyleri karşılamak için gereklidir.</para><para><emphasis>KDE eV</emphasis>, "
 "KDE’nin arkasındaki kâr amacı gütmeyen kuruluştur.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1466,7 +1508,7 @@ msgstr ""
 "ettiğiniz dilde metin yoksa kullanılacak ikincil dilleri bile "
 "ayarlayabilirsiniz."
 
-#: dolphinmainwindow.cpp:2805
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1476,7 +1518,7 @@ msgstr ""
 "Bu, sizi bu uygulamanın sürümü, lisansı, kullanılan kitaplıkları ve "
 "bakımcıları hakkında bilgilendiren bir pencere açar."
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2809
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1490,7 +1532,7 @@ msgstr ""
 "kullanmayı seviyorsanız, ancak KDE’yi bilmiyorsanız veya sevimli bir "
 "ejderhayı görmek istiyorsanız bir göz atın!"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
