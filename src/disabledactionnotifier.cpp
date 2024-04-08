@@ -26,7 +26,10 @@ void DisabledActionNotifier::setDisabledReason(QAction *action, QStringView reas
 
     connect(action, &QAction::enabledChanged, this, [this, action](bool enabled) {
         if (enabled) {
-            m_shortcuts.take(action)->deleteLater();
+            const auto shortcut = m_shortcuts.take(action);
+            if (shortcut) {
+                shortcut->deleteLater();
+            }
         }
     });
 
