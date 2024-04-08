@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 00:39+0000\n"
-"PO-Revision-Date: 2024-04-03 19:14\n"
+"POT-Creation-Date: 2024-04-07 00:40+0000\n"
+"PO-Revision-Date: 2024-04-07 19:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -181,13 +181,13 @@ msgstr "程序 %1 仍在终端面板中运行。您确定要退出吗？"
 #: dolphinmainwindow.cpp:864
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: The clipboard is empty."
+msgid "Cannot paste: The clipboard is empty."
 msgstr ""
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
-msgid "Could not paste: You do not have permission to write into this folder."
+msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1244
@@ -219,8 +219,8 @@ msgstr[0] "打开 %1 个终端"
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not create new folder: You do not have permission to create items in "
-"this folder."
+"Cannot create new folder: You do not have permission to create items in this "
+"folder."
 msgstr ""
 
 #: dolphinmainwindow.cpp:1498
@@ -746,7 +746,7 @@ msgstr ""
 "<para>这将在当前所选项目的位置打开<emphasis>终端</emphasis>应用程序窗口。</"
 "para><para>关于终端的更多信息请查看终端应用程序中的帮助信息。</para>"
 
-#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2865
+#: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1050,87 +1050,83 @@ msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "显示面板"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2434
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not rename: You do not have permission to rename items in this folder."
+"Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2438 dolphinmainwindow.cpp:2455
+#: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not delete: You do not have permission to remove items from this "
+"Cannot delete: You do not have permission to remove items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2439
+#, kde-format
+msgctxt "@info"
+msgid "Cannot cut: You do not have permission to move items from this folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2444
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2466
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2468
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: No files selected."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2487
+#, kde-format
+msgctxt "@info"
+msgid "Cannot copy to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2490
+#, kde-format
+msgctxt "@info"
+msgid "Cannot move to other view: The other view already contains these items."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2495
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not cut: You do not have permission to move items from this folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2445
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not duplicate here: You do not have permission to create items in this "
-"folder."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2467
-#, kde-format
-msgctxt "@info"
-msgid "Could not copy to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2469
-#, kde-format
-msgctxt "@info"
-msgid "Could not move to other view: No files selected."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2488
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2491
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not move to other view: The other view already contains these items."
-msgstr ""
-
-#: dolphinmainwindow.cpp:2496
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Could not copy to other view: You do not have permission to write into the "
+"Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2500
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to write into the "
+"Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2506
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Could not move to other view: You do not have permission to move items from "
+"Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1144,73 +1140,73 @@ msgstr ""
 "结构的<emphasis>文件系统</emphasis>进行组织。此层级结构的顶端是<emphasis>根目"
 "录</emphasis>，它包含了所有连接到本机的数据。</para>"
 
-#: dolphinmainwindow.cpp:2620
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "关闭"
 
-#: dolphinmainwindow.cpp:2621
+#: dolphinmainwindow.cpp:2620
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "关闭左侧视图"
 
-#: dolphinmainwindow.cpp:2623
+#: dolphinmainwindow.cpp:2622
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "弹出左视图"
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2623
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "弹出左视图为新窗口"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2625
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "关闭"
 
-#: dolphinmainwindow.cpp:2627
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "关闭右侧视图"
 
-#: dolphinmainwindow.cpp:2629
+#: dolphinmainwindow.cpp:2628
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "弹出右视图"
 
-#: dolphinmainwindow.cpp:2630
+#: dolphinmainwindow.cpp:2629
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "弹出右视图为新窗口"
 
-#: dolphinmainwindow.cpp:2639
+#: dolphinmainwindow.cpp:2638
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "拆分视图"
 
-#: dolphinmainwindow.cpp:2640
+#: dolphinmainwindow.cpp:2639
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "拆分视图"
 
-#: dolphinmainwindow.cpp:2642
+#: dolphinmainwindow.cpp:2641
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "弹出"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1227,7 +1223,7 @@ msgstr ""
 "多数功能可以通过<emphasis>工具栏</emphasis>中的<interface>菜单</interface>按"
 "钮进行调用。</para>"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2703
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1247,7 +1243,7 @@ msgstr ""
 "中找到该操作。</para><para>工具栏的位置和按钮的显示风格也可以在右键菜单中更"
 "改。右键点击某个按钮可以选择显示或隐藏其文本。</para>"
 
-#: dolphinmainwindow.cpp:2716
+#: dolphinmainwindow.cpp:2715
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1273,7 +1269,7 @@ msgstr ""
 "html'>点击此处</link>，打开并查看<emphasis>使用手册</emphasis>中的简明介绍页"
 "面。</para>"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1286,7 +1282,7 @@ msgstr ""
 "以在该对话框设置每个操作对应的快捷键。此应用程序的所有命令均可通过快捷键调"
 "用。</para>"
 
-#: dolphinmainwindow.cpp:2738
+#: dolphinmainwindow.cpp:2737
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1298,7 +1294,7 @@ msgstr ""
 "钮。</para><para><interface>菜单</interface>中显示的所有命令均可作为按钮显示"
 "到工具栏。</para>"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1316,7 +1312,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2762
+#: dolphinmainwindow.cpp:2761
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1331,7 +1327,7 @@ msgstr ""
 "请<link url='https://userbase.kde.org/Dolphin/File_Management'>点击此处</"
 "link>前往 KDE 用户百科网站查看相关文章。</para>"
 
-#: dolphinmainwindow.cpp:2767
+#: dolphinmainwindow.cpp:2766
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1352,7 +1348,7 @@ msgstr ""
 "link>。</para><para>请注意：并非所有窗口都会提供完善的“这是什么？”悬停帮助信"
 "息。</para>"
 
-#: dolphinmainwindow.cpp:2778
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1367,7 +1363,7 @@ msgstr ""
 "缺陷报告，请访问<link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>此网页</link>。</para>"
 
-#: dolphinmainwindow.cpp:2787
+#: dolphinmainwindow.cpp:2786
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1386,7 +1382,7 @@ msgstr ""
 "来维持服务器、贡献者会议等必要开销。</para><para><emphasis>KDE e.V.</"
 "emphasis> 是在法律和财务方面代表 KDE 社区的非营利组织。</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2799
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1397,7 +1393,7 @@ msgstr ""
 "您可以在此更改此应用程序的语言。<nl/>您还可以设置备选语言，它们将在首选语言翻"
 "译不完整时显示。"
 
-#: dolphinmainwindow.cpp:2805
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1406,7 +1402,7 @@ msgid ""
 msgstr ""
 "打开“关于”对话框，介绍应用程序的版本，许可证，使用的程序库以及开发人员。"
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2809
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1419,7 +1415,7 @@ msgstr ""
 "<nl/>如果您喜爱此应用程序，但还不了解 KDE，或者只是想看一眼它那只萌爆的小绿龙"
 "吉祥物，那就打开这个对话框吧！"
 
-#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"

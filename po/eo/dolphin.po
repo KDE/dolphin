@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-07 00:40+0000\n"
-"PO-Revision-Date: 2024-03-29 11:08+0100\n"
+"PO-Revision-Date: 2024-04-07 17:09+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -182,13 +182,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Ne eblas alglui: La tondujo estas malplena."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Ne eblas alglui: Vi ne havas permeson skribi en ĉi tiun dosierujon."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -224,6 +224,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Ne eblas krei novan dosierujon: Vi ne havas permeson skribi en ĉi tiun "
+"dosierujon."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1101,6 +1103,7 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Ne eblas alinomi: Vi ne havas permeson alinomi erojn en ĉi tiu dosierujo."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
@@ -1108,12 +1111,13 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Ne eblas forigi: Vi ne havas permeson forigi erojn el ĉi tiu dosierujon."
 
 #: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "Ne eblas tondi: Vi ne havas permeson movi erojn en ĉi tiu dosierujo."
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -1122,30 +1126,32 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Ne eblas duobligi tien ĉi: Vi ne havas permeson krei erojn en ĉi tiu "
+"dosierujo."
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Ne eblas kopii al alia vido: Neniuj dosiero elektiĝis."
 
 #: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "Ne eblas movi al alia vido: Neniuj dosiero elektiĝis."
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "Ne eblas kopii al alia vido: La alia vido jam enhavas tiujn erojn."
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
-msgstr ""
+msgstr "Ne eblas movi al alia vido: La alia vido jam enhavas tiujn erojn."
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1154,6 +1160,7 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ne eblas kopii al alia vido: Vi ne havas permeson skribi en la celdosierujon."
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1162,6 +1169,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Ne eblas movi al alia vido: Vi ne havas permeson skribi en la celdosierujon."
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1170,6 +1178,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Ne eblas movi al alia vido: Vi ne havas permeson movi erojn el ĉi dosierujo."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format

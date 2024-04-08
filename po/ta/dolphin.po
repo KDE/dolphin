@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-07 00:40+0000\n"
-"PO-Revision-Date: 2024-03-30 22:11+0530\n"
+"PO-Revision-Date: 2024-04-07 17:29+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -178,13 +178,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "ஒட்ட முடியாது: பிடிப்புப்பலகை காலியாக உள்ளது."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "ஒட்ட முடியாது: இந்த அடைவில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -220,6 +220,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"புதிய அடைவை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
+"உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -240,18 +242,14 @@ msgid "Open a new Dolphin window"
 msgstr "புதிய டால்பின் சாளரத்தைத் திற"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"இது இதே இடத்தில் இதே காட்சியை காட்டக்கூடிய இன்னொரு சாளரத்தைத் திறக்கும்.<nl/>நீங்கள் "
-"சாளரங்களுக்கு இடையே பொருட்களை இழுத்துப் போடலாம்."
+"இது இதே இடத்தைக் காட்டும் இன்னொரு சாளரத்தைத் திறக்கும்.<nl/>நீங்கள் சாளரங்களுக்கு இடையே "
+"பொருட்களை இழுத்துப் போடலாம்."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
@@ -260,21 +258,16 @@ msgid "New Tab"
 msgstr "புதிய கீற்று"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"தற்போதைய இடத்தையும் காட்சியையும் கொண்ட புதிய <emphasis>கீற்றை</emphasis> இது திறக்கும்."
-"<nl/>கீற்று என்பது, இந்த சாளரத்திலேயே அமைந்திருக்கும் இன்னொரு காட்சியாகும். "
-"கீற்றுகளுக்கிடையே நீங்கள் உருப்படிகளை இழுத்து போடலாம்."
+"தற்போதைய இடத்தைக் காட்டும் புதிய <emphasis>கீற்றை</emphasis> இது திறக்கும்.<nl/>ஒரே "
+"சாளரத்தில் பல்வேறு இடங்களுக்கிடையே தாவ கீற்றுகள் உதவும். கீற்றுகளுக்கிடையே நீங்கள் "
+"உருப்படிகளை இழுத்து போடலாம்."
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -301,16 +294,12 @@ msgid "Close Tab"
 msgstr "கீற்றை மூடு"
 
 #: dolphinmainwindow.cpp:1690
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
-msgstr "தற்போதைய கீற்றை இது மூடும். வேறு கீற்றுகள் இல்லையேல் இந்த சாளரம் மூடப்படும்."
+msgstr "தற்போதைய கீற்றை இது மூடும். வேறு கீற்றுகள் இல்லையேல் இந்த சாளரமே மூடப்படும்."
 
 #: dolphinmainwindow.cpp:1695
 #, kde-format
@@ -402,18 +391,15 @@ msgid "Copy to Other View…"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடு…"
 
 #: dolphinmainwindow.cpp:1742
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"தேர்ந்தெடுக்கப்பட்டவற்றை இது <emphasis>செயலிலுள்ள</emphasis> காட்சிப்பகுதியிலிருந்து "
-"செயலிலில்லாத துண்டாக்கப்பட்ட காட்சிப்பகுதிக்கு நகலெடுக்கும்."
+"தேர்ந்தெடுக்கப்பட்டவற்றை இது செயலிலுள்ள காட்சிப்பகுதியிலிருந்து செயலிலில்லாத "
+"காட்சிப்பகுதிக்கு நகலெடுக்கும். (துண்டாக்கப்பட்ட காட்சிமுறையில் இருக்கும்போது மட்டும் இதைப் "
+"பயன்படுத்தலாம்.)"
 
 #: dolphinmainwindow.cpp:1746
 #, kde-format
@@ -434,18 +420,15 @@ msgid "Move to Other View…"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்து…"
 
 #: dolphinmainwindow.cpp:1754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"தேர்ந்தெடுக்கப்பட்டவற்றை இது <emphasis>செயலிலுள்ள</emphasis> காட்சிப்பகுதியிலிருந்து "
-"செயலிலில்லாத துண்டாக்கப்பட்ட காட்சிப்பகுதிக்கு நகர்த்தும்."
+"தேர்ந்தெடுக்கப்பட்டவற்றை இது செயலிலுள்ள காட்சிப்பகுதியிலிருந்து செயலிலில்லாத "
+"காட்சிப்பகுதிக்கு நகர்த்தும். (துண்டாக்கப்பட்ட காட்சிமுறையில் இருக்கும்போது மட்டும் இதைப் "
+"பயன்படுத்தலாம்.)"
 
 #: dolphinmainwindow.cpp:1758
 #, kde-format
@@ -466,13 +449,7 @@ msgid "Show Filter Bar"
 msgstr "வடிகட்டிப் பட்டையைக் காட்டும்"
 
 #: dolphinmainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -508,14 +485,7 @@ msgid "Search for files and folders"
 msgstr "அடைவுகள் மற்றும் கோப்புகளுக்காக தேடு"
 
 #: dolphinmainwindow.cpp:1790
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -581,18 +551,14 @@ msgid "Invert Selection"
 msgstr "தேர்வு நிலையைப் புரட்டு"
 
 #: dolphinmainwindow.cpp:1845
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
 "இப்போது உள்ள தேர்வுகளை நிராகரித்து நீங்கள் தேர்வு <emphasis>செய்யாத</emphasis> "
-"பொருட்களை தேர்வு செய்யும்."
+"உருப்படிகளைத் தேர்வு செய்யும்."
 
 #: dolphinmainwindow.cpp:1863
 #, kde-kuit-format
@@ -1108,19 +1074,21 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"மறுபெயரிட முடியாது: இந்த அடைவிலுள்ளவற்றின் பெயர்களை மாற்றும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
-msgstr ""
+msgstr "நீக்க முடியாது: இந்த அடைவிலுள்ளவற்றை நீக்கும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"வெட்ட முடியாது: இந்த அடைவிலிருந்து உருப்படிகளை நகர்த்தும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -1129,30 +1097,35 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"நகலெடுக்க முடியாது: இந்த அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: எந்த கோப்பும் தேர்ந்தெடுக்கப்படவில்லை."
 
 #: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: எந்த கோப்பும் தேர்ந்தெடுக்கப்படவில்லை."
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: மாற்று காட்சிப்பகுதியில் இந்த உருப்படிகள் "
+"ஏற்கனவே உள்ளன."
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: மாற்று காட்சிப்பகுதியில் இந்த உருப்படிகள் "
+"ஏற்கனவே உள்ளன."
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1161,6 +1134,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: சேருமிடத்தில் எழுதும் அனுமதி உங்களுக்கு "
+"இல்லை."
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1169,6 +1144,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: சேருமிடத்தில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1177,6 +1153,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: இந்த அடைவிலிருந்து உருப்படிகளை நகர்த்தும் "
+"அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format

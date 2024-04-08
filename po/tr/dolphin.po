@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-07 00:40+0000\n"
-"PO-Revision-Date: 2024-04-04 16:15+0300\n"
+"PO-Revision-Date: 2024-04-07 12:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -180,21 +180,16 @@ msgstr ""
 "istediğinizden emin misiniz?"
 
 #: dolphinmainwindow.cpp:864
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not paste: The clipboard is empty."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr "Yapıştırılamadı: Pano boş."
+msgstr "Yapıştırılamıyor: Pano boş."
 
 #: dolphinmainwindow.cpp:865
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr "Yapıştırılamadı: Bu klasöre yazma izniniz yok."
+msgstr "Yapıştırılamıyor: Bu klasöre yazma izniniz yok."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -224,17 +219,13 @@ msgstr[0] "%1 Uçbirim Aç"
 msgstr[1] "%1 Uçbirim Aç"
 
 #: dolphinmainwindow.cpp:1399
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not create new folder: You do not have permission to create items "
-#| "in this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Yeni klasör oluşturulamadı: Bu klasörde yeni ögeler oluşturma izniniz yok."
+"Yeni klasör oluşturulamıyor: Bu klasörde yeni ögeler oluşturma izniniz yok."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1107,121 +1098,84 @@ msgid "Show Panels"
 msgstr "Panelleri Göster"
 
 #: dolphinmainwindow.cpp:2434
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not rename: You do not have permission to rename items in this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
-"Yeniden adlandırılamadı: Bu klasördeki ögeleri yeniden adlandırma izniniz "
+"Yeniden adlandırılamıyor: Bu klasördeki ögeleri yeniden adlandırma izniniz "
 "yok."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not delete: You do not have permission to remove items from this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
-msgstr "Silinemedi: Bu klasörden öge kaldırma izniniz yok."
+msgstr "Silinemiyor: Bu klasörden öge kaldırma izniniz yok."
 
 #: dolphinmainwindow.cpp:2439
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not cut: You do not have permission to move items from this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr "Kesilemedi: Bu klasörden öge taşıma izniniz yok."
+msgstr "Kesilemiyor: Bu klasörden öge taşıma izniniz yok."
 
 #: dolphinmainwindow.cpp:2444
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not duplicate here: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr "Burada çoğaltılamadı: Bu klasörde öge oluşturma izniniz yok."
+msgstr "Burada çoğaltılamıyor: Bu klasörde öge oluşturma izniniz yok."
 
 #: dolphinmainwindow.cpp:2466
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not copy to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr "Diğer görünüme kopyalanamadı: Seçili dosya yok."
+msgstr "Diğer görünüme kopyalanamıyor: Seçili dosya yok."
 
 #: dolphinmainwindow.cpp:2468
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not move to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr "Diğer görünüme taşınamadı: Seçili dosya yok."
+msgstr "Diğer görünüme taşınamıyor: Seçili dosya yok."
 
 #: dolphinmainwindow.cpp:2487
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
-"Diğer görünüme kapyalanamadı: Diğer görünüm bu ögeleri halihazırda içeriyor."
+"Diğer görünüme kapyalanamıyor: Diğer görünüm bu ögeleri halihazırda içeriyor."
 
 #: dolphinmainwindow.cpp:2490
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
-"Diğer görünüme taşınamadı: Diğer görünüm bu ögeleri halihazırda içeriyor."
+"Diğer görünüme taşınamıyor: Diğer görünüm bu ögeleri halihazırda içeriyor."
 
 #: dolphinmainwindow.cpp:2495
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
-msgstr "Diğer görünüme kopyalanamadı: Hedef klasöre yazma izniniz yok."
+msgstr "Diğer görünüme kopyalanamıyor: Hedef klasöre yazma izniniz yok."
 
 #: dolphinmainwindow.cpp:2499
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
-msgstr "Diğer görünüme taşınamadı: Hedef klasöre yazma izniniz yok."
+msgstr "Diğer görünüme taşınamıyor: Hedef klasöre yazma izniniz yok."
 
 #: dolphinmainwindow.cpp:2505
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to move items "
-#| "from this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
-msgstr "Diğer görünüme taşınamadı: Bu klasörden öge taşıma izniniz yok."
+msgstr "Diğer görünüme taşınamıyor: Bu klasörden öge taşıma izniniz yok."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
