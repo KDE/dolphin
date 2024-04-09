@@ -115,22 +115,33 @@ QUrl DolphinSearchBox::urlForSearching() const
     QUrl url;
 
     QString text = m_searchInput->text();
-    bool isUsingTool = text.startsWith(QLatin1Char('@'));
+    bool hasToolName = text.startsWith(QLatin1Char('@'));
 
     // don't start searching until the user types a complete tool name
-    if (isUsingTool && text.indexOf(QLatin1Char(' ')) == -1) {
+    if (hasToolName && text.indexOf(QLatin1Char(' ')) == -1) {
         return QUrl();
     }
 
-    text = text.trimmed();
+    // don't start an empty search
+    if (text.trimmed().isEmpty()) {
+        return QUrl();
+    }
 
-    if (!isUsingTool && isIndexingEnabled()) {
+    if (!hasToolName && isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
         url.setScheme(QStringLiteral("cmdtoolsearch"));
 
         QUrlQuery query;
-        query.addQueryItem(QStringLiteral("search"), text);
+
+        if (hasToolName) {
+            int idx = text.indexOf(QLatin1Char(' '));
+            query.addQueryItem(QStringLiteral("tool"), text.mid(1, idx - 1));
+            query.addQueryItem(QStringLiteral("search"), text.mid(idx + 1).trimmed());
+        } else {
+            query.addQueryItem(QStringLiteral("search"), text.trimmed());
+        }
+
         if (m_contentButton->isChecked()) {
             query.addQueryItem(QStringLiteral("checkContent"), QStringLiteral("yes"));
         }
@@ -151,7 +162,13 @@ void DolphinSearchBox::fromSearchUrl(const QUrl &url)
         updateFromQuery(query);
     } else if (url.scheme() == QLatin1String("filenamesearch") || url.scheme() == QLatin1String("cmdtoolsearch")) {
         const QUrlQuery query(url);
-        setText(query.queryItemValue(QStringLiteral("search")));
+        const QString text = query.queryItemValue(QStringLiteral("search"));
+        const QString tool = query.queryItemValue(QStringLiteral("tool"));
+        if (!tool.isEmpty()) {
+            setText(QStringLiteral("@%1 %2").arg(tool, text));
+        } else {
+            setText(text);
+        }
         if (m_searchPath.scheme() != url.scheme()) {
             m_searchPath = QUrl();
         }
