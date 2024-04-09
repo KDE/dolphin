@@ -1936,7 +1936,10 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray &current, const Q
     Q_UNUSED(previous)
     Q_ASSERT(m_model->sortRole() == current);
 
-    setSortRole(current);
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortRole(current);
+
+    Q_EMIT sortRoleChanged(current);
 }
 
 void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray> &current, const QList<QByteArray> &previous)
