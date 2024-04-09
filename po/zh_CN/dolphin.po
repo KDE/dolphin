@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-07 00:40+0000\n"
-"PO-Revision-Date: 2024-04-07 19:29\n"
+"PO-Revision-Date: 2024-04-08 19:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -182,13 +182,13 @@ msgstr "程序 %1 仍在终端面板中运行。您确定要退出吗？"
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "无法粘贴：剪贴板为空。"
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "无法粘贴：您没有写入此文件夹的权限。"
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -221,7 +221,7 @@ msgctxt "@info"
 msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "无法创建新文件夹：您没有在此文件夹中创建项目的权限。"
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1055,20 +1055,20 @@ msgstr "显示面板"
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
-msgstr ""
+msgstr "无法重命名：您没有在此文件夹中重命名项目的权限。"
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
-msgstr ""
+msgstr "无法删除：您没有从此文件夹中删除项目的权限。"
 
 #: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "无法剪切：您没有从此文件夹中移出项目的权限。"
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -1076,31 +1076,31 @@ msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "无法在此创建副本：您没有在此文件夹中创建项目的权限。"
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "无法复制到其他视图：没有选择文件。"
 
 #: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "无法移动到其他视图：没有选择文件。"
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
-msgstr ""
+msgstr "无法复制到其他视图：目标视图已经包含了同样的项目。"
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
-msgstr ""
+msgstr "无法移动到其他视图：目标视图已经包含了同样的项目。"
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1108,7 +1108,7 @@ msgctxt "@info"
 msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "无法复制到其他视图：您没有写入目标文件夹的权限。"
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1116,7 +1116,7 @@ msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
-msgstr ""
+msgstr "无法移动到其他视图：您没有写入目标文件夹的权限。"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1124,7 +1124,7 @@ msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
-msgstr ""
+msgstr "无法移动到其他视图：您没有从此文件夹中移出项目的权限。"
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format

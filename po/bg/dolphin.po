@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-07 00:40+0000\n"
-"PO-Revision-Date: 2024-04-04 16:09+0200\n"
+"PO-Revision-Date: 2024-04-09 00:00+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -175,18 +175,13 @@ msgstr ""
 "искате да напуснете?"
 
 #: dolphinmainwindow.cpp:864
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not paste: The clipboard is empty."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Не може да се постави: Клипбордът е празен."
 
 #: dolphinmainwindow.cpp:865
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Не може да се постави: Нямате разрешение да записвате в тази папка."
@@ -219,11 +214,7 @@ msgstr[0] "Отваряне на %1 терминал"
 msgstr[1] "Отваряне на %1 терминали"
 
 #: dolphinmainwindow.cpp:1399
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not create new folder: You do not have permission to create items "
-#| "in this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
@@ -1117,11 +1108,7 @@ msgid "Show Panels"
 msgstr "Показване на панели"
 
 #: dolphinmainwindow.cpp:2434
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not rename: You do not have permission to rename items in this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
@@ -1130,11 +1117,7 @@ msgstr ""
 "папка."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not delete: You do not have permission to remove items from this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
@@ -1142,10 +1125,7 @@ msgstr ""
 "Не може да се изтрие: Нямате разрешение да премахвате елементи от тази папка."
 
 #: dolphinmainwindow.cpp:2439
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not cut: You do not have permission to move items from this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
@@ -1153,11 +1133,7 @@ msgstr ""
 "папка."
 
 #: dolphinmainwindow.cpp:2444
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not duplicate here: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
@@ -1167,26 +1143,19 @@ msgstr ""
 "папка."
 
 #: dolphinmainwindow.cpp:2466
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not copy to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Не може да се копира в друг панел за преглед: Няма избрани файлове."
 
 #: dolphinmainwindow.cpp:2468
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not move to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Не може да се премести в друг панел за преглед: Няма избрани файлове."
 
 #: dolphinmainwindow.cpp:2487
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
@@ -1194,10 +1163,7 @@ msgstr ""
 "тези елементи."
 
 #: dolphinmainwindow.cpp:2490
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
@@ -1205,11 +1171,7 @@ msgstr ""
 "тези елементи."
 
 #: dolphinmainwindow.cpp:2495
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
@@ -1219,11 +1181,7 @@ msgstr ""
 "в папката на местоназначението."
 
 #: dolphinmainwindow.cpp:2499
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to write into the "
@@ -1233,11 +1191,7 @@ msgstr ""
 "записвате в папката на местоназначението."
 
 #: dolphinmainwindow.cpp:2505
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to move items "
-#| "from this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to move items from "
