@@ -18,17 +18,22 @@ void DisabledActionNotifier::setDisabledReason(QAction *action, QStringView reas
     }
 
     if (m_shortcuts.contains(action)) {
-        m_shortcuts.take(action)->deleteLater();
+        clearDisabledReason(action);
     }
 
     QShortcut *shortcut = new QShortcut(action->shortcut(), parent());
     m_shortcuts.insert(action, shortcut);
 
-    connect(action, &QAction::enabledChanged, this, [this, action](bool enabled) {
-        if (enabled) {
-            m_shortcuts.take(action)->deleteLater();
-        }
-    });
+    connect(
+        action,
+        &QAction::enabledChanged,
+        this,
+        [this, action](bool enabled) {
+            if (enabled && m_shortcuts.contains(action)) {
+                m_shortcuts.take(action)->deleteLater();
+            }
+        },
+        Qt::SingleShotConnection);
 
     // Don't capture QStringView, as it may reference a temporary QString
     QString reasonString = reason.toString();
@@ -43,6 +48,7 @@ void DisabledActionNotifier::clearDisabledReason(QAction *action)
         return;
     }
 
+    action->disconnect(this);
     if (m_shortcuts.contains(action)) {
         m_shortcuts.take(action)->deleteLater();
     }
