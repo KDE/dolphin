@@ -65,8 +65,7 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
     if (!metadata.isSupported()) {
         node = new ViewPropertySettings(KSharedConfig::openConfig(settingsFile, KConfig::SimpleConfig));
     } else {
-        const auto userName = KUser().loginName();
-        QString viewpropsStr = metadata.attribute(QStringLiteral("kde.fm.viewproperties@%1").arg(userName));
+        QString viewpropsStr = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
         if (!viewpropsStr.isEmpty()) {
             // load view properties from xattr to temp file then loads into ViewPropertySettings
             if (!s_tempFile->open()) {
@@ -499,8 +498,7 @@ void ViewProperties::save()
 
     KFileMetaData::UserMetaData metadata(m_filePath);
     if (metadata.isSupported()) {
-        const auto userName = KUser().loginName();
-        const auto metadataKey = QStringLiteral("kde.fm.viewproperties@%1").arg(userName);
+        const auto metadataKey = QStringLiteral("kde.fm.viewproperties#1");
 
         const auto items = m_node->items();
         const bool allDefault = std::all_of(items.cbegin(), items.cend(), [this](const KConfigSkeletonItem *item) {
