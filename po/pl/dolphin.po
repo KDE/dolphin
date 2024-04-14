@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-10 00:40+0000\n"
-"PO-Revision-Date: 2024-04-01 07:51+0200\n"
+"PO-Revision-Date: 2024-04-13 18:58+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -182,13 +182,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Nie można wkleić: Schowek jest pusty."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Nie można wkleić: Nie masz uprawnień do zapisywania do tego katalogu."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -226,6 +226,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nie można utworzyć nowego katalogu: Nie masz uprawnień do tworzenia rzeczy w "
+"tym katalogu."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -1108,6 +1110,8 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Nie można przemianować: Nie masz uprawnień do przemianowywania rzeczy w tym "
+"katalogu."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
@@ -1115,12 +1119,14 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Nie można usunąć: Nie masz uprawnień do usuwania rzeczy z tego katalogu."
 
 #: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Nie można wyciąć: Nie masz uprawnień do przenoszenia rzeczy z tego katalogu."
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -1129,30 +1135,34 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nie można tutaj powielić: Nie masz uprawnień do tworzenia rzeczy w tym "
+"katalogu."
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Nie można skopiować do drugiego widoku: Nie zaznaczono żadnego pliku."
 
 #: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "Nie można przenieść do drugiego widoku: Nie zaznaczono żadnego pliku."
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Nie można skopiować do drugiego widoku: Drugi widok już zawiera te rzeczy."
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Nie można przenieść do drugiego widoku: Drugi widok już zawiera te rzeczy."
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1161,6 +1171,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nie można skopiować do drugiego widoku: Nie masz uprawnień do zapisywania do "
+"katalogu docelowego."
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1169,6 +1181,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nie można przenieść do drugiego widoku: Nie masz uprawnień do zapisywania do "
+"katalogu docelowego."
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1177,6 +1191,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Nie można przenieść do drugiego widoku: Nie masz uprawnień do przenoszenia "
+"rzeczy z tego katalogu."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format

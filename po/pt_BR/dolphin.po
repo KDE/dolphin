@@ -11,13 +11,13 @@
 # Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
 # Camila Moura <camila.moura@kde.org>, 2017.
 # Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2019, 2021.
-# SPDX-FileCopyrightText: 2023 Geraldo Simiao <geraldosimiao@fedoraproject.org>
+# SPDX-FileCopyrightText: 2023, 2024 Geraldo Simiao <geraldosimiao@fedoraproject.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-10 00:40+0000\n"
-"PO-Revision-Date: 2023-11-22 23:21-0300\n"
+"PO-Revision-Date: 2024-04-13 01:00-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -80,7 +80,7 @@ msgstr "Abrir o caminho em nova janela"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Clique do meio"
 
 #: dolphinmainwindow.cpp:321
 #, kde-format
@@ -188,13 +188,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Não é possível colar: A área de transferência está vazia."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Não é possível colar: Você não tem permissão de escrita nessa pasta."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -230,6 +230,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Não é possível criar uma nova pasta: Você não tem permissão para criar novos "
+"itens nessa pasta."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -250,18 +252,14 @@ msgid "Open a new Dolphin window"
 msgstr "Abrir uma nova janela do Dolphin"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Isto abre uma nova janela como esta com a localização e exibição atual.<nl/"
-">Você pode arrastar e soltar os itens entre as janelas."
+"Isto abre uma nova janela como esta com a localização.<nl/>Você pode "
+"arrastar e soltar os itens entre as janelas."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
