@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-10 00:40+0000\n"
-"PO-Revision-Date: 2024-04-04 17:36+0900\n"
+"PO-Revision-Date: 2024-04-16 19:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -186,18 +186,13 @@ msgid ""
 msgstr "程式「%1」仍然在「終端機」面板執行。確定退出？"
 
 #: dolphinmainwindow.cpp:864
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not paste: The clipboard is empty."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "無法貼上：剪貼簿是空的。"
 
 #: dolphinmainwindow.cpp:865
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "無法貼上：您沒有寫入此資料夾的權限。"
@@ -228,11 +223,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "開啟 %1 個終端機"
 
 #: dolphinmainwindow.cpp:1399
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not create new folder: You do not have permission to create items "
-#| "in this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
@@ -258,17 +249,12 @@ msgid "Open a new Dolphin window"
 msgstr "開啟新 Dolphin 視窗"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
-msgstr ""
-"這會開啟一個使用目前位置和檢視的新視窗。<nl/>您可以在視窗之間拖放項目。"
+msgstr "這會開啟一個使用目前位置的新視窗。<nl/>您可以在視窗之間拖放項目。"
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
@@ -277,20 +263,15 @@ msgid "New Tab"
 msgstr "新增分頁"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"這會開啟一個使用目前位置和檢視的新<emphasis>分頁</emphasis>。<nl/>分頁是此視"
-"窗內的額外檢視。您可以在分頁之間拖放項目。"
+"這會開啟一個使用目前位置的新<emphasis>分頁</emphasis>。<nl/>分頁讓您在此視窗"
+"內快速切換不同的位置與檢視。您可以在分頁之間拖放項目。"
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -317,16 +298,12 @@ msgid "Close Tab"
 msgstr "關閉分頁"
 
 #: dolphinmainwindow.cpp:1690
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
-msgstr "這將會關閉目前分頁。如果在同一視窗裏沒有其他分頁，這將會關閉整個視窗。"
+msgstr "這將會關閉目前分頁。如果在同一視窗裡沒有其他分頁，這將會關閉整個視窗。"
 
 #: dolphinmainwindow.cpp:1695
 #, kde-format
