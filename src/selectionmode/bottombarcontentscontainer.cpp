@@ -483,7 +483,9 @@ std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFile
     if (selectedItems.isEmpty()) {
         // There are no contextual actions to show for these items.
         // We might even want to hide this bar in this case. To make this clear, we reset m_internalContextMenu.
-        m_internalContextMenu.release()->deleteLater();
+        if (m_internalContextMenu) {
+            m_internalContextMenu.release()->deleteLater();
+        }
         return std::vector<QAction *>{};
     }
 
