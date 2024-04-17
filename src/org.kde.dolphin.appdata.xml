@@ -82,6 +82,8 @@
   <summary xml:lang="tr">Dosyalarınızı yönetin</summary>
   <summary xml:lang="uk">Керування вашими файлами</summary>
   <summary xml:lang="x-test">xxManage your filesxx</summary>
+  <summary xml:lang="zh-CN">文件管理应用</summary>
+  <summary xml:lang="zh-TW">管理您的檔案</summary>
   <description>
     <p>Dolphin is KDE's file manager that lets you navigate and browse the contents of your hard drives, USB sticks, SD cards, and more. Creating, moving, or deleting files and folders is simple and fast.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات كِيدِي الذي يتيح لك التنقل وتصفح محتويات محركات الأقراص الثابتة و USB وبطاقات SD والمزيد. يعد إنشاء الملفات والمجلدات أو نقلها أو حذفها أمرًا بسيطًا وسريعًا.</p>
