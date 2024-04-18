@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-10 00:40+0000\n"
+"POT-Creation-Date: 2024-04-18 00:39+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -3274,7 +3274,7 @@ msgstr "Huỷ đổi tên"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:599
+#: selectionmode/bottombarcontentscontainer.cpp:601
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -3286,7 +3286,7 @@ msgstr[0] "Chép %2 vào bảng nháp"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:610
+#: selectionmode/bottombarcontentscontainer.cpp:612
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -3298,7 +3298,7 @@ msgstr[0] "Chép địa điểm của %2 vào bảng nháp"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:618
+#: selectionmode/bottombarcontentscontainer.cpp:620
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3310,7 +3310,7 @@ msgstr[0] "Cắt %2 vào bảng nháp"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:626
+#: selectionmode/bottombarcontentscontainer.cpp:628
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3322,7 +3322,7 @@ msgstr[0] "Xoá hoàn toàn %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:634
+#: selectionmode/bottombarcontentscontainer.cpp:636
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -3334,7 +3334,7 @@ msgstr[0] "Nhân đôi %2"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:642
+#: selectionmode/bottombarcontentscontainer.cpp:644
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -3346,7 +3346,7 @@ msgstr[0] "Chuyển %2 vào thùng rác"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:650
+#: selectionmode/bottombarcontentscontainer.cpp:652
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
