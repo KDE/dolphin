@@ -65,11 +65,13 @@
   <name xml:lang="zh-CN">Dolphin 文件管理器</name>
   <name xml:lang="zh-TW">Dolphin</name>
   <summary>Manage your files</summary>
+  <summary xml:lang="ar">أدر ملفاتك</summary>
   <summary xml:lang="bg">Управление на файловете</summary>
   <summary xml:lang="ca">Gestioneu els fitxers</summary>
   <summary xml:lang="ca-valencia">Gestioneu els fitxers</summary>
   <summary xml:lang="eo">Mastrumu viajn dosierojn</summary>
   <summary xml:lang="es">Gestión de archivos</summary>
+  <summary xml:lang="eu">Kudeatu zure fitxategiak</summary>
   <summary xml:lang="fr">Gérer vos fichiers</summary>
   <summary xml:lang="he">ניהול הקבצים שלך</summary>
   <summary xml:lang="ia">Gere tu files</summary>
