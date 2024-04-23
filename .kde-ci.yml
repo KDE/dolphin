@@ -38,3 +38,8 @@ Dependencies:
 - 'on': ['Linux/Qt6', 'Windows/Qt6', 'macOS/Qt6']
   'require':
     'network/kio-extras': '@latest-kf6'
+
+RuntimeDependencies:
+- 'on': ['Linux']
+  'require':
+    'sdk/selenium-webdriver-at-spi': '@latest-kf6'
