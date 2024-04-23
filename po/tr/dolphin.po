@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-04-07 12:39+0300\n"
+"PO-Revision-Date: 2024-04-23 00:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3851,7 +3851,7 @@ msgstr "Durum çubuğunu göster"
 #: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Durum çubuğunda yakınlaştırma kaydırıcısını göster"
+msgstr "Durum çubuğunda yakınlaştırma sürgüsünü göster"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:123
@@ -4287,7 +4287,7 @@ msgstr "Durum çubuğunu göster"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Yakınlaştırma kaydırıcısını göster"
+msgstr "Yakınlaştırma sürgüsünü göster"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:38
 #, kde-format
@@ -4944,7 +4944,7 @@ msgstr ""
 "sağa) üç öge içerir: <list> <item>Seçili ögelerin boyutunu görüntüleyen "
 "<emphasis>metin alanı</emphasis>. Yalnızca bir öge seçilirse ad ve tür de "
 "gösterilir. </item> <item>Görünümdeki simgelerin boyutunu ayarlamanıza "
-"olanak tanıyan bir <emphasis>yakınlaştırma kaydırıcısı</emphasis>. </item> "
+"olanak tanıyan bir <emphasis>yakınlaştırma sürgüsü</emphasis>. </item> "
 "<item>Geçerli depolama aygıtı hakkında <emphasis>alan bilgisi</emphasis>. </"
 "item></list></para>"
 
@@ -4952,7 +4952,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
-msgstr "Yakınlaştırma Kaydırıcısını Göster"
+msgstr "Yakınlaştırma Sürgüsünü Göster"
 
 #: statusbar/dolphinstatusbar.cpp:273
 #, kde-format
