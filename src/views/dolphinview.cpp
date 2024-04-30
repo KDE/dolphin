@@ -1714,6 +1714,7 @@ void DolphinView::updateSelectionState()
     if (!m_selectedUrls.isEmpty()) {
         KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
 
+        const bool shouldScrollToCurrentItem = m_clearSelectionBeforeSelectingNewItems;
         // if there is a selection already, leave it that way
         // unless some drop/paste job are in the process of creating items
         if (!selectionManager->hasSelection() || m_selectJobCreatedItems) {
@@ -1738,6 +1739,10 @@ void DolphinView::updateSelectionState()
             if (!selectedItems.isEmpty()) {
                 selectionManager->beginAnchoredSelection(selectionManager->currentItem());
                 selectionManager->setSelectedItems(selectedItems);
+                selectionManager->endAnchoredSelection();
+                if (shouldScrollToCurrentItem) {
+                    m_view->scrollToItem(selectedItems.first());
+                }
             }
         }
     }
@@ -2188,8 +2193,16 @@ void DolphinView::pasteToUrl(const QUrl &url)
     m_clearSelectionBeforeSelectingNewItems = true;
     m_markFirstNewlySelectedItemAsCurrent = true;
     m_selectJobCreatedItems = true;
-    // TODO KF6 use KIO::PasteJob::copyJobStarted to hook to earlier events copying/moving
     connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
+    connect(job, &KIO::PasteJob::copyJobStarted, this, [this](const KIO::CopyJob *copyJob) {
+        connect(copyJob, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
+        connect(copyJob, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
+        connect(copyJob, &KIO::CopyJob::linking, this, [this](KIO::Job *job, const QString &src, const QUrl &dest) {
+            Q_UNUSED(job)
+            Q_UNUSED(src)
+            slotItemCreated(dest);
+        });
+    });
     connect(job, &KIO::PasteJob::result, this, &DolphinView::slotJobResult);
 }
 
