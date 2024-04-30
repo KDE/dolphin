@@ -482,10 +482,6 @@ ecm_add_app_icon(dolphin
         icons/32-apps-org.kde.dolphin.png
         icons/48-apps-org.kde.dolphin.png
         icons/64-apps-org.kde.dolphin.png
-    DESTINATION
-        ${KDE_INSTALL_ICONDIR}
-    THEME
-        hicolor
 )
 
 install(FILES icons/org.kde.dolphin.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
