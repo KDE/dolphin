@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-04-16 19:40+0900\n"
+"PO-Revision-Date: 2024-05-03 03:22+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -393,17 +393,13 @@ msgid "Copy to Other View…"
 msgstr "複製到另一個檢視…"
 
 #: dolphinmainwindow.cpp:1742
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"這會從<emphasis>作用中</emphasis>檢視複製選取項目到非作用中的分割檢視。"
+"這會從聚焦的檢視複製選取項目到另一個分割檢視。（只能在分割檢視模式時使用。）"
 
 #: dolphinmainwindow.cpp:1746
 #, kde-format
@@ -424,17 +420,13 @@ msgid "Move to Other View…"
 msgstr "移動到另一個檢視…"
 
 #: dolphinmainwindow.cpp:1754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"這會從<emphasis>作用中</emphasis>檢視移動選取項目到非作用中的分割檢視。"
+"這會從聚焦的檢視移動選取項目到另一個分割檢視。（只能在分割檢視模式時使用。）"
 
 #: dolphinmainwindow.cpp:1758
 #, kde-format
@@ -455,13 +447,7 @@ msgid "Show Filter Bar"
 msgstr "顯示過濾器列"
 
 #: dolphinmainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -496,14 +482,7 @@ msgid "Search for files and folders"
 msgstr "搜尋檔案及資料夾"
 
 #: dolphinmainwindow.cpp:1790
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -512,8 +491,8 @@ msgid ""
 "search bar so we can have a look at it while the settings are explained.</"
 "para>"
 msgstr ""
-"<para>這會開啟一個<emphasis>尋找列</emphasis>來幫助您尋找檔案和資料夾。在其中"
-"您可以輸入搜尋字串或指定設定來找到您在找的物件。</para><para>在尋找列上再次使"
+"<para>這會開啟一個<emphasis>搜尋列</emphasis>來幫助您尋找檔案和資料夾。在其中"
+"您可以輸入搜尋字串或指定設定來找到您在找的項目。</para><para>在搜尋列上再次使"
 "用這個說明的話可以邊看著它邊說明它的設定。</para>"
 
 #: dolphinmainwindow.cpp:1801
@@ -572,16 +551,12 @@ msgid "Invert Selection"
 msgstr "反轉選取"
 
 #: dolphinmainwindow.cpp:1845
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
-msgstr "這會選擇所有您目前<emphasis>未</emphasis>選取的檔案以及資料夾。"
+msgstr "這會選擇所有您目前<emphasis>未</emphasis>選取的項目。"
 
 #: dolphinmainwindow.cpp:1863
 #, kde-kuit-format
@@ -721,21 +696,16 @@ msgstr ""
 "interface>到<filename>垃圾桶</filename>。<nl/>不能復原的變更會先詢問確認。"
 
 #: dolphinmainwindow.cpp:1994
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
 "their own <filename>Home</filename> that contains their personal files, as "
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
-"跳至您的 <filename>家目錄</filename> 資料夾。<nl/>每個使用者帳號都有自己的 "
-"<filename>家目錄</filename>，用來放他們的資料，例如包含個人應用程式資料的資料"
-"夾。"
+"跳至您的 <filename>家目錄</filename>。<nl/>每個使用者帳號都有自己的 "
+"<filename>家目錄</filename>，用來放他們的個人資料，以及應用程式資料用的隱藏資"
+"料夾和設定檔案。夾。"
 
 #: dolphinmainwindow.cpp:2001
 #, kde-format
@@ -761,12 +731,7 @@ msgid "Open Terminal"
 msgstr "開啟終端機"
 
 #: dolphinmainwindow.cpp:2019
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
@@ -774,7 +739,7 @@ msgid ""
 "the terminal application.</para>"
 msgstr ""
 "<para>這會在目前檢視的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
-"para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
+"para><para>關於終端機的更多資訊請利用終端機應用程式中的說明功能。</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2027
@@ -784,12 +749,7 @@ msgid "Open Terminal Here"
 msgstr "在此開啟終端機"
 
 #: dolphinmainwindow.cpp:2029
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -797,7 +757,7 @@ msgid ""
 "features in the terminal application.</para>"
 msgstr ""
 "<para>這會在所選項目的位置開啟 <emphasis>終端機</emphasis> 應用程式。</"
-"para><para>關於終端機的更多資訊請見終端機應用程式中的說明。</para>"
+"para><para>關於終端機的更多資訊請利用終端機應用程式中的說明功能。</para>"
 
 #: dolphinmainwindow.cpp:2037 dolphinmainwindow.cpp:2864
 #, kde-format
@@ -812,16 +772,7 @@ msgid "&Bookmarks"
 msgstr "書籤(&B)"
 
 #: dolphinmainwindow.cpp:2055
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -833,9 +784,8 @@ msgid ""
 msgstr ""
 "<para>這會切換使用<emphasis>選單列</emphasis>還是使用<interface>%1</"
 "interface>按鈕。兩種介面都提供大致上相同的動作與設定選項。</para><para>選單列"
-"需要更多空間，但可以更快地透過分類使用應用程式的所有動作。</"
-"para><para><interface>%1</interface>按鈕較為簡潔，但會讓觸發進階動作變得更花"
-"時間。</para>"
+"需要更多空間，但可以更快地透過分類使用應用程式的所有動作。</para><para>%1 按"
+"鈕較為簡潔，但會讓觸發進階動作變得更花時間。</para>"
 
 #: dolphinmainwindow.cpp:2088
 #, kde-format
@@ -1143,42 +1093,27 @@ msgid "Show Panels"
 msgstr "顯示面板"
 
 #: dolphinmainwindow.cpp:2434
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not rename: You do not have permission to rename items in this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr "無法重新命名：您沒有在此資料夾重新命名項目的權限。"
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not delete: You do not have permission to remove items from this "
-#| "folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "無法刪除：您沒有自此資料夾移除項目的權限。"
 
 #: dolphinmainwindow.cpp:2439
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not cut: You do not have permission to move items from this folder."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "無法剪下：您沒有從此資料夾移動項目的權限。"
 
 #: dolphinmainwindow.cpp:2444
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not duplicate here: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
@@ -1186,45 +1121,31 @@ msgid ""
 msgstr "無法建立複本：您沒有在此資料夾建立新項目的權限。"
 
 #: dolphinmainwindow.cpp:2466
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not copy to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "無法複製到另一個檢視：未選取檔案。"
 
 #: dolphinmainwindow.cpp:2468
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Could not move to other view: No files selected."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "無法移動到另一個檢視：未選取檔案。"
 
 #: dolphinmainwindow.cpp:2487
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "無法複製到兩一個檢視：另一個檢視已經包含這些項目。"
 
 #: dolphinmainwindow.cpp:2490
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: The other view already contains these items."
+#, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "無法移動到兩一個檢視：另一個檢視已經包含這些項目。"
 
 #: dolphinmainwindow.cpp:2495
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not copy to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
@@ -1232,11 +1153,7 @@ msgid ""
 msgstr "無法複製到另一個檢視：您沒有寫入目的地資料夾的權限。"
 
 #: dolphinmainwindow.cpp:2499
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to write into "
-#| "the destination folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to write into the "
@@ -1244,11 +1161,7 @@ msgid ""
 msgstr "無法移動到另一個檢視：您沒有寫入目的地資料夾的權限。"
 
 #: dolphinmainwindow.cpp:2505
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Could not move to other view: You do not have permission to move items "
-#| "from this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot move to other view: You do not have permission to move items from "
@@ -3788,10 +3701,9 @@ msgstr "當打算關閉有應用程式在「終端機」面板執行的視窗時
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "重新命名內含項目"
+msgstr "在行內重新命名單個項目"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3809,10 +3721,9 @@ msgstr "使用選取模式下方工具列進行剪下或複製後，顯示方便
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
-#, fuzzy, kde-format
-#| msgid "Use tab for switching between right and left split"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr "使用分頁在右邊與左邊的分割中切換"
+msgstr "使用分頁在右邊與左邊的檢視中切換"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -4531,16 +4442,15 @@ msgid "Show selection marker"
 msgstr "顯示選取標記"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "重新命名內含項目"
+msgstr "在行內重新命名單個項目"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr "重新命名多個項目時會利用一個對話框視窗。"
+msgstr "重新命名多個項目時總是會利用對話框視窗。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
