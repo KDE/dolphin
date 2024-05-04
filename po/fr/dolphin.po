@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-04-08 10:03+0200\n"
+"PO-Revision-Date: 2024-04-29 15:36+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2097,7 +2097,7 @@ msgstr "Hier"
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
-msgstr "dddd"
+msgstr "jjjj"
 
 #: kitemviews/kfileitemmodel.cpp:2414
 #, kde-format
@@ -2154,7 +2154,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "dddd (MMMM, yyyy)"
+msgstr "jjjj (MMMM, aaaa)"
 
 #: kitemviews/kfileitemmodel.cpp:2467
 #, kde-format
