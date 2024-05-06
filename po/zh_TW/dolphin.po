@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-05-03 03:22+0900\n"
+"PO-Revision-Date: 2024-05-05 17:11+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -567,18 +567,17 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>這會在目前檢視旁邊提供第二個檢視，讓您能夠同時開啟兩個資料夾，並輕易地"
+"在它們之間移動項目。</para><para>沒有「焦點」的檢視會稍微暗化。</para>再次點"
+"擊此按鈕來關閉其中一個檢視。"
 
 #: dolphinmainwindow.cpp:1878
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the folder view has been split, this will pop the active folder view "
-#| "out into a new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
-msgstr "如果資料夾檢視已分割，這會將作用中的資料夾分割檢視彈出成新的視窗。"
+msgstr "如果處於分割檢視模式，這會將聚焦的檢視彈出成為新視窗。"
 
 #: dolphinmainwindow.cpp:1886
 #, kde-format
@@ -675,14 +674,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "這會讓您回到之前關閉的分頁。"
 
 #: dolphinmainwindow.cpp:1965
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -692,8 +684,9 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "這會復原您對檔案或資料夾所進行的上一個變更。<nl/>可以復原的變更包含"
-"<interface>建立、重新命名、移動到另一個位置</interface>或<interface>移動</"
-"interface>到<filename>垃圾桶</filename>。<nl/>不能復原的變更會先詢問確認。"
+"<interface>建立</interface>、<interface>重新命名</interface>、<interface>移動"
+"到另一個位置</interface>或<interface>移動</interface>到<filename>垃圾桶</"
+"filename>。<nl/>任何不能復原的變更都會在進行前先向您詢問確認。"
 
 #: dolphinmainwindow.cpp:1994
 #, kde-kuit-format
@@ -794,17 +787,13 @@ msgid "Go to Tab %1"
 msgstr "跳到分頁 %1"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "上個分頁"
 
 #: dolphinmainwindow.cpp:2102
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "跳到上個分頁"
@@ -816,12 +805,10 @@ msgid "Next Tab"
 msgstr "下一分頁"
 
 #: dolphinmainwindow.cpp:2109
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "下一分頁"
+msgstr "跳到下一分頁"
 
 #: dolphinmainwindow.cpp:2115
 #, kde-format
@@ -830,12 +817,10 @@ msgid "Previous Tab"
 msgstr "前一分頁"
 
 #: dolphinmainwindow.cpp:2116
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "前一分頁"
+msgstr "跳到前一分頁"
 
 #: dolphinmainwindow.cpp:2123
 #, kde-format
@@ -975,15 +960,7 @@ msgid "Terminal"
 msgstr "終端機"
 
 #: dolphinmainwindow.cpp:2279
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -996,19 +973,11 @@ msgstr ""
 "<para>這會切換視窗下方的<emphasis>終端機</emphasis>面板。<nl/>終端機的位置會"
 "與上方資料夾檢視同步，所以不管是用終端機還是資料夾檢視在資料夾間移動都是可以"
 "的。</para><para>終端機面板在普通的電腦使用上不會有需要，但是對於進階的工作是"
-"很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明。"
-"</para>"
+"很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明功"
+"能。</para>"
 
 #: dolphinmainwindow.cpp:2287
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1021,8 +990,8 @@ msgstr ""
 "<para>這是<emphasis>終端機</emphasis>面板。它的運作方式跟正常終端機一樣，不過"
 "會與資料夾檢視同步位置，所以不管是用終端機還是資料夾檢視在資料夾間移動都是可"
 "以的。</para><para>終端機面板在普通的電腦使用上不會有需要，但是對於進階的工作"
-"是很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說"
-"明。</para>"
+"是很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明"
+"功能。</para>"
 
 #: dolphinmainwindow.cpp:2304
 #, kde-format
@@ -1037,19 +1006,15 @@ msgid "Show Hidden Places"
 msgstr "顯示隱藏位置"
 
 #: dolphinmainwindow.cpp:2335
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
 "will appear semi-transparent and allow you to uncheck their \"Hide\" "
 "property."
 msgstr ""
-"這會顯示被隱藏的書籤。除非您取消它們的「隱藏」屬性，否則它們會被顯示爲半透"
-"明。"
+"這會顯示被隱藏的書籤。它們將會以半透明方式顯示，讓您可以取消勾選「隱藏」屬"
+"性。"
 
 #: dolphinmainwindow.cpp:2347
 #, kde-kuit-format
@@ -3727,10 +3692,9 @@ msgstr "使用分頁在右邊與左邊的檢視中切換"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "關閉分割檢視時關閉使用中面板"
+msgstr "關閉分割檢視時關閉聚焦的檢視"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
@@ -5409,14 +5373,7 @@ msgid "Show Hidden Files"
 msgstr "顯示隱藏檔案"
 
 #: views/dolphinviewactionhandler.cpp:322
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -5429,8 +5386,11 @@ msgid ""
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
 "<para>當此選項啟用時會顯示 <emphasis>隱藏的</emphasis> 檔案與資料夾。它們會以"
-"半透明方式顯示。</para><para>隱藏項目與其他項目唯一差別是它們的檔案名稱以"
-"「.」開頭。通常使用者不需要存取它們，這也是它們為什麼隱藏的原因。</para>"
+"半透明方式顯示。</para><para>隱藏項目與普通項目通常唯一差別是它們的檔案名稱以"
+"半形句點（\".\"）開頭。通常使用者不需要存取它們，這也是它們為什麼隱藏的原因。"
+"</para><para>當項目的名稱列於名為 \".hidden\" 的文字檔案中時，它們也會被隱"
+"藏。另外在「設定 Dolphin」→「檢視」→「一般」啟用對應設定時，MIME 類型為 "
+"\"application/x-trash\" 的檔案（例如備份檔）也會被隱藏。</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format
