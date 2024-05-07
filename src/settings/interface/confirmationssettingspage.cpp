@@ -13,9 +13,8 @@
 
 #include <QCheckBox>
 #include <QComboBox>
-#include <QHBoxLayout>
+#include <QFormLayout>
 #include <QLabel>
-#include <QVBoxLayout>
 
 namespace
 {
@@ -41,7 +40,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 
     m_confirmClosingMultipleTabs(nullptr)
 {
-    QVBoxLayout *topLayout = new QVBoxLayout(this);
+    QFormLayout *topLayout = new QFormLayout(this);
 
     QLabel *confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
     confirmLabelKde->setWordWrap(true);
@@ -63,34 +62,30 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmOpenManyFolders = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many folders at once"), this);
     m_confirmOpenManyTerminals = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many terminals at once"), this);
 
-    QHBoxLayout *executableScriptLayout = new QHBoxLayout();
     QLabel *executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
     executableScriptLabel->setWordWrap(true);
-    executableScriptLayout->addWidget(executableScriptLabel);
 
     m_confirmScriptExecution = new QComboBox(this);
     m_confirmScriptExecution->addItems({i18n("Always ask"), i18n("Open in application"), i18n("Run script")});
-    executableScriptLayout->addWidget(m_confirmScriptExecution);
 
-    topLayout->addWidget(confirmLabelKde);
-    topLayout->addWidget(m_confirmMoveToTrash);
-    topLayout->addWidget(m_confirmEmptyTrash);
-    topLayout->addWidget(m_confirmDelete);
-    topLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
-    topLayout->addWidget(confirmLabelDolphin);
-    topLayout->addWidget(m_confirmClosingMultipleTabs);
+    topLayout->addRow(confirmLabelKde);
+    topLayout->addRow(nullptr, m_confirmMoveToTrash);
+    topLayout->addRow(nullptr, m_confirmEmptyTrash);
+    topLayout->addRow(nullptr, m_confirmDelete);
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    topLayout->addRow(confirmLabelDolphin);
+    topLayout->addRow(nullptr, m_confirmClosingMultipleTabs);
 
 #if HAVE_TERMINAL
-    topLayout->addWidget(m_confirmClosingTerminalRunningProgram);
+    topLayout->addRow(nullptr, m_confirmClosingTerminalRunningProgram);
 #endif
 
-    topLayout->addWidget(m_confirmOpenManyFolders);
-    topLayout->addWidget(m_confirmOpenManyTerminals);
+    topLayout->addRow(nullptr, m_confirmOpenManyFolders);
+    topLayout->addRow(nullptr, m_confirmOpenManyTerminals);
 
-    topLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
-    topLayout->addLayout(executableScriptLayout);
-
-    topLayout->addStretch();
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    topLayout->addRow(executableScriptLabel, m_confirmScriptExecution);
 
     loadSettings();
 
