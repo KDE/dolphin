@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-05 00:40+0000\n"
-"PO-Revision-Date: 2024-04-07 07:19+0300\n"
+"PO-Revision-Date: 2024-05-05 12:06+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1293,7 +1293,7 @@ msgid ""
 msgstr ""
 "<para>כאן ניתן לראות את ה<emphasis>תיקיות</emphasis> ואת ה<emphasis>קבצים</"
 "emphasis> שנמצאים במיקום שצוין ב<interface>שורת המקום</interface> שלמעלה. "
-"אזור זה הוא חלק מרכזי ביישום ודרכו אפשר לנווט לקבצים שברצונך להשתמש.</"
+"אזור זה הוא חלק מרכזי ביישום ודרכו אפשר לנווט לקבצים המבוקשים.</"
 "para><para>לצורך מבוא מפורט וכללי ליישום זה יש <link url='https://userbase."
 "kde.org/Dolphin/File_Management#Introduction_to_Dolphin'>ללחוץ כאן</link>. "
 "פעולה זו תפתח ערך מבוא מתוך <emphasis>ויקי KDE UserBase</emphasis>.</"
@@ -3924,7 +3924,7 @@ msgstr "משוב משתמש"
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
-msgstr "ישנם שינויים שלא שמרת. האם ברצונך להחיל את השינויים או להתעלם מהם?"
+msgstr "יש שינויים שלא שמרת. להחיל את השינויים או להתעלם מהם?"
 
 #: settings/dolphinsettingsdialog.cpp:166
 #, kde-format
@@ -4834,14 +4834,14 @@ msgctxt "@info"
 msgid ""
 "The view properties of all sub-folders will be changed. Do you want to "
 "continue?"
-msgstr "מאפייני התצוגה של כל תתי־התיקיות ישונו. האם ברצונך להמשיך?"
+msgstr "מאפייני התצוגה של כל תתי־התיקיות ישונו. להמשיך?"
 
 #: settings/viewpropertiesdialog.cpp:365
 #, kde-format
 msgctxt "@info"
 msgid ""
 "The view properties of all folders will be changed. Do you want to continue?"
-msgstr "מאפייני התצוגה של כל התיקיות ישונו. האם ברצונך להמשיך?"
+msgstr "מאפייני התצוגה של כל התיקיות ישונו. להמשיך?"
 
 #: settings/viewpropsprogressinfo.cpp:33
 #, kde-format
