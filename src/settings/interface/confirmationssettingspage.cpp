@@ -18,6 +18,7 @@
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QVBoxLayout>
 
 namespace
 {
@@ -72,18 +73,22 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmScriptExecution = new QComboBox(this);
     m_confirmScriptExecution->addItems({i18n("Always ask"), i18n("Open in application"), i18n("Run script")});
 
-    topLayout->addRow(confirmLabelKde);
-    topLayout->addRow(nullptr, m_confirmMoveToTrash);
-    topLayout->addRow(nullptr, m_confirmEmptyTrash);
+    auto *layout1 = new QVBoxLayout();
+    layout1->addWidget(m_confirmMoveToTrash);
+    layout1->addWidget(m_confirmEmptyTrash);
+    topLayout->addRow(confirmLabelKde, layout1);
     topLayout->addRow(nullptr, m_confirmDelete);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    topLayout->addRow(confirmLabelDolphin);
-    topLayout->addRow(nullptr, m_confirmClosingMultipleTabs);
+
+    QVBoxLayout *layout2 = new QVBoxLayout();
+    layout2->addWidget(m_confirmClosingMultipleTabs);
 
 #if HAVE_TERMINAL
-    topLayout->addRow(nullptr, m_confirmClosingTerminalRunningProgram);
+    layout2->addWidget(m_confirmClosingTerminalRunningProgram);
 #endif
+
+    topLayout->addRow(confirmLabelDolphin, layout2);
 
     topLayout->addRow(nullptr, m_confirmOpenManyFolders);
     topLayout->addRow(nullptr, m_confirmOpenManyTerminals);
