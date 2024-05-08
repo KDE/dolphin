@@ -14,6 +14,13 @@
         <argument type="Bool">showStatusBar</argument>
     </signal>
     <group name="General">
+        <entry name="DoubleClickViewAction" type="String">
+            <label>Select Action</label>
+            <default>edit_select_all</default>
+        </entry>
+        <entry name="DoubleClickViewCustomAction" type="String">
+            <label>Custom Action</label>
+        </entry>
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
             <default>false</default>

@@ -230,6 +230,12 @@ Q_SIGNALS:
     void decreaseZoom();
     void swipeUp();
 
+    /**
+     * Emitted when the view's background is double-clicked.
+     * Used to trigger an user configured action.
+     */
+    void doubleClickViewBackground(Qt::MouseButton button);
+
 public Q_SLOTS:
     void slotStateChanged(QScroller::State newState);
 

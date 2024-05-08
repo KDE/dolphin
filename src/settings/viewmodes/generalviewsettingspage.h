@@ -13,7 +13,9 @@
 #include <QUrl>
 
 class QCheckBox;
+class QComboBox;
 class QLabel;
+class QLineEdit;
 class QRadioButton;
 
 /**
@@ -35,6 +37,7 @@ public:
 
 private:
     void loadSettings();
+    void updateCustomActionVisibility(int doubleClickViewComboBoxCurrentIndex);
 
 private:
     QUrl m_url;
@@ -48,6 +51,9 @@ private:
     QCheckBox *m_openArchivesAsFolder = nullptr;
     QCheckBox *m_autoExpandFolders = nullptr;
     QCheckBox *m_hideXtrashFiles = nullptr;
+    QComboBox *m_doubleClickViewComboBox = nullptr;
+    QLineEdit *m_doubleClickViewCustomAction = nullptr;
+    QLabel *m_doubleClickViewCustomActionInfo = nullptr;
 };
 
 #endif

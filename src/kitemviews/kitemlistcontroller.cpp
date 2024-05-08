@@ -700,6 +700,11 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
     const QPointF pos = transform.map(event->pos());
     const std::optional<int> index = m_view->itemAt(pos);
 
+    if (!index.has_value()) {
+        Q_EMIT doubleClickViewBackground(event->button());
+        return false;
+    }
+
     // Expand item if desired - See Bug 295573
     if (m_mouseDoubleClickAction != ActivateItemOnly) {
         if (m_view && m_model && m_view->supportsItemExpanding() && m_model->isExpandable(index.value_or(-1))) {

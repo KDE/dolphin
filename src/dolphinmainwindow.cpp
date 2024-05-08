@@ -40,6 +40,7 @@
 #include <KColorSchemeManager>
 #include <KConfig>
 #include <KConfigGui>
+#include <KDialogJobUiDelegate>
 #include <KDualAction>
 #include <KFileItemListProperties>
 #include <KIO/CommandLauncherJob>
@@ -81,6 +82,7 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QtConcurrentRun>
+#include <dolphindebug.h>
 
 #include <algorithm>
 
@@ -2586,6 +2588,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(view, &DolphinView::goForwardRequested, this, &DolphinMainWindow::goForward);
     connect(view, &DolphinView::urlActivated, this, &DolphinMainWindow::handleUrl);
     connect(view, &DolphinView::goUpRequested, this, &DolphinMainWindow::goUp);
+    connect(view, &DolphinView::doubleClickViewBackground, this, &DolphinMainWindow::slotDoubleClickViewBackground);
 
     connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::urlChanged, this, &DolphinMainWindow::changeUrl);
     connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged, this, &DolphinMainWindow::updateHistory);
@@ -2900,6 +2903,40 @@ bool DolphinMainWindow::isUrlOpen(const QString &url)
 bool DolphinMainWindow::isItemVisibleInAnyView(const QString &urlOfItem)
 {
     return m_tabWidget->isItemVisibleInAnyView(QUrl::fromUserInput(urlOfItem));
+}
+
+void DolphinMainWindow::slotDoubleClickViewBackground(Qt::MouseButton button)
+{
+    Q_UNUSED(button) // might be of use later
+
+    GeneralSettings *settings = GeneralSettings::self();
+    QString clickAction = settings->doubleClickViewAction();
+
+    DolphinView *view = activeViewContainer()->view();
+    if (view == nullptr || clickAction == "none") {
+        return;
+    }
+
+    if (clickAction == customCommand) {
+        // run custom command set by the user
+        QString path = view->url().toLocalFile();
+        QString clickCustomAction = settings->doubleClickViewCustomAction();
+        clickCustomAction.replace("{path}", path.prepend('"').append('"'));
+
+        m_job = new KIO::CommandLauncherJob(clickCustomAction);
+        m_job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        m_job->start();
+
+    } else {
+        // get the action set by the user and trigger it
+        const KActionCollection *actions = actionCollection();
+        QAction *action = actions->action(clickAction);
+        if (action == nullptr) {
+            qCWarning(DolphinDebug) << QStringLiteral("Double-click view: action `%1` was not found").arg(clickAction);
+            return;
+        }
+        action->trigger();
+    }
 }
 
 #include "moc_dolphinmainwindow.cpp"

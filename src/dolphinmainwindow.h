@@ -47,9 +47,13 @@ class QToolButton;
 class PlacesPanel;
 class TerminalPanel;
 
+/** Used to identify that a custom command should be triggered on a view background double-click.*/
+constexpr QLatin1String customCommand{"CUSTOM_COMMAND"};
+
 namespace KIO
 {
 class OpenUrlJob;
+class CommandLauncherJob;
 }
 namespace SelectionMode
 {
@@ -130,6 +134,11 @@ public:
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
     bool isSplitViewEnabledInCurrentTab() const;
+
+    /**
+     * Activates a user set action when double clicking the view's background.
+     */
+    void slotDoubleClickViewBackground(Qt::MouseButton button);
 
 public Q_SLOTS:
     /**
@@ -747,6 +756,8 @@ private:
     QTimer *m_sessionSaveTimer;
     QFutureWatcher<void> *m_sessionSaveWatcher;
     bool m_sessionSaveScheduled;
+
+    KIO::CommandLauncherJob *m_job;
 
     friend class DolphinMainWindowTest;
 };

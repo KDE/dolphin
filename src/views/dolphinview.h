@@ -665,6 +665,12 @@ Q_SIGNALS:
      */
     void currentDirectoryRemoved();
 
+    /**
+     * Emitted when the view's background is double-clicked.
+     * Used to trigger an user configured action.
+     */
+    void doubleClickViewBackground(Qt::MouseButton button);
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent *event) override;
