@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-05 00:40+0000\n"
+"POT-Creation-Date: 2024-05-08 00:40+0000\n"
 "PO-Revision-Date: 2024-01-30 16:09+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -3996,77 +3996,77 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: settings/interface/confirmationssettingspage.cpp:46
+#: settings/interface/confirmationssettingspage.cpp:45
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "すべての KDE アプリケーションで確認を求める動作:"
 
-#: settings/interface/confirmationssettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "ファイル/フォルダをごみ箱に移動"
 
-#: settings/interface/confirmationssettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "ごみ箱を空にする"
 
-#: settings/interface/confirmationssettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "ファイル/フォルダを削除"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:52
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Dolphin で確認を求める動作:"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "複数のタブを含むウィンドウを閉じる時"
 
-#: settings/interface/confirmationssettingspage.cpp:60
+#: settings/interface/confirmationssettingspage.cpp:59
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr "ターミナルパネルでプログラムが実行中にウィンドウを閉じる時"
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:62
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "多数のフォルダを開いています"
 
-#: settings/interface/confirmationssettingspage.cpp:64
+#: settings/interface/confirmationssettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr "多数のターミナルを開いています"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:65
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "実行ファイルを開く場合の動作:"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr "常に確認する"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Open in application"
 msgstr "アプリケーションで開く"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr "スクリプトを実行"

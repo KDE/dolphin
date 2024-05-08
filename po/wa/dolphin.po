@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-05 00:40+0000\n"
+"POT-Creation-Date: 2024-05-08 00:40+0000\n"
 "PO-Revision-Date: 2014-03-28 22:43+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -4023,19 +4023,19 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:46
+#: settings/interface/confirmationssettingspage.cpp:45
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "Dimander èn acertinaedje dins tos les programes KDE cwand :"
 
-#: settings/interface/confirmationssettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "On tape des fitchîs ou des ridants å batch"
 
-#: settings/interface/confirmationssettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:49
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Empty Trash"
@@ -4043,13 +4043,13 @@ msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "Vudî l' batch"
 
-#: settings/interface/confirmationssettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "On disface des fitchîs ou ridants"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:52
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation when:"
@@ -4057,7 +4057,7 @@ msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "Dimander èn acertinaedje cwand :"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "@option:check Ask for confirmation when"
 #| msgid "Closing Dolphin windows with multiple tabs"
@@ -4065,13 +4065,13 @@ msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "On clô des finiesses avou sacwantès linwetes"
 
-#: settings/interface/confirmationssettingspage.cpp:60
+#: settings/interface/confirmationssettingspage.cpp:59
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:62
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Show preview of files and folders"
@@ -4079,31 +4079,31 @@ msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "Mostrer des prévoeyaedjes des fitchîs et des ridants"
 
-#: settings/interface/confirmationssettingspage.cpp:64
+#: settings/interface/confirmationssettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:65
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "App&lications"
 msgid "Open in application"
 msgstr "Pro&grames"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr ""

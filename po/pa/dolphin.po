@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-05 00:40+0000\n"
+"POT-Creation-Date: 2024-05-08 00:40+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -3734,77 +3734,77 @@ msgstr "ਤੁਹਾਡੇ ਕੋਲ ਨਾ-ਸੰਭਾਲੀਆਂ ਤਬਦ�
 msgid "Warning"
 msgstr "ਸਾਵਧਾਨ"
 
-#: settings/interface/confirmationssettingspage.cpp:46
+#: settings/interface/confirmationssettingspage.cpp:45
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in all KDE applications when:"
 msgstr "ਸਭ KDE ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਪੁਸ਼ਟੀ ਲਈ ਪੁੱਛੋ, ਜਦੋਂ:"
 
-#: settings/interface/confirmationssettingspage.cpp:49
+#: settings/interface/confirmationssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
 msgstr "ਫਾਇਲਾਂ ਜਾਂ ਫੋਲਡਰਾਂ ਨੂੰ ਰੱਦੀ 'ਚ ਭੇਜਣਾ"
 
-#: settings/interface/confirmationssettingspage.cpp:50
+#: settings/interface/confirmationssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
 msgstr "ਰੱਦੀ ਖਾਲੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: settings/interface/confirmationssettingspage.cpp:51
+#: settings/interface/confirmationssettingspage.cpp:50
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
 msgstr "ਫਾਇਲਾਂ ਜਾਂ ਫੋਲਡਰ ਹਟਾਉਣੇ"
 
-#: settings/interface/confirmationssettingspage.cpp:53
+#: settings/interface/confirmationssettingspage.cpp:52
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
 msgstr "ਡਾਲਫਿਣਨ ਵਿੱਚ ਪੁਸ਼ਟੀ ਲਈ ਪੁੱਛੋ ਜਦੋਂ ਕਿ:"
 
-#: settings/interface/confirmationssettingspage.cpp:56
+#: settings/interface/confirmationssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Closing windows with multiple tabs"
 msgstr "ਕਈ ਟੈਬਾਂ ਵਾਲੀ ਵਿੰਡੋ ਬੰਦ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: settings/interface/confirmationssettingspage.cpp:60
+#: settings/interface/confirmationssettingspage.cpp:59
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
 msgstr ""
 
-#: settings/interface/confirmationssettingspage.cpp:63
+#: settings/interface/confirmationssettingspage.cpp:62
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
 msgstr "ਬਹੁਤ ਸਾਰੇ ਫੋਲਡਰ ਇਕੱਠੇ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: settings/interface/confirmationssettingspage.cpp:64
+#: settings/interface/confirmationssettingspage.cpp:63
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
 msgstr "ਬਹੁਤ ਸਾਰੇ ਟਰਮੀਨਲ ਇਕੱਠੇ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: settings/interface/confirmationssettingspage.cpp:67
+#: settings/interface/confirmationssettingspage.cpp:65
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
 msgstr "ਜਦੋਂ ਚੱਲਣਯੋਗ ਫਾਇਲ ਨੂੰ ਖੋਲ੍ਹਣਾ ਹੁੰਦਾ ਹੈ:"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Always ask"
 msgstr "ਹਮੇਸ਼ਾ ਪੁੱਛੋ"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Open in application"
 msgstr "ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
-#: settings/interface/confirmationssettingspage.cpp:72
+#: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgid "Run script"
 msgstr "ਸਕ੍ਰਿਪਟ ਚਲਾਓ"
