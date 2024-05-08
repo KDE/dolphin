@@ -45,6 +45,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmClosingMultipleTabs(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
+    topLayout->setFormAlignment(Qt::AlignHCenter);
 
     QLabel *confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
     confirmLabelKde->setWordWrap(true);
@@ -74,14 +75,13 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     m_confirmScriptExecution = new QComboBox(this);
     m_confirmScriptExecution->addItems({i18n("Always ask"), i18n("Open in application"), i18n("Run script")});
 
-    topLayout->addRow(confirmLabelKde);
+    topLayout->addRow(confirmLabelKde, m_confirmDelete);
     topLayout->addRow(nullptr, m_confirmMoveToTrash);
     topLayout->addRow(nullptr, m_confirmEmptyTrash);
-    topLayout->addRow(nullptr, m_confirmDelete);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    topLayout->addRow(confirmLabelDolphin);
-    topLayout->addRow(nullptr, m_confirmClosingMultipleTabs);
+
+    topLayout->addRow(confirmLabelDolphin, m_confirmClosingMultipleTabs);
 
 #if HAVE_TERMINAL
     topLayout->addRow(nullptr, m_confirmClosingTerminalRunningProgram);
@@ -89,6 +89,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 
     topLayout->addRow(nullptr, m_confirmOpenManyFolders);
     topLayout->addRow(nullptr, m_confirmOpenManyTerminals);
+
     if (KProtocolInfo::isKnownProtocol(QStringLiteral("admin"))) {
         topLayout->addRow(nullptr, m_confirmRisksOfActingAsAdmin);
     } else {
@@ -100,6 +101,17 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     topLayout->addRow(executableScriptLabel, m_confirmScriptExecution);
 
     loadSettings();
+
+    int minimumWidth = 0;
+    for (QLabel *label : {confirmLabelKde, confirmLabelDolphin, executableScriptLabel}) {
+        QFontMetrics fm(label->font());
+        minimumWidth = qMax(minimumWidth, fm.horizontalAdvance(label->text()));
+    }
+
+    for (QLabel *label : {confirmLabelKde, confirmLabelDolphin, executableScriptLabel}) {
+        label->setMinimumWidth(minimumWidth);
+        label->setAlignment(topLayout->labelAlignment());
+    }
 
     connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmEmptyTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
