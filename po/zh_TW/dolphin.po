@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-05-05 17:11+0900\n"
+"PO-Revision-Date: 2024-05-09 06:49+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -3828,7 +3828,7 @@ msgstr "垃圾桶"
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
-msgstr "使用者意見回應"
+msgstr "使用者回饋"
 
 #: settings/dolphinsettingsdialog.cpp:165
 #, kde-format

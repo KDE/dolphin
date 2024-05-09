@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-03-01 00:13+0200\n"
+"PO-Revision-Date: 2024-05-09 00:05+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -304,9 +304,7 @@ msgid "Close Tab"
 msgstr "Užverti kortelę"
 
 #: dolphinmainwindow.cpp:1688
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Užverti kortelę"
@@ -431,9 +429,7 @@ msgstr ""
 "neaktyvų padalytą rodinį."
 
 #: dolphinmainwindow.cpp:1746
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopijuoti į kitą rodinį"
@@ -465,9 +461,7 @@ msgstr ""
 "neaktyvų padalytą rodinį."
 
 #: dolphinmainwindow.cpp:1758
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Perkelti į kitą rodinį"
@@ -850,23 +844,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Eiti į kortelę %1"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "Aktyvuoti paskutinę kortelę"
+msgstr "Paskutinė kortelė"
 
 #: dolphinmainwindow.cpp:2102
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "Aktyvuoti paskutinę kortelę"
+msgstr "Eiti į paskutinę kortelę"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -875,12 +865,10 @@ msgid "Next Tab"
 msgstr "Kita kortelė"
 
 #: dolphinmainwindow.cpp:2109
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "Kita kortelė"
+msgstr "Eiti į kitą kortelę"
 
 #: dolphinmainwindow.cpp:2115
 #, kde-format
@@ -889,12 +877,10 @@ msgid "Previous Tab"
 msgstr "Ankstesnė kortelė"
 
 #: dolphinmainwindow.cpp:2116
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "Ankstesnė kortelė"
+msgstr "Eiti į ankstesnę kortelę"
 
 #: dolphinmainwindow.cpp:2123
 #, kde-format
@@ -1206,12 +1192,10 @@ msgid "Close left view"
 msgstr "Užverti kairįjį rodinį"
 
 #: dolphinmainwindow.cpp:2622
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "Kopijuoti į kitą rodinį"
+msgstr "Iškelti kairįjį rodinį"
 
 #: dolphinmainwindow.cpp:2623
 #, fuzzy, kde-format
@@ -1234,12 +1218,10 @@ msgid "Close right view"
 msgstr "Užverti dešinįjį rodinį"
 
 #: dolphinmainwindow.cpp:2628
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "Kopijuoti į kitą rodinį"
+msgstr "Iškelti dešinįjį rodinį"
 
 #: dolphinmainwindow.cpp:2629
 #, fuzzy, kde-format
@@ -1262,9 +1244,7 @@ msgid "Split view"
 msgstr "Padalytas rodinys"
 
 #: dolphinmainwindow.cpp:2641
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left split view to a new window"
-#| msgid "Pop out"
+#, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Iškelti"
@@ -3339,17 +3319,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Rodyti būsenos juostą"
+msgstr "Rodyti turinio skaičių"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Rodyti būsenos juostą"
+msgstr "Rodyti turinio dydį"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
@@ -3737,10 +3715,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "Pervadinti tiesiogiai"
+msgstr "Pervadinti pavienius elementus tiesiogiai"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3779,10 +3756,9 @@ msgstr "Nauja kortelė bus atveriama po paskutiniosios"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Rodyti elementą užvedus pelę"
+msgstr "Rodyti informaciją apie elementą užvedus pelę"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -4142,9 +4118,7 @@ msgid "Confirmations"
 msgstr "Patvirtinimai"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Skydeliai"
@@ -4156,23 +4130,19 @@ msgid "Status && Location bars"
 msgstr "Būsenos ir vietos juostos"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Rodyti peržiūrą"
+msgstr "Rodyti peržiūras"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Automatiškai atkurti medijos failus"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Rodyti elementą užvedus pelę"
@@ -4190,12 +4160,10 @@ msgid "Use &condensed date, for example '%1'"
 msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informacija"
+msgstr "Informacijos skydelis:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4226,7 +4194,7 @@ msgstr " MiB"
 #: settings/interface/previewssettingspage.cpp:62
 #, kde-format
 msgid "No limit"
-msgstr ""
+msgstr "Nėra ribos"
 
 #: settings/interface/previewssettingspage.cpp:69
 #, kde-format
@@ -4332,28 +4300,22 @@ msgid "Sorting mode: "
 msgstr "Rikiavimo veiksena: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Elementų skaičių"
+msgstr "Rodyti elementų skaičių"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Turinio dydį, iki "
+msgstr "Rodyti turinio dydį, iki "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Rodyti mastelio slankiklį"
+msgstr "Nerodyti jokio dydžio"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4365,12 +4327,10 @@ msgstr[2] " lygių gilyn"
 msgstr[3] " lygio gilyn"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Aplankai:"
+msgstr "Aplanko dydis:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4489,11 +4449,10 @@ msgid "Browsing: "
 msgstr "Naršymas: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Rodyti elementą užvedus pelę"
+msgstr "Rodyti informaciją apie elementą užvedus pelę"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4509,11 +4468,10 @@ msgid "Show selection marker"
 msgstr "Rodyti žymėjimo žymeklį"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Pervadinti tiesiogiai"
+msgstr "Pervadinti pavienius elementus tiesiogiai"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
