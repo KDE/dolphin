@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 00:41+0000\n"
-"PO-Revision-Date: 2024-04-07 11:18+0200\n"
+"PO-Revision-Date: 2024-05-09 12:15+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -140,7 +140,7 @@ msgstr "Desfà una acció <interface>Ves|Arrere</interface>."
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
-msgstr "Confirmació"
+msgstr "Confirmeu"
 
 #: dolphinmainwindow.cpp:613
 #, kde-format
@@ -3576,8 +3576,8 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Quan se selecciona esta opció, els fitxers ocults (com els que comencen amb "
-"un «.»), es mostraran en la vista de fitxers."
+"Quan es marca esta opció, els fitxers ocults (com els que comencen amb un "
+"«.»), es mostraran en la vista de fitxers."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -3626,7 +3626,7 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Quan se selecciona esta opció, es mostra una vista prèvia del contingut del "
+"Quan es marca esta opció, es mostra una vista prèvia del contingut del "
 "fitxer com a una icona."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
@@ -3643,8 +3643,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Quan se selecciona esta opció, els elements ordenats es categoritzen en "
-"grups."
+"Quan es marca esta opció, els elements ordenats es categoritzen en grups."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -3722,19 +3721,15 @@ msgstr "Informació addicional"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "Selecció"
+msgstr "Seleccioneu acció"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Lletra personalitzada"
+msgstr "Acció personalitzada"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -4208,7 +4203,7 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
-"Si es desselecciona, es tancarà la vista oposada. La icona Tanca sempre "
+"Si està desmarcada, es tancarà la vista oposada. La icona Tanca sempre "
 "il·lustra quina vista (esquerra o dreta) es tancarà."
 
 #: settings/interface/folderstabssettingspage.cpp:128
@@ -4583,7 +4578,7 @@ msgstr "Obri les carpetes en les operacions d'arrossegament"
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
-msgstr "Navegació: "
+msgstr "Navegueu: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:68
 #, kde-format
@@ -4640,22 +4635,20 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Acció a activar en fer doble clic en el fons de la vista"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Res"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Lletra personalitzada"
+msgstr "Ordre personalitzada"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -4665,13 +4658,13 @@ msgstr "Lletra personalitzada"
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr ""
+msgstr "Activadors de doble clic"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Fons: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4680,12 +4673,14 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Introduïu l'ordre personalitzada a activar en fer doble clic en el fons de "
+"la vista"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Ordre…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4693,6 +4688,8 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Utilitzeu {path} per a obtindre el camí de la carpeta actual. Exemple: "
+"dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -5519,7 +5516,7 @@ msgstr ""
 "i els fitxers. Este mode facilita la distinció entre carpetes i fitxers i "
 "per a detectar elements amb <emphasis>tipus de fitxer</emphasis> diferents.</"
 "para><para> Este mode és pràctic per a navegar per les imatges quan s'ha "
-"seleccionat l'opció <interface>Vista prèvia</interface>.</para>"
+"marcat l'opció <interface>Vista prèvia</interface>.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5615,9 +5612,9 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
-"Quan se selecciona, les icones es basaran en el contingut real del fitxer o "
-"de la carpeta. <nl/>Per exemple, les icones de les imatges esdevindran una "
-"versió a escala reduïda de les imatges."
+"Quan es marca, les icones es basaran en el contingut real del fitxer o de la "
+"carpeta. <nl/>Per exemple, les icones de les imatges esdevindran una versió "
+"a escala reduïda de les imatges."
 
 #: views/dolphinviewactionhandler.cpp:256
 #, kde-format
@@ -5674,16 +5671,15 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
-"<para>Quan se selecciona, els fitxers i carpetes <emphasis>ocultes</"
-"emphasis> seran visibles. Es mostraran de manera semitransparent.</"
-"para><para>Els elements ocults només diferixen dels altres en el fet que el "
-"seu nom comença per un punt («.»). En general, no hi ha necessitat que els "
-"usuaris hi accedisquen, el qual és el motiu per què estan ocults.</"
-"para><para>Els elements també es poden ocultar si els seus noms es llisten "
-"en un fitxer de text anomenat «.hidden». Els fitxers amb el tipus MIME "
-"«application/x-trash», com els fitxers de còpia de seguretat, també es poden "
-"ocultar seleccionant esta opció a «Configura Dolphin -> Visualitza -> "
-"General».</para>"
+"<para>Quan es marca, els fitxers i carpetes <emphasis>ocultes</emphasis> són "
+"visibles. Es mostraran de manera semitransparent.</para><para>Els elements "
+"ocults només diferixen dels altres en el fet que el seu nom comença per un "
+"punt («.»). En general, no hi ha necessitat que els usuaris hi accedisquen, "
+"el qual és el motiu per què estan ocults.</para><para>Els elements també es "
+"poden ocultar si els seus noms es llisten en un fitxer de text anomenat «."
+"hidden». Els fitxers amb el tipus MIME «application/x-trash», com els "
+"fitxers de còpia de seguretat, també es poden ocultar marcant esta opció a "
+"«Configura Dolphin -> Visualitza -> General».</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format
