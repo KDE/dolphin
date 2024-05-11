@@ -8,6 +8,7 @@
 
 #include "dolphinmainwindow.h"
 
+#include "admin/workerintegration.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinbookmarkhandler.h"
 #include "dolphincontextmenu.h"
@@ -1863,6 +1864,8 @@ void DolphinMainWindow::setupActions()
 
     // setup 'View' menu
     // (note that most of it is set up in DolphinViewActionHandler)
+
+    Admin::WorkerIntegration::createActAsAdminAction(actionCollection(), this);
 
     m_splitViewAction = actionCollection()->add<KActionMenu>(QStringLiteral("split_view"));
     m_splitViewMenuAction = actionCollection()->addAction(QStringLiteral("split_view_menu"));

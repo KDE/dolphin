@@ -6,10 +6,13 @@
 
 #include "confirmationssettingspage.h"
 
+#include "admin/workerintegration.h"
 #include "dolphin_generalsettings.h"
 #include "global.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
+#include <KProtocolInfo>
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -61,6 +64,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 
     m_confirmOpenManyFolders = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many folders at once"), this);
     m_confirmOpenManyTerminals = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Opening many terminals at once"), this);
+    m_confirmRisksOfActingAsAdmin = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when", "Switching to act as an administrator"), this);
 
     QLabel *executableScriptLabel = new QLabel(i18nc("@title:group", "When opening an executable file:"), this);
     executableScriptLabel->setWordWrap(true);
@@ -83,6 +87,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 
     topLayout->addRow(nullptr, m_confirmOpenManyFolders);
     topLayout->addRow(nullptr, m_confirmOpenManyTerminals);
+    if (KProtocolInfo::isKnownProtocol(QStringLiteral("admin"))) {
+        topLayout->addRow(nullptr, m_confirmRisksOfActingAsAdmin);
+    } else {
+        m_confirmRisksOfActingAsAdmin->hide();
+    }
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
     topLayout->addRow(executableScriptLabel, m_confirmScriptExecution);
@@ -96,6 +105,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmOpenManyFolders, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmOpenManyTerminals, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmRisksOfActingAsAdmin, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
 #if HAVE_TERMINAL
     connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
@@ -133,6 +143,11 @@ void ConfirmationsSettingsPage::applySettings()
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
     settings->setConfirmOpenManyFolders(m_confirmOpenManyFolders->isChecked());
     settings->setConfirmOpenManyTerminals(m_confirmOpenManyTerminals->isChecked());
+    if (m_confirmRisksOfActingAsAdmin->isChecked()) {
+        KMessageBox::enableMessage(Admin::warningDontShowAgainName);
+    } else {
+        KMessageBox::saveDontShowAgainContinue(Admin::warningDontShowAgainName);
+    }
 
 #if HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
@@ -152,6 +167,7 @@ void ConfirmationsSettingsPage::restoreDefaults()
     m_confirmEmptyTrash->setChecked(ConfirmEmptyTrash);
     m_confirmDelete->setChecked(ConfirmDelete);
     m_confirmScriptExecution->setCurrentIndex(ConfirmScriptExecution);
+    KMessageBox::enableMessage(Admin::warningDontShowAgainName);
 }
 
 void ConfirmationsSettingsPage::loadSettings()
@@ -179,6 +195,7 @@ void ConfirmationsSettingsPage::loadSettings()
     // the UI has inversed meaning compared to the interpretation
     m_confirmOpenManyFolders->setChecked(GeneralSettings::confirmOpenManyFolders());
     m_confirmOpenManyTerminals->setChecked(GeneralSettings::confirmOpenManyTerminals());
+    m_confirmRisksOfActingAsAdmin->setChecked(KMessageBox::shouldBeShownContinue(Admin::warningDontShowAgainName));
 
 #if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());

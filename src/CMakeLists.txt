@@ -261,6 +261,8 @@ install(FILES dolphinpartactions.desktop DESTINATION "${KDE_INSTALL_DATADIR}/dol
 add_library(dolphinstatic STATIC)
 
 target_sources(dolphinstatic PRIVATE
+    admin/bar.cpp
+    admin/workerintegration.cpp
     animatedheightwidget.cpp
     disabledactionnotifier.cpp
     dolphinbookmarkhandler.cpp
@@ -320,6 +322,8 @@ target_sources(dolphinstatic PRIVATE
     global.cpp
     dolphin.qrc
 
+    admin/bar.h
+    admin/workerintegration.h
     animatedheightwidget.h
     dolphinbookmarkhandler.h
     dolphindockwidget.h

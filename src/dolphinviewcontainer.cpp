@@ -6,6 +6,7 @@
 
 #include "dolphinviewcontainer.h"
 
+#include "admin/bar.h"
 #include "dolphin_compactmodesettings.h"
 #include "dolphin_contentdisplaysettings.h"
 #include "dolphin_detailsmodesettings.h"
@@ -46,12 +47,13 @@
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
     int searchBox = 0;
-    int messageWidget = 1;
-    int selectionModeTopBar = 2;
-    int view = 3;
-    int selectionModeBottomBar = 4;
-    int filterBar = 5;
-    int statusBar = 6;
+    int adminBar = 1;
+    int messageWidget = 2;
+    int selectionModeTopBar = 3;
+    int view = 4;
+    int selectionModeBottomBar = 5;
+    int filterBar = 6;
+    int statusBar = 7;
 };
 constexpr LayoutStructure positionFor;
 
@@ -62,6 +64,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     , m_urlNavigatorConnected{nullptr}
     , m_searchBox(nullptr)
     , m_searchModeEnabled(false)
+    , m_adminBar{nullptr}
     , m_messageWidget(nullptr)
     , m_selectionModeTopBar{nullptr}
     , m_view(nullptr)
@@ -147,6 +150,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
     connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
     connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
+    connect(m_view, &DolphinView::urlChanged, this, &DolphinViewContainer::updateAdminBarVisibility);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -176,6 +180,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
 
     setSearchModeEnabled(isSearchUrl(url));
+    updateAdminBarVisibility(url);
 
     // Update view as the ContentDisplaySettings change
     // this happens here and not in DolphinView as DolphinviewContainer and DolphinView are not in the same build target ATM
@@ -765,6 +770,20 @@ void DolphinViewContainer::showItemInfo(const KFileItem &item)
         m_statusBar->resetToDefaultText();
     } else {
         m_statusBar->setText(item.getStatusBarInfo());
+    }
+}
+
+void DolphinViewContainer::updateAdminBarVisibility(const QUrl &url)
+{
+    if (url.scheme() == QStringLiteral("admin")) {
+        if (!m_adminBar) {
+            m_adminBar = new Admin::Bar(this);
+            m_topLayout->addWidget(m_adminBar, positionFor.adminBar, 0);
+            connect(m_adminBar, &Admin::Bar::activated, this, &DolphinViewContainer::activate);
+        }
+        m_adminBar->setVisible(true, WithAnimation);
+    } else if (m_adminBar) {
+        m_adminBar->setVisible(false, WithAnimation);
     }
 }
 

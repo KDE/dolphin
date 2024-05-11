@@ -45,6 +45,7 @@ private:
     QComboBox *m_confirmScriptExecution;
     QCheckBox *m_confirmOpenManyFolders;
     QCheckBox *m_confirmOpenManyTerminals;
+    QCheckBox *m_confirmRisksOfActingAsAdmin;
 };
 
 #endif

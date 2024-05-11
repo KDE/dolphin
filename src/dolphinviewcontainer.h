@@ -20,6 +20,10 @@
 #include <QPushButton>
 #include <QWidget>
 
+namespace Admin
+{
+class Bar;
+}
 class FilterBar;
 class KMessageWidget;
 class QAction;
@@ -331,6 +335,11 @@ private Q_SLOTS:
      */
     void showItemInfo(const KFileItem &item);
 
+    /**
+     * Sets the Admin::Bar visible or invisible based on whether \a url is an admin url.
+     */
+    void updateAdminBarVisibility(const QUrl &url);
+
     void closeFilterBar();
 
     /**
@@ -446,6 +455,9 @@ private:
 
     DolphinSearchBox *m_searchBox;
     bool m_searchModeEnabled;
+
+    /// A bar shown at the top of the view to signify that the view is currently viewed and acted on with elevated privileges.
+    Admin::Bar *m_adminBar;
 
     KMessageWidget *m_messageWidget;
 
