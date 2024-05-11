@@ -783,8 +783,14 @@ void DolphinMainWindow::updateNewMenu()
 
 void DolphinMainWindow::createDirectory()
 {
-    m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
-    m_newFileMenu->createDirectory();
+    // When creating directory, namejob is being run. In network folders,
+    // this job can take long time, so instead of starting multiple namejobs,
+    // just check if we are already running one. This prevents opening multiple
+    // dialogs. BUG:481401
+    if (!m_newFileMenu->isCreateDirectoryRunning()) {
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+        m_newFileMenu->createDirectory();
+    }
 }
 
 void DolphinMainWindow::quit()
