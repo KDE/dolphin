@@ -16,7 +16,6 @@
 
 #include <KFileItem>
 #include <KFileMetaData/UserMetaData>
-#include <KUser>
 
 namespace
 {
@@ -32,11 +31,6 @@ const char CustomizedDetailsString[] = "CustomizedDetails";
 
 // Filename that is used for storing the properties
 const char ViewPropertiesFileName[] = ".directory";
-}
-
-namespace
-{
-static QTemporaryFile *s_tempFile = nullptr;
 }
 
 ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
@@ -105,13 +99,6 @@ ViewProperties::ViewProperties(const QUrl &url)
     , m_autoSave(true)
     , m_node(nullptr)
 {
-    if (!s_tempFile) {
-        // initialize the temporary file
-        s_tempFile = new QTemporaryFile();
-        s_tempFile->setAutoRemove(false);
-        s_tempFile->open();
-        s_tempFile->close();
-    }
     GeneralSettings *settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
     bool useSearchView = false;
@@ -244,7 +231,7 @@ ViewProperties::~ViewProperties()
         save();
     }
 
-    if (m_node->config()->name().endsWith(ViewPropertiesFileName)) {
+    if (!m_node->config()->name().endsWith(ViewPropertiesFileName)) {
         // remove temp file
         QFile::remove(m_node->config()->name());
     }
