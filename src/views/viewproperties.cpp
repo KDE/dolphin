@@ -45,11 +45,22 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
     const QString settingsFile = filePath + QDir::separator() + ViewPropertiesFileName;
     KFileMetaData::UserMetaData metadata(filePath);
 
+    QTemporaryFile tempFile;
+    tempFile.setAutoRemove(false);
+    if (!tempFile.open()) {
+        qCWarning(DolphinDebug) << "Could not open temp file";
+        return node;
+    }
+
     if (QFile::exists(settingsFile) && metadata.isSupported()) {
-        QFile::remove(s_tempFile->fileName());
         // copy settings to tempfile to load them separately
-        QFile::copy(settingsFile, s_tempFile->fileName());
-        auto cfg = KSharedConfig::openConfig(s_tempFile->fileName(), KConfig::SimpleConfig);
+        QFile origFile = QFile(settingsFile);
+        origFile.open(QIODevice::ReadOnly);
+        tempFile.write(origFile.readAll());
+        tempFile.close();
+        origFile.close();
+
+        auto cfg = KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig);
         // ignore settings that are outside of dolphin scope
         if (cfg->hasGroup("Dolphin") || cfg->hasGroup("Settings")) {
             node = new ViewPropertySettings(cfg);
@@ -68,17 +79,11 @@ ViewPropertySettings *ViewProperties::loadProps(const QString &filePath)
         QString viewpropsStr = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
         if (!viewpropsStr.isEmpty()) {
             // load view properties from xattr to temp file then loads into ViewPropertySettings
-            if (!s_tempFile->open()) {
-                qCWarning(DolphinDebug) << "Could not open temp file";
-                return node;
-            }
             // clear the temp file
-            s_tempFile->resize(0);
-
-            s_tempFile->write(viewpropsStr.toUtf8());
-            s_tempFile->close();
+            tempFile.write(viewpropsStr.toUtf8());
+            tempFile.close();
         }
-        node = new ViewPropertySettings(KSharedConfig::openConfig(s_tempFile->fileName(), KConfig::SimpleConfig));
+        node = new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
     }
 
     return node;
@@ -237,6 +242,11 @@ ViewProperties::~ViewProperties()
 {
     if (m_changedProps && m_autoSave) {
         save();
+    }
+
+    if (m_node->config()->name().endsWith(ViewPropertiesFileName)) {
+        // remove temp file
+        QFile::remove(m_node->config()->name());
     }
 
     delete m_node;
@@ -484,13 +494,15 @@ void ViewProperties::save()
         QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
         if (QFile::exists(settingsFile)) {
             qCDebug(DolphinDebug) << "cleaning .directory" << settingsFile;
-            KConfig cfg(settingsFile);
+            KConfig cfg(settingsFile, KConfig::OpenFlag::SimpleConfig);
             for (const auto &group : cfg.groupList()) {
                 if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings")) {
                     cfg.deleteGroup(group);
                 }
             }
-            if (cfg.isDirty()) {
+            if (cfg.groupList().isEmpty()) {
+                QFile::remove(settingsFile);
+            } else if (cfg.isDirty()) {
                 cfg.sync();
             }
         }
@@ -517,6 +529,7 @@ void ViewProperties::save()
         // save config to disk
         if (!m_node->save()) {
             qCWarning(DolphinDebug) << "could not save props" << m_node->config()->name();
+            return;
         }
 
         QFile f(m_node->config()->name());
@@ -542,12 +555,6 @@ void ViewProperties::save()
     }
 
     m_changedProps = false;
-}
-
-bool ViewProperties::exist() const
-{
-    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
-    return QFile::exists(file);
 }
 
 QString ViewProperties::destinationDir(const QString &subDir) const

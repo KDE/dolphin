@@ -108,14 +108,6 @@ public:
      */
     void save();
 
-    /**
-     * @return True if properties for the given URL exist:
-     *         As soon as the properties for an URL have been saved with
-     *         ViewProperties::save(), true will be returned. If false is
-     *         returned, the default view-properties are used.
-     */
-    bool exist() const;
-
 private:
     /**
      * Returns the destination directory path where the view

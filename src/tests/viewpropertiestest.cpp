@@ -9,7 +9,6 @@
 #include "testdir.h"
 
 #include <KFileMetaData/UserMetaData>
-#include <kuser.h>
 
 #include <QTest>
 
@@ -24,6 +23,8 @@ private Q_SLOTS:
 
     void testReadOnlyBehavior();
     void testAutoSave();
+
+    void testParamtoFileAttr();
 
 private:
     bool m_globalViewProps;
@@ -88,12 +89,56 @@ void ViewPropertiesTest::testAutoSave()
 
     KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
     if (metadata.isSupported()) {
-        auto loginName = KUser().loginName();
-        auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties@%1").arg(loginName));
+        auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
         QVERIFY(!viewProperties.isEmpty());
         QVERIFY(!QFile::exists(dotDirectoryFile));
     } else {
         QVERIFY(QFile::exists(dotDirectoryFile));
+    }
+}
+
+void ViewPropertiesTest::testParamtoFileAttr()
+{
+    GeneralSettings::self()->setGlobalViewProps(false);
+    GeneralSettings::self()->save();
+
+    QString dotDirectoryFilePath = m_testDir->url().toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    const char *settingsContent = R"SETTINGS("
+[Dolphin]
+Version=4
+ViewMode=1
+Timestamp=2023,12,29,10,44,15.793
+VisibleRoles=text,CustomizedDetails,Details_text,Details_modificationtime,Details_type"
+
+[Settings]
+HiddenFilesShown=true)SETTINGS";
+    auto dotDirectoryFile = QFile(dotDirectoryFilePath);
+    QVERIFY(dotDirectoryFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate));
+    QTextStream out(&dotDirectoryFile);
+    out << settingsContent;
+    dotDirectoryFile.close();
+    QString configFile;
+
+    KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
+    {
+        QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
+        QCOMPARE(props->viewMode(), DolphinView::Mode::DetailsView);
+        QVERIFY(props->hiddenFilesShown());
+        props->save();
+
+        if (metadata.isSupported()) {
+            auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+            QVERIFY(!viewProperties.isEmpty());
+            QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+            QCOMPARE(props->viewMode(), DolphinView::Mode::DetailsView);
+            QVERIFY(props->hiddenFilesShown());
+
+        } else {
+            QVERIFY(QFile::exists(dotDirectoryFilePath));
+        }
     }
 }
 
