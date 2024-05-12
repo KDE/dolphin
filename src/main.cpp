@@ -22,11 +22,17 @@
 #include <KCrash>
 #include <KDBusService>
 #include <KIO/PreviewJob>
+#include <KIconTheme>
 #include <KLocalizedString>
 #include <KWindowSystem>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <Kdelibs4ConfigMigrator>
+#endif
+
+#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
+#if HAVE_STYLE_MANAGER
+#include <KStyleManager>
 #endif
 
 #include <QApplication>
@@ -70,6 +76,13 @@ int main(int argc, char **argv)
 #endif
 
     /**
+     * trigger initialisation of proper icon theme
+     */
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 3, 0)
+    KIconTheme::initTheme();
+#endif
+
+    /**
      * enable high dpi support
      */
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -79,8 +92,19 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
 
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+#if HAVE_STYLE_MANAGER
+    /**
+     * trigger initialisation of proper application style
+     */
+    KStyleManager::initStyle();
+#else
+    /**
+     * For Windows and macOS: use Breeze if available
+     * Of all tested styles that works the best for us
+     */
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
     QApplication::setStyle(QStringLiteral("breeze"));
+#endif
 #endif
 
     KCrash::initialize();
