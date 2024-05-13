@@ -11,6 +11,7 @@
 
 #include "settings/settingspagebase.h"
 
+class QCheckBox;
 class QSpinBox;
 class QListView;
 class QModelIndex;
@@ -51,6 +52,7 @@ private:
     QStringList m_enabledPreviewPlugins;
     QSpinBox *m_localFileSizeBox;
     QSpinBox *m_remoteFileSizeBox;
+    QCheckBox *m_enableRemoteFolderThumbnail;
 };
 
 #endif
