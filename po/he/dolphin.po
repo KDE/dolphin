@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 08:22+0300\n"
+"PO-Revision-Date: 2024-05-12 08:21+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -44,19 +44,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "פעילות ניהול - נא לנקוט במשנה זהירות!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "פעילות ניהול"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "הפסקת פעילות ניהול"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -78,25 +78,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "מעבר לפעילות ניהול"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "סיכונים של פעילות ניהול"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "הסכנות ברורות לי ומקובלות עליי"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "לא להזהיר אותי שוב על הסכנות האלו"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4059,7 +4059,7 @@ msgstr "פתיחת כמה מסופים ביחד"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "מעבר לפעילות ניהול"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

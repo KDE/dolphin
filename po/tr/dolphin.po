@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 18:45+0300\n"
+"PO-Revision-Date: 2024-05-12 13:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -37,19 +37,19 @@ msgstr "tulliana@gmail.com, volkangezer@gmail.com, emir_sari@icloud.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Yönetici gibi kullanılıyor; dikkatli olun!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Yönetici Gibi"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Yönetici Gibi Kullanmayı Durdur"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -66,30 +66,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Yönetici ayrıcalıklarını kullanmak üzeresiniz. Yönetici olarak "
+"kullanırken bu sistemdeki tüm dosyaları ve klasörleri değiştirebilirsiniz. "
+"Bunların içinde, sisteminizin düzgün çalışması için elzem olan dosyalar ve "
+"ögeler de vardır.</para><para>Bu bilgisayardaki <emphasis>tüm kullanıcıların "
+"verilerini silebilir</emphasis> ve <emphasis>bu kurulumu onarılamaz bir "
+"biçimde bozabilirsiniz</emphasis>. Bir dosya veya klasör adına bir harf "
+"eklemek bile bu sistemi <emphasis>önyüklenemez</emphasis> duruma getirmeye "
+"yetebilir.</para><para>Bundan sonra yapacağınız işlemler için bundan başka "
+"bir uyarı almayacaksınız.</para><para>Sürdürmeden önce "
+"<emphasis>dosyalarınızı ve klasörlerinizi</emphasis> yedeklemeniz şiddetle "
+"önerilir.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Yönetici Gibi Kullan"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Yönetici Gibi Kullanmanın Riskleri"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Bu Riskleri Anlıyor ve Kabul Ediyorum"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Beni bu riskler hakkında bir daha uyarma"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4094,7 +4105,7 @@ msgstr "Aynı anda birden çok uçbirim açarken"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Yönetici gibi kullanıma geç"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

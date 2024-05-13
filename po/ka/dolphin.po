@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 05:36+0200\n"
+"PO-Revision-Date: 2024-05-12 03:35+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -32,19 +32,19 @@ msgstr "Temuri.doghonadze@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "გაქვთ ადმინისტრატორის პრივილეგიები - ფრთხილად!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "იქცევით, როგორც ადმინი"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "ადმინისტრატორის პრივილეგიების მოცილება"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -61,30 +61,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>აპირებთ, ადმინისტრატორის პრივილეგიებზე გადაერთოთ. ამ დროს შეგიძლიათ "
+"შეცვალოთ ან ჩაანაცვლოთ სისტემის ნებისმიერი ფაილი ან საქაღალდე. ეს შეიცავს "
+"ელემენტებს, რომლებიც კრიტიკულად მნიშვნელოვანია ამ სისტემის "
+"ფუნქციონირებისთვის.</para><para>შესაძლებლობა გექნებათ, <emphasis>წაშალოთ "
+"ყველა მომხმარებლის მონაცემები</emphasis> ამ კომპიუტერზე და "
+"<emphasis>გააფუჭოთ სისტემის ფაილები ისე, რომ მისი აღდგენა შეუძლებელი გახდეს."
+"</emphasis> საქაღალდის ან ფაილის სახელისთვის ან მისი შემცველობისთვის ერთი "
+"სიმბოლოს დამატებამ <emphasis>სისტემის ჩატვირთვა შეუძლებელი გახადოს.</"
+"emphasis></para><para>მეტი გაფრთხილება, რომც აპირებდეთ, სისტემა გაფუჭოთ, "
+"აღარ იქნება.</para><para>შეიძლება, გაგრძელებამდე, კარგი იდეა იყოს <emphasis> "
+"თქვენი საქაღალდეებისა და ფაილების მარქაფი გააკეთოთ.</emphasis></para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "ადმინისტრატორივით მოქცევა"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "ადმინისტრატორის პრივილეგიების რისკები"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "მე მესმის და ვეთანხმები ამ რისკებს"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "აღარ გამაფრთხილო ამ რისკების შესახებ"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4101,7 +4112,7 @@ msgstr "ბევრი ტერმინალის ერთდროულ�
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "ადმინისტრატორზე გადართვა"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

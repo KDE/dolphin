@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-10 00:07+0200\n"
+"PO-Revision-Date: 2024-05-12 15:27+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -44,19 +44,19 @@ msgstr "ecuadra@eloihr.net,traducciones@rociogallego.com,jaime@kde.org"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Operando como administrador. ¡Tenga cuidado!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Operando como administrador"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Dejar de operar como administrador"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -73,30 +73,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Está a punto de usar los privilegios del administrador. Cuando opere "
+"como administrador, podrá cambiar o sustituir cualquier archivo o carpeta de "
+"este sistema. Esto incluye elementos críticos para que el sistema funcione.</"
+"para><para>Podrá <emphasis>borrar los datos de todos los usuarios</emphasis> "
+"de este equipo y <emphasis>dañar esta instalación sin posibilidad de "
+"repararla</emphasis>. La mera adición de una letra al nombre de una carpeta "
+"o de un archivo puede hacer que un sistema <emphasis>no se pueda arrancar</"
+"emphasis>.</para><para>Es probable que no haya más advertencias, incluso si "
+"está a punto de dañar este sistema.</para><para>Es posible que quiera "
+"<emphasis>hacer copias de seguridad de archivos y carpetas</emphasis> antes "
+"de continuar.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Operar como administrador"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Riesgos de actuar como administrador"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Entiendo y acepto estos riesgos"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "No volver a advertirme de estos riesgos"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4148,7 +4159,7 @@ msgstr "Abrir muchas terminales a la vez"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Cambiando a operar como administrador"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

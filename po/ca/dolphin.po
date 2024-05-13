@@ -4,7 +4,7 @@
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Empar Montoro Martín <montoro_mde@gva.es>, 2019.
 # Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 12:15+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2024-05-12 23:57+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -37,19 +37,19 @@ msgstr "txemaq@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Esteu actuant com a administrador – Aneu amb compte!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Actua com a administrador"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Deixa d'actuar com a administrador"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -66,30 +66,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Esteu a punt d'utilitzar privilegis d'administrador. Mentre actueu com "
+"a administrador podeu canviar o reemplaçar qualsevol fitxer o carpeta "
+"d'aquest sistema. Això inclou elements que són crítics perquè aquest sistema "
+"funcioni.</para><para>Podeu <emphasis>suprimir les dades de tots els "
+"usuaris</emphasis> en aquest ordinador i <emphasis>trencar aquesta "
+"instal·lació sense possibilitat de reparar</emphasis>. Afegir només una "
+"lletra en una carpeta o nom de fitxer o el seu contingut pot fer que un "
+"sistema <emphasis>no es pugui arrencar</emphasis>.</para><para>Probablement "
+"no hi haurà cap altre avís encara que estigueu a punt de fer malbé aquest "
+"sistema.</para><para>Potser voldreu <emphasis>copiar fitxers i carpetes</"
+"emphasis> abans de continuar.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Actua com a administrador"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Riscos d'actuar com a administrador"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Entenc i accepto aquests riscos"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "No tornis a avisar-me d'aquests riscos"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4143,7 +4154,7 @@ msgstr "En obrir molts terminals a la vegada"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Commuta per a actuar com a administrador"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

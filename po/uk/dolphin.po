@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 09:43+0300\n"
+"PO-Revision-Date: 2024-05-12 09:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -36,19 +36,19 @@ msgstr "fr.ivan@ukrainian-orthodox.org,arysin@bcsii.com,yurchor@ukr.net"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Робота від імені адміністратора — будьте обережні!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Робота від адміністратора"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Припинити роботу від адміністратора"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -65,30 +65,42 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Ви можете отримати права доступу адміністратора. Під час роботи від "
+"імені адміністратора ви зможете змінити або замінити будь-який файл або теку "
+"у цій системі. Це стосується даних, які є критичними для роботи системи.</"
+"para><para>Ви зможете <emphasis>вилучати дані будь-якого користувача</"
+"emphasis> на цьому комп'ютері і <emphasis>пошкодити цю систему так, що її не "
+"можна буде відновити</emphasis>. Додавання всього лише однієї літери до "
+"назви теки або файла або їхнього вмісту може зробити систему "
+"<emphasis>непридатною до завантаження</emphasis>.</para><para>Ймовірно, ви "
+"навіть не побачите ніякого попередження, навіть якщо у результаті дії "
+"системі буде завдано непоправної шкоди.</para><para>Вам варто створити "
+"<emphasis>резервні копії файлів і тек</emphasis>, з якими ви працюватимете, "
+"перш ніж виконувати будь-які дії.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Працювати від імені адміністратора"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Ризики роботи від імені адміністратора"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Я розумію і хочу ризикнути"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Надалі не попереджати мене про ці ризики"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4190,7 +4202,7 @@ msgstr "Одночасне відкриття багатьох термінал�
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Перемикання на роботу від імені адміністратора"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

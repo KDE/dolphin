@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 22:01+0100\n"
+"PO-Revision-Date: 2024-05-12 10:35+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -35,19 +35,19 @@ msgstr "pedrotpmx@wanadoo.fr,cfmckee@gmail.com,okellogg@users.sourceforge.net"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Agante kiel Sistemestro - Estu singardema!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Agante kiel Admin"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Ĉesi Agi kiel Sistemestro"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -64,30 +64,40 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Vi estas uzonta administrantajn privilegiojn. Agante kiel "
+"administranto vi povas ŝanĝi aŭ anstataŭigi ajnan dosieron aŭ dosierujon en "
+"ĉi tiu sistemo. Ĉi tio inkluzivas erojn, kiuj estas kritikaj por ke ĉi tiu "
+"sistemo funkciu.</para><para>Vi povas <emphasis>forigi ĉiujn datumojn de "
+"uzantoj</emphasis> en ĉi tiu komputilo kaj <emphasis>rompi ĉi tiun "
+"instalaĵon neriparebla.</emphasis> Aldonante nur unu literon en dosierujon "
+"aŭ dosiernomo aŭ ĝian enhavon povas igi sistemon <emphasis>nelanĉebla.</"
+"emphasis></para><para>Verŝajne ne estos alia averto eĉ se vi estas romponta "
+"ĉi tiun sistemon.</para><para>Vi eble volos <emphasis>sekurkopii dosierojn "
+"kaj dosierujojn</emphasis> antaŭ ol daŭrigi.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Agi kiel Sistemestro"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Riskoj pri Agado kiel Sistemestro"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Mi Komprenas kaj Akceptas Ĉi Riskojn"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Ne reaverti min pri tiuj riskoj"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-04-07 17:29+0530\n"
+"PO-Revision-Date: 2024-05-12 16:09+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33,19 +33,19 @@ msgstr "ubuntu-l10n-tam@lists.ubuntu.com, Kde-l10n-ta@kde.org"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "நிர்வாகியாக செயல்படுகிறீர் — ஜாக்கிரதை!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "நிர்வாகி பயன்முறை"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "நிர்வாகி பயன்முறையிலிருந்த வெளியேறு"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -62,30 +62,40 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>நிர்வாகியாக செயல்படுவுள்ளீர்.  நிர்வாகியாக உள்ளபோது, இக்கணினியிலுள்ள எந்த "
+"கோப்பையோ அல்லது அடைவையோ திருத்தவோ மாற்றவோ முடியும். இயங்குதள செயல்பாட்டிற்கு "
+"இன்றியமையாதவையும் இதில் அடங்கும்.</para><para><emphasis>எந்த பயனரின் தரவையும் "
+"அழிக்கவும்</emphasis> இந்த இயங்குதளத்தை <emphasis>திரும்பப்பெற முடியாத விதத்தில் "
+"உடைக்கவும்</emphasis> உங்களால் முடியும். குறிப்பிட்ட கோப்புகளின் அல்லது அடைவுகளின் "
+"பெயர்களில் ஒரே ஒரு எழுத்தைக்கூட மாற்றினாலோ அவற்றின் உள்ளடக்கத்தை மாற்றினாலோ கணினியை "
+"<emphasis>துவக்க முடியாமல்</emphasis> போகலாம்.</para><para> இந்த பயன்முறையில் "
+"இயங்குதளத்தை பழுதுபடுத்தக்கூடிய செயல்களை செய்யும்போது எச்சரிக்கை எழுப்பப்படாமல் இருக்கலாம்."
+"</para><para> எதையும் செய்வதற்கு முன் <emphasis>உங்கள் தரவின் காப்புப்பிரதி எடுத்து</"
+"emphasis> தொடர்வது நல்லது.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "நிர்வாகியாக செயல்படு"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "நிர்வாகியாக செயல்படுவதன் ஆபத்து"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "இந்த ஆபத்துகளை உணர்ந்து ஏற்கிறேன்"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "இந்த ஆபத்துகளைப் பற்றி மீண்டும் எச்சரிக்காதே"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -3628,15 +3638,13 @@ msgstr "கூடுதல் விவரங்கள்"
 #| msgctxt "@title:menu"
 #| msgid "Selection"
 msgid "Select Action"
-msgstr "தேர்வு"
+msgstr "தேர்வு செயல்"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "வேறு எழுத்துரு"
+msgstr "விருப்ப செயல்"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -3707,7 +3715,7 @@ msgstr "திறந்துள்ள அடைவுகள் மற்று�
 #: settings/dolphin_generalsettings.kcfg:61
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "இரண்டு காட்சிப்பகுதிகளை பக்கத்துப்பக்கத்தில் காட்டு"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -3981,7 +3989,7 @@ msgstr "பல முனையங்களை ஒரே நேரத்தில
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "நிர்வாகி பயன்முறையில் நுழையும்போது"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4533,40 +4541,36 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "காட்சிப்பகுதியின் பின்புலத்தை இரட்டை கிளிக் செய்யும்போது செய்யவேண்டியது"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "ஒன்றும் செய்யாது"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "வேறு எழுத்துரு"
+msgstr "விருப்ப கட்டளை"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
 #: settings/viewmodes/generalviewsettingspage.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@option:check Ask for Confirmation When"
-#| msgid "Deleting files or folders"
+#, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr "கோப்புகள் அ அடைவுகளை அக்றுகிறது"
+msgstr "இரட்டை கிளிக்"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "பின்புலம்: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4575,12 +4579,13 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"காட்சிப்பகுதியின் பின்புலத்தை இரட்டை கிளிக் செய்யும்போது தூண்ட வேண்டிய கட்டளையை உள்ளிடவும்"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "கட்டளை…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4588,6 +4593,8 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"தற்போதைய அடைவின் பாதையைப் பெற {path} என்ற கொள்ளிடத்தைப் பயன்படுத்தலாம். எடுத்துக்காட்டு: "
+"dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format

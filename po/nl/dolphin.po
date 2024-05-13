@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 10:20+0200\n"
+"PO-Revision-Date: 2024-05-12 13:47+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -34,19 +34,19 @@ msgstr "rinsedevries@kde.nl,freekdekruijf@kde.nl"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Als systeembeheerder werken - wees voorzichtig!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Als admin werken"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Stoppen met als systeembeheerder werken"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -63,30 +63,42 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>U staat op het punt om rechten van de systeembeheerder te gebruiken. "
+"Bij werken als een een systeembeheerder kunt u elk bestand en map op dit "
+"systeem wijzigen. Dit omvat items die kritisch zijn voor dit systeem om te "
+"functioneren.</para><para>U bent in staat om <emphasis>gegevens van elke "
+"gebruiker</emphasis> op deze computer te verwijderen en om <emphasis>deze "
+"installatie te breken zonder dat deze nog te repareren is.</emphasis> "
+"Toevoegen van slechts één letter in een map- of bestandsnaam of zijn inhoud "
+"kan een systeem <emphasis>niet meer te starten maken.</emphasis></"
+"para><para>Er zal waarschijnlijk geen verdere waarschuwing zijn zelfs als u "
+"op het punt staat dit systeem te breken.</para><para>U zou misschien "
+"<emphasis>reservekopieën van bestanden en mappen</emphasis> willen maken "
+"alvorens verder te gaan.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Als systeembeheerder werken"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Risico's van het werken als systeembeheerder"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Ik begrijp en accepteer deze risico's"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Waarschuw me niet meer over deze risico's"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -4130,7 +4142,7 @@ msgstr "Tegelijk openen van vele terminals"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Omschakelen om als systeembeheerder te werken"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

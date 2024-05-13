@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-02-07 10:27+0300\n"
+"PO-Revision-Date: 2024-05-12 11:53+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.2\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -51,18 +51,20 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
 msgstr ""
+"Все действия выполняются от имени администратора, используйте с "
+"осторожностью."
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "С правами администратора"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Завершить выполнение с правами администратора"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -84,25 +86,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "С правами администратора"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Риски выполнения действий с правами администратора"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Я понимаю и принимаю риски"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Больше не предупреждать"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -145,7 +147,7 @@ msgstr "Открыть путь в новом окне"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Щелчок средней кнопкой мыши"
 
 #: dolphinmainwindow.cpp:324
 #, kde-format
@@ -252,13 +254,14 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Не удалось вставить: буфер обмена пуст"
 
 #: dolphinmainwindow.cpp:874
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
+"Не удалось вставить: у вас недостаточно прав доступа для записи в эту папку"
 
 #: dolphinmainwindow.cpp:1253
 #, kde-format
@@ -298,6 +301,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Не удалось создать папку: у вас недостаточно прав для создания объектов в "
+"этой папке."
 
 #: dolphinmainwindow.cpp:1507
 #, kde-format
@@ -318,18 +323,14 @@ msgid "Open a new Dolphin window"
 msgstr "Открыть новое окно Dolphin"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Это действие создаёт точную копию текущего окна, включая расположение и "
-"режим просмотра.<nl/>Между окнами возможно перетаскивать объекты."
+"Это действие создаёт точную копию текущего окна, включая расположение.<nl/"
+">Между окнами возможно перетаскивать объекты."
 
 #: dolphinmainwindow.cpp:1678
 #, kde-format
@@ -373,26 +374,20 @@ msgid "Close Tab"
 msgstr "Закрыть вкладку"
 
 #: dolphinmainwindow.cpp:1697
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Закрыть вкладку"
 
 #: dolphinmainwindow.cpp:1699
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
-"Это действие закрывает активную вкладку. Если других активных вкладок нет, "
-"будет закрыто окно программы."
+"Это действие закрывает активную вкладку. Если других вкладок нет, будет "
+"закрыто окно программы."
 
 #: dolphinmainwindow.cpp:1704
 #, kde-format
@@ -487,23 +482,17 @@ msgid "Copy to Other View…"
 msgstr "Копировать в другую панель…"
 
 #: dolphinmainwindow.cpp:1751
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
 "Это действие копирует выделенные элементы из <emphasis>активной</emphasis> "
-"панели в неактивную."
+"панели в неактивную. (Функция доступна только в двухпанельном режиме)."
 
 #: dolphinmainwindow.cpp:1755
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Копировать в другую панель"
@@ -521,23 +510,17 @@ msgid "Move to Other View…"
 msgstr "Переместить в другую панель…"
 
 #: dolphinmainwindow.cpp:1763
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
 "Это действие перемещает выделенные элементы из <emphasis>активной</emphasis> "
-"панели в неактивную."
+"панели в неактивную. (Функция доступна только в двухпанельном режиме)."
 
 #: dolphinmainwindow.cpp:1767
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Переместить в другую панель"
@@ -555,13 +538,7 @@ msgid "Show Filter Bar"
 msgstr "Открыть панель фильтра"
 
 #: dolphinmainwindow.cpp:1775
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -597,14 +574,7 @@ msgid "Search for files and folders"
 msgstr "Поиск файлов и папок"
 
 #: dolphinmainwindow.cpp:1799
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -679,11 +649,7 @@ msgid "Invert Selection"
 msgstr "Обратить выделение"
 
 #: dolphinmainwindow.cpp:1854
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
@@ -703,11 +669,7 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1889
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "If the folder view has been split, this will pop the active folder view "
-#| "out into a new window."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
@@ -817,14 +779,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Это действие открывает вкладку, закрытую последней."
 
 #: dolphinmainwindow.cpp:1976
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -834,10 +789,11 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "Это действие отменяет последнее изменение, выполненное над файлами или "
-"папками.<nl/>Могут быть отменены следующие изменения: <interface>создание, "
-"переименование</interface> и <interface>перемещение</interface> в другое "
-"расположение или в <filename>корзину</filename>.<nl/>Для изменений, которые "
-"не могут быть отменены, запрашиваются дополнительные подтверждения."
+"папками.<nl/>Могут быть отменены следующие изменения: <interface>создание</"
+"interface>, <interface>переименование</interface> и <interface>перемещение</"
+"interface> в другое расположение или в <filename>корзину</filename>.<nl/>Для "
+"изменений, которые не могут быть отменены, запрашиваются дополнительные "
+"подтверждения."
 
 #: dolphinmainwindow.cpp:2005
 #, fuzzy, kde-kuit-format

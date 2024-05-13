@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-04-13 18:58+0200\n"
+"PO-Revision-Date: 2024-05-12 08:17+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -38,19 +38,19 @@ msgstr "carramba@epf.pl, maciej.wiklo@wp.pl, lukasz.wojnilowicz@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Działam jako administrator - zachowaj ostrożność!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Działam jako administrator"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Przestań działać jako administrator"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -67,30 +67,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Masz zamiar skorzystać z uprawnień administratora. Mając je, możesz "
+"zmienić lub zastąpić dowolny plik lub katalog na tym systemie. Uwzględnia to "
+"rzeczy, które są kluczowe do działania tego systemu.</para><para>Masz "
+"możliwość <emphasis>usunięcia danych każdego użytkownika</emphasis> na tym "
+"komputerze i <emphasis>doprowadzenia systemu do stanu, którego nie będzie "
+"dało się naprawić.</emphasis> Dodanie zaledwie jednej litery w nazwie "
+"katalogu lub pliku lub jego zawartości może spowodować, że system "
+"<emphasis>przestanie się uruchamiać.</emphasis></para><para>Prawdopodobnie "
+"nie zobaczysz już kolejnego ostrzeżenia, nawet w przypadku robienia czegoś, "
+"co może uszkodzić system .</para><para>Zalecamy <emphasis>utworzenie kopii "
+"zapasowej plików i katalogów</emphasis> zanim przejdziesz dalej.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Działaj jako administrator"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Ryzyko działania jako administrator"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Rozumiem i przyjmuję to ryzyko"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Nie przypominaj mi już o tym ryzyku"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -3771,19 +3782,15 @@ msgstr "Dodatkowe szczegóły"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "Zaznaczanie"
+msgstr "Działanie zaznaczania"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Czcionka użytkownika"
+msgstr "Własne działanie"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -4134,7 +4141,7 @@ msgstr "Otwieranie wielu terminali na raz"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Przełączanie, aby działać jako administrator"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4690,40 +4697,36 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Działanie do wykonania po dwukrotnym naciśnięciu tła widoku"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Nie rób nic"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Czcionka użytkownika"
+msgstr "Własne polecenie"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
 #: settings/viewmodes/generalviewsettingspage.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@option:check Mouse Settings"
-#| msgid "Double-click to open files and folders"
+#, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr "Dwukrotne naciśnięcie otwiera pliki i katalogi"
+msgstr "Działania po dwukrotnym naciśnięciu"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Tło: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4732,12 +4735,13 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Wpisz własne polecenie do wykonania po dwukrotnym naciśnięciu tła widoku"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Polecenie…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4745,6 +4749,8 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Wstaw {path}, aby uzyskać ścieżkę do bieżącego katalogu. Przykład: dolphin "
+"{path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
