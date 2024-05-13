@@ -76,6 +76,16 @@ public:
      */
     void setPlaceholderText(const QString &text);
 
+    /**
+     * Sets the visibility of the read-only badge at the end of the breadcrumb.
+     */
+    void setReadOnlyBadgeVisible(bool visible);
+
+    /**
+     * Returns the visibility of the read-only badge at the end of the breadcrumb.
+     */
+    bool readOnlyBadgeVisible() const;
+
 public Q_SLOTS:
     /**
      * Switches to "breadcrumb" mode if the editable mode is not set to be

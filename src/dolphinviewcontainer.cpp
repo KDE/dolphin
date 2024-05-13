@@ -302,6 +302,8 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     connect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
     connect(urlNavigator, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
 
+    urlNavigator->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
+
     m_urlNavigatorConnected = urlNavigator;
 }
 
@@ -651,6 +653,10 @@ void DolphinViewContainer::slotDirectoryLoadingStarted()
         m_statusBar->setProgressText(QString());
         updateDirectoryLoadingProgress(-1);
     }
+
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setReadOnlyBadgeVisible(false);
+    }
 }
 
 void DolphinViewContainer::slotDirectoryLoadingCompleted()
@@ -666,6 +672,10 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
         m_statusBar->setText(i18nc("@info:status", "No items found."));
     } else {
         updateStatusBar();
+    }
+
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
     }
 }
 

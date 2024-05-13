@@ -16,6 +16,7 @@
 #include <KUrlComboBox>
 
 #include <QAbstractButton>
+#include <QLabel>
 #include <QLayout>
 #include <QLineEdit>
 
@@ -49,6 +50,12 @@ DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent)
     DolphinUrlNavigatorsController::registerDolphinUrlNavigator(this);
 
     connect(this, &KUrlNavigator::returnPressed, this, &DolphinUrlNavigator::slotReturnPressed);
+
+    auto readOnlyBadge = new QLabel();
+    readOnlyBadge->setPixmap(QIcon::fromTheme(QStringLiteral("emblem-readonly")).pixmap(12, 12));
+    readOnlyBadge->setToolTip(i18nc("@info:tooltip of a 'locked' symbol in url navigator", "This folder is not writable for you."));
+    readOnlyBadge->hide();
+    setBadgeWidget(readOnlyBadge);
 }
 
 DolphinUrlNavigator::~DolphinUrlNavigator()
@@ -68,6 +75,9 @@ QSize DolphinUrlNavigator::sizeHint() const
         if (button && button->icon().isNull()) {
             widthHint += widget->minimumSizeHint().width();
         }
+    }
+    if (readOnlyBadgeVisible()) {
+        widthHint += badgeWidget()->sizeHint().width();
     }
     return QSize(widthHint, KUrlNavigator::sizeHint().height());
 }
@@ -109,6 +119,23 @@ void DolphinUrlNavigator::clearText() const
 void DolphinUrlNavigator::setPlaceholderText(const QString &text)
 {
     editor()->lineEdit()->setPlaceholderText(text);
+}
+
+void DolphinUrlNavigator::setReadOnlyBadgeVisible(bool visible)
+{
+    QWidget *readOnlyBadge = badgeWidget();
+    if (readOnlyBadge) {
+        readOnlyBadge->setVisible(visible);
+    }
+}
+
+bool DolphinUrlNavigator::readOnlyBadgeVisible() const
+{
+    QWidget *readOnlyBadge = badgeWidget();
+    if (readOnlyBadge) {
+        return readOnlyBadge->isVisible();
+    }
+    return false;
 }
 
 void DolphinUrlNavigator::slotReturnPressed()
