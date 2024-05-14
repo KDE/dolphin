@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"POT-Creation-Date: 2024-05-14 00:40+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1904,7 +1904,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Ačyscić spis niadaŭna zakrytych ukladak"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:504 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Pošuk %1 u %2"
@@ -1965,7 +1965,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "Haloŭnaja paneĺ instrumientaŭ"
 
-#: dolphinurlnavigator.cpp:37
+#: dolphinurlnavigator.cpp:38
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis location bar"
 #| msgid ""
@@ -2000,6 +2000,12 @@ msgstr ""
 "html>nacisnicie siudy</link>. Adkryjecca adpaviednaja staronka ŭ daviedniku."
 "</para>"
 
+#: dolphinurlnavigator.cpp:56
+#, kde-format
+msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+msgid "This folder is not writable for you."
+msgstr ""
+
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
@@ -2032,17 +2038,17 @@ msgstr ""
 "Zapusk Dolphin ad imia supierkarystaĺnika moža być niebiaspiečnym. Budźcie "
 "piĺnymi."
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:542
 #, kde-format
 msgid "Search"
 msgstr "Pošuk"
 
-#: dolphinviewcontainer.cpp:542
+#: dolphinviewcontainer.cpp:544
 #, kde-format
 msgid "Search for %1"
 msgstr "Pošuk %1"
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:628
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -2050,7 +2056,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Zahruzka kataloha..."
 
-#: dolphinviewcontainer.cpp:634
+#: dolphinviewcontainer.cpp:636
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2058,7 +2064,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sartavannie:"
 
-#: dolphinviewcontainer.cpp:645
+#: dolphinviewcontainer.cpp:647
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -2066,19 +2072,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pošuk..."
 
-#: dolphinviewcontainer.cpp:666
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nie znojdziena eliemientaŭ."
 
-#: dolphinviewcontainer.cpp:841
+#: dolphinviewcontainer.cpp:851
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nie padtrymlivaje veb-staronki, byŭ zapuščany veb-braŭzier"
 
-#: dolphinviewcontainer.cpp:844
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2087,7 +2093,7 @@ msgstr ""
 "Pratakol nie padtrymlivajecca Dolphin, byla zapuščanaja pradvyznačanaja "
 "prahrama"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:861
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2095,13 +2101,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:863
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:973
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2776,176 +2782,176 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Nieviadomaja pamylka."
 
-#: main.cpp:98
+#: main.cpp:122
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:100
+#: main.cpp:124
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Kiraŭnik fajlaŭ"
 
-#: main.cpp:102
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006-2022 Raspracoŭniki Dolphin"
 
-#: main.cpp:104
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
-#: main.cpp:105
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Supravadžaĺnik (z 2021) i raspracoŭnik"
 
-#: main.cpp:107
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "Méven Car"
 
-#: main.cpp:108
+#: main.cpp:132
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Supravadžaĺnik (z 2021) i raspracoŭnik(z 2019)"
 
-#: main.cpp:110
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:111
+#: main.cpp:135
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Supravadžaĺnik (2018-2021) i raspracoŭnik"
 
-#: main.cpp:113
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
-#: main.cpp:114
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Supravadžaĺnik (2014-2018) i raspracoŭnik"
 
-#: main.cpp:116
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:117
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Supravadžaĺnik (2012-2014) i raspracoŭnik"
 
-#: main.cpp:119
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:120
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Supravadžaĺnik i raspracoŭnik(2006-2012)"
 
-#: main.cpp:122
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
-#: main.cpp:127 main.cpp:128
+#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
+#: main.cpp:151 main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Raspracoŭnik"
 
-#: main.cpp:123
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:124
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:125
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:126
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:127
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:128
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dakumientacyja"
 
-#: main.cpp:139
+#: main.cpp:163
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr ""
 "Buduć abranyja fajly i katalohi, pieradadzienyja ŭ jakasci arhumientaŭ."
 
-#: main.cpp:141
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin budzie zapuskacca z padzielienaj panelliu."
 
-#: main.cpp:142
+#: main.cpp:166
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin adkryjecca ŭ novym aknie."
 
-#: main.cpp:144
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "Start Dolphin Daemon (only required for DBus Interface)"
@@ -2953,7 +2959,7 @@ msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Zapusk demana Dolphin (patrebna toĺki dlia interfiejsu DBus)"
 
-#: main.cpp:145
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -4705,19 +4711,35 @@ msgid ""
 "pressing the right mouse button on a panel."
 msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:41
+#: settings/interface/previewssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Pakazvać minijaciury dlia:"
 
-#: settings/interface/previewssettingspage.cpp:56
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Prapuskać minijaciury lakaĺnych fajlaŭ vyšej:"
+#. i18n: This label forms a full sentence together with the spinbox content.
+#. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
+#. or "Show previews for [files of any size]".
+#: settings/interface/previewssettingspage.cpp:64
+#: settings/interface/previewssettingspage.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgctxt "@label:spinbox"
+msgid "Show previews for"
+msgstr "Pakazvać minijaciury"
 
-#: settings/interface/previewssettingspage.cpp:60
-#: settings/interface/previewssettingspage.cpp:73
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt ""
+"used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
+"MiB]'"
+msgid "files below "
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:82
 #, fuzzy, kde-format
 #| msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. 3 MiB"
 #| msgid " MiB"
@@ -4725,21 +4747,53 @@ msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " Mib"
 
-#: settings/interface/previewssettingspage.cpp:62
+#: settings/interface/previewssettingspage.cpp:71
 #, kde-format
-msgid "No limit"
-msgstr "Biez abmiežavanniaŭ"
+msgctxt "e.g. 'Show previews for [files of any size]'"
+msgid "files of any size"
+msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:69
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Prapuskać minijaciury lakaĺnych fajlaŭ nižej:"
+#: settings/interface/previewssettingspage.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "action:button"
+#| msgid "Your files"
+msgctxt "e.g. 'Show previews for [no file]'"
+msgid "no file"
+msgstr "Vašyja fajly"
 
-#: settings/interface/previewssettingspage.cpp:75
-#, kde-format
-msgid "No previews"
-msgstr "Biez minijaciur"
+#: settings/interface/previewssettingspage.cpp:91
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@option:check"
+msgid "Show previews for folders"
+msgstr "Pakazvać minijaciury fajlaŭ i katalohaŭ"
+
+#: settings/interface/previewssettingspage.cpp:100
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
+"strong='true'>very expensive</emphasis> in terms of network resources.</"
+"para><para>Disable this if navigating remote folders in Dolphin is slow or "
+"when accessing storage over metered connections.</para>"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Location:"
+msgctxt "@title:group"
+msgid "Local storage:"
+msgstr "Adras:"
+
+#: settings/interface/previewssettingspage.cpp:117
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Restore"
+msgctxt "@title:group"
+msgid "Remote storage:"
+msgstr "Adnavić"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -6332,6 +6386,19 @@ msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Abnaŭliennie zviestak pra viersiju..."
 
+#~ msgid "Skip previews for local files above:"
+#~ msgstr "Prapuskać minijaciury lakaĺnych fajlaŭ vyšej:"
+
+#~ msgid "No limit"
+#~ msgstr "Biez abmiežavanniaŭ"
+
+#~ msgctxt "@label"
+#~ msgid "Skip previews for remote files above:"
+#~ msgstr "Prapuskać minijaciury lakaĺnych fajlaŭ nižej:"
+
+#~ msgid "No previews"
+#~ msgstr "Biez minijaciur"
+
 #~ msgctxt "@action:inmenu Edit"
 #~ msgid "Copy to Inactive Split View"
 #~ msgstr "Skapijavać u nieaktyŭnuju addzielienuju paneĺ"
@@ -6777,13 +6844,6 @@ msgstr "Abnaŭliennie zviestak pra viersiju..."
 #~ msgctxt "@action:inmenu Sort"
 #~ msgid "Descending"
 #~ msgstr "U advarotnym paradku"
-
-#, fuzzy
-#~| msgctxt "@label:textbox"
-#~| msgid "Location:"
-#~ msgctxt "@label"
-#~ msgid "Location:"
-#~ msgstr "Adras:"
 
 #, fuzzy
 #~| msgctxt "@action:inmenu Add current folder to places"

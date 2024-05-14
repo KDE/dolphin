@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"POT-Creation-Date: 2024-05-14 00:40+0000\n"
 "PO-Revision-Date: 2024-04-09 12:10+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -1715,7 +1715,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Iztukšot nesen aizvērto ciļņu sarakstu"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:504 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Meklēt „%1“ mapē „%2“"
@@ -1774,7 +1774,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "Galvenā rīkjosla"
 
-#: dolphinurlnavigator.cpp:37
+#: dolphinurlnavigator.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis location bar"
 msgid ""
@@ -1796,6 +1796,12 @@ msgstr ""
 "ceļš ir daudz jaudīgāks nekā varbūt domājat. Lai par to uzzinātu vairāk un "
 "iemācītos vietas joslas papildu funkcijām <link url='help:/dolphin/location-"
 "bar.html'>spiediet te</link>. Atvērsies atsevišķa lapa Rokasgrāmatā.</para>"
+
+#: dolphinurlnavigator.cpp:56
+#, kde-format
+msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+msgid "This folder is not writable for you."
+msgstr ""
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1827,47 +1833,47 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "„Dolphin“ palaišana kā saknes lietotājam var būt bīstama. Esiet uzmanīgi."
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:542
 #, kde-format
 msgid "Search"
 msgstr "Meklēt"
 
-#: dolphinviewcontainer.cpp:542
+#: dolphinviewcontainer.cpp:544
 #, kde-format
 msgid "Search for %1"
 msgstr "Meklēt „%1“"
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ielādē mapi..."
 
-#: dolphinviewcontainer.cpp:634
+#: dolphinviewcontainer.cpp:636
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Kārtošana..."
 
-#: dolphinviewcontainer.cpp:645
+#: dolphinviewcontainer.cpp:647
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Meklē..."
 
-#: dolphinviewcontainer.cpp:666
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nekas nav atrasts."
 
-#: dolphinviewcontainer.cpp:841
+#: dolphinviewcontainer.cpp:851
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "„Dolphin“ neatbalsta tīmekļa lapas, tāpēc ir atvērts tīmekļa pārlūks"
 
-#: dolphinviewcontainer.cpp:844
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1875,19 +1881,19 @@ msgid ""
 msgstr ""
 "„Dolphin“ neatbalsta šo protokolu, tāpēc ir atvērta noklusējuma programma"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:861
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Nederīgs protokols „%1“"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:863
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Nederīgs protokols"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:973
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2504,181 +2510,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Nezināma kļūda."
 
-#: main.cpp:98
+#: main.cpp:122
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:100
+#: main.cpp:124
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Datņu pārvaldnieks"
 
-#: main.cpp:102
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006—2022 „Dolphin“ izstrādātāji"
 
-#: main.cpp:104
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
-#: main.cpp:105
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Uzturētājs (kopš 2021. gada) un izstrādātājs"
 
-#: main.cpp:107
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "Méven Car"
 
-#: main.cpp:108
+#: main.cpp:132
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Uzturētājs (kopš 2021 gada) un izstrādātājs (kopš 2019. gada)"
 
-#: main.cpp:110
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:111
+#: main.cpp:135
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Uzturētājs (2018—2021) un izstrādātājs"
 
-#: main.cpp:113
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
-#: main.cpp:114
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Uzturētājs (2014—2018) un izstrādātājs"
 
-#: main.cpp:116
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:117
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Uzturētājs (2012—2014) un izstrādātājs"
 
-#: main.cpp:119
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:120
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Uzturētājs un izstrādātājs (2006—2012)"
 
-#: main.cpp:122
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
-#: main.cpp:127 main.cpp:128
+#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
+#: main.cpp:151 main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Izstrādātājs"
 
-#: main.cpp:123
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:124
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:125
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:126
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:127
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:128
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dokumentācija"
 
-#: main.cpp:139
+#: main.cpp:163
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Atlasītas tiks datnes un mapes, kas ir norādītas kā argumenti."
 
-#: main.cpp:141
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "„Dolphin“ ieslēgsies sadalītā skatā."
 
-#: main.cpp:142
+#: main.cpp:166
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "„Dolphin“ atvērsies jaunā logā."
 
-#: main.cpp:144
+#: main.cpp:168
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Palaist „Dolphin“ dēmonu (nepieciešams tikai „DBus“ saskarnei)."
 
-#: main.cpp:145
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -4339,39 +4345,88 @@ msgstr ""
 "Paneļa iestatījumi ir pieejami arī konteksta izvēlnē. To varat atvērt, "
 "spiežot peles labo pogu uz paneļa."
 
-#: settings/interface/previewssettingspage.cpp:41
+#: settings/interface/previewssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Rādīt priekšskatījumus:"
 
-#: settings/interface/previewssettingspage.cpp:56
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Nerādīt priekšskatījumus lokālām datnēm lielākām par:"
+#. i18n: This label forms a full sentence together with the spinbox content.
+#. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
+#. or "Show previews for [files of any size]".
+#: settings/interface/previewssettingspage.cpp:64
+#: settings/interface/previewssettingspage.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show previews"
+msgctxt "@label:spinbox"
+msgid "Show previews for"
+msgstr "Rādīt priekšskatījumus"
 
-#: settings/interface/previewssettingspage.cpp:60
-#: settings/interface/previewssettingspage.cpp:73
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt ""
+"used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
+"MiB]'"
+msgid "files below "
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/interface/previewssettingspage.cpp:62
+#: settings/interface/previewssettingspage.cpp:71
 #, kde-format
-msgid "No limit"
-msgstr "Nav ierobežojuma"
+msgctxt "e.g. 'Show previews for [files of any size]'"
+msgid "files of any size"
+msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:69
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Nerādīt priekšskatījumus attālinātām datnēm lielākām par:"
+#: settings/interface/previewssettingspage.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 file"
+#| msgid_plural "%1 files"
+msgctxt "e.g. 'Show previews for [no file]'"
+msgid "no file"
+msgstr "%1 datne"
 
-#: settings/interface/previewssettingspage.cpp:75
-#, kde-format
-msgid "No previews"
-msgstr "Nerādīt priekšskatījumus"
+#: settings/interface/previewssettingspage.cpp:91
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@option:check"
+msgid "Show previews for folders"
+msgstr "Rādīt priekšskatījumus mapēm un datnēm"
+
+#: settings/interface/previewssettingspage.cpp:100
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
+"strong='true'>very expensive</emphasis> in terms of network resources.</"
+"para><para>Disable this if navigating remote folders in Dolphin is slow or "
+"when accessing storage over metered connections.</para>"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Location:"
+msgctxt "@title:group"
+msgid "Local storage:"
+msgstr "Atrašanās vieta:"
+
+#: settings/interface/previewssettingspage.cpp:117
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Restore"
+msgctxt "@title:group"
+msgid "Remote storage:"
+msgstr "Atjaunot"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -5855,6 +5910,19 @@ msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Atjaunina versijas informāciju..."
 
+#~ msgid "Skip previews for local files above:"
+#~ msgstr "Nerādīt priekšskatījumus lokālām datnēm lielākām par:"
+
+#~ msgid "No limit"
+#~ msgstr "Nav ierobežojuma"
+
+#~ msgctxt "@label"
+#~ msgid "Skip previews for remote files above:"
+#~ msgstr "Nerādīt priekšskatījumus attālinātām datnēm lielākām par:"
+
+#~ msgid "No previews"
+#~ msgstr "Nerādīt priekšskatījumus"
+
 #~ msgctxt "@action:inmenu Edit"
 #~ msgid "Copy to Inactive Split View"
 #~ msgstr "Kopēt uz neaktīvo sadalīto skatu"
@@ -6304,10 +6372,6 @@ msgstr "Atjaunina versijas informāciju..."
 
 #~ msgid "Enter descriptive label here"
 #~ msgstr "Šeit ievadiet aprakstošu nosaukumu"
-
-#~ msgctxt "@label"
-#~ msgid "Location:"
-#~ msgstr "Atrašanās vieta:"
 
 #~ msgctxt "@label"
 #~ msgid "Choose an icon:"

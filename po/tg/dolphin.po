@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"POT-Creation-Date: 2024-05-14 00:40+0000\n"
 "PO-Revision-Date: 2020-09-17 20:47+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <kde-i18n-doc@kde.org>\n"
@@ -1568,7 +1568,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr ""
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:504 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1631,7 +1631,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "Лавҳаи абзорҳои асосӣ"
 
-#: dolphinurlnavigator.cpp:37
+#: dolphinurlnavigator.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis location bar"
 msgid ""
@@ -1644,6 +1644,12 @@ msgid ""
 "learn more about the basic and advanced features of the location bar <link "
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
+msgstr ""
+
+#: dolphinurlnavigator.cpp:56
+#, kde-format
+msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+msgid "This folder is not writable for you."
 msgstr ""
 
 #: dolphinviewcontainer.cpp:92
@@ -1666,21 +1672,21 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:542
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
 msgid "Search"
 msgstr "Ҷустуҷӯ"
 
-#: dolphinviewcontainer.cpp:542
+#: dolphinviewcontainer.cpp:544
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "Лавҳаи ҷустуҷӯӣ"
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:628
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1688,7 +1694,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Кушоиши ҷузвадон..."
 
-#: dolphinviewcontainer.cpp:634
+#: dolphinviewcontainer.cpp:636
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1696,7 +1702,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Тартибдиҳӣ:"
 
-#: dolphinviewcontainer.cpp:645
+#: dolphinviewcontainer.cpp:647
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1704,19 +1710,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Идет поиск..."
 
-#: dolphinviewcontainer.cpp:666
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:841
+#: dolphinviewcontainer.cpp:851
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:844
+#: dolphinviewcontainer.cpp:854
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1727,7 +1733,7 @@ msgstr ""
 "Протокол бо барномаи Dolphin пуштибонӣ намешавад, вале Konqueror оғоз карда "
 "шуд"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:861
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1735,13 +1741,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Протоколи нодуруст"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:863
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Протоколи нодуруст"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:973
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2401,30 +2407,30 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Хатои номаълум."
 
-#: main.cpp:98
+#: main.cpp:122
 #, kde-format
 msgid "Dolphin"
 msgstr ""
 
-#: main.cpp:100
+#: main.cpp:124
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Мудири файлҳо"
 
-#: main.cpp:102
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr ""
 
-#: main.cpp:104
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr ""
 
-#: main.cpp:105
+#: main.cpp:129
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2432,13 +2438,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:107
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr ""
 
-#: main.cpp:108
+#: main.cpp:132
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2446,13 +2452,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:110
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:135
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2460,13 +2466,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:113
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr ""
 
-#: main.cpp:114
+#: main.cpp:138
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2474,13 +2480,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:116
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr ""
 
-#: main.cpp:117
+#: main.cpp:141
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2488,13 +2494,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:119
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr ""
 
-#: main.cpp:120
+#: main.cpp:144
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2502,68 +2508,68 @@ msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Барноманавис ва эҷодкор"
 
-#: main.cpp:122
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr ""
 
-#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
-#: main.cpp:127 main.cpp:128
+#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
+#: main.cpp:151 main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Эҷодкард"
 
-#: main.cpp:123
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr ""
 
-#: main.cpp:124
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr ""
 
-#: main.cpp:126
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr ""
 
-#: main.cpp:128
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr ""
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr ""
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Ҳуҷҷатҳо"
 
-#: main.cpp:139
+#: main.cpp:163
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "The files and directories passed as arguments will be selected."
@@ -2571,25 +2577,25 @@ msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Файлҳо ва феҳрастҳои аргумент интихоб мешаванд."
 
-#: main.cpp:141
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:166
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:168
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -4335,7 +4341,7 @@ msgid ""
 "pressing the right mouse button on a panel."
 msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:41
+#: settings/interface/previewssettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Show previews for"
@@ -4343,39 +4349,81 @@ msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Пешнамоиш барои"
 
-#: settings/interface/previewssettingspage.cpp:56
+#. i18n: This label forms a full sentence together with the spinbox content.
+#. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
+#. or "Show previews for [files of any size]".
+#: settings/interface/previewssettingspage.cpp:64
+#: settings/interface/previewssettingspage.cpp:77
 #, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
-#| msgid "Remote files above:"
-msgid "Skip previews for local files above:"
-msgstr "Файлҳои дурдаст дар боло:"
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgctxt "@label:spinbox"
+msgid "Show previews for"
+msgstr "Пешнамоиш"
 
-#: settings/interface/previewssettingspage.cpp:60
-#: settings/interface/previewssettingspage.cpp:73
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt ""
+"used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
+"MiB]'"
+msgid "files below "
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:62
+#: settings/interface/previewssettingspage.cpp:71
 #, kde-format
-msgid "No limit"
+msgctxt "e.g. 'Show previews for [files of any size]'"
+msgid "files of any size"
 msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:84
 #, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
-#| msgid "Remote files above:"
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Файлҳои дурдаст дар боло:"
+#| msgctxt "action:button"
+#| msgid "Your files"
+msgctxt "e.g. 'Show previews for [no file]'"
+msgid "no file"
+msgstr "Файлҳои шумо"
 
-#: settings/interface/previewssettingspage.cpp:75
+#: settings/interface/previewssettingspage.cpp:91
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
-msgid "No previews"
+msgctxt "@option:check"
+msgid "Show previews for folders"
 msgstr "Пешнамоиш"
+
+#: settings/interface/previewssettingspage.cpp:100
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
+"strong='true'>very expensive</emphasis> in terms of network resources.</"
+"para><para>Disable this if navigating remote folders in Dolphin is slow or "
+"when accessing storage over metered connections.</para>"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
+#| msgid "Local files above:"
+msgctxt "@title:group"
+msgid "Local storage:"
+msgstr "Файлҳои маҳаллӣ дар боло"
+
+#: settings/interface/previewssettingspage.cpp:117
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Restore"
+msgctxt "@title:group"
+msgid "Remote storage:"
+msgstr "Бозсозӣ"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, fuzzy, kde-format
@@ -5924,6 +5972,25 @@ msgid "Updating version information…"
 msgstr "Не удалось обновить информацию о версиях."
 
 #, fuzzy
+#~| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
+#~| msgid "Remote files above:"
+#~ msgid "Skip previews for local files above:"
+#~ msgstr "Файлҳои дурдаст дар боло:"
+
+#, fuzzy
+#~| msgctxt "@label Don't create previews for: <Remote files above:> XX MByte"
+#~| msgid "Remote files above:"
+#~ msgctxt "@label"
+#~ msgid "Skip previews for remote files above:"
+#~ msgstr "Файлҳои дурдаст дар боло:"
+
+#, fuzzy
+#~| msgctxt "@option:check"
+#~| msgid "Show preview"
+#~ msgid "No previews"
+#~ msgstr "Пешнамоиш"
+
+#, fuzzy
 #~| msgctxt "@action:inmenu"
 #~| msgid "Activate Next Tab"
 #~ msgctxt "@action:inmenu"
@@ -6638,10 +6705,6 @@ msgstr "Не удалось обновить информацию о верси�
 #~ msgctxt "@title:group"
 #~ msgid "Do not create previews for"
 #~ msgstr "Пешнамоишро рад кунед барои:"
-
-#~ msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#~ msgid "Local files above:"
-#~ msgstr "Файлҳои маҳаллӣ дар боло"
 
 #~ msgctxt "@title:group"
 #~ msgid "Version Control Systems"

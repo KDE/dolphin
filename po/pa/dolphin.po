@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:40+0000\n"
+"POT-Creation-Date: 2024-05-14 00:40+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -1538,7 +1538,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "ਖਾਲੀ ਤਾਜ਼ਾ ਬੰਦ ਕੀਤੀਆਂ ਟੈਬਾਂ"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:504 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%2 ਵਿੱਚ %1 ਲਈ ਖੋਜੋ"
@@ -1597,7 +1597,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "ਮੁੱਖ ਟੂਲਬਾਰ"
 
-#: dolphinurlnavigator.cpp:37
+#: dolphinurlnavigator.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis location bar"
 msgid ""
@@ -1610,6 +1610,12 @@ msgid ""
 "learn more about the basic and advanced features of the location bar <link "
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
+msgstr ""
+
+#: dolphinurlnavigator.cpp:56
+#, kde-format
+msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+msgid "This folder is not writable for you."
 msgstr ""
 
 #: dolphinviewcontainer.cpp:92
@@ -1632,66 +1638,66 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "ਡਾਲਫਿਨ ਨੂੰ ਰੂਟ ਵਜੋਂ ਚਲਾਉਣਾ ਖ਼ਤਰਨਾਕ ਹੋ ਸਕਦਾ ਹੈ। ਧਿਆਨ ਰੱਖੋ।"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:542
 #, kde-format
 msgid "Search"
 msgstr "ਖੋਜੋ"
 
-#: dolphinviewcontainer.cpp:542
+#: dolphinviewcontainer.cpp:544
 #, kde-format
 msgid "Search for %1"
 msgstr "%1 ਲਈ ਖੋਜ"
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ਫੋਲਡਰ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
-#: dolphinviewcontainer.cpp:634
+#: dolphinviewcontainer.cpp:636
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "ਲੜੀਬੱਧ…"
 
-#: dolphinviewcontainer.cpp:645
+#: dolphinviewcontainer.cpp:647
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "…ਖੋਜ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: dolphinviewcontainer.cpp:666
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ਕੋਈ ਆਈਟਮ ਨਹੀਂ ਲੱਭੀ।"
 
-#: dolphinviewcontainer.cpp:841
+#: dolphinviewcontainer.cpp:851
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ਡਾਲਫਿਨ ਵੈੱਬ ਪੇਜ਼ਾਂ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਚਲਾਇਆ ਗਿਆ ਹੈ।"
 
-#: dolphinviewcontainer.cpp:844
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ਪਰੋਟੋਕਾਲ ਡਾਲਫਿਨ ਵਲੋਂ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਮੂਲ ਐਪਲੀਕੇਸ਼ਨ ਲਾਂਚ ਕੀਤੀ ਗਈ ਹੈ"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:861
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ '%1'"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:863
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:973
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2297,181 +2303,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "ਅਣਪਛਾਤੀ ਗਲਤੀ ਹੈ।"
 
-#: main.cpp:98
+#: main.cpp:122
 #, kde-format
 msgid "Dolphin"
 msgstr "ਡਾਲਫਿਨ"
 
-#: main.cpp:100
+#: main.cpp:124
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "ਫਾਇਲ ਮੈਨੇਜਰ"
 
-#: main.cpp:102
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) ੨੦੦੬-੨੦੨੨ ਡਾਲਫਿਨ ਡਿਵੈਲਪਰ"
 
-#: main.cpp:104
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr ""
 
-#: main.cpp:105
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੨੧ ਤੋਂ) ਅਤੇ ਡਿਵੈਲਪਰ"
 
-#: main.cpp:107
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "ਮੇਵਨ ਕਾਰ"
 
-#: main.cpp:108
+#: main.cpp:132
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੨੧ ਤੋਂ) ਅਤੇ ਡਿਵੈਲਪਰ (੨੦੧੯ ਤੋਂ)"
 
-#: main.cpp:110
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:135
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੧੪-੨੦੧੮) ਅਤੇ ਡਿਵੈਲਪਰ"
 
-#: main.cpp:113
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr ""
 
-#: main.cpp:114
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੧੪-੨੦੧੮) ਅਤੇ ਡਿਵੈਲਪਰ"
 
-#: main.cpp:116
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "ਫਰੈਕ ਰੀਨਿਨਿੰਘਰਸ"
 
-#: main.cpp:117
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "ਪਰਬੰਧਕ ( ੨੦੧੨-੨੦੧੪) ਅਤੇ ਡਿਵੈਲਪਰ"
 
-#: main.cpp:119
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "ਪੀਟਰ ਪੀਜ਼"
 
-#: main.cpp:120
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "ਪਰਬੰਧਕ ਅਤੇ ਡਿਵੈਲਪਰ (੨੦੦੬-੨੦੧੨)"
 
-#: main.cpp:122
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "ਸੇਬਾਸਟਿਨ ਤਰੁਗ"
 
-#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
-#: main.cpp:127 main.cpp:128
+#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
+#: main.cpp:151 main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "ਡਿਵੈਲਪਰ"
 
-#: main.cpp:123
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "ਡੇਵਿਡ ਫਾਉਰੀ"
 
-#: main.cpp:124
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "ਆਰੋਨ ਜੇ. ਸੀਆਗੋ"
 
-#: main.cpp:125
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "ਰਾਫਾਇਲ ਫਰਨਾਂਡੀਜ਼ ਲੋਪੀਜ਼"
 
-#: main.cpp:126
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "ਕਾਵਿਨ ਉੱਟਿਨਜ਼"
 
-#: main.cpp:127
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "ਹੋਲਗੀਰ ਫਰੀਯਥੀਰ"
 
-#: main.cpp:128
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "ਮੈਕਸ ਬਾਲਜ਼ੀਜੈਕ"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "ਮਾਈਕਲ ਅਸਟੀਨ"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "ਡੌਕੂਮੈਂਟੇਸ਼ਨ"
 
-#: main.cpp:139
+#: main.cpp:163
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "ਆਰਗੂਮੈਂਟ ਵਜੋਂ ਦੇਣ ਲਈ ਫਾਇਲਾਂ ਤੇ ਫੋਲਡਰਾਂ ਦੀ ਚੋਣ ਕੀਤੀ ਜਾਵੇਗੀ।"
 
-#: main.cpp:141
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "ਡਾਲਫਿਨ ਵੰਡੀ ਹੋਈ ਝਲਕ ਨਾਲ ਸ਼ੁਰੂ ਹੋਵੇਗਾ।"
 
-#: main.cpp:142
+#: main.cpp:166
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "ਡਾਲਫਿਨ ਖਾਸ ਤੌਰ ਉੱਤੇ ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਖੁੱਲ੍ਹੇਗਾ।"
 
-#: main.cpp:144
+#: main.cpp:168
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "ਡਾਲਫਿਨ ਡੈਮਨ ਸ਼ੁਰੂ ਕਰੋ (ਸਿਰਫ਼ DBus ਇੰਟਰਫੇਸ ਲਈ ਹੀ ਚਾਹੀਦੀ ਹੈ)।"
 
-#: main.cpp:145
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -4099,39 +4105,88 @@ msgid ""
 "pressing the right mouse button on a panel."
 msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:41
+#: settings/interface/previewssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "ਇਸ ਲਈ ਝਲਕਾਂ ਵੇਖਾਓ:"
 
-#: settings/interface/previewssettingspage.cpp:56
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "ਲੋਕਲ ਫਾਇਲ ਲਈ ਝਲਕ ਨਾ ਦਿਉ, ਇਸ ਤੋਂ ਵੱਧ:"
+#. i18n: This label forms a full sentence together with the spinbox content.
+#. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
+#. or "Show previews for [files of any size]".
+#: settings/interface/previewssettingspage.cpp:64
+#: settings/interface/previewssettingspage.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgctxt "@label:spinbox"
+msgid "Show previews for"
+msgstr "ਝਲਕ ਵੇਖੋ"
 
-#: settings/interface/previewssettingspage.cpp:60
-#: settings/interface/previewssettingspage.cpp:73
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt ""
+"used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
+"MiB]'"
+msgid "files below "
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/interface/previewssettingspage.cpp:62
+#: settings/interface/previewssettingspage.cpp:71
 #, kde-format
-msgid "No limit"
-msgstr "ਕੋਈ ਹੱਦ ਨਹੀਂ"
+msgctxt "e.g. 'Show previews for [files of any size]'"
+msgid "files of any size"
+msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:69
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "ਰਿਮੋਟ ਫਾਇਲ ਲਈ ਝਲਕ ਨਾ ਦਿਉ, ਇਸ ਤੋਂ ਵੱਧ:"
+#: settings/interface/previewssettingspage.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 file"
+#| msgid_plural "%1 files"
+msgctxt "e.g. 'Show previews for [no file]'"
+msgid "no file"
+msgstr "1 ਫਾਇਲ"
 
-#: settings/interface/previewssettingspage.cpp:75
-#, kde-format
-msgid "No previews"
-msgstr "ਕੋਈ ਝਲਕ ਨਹੀਂ"
+#: settings/interface/previewssettingspage.cpp:91
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@option:check"
+msgid "Show previews for folders"
+msgstr "ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰਾਂ ਦੀ ਝਲਕ ਵੇਖੋ"
+
+#: settings/interface/previewssettingspage.cpp:100
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
+"strong='true'>very expensive</emphasis> in terms of network resources.</"
+"para><para>Disable this if navigating remote folders in Dolphin is slow or "
+"when accessing storage over metered connections.</para>"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
+#| msgid "Local files above:"
+msgctxt "@title:group"
+msgid "Local storage:"
+msgstr "ਲੋਕਲ ਫਾਇਲਾਂ ਇਸ ਤੋਂ ਵੱਧ:"
+
+#: settings/interface/previewssettingspage.cpp:117
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Restore"
+msgctxt "@title:group"
+msgid "Remote storage:"
+msgstr "ਬਹਾਲ ਕਰੋ"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -5571,6 +5626,19 @@ msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "…ਵਰਜ਼ਨ ਜਾਣਕਾਰੀ ਅੱਪਡੇਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
+#~ msgid "Skip previews for local files above:"
+#~ msgstr "ਲੋਕਲ ਫਾਇਲ ਲਈ ਝਲਕ ਨਾ ਦਿਉ, ਇਸ ਤੋਂ ਵੱਧ:"
+
+#~ msgid "No limit"
+#~ msgstr "ਕੋਈ ਹੱਦ ਨਹੀਂ"
+
+#~ msgctxt "@label"
+#~ msgid "Skip previews for remote files above:"
+#~ msgstr "ਰਿਮੋਟ ਫਾਇਲ ਲਈ ਝਲਕ ਨਾ ਦਿਉ, ਇਸ ਤੋਂ ਵੱਧ:"
+
+#~ msgid "No previews"
+#~ msgstr "ਕੋਈ ਝਲਕ ਨਹੀਂ"
+
 #~ msgctxt "@action:inmenu Edit"
 #~ msgid "Copy to Inactive Split View"
 #~ msgstr "ਨਾ-ਸਰਗਰਮ ਵੰਡੀ ਝਲਕ ਵਿੱਚ ਕਾਪੀ ਕਰੋ"
@@ -6364,10 +6432,6 @@ msgstr "…ਵਰਜ਼ਨ ਜਾਣਕਾਰੀ ਅੱਪਡੇਟ ਕੀਤੀ �
 #~ msgctxt "@title:group"
 #~ msgid "Do not create previews for"
 #~ msgstr "ਇਸ ਲਈ ਝਲਕ ਨਾ ਬਣਾਓ"
-
-#~ msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#~ msgid "Local files above:"
-#~ msgstr "ਲੋਕਲ ਫਾਇਲਾਂ ਇਸ ਤੋਂ ਵੱਧ:"
 
 #~ msgctxt "@title:group"
 #~ msgid "Version Control Systems"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:40+0000\n"
-"PO-Revision-Date: 2024-04-09 00:00+0200\n"
+"POT-Creation-Date: 2024-05-14 00:40+0000\n"
+"PO-Revision-Date: 2024-05-13 23:21+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,19 +31,19 @@ msgstr "mkondarev@yahoo.de"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Действие като администратор - бъдете внимателни!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Действие като администратор"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Спиране на действията като администратор"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -60,30 +60,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Предстои ви да използвате администраторски привилегии. Докато "
+"действате като администратор можете да променяте или заменяте всеки файл или "
+"папка в тази система. Това включва елементи, които са от критично значение "
+"за функционирането ѝ.</para><para>Можете да <emphasis>изтриете данните на "
+"всеки потребител</emphasis> на този компютър и да <emphasis>разрушите тази "
+"инсталация непоправимо.</emphasis> Добавянето само на една буква в името на "
+"папка или файл или в съдържанието им може да доведе до "
+"<emphasis>невъзможност за зареждане</emphasis>на системата. </para><para>Има "
+"вероятност да няма друго предупреждение, дори ако сте на път да повредите "
+"системата.</para><para>Може би ще искате да <emphasis>създадете резервно "
+"копие на файлове и папки</emphasis>, преди да продължите.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Действие като администратор"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Рискове при изпълнение като администратор"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Разбирам и приемам тези рискове"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Не ме предупреждавай отново за тези рискове"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -450,7 +461,7 @@ msgstr "Копиране в другия изглед"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Копиране в другия изглед..."
+msgstr "Копиране в другия изглед…"
 
 #: dolphinmainwindow.cpp:1751
 #, kde-kuit-format
@@ -478,7 +489,7 @@ msgstr "Преместване в другия изглед"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Преместване в другия изглед..."
+msgstr "Преместване в другия изглед…"
 
 #: dolphinmainwindow.cpp:1763
 #, kde-kuit-format
@@ -1377,8 +1388,8 @@ msgstr ""
 "персонализира. Всички елементи, които виждате в  <interface>Меню </"
 "interface>  или в <interface> Меню лентата </interface> може да бъде "
 "поставено в лентата с инструменти. Просто щракнете с десния бутон върху него "
-"и изберете <interface> Конфигуриране на лентите с инструменти... </"
-"interface> или намерете това действие в <interface>Меню</interface>>.</para> "
+"и изберете <interface> Конфигуриране на лентите с инструменти… </interface> "
+"или намерете това действие в <interface>Меню</interface>>.</para> "
 "<para>Местоположението на лентата и стилът на нейните бутони също могат  да "
 "бъдат променени в менюто с десен бутон. Щракнете с десния бутон на  мишката "
 "върху бутона, ако искате за да покаже или скриете текста му.</para>"
@@ -1742,7 +1753,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Изпразване на последно затворените раздели"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:504 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Търсене за %1 в %2"
@@ -1801,7 +1812,7 @@ msgctxt "@title:menu"
 msgid "Main Toolbar"
 msgstr "Главна лента с инструменти"
 
-#: dolphinurlnavigator.cpp:37
+#: dolphinurlnavigator.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis location bar"
 msgid ""
@@ -1824,6 +1835,12 @@ msgstr ""
 "разширените функции на лентата за местоположение  <link url='help:/dolphin/"
 "location-bar.html'>натиснете тук</link>. Това ще отвори специалната страница "
 "в Наръчника.</para>"
+
+#: dolphinurlnavigator.cpp:56
+#, kde-format
+msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
+msgid "This folder is not writable for you."
+msgstr ""
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1857,47 +1874,47 @@ msgstr ""
 "Изпълнението на Dolphin като root може да бъде опасно. Моля, бъдете "
 "внимателни."
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:542
 #, kde-format
 msgid "Search"
 msgstr "Търсене"
 
-#: dolphinviewcontainer.cpp:542
+#: dolphinviewcontainer.cpp:544
 #, kde-format
 msgid "Search for %1"
 msgstr "Търсене за %1"
 
-#: dolphinviewcontainer.cpp:626
+#: dolphinviewcontainer.cpp:628
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Зареждане на папка…"
 
-#: dolphinviewcontainer.cpp:634
+#: dolphinviewcontainer.cpp:636
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Подреждане…"
 
-#: dolphinviewcontainer.cpp:645
+#: dolphinviewcontainer.cpp:647
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Търсене…"
 
-#: dolphinviewcontainer.cpp:666
+#: dolphinviewcontainer.cpp:672
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Няма отрити съвпадения."
 
-#: dolphinviewcontainer.cpp:841
+#: dolphinviewcontainer.cpp:851
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin не поддържа уеб страници, стартиран е уеб браузър"
 
-#: dolphinviewcontainer.cpp:844
+#: dolphinviewcontainer.cpp:854
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1905,19 +1922,19 @@ msgid ""
 msgstr ""
 "Протоколът не се поддържа от Dolphin. Стартирано е приложение по подразбиране"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:861
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Невалиден протокол '%1'"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:863
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Невалиден протокол"
 
-#: dolphinviewcontainer.cpp:963
+#: dolphinviewcontainer.cpp:973
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2527,181 +2544,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Неизвестна грешка."
 
-#: main.cpp:98
+#: main.cpp:122
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:100
+#: main.cpp:124
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Файлов мениджър"
 
-#: main.cpp:102
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006-2022 Разработчиците на Dolphin"
 
-#: main.cpp:104
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
-#: main.cpp:105
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Поддръжка (от 2021) и разработчик"
 
-#: main.cpp:107
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "Méven Car"
 
-#: main.cpp:108
+#: main.cpp:132
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Поддръжка (от 2021) и разработчик (от 2019)"
 
-#: main.cpp:110
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:111
+#: main.cpp:135
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Поддръжка (2018-2021) и разработчик"
 
-#: main.cpp:113
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
-#: main.cpp:114
+#: main.cpp:138
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Поддръжка (2014-2018) и разработчик"
 
-#: main.cpp:116
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:117
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Поддръжка (2012-2014) и разработчик"
 
-#: main.cpp:119
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:120
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Поддръжка и разработка (2006-2012)"
 
-#: main.cpp:122
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126
-#: main.cpp:127 main.cpp:128
+#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
+#: main.cpp:151 main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Разработка"
 
-#: main.cpp:123
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:124
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:125
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:126
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:127
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:128
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:129
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Документация"
 
-#: main.cpp:139
+#: main.cpp:163
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Подадените като аргументи файлове и папки ще бъдат избрани."
 
-#: main.cpp:141
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "Dolphin ще се зарежда с разделен изглед."
 
-#: main.cpp:142
+#: main.cpp:166
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin изрично ще се отвори в нов прозорец."
 
-#: main.cpp:144
+#: main.cpp:168
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Стартиране на демон на Dolphin (необходимо е само за DBus интерфейс)."
 
-#: main.cpp:145
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -2868,7 +2885,7 @@ msgstr "Размер на иконите в панела Места (-1 озна
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Конфигуриране на кошчето..."
+msgstr "Конфигуриране на кошчето…"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format
@@ -3775,19 +3792,15 @@ msgstr "Допълнителна информация"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
 msgstr "Селекция"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Потребителски шрифт"
+msgstr "Потребителски действие"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -3834,7 +3847,7 @@ msgstr ""
 "Вътрешна версия на конфигурацията на Dolphin, използвана главно за "
 "определяне на това, дали дадена актуализирана версия на Dolphin е "
 "стартирана, така че да се мигрират записите в конфигурацията, които са били "
-"премахнати/преименувани ...и т.н."
+"премахнати/преименувани и т.н."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:49
@@ -4137,7 +4150,7 @@ msgstr "Отваряне на много терминали наведнъж"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Преминаване към действие като администратор"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4366,39 +4379,86 @@ msgstr ""
 "Настройките на панела са достъпни и чрез контекстното им меню. Отворете го, "
 "като натиснете десния бутон на мишката върху панела."
 
-#: settings/interface/previewssettingspage.cpp:41
+#: settings/interface/previewssettingspage.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
 msgstr "Предварителен преглед за:"
 
-#: settings/interface/previewssettingspage.cpp:56
-#, kde-format
-msgid "Skip previews for local files above:"
-msgstr "Без предварителен преглед за локални файлове с размер над:"
+#. i18n: This label forms a full sentence together with the spinbox content.
+#. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
+#. or "Show previews for [files of any size]".
+#: settings/interface/previewssettingspage.cpp:64
+#: settings/interface/previewssettingspage.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show previews"
+msgctxt "@label:spinbox"
+msgid "Show previews for"
+msgstr "Показване на предварителен преглед"
 
-#: settings/interface/previewssettingspage.cpp:60
-#: settings/interface/previewssettingspage.cpp:73
+#: settings/interface/previewssettingspage.cpp:68
+#: settings/interface/previewssettingspage.cpp:81
+#, kde-format
+msgctxt ""
+"used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
+"MiB]'"
+msgid "files below "
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:69
+#: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
 msgstr " MiB"
 
-#: settings/interface/previewssettingspage.cpp:62
+#: settings/interface/previewssettingspage.cpp:71
 #, kde-format
-msgid "No limit"
-msgstr "Без ограничение"
+msgctxt "e.g. 'Show previews for [files of any size]'"
+msgid "files of any size"
+msgstr ""
 
-#: settings/interface/previewssettingspage.cpp:69
-#, kde-format
-msgctxt "@label"
-msgid "Skip previews for remote files above:"
-msgstr "Без предварителен преглед за отдалечени файлове с размер над:"
+#: settings/interface/previewssettingspage.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 file"
+#| msgid_plural "%1 files"
+msgctxt "e.g. 'Show previews for [no file]'"
+msgid "no file"
+msgstr "1 файл"
 
-#: settings/interface/previewssettingspage.cpp:75
+#: settings/interface/previewssettingspage.cpp:91
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@option:check"
+msgid "Show previews for folders"
+msgstr "Показване на предварителен преглед за файлове и папки"
+
+#: settings/interface/previewssettingspage.cpp:100
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
+"strong='true'>very expensive</emphasis> in terms of network resources.</"
+"para><para>Disable this if navigating remote folders in Dolphin is slow or "
+"when accessing storage over metered connections.</para>"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:112
 #, kde-format
-msgid "No previews"
-msgstr "Без предварителен преглед"
+msgctxt "@title:group"
+msgid "Local storage:"
+msgstr ""
+
+#: settings/interface/previewssettingspage.cpp:117
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Restore"
+msgctxt "@title:group"
+msgid "Remote storage:"
+msgstr "Възстановяване"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -4698,21 +4758,20 @@ msgctxt ""
 "background setting"
 msgid "Action to trigger when double clicking view background"
 msgstr ""
+"Действие, което да се задейства при двойно щракване върху фона на изгледа"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Без действие"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Потребителски шрифт"
+msgstr "Потребителски команда"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -4722,13 +4781,13 @@ msgstr "Потребителски шрифт"
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr ""
+msgstr "Двойно кликване задейства"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Фон: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4737,12 +4796,14 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Въведете потребителска команда, което да се задейства при двойно щракване "
+"върху фона на изгледа"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Команда…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4750,6 +4811,8 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Използвайте {path}, за да получите пътя до текущата папка. Пример: dolphin "
+"{path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -5879,6 +5942,19 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
+
+#~ msgid "Skip previews for local files above:"
+#~ msgstr "Без предварителен преглед за локални файлове с размер над:"
+
+#~ msgid "No limit"
+#~ msgstr "Без ограничение"
+
+#~ msgctxt "@label"
+#~ msgid "Skip previews for remote files above:"
+#~ msgstr "Без предварителен преглед за отдалечени файлове с размер над:"
+
+#~ msgid "No previews"
+#~ msgstr "Без предварителен преглед"
 
 #~ msgctxt "@action:inmenu Edit"
 #~ msgid "Copy to Inactive Split View"
