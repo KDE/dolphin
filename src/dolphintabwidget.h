@@ -9,7 +9,6 @@
 
 #include "dolphinnavigatorswidgetaction.h"
 #include "dolphintabpage.h"
-#include "views/draganddrophelper.h"
 
 #include <QTabWidget>
 #include <QUrl>
@@ -276,8 +275,6 @@ private:
      * in the primary view. A std::nullopt is returned if there is no view open that has @p item visible anywhere.
      */
     const std::optional<const ViewIndex> viewShowingItem(const QUrl &item) const;
-
-    DragAndDropHelper m_dragAndDropHelper;
 
 private:
     QPointer<DolphinTabPage> m_lastViewedTab;
