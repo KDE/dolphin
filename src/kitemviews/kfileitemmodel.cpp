@@ -60,6 +60,9 @@ KFileItemModel::KFileItemModel(QObject *parent)
     m_dirLister = new KDirLister(this);
     m_dirLister->setAutoErrorHandlingEnabled(false);
     m_dirLister->setDelayedMimeTypes(true);
+    // always let the kioworker determine mime type if supported
+    // this is needed for iconName and for filtering
+    m_dirLister->setRequestMimeTypeWhileListing(true);
 
     const QWidget *parentWidget = qobject_cast<QWidget *>(parent);
     if (parentWidget) {
