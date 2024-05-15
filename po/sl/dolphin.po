@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 07:01+0200\n"
+"PO-Revision-Date: 2024-05-14 07:33+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -43,19 +43,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "Delujete kot skrbnik - Bodite previdni!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Delujete kot skrbnik"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "Prenehaj delovati kot skrbnik"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -72,30 +72,41 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Uporabili boste pravice skrbnika. Medtem ko delujete kot skrbnik, "
+"lahko spremenite ali zamenjate katero koli datoteko ali mapo v tem sistemu. "
+"To vključuje elemente, ki so kritičnega pomena za delovanje tega sistema.</"
+"para><para>Lahko <emphasis>izbrišete vse uporabniške podatke</emphasis> v "
+"tem računalniku in <emphasis>pokvarite to namestitev brez možnosti popravka."
+"</emphasis> Če v ime mape ali datoteke ali njeno vsebino dodate eno samo "
+"črko, se lahko sistemu <emphasis>onemogočite zagon.</emphasis></"
+"para><para>Verjetno ne boste prejeli nikakršnega drugega opozorila, tudi če "
+"ste na tem, da pokvarite ta sistem.</para><para>Morda bi želeli "
+"<emphasis>varnostno kopirati datoteke in mape</emphasis>, preden nadaljujete."
+"</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Deluj kot skrbnik"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Tveganja pri delovanju kot skrbnik"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Razumem in sprejemam ta tveganja"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Ne opozarjaj me več na tveganja"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -1818,7 +1829,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "V to mapo vam ni mogoče pisati."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -3836,7 +3847,7 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
-"Interna nastavitvena različica Dolphina, ki se uporablja predvsem za "
+"Interna konfiguracijska različica Dolphina, ki se uporablja predvsem za "
 "določitev ali posodobljena različica Dolphina teče in za preselitev postavk "
 "konfiguracije, ki so bile odstranjene/preimenovane … itd."
 
@@ -4143,7 +4154,7 @@ msgstr "Odpiranju več terminalov naenkrat"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Preklop v delovanje skrbnika"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4380,12 +4391,10 @@ msgstr "Pokaži predoglede za:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Pokaži predoglede"
+msgstr "Pokaži predoglede za"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4394,7 +4403,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "datoteke spodaj "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4407,24 +4416,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "datoteke kakršnekoli velikosti"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 datotek"
+msgstr "ni datoteke"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Pokaži predogled datotek in map"
+msgstr "Pokaži predogled map"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4435,20 +4439,22 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>Ustvarjanje <emphasis>predogledov</emphasis> za oddaljene mape je "
+"<emphasis strong='true'>zelo drago</emphasis> v smislu omrežnih virov.</"
+"para><para>To onemogočite, če je krmarjenje Dolphina po oddaljenih mapah "
+"počasno ali kadar dostopa do oddaljenih hramb prek merjenih povezav.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "Lokalna hramba:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Obnovi"
+msgstr "Oddaljena hramba:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format

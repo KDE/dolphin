@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-12 13:47+0200\n"
+"PO-Revision-Date: 2024-05-14 10:13+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1833,7 +1833,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Deze map is voor u niet beschrijfbaar."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -4387,12 +4387,10 @@ msgstr "Voorbeelden in het beeld tonen voor:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Voorbeelden tonen"
+msgstr "Voorbeelden tonen voor"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4401,7 +4399,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "onderstaande bestanden"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4414,24 +4412,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "bestanden van elke grootte"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 bestand"
+msgstr "geen bestand"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Voorbeeld van bestanden en mappen tonen"
+msgstr "Voorbeeld van mappen tonen"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4442,22 +4435,23 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>Aanmaken van <emphasis>voorbeelden</emphasis> voor mappen op afstand "
+"is <emphasis strong='true'>is erg duur</emphasis> in termen van "
+"netwerkhulpbronnen.</para><para>Schakel dit uit als navigeren van mappen op "
+"afstand in Dolphin langzaam is of wanneer toegang tot opslag over bemeterde "
+"verbindingen.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#| msgid "Local files above:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Lokale bestanden boven:"
+msgstr "Lokale opslag:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Terugzetten"
+msgstr "Opslag op afstand:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format

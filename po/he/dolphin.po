@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-13 14:47+0300\n"
+"PO-Revision-Date: 2024-05-14 08:00+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1772,7 +1772,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "אין לך הרשאה לכתוב לתיקייה הזאת."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -4309,12 +4309,10 @@ msgstr "הצגת תצוגות מקדימות בתצוגה עבור:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "הצגת תצוגות מקדימות"
+msgstr "הצגת תצוגות מקדימות עבור"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4323,7 +4321,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "קבצים שמתחת"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4336,24 +4334,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "קבצים מכל גודל"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "קובץ"
+msgstr "אף קובץ"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "הצגת תצוגה מקדימה של קבצים ותיקיות"
+msgstr "הצגת תצוגות מקדימות של תיקיות"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4364,22 +4357,22 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>יצירת <emphasis>תצוגות מקדימות</emphasis> לתיקיות מרוחקות היא<emphasis "
+"strong='true'>תובענית מאוד</emphasis> מבחינת משאבי רשת.</para><para>כדאי "
+"להשבית אם ניווט לתיקיות מרוחקות עם Dolphin איטי או בעת גישה לאחסון דרך רשתות "
+"מוגבלות.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "מיקום:"
+msgstr "אחסון מקומי:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "שחזור"
+msgstr "אחסון מרוחק:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-12 03:35+0200\n"
+"PO-Revision-Date: 2024-05-14 23:28+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1818,7 +1818,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "ეს საქაღალდე თქვენთვის ჩაწერადი არაა."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -4357,12 +4357,10 @@ msgstr "მინიატურების ჩვენება ხედშ�
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "მინიატურების ჩვენება"
+msgstr "მინიატურების ჩვენება ზომისთვის:"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4371,7 +4369,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "ფაილები, რომლებიც ნაკლებია "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4384,24 +4382,19 @@ msgstr " მიბ"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "ნებისმიერი ზომის ფაილები"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 ფაილი"
+msgstr "ფაილის გარეშე"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "ფაილებსა და საქაღალდეების მინიატურების ჩვენება"
+msgstr "საქაღალდის მინიატურების ჩვენება"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4412,20 +4405,23 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para><emphasis>მინიატურების</emphasis> შექმნა დაშორებული საქაღალდეებისთვის "
+"<emphasis strong='true'>ძალიან ძვირია</emphasis> ქსელური რესურსების "
+"დახარჯვის მხრივ..</para><para>გამორთეთ, თუ Dolphin-ში დაშორებულ "
+"საქაღალდეებზე მუშაობა ნელია, ან როცა საცავს გაზომვადი მიერთებით აკითხავთ.</"
+"para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "ლოკალური საცავი:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "აღდგენა"
+msgstr "დაშორებული საცავი:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format

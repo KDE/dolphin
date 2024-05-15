@@ -39,19 +39,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "正在以管理员身份操作 – 请谨慎行事！"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "正在以管理员身份操作"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "停止以管理员身份操作"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -68,30 +68,38 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>您将要使用管理员权限进行操作。当使用管理员身份时，您可以更改/替换系统中"
+"的任意文件/文件夹，包括那些对系统正常运作至关重要的项目。</para><para>您将可"
+"以<emphasis>删除电脑中任意用户的数据</emphasis>，也可能<emphasis>对系统造成无"
+"法恢复的损害。</emphasis>一些看起来微不足道的改动，例如更改了系统文件/文件夹"
+"名称中的一个字符，或者更改了系统文件内容中的一个字符，都有可能<emphasis>导致"
+"系统无法启动</emphasis>。</para><para>即使您进行对系统造成破坏的操作，系统也"
+"大概率不会再次向您发出警告。</para><para>我们建议您在继续操作之前<emphasis>对"
+"文件/文件夹进行备份</emphasis>。</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "以管理员身份操作"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "以管理员身份操作的风险"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "我明白并同意承担上述风险"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "不要再次向我警告这些风险"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -3968,7 +3976,7 @@ msgstr "一次打开大量终端"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "正在切换到以管理员身份操作"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4202,12 +4210,10 @@ msgstr "显示预览图的项目类型："
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "显示预览"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4232,21 +4238,16 @@ msgid "files of any size"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 个文件"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "显示文件和文件夹的预览图"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4265,12 +4266,10 @@ msgid "Local storage:"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "还原"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -5713,16 +5712,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
-
-#~ msgid "Skip previews for local files above:"
-#~ msgstr "本地文件超过此大小时，不显示预览图："
-
-#~ msgid "No limit"
-#~ msgstr "不作限制"
-
-#~ msgctxt "@label"
-#~ msgid "Skip previews for remote files above:"
-#~ msgstr "远程文件超过此大小时，不显示预览图："
-
-#~ msgid "No previews"
-#~ msgstr "不显示预览图"
