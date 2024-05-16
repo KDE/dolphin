@@ -6049,16 +6049,3 @@ msgstr[1] "Handlinger for %1 valgte elementer"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Skip previews for local files above:"
-#~ msgstr "Hopp over forhåndsvisning for lokale filer over:"
-
-#~ msgid "No limit"
-#~ msgstr "Ingen begrensning"
-
-#~ msgctxt "@label"
-#~ msgid "Skip previews for remote files above:"
-#~ msgstr "Hopp over forhåndsvisning for nettverksfiler over:"
-
-#~ msgid "No previews"
-#~ msgstr "Ingen forhåndsvisning"

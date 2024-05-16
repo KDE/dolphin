@@ -1732,7 +1732,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "您无法写入此文件夹。"
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -4213,7 +4213,7 @@ msgstr "显示预览图的项目类型："
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr ""
+msgstr "显示预览图的文件大小限制："
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4222,7 +4222,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "小于"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4235,19 +4235,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "任意大小"
 
 #: settings/interface/previewssettingspage.cpp:84
 #, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr ""
+msgstr "不显示预览图"
 
 #: settings/interface/previewssettingspage.cpp:91
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr ""
+msgstr "显示文件夹的预览图"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4258,18 +4258,21 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>创建远程文件夹的<emphasis>预览图</emphasis>需要消耗<emphasis "
+"strong='true'>大量的</emphasis>网络资源。</para><para>如果 Dolphin 的工作缓"
+"慢，或者在使用按流量计费的网络连接时，可以禁用此选项。</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "本地存储："
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr ""
+msgstr "远程存储："
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format

@@ -6004,16 +6004,3 @@ msgstr[1] "Handlingar for %1 merkte element"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Skip previews for local files above:"
-#~ msgstr "Ikkje førehandsvising av lokale filer over:"
-
-#~ msgid "No limit"
-#~ msgstr "Inga grense"
-
-#~ msgctxt "@label"
-#~ msgid "Skip previews for remote files above:"
-#~ msgstr "Ikkje førehandsvising av nettverksfiler over:"
-
-#~ msgid "No previews"
-#~ msgstr "Inga førehandsvising"
