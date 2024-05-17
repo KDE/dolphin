@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 09:54+0400\n"
+"PO-Revision-Date: 2024-05-16 12:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -40,19 +40,19 @@ msgstr "doc@arabeyes.org,zayed.alsaidi@gmail.com,osamak.wfm@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "أنت تعمل بصلاحيات مدير النظام – كن حذرًا!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "تعمل بصلاحيات مدير"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "أوقف العمل بصلاحيات مدير النظام"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -69,30 +69,39 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>أنت على وشك استخدام صلاحيات مدير النظام. أثناء العمل بصلاحيات مدير "
+"النظام يمكنك تغيير أو استبدال أي ملف أو مجلد على هذا النظام.يتضمن ذلك "
+"العناصر المهمة لكي يعمل هذا النظام.</para><para>يمكنك <emphasis>حذف بيانات "
+"كل المستخدمين</emphasis> على هذا الحاسوب و<emphasis>إتلاف هذا النظام بشكل لا "
+"يمكن إصلاحه.</emphasis>  كذلك يمكن أن تؤدي إضافة حرف واحد فقط في اسم المجلد "
+"أو الملف أو محتوياته إلى جعل النظام <emphasis>غير قابل للإقلاع.</emphasis></"
+"para><para>ربما لن يكون هناك تحذير آخر حتى لو كنت على وشك كسر هذا النظام.</"
+"para><para>قد ترغب في <emphasis>نسخ الملفات والمجلدات احتياطيًا</emphasis> "
+"قبل المتابعة.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "اعمل بصلاحيات مدير النظام"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "مخاطر العمل بصلاحيات مدير النظام"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "أنا أفهم وأقبل هذه المخاطر"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "لا تحذرني من هذه المخاطر مرة أخرى"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -1791,7 +1800,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "لا تستطيع الكتابة في هذا المجلد."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -4131,7 +4140,7 @@ msgstr "فتح العديد من الطرفيات في آن واحد"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "التحول للعمل بصلاحيات مدير النظام"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4367,9 +4376,7 @@ msgstr "أظهر معايناتٍ في العرض لِـ:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "أظهر معاينة"
@@ -4381,7 +4388,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "للملفات التي أقل من"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4394,24 +4401,19 @@ msgstr " م.بايت"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "للملفات من أي حجم"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "0 ملف"
+msgstr "للا شيء"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "أظهر معاينة للملفات والمجلدات"
+msgstr "أظهر معاينة للمجلدات"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4422,22 +4424,22 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>يعد إنشاء <emphasis>معاينات</emphasis> للمجلدات البعيدة <emphasis "
+"strong='true'>مكلفًا للغاية</emphasis> فيما يتعلق بموارد الشبكة.</"
+"para><para>عطل هذا في عندما يكون التنقل في المجلدات البعيدة بطيئًا أو عند "
+"الوصول إلى مساحة التخزين عبر اتصالات مقيّدة.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#| msgid "Local files above:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "ملفات محلية فوق:"
+msgstr "التخزين المحلي:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "استعد"
+msgstr "التخزين الخارجي:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
