@@ -53,7 +53,7 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     DBus
 )
 
-if (UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE AND NOT HAIKU)
     set(HAVE_X11 TRUE)
 endif()
 
@@ -150,7 +150,7 @@ endif()
 
 # Compatibility with platforms without native fts (e.g. musl)
 check_include_files("sys/types.h;sys/stat.h;fts.h" HAVE_FTS_H)
-if(HAVE_FTS_H)
+if(HAVE_FTS_H AND NOT HAIKU)
     check_function_exists(fts_open HAVE_FTS_OPEN)
     if(NOT HAVE_FTS_OPEN)
         check_library_exists(fts fts_open "" HAVE_LIB_FTS)

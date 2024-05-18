@@ -106,7 +106,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_messageWidget->setPosition(KMessageWidget::Header);
     m_messageWidget->hide();
 
-#ifndef Q_OS_WIN
+#if !defined(Q_OS_WIN) && !defined(Q_OS_HAIKU)
     if (getuid() == 0) {
         // We must be logged in as the root user; show a big scary warning
         showMessage(i18n("Running Dolphin as root can be dangerous. Please be careful."), Warning);

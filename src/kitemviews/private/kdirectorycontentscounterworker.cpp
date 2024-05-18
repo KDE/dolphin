@@ -8,7 +8,7 @@
 #include "kdirectorycontentscounterworker.h"
 
 // Required includes for countDirectoryContents():
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_HAIKU)
 #include <QDir>
 #else
 #include <QElapsedTimer>
@@ -23,7 +23,7 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject *parent
     qRegisterMetaType<KDirectoryContentsCounterWorker::Options>();
 }
 
-#ifndef Q_OS_WIN
+#if !defined(Q_OS_WIN) && !defined(Q_OS_HAIKU)
 void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool countHiddenFiles, uint allowedRecursiveLevel)
 {
     QByteArray text = dirPath.toLocal8Bit();
@@ -138,7 +138,7 @@ void KDirectoryContentsCounterWorker::countDirectoryContents(const QString &path
 {
     const bool countHiddenFiles = options & CountHiddenFiles;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_HAIKU)
     QDir dir(path);
     QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System | QDir::AllEntries;
     if (countHiddenFiles) {
