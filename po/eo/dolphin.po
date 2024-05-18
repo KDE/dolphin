@@ -4,15 +4,15 @@
 # Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>, 2007, 2008.
 # Cindy McKee <cfmckee@gmail.com>, 2007.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-04-07 17:09+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-17 12:22+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Pierre-Marie Pédrot,Cindy McKee,Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "pedrotpmx@wanadoo.fr,cfmckee@gmail.com,okellogg@users.sourceforge.net"
+msgstr "pedrotpmx@wanadoo.fr,cfmckee@gmail.com,olivermkellogg@gmail.com"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -289,13 +289,13 @@ msgstr "Ĉi tio aldonas la elektitan dosierujon al la panelo Lokoj."
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
-msgstr "Fermi Langeton"
+msgstr "Fermi la langeton"
 
 #: dolphinmainwindow.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
-msgstr "Fermi Langeton"
+msgstr "Fermi la langeton"
 
 #: dolphinmainwindow.cpp:1690
 #, kde-format
@@ -638,7 +638,7 @@ msgstr "Halti"
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
-msgstr "Ĉesi ŝargadon"
+msgstr "Ĉesi ŝargi"
 
 #: dolphinmainwindow.cpp:1906
 #, kde-format
@@ -1200,7 +1200,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
-msgstr "Fermi maldekstran"
+msgstr "Fermi"
 
 #: dolphinmainwindow.cpp:2620
 #, kde-format
@@ -1224,7 +1224,7 @@ msgstr "Movi maldekstran vidon al nova fenestro"
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
-msgstr "Fermi dekstran"
+msgstr "Fermi"
 
 #: dolphinmainwindow.cpp:2626
 #, kde-format
@@ -2669,7 +2669,7 @@ msgstr "Forigi"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Hidden Files"
-msgstr "Montri la kaŝitajn dosierojn"
+msgstr "Montri kaŝitajn dosierojn"
 
 #: panels/folders/treeviewcontextmenu.cpp:113
 #, kde-format
@@ -2687,7 +2687,7 @@ msgstr "Aŭtomata Rulumo"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Properties"
-msgstr "Ecoj"
+msgstr "Trajtoj"
 
 #. i18n: ectx: label, entry (previewsShown), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:10
@@ -2705,7 +2705,7 @@ msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
 #, kde-format
 msgid "Show item on hover"
-msgstr "Montri elementon je musumo"
+msgstr "Montri elementon je musoŝvebo"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -2729,7 +2729,7 @@ msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Montri elementon je musumo"
+msgstr "Montri elementon je musoŝvebo"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3503,7 +3503,7 @@ msgstr "Posicio de kolumnoj"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr "Flankŝtopado"
+msgstr "Flanka Remburado"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
@@ -3554,7 +3554,7 @@ msgstr "Ĉi tiu opcio difinas la uzatan version de la vidaj trajtoj."
 #, kde-format
 msgctxt "@label"
 msgid "View Mode"
-msgstr "Rigarda moduso"
+msgstr "Rigarda reĝimo"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
@@ -5122,7 +5122,7 @@ msgstr[1] "Malfermi %1 Erojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr "Flanka Remburado"
+msgstr "Flankŝtopado"
 
 #: views/dolphinview.cpp:1215
 #, kde-format
