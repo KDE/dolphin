@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-13 20:02\n"
+"PO-Revision-Date: 2024-05-16 21:10\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -66,6 +66,18 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Вы хочаце дзейнічаць ад імя адміністратара. Ад імя адміністратара вы "
+"можаце змяніць або замяніць любы файл або каталог у гэтай сістэме. Гэта "
+"тычыцца і элементаў, якія маюць крытычна \n"
+"важнае значэнне для функцыянавання гэтай сістэмы.</para><para>Вы можаце "
+"<emphasis>выдаліць даныя ўсіх карыстальнікаў</emphasis> на гэтым камп'ютары "
+"і <emphasis>перапыніць гэтае ўсталяванне без магчымасці аднаўлення.</"
+"emphasis> Нават калі дадаць толькі адну літару ў назву каталога або файла ці "
+"ў яго змесціва, то сістэма <emphasis>можа не загрузіцца.</emphasis></"
+"para><para>Напэўна, іншага папярэджання не будзе, нават калі вы будзеце "
+"рабіць нешта, што можа пашкодзіць гэтую сістэму.</para><para>Вы можаце "
+"<emphasis>зрабіць рэзервовыя копіі файлаў і каталогаў</emphasis>, перш чым "
+"працягваць.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
@@ -467,6 +479,8 @@ msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
+"Гэтае дзеянне капіюе абраныя элементы з актыўнай панэлі ў неактыўныю. "
+"(Даступна толькі ў рэжыме падзеленага выгляду.)"
 
 #: dolphinmainwindow.cpp:1755
 #, kde-format
@@ -493,6 +507,8 @@ msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
+"Гэтае дзеянне перамяшчае абраныя элементы з актыўнай панэлі ў неактыўныю. "
+"(Даступна толькі ў рэжыме падзеленага выгляду.)"
 
 #: dolphinmainwindow.cpp:1767
 #, kde-format
@@ -521,6 +537,9 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"Гэты параметр адкрывае <emphasis>Панэль фільтраў</emphasis> у ніжняй частцы "
+"акна.<nl/>Там вы можаце ўвесці тэкст для фільтравання файлаў і каталогаў. "
+"Паказвацца будуць толькі тыя, у назве якіх ёсць уведзены тэкст."
 
 #: dolphinmainwindow.cpp:1787
 #, kde-format
@@ -555,6 +574,11 @@ msgid ""
 "search bar so we can have a look at it while the settings are explained.</"
 "para>"
 msgstr ""
+"<para>Гэты параметр дапаможа вам знаходзіць файлы і каталогі, адкрыўшы "
+"<emphasis>панэль пошуку</emphasis>. Там вы можаце ўвесці ўмовы пошуку і "
+"вызначыць налады для пошуку элементаў.</para><para>Скарыстайцеся гэтай "
+"даведкай яшчэ раз на панэлі пошуку, каб бачыць яе, пакуль тлумачацца налады."
+"</para> >"
 
 #: dolphinmainwindow.cpp:1810
 #, kde-format
@@ -620,6 +644,8 @@ msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
+"Гэтае дзеянне абірае ўсе элементы, якія вы зараз <emphasis>не</emphasis> "
+"абралі."
 
 #: dolphinmainwindow.cpp:1874
 #, kde-kuit-format
@@ -630,6 +656,10 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Гэты параметр актывуе другую панэль побач з бягучай, так што вы можаце "
+"адначасова бачыць змесціва двух каталогаў і лёгка перамяшчаць элементы паміж "
+"імі.</para><para>Панэль, якая не знаходзіцца ў фокусе, будзе цьмянай. </"
+"para>Націсніце гэтую кнопку яшчэ раз, каб закрыць адну з панэляў."
 
 #: dolphinmainwindow.cpp:1889
 #, kde-kuit-format
@@ -638,6 +668,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"Калі панэль праглядаецца ў рэжыме падзеленага выгляду, гэтае дзеянне адкрые "
+"актыўную панэль у новым акне."
 
 #: dolphinmainwindow.cpp:1897
 #, kde-format
@@ -747,6 +779,11 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
+"Гэтае дзеянне скасуе апошнюю змену ў дачыненні да файлаў або каталогаў.<nl/"
+">Гэта <interface>стварэнне</interface>, <interface>змена назвы</interface> і "
+"<interface>перамяшчэнне</interface> іх у іншае месца або ў "
+"<filename>сметніцу</filename>. <nl/>Змены, якія нельга скасаваць, будуць "
+"патрабаваць пацвярджэння."
 
 #: dolphinmainwindow.cpp:2005
 #, kde-kuit-format
@@ -793,6 +830,9 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
+"<para>Гэтае дзеянне адкрывае праграму <emphasis>тэрмінала</emphasis> ў "
+"бягучым размяшчэнні.</para><para>Каб даведацца больш пра тэрміналы, "
+"скарыстайцеся даведкай у праграме тэрмінала.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2038
@@ -809,6 +849,9 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
+"<para>Гэтае дзеянне адкрывае праграму <emphasis>тэрмінала</emphasis> ў месцы "
+"размяшчэння абраных элементаў.</para><para>Каб даведацца больш пра "
+"тэрміналы, скарыстайцеся даведкай у праграме тэрмінала.</para>"
 
 #: dolphinmainwindow.cpp:2048 dolphinmainwindow.cpp:2876
 #, kde-format
@@ -833,6 +876,12 @@ msgid ""
 "offer.</para><para>The %1 button is simpler and small which makes triggering "
 "advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Гэты параметр пераключае паміж <emphasis >панэллю меню</emphasis> і "
+"кнопкай <interface>%1</interface>. Абодва варыянты маюць прыблізна "
+"аднолькавыя дзеянні і параметры канфігурацыі.</para><para>Панэль меню займае "
+"больш месца, але забяспечвае хуткі і арганізаваны доступ да ўсіх дзеянняў, "
+"якія можа прапанаваць праграма.</para><para>Кнопка %1 больш простая і "
+"маленькая, што робіць выпуск дадатковых дзеянняў больш працяглым.</para>"
 
 #: dolphinmainwindow.cpp:2099
 #, kde-format
@@ -1032,6 +1081,12 @@ msgid ""
 "learn more about terminals use the help features in a standalone terminal "
 "application like Konsole.</para>"
 msgstr ""
+"<para>Гэты параметр паказвае або хавае панэль <emphasis>тэрмінала</emphasis> "
+"у ніжняй частцы акна.<nl/>Размяшчэнне ў тэрмінале заўсёды будзе адпавядаць "
+"каталогу, які вы праглядаеце.</para><para> Панэль тэрмінала не патрэбная для "
+"базавых задач, але можа быць карыснай для выканання дадатковых задач. Каб "
+"даведацца больш пра тэрміналы, скарыстайцеся даведкай праграмы тэрмінала "
+"накшталт Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2298
 #, kde-kuit-format
@@ -1044,6 +1099,11 @@ msgid ""
 "about terminals use the help features in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
+"<para>Гэта панэль <emphasis>тэрмінала</emphasis>. Яна працуе як звычайны "
+"тэрмінал, але размяшчэнне адпавядае каталогу, які вы праглядаеце.</"
+"para><para> Панэль тэрмінала не патрэбная для базавых задач, але можа быць "
+"карыснай для выканання дадатковых задач. Каб даведацца больш пра тэрміналы, "
+"скарыстайцеся даведкай праграмы тэрмінала накшталт Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2315
 #, kde-format
@@ -1065,6 +1125,9 @@ msgid ""
 "will appear semi-transparent and allow you to uncheck their \"Hide\" "
 "property."
 msgstr ""
+"Гэты параметр паказвае ўсе размяшчэнні на панэлі размяшчэнняў, якія былі "
+"схаваныя. Яны будуць выглядаць напаўпразрыстымі, а ў вас будзе магчымасць "
+"прыбраць адзнаку з уласцівасці хавання."
 
 #: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
@@ -1121,6 +1184,8 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Немагчыма змяніць назву: вы не маеце правоў на змену назваў элементаў у "
+"гэтым каталозе."
 
 #: dolphinmainwindow.cpp:2448 dolphinmainwindow.cpp:2465
 #, kde-format
@@ -1128,12 +1193,16 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Немагчыма выдаліць: вы не маеце правоў на выдаленне элементаў у гэтым "
+"каталозе."
 
 #: dolphinmainwindow.cpp:2450
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Немагчыма выразаць: вы не маеце правоў на перамяшчэнне элементаў з гэтага "
+"каталога."
 
 #: dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1142,6 +1211,8 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Немагчыма стварыць дублікат: вы не маеце правоў на стварэнне элементаў у "
+"гэтым каталозе."
 
 #: dolphinmainwindow.cpp:2477
 #, kde-format
@@ -4339,12 +4410,10 @@ msgstr "Паказваць мініяцюры для:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Паказваць мініяцюры"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4369,21 +4438,16 @@ msgid "files of any size"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 файл"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Паказваць мініяцюры файлаў і каталогаў"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4396,20 +4460,16 @@ msgid ""
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Адрас:"
+msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Аднавіць"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -5753,6 +5813,14 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
+"<para>Калі параметр ўключаны, <emphasis>схаваныя</emphasis> файлы і каталогі "
+"будуць бачнымі. Яны будуць паказвацца напаўпразрыстымі.</para><para>Схаваныя "
+"элементы адрозніваюцца ад іншых толькі тым, што іх назва пачынаецца з (\"."
+"\"). Звычайна карыстальнікам не патрэбны доступ да іх, таму яны схаваныя.</"
+"para><para>Элементы таксама могуць быць схаваныя, калі іх імёны пералічаны ў "
+"тэкставым файле з назвай \".hidden\". Файлы з тыпам MIME \"application/x-"
+"trash\", такія як файлы рэзервовых копій, таксама можна схаваць, уключыўшы "
+"гэты параметр у Наладжванне Dolphin > Выгляд > Асноўныя налады</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format

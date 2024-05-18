@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-15 18:50+0100\n"
+"PO-Revision-Date: 2024-05-17 12:22+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1268,7 +1268,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
-msgstr "Fermi maldekstran"
+msgstr "Fermi"
 
 #: dolphinmainwindow.cpp:2632
 #, kde-format
@@ -1292,7 +1292,7 @@ msgstr "Movi maldekstran vidon al nova fenestro"
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
-msgstr "Fermi dekstran"
+msgstr "Fermi"
 
 #: dolphinmainwindow.cpp:2638
 #, kde-format
@@ -1753,7 +1753,7 @@ msgstr "Fermi la aliajn langetojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
-msgstr "Fermi la langeton"
+msgstr "Fermi Langeton"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -5316,7 +5316,7 @@ msgstr[1] "Malfermi %1 Erojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr "Flanka Remburado"
+msgstr "Flankŝtopado"
 
 #: views/dolphinview.cpp:1216
 #, kde-format
