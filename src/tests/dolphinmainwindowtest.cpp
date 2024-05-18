@@ -9,7 +9,10 @@
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
+#include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistselectionmanager.h"
 #include "testdir.h"
 
 #include <KActionCollection>
@@ -360,7 +363,7 @@ void DolphinMainWindowTest::testGoActions()
     testDir->createDir("b/b-1");
     testDir->createFile("b/b-2");
     testDir->createDir("c");
-    QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
+    const QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
     m_mainWindow->openDirectories({childDirUrl}, false); // Open "b" dir
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
@@ -381,24 +384,40 @@ void DolphinMainWindowTest::testGoActions()
     const QUrl parentDirUrl = m_mainWindow->activeViewContainer()->url();
     QVERIFY(parentDirUrl != childDirUrl);
 
-    // The item we just emerged from should now have keyboard focus but this doesn't necessarily mean that it is selected.
-    // To test if it has keyboard focus, we press "Down" to select "c" below and then "Up" so the folder "b" we just emerged from is actually selected.
+    auto currentItemUrl = [this]() {
+        const int currentIndex = m_mainWindow->m_activeViewContainer->view()->m_container->controller()->selectionManager()->currentItem();
+        const KFileItem currentItem = m_mainWindow->m_activeViewContainer->view()->m_model->fileItem(currentIndex);
+        return currentItem.url();
+    };
+
+    QCOMPARE(currentItemUrl(), childDirUrl); // The item we just emerged from should now have keyboard focus.
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // The item we just emerged from should not be selected. BUG: 424723
+    // Pressing arrow keys should not only move the keyboard focus but also select the item.
+    // We press "Down" to select "c" below and then "Up" so the folder "b" we just emerged from is selected for the first time.
     m_mainWindow->actionCollection()->action(QStringLiteral("compact"))->trigger();
     QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Down, Qt::NoModifier);
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QVERIFY2(currentItemUrl() != childDirUrl, "The current item didn't change after pressing the 'Down' key.");
     QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Up, Qt::NoModifier);
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QCOMPARE(currentItemUrl(), childDirUrl); // After pressing 'Down' and then 'Up' we should be back where we were.
+
+    // Enter the child folder "b".
     QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::NoModifier);
     QVERIFY(spyDirectoryLoadingCompleted.wait());
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
     QVERIFY(m_mainWindow->isUrlOpen(childDirUrl.toString()));
 
-    // Go back to the parent folder
+    // Go back to the parent folder.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
     QVERIFY(spyDirectoryLoadingCompleted.wait());
     QTest::qWait(100); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
     QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
+    // Going 'Back' means that the view should be in the same state it was in when we left.
+    QCOMPARE(currentItemUrl(), childDirUrl); // The item we last interacted with in this location should still have keyboard focus.
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().constFirst().url(), childDirUrl); // It should still be selected.
 
     // Open a new tab for the "b" child dir and verify that this doesn't interfere with anything.
     QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier); // Open new inactive tab
@@ -412,6 +431,26 @@ void DolphinMainWindowTest::testGoActions()
     QVERIFY(spyDirectoryLoadingCompleted.wait());
     QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // There was no action in this view yet that would warrant a selection.
+    QCOMPARE(currentItemUrl(), QUrl(QDir::cleanPath(testDir->url().toString() + "/b/b-1"))); // The first item in the view should have keyboard focus.
+
+    // Press the 'Down' key in the child folder.
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Down, Qt::NoModifier);
+    // The second item in the view should have keyboard focus and be selected.
+    const QUrl secondItemInChildFolderUrl{QDir::cleanPath(testDir->url().toString() + "/b/b-2")};
+    QCOMPARE(currentItemUrl(), secondItemInChildFolderUrl);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().constFirst().url(), secondItemInChildFolderUrl);
+
+    // Go back to the parent folder and then re-enter the child folder.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
+    // The state of the view should be identical to how it was before we triggered "Back" and then "Forward".
+    QTRY_COMPARE(currentItemUrl(), secondItemInChildFolderUrl);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().constFirst().url(), secondItemInChildFolderUrl);
 
     // Go back to the parent folder.
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();

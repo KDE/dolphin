@@ -628,6 +628,7 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
+    QVERIFY2(!m_view->controller()->selectionManager()->hasSelection(), "An item should not be implicitly selected during activation. @see bug 424723");
 
     // Set the global setting to "double click activation".
     m_testStyle->setActivateItemOnSingleClick(false);
@@ -635,6 +636,7 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 0);
     spyItemActivated.clear();
+    QVERIFY(m_view->controller()->selectionManager()->hasSelection());
 
     // Enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(true);
@@ -642,6 +644,8 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
+    constexpr const char *reasonWhySelectionShouldPersist = "An item was selected before this mouse click. The click should not have cleared this selection.";
+    QVERIFY2(m_view->controller()->selectionManager()->hasSelection(), reasonWhySelectionShouldPersist);
 
     // Do not enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(false);
@@ -649,6 +653,7 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 0);
     spyItemActivated.clear();
+    QVERIFY2(m_view->controller()->selectionManager()->hasSelection(), reasonWhySelectionShouldPersist);
 
     // Set the global setting back to "single click activation".
     m_testStyle->setActivateItemOnSingleClick(true);
@@ -656,6 +661,7 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
+    QVERIFY2(m_view->controller()->selectionManager()->hasSelection(), reasonWhySelectionShouldPersist);
 
     // Enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(true);
@@ -663,6 +669,7 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
+    QVERIFY2(m_view->controller()->selectionManager()->hasSelection(), reasonWhySelectionShouldPersist);
 
     // Restore previous settings.
     m_controller->setSingleClickActivationEnforced(true);

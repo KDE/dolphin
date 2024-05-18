@@ -723,6 +723,9 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
 
     const bool emitItemActivated = index.has_value() && index.value() < m_model->count() && !m_view->isAboveExpansionToggle(index.value(), pos);
     if (emitItemActivated) {
+        if (!QApplication::keyboardModifiers()) {
+            m_selectionManager->clearSelection(); // The user does not want to manage/manipulate the item currently, only activate it.
+        }
         Q_EMIT itemActivated(index.value());
     }
     return false;
@@ -1661,10 +1664,14 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 // or we just keep going for double-click activation
                 if (m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) {
                     if (!pressedItemAlreadySelected) {
-                        // An unselected item was clicked directly while deselecting multiple other items so we select it.
-                        m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                        // An unselected item was clicked directly while deselecting multiple other items so we mark it "current".
                         m_selectionManager->setCurrentItem(m_pressedIndex.value());
                         m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+                        if (!leftClick) {
+                            // We select the item here because this press is not meant to directly activate the item.
+                            // We do not want to select items unless the user wants to edit them.
+                            m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                        }
                     }
                     return true; // event handled, don't create rubber band
                 }
@@ -1731,7 +1738,10 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
             break;
 
         case SingleSelection:
-            m_selectionManager->setSelected(m_pressedIndex.value());
+            if (!leftClick || shiftOrControlPressed
+                || (!m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) && !m_singleClickActivationEnforced)) {
+                m_selectionManager->setSelected(m_pressedIndex.value());
+            }
             break;
 
         case MultiSelection:
@@ -1752,7 +1762,10 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 }
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
-                m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
+                if (!leftClick || shiftOrControlPressed
+                    || (!m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) && !m_singleClickActivationEnforced)) {
+                    m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
+                }
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
             }
             break;
