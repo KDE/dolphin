@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 00:40+0000\n"
-"PO-Revision-Date: 2024-05-10 16:11+0900\n"
+"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"PO-Revision-Date: 2024-05-18 16:41+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -46,19 +46,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgstr "管理員操作模式 — 請小心！"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "管理員操作模式"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button"
 msgid "Stop Acting as an Administrator"
-msgstr ""
+msgstr "停止作為管理員進行操作"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -75,30 +75,37 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>您即將使用管理員權限進行操作。在管理員操作模式下您可以變更或取代此系統"
+"上的任何檔案或資料夾。這包含系統正常運作所必要的項目。</para><para>您會有權在"
+"此電腦上<emphasis>刪除所有使用者的資料</emphasis>或<emphasis>將此安裝損毀到無"
+"法復原的地步</emphasis>。只要改到錯的檔案或資料夾，只要一個字母就能讓系統"
+"<emphasis>無法開機</emphasis>。</para><para>在您即將弄壞系統之前基本上不會再"
+"有像這個訊息一樣的警告。</para><para>您可能會希望在繼續之前先<emphasis>備份檔"
+"案與資料夾</emphasis>。</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "管理員操作模式"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "管理員操作模式的風險"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "我瞭解並接受這些風險"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "不要再警告我這些風險"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -1732,7 +1739,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "您無法寫入此資料夾。"
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1819,7 +1826,7 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "不合法的協定"
 
-#: dolphinviewcontainer.cpp:973
+#: dolphinviewcontainer.cpp:974
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3975,7 +3982,7 @@ msgstr "同時開啟數個終端機時"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "切換至管理員操作模式時"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4209,12 +4216,10 @@ msgstr "要在檢視中顯示預覽的項目："
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "顯示預覽"
+msgstr "為哪些檔案顯示預覽"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4223,7 +4228,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "低於此大小的檔案"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4236,24 +4241,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "任何大小的檔案"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 個檔案"
+msgstr "無檔案"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "顯示檔案與資料夾的預覽"
+msgstr "顯示資料夾的預覽"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4264,20 +4264,21 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>建立遠端資料夾的<emphasis>預覽</emphasis>需要<emphasis strong='true'>非"
+"常多的</emphasis>網路資源。</para><para>在 Dolphin 中瀏覽遠端資料夾很慢或利用"
+"計量連線時請停用此選項。</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "本機儲存："
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "還原"
+msgstr "遠端儲存"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
