@@ -32,7 +32,7 @@ Bar::Bar(QWidget *parent)
 
     QWidget *contenntsContainer = prepareContentsContainer();
 
-    m_fullLabelString = i18nc("@info label above the view explaining the state", "Acting as an Administrator – Be careful!");
+    m_fullLabelString = i18nc("@info label above the view explaining the state", "Acting as an Administrator — Be careful!");
     m_shortLabelString = i18nc("@info label above the view explaining the state, keep short", "Acting as Admin");
     m_label = new QLabel(contenntsContainer);
     m_label->setMinimumWidth(0);
