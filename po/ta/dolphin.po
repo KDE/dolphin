@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-19 00:40+0000\n"
-"PO-Revision-Date: 2024-05-12 16:09+0530\n"
+"PO-Revision-Date: 2024-05-19 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -1716,7 +1716,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "இந்த அடைவில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -3640,11 +3640,9 @@ msgstr "கூடுதல் விவரங்கள்"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "தேர்வு செயல்"
+msgstr "செயலைத் தேர்ந்தெடுக்கவும்"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
@@ -4230,12 +4228,10 @@ msgstr "இவற்றிற்கு காட்சிப்பகுதி�
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "முன்தோற்றம் காட்டுக"
+msgstr "முன்தோற்றங்களை"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4244,37 +4240,32 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr " "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
-msgstr " MiB"
+msgstr " மெ.பைட்டைவிட சிறியு கோப்புகளுக்கு மட்டும் காட்டு"
 
 #: settings/interface/previewssettingspage.cpp:71
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "எல்லா அளவான கோப்புகளுக்கும் காட்டு"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 கோப்பு"
+msgstr "எந்த கோப்புக்கும் காட்டாதே"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "கோப்புகள் மற்றும் அடைவுகளுக்கு முன்தோற்றங்களைக் காட்டு"
+msgstr "அடைவுகளுக்கு முன்தோற்றங்களைக் காட்டு"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4287,20 +4278,16 @@ msgid ""
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "இடம்:"
+msgstr "உள்ளக சேமிப்பகம்:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "மீட்டெடு"
+msgstr "தொலை சேமிப்பகம்:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
