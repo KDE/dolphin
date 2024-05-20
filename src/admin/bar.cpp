@@ -41,8 +41,10 @@ Bar::Bar(QWidget *parent)
     m_warningButton = new KContextualHelpButton(warningMessage(), nullptr, contenntsContainer);
     m_warningButton->setIcon(QIcon::fromTheme(QStringLiteral("emblem-warning")));
 
-    m_closeButton = new QPushButton(QIcon::fromTheme(QStringLiteral("window-close-symbolic")), "", contenntsContainer);
-    m_closeButton->setToolTip(i18nc("@action:button", "Stop Acting as an Administrator"));
+    m_closeButton = new QPushButton(QIcon::fromTheme(QStringLiteral("window-close-symbolic")),
+                                    i18nc("@action:button Finish/Stop/Done acting as an admin", "Finish"),
+                                    contenntsContainer);
+    m_closeButton->setToolTip(i18nc("@info:tooltip", "Finish acting as an administrator"));
     m_closeButton->setFlat(true);
     connect(m_closeButton, &QAbstractButton::clicked, this, &Bar::activated); // Make sure the view connected to this bar is active before exiting admin mode.
     connect(m_closeButton, &QAbstractButton::clicked, this, &WorkerIntegration::exitAdminMode);
