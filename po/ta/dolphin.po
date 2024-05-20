@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-05-12 16:06+0530\n"
+"PO-Revision-Date: 2024-05-19 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -4141,7 +4141,7 @@ msgstr "இதைவிட பெரிய உள்ளமைக் கோப்
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
-msgstr " MiB"
+msgstr " மெ.பைட்டைவிட சிறியு கோப்புகளுக்கு மட்டும் காட்டு"
 
 #: settings/interface/previewssettingspage.cpp:62
 #, kde-format
