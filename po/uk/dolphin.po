@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-14 09:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -46,9 +46,17 @@ msgstr "Робота від адміністратора"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "Припинити роботу від адміністратора"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "Ризики роботи від імені адміністратора"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -6012,6 +6020,10 @@ msgstr[3] "Дії для позначеного запису"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Оновлення даних щодо версії…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "Припинити роботу від адміністратора"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Пропустити мініатюри локальних файлів, більші за:"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-01-07 16:26+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -46,8 +46,14 @@ msgstr ""
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
 msgstr ""
 
 #: admin/workerintegration.cpp:27

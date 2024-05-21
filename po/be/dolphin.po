@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-16 21:10\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -47,9 +47,17 @@ msgstr "Дзеянні ад імя адміністратара"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "Спыніць выкананне дзеянняў ад імя адміністратара"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "Рызыкі выканання дзеянняў ад імя адміністратара"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5968,6 +5976,10 @@ msgstr[3] "Дзеянні для %1 абраных элементаў"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Абнаўленне звестак пра версію…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "Спыніць выкананне дзеянняў ад імя адміністратара"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Прапускаць мініяцюры лакальных файлаў вышэй:"

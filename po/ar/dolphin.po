@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-16 12:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -50,9 +50,17 @@ msgstr "تعمل بصلاحيات مدير"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "أوقف العمل بصلاحيات مدير النظام"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "مخاطر العمل بصلاحيات مدير النظام"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5938,6 +5946,10 @@ msgstr[5] "الإجراءات لـ%1 عنصر محدد"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "يحدّث معلومات الإصدار…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "أوقف العمل بصلاحيات مدير النظام"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "تخطَ معاينات للملفات المحلية الأكبر من:"

@@ -4,22 +4,22 @@
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
 # Jan Holíček <jan.holicek@gmail.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
-"PO-Revision-Date: 2023-11-14 13:10+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"PO-Revision-Date: 2024-05-20 15:34+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -42,13 +42,21 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Jednáte jako Je administrátor"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
 msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "Rizika jednání jako Administrátor"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -70,13 +78,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Jednat jako Administrátor"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Rizika jednání jako Administrátor"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
@@ -345,7 +353,7 @@ msgstr "Zavřít kartu"
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
-msgstr ""
+msgstr "Zavřít kartu"
 
 #: dolphinmainwindow.cpp:1699
 #, kde-format
@@ -442,7 +450,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
-msgstr ""
+msgstr "Kopírovat do druhého pohledu"
 
 #: dolphinmainwindow.cpp:1760
 #, kde-format
@@ -468,7 +476,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
-msgstr ""
+msgstr "Přesunout do druhého pohledu"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-format
@@ -785,19 +793,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Přejít na kartu %1"
 
 #: dolphinmainwindow.cpp:2112
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr ""
+msgstr "Poslední karta"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr ""
+msgstr "Přejít na poslední kartu"
 
 #: dolphinmainwindow.cpp:2119
 #, kde-format
@@ -809,7 +817,7 @@ msgstr "Následující karta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr ""
+msgstr "Přejít na následující kartu"
 
 #: dolphinmainwindow.cpp:2126
 #, kde-format
@@ -821,7 +829,7 @@ msgstr "Předchozí karta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr ""
+msgstr "Přejít na předchozí kartu"
 
 #: dolphinmainwindow.cpp:2134
 #, kde-format
@@ -3504,13 +3512,13 @@ msgstr "Dodatečné informace"
 #: settings/dolphin_generalsettings.kcfg:18
 #, kde-format
 msgid "Select Action"
-msgstr ""
+msgstr "Vyberte činnost"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
 #, kde-format
 msgid "Custom Action"
-msgstr ""
+msgstr "Vlastní činnost"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -3635,7 +3643,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:98
 #, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr ""
+msgstr "Použít Tab k přepínání mezi levou a pravou stranou pohledu"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
@@ -4017,7 +4025,7 @@ msgstr "Potvrzování"
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr ""
+msgstr "Panely"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -4029,19 +4037,19 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr ""
+msgstr "Zobrazit náhledy"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr ""
+msgstr "Automatický přehrávat multimediální soubory"
 
 #: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr ""
+msgstr "Zobrazit položku při přejetí myší"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
@@ -4133,7 +4141,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "Lokální úložiště:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
@@ -4443,7 +4451,7 @@ msgstr "Nic"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr ""
+msgstr "Vlastní příkaz"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -4459,7 +4467,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Pozadí: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4473,7 +4481,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Příkaz…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4905,6 +4913,8 @@ msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
 msgstr ""
+"%1 volné z %2 (%3% použito)\n"
+"Klikněte pro správu volného místa."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4960,9 +4970,9 @@ msgstr "Obnovit"
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Vybrána 1 složka"
+msgstr[1] "Vybrány %1 složky"
+msgstr[2] "Vybráno %1 složek"
 
 #: views/dolphinview.cpp:655
 #, kde-format
@@ -5563,3 +5573,7 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "Přestat jednat jako Administrátor"

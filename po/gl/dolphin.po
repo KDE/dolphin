@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-17 21:35+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -52,9 +52,17 @@ msgstr "Actuando co rol de administración"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "Deixar de actuar co rol de administración"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "Riscos de actuar co rol de administración"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5920,6 +5928,10 @@ msgstr[1] "Accións para %1 elementos seleccionados"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Actualizando a información da versión…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "Deixar de actuar co rol de administración"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Saltar as vistas previas dos ficheiros locais de máis de:"

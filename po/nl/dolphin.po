@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-14 10:13+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -44,9 +44,17 @@ msgstr "Als admin werken"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "Stoppen met als systeembeheerder werken"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "Risico's van het werken als systeembeheerder"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5940,6 +5948,10 @@ msgstr[1] "Acties voor %1 geselecteerde items"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Versie-informatie bijwerken…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "Stoppen met als systeembeheerder werken"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Voorbeelden overslaan voor bovenstaande lokale bestanden:"

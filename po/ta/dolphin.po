@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-19 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -43,9 +43,17 @@ msgstr "நிர்வாகி பயன்முறை"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "நிர்வாகி பயன்முறையிலிருந்த வெளியேறு"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "நிர்வாகியாக செயல்படுவதன் ஆபத்து"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5726,6 +5734,10 @@ msgstr[1] "தேர்வு செய்த %1 உருப்படிகள�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "பதிப்பு விவரங்கள் புதுப்பிக்கப்படுகின்றன…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "நிர்வாகி பயன்முறையிலிருந்த வெளியேறு"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "இதைவிட பெரிய உள்ளமைக் கோப்புகளுக்கு முன்தோற்றங்களைக் காட்டாதே:"

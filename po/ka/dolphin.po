@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:40+0000\n"
+"POT-Creation-Date: 2024-05-21 00:41+0000\n"
 "PO-Revision-Date: 2024-05-15 05:22+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -42,9 +42,17 @@ msgstr "იქცევით, როგორც ადმინი"
 
 #: admin/bar.cpp:45
 #, kde-format
-msgctxt "@action:button"
-msgid "Stop Acting as an Administrator"
-msgstr "ადმინისტრატორის პრივილეგიების მოცილება"
+msgctxt "@action:button Finish/Stop/Done acting as an admin"
+msgid "Finish"
+msgstr ""
+
+#: admin/bar.cpp:47
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Risks of Acting as an Administrator"
+msgctxt "@info:tooltip"
+msgid "Finish acting as an administrator"
+msgstr "ადმინისტრატორის პრივილეგიების რისკები"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5898,6 +5906,10 @@ msgstr[1] "ქმედებები %1 მონიშნული ჩან�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "ვერსიის ინფორმაციის განახლება…"
+
+#~ msgctxt "@action:button"
+#~ msgid "Stop Acting as an Administrator"
+#~ msgstr "ადმინისტრატორის პრივილეგიების მოცილება"
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "მინიატურების გამოტოვება ლოკალური ფაილებისთვის ზემოთ:"
