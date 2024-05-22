@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-16 13:45+0300\n"
+"PO-Revision-Date: 2024-05-21 13:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -37,7 +37,7 @@ msgstr "tulliana@gmail.com, volkangezer@gmail.com, emir_sari@icloud.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator – Be careful!"
-msgstr "Yönetici gibi kullanılıyor; dikkatli olun!"
+msgstr "Yönetici gibi davranılıyor; dikkatli olun!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -49,15 +49,13 @@ msgstr "Yönetici Gibi"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Bitir\t"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Yönetici Gibi Kullanmanın Riskleri"
+msgstr "Yönetici gibi davranmayı bitir"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -75,7 +73,7 @@ msgid ""
 "emphasis> before proceeding.</para>"
 msgstr ""
 "<para>Yönetici ayrıcalıklarını kullanmak üzeresiniz. Yönetici olarak "
-"kullanırken bu sistemdeki tüm dosyaları ve klasörleri değiştirebilirsiniz. "
+"davranırken bu sistemdeki tüm dosyaları ve klasörleri değiştirebilirsiniz. "
 "Bunların içinde, sisteminizin düzgün çalışması için elzem olan dosyalar ve "
 "ögeler de vardır.</para><para>Bu bilgisayardaki <emphasis>tüm kullanıcıların "
 "verilerini silebilir</emphasis> ve <emphasis>bu kurulumu onarılamaz bir "
@@ -96,7 +94,7 @@ msgstr "Yönetici Gibi Kullan"
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr "Yönetici Gibi Kullanmanın Riskleri"
+msgstr "Yönetici Gibi Davranmanın Riskleri"
 
 #: admin/workerintegration.cpp:84
 #, kde-format

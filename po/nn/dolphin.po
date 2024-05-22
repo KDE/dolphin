@@ -5887,7 +5887,3 @@ msgstr[1] "Handlingar for %1 merkte element"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "Ikkje køyr som administrator"

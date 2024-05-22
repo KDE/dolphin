@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-15 09:45+0200\n"
+"PO-Revision-Date: 2024-05-21 09:53+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -45,15 +45,13 @@ msgstr "Agente como Admin"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Termina"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Riscos de ager como un Administrator"
+msgstr "Termina ager como un Administrator"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format

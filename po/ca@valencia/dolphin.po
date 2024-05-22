@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-14 16:01+0200\n"
+"PO-Revision-Date: 2024-05-21 13:22+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -49,15 +49,13 @@ msgstr "Actua com a administrador"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Finalitza"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Riscos d'actuar com a administrador"
+msgstr "Finalitza l'actuació com a administrador"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5956,7 +5954,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "Deixa d'actuar com a administrador"

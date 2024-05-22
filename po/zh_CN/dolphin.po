@@ -54,12 +54,10 @@ msgid "Finish"
 msgstr ""
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "以管理员身份操作的风险"
+msgstr ""
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -5723,7 +5721,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "停止以管理员身份操作"

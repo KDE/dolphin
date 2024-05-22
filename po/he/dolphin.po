@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-14 08:00+0300\n"
+"PO-Revision-Date: 2024-05-21 07:34+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -56,15 +56,13 @@ msgstr "פעילות ניהול"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "סיום"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "סיכונים של פעילות ניהול"
+msgstr "סיום פעילות ניהול"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
