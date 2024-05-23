@@ -51,13 +51,13 @@ msgstr "正在以管理员身份操作"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "结束"
 
 #: admin/bar.cpp:47
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "结束以管理员身份操作"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
