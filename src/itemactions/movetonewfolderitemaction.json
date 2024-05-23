@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Icon": "folder-new",
+        "MimeTypes": [
+            "application/octet-stream"
+        ],
+        "Name": "Move to New Folder",
+        "ServiceTypes": [
+            "KFileItemAction/Plugin"
+        ]
+    },
+    "X-KDE-Require": "Write",
+    "X-KDE-Show-In-Submenu": "true"
+}
