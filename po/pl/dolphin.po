@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-05-12 08:17+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -35,9 +35,11 @@ msgid "Your emails"
 msgstr "carramba@epf.pl, maciej.wiklo@wp.pl, lukasz.wojnilowicz@gmail.com"
 
 #: admin/bar.cpp:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Acting as an Administrator – Be careful!"
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr "Działam jako administrator - zachowaj ostrożność!"
 
 #: admin/bar.cpp:36
@@ -1955,6 +1957,14 @@ msgstr "Filtrowanie…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Ukryj pasek filtra"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Utwórz katalog…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

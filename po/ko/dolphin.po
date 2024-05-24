@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-02-09 23:50+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -31,7 +31,7 @@ msgstr "kde@peremen.name,daemul72@gmail.com"
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -1974,6 +1974,14 @@ msgstr "필터…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "필터 표시줄 숨기기"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "폴더 만들기…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

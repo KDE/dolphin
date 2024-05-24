@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-01-30 16:09+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -1978,6 +1978,14 @@ msgstr "フィルタ..."
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "フィルタバーを隠す"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "フォルダを作成..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -30,7 +30,7 @@ msgstr "kscanne@gmail.com"
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -1799,6 +1799,14 @@ msgstr "Scagaire:"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Folaigh Barra na Scagairí"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Cruthaigh Fillteán..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

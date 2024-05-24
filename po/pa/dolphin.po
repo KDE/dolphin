@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -35,7 +35,7 @@ msgstr "aalam@punlinux.org"
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -1725,6 +1725,14 @@ msgstr "...ਫਿਲਟਰ"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "ਫਿਲਟਰ ਪੱਟੀ ਓਹਲੇ"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "…ਫੋਲਡਰ ਬਣਾਓ"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2017-12-17 18:00+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -32,7 +32,7 @@ msgstr "caslav.ilic@gmx.net"
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -1770,6 +1770,14 @@ msgstr "Filter:"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Sakrij filtersku traku"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Napravi fasciklu..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

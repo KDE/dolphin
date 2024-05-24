@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-05-14 12:35+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -29,9 +29,11 @@ msgid "Your emails"
 msgstr "smart2128vr@gmail.com"
 
 #: admin/bar.cpp:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Acting as an Administrator – Be careful!"
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr "Agire come amministratore: fai attenzione!"
 
 #: admin/bar.cpp:36
@@ -1971,6 +1973,14 @@ msgstr "Filtro…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Nascondi barra del filtro"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Crea cartella…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

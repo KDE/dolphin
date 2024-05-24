@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2024-05-20 15:34+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -33,10 +33,12 @@ msgstr ""
 "koty@seznam.cz,lukas@kde.org,david@kolibac.cz,vit@pelcak.org,mkyral@email.cz"
 
 #: admin/bar.cpp:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Stop Acting as an Administrator"
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
-msgstr ""
+msgid "Acting as an Administrator — Be careful!"
+msgstr "Přestat jednat jako Administrátor"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -1686,6 +1688,14 @@ msgstr "Filtrovat…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Skrýt filtrovací panel"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Vytvořit složku..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5573,7 +5583,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "Přestat jednat jako Administrátor"

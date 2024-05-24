@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -35,7 +35,7 @@ msgstr "greendeath@mail.ru, ihar.hrachyshka@gmail.com, nashtlumach@gmail.com"
 #: admin/bar.cpp:35
 #, kde-format
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr ""
 
 #: admin/bar.cpp:36
@@ -2137,6 +2137,14 @@ msgstr "Fiĺtr"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Schavać paneĺ fiĺtra"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder..."
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Stvaryć kataloh..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

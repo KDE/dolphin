@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-21 23:26+0100\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
+"PO-Revision-Date: 2024-05-23 23:34+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -32,9 +32,11 @@ msgid "Your emails"
 msgstr "pedrotpmx@wanadoo.fr,cfmckee@gmail.com,olivermkellogg@gmail.com"
 
 #: admin/bar.cpp:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Acting as an Administrator – Be careful!"
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr "Agante kiel Sistemestro - Estu singardema!"
 
 #: admin/bar.cpp:36
@@ -47,7 +49,7 @@ msgstr "Agante kiel Admin"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Fini"
 
 #: admin/bar.cpp:47
 #, kde-format
@@ -1819,7 +1821,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Ĉi dosierujo ne estas skribebla por vi."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1931,6 +1933,14 @@ msgstr "Filtri…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Kaŝi la filtrilobreton"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "Krei dosierujon…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4115,7 +4125,7 @@ msgstr "Malfermante multajn terminalojn samtempe"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Ŝaltante por agi kiel administranto"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format

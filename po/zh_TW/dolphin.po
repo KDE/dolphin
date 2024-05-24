@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:41+0000\n"
-"PO-Revision-Date: 2024-05-18 16:41+0900\n"
+"POT-Creation-Date: 2024-05-24 00:41+0000\n"
+"PO-Revision-Date: 2024-05-23 16:07+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -43,9 +43,11 @@ msgstr ""
 "forward@thost3.de, mail@kisaragi-hiu.com"
 
 #: admin/bar.cpp:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Acting as an Administrator – Be careful!"
 msgctxt "@info label above the view explaining the state"
-msgid "Acting as an Administrator – Be careful!"
+msgid "Acting as an Administrator — Be careful!"
 msgstr "管理員操作模式 — 請小心！"
 
 #: admin/bar.cpp:36
@@ -58,15 +60,13 @@ msgstr "管理員操作模式"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "管理員操作模式的風險"
+msgstr "離開管理員操作模式"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1856,6 +1856,14 @@ msgstr "過濾…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "隱藏過濾器列"
+
+#: itemactions/movetonewfolderitemaction.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Create Folder…"
+msgctxt "@action:inmenu"
+msgid "Move to New Folder…"
+msgstr "建立資料夾…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
