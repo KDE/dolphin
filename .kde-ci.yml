@@ -31,13 +31,13 @@ Dependencies:
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
   'require':
     'frameworks/baloo': '@latest-kf6'
-    'libraries/baloo-widgets': '@latest-kf6'
+    'libraries/baloo-widgets': '@same'
     'plasma/plasma-activities': '@latest-kf6'
     'third-party/packagekit-qt': '@latest'
 
 - 'on': ['Linux/Qt6', 'Windows/Qt6', 'macOS/Qt6']
   'require':
-    'network/kio-extras': '@latest-kf6'
+    'network/kio-extras': '@same'
 
 RuntimeDependencies:
 - 'on': ['Linux']
