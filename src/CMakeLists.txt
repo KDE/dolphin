@@ -197,6 +197,7 @@ target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
     Qt6::Concurrent
+    Qt6::DBus
     Qt6::Gui
     KF6::I18n
     KF6::IconThemes
