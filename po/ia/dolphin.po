@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-21 09:53+0200\n"
+"PO-Revision-Date: 2024-05-24 12:05+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -30,12 +30,10 @@ msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Agente como Administrator - Sia attente!"
+msgstr "Agente como Administrator -- Sia attente!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -1960,12 +1958,10 @@ msgid "Hide Filter Bar"
 msgstr "Cela barra de filtro"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Crea dossier ..."
+msgstr "Move a nove dossier…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

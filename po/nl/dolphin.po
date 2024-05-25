@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-21 10:15+0200\n"
+"PO-Revision-Date: 2024-05-24 11:05+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31,12 +31,10 @@ msgid "Your emails"
 msgstr "rinsedevries@kde.nl,freekdekruijf@kde.nl"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Als systeembeheerder werken - wees voorzichtig!"
+msgstr "Als systeembeheerder werken — wees voorzichtig!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -1961,12 +1959,10 @@ msgid "Hide Filter Bar"
 msgstr "Filterbalk verbergen"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Map aanmaken…"
+msgstr "Naar nieuwe map verplaatsen…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
