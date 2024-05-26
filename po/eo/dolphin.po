@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-23 23:34+0100\n"
+"PO-Revision-Date: 2024-05-25 06:34+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -32,12 +32,10 @@ msgid "Your emails"
 msgstr "pedrotpmx@wanadoo.fr,cfmckee@gmail.com,olivermkellogg@gmail.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Agante kiel Sistemestro - Estu singardema!"
+msgstr "Agante kiel Sistemestro — Estu singardema!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -1935,12 +1933,10 @@ msgid "Hide Filter Bar"
 msgstr "Kaŝi la filtrilobreton"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Krei dosierujon…"
+msgstr "Movi al Nova Dosierujo…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5903,7 +5899,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "Ĉesi Agi kiel Sistemestro"
