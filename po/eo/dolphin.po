@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-05-17 12:22+0100\n"
+"PO-Revision-Date: 2024-05-25 06:34+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -289,13 +289,13 @@ msgstr "Ĉi tio aldonas la elektitan dosierujon al la panelo Lokoj."
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
-msgstr "Fermi la langeton"
+msgstr "Fermi Langeton"
 
 #: dolphinmainwindow.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
-msgstr "Fermi la langeton"
+msgstr "Fermi Langeton"
 
 #: dolphinmainwindow.cpp:1690
 #, kde-format
@@ -802,7 +802,7 @@ msgid ""
 msgstr ""
 "<para>Ĉi tio ŝanĝas inter havi <emphasis>Menubreton</emphasis> kaj havi "
 "<interface>%1</interface> butonon. Ambaŭ enhavas plejparte la samajn agojn "
-"kaj agordajn opciojn.</para><para>La Menubreto okupas pli da spaco sed "
+"kaj agordajn elekteblojn.</para><para>La Menubreto okupas pli da spaco sed "
 "ebligas rapidan kaj organizitan aliron al ĉiuj agoj kiujn aplikaĵo proponas."
 "</para><para>La butono %1 estas pli simpla kaj malgranda, kio faras ekigi "
 "altnivelajn agojn pli temporaba.</para>"
@@ -1274,8 +1274,8 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 "<para>Ĉi tio estas la <emphasis>Menubreto</emphasis>. Ĝi provizas aliron al "
-"komandoj kaj agordaj opcioj. Maldekstre alklaku iun el la menuoj sur ĉi tiu "
-"breto por vidi ĝian enhavon.</para><para>La Menubreto povas esti kaŝita "
+"komandoj kaj agordaj elektebloj. Maldekstre alklaku iun el la menuoj sur ĉi "
+"tiu breto por vidi ĝian enhavon.</para><para>La Menubreto povas esti kaŝita "
 "malmarkante <interface>Agordoj|Montri Menubreton</interface>. Tiam plejparto "
 "de ĝia enhavo fariĝas disponebla per butono <interface>Menuo</interface> sur "
 "la <emphasis>Ilobreto</emphasis>.</para>"
@@ -1297,9 +1297,9 @@ msgstr ""
 "aliron al ofte uzataj agoj.</para><para>Ĝi estas tre agordebla. Ĉiuj eroj "
 "kiujn vi vidas en la <interface>Menuo</interface> aŭ en la "
 "<interface>Menubreto</interface> povas esti metitaj sur la Ilobreton. Nur "
-"dekstre alklaku ĝin kaj elektu <interface>Agordu Ilobretojn...</interface> "
-"aŭ trovu ĉi tiun agon en la <interface>menuo</interface>.</para><para>La "
-"loko de la breto kaj la stilo de ĝiaj butonoj ankaŭ povas esti ŝanĝitaj en "
+"dekstre alklaku ĝin kaj elektu <interface>Agordi Ilobretojn…</interface> aŭ "
+"trovu ĉi tiun agon en la <interface>menuo</interface>.</para><para>La loko "
+"de la breto kaj la stilo de ĝiaj butonoj ankaŭ povas esti ŝanĝitaj en "
 "dekstra klaka menuo. Dekstre alklaku butonon se vi volas montri aŭ kaŝi ĝian "
 "tekston.</para>"
 
@@ -1685,7 +1685,7 @@ msgstr "Fermi la aliajn langetojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
-msgstr "Fermi la langeton"
+msgstr "Fermi Langeton"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1761,9 +1761,9 @@ msgstr ""
 "serĉas, enhavas la serĉajn terminojn en sia dosiernomo aŭ ĝia enhavo? <nl/"
 ">La enhavo de bildoj, sondosieroj kaj filmetoj ne estos serĉataj.</"
 "item><item>De Ĉi tie/Ĉie: Ĉu vi volas serĉi en ĉi tiu dosierujo kaj ĝiaj "
-"subdosierujoj aŭ ĉie?</item> <item>Pliaj Opcioj: Alklaku ĉi tion por serĉi "
-"laŭ tipo de komunikilo, tempo de aliro aŭ takso.</item><item>Pliaj Serĉiloj: "
-"Instalu aliajn rimedojn por trovi objekton.</item></list></para>"
+"subdosierujoj aŭ ĉie?</item> <item>Pliaj Elektebloj: Alklaku ĉi tion por "
+"serĉi laŭ tipo de komunikilo, tempo de aliro aŭ takso.</item><item>Pliaj "
+"Serĉiloj: Instalu aliajn rimedojn por trovi objekton.</item></list></para>"
 
 #: dolphinviewcontainer.cpp:109
 #, kde-format
@@ -2418,8 +2418,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
-"La formato de permesoj povas esti ŝanĝata en agordoj. Opcioj estas Simbola, "
-"Numera (okuma) aŭ Kombinita formato"
+"La formato de permesoj povas esti ŝanĝata en agordoj. Elektebloj estas "
+"Simbola, Numera (okuma) aŭ Kombinita formato"
 
 #: kitemviews/kfileitemmodel.cpp:2764
 msgctxt "@label"
@@ -3314,7 +3314,7 @@ msgid ""
 "Dolphin must be restarted to apply the updated version control system "
 "settings."
 msgstr ""
-"Dolfin devas esti rekomencita por apliki la ĝisdatigitajn version-"
+"Dolfin devas esti rekomencita por apliki la ĝisdatigitajn versio-"
 "kontrolsistemajn agordojn."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:210
@@ -3503,7 +3503,7 @@ msgstr "Posicio de kolumnoj"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr "Flanka Remburado"
+msgstr "Flankŝtopado"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
@@ -3532,8 +3532,8 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Kiam ĉi tiu opcio estas aktiva, kaŝitaj dosieroj kiel tiuj, kiuj komenciĝas "
-"per '.', estos montritaj en la dosiera rigardo."
+"Kiam ĉi tiu elekteblo estas aktiva, kaŝitaj dosieroj kiel tiuj, kiuj "
+"komenciĝas per '.', estos montritaj en la dosiera rigardo."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:19
@@ -3547,7 +3547,7 @@ msgstr "Versio"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This option defines the used version of the view properties."
-msgstr "Ĉi tiu opcio difinas la uzatan version de la vidaj trajtoj."
+msgstr "Ĉi tiu elekteblo difinas la uzatan version de la vidaj trajtoj."
 
 #. i18n: ectx: label, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:25
@@ -3564,7 +3564,7 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Ĉi tiu opcio regas la stilon de la rigardo. Aktuale elekteblaj valoroj "
+"Ĉi tiu elekteblo regas la stilon de la rigardo. Aktuale elekteblaj valoroj "
 "inkludas piktrograman (0), detalan (1) kaj kolumnan (2) rigardojn."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
@@ -3582,8 +3582,8 @@ msgid ""
 "When this option is enabled, a preview of the file content is shown as an "
 "icon."
 msgstr ""
-"Kiam ĉi tiu opcio estas aktiva, antaŭrigardo de la dosiera enhavo montriĝas "
-"kiel piktogramo."
+"Kiam ĉi tiu elekteblo estas aktiva, antaŭrigardo de la dosiera enhavo "
+"montriĝas kiel piktogramo."
 
 #. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:37
@@ -3599,8 +3599,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When this option is enabled, the sorted items are categorized into groups."
 msgstr ""
-"Kiam ĉi tiu opcio estas aktiva, la ordigitaj dosieroj estas resumitaj laŭ "
-"ilia kategorio."
+"Kiam ĉi tiu elekteblo estas aktiva, la ordigitaj dosieroj estas resumitaj "
+"laŭ ilia kategorio."
 
 #. i18n: ectx: label, entry (SortRole), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:43
@@ -3617,8 +3617,8 @@ msgid ""
 "This option defines which attribute (text, size, date, etc.) sorting is "
 "performed on."
 msgstr ""
-"Ĉi tiu opcio difinas la atributon (nomo, grandeco, dato, ktp.) laŭ kiu la "
-"ordigado fariĝas."
+"Ĉi tiu elekteblo difinas la atributon (nomo, grandeco, dato, ktp.) laŭ kiu "
+"la ordigado fariĝas."
 
 #. i18n: ectx: label, entry (SortOrder), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:49
@@ -4831,7 +4831,7 @@ msgstr "Ordigado:"
 #: settings/viewpropertiesdialog.cpp:147
 #, kde-format
 msgid "View options:"
-msgstr "Vidi opciojn:"
+msgstr "Vidi elekteblojn:"
 
 #: settings/viewpropertiesdialog.cpp:166
 #, kde-format
@@ -5333,8 +5333,8 @@ msgid ""
 msgstr ""
 "Ĉi tio montras kompletan liston de propraĵoj de la nuntempe elektitaj eroj "
 "en nova fenestro.<nl/>Se nenio estas elektita, la fenestro traktos anstataŭe "
-"la nune viditan dosierujon.<nl/>Vi povas agordi altnivelajn opciojn tie kiel "
-"administri legadon. kaj skribpermesoj."
+"la nune viditan dosierujon.<nl/>Vi povas agordi altnivelajn elekteblojn tie "
+"kiel administri leg- kaj skrib-permesojn."
 
 #: views/dolphinviewactionhandler.cpp:152
 #, kde-format
@@ -5383,10 +5383,10 @@ msgid ""
 "interface> option is enabled.</para>"
 msgstr ""
 "<para>Ĉi tio ŝanĝas al vidoreĝimo, kiu fokusiĝas al la dosierujoj kaj dosier-"
-"ikonoj. Ĉi tiu reĝimo faciligas distingi dosierujojn de dosieroj kaj detekti "
-"erojn kun karakterizaj <emphasis>dosiertipoj</emphasis>.</para><para>Ĉi tiu "
-"reĝimo estas oportuna por foliumi bildojn kiam la <interface>Antaŭrigardo</"
-"interface> opcio estas ebligita.</para>"
+"piktogramoj. Ĉi tiu reĝimo faciligas distingi dosierujojn de dosieroj kaj "
+"detekti erojn kun karakterizaj <emphasis>dosiertipoj</emphasis>.</"
+"para><para>Ĉi tiu reĝimo estas oportuna por foliumi bildojn kiam la "
+"<interface>Antaŭrigardo</interface>-elekteblo estas ebligita.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5482,8 +5482,8 @@ msgid ""
 "the images."
 msgstr ""
 "Kiam ĉi tio estas ebligita, la piktogramoj baziĝas sur la reala dosiero aŭ "
-"dosierujo enhavo.<nl/>Ekzemple la ikonoj de bildoj fariĝas malgrandigitaj "
-"versioj de la bildoj."
+"dosierujo enhavo.<nl/>Ekzemple la piktogramoj de bildoj fariĝas "
+"malgrandigitaj versioj de la bildoj."
 
 #: views/dolphinviewactionhandler.cpp:256
 #, kde-format
