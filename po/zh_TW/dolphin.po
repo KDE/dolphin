@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-23 16:07+0900\n"
+"PO-Revision-Date: 2024-05-26 15:13+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -43,9 +43,7 @@ msgstr ""
 "forward@thost3.de, mail@kisaragi-hiu.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
 msgstr "管理員操作模式 — 請小心！"
@@ -1858,12 +1856,10 @@ msgid "Hide Filter Bar"
 msgstr "隱藏過濾器列"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "建立資料夾…"
+msgstr "移動到新資料夾…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

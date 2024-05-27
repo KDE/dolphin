@@ -36,12 +36,10 @@ msgstr ""
 "lark@linux.net.cn, wengxt@gmail.com, jxiong@offtopic.org, yahzee@d3eye.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "正在以管理员身份操作 – 请谨慎行事！"
+msgstr "正在以管理员身份操作 — 请谨慎操作！"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -1851,12 +1849,10 @@ msgid "Hide Filter Bar"
 msgstr "隐藏过滤栏"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "创建文件夹…"
+msgstr "移动到新建文件夹…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format

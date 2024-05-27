@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-15 22:08+0200\n"
+"PO-Revision-Date: 2024-05-27 00:12+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -28,12 +28,10 @@ msgid "Your emails"
 msgstr "mkondarev@yahoo.de"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Действие като администратор - бъдете внимателни!"
+msgstr "Действие като администратор — бъдете внимателни!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -45,15 +43,13 @@ msgstr "Действие като администратор"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Завършване"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Рискове при изпълнение като администратор"
+msgstr "Спиране на действията като администратор"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1970,12 +1966,10 @@ msgid "Hide Filter Bar"
 msgstr "Скриване лентата на филтъра"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Създаване на папка…"
+msgstr "Преместване в нова папка…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
