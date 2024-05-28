@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-04-09 12:10+0300\n"
+"PO-Revision-Date: 2024-05-26 20:41+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -41,25 +41,25 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Piesardzīgi — jūs darbojieties kā administrators!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Darboties kā administratoram"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Pabeigt"
 
 #: admin/bar.cpp:47
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Pabeigt darboties kā administratoram"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -76,30 +76,40 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Jūs grasāties izmantot administratora privilēģijas. Rīkojoties kā "
+"administrators, varat mainīt vai aizvietot jebkuru sistēmas datni vai mapi. "
+"Starp tām var būt arī sistēmai kritiski vienumi.</para><para>Jūs varēsiet "
+"<emphasis>dzēst katra lietotāja datus</emphasis> šajā datorā un "
+"<emphasis>nejauši padarīt šo instalāciju nedarbojošos un nelabojamu.</"
+"emphasis> Tikai papildu burta pievienošana mapes vai datnes nosaukumam vai "
+"saturam var padarīt sistēmu <emphasis>nesāknējamu.</emphasis></"
+"para><para>Iespējams, vairs nesaņemsiet citus brīdinājumus pat tad, ja "
+"darbība varētu sabojāt sistēmu.</para><para>Pirms turpināšanas ir ieteicams "
+"<emphasis>izveidot datņu un mapju dublējumus</emphasis>.</para>"
 
 #: admin/workerintegration.cpp:57
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Darboties kā administratoram"
 
 #: admin/workerintegration.cpp:82
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Risks, darbojoties kā administratoram"
 
 #: admin/workerintegration.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Saprotu un pieņemu šos riskus"
 
 #: admin/workerintegration.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Vairāk nebrīdināt mani par šiem riskiem"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -1807,7 +1817,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Jums nav tiesību rakstīt šajā datnē."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1925,12 +1935,10 @@ msgid "Hide Filter Bar"
 msgstr "Slēpt filtra joslu"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Izveidot mapi..."
+msgstr "Pārvietot uz jaunu mapi..."
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3772,19 +3780,15 @@ msgstr "Papildu informācija"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "Atlase"
+msgstr "Atlasīt darbību"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Pielāgots fonts"
+msgstr "Pielāgota darbība"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -4133,7 +4137,7 @@ msgstr "Vairāku termināļu vienlaicīga atvēršana"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Pārslēgties, lai rīkotos kā administratoram"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4370,9 +4374,7 @@ msgstr "Rādīt priekšskatījumus:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "Rādīt priekšskatījumus"
@@ -4384,7 +4386,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "datnēm, kas ir mazākas par "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4397,24 +4399,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "jebkura izmēra datnēm"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 datne"
+msgstr "ne datnēm"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Rādīt priekšskatījumus mapēm un datnēm"
+msgstr "Rādīt priekšskatījumus mapēm"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4425,22 +4422,22 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para>Izveidot <emphasis>priekšskatījumus</emphasis> attālinātām mapēm ir "
+"<emphasis strong='true'>ļoti dārgi</emphasis> attiecībā pret tīkla resursiem."
+"</para><para>Izslēdziet šo opciju, ja attālināto datņu navigācija ar "
+"„Dolphin“ ir lēna vai jums ir ierobežoti tīkla dati.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Atrašanās vieta:"
+msgstr "Lokālā krātuve:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Atjaunot"
+msgstr "Attālinātā krātuve:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -4737,40 +4734,36 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Darbība, kas ieslēdzas, dubultklikšķinot uz skata fona"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Nekas"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Pielāgots fonts"
+msgstr "Pielāgota komanda"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
 #: settings/viewmodes/generalviewsettingspage.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@option:check Mouse Settings"
-#| msgid "Double-click to open files and folders"
+#, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr "Dubultklikšķis atver datnes un mapes"
+msgstr "Dubultklikšķa darbības"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Fons:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4779,12 +4772,14 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Ierakstiet pielāgotu komandu, kas palaidīsies, ja veiksiet dubultklikšķi uz "
+"skata fona"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Komanda..."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4792,6 +4787,8 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Izmantojiet {ceļs}, lai iegūtu pašreizējās mapes ceļu. Piemērs: (dolphin "
+"{path}“"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
