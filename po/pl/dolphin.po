@@ -20,9 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10"
-" || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36,8 +35,6 @@ msgstr "carramba@epf.pl, maciej.wiklo@wp.pl, lukasz.wojnilowicz@gmail.com"
 
 #: admin/bar.cpp:35
 #, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
 msgstr "Działam jako administrator — zachowaj ostrożność!"
@@ -56,8 +53,6 @@ msgstr "Zakończ"
 
 #: admin/bar.cpp:47
 #, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr "Przestań działać jako administrator"
@@ -1960,8 +1955,6 @@ msgstr "Ukryj pasek filtra"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
 #, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Przenieś do nowego katalogu…"
@@ -4403,8 +4396,6 @@ msgstr "Pokaż podglądy w widoku dla:"
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
 #, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "Pokaż podglądy dla"
@@ -4433,17 +4424,12 @@ msgstr "plików o dowolnym rozmiarze"
 
 #: settings/interface/previewssettingspage.cpp:84
 #, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
 msgstr "żadnego pliku"
 
 #: settings/interface/previewssettingspage.cpp:91
 #, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
 msgid "Show previews for folders"
 msgstr "Pokaż podgląd dla plików i katalogów"
@@ -4457,24 +4443,19 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
-"<para>Tworzenie <emphasis>podglądów</emphasis> dla katalogów zdalnych jest <"
-"emphasis "
-"strong='true'>bardzo kosztowne</emphasis> pod względem zasobów sieciowych.</"
-"para><para>Wyłącz to, jeśli przeglądanie zdalnych katalogów w Dolphinie jest"
-" wolne lub, gdy używasz połączenia taryfowego.</para>"
+"<para>Tworzenie <emphasis>podglądów</emphasis> dla katalogów zdalnych jest "
+"<emphasis strong='true'>bardzo kosztowne</emphasis> pod względem zasobów "
+"sieciowych.</para><para>Wyłącz to, jeśli przeglądanie zdalnych katalogów w "
+"Dolphinie jest wolne lub, gdy używasz połączenia taryfowego.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
-#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#| msgid "Local files above:"
 msgctxt "@title:group"
 msgid "Local storage:"
 msgstr "Lokalna przechowalnia:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
 msgctxt "@title:group"
 msgid "Remote storage:"
 msgstr "Zdalna przechowalnia:"
@@ -7709,4 +7690,3 @@ msgstr "Uaktualnienie szczegółów o wersji…"
 #~ msgstr ""
 #~ "Upuszczone elementy znajdują się już wewnątrz folderu <filename>%1</"
 #~ "filename>"
-
