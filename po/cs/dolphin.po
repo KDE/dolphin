@@ -33,12 +33,10 @@ msgstr ""
 "koty@seznam.cz,lukas@kde.org,david@kolibac.cz,vit@pelcak.org,mkyral@email.cz"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Stop Acting as an Administrator"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Přestat jednat jako Administrátor"
+msgstr ""
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -53,12 +51,10 @@ msgid "Finish"
 msgstr ""
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Rizika jednání jako Administrátor"
+msgstr ""
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1690,12 +1686,10 @@ msgid "Hide Filter Bar"
 msgstr "Skrýt filtrovací panel"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Vytvořit složku..."
+msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
