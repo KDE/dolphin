@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-24 00:41+0000\n"
+"POT-Creation-Date: 2024-05-31 00:41+0000\n"
 "PO-Revision-Date: 2024-01-25 13:16+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -5289,39 +5289,44 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Helyjellemzők megjelenítése"
 
-#: statusbar/statusbarspaceinfo.cpp:123
+#: statusbar/statusbarspaceinfo.cpp:120
+#, kde-format
+msgid "Install Filelight to View Disk Usage Statistics…"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Lemezhasználati statisztikák - jelenlegi mappa"
 
-#: statusbar/statusbarspaceinfo.cpp:134
+#: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Lemezhasználati statisztikák - jelenlegi eszköz"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:158
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Lemezhasználati statisztikák - minden eszköz"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:171
 #, kde-format
 msgid "KDiskFree"
 msgstr "KDiskFree"
 
-#: statusbar/statusbarspaceinfo.cpp:185
+#: statusbar/statusbarspaceinfo.cpp:196
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 szabad"
 
-#: statusbar/statusbarspaceinfo.cpp:186
+#: statusbar/statusbarspaceinfo.cpp:197
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%2/%1 szabad (%3% foglalt)"
 
-#: statusbar/statusbarspaceinfo.cpp:188
+#: statusbar/statusbarspaceinfo.cpp:199
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-24 00:41+0000\n"
+"POT-Creation-Date: 2024-05-31 00:41+0000\n"
 "PO-Revision-Date: 2024-05-16 21:10\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5236,39 +5236,44 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Паказваць звесткі пра прастору"
 
-#: statusbar/statusbarspaceinfo.cpp:123
+#: statusbar/statusbarspaceinfo.cpp:120
+#, kde-format
+msgid "Install Filelight to View Disk Usage Statistics…"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Статыстыка выкарыстання дыска - бягучы каталог"
 
-#: statusbar/statusbarspaceinfo.cpp:134
+#: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Статыстыка выкарыстання дыска - бягучая прылада"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:158
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Статыстыка выкарыстання дыска - усе прылады"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:171
 #, kde-format
 msgid "KDiskFree"
 msgstr "KDiskFree"
 
-#: statusbar/statusbarspaceinfo.cpp:185
+#: statusbar/statusbarspaceinfo.cpp:196
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "Вольна %1"
 
-#: statusbar/statusbarspaceinfo.cpp:186
+#: statusbar/statusbarspaceinfo.cpp:197
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 вольна з %2 (%3% выкарыстоўваецца)"
 
-#: statusbar/statusbarspaceinfo.cpp:188
+#: statusbar/statusbarspaceinfo.cpp:199
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""

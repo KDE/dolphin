@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-24 00:41+0000\n"
+"POT-Creation-Date: 2024-05-31 00:41+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -4940,39 +4940,44 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "ਥਾਂ ਜਾਣਕਾਰੀ ਵੇਖੋ"
 
-#: statusbar/statusbarspaceinfo.cpp:123
+#: statusbar/statusbarspaceinfo.cpp:120
+#, kde-format
+msgid "Install Filelight to View Disk Usage Statistics…"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "ਡਿਸਕ ਵਰਤੋਂ ਅੰਕੜੇ - ਮੌਜੂਦਾ ਫੋਲਡਰ"
 
-#: statusbar/statusbarspaceinfo.cpp:134
+#: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "ਡਿਸਕ ਵਰਤੋਂ ਅੰਕੜੇ - ਮੌਜੂਦਾ ਡਿਵਾਈਸ"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:158
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "ਡਿਸਕ ਵਰਤੋਂ ਅੰਕੜੇ - ਸਾਰੇ ਡਿਵਾਈਸ"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:171
 #, kde-format
 msgid "KDiskFree"
 msgstr "ਕੇ-ਡਿਸਕ-ਫਰੀ"
 
-#: statusbar/statusbarspaceinfo.cpp:185
+#: statusbar/statusbarspaceinfo.cpp:196
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 ਖਾਲੀ"
 
-#: statusbar/statusbarspaceinfo.cpp:186
+#: statusbar/statusbarspaceinfo.cpp:197
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%2 ਵਿੱਚੋਂ %1 ਖਾਲੀ (%3% ਵਰਤੀ)"
 
-#: statusbar/statusbarspaceinfo.cpp:188
+#: statusbar/statusbarspaceinfo.cpp:199
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""

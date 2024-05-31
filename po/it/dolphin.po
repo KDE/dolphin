@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-24 00:41+0000\n"
-"PO-Revision-Date: 2024-05-14 12:35+0200\n"
+"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"PO-Revision-Date: 2024-05-25 15:43+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,12 +29,10 @@ msgid "Your emails"
 msgstr "smart2128vr@gmail.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Agire come amministratore: fai attenzione!"
+msgstr "Agire come amministratore — Fai attenzione!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -46,15 +44,13 @@ msgstr "Agire come amministratore"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Termina"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Rischi relativi all'agire come amministratore"
+msgstr "Smetti di agire come amministratore"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1975,12 +1971,10 @@ msgid "Hide Filter Bar"
 msgstr "Nascondi barra del filtro"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Crea cartella…"
+msgstr "Sposta in una nuova cartella…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5231,39 +5225,44 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Mostra le informazioni sullo spazio"
 
-#: statusbar/statusbarspaceinfo.cpp:123
+#: statusbar/statusbarspaceinfo.cpp:120
+#, kde-format
+msgid "Install Filelight to View Disk Usage Statistics…"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Statistiche sull'utilizzo del disco - cartella attuale"
 
-#: statusbar/statusbarspaceinfo.cpp:134
+#: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Statistiche sull'utilizzo del disco - dispositivo attuale"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:158
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Statistiche sull'utilizzo del disco - tutti i dispositivi"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:171
 #, kde-format
 msgid "KDiskFree"
 msgstr "KDiskFree"
 
-#: statusbar/statusbarspaceinfo.cpp:185
+#: statusbar/statusbarspaceinfo.cpp:196
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 liberi"
 
-#: statusbar/statusbarspaceinfo.cpp:186
+#: statusbar/statusbarspaceinfo.cpp:197
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 liberi su %2 (%3% utilizzato)"
 
-#: statusbar/statusbarspaceinfo.cpp:188
+#: statusbar/statusbarspaceinfo.cpp:199
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
