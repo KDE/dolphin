@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-24 16:22+0200\n"
+"PO-Revision-Date: 2024-05-31 06:35+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5176,7 +5176,7 @@ msgstr "ადგილის ინფორმაციის ჩვენე�
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Firelight-ის დაყენება დისკის გამოყენების სტატისტიკის მისაღებად…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
