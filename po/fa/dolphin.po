@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-05-22 14:56+0330\n"
+"PO-Revision-Date: 2024-06-01 19:17+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
 "Language: fa\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -243,11 +243,7 @@ msgid "Open a new Dolphin window"
 msgstr "بازکردن یک پنچره جدید دولفین"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
@@ -263,12 +259,7 @@ msgid "New Tab"
 msgstr "برگه جدید"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
@@ -289,7 +280,7 @@ msgstr "افزودن به مکان‌ها"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
-msgstr "این گزینه، پوشه انتخاب شده را به تابلو مکان ها اضافه می‌کند."
+msgstr "این گزینه، پوشه انتخاب شده را به تابلو مکان‌ها اضافه می‌کند."
 
 #: dolphinmainwindow.cpp:1687
 #, kde-format
@@ -298,25 +289,19 @@ msgid "Close Tab"
 msgstr "بستن برگه"
 
 #: dolphinmainwindow.cpp:1688
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "بستن برگه"
 
 #: dolphinmainwindow.cpp:1690
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
-"این گزینه برگه ای که درحال تماشای آن هستید را می‌بندد. اگر هیچ برگه ای باقی "
+"این گزینه برگه‌ای که درحال تماشای آن هستید را می‌بندد. اگر هیچ برگه ای باقی "
 "نمانده باشد، پنجره بسته خواهد شد."
 
 #: dolphinmainwindow.cpp:1695
@@ -410,18 +395,14 @@ msgid "Copy to Other View…"
 msgstr "رونوشت به نمای دیگر..."
 
 #: dolphinmainwindow.cpp:1742
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"این گزینه موارد انتخابی را از نمای <emphasis>فعال</emphasis> به نمای دوبخشی "
-"غیرفعال رونوشت می‌گیرد."
+"این گزینه موارد انتخابی را از نمای فعال به نمای دیگر رونوشت می‌گیرد (فقط در "
+"حالت نمای دوبخشی در دسترس است.)"
 
 #: dolphinmainwindow.cpp:1746
 #, fuzzy, kde-format
