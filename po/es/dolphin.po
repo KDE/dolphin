@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-25 01:44+0200\n"
+"PO-Revision-Date: 2024-06-01 02:24+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -5229,7 +5229,7 @@ msgstr "Mostrar información de espacio"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Instalar Filelight para ver las estadísticas de uso del disco..."
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format

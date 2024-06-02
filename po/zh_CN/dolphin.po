@@ -3783,7 +3783,7 @@ msgstr "按 Tab 键切换左、右视图"
 #: settings/dolphin_generalsettings.kcfg:102
 #, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "关闭拆分视图时关闭处于焦点的视图"
+msgstr "关闭拆分视图时，关闭焦点所在的视图"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:106
@@ -4069,7 +4069,7 @@ msgstr "窗口："
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
-msgstr "显示筛选栏"
+msgstr "显示过滤栏"
 
 #: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
@@ -4105,7 +4105,7 @@ msgstr "拆分视图:："
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "关闭拆分视图时关闭处于焦点的视图"
+msgstr "关闭拆分视图时，关闭焦点所在的视图"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -5016,7 +5016,7 @@ msgstr "显示空间信息"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "安装 Filelight 以查看磁盘使用情况统计信息…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
