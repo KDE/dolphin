@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-26 15:13+0900\n"
+"PO-Revision-Date: 2024-06-02 18:03+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1830,7 +1830,7 @@ msgstr "無效協定 '%1'"
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
-msgstr "不合法的協定"
+msgstr "無效的協定"
 
 #: dolphinviewcontainer.cpp:974
 #, kde-kuit-format
@@ -4139,7 +4139,7 @@ msgctxt "@info"
 msgid ""
 "The location for the home folder is invalid or does not exist, it will not "
 "be applied."
-msgstr "家目錄的位置不合法或不存在，將不會套用。"
+msgstr "家目錄的位置無效或不存在，將不會套用。"
 
 #: settings/interface/interfacesettingspage.cpp:35
 #, kde-format
@@ -5020,7 +5020,7 @@ msgstr "顯示空間資訊"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "安裝 Filelight 來檢視磁碟用量統計…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
