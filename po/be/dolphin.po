@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-16 21:10\n"
+"PO-Revision-Date: 2024-06-04 19:02\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -34,12 +34,10 @@ msgid "Your emails"
 msgstr "greendeath@mail.ru, ihar.hrachyshka@gmail.com, nashtlumach@gmail.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Выканананне дзеянняў ад імя адміністратара - будзьце ўважлівымі!"
+msgstr ""
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -51,15 +49,13 @@ msgstr "Дзеянні ад імя адміністратара"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Завяршыць"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Рызыкі выканання дзеянняў ад імя адміністратара"
+msgstr ""
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -409,7 +405,7 @@ msgid ""
 msgstr ""
 "<para><emphasis>Выразаць, Капіяваць</emphasis> і <emphasis>Уставіць</"
 "emphasis> працуюць паміж многімі праграмамі і ёсць аднымі з найбольш частых "
-"загадаў. Таму іх <emphasis>спалучэнні клавіш</emphasis> размешчаныя побач на "
+"каманд. Таму іх <emphasis>спалучэнні клавіш</emphasis> размешчаныя побач на "
 "клавіятуры: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</shortcut> і "
 "<shortcut>Ctrl +V</shortcut>.</para>"
 
@@ -1373,9 +1369,9 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 "<para >Гэта <emphasis>Панэль меню</emphasis>. Яна забяспечвае доступ да "
-"загадаў і параметраў канфігурацыі. Пстрыкніце левай кнопкай мышы па любым "
+"каманд і параметраў канфігурацыі. Пстрыкніце левай кнопкай мышы па любым "
 "элеменце меню на гэтай панэлі, каб убачыць яго змесціва.</para><para>Панэль "
-"меню можна схаваць, калі прыбраць адўнаку з пункта <interface>Налады|"
+"меню можна схаваць, калі прыбраць адзнаку з пункта <interface>Налады|"
 "Паказваць панэль меню</interface>. Пасля гэтага большая частка змесціва "
 "панэлі будзе даступна праз кнопку <interface>Меню</interface> на "
 "<emphasis>Панэлі інструментаў</emphasis>.</para>"
@@ -1442,8 +1438,8 @@ msgid ""
 msgstr ""
 "<para>Гэтае дзеянне адкрывае акно са спісам <emphasis>спалучэнняў клавіш</"
 "emphasis>.<nl/>Там вы можаце наладзіць камбінацыі клавіш для пэўнага "
-"дзеяння. Для ўсіх загадаў гэтай праграмы можна прызначыць спалучэнне клавіш."
-"</para>"
+"дзеяння. Для ўсіх каманд гэтай праграмы можна прызначыць спалучэнне клавіш.</"
+"para>"
 
 #: dolphinmainwindow.cpp:2749
 #, kde-kuit-format
@@ -1965,12 +1961,10 @@ msgid "Hide Filter Bar"
 msgstr "Схаваць панэль фільтра"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Стварыць каталог…"
+msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3482,7 +3476,7 @@ msgstr "Выдаліць"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "Загады \"Скапіяваць у\" і \"Перамясціць у\""
+msgstr "Каманды \"Скапіяваць у\" і \"Перамясціць у\""
 
 #: settings/contextmenu/contextmenusettingspage.cpp:290
 #, kde-format
@@ -4802,7 +4796,7 @@ msgstr "Нічога"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Адвольны загад"
+msgstr "Адвольная каманда"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -4827,14 +4821,14 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
-"Увядзіце адвольны загад, які будзе запускаецца пры падвойным націсканні па "
-"панэлі ў фоне"
+"Увядзіце адвольную каманду, якая будзе запускаецца пры падвойным націсканні "
+"па панэлі ў фоне"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr "Загад…"
+msgstr "Каманда…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
