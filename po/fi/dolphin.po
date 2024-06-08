@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-02-02 17:42+0200\n"
+"PO-Revision-Date: 2024-03-10 10:54+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -3576,27 +3576,25 @@ msgstr "Enimmäistekstileveyden indeksi (0 tarkoittaa rajoittamatonta)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Miten esittää kansioiden koko"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Näytä tilarivi"
+msgstr "Näytä sisällön määrä"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Näytä tilarivi"
+msgstr "Näytä sisällön koko"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Älä näytä kansioiden kokoja"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -4663,29 +4661,23 @@ msgid "Sorting mode: "
 msgstr "Lajittelutapa:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Kohteiden määrä"
+msgstr "Näytä kohteiden määrä"
 
 # *** TARKISTA: Tämä on ongelmallinen. Parasta olisi saada toinen jono väliin tulevan luvun ja mittayksikön väliin (esim. ”Sisällön koko, 1 Gt asti”).
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Sisällön koko, enintään "
+msgstr "Näytä sisällön koko, enintään "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Näytä suurennusliukusäädin"
+msgstr "Älä näytä kokoa"
 
 # ”1 tason syvä” on minusta aavistuksen parempi kuin ”1 taso syvä” mutta ei hyvä. Keksiikö kukaan parempaa?
 #: settings/viewmodes/contentdisplaytab.cpp:63
@@ -4696,12 +4688,10 @@ msgstr[0] " tason syvä"
 msgstr[1] " tasoa syvä"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Kansiot:"
+msgstr "Kansion koko:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
