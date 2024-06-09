@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-01-07 16:26+0000\n"
+"PO-Revision-Date: 2024-06-08 16:45+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -73,7 +73,7 @@ msgstr "Deschide calea în fereastră nouă"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Clic mijlociu"
 
 #: dolphinmainwindow.cpp:321
 #, kde-format
@@ -182,13 +182,15 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Nu se poate lipi: clipboard-ul e gol."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
+"Nu se poate lipi: nu aveți permisiuni suficiente pentru a scrie în acest "
+"dosar."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -226,6 +228,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nu se poate crea dosar nou: nu aveți permisiunea să creați elemente în acest "
+"dosar."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -246,18 +250,14 @@ msgid "Open a new Dolphin window"
 msgstr "Deschide o fereastră Dolphin nouă"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Deschide o fereastră nouă exact ca aceasta, cu amplasarea și vizualizarea "
-"actuală.<nl/>Puteți trage și lăsa elemente între ferestre."
+"Deschide o fereastră nouă exact ca aceasta, cu amplasarea actuală.<nl/"
+">Puteți trage și lăsa elemente între ferestre."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
@@ -266,21 +266,16 @@ msgid "New Tab"
 msgstr "Filă nouă"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"Aceasta deschide o nouă <emphasis>filă</emphasis> cu amplasarea și "
-"vizualizarea curentă.<nl/>O filă este o vizualizare suplimentară în cadrul "
-"acestei ferestre. Puteți trage și lăsa elemente între file."
+"Aceasta deschide o nouă <emphasis>filă</emphasis> cu amplasarea actuală.<nl/"
+">Filele permit schimbarea rapidă între amplasări și vizualizări multiple în "
+"cadrul acestei ferestre. Puteți trage și lăsa elemente între file."
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -301,26 +296,20 @@ msgid "Close Tab"
 msgstr "Închide fila"
 
 #: dolphinmainwindow.cpp:1688
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Închide fila"
 
 #: dolphinmainwindow.cpp:1690
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
 "Aceasta închide fila vizualizată momentan. Dacă nu mai sunt file rămase, "
-"această fereastră se va închide în schimb."
+"aceasta închide întreaga fereastră."
 
 #: dolphinmainwindow.cpp:1695
 #, kde-format
@@ -415,23 +404,17 @@ msgid "Copy to Other View…"
 msgstr "Copiază în cealaltă vizualizare…"
 
 #: dolphinmainwindow.cpp:1742
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Aceasta copiază elementele alese din vizualizarea <emphasis>activă</"
-"emphasis> în vizualizarea despărțită inactivă."
+"Aceasta copiază elementele alese din vizualizarea activă în vizualizarea "
+"cealaltă. Disponibilă numai în regimul de vizualizare despărțită."
 
 #: dolphinmainwindow.cpp:1746
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Copiază în cealaltă vizualizare"
@@ -449,23 +432,17 @@ msgid "Move to Other View…"
 msgstr "Mută în cealaltă vizualizare…"
 
 #: dolphinmainwindow.cpp:1754
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Aceasta mută elementele alese din vizualizarea <emphasis>activă</emphasis> "
-"în vizualizarea despărțită inactivă."
+"Aceasta mută elementele alese din vizualizarea activă în vizualizarea "
+"cealaltă. Disponibilă numai în regimul de vizualizare despărțită."
 
 #: dolphinmainwindow.cpp:1758
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Mută în cealaltă vizualizare"
@@ -483,13 +460,7 @@ msgid "Show Filter Bar"
 msgstr "Arată bara de filtrare"
 
 #: dolphinmainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -526,14 +497,7 @@ msgid "Search for files and folders"
 msgstr "Caută fișiere și dosare"
 
 #: dolphinmainwindow.cpp:1790
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -544,7 +508,7 @@ msgid ""
 msgstr ""
 "<para>Aceasta vă ajută să găsiți fișiere și dosare deschizând o "
 "<emphasis>bară de căutare</emphasis>. Acolo puteți introduce termeni de "
-"căutare și specifica parametri pentru găsirea obiectelor căutate.</"
+"căutare și specifica parametri pentru găsirea elementelor căutate.</"
 "para><para>Folosiți acest ajutor din nou pe bara de căutare pentru a o avea "
 "în față în timp ce îi sunt explicați parametrii.</para>"
 
@@ -606,17 +570,13 @@ msgid "Invert Selection"
 msgstr "Inversează selecția"
 
 #: dolphinmainwindow.cpp:1845
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
-"Aceasta alege în schimb toate obiectele pe care <emphasis>nu</emphasis> le-"
+"Aceasta alege în schimb toate elementele pe care <emphasis>nu</emphasis> le-"
 "aveți alese acum."
 
 #: dolphinmainwindow.cpp:1863
@@ -737,14 +697,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Aceasta vă întoarce la fila închisă anterior."
 
 #: dolphinmainwindow.cpp:1965
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -754,18 +707,13 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "Aceasta desface ultima modificare pe care ați adus-o fișierelor sau "
-"dosarelor.<nl/>Asemenea modificări includ <interface>crearea, redenumirea</"
-"interface> și <interface>mutarea</interface> acestora în altă parte sau la "
-"<filename>Gunoi</filename>. <nl/>Modificările ce nu pot fi desfăcute vă vor "
-"cere confirmarea."
+"dosarelor.<nl/>Asemenea modificări includ <interface>crearea</interface>, "
+"<interface>redenumirea</interface> și <interface>mutarea</interface> "
+"acestora în altă parte sau la <filename>Gunoi</filename>. <nl/>Modificările "
+"ce nu pot fi desfăcute vă vor cere confirmarea în prealabil."
 
 #: dolphinmainwindow.cpp:1994
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -773,8 +721,9 @@ msgid ""
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
 "Mergeți la dosarul <filename>Acasă</filename>.<nl/>Fiecare cont de "
-"utilizator are propriul dosar <filename>Acasă</filename> ce conține datele "
-"acestora, inclusiv dosare ce conțin datele personale pentru aplicații."
+"utilizator are propriul dosar <filename>Acasă</filename> ce conține "
+"fișierele sale personale, inclusiv dosare ascunse ce conțin date și "
+"configurări pentru aplicații."
 
 #: dolphinmainwindow.cpp:2001
 #, kde-format
@@ -801,12 +750,7 @@ msgid "Open Terminal"
 msgstr "Deschide terminal"
 
 #: dolphinmainwindow.cpp:2019
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
@@ -825,12 +769,7 @@ msgid "Open Terminal Here"
 msgstr "Deschide un terminal aici"
 
 #: dolphinmainwindow.cpp:2029
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -854,16 +793,7 @@ msgid "&Bookmarks"
 msgstr "&Semne de carte"
 
 #: dolphinmainwindow.cpp:2055
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -877,30 +807,26 @@ msgstr ""
 "avea un buton <interface>%1</interface>. Ambele conțin aproximativ aceleași "
 "acțiuni și opțiuni de configurare.</para><para>Bara de meniu ocupă mai mult "
 "spațiu dar permite accesul rapid și organizat la toate acțiunile oferite de "
-"către aplicație.</para><para>Butonul <interface>%1</interface> e mai simplu "
-"și mic, ceea ce face declanșarea acțiunilor avansate mai lentă.</para>"
+"către aplicație.</para><para>Butonul %1 e mai simplu și mic, ceea ce face "
+"declanșarea acțiunilor avansate mai lentă.</para>"
 
 #: dolphinmainwindow.cpp:2088
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Mergi la fila %1"
 
 #: dolphinmainwindow.cpp:2101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "Activează ultima filă"
+msgstr "Ultima filă"
 
 #: dolphinmainwindow.cpp:2102
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "Activează ultima filă"
+msgstr "Mergi la ultima filă"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -909,12 +835,10 @@ msgid "Next Tab"
 msgstr "Fila următoare"
 
 #: dolphinmainwindow.cpp:2109
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "Fila următoare"
+msgstr "Mergi la fila următoare"
 
 #: dolphinmainwindow.cpp:2115
 #, kde-format
@@ -923,12 +847,10 @@ msgid "Previous Tab"
 msgstr "Fila precedentă"
 
 #: dolphinmainwindow.cpp:2116
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "Fila precedentă"
+msgstr "Mergi la fila precedentă"
 
 #: dolphinmainwindow.cpp:2123
 #, kde-format
@@ -1075,15 +997,7 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: dolphinmainwindow.cpp:2279
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -1102,15 +1016,7 @@ msgstr ""
 "separată, cum ar fi Konsolă.</para>"
 
 #: dolphinmainwindow.cpp:2287
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1141,11 +1047,7 @@ msgid "Show Hidden Places"
 msgstr "Arată locurile ascunse"
 
 #: dolphinmainwindow.cpp:2335
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1153,7 +1055,7 @@ msgid ""
 "property."
 msgstr ""
 "Aceasta afișează toate locurile din panoul cu locuri ce au fost ascunse. "
-"Acestea vor apărea semitransparente dacă nu le-ați dezactivat proprietatea "
+"Acestea vor apărea semitransparente și vor permite dezactivarea proprietății "
 "de a fi ascunse."
 
 #: dolphinmainwindow.cpp:2347
@@ -1209,6 +1111,8 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Nu se poate redenumi: nu aveți permisiunea să redenumiți elemente în acest "
+"dosar."
 
 #: dolphinmainwindow.cpp:2437 dolphinmainwindow.cpp:2454
 #, kde-format
@@ -1216,12 +1120,15 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Nu se poate șterge: nu aveți permisiunea să ștergeți elemente din acest "
+"dosar."
 
 #: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Nu se poate tăia: nu aveți permisiunea să mutați elemente din acest dosar."
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -1230,30 +1137,36 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nu se poate duplica aici: nu aveți permisiunea să creați elemente în acest "
+"dosar."
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Nu se poate copia în cealaltă vizualizare: nu e ales niciun fișier."
 
 #: dolphinmainwindow.cpp:2468
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "Nu se poate muta în cealaltă vizualizare: nu e ales niciun fișier."
 
 #: dolphinmainwindow.cpp:2487
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Nu se poate copia în cealaltă vizualizare: vizualizarea conține aceste "
+"elemente deja."
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Nu se poate muta în cealaltă vizualizare: vizualizarea conține aceste "
+"elemente deja."
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1262,6 +1175,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nu se poate copia în cealaltă vizualizare: nu aveți permisiunea să scrieți "
+"în dosarul-destinație."
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1270,6 +1185,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nu se poate muta în cealaltă vizualizare: nu aveți permisiunea să scrieți în "
+"dosarul-destinație."
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1278,6 +1195,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Nu se poate muta în cealaltă vizualizare: nu aveți permisiunea să mutați "
+"elemente din acest dosar."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
@@ -1319,7 +1238,7 @@ msgstr "Copiază în cealaltă vizualizare"
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr ""
+msgstr "Mută vizualizarea stângă într-o nouă fereastră"
 
 #: dolphinmainwindow.cpp:2625
 #, kde-format
@@ -1345,7 +1264,7 @@ msgstr "Copiază în cealaltă vizualizare"
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr ""
+msgstr "Mută vizualizarea dreaptă într-o nouă fereastră"
 
 #: dolphinmainwindow.cpp:2638
 #, kde-format
@@ -3511,27 +3430,25 @@ msgstr "Index maxim pentru lățimea textului (0 înseamnă nelimitat)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Cum se afișează dimensiunea dosarelor"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Arată bara de stare"
+msgstr "Arată numărul conținutului"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Arată bara de stare"
+msgstr "Arată dimensiunea conținutului"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Nu arăta nicio dimensiune a dosarului"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3882,13 +3799,13 @@ msgstr "Reține dosarele și filele deschise"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Poziționează două vizualizări față în față"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr "Să fie afișată bara de filtrare"
+msgstr "Dacă să fie afișată bara de filtrare"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -3920,10 +3837,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "Redenumire intercalată"
+msgstr "Redenumește intercalat elementele unitare"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3943,17 +3859,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
-#, fuzzy, kde-format
-#| msgid "Use tab for switching between right and left split"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr "Folosește Tab pentru comutarea între despărțirea dreaptă și stângă"
+msgstr "Folosește Tab pentru comutarea între vizualizarea dreaptă și stângă"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "Închide panoul activ la comutarea vizualizării despărțite"
+msgstr "Închide vizualizarea focalizată la închiderea vizualizării despărțite"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:99
@@ -3963,10 +3877,9 @@ msgstr "Fila nouă va fi deschisă după ultima"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:103
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Arată elementul la planare"
+msgstr "Arată informațiile elementului la planare"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -4257,12 +4170,10 @@ msgid "Open new tabs: "
 msgstr "Deschide file noi: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Schimbă între panouri prin tasta Tab"
+msgstr "Schimbă între vizualizări prin tasta Tab"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -4271,12 +4182,10 @@ msgid "Split view: "
 msgstr "Desparte vizualizarea: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "Oprirea vizualizării despărțite închide panoul activ"
+msgstr "Oprirea vizualizării despărțite închide vizualizarea activă"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4327,9 +4236,7 @@ msgid "Confirmations"
 msgstr "Confirmări"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panouri"
@@ -4341,23 +4248,19 @@ msgid "Status && Location bars"
 msgstr "Barele de stare și amplasare"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Arată previzualizare"
+msgstr "Arată previzualizări"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Redă automat fișiere multimedia"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Arată elementul la planare"
@@ -4366,21 +4269,19 @@ msgstr "Arată elementul la planare"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Folosește dată &lungă, de exemplu „%1”"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Folosește dată s&curtă, de exemplu „%1”"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Informații"
+msgstr "Panou informativ:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4517,28 +4418,22 @@ msgid "Sorting mode: "
 msgstr "Regim de sortare: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Număr de elemente"
+msgstr "Arată numărul de elemente"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "Dimensiune conținut, până la "
+msgstr "Arată dimensiunea conținutului, până la "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Arată glisorul de apropiere"
+msgstr "Nu arăta nicio dimensiune"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4549,12 +4444,10 @@ msgstr[1] " nivele adâncime"
 msgstr[2] " de nivele adâncime"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "@label:checkbox"
-#| msgid "Folders:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "Dosare:"
+msgstr "Dimensiune dosar:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4673,11 +4566,10 @@ msgid "Browsing: "
 msgstr "Navigare: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Arată elementul la planare"
+msgstr "Arată informațiile elementului la planare"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4693,11 +4585,10 @@ msgid "Show selection marker"
 msgstr "Afișează marcatorul de selecție"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:76
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Redenumire intercalată"
+msgstr "Redenumește intercalat elementele unitare"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
@@ -5144,14 +5035,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 liber din %2 (%3% folosit)"
 
 #: statusbar/statusbarspaceinfo.cpp:188
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 liber din %2 (%3% folosit)"
+msgstr ""
+"%1 liber din %2 (%3% folosit)\n"
+"Apăsați pentru a gestiona utilizarea spațiului."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -5434,26 +5325,17 @@ msgid "Create Folder…"
 msgstr "Creează dosar…"
 
 #: views/dolphinviewactionhandler.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once results in their new names differing only in a number."
 msgstr ""
-"Aceasta redenumește elementele alese momentan.<nl/>Redenumirea multor "
-"elemente odată rezultă în denumiri noi ce diferă doar printr-un număr."
+"Aceasta redenumește elementele alese acum.<nl/>Redenumirea multor elemente "
+"odată rezultă în denumiri noi ce diferă doar printr-un număr."
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -5461,21 +5343,17 @@ msgid ""
 "deleted later if disk space is needed."
 msgstr ""
 "Aceasta mută elementele selecției actuale la <filename>Gunoi</filename>.<nl/"
-">Gunoiul e o stocare temporară din care puteți șterge elemente când e nevoie "
-"de spațiu suplimentar pe disc."
+">Gunoiul e o stocare temporară din care puteți șterge mai târziu elemente "
+"dacă e nevoie de spațiu suplimentar pe disc."
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
 msgstr ""
-"Aceasta șterge complet elementele alese momentan. Acestea nu vor putea fi "
+"Aceasta șterge permanent elementele alese. Acestea nu vor putea fi "
 "recuperate pe căi normale."
 
 #: views/dolphinviewactionhandler.cpp:126
@@ -5564,12 +5442,7 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -5578,20 +5451,11 @@ msgid ""
 msgstr ""
 "<para>Aceasta schimbă la un regim de vizualizare compactă ce enumeră "
 "dosarele și fișierele în coloane cu denumirile alături de pictograme.</"
-"para><para>Aceasta ajută la păstrarea privirii generale în dosarele cu multe "
-"elemente.</para>"
+"para><para>Aceasta vă oferă o privire generală în dosarele cu multe elemente."
+"</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -5607,8 +5471,8 @@ msgstr ""
 "coloanei pentru a sorta elementele după acesta. Apăsați din nou pentru a "
 "sorta în ordine inversă. Pentru a alege detaliile afișate, faceți clic-"
 "dreapta pe antet.</para><para>Puteți vedea conținutul unui dosar fără a "
-"părăsi amplasarea actuală apăsând la stânga acestuia. Astfel, puteți vedea "
-"conținuturile mai multor dosare în aceeași listă.</para>"
+"părăsi amplasarea actuală apăsând pe regiunea din stânga acestuia. Astfel, "
+"puteți vedea conținuturile mai multor dosare în aceeași listă.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
