@@ -2,15 +2,15 @@
 # Copyright (C) 2007 This file is part of KDE
 # This file is distributed under the same license as the kdebase package.
 #
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2007, 2008, 2009, 2010.
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2023-09-10 19:04+0200\n"
+"PO-Revision-Date: 2024-06-09 13:31+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28,7 +28,7 @@ msgstr "Stefan Asserhäll"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "stefan.asserhall@bredband.net"
+msgstr "stefan.asserhall@gmail.com"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -71,7 +71,7 @@ msgstr "Öppna sökväg i nytt fönster"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Mittenklick"
 
 #: dolphinmainwindow.cpp:321
 #, kde-format
@@ -180,7 +180,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Kan inte klistra in. Klippbordet är tomt."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
@@ -242,18 +242,14 @@ msgid "Open a new Dolphin window"
 msgstr "Öppna ett nytt Dolphin-fönster"
 
 #: dolphinmainwindow.cpp:1662
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Öppnar ett nytt fönster som ser precis ut som det här med samma plats och vy."
-"<nl/>Det går att dra och släppa objekt mellan fönstren."
+"Öppnar ett nytt fönster som ser precis ut som det här med samma plats.<nl/"
+">Det går att dra och släppa objekt mellan fönstren."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
@@ -262,21 +258,16 @@ msgid "New Tab"
 msgstr "Ny flik"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"Öppnar en ny <emphasis>flik</emphasis> med samma plats och vy.<nl/>En flik "
-"är ytterligare en vy inom fönstret. Det går att dra och släppa objekt mellan "
-"flikarna."
+"Öppnar en ny <emphasis>flik</emphasis> med samma plats.<nl/>Flikar låter dig "
+"snabbt byta mellan flera platser och vyer inom fönstret. Det går att dra och "
+"släppa objekt mellan flikar."
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -297,26 +288,20 @@ msgid "Close Tab"
 msgstr "Stäng flik"
 
 #: dolphinmainwindow.cpp:1688
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Stäng flik"
 
 #: dolphinmainwindow.cpp:1690
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
 "Stänger fliken som för närvarande visas. Om inga fler flikar finns kvar "
-"stängs fönstret istället."
+"stängs hela fönstret istället."
 
 #: dolphinmainwindow.cpp:1695
 #, kde-format
@@ -424,9 +409,7 @@ msgstr ""
 "den inaktiva delade vyn."
 
 #: dolphinmainwindow.cpp:1746
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopiera till andra vyn"
@@ -458,9 +441,7 @@ msgstr ""
 "den inaktiva delade vyn."
 
 #: dolphinmainwindow.cpp:1758
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Flytta till andra vyn"
@@ -877,7 +858,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Gå till flik %1"
 
 #: dolphinmainwindow.cpp:2101
 #, fuzzy, kde-format
@@ -3088,9 +3069,7 @@ msgid "Search in your home directory"
 msgstr "Sök i din hemkatalog"
 
 #: search/dolphinsearchbox.cpp:419
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Öppna %1"
 
@@ -4324,8 +4303,7 @@ msgid "Auto-play media files"
 msgstr "Spela mediafiler automatiskt"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Visa objekt när muspekaren hålls över det"
@@ -5081,22 +5059,22 @@ msgstr "Visa utrymmesinformation"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Diskanvändningsstatistik för aktuell katalog"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Diskanvändningsstatistik för aktuell enhet"
 
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Diskanvändningsstatistik för alla enheter"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/statusbarspaceinfo.cpp:185
 #, kde-format
