@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-06-02 12:18+0300\n"
+"PO-Revision-Date: 2024-06-08 20:59+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -3600,23 +3600,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Показывать строку состояния"
+msgstr "Показывать количество объектов"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Показывать строку состояния"
+msgstr "Показывать размер содержимого"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Не показывать размер каталога"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3902,11 +3900,9 @@ msgstr "Выделение"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Другой шрифт"
+msgstr "Другое действие"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -4041,18 +4037,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:98
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "Клавиша Tab переключает между двумя панелями"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "Закрывать активную вкладку при отключении двухпанельного режима"
+msgstr "Закрывать активную панель при отключении двухпанельного режима"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:106
@@ -4062,10 +4055,9 @@ msgstr "Новая вклада будет размещена за послед�
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Показывать при наведении"
+msgstr "Показывать сведения об объекте при наведении"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:114
@@ -4261,7 +4253,7 @@ msgstr "При одновременном открытии множества т
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "При начале или завершении выполнения действий с правами администратора"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4363,9 +4355,7 @@ msgid "Open new tabs: "
 msgstr "Открывать новые вкладки:"
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Переключать активную панель клавишей Tab"
@@ -4377,9 +4367,7 @@ msgid "Split view: "
 msgstr "Разделяемая область просмотра: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Закрывать активную панель при отключении двухпанельного режима"
@@ -4446,7 +4434,7 @@ msgstr "Строки состояния и адреса"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Миниатюры вместо значков"
+msgstr "Показывать миниатюры"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
@@ -4492,19 +4480,17 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
-msgstr "Использовать предварительный просмотр для:"
+msgstr "Показывать миниатюры следующих типов файлов:"
 
 #. i18n: This label forms a full sentence together with the spinbox content.
 #. Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Миниатюры вместо значков"
+msgstr "Показывать миниатюры файлов"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4513,7 +4499,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "для файлов размером менее "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4526,16 +4512,13 @@ msgstr " МиБ"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "для файлов любого размера"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "%1 файл"
+msgstr "никогда не использовать"
 
 #: settings/interface/previewssettingspage.cpp:91
 #, kde-format
@@ -5324,6 +5307,8 @@ msgstr "Показывать сведения о свободном месте"
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
 msgstr ""
+"Для просмотра сведений об использовании дискового пространства установите "
+"приложение Filelight"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
@@ -5664,12 +5649,7 @@ msgid ""
 msgstr "Это действие выполняет переименование выбранных объектов. "
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -5681,11 +5661,7 @@ msgstr ""
 "быть удалены для освобождения дискового пространства."
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
