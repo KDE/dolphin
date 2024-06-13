@@ -164,37 +164,42 @@ QString DolphinStatusBar::text() const
     return m_text;
 }
 
-void DolphinStatusBar::setProgressText(const QString &text)
+void DolphinStatusBar::showProgress(const QString &currentlyRunningTaskTitle, int progressPercent, CancelLoading cancelLoading)
 {
-    m_progressTextLabel->setText(text);
-}
+    m_cancelLoading = cancelLoading;
 
-QString DolphinStatusBar::progressText() const
-{
-    return m_progressTextLabel->text();
-}
-
-void DolphinStatusBar::setProgress(int percent)
-{
     // Show a busy indicator if a value < 0 is provided:
-    m_progressBar->setMaximum((percent < 0) ? 0 : 100);
+    m_progressBar->setMaximum((progressPercent < 0) ? 0 : 100);
 
-    percent = qBound(0, percent, 100);
-    const bool progressRestarted = (percent < 100) && (percent < m_progress);
-    m_progress = percent;
-    if (progressRestarted && !m_progressBar->isVisible()) {
+    progressPercent = qBound(0, progressPercent, 100);
+    if (!m_progressBar->isVisible()) {
         // Show the progress bar delayed: In the case if 100 % are reached within
         // a short time, no progress bar will be shown at all.
-        m_showProgressBarTimer->start();
+        if (!m_showProgressBarTimer->isActive()) {
+            m_showProgressBarTimer->start();
+        } else {
+            // The timer is already running. Should we restart it or keep it running?
+            if (m_progressTextLabel->text() != currentlyRunningTaskTitle || (progressPercent < 100 && progressPercent < m_progress)) {
+                m_showProgressBarTimer->start();
+            }
+        }
     }
+    m_progress = progressPercent;
 
     m_progressBar->setValue(m_progress);
-    if (percent == 100) {
+    if (progressPercent == 100) {
         // The end of the progress has been reached. Assure that the progress bar
         // gets hidden and the extensions widgets get visible again.
         m_showProgressBarTimer->stop();
         updateProgressInfo();
     }
+
+    m_progressTextLabel->setText(currentlyRunningTaskTitle);
+}
+
+QString DolphinStatusBar::progressText() const
+{
+    return m_progressTextLabel->text();
 }
 
 int DolphinStatusBar::progress() const
@@ -302,7 +307,7 @@ void DolphinStatusBar::updateProgressInfo()
 {
     if (m_progress < 100) {
         // Show the progress information and hide the extensions
-        m_stopButton->show();
+        m_stopButton->setVisible(m_cancelLoading == CancelLoading::Allowed);
         m_progressTextLabel->show();
         m_progressBar->show();
         setExtensionsVisible(false);

@@ -37,21 +37,23 @@ public:
 
     QString text() const;
 
+    enum class CancelLoading { Allowed, Disallowed };
     /**
-     * Sets the text for the progress information.
-     * DolphinStatusBar::setProgress() should be invoked
-     * afterwards each time the progress changes.
+     * Shows progress for a task on the status bar.
+     *
+     * Allows us to inform the user about various tasks progressing in the background.
+     * This method can be called from various places in any order but only the most recent call will be displayed.
+     * @param currentlyRunningTaskTitle The task that is currently progressing.
+     * @param progressPercent           The percent value shown in a progress bar next to the @p currentlyRunningTaskTitle.
+     *                                  A negative @p progressPercent value will be interpreted as indeterminate/unknown progress.
+     *                                  The progress is shown delayed by 500 milliseconds: If the progress does reach 100 % within 500 milliseconds,
+     *                                  the progress is not shown at all.
+     * @param cancelLoading             Whether a "Stop" button for cancelling the task should be available next to the progress reporting.
+     *
+     * @note Make sure you also hide the progress information by calling this with a @p progressPercent equal or greater than 100.
      */
-    void setProgressText(const QString &text);
+    void showProgress(const QString &currentlyRunningTaskTitle, int progressPercent, CancelLoading cancelLoading = CancelLoading::Allowed);
     QString progressText() const;
-
-    /**
-     * Sets the progress in percent (0 - 100). The
-     * progress is shown delayed by 500 milliseconds:
-     * If the progress does reach 100 % within 500 milliseconds,
-     * the progress is not shown at all.
-     */
-    void setProgress(int percent);
     int progress() const;
 
     /**
@@ -100,6 +102,7 @@ protected:
 
 private Q_SLOTS:
     void showZoomSliderToolTip(int zoomLevel);
+
     void updateProgressInfo();
 
     /**
@@ -138,6 +141,7 @@ private:
     QSlider *m_zoomSlider;
 
     QLabel *m_progressTextLabel;
+    CancelLoading m_cancelLoading = CancelLoading::Allowed;
     QProgressBar *m_progressBar;
     QToolButton *m_stopButton;
     int m_progress;

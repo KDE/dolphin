@@ -283,10 +283,6 @@ private Q_SLOTS:
      */
     void updateStatusBar();
 
-    void updateDirectoryLoadingProgress(int percent);
-
-    void updateDirectorySortingProgress(int percent);
-
     /**
      * Updates the statusbar to show an undetermined progress with the correct
      * context information whether a searching or a directory loading is done.
