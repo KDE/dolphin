@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-06-02 18:03+0900\n"
+"PO-Revision-Date: 2024-06-13 04:45+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1634,7 +1634,7 @@ msgstr "檢視(&V)"
 #: dolphinpart.rc:33
 #, kde-format
 msgid "&Go"
-msgstr "走(&G)"
+msgstr "前往(&G)"
 
 #. i18n: ectx: Menu (tools)
 #: dolphinpart.rc:41
