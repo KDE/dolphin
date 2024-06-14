@@ -4,22 +4,22 @@
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
 # Jan Holíček <jan.holicek@gmail.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2023-11-14 13:10+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2024-06-12 15:05+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -73,7 +73,7 @@ msgstr "Otevřít cestu v novém okně"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Kliknutí prostředním tlačítkem myši"
 
 #: dolphinmainwindow.cpp:321
 #, kde-format
@@ -179,13 +179,13 @@ msgstr "V panelu terminálu stále běží program '%1'. Opravdu chcete skončit
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Nelze vložit: Schránka je prázdná."
 
 #: dolphinmainwindow.cpp:865
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Nelze vložit: Nemáte práva k zápisu do této složky."
 
 #: dolphinmainwindow.cpp:1244
 #, kde-format
@@ -223,6 +223,7 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nelze vytvořit novou složku: Nemáte práva k vytváření položek v této složce."
 
 #: dolphinmainwindow.cpp:1498
 #, kde-format
@@ -249,6 +250,8 @@ msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
+"Toto otevře nové okno stejné jako toto na stejném místě.<nl/>Mezi okny "
+"můžete přetahovat položky."
 
 #: dolphinmainwindow.cpp:1669
 #, kde-format
@@ -264,6 +267,9 @@ msgid ""
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
+"Toto otevře novou <emphasis>kartu</emphasis> na stejném místě. <nl/>Karty "
+"vám umožňují rychle přepínat mezi více místy a pohledy v jednom oknu. Mezi "
+"kartami taky můžete přetahovat položky."
 
 #: dolphinmainwindow.cpp:1680
 #, kde-format
@@ -287,7 +293,7 @@ msgstr "Zavřít kartu"
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
-msgstr ""
+msgstr "Zavřít kartu"
 
 #: dolphinmainwindow.cpp:1690
 #, kde-format
@@ -384,7 +390,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
-msgstr ""
+msgstr "Kopírovat do druhého pohledu"
 
 #: dolphinmainwindow.cpp:1751
 #, kde-format
@@ -410,7 +416,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
-msgstr ""
+msgstr "Přesunout do druhého pohledu"
 
 #: dolphinmainwindow.cpp:1763
 #, kde-format
@@ -727,19 +733,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Přejít na kartu %1"
 
 #: dolphinmainwindow.cpp:2101
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr ""
+msgstr "Poslední karta"
 
 #: dolphinmainwindow.cpp:2102
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr ""
+msgstr "Přejít na poslední kartu"
 
 #: dolphinmainwindow.cpp:2108
 #, kde-format
@@ -751,7 +757,7 @@ msgstr "Následující karta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr ""
+msgstr "Přejít na následující kartu"
 
 #: dolphinmainwindow.cpp:2115
 #, kde-format
@@ -763,7 +769,7 @@ msgstr "Předchozí karta"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr ""
+msgstr "Přejít na předchozí kartu"
 
 #: dolphinmainwindow.cpp:2123
 #, kde-format
@@ -979,7 +985,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
-msgstr ""
+msgstr "Nelze vyjmout: Nemáte práva k přesunu položek z této složky."
 
 #: dolphinmainwindow.cpp:2444
 #, kde-format
@@ -987,7 +993,7 @@ msgctxt "@info"
 msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
-msgstr ""
+msgstr "Zde nelze duplikovat: Nemáte práva k vytváření položek v této složce."
 
 #: dolphinmainwindow.cpp:2466
 #, kde-format
@@ -3559,7 +3565,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr ""
+msgstr "Použít Tab k přepínání mezi levou a pravou stranou pohledu"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:95
@@ -3577,7 +3583,7 @@ msgstr "Nová karta bude otevřena za poslední"
 #: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid "Show item information on hover"
-msgstr ""
+msgstr "Zobrazit informace o položce při přejetí myší"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
@@ -3935,7 +3941,7 @@ msgstr "Potvrzování"
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr ""
+msgstr "Panely"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, kde-format
@@ -3947,19 +3953,19 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr ""
+msgstr "Zobrazit náhledy"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr ""
+msgstr "Automatický přehrávat multimediální soubory"
 
 #: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
-msgstr ""
+msgstr "Zobrazit položku při přejetí myší"
 
 #: settings/interface/panelsettingspage.cpp:37
 #, kde-format
@@ -3977,7 +3983,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr ""
+msgstr "Informační panel:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4117,19 +4123,19 @@ msgstr "Režim řazení: "
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr ""
+msgstr "Zobrazit počet položek"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr ""
+msgstr "Zobrazí velikost obsahu až po"
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr ""
+msgstr "Nezobrazovat velikost"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4143,7 +4149,7 @@ msgstr[2] ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr ""
+msgstr "Velikost složky:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
@@ -4263,7 +4269,7 @@ msgstr "Prohlížení: "
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr ""
+msgstr "Zobrazit informace o položce při přejetí myší"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
 #: settings/viewmodes/generalviewsettingspage.cpp:72
@@ -4727,6 +4733,8 @@ msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
 msgstr ""
+"%1 volné z %2 (%3% použito)\n"
+"Klikněte pro správu volného místa."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -4782,27 +4790,27 @@ msgstr "Obnovit"
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Vybrána 1 složka"
+msgstr[1] "Vybrány %1 složky"
+msgstr[2] "Vybráno %1 složek"
 
 #: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Vybrán 1 soubor"
+msgstr[1] "Vybrány %1 soubory"
+msgstr[2] "Vybráno %1 souborů"
 
 #: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "1 složka"
+msgstr[1] "%1 složky"
+msgstr[2] "%1 složek"
 
 #: views/dolphinview.cpp:657
 #, kde-format
@@ -4829,7 +4837,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
-msgstr ""
+msgstr "0 složek, 0 souborů"
 
 #: views/dolphinview.cpp:883 views/dolphinview.cpp:892
 #, kde-format
