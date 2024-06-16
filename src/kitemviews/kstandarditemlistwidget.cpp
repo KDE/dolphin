@@ -1513,8 +1513,8 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
     if (m_customTextColor.isValid()) {
         c1 = m_customTextColor;
     } else if (isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
-        // The detail text colour needs to match the main text (HighlightedText) for the same level
-        // of readability. We short circuit early here to avoid interpolating with another colour.
+        // The detail text color needs to match the main text (HighlightedText) for the same level
+        // of readability. We short circuit early here to avoid interpolating with another color.
         m_additionalInfoTextColor = styleOption().palette.color(QPalette::HighlightedText);
         return;
     } else {

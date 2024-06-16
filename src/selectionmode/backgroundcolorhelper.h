@@ -47,7 +47,7 @@ private:
      */
     void slotPaletteChanged();
 
-    /** Calculates a new m_colorControlledWidgets based on the current colour scheme of the application. */
+    /** Calculates a new m_colorControlledWidgets based on the current color scheme of the application. */
     void updateBackgroundColor();
 
 private:
