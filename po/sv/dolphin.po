@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-06-14 21:50+0200\n"
+"PO-Revision-Date: 2024-06-15 15:43+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -581,6 +581,10 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Presenterar en andra vy sida vid sida med den aktuella vyn, så att du "
+"kan se innehållet i två kataloger samtidigt och enkelt flytta objekt mellan "
+"dem.</para><para>Vyn som inte är \"i fokus\" nedtonas. </para>Klicka på "
+"knappen igen för att stänga en av vyerna."
 
 #: dolphinmainwindow.cpp:1878
 #, kde-kuit-format
@@ -588,7 +592,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
-msgstr ""
+msgstr "Om vyn har delats visas vyn i fokus i ett nytt fönster."
 
 #: dolphinmainwindow.cpp:1886
 #, kde-format
@@ -1145,12 +1149,14 @@ msgstr "Kan inte flytta till andra vyn. Inga filer markerade."
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Kan inte kopiera till andra vyn. Den andra vyn innehåller redan objekten."
 
 #: dolphinmainwindow.cpp:2490
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Kan inte flytta till andra vyn. Den andra vyn innehåller redan objekten."
 
 #: dolphinmainwindow.cpp:2495
 #, kde-format
@@ -1159,6 +1165,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Kan inte kopiera till andra vyn. Du har inte rättighet att skriva i den här "
+"katalogen."
 
 #: dolphinmainwindow.cpp:2499
 #, kde-format
@@ -1167,6 +1175,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Kan inte flytta till andra vyn. Du har inte rättighet att skriva i den här "
+"katalogen."
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1175,6 +1185,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Kan inte flytta till andra vyn. Du har inte rättighet att flytta objekt från "
+"den här katalogen."
 
 #: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
@@ -1208,7 +1220,7 @@ msgstr "Stäng vänster vy"
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr ""
+msgstr "Koppla loss vänster vy"
 
 #: dolphinmainwindow.cpp:2623
 #, kde-format
@@ -1232,7 +1244,7 @@ msgstr "Stäng höger vy"
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr ""
+msgstr "Koppla loss höger vy"
 
 #: dolphinmainwindow.cpp:2629
 #, kde-format
@@ -1256,7 +1268,7 @@ msgstr "Delad visning"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Koppla loss"
 
 #: dolphinmainwindow.cpp:2696
 #, kde-kuit-format
@@ -3745,7 +3757,7 @@ msgstr "Kom ihåg öppna kataloger och flikar"
 #: settings/dolphin_generalsettings.kcfg:54
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Placera två vyer sida vid sida"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:59
@@ -3883,7 +3895,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:145
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Dölj också filer med Mime-typen application/x-trash"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:151
@@ -4141,6 +4153,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"Om avmarkerad, stängs motsatt vy. Stängningsikonen illustrerar alltid vilken "
+"vy (vänster eller höger) som kommer att stängas."
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -4217,13 +4231,13 @@ msgstr "Visa objekt när muspekaren hålls över det"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Använd &långt datum, exempelvis '%1'"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Använd &kondenserat datum, exempelvis '%1'"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
@@ -4238,6 +4252,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Panelinställningarna är också tillgängliga via deras sammanhangsberoende "
+"meny. Visa den genom att hålla nere höger musknapp på en panel."
 
 #: settings/interface/previewssettingspage.cpp:41
 #, kde-format
@@ -4471,6 +4487,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Några speciella vyer som sök, senaste filer, eller papperskorgen använder "
+"ändå en egen visningsstil."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:37
 #, kde-format
@@ -4540,13 +4558,13 @@ msgstr "Byt namn på enstaka objekt på plats"
 #: settings/viewmodes/generalviewsettingspage.cpp:77
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "Namnbyte av flera objekt görs alltid med ett dialogfönster."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:80
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Dölj också säkerhetskopior när dolda filer döljs"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
@@ -4556,6 +4574,7 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Säkerhetskopior är filerna vars Mime-typ är application/x-trash, mönster: %1"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
