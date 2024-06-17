@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-06-01 02:24+0200\n"
+"PO-Revision-Date: 2024-06-16 20:35+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27,7 +27,7 @@ msgstr ""
 "com>\n"
 "com>\n"
 "com>\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4006,7 +4006,7 @@ msgstr "Mostrar la barra de estado"
 #: settings/dolphin_generalsettings.kcfg:126
 #, kde-format
 msgid "Show zoom slider in the statusbar"
-msgstr "Mostrar deslizador de zoom en la barra de estado"
+msgstr "Mostrar deslizador de ampliación en la barra de estado"
 
 #. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
 #: settings/dolphin_generalsettings.kcfg:130
@@ -4490,7 +4490,7 @@ msgstr "Mostrar la barra de estado"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Mostrar deslizador para ampliar"
+msgstr "Mostrar deslizador de ampliación"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:38
 #, kde-format
@@ -5174,7 +5174,7 @@ msgstr "Ampliación:"
 #: statusbar/dolphinstatusbar.cpp:62
 #, kde-format
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Ampliación"
 
 #: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
@@ -5218,7 +5218,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
-msgstr "Mostrar deslizador de zoom"
+msgstr "Mostrar deslizador de ampliación"
 
 #: statusbar/dolphinstatusbar.cpp:273
 #, kde-format

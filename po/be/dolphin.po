@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-06-04 19:02\n"
+"PO-Revision-Date: 2024-06-13 20:10\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
 "Language: be\n"
@@ -37,7 +37,7 @@ msgstr "greendeath@mail.ru, ihar.hrachyshka@gmail.com, nashtlumach@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Выкананне дзеянняў ад імя адміністратара - будзьце ўважлівымі!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -55,7 +55,7 @@ msgstr "Завяршыць"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Завяршыць выкананне дзеянняў ад імя адміністратара"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1843,7 +1843,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Вы не можаце запісваць у гэты каталог."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -1964,7 +1964,7 @@ msgstr "Схаваць панэль фільтра"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr ""
+msgstr "Перамясціць у новы каталог…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4425,7 +4425,7 @@ msgstr "Паказваць мініяцюры для:"
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr ""
+msgstr "Паказваць мініяцюры для"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4434,7 +4434,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "файлаў менш за "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4447,19 +4447,19 @@ msgstr " Міб"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "файлаў любога памеру"
 
 #: settings/interface/previewssettingspage.cpp:84
 #, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr ""
+msgstr "няма файлаў"
 
 #: settings/interface/previewssettingspage.cpp:91
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr ""
+msgstr "Паказваць мініяцюры для каталогаў"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4470,18 +4470,23 @@ msgid ""
 "para><para>Disable this if navigating remote folders in Dolphin is slow or "
 "when accessing storage over metered connections.</para>"
 msgstr ""
+"<para >Стварэнне<emphasis >мініяцюр</emphasis> для адлеглых каталогаў "
+"<emphasis strong='true'>вельмі павялічвае</emphasis> спажыванне трафіка.</"
+"para><para>Адключыце гэты параметр, калі пры перамяшчэнні па адлеглых "
+"каталогах Dolphin працуе павольна або калі падлучаецеся да сховішча праз "
+"лімітаваныя злучэнні.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr ""
+msgstr "Лакальнае сховішча:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr ""
+msgstr "Адлеглае сховішча:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -5233,7 +5238,7 @@ msgstr "Паказваць звесткі пра прастору"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Усталяваць Filelight для прагляду статыстыкі выкарыстання дыска…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format

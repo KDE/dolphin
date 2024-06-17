@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-26 11:19+0200\n"
+"PO-Revision-Date: 2024-06-16 11:00+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,6 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5208,7 +5209,7 @@ msgstr "Pokaż wykorzystanie przestrzeni"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Wgraj Filelight, aby obejrzeć statystykę wykorzystania dysku…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
