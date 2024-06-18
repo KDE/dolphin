@@ -3,7 +3,10 @@
   <id>org.kde.dolphin.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
-  <developer_name translate="no">KDE</developer_name>
+  <developer id="org.kde">
+    <name translate="no">KDE</name>
+    <url>https://kde.org</url>
+  </developer>
   <name>Dolphin</name>
   <name xml:lang="ar">دولفين</name>
   <name xml:lang="ast">Dolphin</name>
