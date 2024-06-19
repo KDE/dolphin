@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-31 00:41+0000\n"
-"PO-Revision-Date: 2024-05-30 16:10+0200\n"
+"PO-Revision-Date: 2024-06-18 16:04+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1391,13 +1391,13 @@ msgstr "Vybrat odpovídající položky..."
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Odznačit odpovídající položky..."
+msgstr "Zrušit výběr odpovídajících položek..."
 
 #: dolphinpart.cpp:163
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
-msgstr "Odznačit vše"
+msgstr "Zrušit výběr všeho"
 
 #: dolphinpart.cpp:178
 #, kde-format
@@ -1450,12 +1450,12 @@ msgstr "Vybrat všechny položky odpovídající tomuto vzoru:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
-msgstr "Odznačit"
+msgstr "Zrušit výběr"
 
 #: dolphinpart.cpp:452
 #, kde-format
 msgid "Unselect all items matching this pattern:"
-msgstr "Odznačit všechny položky odpovídající tomuto vzoru:"
+msgstr "Zrušit výběr všech položek odpovídající tomuto vzoru:"
 
 #. i18n: ectx: Menu (edit)
 #: dolphinpart.rc:5
