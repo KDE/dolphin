@@ -2191,7 +2191,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
     infoDock->setWidget(infoPanel);
 
-    createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-information")), Qt::Key_F11, infoDock, QStringLiteral("show_information_panel"));
+    createPanelAction(QIcon::fromTheme(QStringLiteral("documentinfo")), Qt::Key_F11, infoDock, QStringLiteral("show_information_panel"));
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, &DolphinMainWindow::urlChanged, infoPanel, &InformationPanel::setUrl);
