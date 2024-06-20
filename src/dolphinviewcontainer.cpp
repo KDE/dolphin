@@ -109,7 +109,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 #if !defined(Q_OS_WIN) && !defined(Q_OS_HAIKU)
     if (getuid() == 0) {
         // We must be logged in as the root user; show a big scary warning
-        showMessage(i18n("Running Dolphin as root can be dangerous. Please be careful."), Warning);
+        showMessage(i18n("Running Dolphin as root can be dangerous. Please be careful."), KMessageWidget::Warning);
     }
 #endif
 
@@ -366,9 +366,7 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
             m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
         });
-        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::error, this, [this](const QString &errorMessage) {
-            showErrorMessage(errorMessage);
-        });
+        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::error, this, &DolphinViewContainer::showErrorMessage);
         connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::selectionModeLeavingRequested, this, [this]() {
             setSelectionModeEnabled(false);
         });
@@ -408,32 +406,18 @@ void DolphinViewContainer::slotSplitTabDisabled()
     }
 }
 
-void DolphinViewContainer::showMessage(const QString &msg, MessageType type)
+void DolphinViewContainer::showMessage(const QString &message, KMessageWidget::MessageType messageType)
 {
-    if (msg.isEmpty()) {
+    if (message.isEmpty()) {
         return;
     }
 
-    m_messageWidget->setText(msg);
+    m_messageWidget->setText(message);
 
     // TODO: wrap at arbitrary character positions once QLabel can do this
     // https://bugreports.qt.io/browse/QTBUG-1276
     m_messageWidget->setWordWrap(true);
-
-    switch (type) {
-    case Information:
-        m_messageWidget->setMessageType(KMessageWidget::Information);
-        break;
-    case Warning:
-        m_messageWidget->setMessageType(KMessageWidget::Warning);
-        break;
-    case Error:
-        m_messageWidget->setMessageType(KMessageWidget::Error);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
-    }
+    m_messageWidget->setMessageType(messageType);
 
     m_messageWidget->setWordWrap(false);
     const int unwrappedWidth = m_messageWidget->sizeHint().width();
@@ -828,18 +812,18 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
         if (url.scheme().startsWith(QLatin1String("http"))) {
             showMessage(i18nc("@info:status", // krazy:exclude=qmethods
                               "Dolphin does not support web pages, the web browser has been launched"),
-                        Information);
+                        KMessageWidget::Information);
         } else {
-            showMessage(i18nc("@info:status", "Protocol not supported by Dolphin, default application has been launched"), Information);
+            showMessage(i18nc("@info:status", "Protocol not supported by Dolphin, default application has been launched"), KMessageWidget::Information);
         }
 
         QDesktopServices::openUrl(url);
         redirect(QUrl(), m_urlNavigator->locationUrl(1));
     } else {
         if (!url.scheme().isEmpty()) {
-            showMessage(i18nc("@info:status", "Invalid protocol '%1'", url.scheme()), Error);
+            showMessage(i18nc("@info:status", "Invalid protocol '%1'", url.scheme()), KMessageWidget::Error);
         } else {
-            showMessage(i18nc("@info:status", "Invalid protocol"), Error);
+            showMessage(i18nc("@info:status", "Invalid protocol"), KMessageWidget::Error);
         }
         m_urlNavigator->goBack();
     }
@@ -914,9 +898,9 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
     m_view->setZoomLevel(zoomLevel);
 }
 
-void DolphinViewContainer::showErrorMessage(const QString &msg)
+void DolphinViewContainer::showErrorMessage(const QString &message)
 {
-    showMessage(msg, Error);
+    showMessage(message, KMessageWidget::Error);
 }
 
 void DolphinViewContainer::slotPlacesModelChanged()
@@ -950,7 +934,7 @@ void DolphinViewContainer::slotCurrentDirectoryRemoved()
         setUrl(newUrl);
     }
 
-    showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), Warning);
+    showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), KMessageWidget::Warning);
 }
 
 void DolphinViewContainer::slotOpenUrlFinished(KJob *job)

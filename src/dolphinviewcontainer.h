@@ -14,6 +14,7 @@
 
 #include <KFileItem>
 #include <KIO/Job>
+#include <KMessageWidget>
 #include <KUrlNavigator>
 
 #include <QElapsedTimer>
@@ -25,7 +26,6 @@ namespace Admin
 class Bar;
 }
 class FilterBar;
-class KMessageWidget;
 class QAction;
 class QGridLayout;
 class QUrl;
@@ -53,8 +53,6 @@ class DolphinViewContainer : public QWidget
     Q_OBJECT
 
 public:
-    enum MessageType { Information, Warning, Error };
-
     DolphinViewContainer(const QUrl &url, QWidget *parent);
     ~DolphinViewContainer() override;
 
@@ -151,10 +149,9 @@ public:
     bool isSelectionModeEnabled() const;
 
     /**
-     * Shows the message \msg with the given type non-modal above
-     * the view-content.
+     * Shows the message \message with the given type \messageType non-modal above the view-content.
      */
-    void showMessage(const QString &msg, MessageType type);
+    void showMessage(const QString &message, KMessageWidget::MessageType messageType);
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
@@ -393,9 +390,9 @@ private Q_SLOTS:
     void slotStatusBarZoomLevelChanged(int zoomLevel);
 
     /**
-     * Slot that calls showMessage(msg, Error).
+     * Slot that calls showMessage(message, KMessageWidget::Error).
      */
-    void showErrorMessage(const QString &msg);
+    void showErrorMessage(const QString &message);
 
     /**
      * Is invoked when a KFilePlacesModel has been changed

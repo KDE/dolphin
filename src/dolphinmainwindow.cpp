@@ -184,7 +184,7 @@ DolphinMainWindow::DolphinMainWindow()
 
     m_disabledActionNotifier = new DisabledActionNotifier(this);
     connect(m_disabledActionNotifier, &DisabledActionNotifier::disabledActionTriggered, this, [this](const QAction *, QString reason) {
-        m_activeViewContainer->showMessage(reason, DolphinViewContainer::Warning);
+        m_activeViewContainer->showMessage(reason, KMessageWidget::Warning);
     });
 
     setupDockWidgets();
@@ -562,7 +562,7 @@ void DolphinMainWindow::showTarget()
         KIO::StatJob *statJob = static_cast<KIO::StatJob *>(job);
 
         if (statJob->error()) {
-            m_activeViewContainer->showMessage(job->errorString(), DolphinViewContainer::Error);
+            m_activeViewContainer->showMessage(job->errorString(), KMessageWidget::Error);
         } else {
             KIO::highlightInFileManager({destinationUrl});
         }
@@ -801,7 +801,7 @@ void DolphinMainWindow::quit()
 
 void DolphinMainWindow::showErrorMessage(const QString &message)
 {
-    m_activeViewContainer->showMessage(message, DolphinViewContainer::Error);
+    m_activeViewContainer->showMessage(message, KMessageWidget::Error);
 }
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
@@ -2898,7 +2898,7 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job *job)
     DolphinMainWindow *mainWin = qobject_cast<DolphinMainWindow *>(parentWidget());
     if (mainWin) {
         DolphinViewContainer *container = mainWin->activeViewContainer();
-        container->showMessage(job->errorString(), DolphinViewContainer::Error);
+        container->showMessage(job->errorString(), KMessageWidget::Error);
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);
     }
