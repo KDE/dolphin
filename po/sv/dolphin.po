@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-06-15 15:43+0200\n"
+"PO-Revision-Date: 2024-06-16 20:05+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -642,7 +642,7 @@ msgstr "Stoppa inläsning"
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
-msgstr "Stoppar laddningen av innehållet i aktuell katalog."
+msgstr "Stoppar laddningen av innehållet i nuvarande katalog."
 
 #: dolphinmainwindow.cpp:1911
 #, kde-format
@@ -4971,7 +4971,7 @@ msgstr "Visa utrymmesinformation"
 #: statusbar/statusbarspaceinfo.cpp:123
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Diskanvändningsstatistik för aktuell katalog"
+msgstr "Diskanvändningsstatistik för nuvarande katalog"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
