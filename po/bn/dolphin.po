@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"POT-Creation-Date: 2024-06-21 00:40+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -1588,7 +1588,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1692,21 +1692,7 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:542
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Search"
-msgid "Search"
-msgstr "অনুসন্ধান"
-
-#: dolphinviewcontainer.cpp:544
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Search Bar"
-msgid "Search for %1"
-msgstr "অনুসন্ধান বার"
-
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1714,7 +1700,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ফোল্ডার লোড করা হচ্ছে..."
 
-#: dolphinviewcontainer.cpp:636
+#: dolphinviewcontainer.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1722,7 +1708,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "সাজানো:"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:546
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Search"
+msgid "Search"
+msgstr "অনুসন্ধান"
+
+#: dolphinviewcontainer.cpp:548
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Search Bar"
+msgid "Search for %1"
+msgstr "অনুসন্ধান বার"
+
+#: dolphinviewcontainer.cpp:635
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1730,19 +1730,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "অনুসন্ধান চলছে..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "কোন মিল পাওয়া যায়নি।"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ডলফিন ওয়েব-পেজ সমর্থন করো না, ওয়েব ব্রাউজার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:833
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1751,7 +1751,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ডলফিন এই প্রোটোকল-টি সমর্থন করে না, কনকরার চালু করা হয়েছে"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1759,13 +1759,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:842
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "অবৈধ প্রোটোকল"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:953
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5121,7 +5121,7 @@ msgid "Open files and folders:"
 msgstr "ফাইল এবল ফোল্ডারের প্রাকদর্শন দেখাও"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:327
+#: statusbar/dolphinstatusbar.cpp:332
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5341,13 +5341,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:269
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "ছোটবড় করার জন্য স্লাইডার দেখাও"
 
-#: statusbar/dolphinstatusbar.cpp:273
+#: statusbar/dolphinstatusbar.cpp:278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

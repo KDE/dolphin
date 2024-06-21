@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"POT-Creation-Date: 2024-06-21 00:40+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -1579,7 +1579,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Tolest tomaakt Paneels leddig maken"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -1683,21 +1683,7 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:542
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Search"
-msgid "Search"
-msgstr "Söken"
-
-#: dolphinviewcontainer.cpp:544
-#, fuzzy, kde-format
-#| msgctxt "@item"
-#| msgid "Search For"
-msgid "Search for %1"
-msgstr "Söken na"
-
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1705,7 +1691,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Orner warrt laadt..."
 
-#: dolphinviewcontainer.cpp:636
+#: dolphinviewcontainer.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1713,7 +1699,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sorteren:"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:546
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Search"
+msgid "Search"
+msgstr "Söken"
+
+#: dolphinviewcontainer.cpp:548
+#, fuzzy, kde-format
+#| msgctxt "@item"
+#| msgid "Search For"
+msgid "Search for %1"
+msgstr "Söken na"
+
+#: dolphinviewcontainer.cpp:635
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1721,19 +1721,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Bi to söken..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nix funnen."
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ünnerstütt Nettsieden nich, Konqueror warrt opropen"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:833
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1742,7 +1742,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ünnerstütt dat Protokoll nich, Konqueror warrt opropen"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1750,13 +1750,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Leeg Protokoll"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:842
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Leeg Protokoll"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:953
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5086,7 +5086,7 @@ msgid "Open files and folders:"
 msgstr "Vöransichten vun Dateien un Ornern wiesen"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:327
+#: statusbar/dolphinstatusbar.cpp:332
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5304,13 +5304,13 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:269
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Ansichtgrött-Schuver wiesen"
 
-#: statusbar/dolphinstatusbar.cpp:273
+#: statusbar/dolphinstatusbar.cpp:278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"POT-Creation-Date: 2024-06-21 00:40+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1910,7 +1910,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Ačyscić spis niadaŭna zakrytych ukladak"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Pošuk %1 u %2"
@@ -2044,17 +2044,7 @@ msgstr ""
 "Zapusk Dolphin ad imia supierkarystaĺnika moža być niebiaspiečnym. Budźcie "
 "piĺnymi."
 
-#: dolphinviewcontainer.cpp:542
-#, kde-format
-msgid "Search"
-msgstr "Pošuk"
-
-#: dolphinviewcontainer.cpp:544
-#, kde-format
-msgid "Search for %1"
-msgstr "Pošuk %1"
-
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:164
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -2062,7 +2052,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Zahruzka kataloha..."
 
-#: dolphinviewcontainer.cpp:636
+#: dolphinviewcontainer.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2070,7 +2060,17 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sartavannie:"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:546
+#, kde-format
+msgid "Search"
+msgstr "Pošuk"
+
+#: dolphinviewcontainer.cpp:548
+#, kde-format
+msgid "Search for %1"
+msgstr "Pošuk %1"
+
+#: dolphinviewcontainer.cpp:635
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -2078,19 +2078,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pošuk..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nie znojdziena eliemientaŭ."
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nie padtrymlivaje veb-staronki, byŭ zapuščany veb-braŭzier"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2099,7 +2099,7 @@ msgstr ""
 "Pratakol nie padtrymlivajecca Dolphin, byla zapuščanaja pradvyznačanaja "
 "prahrama"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2107,13 +2107,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:842
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:953
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5351,7 +5351,7 @@ msgid "Open files and folders:"
 msgstr "Pošuk fajlaŭ i katalohaŭ"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:327
+#: statusbar/dolphinstatusbar.cpp:332
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5569,13 +5569,13 @@ msgstr ""
 "pamier značkoŭ.</item> <item><emphasis>Zviestki pra prastoru</emphasis> pra "
 "biahučuju nazapašvaĺnuju pryladu.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:269
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Pakazvać paŭzunok maštabu"
 
-#: statusbar/dolphinstatusbar.cpp:273
+#: statusbar/dolphinstatusbar.cpp:278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

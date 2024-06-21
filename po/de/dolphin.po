@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"POT-Creation-Date: 2024-06-21 00:40+0000\n"
 "PO-Revision-Date: 2024-05-30 21:36+0200\n"
 "Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1851,7 +1851,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Liste kürzlich geschlossener Unterfenster leeren"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Suchen nach %1 in %2"
@@ -1971,47 +1971,47 @@ msgstr ""
 "Die Ausführung von Dolphin als Systemverwalter kann gefährlich sein. Bitte "
 "beachten Sie das."
 
-#: dolphinviewcontainer.cpp:542
-#, kde-format
-msgid "Search"
-msgstr "Suchen"
-
-#: dolphinviewcontainer.cpp:544
-#, kde-format
-msgid "Search for %1"
-msgstr "Suchen nach %1"
-
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:164
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ordner wird geladen ..."
 
-#: dolphinviewcontainer.cpp:636
+#: dolphinviewcontainer.cpp:167
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Wird sortiert …"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:546
+#, kde-format
+msgid "Search"
+msgstr "Suchen"
+
+#: dolphinviewcontainer.cpp:548
+#, kde-format
+msgid "Search for %1"
+msgstr "Suchen nach %1"
+
+#: dolphinviewcontainer.cpp:635
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Suchvorgang ..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Keine Elemente gefunden."
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin unterstützt keine Webseiten; der Webbrowser wurde gestartet."
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2020,7 +2020,7 @@ msgstr ""
 "Das Protokoll wird von Dolphin nicht unterstützt; die zugehörige "
 "Standardanwendung wurde gestartet."
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:840
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2028,13 +2028,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ungültiges Protokoll"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:842
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ungültiges Protokoll"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:953
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5144,7 +5144,7 @@ msgid "Open files and folders:"
 msgstr "Dateien und Ordner öffnen:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:327
+#: statusbar/dolphinstatusbar.cpp:332
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5360,13 +5360,13 @@ msgstr ""
 "item><item><emphasis>Speicherplatzinformationen</emphasis> zum aktuellen "
 "Speichergerät.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:269
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Größenregler anzeigen"
 
-#: statusbar/dolphinstatusbar.cpp:273
+#: statusbar/dolphinstatusbar.cpp:278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"

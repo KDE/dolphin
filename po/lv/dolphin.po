@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:41+0000\n"
+"POT-Creation-Date: 2024-06-21 00:40+0000\n"
 "PO-Revision-Date: 2024-05-26 20:41+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -1731,7 +1731,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Iztukšot nesen aizvērto ciļņu sarakstu"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:506 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Meklēt „%1“ mapē „%2“"
@@ -1849,47 +1849,47 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "„Dolphin“ palaišana kā saknes lietotājam var būt bīstama. Esiet uzmanīgi."
 
-#: dolphinviewcontainer.cpp:542
-#, kde-format
-msgid "Search"
-msgstr "Meklēt"
-
-#: dolphinviewcontainer.cpp:544
-#, kde-format
-msgid "Search for %1"
-msgstr "Meklēt „%1“"
-
-#: dolphinviewcontainer.cpp:628
+#: dolphinviewcontainer.cpp:164
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ielādē mapi..."
 
-#: dolphinviewcontainer.cpp:636
+#: dolphinviewcontainer.cpp:167
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Kārtošana..."
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:546
+#, kde-format
+msgid "Search"
+msgstr "Meklēt"
+
+#: dolphinviewcontainer.cpp:548
+#, kde-format
+msgid "Search for %1"
+msgstr "Meklēt „%1“"
+
+#: dolphinviewcontainer.cpp:635
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Meklē..."
 
-#: dolphinviewcontainer.cpp:672
+#: dolphinviewcontainer.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nekas nav atrasts."
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:830
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "„Dolphin“ neatbalsta tīmekļa lapas, tāpēc ir atvērts tīmekļa pārlūks"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:833
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1897,19 +1897,19 @@ msgid ""
 msgstr ""
 "„Dolphin“ neatbalsta šo protokolu, tāpēc ir atvērta noklusējuma programma"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Nederīgs protokols „%1“"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:842
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Nederīgs protokols"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:953
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4954,7 +4954,7 @@ msgid "Open files and folders:"
 msgstr "Atvērt datnes un mapes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:327
+#: statusbar/dolphinstatusbar.cpp:332
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5168,13 +5168,13 @@ msgstr ""
 "ikonu izmēru.</item><item><emphasis>Vietas informācija</emphasis> par "
 "pašreizējo krātuves ierīci.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:269
+#: statusbar/dolphinstatusbar.cpp:274
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Rādīt tālummaiņas slīdni"
 
-#: statusbar/dolphinstatusbar.cpp:273
+#: statusbar/dolphinstatusbar.cpp:278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
