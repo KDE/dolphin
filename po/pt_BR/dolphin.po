@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-18 00:39+0000\n"
-"PO-Revision-Date: 2024-04-13 01:00-0300\n"
+"PO-Revision-Date: 2024-06-21 01:16-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -303,9 +303,7 @@ msgid "Close Tab"
 msgstr "Fechar aba"
 
 #: dolphinmainwindow.cpp:1688
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Close Tab"
+#, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Fechar aba"
@@ -430,9 +428,7 @@ msgstr ""
 "para a visualização dividida inativa."
 
 #: dolphinmainwindow.cpp:1746
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Copiar para outra visualização"
@@ -464,9 +460,7 @@ msgstr ""
 "para a visualização dividida inativa."
 
 #: dolphinmainwindow.cpp:1758
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Mover para outra visualização"
