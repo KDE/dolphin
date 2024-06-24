@@ -98,9 +98,9 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
 
     const auto helpButtonInfo = xi18nc("@info",
                                        "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-                                       "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-                                       "resources.</para><para>Disable this if navigating remote folders in "
-                                       "Dolphin is slow or when accessing storage over metered connections.</para>");
+                                       "very intensive in terms of network resource usage.</para>"
+                                       "<para>Disable this if navigating remote folders in Dolphin "
+                                       "is slow or when accessing storage over metered connections.</para>");
     auto contextualHelpButton = new KContextualHelpButton{helpButtonInfo, m_enableRemoteFolderThumbnail, this};
 
     QHBoxLayout *enableRemoteFolderThumbnailLayout = new QHBoxLayout();
