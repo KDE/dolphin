@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:40+0000\n"
+"POT-Creation-Date: 2024-06-25 00:40+0000\n"
 "PO-Revision-Date: 2011-05-08 17:45+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -1592,7 +1592,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Izbriši nedavno zatvorene kartice"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:494 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1712,21 +1712,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sortiranje:"
 
-#: dolphinviewcontainer.cpp:546
+#: dolphinviewcontainer.cpp:530
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
 msgid "Search"
 msgstr "Traži"
 
-#: dolphinviewcontainer.cpp:548
+#: dolphinviewcontainer.cpp:532
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "Traka za pretragu"
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:619
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1734,19 +1734,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Traženje…"
 
-#: dolphinviewcontainer.cpp:655
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nema nađenih stavki."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:814
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ne podržava web stranice, stoga je pokrenut web preglednik."
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1755,7 +1755,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podržava taj protokol, stoga je pokrenut Konqueror."
 
-#: dolphinviewcontainer.cpp:840
+#: dolphinviewcontainer.cpp:824
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1763,13 +1763,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Nevaljali protokol"
 
-#: dolphinviewcontainer.cpp:842
+#: dolphinviewcontainer.cpp:826
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Nevaljali protokol"
 
-#: dolphinviewcontainer.cpp:953
+#: dolphinviewcontainer.cpp:937
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

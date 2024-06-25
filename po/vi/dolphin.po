@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:40+0000\n"
+"POT-Creation-Date: 2024-06-25 00:40+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -1823,7 +1823,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Quên các thẻ đóng gần đây"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:494 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Tìm kiếm %1 trong %2"
@@ -1957,17 +1957,17 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sắp xếp:"
 
-#: dolphinviewcontainer.cpp:546
+#: dolphinviewcontainer.cpp:530
 #, kde-format
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: dolphinviewcontainer.cpp:548
+#: dolphinviewcontainer.cpp:532
 #, kde-format
 msgid "Search for %1"
 msgstr "Tìm kiếm %1"
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:619
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1975,19 +1975,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Đang tìm kiếm..."
 
-#: dolphinviewcontainer.cpp:655
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Không tìm thấy thứ gì."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:814
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin không hỗ trợ xem trang web, trình duyệt web đã được khởi chạy"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1995,7 +1995,7 @@ msgid ""
 msgstr ""
 "Giao thức không được Dolphin hỗ trợ, ứng dụng mặc định đã được khởi chạy"
 
-#: dolphinviewcontainer.cpp:840
+#: dolphinviewcontainer.cpp:824
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2003,13 +2003,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Giao thức không hợp lệ"
 
-#: dolphinviewcontainer.cpp:842
+#: dolphinviewcontainer.cpp:826
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Giao thức không hợp lệ"
 
-#: dolphinviewcontainer.cpp:953
+#: dolphinviewcontainer.cpp:937
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:40+0000\n"
+"POT-Creation-Date: 2024-06-25 00:40+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -1579,7 +1579,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Tolest tomaakt Paneels leddig maken"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:510 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:494 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -1699,21 +1699,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sorteren:"
 
-#: dolphinviewcontainer.cpp:546
+#: dolphinviewcontainer.cpp:530
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
 msgid "Search"
 msgstr "Söken"
 
-#: dolphinviewcontainer.cpp:548
+#: dolphinviewcontainer.cpp:532
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
 msgid "Search for %1"
 msgstr "Söken na"
 
-#: dolphinviewcontainer.cpp:635
+#: dolphinviewcontainer.cpp:619
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1721,19 +1721,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Bi to söken..."
 
-#: dolphinviewcontainer.cpp:655
+#: dolphinviewcontainer.cpp:639
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nix funnen."
 
-#: dolphinviewcontainer.cpp:830
+#: dolphinviewcontainer.cpp:814
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ünnerstütt Nettsieden nich, Konqueror warrt opropen"
 
-#: dolphinviewcontainer.cpp:833
+#: dolphinviewcontainer.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1742,7 +1742,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ünnerstütt dat Protokoll nich, Konqueror warrt opropen"
 
-#: dolphinviewcontainer.cpp:840
+#: dolphinviewcontainer.cpp:824
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1750,13 +1750,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Leeg Protokoll"
 
-#: dolphinviewcontainer.cpp:842
+#: dolphinviewcontainer.cpp:826
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Leeg Protokoll"
 
-#: dolphinviewcontainer.cpp:953
+#: dolphinviewcontainer.cpp:937
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
