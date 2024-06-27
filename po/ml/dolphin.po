@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-25 00:40+0000\n"
+"POT-Creation-Date: 2024-06-27 00:41+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -4462,10 +4462,10 @@ msgstr "അറകളുടേയും ഫയലുകളുടേയും ത�
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
-"strong='true'>very expensive</emphasis> in terms of network resources.</"
-"para><para>Disable this if navigating remote folders in Dolphin is slow or "
-"when accessing storage over metered connections.</para>"
+"<para>Creating <emphasis>previews</emphasis> for remote folders is very "
+"intensive in terms of network resource usage.</para><para>Disable this if "
+"navigating remote folders in Dolphin is slow or when accessing storage over "
+"metered connections.</para>"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112

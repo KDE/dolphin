@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-25 00:40+0000\n"
+"POT-Creation-Date: 2024-06-27 00:41+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -4432,10 +4432,10 @@ msgstr "نشان دادن پیش‌نمایش پوشه‌ها و پرونده‌
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Creating <emphasis>previews</emphasis> for remote folders is <emphasis "
-"strong='true'>very expensive</emphasis> in terms of network resources.</"
-"para><para>Disable this if navigating remote folders in Dolphin is slow or "
-"when accessing storage over metered connections.</para>"
+"<para>Creating <emphasis>previews</emphasis> for remote folders is very "
+"intensive in terms of network resource usage.</para><para>Disable this if "
+"navigating remote folders in Dolphin is slow or when accessing storage over "
+"metered connections.</para>"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112
