@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 08:59+0300\n"
+"PO-Revision-Date: 2024-06-27 09:52+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4361,13 +4361,7 @@ msgid "Show previews for folders"
 msgstr "הצגת תצוגות מקדימות של תיקיות"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4375,10 +4369,9 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>יצירת <emphasis>תצוגות מקדימות</emphasis> לתיקיות מרוחקות היא<emphasis "
-"strong='true'>תובענית מאוד</emphasis> מבחינת משאבי רשת.</para><para>כדאי "
-"להשבית אם ניווט לתיקיות מרוחקות עם Dolphin איטי או בעת גישה לאחסון דרך רשתות "
-"מוגבלות.</para>"
+"<para>יצירת <emphasis>תצוגות מקדימות</emphasis> לתיקיות מרוחקות היא תובענית "
+"מאוד מבחינת משאבי רשת.</para><para>כדאי להשבית אם ניווט לתיקיות מרוחקות עם "
+"Dolphin איטי או בעת גישה לאחסון דרך רשתות מוגבלות.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format

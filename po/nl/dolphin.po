@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 12:49+0200\n"
+"PO-Revision-Date: 2024-06-27 14:42+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4439,13 +4439,7 @@ msgid "Show previews for folders"
 msgstr "Voorbeeld van mappen tonen"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4454,10 +4448,9 @@ msgid ""
 "metered connections.</para>"
 msgstr ""
 "<para>Aanmaken van <emphasis>voorbeelden</emphasis> voor mappen op afstand "
-"is <emphasis strong='true'>is erg duur</emphasis> in termen van "
-"netwerkhulpbronnen.</para><para>Schakel dit uit als navigeren van mappen op "
-"afstand in Dolphin langzaam is of wanneer toegang tot opslag over bemeterde "
-"verbindingen.</para>"
+"is erg intensief in termen van gebruik van netwerkhulpbronnen.</"
+"para><para>Schakel dit uit als navigeren van mappen op afstand in Dolphin "
+"langzaam is of wanneer toegang tot opslag over bemeterde verbindingen.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format

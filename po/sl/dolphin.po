@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 10:08+0200\n"
+"PO-Revision-Date: 2024-06-27 08:32+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4443,13 +4443,7 @@ msgid "Show previews for folders"
 msgstr "Pokaži predogled map"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4457,10 +4451,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Ustvarjanje <emphasis>predogledov</emphasis> za oddaljene mape je "
-"<emphasis strong='true'>zelo drago</emphasis> v smislu omrežnih virov.</"
-"para><para>To onemogočite, če je krmarjenje Dolphina po oddaljenih mapah "
-"počasno ali kadar dostopa do oddaljenih hramb prek merjenih povezav.</para>"
+"<para>Ustvarjanje <emphasis>predogledov</emphasis> za oddaljene mape je zelo "
+"intenzivno v smislu rabe omrežnih virov.</para><para>To onemogočite, če je "
+"krmarjenje Dolphina po oddaljenih mapah počasno ali kadar dostopa do "
+"oddaljenih hramb prek merjenih povezav.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format

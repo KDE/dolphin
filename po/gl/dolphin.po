@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-06-02 11:48+0200\n"
+"PO-Revision-Date: 2024-06-27 21:05+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4425,13 +4425,7 @@ msgid "Show previews for folders"
 msgstr "Amosar a vista previa dos cartafoles"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4440,9 +4434,9 @@ msgid ""
 "metered connections.</para>"
 msgstr ""
 "<para>Crear <emphasis>vistas previas</emphasis> de cartafoles remotos "
-"<emphasis strong='true'>require moitos recursos</emphasis> de rede.</"
-"para><para>Desactive isto se examinar cartafoles remotos en Dolphin é lento "
-"ou se está usando unha conexión medida.</para>"
+"require moitos recursos de rede.</para><para>Desactive isto se examinar "
+"cartafoles remotos en Dolphin é lento ou se está usando unha conexión medida."
+"</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format

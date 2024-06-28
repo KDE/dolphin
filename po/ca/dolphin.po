@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 09:37+0200\n"
+"PO-Revision-Date: 2024-06-27 12:51+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4451,13 +4451,7 @@ msgid "Show previews for folders"
 msgstr "Mostra les vistes prèvies de carpetes"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4465,10 +4459,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Crear <emphasis>vistes prèvies</emphasis> de carpetes remotes és "
-"<emphasis strong='true'>molt car</emphasis> en termes de recursos de xarxa.</"
-"para><para>Desactiveu-ho si navegar per carpetes remotes al Dolphin és lent "
-"o quan s'accedeix a l'emmagatzematge en les connexions mesurades.</para>"
+"<para>Crear <emphasis>vistes prèvies</emphasis> de carpetes remotes és molt "
+"car en termes d'ús de recursos de xarxa.</para><para>Desactiveu-ho si "
+"navegar per carpetes remotes al Dolphin és lent o quan s'accedeix a "
+"l'emmagatzematge en les connexions mesurades.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
