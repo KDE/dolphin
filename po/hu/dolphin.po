@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 14:40+0200\n"
+"PO-Revision-Date: 2024-06-28 13:33+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -137,7 +137,7 @@ msgstr "Útvonal megnyitása új ablakban"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Középső gomb"
 
 #: dolphinmainwindow.cpp:324
 #, kde-format
@@ -245,13 +245,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Nem lehet beilleszteni: A vágólap üres."
 
 #: dolphinmainwindow.cpp:874
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Nem lehet beilleszteni: Nincs jogosultsága írni ebbe a mappába."
 
 #: dolphinmainwindow.cpp:1253
 #, kde-format
@@ -287,6 +287,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nem lehet létrehozni új mappát: Nincs jogosultsága elemeket létrehozni ebben "
+"a mappában."
 
 #: dolphinmainwindow.cpp:1507
 #, kde-format
@@ -307,18 +309,14 @@ msgid "Open a new Dolphin window"
 msgstr "Új Dolphin ablak nyitása"
 
 #: dolphinmainwindow.cpp:1671
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new window just like this one with the current location and "
-#| "view.<nl/>You can drag and drop items between windows."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new window just like this one with the current location.<nl/"
 ">You can drag and drop items between windows."
 msgstr ""
-"Ezzel megnyit egy, a jelenlegivel megegyező ablakot a jelenlegi hellyel és "
-"nézettel.<nl/>Az elemeket ide-oda húzhatja az ablakok között."
+"Ezzel megnyit egy, a jelenlegivel megegyező ablakot a jelenlegi hellyel.<nl/"
+">Az elemeket ide-oda húzhatja az ablakok között."
 
 #: dolphinmainwindow.cpp:1678
 #, kde-format
@@ -327,21 +325,16 @@ msgid "New Tab"
 msgstr "Új lap"
 
 #: dolphinmainwindow.cpp:1680
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens a new <emphasis>Tab</emphasis> with the current location and "
-#| "view.<nl/>A tab is an additional view within this window. You can drag "
-#| "and drop items between tabs."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a new <emphasis>Tab</emphasis> with the current location.<nl/"
 ">Tabs allow you to quickly switch between multiple locations and views "
 "within this window. You can drag and drop items between tabs."
 msgstr ""
-"Ezzel megnyit egy új <emphasis>Lapot</emphasis> a jelenlegi hellyez és "
-"nézettel.<nl/>A lap egy újabb nézet ezen az ablakon belül. Az elemeket ide-"
-"oda húzogathatja a lapok között."
+"Ezzel megnyit egy új <emphasis>Lapot</emphasis> a jelenlegi hellyel.<nl/>A "
+"lapok lehetővé teszik a gyors váltást több hely és nézet között az ablakon "
+"belül. Az elemeket ide-oda húzogathatja a lapok között."
 
 #: dolphinmainwindow.cpp:1689
 #, kde-format
@@ -368,18 +361,14 @@ msgid "Close Tab"
 msgstr "Lap bezárása"
 
 #: dolphinmainwindow.cpp:1699
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This closes the currently viewed tab. If no more tabs are left this "
-#| "window will close instead."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This closes the currently viewed tab. If no more tabs are left, this closes "
 "the whole window instead."
 msgstr ""
-"Ezzel bezárhatja a jelenleg nézett lapot. Ha nincs több lap, az ablakot "
-"zárja be."
+"Ezzel bezárhatja a jelenleg nézett lapot. Ha nincs több lap, az egész "
+"ablakot zárja be."
 
 #: dolphinmainwindow.cpp:1704
 #, kde-format
@@ -471,23 +460,17 @@ msgid "Copy to Other View…"
 msgstr "Másolás a másik nézetbe…"
 
 #: dolphinmainwindow.cpp:1751
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Az <emphasis>aktív</emphasis> nézetből az inaktív osztott nézetbe másolja a "
-"kijelölt elemeket."
+"A fókuszban lévő nézetből a másik nézetbe másolja a kijelölt elemeket. (Csak "
+"osztott nézet módban érhető el.)"
 
 #: dolphinmainwindow.cpp:1755
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Másolás a másik nézetbe"
@@ -505,23 +488,17 @@ msgid "Move to Other View…"
 msgstr "Áthelyezés a másik nézetbe…"
 
 #: dolphinmainwindow.cpp:1763
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
-"Az <emphasis>aktív</emphasis> nézetből az inaktív osztott nézetbe helyezi át "
-"a kijelölt elemeket."
+"A fókuszban lévő nézetből a másik nézetbe helyezi át a kijelölt elemeket. "
+"(Csak osztott nézet módban érhető el.)"
 
 #: dolphinmainwindow.cpp:1767
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Other View"
+#, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Áthelyezés a másik nézetbe"
@@ -539,13 +516,7 @@ msgid "Show Filter Bar"
 msgstr "Szűrősáv megjelenítése"
 
 #: dolphinmainwindow.cpp:1775
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the "
-#| "window.<nl/> There you can enter a text to filter the files and folders "
-#| "currently displayed. Only those that contain the text in their name will "
-#| "be kept in view."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
@@ -581,14 +552,7 @@ msgid "Search for files and folders"
 msgstr "Mappák és fájlok keresése"
 
 #: dolphinmainwindow.cpp:1799
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>find "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the objects you are looking for.</para><para>Use this help again on "
-#| "the find bar so we can have a look at it while the settings are explained."
-#| "</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -599,7 +563,7 @@ msgid ""
 msgstr ""
 "<para>Ez segít Önnek fájlok és mappák keresésében egy <emphasis>keresősáv</"
 "emphasis> megnyitásával. Ott megadhat keresőkifejezéseket és beállításokat a "
-"keresett objektumok megtalálásához.</para><para>Használja ezt a súgót a "
+"keresett elemek megtalálásához.</para><para>Használja ezt a súgót a "
 "keresősávon, így vethet rá egy pillantást, miközben részletezzük a "
 "beállításokat.</para>"
 
@@ -661,18 +625,14 @@ msgid "Invert Selection"
 msgstr "Kijelölés megfordítása"
 
 #: dolphinmainwindow.cpp:1854
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis invert"
-#| msgid ""
-#| "This selects all objects that you have currently <emphasis>not</emphasis> "
-#| "selected instead."
+#, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
-"Ezzel kijelöli az összes <emphasis>nem</emphasis> kijelölt objektumot a "
-"jelenleg kijelöltek helyett."
+"Ezzel kijelöli az összes <emphasis>nem</emphasis> kijelölt elemet a jelenleg "
+"kijelöltek helyett."
 
 #: dolphinmainwindow.cpp:1874
 #, kde-kuit-format
@@ -683,6 +643,11 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Ez egy második nézetet jelenít meg az aktuális nézettel párhuzamosan, "
+"így egyszerre két mappa tartalmát láthatja, és könnyedén mozgathatja az "
+"elemeket a két mappa között.</para><para>A nem „fókuszban” lévő nézet "
+"elhalványodik.</para>Kattintson erre a gombra újból az egyik nézet "
+"bezárásához."
 
 #: dolphinmainwindow.cpp:1889
 #, kde-kuit-format
@@ -691,6 +656,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"Ha a nézet fel lett osztva, akkor a fókuszban lévő nézet egy új ablakba "
+"ugrik ki."
 
 #: dolphinmainwindow.cpp:1897
 #, kde-format
@@ -791,14 +758,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Ezzel visszatér az előzőleg bezárt lapra."
 
 #: dolphinmainwindow.cpp:1976
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -808,17 +768,13 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "Ez visszavonja a fájlok vagy mappák legutolsó változtatását.<nl/>Ilyen "
-"változtatás például a <interface>létrehozás, átnevezés</interface> és az "
-"<interface>áthelyezés</interface> egy másik helyre, vagy a <filename>Kukába</"
-"filename>. <nl/>A nem visszavonható változtatások megerősítést kérnek."
+"változtatás például a <interface>létrehozás</interface>, "
+"<interface>átnevezés</interface> és az <interface>áthelyezés</interface> egy "
+"másik helyre, vagy a <filename>Kukába</filename>.<nl/>A nem visszavonható "
+"változtatások megerősítést kérnek."
 
 #: dolphinmainwindow.cpp:2005
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -826,8 +782,9 @@ msgid ""
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
 "A <filename>Saját mappájába</filename> ugrik.<nl/>Minden felhasználói "
-"fiókhoz tartozik egy <filename>Saját mappa</filename>, amely az adatait "
-"tartalmazza."
+"fiókhoz tartozik egy <filename>Saját mappa</filename>, amely a személyes "
+"fájljait tartalmazza, valamint rejtett mappákat az alkalmazások adatainak és "
+"konfigurációs fájljainak."
 
 #: dolphinmainwindow.cpp:2012
 #, kde-format
@@ -854,12 +811,7 @@ msgid "Open Terminal"
 msgstr "Terminál megnyitása"
 
 #: dolphinmainwindow.cpp:2030
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
@@ -878,12 +830,7 @@ msgid "Open Terminal Here"
 msgstr "Terminál megnyitása itt"
 
 #: dolphinmainwindow.cpp:2040
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -907,16 +854,7 @@ msgid "&Bookmarks"
 msgstr "&Könyvjelzők"
 
 #: dolphinmainwindow.cpp:2066
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -926,35 +864,30 @@ msgid ""
 "offer.</para><para>The %1 button is simpler and small which makes triggering "
 "advanced actions more time consuming.</para>"
 msgstr ""
-"<para>Ezzel válthat a <emphasis>Menüsáv</emphasis> és a(z) <interface>%1</"
+"<para>Ezzel válthat a <emphasis>Menüsáv</emphasis> és egy <interface>%1</"
 "interface> gomb között. Mindkettő nagyjából ugyanazokat a műveleteket és "
 "beállítási lehetőségeket tartalmazza.</para><para>A Menüsáv több helyet "
 "foglal el, de lehetővé teszi az alkalmazások által nyújtott összes művelet "
-"gyors és rendezett elérését.</para><para>A(z) <interface>%1</interface> gomb "
-"egyszerűbb és kisebb, de időigényesebbé teszi a speciális műveletek "
-"elindítását.</para>"
+"gyors és rendezett elérését.</para><para>A(z) %1 gomb egyszerűbb és kisebb, "
+"de időigényesebbé teszi a speciális műveletek elindítását.</para>"
 
 #: dolphinmainwindow.cpp:2099
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Ugrás a(z) %1. lapra"
 
 #: dolphinmainwindow.cpp:2112
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
-msgstr "Váltás az utolsó lapra"
+msgstr "Utolsó lap"
 
 #: dolphinmainwindow.cpp:2113
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Activate Last Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
-msgstr "Váltás az utolsó lapra"
+msgstr "Ugrás az utolsó lapra"
 
 #: dolphinmainwindow.cpp:2119
 #, kde-format
@@ -963,12 +896,10 @@ msgid "Next Tab"
 msgstr "Következő lap"
 
 #: dolphinmainwindow.cpp:2120
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Next Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
-msgstr "Következő lap"
+msgstr "Ugrás a következő lapra"
 
 #: dolphinmainwindow.cpp:2126
 #, kde-format
@@ -977,12 +908,10 @@ msgid "Previous Tab"
 msgstr "Előző lap"
 
 #: dolphinmainwindow.cpp:2127
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Previous Tab"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
-msgstr "Előző lap"
+msgstr "Ugrás az előző lapra"
 
 #: dolphinmainwindow.cpp:2134
 #, kde-format
@@ -1127,15 +1056,7 @@ msgid "Terminal"
 msgstr "Terminál"
 
 #: dolphinmainwindow.cpp:2290
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom "
-#| "of the window.<nl/>The location in the terminal will always match the "
-#| "folder view so you can navigate using either.</para><para>The terminal "
-#| "panel is not needed for basic computer usage but can be useful for "
-#| "advanced tasks. To learn more about terminals use the help in a "
-#| "standalone terminal application like Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
@@ -1153,15 +1074,7 @@ msgstr ""
 "terminálalkalmazások (például Konsole) súgójának a használatával.</para>"
 
 #: dolphinmainwindow.cpp:2298
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
-#| "normal terminal but will match the location of the folder view so you can "
-#| "navigate using either.</para><para>The terminal panel is not needed for "
-#| "basic computer usage but can be useful for advanced tasks. To learn more "
-#| "about terminals use the help in a standalone terminal application like "
-#| "Konsole.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
@@ -1191,11 +1104,7 @@ msgid "Show Hidden Places"
 msgstr "Rejtett helyek megjelenítése"
 
 #: dolphinmainwindow.cpp:2346
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
+#, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1203,7 +1112,8 @@ msgid ""
 "property."
 msgstr ""
 "Ez megjeleníti a helyek panelen az összes elrejtett helyet. Ezek félig "
-"átlátszóak lesznek, hacsak nem szünteti meg a rejtett tulajdonságukat."
+"átlátszóak lesznek és lehetővé teszik a „Rejtett tulajdonságukat "
+"megszüntetését."
 
 #: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
@@ -1260,6 +1170,7 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Nem lehet átnevezni: Nincs jogosultsága a mappában lévő elemek átnevezésére."
 
 #: dolphinmainwindow.cpp:2448 dolphinmainwindow.cpp:2465
 #, kde-format
@@ -1267,12 +1178,14 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Nem lehet törölni: Nincs jogosultsága a mappában lévő elemek törlésére."
 
 #: dolphinmainwindow.cpp:2450
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Nem lehet kivágni: Nincs jogosultsága a mappában lévő elemek áthelyezésére."
 
 #: dolphinmainwindow.cpp:2455
 #, kde-format
@@ -1281,30 +1194,38 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nem lehet duplikálni itt: Nincs jogosultsága elemeket létrehozni ebben a "
+"mappában."
 
 #: dolphinmainwindow.cpp:2477
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr ""
+"Nem lehet másolni a másik nézetbe: Nincs kiválasztva egyetlen fájl sem."
 
 #: dolphinmainwindow.cpp:2479
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
+"Nem lehet áthelyezni a másik nézetbe: Nincs kiválasztva egyetlen fájl sem."
 
 #: dolphinmainwindow.cpp:2498
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Nem lehet másolni a másik nézetbe: A másik nézet már tartalmazza ezeket az "
+"elemeket."
 
 #: dolphinmainwindow.cpp:2501
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Nem lehet áthelyezni a másik nézetbe: A másik nézet már tartalmazza ezeket "
+"az elemeket."
 
 #: dolphinmainwindow.cpp:2506
 #, kde-format
@@ -4394,9 +4315,7 @@ msgid "Confirmations"
 msgstr "Megerősítés"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panelek"
@@ -4408,23 +4327,19 @@ msgid "Status && Location bars"
 msgstr "Állapot- és címsáv"
 
 #: settings/interface/panelsettingspage.cpp:34
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Gyorsnézet megjelenítése"
+msgstr "Előnézetek megjelenítése"
 
 #: settings/interface/panelsettingspage.cpp:35
-#, fuzzy, kde-format
-#| msgid "Auto-Play media files"
+#, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Médiafájlok automatikus lejátszása"
 
 #: settings/interface/panelsettingspage.cpp:36
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Elem megjelenítése rámutatáskor"

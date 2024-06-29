@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 13:26+0200\n"
+"PO-Revision-Date: 2024-06-28 16:51+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4400,13 +4400,7 @@ msgid "Show previews for folders"
 msgstr "Montri antaŭrigardojn por dosierujoj"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4415,9 +4409,9 @@ msgid ""
 "metered connections.</para>"
 msgstr ""
 "<para>Kreado de <emphasis>antaŭrigardoj</emphasis> por foraj dosierujoj "
-"estas <emphasis strong='true'>tre multkosta</emphasis> laŭ retaj rimedoj.</"
-"para><para>Malŝaltu tion se navigado al foraj dosierujoj en Dolfin estas "
-"malrapida aŭ kiam vi aliras konservejon per mezurita konekto.</para>"
+"estas tre intensiva laŭ uzado de retaj rimedoj.</para><para>Malŝaltu tion se "
+"navigado tra foraj dosierujoj en Dolfin estas malrapida aŭ kiam vi aliras "
+"konservejon per mezurita konekto.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format

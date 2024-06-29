@@ -4262,7 +4262,7 @@ msgid "Show previews for folders"
 msgstr "显示文件夹的预览图"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4270,9 +4270,6 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>创建远程文件夹的<emphasis>预览图</emphasis>需要消耗<emphasis "
-"strong='true'>大量的</emphasis>网络资源。</para><para>如果 Dolphin 的工作缓"
-"慢，或者在使用按流量计费的网络连接时，可以禁用此选项。</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
