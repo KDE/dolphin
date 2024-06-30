@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-06-28 13:33+0200\n"
+"PO-Revision-Date: 2024-06-29 14:53+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1234,6 +1234,7 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nem lehet másolni a másik nézetbe: Nincs jogosultsága írni a célmappába."
 
 #: dolphinmainwindow.cpp:2510
 #, kde-format
@@ -1242,6 +1243,7 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Nem lehet áthelyezni a másik nézetbe: Nincs jogosultsága írni a célmappába."
 
 #: dolphinmainwindow.cpp:2516
 #, kde-format
@@ -1250,6 +1252,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Nem lehet áthelyezni a másik nézetbe: Nincs jogosultsága elemeket áthelyezni "
+"ebbe a mappából."
 
 #: dolphinmainwindow.cpp:2540
 #, kde-kuit-format
@@ -1280,18 +1284,16 @@ msgid "Close left view"
 msgstr "Bal oldali nézet bezárása"
 
 #: dolphinmainwindow.cpp:2634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "Másolás a másik nézetbe"
+msgstr "Bal oldali nézet új ablakba"
 
 #: dolphinmainwindow.cpp:2635
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr ""
+msgstr "A bal oldali nézetet áthelyezi egy új ablakba"
 
 #: dolphinmainwindow.cpp:2637
 #, kde-format
@@ -1306,18 +1308,16 @@ msgid "Close right view"
 msgstr "Jobb oldali nézet bezárása"
 
 #: dolphinmainwindow.cpp:2640
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Other View"
+#, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "Másolás a másik nézetbe"
+msgstr "Jobb oldali nézet új ablakba"
 
 #: dolphinmainwindow.cpp:2641
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr ""
+msgstr "A jobb oldali nézetet áthelyezi egy új ablakba"
 
 #: dolphinmainwindow.cpp:2650
 #, kde-format
@@ -1335,7 +1335,7 @@ msgstr "Osztott nézet"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Új ablakba"
 
 #: dolphinmainwindow.cpp:2708
 #, kde-kuit-format
@@ -3480,27 +3480,25 @@ msgstr "Maximális szövegszélesség-index (0 = korlátlan)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Hogyan jelenjen meg a könyvtárak mérete"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content count"
-msgstr "Az állapotsor megjelenítése"
+msgstr "Tartalom darabszámának megjelenítése"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
-#, fuzzy, kde-format
-#| msgid "Show the statusbar"
+#, kde-format
 msgid "Show the content size"
-msgstr "Az állapotsor megjelenítése"
+msgstr "Tartalom méretének megjelenítése"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:19
 #, kde-format
 msgid "Do not show any directory size"
-msgstr ""
+msgstr "Ne jelenítsen meg semmilyen könyvtárméretet"
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:25
@@ -3865,7 +3863,7 @@ msgstr "Nyitott mappák és lapok megjegyzése"
 #: settings/dolphin_generalsettings.kcfg:61
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Két nézet egymás mellé helyezése"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -3901,10 +3899,9 @@ msgstr "Megerősítés kérése, ha egy program még mindig fut a Terminál pane
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:86
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgid "Rename single items inline"
-msgstr "Átnevezés helyben"
+msgstr "Egyedi elemek átnevezése helyben"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:90
@@ -3924,18 +3921,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:98
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "A TAB használata a jobb és bal oldali nézet közötti váltásra"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "Aktív panel bezárása az osztott nézet kikapcsolásakor"
+msgstr "Fókuszban lévő nézet bezárása az osztott nézet kikapcsolásakor"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:106
@@ -3945,10 +3939,9 @@ msgstr "Az új lap az utolsó után nyílik meg"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Elem megjelenítése rámutatáskor"
+msgstr "Elem információinak megjelenítése rámutatáskor"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:114
@@ -4006,7 +3999,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:152
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Az application/x-trash MIME-típusú fájlok elrejtése"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:158
@@ -4247,12 +4240,10 @@ msgid "Open new tabs: "
 msgstr "Megnyitás új lapokon:"
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Váltás a panelek között a Tab billentyűvel"
+msgstr "Váltás a nézetek között a Tab billentyűvel"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -4261,12 +4252,10 @@ msgid "Split view: "
 msgstr "Osztott nézet: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "Az osztott nézet kikapcsolása zárja be az aktív panelt"
+msgstr "Az osztott nézet kikapcsolása zárja be a fókuszban lévő nézetet"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4274,6 +4263,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"Ha nincs bejelölve, az ellentétes nézet záródik be. A Bezárás ikon mindig "
+"azt jelzi, melyik nézet (bal vagy jobb) lesz bezárva."
 
 #: settings/interface/folderstabssettingspage.cpp:128
 #, kde-format
@@ -4348,21 +4339,19 @@ msgstr "Elem megjelenítése rámutatáskor"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "&Hosszú dátum használata, például „%1”"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "&Rövid dátum használata, például „%1”"
 
 #: settings/interface/panelsettingspage.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
+#, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "Jellemzők"
+msgstr "Információs panel:"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4371,6 +4360,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"A panelbeállítások a  helyi menüben is elérhetők. Nyissa meg azt a jobb "
+"egérgomb megnyomásával a panelen."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -4548,28 +4539,22 @@ msgid "Sorting mode: "
 msgstr "Rendezési mód:"
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Number of items"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
-msgstr "Elemek száma"
+msgstr "Elemek számának megjelenítése"
 
 #: settings/viewmodes/contentdisplaytab.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "Size of contents, up to "
+#, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "A tartalom száma, "
+msgstr "A tartalom méretének megjelenítése, "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show zoom slider"
+#, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Nagyítócsúszka"
+msgstr "Ne jelenítsen meg méretet"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -4659,6 +4644,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Néhány speciális nézet, mint például a keresés, a legutóbbi fájlok vagy a "
+"kuka továbbra is egy egyéni megjelenítési stílust fog használni."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:42
 #, kde-format
@@ -4701,11 +4688,10 @@ msgid "Browsing: "
 msgstr "Böngészés: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:68
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
-msgstr "Elem megjelenítése rámutatáskor"
+msgstr "Elem információinak megjelenítése rámutatáskor"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:69
 #: settings/viewmodes/generalviewsettingspage.cpp:77
@@ -4721,22 +4707,21 @@ msgid "Show selection marker"
 msgstr "Kijelölő kapcsoló"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:81
-#, fuzzy, kde-format
-#| msgid "Rename inline"
+#, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Átnevezés helyben"
+msgstr "Egyedi elemek átnevezése helyben"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "Több elem átnevezése mindig egy párbeszédablakban történik."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:85
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Biztonságimásolat-fájlok elrejtése a rejtett fájlok elrejtésekor"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:89
 #, kde-format
@@ -4746,6 +4731,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"A biztonságimentés-fájlok azok a fájlok, amiknek a MIME-típusa application/x-"
+"trash, minták: %1"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:121
 #, kde-format
@@ -5244,6 +5231,8 @@ msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
 msgstr ""
+"%1 / %2 szabad (%3 foglalt)\n"
+"Nyomja meg a lemezterület-használat kezeléséhez."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -5518,11 +5507,7 @@ msgid "Create Folder…"
 msgstr "Új mappa…"
 
 #: views/dolphinviewactionhandler.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
@@ -5532,12 +5517,7 @@ msgstr ""
 "átnevezése azt eredményezi, hogy a nevük csak egy számban fog eltérni."
 
 #: views/dolphinviewactionhandler.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
@@ -5545,22 +5525,18 @@ msgid ""
 "deleted later if disk space is needed."
 msgstr ""
 "Ez áthelyez az aktuális kijelölés elemeit a <filename>Kukába</filename>.<nl/"
-">A kuka egy átmeneti tároló, ahonnan az elemek törölhetők, ha több helyre "
-"van szükség."
+">A kuka egy átmeneti tároló, ahonnan később az elemek törölhetők, ha több "
+"helyre van szükség."
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
 msgstr ""
-"Ez teljesen törli az aktuális kijelölés elemeit. Azok nem állíthatók vissza "
-"normál módszerekkel."
+"Ez véglegesen törli az aktuális kijelölés elemeit. Azok nem állíthatók "
+"vissza normál módszerekkel."
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-format
@@ -5649,12 +5625,7 @@ msgstr ""
 "engedélyezve van.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -5662,20 +5633,11 @@ msgid ""
 "you an overview in folders with many items.</para>"
 msgstr ""
 "<para>Ez egy kompakt nézetmódra vált, amely a mappákat és fájlokat listázza "
-"oszlopokban, az ikonok melletti nevekkel.</para><para>Ez segít megőrizni az "
-"áttekintést a sok elemet tartalmazó mappákban.</para>"
+"oszlopokban, az ikonok melletti nevekkel.</para><para>Ez segít áttekintést "
+"adni a sok elemet tartalmazó mappákban.</para>"
 
 #: views/dolphinviewactionhandler.cpp:204
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Details view mode"
-#| msgid ""
-#| "<para>This switches to a list view mode that focuses on folder and file "
-#| "details.</para><para>Click on a detail in the column header to sort the "
-#| "items by it. Click again to sort the other way around. To select which "
-#| "details should be displayed click the header with the right mouse button."
-#| "</para><para>You can view the contents of a folder without leaving the "
-#| "current location by clicking to the left of it. This way you can view the "
-#| "contents of multiple folders in the same list.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
 "<para>This switches to a list view mode that focuses on folder and file "
@@ -5692,8 +5654,9 @@ msgstr ""
 "másik irányba történő rendezéshez. Annak kiválasztásához, hogy mely "
 "részletek jelenjenek meg, kattintson a fejlécre az egér jobb gombjával.</"
 "para><para>Egy mappa tartalmát az aktuális hely elhagyása nélkül is "
-"megtekintheti, ha bal gombbal kattint a mappára. Így megtekintheti több "
-"mappa tartalmát is megtekintheti ugyanabban a listában.</para>"
+"megtekintheti, ha bal gombbal kattint a mappától balra eső területre. Így "
+"megtekintheti több mappa tartalmát is megtekintheti ugyanabban a listában.</"
+"para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format
@@ -5802,14 +5765,7 @@ msgid "Show Hidden Files"
 msgstr "Rejtett fájlok megjelenítése"
 
 #: views/dolphinviewactionhandler.cpp:322
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -5825,7 +5781,10 @@ msgstr ""
 "mappák láthatóak, félig áttetszően jelennek meg.</para><para>A rejtett "
 "elemek csak abban különböznek a többitől, hogy a nevük ponttal kezdődik. A "
 "felhasználóknak általában nem szükséges hozzájuk férniük, ezért rejtettek.</"
-"para>"
+"para><para>Az elemek úgy is elrejthetők, hogy a nevük szerepel egy „.hidden” "
+"nevű szövegfájlban. Az „application/x-trash” MIME-típusú fájlok, mint "
+"például a biztonságimentés-fájlok, szintén elrejthetők a beállítás "
+"engedélyezésével a Dolphin beállításai > Nézet > Általános fülön.</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format

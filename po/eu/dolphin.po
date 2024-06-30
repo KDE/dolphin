@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-27 00:41+0000\n"
-"PO-Revision-Date: 2024-05-20 23:03+0200\n"
+"PO-Revision-Date: 2024-06-29 23:26+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36,12 +36,10 @@ msgstr ""
 "xalba@ni.eus,dooteo@euskalgnu.org,marcos@euskalgnu.org,igaztanaga@gmail.com"
 
 #: admin/bar.cpp:35
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Acting as an Administrator – Be careful!"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Administratzaile gisa ari zara - Kontuz ibili!"
+msgstr "Administratzaile gisa ari zara — Kontuz ibili!"
 
 #: admin/bar.cpp:36
 #, kde-format
@@ -53,15 +51,13 @@ msgstr "Administratzaile gisa ari zara"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Bukatu"
 
 #: admin/bar.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Administratzaile gisa jardutearen arriskuak"
+msgstr "Utzi administratzaile gisa jarduteareari"
 
 #: admin/workerintegration.cpp:27
 #, kde-kuit-format
@@ -1959,12 +1955,10 @@ msgid "Hide Filter Bar"
 msgstr "Ezkutatu iragazki-barra"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Sortu karpeta..."
+msgstr "Eraman karpeta berrira…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4430,13 +4424,7 @@ msgid "Show previews for folders"
 msgstr "Erakutsi karpeten aurreikuspegiak"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4444,11 +4432,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Urruneko karpeten <emphasis>aurreikuspegiak</emphasis> sortzea "
-"<emphasis strong='true'>oso garestia da</emphasis> sareko baliabideei "
-"dagokionez.</para><para>Ezgaitu hori, Dolphin bidez urrutiko karpetetan "
-"nabigatzea motel badabil, edo konexio tarifatu baten bidez biltegiratze bat "
-"atzitzean.</para>"
+"<para>Urruneko karpeten <emphasis>aurreikuspegiak</emphasis> sortzea oso "
+"intentsiboa da sareko baliabideei dagokionez.</para><para>Ezgaitu hau, "
+"Dolphin bidez urrutiko karpetetan nabigatzea motel badabil, edo konexio "
+"tarifatu baten bidez biltegiratze bat atzitzean.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5210,7 +5197,7 @@ msgstr "Erakutsi leku librearen informazioa"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Instalatu «Filelight» diskoaren erabilera estatistikak ikuseteko…"
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format

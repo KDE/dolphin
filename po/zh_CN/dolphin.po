@@ -4270,6 +4270,9 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>创建远程文件夹的<emphasis>预览图</emphasis>需要消耗大量的网络资源。</"
+"para><para>如果 Dolphin 的工作缓慢，或者在使用按流量计费的网络连接时，可以禁"
+"用此选项。</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
