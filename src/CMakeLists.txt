@@ -1,5 +1,6 @@
 include(ECMAddAppIcon)
 
+set(ADMIN_WORKER_PACKAGE_NAME "kio-admin")
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
 add_definitions(
@@ -274,6 +275,7 @@ target_sources(dolphinstatic PRIVATE
     dolphincontextmenu.cpp
     dolphinnavigatorswidgetaction.cpp
     dolphintabbar.cpp
+    dolphinpackageinstaller.cpp
     dolphinplacesmodelsingleton.cpp
     dolphinrecenttabsmenu.cpp
     dolphintabpage.cpp
@@ -334,6 +336,7 @@ target_sources(dolphinstatic PRIVATE
     dolphincontextmenu.h
     dolphinnavigatorswidgetaction.h
     dolphintabbar.h
+    dolphinpackageinstaller.h
     dolphinplacesmodelsingleton.h
     dolphinrecenttabsmenu.h
     dolphintabpage.h
@@ -456,6 +459,13 @@ if (HAVE_PLASMA_ACTIVITIES)
     target_link_libraries(
         dolphinstatic
         Plasma::Activities
+    )
+endif()
+
+if(HAVE_PACKAGEKIT)
+    target_link_libraries(
+        dolphinstatic
+        PK::packagekitqt6
     )
 endif()
 

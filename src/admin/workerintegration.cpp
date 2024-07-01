@@ -7,7 +7,9 @@
 
 #include "workerintegration.h"
 
+#include "config-dolphin.h"
 #include "dolphinmainwindow.h"
+#include "dolphinpackageinstaller.h"
 #include "dolphinviewcontainer.h"
 
 #include <KActionCollection>
@@ -18,7 +20,76 @@
 
 #include <QAction>
 
+#include <iostream>
+
 using namespace Admin;
+
+/** Free file-local functions */
+namespace
+{
+/** @returns the translated name of the actAsAdminAction. */
+QString actionName()
+{
+    return i18nc("@action:inmenu", "Act as Administrator");
+};
+
+/** @returns the default keyboard shortcut of the actAsAdminAction. */
+QKeySequence actionDefaultShortcut()
+{
+    return Qt::CTRL | Qt::SHIFT | Qt::ALT | Qt::Key_A;
+};
+
+/** @returns whether any worker for the protocol "admin" is available. */
+bool isWorkerInstalled()
+{
+    return KProtocolInfo::isKnownProtocol(QStringLiteral("admin"));
+}
+}
+
+void Admin::guideUserTowardsInstallingAdminWorker()
+{
+    if (!isWorkerInstalled()) {
+        std::cout << qPrintable(
+            xi18nc("@info:shell",
+                   "<application>Dolphin</application> requires <application>%1</application> to manage system-controlled files, but it is not installed.<nl/>"
+                   "Press %2 to install <application>%1</application> or %3 to cancel.",
+                   ADMIN_WORKER_PACKAGE_NAME,
+                   QKeySequence{Qt::Key_Enter}.toString(QKeySequence::NativeText),
+                   QKeySequence{Qt::CTRL | Qt::Key_C}.toString(QKeySequence::NativeText)));
+        std::cin.ignore();
+
+        /// Installing admin worker
+        DolphinPackageInstaller adminWorkerInstaller{ADMIN_WORKER_PACKAGE_NAME, QUrl(QStringLiteral("appstream://org.kde.kio.admin")), isWorkerInstalled};
+        QObject::connect(&adminWorkerInstaller, &KJob::result, [](KJob *job) {
+            if (job->error()) {
+                std::cout << qPrintable(job->errorString()) << std::endl;
+                exit(1);
+            }
+        });
+        adminWorkerInstaller.exec();
+    }
+}
+
+void Admin::guideUserTowardsUsingAdminWorker()
+{
+    KuitSetup *kuitSetup = &Kuit::setupForDomain("dolphin");
+    kuitSetup->setTagPattern(QStringLiteral("numberedlist"), QStringList{}, Kuit::RichText, ki18nc("tag-format-pattern <numberedlist> rich", "<ol>%1</ol>"));
+    kuitSetup->setTagPattern(QStringLiteral("numbereditem"), QStringList{}, Kuit::RichText, ki18nc("tag-format-pattern <numbereditem> rich", "<li>%1</li>"));
+
+    KMessageBox::information(
+        nullptr,
+        xi18nc("@info",
+               "<para>Make use of your administrator rights in Dolphin:<numberedlist>"
+               "<numbereditem>Navigate to the file or folder you want to change.</numbereditem>"
+               "<numbereditem>Activate the \"%1\" action either under <interface>Open Menu|More|View</interface> or <interface>Menu Bar|View</interface>.<nl/>"
+               "Default shortcut: <shortcut>%2</shortcut></numbereditem>"
+               "<numbereditem>After authorization you can manage files as an administrator.</numbereditem></numberedlist></para>",
+               actionName(),
+               actionDefaultShortcut().toString(QKeySequence::NativeText)),
+        i18nc("@title:window", "How to Administrate"),
+        "",
+        KMessageBox::WindowModal);
+}
 
 QString Admin::warningMessage()
 {
@@ -52,12 +123,12 @@ WorkerIntegration::WorkerIntegration(DolphinMainWindow *parent, QAction *actAsAd
 void WorkerIntegration::createActAsAdminAction(KActionCollection *actionCollection, DolphinMainWindow *dolphinMainWindow)
 {
     Q_ASSERT(!instance);
-    if (KProtocolInfo::isKnownProtocol(QStringLiteral("admin"))) {
+    if (isWorkerInstalled()) {
         QAction *actAsAdminAction = actionCollection->addAction(QStringLiteral("act_as_admin"));
-        actAsAdminAction->setText(i18nc("@action:inmenu", "Act as Administrator"));
+        actAsAdminAction->setText(actionName());
         actAsAdminAction->setIcon(QIcon::fromTheme(QStringLiteral("system-switch-user")));
         actAsAdminAction->setCheckable(true);
-        actionCollection->setDefaultShortcut(actAsAdminAction, Qt::CTRL | Qt::SHIFT | Qt::ALT | Qt::Key_A);
+        actionCollection->setDefaultShortcut(actAsAdminAction, actionDefaultShortcut());
 
         instance = new WorkerIntegration(dolphinMainWindow, actAsAdminAction);
     }

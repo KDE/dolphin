@@ -103,7 +103,7 @@ find_package(Phonon4Qt6 CONFIG REQUIRED)
 find_package(PackageKitQt6)
 set_package_properties(PackageKitQt6
         PROPERTIES DESCRIPTION "Software Manager integration"
-        TYPE OPTIONAL
+        TYPE RECOMMENDED
         PURPOSE "Used in the service menu installer"
         )
 if(PackageKitQt6_FOUND)

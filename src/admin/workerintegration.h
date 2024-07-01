@@ -23,6 +23,15 @@ class QUrl;
 namespace Admin
 {
 /**
+ * When a user starts Dolphin with arguments that imply that they want to use administrative rights, this method is called.
+ * This function acts like a command line program that guides users towards installing kio-admin. It will not return until this is accomplished.
+ * This function will do nothing if kio-admin is already installed.
+ */
+void guideUserTowardsInstallingAdminWorker();
+
+void guideUserTowardsUsingAdminWorker();
+
+/**
  * Used with the KMessageBox API so users can disable the warning.
  * @see KMessageBox::saveDontShowAgainContinue()
  * @see KMessageBox::enableMessage()

@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include "admin/workerintegration.h"
 #include "config-dolphin.h"
 #include "dbusinterface.h"
 #include "dolphin_generalsettings.h"
@@ -54,24 +55,22 @@
 #endif
 #include <iostream>
 
+constexpr auto dolphinTranslationDomain{"dolphin"};
+
 int main(int argc, char **argv)
 {
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
-    if (getuid() == 0) {
-        if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Running Dolphin with sudo is not supported as it can cause bugs and expose you to security vulnerabilities. Instead, install the "
-                         "`kio-admin` package from your distro and use it to manage root-owned locations by right-clicking on them and selecting \"Open as "
-                         "Administrator\"."
-                      << std::endl;
-            return EXIT_FAILURE;
-        } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Running Dolphin with kdesu is not supported as it can cause bugs and expose you to security vulnerabilities. Instead, install the "
-                         "`kio-admin` package from your distro and use it to manage root-owned locations by right-clicking on them and selecting \"Open as "
-                         "Administrator\"."
-                      << std::endl;
-            return EXIT_FAILURE;
-        }
+    if (getuid() == 0 && (!qEnvironmentVariableIsEmpty("SUDO_USER") || !qEnvironmentVariableIsEmpty("KDESU_USER"))) {
+        QCoreApplication app(argc, argv); // Needed for the xi18ndc() call below.
+        std::cout << qPrintable(
+            xi18ndc(dolphinTranslationDomain,
+                    "@info:shell %1 is a terminal command",
+                    "Running <application>Dolphin</application> with <command>sudo</command> is discouraged. Please run <icode>%1</icode> instead.",
+                    QStringLiteral("dolphin --sudo")))
+                  << std::endl;
+        // We could perform a privilege de-escalation here and continue as normal. It is a bit safer though to simply let the user restart without sudo.
+        return EXIT_FAILURE;
     }
 #endif
 
@@ -116,7 +115,7 @@ int main(int argc, char **argv)
     migrate.migrate();
 #endif
 
-    KLocalizedString::setApplicationDomain("dolphin");
+    KLocalizedString::setApplicationDomain(dolphinTranslationDomain);
 
     KAboutData aboutData(QStringLiteral("dolphin"),
                          i18n("Dolphin"),
@@ -164,6 +163,8 @@ int main(int argc, char **argv)
                                               "will be selected.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("new-window"), i18nc("@info:shell", "Dolphin will explicitly open in a new window.")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("sudo") << QStringLiteral("admin"),
+                                        i18nc("@info:shell", "Set up Dolphin for administrative tasks.")));
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface).")));
     parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
@@ -173,10 +174,17 @@ int main(int argc, char **argv)
 
     const bool splitView = parser.isSet(QStringLiteral("split")) || GeneralSettings::splitView();
     const bool openFiles = parser.isSet(QStringLiteral("select"));
+    const bool adminWorkerInfoWanted = parser.isSet(QStringLiteral("sudo")) || parser.isSet(QStringLiteral("admin"));
     const QStringList args = parser.positionalArguments();
     QList<QUrl> urls = Dolphin::validateUris(args);
     // We later mutate urls, so we need to store if it was empty originally
     const bool startedWithURLs = !urls.isEmpty();
+
+    if (adminWorkerInfoWanted || std::any_of(urls.cbegin(), urls.cend(), [](const QUrl &url) {
+            return url.scheme() == QStringLiteral("admin");
+        })) {
+        Admin::guideUserTowardsInstallingAdminWorker();
+    }
 
     if (parser.isSet(QStringLiteral("daemon"))) {
         // Disable session management for the daemonized version
@@ -274,6 +282,10 @@ int main(int argc, char **argv)
     }
 
     mainWindow->setSessionAutoSaveEnabled(GeneralSettings::rememberOpenedTabs());
+
+    if (adminWorkerInfoWanted) {
+        Admin::guideUserTowardsUsingAdminWorker();
+    }
 
 #if HAVE_KUSERFEEDBACK
     auto feedbackProvider = DolphinFeedbackProvider::instance();
