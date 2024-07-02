@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-27 00:41+0000\n"
+"POT-Creation-Date: 2024-07-02 00:40+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -52,7 +52,53 @@ msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr ""
 
-#: admin/workerintegration.cpp:27
+#: admin/workerintegration.cpp:33
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Act as Administrator"
+msgstr ""
+
+#: admin/workerintegration.cpp:54
+#, kde-kuit-format
+msgctxt "@info:shell"
+msgid ""
+"<application>Dolphin</application> requires <application>%1</application> to "
+"manage system-controlled files, but it is not installed.<nl/>Press %2 to "
+"install <application>%1</application> or %3 to cancel."
+msgstr ""
+
+#: admin/workerintegration.cpp:76
+#, kde-format
+msgctxt "tag-format-pattern <numberedlist> rich"
+msgid "<ol>%1</ol>"
+msgstr ""
+
+#: admin/workerintegration.cpp:77
+#, kde-format
+msgctxt "tag-format-pattern <numbereditem> rich"
+msgid "<li>%1</li>"
+msgstr ""
+
+#: admin/workerintegration.cpp:82
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<para>Make use of your administrator rights in Dolphin:"
+"<numberedlist><numbereditem>Navigate to the file or folder you want to "
+"change.</numbereditem><numbereditem>Activate the \"%1\" action either under "
+"<interface>Open Menu|More|View</interface> or <interface>Menu Bar|View</"
+"interface>.<nl/>Default shortcut: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>After authorization you can manage files as an "
+"administrator.</numbereditem></numberedlist></para>"
+msgstr ""
+
+#: admin/workerintegration.cpp:89
+#, kde-format
+msgctxt "@title:window"
+msgid "How to Administrate"
+msgstr ""
+
+#: admin/workerintegration.cpp:98
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -68,25 +114,19 @@ msgid ""
 "emphasis> before proceeding.</para>"
 msgstr ""
 
-#: admin/workerintegration.cpp:57
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Act as Administrator"
-msgstr ""
-
-#: admin/workerintegration.cpp:82
+#: admin/workerintegration.cpp:153
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
 msgstr ""
 
-#: admin/workerintegration.cpp:84
+#: admin/workerintegration.cpp:155
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
 msgstr ""
 
-#: admin/workerintegration.cpp:86
+#: admin/workerintegration.cpp:157
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
@@ -1391,6 +1431,28 @@ msgid "Location Bar"
 msgid_plural "Location Bars"
 msgstr[0] "တည်နေရာပြ-တန်း"
 
+#: dolphinpackageinstaller.cpp:46
+#, kde-format
+msgctxt "@info:shell about system packages"
+msgid "Could not find package %1."
+msgstr ""
+
+#: dolphinpackageinstaller.cpp:89
+#, kde-format
+msgctxt "@info %1 is error code"
+msgid "Installation exited without reporting success. (%1)"
+msgstr ""
+
+#: dolphinpackageinstaller.cpp:108
+#, kde-kuit-format
+msgctxt ""
+"@info:shell %1 is package name, %2 is error message, %3 is error e.g. "
+"'ErrorNoNetwork'"
+msgid ""
+"Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
+"installing <application>%1</application> manually instead."
+msgstr ""
+
 #: dolphinpart.cpp:148
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
@@ -2312,181 +2374,195 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "မသိသောအမှား။"
 
-#: main.cpp:122
+#: main.cpp:69
+#, kde-kuit-format
+msgctxt "@info:shell %1 is a terminal command"
+msgid ""
+"Running <application>Dolphin</application> with <command>sudo</command> is "
+"discouraged. Please run <icode>%1</icode> instead."
+msgstr ""
+
+#: main.cpp:121
 #, kde-format
 msgid "Dolphin"
 msgstr "လင်းပိုင်"
 
-#: main.cpp:124
+#: main.cpp:123
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "ဖိုင်လ်မန်နေဂျာ"
 
-#: main.cpp:126
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) ၁၉၉၈-၂၀၂၂ လင်းပိုင်းဒက်ဗ်ဗလော့ပါများ"
 
-#: main.cpp:128
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "ဖီလစ်အွန်းနက်စ်"
 
-#: main.cpp:129
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၂၁ကတည်းက) နှင့် ပရိုဂရမ်မာ"
 
-#: main.cpp:131
+#: main.cpp:130
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "မီဗန်ကား"
 
-#: main.cpp:132
+#: main.cpp:131
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "ထိန်းသိမ်းသူ (၂၀၂၁ကတည်းက) နှင့် ပရိုဂရမ်မာ (၂၀၁၉ ကတည်းက)"
 
-#: main.cpp:134
+#: main.cpp:133
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "အယ်ဗစ်အန်ဂျလာဆီယို"
 
-#: main.cpp:135
+#: main.cpp:134
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၈-၂၀၂၁) နှင့် ပရိုဂရမ်မာ"
 
-#: main.cpp:137
+#: main.cpp:136
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "အန်မြူရယ်ပက်ကိုတာ"
 
-#: main.cpp:138
+#: main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၄-၂၀၁၈) နှင့် ပရိုဂရမ်မာ"
 
-#: main.cpp:140
+#: main.cpp:139
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "ဖရန့်ခ်ရိိန်နင်ဂက်စ်"
 
-#: main.cpp:141
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၂-၂၀၁၄) နှင့် ပရိုဂရမ်မာ"
 
-#: main.cpp:143
+#: main.cpp:142
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "ပီတာပန့်ဇ်"
 
-#: main.cpp:144
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "ထိန်းသိမ်းသူ နှင့် ပရိုဂရမ်မာ (၂၀၀၆-၂၀၁၂)"
 
-#: main.cpp:146
+#: main.cpp:145
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "ဆီဘက်ရှန်း ထရပ်ဂ်"
 
-#: main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149 main.cpp:150
-#: main.cpp:151 main.cpp:152
+#: main.cpp:145 main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149
+#: main.cpp:150 main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "ပရိုဂရမ်မာ"
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "ဒေးဗစ်ဖော့"
 
-#: main.cpp:148
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "အယ်ရွန် ဂျေ. ဆိုင်ဂို"
 
-#: main.cpp:149
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "ရာဖေးဖာနန်ဒက်လိုပက်ဇ်"
 
-#: main.cpp:150
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "ကယ်ဗင်အောက်တန်"
 
-#: main.cpp:151
+#: main.cpp:150
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "ဟော်ဂျာဖရီသာ"
 
-#: main.cpp:152
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "မက်စ်ဘလေ့ဇ်ဂျက်"
 
-#: main.cpp:153
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "မစ်ချယ်အော်စတင်"
 
-#: main.cpp:153
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "ဒိုကူမန်တေးရှင်း"
 
-#: main.cpp:163
+#: main.cpp:162
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သော ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ကိုရွေးချယ်မည်"
 
-#: main.cpp:165
+#: main.cpp:164
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "အခွဲမြင်ကွင်းနှင့် လင်းပိုင် စတင်လိမ့်မည်။"
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "လင်းပိုင်းအား သေချာကို ဝင်းဒိုးအသစ်တွင်ဖွင်မည်။"
 
-#: main.cpp:168
+#: main.cpp:167
+#, kde-format
+msgctxt "@info:shell"
+msgid "Set up Dolphin for administrative tasks."
+msgstr ""
+
+#: main.cpp:169
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:170
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
