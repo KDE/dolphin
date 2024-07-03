@@ -714,10 +714,9 @@ void DolphinView::setUrl(const QUrl &url)
 void DolphinView::selectAll()
 {
     KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
-    if (selectionManager->selectedItems().count() == m_model->count()) {
-        mode = KItemListSelectionManager::SelectionMode::Deselect;
-    }
-    selectionManager->setSelected(0, m_model->count());}
+    bool allSelected = selectionManager->selectedItems().count() == m_model->count();
+    selectionManager->setSelected(0, allSelected ? 0 : m_model->count());
+}
 
 void DolphinView::invertSelection()
 {
