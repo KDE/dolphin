@@ -106,7 +106,7 @@ void KStandardItemListGroupHeader::updateCache()
         m_pixmap = QPixmap();
 
         QFontMetricsF fontMetrics(font());
-        const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, maxWidth);
+        const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideMiddle, maxWidth);
         m_text = text;
     }
 }
