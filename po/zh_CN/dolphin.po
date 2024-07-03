@@ -100,12 +100,10 @@ msgid ""
 msgstr ""
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "以管理员身份操作"
+msgstr ""
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format

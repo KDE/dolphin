@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-29 23:26+0200\n"
+"PO-Revision-Date: 2024-07-02 20:00+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -73,18 +73,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application>ek <application>%1</application>  behar du "
+"«system-controlled» fitxategiak kudeatzeko, baina ez dago instalatuta.<nl/> "
+"Sakatu %2 <application>%1</application> instalatzeko edo %3 bertan behera "
+"uzteko."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -98,14 +102,20 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Erabili zure administratzaile eskubideak Dolphin erabiltzean: "
+"<numberedlist><numbereditem>Nabigatu aldatu nahi duzun fitxategi edo "
+"karpetara.</numbereditem><numbereditem>Aktibatu \"%1\" ekintza "
+"<interface>Menua | Gehiago | Ikuspegia</interface> irekiz edo "
+"<interface>Menu-barra | Ikuspegia</interface>.<nl/>Lasterbide lehenetsia: "
+"<shortcut>%2</shortcut></numbereditem><numbereditem>Baimena eman ondoren "
+"fitxategiak administratzaile gisa kudeatu ditzakezu.</numbereditem> </"
+"numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Jardun administratzaile gisa"
+msgstr "Nola administratu"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1664,13 +1674,13 @@ msgstr[1] "Kokaleku-barrak"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Ezin du %1 paketea aurkitu."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Instalazioa arrakastaren berri eman gabe itxi da (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1681,6 +1691,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"<application>%1</application> instalatzea huts egin du: %2 (%3)<nl/>Mesedez, "
+"horren ordez, saia zaitez <application>%1</application> eskuz instalatzen."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2616,6 +2628,9 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"<application>Dolphin</application> <command>sudo</command> bidez ez "
+"exekutatzea gomendatzen da. Mesedez, horren ordez exekutatu <icode>%1</"
+"icode>."
 
 #: main.cpp:121
 #, kde-format
@@ -2789,7 +2804,7 @@ msgstr "Dolphin esplizituki leiho berrian irekiko da."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Ezarri Dolphin administrazio atazetarako."
 
 #: main.cpp:169
 #, kde-format

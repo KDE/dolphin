@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-04-14 22:48+0000\n"
+"PO-Revision-Date: 2024-06-28 11:57+0000\n"
 "Last-Translator: Gummi <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
@@ -29,7 +29,7 @@ msgstr ""
 "\n"
 "\n"
 "\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -45,31 +45,31 @@ msgstr "sv1@fellsnet.is, gudmundure@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Í hlutverki stjórnanda — farðu varlega!"
 
 #: admin/bar.cpp:36
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Í hlutverki stjórnanda"
 
 #: admin/bar.cpp:45
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Ljúka"
 
 #: admin/bar.cpp:47
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Hætta að vera í hlutverki stjórnanda"
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Gerast stjórnandi"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -106,10 +106,12 @@ msgid ""
 msgstr ""
 
 #: admin/workerintegration.cpp:89
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Act as Administrator"
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "Gerast stjórnandi"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -126,24 +128,35 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Þú ert að fara að nota notkunarréttindi stjórnanda. Þegar þú ert í "
+"hlutverki stjórnanda geturðu breytt og skipt út hvaða skrá eða möppu í "
+"tölvunni sem er. Þar með talin atriði sem eru nauðsynleg til að stýrikerfið "
+"virki.</para><para>Þú getur <emphasis>eytt gögnum allra notenda</emphasis> í "
+"tölvunni og <emphasis>skemmt uppsetninguna þannig að hún verði ónothæf.</"
+"emphasis> Ef bara einum staf er bætt við möppu- eða skrárheiti eða innihald "
+"þeirra getur það valdið því að stýrikerfið <emphasis>ræsist ekki.</"
+"emphasis></para><para> Þú færð líklega ekki aðra viðvörun en þessa, jafnvel "
+"þótt þú sért um það bil að fara að skemma stýrikerfið.</para><para>Það er "
+"góð hugmynd að <emphasis>taka öryggisafrit af skrám og möppum</emphasis> "
+"áður en haldið er áfram.</para>"
 
 #: admin/workerintegration.cpp:153
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Áhættan við að gerast stjórnandi"
 
 #: admin/workerintegration.cpp:155
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Ég skil og samþykki þessa áhættu"
 
 #: admin/workerintegration.cpp:157
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Ekki vara mig við þessari áhættu aftur"
 
 #: dolphincontextmenu.cpp:123
 #, kde-format
@@ -1894,7 +1907,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Þú getur ekki skrifað í þessa möppu."
 
 #: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
@@ -2013,12 +2026,10 @@ msgid "Hide Filter Bar"
 msgstr "Fela síustiku"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Búa til möppu…"
+msgstr "Færa í nýja möppu…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3853,19 +3864,15 @@ msgstr "Viðbótarupplýsingar"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "Val"
+msgstr "Velja aðgerð"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Sérstillt letur"
+msgstr "Sérsniðin aðgerð"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -4213,7 +4220,7 @@ msgstr "Margir skjáhermar eru opnaðir í einu"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Skipta í að gerast stjórnandi"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4451,12 +4458,10 @@ msgstr "Birta forskoðun í yfirlitinu fyrir:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
-msgstr "Sýna forskoðun"
+msgstr "Sýna forskoðun fyrir"
 
 #: settings/interface/previewssettingspage.cpp:68
 #: settings/interface/previewssettingspage.cpp:81
@@ -4465,7 +4470,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "skrár minni en"
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4478,24 +4483,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "skrár af öllum stærðum"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 skrá"
+msgstr "enga skrá"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Forskoða skrár og möppur"
+msgstr "Sýna forskoðun fyrir möppur"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4506,22 +4506,22 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>Að búa til <emphasis>forskoðanir</emphasis> fyrir fjartengdar möppur "
+"getur valdið talsverðu álagi í netnotkun.</para><para>Afvirkjaðu þetta ef "
+"það að skoða fjartengdar möppur í Dolphin er hægvirkt eða þegar tengst er "
+"við geymslu á gagnamældri tengingu.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#| msgid "Local files above:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Staðbundnar skrár fyrir ofan:"
+msgstr "Staðbundin geymsla:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Endurheimta"
+msgstr "Fjartengd geymsla:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -4819,40 +4819,36 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Aðgerð sem á að keyra þegar tvísmellt er á bakgrunn yfirlits"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "ekkert"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Sérstillt letur"
+msgstr "Sérsniðin skipun"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
 #: settings/viewmodes/generalviewsettingspage.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@option:check Mouse Settings"
-#| msgid "Double-click to open files and folders"
+#, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr "Tvísmella til að opna skrár og möppur"
+msgstr "Tvísmellur keyrir"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Bakgrunnur:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4861,12 +4857,13 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Sláðu inn sérsniðna skipun sem keyrist þegar tvísmellt er á bakgrunn yfirlit"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Skipun…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -4874,6 +4871,7 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Nota {path} til að fá slóðina fyrir núverandi möppu. Dæmi: dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:29
 #, kde-format
@@ -5268,22 +5266,22 @@ msgstr "Sýna upplýsingar um diskpláss"
 #: statusbar/statusbarspaceinfo.cpp:120
 #, kde-format
 msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
+msgstr "Settu upp Filelight til að sjá talnagögn um disknotkun..."
 
 #: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr "Tölfræði notkunar á diskaplássi - þessi mappa"
+msgstr "Talnagögn um disknotkun - þessi mappa"
 
 #: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "Tölfræði notkunar á diskaplássi - þetta tæki"
+msgstr "Talnagögn um disknotkun - þetta tæki"
 
 #: statusbar/statusbarspaceinfo.cpp:158
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr "Tölfræði notkunar á diskaplássi - öll tæki"
+msgstr "Talnagögn um disknotkun - öll tæki"
 
 #: statusbar/statusbarspaceinfo.cpp:171
 #, kde-format

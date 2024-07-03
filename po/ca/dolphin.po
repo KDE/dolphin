@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-27 12:51+0200\n"
+"PO-Revision-Date: 2024-07-02 10:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -71,18 +71,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"El <application>Dolphin</application> requereix el <application>%1</"
+"application> per a gestionar els fitxers controlats pel sistema, però no "
+"està instal·lat.<nl/>Premeu %2 per a instal·lar el <application>%1</"
+"application> o %3 per a cancel·lar."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -96,14 +100,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Feu ús dels vostres drets d'administrador al Dolphin:"
+"<numberedlist><numbereditem>Navegueu al fitxer o carpeta que voleu canviar.</"
+"numbereditem><numbereditem>Activeu l'acció «%1» sigui sota <interface>Obre "
+"el menú|Més|Visualitza</interface> o <interface>Barra de menús|Visualitza</"
+"interface>.<nl/>Drecera predeterminada: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Després de l'autorització podreu gestionar els "
+"fitxers com a administrador.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Actua com a administrador"
+msgstr "Com administrar"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1678,13 +1687,13 @@ msgstr[1] "Barres de localització"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "No s'ha pogut trobar el paquet %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "La instal·lació ha sortit sense informar la correcció. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1695,6 +1704,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Ha fallat la instal·lació de <application>%1</application>: %2 (%3)<nl/>En "
+"el seu lloc, intenteu instal·lar <application>%1</application> manualment."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2637,6 +2648,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Es desaconsella executar el <application>Dolphin</application> amb "
+"<command>sudo</command>. En el seu lloc, executeu <icode>%1</icode>."
 
 #: main.cpp:121
 #, kde-format
@@ -2810,7 +2823,7 @@ msgstr "El Dolphin s'obrirà explícitament a una finestra nova."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Configuració del Dolphin per a tasques administratives."
 
 #: main.cpp:169
 #, kde-format

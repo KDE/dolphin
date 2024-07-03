@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-27 09:52+0300\n"
+"PO-Revision-Date: 2024-07-02 10:43+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -78,18 +78,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> צריך את <application>%1</application> כדי "
+"לנהל קבצים בשליטת המערכת.<nl/>לחיצה על %2 תתקין את <application>%1</"
+"application> לחלופין, לחיצה על %3 תבטל."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -103,14 +106,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>כדי להשתמש בהרשאות הניהוליות שלך ב־Dolphin:"
+"<numberedlist><numbereditem>יש לנווט לקובץ או לתיקייה שמיועדים לשינוי.</"
+"numbereditem><numbereditem>להפעיל את הפעולה „%1” או תחת <interface>תפריט "
+"פתיחה|עוד|תצוגה</interface> או <interface>סרגל תפריטים|תצוגה</interface>.<nl/"
+">קיצור דרך כברירת מחדל: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>לאחר קבלת האישור, ניתן לנהל קבצים עם הרשאות "
+"לניהול המערכת.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "מעבר לפעילות ניהול"
+msgstr "איך לנהל"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1607,13 +1615,13 @@ msgstr[3] "סרגלי מקום"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "לא ניתן לאתר את החבילה %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "ההתקנה הסתיימה ולא דיווחה שהצליחה. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1624,6 +1632,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"ההתקנה של <application>%1</application> נכשלה: %2 (%3)<nl/>נא לנסות להתקין "
+"את <application>%1</application> ידנית במקום."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2565,6 +2575,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"הרצת <application>Dolphin</application> עם <command>sudo</command> (הרשאות "
+"על) מאוד לא מומלצת. נא להריץ <icode>%1</icode> במקום."
 
 #: main.cpp:121
 #, kde-format
@@ -2738,7 +2750,7 @@ msgstr "Dolphin יפתח חלון חדש במפורש."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "הגדרת Dophin למשימות ניהוליות."
 
 #: main.cpp:169
 #, kde-format

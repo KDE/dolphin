@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-27 07:47+0300\n"
+"PO-Revision-Date: 2024-07-02 09:36+0300\n"
 "Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -70,18 +70,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"Для керування файлами, які контролює система, <application>Dolphin</"
+"application> потрібен пакунок <application>%1</application>, який не "
+"встановлено.<nl/>Натисніть %2, щоб встановити <application>%1</application>, "
+"або %3, щоб скасувати дію."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -95,14 +99,20 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Використання прав доступу адміністратора у Dolphin:"
+"<numberedlist><numbereditem>Перейдіть до файла або теки, якими ви хочете "
+"керувати.</numbereditem><numbereditem>Скористайтеся пунктом «%1» або у меню "
+"<interface>Відкрити|Додатково|Перегляд</interface> або за допомогою пункту "
+"<interface>панелі меню|Перегляд</interface>.<nl/>Типове клавіатурне "
+"скорочення: <shortcut>%2</shortcut></numbereditem><numbereditem>Після "
+"розпізнавання ви зможете керувати файлами від імені адміністратора системи.</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Працювати від імені адміністратора"
+msgstr "Як адмініструвати"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1694,13 +1704,13 @@ msgstr[3] "Панель адреси"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Не вдалося знайти пакунок %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Спробу встановлення завершено без повідомлення про успіх. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1711,6 +1721,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Не вдалося встановити <application>%1</application>: %2 (%3)<nl/>Будь ласка, "
+"спробуйте встановити <application>%1</application> вручну."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2664,6 +2676,9 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Не радимо запускати <application>Dolphin</application> за допомогою "
+"<command>sudo</command>. Будь ласка, замість такого запуску скористайтеся "
+"<icode>%1</icode>."
 
 #: main.cpp:121
 #, kde-format
@@ -2837,7 +2852,7 @@ msgstr "Dolphin явним чином запуститься у новому в�
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Налаштувати Dolphin на завдання з адміністрування."
 
 #: main.cpp:169
 #, kde-format

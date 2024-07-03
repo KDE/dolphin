@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-27 03:40+0200\n"
+"PO-Revision-Date: 2024-07-02 06:14+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -66,18 +66,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application>-ს სისტემის მიერ კონტროლირებადი ფაილების "
+"სამართავად <application>%1</application> ესაჭიროება, მაგრამ ის დაყენებული "
+"არაა. <nl/>დააწექით ღილაკს %2 <application>%1</application>-ის დასაყენებლად, "
+"ან %3-ს, გასაუქმებლად."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -91,14 +95,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para> გამოიყენეთ თქვენი ადმინისტრატორის უფლებები Dolphin-ში:"
+"<numberedlist><numbereditem>იპოვეთ ფაილი ან საქაღალე, რომელიც გნებავთ, "
+"შეცვალოთ.</numbereditem><numbereditem>გაააქტიურეთ ქმედება \"%1\" ან მენიუდან "
+"<interface>გახსენით მენიუ|მეტი|ხედი</interface> ან <interface>მენიუს ზოლი|"
+"ხედი</interface>.<nl/>ნაგულისხმევი მალსახმობი: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>ავტორიზაციის შემდეგ ფაილების მართვა "
+"ადმინისტრატორის უფლებებით შეგეძლებათ.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "ადმინისტრატორივით მოქცევა"
+msgstr "როგორ ხდება ადმინისტრირება"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1651,13 +1660,13 @@ msgstr[1] "მდებარეობის ზოლი"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "პაკეტი %1 ვერ ვიპოვე."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "დაყენება დასრულდა წარმატების სტატუსის გადმოცემის გარეშე. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1668,6 +1677,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"<application>%1</application>-ის დაყენება ჩავარდა: %2 (%3)<nl/>სცადეთ, "
+"<application>%1</application> ხელით დააყენოთ."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2601,6 +2612,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"<application>Dolphin</application>-ის გაშვება <command>sudo</command>-ით "
+"რეკომენდებული არაა. მის მაგიერ <icode>%1</icode> გამოიყენეთ."
 
 #: main.cpp:121
 #, kde-format
@@ -2774,7 +2787,7 @@ msgstr "Dolphin ახალ ფანჯარას გახსნის."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "მოირგეთ Dolphin ადმინისტრაციული ამოცანებისთვის."
 
 #: main.cpp:169
 #, kde-format

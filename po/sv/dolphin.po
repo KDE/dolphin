@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-16 20:12+0200\n"
-"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"PO-Revision-Date: 2024-07-02 21:22+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -68,18 +68,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> kräver <application>%1</application> för "
+"att hantera systemkontrollerade filer, men det är inte installerat.<nl/"
+">Klicka på %2 för att installera <application>%1</application> eller %3 för "
+"att avbryta."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -93,14 +97,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Utnyttja administratörsrättigheter i Dolphin:"
+"<numberedlist><numbereditem>Navigera till filen eller katalogen som ska "
+"ändras.</numbereditem><numbereditem>Aktivera alternativet \"%1\" antingen i "
+"<interface>Öppna meny|Mer|Visa</interface> eller <interface>Menyrad|Visa</"
+"interface>.<nl/>Standardgenväg: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Efter behörighetskontroll kan filerna hanteras "
+"som administratör.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Agera som administratör"
+msgstr "Hur man administrerar"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1653,13 +1662,13 @@ msgstr[1] "Platsrader"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Kunde inte hitta paketet %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Installation avslutades utan att rapportera att den lyckades. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1670,6 +1679,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Misslyckades installera <application>%1</application>: %2 (%3)<nl/>Försök "
+"installera <application>%1</application> manuellt istället."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2603,6 +2614,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Att köra <application>Dolphin</application> med <command>sudo</command> "
+"avråds från. Kör <icode>%1</icode> istället."
 
 #: main.cpp:121
 #, kde-format
@@ -2776,7 +2789,7 @@ msgstr "Dolphin öppnas explicit i ett nytt fönster."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Ställ  in Dolphin för administrativa uppgifter."
 
 #: main.cpp:169
 #, kde-format
@@ -4489,13 +4502,7 @@ msgid "Show previews for folders"
 msgstr "Visa förhandsgranskning för kataloger"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4504,10 +4511,9 @@ msgid ""
 "metered connections.</para>"
 msgstr ""
 "<para>Att skapa <emphasis >förhandsgranskningar</emphasis > för "
-"fjärrkataloger är <emphasis strong='true'>mycket kostsamt</emphasis > när "
-"det gäller nätverksresurser.</para><para >Inaktivera det om navigering i "
-"fjärrkataloger i Dolphin är långsam eller vid åtkomst av lagring via "
-"uppmätta anslutningar.</para>"
+"fjärrkataloger är mycket kostsamt när det gäller nätverksresurser.</"
+"para><para >Inaktivera det om navigering i fjärrkataloger i Dolphin är "
+"långsam eller vid åtkomst av lagring via uppmätta anslutningar.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
