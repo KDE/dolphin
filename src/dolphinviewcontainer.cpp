@@ -21,9 +21,6 @@
 #include "statusbar/dolphinstatusbar.h"
 
 #include <KActionCollection>
-#if HAVE_PLASMA_ACTIVITIES
-#include <PlasmaActivities/ResourceInstance>
-#endif
 #include <KApplicationTrader>
 #include <KFileItemActions>
 #include <KFilePlacesModel>
@@ -570,10 +567,6 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
     }
-
-#if HAVE_PLASMA_ACTIVITIES
-    KActivities::ResourceInstance::notifyAccessed(newUrl);
-#endif
 }
 
 void DolphinViewContainer::setFilterBarVisible(bool visible)

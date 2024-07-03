@@ -455,13 +455,6 @@ target_link_libraries(dolphinstatic
     Phonon::phonon4qt6
 )
 
-if (HAVE_PLASMA_ACTIVITIES)
-    target_link_libraries(
-        dolphinstatic
-        Plasma::Activities
-    )
-endif()
-
 if(HAVE_PACKAGEKIT)
     target_link_libraries(
         dolphinstatic

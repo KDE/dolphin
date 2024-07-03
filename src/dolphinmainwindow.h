@@ -42,6 +42,7 @@ class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
+class KRecentFilesAction;
 class KToolBarPopupAction;
 class QToolButton;
 class PlacesPanel;
@@ -758,6 +759,8 @@ private:
     bool m_sessionSaveScheduled;
 
     KIO::CommandLauncherJob *m_job;
+
+    KRecentFilesAction *m_recentFiles = nullptr;
 
     friend class DolphinMainWindowTest;
 };

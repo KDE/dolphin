@@ -91,12 +91,6 @@ endif()
 find_package(KF6 ${KF6_MIN_VERSION} OPTIONAL_COMPONENTS
     DocTools
 )
-find_package(PlasmaActivities)
-set_package_properties(PlasmaActivities PROPERTIES DESCRIPTION "PlasmaActivities libraries"
-                       URL "https://www.kde.org"
-                       TYPE OPTIONAL
-                       PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
-                      )
 
 find_package(Phonon4Qt6 CONFIG REQUIRED)
 
@@ -129,10 +123,6 @@ set_package_properties(KF6FileMetaData PROPERTIES
                        TYPE OPTIONAL
                        PURPOSE "For accessing file metadata labels"
                       )
-
-if (PlasmaActivities_FOUND)
-    set(HAVE_PLASMA_ACTIVITIES TRUE)
-endif()
 
 if (KF6Baloo_FOUND AND KF6BalooWidgets_FOUND AND KF6FileMetaData_FOUND)
     message(STATUS "Baloo packages are found")

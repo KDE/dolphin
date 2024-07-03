@@ -53,6 +53,7 @@
 #include <KMessageBox>
 #include <KProtocolInfo>
 #include <KProtocolManager>
+#include <KRecentFilesAction>
 #include <KShell>
 #include <KShortcutsDialog>
 #include <KStandardAction>
@@ -364,6 +365,9 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     updatePasteAction();
     updateViewActions();
     updateGoActions();
+
+    // will signal used urls to activities manager, too
+    m_recentFiles->addUrl(url);
 
     Q_EMIT urlChanged(url);
 }
@@ -2157,6 +2161,8 @@ void DolphinMainWindow::setupActions()
     connect(openInSplitViewAction, &QAction::triggered, this, [this]() {
         openInSplitView(QUrl());
     });
+
+    m_recentFiles = new KRecentFilesAction(this);
 }
 
 void DolphinMainWindow::setupDockWidgets()
