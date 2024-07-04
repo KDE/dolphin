@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-28 16:51+0200\n"
+"PO-Revision-Date: 2024-07-03 21:54+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -74,13 +74,13 @@ msgstr ""
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -94,14 +94,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Uzu viajn administrajn rajtojn en Dolphin: "
+"<numberedlist><numbereditem>Navigu al la dosiero aŭ dosierujo, kiun vi volas "
+"ŝanĝi.</numbereditem><numbereditem>Aktivigi la agon \"%1\" aŭ sub "
+"<interface>Malfermi Menuo|Pli|Vidi</interface> aŭ <interface>Menubreto|Vidi</"
+"interface>.<nl/>Defaŭlta ŝparvojo: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Post rajtigo vi povas administri dosierojn kiel "
+"administranto.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Agi kiel Sistemestro"
+msgstr "Kiel Administri"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1646,13 +1651,13 @@ msgstr[1] "Lokobretoj"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Ne eblias trovi pakon %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Instalado eliris sen raporti sukceson. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1663,6 +1668,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Instalado de <application>%1</application> malsukcesis: %2 (%3)<nl/"
+">Anstataŭe, bonvolu provu instali <application>%1</application> permane."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2767,7 +2774,7 @@ msgstr "Dolfin eksplicite malfermos en nova fenestro."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Agordi Dolphin por administraj taskoj."
 
 #: main.cpp:169
 #, kde-format

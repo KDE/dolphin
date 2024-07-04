@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-27 18:39+0200\n"
+"PO-Revision-Date: 2024-07-03 23:24+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -65,18 +65,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> изисква <application>%1</application> за "
+"управление на системните файлове, но не е инсталирано.<nl/>Натиснете %2, за "
+"да инсталирате <application>%1</application> или %3 за отмяна."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -90,14 +93,20 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Използвайте администраторските си права в Dolphin:"
+"<numberedlist><numbereditem>Придвижете се до файла или папката, които "
+"искатеда промените.</numbereditem><numbereditem>Активирайте действието „%1“ "
+"или в <interface>Отваряне на меню|Допълнителни|Преглед</interface> или в "
+"<interface>Преглед от Меню лентата</interface>.<nl/>Стандартна клавишна "
+"комбинация: <shortcut>%2</shortcut></numbereditem><numbereditem>След "
+"удостоверяване можете да управлявате файлове катоадминистратор.</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Действие като администратор"
+msgstr "Как да се действа като администратор"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1673,13 +1682,13 @@ msgstr[1] "Ленти за местоположение"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Не може да се намери пакет %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Инсталацията завърши без отчет за успех. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1690,6 +1699,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Инсталирането на <application>%1</application> е неуспешно: %2 (%3)<nl/"
+">Моля, опитайте да инсталирате <application>%1</application> ръчно."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2627,6 +2638,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Използването на <application>Dolphin</application> със <command>sudo</"
+"command> не се препоръчва.Моля, вмест това използвайте <icode>%1</icode>."
 
 #: main.cpp:121
 #, kde-format
@@ -2800,7 +2813,7 @@ msgstr "Dolphin изрично ще се отвори в нов прозорец
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Настройване на Dolphin за извършване на административни задачи."
 
 #: main.cpp:169
 #, kde-format

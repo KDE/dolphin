@@ -73,18 +73,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> 需要使用 <application>%1</application> 才"
+"能管理系统控制的文件，但该程序尚未安装。<nl/>点击 %2 安装 <application>%1</"
+"application>，点击 %3 取消操作。"
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -98,12 +101,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>如何在 Dolphin 文件管理器中使用系统管理员权限："
+"<numberedlist><numbereditem>导航到您想要更改的文件或者文件夹。</"
+"numbereditem><numbereditem><interface>点击菜单按钮|更多|视图</interface> 或"
+"者 <interface>菜单栏|视图</interface>中激活“%1”操作。<nl/>默认快捷键："
+"<shortcut>%2</shortcut></numbereditem><numbereditem>系统将要求您进行身份验"
+"证，通过验证后就能够以管理员身份管理文件了。</numbereditem></numberedlist></"
+"para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "如何管理"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1566,13 +1576,13 @@ msgstr[0] "位置栏"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "无法找到 %1 软件包。"
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "安装进程已经退出，它并未报告安装成功。(%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1583,6 +1593,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"安装 <application>%1</application> 失败：%2 (%3)<nl/>请尝试手动安装 "
+"<application>%1</application>。"
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2499,6 +2511,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"不建议使用 <command>sudo</command> 命令来运行 <application>Dolphin</"
+"application>。请转而使用 <icode>%1</icode> 运行。"
 
 #: main.cpp:121
 #, kde-format
@@ -2672,7 +2686,7 @@ msgstr "Dolphin 将明确地在新窗口中打开。"
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "设置 Dolphin 以进行管理任务。"
 
 #: main.cpp:169
 #, kde-format

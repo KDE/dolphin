@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2023 Vít Pelčák <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2023, 2024 Vít Pelčák <vit@pelcak.org>
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
 # Jan Holíček <jan.holicek@gmail.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-02 00:40+0000\n"
-"PO-Revision-Date: 2024-06-18 16:04+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"PO-Revision-Date: 2024-07-03 10:49+0200\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -75,13 +75,13 @@ msgstr ""
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -97,12 +97,10 @@ msgid ""
 msgstr ""
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Jednat jako Administrátor"
+msgstr "Jak spravovat"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1421,13 +1419,13 @@ msgstr[2] "Panely umístění"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Nelze najít balíček %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Instalační proces byl ukončen bez ohlášení úspěchu. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -2531,7 +2529,7 @@ msgstr "Dolphin se explicitně otevře v novém okně."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Nastavit Dolphin pro úkoly pro správu."
 
 #: main.cpp:169
 #, kde-format
