@@ -6,7 +6,11 @@
 
 #include "kitemlistsmoothscroller.h"
 
+#include <KConfigGroup>
+#include <KSharedConfig>
+
 #include <QApplication>
+#include <QDBusConnection>
 #include <QPropertyAnimation>
 #include <QScrollBar>
 #include <QStyle>
@@ -20,9 +24,17 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar *scrollBar, QObject 
     , m_animation(nullptr)
 {
     m_animation = new QPropertyAnimation(this);
-    const int animationDuration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, m_scrollBar);
-    const bool animationEnabled = (animationDuration > 0);
-    m_animation->setDuration(animationEnabled ? animationDuration : 1);
+
+    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
+    KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
+    updateAnimationDuration(configGroup.readEntry("SmoothScroll", true));
+
+    QDBusConnection::sessionBus().connect(QStringLiteral(""),
+                                          QStringLiteral("/SmoothScroll"),
+                                          QStringLiteral("org.kde.SmoothScroll"),
+                                          QStringLiteral("notifyChange"),
+                                          this,
+                                          SLOT(updateAnimationDuration(bool)));
     connect(m_animation, &QPropertyAnimation::stateChanged, this, &KItemListSmoothScroller::slotAnimationStateChanged);
 
     m_scrollBar->installEventFilter(this);
@@ -174,6 +186,18 @@ void KItemListSmoothScroller::slotAnimationStateChanged(QAbstractAnimation::Stat
     }
     if (newState == QAbstractAnimation::Stopped) {
         Q_EMIT scrollingStopped();
+    }
+}
+
+void KItemListSmoothScroller::updateAnimationDuration(bool isSmoothScrollingEnabled)
+{
+    if (isSmoothScrollingEnabled) {
+        // Breeze sets SH_Widget_Animation_Duration from the KDE global animation speed setting
+        const int animationDuration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, m_scrollBar);
+        const bool animationEnabled = (animationDuration > 0);
+        m_animation->setDuration(animationEnabled ? animationDuration : 1);
+    } else {
+        m_animation->setDuration(1);
     }
 }
 

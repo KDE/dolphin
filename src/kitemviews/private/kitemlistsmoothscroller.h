@@ -79,6 +79,13 @@ protected:
 
 private Q_SLOTS:
     void slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
+    /**
+     * Calculates the duration of the smooth scrolling animation.
+     * If \p isSmoothScrollingEnabled is true, the duration will be calculated
+     * using the widget animation duration from the current style. Otherwise,
+     * the animation will be instantaneous.
+     */
+    void updateAnimationDuration(bool isSmoothScrollingEnabled);
 
 private:
     bool m_scrollBarPressed;
