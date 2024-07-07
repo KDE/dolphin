@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-05 00:40+0000\n"
-"PO-Revision-Date: 2024-06-16 18:18+0530\n"
+"PO-Revision-Date: 2024-07-06 21:49+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -67,18 +67,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"ரூட் கோப்புகளை <application>டால்பின்</application> நிர்வகிக்க <application>%1</"
+"application> தேவை, ஆனால் அது நிறுவப்பட்டிருக்கவில்லை.<nl/><application>%1</"
+"application> தனை நிறுவ %2 தனை அழுத்தவும், அல்லது ரத்து செய்ய %3 தனை அழுத்தவும்."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -92,14 +95,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>ரூட் உரிமையை டால்பினில் பின்வருமாறு பயன்படுத்தலாம்:"
+"<numberedlist><numbereditem>மாற்ற விரும்பும் கோப்பிற்கோ அடைவிற்கோ உலாவவும்.</"
+"numbereditem><numbereditem><interface>பட்டியைத் திற|மேலும்|பார்வை</interface> "
+"அல்லது <interface>பட்டிப்பட்டை|பார்வை</interface> என்பவற்றிலுள்ள \"%1\" தேர்வை "
+"இயக்கவும்.<nl/>இயல்பிருப்பு சுருக்குவழி: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>சான்றளித்தபின் ரூட்டாக கோப்புகளை நிர்வகிக்கலாம்.</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "நிர்வாகியாக செயல்படு"
+msgstr "நிர்வாகியாக செயல்படுவது எப்படி"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1558,13 +1566,13 @@ msgstr[1] "இடப்பலகைகள்"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "%1 எனும் தொகுப்பு கண்டுபிடிக்கப்படவில்லை."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "வெற்றியடையாமல் நிறவல் பணி முடிவடைந்தது (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1575,6 +1583,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"<application>%1</application> தனை நிறுவுவது தோல்வியடைந்தது: %2 (%3)<nl/"
+"><application>%1</application> தனை கைமுறையாக நிறுவிப் பார்க்கவும்."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2489,6 +2499,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"<command>sudo</command> கட்டளை மூலம் <application>டால்பினை</application> "
+"இயக்குவது பரிந்துரைக்கப்படாதது. பதிலாக <icode>%1</icode> தனை பயன்படுத்தவும்."
 
 #: main.cpp:121
 #, kde-format
@@ -2662,7 +2674,7 @@ msgstr "டால்பின் ஒரு புதிய சாளரத்த
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "நிர்வாகப் பணிகளுக்கு டால்பினை அமை"
 
 #: main.cpp:169
 #, kde-format
