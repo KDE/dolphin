@@ -165,6 +165,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     });
     connect(m_statusBar, &DolphinStatusBar::stopPressed, this, &DolphinViewContainer::stopDirectoryLoading);
     connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged, this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
+    connect(m_statusBar, &DolphinStatusBar::showMessage, this, &DolphinViewContainer::showMessage);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);

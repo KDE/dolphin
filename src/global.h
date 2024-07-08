@@ -49,8 +49,8 @@ QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
 /**
  * TODO: Move this somewhere global to all KDE apps, not just Dolphin
  */
-const int VERTICAL_SPACER_HEIGHT = 12;
-const int LAYOUT_SPACING_SMALL = 2;
+constexpr int VERTICAL_SPACER_HEIGHT = 12;
+constexpr int LAYOUT_SPACING_SMALL = 2;
 }
 
 enum Animated { WithAnimation, WithoutAnimation };

@@ -6,6 +6,9 @@
 
 #include "statusbarspaceinfo.h"
 
+#include "config-dolphin.h"
+#include "dolphinpackageinstaller.h"
+#include "global.h"
 #include "spaceinfoobserver.h"
 
 #include <KCapacityBar>
@@ -16,14 +19,19 @@
 
 #include <QDesktopServices>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QPushButton>
 #include <QStorageInfo>
 #include <QToolButton>
+#include <QVBoxLayout>
+#include <QWidgetAction>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
     : QWidget(parent)
     , m_observer(nullptr)
+    , m_installFilelightWidgetAction{nullptr}
 {
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_textInfoButton = new QToolButton(this);
@@ -116,17 +124,11 @@ void StatusBarSpaceInfo::updateMenu()
     const KService::Ptr kdiskfree = KService::serviceByDesktopName(QStringLiteral("org.kde.kdf"));
 
     if (!filelight && !kdiskfree) {
-        QAction *installFilelight =
-            m_buttonMenu->addAction(QIcon::fromTheme(QStringLiteral("filelight")), i18n("Install Filelight to View Disk Usage Statistics…"));
-
-        connect(installFilelight, &QAction::triggered, this, [] {
-#ifdef Q_OS_WIN
-            QDesktopServices::openUrl(QUrl("https://apps.kde.org/filelight"));
-#else
-            QDesktopServices::openUrl(QUrl("appstream://org.kde.filelight.desktop"));
-#endif
-        });
-
+        // Show an UI to install a tool to free up disk space because this is what a user pressing on a "free space" button would want.
+        if (!m_installFilelightWidgetAction) {
+            initialiseInstallFilelightWidgetAction();
+        }
+        m_buttonMenu->addAction(m_installFilelightWidgetAction);
         return;
     }
 
@@ -177,6 +179,42 @@ void StatusBarSpaceInfo::updateMenu()
     }
 }
 
+void StatusBarSpaceInfo::slotInstallFilelightButtonClicked()
+{
+#ifdef Q_OS_WIN
+    QDesktopServices::openUrl(QUrl("https://apps.kde.org/filelight"));
+#else
+    auto packageInstaller = new DolphinPackageInstaller(
+        FILELIGHT_PACKAGE_NAME,
+        QUrl("appstream://org.kde.filelight.desktop"),
+        []() {
+            return KService::serviceByDesktopName(QStringLiteral("org.kde.filelight"));
+        },
+        this);
+    connect(packageInstaller, &KJob::result, this, [this](KJob *job) {
+        Q_EMIT showInstallationProgress(QString(), 100); // Hides the progress information in the status bar.
+        if (job->error()) {
+            Q_EMIT showMessage(job->errorString(), KMessageWidget::Error);
+        } else {
+            Q_EMIT showMessage(xi18nc("@info", "<application>Filelight</application> installed successfully."), KMessageWidget::Positive);
+            if (m_textInfoButton->menu()->isVisible()) {
+                m_textInfoButton->menu()->hide();
+                updateMenu();
+                m_textInfoButton->menu()->show();
+            }
+        }
+    });
+    const auto installationTaskText{i18nc("@info:status", "Installing Filelight…")};
+    Q_EMIT showInstallationProgress(installationTaskText, -1);
+    connect(packageInstaller, &KJob::percentChanged, this, [this, installationTaskText](KJob * /* job */, long unsigned int percent) {
+        if (percent < 100) { // Ignore some weird reported values.
+            Q_EMIT showInstallationProgress(installationTaskText, percent);
+        }
+    });
+    packageInstaller->start();
+#endif
+}
+
 void StatusBarSpaceInfo::slotValuesChanged()
 {
     Q_ASSERT(m_observer);
@@ -209,6 +247,55 @@ void StatusBarSpaceInfo::slotValuesChanged()
     } else {
         update();
     }
+}
+
+void StatusBarSpaceInfo::initialiseInstallFilelightWidgetAction()
+{
+    Q_ASSERT(!m_installFilelightWidgetAction);
+
+    auto containerWidget = new QWidget{this};
+    containerWidget->setContentsMargins(Dolphin::VERTICAL_SPACER_HEIGHT,
+                                        Dolphin::VERTICAL_SPACER_HEIGHT,
+                                        Dolphin::VERTICAL_SPACER_HEIGHT, // Using the same value for every spacing in this containerWidget looks nice.
+                                        Dolphin::VERTICAL_SPACER_HEIGHT);
+    auto vLayout = new QVBoxLayout(containerWidget);
+
+    auto installFilelightTitle = new QLabel(i18nc("@title", "Free Up Disk Space"), containerWidget);
+    installFilelightTitle->setAlignment(Qt::AlignCenter);
+    installFilelightTitle->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByKeyboard);
+    QFont titleFont{installFilelightTitle->font()};
+    titleFont.setPointSize(titleFont.pointSize() + 2);
+    installFilelightTitle->setFont(titleFont);
+    vLayout->addWidget(installFilelightTitle);
+
+    vLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
+
+    auto installFilelightBody =
+        // i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
+        new QLabel(xi18nc("@title", "<para>Install additional software to view disk usage statistics<nl/>and identify big files and folders.</para>"),
+                   containerWidget);
+    installFilelightBody->setAlignment(Qt::AlignCenter);
+    installFilelightBody->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByKeyboard);
+    vLayout->addWidget(installFilelightBody);
+
+    vLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
+
+    auto installFilelightButton =
+        new QPushButton(QIcon::fromTheme(QStringLiteral("filelight")), i18nc("@action:button", "Install Filelight…"), containerWidget);
+    installFilelightButton->setMinimumWidth(std::max(installFilelightButton->sizeHint().width(), installFilelightTitle->sizeHint().width()));
+    auto buttonLayout = new QHBoxLayout; // The parent is automatically set on addLayout() below.
+    buttonLayout->addWidget(installFilelightButton, 0, Qt::AlignHCenter);
+    vLayout->addLayout(buttonLayout);
+
+    // Make sure one Tab press focuses the button after the UI opened.
+    m_buttonMenu->setFocusProxy(installFilelightButton);
+    containerWidget->setFocusPolicy(Qt::TabFocus);
+    containerWidget->setFocusProxy(installFilelightButton);
+    installFilelightButton->setAccessibleDescription(installFilelightBody->text());
+    connect(installFilelightButton, &QAbstractButton::clicked, this, &StatusBarSpaceInfo::slotInstallFilelightButtonClicked);
+
+    m_installFilelightWidgetAction = new QWidgetAction{this};
+    m_installFilelightWidgetAction->setDefaultWidget(containerWidget); // transfers ownership of containerWidget
 }
 
 #include "moc_statusbarspaceinfo.cpp"

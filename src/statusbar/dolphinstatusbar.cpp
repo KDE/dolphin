@@ -70,6 +70,13 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(contentsContainer);
+    connect(m_spaceInfo, &StatusBarSpaceInfo::showMessage, this, &DolphinStatusBar::showMessage);
+    connect(m_spaceInfo,
+            &StatusBarSpaceInfo::showInstallationProgress,
+            this,
+            [this](const QString &currentlyRunningTaskTitle, int installationProgressPercent) {
+                showProgress(currentlyRunningTaskTitle, installationProgressPercent, CancelLoading::Disallowed);
+            });
 
     // Initialize progress information
     m_stopButton = new QToolButton(contentsContainer);

@@ -9,6 +9,8 @@
 
 #include "animatedheightwidget.h"
 
+#include <KMessageWidget>
+
 #include <QTime>
 
 class QUrl;
@@ -95,6 +97,11 @@ Q_SIGNALS:
     void stopPressed();
 
     void zoomLevelChanged(int zoomLevel);
+
+    /**
+     * Requests for @p message with the given @p messageType to be shown to the user in a non-modal way.
+     */
+    void showMessage(const QString &message, KMessageWidget::MessageType messageType);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;

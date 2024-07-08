@@ -1,6 +1,7 @@
 include(ECMAddAppIcon)
 
 set(ADMIN_WORKER_PACKAGE_NAME "kio-admin")
+set(FILELIGHT_PACKAGE_NAME "filelight")
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
 add_definitions(
