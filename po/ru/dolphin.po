@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-05 00:40+0000\n"
+"POT-Creation-Date: 2024-07-09 00:40+0000\n"
 "PO-Revision-Date: 2024-06-22 11:36+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -1847,7 +1847,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Очистить список закрытых вкладок"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:491 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:492 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Поиск %1 в %2"
@@ -1980,29 +1980,29 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Сортировка…"
 
-#: dolphinviewcontainer.cpp:527
+#: dolphinviewcontainer.cpp:528
 #, kde-format
 msgid "Search"
 msgstr "Поиск"
 
-#: dolphinviewcontainer.cpp:529
+#: dolphinviewcontainer.cpp:530
 #, kde-format
 msgid "Search for %1"
 msgstr "Поиск %1"
 
-#: dolphinviewcontainer.cpp:612
+#: dolphinviewcontainer.cpp:613
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Выполняется поиск…"
 
-#: dolphinviewcontainer.cpp:632
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ничего не найдено."
 
-#: dolphinviewcontainer.cpp:807
+#: dolphinviewcontainer.cpp:808
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -2010,7 +2010,7 @@ msgstr ""
 "Dolphin не поддерживает открытие веб-страниц, поэтому будет запущен веб-"
 "браузер"
 
-#: dolphinviewcontainer.cpp:810
+#: dolphinviewcontainer.cpp:811
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2019,19 +2019,19 @@ msgstr ""
 "Dolphin не поддерживает этот протокол, поэтому будет запущен приложение, "
 "назначенное по умолчанию"
 
-#: dolphinviewcontainer.cpp:817
+#: dolphinviewcontainer.cpp:818
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Неверный протокол: «%1»"
 
-#: dolphinviewcontainer.cpp:819
+#: dolphinviewcontainer.cpp:820
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Неверный протокол"
 
-#: dolphinviewcontainer.cpp:930
+#: dolphinviewcontainer.cpp:931
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5158,7 +5158,7 @@ msgid "Open files and folders:"
 msgstr "Открывать файлы и папки:"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
-#: statusbar/dolphinstatusbar.cpp:332
+#: statusbar/dolphinstatusbar.cpp:339
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5344,18 +5344,18 @@ msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Изменить размер значков файлов"
 
-#: statusbar/dolphinstatusbar.cpp:77
+#: statusbar/dolphinstatusbar.cpp:84
 #, kde-format
 msgid "Stop"
 msgstr "Остановить"
 
-#: statusbar/dolphinstatusbar.cpp:79
+#: statusbar/dolphinstatusbar.cpp:86
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Остановить загрузку"
 
-#: statusbar/dolphinstatusbar.cpp:134
+#: statusbar/dolphinstatusbar.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -5376,58 +5376,63 @@ msgstr ""
 "свободном месте</emphasis> на текущем устройстве хранения данных.</item></"
 "list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:274
+#: statusbar/dolphinstatusbar.cpp:281
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Показывать ползунок масштаба"
 
-#: statusbar/dolphinstatusbar.cpp:278
+#: statusbar/dolphinstatusbar.cpp:285
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Показывать сведения о свободном месте"
 
-#: statusbar/statusbarspaceinfo.cpp:120
-#, kde-format
-msgid "Install Filelight to View Disk Usage Statistics…"
-msgstr ""
-"Для просмотра сведений об использовании дискового пространства установите "
-"приложение Filelight"
-
-#: statusbar/statusbarspaceinfo.cpp:134
+#: statusbar/statusbarspaceinfo.cpp:136
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Использование диска — текущая папка"
 
-#: statusbar/statusbarspaceinfo.cpp:145
+#: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Использование диска — текущее устройство"
 
-#: statusbar/statusbarspaceinfo.cpp:158
+#: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Использование диска — все устройства"
 
-#: statusbar/statusbarspaceinfo.cpp:171
+#: statusbar/statusbarspaceinfo.cpp:173
 #, kde-format
 msgid "KDiskFree"
 msgstr "KDiskFree"
 
-#: statusbar/statusbarspaceinfo.cpp:196
+#: statusbar/statusbarspaceinfo.cpp:199
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<application>Filelight</application> installed successfully."
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:207
+#, kde-format
+msgctxt "@info:status"
+msgid "Installing Filelight…"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "свободно %1"
 
-#: statusbar/statusbarspaceinfo.cpp:197
+#: statusbar/statusbarspaceinfo.cpp:235
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "свободно %1 из %2 (использовано %3%)"
 
-#: statusbar/statusbarspaceinfo.cpp:199
+#: statusbar/statusbarspaceinfo.cpp:237
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -5436,6 +5441,27 @@ msgid ""
 msgstr ""
 "свободно %1 из %2 (использовано %3%)\n"
 "Нажмите для просмотра сведений об использовании дискового пространства."
+
+#: statusbar/statusbarspaceinfo.cpp:263
+#, kde-format
+msgctxt "@title"
+msgid "Free Up Disk Space"
+msgstr ""
+
+#. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
+#: statusbar/statusbarspaceinfo.cpp:275
+#, kde-kuit-format
+msgctxt "@title"
+msgid ""
+"<para>Install additional software to view disk usage statistics<nl/>and "
+"identify big files and folders.</para>"
+msgstr ""
+
+#: statusbar/statusbarspaceinfo.cpp:284
+#, kde-format
+msgctxt "@action:button"
+msgid "Install Filelight…"
+msgstr ""
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -6154,6 +6180,11 @@ msgstr[3] "Действия для выбранного объекта"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновление информации о версиях…"
+
+#~ msgid "Install Filelight to View Disk Usage Statistics…"
+#~ msgstr ""
+#~ "Для просмотра сведений об использовании дискового пространства установите "
+#~ "приложение Filelight"
 
 #~ msgctxt "@action:button"
 #~ msgid "Stop Acting as an Administrator"
