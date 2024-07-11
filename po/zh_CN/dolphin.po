@@ -5127,13 +5127,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> 安装成功。"
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "正在安装 Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5161,7 +5161,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "释放磁盘空间"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5171,12 +5171,13 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>安装额外软件以查看磁盘使用统计信息<nl/>并定位大文件和大文件夹。</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "安装 Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -5850,6 +5851,3 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
-
-#~ msgid "Install Filelight to View Disk Usage Statistics…"
-#~ msgstr "安装 Filelight 以查看磁盘使用情况统计信息…"
