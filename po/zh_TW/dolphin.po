@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-09 00:40+0000\n"
-"PO-Revision-Date: 2024-06-30 11:04+0900\n"
+"PO-Revision-Date: 2024-07-12 03:56+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -80,18 +80,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> 需要 <application>%1</application> 來管理"
+"系統控制的檔案，而它尚未安裝。<nl/>點擊 %2 來安裝 <application>%1</"
+"application> 或是 %3 來取消。"
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -105,14 +108,18 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>在 Dolphin 中利用您的管理員權限：<numberedlist><numbereditem>瀏覽到您希"
+"望變更的檔案或資料夾。</numbereditem><numbereditem>觸發「%1」動作："
+"<interface>開啟選單|更多|檢視</interface> 或是 <interface>選單列|檢視</"
+"interface>。<nl/>預設快捷鍵：<shortcut>%2</shortcut></"
+"numbereditem><numbereditem>驗證後您即可利用系統管理員權限管理檔案。</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "管理員操作模式"
+msgstr "如何利用管理員權限"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1575,13 +1582,13 @@ msgstr[0] "位置工具列"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "找不到軟體包 %1。"
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "安裝已離開而未回報成功。(%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1592,6 +1599,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"安裝 <application>%1</application> 失敗了：%2 (%3)<nl/>請嘗試改為自行安裝 "
+"<application>%1</application>。"
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2508,6 +2517,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"不建議利用 <command>sudo</command> 執行 <application>Dolphin</application>。"
+"請改執行 <icode>%1</icode>。"
 
 #: main.cpp:121
 #, kde-format
@@ -2681,7 +2692,7 @@ msgstr "Dolphin 將確實在新視窗開啟。"
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "設定 Dolphin 以進行管理員動作。"
 
 #: main.cpp:169
 #, kde-format
@@ -5119,13 +5130,13 @@ msgstr "KDiskFree 磁碟空間程式"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> 已成功安裝。"
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "正在安裝 Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5153,7 +5164,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "清出磁碟空間"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5163,12 +5174,13 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>安裝額外軟體來檢視磁碟用量統計<nl/>並找出巨大檔案與資料夾。</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "安裝 Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
