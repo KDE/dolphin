@@ -134,43 +134,41 @@ void WorkerIntegration::createActAsAdminAction(KActionCollection *actionCollecti
     }
 }
 
-void WorkerIntegration::exitAdminMode()
-{
-    if (instance->m_actAsAdminAction->isChecked()) {
-        instance->m_actAsAdminAction->trigger();
-    }
-}
-
 void WorkerIntegration::toggleActAsAdmin()
 {
     auto dolphinMainWindow = static_cast<DolphinMainWindow *>(parent());
     QUrl url = dolphinMainWindow->activeViewContainer()->urlNavigator()->locationUrl();
-    if (url.scheme() == QStringLiteral("file")) {
-        bool risksAccepted = !KMessageBox::shouldBeShownContinue(warningDontShowAgainName);
 
-        if (!risksAccepted) {
-            KMessageDialog warningDialog{KMessageDialog::QuestionTwoActions, warningMessage(), dolphinMainWindow};
-            warningDialog.setCaption(i18nc("@title:window", "Risks of Acting as an Administrator"));
-            warningDialog.setIcon(QIcon::fromTheme(QStringLiteral("security-low")));
-            warningDialog.setButtons(KGuiItem{i18nc("@action:button", "I Understand and Accept These Risks"), QStringLiteral("data-warning")},
-                                     KStandardGuiItem::cancel());
-            warningDialog.setDontAskAgainText(i18nc("@option:check", "Do not warn me about these risks again"));
+    if (url.scheme() == QStringLiteral("admin")) {
+        url.setScheme(QStringLiteral("file"));
+        dolphinMainWindow->changeUrl(url);
+        return;
+    } else if (url.scheme() != QStringLiteral("file")) {
+        return;
+    }
 
-            risksAccepted = warningDialog.exec() != 4 /* Cancel */;
-            if (warningDialog.isDontAskAgainChecked()) {
-                KMessageBox::saveDontShowAgainContinue(warningDontShowAgainName);
-            }
+    bool risksAccepted = !KMessageBox::shouldBeShownContinue(warningDontShowAgainName);
 
-            if (!risksAccepted) {
-                updateActAsAdminAction(); // Uncheck the action
-                return;
-            }
+    if (!risksAccepted) {
+        KMessageDialog warningDialog{KMessageDialog::QuestionTwoActions, warningMessage(), dolphinMainWindow};
+        warningDialog.setCaption(i18nc("@title:window", "Risks of Acting as an Administrator"));
+        warningDialog.setIcon(QIcon::fromTheme(QStringLiteral("security-low")));
+        warningDialog.setButtons(KGuiItem{i18nc("@action:button", "I Understand and Accept These Risks"), QStringLiteral("data-warning")},
+                                 KStandardGuiItem::cancel());
+        warningDialog.setDontAskAgainText(i18nc("@option:check", "Do not warn me about these risks again"));
+
+        risksAccepted = warningDialog.exec() != 4 /* Cancel */;
+        if (warningDialog.isDontAskAgainChecked()) {
+            KMessageBox::saveDontShowAgainContinue(warningDontShowAgainName);
         }
 
-        url.setScheme(QStringLiteral("admin"));
-    } else if (url.scheme() == QStringLiteral("admin")) {
-        url.setScheme(QStringLiteral("file"));
+        if (!risksAccepted) {
+            updateActAsAdminAction(); // Uncheck the action
+            return;
+        }
     }
+
+    url.setScheme(QStringLiteral("admin"));
     dolphinMainWindow->changeUrl(url);
 }
 
@@ -188,4 +186,9 @@ void WorkerIntegration::updateActAsAdminAction()
             instance->m_actAsAdminAction->setEnabled(false);
         }
     }
+}
+
+QAction *WorkerIntegration::actAsAdminAction()
+{
+    return instance->m_actAsAdminAction;
 }

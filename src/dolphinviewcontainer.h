@@ -21,6 +21,8 @@
 #include <QPushButton>
 #include <QWidget>
 
+#include <initializer_list>
+
 namespace Admin
 {
 class Bar;
@@ -150,8 +152,9 @@ public:
 
     /**
      * Shows the message \message with the given type \messageType non-modal above the view-content.
+     * \buttonActions defines actions which the user can trigger as a response to this message. They are presented as buttons below the \message.
      */
-    void showMessage(const QString &message, KMessageWidget::MessageType messageType);
+    void showMessage(const QString &message, KMessageWidget::MessageType messageType, std::initializer_list<QAction *> buttonActions = {});
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
@@ -327,11 +330,6 @@ private Q_SLOTS:
      * item is null, the default statusbar information is shown.
      */
     void showItemInfo(const KFileItem &item);
-
-    /**
-     * Sets the Admin::Bar visible or invisible based on whether \a url is an admin url.
-     */
-    void updateAdminBarVisibility(const QUrl &url);
 
     void closeFilterBar();
 

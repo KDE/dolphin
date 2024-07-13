@@ -145,7 +145,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
     connect(m_view, &DolphinView::sortHiddenLastChanged, this, &DolphinViewContainer::slotSortHiddenLastChanged);
     connect(m_view, &DolphinView::currentDirectoryRemoved, this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
-    connect(m_view, &DolphinView::urlChanged, this, &DolphinViewContainer::updateAdminBarVisibility);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -165,7 +164,9 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     });
     connect(m_statusBar, &DolphinStatusBar::stopPressed, this, &DolphinViewContainer::stopDirectoryLoading);
     connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged, this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
-    connect(m_statusBar, &DolphinStatusBar::showMessage, this, &DolphinViewContainer::showMessage);
+    connect(m_statusBar, &DolphinStatusBar::showMessage, this, [this](const QString &message, KMessageWidget::MessageType messageType) {
+        showMessage(message, messageType);
+    });
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -182,7 +183,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
 
     setSearchModeEnabled(isSearchUrl(url));
-    updateAdminBarVisibility(url);
 
     // Update view as the ContentDisplaySettings change
     // this happens here and not in DolphinView as DolphinviewContainer and DolphinView are not in the same build target ATM
@@ -404,7 +404,7 @@ void DolphinViewContainer::slotSplitTabDisabled()
     }
 }
 
-void DolphinViewContainer::showMessage(const QString &message, KMessageWidget::MessageType messageType)
+void DolphinViewContainer::showMessage(const QString &message, KMessageWidget::MessageType messageType, std::initializer_list<QAction *> buttonActions)
 {
     if (message.isEmpty()) {
         return;
@@ -416,6 +416,14 @@ void DolphinViewContainer::showMessage(const QString &message, KMessageWidget::M
     // https://bugreports.qt.io/browse/QTBUG-1276
     m_messageWidget->setWordWrap(true);
     m_messageWidget->setMessageType(messageType);
+
+    const QList<QAction *> previousMessageWidgetActions = m_messageWidget->actions();
+    for (auto action : previousMessageWidgetActions) {
+        m_messageWidget->removeAction(action);
+    }
+    for (QAction *action : buttonActions) {
+        m_messageWidget->addAction(action);
+    }
 
     m_messageWidget->setWordWrap(false);
     const int unwrappedWidth = m_messageWidget->sizeHint().width();
@@ -638,6 +646,17 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
     if (m_urlNavigatorConnected) {
         m_urlNavigatorConnected->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
     }
+
+    // Update admin bar visibility
+    if (m_view->url().scheme() == QStringLiteral("admin")) {
+        if (!m_adminBar) {
+            m_adminBar = new Admin::Bar(this);
+            m_topLayout->addWidget(m_adminBar, positionFor.adminBar, 0);
+        }
+        m_adminBar->setVisible(true, WithAnimation);
+    } else if (m_adminBar) {
+        m_adminBar->setVisible(false, WithAnimation);
+    }
 }
 
 void DolphinViewContainer::slotDirectoryLoadingCanceled()
@@ -737,20 +756,6 @@ void DolphinViewContainer::showItemInfo(const KFileItem &item)
         m_statusBar->resetToDefaultText();
     } else {
         m_statusBar->setText(item.getStatusBarInfo());
-    }
-}
-
-void DolphinViewContainer::updateAdminBarVisibility(const QUrl &url)
-{
-    if (url.scheme() == QStringLiteral("admin")) {
-        if (!m_adminBar) {
-            m_adminBar = new Admin::Bar(this);
-            m_topLayout->addWidget(m_adminBar, positionFor.adminBar, 0);
-            connect(m_adminBar, &Admin::Bar::activated, this, &DolphinViewContainer::activate);
-        }
-        m_adminBar->setVisible(true, WithAnimation);
-    } else if (m_adminBar) {
-        m_adminBar->setVisible(false, WithAnimation);
     }
 }
 

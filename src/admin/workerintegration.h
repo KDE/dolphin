@@ -57,11 +57,6 @@ public:
      */
     static void createActAsAdminAction(KActionCollection *actionCollection, DolphinMainWindow *dolphinMainWindow);
 
-    /**
-     * Triggers the m_actAsAdminAction only if it is currently checked.
-     */
-    static void exitAdminMode();
-
 private:
     WorkerIntegration(DolphinMainWindow *parent, QAction *actAsAdminAction);
 
@@ -74,9 +69,14 @@ private:
     /** Updates the toggled/checked state of the action depending on the state of the currently active view. */
     static void updateActAsAdminAction();
 
+    /** Used by the friend class Bar to show the m_actAsAdminAction to users. */
+    static QAction *actAsAdminAction();
+
 private:
     /** @see createActAsAdminAction() */
     QAction *const m_actAsAdminAction = nullptr;
+
+    friend class Bar; // Allows the bar to access the actAsAdminAction, so users can use the bar to change who they are acting as.
 };
 
 }

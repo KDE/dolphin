@@ -7,16 +7,20 @@
 
 #include "bar.h"
 
+#include "dolphinviewcontainer.h"
 #include "workerintegration.h"
 
 #include <KColorScheme>
 #include <KContextualHelpButton>
+#include <KIO/JobUiDelegateFactory>
+#include <KIO/SimpleJob>
 #include <KLocalizedString>
 
 #include <QEvent>
 #include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QPushButton>
 #include <QStyle>
 #include <QToolButton>
@@ -24,8 +28,14 @@
 
 using namespace Admin;
 
-Bar::Bar(QWidget *parent)
-    : AnimatedHeightWidget{parent}
+namespace
+{
+QPointer<KIO::SimpleJob> waitingForExpirationOfAuthorization;
+}
+
+Bar::Bar(DolphinViewContainer *parentViewContainer)
+    : AnimatedHeightWidget{parentViewContainer}
+    , m_parentViewContainer{parentViewContainer}
 {
     setAutoFillBackground(true);
     updateColors();
@@ -46,8 +56,19 @@ Bar::Bar(QWidget *parent)
                                     contenntsContainer);
     m_closeButton->setToolTip(i18nc("@info:tooltip", "Finish acting as an administrator"));
     m_closeButton->setFlat(true);
-    connect(m_closeButton, &QAbstractButton::clicked, this, &Bar::activated); // Make sure the view connected to this bar is active before exiting admin mode.
-    connect(m_closeButton, &QAbstractButton::clicked, this, &WorkerIntegration::exitAdminMode);
+    connect(m_closeButton, &QAbstractButton::clicked, m_parentViewContainer, [this]() {
+        m_parentViewContainer->setActive(true); // Make sure the view connected to this bar is active before exiting admin mode.
+        QAction *actAsAdminAction = WorkerIntegration::actAsAdminAction();
+        if (actAsAdminAction->isChecked()) {
+            actAsAdminAction->trigger();
+        }
+    });
+    connect(m_parentViewContainer->view(), &DolphinView::urlChanged, this, [this](const QUrl &url) {
+        // The bar is closely related to administrative rights, so we want to hide it instantly when we are no longer using the admin protocol.
+        if (url.scheme() != QStringLiteral("admin")) {
+            setVisible(false, WithAnimation);
+        }
+    });
 
     QHBoxLayout *layout = new QHBoxLayout(contenntsContainer);
     auto contentsMargins = layout->contentsMargins();
@@ -65,8 +86,15 @@ Bar::Bar(QWidget *parent)
 
 bool Bar::event(QEvent *event)
 {
-    if (event->type() == QEvent::PaletteChange) {
+    switch (event->type()) {
+    case QEvent::PaletteChange:
         updateColors();
+        break;
+    case QEvent::Show:
+        hideTheNextTimeAuthorizationExpires();
+        break;
+    default:
+        break;
     }
     return AnimatedHeightWidget::event(event);
 }
@@ -75,6 +103,52 @@ void Bar::resizeEvent(QResizeEvent *resizeEvent)
 {
     updateLabelString();
     return QWidget::resizeEvent(resizeEvent);
+}
+
+void Bar::hideTheNextTimeAuthorizationExpires()
+{
+    if (waitingForExpirationOfAuthorization.isNull()) {
+        QByteArray packedArgs;
+        QDataStream stream(&packedArgs, QIODevice::WriteOnly);
+        stream << (int)1;
+        waitingForExpirationOfAuthorization = KIO::special(QUrl(QStringLiteral("admin:/")), packedArgs, KIO::HideProgressInfo);
+        waitingForExpirationOfAuthorization->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, m_parentViewContainer));
+
+        connect(waitingForExpirationOfAuthorization, &KJob::finished, this, [](KJob *job) {
+            if (job->error()) {
+                job->uiDelegate()->showErrorMessage();
+            }
+        });
+    }
+
+    connect(waitingForExpirationOfAuthorization, &KJob::finished, this, [this](KJob *job) {
+        if (job->error()) {
+            return;
+        }
+        // We exit admin mode now to avoid random password prompts popping up.
+        QUrl viewContainerUrl = m_parentViewContainer->url();
+        if (viewContainerUrl.scheme() != QStringLiteral("admin")) {
+            return;
+        }
+        viewContainerUrl.setScheme("file");
+        m_parentViewContainer->setUrl(viewContainerUrl);
+
+        // Explain to users that their admin authorization expired.
+        if (!m_reenableActAsAdminAction) {
+            auto actAsAdminAction = WorkerIntegration::actAsAdminAction();
+            m_reenableActAsAdminAction =
+                new QAction{actAsAdminAction->icon(), i18nc("@action:button shown after acting as admin ended", "Act as Administrator Again"), this};
+            m_reenableActAsAdminAction->setToolTip(actAsAdminAction->toolTip());
+            m_reenableActAsAdminAction->setWhatsThis(actAsAdminAction->whatsThis());
+            connect(m_reenableActAsAdminAction, &QAction::triggered, this, [this, actAsAdminAction]() {
+                m_parentViewContainer->setActive(true);
+                actAsAdminAction->trigger();
+            });
+        }
+        m_parentViewContainer->showMessage(i18nc("@info", "Administrator authorization has expired."),
+                                           KMessageWidget::Information,
+                                           {m_reenableActAsAdminAction});
+    });
 }
 
 void Bar::updateColors()
