@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-09 00:40+0000\n"
+"POT-Creation-Date: 2024-07-14 00:40+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -35,29 +35,43 @@ msgstr ""
 "io, shuizhuyuanluo@126.com, phoenixlzx@archlinuxcn.org, tds00@qq.com, "
 "lark@linux.net.cn, wengxt@gmail.com, jxiong@offtopic.org, yahzee@d3eye.com"
 
-#: admin/bar.cpp:35
+#: admin/bar.cpp:45
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
 msgstr "正在以管理员身份操作 — 请谨慎操作！"
 
-#: admin/bar.cpp:36
+#: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
 msgstr "正在以管理员身份操作"
 
-#: admin/bar.cpp:45
+#: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
 msgstr "结束"
 
-#: admin/bar.cpp:47
+#: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr "结束以管理员身份操作"
+
+#: admin/bar.cpp:140
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Act as Administrator"
+msgctxt "@action:button shown after acting as admin ended"
+msgid "Act as Administrator Again"
+msgstr "以管理员身份操作"
+
+#: admin/bar.cpp:148
+#, kde-format
+msgctxt "@info"
+msgid "Administrator authorization has expired."
+msgstr ""
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -139,19 +153,19 @@ msgstr ""
 "大概率不会再次向您发出警告。</para><para>我们建议您在继续操作之前<emphasis>对"
 "文件/文件夹进行备份</emphasis>。</para>"
 
-#: admin/workerintegration.cpp:153
+#: admin/workerintegration.cpp:154
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
 msgstr "以管理员身份操作的风险"
 
-#: admin/workerintegration.cpp:155
+#: admin/workerintegration.cpp:156
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
 msgstr "我明白并同意承担上述风险"
 
-#: admin/workerintegration.cpp:157
+#: admin/workerintegration.cpp:158
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
@@ -1728,7 +1742,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "清空最近关闭的标签页"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:492 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:500 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜索 %1"
@@ -1840,66 +1854,66 @@ msgstr ""
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "以 Root 用户身份运行 Dolphin 是十分危险的。请务必小心。"
 
-#: dolphinviewcontainer.cpp:161
+#: dolphinviewcontainer.cpp:160
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "正在加载文件夹…"
 
-#: dolphinviewcontainer.cpp:164
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "正在排序…"
 
-#: dolphinviewcontainer.cpp:528
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search"
 msgstr "搜索"
 
-#: dolphinviewcontainer.cpp:530
+#: dolphinviewcontainer.cpp:538
 #, kde-format
 msgid "Search for %1"
 msgstr "搜索 %1"
 
-#: dolphinviewcontainer.cpp:613
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "正在搜索…"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:641
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "未找到项目。"
 
-#: dolphinviewcontainer.cpp:808
+#: dolphinviewcontainer.cpp:813
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支持显示网页，已启动网页浏览器"
 
-#: dolphinviewcontainer.cpp:811
+#: dolphinviewcontainer.cpp:816
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin 不支持此协议，已启动默认应用程序"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:823
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "无效的协议“%1”"
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:931
+#: dolphinviewcontainer.cpp:936
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

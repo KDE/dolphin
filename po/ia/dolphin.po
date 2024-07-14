@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-09 00:40+0000\n"
+"POT-Creation-Date: 2024-07-14 00:40+0000\n"
 "PO-Revision-Date: 2024-07-09 11:04+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -29,29 +29,43 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "g.sora@tiscali.it"
 
-#: admin/bar.cpp:35
+#: admin/bar.cpp:45
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
 msgstr "Agente como Administrator -- Sia attente!"
 
-#: admin/bar.cpp:36
+#: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
 msgstr "Agente como Admin"
 
-#: admin/bar.cpp:45
+#: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
 msgstr "Termina"
 
-#: admin/bar.cpp:47
+#: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr "Termina ager como un Administrator"
+
+#: admin/bar.cpp:140
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Act as Administrator"
+msgctxt "@action:button shown after acting as admin ended"
+msgid "Act as Administrator Again"
+msgstr "Age como Administrator"
+
+#: admin/bar.cpp:148
+#, kde-format
+msgctxt "@info"
+msgid "Administrator authorization has expired."
+msgstr ""
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -136,19 +150,19 @@ msgstr ""
 "puncto de corrumper iste  systema.</para><para>Tu poterea voler<emphasis> "
 "afce retrocopias de files e dossieres</emphasis> ante proceder.</para>"
 
-#: admin/workerintegration.cpp:153
+#: admin/workerintegration.cpp:154
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
 msgstr "Riscos de ager como un Administrator"
 
-#: admin/workerintegration.cpp:155
+#: admin/workerintegration.cpp:156
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
 msgstr "Eu comprende e accetta iste riscos"
 
-#: admin/workerintegration.cpp:157
+#: admin/workerintegration.cpp:158
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
@@ -1826,7 +1840,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Vacua schedas claudite recentemente"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:492 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:500 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Cerca %1 in %2"
@@ -1946,47 +1960,47 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Executar Dolphin como root pote esser periculose. Pro favor tu es caute."
 
-#: dolphinviewcontainer.cpp:161
+#: dolphinviewcontainer.cpp:160
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Cargante dossier ..."
 
-#: dolphinviewcontainer.cpp:164
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Ordinante..."
 
-#: dolphinviewcontainer.cpp:528
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search"
 msgstr "Cerca"
 
-#: dolphinviewcontainer.cpp:530
+#: dolphinviewcontainer.cpp:538
 #, kde-format
 msgid "Search for %1"
 msgstr "Cerca %1"
 
-#: dolphinviewcontainer.cpp:613
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "On initia cerca..."
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:641
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Trovava nulle elementos."
 
-#: dolphinviewcontainer.cpp:808
+#: dolphinviewcontainer.cpp:813
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non supporta paginas web, le navigator web ha essite lanceate"
 
-#: dolphinviewcontainer.cpp:811
+#: dolphinviewcontainer.cpp:816
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1995,19 +2009,19 @@ msgstr ""
 "Protocollo non supportate per Dolphin, application predefinite ha essite "
 "lanceate"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:823
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocollo invalide '%1'"
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocollo invalide"
 
-#: dolphinviewcontainer.cpp:931
+#: dolphinviewcontainer.cpp:936
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

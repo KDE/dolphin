@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-09 00:40+0000\n"
+"POT-Creation-Date: 2024-07-14 00:40+0000\n"
 "PO-Revision-Date: 2024-06-22 11:36+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "shaforostoff@kde.ru,kekcuha@gmail.com,omiro@basealt.ru,translation-"
 "team@basealt.ru"
 
-#: admin/bar.cpp:35
+#: admin/bar.cpp:45
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
@@ -54,23 +54,37 @@ msgstr ""
 "Все действия выполняются от имени администратора, используйте с "
 "осторожностью."
 
-#: admin/bar.cpp:36
+#: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
 msgstr "С правами администратора"
 
-#: admin/bar.cpp:45
+#: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
 msgstr "Завершить"
 
-#: admin/bar.cpp:47
+#: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr "Завершить выполнение действий от имени администратора"
+
+#: admin/bar.cpp:140
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Act as Administrator"
+msgctxt "@action:button shown after acting as admin ended"
+msgid "Act as Administrator Again"
+msgstr "С правами администратора"
+
+#: admin/bar.cpp:148
+#, kde-format
+msgctxt "@info"
+msgid "Administrator authorization has expired."
+msgstr ""
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -147,19 +161,19 @@ msgstr ""
 "повредить систему.</para> <para>Рекомендуем задуматься о создании "
 "<emphasis>резервной копии</emphasis> перед тем, как продолжить.</para>"
 
-#: admin/workerintegration.cpp:153
+#: admin/workerintegration.cpp:154
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
 msgstr "Риски выполнения действий с правами администратора"
 
-#: admin/workerintegration.cpp:155
+#: admin/workerintegration.cpp:156
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
 msgstr "Я понимаю и принимаю риски"
 
-#: admin/workerintegration.cpp:157
+#: admin/workerintegration.cpp:158
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
@@ -1847,7 +1861,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Очистить список закрытых вкладок"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:492 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:500 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Поиск %1 в %2"
@@ -1968,41 +1982,41 @@ msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Запуск Dolphin от имени администратора может быть опасен. Будьте осторожны."
 
-#: dolphinviewcontainer.cpp:161
+#: dolphinviewcontainer.cpp:160
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Открытие папки…"
 
-#: dolphinviewcontainer.cpp:164
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Сортировка…"
 
-#: dolphinviewcontainer.cpp:528
+#: dolphinviewcontainer.cpp:536
 #, kde-format
 msgid "Search"
 msgstr "Поиск"
 
-#: dolphinviewcontainer.cpp:530
+#: dolphinviewcontainer.cpp:538
 #, kde-format
 msgid "Search for %1"
 msgstr "Поиск %1"
 
-#: dolphinviewcontainer.cpp:613
+#: dolphinviewcontainer.cpp:621
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Выполняется поиск…"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:641
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ничего не найдено."
 
-#: dolphinviewcontainer.cpp:808
+#: dolphinviewcontainer.cpp:813
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -2010,7 +2024,7 @@ msgstr ""
 "Dolphin не поддерживает открытие веб-страниц, поэтому будет запущен веб-"
 "браузер"
 
-#: dolphinviewcontainer.cpp:811
+#: dolphinviewcontainer.cpp:816
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2019,19 +2033,19 @@ msgstr ""
 "Dolphin не поддерживает этот протокол, поэтому будет запущен приложение, "
 "назначенное по умолчанию"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:823
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Неверный протокол: «%1»"
 
-#: dolphinviewcontainer.cpp:820
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Неверный протокол"
 
-#: dolphinviewcontainer.cpp:931
+#: dolphinviewcontainer.cpp:936
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
