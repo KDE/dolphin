@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 00:40+0000\n"
-"PO-Revision-Date: 2024-07-09 12:36+0200\n"
+"PO-Revision-Date: 2024-07-14 14:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -55,18 +55,16 @@ msgid "Finish acting as an administrator"
 msgstr "Werken als systeembeheerder beëindigen"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Als systeembeheerder werken"
+msgstr "Opnieuw als systeembeheerder werken"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Autorisatie als systeembeheerder is verlopen."
 
 #: admin/workerintegration.cpp:33
 #, kde-format

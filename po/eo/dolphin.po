@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 00:40+0000\n"
-"PO-Revision-Date: 2024-07-13 10:51+0200\n"
+"PO-Revision-Date: 2024-07-14 22:18+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -56,18 +56,16 @@ msgid "Finish acting as an administrator"
 msgstr "Fini agadon kiel sistemestro"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Agi kiel Sistemestro"
+msgstr "Agi kiel Sistemestro Refoje"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Sistemestra rajtigo eksvalidiĝis."
 
 #: admin/workerintegration.cpp:33
 #, kde-format

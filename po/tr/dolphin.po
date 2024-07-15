@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 00:40+0000\n"
-"PO-Revision-Date: 2024-07-10 00:35+0300\n"
+"PO-Revision-Date: 2024-07-14 17:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -58,24 +58,22 @@ msgid "Finish acting as an administrator"
 msgstr "Yönetici gibi davranmayı bitir"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Yönetici Gibi Kullan"
+msgstr "Yeniden Yönetici Gibi Davran"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Yönetici yetkilendirmesinin süresi doldu."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr "Yönetici Gibi Kullan"
+msgstr "Yönetici Gibi Davran"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -4231,7 +4229,7 @@ msgstr "Aynı anda birden çok uçbirim açarken"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr "Yönetici gibi kullanıma geç"
+msgstr "Yönetici gibi davranmaya geçerken"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
