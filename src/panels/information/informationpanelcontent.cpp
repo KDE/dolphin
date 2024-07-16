@@ -411,8 +411,15 @@ void InformationPanelContent::markOutdatedPreview()
         // use it until the preview is done
         showIcon(m_item);
     } else {
-        KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
-        QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(), KIconLoader::Desktop, KIconLoader::DisabledState);
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+        QPixmap disabledPixmap = m_preview->pixmap();
+        KIconEffect::toDisabled(disabledPixmap);
+#else
+        QImage img = m_preview->pixmap().toImage();
+        KIconEffect::toGray(img, 1);
+        KIconEffect::semiTransparent(img);
+        QPixmap disabledPixmap = QPixmap::fromImage(img);
+#endif
         m_preview->setPixmap(disabledPixmap);
     }
 }

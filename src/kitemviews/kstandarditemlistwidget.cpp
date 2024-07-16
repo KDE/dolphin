@@ -1088,8 +1088,14 @@ void KStandardItemListWidget::updatePixmapCache()
         }
 
         if (m_isCut) {
-            KIconEffect *effect = KIconLoader::global()->iconEffect();
-            m_pixmap = effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+            KIconEffect::toDisabled(m_pixmap);
+#else
+            QImage img = m_pixmap.toImage();
+            KIconEffect::toGray(img, 1);
+            KIconEffect::semiTransparent(img);
+            m_pixmap = QPixmap::fromImage(img);
+#endif
         }
 
         if (m_isHidden) {
@@ -1162,13 +1168,13 @@ void KStandardItemListWidget::updatePixmapCache()
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
-        KIconEffect *effect = KIconLoader::global()->iconEffect();
-        // In the KIconLoader terminology, active = hover.
-        if (effect->hasEffect(KIconLoader::Desktop, KIconLoader::ActiveState)) {
-            m_hoverPixmap = effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::ActiveState);
-        } else {
-            m_hoverPixmap = m_pixmap;
-        }
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+        KIconEffect::toActive(m_hoverPixmap);
+#else
+        QImage img = m_pixmap.toImage();
+        KIconEffect::toGamma(img, 0.7);
+        m_hoverPixmap = QPixmap::fromImage(img);
+#endif
     } else if (hoverOpacity() <= 0.0) {
         // No hover animation is ongoing. Clear m_hoverPixmap to save memory.
         m_hoverPixmap = QPixmap();
