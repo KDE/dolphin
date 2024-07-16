@@ -60,12 +60,10 @@ msgid "Finish acting as an administrator"
 msgstr "结束以管理员身份操作"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "以管理员身份操作"
+msgstr ""
 
 #: admin/bar.cpp:148
 #, kde-format
