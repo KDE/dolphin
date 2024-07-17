@@ -27,10 +27,6 @@
 #include <KLocalizedString>
 #include <KWindowSystem>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <Kdelibs4ConfigMigrator>
-#endif
-
 #define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
@@ -43,11 +39,7 @@
 #include <QSessionManager>
 
 #if HAVE_X11
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <private/qtx11extras_p.h>
-#else
-#include <QX11Info>
-#endif
 #endif
 
 #ifndef Q_OS_WIN
@@ -81,13 +73,6 @@ int main(int argc, char **argv)
     KIconTheme::initTheme();
 #endif
 
-    /**
-     * enable high dpi support
-     */
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-#endif
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
 
@@ -107,13 +92,6 @@ int main(int argc, char **argv)
 #endif
 
     KCrash::initialize();
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    Kdelibs4ConfigMigrator migrate(QStringLiteral("dolphin"));
-    migrate.setConfigFiles(QStringList() << QStringLiteral("dolphinrc"));
-    migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
-    migrate.migrate();
-#endif
 
     KLocalizedString::setApplicationDomain(dolphinTranslationDomain);
 
