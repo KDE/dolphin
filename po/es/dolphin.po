@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 00:40+0000\n"
-"PO-Revision-Date: 2024-07-09 12:11+0200\n"
+"PO-Revision-Date: 2024-07-16 16:32+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -65,18 +65,16 @@ msgid "Finish acting as an administrator"
 msgstr "Terminar de actuar como administrador"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Operar como administrador"
+msgstr "Volver a operar como administrador"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "La autorización de administrador ha caducado."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
