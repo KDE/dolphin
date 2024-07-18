@@ -120,13 +120,13 @@ QUrl DolphinSearchBox::urlForSearching() const
         url.setScheme(QStringLiteral("filenamesearch"));
 
         QUrlQuery query;
-        query.addQueryItem(QStringLiteral("search"), m_searchInput->text());
+        query.addQueryItem(QStringLiteral("search"), QUrl::toPercentEncoding(m_searchInput->text()));
         if (m_contentButton->isChecked()) {
             query.addQueryItem(QStringLiteral("checkContent"), QStringLiteral("yes"));
         }
 
-        query.addQueryItem(QStringLiteral("url"), searchPath().url());
-        query.addQueryItem(QStringLiteral("title"), queryTitle(m_searchInput->text()));
+        query.addQueryItem(QStringLiteral("url"), QUrl::toPercentEncoding(searchPath().url()));
+        query.addQueryItem(QStringLiteral("title"), QUrl::toPercentEncoding(queryTitle(m_searchInput->text())));
 
         url.setQuery(query);
     }
@@ -141,11 +141,11 @@ void DolphinSearchBox::fromSearchUrl(const QUrl &url)
         updateFromQuery(query);
     } else if (url.scheme() == QLatin1String("filenamesearch")) {
         const QUrlQuery query(url);
-        setText(query.queryItemValue(QStringLiteral("search")));
+        setText(query.queryItemValue(QStringLiteral("search"), QUrl::FullyDecoded));
         if (m_searchPath.scheme() != url.scheme()) {
             m_searchPath = QUrl();
         }
-        setSearchPath(QUrl::fromUserInput(query.queryItemValue(QStringLiteral("url")), QString(), QUrl::AssumeLocalFile));
+        setSearchPath(QUrl::fromUserInput(query.queryItemValue(QStringLiteral("url"), QUrl::FullyDecoded), QString(), QUrl::AssumeLocalFile));
         m_contentButton->setChecked(query.queryItemValue(QStringLiteral("checkContent")) == QLatin1String("yes"));
     } else {
         setText(QString());
