@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the kdebase package.
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
-# Agron Selimaj <as9902613@gmail.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Agron Selimaj <as9902613@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 00:40+0000\n"
-"PO-Revision-Date: 2023-04-11 01:21-0400\n"
+"POT-Creation-Date: 2024-07-18 00:41+0000\n"
+"PO-Revision-Date: 2024-07-17 03:01-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
 "Language: sq\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2011-04-22 14:24+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2218,17 +2218,17 @@ msgstr "Përdoruesi: %1 | Grupi: %2 | Të tjerët: %3"
 #: kitemviews/kfileitemmodel.cpp:2729
 msgctxt "@label"
 msgid "Name"
-msgstr "Emrit"
+msgstr "Emri"
 
 #: kitemviews/kfileitemmodel.cpp:2730
 msgctxt "@label"
 msgid "Size"
-msgstr "Madhësisë"
+msgstr "Madhësia"
 
 #: kitemviews/kfileitemmodel.cpp:2731
 msgctxt "@label"
 msgid "Modified"
-msgstr "Datës së modifikimit"
+msgstr "Data e ndryshimit"
 
 #: kitemviews/kfileitemmodel.cpp:2731 kitemviews/kfileitemmodel.cpp:2732
 #: kitemviews/kfileitemmodel.cpp:2733
@@ -2254,12 +2254,12 @@ msgstr "Llojit"
 #: kitemviews/kfileitemmodel.cpp:2735
 msgctxt "@label"
 msgid "Rating"
-msgstr "Vlerësimit"
+msgstr "Vlerësimi"
 
 #: kitemviews/kfileitemmodel.cpp:2736
 msgctxt "@label"
 msgid "Tags"
-msgstr "Etiketave"
+msgstr "Etiketa"
 
 #: kitemviews/kfileitemmodel.cpp:2737
 msgctxt "@label"
@@ -2269,7 +2269,7 @@ msgstr "Komentit"
 #: kitemviews/kfileitemmodel.cpp:2738
 msgctxt "@label"
 msgid "Title"
-msgstr "Titullit"
+msgstr "Titulli"
 
 #: kitemviews/kfileitemmodel.cpp:2738 kitemviews/kfileitemmodel.cpp:2739
 #: kitemviews/kfileitemmodel.cpp:2740 kitemviews/kfileitemmodel.cpp:2741
@@ -2286,12 +2286,12 @@ msgstr "Autorit"
 #: kitemviews/kfileitemmodel.cpp:2740
 msgctxt "@label"
 msgid "Publisher"
-msgstr "Botuesit"
+msgstr "Botuesi"
 
 #: kitemviews/kfileitemmodel.cpp:2741
 msgctxt "@label"
 msgid "Page Count"
-msgstr "Numrit të faqeve"
+msgstr "Numri i faqeve"
 
 #: kitemviews/kfileitemmodel.cpp:2742
 msgctxt "@label"
@@ -2301,7 +2301,7 @@ msgstr "Numrit të fjalëve"
 #: kitemviews/kfileitemmodel.cpp:2743
 msgctxt "@label"
 msgid "Line Count"
-msgstr "Numrit të rreshtave"
+msgstr "Numri i rreshtave"
 
 #: kitemviews/kfileitemmodel.cpp:2744
 msgctxt "@label"
@@ -2333,7 +2333,7 @@ msgstr "Lartësisë"
 #: kitemviews/kfileitemmodel.cpp:2748
 msgctxt "@label"
 msgid "Orientation"
-msgstr "Orientimit"
+msgstr "Orientimi"
 
 #: kitemviews/kfileitemmodel.cpp:2749
 msgctxt "@label"
@@ -2454,7 +2454,7 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Gabim i panjohur."
 
-#: main.cpp:69
+#: main.cpp:61
 #, kde-kuit-format
 msgctxt "@info:shell %1 is a terminal command"
 msgid ""
@@ -2462,30 +2462,30 @@ msgid ""
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
 
-#: main.cpp:121
+#: main.cpp:99
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:123
+#: main.cpp:101
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Organizues i Skedarëve"
 
-#: main.cpp:125
+#: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006-2022 Programerët e Dolphin-it"
 
-#: main.cpp:127
+#: main.cpp:105
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr ""
 
-#: main.cpp:128
+#: main.cpp:106
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2493,13 +2493,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Mirëmbajtësi (që nga 2018) dhe zhvilluesi"
 
-#: main.cpp:130
+#: main.cpp:108
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr ""
 
-#: main.cpp:131
+#: main.cpp:109
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2507,13 +2507,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Mirëmbajtësi (që nga 2018) dhe zhvilluesi"
 
-#: main.cpp:133
+#: main.cpp:111
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:134
+#: main.cpp:112
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2521,13 +2521,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
 
-#: main.cpp:136
+#: main.cpp:114
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr ""
 
-#: main.cpp:137
+#: main.cpp:115
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2535,13 +2535,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
 
-#: main.cpp:139
+#: main.cpp:117
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:140
+#: main.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2549,13 +2549,13 @@ msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Maintainer (2012-2014) and developer"
 
-#: main.cpp:142
+#: main.cpp:120
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:143
+#: main.cpp:121
 #, fuzzy, kde-format
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
@@ -2563,98 +2563,98 @@ msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Mirëmbajtësi dhe zhvilluesi (2006-2012)"
 
-#: main.cpp:145
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:145 main.cpp:146 main.cpp:147 main.cpp:148 main.cpp:149
-#: main.cpp:150 main.cpp:151
+#: main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126 main.cpp:127
+#: main.cpp:128 main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Zhvillues"
 
-#: main.cpp:146
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:147
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:148
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:149
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:150
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:151
+#: main.cpp:129
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:152
+#: main.cpp:130
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:152
+#: main.cpp:130
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dokumentacion"
 
-#: main.cpp:162
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr ""
 
-#: main.cpp:164
+#: main.cpp:142
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:143
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:145
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:170
+#: main.cpp:148
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -3663,14 +3663,14 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
-msgstr ""
+msgstr "Sipas çfarë renditje të rradhiten skedat"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr ""
+msgstr "Shfaq skedat të parat kur rradhiten skedat dhe skedarët"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -4255,12 +4255,10 @@ msgid "Confirmations"
 msgstr "Konfirmimet"
 
 #: settings/interface/interfacesettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Show Panels"
+#, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
-msgstr "Shfaq panelet"
+msgstr "Panelet"
 
 #: settings/interface/interfacesettingspage.cpp:57
 #, fuzzy, kde-format
