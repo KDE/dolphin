@@ -107,7 +107,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     enableRemoteFolderThumbnailLayout->addWidget(m_enableRemoteFolderThumbnail);
     enableRemoteFolderThumbnailLayout->addWidget(contextualHelpButton);
 
-    QFormLayout *formLayout = new QFormLayout(this);
+    QFormLayout *formLayout = new QFormLayout();
 
     QLabel *localGroupLabel = new QLabel(i18nc("@title:group", "Local storage:"));
     // Makes sure it has the same height as the labeled sizeBoxLayout
