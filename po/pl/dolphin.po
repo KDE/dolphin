@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-18 00:41+0000\n"
-"PO-Revision-Date: 2024-06-22 08:53+0200\n"
+"PO-Revision-Date: 2024-07-20 09:23+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -59,18 +59,16 @@ msgid "Finish acting as an administrator"
 msgstr "Przestań działać jako administrator"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Działaj jako administrator"
+msgstr "Działaj ponownie jako administrator"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Uwierzytelnienie administratora wygasło."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -86,18 +84,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> wymaga <application>%1</application> do "
+"zarządzania plikami zarządzanymi przez system, lecz nie masz tego wgranego."
+"<nl/>Naciśnij %2, aby wgrać <application>%1</application> lub %3, aby "
+"zaniechać."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -111,14 +113,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Zrób użytek ze swoich uprawnień administratora w Dolphinie:"
+"<numberedlist><numbereditem>Przejdź do pliku lub katalogu, który chcesz "
+"zmienić.</numbereditem><numbereditem>Uruchom działanie \"%1\" albo z "
+"<interface>Menu Otwórz|Więcej|Widok</interface> albo z <interface>Menu Pasek|"
+"Widok</interface>.<nl/>Domyślny skrót: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Po uwierzytelnieniu możesz zarządzać swoimi "
+"plikami jako administrator.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Działaj jako administrator"
+msgstr "Jak administrować"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1676,13 +1683,13 @@ msgstr[2] "Paski położenia"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Nie można znaleźć pakietu %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Wygrywanie nie zgłosiło, że się udało. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1693,6 +1700,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Nie udało się wgrać <application>%1</application>: %2 (%3)<nl/>Spróbuj wgrać "
+"<application>%1</application> ręcznie."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2637,6 +2646,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Uruchamianie <application>Dolphina</application> z <command>sudo</command> "
+"jest niezalecane. Zamiast tego uruchom <icode>%1</icode>."
 
 #: main.cpp:99
 #, kde-format
@@ -2810,7 +2821,7 @@ msgstr "Dolphin otworzy nowe okno."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Ustaw Dolphina do zadań administracyjnych."
 
 #: main.cpp:147
 #, kde-format
@@ -4528,13 +4539,7 @@ msgid "Show previews for folders"
 msgstr "Pokaż podgląd dla plików i katalogów"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4543,9 +4548,9 @@ msgid ""
 "metered connections.</para>"
 msgstr ""
 "<para>Tworzenie <emphasis>podglądów</emphasis> dla katalogów zdalnych jest "
-"<emphasis strong='true'>bardzo kosztowne</emphasis> pod względem zasobów "
-"sieciowych.</para><para>Wyłącz to, jeśli przeglądanie zdalnych katalogów w "
-"Dolphinie jest wolne lub, gdy używasz połączenia taryfowego.</para>"
+"bardzo kosztowne pod względem zasobów sieciowych.</para><para>Wyłącz to, "
+"jeśli przeglądanie zdalnych katalogów w Dolphinie jest wolne lub, gdy "
+"używasz połączenia taryfowego.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5328,13 +5333,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "Pomyślnie wgrano <application>Filelight</application>."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Wgrywanie Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5362,7 +5367,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Zwolnij przestrzeń dyskową"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5372,12 +5377,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Wgraj dodatkowe oprogramowanie, aby obejrzeć statystykę wykorzystania "
+"dysku<nl/>oraz namierzyć duże pliki i katalogi.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Wgraj Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
