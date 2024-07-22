@@ -58,7 +58,7 @@ Bar::Bar(DolphinViewContainer *parentViewContainer)
     m_closeButton->setFlat(true);
     connect(m_closeButton, &QAbstractButton::clicked, m_parentViewContainer, [this]() {
         m_parentViewContainer->setActive(true); // Make sure the view connected to this bar is active before exiting admin mode.
-        QAction *actAsAdminAction = WorkerIntegration::actAsAdminAction();
+        QAction *actAsAdminAction = WorkerIntegration::FriendAccess::actAsAdminAction();
         if (actAsAdminAction->isChecked()) {
             actAsAdminAction->trigger();
         }
@@ -134,8 +134,8 @@ void Bar::hideTheNextTimeAuthorizationExpires()
         m_parentViewContainer->setUrl(viewContainerUrl);
 
         // Explain to users that their admin authorization expired.
-        if (!m_reenableActAsAdminAction) {
-            auto actAsAdminAction = WorkerIntegration::actAsAdminAction();
+        if (!m_reenableActAsAdminAction) { // This code is similar to parts of DolphinViewContainer::slotViewErrorMessage().
+            auto actAsAdminAction = WorkerIntegration::FriendAccess::actAsAdminAction();
             m_reenableActAsAdminAction =
                 new QAction{actAsAdminAction->icon(), i18nc("@action:button shown after acting as admin ended", "Act as Administrator Again"), this};
             m_reenableActAsAdminAction->setToolTip(actAsAdminAction->toolTip());

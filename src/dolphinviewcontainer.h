@@ -388,6 +388,11 @@ private Q_SLOTS:
     void slotStatusBarZoomLevelChanged(int zoomLevel);
 
     /**
+     * Creates and shows an error message based on \p message and \p kioErrorCode.
+     */
+    void slotErrorMessageFromView(const QString &message, const int kioErrorCode);
+
+    /**
      * Slot that calls showMessage(message, KMessageWidget::Error).
      */
     void showErrorMessage(const QString &message);
@@ -449,6 +454,8 @@ private:
 
     /// A bar shown at the top of the view to signify that the view is currently viewed and acted on with elevated privileges.
     Admin::Bar *m_adminBar;
+    /// An action to switch to the admin protocol. This variable will always be nullptr unless kio-admin was installed. @see Admin::WorkerIntegration.
+    QAction *m_authorizeToEnterFolderAction;
 
     KMessageWidget *m_messageWidget;
 

@@ -567,7 +567,7 @@ Q_SIGNALS:
      * Is emitted if an error message with the content \a msg
      * should be shown.
      */
-    void errorMessage(const QString &msg);
+    void errorMessage(const QString &message, const int kioErrorCode);
 
     /**
      * Is emitted if an "operation completed" message with the content \a msg
