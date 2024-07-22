@@ -2856,13 +2856,14 @@ bool KFileItemModel::isConsistent() const
 
 void KFileItemModel::slotListerError(KIO::Job *job)
 {
-    if (job->error() == KIO::ERR_IS_FILE) {
+    const int jobError = job->error();
+    if (jobError == KIO::ERR_IS_FILE) {
         if (auto *listJob = qobject_cast<KIO::ListJob *>(job)) {
             Q_EMIT urlIsFileError(listJob->url());
         }
     } else {
         const QString errorString = job->errorString();
-        Q_EMIT errorMessage(!errorString.isEmpty() ? errorString : i18nc("@info:status", "Unknown error."));
+        Q_EMIT errorMessage(!errorString.isEmpty() ? errorString : i18nc("@info:status", "Unknown error."), jobError);
     }
 }
 

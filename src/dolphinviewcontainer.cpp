@@ -7,6 +7,7 @@
 #include "dolphinviewcontainer.h"
 
 #include "admin/bar.h"
+#include "admin/workerintegration.h"
 #include "dolphin_compactmodesettings.h"
 #include "dolphin_contentdisplaysettings.h"
 #include "dolphin_detailsmodesettings.h"
@@ -62,6 +63,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     , m_searchBox(nullptr)
     , m_searchModeEnabled(false)
     , m_adminBar{nullptr}
+    , m_authorizeToEnterFolderAction{nullptr}
     , m_messageWidget(nullptr)
     , m_selectionModeTopBar{nullptr}
     , m_view(nullptr)
@@ -139,7 +141,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::directoryLoadingCanceled, this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
     connect(m_view, &DolphinView::itemCountChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
     connect(m_view, &DolphinView::selectionChanged, this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::showErrorMessage);
+    connect(m_view, &DolphinView::errorMessage, this, &DolphinViewContainer::slotErrorMessageFromView);
     connect(m_view, &DolphinView::urlIsFileError, this, &DolphinViewContainer::slotUrlIsFileError);
     connect(m_view, &DolphinView::activated, this, &DolphinViewContainer::activate);
     connect(m_view, &DolphinView::hiddenFilesShownChanged, this, &DolphinViewContainer::slotHiddenFilesShownChanged);
@@ -895,6 +897,28 @@ void DolphinViewContainer::stopDirectoryLoading()
 void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
 {
     m_view->setZoomLevel(zoomLevel);
+}
+
+void DolphinViewContainer::slotErrorMessageFromView(const QString &message, const int kioErrorCode)
+{
+    if (kioErrorCode == KIO::ERR_CANNOT_ENTER_DIRECTORY && m_view->url().scheme() == QStringLiteral("file")
+        && KProtocolInfo::isKnownProtocol(QStringLiteral("admin")) && !rootItem().isReadable()) {
+        // Explain to users that they need authentication to see the folder contents.
+        if (!m_authorizeToEnterFolderAction) { // This code is similar to parts of Admin::Bar::hideTheNextTimeAuthorizationExpires().
+            // We should not simply use the actAsAdminAction() itself here because that one always refers to the active view instead of this->m_view.
+            auto actAsAdminAction = Admin::WorkerIntegration::FriendAccess::actAsAdminAction();
+            m_authorizeToEnterFolderAction = new QAction{actAsAdminAction->icon(), actAsAdminAction->text(), this};
+            m_authorizeToEnterFolderAction->setToolTip(actAsAdminAction->toolTip());
+            m_authorizeToEnterFolderAction->setWhatsThis(actAsAdminAction->whatsThis());
+            connect(m_authorizeToEnterFolderAction, &QAction::triggered, this, [this, actAsAdminAction]() {
+                setActive(true);
+                actAsAdminAction->trigger();
+            });
+        }
+        showMessage(i18nc("@info", "Authorization required to enter this folder."), KMessageWidget::Error, {m_authorizeToEnterFolderAction});
+        return;
+    }
+    Q_EMIT showErrorMessage(message);
 }
 
 void DolphinViewContainer::showErrorMessage(const QString &message)

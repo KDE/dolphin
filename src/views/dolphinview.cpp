@@ -231,7 +231,9 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     m_versionControlObserver->setView(this);
     m_versionControlObserver->setModel(m_model);
     connect(m_versionControlObserver, &VersionControlObserver::infoMessage, this, &DolphinView::infoMessage);
-    connect(m_versionControlObserver, &VersionControlObserver::errorMessage, this, &DolphinView::errorMessage);
+    connect(m_versionControlObserver, &VersionControlObserver::errorMessage, this, [this](const QString &message) {
+        Q_EMIT errorMessage(message, KIO::ERR_UNKNOWN);
+    });
     connect(m_versionControlObserver, &VersionControlObserver::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
     m_twoClicksRenamingTimer = new QTimer(this);
@@ -1453,7 +1455,7 @@ void DolphinView::onDirectoryLoadingCompletedAfterJob()
 void DolphinView::slotJobResult(KJob *job)
 {
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
-        Q_EMIT errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString(), job->error());
     }
     if (!m_selectJobCreatedItems) {
         m_selectedUrls.clear();
@@ -1826,7 +1828,7 @@ void DolphinView::slotTrashFileFinished(KJob *job)
         selectNextItem(); // Fixes BUG: 419914 via selecting next item
         Q_EMIT operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
-        Q_EMIT errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString(), job->error());
     }
 }
 
@@ -1836,7 +1838,7 @@ void DolphinView::slotDeleteFileFinished(KJob *job)
         selectNextItem(); // Fixes BUG: 419914 via selecting next item
         Q_EMIT operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
-        Q_EMIT errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString(), job->error());
     }
 }
 
@@ -2048,9 +2050,9 @@ void DolphinView::loadDirectory(const QUrl &url, bool reload)
     if (!url.isValid()) {
         const QString location(url.toDisplayString(QUrl::PreferLocalFile));
         if (location.isEmpty()) {
-            Q_EMIT errorMessage(i18nc("@info:status", "The location is empty."));
+            Q_EMIT errorMessage(i18nc("@info:status", "The location is empty."), KIO::ERR_UNKNOWN);
         } else {
-            Q_EMIT errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location));
+            Q_EMIT errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location), KIO::ERR_UNKNOWN);
         }
         return;
     }

@@ -11,6 +11,7 @@
 #include <QObject>
 
 class DolphinMainWindow;
+class DolphinViewContainer;
 class KActionCollection;
 class QAction;
 class QUrl;
@@ -57,6 +58,20 @@ public:
      */
     static void createActAsAdminAction(KActionCollection *actionCollection, DolphinMainWindow *dolphinMainWindow);
 
+    /**
+     * An interface that only allows friend classes to show the WorkerIntegration::m_actAsAdminAction to users.
+     * Aside from these friend classes the action is only accessible through the actionCollection of DolphinMainWindow.
+     */
+    class FriendAccess
+    {
+        /** @returns WorkerIntegration::m_actAsAdminAction or crashes if WorkerIntegration::createActAsAdminAction() has not been called previously. */
+        static QAction *actAsAdminAction();
+
+        friend class Bar; /// Allows the bar to access the actAsAdminAction, so users can use the bar to change who they are acting as.
+        friend DolphinViewContainer; // Allows the view container to access the actAsAdminAction, so the action can be shown to users when they are trying to
+                                     // view a folder for which they are lacking read permissions.
+    };
+
 private:
     WorkerIntegration(DolphinMainWindow *parent, QAction *actAsAdminAction);
 
@@ -69,14 +84,9 @@ private:
     /** Updates the toggled/checked state of the action depending on the state of the currently active view. */
     static void updateActAsAdminAction();
 
-    /** Used by the friend class Bar to show the m_actAsAdminAction to users. */
-    static QAction *actAsAdminAction();
-
 private:
     /** @see createActAsAdminAction() */
     QAction *const m_actAsAdminAction = nullptr;
-
-    friend class Bar; // Allows the bar to access the actAsAdminAction, so users can use the bar to change who they are acting as.
 };
 
 }

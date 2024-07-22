@@ -258,7 +258,7 @@ Q_SIGNALS:
      * Is emitted if an error message (e.g. "Unknown location")
      * should be shown.
      */
-    void errorMessage(const QString &message);
+    void errorMessage(const QString &message, const int kioErrorCode);
 
     /**
      * Is emitted if a redirection from the current URL \a oldUrl

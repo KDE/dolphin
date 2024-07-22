@@ -134,6 +134,11 @@ void WorkerIntegration::createActAsAdminAction(KActionCollection *actionCollecti
     }
 }
 
+QAction *WorkerIntegration::FriendAccess::actAsAdminAction()
+{
+    return instance->m_actAsAdminAction;
+}
+
 void WorkerIntegration::toggleActAsAdmin()
 {
     auto dolphinMainWindow = static_cast<DolphinMainWindow *>(parent());
@@ -186,9 +191,4 @@ void WorkerIntegration::updateActAsAdminAction()
             instance->m_actAsAdminAction->setEnabled(false);
         }
     }
-}
-
-QAction *WorkerIntegration::actAsAdminAction()
-{
-    return instance->m_actAsAdminAction;
 }
