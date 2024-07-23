@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-18 00:41+0000\n"
-"PO-Revision-Date: 2024-05-31 19:07+0200\n"
+"POT-Creation-Date: 2024-07-23 02:34+0000\n"
+"PO-Revision-Date: 2024-07-15 10:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -53,18 +53,16 @@ msgid "Finish acting as an administrator"
 msgstr "Smetti di agire come amministratore"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Agisci come amministratore"
+msgstr "Agisci nuovamente come amministratore"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "L'autorizzazione dell'amministratore è scaduta."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -80,18 +78,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> richiede <application>%1</application> "
+"per gestire i file controllati dal sistema, ma non è installato.<nl/>Premi "
+"%2 per installare <application>%1</application> o %3 per annullare."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -105,14 +106,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Utilizza i tuoi diritti di amministratore in Dolphin:"
+"<numberedlist><numbereditem>Naviga fino al file o alla cartella che desideri "
+"modificare.</numbereditem><numbereditem>Attiva l'azione «%1» either under "
+"<interface>Open Menu|Altro|Visualizza</interface> o <interface>Barra dei "
+"menu|Visualizza</interface>.<nl/>Scorciatoia predefinita: <shortcut>%2</"
+"shortcut></numbereditem><numbereditem>Dopo l'autorizzazione puoi gestire i "
+"file come un amministratore.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Agisci come amministratore"
+msgstr "Come amministrare"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -141,19 +147,19 @@ msgstr ""
 "sistema.</para><para>Potresti voler <emphasis>creare una copia di sicurezza "
 "di file e cartelle</emphasis> prima di procedere.</para>"
 
-#: admin/workerintegration.cpp:154
+#: admin/workerintegration.cpp:159
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
 msgstr "Rischi relativi all'agire come amministratore"
 
-#: admin/workerintegration.cpp:156
+#: admin/workerintegration.cpp:161
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
 msgstr "Comprendo e accetto questi rischi"
 
-#: admin/workerintegration.cpp:158
+#: admin/workerintegration.cpp:163
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
@@ -1692,13 +1698,14 @@ msgstr[1] "Barre degli indirizzi"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Impossibile trovare il pacchetto %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
 msgstr ""
+"L'installazione è terminata senza segnalare la corretta esecuzione. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1709,6 +1716,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Installazione di <application>%1</application> non riuscita: %2 (%3)<nl/"
+">Prova invece a installare <application>%1</application> manualmente."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -1842,7 +1851,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Svuota le schede chiuse di recente"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:500 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Cerca %1 in %2"
@@ -1932,7 +1941,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Non puoi scrivere su questa cartella."
 
-#: dolphinviewcontainer.cpp:89
+#: dolphinviewcontainer.cpp:91
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1957,52 +1966,52 @@ msgstr ""
 "strumenti di ricerca: installa altri metodi per cercare un elemento.</item></"
 "list></para>"
 
-#: dolphinviewcontainer.cpp:109
+#: dolphinviewcontainer.cpp:111
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "Eseguire Dolphin come root può essere pericoloso. Fai attenzione."
 
-#: dolphinviewcontainer.cpp:160
+#: dolphinviewcontainer.cpp:162
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Caricamento cartella…"
 
-#: dolphinviewcontainer.cpp:163
+#: dolphinviewcontainer.cpp:165
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Ordinamento…"
 
-#: dolphinviewcontainer.cpp:536
+#: dolphinviewcontainer.cpp:538
 #, kde-format
 msgid "Search"
 msgstr "Cerca"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:540
 #, kde-format
 msgid "Search for %1"
 msgstr "Cerca %1"
 
-#: dolphinviewcontainer.cpp:621
+#: dolphinviewcontainer.cpp:623
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Ricerca in corso…"
 
-#: dolphinviewcontainer.cpp:641
+#: dolphinviewcontainer.cpp:643
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nessun elemento trovato."
 
-#: dolphinviewcontainer.cpp:813
+#: dolphinviewcontainer.cpp:815
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non supporta le pagine web, il browser web è stato eseguito"
 
-#: dolphinviewcontainer.cpp:816
+#: dolphinviewcontainer.cpp:818
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2011,19 +2020,25 @@ msgstr ""
 "Protocollo non supportato da Dolphin, è stata avviata l'applicazione "
 "predefinita"
 
-#: dolphinviewcontainer.cpp:823
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocollo «%1» non valido"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:827
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocollo non valido"
 
-#: dolphinviewcontainer.cpp:936
+#: dolphinviewcontainer.cpp:918
+#, kde-format
+msgctxt "@info"
+msgid "Authorization required to enter this folder."
+msgstr ""
+
+#: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -2633,7 +2648,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "Gruppo utente"
 
-#: kitemviews/kfileitemmodel.cpp:2865
+#: kitemviews/kfileitemmodel.cpp:2866
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -2646,6 +2661,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Eseguire <application>Dolphin</application> con <command>sudo</command> non "
+"è consigliato. Esegui invece <icode>%1</icode>."
 
 #: main.cpp:99
 #, kde-format
@@ -2819,7 +2836,7 @@ msgstr "Dolphin si aprirà esplicitamente in una nuova finestra."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Configurare Dolphin per operazioni amministrative."
 
 #: main.cpp:147
 #, kde-format
@@ -4544,13 +4561,7 @@ msgid "Show previews for folders"
 msgstr "Mostra anteprime per le cartelle"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4558,11 +4569,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Creare <emphasis>anteprime</emphasis> per le cartelle remote è "
-"<emphasis strong='true'>molto oneroso</emphasis> in termini di risorse di "
-"rete.</para><para>Disabilita questa opzione se la navigazione delle cartelle "
-"remote in Dolphin è lenta o quando accedi all'archiviazione tramite "
-"connessioni a consumo.</para>"
+"<para>Creare <emphasis>anteprime</emphasis> per le cartelle remote è molto "
+"oneroso in termini di utilizzo delle risorse di rete.</para><para>Disabilita "
+"questa opzione se la navigazione delle cartelle remote in Dolphin è lenta o "
+"quando accedi all'archiviazione tramite connessioni a consumo.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -4586,13 +4596,13 @@ msgstr "Mostra la barra di stato"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
-msgstr "Mostra cursore dello zoom"
+msgstr "Mostra il cursore dello zoom"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Show space information"
-msgstr "Mostra informazioni sullo spazio"
+msgstr "Mostra le informazioni sullo spazio"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:40
 #, kde-format
@@ -5347,13 +5357,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> installato correttamente."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Installazione di Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5381,7 +5391,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Libera spazio su disco"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5391,12 +5401,15 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Installa software aggiuntivo per visualizzare le statistiche "
+"sull'utilizzo del disco<nl/>e identificare file e cartelle di grandi "
+"dimensioni.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Installa Filelight..."
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -5447,7 +5460,7 @@ msgstr "Predefinito"
 msgid "Reload"
 msgstr "Ricarica"
 
-#: views/dolphinview.cpp:654
+#: views/dolphinview.cpp:656
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5455,7 +5468,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 cartella selezionata"
 msgstr[1] "%1 cartelle selezionate"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5463,7 +5476,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 file selezionato"
 msgstr[1] "%1 file selezionati"
 
-#: views/dolphinview.cpp:657
+#: views/dolphinview.cpp:659
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5471,7 +5484,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 cartella"
 msgstr[1] "%1 cartelle"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5479,38 +5492,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 file"
 msgstr[1] "%1 file"
 
-#: views/dolphinview.cpp:662
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:666
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:670
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 cartelle, 0 file"
 
-#: views/dolphinview.cpp:884 views/dolphinview.cpp:893
+#: views/dolphinview.cpp:886 views/dolphinview.cpp:895
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "Copia di %1"
 
-#: views/dolphinview.cpp:1077
+#: views/dolphinview.cpp:1079
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Sei sicuro di voler aprire un elemento?"
 msgstr[1] "Sei sicuro di voler aprire %1 elementi?"
 
-#: views/dolphinview.cpp:1082
+#: views/dolphinview.cpp:1084
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5518,45 +5531,45 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Apri %1 elemento"
 msgstr[1] "Apri %1 elementi"
 
-#: views/dolphinview.cpp:1212
+#: views/dolphinview.cpp:1214
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Spaziatura laterale"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1216
+#: views/dolphinview.cpp:1218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Larghezza automatica delle colonne"
 
 # XXX O ampiezza
-#: views/dolphinview.cpp:1221
+#: views/dolphinview.cpp:1223
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Larghezza delle colonne personalizzata"
 
-#: views/dolphinview.cpp:1827
+#: views/dolphinview.cpp:1829
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operazione di cestinamento completata."
 
-#: views/dolphinview.cpp:1837
+#: views/dolphinview.cpp:1839
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operazione di eliminazione completata."
 
-#: views/dolphinview.cpp:1993
+#: views/dolphinview.cpp:1995
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Rinomina e nascondi"
 
-#: views/dolphinview.cpp:1997
+#: views/dolphinview.cpp:1999
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5566,7 +5579,7 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarlo?"
 
-#: views/dolphinview.cpp:1999
+#: views/dolphinview.cpp:2001
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5576,94 +5589,94 @@ msgstr ""
 "dalla vista.\n"
 "Vuoi ancora rinominarla?"
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2003
 #, kde-format
 msgid "Hide this File?"
 msgstr "Vuoi nascondere questo file?"
 
-#: views/dolphinview.cpp:2001
+#: views/dolphinview.cpp:2003
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Vuoi nascondere questa cartella?"
 
-#: views/dolphinview.cpp:2051
+#: views/dolphinview.cpp:2053
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "La posizione è vuota."
 
-#: views/dolphinview.cpp:2053
+#: views/dolphinview.cpp:2055
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "La posizione «%1» non è valida."
 
-#: views/dolphinview.cpp:2322
+#: views/dolphinview.cpp:2324
 #, kde-format
 msgid "Loading…"
 msgstr "Caricamento…"
 
-#: views/dolphinview.cpp:2341
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgid "Loading canceled"
 msgstr "Caricamento annullato"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2345
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nessun elemento corrispondente al filtro"
 
-#: views/dolphinview.cpp:2345
+#: views/dolphinview.cpp:2347
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nessun elemento corrispondente alla ricerca"
 
-#: views/dolphinview.cpp:2347
+#: views/dolphinview.cpp:2349
 #, kde-format
 msgid "Trash is empty"
 msgstr "Il cestino è vuoto"
 
-#: views/dolphinview.cpp:2350
+#: views/dolphinview.cpp:2352
 #, kde-format
 msgid "No tags"
 msgstr "Nessuna etichetta"
 
-#: views/dolphinview.cpp:2353
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nessun file etichettato con «%1»"
 
-#: views/dolphinview.cpp:2357
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "No recently used items"
 msgstr "Non ci sono elementi utilizzati di recente"
 
-#: views/dolphinview.cpp:2359
+#: views/dolphinview.cpp:2361
 #, kde-format
 msgid "No shared folders found"
 msgstr "Non è stata trovata alcuna cartella condivisa"
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2363
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Non sono state trovate risorse di rete pertinenti"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Non è stato trovato alcun dispositivo MTP compatibile"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2367
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nessun dispositivo Apple trovato"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Non è stato trovato alcun dispositivo Bluetooth"
 
-#: views/dolphinview.cpp:2369
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "Folder is empty"
 msgstr "La cartella è vuota"
