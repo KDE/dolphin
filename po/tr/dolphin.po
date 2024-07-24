@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 00:41+0000\n"
-"PO-Revision-Date: 2024-07-14 17:32+0300\n"
+"PO-Revision-Date: 2024-07-23 14:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2001,7 +2001,7 @@ msgstr "Geçersiz protokol"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Bu klasöre girebilmek için yetkilendirme gerekiyor."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format

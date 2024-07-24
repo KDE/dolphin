@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 00:41+0000\n"
-"PO-Revision-Date: 2024-07-14 14:31+0200\n"
+"PO-Revision-Date: 2024-07-23 11:28+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2025,7 +2025,7 @@ msgstr "Ongeldig protocol"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Autorisatie vereist om deze map in te gaan."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
