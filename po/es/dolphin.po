@@ -1,4 +1,3 @@
-# translation of dolphin.po to Spanish
 # Translation of dolphin to Spanish
 # This file is put in the public domain.
 #
@@ -16,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-07-16 16:32+0200\n"
+"PO-Revision-Date: 2024-07-23 18:24+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2045,7 +2044,7 @@ msgstr "Protocolo no válido"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Se necesita autorización para entrar en esta carpeta."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
