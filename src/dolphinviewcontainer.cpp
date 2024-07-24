@@ -41,6 +41,7 @@
 #include <QRegularExpression>
 #include <QTimer>
 #include <QUrl>
+#include <QUrlQuery>
 
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
@@ -533,6 +534,15 @@ QString DolphinViewContainer::captionWindowTitle() const
 
 QString DolphinViewContainer::caption() const
 {
+    // see KUrlNavigatorPrivate::firstButtonText().
+    if (url().path().isEmpty() || url().path() == QLatin1Char('/')) {
+        QUrlQuery query(url());
+        const QString title = query.queryItemValue(QStringLiteral("title"));
+        if (!title.isEmpty()) {
+            return title;
+        }
+    }
+
     if (isSearchModeEnabled()) {
         if (currentSearchText().isEmpty()) {
             return i18n("Search");
