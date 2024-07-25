@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
 "PO-Revision-Date: 2024-07-06 21:49+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1732,7 +1732,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "சமீபத்தில் முடிய கீற்றுகளை காலியாக்கு"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%1 என்பதை %2-இல் தேடியது"
@@ -1812,7 +1812,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "இந்த அடைவில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1827,78 +1827,78 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "டால்பினை ரூட்டாக இயக்குதல் ஆபத்து விளைவிக்கலாம். தயவுசெய்து எச்சரிக்கையாக இருங்கள்."
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "அடைவு ஏற்றப்படுகிறது…"
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "வரிசைப்படுத்துகிறது…"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search"
 msgstr "தேடல்"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search for %1"
 msgstr "%1 என்பதற்கான தேடல்"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "தேடுகிறது…"
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "எதையும் கண்டுபிடிக்கவில்லை."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "டால்பின் இணையப் பக்கங்களை ஆதரிக்காது, இணைய உலாவி தொடங்கப்பட்டுள்ளது"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "இந்த நெறிமுறையை டால்பின் ஆதரிக்காது, இயல்பிருப்பு செயலி தொடக்கப்பட்டுள்ளது."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "செல்லுபடியாகாத நெறிமுறை '%1'"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "செல்லுபடியாகாத நெறிமுறை"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

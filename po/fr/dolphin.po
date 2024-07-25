@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
-"PO-Revision-Date: 2024-07-04 09:19+0200\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
+"PO-Revision-Date: 2024-07-15 10:04+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -78,18 +78,16 @@ msgid "Finish acting as an administrator"
 msgstr "Terminer de fonctionner en tant qu'administrateur"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Agir en tant qu'administrateur"
+msgstr "Agir à nouveau en tant qu'administrateur"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "L'autorisation des droits administrateur a expiré."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -1905,7 +1903,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Vider les onglets récemment fermés"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Chercher « %1 » dans « %2 »"
@@ -1995,7 +1993,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Vous n'avez pas de droits en écriture sur ce dossier."
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -2021,55 +2019,55 @@ msgstr ""
 "d'outils de recherche : installer d'autres moyens de rechercher un élément.</"
 "item></list></para>"
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Exécuter Dolphin en tant qu'administrateur peut s'avérer dangereux. Soyez "
 "prudent."
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Chargement du dossier…"
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Tri en cours..."
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search"
 msgstr "Rechercher"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search for %1"
 msgstr "Recherche de %1"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Recherche en cours…"
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne prend pas en charge les pages web, le navigateur a été lancé"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2078,25 +2076,25 @@ msgstr ""
 "Protocole non pris en charge par Dolphin, l'application par défaut a été "
 "lancée"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocole non valable « %1 »"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocole non valable"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5451,12 +5449,14 @@ msgstr "KDiskFree"
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
 msgstr ""
+"L'application <application>Filelight</application> a été installée avec "
+"succès."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Installation de Filelight en cours…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5484,7 +5484,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Libérer de l'espace disque"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5494,12 +5494,15 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Veuillez installer un logiciel supplémentaire pour afficher les "
+"statistiques d'utilisation du disque<nl/> et identifier les fichiers et les "
+"dossiers les plus gros.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Installer Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format

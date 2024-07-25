@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
 "PO-Revision-Date: 2024-07-18 12:03+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1943,7 +1943,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Άδειασμα πρόσφατα κλεισμένων καρτελών"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Αναζήτηση για %1 στο %2"
@@ -2033,7 +2033,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -2059,53 +2059,53 @@ msgstr ""
 "item><item>Περισσότερα εργαλεία αναζήτησης: Εγκαταστήστε άλλα μέσα για να "
 "βρείτε ένα αντικείμενο.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Η εκτέλεση του Dolphin ως root ίσως εμπεριέχει κίνδυνο. Να είστε προσεκτικοί."
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Φόρτωση φακέλου..."
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Ταξινόμηση…"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search for %1"
 msgstr "Αναζήτηση για %1"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Αναζήτηση…"
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Κανένα αντικείμενο δεν βρέθηκε."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Το Dolphin δεν υποστηρίζει ιστοσελίδες, εκτελείται ο περιηγητής ιστού"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2114,7 +2114,7 @@ msgstr ""
 "Μη υποστηριζόμενο πρωτόκολλο από το Dolphin, εκτελείται η προκαθορισμένη "
 "εφαρμογή"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2122,19 +2122,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Μη έγκυρο πρωτόκολλο"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Μη έγκυρο πρωτόκολλο"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

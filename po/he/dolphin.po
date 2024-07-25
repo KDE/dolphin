@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
 "PO-Revision-Date: 2024-07-23 08:35+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1779,7 +1779,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "הלשוניות הריקות שנסגרו לאחרונה"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "חיפוש אחר %1 בתוך %2"
@@ -1866,7 +1866,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "אין לך הרשאה לכתוב לתיקייה הזאת."
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1888,77 +1888,77 @@ msgstr ""
 "כאן כדי לחפש לפי סוג מדיה, מועד גישה או דירוג.</item><item>כלי חיפוש נוספים: "
 "התקנת אמצעים אחרים לאיתור פריט.</item></list></para>"
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "הרצת Dolphin בתור משתמש על (root) עלולה להיות מסוכנת. נא להיזהר."
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "התיקייה נטענת…"
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "מתבצע מיון…"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search"
 msgstr "חיפוש"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search for %1"
 msgstr "חיפוש אחר %1"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "מתבצע חיפוש…"
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "לא נמצאו פריטים מתאימים."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "אין תמיכה בהצגת אתרים ב־Dolphin, ולכן דפדפן האינטרנט הופעל"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "הפרוטוקול לא נתמך על־ידי Dolphin, ולכן הופעל ביישום אחר"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "הפרוטוקול ‚%1’ שגוי"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "פרוטוקול שגוי"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "צריך לעבור אימות כדי להיכנס לתיקייה הזאת."
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

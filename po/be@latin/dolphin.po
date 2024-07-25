@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1984,7 +1984,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Ačyscić spis niadaŭna zakrytych ukladak"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Pošuk %1 u %2"
@@ -2086,7 +2086,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -2111,14 +2111,14 @@ msgstr ""
 "pošuku: ustaliujcie inšyja srodki dlia pošuku eliemienta.</item></list></"
 "para>"
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Zapusk Dolphin ad imia supierkarystaĺnika moža być niebiaspiečnym. Budźcie "
 "piĺnymi."
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -2126,7 +2126,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Zahruzka kataloha..."
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -2134,17 +2134,17 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sartavannie:"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, kde-format
 msgid "Search"
 msgstr "Pošuk"
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, kde-format
 msgid "Search for %1"
 msgstr "Pošuk %1"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -2152,19 +2152,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pošuk..."
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nie znojdziena eliemientaŭ."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin nie padtrymlivaje veb-staronki, byŭ zapuščany veb-braŭzier"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2173,7 +2173,7 @@ msgstr ""
 "Pratakol nie padtrymlivajecca Dolphin, byla zapuščanaja pradvyznačanaja "
 "prahrama"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2181,19 +2181,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Chibny pratakol"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

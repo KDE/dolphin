@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:41+0000\n"
+"POT-Creation-Date: 2024-07-25 00:41+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -1677,7 +1677,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Табни ёпиш"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:502 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:503 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1763,7 +1763,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:91
+#: dolphinviewcontainer.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1778,12 +1778,12 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:111
+#: dolphinviewcontainer.cpp:112
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:162
+#: dolphinviewcontainer.cpp:163
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1791,7 +1791,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Жилд юкланмоқда..."
 
-#: dolphinviewcontainer.cpp:165
+#: dolphinviewcontainer.cpp:166
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1799,21 +1799,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Саралаш:"
 
-#: dolphinviewcontainer.cpp:538
+#: dolphinviewcontainer.cpp:548
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
 msgid "Search"
 msgstr "Қидириш..."
 
-#: dolphinviewcontainer.cpp:540
+#: dolphinviewcontainer.cpp:550
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "Қидириш панели"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:633
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Search..."
@@ -1821,44 +1821,44 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Қидириш..."
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:653
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:825
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:828
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:835
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:928
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
