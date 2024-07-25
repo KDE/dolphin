@@ -14,9 +14,9 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/dolphin/dolphin_servicemenuinstaller."
+"X-Crowdin-File: /kf6-stable/messages/dolphin/dolphin_servicemenuinstaller."
 "pot\n"
-"X-Crowdin-File-ID: 48292\n"
+"X-Crowdin-File-ID: 52424\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format

@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-07-04 09:19+0200\n"
+"PO-Revision-Date: 2024-07-15 10:04+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -78,18 +78,16 @@ msgid "Finish acting as an administrator"
 msgstr "Terminer de fonctionner en tant qu'administrateur"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Agir en tant qu'administrateur"
+msgstr "Agir à nouveau en tant qu'administrateur"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "L'autorisation des droits administrateur a expiré."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -5451,12 +5449,14 @@ msgstr "KDiskFree"
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
 msgstr ""
+"L'application <application>Filelight</application> a été installée avec "
+"succès."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Installation de Filelight en cours…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5484,7 +5484,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Libérer de l'espace disque"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5494,12 +5494,15 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Veuillez installer un logiciel supplémentaire pour afficher les "
+"statistiques d'utilisation du disque<nl/> et identifier les fichiers et les "
+"dossiers les plus gros.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Installer Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
