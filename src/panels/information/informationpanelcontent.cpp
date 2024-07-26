@@ -10,6 +10,7 @@
 #include <KIO/PreviewJob>
 #include <KIconEffect>
 #include <KIconLoader>
+#include <KIconUtils>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KSeparator>
@@ -351,8 +352,8 @@ bool InformationPanelContent::gestureEvent(QGestureEvent *event)
 void InformationPanelContent::showIcon(const KFileItem &item)
 {
     m_outdatedPreviewTimer->stop();
-    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(m_preview->size(), devicePixelRatioF());
-    KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
+    QIcon icon = QIcon::fromTheme(item.iconName());
+    QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size());
     m_preview->setPixmap(pixmap);
 }
 
@@ -360,8 +361,8 @@ void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &
 {
     m_outdatedPreviewTimer->stop();
 
-    QPixmap p = pixmap;
-    KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
+    const QSize size = pixmap.size();
+    QPixmap p = KIconUtils::addOverlays(pixmap, item.overlays()).pixmap(size);
 
     if (m_isVideo) {
         // adds a play arrow overlay

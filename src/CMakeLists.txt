@@ -203,6 +203,7 @@ target_link_libraries(
     Qt6::DBus
     Qt6::Gui
     KF6::I18n
+    KF6::GuiAddons
     KF6::IconThemes
     KF6::KIOCore
     KF6::KIOWidgets
@@ -449,6 +450,7 @@ target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
     dolphinprivate
     KF6::CoreAddons
+    KF6::GuiAddons
     KF6::KCMUtils
     KF6::DBusAddons
     KF6::Notifications

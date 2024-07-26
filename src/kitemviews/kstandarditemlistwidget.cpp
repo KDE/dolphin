@@ -15,6 +15,7 @@
 
 #include <KIconEffect>
 #include <KIconLoader>
+#include <KIconUtils>
 #include <KRatingPainter>
 #include <KStringHandler>
 
@@ -1647,30 +1648,12 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStrin
 
         // Strangely KFileItem::overlays() returns empty string-values, so
         // we need to check first whether an overlay must be drawn at all.
-        // It is more efficient to do it here, as KIconLoader::drawOverlays()
-        // assumes that an overlay will be drawn and has some additional
-        // setup time.
         for (const QString &overlay : overlays) {
             if (!overlay.isEmpty()) {
-                int state = KIconLoader::DefaultState;
-
-                switch (mode) {
-                case QIcon::Normal:
-                    break;
-                case QIcon::Active:
-                    state = KIconLoader::ActiveState;
-                    break;
-                case QIcon::Disabled:
-                    state = KIconLoader::DisabledState;
-                    break;
-                case QIcon::Selected:
-                    state = KIconLoader::SelectedState;
-                    break;
-                }
-
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
-                KIconLoader::global()->drawOverlays(overlays, pixmap, KIconLoader::Desktop, state);
+                const QSize size = pixmap.size();
+                pixmap = KIconUtils::addOverlays(pixmap, overlays).pixmap(size, mode);
                 break;
             }
         }

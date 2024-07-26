@@ -16,6 +16,7 @@
 #include <KIO/ListJob>
 #include <KIO/PreviewJob>
 #include <KIconLoader>
+#include <KIconUtils>
 #include <KJobWidgets>
 #include <KOverlayIconPlugin>
 #include <KPluginMetaData>
@@ -557,15 +558,13 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     const QStringList overlays = data["iconOverlays"].toStringList();
     // Strangely KFileItem::overlays() returns empty string-values, so
     // we need to check first whether an overlay must be drawn at all.
-    // It is more efficient to do it here, as KIconLoader::drawOverlays()
-    // assumes that an overlay will be drawn and has some additional
-    // setup time.
     if (!scaledPixmap.isNull()) {
         for (const QString &overlay : overlays) {
             if (!overlay.isEmpty()) {
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
-                KIconLoader::global()->drawOverlays(overlays, scaledPixmap, KIconLoader::Desktop);
+                const QSize size = scaledPixmap.size();
+                scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(size);
                 break;
             }
         }
