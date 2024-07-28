@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-25 00:41+0000\n"
+"POT-Creation-Date: 2024-07-28 00:42+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -3030,13 +3030,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Ngày tháng thu gọn"
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:106
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Chọn dữ liệu sẽ được hiển thị:"
 
-#: panels/information/informationpanelcontent.cpp:285
+#: panels/information/informationpanelcontent.cpp:286
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

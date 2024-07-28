@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-25 00:41+0000\n"
-"PO-Revision-Date: 2024-06-29 14:53+0200\n"
+"POT-Creation-Date: 2024-07-28 00:42+0000\n"
+"PO-Revision-Date: 2024-07-26 21:12+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2937,13 +2937,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Sűrített dátum"
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:106
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "A megjelenítendő adatok kiválasztása:"
 
-#: panels/information/informationpanelcontent.cpp:285
+#: panels/information/informationpanelcontent.cpp:286
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -4881,7 +4881,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Parancs…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format

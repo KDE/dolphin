@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-25 00:41+0000\n"
+"POT-Creation-Date: 2024-07-28 00:42+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -2889,7 +2889,7 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr ""
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:106
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Configure which services should be shown in the context menu."
@@ -2897,7 +2897,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Configure which services should be shown in the context menu."
 
-#: panels/information/informationpanelcontent.cpp:285
+#: panels/information/informationpanelcontent.cpp:286
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"

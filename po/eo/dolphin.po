@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-25 00:41+0000\n"
-"PO-Revision-Date: 2024-07-14 22:18+0200\n"
+"POT-Creation-Date: 2024-07-28 00:42+0000\n"
+"PO-Revision-Date: 2024-07-27 14:20+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1999,7 +1999,7 @@ msgstr "Nevalida protokolo"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Rajtigo bezonata por eniri ĉi tiun dosierujon."
 
 #: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
@@ -2937,13 +2937,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Kondensita Dato"
 
-#: panels/information/informationpanelcontent.cpp:105
+#: panels/information/informationpanelcontent.cpp:106
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Elektu kiujn datumojn montru:"
 
-#: panels/information/informationpanelcontent.cpp:285
+#: panels/information/informationpanelcontent.cpp:286
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
