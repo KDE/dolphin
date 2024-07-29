@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-05-31 18:33+0400\n"
+"PO-Revision-Date: 2024-07-28 12:42+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -24,6 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -60,12 +61,10 @@ msgid "Finish acting as an administrator"
 msgstr "أنه العمل بصلاحيات مدير النظام"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "اعمل بصلاحيات مدير النظام"
+msgstr "اعمل بصلاحيات مدير النظام مرة أخرى"
 
 #: admin/bar.cpp:148
 #, kde-format
@@ -114,12 +113,10 @@ msgid ""
 msgstr ""
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "اعمل بصلاحيات مدير النظام"
+msgstr "كيف تدير النظام"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -4525,13 +4522,7 @@ msgid "Show previews for folders"
 msgstr "أظهر معاينة للمجلدات"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4539,10 +4530,9 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>يعد إنشاء <emphasis>معاينات</emphasis> للمجلدات البعيدة <emphasis "
-"strong='true'>مكلفًا للغاية</emphasis> فيما يتعلق بموارد الشبكة.</"
-"para><para>عطل هذا في عندما يكون التنقل في المجلدات البعيدة بطيئًا أو عند "
-"الوصول إلى مساحة التخزين عبر اتصالات مقيّدة.</para>"
+"<para>إنشاء <emphasis>معاينات</emphasis> للمجلدات البعيدة يستخدم الكثير من "
+"موارد الشبكة.</para><para>عطّل هذا إذا كان التنقل عبر المجلدات البعيدة في "
+"دولفين بطيئًا أو عند الوصول إلى التخزين عبر اتصالات محدودة.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5370,7 +5360,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "ثبت كاشف الملفات…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
