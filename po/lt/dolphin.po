@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-05-09 00:05+0300\n"
+"PO-Revision-Date: 2024-07-30 01:22+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -51,7 +51,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Užbaigti"
 
 #: admin/bar.cpp:57
 #, kde-format
@@ -69,7 +69,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Administratoriaus įgaliojimai baigė galioti."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -90,13 +90,13 @@ msgstr ""
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -115,7 +115,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "Kaip administruoti"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -299,7 +299,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Nepavyksta įdėti: Iškarpinė tuščia."
 
 #: dolphinmainwindow.cpp:878
 #, kde-format
@@ -1314,12 +1314,10 @@ msgid "Pop out Left View"
 msgstr "Iškelti kairįjį rodinį"
 
 #: dolphinmainwindow.cpp:2641
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
-msgstr "Perkelti kairįjį padalytą rodinį į naują langą"
+msgstr "Perkelti kairįjį rodinį į naują langą"
 
 #: dolphinmainwindow.cpp:2643
 #, kde-format
@@ -1340,12 +1338,10 @@ msgid "Pop out Right View"
 msgstr "Iškelti dešinįjį rodinį"
 
 #: dolphinmainwindow.cpp:2647
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right split view to a new window"
+#, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
-msgstr "Perkelti dešinįjį padalytą rodinį į naują langą"
+msgstr "Perkelti dešinįjį rodinį į naują langą"
 
 #: dolphinmainwindow.cpp:2656
 #, kde-format
@@ -1576,7 +1572,7 @@ msgstr[3] "Vietos juostos"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Nepavyko rasti paketo %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
@@ -1919,12 +1915,10 @@ msgid "Hide Filter Bar"
 msgstr "Slėpti filtro juostą"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Sukurti aplanką…"
+msgstr "Perkelti į naują aplanką…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3487,7 +3481,7 @@ msgstr "Didžiausias teksto pločio indeksas (0 reiškia neribotas)"
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Kaip atvaizduojame katalogų dydžius"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
@@ -3792,11 +3786,9 @@ msgstr "Žymėjimas"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgid "Custom Action"
-msgstr "Tinkintas šriftas"
+msgstr "Tinkintas veiksmas"
 
 #. i18n: ectx: label, entry (EditableUrl), group (General)
 #: settings/dolphin_generalsettings.kcfg:25
@@ -3865,7 +3857,7 @@ msgstr "Prisiminti atvertus aplankus ir korteles"
 #: settings/dolphin_generalsettings.kcfg:61
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Padėti du rodinius vieną šalia kito"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -3923,18 +3915,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:98
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Use tab for switching between right and left split view"
+#, kde-format
 msgid "Use tab for switching between right and left view"
-msgstr "Pereiti į kitą padalinto lango pusę galite Tab klavišu"
+msgstr "Naudoti Tab klavišą perjungimui tarp dešiniojo ir kairiojo rodinio"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "Išjungiant padalytą rodinį, užverti aktyvų polangį"
+msgstr "Išjungiant padalytą rodinį, užverti sufokusuotą rodinį"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:106
@@ -4243,12 +4232,10 @@ msgid "Open new tabs: "
 msgstr "Atverti naujas korteles: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Perjungti tarp polangių naudojant Tab klavišą"
+msgstr "Perjungti tarp rodinių naudojant Tab klavišą"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
@@ -4257,12 +4244,10 @@ msgid "Split view: "
 msgstr "Padalytas rodinys: "
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "Išjungus padalytą rodinį, bus užvertas aktyvus polangis"
+msgstr "Išjungus padalytą rodinį, bus užvertas sufokusuotas rodinys"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
@@ -4345,13 +4330,13 @@ msgstr "Rodyti elementą užvedus pelę"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Naudoti i&lgą datą, pavyzdžiui, „%1“"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Naudoti &sutrumpintą datą, pavyzdžiui, „%1“"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
@@ -4378,9 +4363,7 @@ msgstr "Rodyti rodinyje peržiūras:"
 #. or "Show previews for [files of any size]".
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show previews"
+#, kde-format
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "Rodyti peržiūras"
@@ -4392,7 +4375,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "failų, mažesnių nei "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4405,24 +4388,19 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "bet kokio dydžio failų"
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 failas"
+msgstr "jokio failo"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Rodyti failų ir aplankų peržiūrą"
+msgstr "Rodyti aplankų peržiūrą"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4435,20 +4413,16 @@ msgid ""
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Location:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Vieta:"
+msgstr "Vietinė saugykla:"
 
 #: settings/interface/previewssettingspage.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
+#, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "Atkurti"
+msgstr "Nuotolinė saugykla:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -4736,6 +4710,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Atsarginės kopijos failai – tai failai, kurių MIME tipas yra application/x-"
+"trash, o šablonai: %1"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:121
 #, kde-format
@@ -4743,22 +4719,20 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Veiksmas, kurį paleisti, kai du kartus spustelėjama ant rodinio fono"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Nieko"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Tinkintas šriftas"
+msgstr "Tinkinta komanda"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -4776,7 +4750,7 @@ msgstr "Failai ir aplankai atveriami spragtelėjus du kartus"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Fonas: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
@@ -4785,12 +4759,14 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Įveskite tinkintą komandą, kuri bus paleista, kai du kartus spustelėsite ant "
+"rodinio fono"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:161
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr ""
+msgstr "Komanda…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -5207,13 +5183,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> sėkmingai įdiegta."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Įdiegiama Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5241,7 +5217,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Atlaisvinti vietą diske"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5251,12 +5227,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Įdiegti papildomą programinę įrangą, kad galima būtų peržiūrėti disko "
+"naudojimo statistiką<nl/>ir atpažinti didelius failus bei aplankus.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Įdiegti Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
@@ -5562,18 +5540,14 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
 msgstr ""
-"Tai visiškai ištrina šiuo metu pažymėtus elementus. Juos nepavyks atkurti "
-"įprastomis priemonėmis."
+"Tai visam laikui ištrina šiuo metu pažymėtus elementus. Jų nebepavyks "
+"atkurti įprastomis priemonėmis."
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-format
