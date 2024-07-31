@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-28 00:42+0000\n"
-"PO-Revision-Date: 2024-07-17 03:01-0400\n"
+"PO-Revision-Date: 2024-07-29 21:45-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
 "Language: sq\n"
@@ -46,7 +46,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Përfundo"
 
 #: admin/bar.cpp:57
 #, kde-format
@@ -259,7 +259,7 @@ msgstr "Konfirmimi"
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
-msgstr ""
+msgstr "&Dil %1"
 
 #: dolphinmainwindow.cpp:620
 #, kde-format
@@ -327,14 +327,12 @@ msgstr[0] "A jeni i/e sigurtë që doni të hapni 1 dritare terminali?"
 msgstr[1] "A jeni i/e sigurtë që doni të hapni %1 dritare terminali?"
 
 #: dolphinmainwindow.cpp:1311
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Hap %1 Terminalin"
-msgstr[1] "Hap Terminalin"
+msgstr[0] "Hap %1 Terminal"
+msgstr[1] "Hap %1 Terminale"
 
 #: dolphinmainwindow.cpp:1412
 #, kde-format
@@ -357,12 +355,10 @@ msgid "New &Window"
 msgstr "Dritare e &Re"
 
 #: dolphinmainwindow.cpp:1673
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Open in New Window"
+#, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
-msgstr "Hape në Një Dritare të Re"
+msgstr "Hape në Një Dritare të Re Delfini"
 
 #: dolphinmainwindow.cpp:1675
 #, kde-kuit-format
@@ -442,7 +438,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Prije…"
 
 #: dolphinmainwindow.cpp:1725
 #, kde-kuit-format
@@ -835,12 +831,10 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2042
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Hap Terminalin"
+msgstr "Hap Terminalin këtu"
 
 #: dolphinmainwindow.cpp:2044
 #, kde-kuit-format
@@ -861,7 +855,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
-msgstr ""
+msgstr "&Faqeruajtëset"
 
 #: dolphinmainwindow.cpp:2070
 #, kde-kuit-format
@@ -1225,7 +1219,7 @@ msgstr "Mbylle"
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
-msgstr ""
+msgstr "Mbylle pamjen e majt"
 
 #: dolphinmainwindow.cpp:2640
 #, kde-format
@@ -1851,14 +1845,14 @@ msgstr "Krijo skedar..."
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "\"%1\""
 
 #: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr ""
+msgstr "\"%1\" dhe \"%2\""
 
 #: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
@@ -1866,7 +1860,7 @@ msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr ""
+msgstr "\"%1\", \"%2\" dhe \"%3\""
 
 #: kitemviews/kfileitemlisttostring.cpp:37
 #, kde-format
@@ -1874,7 +1868,7 @@ msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr ""
+msgstr "\"%1\", \"%2\", \"%3\" dhe \"%4\""
 
 #: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
@@ -1882,7 +1876,7 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "\"%1\", \"%2\", \"%3\", \"%4\" dhe \"%5\""
 
 #: kitemviews/kfileitemlisttostring.cpp:65
 #, fuzzy, kde-format
@@ -1900,20 +1894,18 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Një skedar është zgjedhur"
+msgstr[1] "%1 skedarë të zgjedhur"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Select Item"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "Zgjidh Temën"
-msgstr[1] "Zgjidh Temën"
+msgstr[0] "Një element është zgjedhur"
+msgstr[1] "%1 elemente  të zgjedhura"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, fuzzy, kde-format
@@ -1962,7 +1954,7 @@ msgstr[1] "%1 tema u përzgjodhën"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2313
 #, kde-format
@@ -2489,7 +2481,7 @@ msgstr "(C) 2006-2022 Programerët e Dolphin-it"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:106
 #, fuzzy, kde-format
@@ -2503,7 +2495,7 @@ msgstr "Mirëmbajtësi (që nga 2018) dhe zhvilluesi"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:109
 #, fuzzy, kde-format
@@ -2531,7 +2523,7 @@ msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
-msgstr ""
+msgstr "Emmanuel Pescosta"
 
 #: main.cpp:115
 #, fuzzy, kde-format
@@ -2548,12 +2540,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
-msgstr "Maintainer (2012-2014) and developer"
+msgstr "Mirëmbajtësi (2012-2014) dhe programeri"
 
 #: main.cpp:120
 #, kde-format
@@ -2989,8 +2979,8 @@ msgstr ", "
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Etiketa: %2"
+msgstr[1] "Etiketat: %2"
 
 #: search/dolphinfacetswidget.cpp:256
 #, kde-format
@@ -3053,9 +3043,7 @@ msgid "Search in your home directory"
 msgstr "Kërko në skedarin shtëpiak"
 
 #: search/dolphinsearchbox.cpp:419
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgid "Open %1"
 msgstr "Hap %1"
 
@@ -3065,7 +3053,7 @@ msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
 "user entered."
 msgid "Query Results from '%1'"
-msgstr ""
+msgstr "Rezultatet e Kërkimit '%1'"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
@@ -3374,7 +3362,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
-msgstr ""
+msgstr "Rinis tash?"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:245
 #, kde-format
@@ -4357,7 +4345,7 @@ msgstr ""
 #, kde-format
 msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #: settings/interface/previewssettingspage.cpp:71
 #, kde-format
@@ -4644,7 +4632,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
-msgstr "Hapi arkivat si dosje"
+msgstr "Hapi arkivat si skedarë"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:60
 #, kde-format
@@ -5364,14 +5352,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/dolphinview.cpp:1084
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "Hap %1"
-msgstr[1] "Hap %1"
+msgstr[0] "Hap %1 element"
+msgstr[1] "Hap %1 elemente"
 
 #: views/dolphinview.cpp:1214
 #, kde-format
