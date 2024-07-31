@@ -713,7 +713,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
         }
     }
 
-    if (event->button() & Qt::RightButton) {
+    if (event->button() & ~Qt::LeftButton) {
         return false;
     }
 

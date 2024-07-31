@@ -620,6 +620,41 @@ void KItemListControllerTest::testMouseClickActivation()
     mouseReleaseEvent.setButton(Qt::LeftButton);
     mouseReleaseEvent.setButtons(Qt::NoButton);
 
+    QGraphicsSceneMouseEvent mouseDoubleClickEvent(QEvent::GraphicsSceneMouseDoubleClick);
+    mouseDoubleClickEvent.setPos(pos);
+    mouseDoubleClickEvent.setButton(Qt::LeftButton);
+    mouseDoubleClickEvent.setButtons(Qt::LeftButton);
+
+    QGraphicsSceneMouseEvent mouseRightPressEvent(QEvent::GraphicsSceneMousePress);
+    mouseRightPressEvent.setPos(pos);
+    mouseRightPressEvent.setButton(Qt::RightButton);
+    mouseRightPressEvent.setButtons(Qt::RightButton);
+
+    QGraphicsSceneMouseEvent mouseRightReleaseEvent(QEvent::GraphicsSceneMouseRelease);
+    mouseRightReleaseEvent.setPos(pos);
+    mouseRightReleaseEvent.setButton(Qt::RightButton);
+    mouseRightReleaseEvent.setButtons(Qt::NoButton);
+
+    QGraphicsSceneMouseEvent mouseRightDoubleClickEvent(QEvent::GraphicsSceneMouseDoubleClick);
+    mouseRightDoubleClickEvent.setPos(pos);
+    mouseRightDoubleClickEvent.setButton(Qt::RightButton);
+    mouseRightDoubleClickEvent.setButtons(Qt::RightButton);
+
+    QGraphicsSceneMouseEvent mouseBackPressEvent(QEvent::GraphicsSceneMousePress);
+    mouseBackPressEvent.setPos(pos);
+    mouseBackPressEvent.setButton(Qt::BackButton);
+    mouseBackPressEvent.setButtons(Qt::BackButton);
+
+    QGraphicsSceneMouseEvent mouseBackReleaseEvent(QEvent::GraphicsSceneMouseRelease);
+    mouseBackReleaseEvent.setPos(pos);
+    mouseBackReleaseEvent.setButton(Qt::BackButton);
+    mouseBackReleaseEvent.setButtons(Qt::NoButton);
+
+    QGraphicsSceneMouseEvent mouseBackDoubleClickEvent(QEvent::GraphicsSceneMouseDoubleClick);
+    mouseBackDoubleClickEvent.setPos(pos);
+    mouseBackDoubleClickEvent.setButton(Qt::BackButton);
+    mouseBackDoubleClickEvent.setButtons(Qt::BackButton);
+
     QSignalSpy spyItemActivated(m_controller, &KItemListController::itemActivated);
 
     // Default setting: single click activation.
@@ -637,6 +672,29 @@ void KItemListControllerTest::testMouseClickActivation()
     QCOMPARE(spyItemActivated.count(), 0);
     spyItemActivated.clear();
     QVERIFY(m_view->controller()->selectionManager()->hasSelection());
+
+    // emulation of double click according to https://doc.qt.io/qt-6/qgraphicsscene.html#mouseDoubleClickEvent
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    m_view->event(&mouseDoubleClickEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 1);
+    spyItemActivated.clear();
+    QVERIFY2(!m_view->controller()->selectionManager()->hasSelection(), "An item should not be implicitly selected during activation. @see bug 424723");
+
+    // right mouse button should not trigger activation
+    m_view->event(&mouseRightPressEvent);
+    m_view->event(&mouseRightReleaseEvent);
+    m_view->event(&mouseRightDoubleClickEvent);
+    m_view->event(&mouseRightReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 0);
+
+    // back mouse button should not trigger activation
+    m_view->event(&mouseBackPressEvent);
+    m_view->event(&mouseBackReleaseEvent);
+    m_view->event(&mouseBackDoubleClickEvent);
+    m_view->event(&mouseBackReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 0);
 
     // Enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(true);
