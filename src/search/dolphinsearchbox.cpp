@@ -126,7 +126,7 @@ QUrl DolphinSearchBox::urlForSearching() const
         }
 
         query.addQueryItem(QStringLiteral("url"), QUrl::toPercentEncoding(searchPath().url()));
-        query.addQueryItem(QStringLiteral("title"), QUrl::toPercentEncoding(queryTitle(m_searchInput->text())));
+        query.addQueryItem(QStringLiteral("title"), queryTitle(m_searchInput->text()));
 
         url.setQuery(query);
     }
