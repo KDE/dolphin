@@ -1841,12 +1841,12 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Els fitxers antics tenen un nombre configurable de dies després dels quals es poden eliminar de forma automàtica. </para
+>Els fitxers antics tenen un nombre configurable de dies després dels quals es poden suprimir de forma automàtica. </para
 ></listitem>
 
 <listitem
 ><para
->La mida de la paperera es pot limitar a un percentatge configurable a la mida del disc. Si s'arriba a aquest límit, es pot emetre un avís, o es poden eliminar de forma automàtica els fitxers més antics o més grans. </para
+>La mida de la paperera es pot limitar a un percentatge configurable a la mida del disc. Si s'arriba a aquest límit, es pot emetre un avís, o es poden suprimir de forma automàtica els fitxers més antics o més grans. </para
 ></listitem>
 
 </itemizedlist>
