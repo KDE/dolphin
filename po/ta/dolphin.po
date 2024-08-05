@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-07-06 21:49+0530\n"
+"PO-Revision-Date: 2024-08-04 17:47+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -54,18 +54,16 @@ msgid "Finish acting as an administrator"
 msgstr "நிர்வாகியாக செயல்படுவதை நிறுத்து"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "நிர்வாகியாக செயல்படு"
+msgstr "நிர்வாகியாக மறுபடியும் செயல்படு"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "நிர்வாக உரிமை காலாவதியாகியுள்ளது"
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -1896,7 +1894,7 @@ msgstr "செல்லுபடியாகாத நெறிமுறை"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "இவ்வடைவில் நுழைய உரிமை வழங்க வேண்டும்."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
@@ -5166,13 +5164,13 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>ஃபைல்-லைட்</application> வெற்றிகரமாக நிறுவப்பட்டது."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "ஃபைல்-லைட் நிறுவப்படுகிறது…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5200,7 +5198,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "சேமிப்பகத்தை காலியாக்குவது"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5210,12 +5208,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>வட்டு பயன்பாட்டு விவரங்களைக் காணவும் பெரிய கோப்புகளைக் கண்டறியவும்<nl/>கூடுதல் "
+"செயலிகளை நிறவுவது.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "ஃபைல்-லைட்டை நிறுவு…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
