@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-28 00:42+0000\n"
-"PO-Revision-Date: 2024-07-26 21:12+0200\n"
+"PO-Revision-Date: 2024-08-05 21:53+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -36,43 +36,43 @@ msgstr "ulysses@fsf.hu"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Rendszergazdaként tevékenykedik - Legyen óvatos!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Rendszergazdaként tevékenykedik"
 
 #: admin/bar.cpp:55
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "Befejezés"
 
 #: admin/bar.cpp:57
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Rendszergazdai tevékenység befejezése"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr ""
+msgstr "Rendszergazdaként ismét"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "A rendszergazdai felhatalmazás lejárt."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Rendszergazdaként"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -82,18 +82,22 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"A <application>Dolphinnak</application> a(z) <application>%1</application> "
+"alkalmazásra van szüksége a rendszerfájlok kezeléséhez, de az nincs "
+"telepítve.<nl/>Nyomja meg a(z) %2 billentyűparancsot a(z) <application>%1</"
+"application> telepítéséhez, vagy a(z) %3 billentyűparancsot a megszakításhoz."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -2024,12 +2028,10 @@ msgid "Hide Filter Bar"
 msgstr "Szűrősor elrejtése"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Új mappa…"
+msgstr "Áthelyezés új mappába…"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4525,12 +4527,10 @@ msgid ""
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
-#| msgid "Local files above:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "Ha a helyi fájl nagyobb mint:"
+msgstr "Helyi tároló:"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, fuzzy, kde-format

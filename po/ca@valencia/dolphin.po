@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-28 00:42+0000\n"
-"PO-Revision-Date: 2024-07-23 10:02+0200\n"
+"PO-Revision-Date: 2024-07-31 11:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5701,7 +5701,7 @@ msgid ""
 msgstr ""
 "Mou els elements de la selecció actual cap a dins de la <filename>Paperera</"
 "filename>. <nl/>La paperera és una ubicació emmagatzematge temporal a on els "
-"elements es poden eliminar més tard si es necessita espai en el disc."
+"elements es poden suprimir més tard si es necessita espai en el disc."
 
 #: views/dolphinviewactionhandler.cpp:116
 #, kde-kuit-format
@@ -5717,7 +5717,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
-msgstr "Elimina (utilitzant una drecera per a la paperera)"
+msgstr "Suprimix (utilitzant una drecera per a la paperera)"
 
 #: views/dolphinviewactionhandler.cpp:132
 #, kde-format
