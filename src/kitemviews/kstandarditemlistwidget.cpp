@@ -25,6 +25,7 @@
 #include <QGraphicsView>
 #include <QPixmapCache>
 #include <QStyleOption>
+#include <QTextBoundaryFinder>
 #include <QVariantAnimation>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
@@ -812,9 +813,19 @@ void KStandardItemListWidget::siblingsInformationChanged(const QBitArray &curren
     m_dirtyLayout = true;
 }
 
+int KStandardItemListWidget::numberOfUnicodeCharactersIn(const QString &text)
+{
+    int count = 0;
+    QTextBoundaryFinder boundaryFinder(QTextBoundaryFinder::Grapheme, text);
+    while (boundaryFinder.toNextBoundary() != -1) {
+        ++count;
+    }
+    return count;
+}
+
 int KStandardItemListWidget::selectionLength(const QString &text) const
 {
-    return text.length();
+    return numberOfUnicodeCharactersIn(text);
 }
 
 void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const QByteArray &previous)
