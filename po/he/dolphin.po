@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-28 00:42+0000\n"
-"PO-Revision-Date: 2024-07-23 08:35+0300\n"
+"PO-Revision-Date: 2024-08-10 23:05+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4080,7 +4080,7 @@ msgstr "רוחב טקסט"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Maximum textlines (0 means unlimited)"
-msgstr "מספר השורות המירבי (0 משמעו ללא הגבלה)"
+msgstr "מספר השורות המרבי (0 משמעו ללא הגבלה)"
 
 #. i18n: ectx: label, entry (enabledPlugins), group (VersionControl)
 #: settings/dolphin_versioncontrolsettings.kcfg:10
