@@ -91,8 +91,6 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-    KCrash::initialize();
-
     KLocalizedString::setApplicationDomain(dolphinTranslationDomain);
 
     KAboutData aboutData(QStringLiteral("dolphin"),
@@ -130,6 +128,7 @@ int main(int argc, char **argv)
     aboutData.addAuthor(i18nc("@info:credit", "Michael Austin"), i18nc("@info:credit", "Documentation"), QStringLiteral("tuxedup@users.sourceforge.net"));
 
     KAboutData::setApplicationData(aboutData);
+    KCrash::initialize();
 
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
