@@ -162,14 +162,13 @@ QFont KFileItemListWidget::customizedFont(const QFont &baseFont) const
 
 int KFileItemListWidget::selectionLength(const QString &text) const
 {
-    // Select the text without MIME-type extension
-    int selectionLength = text.length();
-
     // If item is a directory, use the whole text length for
     // selection (ignore all points)
     if (data().value("isDir").toBool()) {
-        return selectionLength;
+        return numberOfUnicodeCharactersIn(text);
     }
+
+    int indexOfExtension = text.length();
 
     QMimeDatabase db;
     const QString extension = db.suffixForFileName(text);
@@ -177,18 +176,18 @@ int KFileItemListWidget::selectionLength(const QString &text) const
         // For an unknown extension just exclude the extension after
         // the last point. This does not work for multiple extensions like
         // *.tar.gz but usually this is anyhow a known extension.
-        selectionLength = text.lastIndexOf(QLatin1Char('.'));
+        indexOfExtension = text.lastIndexOf(QLatin1Char('.'));
 
         // If no point could be found, use whole text length for selection.
-        if (selectionLength < 1) {
-            selectionLength = text.length();
+        if (indexOfExtension < 1) {
+            indexOfExtension = text.length();
         }
 
     } else {
-        selectionLength -= extension.length() + 1;
+        indexOfExtension -= extension.length() + 1;
     }
 
-    return selectionLength;
+    return numberOfUnicodeCharactersIn(text.left(indexOfExtension));
 }
 
 void KFileItemListWidget::hoverSequenceStarted()

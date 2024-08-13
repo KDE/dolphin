@@ -159,6 +159,8 @@ protected:
      */
     QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const;
 
+    static int numberOfUnicodeCharactersIn(const QString &text);
+
     /**
      * Fixes:
      * Select the text without MIME-type extension
@@ -168,7 +170,7 @@ protected:
      * Inherited classes can define, if the MIME-type extension
      * should be selected or not.
      *
-     * @return Selection length (with or without MIME-type extension)
+     * @return Selection length (with or without MIME-type extension) in number of unicode characters, which might be different from number of QChars.
      */
     virtual int selectionLength(const QString &text) const;
 

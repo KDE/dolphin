@@ -62,7 +62,7 @@ protected:
     QFont customizedFont(const QFont &baseFont) const override;
 
     /**
-     * @return Selection length without MIME-type extension
+     * @return Selection length without MIME-type extension in number of unicode characters, which might be different from number of QChars.
      */
     int selectionLength(const QString &text) const override;
 
