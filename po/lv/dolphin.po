@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-28 00:42+0000\n"
+"POT-Creation-Date: 2024-08-13 00:41+0000\n"
 "PO-Revision-Date: 2024-05-26 20:41+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2624,187 +2624,187 @@ msgid ""
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
 
-#: main.cpp:99
+#: main.cpp:97
 #, kde-format
 msgid "Dolphin"
 msgstr "Dolphin"
 
-#: main.cpp:101
+#: main.cpp:99
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Datņu pārvaldnieks"
 
-#: main.cpp:103
+#: main.cpp:101
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr "(C) 2006—2022 „Dolphin“ izstrādātāji"
 
-#: main.cpp:105
+#: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
-#: main.cpp:106
+#: main.cpp:104
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr "Uzturētājs (kopš 2021. gada) un izstrādātājs"
 
-#: main.cpp:108
+#: main.cpp:106
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr "Méven Car"
 
-#: main.cpp:109
+#: main.cpp:107
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr "Uzturētājs (kopš 2021 gada) un izstrādātājs (kopš 2019. gada)"
 
-#: main.cpp:111
+#: main.cpp:109
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: main.cpp:112
+#: main.cpp:110
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr "Uzturētājs (2018—2021) un izstrādātājs"
 
-#: main.cpp:114
+#: main.cpp:112
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
-#: main.cpp:115
+#: main.cpp:113
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr "Uzturētājs (2014—2018) un izstrādātājs"
 
-#: main.cpp:117
+#: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
-#: main.cpp:118
+#: main.cpp:116
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr "Uzturētājs (2012—2014) un izstrādātājs"
 
-#: main.cpp:120
+#: main.cpp:118
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:121
+#: main.cpp:119
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr "Uzturētājs un izstrādātājs (2006—2012)"
 
-#: main.cpp:123
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr "Sebastian Trüg"
 
-#: main.cpp:123 main.cpp:124 main.cpp:125 main.cpp:126 main.cpp:127
-#: main.cpp:128 main.cpp:129
+#: main.cpp:121 main.cpp:122 main.cpp:123 main.cpp:124 main.cpp:125
+#: main.cpp:126 main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Izstrādātājs"
 
-#: main.cpp:124
+#: main.cpp:122
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:125
+#: main.cpp:123
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:126
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:127
+#: main.cpp:125
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:128
+#: main.cpp:126
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:129
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:130
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:130
+#: main.cpp:128
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dokumentācija"
 
-#: main.cpp:140
+#: main.cpp:139
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr "Atlasītas tiks datnes un mapes, kas ir norādītas kā argumenti."
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr "„Dolphin“ ieslēgsies sadalītā skatā."
 
-#: main.cpp:143
+#: main.cpp:142
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr "„Dolphin“ atvērsies jaunā logā."
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
 msgstr ""
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Palaist „Dolphin“ dēmonu (nepieciešams tikai „DBus“ saskarnei)."
 
-#: main.cpp:148
+#: main.cpp:147
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
