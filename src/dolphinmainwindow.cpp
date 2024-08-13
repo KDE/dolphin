@@ -2922,7 +2922,10 @@ bool DolphinMainWindow::isItemVisibleInAnyView(const QString &urlOfItem)
 
 void DolphinMainWindow::slotDoubleClickViewBackground(Qt::MouseButton button)
 {
-    Q_UNUSED(button) // might be of use later
+    if (button == Qt::MouseButton::LeftButton) {
+        // only handle left mouse button for now
+        return;
+    }
 
     GeneralSettings *settings = GeneralSettings::self();
     QString clickAction = settings->doubleClickViewAction();
