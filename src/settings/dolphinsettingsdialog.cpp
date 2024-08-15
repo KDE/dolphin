@@ -39,14 +39,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
 
     setFaceType(List);
     setWindowTitle(i18nc("@title:window", "Configure"));
-    QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults);
-    box->button(QDialogButtonBox::Apply)->setEnabled(false);
-    box->button(QDialogButtonBox::Ok)->setDefault(true);
-    setButtonBox(box);
-
-    connect(box->button(QDialogButtonBox::Ok), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
-    connect(box->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
-    connect(box->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked, this, &DolphinSettingsDialog::restoreDefaults);
 
     // Interface
     InterfaceSettingsPage *interfaceSettingsPage = new InterfaceSettingsPage(this);
@@ -111,6 +103,16 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
         m_pages.append(feedbackSettingsPage);
     }
 #endif
+
+    // Create the buttons last so they are also last in the keyboard Tab focus order.
+    QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults);
+    box->button(QDialogButtonBox::Apply)->setEnabled(false);
+    box->button(QDialogButtonBox::Ok)->setDefault(true);
+    setButtonBox(box);
+
+    connect(box->button(QDialogButtonBox::Ok), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
+    connect(box->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
+    connect(box->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked, this, &DolphinSettingsDialog::restoreDefaults);
 
     const KConfigGroup dialogConfig(KSharedConfig::openStateConfig(), QStringLiteral("SettingsDialog"));
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
