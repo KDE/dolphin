@@ -80,7 +80,7 @@
   <summary xml:lang="eo">Mastrumu viajn dosierojn</summary>
   <summary xml:lang="es">Gestión de archivos</summary>
   <summary xml:lang="eu">Kudeatu zure fitxategiak</summary>
-  <summary xml:lang="fa">پرونده‌هایتان را مدیریت کنید</summary>
+  <summary xml:lang="fa">پرونده‌های خود را مدیریت کنید</summary>
   <summary xml:lang="fr">Gérer vos fichiers</summary>
   <summary xml:lang="gl">Xestione os seus ficheiros.</summary>
   <summary xml:lang="he">ניהול הקבצים שלך</summary>
@@ -119,6 +119,7 @@
     <p xml:lang="eo">Dolfin estas la dosieradministranto de KDE, kiu ebligas vin navigi kaj foliumi la enhavon de viaj malmolaj diskoj, USB-memoroj, SD-kartoj kaj pli. Krei, movi aŭ forigi dosierojn kaj dosierujojn estas simpla kaj rapida.</p>
     <p xml:lang="es">Dolphin es el gestor de archivos de KDE que le permite explorar el contenido de sus discos duros, memorias USB, tarjetas SD y más. Crear, mover o eliminar archivos y carpetas es simple y rápido.</p>
     <p xml:lang="eu">Dolphin zure disko zurrun, USB memoria, SD txartel, eta gehiagoren edukian nabigatu eta arakatzen uzten dizun KDEren fitxategi-kudeatzailea da. Fitxategi eta karpetak sortzea, mugitzea, edo ezabatzea erraza eta azkarra da.</p>
+    <p xml:lang="fa">دلفین مدیرپرونده کی‌دی‌ای است که به شما اجازه می‌دهد تا محتویات دیسک‌سخت ، حافظه‌های جانبی و .... را مرور کنید، پرونده‌هایتان را به سادگی بسازید، حذف کنید و انتقال دهید.</p>
     <p xml:lang="fi">Dolphin on KDE:n tiedostonhallinta, jolla voit selata kiintolevyjen, USB-tikkujen, SD-korttien ja muiden tallennusvälineiden sisältöä. Tiedostojen ja kansioiden luominen, siirtäminen ja poistaminen on yksinkertaista ja helppoa.</p>
     <p xml:lang="fr">Dolphin est le gestionnaire de fichiers de KDE, vous permettant de naviguer et d'explorer le contenu de vos disques durs, vos clés USB et bien plus. La création, le déplacement ou la suppression de fichiers et de dossiers sont simples et rapides.</p>
     <p xml:lang="gl">Dolphin é o xestor de ficheiros de KDE que lle permite navegar e explorar o contido dos seus discos duros, memorias USB, tarxetas SD, e máis. Fai que tarefas como crear, mover, e eliminar ficheiros e cartafoles sexan doadas e rápidas.</p>
