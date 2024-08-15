@@ -19,6 +19,7 @@
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QRadioButton>
@@ -42,22 +43,19 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     QFormLayout *topLayout = new QFormLayout(this);
 
     // Show on startup
-    m_rememberOpenedTabsRadioButton = new QRadioButton(i18nc("@option:radio Show on startup", "Folders, tabs, and window state from last time"));
-    m_homeUrlRadioButton = new QRadioButton();
-    // HACK: otherwise the radio button has too much spacing in a grid layout
-    m_homeUrlRadioButton->setMaximumWidth(24);
-
-    QButtonGroup *initialViewGroup = new QButtonGroup(this);
-    initialViewGroup->addButton(m_rememberOpenedTabsRadioButton);
-    initialViewGroup->addButton(m_homeUrlRadioButton);
+    m_rememberOpenedTabsRadioButton = new QRadioButton(i18nc("@option:radio Show on startup", "Folders, tabs, and window state from last time"), this);
 
     // create 'Home URL' editor
     m_homeUrlBoxLayoutContainer = new QWidget(this);
+    m_homeUrlRadioButton = new QRadioButton(m_homeUrlBoxLayoutContainer);
+    m_homeUrlRadioButton->setAccessibleName(i18nc("@option:radio", "Show home location on startup"));
     QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(m_homeUrlBoxLayoutContainer);
     homeUrlBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_homeUrl = new QLineEdit();
     m_homeUrl->setClearButtonEnabled(true);
+    // i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+    m_homeUrl->setPlaceholderText(i18nc("@info:placeholder", "Enter home location path"));
     homeUrlBoxLayout->addWidget(m_homeUrl);
 
     QPushButton *selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString());
@@ -80,6 +78,12 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     buttonBoxLayout->addWidget(useDefaultButton);
     connect(useDefaultButton, &QPushButton::clicked, this, &FoldersTabsSettingsPage::useDefaultLocation);
 
+    QButtonGroup *initialViewGroup = new QButtonGroup(this);
+    initialViewGroup->addButton(m_rememberOpenedTabsRadioButton);
+    initialViewGroup->addButton(m_homeUrlRadioButton);
+
+    topLayout->addRow(i18nc("@label:textbox", "Show on startup:"), m_rememberOpenedTabsRadioButton);
+
     QGridLayout *startInLocationLayout = new QGridLayout();
     startInLocationLayout->setHorizontalSpacing(0);
     startInLocationLayout->setContentsMargins(0, 0, 0, 0);
@@ -87,16 +91,19 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     startInLocationLayout->addWidget(m_homeUrlBoxLayoutContainer, 0, 1);
     startInLocationLayout->addWidget(m_buttonBoxLayoutContainer, 1, 1);
 
-    topLayout->addRow(i18nc("@label:textbox", "Show on startup:"), m_rememberOpenedTabsRadioButton);
     topLayout->addRow(QString(), startInLocationLayout);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
     // Opening Folders
+    auto *openingFoldersLabel = new QLabel{i18nc("@label:checkbox", "Opening Folders:")};
     m_openExternallyCalledFolderInNewTab = new QCheckBox(i18nc("@option:check Opening Folders", "Keep a single Dolphin window, opening new folders in tabs"));
-    topLayout->addRow(i18nc("@label:checkbox", "Opening Folders:"), m_openExternallyCalledFolderInNewTab);
+    openingFoldersLabel->setAccessibleName(m_openExternallyCalledFolderInNewTab->text());
+    topLayout->addRow(openingFoldersLabel, m_openExternallyCalledFolderInNewTab);
     // Window
+    auto *windowLabel = new QLabel{i18nc("@label:checkbox", "Window:")};
     m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"));
-    topLayout->addRow(i18nc("@label:checkbox", "Window:"), m_showFullPathInTitlebar);
+    windowLabel->setAccessibleName(m_showFullPathInTitlebar->text());
+    topLayout->addRow(windowLabel, m_showFullPathInTitlebar);
     m_filterBar = new QCheckBox(i18nc("@option:check Window Startup Settings", "Show filter bar"));
     topLayout->addRow(QString(), m_filterBar);
 
@@ -115,8 +122,10 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // 'Switch between panes of split views with tab key'
+    auto *splitViewLabel = new QLabel{i18nc("@title:group", "Split view: ")};
     m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between views with Tab key"));
-    topLayout->addRow(i18nc("@title:group", "Split view: "), m_useTabForSplitViewSwitch);
+    splitViewLabel->setAccessibleName(m_useTabForSplitViewSwitch->text());
+    topLayout->addRow(splitViewLabel, m_useTabForSplitViewSwitch);
 
     // 'Close active pane when turning off split view'
     m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes the view in focus"));
@@ -125,8 +134,10 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
         i18n("When unchecked, the opposite view will be closed. The Close icon always illustrates which view (left or right) will be closed."));
 
     // 'Begin in split view mode'
+    auto *newWindowsLabel = new QLabel{i18n("New windows:")};
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Begin in split view mode"));
-    topLayout->addRow(i18n("New windows:"), m_splitView);
+    newWindowsLabel->setAccessibleName(m_splitView->text());
+    topLayout->addRow(newWindowsLabel, m_splitView);
 
     loadSettings();
 
