@@ -306,7 +306,6 @@ void ContextMenuSettingsPage::loadServices()
     }
 
     m_sortModel->sort(Qt::DisplayRole);
-    m_searchLineEdit->setFocus(Qt::OtherFocusReason);
 }
 
 void ContextMenuSettingsPage::loadVersionControlSystems()
