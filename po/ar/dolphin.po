@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-13 00:41+0000\n"
-"PO-Revision-Date: 2024-07-28 12:42+0400\n"
+"PO-Revision-Date: 2024-08-15 11:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -70,7 +70,7 @@ msgstr "اعمل بصلاحيات مدير النظام مرة أخرى"
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "انتهت صلاحية تصريح مدير النظام."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -86,18 +86,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"يحتاج <application>دولفين </application> <application>%1</application> "
+"لإدارة الملفات التي يتحكم فيها النظام، ولكنه غير مثبت.<nl/>اضغط على %2 "
+"لتثبيت <application>%1</application> أو %3 للإلغاء."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -111,6 +114,13 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para> كيفية استخدم صلاحيات مدير النظام في دولفين:"
+"<numberedlist><numbereditem>انتقل إلى الملف أو المجلد الذي تريد تغييره.</"
+"numbereditem><numbereditem>قم بتنشيط الإجراء \"%1\" إما ضمن <interface>فتح "
+"القائمة|المزيد|عرض</interface> أو <interface>شريط القائمة|عرض</interface>."
+"<nl/>الاختصار الافتراضي: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>بعد أخذ التصريح يمكنك إدارة الملفات كمدير نظام.</"
+"numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
@@ -1644,13 +1654,13 @@ msgstr[5] "شريط الموقع"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "لم يعثر على الحزمة %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "انتهى التثبيت دون نجاح. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1661,6 +1671,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"فشل تثبيت <application>%1</application>: %2 (%3)<nl/>يرجى محاولة تثبيت "
+"<application>%1</application> يدويًا بدلاً من ذلك."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -1974,7 +1986,7 @@ msgstr "ميفاق غير صالح"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "مطلوب إذن لدخول هذا المجلد."
 
 #: dolphinviewcontainer.cpp:970
 #, kde-kuit-format
@@ -2625,6 +2637,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+" ينصح بتشغيل <application>دولفين</application> باستخدام <command>sudo</"
+"command>. يرجى تشغيل <icode>%1</icode> بدلاً من ذلك."
 
 #: main.cpp:97
 #, kde-format
@@ -2798,7 +2812,7 @@ msgstr "سيفتح دولفين صراحة في نافذة جديدة"
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "إعداد دولفين للمهام الإدارية."
 
 #: main.cpp:146
 #, kde-format
@@ -5311,13 +5325,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "نجح تثبيت <application>كاشف الملفات</application>."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "يثبت كاشف الملفات…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5345,7 +5359,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "حرر مساحة القرص"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5355,6 +5369,8 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>ثبت برنامج إضافي لعرض إحصائيات استخدام القرص<nl/>وتحديد الملفات "
+"والمجلدات الكبيرة.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
