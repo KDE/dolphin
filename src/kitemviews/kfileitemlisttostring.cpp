@@ -19,35 +19,35 @@ QString fileItemListToString(KFileItemList items, int maximumTextWidth, const QF
     QString text;
     switch (items.count()) {
     case 1:
-        text = i18nc("Textual representation of a file. %1 is the name of the file/folder.", "\"%1\"", items.first().name());
+        text = i18nc("Textual representation of a file. %1 is the name of the file/folder.", "\"%1\"", items.first().name().replace("&", "&&"));
         break;
     case 2:
         text =
-            i18nc("Textual representation of two files. %1 and %2 are names of files/folders.", "\"%1\" and \"%2\"", items.first().name(), items.last().name());
+            i18nc("Textual representation of two files. %1 and %2 are names of files/folders.", "\"%1\" and \"%2\"", items.first().name().replace("&", "&&"), items.last().name().replace("&", "&&"));
         break;
     case 3:
         text = i18nc("Textual representation of three files. %1, %2 and %3 are names of files/folders.",
                      "\"%1\", \"%2\" and \"%3\"",
-                     items.first().name(),
-                     items.at(1).name(),
-                     items.last().name());
+                     items.first().name().replace("&", "&&"),
+                     items.at(1).name().replace("&", "&&"),
+                     items.last().name().replace("&", "&&"));
         break;
     case 4:
         text = i18nc("Textual representation of four files. %1, %2, %3 and %4 are names of files/folders.",
                      "\"%1\", \"%2\", \"%3\" and \"%4\"",
-                     items.first().name(),
-                     items.at(1).name(),
-                     items.at(2).name(),
-                     items.last().name());
+                     items.first().name().replace("&", "&&"),
+                     items.at(1).name().replace("&", "&&"),
+                     items.at(2).name().replace("&", "&&"),
+                     items.last().name().replace("&", "&&"));
         break;
     case 5:
         text = i18nc("Textual representation of five files. %1, %2, %3, %4 and %5 are names of files/folders.",
                      "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\"",
-                     items.first().name(),
-                     items.at(1).name(),
-                     items.at(2).name(),
-                     items.at(3).name(),
-                     items.last().name());
+                     items.first().name().replace("&", "&&"),
+                     items.at(1).name().replace("&", "&&"),
+                     items.at(2).name().replace("&", "&&"),
+                     items.at(3).name().replace("&", "&&"),
+                     items.last().name().replace("&", "&&"));
         break;
     default:
         text = QString();
