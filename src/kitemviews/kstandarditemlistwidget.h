@@ -162,14 +162,6 @@ protected:
     static int numberOfUnicodeCharactersIn(const QString &text);
 
     /**
-     * Fixes:
-     * Select the text without MIME-type extension
-     * This is file-item-specific and should be moved
-     * into KFileItemListWidget.
-     *
-     * Inherited classes can define, if the MIME-type extension
-     * should be selected or not.
-     *
      * @return Selection length (with or without MIME-type extension) in number of unicode characters, which might be different from number of QChars.
      */
     virtual int selectionLength(const QString &text) const;
