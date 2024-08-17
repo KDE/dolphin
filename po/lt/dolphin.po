@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-17 00:41+0000\n"
 "PO-Revision-Date: 2024-07-30 01:22+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -4028,44 +4028,44 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "Konfigūruoti"
 
-#: settings/dolphinsettingsdialog.cpp:53
+#: settings/dolphinsettingsdialog.cpp:45
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
 msgstr "Sąsaja"
 
-#: settings/dolphinsettingsdialog.cpp:59
+#: settings/dolphinsettingsdialog.cpp:51
 #, kde-format
 msgctxt "@title:group"
 msgid "View"
 msgstr "Rodinys"
 
-#: settings/dolphinsettingsdialog.cpp:77
+#: settings/dolphinsettingsdialog.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Kontekstinis meniu"
 
-#: settings/dolphinsettingsdialog.cpp:87
+#: settings/dolphinsettingsdialog.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Šiukšlinė"
 
-#: settings/dolphinsettingsdialog.cpp:97
+#: settings/dolphinsettingsdialog.cpp:89
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Naudotojo grįžtamasis ryšys"
 
-#: settings/dolphinsettingsdialog.cpp:165
+#: settings/dolphinsettingsdialog.cpp:167
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 "Turite neįrašytų pakeitimų. Ar norite pritaikyti pakeitimus, ar juos atmesti?"
 
-#: settings/dolphinsettingsdialog.cpp:166
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid "Warning"
 msgstr "Įspėjimas"

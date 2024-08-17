@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-17 00:41+0000\n"
 "PO-Revision-Date: 2023-12-07 18:49+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation@opensuse.org>\n"
@@ -4229,43 +4229,43 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "Nastavenie"
 
-#: settings/dolphinsettingsdialog.cpp:53
+#: settings/dolphinsettingsdialog.cpp:45
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
 msgstr "Rozhranie"
 
-#: settings/dolphinsettingsdialog.cpp:59
+#: settings/dolphinsettingsdialog.cpp:51
 #, kde-format
 msgctxt "@title:group"
 msgid "View"
 msgstr "Zobrazenie"
 
-#: settings/dolphinsettingsdialog.cpp:77
+#: settings/dolphinsettingsdialog.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Kontextová ponuka"
 
-#: settings/dolphinsettingsdialog.cpp:87
+#: settings/dolphinsettingsdialog.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Kôš"
 
-#: settings/dolphinsettingsdialog.cpp:97
+#: settings/dolphinsettingsdialog.cpp:89
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Používateľská odozva"
 
-#: settings/dolphinsettingsdialog.cpp:165
+#: settings/dolphinsettingsdialog.cpp:167
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr "Máte neuložené zmeny. Chcete tieto zmeny použiť alebo zahodiť?"
 
-#: settings/dolphinsettingsdialog.cpp:166
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid "Warning"
 msgstr "Upozornenie"

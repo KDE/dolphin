@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-17 00:41+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -3882,44 +3882,44 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "ပြင်ဆင်မည်"
 
-#: settings/dolphinsettingsdialog.cpp:53
+#: settings/dolphinsettingsdialog.cpp:45
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:59
+#: settings/dolphinsettingsdialog.cpp:51
 #, fuzzy, kde-format
 #| msgid "&View"
 msgctxt "@title:group"
 msgid "View"
 msgstr "&Vမြင်ကွင်း"
 
-#: settings/dolphinsettingsdialog.cpp:77
+#: settings/dolphinsettingsdialog.cpp:69
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "ဆက်စပ်မီနူး"
 
-#: settings/dolphinsettingsdialog.cpp:87
+#: settings/dolphinsettingsdialog.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "အမှိုက်ပုံး"
 
-#: settings/dolphinsettingsdialog.cpp:97
+#: settings/dolphinsettingsdialog.cpp:89
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "အသုံးပြုသူတုံ့ပြန်ချက်"
 
-#: settings/dolphinsettingsdialog.cpp:165
+#: settings/dolphinsettingsdialog.cpp:167
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr "သင့်တွင် မသိမ်းဆည်းရသေးသော ပြောင်းလဲမှုများရှိသည်။ ယင်းတို့ကို သိမ်းမှာလား၊ စွန့်ပစ်မှာလား။"
 
-#: settings/dolphinsettingsdialog.cpp:166
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid "Warning"
 msgstr "သတိ"

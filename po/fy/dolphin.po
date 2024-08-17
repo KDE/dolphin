@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-17 00:41+0000\n"
 "PO-Revision-Date: 2010-07-19 10:30+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -4215,20 +4215,20 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "Ynstelle..."
 
-#: settings/dolphinsettingsdialog.cpp:53
+#: settings/dolphinsettingsdialog.cpp:45
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:59
+#: settings/dolphinsettingsdialog.cpp:51
 #, fuzzy, kde-format
 #| msgid "&View"
 msgctxt "@title:group"
 msgid "View"
 msgstr "Byl&d"
 
-#: settings/dolphinsettingsdialog.cpp:77
+#: settings/dolphinsettingsdialog.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "@title:tab Context Menu settings"
 #| msgid "Context Menu"
@@ -4236,25 +4236,25 @@ msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Kontekstmenu"
 
-#: settings/dolphinsettingsdialog.cpp:87
+#: settings/dolphinsettingsdialog.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Jiskefet"
 
-#: settings/dolphinsettingsdialog.cpp:97
+#: settings/dolphinsettingsdialog.cpp:89
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:165
+#: settings/dolphinsettingsdialog.cpp:167
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:166
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid "Warning"
 msgstr ""

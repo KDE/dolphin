@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-17 00:41+0000\n"
 "PO-Revision-Date: 2009-01-07 17:06+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
@@ -4176,13 +4176,13 @@ msgctxt "@title:window"
 msgid "Configure"
 msgstr "ଟିପ୍ପଣୀ ପରିବର୍ତ୍ତନ କରନ୍ତୁ..."
 
-#: settings/dolphinsettingsdialog.cpp:53
+#: settings/dolphinsettingsdialog.cpp:45
 #, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:59
+#: settings/dolphinsettingsdialog.cpp:51
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "View Mode"
@@ -4190,7 +4190,7 @@ msgctxt "@title:group"
 msgid "View"
 msgstr "ଦୃଶ୍ୟମାନ ଅବସ୍ଥା"
 
-#: settings/dolphinsettingsdialog.cpp:77
+#: settings/dolphinsettingsdialog.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Context Menu"
@@ -4198,7 +4198,7 @@ msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "ପ୍ରସଙ୍ଗ ତାଲିକା"
 
-#: settings/dolphinsettingsdialog.cpp:87
+#: settings/dolphinsettingsdialog.cpp:79
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Trash"
@@ -4206,19 +4206,19 @@ msgctxt "@title:group"
 msgid "Trash"
 msgstr "ଆବର୍ଜନା ପାତ୍ର"
 
-#: settings/dolphinsettingsdialog.cpp:97
+#: settings/dolphinsettingsdialog.cpp:89
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:165
+#: settings/dolphinsettingsdialog.cpp:167
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 
-#: settings/dolphinsettingsdialog.cpp:166
+#: settings/dolphinsettingsdialog.cpp:168
 #, kde-format
 msgid "Warning"
 msgstr ""
