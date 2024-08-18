@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-06-28 11:57+0000\n"
+"PO-Revision-Date: 2024-08-17 15:09+0000\n"
 "Last-Translator: Gummi <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
@@ -66,18 +66,16 @@ msgid "Finish acting as an administrator"
 msgstr "Hætta að vera í hlutverki stjórnanda"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Gerast stjórnandi"
+msgstr "Gerast aftur stjórnandi"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Auðkenning stjórnanda er útrunnin."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -93,18 +91,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> þarf <application>%1</application> til að "
+"geta haft umsjón með kerfistýrðum skrám, en það er ekki uppsett.<nl/>Ýttu á "
+"%2 til að setja upp <application>%1</application> eða %3 til að hætta við."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -118,14 +119,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Notaðu stjórnandaréttindi þín í Dolphin:"
+"<numberedlist><numbereditem>Flettu upp skrá eða möppu sem þú vilt breyta.</"
+"numbereditem><numbereditem>Virkjaðu aðgerðina \"%1\" undir<interface>Opna "
+"valmynd|Meira|Skoða</interface> eða <interface>Valmyndastika|Skoða</"
+"interface>.<nl/>Sjálfgefinn flýtilykill: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Eftir auðkenningu geturðu meðhöndlað skrár "
+"semstjórnandi.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "Gerast stjórnandi"
+msgstr "Hvernig stjórnandahlutverkið virkar"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1684,13 +1690,13 @@ msgstr[1] "Staðsetningarstikur"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Fann ekki pakkann %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Uppsetningin tókst ekki og var lokað. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1701,6 +1707,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Uppsetning á <application>%1</application> mistókst: %2 (%3)<nl/>Prófaðu að "
+"setja <application>%1</application> upp handvirkt í staðinn."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -2018,7 +2026,7 @@ msgstr "Ógild samskiptaregla"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Auðkenningar krafist til að opna möppuna."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
@@ -2643,6 +2651,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Ekki er mælt með því að keyra <application>Dolphin</application> með "
+"<command>sudo</command>. Keyrðu <icode>%1</icode> í staðinn."
 
 #: main.cpp:99
 #, kde-format
@@ -2816,7 +2826,7 @@ msgstr "Dolphin mun opnast sérstaklega í nýjum glugga."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Setja upp Dolphin fyrir stjórnandaverkefni."
 
 #: main.cpp:147
 #, kde-format
@@ -5307,13 +5317,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "Uppsetning á <application>Filelight</application> tókst."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Set upp Filelight..."
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5341,7 +5351,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Losa diskpláss"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5351,12 +5361,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Setja upp viðbótarforrit til að skoða gögn um disknotkun<nl/>og finna "
+"stórar skrár og möppur.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Setja upp Filelight…"
 
 #: trash/dolphintrash.cpp:50
 #, kde-format
