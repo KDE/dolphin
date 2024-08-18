@@ -241,6 +241,13 @@ DolphinMainWindow::~DolphinMainWindow()
 {
     // This fixes a crash on Wayland when closing the mainwindow while another dialog is open.
     disconnect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &DolphinMainWindow::updatePasteAction);
+
+    // This fixes a crash in dolphinmainwindowtest where the connection below fires even though the KMainWindow destructor of this object is already running.
+    Q_CHECK_PTR(qobject_cast<DolphinDockWidget *>(m_placesPanel->parent()));
+    disconnect(static_cast<DolphinDockWidget *>(m_placesPanel->parent()),
+               &DolphinDockWidget::visibilityChanged,
+               this,
+               &DolphinMainWindow::slotPlacesPanelVisibilityChanged);
 }
 
 QVector<DolphinViewContainer *> DolphinMainWindow::viewContainers() const
@@ -1136,11 +1143,21 @@ void DolphinMainWindow::togglePanelLockState()
     GeneralSettings::setLockPanels(newLockState);
 }
 
-void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
+void DolphinMainWindow::slotTerminalPanelVisibilityChanged(bool visible)
 {
-    if (m_terminalPanel->isHiddenInVisibleWindow() && m_activeViewContainer) {
+    if (!visible && m_activeViewContainer) {
         m_activeViewContainer->view()->setFocus();
     }
+    // Putting focus to the Terminal is not handled here but in TerminalPanel::showEvent().
+}
+
+void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
+{
+    if (!visible && m_activeViewContainer) {
+        m_activeViewContainer->view()->setFocus();
+        return;
+    }
+    m_placesPanel->setFocus();
 }
 
 void DolphinMainWindow::goBack()
@@ -2046,14 +2063,6 @@ void DolphinMainWindow::setupActions()
         openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
-
-#if HAVE_TERMINAL
-        QAction *focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
-        focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
-        focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
-        actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL | Qt::SHIFT | Qt::Key_F4);
-        connect(focusTerminalPanel, &QAction::triggered, this, &DolphinMainWindow::focusTerminalPanel);
-#endif
     }
 
     // setup 'Bookmarks' menu
@@ -2309,8 +2318,15 @@ void DolphinMainWindow::setupDockWidgets()
                                           "advanced tasks. To learn more about terminals use the help features in a "
                                           "standalone terminal application like Konsole.</para>")
                                    + panelWhatsThis);
-    }
-#endif
+
+        QAction *focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
+        focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
+        focusTerminalPanel->setToolTip(i18nc("@info:tooltip", "Move keyboard focus to and from the Terminal panel."));
+        focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
+        actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL | Qt::SHIFT | Qt::Key_F4);
+        connect(focusTerminalPanel, &QAction::triggered, this, &DolphinMainWindow::toggleTerminalPanelFocus);
+    } // endif "shell_access" allowed
+#endif // HAVE_TERMINAL
 
     if (GeneralSettings::version() < 200) {
         infoDock->hide();
@@ -2340,6 +2356,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(m_placesPanel, &PlacesPanel::errorMessage, this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged, m_placesPanel, &PlacesPanel::setUrl);
     connect(placesDock, &DolphinDockWidget::visibilityChanged, &DolphinUrlNavigatorsController::slotPlacesPanelVisibilityChanged);
+    connect(placesDock, &DolphinDockWidget::visibilityChanged, this, &DolphinMainWindow::slotPlacesPanelVisibilityChanged);
     connect(this, &DolphinMainWindow::settingsChanged, m_placesPanel, &PlacesPanel::readSettings);
     connect(m_placesPanel, &PlacesPanel::storageTearDownRequested, this, &DolphinMainWindow::slotStorageTearDownFromPlacesRequested);
     connect(m_placesPanel, &PlacesPanel::storageTearDownExternallyRequested, this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
@@ -2381,6 +2398,13 @@ void DolphinMainWindow::setupDockWidgets()
                                     "</interface> to display it again.</para>")
                              + panelWhatsThis);
 
+    QAction *focusPlacesPanel = actionCollection()->addAction(QStringLiteral("focus_places_panel"));
+    focusPlacesPanel->setText(i18nc("@action:inmenu View", "Focus Places Panel"));
+    focusPlacesPanel->setToolTip(i18nc("@info:tooltip", "Move keyboard focus to and from the Places panel."));
+    focusPlacesPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
+    actionCollection()->setDefaultShortcut(focusPlacesPanel, Qt::CTRL | Qt::Key_P);
+    connect(focusPlacesPanel, &QAction::triggered, this, &DolphinMainWindow::togglePlacesPanelFocus);
+
     // Add actions into the "Panels" menu
     KActionMenu *panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Show Panels"), this);
     actionCollection()->addAction(QStringLiteral("panels"), panelsMenu);
@@ -2394,8 +2418,11 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(ac->action(QStringLiteral("show_folders_panel")));
     panelsMenu->addAction(ac->action(QStringLiteral("show_terminal_panel")));
     panelsMenu->addSeparator();
-    panelsMenu->addAction(actionShowAllPlaces);
     panelsMenu->addAction(lockLayoutAction);
+    panelsMenu->addSeparator();
+    panelsMenu->addAction(actionShowAllPlaces);
+    panelsMenu->addAction(focusPlacesPanel);
+    panelsMenu->addAction(ac->action(QStringLiteral("focus_terminal_panel")));
 
     connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces] {
         actionShowAllPlaces->setEnabled(DolphinPlacesModelSingleton::instance().placesModel()->hiddenCount());
@@ -2874,20 +2901,40 @@ void DolphinMainWindow::saveNewToolbarConfig()
     (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
 }
 
-void DolphinMainWindow::focusTerminalPanel()
+void DolphinMainWindow::toggleTerminalPanelFocus()
 {
-    if (m_terminalPanel->isVisible()) {
-        if (m_terminalPanel->terminalHasFocus()) {
-            m_activeViewContainer->view()->setFocus(Qt::FocusReason::ShortcutFocusReason);
-            actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
-        } else {
-            m_terminalPanel->setFocus(Qt::FocusReason::ShortcutFocusReason);
-            actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Defocus Terminal Panel"));
-        }
-    } else {
-        actionCollection()->action(QStringLiteral("show_terminal_panel"))->trigger();
+    if (!m_terminalPanel->isVisible()) {
+        actionCollection()->action(QStringLiteral("show_terminal_panel"))->trigger(); // Also moves focus to the panel.
         actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Defocus Terminal Panel"));
+        return;
     }
+
+    if (m_terminalPanel->terminalHasFocus()) {
+        m_activeViewContainer->view()->setFocus(Qt::FocusReason::ShortcutFocusReason);
+        actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
+        return;
+    }
+
+    m_terminalPanel->setFocus(Qt::FocusReason::ShortcutFocusReason);
+    actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Defocus Terminal Panel"));
+}
+
+void DolphinMainWindow::togglePlacesPanelFocus()
+{
+    if (!m_placesPanel->isVisible()) {
+        actionCollection()->action(QStringLiteral("show_places_panel"))->trigger(); // Also moves focus to the panel.
+        actionCollection()->action(QStringLiteral("focus_places_panel"))->setText(i18nc("@action:inmenu View", "Defocus Terminal Panel"));
+        return;
+    }
+
+    if (m_placesPanel->hasFocus()) {
+        m_activeViewContainer->view()->setFocus(Qt::FocusReason::ShortcutFocusReason);
+        actionCollection()->action(QStringLiteral("focus_places_panel"))->setText(i18nc("@action:inmenu View", "Focus Places Panel"));
+        return;
+    }
+
+    m_placesPanel->setFocus(Qt::FocusReason::ShortcutFocusReason);
+    actionCollection()->action(QStringLiteral("focus_places_panel"))->setText(i18nc("@action:inmenu View", "Defocus Places Panel"));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface()

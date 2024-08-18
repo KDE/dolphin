@@ -45,6 +45,7 @@ private Q_SLOTS:
     void testNewFileMenuEnabled();
     void testWindowTitle_data();
     void testWindowTitle();
+    void testFocusPlacesPanel();
     void testPlacesPanelWidthResistance();
     void testGoActions();
     void testOpenFiles();
@@ -280,6 +281,44 @@ void DolphinMainWindowTest::testWindowTitle()
 
     QFETCH(QString, expectedWindowTitle);
     QCOMPARE(m_mainWindow->windowTitle(), expectedWindowTitle);
+}
+
+void DolphinMainWindowTest::testFocusPlacesPanel()
+{
+    m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
+    QVERIFY2(QTest::qWaitFor(
+                 [&]() {
+                     return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0 && placesPanel->height() > 0;
+                 },
+                 5000),
+             "The test couldn't be initialised properly. The places panel should be visible.");
+
+    QAction *focusPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("focus_places_panel"));
+    QAction *showPlacesPanelAction = m_mainWindow->actionCollection()->action(QStringLiteral("show_places_panel"));
+
+    focusPlacesPanelAction->trigger();
+    QVERIFY(placesPanel->hasFocus());
+
+    focusPlacesPanelAction->trigger();
+    QVERIFY2(m_mainWindow->activeViewContainer()->isAncestorOf(QApplication::focusWidget()),
+             "Triggering focus_places_panel while the panel already has focus should return the focus to the view.");
+
+    focusPlacesPanelAction->trigger();
+    QVERIFY(placesPanel->hasFocus());
+
+    showPlacesPanelAction->trigger();
+    QVERIFY(!placesPanel->isVisible());
+    QVERIFY2(m_mainWindow->activeViewContainer()->isAncestorOf(QApplication::focusWidget()),
+             "Hiding the Places panel while it has focus should return the focus to the view.");
+
+    showPlacesPanelAction->trigger();
+    QVERIFY(placesPanel->isVisible());
+    QVERIFY2(placesPanel->hasFocus(), "Enabling the Places panel should move keyboard focus there.");
 }
 
 /**

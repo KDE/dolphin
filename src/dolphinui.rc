@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="40">
+<gui name="dolphin" version="41">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -73,7 +73,6 @@
             <Action name="open_preferred_search_tool" />
             <Action name="open_terminal" />
             <Action name="open_terminal_here" />
-            <Action name="focus_terminal_panel"/>
             <Action name="compare_files" />
             <Action name="change_remote_encoding" />
         </Menu>

@@ -403,10 +403,21 @@ private Q_SLOTS:
     void togglePanelLockState();
 
     /**
-     * Is invoked if the Terminal panel got visible/invisible and takes care
-     * that the active view has the focus if the Terminal panel is invisible.
+     * Is invoked whenever the Terminal panel visibility is changed by the user and then moves the focus
+     * to the active view if the panel was hidden.
+     * @note The opposite action (putting focus to the Terminal) is not handled
+     *       here but in TerminalPanel::showEvent().
+     * @param visible the new visibility state of the terminal panel
      */
-    void slotTerminalPanelVisibilityChanged();
+    void slotTerminalPanelVisibilityChanged(bool visible);
+
+    /**
+     * Is invoked whenever the Places panel visibility is changed by the user and then either moves the focus
+     * - to the Places panel if it was made visible, or
+     * - to the active view if the panel was hidden.
+     * @param visible the new visibility state of the Places panel
+     */
+    void slotPlacesPanelVisibilityChanged(bool visible);
 
     /** Goes back one step of the URL history. */
     void goBack();
@@ -456,8 +467,11 @@ private Q_SLOTS:
     /** Opens a terminal window for the URL. */
     void openTerminalJob(const QUrl &url);
 
-    /** Focus a Terminal Panel. */
-    void focusTerminalPanel();
+    /** Toggles focus to/from a Terminal Panel. */
+    void toggleTerminalPanelFocus();
+
+    /** Toggles focus to/from the Places Panel. */
+    void togglePlacesPanelFocus();
 
     /** Opens the settings dialog for Dolphin. */
     void editSettings();

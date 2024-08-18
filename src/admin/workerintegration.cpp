@@ -122,7 +122,9 @@ WorkerIntegration::WorkerIntegration(DolphinMainWindow *parent, QAction *actAsAd
 
 void WorkerIntegration::createActAsAdminAction(KActionCollection *actionCollection, DolphinMainWindow *dolphinMainWindow)
 {
-    Q_ASSERT(!instance);
+    Q_ASSERT(!instance /* We never want to construct more than one instance,
+    however in automatic testing sometimes multiple DolphinMainWindows are created, so this assert is diluted to accommodate for that: */
+             || instance->parent() != dolphinMainWindow);
     if (isWorkerInstalled()) {
         QAction *actAsAdminAction = actionCollection->addAction(QStringLiteral("act_as_admin"));
         actAsAdminAction->setText(actionName());
