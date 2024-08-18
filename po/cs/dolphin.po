@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:41+0000\n"
+"POT-Creation-Date: 2024-08-18 00:41+0000\n"
 "PO-Revision-Date: 2024-07-23 14:42+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3983,121 +3983,138 @@ msgstr "Otevřít v aplikaci"
 msgid "Run script"
 msgstr "Spustit skript"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:46
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Složky, karty a stav okna jako naposled"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Show on startup:"
+msgctxt "@option:radio"
+msgid "Show home location on startup"
+msgstr "Zobrazovat při spuštění:"
+
+#. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+#: settings/interface/folderstabssettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "The location is empty."
+msgctxt "@info:placeholder"
+msgid "Enter home location path"
+msgstr "Umístění je prázdné."
+
+#: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Vyberte umístění domovského adresáře"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Použít aktuální umístění"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:77
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Použít výchozí umístění"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:85
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Zobrazovat při spuštění:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
-#, kde-format
-msgctxt "@option:check Opening Folders"
-msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:98
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Zobrazit celou cestu v pruhu názvu"
-
 #: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Okno:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:104
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Zobrazit celou cestu v pruhu názvu"
+
+#: settings/interface/folderstabssettingspage.cpp:107
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Zobrazit panel pro filtrování"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Za ak&tuální kartou"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Na konci pruhu karet"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Otevřít nové karty: "
 
-#: settings/interface/folderstabssettingspage.cpp:118
-#, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between views with Tab key"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Rozdělit pohled: "
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:126
+#, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between views with Tab key"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:137
+#, kde-format
+msgid "New windows:"
+msgstr "Nová okna"
+
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Začít v režimu rozděleného pohledu"
 
-#: settings/interface/folderstabssettingspage.cpp:129
-#, kde-format
-msgid "New windows:"
-msgstr "Nová okna"
-
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid ""

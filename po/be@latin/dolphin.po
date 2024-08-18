@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:41+0000\n"
+"POT-Creation-Date: 2024-08-18 00:41+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -4591,7 +4591,7 @@ msgstr "Adkryć u prahramie"
 msgid "Run script"
 msgstr "Zapuscić skrypt"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@option:radio Startup Settings"
 #| msgid "Folders, tabs, and window state from last time"
@@ -4599,37 +4599,48 @@ msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Katalohi, ukladki i stan akna z apošniaha raza"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Show on startup:"
+msgctxt "@option:radio"
+msgid "Show home location on startup"
+msgstr "Pakazvać padčas zapusku:"
+
+#. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+#: settings/interface/folderstabssettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "The location is empty."
+msgctxt "@info:placeholder"
+msgid "Enter home location path"
+msgstr "Razmiaščennie pustoje."
+
+#: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Abrać chatniaje razmiaščennie"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Vykarystoŭvać biahučy šliach"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:77
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Vykarystoŭvać pradvyznačany šliach"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:85
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Pakazvać padčas zapusku:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
-#, kde-format
-msgctxt "@option:check Opening Folders"
-msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:98
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Search for files and folders"
@@ -4637,13 +4648,13 @@ msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Pošuk fajlaŭ i katalohaŭ"
 
-#: settings/interface/folderstabssettingspage.cpp:98
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Pakazvać poŭny šliach na paneli zahaloŭkaŭ"
-
 #: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
@@ -4651,7 +4662,13 @@ msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Novaje &akno"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:104
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Pakazvać poŭny šliach na paneli zahaloŭkaŭ"
+
+#: settings/interface/folderstabssettingspage.cpp:107
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4659,33 +4676,25 @@ msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Pakazvać paneĺ fiĺtra"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Paslia biahučaj ukladki"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "U kancy paneli ŭkladak"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Adkryć novyja ŭkladki: "
 
-#: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Switch between split views panes with tab key"
-msgctxt "option:check split view panes"
-msgid "Switch between views with Tab key"
-msgstr "Pierakliučacca pamiž addzielienymi paneliami z dapamohaj klavišy Tab"
-
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:125
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -4693,7 +4702,15 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Padzialić"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:126
+#, fuzzy, kde-format
+#| msgctxt "option:check"
+#| msgid "Switch between split views panes with tab key"
+msgctxt "option:check split view panes"
+msgid "Switch between views with Tab key"
+msgstr "Pierakliučacca pamiž addzielienymi paneliami z dapamohaj klavišy Tab"
+
+#: settings/interface/folderstabssettingspage.cpp:131
 #, fuzzy, kde-format
 #| msgctxt "option:check"
 #| msgid "Turning off split view closes active pane"
@@ -4701,25 +4718,25 @@ msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Pry zakrycci padzielienaha vyhliadu zakryvać aktyŭnuju paneĺ"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:137
+#, kde-format
+msgid "New windows:"
+msgstr "Novyja vokny:"
+
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Pačynać u režymie padzielienaha vyhliadu"
 
-#: settings/interface/folderstabssettingspage.cpp:129
-#, kde-format
-msgid "New windows:"
-msgstr "Novyja vokny:"
-
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid ""

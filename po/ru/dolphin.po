@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:41+0000\n"
+"POT-Creation-Date: 2024-08-18 00:41+0000\n"
 "PO-Revision-Date: 2024-06-22 11:36+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -4375,121 +4375,138 @@ msgstr "Открывать в приложении"
 msgid "Run script"
 msgstr "Запускать сценарий"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:46
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Папки, вкладки и окна последнего сеанса"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Show on startup:"
+msgctxt "@option:radio"
+msgid "Show home location on startup"
+msgstr "Открывать при запуске:"
+
+#. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+#: settings/interface/folderstabssettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "The location is empty."
+msgctxt "@info:placeholder"
+msgid "Enter home location path"
+msgstr "Путь пуст."
+
+#: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Изменить путь"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Текущая папка"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:77
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Домашняя папка"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:85
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Открывать при запуске:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
-#, kde-format
-msgctxt "@option:check Opening Folders"
-msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "Открывать все папки в новых вкладках единого окна приложения"
-
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:98
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Открытие папок:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Полный путь в заголовке окна"
-
 #: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr "Открывать все папки в новых вкладках единого окна приложения"
+
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Окно:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:104
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Полный путь в заголовке окна"
+
+#: settings/interface/folderstabssettingspage.cpp:107
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Панель фильтра"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "После текущей вкладки"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "В конце панели вкладок"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Открывать новые вкладки:"
 
-#: settings/interface/folderstabssettingspage.cpp:118
-#, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between views with Tab key"
-msgstr "Переключать активную панель клавишей Tab"
-
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Разделяемая область просмотра: "
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:126
+#, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between views with Tab key"
+msgstr "Переключать активную панель клавишей Tab"
+
+#: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Закрывать активную панель при отключении двухпанельного режима"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:137
+#, kde-format
+msgid "New windows:"
+msgstr "Новые окна:"
+
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Двухпанельный режим"
 
-#: settings/interface/folderstabssettingspage.cpp:129
-#, kde-format
-msgid "New windows:"
-msgstr "Новые окна:"
-
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid ""

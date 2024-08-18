@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:41+0000\n"
+"POT-Creation-Date: 2024-08-18 00:41+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4335,31 +4335,48 @@ msgstr "Feidhmch&láir"
 msgid "Run script"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:46
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show in groups"
+msgctxt "@option:radio"
+msgid "Show home location on startup"
+msgstr "Taispeáin i ngrúpaí"
+
+#. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+#: settings/interface/folderstabssettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "The location is empty."
+msgctxt "@info:placeholder"
+msgid "Enter home location path"
+msgstr "Tá an suíomh folamh."
+
+#: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Úsáid an Suíomh Reatha"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:77
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Úsáid an Suíomh Réamhshocraithe"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:85
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show in groups"
@@ -4367,13 +4384,7 @@ msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Taispeáin i ngrúpaí"
 
-#: settings/interface/folderstabssettingspage.cpp:95
-#, kde-format
-msgctxt "@option:check Opening Folders"
-msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:98
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Show preview of files and folders"
@@ -4381,15 +4392,13 @@ msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Taispeáin réamhamharc ar chomhaid agus ar fhillteáin"
 
-#: settings/interface/folderstabssettingspage.cpp:98
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show full path inside location bar"
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Taispeáin an chonair iomláin sa bharra suímh"
-
 #: settings/interface/folderstabssettingspage.cpp:99
+#, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
@@ -4397,7 +4406,15 @@ msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "&Fuinneog Nua"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:104
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show full path inside location bar"
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Taispeáin an chonair iomláin sa bharra suímh"
+
+#: settings/interface/folderstabssettingspage.cpp:107
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4405,20 +4422,20 @@ msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Taispeáin barra na scagairí"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:113
 #, fuzzy, kde-format
 #| msgid "C&lose Current Tab"
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Dún an C&luaisín Reatha"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"
@@ -4426,13 +4443,7 @@ msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Oscail i gCluaisín Nua"
 
-#: settings/interface/folderstabssettingspage.cpp:118
-#, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between views with Tab key"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:125
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -4440,20 +4451,33 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Amharc scoilte"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:126
+#, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between views with Tab key"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:137
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgid "New windows:"
+msgstr "&Fuinneog Nua"
+
+#: settings/interface/folderstabssettingspage.cpp:138
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -4461,14 +4485,7 @@ msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Mód amhairc scoilte"
 
-#: settings/interface/folderstabssettingspage.cpp:129
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "New &Window"
-msgid "New windows:"
-msgstr "&Fuinneog Nua"
-
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:272
 #, kde-format
 msgctxt "@info"
 msgid ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:41+0000\n"
+"POT-Creation-Date: 2024-08-18 00:41+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -4003,43 +4003,52 @@ msgstr "Aperter in un application"
 msgid "Run script"
 msgstr "Lansar li scripte"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:46
 #, fuzzy, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Fólderes"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Show on startup:"
+msgctxt "@option:radio"
+msgid "Show home location on startup"
+msgstr "Monstrar al inicie:"
+
+#. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
+#: settings/interface/folderstabssettingspage.cpp:58
+#, fuzzy, kde-format
+msgctxt "@info:placeholder"
+msgid "Enter home location path"
+msgstr "Panel de localisation"
+
+#: settings/interface/folderstabssettingspage.cpp:65
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Usar un predefinit localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Usar li actual localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:77
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Usar un predefinit localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:85
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Monstrar al inicie:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
-#, fuzzy, kde-format
-msgctxt "@option:check Opening Folders"
-msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "Fólderes"
-
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:98
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open files and folders:"
@@ -4047,13 +4056,13 @@ msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Fólderes:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
-#, kde-format
-msgctxt "@option:check Startup Settings"
-msgid "Show full path in title bar"
-msgstr "Monstrar li complet rute in li titul"
-
 #: settings/interface/folderstabssettingspage.cpp:99
+#, fuzzy, kde-format
+msgctxt "@option:check Opening Folders"
+msgid "Keep a single Dolphin window, opening new folders in tabs"
+msgstr "Fólderes"
+
+#: settings/interface/folderstabssettingspage.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
@@ -4061,7 +4070,13 @@ msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Fenestre:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:104
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Monstrar li complet rute in li titul"
+
+#: settings/interface/folderstabssettingspage.cpp:107
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4069,31 +4084,25 @@ msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Revelar celat files"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Pos li actual carte"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Al fin del barra de cartes"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Aperter nov cartes: "
 
-#: settings/interface/folderstabssettingspage.cpp:118
-#, fuzzy, kde-format
-msgctxt "option:check split view panes"
-msgid "Switch between views with Tab key"
-msgstr "Clude fenestres con multiplic cartes"
-
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:125
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -4101,31 +4110,37 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:126
+#, fuzzy, kde-format
+msgctxt "option:check split view panes"
+msgid "Switch between views with Tab key"
+msgstr "Clude fenestres con multiplic cartes"
+
+#: settings/interface/folderstabssettingspage.cpp:131
 #, fuzzy, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:134
 #, fuzzy, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr "Cluder"
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:137
+#, kde-format
+msgid "New windows:"
+msgstr "Nov fenestres:"
+
+#: settings/interface/folderstabssettingspage.cpp:138
 #, fuzzy, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:129
-#, kde-format
-msgid "New windows:"
-msgstr "Nov fenestres:"
-
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:272
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
