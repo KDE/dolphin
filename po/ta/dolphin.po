@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-08-04 17:47+0530\n"
+"PO-Revision-Date: 2024-08-18 16:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -4396,6 +4396,9 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>தொலை அடைவுகளுக்கான <emphasis>முன்னோட்டங்களை</emphasis> உருவாக்குவது "
+"பிணையத்தை அதிகமாக பயன்படுத்தும்.</para><para>கட்டணமுள்ள பிணையங்களைப் பயன்படுத்தம்போதோ "
+"டால்பின் மெதுவாக செயல்படும்போதோ இதை முடக்கவும்.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
