@@ -751,6 +751,18 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
         job->start();
+    } else {
+        // If no 2nd service available, try to open archives in new tabs, regardless of the "Open archives as folder" setting.
+        const QUrl &url = DolphinView::openItemAsFolderUrl(item);
+        const auto modifiers = QGuiApplication::keyboardModifiers();
+        if (!url.isEmpty()) {
+            // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+            if (modifiers & Qt::ShiftModifier) {
+                Q_EMIT activeTabRequested(url);
+            } else {
+                Q_EMIT tabRequested(url);
+            }
+        }
     }
 }
 

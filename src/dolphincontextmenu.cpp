@@ -7,6 +7,7 @@
 #include "dolphincontextmenu.h"
 
 #include "dolphin_contextmenusettings.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinplacesmodelsingleton.h"
@@ -441,7 +442,9 @@ void DolphinContextMenu::addOpenWithActions()
     m_fileItemActions->insertOpenWithActionsTo(nullptr, this, QStringList{qApp->desktopFileName()});
 
     // For a single file, hint in "Open with" menu that middle-clicking would open it in the secondary app.
-    if (m_selectedItems.count() == 1 && !m_fileInfo.isDir()) {
+    // (Unless middle-clicking would open it as a folder in a new tab (e.g. archives).)
+    const QUrl &url = DolphinView::openItemAsFolderUrl(m_fileInfo, GeneralSettings::browseThroughArchives());
+    if (m_selectedItems.count() == 1 && url.isEmpty()) {
         if (QAction *openWithSubMenu = findChild<QAction *>(QStringLiteral("openWith_submenu"))) {
             Q_ASSERT(openWithSubMenu->menu());
             Q_ASSERT(!openWithSubMenu->menu()->isEmpty());

@@ -1120,7 +1120,7 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
 void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem &item = m_model->fileItem(index);
-    const QUrl &url = openItemAsFolderUrl(item);
+    const QUrl &url = openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
     const auto modifiers = QGuiApplication::keyboardModifiers();
     if (!url.isEmpty()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
