@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
 "PO-Revision-Date: 2022-08-20 18:10+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -145,43 +145,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Tøm papirkurv"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Gendan"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Opret ny(t)"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Åbn sti"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Åbn stien i et nyt faneblad"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Åbn stien i et nyt vindue"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1819,13 +1819,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ingen elementer fundet."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin understøtter ikke hjemmesider, webbrowseren er blevet startet"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1834,7 +1834,7 @@ msgstr ""
 "Protokollen er ikke understøttet af Dolphin, standardprogrammet er blevet "
 "startet"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1842,19 +1842,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ugyldig protokol"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ugyldig protokol"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

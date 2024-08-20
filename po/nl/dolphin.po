@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
-"PO-Revision-Date: 2024-08-18 13:31+0200\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
+"PO-Revision-Date: 2024-08-19 11:06+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -169,43 +169,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Waarschuw me niet meer over deze risico's"
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Prullenbak legen"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Terugzetten"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Nieuwe aanmaken"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Open pad"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Pad in nieuw tabblad openen"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Pad in nieuw venster openen"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1175,7 +1175,7 @@ msgstr "Focus op terminalpaneel"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Verplaats focus op toetsenbord naar en van het terminalpaneel."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1244,20 +1244,16 @@ msgstr ""
 "interface> om ze opnieuw te tonen.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Focus op terminalpaneel"
+msgstr "Focus plaatst paneel"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Dit voegt de geselecteerde map toe aan het paneel Locaties."
+msgstr "Verplaats focus op toetsenbord naar en van het plaatsenpaneel."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1676,20 +1672,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Focus van terminalpaneel weghalen"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Focus van terminalpaneel weghalen"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Focus van terminalpaneel weghalen"
+msgstr "Focus van plaatsenpaneel weghalen"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2030,7 +2022,7 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Geen items gevonden."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -2038,7 +2030,7 @@ msgstr ""
 "Dolphin biedt geen ondersteuning voor webpagina's. De webbrowser wordt "
 "gestart"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2047,25 +2039,25 @@ msgstr ""
 "Dit protocol wordt niet door Dolphin ondersteund, standaard toepassing is "
 "gestart"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ongeldig protocol '%1'"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ongeldig protocol"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Autorisatie vereist om deze map in te gaan."
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

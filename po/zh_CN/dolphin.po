@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -169,43 +169,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "不要再次向我警告这些风险"
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "清空回收站"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "还原"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "新建"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "打开路径"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "在新标签页中打开路径"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "在新窗口中打开路径"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1185,20 +1185,16 @@ msgstr ""
 "interface>即可重新显示它们。</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "聚焦终端面板"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "将选中的文件夹添加到常用位置面板。"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1578,20 +1574,16 @@ msgid "Defocus Terminal Panel"
 msgstr "取消聚焦终端面板"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "取消聚焦终端面板"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "取消聚焦终端面板"
+msgstr ""
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -1924,38 +1916,38 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "未找到项目。"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支持显示网页，已启动网页浏览器"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin 不支持此协议，已启动默认应用程序"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "无效的协议“%1”"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "进入此文件夹需要身份验证。"
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4167,14 +4159,14 @@ msgstr "上次关闭时的文件夹、标签页和窗口状态"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr ""
+msgstr "启动时显示主文件夹位置"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr ""
+msgstr "输入主文件夹路径"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format

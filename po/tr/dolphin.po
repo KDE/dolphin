@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
-"PO-Revision-Date: 2024-08-18 20:19+0300\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
+"PO-Revision-Date: 2024-08-19 15:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -49,7 +49,7 @@ msgstr "Yönetici Gibi"
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr "Bitir\t"
+msgstr "Bitir"
 
 #: admin/bar.cpp:57
 #, kde-format
@@ -173,43 +173,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Beni bu riskler hakkında bir daha uyarma"
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Çöp Kutusunu Boşalt"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Geri Yükle"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Yeni Oluştur"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Yolu Aç"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Yolu Yeni Sekmede Aç"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Yolu Yeni Pencerede Aç"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -298,7 +298,7 @@ msgstr "&Geçerli Sekmeyi Kapat"
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr ""
-"Bu pencerede birden çok sekme açık, çıkmak istediğinizden emin misiniz?"
+"Bu pencerede birden çok sekme açık; çıkmak istediğinizden emin misiniz?"
 
 #: dolphinmainwindow.cpp:638 dolphinmainwindow.cpp:688
 #, kde-format
@@ -316,8 +316,8 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
-"“%1” programı, Uçbirim panelinde programı hâlâ çalışıyor. Çıkmak "
-"istediğinizden emin misiniz?"
+"Uçbirim panelinde “%1” programı hâlâ çalışıyor. Çıkmak istediğinizden emin "
+"misiniz?"
 
 #: dolphinmainwindow.cpp:884
 #, kde-format
@@ -1172,7 +1172,7 @@ msgstr "Uçbirim Paneline Odaklan"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Klavye odağını uçbirime gönderin ve geri getirin."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1238,20 +1238,16 @@ msgstr ""
 "<interface>Gizli Yerleri Göster</interface>’i seçin.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Uçbirim Paneline Odaklan"
+msgstr "Yerler Paneline Odaklan"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Bu, seçilen klasörü Yerler paneline ekler."
+msgstr "Klavye odağını yerler paneline gönderin ve geri getirin."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1655,20 +1651,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Uçbirim Paneli Odağını Kaldır"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Uçbirim Paneli Odağını Kaldır"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Uçbirim Paneli Odağını Kaldır"
+msgstr "Yerler Paneli Odağını Kaldır"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2009,13 +2001,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Öge bulunamadı."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin web sayfalarını desteklemiyor, web tarayıcısı başlatılıyor"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2023,25 +2015,25 @@ msgid ""
 msgstr ""
 "Protokol Dolphin tarafından desteklenmiyor, öntanımlı uygulama başlatıldı"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Geçersiz protokol “%1”"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Geçersiz protokol"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Bu klasöre girebilmek için yetkilendirme gerekiyor."
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

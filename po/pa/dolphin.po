@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
 "PO-Revision-Date: 2024-07-21 22:22-0500\n"
 "Last-Translator: aalam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -148,43 +148,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "ਰੱਦੀ ਖਾਲੀ ਕਰੋ"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "ਬਹਾਲ ਕਰੋ"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "ਨਵਾਂ ਬਣਾਓ"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "ਪਾਥ ਖੋਲ੍ਹੋ"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "ਨਵੀਂ ਟੈਬ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "ਨਵੀਂ ਵਿੰਡੋ ਵਿੱਚ ਪਾਥ ਖੋਲ੍ਹੋ"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1782,38 +1782,38 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "ਕੋਈ ਆਈਟਮ ਨਹੀਂ ਲੱਭੀ।"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ਡਾਲਫਿਨ ਵੈੱਬ ਪੇਜ਼ਾਂ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਚਲਾਇਆ ਗਿਆ ਹੈ।"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ਪਰੋਟੋਕਾਲ ਡਾਲਫਿਨ ਵਲੋਂ ਸਹਾਇਕ ਨਹੀਂ ਹੈ, ਮੂਲ ਐਪਲੀਕੇਸ਼ਨ ਲਾਂਚ ਕੀਤੀ ਗਈ ਹੈ"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ '%1'"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "ਗਲਤ ਪਰੋਟੋਕਾਲ"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

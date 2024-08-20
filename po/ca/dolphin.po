@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
-"PO-Revision-Date: 2024-08-18 09:45+0200\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
+"PO-Revision-Date: 2024-08-19 09:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -171,43 +171,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "No tornis a avisar-me d'aquests riscos"
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Buida la paperera"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Restaura"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crea nou"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Obre el camí"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Obre el camí en una pestanya nova"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Obre el camí en una finestra nova"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1179,13 +1179,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "Dona el focus al plafó del terminal"
+msgstr "Dona el focus al plafó de Terminal"
 
 #: dolphinmainwindow.cpp:2324
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Mou el focus del teclat a i des del plafó de Terminal."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1253,20 +1253,16 @@ msgstr ""
 "para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Dona el focus al plafó del terminal"
+msgstr "Dona el focus al plafó de Llocs"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Això afegeix la carpeta seleccionada al plafó Llocs."
+msgstr "Mou el focus del teclat a i des del plafó de Llocs."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1685,23 +1681,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Treu el focus del plafó del terminal"
+msgstr "Treu el focus del plafó de Terminal"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Treu el focus del plafó del terminal"
+msgstr "Treu el focus del plafó de Terminal"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Treu el focus del plafó del terminal"
+msgstr "Treu el focus del plafó de Llocs"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2043,13 +2035,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "No s'ha trobat cap element."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "El Dolphin no accepta pàgines web, s'acaba de llançar el navegador web"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2058,25 +2050,25 @@ msgstr ""
 "El Dolphin no admet aquest protocol, s'acaba de llançar l'aplicació "
 "predeterminada"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocol no vàlid «%1»"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocol no vàlid"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Cal autorització per a entrar en aquesta carpeta."
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

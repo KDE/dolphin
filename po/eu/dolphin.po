@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
-"PO-Revision-Date: 2024-08-18 09:48+0200\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
+"PO-Revision-Date: 2024-08-19 10:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -174,43 +174,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Ez berriz niri arrisku horiei buruz abisurik eman"
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Hustu zakarrontzia"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Berrezarri"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Sortu berria"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Ireki bide-izena"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Ireki bide-izena fitxa berrian"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ireki bide-izena leiho berrian"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -545,7 +545,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Honek, hautatutako elementuak kopiatzen ditu, fokua duen ikuspegitik beste "
-"ikuspegira. (Ikuspegi-zatitu moduan bakarrik erabilgarri)"
+"ikuspegira (Ikuspegi-zatitu moduan bakarrik erabilgarri)."
 
 #: dolphinmainwindow.cpp:1776
 #, kde-format
@@ -573,7 +573,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr ""
 "Honek, hautatutako elementuak, fokua duen ikuspegitik beste ikuspegira "
-"kopiatzen ditu. (Ikuspegi-zatitu moduan bakarrik erabilgarri)"
+"kopiatzen ditu (Ikuspegi-zatitu moduan bakarrik erabilgarri)."
 
 #: dolphinmainwindow.cpp:1788
 #, kde-format
@@ -724,7 +724,7 @@ msgid ""
 msgstr ""
 "<para>Honek, uneko ikuspegiarekin aurrez-aurre dagoen bigarren ikuspegi bat "
 "aurkezten du, aldiberean bi karpetatako edukia ikusi eta haien artean "
-"elementuak erraz mugitu ditzazun.</para><para>\"Arreta\" ez duen leihoa "
+"elementuak erraz mugitu ditzazun.</para><para>\"Fokua\" ez duen leihoa "
 "lausotu egingo da. </para>Egin klik berriro botoi honetan, ikuspegietako bat "
 "ixteko."
 
@@ -735,8 +735,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
-"Ikuspegia zatitu bada, honek, arreta duen ikuspegia leiho berri "
-"bateanaterako du."
+"Ikuspegia zatitu bada, honek, fokua duen ikuspegia leiho berri batean "
+"gaineratuko du."
 
 #: dolphinmainwindow.cpp:1918
 #, kde-format
@@ -765,10 +765,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
-"<para>Horrek karpeta-ikuspegia berritzen du.</para><para>Karpetaren edukia "
-"aldatu bada, berritzean, karpeta berriz aztertu eta betan dauden karpeta eta "
-"fitxategien ikuspegi eguneratua erakutsiko dizu.</para> <para>Ikuspegia "
-"zatituta badago, fokua duena berrituko du.</para>"
+"<para>Horrek karpeta-ikuspegia berritzen du.</para><para>Karpeta honen "
+"edukia aldatu bada, berritzean, karpeta berriz aztertu eta bertan dauden "
+"karpeta eta fitxategien ikuspegi eguneratua erakutsiko dizu.</para> "
+"<para>Ikuspegia zatituta badago, fokua duena berrituko du.</para>"
 
 #: dolphinmainwindow.cpp:1936
 #, kde-format
@@ -1175,13 +1175,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "Eman fokua terminalaren panelari"
+msgstr "Fokua terminalaren panelera"
 
 #: dolphinmainwindow.cpp:2324
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Eraman teklatuaren fokua Terminal panele-ra/tik."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1249,20 +1249,16 @@ msgstr ""
 "interface> hura berriz azaltzeko.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Eman fokua terminalaren panelari"
+msgstr "Fokua Lekuak panelera"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Honek hautatutako karpeta «Lekuak» panelera gehitzen du."
+msgstr "Eraman teklatuaren fokua Lekuak panele-ra/tik."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1437,7 +1433,7 @@ msgstr "Zatitu ikuspegia"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr "Atera"
+msgstr "Gaineratu"
 
 #: dolphinmainwindow.cpp:2741
 #, kde-kuit-format
@@ -1672,23 +1668,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Kendu fokua terminalaren panelari"
+msgstr "Kendu fokua terminalaren paneletik"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Kendu fokua terminalaren panelari"
+msgstr "Kendu fokua Terminala paneletik"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Kendu fokua terminalaren panelari"
+msgstr "Kendu fokua Lekuak paneletik"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2030,13 +2022,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ez da elementurik aurkitu."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin-ek ez du web orririk onartzen, web arakatzailea abiarazi da"
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2044,25 +2036,25 @@ msgid ""
 msgstr ""
 "Dolphin-ek ez du protokolo hau onartzen, lehenetsitako aplikazioa abiarazi da"
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokolo baliogabea '%1'"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokolo baliogabea"
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Karpeta honetara sortzeko baimena izan behar da."
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4086,7 +4078,7 @@ msgstr "Erabili tab eskuineko eta ezkerreko ikuspegien artean aldatzeko"
 #: settings/dolphin_generalsettings.kcfg:102
 #, kde-format
 msgid "Close the view in focus when turning off split view"
-msgstr "Itxi arreta duen ikuspegia ikuspegi zatitua itzaltzean"
+msgstr "Itxi fokua duen ikuspegia, ikuspegi zatitua itzaltzean"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:106
@@ -4425,7 +4417,7 @@ msgstr "Aldatu ikuspegien artean Tab tekla erabiliz"
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
-msgstr "Ikuspegi zatitua itzaltzeak arreta duen ikuspegia ixten du"
+msgstr "Ikuspegi zatitua itzaltzea, fokua duen ikuspegia ixten du"
 
 #: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
@@ -5823,7 +5815,7 @@ msgstr ""
 "<para>Honek fokua karpeta eta fitxategi ikonoetan ipintzen duen ikuspegi "
 "batera aldatzen du. Modu honek errazten du karpetak fitxategietatik "
 "bereiztea eta <emphasis>fitxategi mota</emphasis> bereizgarriak dituzten "
-"elementuak antzematea.</para><para>Modu hau praktikoa da irudiak arakatzeko "
+"elementuak antzematea.</para><para>Modu hori praktikoa da irudiak arakatzeko "
 "<interface>Aurreikuspegia</interface> aukera gaituta dagoenean.</para>"
 
 #: views/dolphinviewactionhandler.cpp:200
@@ -5851,14 +5843,14 @@ msgid ""
 "location by clicking the region to the left of it. This way you can view the "
 "contents of multiple folders in the same list.</para>"
 msgstr ""
-"<para>Honek, karpeta eta fitxategien xehetasunetan arreta ipintzen duen "
-"zerrenda modu ikuspegi batera aldatzen du.</para><para>Egin klik zutabe- "
-"goiburuko xehetasun batean elementuak haren arabera sailkatzeko. Egin klik "
-"berriz alderantzizko hurrenkeran ordenatzeko. Zein xehetasun azaldu behar "
+"<para>Honek, fokua karpeta eta fitxategien xehetasunetan ipintzen duen "
+"zerrenda-ikuspegi modu batera aldatzen du.</para><para>Egin klik zutabe-"
+"goiburuko xehetasun batean elementuak haren arabera sailkatzeko. Berriz klik "
+"egin alderantzizko hurrenkeran ordenatzeko. Zein xehetasun azaldu behar "
 "diren hautatzeko, egin klik goiburuan saguaren eskuineko botoiarekin.</"
 "para><para>Karpeta baten edukia ikus dezakezu uneko kokalekutik alde egin "
-"gabe haren ezkerreko aldean klik eginez. Era honetan karpeta anizkoitzen "
-"edukia zerrenda berean ikus dezakezu.</para>"
+"gabe, haren ezkerreko aldean klik eginez. Era horretan karpeta "
+"anizkoitzetako edukia zerrenda berean ikus dezakezu.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-format

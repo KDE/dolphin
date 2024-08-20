@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:41+0000\n"
-"PO-Revision-Date: 2024-07-23 18:20+0200\n"
+"POT-Creation-Date: 2024-08-20 00:42+0000\n"
+"PO-Revision-Date: 2024-08-19 15:54+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -176,43 +176,43 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Non volver avisarme dos riscos."
 
-#: dolphincontextmenu.cpp:123
+#: dolphincontextmenu.cpp:124
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Baleirar o lixo"
 
-#: dolphincontextmenu.cpp:137
+#: dolphincontextmenu.cpp:138
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Restaurar"
 
-#: dolphincontextmenu.cpp:183 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crear novo"
 
-#: dolphincontextmenu.cpp:192
+#: dolphincontextmenu.cpp:193
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Abrir a ruta"
 
-#: dolphincontextmenu.cpp:200
+#: dolphincontextmenu.cpp:201
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Abrir a ruta nunha lapela"
 
-#: dolphincontextmenu.cpp:204
+#: dolphincontextmenu.cpp:205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Abrir a ruta nunha xanela"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:456
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1176,7 +1176,7 @@ msgstr "Enfocar o panel de terminal"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Mover o enfoque do teclado ao panel do terminal e fóra del."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1244,20 +1244,16 @@ msgstr ""
 "para amosalos de novo.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Enfocar o panel de terminal"
+msgstr "Panel de lugares de enfoque"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Isto engade o cartafol seleccionado ao panel de lugares."
+msgstr "Mover o enfoque do teclado ao panel de lugares e fóra del."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1674,20 +1670,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Desenfocar o panel de terminal"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Desenfocar o panel de terminal"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Desenfocar o panel de terminal"
+msgstr "Desenfocar o panel de lugares"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2029,13 +2021,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Non se atopou ningún elemento."
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:837
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non admite páxinas web, polo que se iniciou o navegador web."
 
-#: dolphinviewcontainer.cpp:828
+#: dolphinviewcontainer.cpp:840
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2044,25 +2036,25 @@ msgstr ""
 "O protocolo non está entre os admitidos por Dolphin, polo que se iniciou a "
 "aplicación predeterminada."
 
-#: dolphinviewcontainer.cpp:835
+#: dolphinviewcontainer.cpp:847
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "O protocolo «%1» é incorrecto."
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:849
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Este protocolo é incorrecto."
 
-#: dolphinviewcontainer.cpp:928
+#: dolphinviewcontainer.cpp:940
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Requírese autorización para abrir este cartafol."
 
-#: dolphinviewcontainer.cpp:970
+#: dolphinviewcontainer.cpp:982
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4323,21 +4315,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Os cartafoles, as lapelas e o estado da xanela da última vez."
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Amosar no inicio:"
+msgstr "Amosar a localización persoal no inicio."
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "A localización está baleira."
+msgstr "Insira a ruta da localización persoal."
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
