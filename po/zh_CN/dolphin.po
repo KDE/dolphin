@@ -1915,7 +1915,7 @@ msgstr "无效的协议"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "进入此文件夹需要身份验证。"
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
