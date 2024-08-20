@@ -193,15 +193,15 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 {
     QAbstractItemModel *model = m_listView->model();
 
-    const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
-    for (const KPluginMetaData &plugin : plugins) {
-        const bool show = m_enabledPreviewPlugins.contains(plugin.pluginId());
+    const auto registries = KIO::PreviewJob::supportedMimeRegistries();
+    for (const auto &registry : registries) {
+        const bool show = m_enabledPreviewPlugins.contains(registry);
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
         model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-        model->setData(index, plugin.name(), Qt::DisplayRole);
-        model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
+        model->setData(index, registry, Qt::DisplayRole);
+        model->setData(index, registry, Qt::UserRole);
     }
 
     model->sort(Qt::DisplayRole);
