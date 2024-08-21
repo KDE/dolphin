@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-20 00:42+0000\n"
-"PO-Revision-Date: 2024-07-28 15:17+0200\n"
+"PO-Revision-Date: 2024-08-20 09:40+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1180,7 +1180,7 @@ msgstr "Attiva pannello del terminale"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Sposta l'attivazione della tastiera da e verso il pannello Terminale."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1249,20 +1249,16 @@ msgstr ""
 "nascoste</interface> per visualizzarla nuovamente.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Attiva pannello del terminale"
+msgstr "Attiva pannello delle risorse"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Aggiunge la cartella selezionata al pannello Risorse."
+msgstr "Sposta l'attivazione della tastiera da e verso il pannello Risorse."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1687,20 +1683,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Disattiva pannello del terminale"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Disattiva pannello del terminale"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Disattiva pannello del terminale"
+msgstr "Disattiva pannello delle Risorse"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4350,21 +4342,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Cartelle, schede e stato della finestra dall'ultima volta"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Mostra all'avvio:"
+msgstr "Mostra la posizione della home all'avvio"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "La posizione è vuota."
+msgstr "Digita il percorso della posizione della home"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format

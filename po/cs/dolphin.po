@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-20 00:42+0000\n"
-"PO-Revision-Date: 2024-07-23 14:42+0200\n"
+"PO-Revision-Date: 2024-08-20 08:36+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -1034,7 +1034,7 @@ msgstr "Přepnout na panel terminálu"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Přesunovat zaměření klávesnice na a z panelu terminálu."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1084,18 +1084,16 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Přepnout na panel terminálu"
+msgstr "Přepnout na panel míst"
 
 #: dolphinmainwindow.cpp:2403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr ""
+msgstr "Přesunovat zaměření klávesnice na a z panelu míst."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1417,20 +1415,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Zaměřit se mimo panel terminálu"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Zaměřit se mimo panel terminálu"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Zaměřit se mimo panel terminálu"
+msgstr "Zaměřit se mimo panel míst"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4026,21 +4020,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Složky, karty a stav okna jako naposled"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Zobrazovat při spuštění:"
+msgstr ""
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Umístění je prázdné."
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
