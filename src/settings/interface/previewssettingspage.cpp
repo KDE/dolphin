@@ -156,7 +156,7 @@ void PreviewsSettingsPage::applySettings()
     }
 
     KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    globalConfig.writeEntry("Mimetypes", m_enabledPreviewRegistries);
+    globalConfig.writeEntry("Plugins", m_enabledPreviewRegistries);
 
     if (!m_localFileSizeBox->value()) {
         globalConfig.deleteEntry("MaximumSize", KConfigBase::Normal | KConfigBase::Global);
@@ -210,7 +210,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 void PreviewsSettingsPage::loadSettings()
 {
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    m_enabledPreviewRegistries = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys());
+    m_enabledPreviewRegistries = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultRegistries().keys());
 
     const qulonglong defaultLocalPreview = static_cast<qulonglong>(DefaultMaxLocalPreviewSize) * 1024 * 1024;
     const qulonglong maxLocalByteSize = globalConfig.readEntry("MaximumSize", defaultLocalPreview);

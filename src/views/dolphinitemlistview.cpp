@@ -94,7 +94,7 @@ void DolphinItemListView::readSettings()
     updateGridSize();
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    setEnabledPlugins(globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys()));
+    setEnabledPlugins(globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultRegistries().keys()));
     setLocalFileSizePreviewLimit(globalConfig.readEntry("MaximumSize", 0));
     endTransaction();
 }

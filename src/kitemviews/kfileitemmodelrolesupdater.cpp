@@ -96,7 +96,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     Q_ASSERT(model);
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    m_enabledPlugins = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys());
+    m_enabledPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultRegistries().keys());
     m_localFileSizePreviewLimit = static_cast<qulonglong>(globalConfig.readEntry("MaximumSize", 0));
 
     connect(m_model, &KFileItemModel::itemsInserted, this, &KFileItemModelRolesUpdater::slotItemsInserted);
