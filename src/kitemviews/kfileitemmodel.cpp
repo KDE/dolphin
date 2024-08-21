@@ -2385,6 +2385,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
             continue;
         }
 
+        const QLocale locale;
         const QDateTime fileTime = fileTimeCb(m_itemData.at(i));
         const QDate fileDate = fileTime.date();
         if (fileDate == previousFileDate) {
@@ -2407,7 +2408,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                     newGroupValue = i18nc("@title:group Date", "Yesterday");
                     break;
                 default:
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: The week day name: dddd", "dddd"));
+                    newGroupValue = locale.toString(fileTime, i18nc("@title:group Date: The week day name: dddd", "dddd"));
                     newGroupValue = i18nc(
                         "Can be used to script translation of \"dddd\""
                         "with context @title:group Date",
@@ -2443,7 +2444,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "'Yesterday' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
                             "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
@@ -2453,14 +2454,14 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         qCWarning(DolphinDebug).nospace()
                             << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
                         const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
+                        newGroupValue = locale.toString(fileTime, untranslatedFormat);
                     }
                 } else if (daysDistance <= 7) {
-                    newGroupValue =
-                        fileTime.toString(i18nc("@title:group Date: "
-                                                "The week day name: dddd, MMMM is full month name "
-                                                "in current locale, and yyyy is full year number.",
-                                                "dddd (MMMM, yyyy)"));
+                    newGroupValue = locale.toString(fileTime,
+                                                    i18nc("@title:group Date: "
+                                                          "The week day name: dddd, MMMM is full month name "
+                                                          "in current locale, and yyyy is full year number.",
+                                                          "dddd (MMMM, yyyy)"));
                     newGroupValue = i18nc(
                         "Can be used to script translation of "
                         "\"dddd (MMMM, yyyy)\" with context @title:group Date",
@@ -2475,7 +2476,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "'One Week Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
                             "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
@@ -2485,7 +2486,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         qCWarning(DolphinDebug).nospace()
                             << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
                         const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
+                        newGroupValue = locale.toString(fileTime, untranslatedFormat);
                     }
                 } else if (daysDistance <= 7 * 3) {
                     const KLocalizedString format = ki18nc(
@@ -2496,7 +2497,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "'Two Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
                             "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
@@ -2506,7 +2507,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         qCWarning(DolphinDebug).nospace()
                             << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
                         const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
+                        newGroupValue = locale.toString(fileTime, untranslatedFormat);
                     }
                 } else if (daysDistance <= 7 * 4) {
                     const KLocalizedString format = ki18nc(
@@ -2517,7 +2518,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "'Three Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
                             "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
@@ -2527,7 +2528,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         qCWarning(DolphinDebug).nospace()
                             << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
                         const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
+                        newGroupValue = locale.toString(fileTime, untranslatedFormat);
                     }
                 } else {
                     const KLocalizedString format = ki18nc(
@@ -2538,7 +2539,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "'Earlier on' MMMM, yyyy");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
-                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
                             "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
@@ -2548,15 +2549,15 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         qCWarning(DolphinDebug).nospace()
                             << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
                         const QString untranslatedFormat = format.toString({QLatin1String("en_US")});
-                        newGroupValue = fileTime.toString(untranslatedFormat);
+                        newGroupValue = locale.toString(fileTime, untranslatedFormat);
                     }
                 }
             } else {
-                newGroupValue =
-                    fileTime.toString(i18nc("@title:group "
-                                            "The month and year: MMMM is full month name in current locale, "
-                                            "and yyyy is full year number",
-                                            "MMMM, yyyy"));
+                newGroupValue = locale.toString(fileTime,
+                                                i18nc("@title:group "
+                                                      "The month and year: MMMM is full month name in current locale, "
+                                                      "and yyyy is full year number",
+                                                      "MMMM, yyyy"));
                 newGroupValue = i18nc(
                     "Can be used to script translation of "
                     "\"MMMM, yyyy\" with context @title:group Date",
