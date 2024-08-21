@@ -134,7 +134,7 @@ void ToolTipManager::startContentRetrieval()
     m_fileMetaDataWidget->setPreview(QPixmap());
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QLatin1String("PreviewSettings"));
-    const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
+    const QStringList plugins = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys());
     KIO::PreviewJob *job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256), &plugins);
     job->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (job->uiDelegate()) {

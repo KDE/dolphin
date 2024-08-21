@@ -36,7 +36,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     : SettingsPageBase(parent)
     , m_initialized(false)
     , m_listView(nullptr)
-    , m_enabledPreviewPlugins()
+    , m_enabledPreviewRegistries()
     , m_localFileSizeBox(nullptr)
     , m_remoteFileSizeBox(nullptr)
     , m_enableRemoteFolderThumbnail(nullptr)
@@ -144,19 +144,19 @@ void PreviewsSettingsPage::applySettings()
     const QAbstractItemModel *model = m_listView->model();
     const int rowCount = model->rowCount();
     if (rowCount > 0) {
-        m_enabledPreviewPlugins.clear();
+        m_enabledPreviewRegistries.clear();
         for (int i = 0; i < rowCount; ++i) {
             const QModelIndex index = model->index(i, 0);
             const bool checked = model->data(index, Qt::CheckStateRole).value<Qt::CheckState>() == Qt::Checked;
             if (checked) {
                 const QString enabledPlugin = model->data(index, Qt::UserRole).toString();
-                m_enabledPreviewPlugins.append(enabledPlugin);
+                m_enabledPreviewRegistries.append(enabledPlugin);
             }
         }
     }
 
     KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    globalConfig.writeEntry("Mimetypes", m_enabledPreviewPlugins);
+    globalConfig.writeEntry("Mimetypes", m_enabledPreviewRegistries);
 
     if (!m_localFileSizeBox->value()) {
         globalConfig.deleteEntry("MaximumSize", KConfigBase::Normal | KConfigBase::Global);
@@ -194,14 +194,14 @@ void PreviewsSettingsPage::loadPreviewPlugins()
     QAbstractItemModel *model = m_listView->model();
 
     const auto registries = KIO::PreviewJob::supportedMimeRegistries();
-    for (const auto &registry : registries) {
-        const bool show = m_enabledPreviewPlugins.contains(registry);
+    for (const auto &registry : registries.asKeyValueRange()) {
+        const bool show = m_enabledPreviewRegistries.contains(registry.first);
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
         model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-        model->setData(index, registry, Qt::DisplayRole);
-        model->setData(index, registry, Qt::UserRole);
+        model->setData(index, registry.second, Qt::DisplayRole);
+        model->setData(index, registry.first, Qt::UserRole);
     }
 
     model->sort(Qt::DisplayRole);
@@ -210,7 +210,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 void PreviewsSettingsPage::loadSettings()
 {
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    m_enabledPreviewPlugins = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultPlugins());
+    m_enabledPreviewRegistries = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys());
 
     const qulonglong defaultLocalPreview = static_cast<qulonglong>(DefaultMaxLocalPreviewSize) * 1024 * 1024;
     const qulonglong maxLocalByteSize = globalConfig.readEntry("MaximumSize", defaultLocalPreview);

@@ -49,7 +49,7 @@ private:
 private:
     bool m_initialized;
     QListView *m_listView;
-    QStringList m_enabledPreviewPlugins;
+    QStringList m_enabledPreviewRegistries;
     QSpinBox *m_localFileSizeBox;
     QSpinBox *m_remoteFileSizeBox;
     QCheckBox *m_enableRemoteFolderThumbnail;

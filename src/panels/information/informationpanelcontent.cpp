@@ -175,7 +175,7 @@ void InformationPanelContent::refreshPixmapView()
     m_outdatedPreviewTimer->start();
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
-    const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
+    const QStringList plugins = globalConfig.readEntry("Mimetypes", KIO::PreviewJob::defaultRegistries().keys());
     m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item, QSize(m_preview->width(), m_preview->height()), &plugins);
     m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
     m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
