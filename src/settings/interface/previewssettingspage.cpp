@@ -18,11 +18,13 @@
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QListView>
+#include <QTreeView>
 #include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QSpinBox>
+#include <QStandardItemModel>
+#include <QStandardItem>
 
 // default settings
 namespace
@@ -35,7 +37,7 @@ const bool EnableRemoteFolderThumbnail = false;
 PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     : SettingsPageBase(parent)
     , m_initialized(false)
-    , m_listView(nullptr)
+    , m_treeView(nullptr)
     , m_enabledPreviewPlugins()
     , m_localFileSizeBox(nullptr)
     , m_remoteFileSizeBox(nullptr)
@@ -45,8 +47,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
 
     QLabel *showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews in the view for:"), this);
 
-    m_listView = new QListView(this);
-    QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
+    m_treeView = new QTreeView(this);
+    QScroller::grabGesture(m_treeView->viewport(), QScroller::TouchGesture);
 
     ServiceModel *serviceModel = new ServiceModel(this);
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
@@ -54,9 +56,9 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     proxyModel->setSortRole(Qt::DisplayRole);
     proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
-    m_listView->setModel(proxyModel);
-    m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
-    m_listView->setUniformItemSizes(true);
+    m_treeView->setModel(proxyModel);
+    m_treeView->setVerticalScrollMode(QTreeView::ScrollPerPixel);
+   // m_treeView->setUniformItemSizes(true);
 
     // i18n: This label forms a full sentence together with the spinbox content.
     // Depending on the option chosen in the spinbox, it reads "Show previews for [files below n MiB]"
@@ -121,15 +123,15 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     formLayout->addRow(QString(), enableRemoteFolderThumbnailLayout);
 
     topLayout->addWidget(showPreviewsLabel);
-    topLayout->addWidget(m_listView);
+    topLayout->addWidget(m_treeView);
     topLayout->addLayout(formLayout);
 
     // So that m_listView takes up all available space
-    topLayout->setStretchFactor(m_listView, 1);
+    topLayout->setStretchFactor(m_treeView, 1);
 
     loadSettings();
 
-    connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
+    connect(m_treeView, &QTreeView::clicked, this, &PreviewsSettingsPage::changed);
     connect(m_localFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
     connect(m_remoteFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
     connect(m_enableRemoteFolderThumbnail, &QCheckBox::toggled, this, &PreviewsSettingsPage::changed);
@@ -141,7 +143,7 @@ PreviewsSettingsPage::~PreviewsSettingsPage()
 
 void PreviewsSettingsPage::applySettings()
 {
-    const QAbstractItemModel *model = m_listView->model();
+    const QAbstractItemModel *model = m_treeView->model();
     const int rowCount = model->rowCount();
     if (rowCount > 0) {
         m_enabledPreviewPlugins.clear();
@@ -191,20 +193,25 @@ void PreviewsSettingsPage::showEvent(QShowEvent *event)
 
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
-    QAbstractItemModel *model = m_listView->model();
-
+    QStandardItemModel *model = new QStandardItemModel(this);
+    QStandardItem *parentItem = model->invisibleRootItem();
     const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
     for (const KPluginMetaData &plugin : plugins) {
         const bool show = m_enabledPreviewPlugins.contains(plugin.pluginId());
+        QStandardItem *item = new QStandardItem(plugin.name());
+        item->setDragEnabled(false);
+        item->setDropEnabled(false);
+        item->setCheckable(true);
+        item->setEditable(false);
 
-        model->insertRow(0);
-        const QModelIndex index = model->index(0, 0);
-        model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-        model->setData(index, plugin.name(), Qt::DisplayRole);
-        model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
+        item->setData(show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+        item->setData(plugin.name(), Qt::DisplayRole);
+        item->setData(plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
+        parentItem->appendRow(item);
     }
 
     model->sort(Qt::DisplayRole);
+    m_treeView->setModel(model);
 }
 
 void PreviewsSettingsPage::loadSettings()

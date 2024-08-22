@@ -13,7 +13,7 @@
 
 class QCheckBox;
 class QSpinBox;
-class QListView;
+class QTreeView;
 class QModelIndex;
 
 /**
@@ -48,7 +48,7 @@ private:
 
 private:
     bool m_initialized;
-    QListView *m_listView;
+    QTreeView *m_treeView;
     QStringList m_enabledPreviewPlugins;
     QSpinBox *m_localFileSizeBox;
     QSpinBox *m_remoteFileSizeBox;
