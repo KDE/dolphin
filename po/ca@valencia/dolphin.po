@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-20 00:42+0000\n"
-"PO-Revision-Date: 2024-07-31 11:44+0200\n"
+"PO-Revision-Date: 2024-08-19 09:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1179,13 +1179,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "Dona el focus al quadro del terminal"
+msgstr "Dona el focus al quadro de Terminal"
 
 #: dolphinmainwindow.cpp:2324
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Mou el focus del teclat a i des del quadro de Terminal."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1253,20 +1253,16 @@ msgstr ""
 "a veure.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Dona el focus al quadro del terminal"
+msgstr "Dona el focus al quadro de Llocs"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Afig la carpeta seleccionada al quadro Llocs."
+msgstr "Mou el focus del teclat a i des del quadro de Llocs."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1683,23 +1679,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Trau el focus del quadro del terminal"
+msgstr "Trau el focus del quadro de Terminal"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Trau el focus del quadro del terminal"
+msgstr "Trau el focus del quadro de Terminal"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Trau el focus del quadro del terminal"
+msgstr "Trau el focus del quadro de Llocs"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4348,21 +4340,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Carpetes, pestanyes i estat de la finestra de l'última vegada"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Mostra en iniciar:"
+msgstr "Mostra la ubicació d'inici en iniciar"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "La ubicació està buida."
+msgstr "Introduïu el camí de la ubicació d'inici"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format

@@ -1117,13 +1117,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "聚焦终端面板"
+msgstr "焦点移到终端面板"
 
 #: dolphinmainwindow.cpp:2324
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "键盘焦点移到和移出终端面板。"
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1188,13 +1188,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr ""
+msgstr "焦点移到位置面板"
 
 #: dolphinmainwindow.cpp:2403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr ""
+msgstr "键盘焦点移到和移出位置面板。"
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1571,19 +1571,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "取消聚焦终端面板"
+msgstr "焦点移出终端面板"
 
 #: dolphinmainwindow.cpp:2926
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "取消聚焦终端面板"
+msgstr "焦点移出终端面板"
 
 #: dolphinmainwindow.cpp:2937
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr ""
+msgstr "焦点移出位置面板"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
