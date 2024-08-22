@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:34+0000\n"
-"PO-Revision-Date: 2024-07-31 11:44+0200\n"
+"PO-Revision-Date: 2024-08-19 09:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -931,7 +931,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "Dona el focus al plafó del terminal"
+msgstr "Dona el focus al plafó de Terminal"
 
 #: dolphinmainwindow.cpp:2060
 #, kde-format
@@ -1663,7 +1663,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Treu el focus del plafó del terminal"
+msgstr "Treu el focus del plafó de Terminal"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format

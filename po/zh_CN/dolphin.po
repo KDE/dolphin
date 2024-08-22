@@ -884,7 +884,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr "聚焦终端面板"
+msgstr "焦点移到终端面板"
 
 #: dolphinmainwindow.cpp:2060
 #, kde-format
@@ -1553,7 +1553,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "取消聚焦终端面板"
+msgstr "焦点移出终端面板"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
