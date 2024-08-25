@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:41+0000\n"
-"PO-Revision-Date: 2024-07-27 09:08+0200\n"
+"PO-Revision-Date: 2024-08-24 11:38+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -1175,7 +1175,7 @@ msgstr "Przejdź do osadzonego okna terminala"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Przenieś obsługę klawiatury z i do okna terminala"
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1243,20 +1243,16 @@ msgstr ""
 "<interface>Pokaż ukryte miejsca</interface> pokaże je ponownie.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Przejdź do osadzonego okna terminala"
+msgstr "Wejdź do paska miejsc"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "To dodaje wybrany katalog do panelu miejsc."
+msgstr "Przenieś obsługę klawiatury z i do paska miejsc."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1671,20 +1667,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Wyjdź z osadzonego okna terminala"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Wyjdź z osadzonego okna terminala"
+msgstr "Wyjdź z okna terminala"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Wyjdź z osadzonego okna terminala"
+msgstr "Wyjdź z paska miejsc"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4336,21 +4328,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Katalogi, karty i stan okna z poprzedniej pracy"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Po uruchomieniu pokaż:"
+msgstr "Pokaż miejsce domowe po uruchomieniu"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Adres jest pusty."
+msgstr "Wpisz ścieżkę miejsca domowego"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:41+0000\n"
-"PO-Revision-Date: 2024-08-03 13:00+0100\n"
+"PO-Revision-Date: 2024-08-24 11:55+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -1166,7 +1166,7 @@ msgstr "Focus Terminal Panel"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Move keyboard focus to and from the Terminal panel."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1232,20 +1232,16 @@ msgstr ""
 "interface> to display it again.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Focus Terminal Panel"
+msgstr "Focus Places Panel"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "This adds the selected folder to the Places panel."
+msgstr "Move keyboard focus to and from the Places panel."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1655,20 +1651,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Defocus Terminal Panel"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Defocus Terminal Panel"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Defocus Terminal Panel"
+msgstr "Defocus Places Panel"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4294,21 +4286,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Folders, tabs, and window state from last time"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Show on startup:"
+msgstr "Show home location on startup"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "The location is empty."
+msgstr "Enter home location path"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
