@@ -140,6 +140,9 @@ void KItemListRoleEditor::autoAdjustSize()
 {
     const qreal frameBorder = 2 * frameWidth();
 
+    const auto originalSize = size();
+    auto newSize = originalSize;
+
     document()->adjustSize();
     const qreal requiredWidth = document()->size().width();
     const qreal availableWidth = size().width() - frameBorder;
@@ -148,7 +151,7 @@ void KItemListRoleEditor::autoAdjustSize()
         if (parentWidget() && pos().x() + newWidth > parentWidget()->width()) {
             newWidth = parentWidget()->width() - pos().x();
         }
-        resize(newWidth, size().height());
+        newSize.setWidth(newWidth);
     }
 
     const qreal requiredHeight = document()->size().height();
@@ -158,8 +161,15 @@ void KItemListRoleEditor::autoAdjustSize()
         if (parentWidget() && pos().y() + newHeight > parentWidget()->height()) {
             newHeight = parentWidget()->height() - pos().y();
         }
-        resize(size().width(), newHeight);
+        newSize.setHeight(newHeight);
     }
+
+    if (originalSize != newSize) {
+        resize(newSize);
+    }
+    // reset the document width to the widget width
+    // to allow alignment to be properly rendered
+    document()->setTextWidth(newSize.width());
 }
 
 void KItemListRoleEditor::emitRoleEditingFinished(EditResultDirection direction)
