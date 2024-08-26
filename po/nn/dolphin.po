@@ -50,16 +50,12 @@ msgstr "Fullfør"
 
 #: admin/bar.cpp:57
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Risks of Acting as an Administrator"
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
 msgstr "Risiko ved bruk som administrator"
 
 #: admin/bar.cpp:140
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
 msgstr "Køyr som administrator"
@@ -112,8 +108,6 @@ msgstr ""
 
 #: admin/workerintegration.cpp:89
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
 msgctxt "@title:window"
 msgid "How to Administrate"
 msgstr "Køyr som administrator"
@@ -520,10 +514,6 @@ msgstr "Kopier til anna vising …"
 
 #: dolphinmainwindow.cpp:1755
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Copy"
-#| msgid ""
-#| "This copies the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
 msgctxt "@info:whatsthis Copy"
 msgid ""
 "This copies the selected items from the view in focus to the other view. "
@@ -552,10 +542,6 @@ msgstr "Flytt til anna vising …"
 
 #: dolphinmainwindow.cpp:1767
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Move"
-#| msgid ""
-#| "This moves the selected items from the <emphasis>active</emphasis> view "
-#| "to the inactive split view."
 msgctxt "@info:whatsthis Move"
 msgid ""
 "This moves the selected items from the view in focus to the other view. "
@@ -832,11 +818,6 @@ msgstr ""
 
 #: dolphinmainwindow.cpp:2009
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
-#| "their own <filename>Home</filename> that contains their data including "
-#| "folders that contain personal application data."
 msgctxt "@info:whatsthis"
 msgid ""
 "Go to your <filename>Home</filename> folder.<nl/>Every user account has "
@@ -891,11 +872,6 @@ msgstr "Opna terminal her"
 
 #: dolphinmainwindow.cpp:2044
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens <emphasis>terminal</emphasis> applications for the "
-#| "selected items' locations.</para><para>To learn more about terminals use "
-#| "the help in the terminal application.</para>"
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
@@ -920,15 +896,6 @@ msgstr "&Bokmerke"
 
 #: dolphinmainwindow.cpp:2070
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This switches between having a <emphasis>Menubar</emphasis> and "
-#| "having a <interface>%1</interface> button. Both contain mostly the same "
-#| "actions and configuration options.</para><para>The Menubar takes up more "
-#| "space but allows for fast and organised access to all actions an "
-#| "application has to offer.</para><para>The <interface>%1</interface> "
-#| "button is simpler and small which makes triggering advanced actions more "
-#| "time consuming.</para>"
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This switches between having a <emphasis>Menubar</emphasis> and having "
@@ -1180,10 +1147,6 @@ msgstr "Vis gøymde stadar"
 
 #: dolphinmainwindow.cpp:2352
 #, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This displays all places in the places panel that have been hidden. They "
-#| "will appear semi-transparent unless you uncheck their hide property."
 msgctxt "@info:whatsthis"
 msgid ""
 "This displays all places in the places panel that have been hidden. They "
@@ -1998,8 +1961,6 @@ msgstr "Gøym filterlinje"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Ny mappe …"
@@ -3537,14 +3498,12 @@ msgstr ""
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
 #, fuzzy, kde-format
-#| msgid "Show the statusbar"
 msgid "Show the content count"
 msgstr "Vis statuslinja"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:16
 #, fuzzy, kde-format
-#| msgid "Show the statusbar"
 msgid "Show the content size"
 msgstr "Vis statuslinja"
 
@@ -3950,7 +3909,6 @@ msgstr ""
 #. i18n: ectx: label, entry (RenameInline), group (General)
 #: settings/dolphin_generalsettings.kcfg:86
 #, fuzzy, kde-format
-#| msgid "Rename inline"
 msgid "Rename single items inline"
 msgstr "Endra namn direkte"
 
@@ -3973,14 +3931,12 @@ msgstr ""
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:98
 #, fuzzy, kde-format
-#| msgid "Use tab for switching between right and left split"
 msgid "Use tab for switching between right and left view"
 msgstr "Bruk tabulatortast for å byta mellom venstre og høgre rute"
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
 #, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
 msgid "Close the view in focus when turning off split view"
 msgstr "Lukk gjeldande rute ved stenging av delt vising"
 
@@ -3993,7 +3949,6 @@ msgstr "Ny fane vert opna etter den siste"
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
 #, fuzzy, kde-format
-#| msgid "Show item on hover"
 msgid "Show item information on hover"
 msgstr "Vis når peikaren er over"
 
@@ -4293,8 +4248,6 @@ msgstr "Opna nye faner: "
 
 #: settings/interface/folderstabssettingspage.cpp:118
 #, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Veksla mellom ruter med «Tab»-tasten"
@@ -4307,8 +4260,6 @@ msgstr "Delt vising:"
 
 #: settings/interface/folderstabssettingspage.cpp:122
 #, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Lukk gjeldande rute ved stenging av delt vising"
@@ -4752,7 +4703,6 @@ msgstr "Vis utvalsmarkør"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:81
 #, fuzzy, kde-format
-#| msgid "Rename inline"
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Endra namn direkte"
@@ -5274,8 +5224,6 @@ msgstr "%1 ledig av %2 (%3 brukt)"
 
 #: statusbar/statusbarspaceinfo.cpp:237
 #, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
@@ -5577,10 +5525,6 @@ msgstr "Ny mappe …"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This renames the items in your current selection.<nl/>Renaming multiple "
-#| "items at once amounts to their new names differing only in a number."
 msgctxt "@info:whatsthis"
 msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
@@ -5603,10 +5547,6 @@ msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:116
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This deletes the items in your current selection completely. They can not "
-#| "be recovered by normal means."
 msgctxt "@info:whatsthis"
 msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
@@ -5701,11 +5641,6 @@ msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:200
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis Compact view mode"
-#| msgid ""
-#| "<para>This switches to a compact view mode that lists the folders and "
-#| "files in columns with the names beside the icons.</para><para>This helps "
-#| "to keep the overview in folders with many items.</para>"
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
 "<para>This switches to a compact view mode that lists the folders and files "
@@ -5845,13 +5780,6 @@ msgstr "Vis gøymde filer"
 
 #: views/dolphinviewactionhandler.cpp:322
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "

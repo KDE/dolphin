@@ -397,8 +397,6 @@ msgstr ""
 
 #: dolphinmainwindow.cpp:1701
 #, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Close left view"
-#| msgid "Close"
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Gidde"
@@ -3583,8 +3581,6 @@ msgstr ""
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Invert Selection"
 msgid "Select Action"
 msgstr "Jorgalahte merkema"
 
@@ -4108,8 +4104,6 @@ msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:34
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Čájet ovdačájeheami"
@@ -4140,8 +4134,6 @@ msgstr ""
 
 #: settings/interface/panelsettingspage.cpp:44
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Information"
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "Diehtu"
@@ -4166,8 +4158,6 @@ msgstr ""
 #: settings/interface/previewssettingspage.cpp:64
 #: settings/interface/previewssettingspage.cpp:77
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
 msgctxt "@label:spinbox"
 msgid "Show previews for"
 msgstr "Čájet ovdačájeheami"
@@ -4202,8 +4192,6 @@ msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:91
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show preview"
 msgctxt "@option:check"
 msgid "Show previews for folders"
 msgstr "Čájet ovdačájeheami"
@@ -4226,8 +4214,6 @@ msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:117
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Restore"
 msgctxt "@title:group"
 msgid "Remote storage:"
 msgstr "Máhcat"
@@ -4339,8 +4325,6 @@ msgstr ""
 # unreviewed-context
 #: settings/viewmodes/contentdisplaytab.cpp:54
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Show Hidden Files"
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "Čájet čihkkon fiillaid"
@@ -4354,8 +4338,6 @@ msgstr[1] ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
 #, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Folders"
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "Máhpat"
@@ -5088,9 +5070,6 @@ msgstr ""
 
 #: views/dolphinview.cpp:656
 #, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
@@ -5099,9 +5078,6 @@ msgstr[1] "%1 máhpa válljejuvvon"
 
 #: views/dolphinview.cpp:657
 #, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder selected"
-#| msgid_plural "%1 Folders selected"
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
@@ -5110,8 +5086,6 @@ msgstr[1] "%1 máhpa válljejuvvon"
 
 #: views/dolphinview.cpp:659
 #, fuzzy, kde-format
-#| msgctxt "@option:radio Apply View Properties To"
-#| msgid "All folders"
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
