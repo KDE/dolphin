@@ -15,6 +15,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QIcon>
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -30,6 +31,8 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QObject *parent, cons
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget *tabWidget = new QTabWidget(widget());
+    tabWidget->setDocumentMode(true);
+    tabWidget->tabBar()->setExpanding(true);
 
     // Initialize 'Icons' tab
     ViewSettingsTab *iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);

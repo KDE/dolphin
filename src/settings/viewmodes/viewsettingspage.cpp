@@ -11,6 +11,7 @@
 #include "viewsettingstab.h"
 #include <KLocalizedString>
 
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -23,6 +24,7 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
 
     tabWidget = new QTabWidget(this);
     tabWidget->setDocumentMode(true);
+    tabWidget->tabBar()->setExpanding(true);
 
     // General View tab
     GeneralViewSettingsPage *generalViewPage = new GeneralViewSettingsPage(url, tabWidget);

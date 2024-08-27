@@ -15,6 +15,7 @@
 #include <KPluginFactory>
 #include <kconfigwidgets_version.h>
 
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -30,6 +31,8 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KP
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget *tabWidget = new QTabWidget(widget());
+    tabWidget->setDocumentMode(true);
+    tabWidget->tabBar()->setExpanding(true);
 
     // initialize 'Folders & Tabs' tab
     FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);

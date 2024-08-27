@@ -17,6 +17,7 @@
 
 #include <KLocalizedString>
 
+#include <QTabBar>
 #include <QTabWidget>
 #include <QVBoxLayout>
 
@@ -29,6 +30,7 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
 
     QTabWidget *tabWidget = new QTabWidget(this);
     tabWidget->setDocumentMode(true);
+    tabWidget->tabBar()->setExpanding(true);
 
     // initialize 'Folders & Tabs' tab
     FoldersTabsSettingsPage *foldersTabsPage = new FoldersTabsSettingsPage(tabWidget);
