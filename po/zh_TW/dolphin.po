@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:41+0000\n"
-"PO-Revision-Date: 2024-07-23 22:36+0900\n"
+"PO-Revision-Date: 2024-08-25 02:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1129,7 +1129,7 @@ msgstr "聚焦於終端機面板"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "將鍵盤輸入的焦點移入或移出終端機面板。"
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1190,20 +1190,16 @@ msgstr ""
 "<interface>顯示隱藏位置</interface>來重新顯示它。</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "聚焦於終端機面板"
+msgstr "聚焦於書籤面板"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "這會將被選取的資料夾加入書籤。"
+msgstr "將鍵盤輸入的焦點移入或移出書籤面板。"
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1584,20 +1580,16 @@ msgid "Defocus Terminal Panel"
 msgstr "焦點移離終端機面板"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "焦點移離終端機面板"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "焦點移離終端機面板"
+msgstr "焦點移離書籤面板"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4169,21 +4161,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "上次使用時的資料夾、分頁及視窗狀態"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "啟動時顯示："
+msgstr "啟動時顯示家目錄位置"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "此位置是空的。"
+msgstr "輸入家目錄位置的路徑"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
