@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:41+0000\n"
+"POT-Creation-Date: 2024-08-29 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -4425,7 +4425,7 @@ msgid ""
 msgstr ""
 "ماكان مۇندەرىجىنىڭ ئورنى ئىناۋەتسىز ياكى مەۋجۇت ئەمەس، ئۇنى قوللىنالمايدۇ."
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -4433,21 +4433,21 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "قىسقۇچ ئالدىدا"
 
-#: settings/interface/interfacesettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:41
+#: settings/interface/interfacesettingspage.cpp:42
+#: settings/kcm/kcmdolphingeneral.cpp:44
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "ئالدىن كۆزەت"
 
-#: settings/interface/interfacesettingspage.cpp:45
-#: settings/kcm/kcmdolphingeneral.cpp:46
+#: settings/interface/interfacesettingspage.cpp:47
+#: settings/kcm/kcmdolphingeneral.cpp:49
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "جەزملە"
 
-#: settings/interface/interfacesettingspage.cpp:51
+#: settings/interface/interfacesettingspage.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Panels"
@@ -4455,7 +4455,7 @@ msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "تاختايلار"
 
-#: settings/interface/interfacesettingspage.cpp:57
+#: settings/interface/interfacesettingspage.cpp:59
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"
@@ -4646,28 +4646,28 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "ئورۇن بالداقتا تولۇق يولنى كۆرسەت"
 
-#: settings/kcm/kcmdolphingeneral.cpp:36
+#: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "ھەرىكەت"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:41
+#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "سىنبەلگىلەر"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:46
+#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "ئىخچام"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:51
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4969,7 +4969,7 @@ msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
 
-#: settings/viewmodes/viewsettingspage.cpp:29
+#: settings/viewmodes/viewsettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -4977,7 +4977,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "ئادەتتىكى"
 
-#: settings/viewmodes/viewsettingspage.cpp:36
+#: settings/viewmodes/viewsettingspage.cpp:38
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Content"

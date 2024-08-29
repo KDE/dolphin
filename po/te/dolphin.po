@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:41+0000\n"
+"POT-Creation-Date: 2024-08-29 00:41+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -4621,7 +4621,7 @@ msgid ""
 "be applied."
 msgstr "ఈ స్థానము హోమ్ ఫోల్డర్ కొరకు సరైనదికాదు మరియు ఆపాదించబడదు."
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -4629,8 +4629,8 @@ msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "ఫోల్డర్లు"
 
-#: settings/interface/interfacesettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:41
+#: settings/interface/interfacesettingspage.cpp:42
+#: settings/kcm/kcmdolphingeneral.cpp:44
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Preview"
@@ -4638,8 +4638,8 @@ msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "ముందస్తు వీక్షణం"
 
-#: settings/interface/interfacesettingspage.cpp:45
-#: settings/kcm/kcmdolphingeneral.cpp:46
+#: settings/interface/interfacesettingspage.cpp:47
+#: settings/kcm/kcmdolphingeneral.cpp:49
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Information"
@@ -4647,7 +4647,7 @@ msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "సమాచారం"
 
-#: settings/interface/interfacesettingspage.cpp:51
+#: settings/interface/interfacesettingspage.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Panels"
@@ -4655,7 +4655,7 @@ msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "ప్యానల్స్"
 
-#: settings/interface/interfacesettingspage.cpp:57
+#: settings/interface/interfacesettingspage.cpp:59
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -4846,28 +4846,28 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "స్థానపు పట్టీ లొపలవైపు పూర్తి పాత్‌ను చూపుము"
 
-#: settings/kcm/kcmdolphingeneral.cpp:36
+#: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr ""
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:41
+#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "ప్రతిమలు"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:46
+#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr ""
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:51
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -5173,7 +5173,7 @@ msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
 
-#: settings/viewmodes/viewsettingspage.cpp:29
+#: settings/viewmodes/viewsettingspage.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@title:group General settings"
 #| msgid "General"
@@ -5181,7 +5181,7 @@ msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "సాధారణ"
 
-#: settings/viewmodes/viewsettingspage.cpp:36
+#: settings/viewmodes/viewsettingspage.cpp:38
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Add Comment..."

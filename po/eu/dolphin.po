@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:41+0000\n"
+"POT-Creation-Date: 2024-08-29 00:41+0000\n"
 "PO-Revision-Date: 2024-08-19 10:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4449,33 +4449,33 @@ msgstr ""
 "Karpeta nagusiaren kokalekua baliogabea da edo ez da existitzen. Ez da "
 "aplikatuko."
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:37
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Karpetak eta fitxak"
 
-#: settings/interface/interfacesettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:41
+#: settings/interface/interfacesettingspage.cpp:42
+#: settings/kcm/kcmdolphingeneral.cpp:44
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Aurreikuspegiak"
 
-#: settings/interface/interfacesettingspage.cpp:45
-#: settings/kcm/kcmdolphingeneral.cpp:46
+#: settings/interface/interfacesettingspage.cpp:47
+#: settings/kcm/kcmdolphingeneral.cpp:49
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Berrespenak"
 
-#: settings/interface/interfacesettingspage.cpp:51
+#: settings/interface/interfacesettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panelak"
 
-#: settings/interface/interfacesettingspage.cpp:57
+#: settings/interface/interfacesettingspage.cpp:59
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
@@ -4644,28 +4644,28 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "Erakutsi bide-izen osoa kokaleku-barran"
 
-#: settings/kcm/kcmdolphingeneral.cpp:36
+#: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "Portaera"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:41
+#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Ikonoak"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:46
+#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "Trinkoa"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:51
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4956,13 +4956,13 @@ msgid ""
 msgstr ""
 "Erabili {path} uneko karpetaren bide-izena lortzeko. Adibidea: dolphin {path}"
 
-#: settings/viewmodes/viewsettingspage.cpp:29
+#: settings/viewmodes/viewsettingspage.cpp:31
 #, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Orokorra"
 
-#: settings/viewmodes/viewsettingspage.cpp:36
+#: settings/viewmodes/viewsettingspage.cpp:38
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"

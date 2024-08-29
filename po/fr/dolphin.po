@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:41+0000\n"
+"POT-Creation-Date: 2024-08-29 00:41+0000\n"
 "PO-Revision-Date: 2024-08-20 09:33+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -4563,33 +4563,33 @@ msgstr ""
 "L'emplacement du dossier personnel est incorrect ou n'existe pas. Il ne sera "
 "pas appliqué."
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:37
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Dossiers et onglets"
 
-#: settings/interface/interfacesettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:41
+#: settings/interface/interfacesettingspage.cpp:42
+#: settings/kcm/kcmdolphingeneral.cpp:44
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Aperçus"
 
-#: settings/interface/interfacesettingspage.cpp:45
-#: settings/kcm/kcmdolphingeneral.cpp:46
+#: settings/interface/interfacesettingspage.cpp:47
+#: settings/kcm/kcmdolphingeneral.cpp:49
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Confirmations"
 
-#: settings/interface/interfacesettingspage.cpp:51
+#: settings/interface/interfacesettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Panneaux"
 
-#: settings/interface/interfacesettingspage.cpp:57
+#: settings/interface/interfacesettingspage.cpp:59
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
@@ -4760,28 +4760,28 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "Afficher l'emplacement complet dans la barre d'emplacement"
 
-#: settings/kcm/kcmdolphingeneral.cpp:36
+#: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "Comportement"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:41
+#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Icônes"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:46
+#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "Synthétique"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:51
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -5073,13 +5073,13 @@ msgstr ""
 "Utilisez {path} pour obtenir l'emplacement du dossier courant. Exemple : "
 "dolphin {path}"
 
-#: settings/viewmodes/viewsettingspage.cpp:29
+#: settings/viewmodes/viewsettingspage.cpp:31
 #, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "Général"
 
-#: settings/viewmodes/viewsettingspage.cpp:36
+#: settings/viewmodes/viewsettingspage.cpp:38
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"

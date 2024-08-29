@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:41+0000\n"
-"PO-Revision-Date: 2024-07-23 11:33+0200\n"
+"POT-Creation-Date: 2024-08-29 00:41+0000\n"
+"PO-Revision-Date: 2024-08-28 16:06+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -1176,7 +1176,7 @@ msgstr "Focalisa Pannello de Terminal"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Move foco de claviero a e ab le pannello de terminal."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1244,20 +1244,16 @@ msgstr ""
 "Placias Celate</interface> per monstrar lo de novo.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Focalisa Pannello de Terminal"
+msgstr "Focalisa Pannello de Placias"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Isto adde le dossier seligite al pannello de Placias."
+msgstr "Move foco de claviero a e ab le pannello de Placias."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1675,20 +1671,16 @@ msgid "Defocus Terminal Panel"
 msgstr "De-focalisa pannello de Terminal"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "De-focalisa pannello de Terminal"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "De-focalisa pannello de Terminal"
+msgstr "De-focalisa pannello de Placias"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4330,21 +4322,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Dossieres,schedas, e stato de fenestra ab le ultime vice"
 
 #: settings/interface/folderstabssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Monstra quando il initia:"
+msgstr "Monstra location de initio quandoon starta"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Le location es vacue."
+msgstr "Inserta percurso de location de initio o proncipal"
 
 #: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
@@ -4467,33 +4455,33 @@ msgstr ""
 "Le location pro le dossier domo es invalide o non existe, il non essera "
 "applicate."
 
-#: settings/interface/interfacesettingspage.cpp:35
+#: settings/interface/interfacesettingspage.cpp:37
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
 msgstr "Dossieres && Schedas"
 
-#: settings/interface/interfacesettingspage.cpp:40
-#: settings/kcm/kcmdolphingeneral.cpp:41
+#: settings/interface/interfacesettingspage.cpp:42
+#: settings/kcm/kcmdolphingeneral.cpp:44
 #, kde-format
 msgctxt "@title:tab Previews settings"
 msgid "Previews"
 msgstr "Vistas preliminar"
 
-#: settings/interface/interfacesettingspage.cpp:45
-#: settings/kcm/kcmdolphingeneral.cpp:46
+#: settings/interface/interfacesettingspage.cpp:47
+#: settings/kcm/kcmdolphingeneral.cpp:49
 #, kde-format
 msgctxt "@title:tab Confirmations settings"
 msgid "Confirmations"
 msgstr "Confirmationes"
 
-#: settings/interface/interfacesettingspage.cpp:51
+#: settings/interface/interfacesettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab Panels settings"
 msgid "Panels"
 msgstr "Pannellos"
 
-#: settings/interface/interfacesettingspage.cpp:57
+#: settings/interface/interfacesettingspage.cpp:59
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
@@ -4662,28 +4650,28 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
 msgstr "Monstra le percurso complete intra le barra de location"
 
-#: settings/kcm/kcmdolphingeneral.cpp:36
+#: settings/kcm/kcmdolphingeneral.cpp:39
 #, kde-format
 msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "Comportamento"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:36
-#: settings/viewmodes/viewsettingspage.cpp:41
+#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Icones"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:41
-#: settings/viewmodes/viewsettingspage.cpp:46
+#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "Compacte"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:46
-#: settings/viewmodes/viewsettingspage.cpp:51
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
@@ -4968,13 +4956,13 @@ msgid ""
 msgstr ""
 "Usa(percurso) per obtener le dossier currente. Exemplo: dolpin{percurso} "
 
-#: settings/viewmodes/viewsettingspage.cpp:29
+#: settings/viewmodes/viewsettingspage.cpp:31
 #, kde-format
 msgctxt "@title:tab General View settings"
 msgid "General"
 msgstr "General"
 
-#: settings/viewmodes/viewsettingspage.cpp:36
+#: settings/viewmodes/viewsettingspage.cpp:38
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
