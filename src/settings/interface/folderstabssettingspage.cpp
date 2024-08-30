@@ -13,6 +13,9 @@
 #include <KMessageBox>
 #include <KProtocolManager>
 
+#ifndef IS_KCM
+#include <QApplication>
+#endif
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QFileDialog>
@@ -73,9 +76,11 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout(m_buttonBoxLayoutContainer);
     buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
 
+#ifndef IS_KCM
     QPushButton *useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
     buttonBoxLayout->addWidget(useCurrentButton);
     connect(useCurrentButton, &QPushButton::clicked, this, &FoldersTabsSettingsPage::useCurrentLocation);
+#endif
     QPushButton *useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"));
     buttonBoxLayout->addWidget(useDefaultButton);
     connect(useDefaultButton, &QPushButton::clicked, this, &FoldersTabsSettingsPage::useDefaultLocation);
@@ -230,6 +235,20 @@ void FoldersTabsSettingsPage::selectHomeUrl()
 
 void FoldersTabsSettingsPage::useCurrentLocation()
 {
+#ifndef IS_KCM
+    DolphinMainWindow *mainWindow = nullptr;
+    const auto topLevelWidgets = QApplication::allWidgets();
+    for (const auto widget : topLevelWidgets) {
+        if (qobject_cast<DolphinMainWindow *>(widget)) {
+            mainWindow = static_cast<DolphinMainWindow *>(widget);
+            break;
+        }
+    }
+
+    if (mainWindow) {
+        m_url = mainWindow->activeViewContainer()->url();
+    }
+#endif
     m_homeUrl->setText(m_url.toDisplayString(QUrl::PreferLocalFile));
 }
 
