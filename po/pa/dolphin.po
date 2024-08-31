@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 02:34+0000\n"
+"POT-Creation-Date: 2024-08-31 02:30+0000\n"
 "PO-Revision-Date: 2024-01-28 18:48-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -4003,85 +4003,85 @@ msgstr "ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 msgid "Run script"
 msgstr "ਸਕ੍ਰਿਪਟ ਚਲਾਓ"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "ਪਿਛਲੀ ਵਾਰ ਤੋਂ ਫੋਲਡਰ, ਟੈਬਾਂ, ਅਤੇ ਵਿੰਡੋ ਦੀ ਸਥਿਤੀ"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:70
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "ਘਰ ਟਿਕਾਣਾ ਚੁਣੋ"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:80
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਨੂੰ ਵਰਤੋਂ"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "ਡਿਫਾਲਟ ਟਿਕਾਣੇ ਨੂੰ ਵਰਤੋਂ"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "ਸ਼ੁਰੂ ਵੇਲੇ ਵੇਖਾਓ:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:100
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "ਇੱਕ ਹੀ ਡਾਲਫਿਲ ਵਿੰਡੋ ਨੂੰ ਰੱਖੋ, ਨਵੇਂ ਫੋਲਡਰਾਂ ਨੂੰ ਟੈਬਾਂ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:101
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "ਫੋਲਡਰ ਖੋਲ੍ਹੇ ਜਾ ਰਹੇ ਹਨ:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "ਟਾਈਟਲ ਪੱਟੀ ਵਿੱਚ ਪੂਰਾ ਪਾਥ ਵੇਖੋ"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "ਵਿੰਡੋ:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:105
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "ਫਿਲਟਰ ਪੱਟੀ ਨੂੰ ਵੇਖਾਓ"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "ਮੌਜੂਦਾ ਟੈਬ ਦੇ ਬਾਅਦ"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "ਟੈਬ ਪੱਟੀ ਦੇ ਅੰਤ ਉੱਤੇ"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:116
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "ਨਵੀਆਂ ਟੈਬਾਂ ਨੂੰ ਖੋਲ੍ਹੋ:"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, fuzzy, kde-format
 #| msgctxt "option:check split view panes"
 #| msgid "Switch between panes with Tab key"
@@ -4089,13 +4089,13 @@ msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "ਟੈਬ ਸਵਿੱਚ ਨਾਲ ਬਾਹੀਆਂ ਵਿੱਚ ਬਦਲੋ"
 
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "ਵੰਡੀ ਝਲਕ:"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:127
 #, fuzzy, kde-format
 #| msgctxt "option:check"
 #| msgid "Turning off split view closes active pane"
@@ -4103,25 +4103,25 @@ msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "ਸਰਗਰਮ ਬਾਹੀ ਨੂੰ ਬੰਦ ਕਰਨ ਨਾਲ ਵੰਡੀ ਝਲਕ ਨੂੰ ਬੰਦ ਕਰੋ"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "ਵੰਡੀ ਗਈ ਝਲਕ ਨਾਲ ਸ਼ੁਰੂ"
 
-#: settings/interface/folderstabssettingspage.cpp:129
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid "New windows:"
 msgstr "ਨਵੀਂ ਵਿੰਡੋ:"
 
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:280
 #, kde-format
 msgctxt "@info"
 msgid ""

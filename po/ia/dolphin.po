@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 02:34+0000\n"
+"POT-Creation-Date: 2024-08-31 02:30+0000\n"
 "PO-Revision-Date: 2024-07-15 09:41+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -4285,104 +4285,104 @@ msgstr "Aperi in applicationes"
 msgid "Run script"
 msgstr "Exeque Script"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Dossieres,schedas, e stato de fenestra ab le ultime vice"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:70
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Selige le location domo o initial"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:80
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Usa le location currente"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Usa le location predefinite"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Monstra quando il initia:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:100
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 "Mantene un singula fenestra de Dolphin, aperiente nove dossieres in schedas"
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:101
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Aperir dossieres:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Monstra le percurso complete in le barra de titulo"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Fenestra:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:105
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Monstra le barra de filtro"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Post scheda currente"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Al fin de barra de scheda"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:116
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Aperi nove schedas:"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Commuta inter vistas con clave de tab"
 
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Scinde vista: "
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Extinguer le vista dividite claude le vista in foco"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
@@ -4391,18 +4391,18 @@ msgstr ""
 "Quando non marcate, le vista opposite essera claudite. Le icon de Claude "
 "illustrara sempre qual vista (a sinistra o a dextera) essera claudite."
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Initia in modo de vista scindite"
 
-#: settings/interface/folderstabssettingspage.cpp:129
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid "New windows:"
 msgstr "Nove fenestras:"
 
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:280
 #, kde-format
 msgctxt "@info"
 msgid ""

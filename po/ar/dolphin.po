@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 02:34+0000\n"
+"POT-Creation-Date: 2024-08-31 02:30+0000\n"
 "PO-Revision-Date: 2024-08-15 11:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4283,103 +4283,103 @@ msgstr "افتح في تطبيق"
 msgid "Run script"
 msgstr "شغل سكربت"
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "المجلدات وألسنة وحالة النافذة من المرة السابقة"
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:70
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "اختر موقع المنزل"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:80
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "استخدم الموقع الحالي"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "استخدم الموقع الافتراضي"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:95
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "أظهر عند البدء:"
 
-#: settings/interface/folderstabssettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:100
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "حافظ على نافذة واحدة لدولفين، افتح المجلدات الجديدة في الألسنة."
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:101
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "فتح المجلدات:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "أظهر كامل المسار في شريط العنوان"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "النافذة:"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:105
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "أظهر شريط المرشّح"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "بعد اللسان الحالي"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "عند نهاية شريط الألسنة"
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:116
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "افتح ألسنة جديدة: "
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "انتقل بين العروض المنقسمة بواسطة مفتاح Tab"
 
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "قسم العرض: "
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "عند إيقاف العرض المقسم يغلق النشط منها"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
@@ -4388,18 +4388,18 @@ msgstr ""
 "عند إلغاء تحديده، سيُغلق العرض المعاكس. توضح أيقونة الإغلاق دائما طريقة العرض "
 "(يساراً أو يميناً) التي ستُغلق."
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "ابدأ في نمط تقسيم العرض"
 
-#: settings/interface/folderstabssettingspage.cpp:129
+#: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgid "New windows:"
 msgstr "نوافذ جديدة:"
 
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:280
 #, kde-format
 msgctxt "@info"
 msgid ""

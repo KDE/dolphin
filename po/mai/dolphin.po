@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 02:34+0000\n"
+"POT-Creation-Date: 2024-08-31 02:30+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -4342,13 +4342,13 @@ msgstr "अनुप्रयोग (&l)"
 msgid "Run script"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:45
+#: settings/interface/folderstabssettingspage.cpp:48
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:70
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Navigation Bar"
 #| msgid "Replace Location"
@@ -4356,19 +4356,19 @@ msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "स्थान बदलू"
 
-#: settings/interface/folderstabssettingspage.cpp:76
+#: settings/interface/folderstabssettingspage.cpp:80
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "मोजुदा स्थान इस्तेमाल करू"
 
-#: settings/interface/folderstabssettingspage.cpp:79
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "डिफाल्ट स्थान इस्तेमाल करू"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:95
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show in groups"
@@ -4376,13 +4376,13 @@ msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "समूहसभ मे देखाबू"
 
-#: settings/interface/folderstabssettingspage.cpp:95
+#: settings/interface/folderstabssettingspage.cpp:100
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show preview"
@@ -4390,7 +4390,7 @@ msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "पूर्वावलोकन देखाबू"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4398,7 +4398,7 @@ msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "फिल्टर पट्टी देखाबू"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
@@ -4406,7 +4406,7 @@ msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "नवीन विंडो (&W)"
 
-#: settings/interface/folderstabssettingspage.cpp:100
+#: settings/interface/folderstabssettingspage.cpp:105
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4414,20 +4414,20 @@ msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "फिल्टर पट्टी देखाबू"
 
-#: settings/interface/folderstabssettingspage.cpp:106
+#: settings/interface/folderstabssettingspage.cpp:111
 #, fuzzy, kde-format
 #| msgid "C&lose Current Tab"
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "मोजुदा टैब बन्न करू (&l)"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:111
+#: settings/interface/folderstabssettingspage.cpp:116
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"
@@ -4435,13 +4435,13 @@ msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "नवीन टैब मे खोलू"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:124
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -4449,20 +4449,20 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "विभाजित दृश्य मोड"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:133
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -4470,14 +4470,14 @@ msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "विभाजित दृश्य मोड"
 
-#: settings/interface/folderstabssettingspage.cpp:129
+#: settings/interface/folderstabssettingspage.cpp:134
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
 msgid "New windows:"
 msgstr "नवीन विंडो (&W)"
 
-#: settings/interface/folderstabssettingspage.cpp:261
+#: settings/interface/folderstabssettingspage.cpp:280
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "The location for the home folder is invalid and will not be applied."
