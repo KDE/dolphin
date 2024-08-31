@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-29 00:41+0000\n"
+"POT-Creation-Date: 2024-08-31 00:41+0000\n"
 "PO-Revision-Date: 2024-03-10 10:54+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4403,13 +4403,13 @@ msgstr "Avaa sovellukseen"
 msgid "Run script"
 msgstr "Suorita skripti"
 
-#: settings/interface/folderstabssettingspage.cpp:46
+#: settings/interface/folderstabssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Viimekertaiset kansiot, välilehdet ja ikkunoiden tila"
 
-#: settings/interface/folderstabssettingspage.cpp:51
+#: settings/interface/folderstabssettingspage.cpp:54
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Show on startup:"
@@ -4418,7 +4418,7 @@ msgid "Show home location on startup"
 msgstr "Näytä käynnistettäessä:"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:58
+#: settings/interface/folderstabssettingspage.cpp:61
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
@@ -4426,85 +4426,85 @@ msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Sijaintirivi on tyhjä."
 
-#: settings/interface/folderstabssettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Aseta kotisijainti"
 
-#: settings/interface/folderstabssettingspage.cpp:74
+#: settings/interface/folderstabssettingspage.cpp:78
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Käytä nykyistä sijaintia"
 
-#: settings/interface/folderstabssettingspage.cpp:77
+#: settings/interface/folderstabssettingspage.cpp:82
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Käytä oletussijaintia"
 
-#: settings/interface/folderstabssettingspage.cpp:85
+#: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Näytä käynnistettäessä:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Avataan kansiot:"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "Käytä yhtä Dolphin-ikkunaa ja avaa uuden kansiot välilehtiin"
 
-#: settings/interface/folderstabssettingspage.cpp:103
+#: settings/interface/folderstabssettingspage.cpp:108
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Ikkuna:"
 
-#: settings/interface/folderstabssettingspage.cpp:104
+#: settings/interface/folderstabssettingspage.cpp:109
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Näytä koko polku otsikkopalkissa"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Näytä suodatusrivi"
 
-#: settings/interface/folderstabssettingspage.cpp:113
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Nykyisen välilehden jälkeen"
 
-#: settings/interface/folderstabssettingspage.cpp:114
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Välilehtirivin loppuun"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Avaa uusiin välilehtiin:"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Jaettu näkymä: "
 
-#: settings/interface/folderstabssettingspage.cpp:126
+#: settings/interface/folderstabssettingspage.cpp:131
 #, fuzzy, kde-format
 #| msgctxt "option:check split view panes"
 #| msgid "Switch between panes with Tab key"
@@ -4512,7 +4512,7 @@ msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Vaihda paneelista toiseen sarkaimella"
 
-#: settings/interface/folderstabssettingspage.cpp:131
+#: settings/interface/folderstabssettingspage.cpp:136
 #, fuzzy, kde-format
 #| msgctxt "option:check"
 #| msgid "Turning off split view closes active pane"
@@ -4520,25 +4520,25 @@ msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Jaetusta näkymästä poistuminen sulkee aktiivisen ruudun"
 
-#: settings/interface/folderstabssettingspage.cpp:134
+#: settings/interface/folderstabssettingspage.cpp:139
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:137
+#: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgid "New windows:"
 msgstr "Uudet ikkunat:"
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Aloita jaetussa näkymässä"
 
-#: settings/interface/folderstabssettingspage.cpp:272
+#: settings/interface/folderstabssettingspage.cpp:291
 #, kde-format
 msgctxt "@info"
 msgid ""

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-29 00:41+0000\n"
+"POT-Creation-Date: 2024-08-31 00:41+0000\n"
 "PO-Revision-Date: 2024-08-19 21:47+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -4282,117 +4282,117 @@ msgstr "Malfermi en aplikaĵo"
 msgid "Run script"
 msgstr "Lanĉi skripton"
 
-#: settings/interface/folderstabssettingspage.cpp:46
+#: settings/interface/folderstabssettingspage.cpp:49
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Dosierujoj, langetoj kaj fenestra stato de la lasta fojo"
 
-#: settings/interface/folderstabssettingspage.cpp:51
+#: settings/interface/folderstabssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "Montri hejmlokon je ekfunkciiĝo"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:58
+#: settings/interface/folderstabssettingspage.cpp:61
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Enigu hejmlokan vojon"
 
-#: settings/interface/folderstabssettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Elekti Hejman Lokon"
 
-#: settings/interface/folderstabssettingspage.cpp:74
+#: settings/interface/folderstabssettingspage.cpp:78
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Uzi Nunan Lokon"
 
-#: settings/interface/folderstabssettingspage.cpp:77
+#: settings/interface/folderstabssettingspage.cpp:82
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Uzi Defaŭltan Lokon"
 
-#: settings/interface/folderstabssettingspage.cpp:85
+#: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Montri ĉe ekfunkciiĝo:"
 
-#: settings/interface/folderstabssettingspage.cpp:98
+#: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Malfermante Dosierujojn:"
 
-#: settings/interface/folderstabssettingspage.cpp:99
+#: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
 "Teni solan Dolfin-fenestron, malfermante novajn dosierujojn en langetoj"
 
-#: settings/interface/folderstabssettingspage.cpp:103
+#: settings/interface/folderstabssettingspage.cpp:108
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Fenestro:"
 
-#: settings/interface/folderstabssettingspage.cpp:104
+#: settings/interface/folderstabssettingspage.cpp:109
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Montru plenan vojon en titolbreto"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Montri filtrilobreton"
 
-#: settings/interface/folderstabssettingspage.cpp:113
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Post aktuala langeto"
 
-#: settings/interface/folderstabssettingspage.cpp:114
+#: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Fine de la langeto"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Malfermi novajn langetojn:"
 
-#: settings/interface/folderstabssettingspage.cpp:125
+#: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Dividita vido:"
 
-#: settings/interface/folderstabssettingspage.cpp:126
+#: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Ŝalti inter vidoj per Tab-klavo"
 
-#: settings/interface/folderstabssettingspage.cpp:131
+#: settings/interface/folderstabssettingspage.cpp:136
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Malŝalto de dividita vido fermas la enfokusan vidon"
 
-#: settings/interface/folderstabssettingspage.cpp:134
+#: settings/interface/folderstabssettingspage.cpp:139
 #, kde-format
 msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
@@ -4401,18 +4401,18 @@ msgstr ""
 "Kiam nemarkita, la kontraŭa vido estos fermita. La piktogramo Fermi ĉiam "
 "ilustras kiu vido (maldekstra aŭ dekstra) estos fermita."
 
-#: settings/interface/folderstabssettingspage.cpp:137
+#: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgid "New windows:"
 msgstr "Novaj fenestroj:"
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Komenci en apartigita vidreĝimo"
 
-#: settings/interface/folderstabssettingspage.cpp:272
+#: settings/interface/folderstabssettingspage.cpp:291
 #, kde-format
 msgctxt "@info"
 msgid ""
