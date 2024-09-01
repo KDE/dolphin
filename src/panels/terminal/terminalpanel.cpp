@@ -219,6 +219,10 @@ void TerminalPanel::changeDir(const QUrl &url)
     delete m_mostLocalUrlJob;
     m_mostLocalUrlJob = nullptr;
 
+    if (url.isEmpty()) {
+        return;
+    }
+
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
         return;
