@@ -597,7 +597,7 @@ void DolphinMainWindow::showEvent(QShowEvent *event)
 {
     KXmlGuiWindow::showEvent(event);
 
-    if (!event->spontaneous()) {
+    if (!event->spontaneous() && m_activeViewContainer) {
         m_activeViewContainer->view()->setFocus();
     }
 }
