@@ -4,21 +4,21 @@
 # KDE euskaratzeko proiektuko arduraduna <xalba@euskalnet.net>.
 #
 # Translators:
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2019, 2020.
+# SPDX-FileCopyrightText: 2019, 2020, 2024 Iñigo Salvador Azurmendi <xalba@euskalnet.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2020-05-09 21:33+0200\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"PO-Revision-Date: 2024-09-01 07:32+0200\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.04.0\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -105,7 +105,7 @@ msgstr "Huts egin du %1 direktorioa kentzea"
 #: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr "Huts egin du %1 direktorioa sortzea"
+msgstr "%1 direktorioa sortzea huts egin du"
 
 #: servicemenuinstaller.cpp:360
 #, kde-format
