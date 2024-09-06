@@ -4,7 +4,7 @@
 # Burkhard Lück <lueck@hube-lueck.de>, 2019, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: dolphin\n"
+"Project-Id-Version: dolphin_servicemenuinstaller\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
 "PO-Revision-Date: 2020-09-14 07:16+0200\n"
