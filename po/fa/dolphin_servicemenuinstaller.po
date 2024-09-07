@@ -2,20 +2,21 @@
 # This file is distributed under the same license as the dolphin package.
 #
 # SPDX-FileCopyrightText: 2024 Sohrab Behdani <behdanisohrab@proton.me>
+# SPDX-FileCopyrightText: 2024 Mohi Mirdamadi <mohi.pub@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2024-05-27 12:30+0330\n"
-"Last-Translator: Sohrab Behdani <behdanisohrab@proton.me>\n"
-"Language-Team: Persian <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2024-09-06 22:18+0330\n"
+"Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
+"Language-Team: fa\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -25,12 +26,12 @@ msgstr "نصب منوی سرویس‌های دلفین شکست خورد"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr "خطا در نصب %1. با وضعیت %2 خارج شد"
+msgstr "خطا در نصب «%1»، با وضعیت «%2» خارج شد"
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "خطا در حذف %1. با وضعیت %2 خارج شد"
+msgstr "خطا در حذف «%1». با وضعیت «%2» خارج شد"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
@@ -50,17 +51,17 @@ msgstr "نوع آرشیو پشتیبانی نمی‌شود %1: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr ""
+msgstr "خطا در اجزای بازکننده فشرده برای  %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
-msgstr ""
+msgstr "پردازش در زمان منطقی پایان نیافت: %1 %2"
 
 #: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr ""
+msgstr "خطا در باز کردن %1"
 
 #: servicemenuinstaller.cpp:234
 #, kde-format
@@ -82,7 +83,7 @@ msgstr ""
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
-msgstr ""
+msgstr "\"، \""
 
 #: servicemenuinstaller.cpp:289
 #, kde-format
@@ -123,25 +124,25 @@ msgstr ""
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
-msgstr ""
+msgstr "دستور برای اجرا: نصب یا حذف."
 
 #: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
-msgstr ""
+msgstr "مسیر به آرشیو."
 
 #: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
-msgstr ""
+msgstr "دستور ضروری است."
 
 #: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
-msgstr ""
+msgstr "نشانی به دستور ضروری است."
 
 #: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
-msgstr ""
+msgstr "دستور پشتیبانی نشده %1"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-31 02:30+0000\n"
-"PO-Revision-Date: 2024-08-14 00:32+0330\n"
+"PO-Revision-Date: 2024-09-06 22:32+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
 "Language: fa\n"
@@ -21,12 +21,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "محمدرضا میردامادی, احسان عبدالهی"
+msgstr "محمدرضا میردامادی, احسان عبدالهی, سهراب بهدانی"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "mohi.pub@gmail.com, ehsan.abdolahy@gmail.com"
+msgstr "mohi.pub@gmail.com, ehsan.abdolahy@gmail.com, behdanisohrab@proton.me"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -44,7 +44,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button Finish/Stop/Done acting as an admin"
 msgid "Finish"
-msgstr ""
+msgstr "پایان"
 
 #: admin/bar.cpp:57
 #, kde-format
@@ -3461,7 +3461,7 @@ msgid ""
 "Dolphin must be restarted to apply the updated version control system "
 "settings."
 msgstr ""
-"دلفین نیاز به شروع مجدد دارد تا تنظیمات به‌روز‌شده‌ی سیستمهای کنترل نسخه اعمال "
+"دلفین نیاز به شروع مجدد دارد تا تنظیمات به‌روز‌شده‌ی سامانههای کنترل نسخه اعمال "
 "شوند."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:210
@@ -3496,7 +3496,7 @@ msgstr "%1: %2"
 #: settings/dolphin_iconsmodesettings.kcfg:12
 #, kde-format
 msgid "Use system font"
-msgstr "استفاده از قلم سیستم"
+msgstr "استفاده از قلم سامانه"
 
 #. i18n: ectx: label, entry (IconSize), group (IconsMode)
 #. i18n: ectx: label, entry (IconSize), group (DetailsMode)
@@ -4741,7 +4741,7 @@ msgstr "مجوزها"
 #, kde-format
 msgctxt "@item:inlistbox Font"
 msgid "System Font"
-msgstr "قلم سیستم"
+msgstr "قلم سامانه"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:29
 #, kde-format
