@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-31 00:41+0000\n"
-"PO-Revision-Date: 2024-08-18 16:24+0530\n"
+"PO-Revision-Date: 2024-09-07 20:59+0200\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1141,6 +1141,8 @@ msgstr "முனையப் பலகையில் குவியத்த�
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr ""
+"முனையப்பலகைக்கு குவியத்தை நகர்த்தும், அல்லது அதிலிருந்து பிரதான காட்சிப்பகுதிக்கு "
+"நகர்த்தும்."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1205,20 +1207,18 @@ msgstr ""
 "இடங்களை காட்டு</interface> என்பதை தேர்ந்தெடுங்கள்.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "முனையப் பலகையில் குவியத்தை வை"
+msgstr "இடங்கள் பலகையை குவியப்படுத்து"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "இது தேர்வு செய்யப்பட்ட அடைவை 'இடங்கள்' பலகைக்கு சேர்க்கும்."
+msgstr ""
+"இடங்கள் பலகைக்கு குவியத்தை நகர்த்தும், அல்லது அதிலிருந்து பிரதான காட்சிப்பகுதிக்கு "
+"நகர்த்தும்."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1567,20 +1567,16 @@ msgid "Defocus Terminal Panel"
 msgstr "முனையப் பலகையிலிருந்து குவியத்தை எடு"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "முனையப் பலகையிலிருந்து குவியத்தை எடு"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "முனையப் பலகையிலிருந்து குவியத்தை எடு"
+msgstr "இடங்கள் பலகையிலிருந்து குவியத்தை எடு"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
