@@ -2255,27 +2255,51 @@ int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCol
 
 QList<QPair<int, QVariant>> KFileItemModel::nameRoleGroups() const
 {
+    const int groupSizeUpperLimit = 40;
+    const int groupSizeLowerLimit = 20;
+
     Q_ASSERT(!m_itemData.isEmpty());
 
-    const int maxIndex = count() - 1;
-    QList<QPair<int, QVariant>> groups;
+    struct Group {
+        int index;
+        int size;
+        QString begin;
+        QString end;
+    };
 
-    QString groupValue;
-    QChar firstChar;
-    for (int i = 0; i <= maxIndex; ++i) {
-        if (isChildItem(i)) {
-            continue;
-        }
+    std::function<QList<Group>(int, int, int, const QString &)> split;
+    std::function<bool(QList<Group> &, int, int, bool)> mergeOrSplitLastGroup;
 
-        const QString name = m_itemData.at(i)->item.text();
+    split = [this, &mergeOrSplitLastGroup](int from, int to, int nthChar, const QString &groupNamePrefix) {
+        QList<Group> groups;
+        QString groupValue;
+        QChar firstChar;
+        bool lastOperationWasSplit = false;
+        Group group{from, 0, groupNamePrefix, groupNamePrefix};
+        for (int i = from; i < to; ++i) {
+            if (isChildItem(i)) {
+                continue;
+            }
 
-        // Use the first character of the name as group indication
-        QChar newFirstChar = name.at(0).toUpper();
-        if (newFirstChar == QLatin1Char('~') && name.length() > 1) {
-            newFirstChar = name.at(1).toUpper();
-        }
+            const QString name = m_itemData.at(i)->item.text();
+            qDebug() << "item" << name;
 
-        if (firstChar != newFirstChar) {
+            if (name.size() <= nthChar) {
+                group.size++;
+                continue;
+            }
+
+            // Use the nth character of the name as group indication
+            QChar newFirstChar = name.at(nthChar).toUpper();
+            if (newFirstChar == QLatin1Char('~') && name.length() > nthChar + 1) {
+                newFirstChar = name.at(nthChar + 1).toUpper();
+            }
+
+            if (firstChar == newFirstChar) {
+                group.size++;
+                continue;
+            }
+
             QString newGroupValue;
             if (newFirstChar.isLetter()) {
                 if (m_collator.compare(newFirstChar, QChar(QLatin1Char('A'))) >= 0 && m_collator.compare(newFirstChar, QChar(QLatin1Char('Z'))) <= 0) {
@@ -2308,22 +2332,70 @@ QList<QPair<int, QVariant>> KFileItemModel::nameRoleGroups() const
                     // Symbols from non Latin-based scripts
                     newGroupValue = newFirstChar;
                 }
-            } else if (newFirstChar >= QLatin1Char('0') && newFirstChar <= QLatin1Char('9')) {
-                // Apply group '0 - 9' for any name that starts with a digit
-                newGroupValue = i18nc("@title:group Groups that start with a digit", "0 - 9");
             } else {
-                newGroupValue = i18nc("@title:group", "Others");
+                // Digits and other symbols
+                newGroupValue = newFirstChar;
             }
 
             if (newGroupValue != groupValue) {
+                if (group.size > 0) {
+                    qDebug() << "group" << group.begin << group.end << group.size;
+                    groups.append(group);
+                    lastOperationWasSplit = mergeOrSplitLastGroup(groups, nthChar, i, lastOperationWasSplit);
+                }
+
                 groupValue = newGroupValue;
-                groups.append(QPair<int, QVariant>(i, newGroupValue));
+                auto t = groupNamePrefix + newGroupValue;
+                group.index = i;
+                group.size = 1;
+                group.begin = group.end = t;
             }
 
             firstChar = newFirstChar;
         }
+        // Append the last group
+        if (group.size > 0) {
+            qDebug() << "group" << group.begin << group.end << group.size;
+            groups.append(group);
+            mergeOrSplitLastGroup(groups, nthChar, to, lastOperationWasSplit);
+        }
+
+        return groups;
+    };
+
+    mergeOrSplitLastGroup = [this, &split](QList<Group> &groups, int nthChar, int nextGroupIndex, bool lastOperationWasSplit) -> bool {
+        if (groups.size() >= 1) {
+            Group lastGroup = groups.last();
+            if (lastGroup.size > groupSizeUpperLimit) {
+                qDebug() << "too big" << lastGroup.begin << lastGroup.end << lastGroup.size;
+                // The last group is too big, split it.
+                groups.removeLast();
+                groups += split(lastGroup.index, nextGroupIndex, nthChar + 1, lastGroup.begin);
+                return true;
+            } else if (!lastOperationWasSplit && lastGroup.size < groupSizeLowerLimit && groups.size() >= 2) {
+                // The last group is too small, merge it with the one before if the result isn't too big.
+                // (Don't merge if the last operation was a split.)
+                Group beforeLastGroup = groups.at(groups.size() - 2);
+                const int mergedGroupSize = lastGroup.size + beforeLastGroup.size;
+                if (mergedGroupSize <= groupSizeUpperLimit) {
+                    qDebug() << "too small" << lastGroup.begin << lastGroup.end << lastGroup.size;
+                    groups.removeLast();
+                    groups.removeLast();
+                    Group mergedGroup{beforeLastGroup.index, mergedGroupSize, beforeLastGroup.begin, lastGroup.end};
+                    qDebug() << "merged group" << mergedGroup.begin << mergedGroup.end << mergedGroup.size;
+                    groups.append(mergedGroup);
+                }
+            }
+        }
+        return false;
+    };
+
+    QList<Group> groups = split(0, count(), 0, QString());
+    QList<QPair<int, QVariant>> result;
+    for (auto group : groups) {
+        result.append({group.index, group.begin == group.end ? group.begin : group.begin + QLatin1String(" - ") + group.end});
     }
-    return groups;
+    return result;
 }
 
 QList<QPair<int, QVariant>> KFileItemModel::sizeRoleGroups() const
