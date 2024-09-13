@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2024-09-06 22:18+0330\n"
+"PO-Revision-Date: 2024-09-12 12:43+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
 "Language: fa\n"
@@ -66,12 +66,12 @@ msgstr "خطا در باز کردن %1"
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr ""
+msgstr "شکست برای اجرای نصب کننده اسکریپت %1"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr ""
+msgstr "شکست در تنظیم دسترسی‌ها برای %1: %2"
 
 #: servicemenuinstaller.cpp:273
 #, kde-format
