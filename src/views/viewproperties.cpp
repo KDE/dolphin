@@ -120,14 +120,16 @@ ViewProperties::ViewProperties(const QUrl &url)
             setViewMode(DolphinView::DetailsView);
             setVisibleRoles({"text", "path", "deletiontime"});
         } else if (useRecentDocumentsView || useDownloadsView) {
-            setSortRole(QByteArrayLiteral("modificationtime"));
             setSortOrder(Qt::DescendingOrder);
             setSortFoldersFirst(false);
             setGroupedSorting(true);
 
             if (useRecentDocumentsView) {
+                setSortRole(QByteArrayLiteral("accesstime"));
                 setViewMode(DolphinView::DetailsView);
-                setVisibleRoles({"text", "path", "modificationtime"});
+                setVisibleRoles({"text", "path", "accesstime"});
+            } else {
+                setSortRole(QByteArrayLiteral("modificationtime"));
             }
         } else {
             // The global view-properties act as default for directories without
