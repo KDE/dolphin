@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-31 00:41+0000\n"
-"PO-Revision-Date: 2024-07-24 13:58+0200\n"
+"PO-Revision-Date: 2024-09-13 20:30+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -1177,7 +1177,7 @@ msgstr "Фокусиране на панела на терминала"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Преместване на фокуса на клавиатурата към и от терминалния панел."
 
 #: dolphinmainwindow.cpp:2337
 #, kde-format
@@ -1246,20 +1246,16 @@ msgstr ""
 "за да го покажете отново.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Фокусиране на панела на терминала"
+msgstr "Фокусиране на панела на Места"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Това добавя избраната папка към панела Места."
+msgstr "Преместване на фокуса на клавиатурата към и от панела Места."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1683,20 +1679,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Дефокусиране на терминален панел"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Дефокусиране на терминален панел"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Дефокусиране на терминален панел"
+msgstr "Дефокусиране на панел Места"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -4339,21 +4331,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Папки, раздели и състояние на прозореца от последния достъп"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Показване при стартиране:"
+msgstr "Показване на домашната папка при начално стартиране"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Местоположението е празно."
+msgstr "Въведете пътя на домашното местоположение"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
