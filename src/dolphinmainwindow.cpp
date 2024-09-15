@@ -54,6 +54,7 @@
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KRecentFilesAction>
+#include <KRuntimePlatform>
 #include <KShell>
 #include <KShortcutsDialog>
 #include <KStandardAction>
@@ -190,7 +191,8 @@ DolphinMainWindow::DolphinMainWindow()
 
     setupDockWidgets();
 
-    setupGUI(Save | Create | ToolBar);
+    const bool usePhoneUi{KRuntimePlatform::runtimePlatform().contains(QLatin1String("phone"))};
+    setupGUI(Save | Create | ToolBar, usePhoneUi ? QStringLiteral("dolphinuiforphones.rc") : QString() /* load the default dolphinui.rc file */);
     stateChanged(QStringLiteral("new_file"));
 
     QClipboard *clipboard = QApplication::clipboard();
@@ -201,6 +203,12 @@ DolphinMainWindow::DolphinMainWindow()
 
     if (firstRun) {
         menuBar()->setVisible(false);
+
+        if (usePhoneUi) {
+            Q_ASSERT(qobject_cast<QDockWidget *>(m_placesPanel->parent()));
+            m_placesPanel->parentWidget()->hide();
+            GeneralSettings::setShowZoomSlider(false);
+        }
     }
 
     const bool showMenu = !menuBar()->isHidden();
