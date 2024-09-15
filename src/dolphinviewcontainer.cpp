@@ -975,10 +975,13 @@ void DolphinViewContainer::slotCurrentDirectoryRemoved()
         const QString dirPath = url().toLocalFile();
         const QString newPath = getNearestExistingAncestorOfPath(dirPath);
         const QUrl newUrl = QUrl::fromLocalFile(newPath);
-        setUrl(newUrl);
-    }
-
-    showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), KMessageWidget::Warning);
+        // #473377: Delay changing the url to avoid modifying KCoreDirLister before KCoreDirListerCache::deleteDir() returns.
+        QTimer::singleShot(0, this, [&, newUrl, location] {
+            setUrl(newUrl);
+            showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), KMessageWidget::Warning);
+        });
+    } else
+        showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), KMessageWidget::Warning);
 }
 
 void DolphinViewContainer::slotOpenUrlFinished(KJob *job)
