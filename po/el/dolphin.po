@@ -1706,9 +1706,7 @@ msgid "Defocus Terminal Panel"
 msgstr "Απομάκρυνση από πίνακα τερματικού"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Απομάκρυνση από πίνακα τερματικού"
