@@ -207,7 +207,10 @@ DolphinMainWindow::DolphinMainWindow()
         if (usePhoneUi) {
             Q_ASSERT(qobject_cast<QDockWidget *>(m_placesPanel->parent()));
             m_placesPanel->parentWidget()->hide();
-            GeneralSettings::setShowZoomSlider(false);
+            auto settings = GeneralSettings::self();
+            settings->setShowZoomSlider(false); // Zooming can be done with pinch gestures instead and we are short on horizontal space.
+            settings->setRenameInline(false); // This works around inline renaming currently not working well with virtual keyboards.
+            settings->save(); // Otherwise the RenameInline setting is not picked up for the first time Dolphin is used.
         }
     }
 
