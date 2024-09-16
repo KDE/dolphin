@@ -43,10 +43,7 @@
         "Name[uk]": "Пересунути до нової теки",
         "Name[x-test]": "xxMove to New Folderxx",
         "Name[zh_CN]": "移动到新建文件夹",
-        "Name[zh_TW]": "移動到新資料夾",
-        "ServiceTypes": [
-            "KFileItemAction/Plugin"
-        ]
+        "Name[zh_TW]": "移動到新資料夾"
     },
     "X-KDE-Require": "Write",
     "X-KDE-Show-In-Submenu": "true"
