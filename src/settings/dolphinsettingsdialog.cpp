@@ -21,6 +21,7 @@
 #include <KAuthorized>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KRuntimePlatform>
 #include <KWindowConfig>
 
 #include <kwidgetsaddons_version.h>
@@ -37,7 +38,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl &url, QWidget *parent, K
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(540, minSize.height()));
 
-    setFaceType(List);
+    setFaceType(KRuntimePlatform::runtimePlatform().contains(QLatin1String("phone")) ? Tabbed : List);
     setWindowTitle(i18nc("@title:window", "Configure"));
 
     // Interface
