@@ -12,6 +12,9 @@
 #include <KIO/DeleteOrTrashJob>
 #include <KLocalizedString>
 #include <KNotification>
+#include <Solid/Device>
+#include <Solid/DeviceNotifier>
+#include <Solid/StorageAccess>
 
 #include <QList>
 
@@ -29,6 +32,26 @@ Trash::Trash()
     };
     connect(m_trashDirLister, &KCoreDirLister::completed, this, trashDirContentChanged);
     connect(m_trashDirLister, &KDirLister::itemsDeleted, this, trashDirContentChanged);
+
+    // Update trash directory when removable storage devices are changed to keep it in sync with the
+    // storage device .Trash-1000 folders
+    Solid::DeviceNotifier *notifier = Solid::DeviceNotifier::instance();
+    connect(notifier, &Solid::DeviceNotifier::deviceAdded, this, [this](const QString &device) {
+        const Solid::Device dev(device);
+        if (dev.isValid() && dev.is<Solid::StorageAccess>()) {
+            const Solid::StorageAccess *access = dev.as<Solid::StorageAccess>();
+            connect(access, &Solid::StorageAccess::accessibilityChanged, this, [this]() {
+                m_trashDirLister->updateDirectory(QUrl(QStringLiteral("trash:/")));
+            });
+        }
+    });
+    connect(notifier, &Solid::DeviceNotifier::deviceRemoved, this, [this](const QString &device) {
+        const Solid::Device dev(device);
+        if (dev.isValid() && dev.is<Solid::StorageAccess>()) {
+            m_trashDirLister->updateDirectory(QUrl(QStringLiteral("trash:/")));
+        }
+    });
+
     m_trashDirLister->openUrl(QUrl(QStringLiteral("trash:/")));
 }
 
