@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-31 02:30+0000\n"
-"PO-Revision-Date: 2024-07-15 15:35+0200\n"
+"PO-Revision-Date: 2024-08-20 08:36+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -1745,7 +1745,7 @@ msgstr "Neplatný protokol"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Pro vstup do této složky je vyžadováno ověření totožnosti."
 
 #: dolphinviewcontainer.cpp:960
 #, kde-kuit-format
