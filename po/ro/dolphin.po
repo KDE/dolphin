@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-31 00:41+0000\n"
+"POT-Creation-Date: 2024-09-18 00:42+0000\n"
 "PO-Revision-Date: 2024-06-08 16:45+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -5420,12 +5420,12 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: trash/dolphintrash.cpp:50
+#: trash/dolphintrash.cpp:73
 #, kde-format
 msgid "Trash Emptied"
 msgstr "Gunoi golit"
 
-#: trash/dolphintrash.cpp:51
+#: trash/dolphintrash.cpp:74
 #, kde-format
 msgid "The Trash was emptied."
 msgstr "Gunoiul a fost golit."

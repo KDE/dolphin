@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-31 00:41+0000\n"
+"POT-Creation-Date: 2024-09-18 00:42+0000\n"
 "PO-Revision-Date: 2024-08-26 17:26+0200\n"
 "Last-Translator: Johannes Obermayr <johannesobermayr@gmx.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -5519,12 +5519,12 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr "Filelight installieren …"
 
-#: trash/dolphintrash.cpp:50
+#: trash/dolphintrash.cpp:73
 #, kde-format
 msgid "Trash Emptied"
 msgstr "Papierkorb geleert"
 
-#: trash/dolphintrash.cpp:51
+#: trash/dolphintrash.cpp:74
 #, kde-format
 msgid "The Trash was emptied."
 msgstr "Der Papierkorb wurde geleert."

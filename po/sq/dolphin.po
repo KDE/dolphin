@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-31 00:41+0000\n"
+"POT-Creation-Date: 2024-09-18 00:42+0000\n"
 "PO-Revision-Date: 2024-07-29 21:45-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -5271,12 +5271,12 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: trash/dolphintrash.cpp:50
+#: trash/dolphintrash.cpp:73
 #, kde-format
 msgid "Trash Emptied"
 msgstr "Koshi u zbraz"
 
-#: trash/dolphintrash.cpp:51
+#: trash/dolphintrash.cpp:74
 #, kde-format
 msgid "The Trash was emptied."
 msgstr "Koshi është zbrazur."
