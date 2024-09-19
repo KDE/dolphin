@@ -542,12 +542,11 @@ QString DolphinViewContainer::caption() const
     }
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
-    const QString pattern = url().adjusted(QUrl::StripTrailingSlash).toString(QUrl::FullyEncoded).append("/?");
-    const auto &matchedPlaces =
-        placesModel->match(placesModel->index(0, 0), KFilePlacesModel::UrlRole, QRegularExpression::anchoredPattern(pattern), 1, Qt::MatchRegularExpression);
 
-    if (!matchedPlaces.isEmpty()) {
-        return placesModel->text(matchedPlaces.first());
+    QModelIndex url_index = placesModel->closestItem(url());
+
+    if (url_index.isValid() && placesModel->url(url_index).matches(url(), QUrl::StripTrailingSlash)) {
+        return placesModel->text(url_index);
     }
 
     if (!url().isLocalFile()) {
