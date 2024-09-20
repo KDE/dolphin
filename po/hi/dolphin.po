@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-18 00:42+0000\n"
+"POT-Creation-Date: 2024-09-20 00:43+0000\n"
 "PO-Revision-Date: 2023-02-28 21:17+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -183,7 +183,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "पथ नये विंडो मे खोलें"
 
-#: dolphincontextmenu.cpp:456
+#: dolphincontextmenu.cpp:455
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1905,7 +1905,7 @@ msgstr "खोज"
 msgid "Search for %1"
 msgstr "%1 के लिए खोज"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:632
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1913,26 +1913,26 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "खोज रहे हैं..."
 
-#: dolphinviewcontainer.cpp:653
+#: dolphinviewcontainer.cpp:652
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "कोई मद नही मिले"
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:836
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "डॉल्फ़िन व्हेब पेजों का समर्थन नहीं करता है, व्हेब ब्राउज़र खोल दिया गया है"
 
-#: dolphinviewcontainer.cpp:840
+#: dolphinviewcontainer.cpp:839
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "डॉल्फ़िन द्वारा समर्थित प्रोटोकॉल नहीं, तयशुदा एप्लिकेशन खोल दिया गया है"
 
-#: dolphinviewcontainer.cpp:847
+#: dolphinviewcontainer.cpp:846
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1940,19 +1940,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "अवैध प्रोटोकॉल"
 
-#: dolphinviewcontainer.cpp:849
+#: dolphinviewcontainer.cpp:848
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "अवैध प्रोटोकॉल"
 
-#: dolphinviewcontainer.cpp:940
+#: dolphinviewcontainer.cpp:939
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:982
+#: dolphinviewcontainer.cpp:981
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

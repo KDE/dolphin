@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-18 00:42+0000\n"
+"POT-Creation-Date: 2024-09-20 00:43+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -189,7 +189,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Otvori stazu u novom prozoru"
 
-#: dolphincontextmenu.cpp:456
+#: dolphincontextmenu.cpp:455
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1822,7 +1822,7 @@ msgstr "Traži"
 msgid "Search for %1"
 msgstr "Traži"
 
-#: dolphinviewcontainer.cpp:633
+#: dolphinviewcontainer.cpp:632
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1830,19 +1830,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "Pretražujem..."
 
-#: dolphinviewcontainer.cpp:653
+#: dolphinviewcontainer.cpp:652
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nema pronađenih stavki."
 
-#: dolphinviewcontainer.cpp:837
+#: dolphinviewcontainer.cpp:836
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin ne podržava web stranice, pokrenut je web preglednik."
 
-#: dolphinviewcontainer.cpp:840
+#: dolphinviewcontainer.cpp:839
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1851,7 +1851,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin ne podržava protokol, pokrenut je Konqueror."
 
-#: dolphinviewcontainer.cpp:847
+#: dolphinviewcontainer.cpp:846
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1859,19 +1859,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:849
+#: dolphinviewcontainer.cpp:848
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokol nije valjan"
 
-#: dolphinviewcontainer.cpp:940
+#: dolphinviewcontainer.cpp:939
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:982
+#: dolphinviewcontainer.cpp:981
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
