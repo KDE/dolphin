@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-31 02:30+0000\n"
+"POT-Creation-Date: 2024-09-20 02:40+0000\n"
 "PO-Revision-Date: 2024-08-05 21:53+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -188,7 +188,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Útvonal megnyitása új ablakban"
 
-#: dolphincontextmenu.cpp:453
+#: dolphincontextmenu.cpp:452
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1955,19 +1955,19 @@ msgstr "Keresés"
 msgid "Search for %1"
 msgstr "A(z) %1 keresése"
 
-#: dolphinviewcontainer.cpp:623
+#: dolphinviewcontainer.cpp:622
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Keresés…"
 
-#: dolphinviewcontainer.cpp:643
+#: dolphinviewcontainer.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nem találhatók elemek."
 
-#: dolphinviewcontainer.cpp:815
+#: dolphinviewcontainer.cpp:814
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
@@ -1975,7 +1975,7 @@ msgstr ""
 "A program nem tud közvetlenül weboldalakat kezelni, ezért elindult egy "
 "webböngésző"
 
-#: dolphinviewcontainer.cpp:818
+#: dolphinviewcontainer.cpp:817
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -1984,25 +1984,25 @@ msgstr ""
 "A Dolphin nem támogatja ezt a protokollt, ezért az alapértelmezett "
 "alkalmazás indul el"
 
-#: dolphinviewcontainer.cpp:825
+#: dolphinviewcontainer.cpp:824
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Érvénytelen protokoll: „%1”"
 
-#: dolphinviewcontainer.cpp:827
+#: dolphinviewcontainer.cpp:826
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Érvénytelen protokoll"
 
-#: dolphinviewcontainer.cpp:918
+#: dolphinviewcontainer.cpp:917
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:960
+#: dolphinviewcontainer.cpp:959
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
