@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-20 00:43+0000\n"
-"PO-Revision-Date: 2024-06-22 11:36+0300\n"
+"PO-Revision-Date: 2024-09-20 13:35+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -105,13 +105,13 @@ msgstr ""
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -127,12 +127,10 @@ msgid ""
 msgstr ""
 
 #: admin/workerintegration.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr "С правами администратора"
+msgstr "Как использовать права администратора"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -1271,20 +1269,16 @@ msgstr ""
 "правой кнопкой мыши по свободному месту панели</para>."
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Активировать панель терминала"
+msgstr "Активировать панель точек входа"
 
 #: dolphinmainwindow.cpp:2403
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Это действие добавляет выбранную папку на панель «Точки входа»."
+msgstr "Перенос фокуса ввода на панель точек входа и обратно."
 
 #: dolphinmainwindow.cpp:2409
 #, kde-format
@@ -1698,20 +1692,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Деактивировать панель терминала"
 
 #: dolphinmainwindow.cpp:2926
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Деактивировать панель терминала"
+msgstr "Перенести фокус ввода с панели терминала"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Деактивировать панель терминала"
+msgstr "Перенести фокус ввода с панели точек входа"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
@@ -2933,7 +2923,7 @@ msgstr "Запустить Dolphin в новом окне."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Настроить Dolphin для работы с правами администратора."
 
 #: main.cpp:146
 #, kde-format
@@ -5487,13 +5477,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "Приложение <application>Filelight</application> успешно установлено."
 
 #: statusbar/statusbarspaceinfo.cpp:207
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Устанавливается приложение Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5521,7 +5511,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Очистить место на диске"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5536,7 +5526,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Установить Filelight…"
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
