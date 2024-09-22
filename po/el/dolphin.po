@@ -1266,12 +1266,10 @@ msgstr ""
 "Κρυμμένων Τοποθεσιών</interface> γίνεται επανεμφάνιση.</para>"
 
 #: dolphinmainwindow.cpp:2402 dolphinmainwindow.cpp:2932
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Εστίαση στον πίνακα τερματικού"
+msgstr "Εστίαση στον πίνακα τοποθεσιών"
 
 #: dolphinmainwindow.cpp:2403
 #, fuzzy, kde-format
@@ -1712,12 +1710,10 @@ msgid "Defocus Terminal Panel"
 msgstr "Απομάκρυνση από πίνακα τερματικού"
 
 #: dolphinmainwindow.cpp:2937
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Απομάκρυνση από πίνακα τερματικού"
+msgstr "Απομάκρυνση από πίνακα τοποθεσιών"
 
 #: dolphinnavigatorswidgetaction.cpp:200
 #, kde-format
