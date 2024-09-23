@@ -20,6 +20,7 @@
 #include <KConfigGui>
 
 #include <QAccessible>
+#include <QDomDocument>
 #include <QFileSystemWatcher>
 #include <QScopedPointer>
 #include <QSignalSpy>
@@ -27,6 +28,7 @@
 #include <QTest>
 
 #include <set>
+#include <unordered_set>
 
 class DolphinMainWindowTest : public QObject
 {
@@ -35,6 +37,7 @@ class DolphinMainWindowTest : public QObject
 private Q_SLOTS:
     void initTestCase();
     void init();
+    void testSyncDesktopAndPhoneUi();
     void testClosingTabsWithSearchBoxVisible();
     void testActiveViewAfterClosingSplitView_data();
     void testActiveViewAfterClosingSplitView();
@@ -65,6 +68,109 @@ void DolphinMainWindowTest::initTestCase()
 void DolphinMainWindowTest::init()
 {
     m_mainWindow.reset(new DolphinMainWindow());
+}
+
+/**
+ * It is too easy to forget that most changes in dolphinui.rc should be mirrored in dolphinuiforphones.rc. This test makes sure that these two files stay
+ * mostly identical. Differences between those files need to be explicitly added as exceptions to this test. So if you land here after changing either
+ * dolphinui.rc or dolphinuiforphones.rc, then resolve this test failure either by making the exact same change to the other ui.rc file, or by adding the
+ * changed object to the `exceptions` variable below.
+ */
+void DolphinMainWindowTest::testSyncDesktopAndPhoneUi()
+{
+    std::unordered_set<QString> exceptions{{QStringLiteral("version"), QStringLiteral("ToolBar")}};
+
+    QDomDocument desktopUi;
+    QFile desktopUiXmlFile(":/kxmlgui5/dolphin/dolphinui.rc");
+    desktopUiXmlFile.open(QIODevice::ReadOnly);
+    desktopUi.setContent(&desktopUiXmlFile);
+    desktopUiXmlFile.close();
+
+    QDomDocument phoneUi;
+    QFile phoneUiXmlFile(":/kxmlgui5/dolphin/dolphinuiforphones.rc");
+    phoneUiXmlFile.open(QIODevice::ReadOnly);
+    phoneUi.setContent(&phoneUiXmlFile);
+    phoneUiXmlFile.close();
+
+    QDomElement desktopUiElement = desktopUi.documentElement();
+    QDomElement phoneUiElement = phoneUi.documentElement();
+
+    auto nextUiElement = [&exceptions](QDomElement uiElement) -> QDomElement {
+        QDomNode nextUiNode{uiElement};
+        do {
+            // If the current node is an exception, we skip its children as well.
+            if (exceptions.count(nextUiNode.nodeName()) == 0) {
+                auto firstChild{nextUiNode.firstChild()};
+                if (!firstChild.isNull()) {
+                    nextUiNode = firstChild;
+                    continue;
+                }
+            }
+            auto nextSibling{nextUiNode.nextSibling()};
+            if (!nextSibling.isNull()) {
+                nextUiNode = nextSibling;
+                continue;
+            }
+            auto parent{nextUiNode.parentNode()};
+            while (true) {
+                if (parent.isNull()) {
+                    return QDomElement();
+                }
+                auto nextParentSibling{parent.nextSibling()};
+                if (!nextParentSibling.isNull()) {
+                    nextUiNode = nextParentSibling;
+                    break;
+                }
+                parent = parent.parentNode();
+            }
+        } while (
+            !nextUiNode.isNull()
+            && (nextUiNode.toElement().isNull() || exceptions.count(nextUiNode.nodeName()))); // We loop until we either give up finding an element or find one.
+        if (nextUiNode.isNull()) {
+            return QDomElement();
+        }
+        return nextUiNode.toElement();
+    };
+
+    int totalComparisonsCount{0};
+    do {
+        QVERIFY2(desktopUiElement.tagName() == phoneUiElement.tagName(),
+                 qPrintable(QStringLiteral("Node mismatch: dolphinui.rc/%1::%2 and dolphinuiforphones.rc/%3::%4")
+                                .arg(desktopUiElement.parentNode().toElement().tagName())
+                                .arg(desktopUiElement.tagName())
+                                .arg(phoneUiElement.parentNode().toElement().tagName())
+                                .arg(phoneUiElement.tagName())));
+        QCOMPARE(desktopUiElement.text(), phoneUiElement.text());
+        const auto desktopUiElementAttributes = desktopUiElement.attributes();
+        const auto phoneUiElementAttributes = phoneUiElement.attributes();
+        for (int i = 0; i < desktopUiElementAttributes.count(); i++) {
+            QVERIFY2(phoneUiElementAttributes.count() >= i,
+                     qPrintable(QStringLiteral("Attribute mismatch: dolphinui.rc/%1::%2 has more attributes than dolphinuiforphones.rc/%3::%4")
+                                    .arg(desktopUiElement.parentNode().toElement().tagName())
+                                    .arg(desktopUiElement.tagName())
+                                    .arg(phoneUiElement.parentNode().toElement().tagName())
+                                    .arg(phoneUiElement.tagName())));
+            if (exceptions.count(desktopUiElementAttributes.item(i).nodeName())) {
+                continue;
+            }
+            QCOMPARE(desktopUiElementAttributes.item(i).nodeName(), phoneUiElementAttributes.item(i).nodeName());
+            QCOMPARE(desktopUiElementAttributes.item(i).nodeValue(), phoneUiElementAttributes.item(i).nodeValue());
+            totalComparisonsCount++;
+        }
+        QVERIFY2(desktopUiElementAttributes.count() == phoneUiElementAttributes.count(),
+                 qPrintable(QStringLiteral("Attribute mismatch: dolphinui.rc/%1::%2 has fewer attributes than dolphinuiforphones.rc/%3::%4. %5 < %6")
+                                .arg(desktopUiElement.parentNode().toElement().tagName())
+                                .arg(desktopUiElement.tagName())
+                                .arg(phoneUiElement.parentNode().toElement().tagName())
+                                .arg(phoneUiElement.tagName())
+                                .arg(phoneUiElementAttributes.count())
+                                .arg(desktopUiElementAttributes.count())));
+
+        desktopUiElement = nextUiElement(desktopUiElement);
+        phoneUiElement = nextUiElement(phoneUiElement);
+        totalComparisonsCount++;
+    } while (!desktopUiElement.isNull() || !phoneUiElement.isNull());
+    QVERIFY2(totalComparisonsCount > 200, qPrintable(QStringLiteral("There were only %1 comparisons. Did the test run correctly?").arg(totalComparisonsCount)));
 }
 
 // See https://bugs.kde.org/show_bug.cgi?id=379135
