@@ -118,12 +118,12 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
-    if (m_selected && m_editedRole.isEmpty()) {
+    if ((m_selected || m_current) && m_editedRole.isEmpty()) {
         const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active : 0);
         drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
     }
 
-    if (m_current && m_editedRole.isEmpty()) {
+    /*if (m_current && m_editedRole.isEmpty()) {
         QStyleOptionFocusRect focusRectOption;
         initStyleOption(&focusRectOption);
         focusRectOption.rect = textFocusRect().toRect();
@@ -133,7 +133,7 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         }
 
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
-    }
+    }*/
 
     if (m_hoverOpacity > 0.0) {
         if (!m_hoverCache) {
@@ -599,8 +599,37 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRect().toRect();
-    style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    viewItemOption.rect = selectionRect().toRect().adjusted(2, 2, -2, -2);
+    QPainterPath path;
+    path.addRoundedRect(viewItemOption.rect, 5, 5);
+    QColor accentColor{widget->palette().color(QPalette::Accent)};
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    bool current = m_current && styleState & QStyle::State_Active;
+    accentColor.setAlphaF(0.0);
+    if (m_selected && m_hovered) {
+        accentColor.setAlphaF(0.5);
+    } else if (m_selected) {
+        accentColor.setAlphaF(0.4);
+    } else if (m_hovered && current) {
+        accentColor.setAlphaF(0.3);
+    } else if (m_hovered) {
+        accentColor.setAlphaF(0.1);
+    }
+    painter->fillPath(path, accentColor);
+    if (current && m_hovered) {
+        accentColor.setAlphaF(1.0);
+    } else if (current || m_hovered) {
+        accentColor.setAlphaF(0.9);
+    } else if (m_current) {
+        accentColor.setAlphaF(0.3);
+    }
+    if (m_current || m_hovered) {
+        const QPen pen{accentColor, 2};
+        painter->setPen(pen);
+        painter->drawPath(path);
+    }
+    // style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
 #include "moc_kitemlistwidget.cpp"

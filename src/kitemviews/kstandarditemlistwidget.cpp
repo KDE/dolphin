@@ -514,27 +514,17 @@ QRectF KStandardItemListWidget::selectionRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
 
-    switch (m_layout) {
-    case IconsLayout:
-        return m_textRect;
-
-    case CompactLayout:
-    case DetailsLayout: {
-        const int padding = styleOption().padding;
-        QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
-        QRectF result = adjustedIconRect | m_textRect;
-        if (m_highlightEntireRow) {
-            result.setRight(m_columnWidthSum + sidePadding());
-        }
-        return result;
+    const int padding = styleOption().padding;
+    QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
+    QRectF result = adjustedIconRect | m_textRect;
+    if (m_highlightEntireRow) {
+        result.setRight(m_columnWidthSum + sidePadding());
     }
-
-    default:
-        Q_ASSERT(false);
-        break;
+    if (m_layout == IconsLayout) {
+        const int availableWidth = size().width() - 2 * padding - result.width();
+        result = result.adjusted(-0.5 * availableWidth, 0, 0.5 * availableWidth, 0);
     }
-
-    return m_textRect;
+    return result;
 }
 
 QRectF KStandardItemListWidget::expansionToggleRect() const
@@ -718,7 +708,7 @@ QColor KStandardItemListWidget::textColor(const QWidget &widget) const
     }
 
     const QPalette::ColorGroup group = isActiveWindow() && widget.hasFocus() ? QPalette::Active : QPalette::Inactive;
-    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
+    const QPalette::ColorRole role = /*isSelected() ? QPalette::HighlightedText :*/ normalTextColorRole();
     return styleOption().palette.color(group, role);
 }
 
@@ -1535,7 +1525,7 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
     const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
     if (m_customTextColor.isValid()) {
         c1 = m_customTextColor;
-    } else if (isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
+    } else if (false && isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
         // The detail text color needs to match the main text (HighlightedText) for the same level
         // of readability. We short circuit early here to avoid interpolating with another color.
         m_additionalInfoTextColor = styleOption().palette.color(QPalette::HighlightedText);
