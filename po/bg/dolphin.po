@@ -6136,7 +6136,3 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
-
-#~ msgid "Install Filelight to View Disk Usage Statistics…"
-#~ msgstr ""
-#~ "Инсталирайте Filelight, за да видите статистика на използване на диска…"

@@ -9,20 +9,21 @@
 # Rolf Eike Beer <kde@opensource.sf-tec.de>, 2012.
 # Jonas Schürmann <jonasschuermann@aol.de>, 2012.
 # Frank Steinmetzger <dev@felsenfleischer.de>, 2021.
+# SPDX-FileCopyrightText: 2024 Flori G <Renner03@protonmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-20 00:43+0000\n"
-"PO-Revision-Date: 2024-08-26 17:26+0200\n"
-"Last-Translator: Johannes Obermayr <johannesobermayr@gmx.de>\n"
+"PO-Revision-Date: 2024-09-22 20:42+0200\n"
+"Last-Translator: Flori G <Renner03@protonmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -142,7 +143,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Ich verstehe und akzeptiere diese Risiken"
 
 #: admin/workerintegration.cpp:165
 #, kde-format
@@ -301,13 +302,15 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Einfügen nicht möglich: Die Zwischenablage ist leer."
 
 #: dolphinmainwindow.cpp:885
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
+"Einfügen fehlgeschlagen: Sie haben keine Berechtigung, in diesen Ordner zu "
+"schreiben."
 
 #: dolphinmainwindow.cpp:1274
 #, kde-format
@@ -343,6 +346,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Erstellen des neuen Ordners fehlgeschlagen: Sie haben keine Berechtigung, "
+"Elemente in diesem Ordner zu erstellen."
 
 #: dolphinmainwindow.cpp:1528
 #, kde-format
@@ -1318,6 +1323,8 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Umbenennen fehlgeschlagen: Sie haben keine Berechtigung, Elemente in diesem "
+"Ordner umzubenennen."
 
 #: dolphinmainwindow.cpp:2481 dolphinmainwindow.cpp:2498
 #, kde-format
@@ -1325,12 +1332,16 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Löschen fehlgeschlagen: Sie haben keine Berechtigung, Elemente in diesem "
+"Ordner zu entfernen."
 
 #: dolphinmainwindow.cpp:2483
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Ausschneiden fehlgeschlagen: Sie haben keine Berechtigung, Elemente aus "
+"diesem Ordner zu verschieben."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1339,30 +1350,37 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Duplizieren hier fehlgeschlagen: Sie haben keine Berechtigung, Elemente in "
+"diesem Ordner zu erstellen."
 
 #: dolphinmainwindow.cpp:2510
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Kopieren in andere Ansicht nicht möglich: Keine Dateien ausgewählt"
 
 #: dolphinmainwindow.cpp:2512
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
+"Verschieben in andere Ansicht fehlgeschlagen: Keine Dateien ausgewählt."
 
 #: dolphinmainwindow.cpp:2531
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Kopieren in andere Ansicht fehlgeschlagen: Die Elemente sind bereits in der "
+"anderen Ansicht enthalten."
 
 #: dolphinmainwindow.cpp:2534
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Verschieben in andere Ansicht fehlgeschlagen: Die Elemente sind bereits in "
+"der anderen Ansicht enthalten."
 
 #: dolphinmainwindow.cpp:2539
 #, kde-format
@@ -1371,6 +1389,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Kopieren in andere Ansicht fehlgeschlagen: Sie haben keine Berechtigung, in "
+"den Zielordner zu schreiben."
 
 #: dolphinmainwindow.cpp:2543
 #, kde-format
@@ -1379,6 +1399,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Verschieben in andere Ansicht fehlgeschlagen: Sie haben keine Berechtigung, "
+"in den Zielordner zu schreiben."
 
 #: dolphinmainwindow.cpp:2549
 #, kde-format
@@ -1387,6 +1409,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Verschieben fehlgeschlagen: Sie haben keine Berechtigung, Elemente aus "
+"diesem Ordner zu verschieben."
 
 #: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
@@ -2118,12 +2142,10 @@ msgstr ""
 "Standardanwendung wurde gestartet."
 
 #: dolphinviewcontainer.cpp:846
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Invalid protocol"
+#, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
-msgstr "Ungültiges Protokoll"
+msgstr "Ungültiges Protokoll „%1“"
 
 #: dolphinviewcontainer.cpp:848
 #, kde-format
@@ -2163,12 +2185,10 @@ msgid "Hide Filter Bar"
 msgstr "Filterleiste ausblenden"
 
 #: itemactions/movetonewfolderitemaction.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Ordner erstellen ..."
+msgstr "In neuen Ordner verschieben …"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4170,8 +4190,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:102
-#, fuzzy, kde-format
-#| msgid "Close active pane when toggling off split view"
+#, kde-format
 msgid "Close the view in focus when turning off split view"
 msgstr "Aktive Ansicht beim Ausschalten der geteilten Ansicht schließen"
 
@@ -4183,10 +4202,9 @@ msgstr "Ein neues Unterfenster wird hinter dem letzten geöffnet"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
-#, fuzzy, kde-format
-#| msgid "Show item on hover"
+#, kde-format
 msgid "Show item information on hover"
-msgstr "Element beim Überfahren anzeigen"
+msgstr "Informationen zum Element beim Überfahren anzeigen"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
 #: settings/dolphin_generalsettings.kcfg:114
@@ -4244,25 +4262,20 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:152
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Auch Dateien mit „application/x-trash“ mimetype verstecken"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:158
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr ""
-"Um Bestätigung bitten, wenn Fenster mit mehreren Unterfenstern geschlossen "
-"werden."
+msgstr "Um Bestätigung bitten, wenn viele Ordner auf einmal geöffnet werden"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:162
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when closing windows with multiple tabs."
+#, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr ""
-"Um Bestätigung bitten, wenn Fenster mit mehreren Unterfenstern geschlossen "
-"werden."
+"Um Bestätigung bitten, wenn viele Terminals auf einmal geöffnet werden."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4289,12 +4302,10 @@ msgid "Configure"
 msgstr "Einrichten"
 
 #: settings/dolphinsettingsdialog.cpp:45
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Interlace Mode"
+#, kde-format
 msgctxt "@title:group Interface settings"
 msgid "Interface"
-msgstr "Verflechtungsmodus"
+msgstr "Benutzeroberfläche"
 
 #: settings/dolphinsettingsdialog.cpp:51
 #, kde-format
@@ -4376,18 +4387,16 @@ msgid "Closing windows with a program running in the Terminal panel"
 msgstr "Schließen von Fenstern mit einem laufenden Programm im Terminal"
 
 #: settings/interface/confirmationssettingspage.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Open files and folders:"
+#, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Dateien und Ordner öffnen:"
+msgstr "Öffnen von vielen Ordnern auf einmal"
 
 #: settings/interface/confirmationssettingspage.cpp:66
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr ""
+msgstr "Öffnen von vielen Terminals auf einmal"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -4417,29 +4426,23 @@ msgid "Run script"
 msgstr "Skript ausführen"
 
 #: settings/interface/folderstabssettingspage.cpp:49
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Startup Settings"
-#| msgid "Folders, tabs, and window state from last time"
+#, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "Ordner, Unterfenster und Fensterstatus vom letzten Start"
+msgstr "Ordner, Unterfenster und Fensterzustand vom letzten Start"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Beim Start anzeigen"
+msgstr "Persönlichen Ordner beim Start anzeigen"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Die Adresse ist leer."
+msgstr "Pfad zum Startordner eingeben"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
@@ -4476,6 +4479,8 @@ msgstr "Dateien öffnen:"
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr ""
+"Ein einzelnes Dolphin-Fenster beibehalten, neue Ordner werden in "
+"Unterfenstern geöffnet"
 
 #: settings/interface/folderstabssettingspage.cpp:108
 #, kde-format
@@ -4520,17 +4525,13 @@ msgid "Split view: "
 msgstr "Geteilte Ansicht:"
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "option:check split view panes"
-#| msgid "Switch between panes with Tab key"
+#, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "Mit der Tabulatortaste zwischen geteilten Ansichten wechseln"
+msgstr "Mit der Tabulatortaste zwischen Ansichten wechseln"
 
 #: settings/interface/folderstabssettingspage.cpp:136
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Turning off split view closes active pane"
+#, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes the view in focus"
 msgstr "Ausschalten der geteilten Ansicht schließt die aktive Ansicht"
@@ -4598,7 +4599,7 @@ msgstr "Status- && Adressleisten"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
-msgstr "Vorschau anzeigen"
+msgstr "Vorschauen anzeigen"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
@@ -4616,13 +4617,13 @@ msgstr "Element beim Überfahren anzeigen"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "&Langes Datum benutzen, zum Beispiel „%1“"
 
 #: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "&Abgekürztes Datum benutzen, zum Beispiel „%1“"
 
 #: settings/interface/panelsettingspage.cpp:44
 #, kde-format
@@ -5029,7 +5030,7 @@ msgstr "Doppelklick führt aus"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr "Hintergrund:"
+msgstr "Hintergrund: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:160
 #, kde-format
