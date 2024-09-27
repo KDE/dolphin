@@ -1,4 +1,10 @@
 {
+    "KParts": {
+        "Capabilities": [
+            "ReadOnly",
+            "BrowserView"
+        ]
+    },
     "KPlugin": {
         "Icon": "view-list-icons",
         "InitialPreference": 7,
@@ -69,11 +75,5 @@
     "MimeType": "inode/directory;",
     "X-KDE-BrowserView-Built-Into": "konqueror",
     "X-KDE-BrowserView-HideFromMenus": true,
-    "X-Konqueror-Actions-File": "@KDE_INSTALL_FULL_DATADIR@/dolphin/dolphinpartactions.desktop",
-    "KParts": {
-        "Capabilities": [
-            "ReadOnly",
-            "BrowserView"
-        ]
-    }
+    "X-Konqueror-Actions-File": "@KDE_INSTALL_FULL_DATADIR@/dolphin/dolphinpartactions.desktop"
 }
