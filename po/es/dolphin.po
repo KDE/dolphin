@@ -1,15 +1,14 @@
 # Translation of dolphin to Spanish
 # This file is put in the public domain.
 #
-# Nestor Diaz <nestordiaz@equusdigital.com>, 2006.
-# Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
-# Jaime Robles <jaime@kde.org>, 2007, 2008, 2009.
-# Jaime Robles <jaime@robles.nu>, 2007.
+# SPDX-FileCopyrightText: 2006 Nestor Diaz <nestordiaz@equusdigital.com>
+# SPDX-FileCopyrightText: 2007 Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
+# SPDX-FileCopyrightText: 2007, 2008, 2009 Jaime Robles <jaime@kde.org>
+# SPDX-FileCopyrightText: 2007 Jaime Robles <jaime@robles.nu>
 # SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>, 2010, 2011, 2012, 2013.
-# Javier Vinal <fjvinal@gmail.com>, 2011.
-# arklad, 2011.
-# Rocio Gallego <traducciones@rociogallego.com>, 2013, 2014, 2015, 2016, 2017.
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013 Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
+# SPDX-FileCopyrightText: 2011 Javier Vinal <fjvinal@gmail.com>
+# SPDX-FileCopyrightText: 2013, 2014, 2015, 2016, 2017 Rocio Gallego <traducciones@rociogallego.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
@@ -22,10 +21,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"com>\n"
-"com>\n"
-"com>\n"
-"com>\n"
 "X-Generator: Lokalize 24.05.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
