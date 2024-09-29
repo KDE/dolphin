@@ -194,3 +194,5 @@ void WorkerIntegration::updateActAsAdminAction()
         }
     }
 }
+
+#include "moc_workerintegration.cpp"

@@ -52,3 +52,5 @@ QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListPropertie
 }
 
 #include "movetonewfolderitemaction.moc"
+
+#include "moc_movetonewfolderitemaction.cpp"

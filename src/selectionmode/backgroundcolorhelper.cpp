@@ -99,3 +99,5 @@ void BackgroundColorHelper::updateBackgroundColor()
 }
 
 BackgroundColorHelper *BackgroundColorHelper::s_instance = nullptr;
+
+#include "moc_backgroundcolorhelper.cpp"
