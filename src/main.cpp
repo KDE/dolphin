@@ -164,6 +164,9 @@ int main(int argc, char **argv)
     }
 
     if (parser.isSet(QStringLiteral("daemon"))) {
+        // Prevent KApplicationLauncherJob from cause the application to quit on job finish.
+        QCoreApplication::setQuitLockEnabled(false);
+
         // Disable session management for the daemonized version
         // See https://bugs.kde.org/show_bug.cgi?id=417219
         auto disableSessionManagement = [](QSessionManager &sm) {
