@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-20 00:43+0000\n"
-"PO-Revision-Date: 2024-07-30 01:22+0300\n"
+"PO-Revision-Date: 2024-10-05 22:33+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -143,13 +143,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Aš suprantu ir prisiimu šias rizikas"
 
 #: admin/workerintegration.cpp:165
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Daugiau nebeįspėti apie šias rizikas"
 
 #: dolphincontextmenu.cpp:124
 #, kde-format
@@ -305,7 +305,7 @@ msgstr "Nepavyksta įdėti: Iškarpinė tuščia."
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
-msgstr ""
+msgstr "Negalima įdėti: Jūs neturite leidimo rašyti į šį aplanką."
 
 #: dolphinmainwindow.cpp:1274
 #, kde-format
@@ -345,6 +345,8 @@ msgid ""
 "Cannot create new folder: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Negalima sukurti naujo aplanko: Jūs neturite leidimo kurti elementų šiame "
+"aplanke."
 
 #: dolphinmainwindow.cpp:1528
 #, kde-format
@@ -1231,6 +1233,7 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Negalima pervadinti: Jūs neturite leidimo pervadinti elementų šiame aplanke."
 
 #: dolphinmainwindow.cpp:2481 dolphinmainwindow.cpp:2498
 #, kde-format
@@ -1238,12 +1241,14 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Negalima ištrinti: Jūs neturite leidimo šalinti elementus iš šio aplanko."
 
 #: dolphinmainwindow.cpp:2483
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Negalima iškirpti: Jūs neturite leidimo perkelti elementus iš šio aplanko."
 
 #: dolphinmainwindow.cpp:2488
 #, kde-format
@@ -1252,30 +1257,33 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Negalima dubliuoti čia: Jūs neturite leidimo kurti elementų šiame aplanke."
 
 #: dolphinmainwindow.cpp:2510
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Negalima kopijuoti į kitą rodinį: Nepažymėti jokie failai."
 
 #: dolphinmainwindow.cpp:2512
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
-msgstr ""
+msgstr "Negalima perkelti į kitą rodinį: Nepažymėti jokie failai."
 
 #: dolphinmainwindow.cpp:2531
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Negalima kopijuoti į kitą rodinį: Kitame rodinyje jau yra šie elementai."
 
 #: dolphinmainwindow.cpp:2534
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Negalima perkelti į kitą rodinį: Kitame rodinyje jau yra šie elementai."
 
 #: dolphinmainwindow.cpp:2539
 #, kde-format
@@ -1284,6 +1292,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Negalima kopijuoti į kitą rodinį: Jūs neturite leidimo rašyti į paskirties "
+"aplanką."
 
 #: dolphinmainwindow.cpp:2543
 #, kde-format
@@ -1292,6 +1302,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Negalima perkelti į kitą rodinį: Jūs neturite leidimo rašyti į paskirties "
+"aplanką."
 
 #: dolphinmainwindow.cpp:2549
 #, kde-format
@@ -1300,6 +1312,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Negalima perkelti į kitą rodinį: Jūs neturite leidimo perkelti elementus iš "
+"šio aplanko."
 
 #: dolphinmainwindow.cpp:2573
 #, kde-kuit-format
