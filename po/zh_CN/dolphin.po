@@ -5172,7 +5172,7 @@ msgstr "磁盘使用统计 - 当前文件夹"
 #: statusbar/statusbarspaceinfo.cpp:147
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr "磁盘使用统计 - 当前文件夹"
+msgstr "磁盘使用统计 - 当前设备"
 
 #: statusbar/statusbarspaceinfo.cpp:160
 #, kde-format
