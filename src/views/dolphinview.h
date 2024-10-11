@@ -698,7 +698,6 @@ private Q_SLOTS:
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *event);
     void slotModelChanged(KItemModelBase *current, KItemModelBase *previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
-    void slotRenameDialogRenamingFinished(const QList<QUrl> &urls);
     void slotSelectedItemTextPressed(int index);
     void slotItemCreatedFromJob(KIO::Job *, const QUrl &, const QUrl &to);
     void slotItemLinkCreatedFromJob(KIO::Job *, const QUrl &, const QString &, const QUrl &to);

@@ -757,7 +757,20 @@ void DolphinView::renameSelectedItems()
 
     } else {
         KIO::RenameFileDialog *dialog = new KIO::RenameFileDialog(items, this);
-        connect(dialog, &KIO::RenameFileDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
+        connect(dialog, &KIO::RenameFileDialog::renamingFinished, this, [this, items](const QList<QUrl> &urls) {
+            // The model may have already been updated, so it's possible that we don't find the old items.
+            for (int i = 0; i < items.count(); ++i) {
+                const int index = m_model->index(items[i]);
+                if (index >= 0) {
+                    QHash<QByteArray, QVariant> data;
+                    data.insert("text", urls[i].fileName());
+                    m_model->setData(index, data);
+                }
+            }
+
+            forceUrlsSelection(urls.first(), urls);
+            updateSelectionState();
+        });
         connect(dialog, &KIO::RenameFileDialog::error, this, [this](KJob *job) {
             KMessageBox::error(this, job->errorString());
         });
@@ -2274,11 +2287,6 @@ QUrl DolphinView::viewPropertiesUrl() const
     url.setScheme(m_url.scheme());
     url.setPath(m_viewPropertiesContext);
     return url;
-}
-
-void DolphinView::slotRenameDialogRenamingFinished(const QList<QUrl> &urls)
-{
-    forceUrlsSelection(urls.first(), urls);
 }
 
 void DolphinView::forceUrlsSelection(const QUrl &current, const QList<QUrl> &selected)
