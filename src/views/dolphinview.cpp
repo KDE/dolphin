@@ -2032,6 +2032,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
 
             if (!newNameExistsAlready) {
                 forceUrlsSelection(newUrl, {newUrl});
+                updateSelectionState();
 
                 // Only connect the result signal if there is no item with the new name
                 // in the model yet, see bug 328262.
