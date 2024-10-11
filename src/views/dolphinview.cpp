@@ -758,6 +758,9 @@ void DolphinView::renameSelectedItems()
     } else {
         KIO::RenameFileDialog *dialog = new KIO::RenameFileDialog(items, this);
         connect(dialog, &KIO::RenameFileDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
+        connect(dialog, &KIO::RenameFileDialog::error, this, [this](KJob *job) {
+            KMessageBox::error(this, job->errorString());
+        });
 
         dialog->open();
     }
