@@ -202,13 +202,20 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant> &value
         return false;
     }
 
-    m_itemData[index]->values = currentValues;
     if (changedRoles.contains("text")) {
         QUrl url = m_itemData[index]->item.url();
+        m_items.remove(url);
         url = url.adjusted(QUrl::RemoveFilename);
         url.setPath(url.path() + currentValues["text"].toString());
         m_itemData[index]->item.setUrl(url);
+        m_items.insert(url, index);
+
+        if (!changedRoles.contains("url")) {
+            changedRoles.insert("url");
+            currentValues["url"] = url;
+        }
     }
+    m_itemData[index]->values = currentValues;
 
     emitItemsChangedAndTriggerResorting(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
