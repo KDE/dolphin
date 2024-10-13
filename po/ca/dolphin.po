@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-20 02:40+0000\n"
-"PO-Revision-Date: 2024-08-19 09:36+0200\n"
+"PO-Revision-Date: 2024-10-12 21:07+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -868,7 +868,7 @@ msgid ""
 msgstr ""
 "Va a la vostra carpeta d'<filename>Inici</filename>.<nl/>Cada compte "
 "d'usuari té la seva pròpia carpeta d'<filename>Inici</filename> que conté "
-"els seus fitxers personals, aixó com les carpetes ocultes de les dades "
+"els seus fitxers personals, això com les carpetes ocultes de les dades "
 "d'aplicacions i fitxers de configuració."
 
 #: dolphinmainwindow.cpp:2016
@@ -4046,7 +4046,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:86
 #, kde-format
 msgid "Rename single items inline"
-msgstr "Reanomena elements inidviduals en línia"
+msgstr "Reanomena elements individuals en línia"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:90
@@ -4849,7 +4849,7 @@ msgstr "Mostra un marcador de selecció"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Reanomena elements inidviduals en línia"
+msgstr "Reanomena elements individuals en línia"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format
@@ -5398,8 +5398,8 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
-"<para>Instal·leu programari addicional per veure les estadístiques<nl/> d'ús "
-"del disc i identifiqueu fitxers i carpetes grans.</para>"
+"<para>Instal·leu programari addicional per a veure les estadístiques<nl/> "
+"d'ús del disc i identifiqueu fitxers i carpetes grans.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
