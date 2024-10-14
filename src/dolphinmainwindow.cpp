@@ -2969,7 +2969,7 @@ bool DolphinMainWindow::isItemVisibleInAnyView(const QString &urlOfItem)
 
 void DolphinMainWindow::slotDoubleClickViewBackground(Qt::MouseButton button)
 {
-    if (button == Qt::MouseButton::LeftButton) {
+    if (button != Qt::MouseButton::LeftButton) {
         // only handle left mouse button for now
         return;
     }
