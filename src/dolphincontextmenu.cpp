@@ -126,6 +126,18 @@ void DolphinContextMenu::addTrashContextMenu()
     });
     emptyTrashAction->setEnabled(!Trash::isEmpty());
 
+    // Insert 'Sort By' and 'View Mode'
+    if (ContextMenuSettings::showSortBy() || ContextMenuSettings::showViewMode()) {
+        addSeparator();
+    }
+    if (ContextMenuSettings::showSortBy()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
+    }
+    if (ContextMenuSettings::showViewMode()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
+    }
+
+    addSeparator();
     QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
 }
@@ -150,6 +162,11 @@ void DolphinContextMenu::addTrashItemContextMenu()
     QAction *deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     addAction(deleteAction);
 
+    addSeparator();
+    addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Cut)));
+    addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
+
+    addSeparator();
     QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
 }
