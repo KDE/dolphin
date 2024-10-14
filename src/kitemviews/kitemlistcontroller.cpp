@@ -700,6 +700,15 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event,
     const QPointF pos = transform.map(event->pos());
     const std::optional<int> index = m_view->itemAt(pos);
 
+    if (event->button() & (Qt::ForwardButton | Qt::BackButton)) {
+        // "Forward" and "Back" are reserved for quickly navigating through the
+        // history. Double-clicking those buttons should be interpreted as two
+        // separate button presses. We arrive here for the second click, which
+        // we now react to just as we would for a singular click
+        Q_EMIT mouseButtonPressed(index.value_or(-1), event->button());
+        return false;
+    }
+
     if (!index.has_value()) {
         Q_EMIT doubleClickViewBackground(event->button());
         return false;
