@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-13 00:41+0000\n"
-"PO-Revision-Date: 2024-08-19 09:36+0200\n"
+"POT-Creation-Date: 2024-10-15 00:41+0000\n"
+"PO-Revision-Date: 2024-10-12 21:07+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -178,37 +178,37 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Buida la paperera"
 
-#: dolphincontextmenu.cpp:138
+#: dolphincontextmenu.cpp:150
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Restaura"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crea nou"
 
-#: dolphincontextmenu.cpp:193
+#: dolphincontextmenu.cpp:210
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Obri el camí"
 
-#: dolphincontextmenu.cpp:201
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Obri el camí en una pestanya nova"
 
-#: dolphincontextmenu.cpp:205
+#: dolphincontextmenu.cpp:222
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Obri el camí en una finestra nova"
 
-#: dolphincontextmenu.cpp:455
+#: dolphincontextmenu.cpp:472
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -867,7 +867,7 @@ msgid ""
 msgstr ""
 "Va fins a la vostra carpeta d'<filename>Inici</filename>.<nl/>Cada compte "
 "d'usuari té la seua pròpia carpeta d'<filename>Inici</filename> que conté "
-"els seus fitxers personals, aixó com les carpetes ocultes de les dades "
+"els seus fitxers personals, així com les carpetes ocultes de les dades "
 "d'aplicacions i fitxers de configuració."
 
 #: dolphinmainwindow.cpp:2033
@@ -4073,7 +4073,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:86
 #, kde-format
 msgid "Rename single items inline"
-msgstr "Canvia el nom elements inidviduals en línia"
+msgstr "Canvia el nom d'elements individuals inclosos"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:90
@@ -4891,7 +4891,7 @@ msgstr "Mostra un marcador de selecció"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr "Canvia el nom elements inidviduals en línia"
+msgstr "Canvia el nom d'elements individuals inclosos"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format

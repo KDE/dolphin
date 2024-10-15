@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-13 00:41+0000\n"
+"POT-Creation-Date: 2024-10-15 00:41+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -149,19 +149,19 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Folmhaigh an Bruscar"
 
-#: dolphincontextmenu.cpp:138
+#: dolphincontextmenu.cpp:150
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Athchóirigh"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Cruthaigh Ceann Nua"
 
-#: dolphincontextmenu.cpp:193
+#: dolphincontextmenu.cpp:210
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -169,19 +169,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Oscail Le"
 
-#: dolphincontextmenu.cpp:201
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Oscail Conair i gCluaisín Nua"
 
-#: dolphincontextmenu.cpp:205
+#: dolphincontextmenu.cpp:222
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Oscail Conair i bhFuinneog Nua"
 
-#: dolphincontextmenu.cpp:455
+#: dolphincontextmenu.cpp:472
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-13 00:41+0000\n"
+"POT-Creation-Date: 2024-10-15 00:41+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -157,19 +157,19 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "ಕಸಬುಟ್ಟಿಯನ್ನು ಖಾಲಿಮಾಡು"
 
-#: dolphincontextmenu.cpp:138
+#: dolphincontextmenu.cpp:150
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "ಮರುಸ್ಥಾಪಿಸು (ರಿಸ್ಟೋರ್)"
 
-#: dolphincontextmenu.cpp:184 dolphinmainwindow.cpp:1683
+#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1683
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "ಹೊಸತನ್ನು ಸೃಷ್ಟಿಸು"
 
-#: dolphincontextmenu.cpp:193
+#: dolphincontextmenu.cpp:210
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -177,19 +177,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "ಮಾರ್ಗ"
 
-#: dolphincontextmenu.cpp:201
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "ಹೊಸ ಹಾಳೆಯಲ್ಲಿನ ಮಾರ್ಗದಲ್ಲಿ"
 
-#: dolphincontextmenu.cpp:205
+#: dolphincontextmenu.cpp:222
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "ಹೊಸ ಕಿಟಕಿಯಲ್ಲಿನ ಮಾರ್ಗದಲ್ಲಿ"
 
-#: dolphincontextmenu.cpp:455
+#: dolphincontextmenu.cpp:472
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
