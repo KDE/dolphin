@@ -4247,7 +4247,7 @@ msgstr "主文件夹位置无效或者不存在，无法应用。"
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "文件夹和标签页"
+msgstr "文件夹、标签页"
 
 #: settings/interface/interfacesettingspage.cpp:40
 #: settings/kcm/kcmdolphingeneral.cpp:41
@@ -4273,7 +4273,7 @@ msgstr "面板"
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "状态和位置栏"
+msgstr "状态栏、位置栏"
 
 #: settings/interface/panelsettingspage.cpp:34
 #, kde-format
@@ -4745,7 +4745,7 @@ msgstr "常规"
 #, kde-format
 msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
-msgstr "内容显示方式"
+msgstr "内容"
 
 #: settings/viewmodes/viewsettingstab.cpp:49
 #, kde-format
