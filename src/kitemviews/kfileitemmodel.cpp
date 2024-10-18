@@ -2763,6 +2763,7 @@ const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
         { "releaseYear",         ReleaseYearRole,         kli18nc("@label", "Release Year"),         kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
         { "aspectRatio",         AspectRatioRole,         kli18nc("@label", "Aspect Ratio"),         kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
         { "frameRate",           FrameRateRole,           kli18nc("@label", "Frame Rate"),           kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
+        { "duration",            DurationRole,            kli18nc("@label", "Duration"),             kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
         { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "extension",           ExtensionRole,           kli18nc("@label", "File Extension"),       kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
         { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
