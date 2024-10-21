@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-18 00:42+0000\n"
+"POT-Creation-Date: 2024-10-21 00:41+0000\n"
 "PO-Revision-Date: 2024-10-12 21:07+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2591,7 +2591,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Àlbum"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2760 kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Duration"
 msgstr "Durada"
@@ -2617,6 +2617,7 @@ msgid "Aspect Ratio"
 msgstr "Relació d'aspecte"
 
 #: kitemviews/kfileitemmodel.cpp:2764 kitemviews/kfileitemmodel.cpp:2765
+#: kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Video"
 msgstr "Vídeo"
@@ -2626,45 +2627,45 @@ msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Velocitat dels fotogrames"
 
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2767
 msgctxt "@label"
 msgid "Path"
 msgstr "Camí"
 
-#: kitemviews/kfileitemmodel.cpp:2766 kitemviews/kfileitemmodel.cpp:2767
-#: kitemviews/kfileitemmodel.cpp:2768 kitemviews/kfileitemmodel.cpp:2769
-#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
-#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2767 kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769 kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771 kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773 kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "Other"
 msgstr "Altres"
 
-#: kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2768
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Extensió del fitxer"
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Hora de la supressió"
 
-#: kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2770
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Destinació de l'enllaç"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Baixat des de"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Permisos"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2673,17 +2674,17 @@ msgstr ""
 "El format dels permisos es pot seleccionar a la configuració. Les opcions "
 "són simbòlic, numèric (octal) o formats combinats"
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773
 msgctxt "@label"
 msgid "Owner"
 msgstr "Propietari"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "User Group"
 msgstr "Grup d'usuari"
 
-#: kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

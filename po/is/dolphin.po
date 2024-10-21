@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-18 00:42+0000\n"
+"POT-Creation-Date: 2024-10-21 00:41+0000\n"
 "PO-Revision-Date: 2024-07-22 21:51+0000\n"
 "Last-Translator: Gummi <gudmundure@gmail.com>\n"
 "Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
@@ -2584,7 +2584,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Plata"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2760 kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Duration"
 msgstr "Tímalengd"
@@ -2610,6 +2610,7 @@ msgid "Aspect Ratio"
 msgstr "Myndhlutfall"
 
 #: kitemviews/kfileitemmodel.cpp:2764 kitemviews/kfileitemmodel.cpp:2765
+#: kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Video"
 msgstr "Myndskeið"
@@ -2619,45 +2620,45 @@ msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Rammatíðni"
 
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2767
 msgctxt "@label"
 msgid "Path"
 msgstr "Slóð"
 
-#: kitemviews/kfileitemmodel.cpp:2766 kitemviews/kfileitemmodel.cpp:2767
-#: kitemviews/kfileitemmodel.cpp:2768 kitemviews/kfileitemmodel.cpp:2769
-#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
-#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2767 kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769 kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771 kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773 kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "Other"
 msgstr "Annað"
 
-#: kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2768
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Skráarending"
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Eyðingartími"
 
-#: kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2770
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Áfangastaður tengils"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Sótt frá"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Heimildir"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2666,17 +2667,17 @@ msgstr ""
 "Snið aðgangsheimilda er hægt að velja í stillingunum. Valkostirnir eru "
 "Táknrænt, Tölulegt (Octal) eða Samsett"
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773
 msgctxt "@label"
 msgid "Owner"
 msgstr "Eigandi"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "User Group"
 msgstr "Notandahópur"
 
-#: kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

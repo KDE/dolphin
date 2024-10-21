@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-18 00:42+0000\n"
+"POT-Creation-Date: 2024-10-21 00:41+0000\n"
 "PO-Revision-Date: 2013-07-07 01:53+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -2448,7 +2448,7 @@ msgctxt "@label"
 msgid "Album"
 msgstr "Альбомы:"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2760 kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Duration"
 msgstr "Ұзақтығы"
@@ -2477,6 +2477,7 @@ msgid "Aspect Ratio"
 msgstr ""
 
 #: kitemviews/kfileitemmodel.cpp:2764 kitemviews/kfileitemmodel.cpp:2765
+#: kitemviews/kfileitemmodel.cpp:2766
 #, fuzzy
 #| msgctxt "@option:check"
 #| msgid "Videos"
@@ -2489,25 +2490,25 @@ msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2767
 msgctxt "@label"
 msgid "Path"
 msgstr "Жолы"
 
-#: kitemviews/kfileitemmodel.cpp:2766 kitemviews/kfileitemmodel.cpp:2767
-#: kitemviews/kfileitemmodel.cpp:2768 kitemviews/kfileitemmodel.cpp:2769
-#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
-#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2767 kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769 kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771 kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773 kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "Other"
 msgstr "Басқа"
 
-#: kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2768
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2769
 #, fuzzy
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -2515,12 +2516,12 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Таңдау"
 
-#: kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2770
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Қайда"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2771
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Copied From"
@@ -2528,29 +2529,29 @@ msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Мынаның көшірмесі:"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Рұқсаттары"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2773
 msgctxt "@label"
 msgid "Owner"
 msgstr "Иесі"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "User Group"
 msgstr "Пайдаланушы тобы"
 
-#: kitemviews/kfileitemmodel.cpp:2874
+#: kitemviews/kfileitemmodel.cpp:2875
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
