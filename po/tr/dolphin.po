@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-21 00:41+0000\n"
-"PO-Revision-Date: 2024-09-23 15:21+0300\n"
+"PO-Revision-Date: 2024-10-25 18:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1195,7 +1195,7 @@ msgid ""
 "property."
 msgstr ""
 "Bu, yerler panelindeki gizlenmiş tüm yerleri görüntüler. Yarısaydam "
-"görünürler ve ‘Gizle’ özelliklerinin işaretini kaldırmanıza izin verirler."
+"görünürler ve “Gizle” özelliklerinin işaretini kaldırmanıza izin verirler."
 
 #: dolphinmainwindow.cpp:2392
 #, kde-kuit-format
@@ -1561,12 +1561,12 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 "<para>Bu, şu anda kullandığınız yardım özelliğini açan düğmedir! Üzerine "
-"tıklayın ve uygulamanın herhangi bir bileşeninin üzerine tıklayarak ‘Bu "
-"Nedir?’ arayüzünü etkinleştirin. Bir nokta için kullanılabilir yardım yoksa "
+"tıklayın ve uygulamanın herhangi bir bileşeninin üzerine tıklayarak “Bu "
+"Nedir?” arayüzünü etkinleştirin. Bir nokta için kullanılabilir yardım yoksa "
 "fare imleci biçim değiştirir.</para><para>Yardım almanın iki yolu daha "
 "vardır: <link url='help:/dolphin/index.html'>Dolphin El Kitabı</link> "
 "ve<link url='https://userbase.kde.org/Dolphin/File_Management'>KDE Kullanıcı "
-"Tabanı Vikisi</link>.</para><para>‘Bu Nedir?’ yardımı genelde diğer "
+"Tabanı Vikisi</link>.</para><para>“Bu Nedir?” yardımı genelde diğer "
 "uygulamalarda bulunmayabilir, o yüzden buna çok alışmayın.</para>"
 
 #: dolphinmainwindow.cpp:2833
@@ -3562,7 +3562,7 @@ msgstr "Sil"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "‘Buraya Kopyala’ ve ‘Buraya Taşı’ komutları"
+msgstr "“Buraya Kopyala” ve “Buraya Taşı” komutları"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:290
 #, kde-format
@@ -3652,62 +3652,62 @@ msgstr "İzin görünümü biçemi"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Bağlam menüsünde ‘Buraya Kopyala’ ve ‘Buraya Taşı’ komutlarını göster"
+msgstr "Bağlam menüsünde “Buraya Kopyala” ve “Buraya Taşı” komutlarını göster"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Bağlam menüsünde ‘Yerlere Ekle’ ögesini göster"
+msgstr "Bağlam menüsünde “Yerlere Ekle” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "Bağlam menüsünde ‘Şuna Göre Sırala’ ögesini göster"
+msgstr "Bağlam menüsünde “Şuna Göre Sırala” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Bağlam menüsünde ‘Görünüm Kipi’ ögesini göster"
+msgstr "Bağlam menüsünde “Görünüm Kipi” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
 msgstr ""
-"Bağlam menüsünde ‘Yeni Sekmede Aç’ ve ‘Yeni Sekmelerde Aç’ ögesini göster"
+"Bağlam menüsünde “Yeni Sekmede Aç” ve “Yeni Sekmelerde Aç” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Bağlam menüsünde ‘Yeni Pencerede Aç’ ögesini göster"
+msgstr "Bağlam menüsünde “Yeni Pencerede Aç” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Bağlam menüsünde ‘Bölünmüş Görünümde Aç’ ögesini göster"
+msgstr "Bağlam menüsünde “Bölünmüş Görünümde Aç” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Bağlam menüsünde ‘Konumu Kopyala’ ögesini göster"
+msgstr "Bağlam menüsünde “Konumu Kopyala” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr "Bağlam menüsünde ‘Burada Çoğalt’ ögesini göster"
+msgstr "Bağlam menüsünde “Burada Çoğalt” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Bağlam menüsünde ‘Uçbirimi Aç’ ögesini göster"
+msgstr "Bağlam menüsünde “Uçbirimi Aç” ögesini göster"
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
@@ -3719,7 +3719,7 @@ msgstr "Bağlam menüsünde ’Diğer Bölünmüş Görünüme Taşı’yı öge
 #: settings/dolphin_contextmenusettings.kcfg:54
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Bağlam menüsünde ‘Diğer Bölünmüş Görünüme Kopyala’ ögesini göster’"
+msgstr "Bağlam menüsünde “Diğer Bölünmüş Görünüme Kopyala” ögesini göster"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3760,7 +3760,7 @@ msgid ""
 "When this option is enabled hidden files, such as those starting with a '.', "
 "will be shown in the file view."
 msgstr ""
-"Bu seçenek etkinleştirildiğinde, adı ‘.’ ile başlayan gizli dosyalar, dosya "
+"Bu seçenek etkinleştirildiğinde, adı “.” ile başlayan gizli dosyalar, dosya "
 "görünümünde gösterilecektir."
 
 #. i18n: ectx: label, entry (Version), group (Dolphin)
@@ -5943,7 +5943,7 @@ msgid ""
 msgstr ""
 "<para>Bu etkinleştirildiğinde, <emphasis>gizli</emphasis> dosya ve klasörler "
 "görünür duruma gelir; yarısaydam olarak görüntülenirler.</para><para>Gizli "
-"ögeler normal öğelerden yalnızca adlarının nokta (‘.’) ile başlamasıyla "
+"ögeler normal öğelerden yalnızca adlarının nokta (“.”) ile başlamasıyla "
 "ayrılırlar. Genellikle kullanıcıların bunlara erişmesine gerek yoktur, bu "
 "nedenle gizlidirler.</para><para>Ögeler, adları “.hidden” adlı bir metin "
 "dosyasına konulursa gizlenirler. Yedekleme dosyaları gibi “application/x-"
