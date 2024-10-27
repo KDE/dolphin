@@ -12,8 +12,10 @@
 #include "dolphindebug.h"
 
 #include <QCryptographicHash>
+#include <QTemporaryFile>
 
 #include <KFileItem>
+#include <KFileMetaData/UserMetaData>
 
 namespace
 {
@@ -29,6 +31,68 @@ const char CustomizedDetailsString[] = "CustomizedDetails";
 
 // Filename that is used for storing the properties
 const char ViewPropertiesFileName[] = ".directory";
+}
+
+ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) const
+{
+    const QString settingsFile = folderPath + QDir::separator() + ViewPropertiesFileName;
+
+    KFileMetaData::UserMetaData metadata(folderPath);
+    if (!metadata.isSupported()) {
+        return new ViewPropertySettings(KSharedConfig::openConfig(settingsFile, KConfig::SimpleConfig));
+    }
+
+    QTemporaryFile tempFile;
+    tempFile.setAutoRemove(false);
+    if (!tempFile.open()) {
+        qCWarning(DolphinDebug) << "Could not open temp file";
+        return nullptr;
+    }
+
+    if (QFile::exists(settingsFile)) {
+        // copy settings to tempfile to load them separately
+        QFile::remove(tempFile.fileName());
+        QFile::copy(settingsFile, tempFile.fileName());
+
+        auto config = KConfig(tempFile.fileName(), KConfig::SimpleConfig);
+        // ignore settings that are outside of dolphin scope
+        if (config.hasGroup("Dolphin") || config.hasGroup("Settings")) {
+            const auto groupList = config.groupList();
+            for (const auto &group : groupList) {
+                if (group != QStringLiteral("Dolphin") && group != QStringLiteral("Settings")) {
+                    config.deleteGroup(group);
+                }
+            }
+            return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+
+        } else if (!config.groupList().isEmpty()) {
+            // clear temp file content
+            QFile::remove(tempFile.fileName());
+        }
+    }
+
+    // load from metadata
+    const QString viewPropertiesString = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    if (!viewPropertiesString.isEmpty()) {
+        // load view properties from xattr to temp file then loads into ViewPropertySettings
+        // clear the temp file
+        QFile outputFile(tempFile.fileName());
+        outputFile.open(QIODevice::WriteOnly);
+        outputFile.write(viewPropertiesString.toUtf8());
+        outputFile.close();
+    }
+    return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+}
+
+ViewPropertySettings *ViewProperties::defaultProperties() const
+{
+    auto props = loadProperties(destinationDir(QStringLiteral("global")));
+    if (props == nullptr) {
+        qCWarning(DolphinDebug) << "Could not load default global viewproperties";
+        props = new ViewPropertySettings;
+    }
+
+    return props;
 }
 
 ViewProperties::ViewProperties(const QUrl &url)
@@ -90,14 +154,22 @@ ViewProperties::ViewProperties(const QUrl &url)
         m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
     }
 
-    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
-    m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
+    m_node = loadProperties(m_filePath);
 
-    // If the .directory file does not exist or the timestamp is too old,
-    // use default values instead.
-    const bool useDefaultProps = (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
-        && (!QFile::exists(file) || (m_node->timestamp() < settings->viewPropsTimestamp()));
-    if (useDefaultProps) {
+    bool useDefaultSettings = useGlobalViewProps ||
+        // If the props timestamp is too old,
+        // use default values instead.
+        (m_node != nullptr && (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView)
+         && m_node->timestamp() < settings->viewPropsTimestamp());
+
+    if (m_node == nullptr) {
+        // no settings found for m_filepath, load defaults
+        m_node = defaultProperties();
+        useDefaultSettings = true;
+    }
+
+    // default values for special directories
+    if (useDefaultSettings) {
         if (useSearchView) {
             const QString path = url.path();
 
@@ -132,14 +204,6 @@ ViewProperties::ViewProperties(const QUrl &url)
                 setSortRole(QByteArrayLiteral("modificationtime"));
             }
         } else {
-            // The global view-properties act as default for directories without
-            // any view-property configuration. Constructing a ViewProperties
-            // instance for an empty QUrl ensures that the global view-properties
-            // are loaded.
-            QUrl emptyUrl;
-            ViewProperties defaultProps(emptyUrl);
-            setDirProperties(defaultProps);
-
             m_changedProps = false;
         }
     }
@@ -170,6 +234,11 @@ ViewProperties::~ViewProperties()
 {
     if (m_changedProps && m_autoSave) {
         save();
+    }
+
+    if (!m_node->config()->name().endsWith(ViewPropertiesFileName)) {
+        // remove temp file
+        QFile::remove(m_node->config()->name());
     }
 
     delete m_node;
@@ -412,17 +481,94 @@ void ViewProperties::update()
 void ViewProperties::save()
 {
     qCDebug(DolphinDebug) << "Saving view-properties to" << m_filePath;
+
+    auto cleanDotDirectoryFile = [this]() {
+        const QString settingsFile = m_filePath + QDir::separator() + ViewPropertiesFileName;
+        if (QFile::exists(settingsFile)) {
+            qCDebug(DolphinDebug) << "cleaning .directory" << settingsFile;
+            KConfig cfg(settingsFile, KConfig::OpenFlag::SimpleConfig);
+            const auto groupList = cfg.groupList();
+            for (const auto &group : groupList) {
+                if (group == QStringLiteral("Dolphin") || group == QStringLiteral("Settings")) {
+                    cfg.deleteGroup(group);
+                }
+            }
+            if (cfg.groupList().isEmpty()) {
+                QFile::remove(settingsFile);
+            } else if (cfg.isDirty()) {
+                cfg.sync();
+            }
+        }
+    };
+
+    // ensures the destination dir exists, in case we don't write metadata directly on the folder
+    QDir destinationDir(m_filePath);
+    if (!destinationDir.exists() && !destinationDir.mkpath(m_filePath)) {
+        qCWarning(DolphinDebug) << "Could not create fake directory to store metadata";
+    }
+
+    KFileMetaData::UserMetaData metaData(m_filePath);
+    if (metaData.isSupported()) {
+        const auto metaDataKey = QStringLiteral("kde.fm.viewproperties#1");
+
+        const auto items = m_node->items();
+        const bool allDefault = std::all_of(items.cbegin(), items.cend(), [this](const KConfigSkeletonItem *item) {
+            return item->name() == "Timestamp" || (item->name() == "Version" && m_node->version() == CurrentViewPropertiesVersion) || item->isDefault();
+        });
+        if (allDefault) {
+            if (metaData.hasAttribute(metaDataKey)) {
+                qCDebug(DolphinDebug) << "clearing extended attributes for " << m_filePath;
+                const auto result = metaData.setAttribute(metaDataKey, QString());
+                if (result != KFileMetaData::UserMetaData::NoError) {
+                    qCWarning(DolphinDebug) << "could not clear extended attributes for " << m_filePath << "error:" << result;
+                }
+            }
+            cleanDotDirectoryFile();
+            return;
+        }
+
+        // save config to disk
+        if (!m_node->save()) {
+            qCWarning(DolphinDebug) << "could not save viewproperties" << m_node->config()->name();
+            return;
+        }
+
+        QFile configFile(m_node->config()->name());
+        if (!configFile.open(QIODevice::ReadOnly)) {
+            qCWarning(DolphinDebug) << "Could not open readonly config file" << m_node->config()->name();
+        } else {
+            // load config from disk
+            const QString viewPropertiesString = configFile.readAll();
+
+            // save to xattr
+            const auto result = metaData.setAttribute(metaDataKey, viewPropertiesString);
+            if (result != KFileMetaData::UserMetaData::NoError) {
+                if (result == KFileMetaData::UserMetaData::NoSpace) {
+                    // copy settings to dotDirectory file as fallback
+                    if (!configFile.copy(m_filePath + QDir::separator() + ViewPropertiesFileName)) {
+                        qCWarning(DolphinDebug) << "could not write viewproperties to .directory for dir " << m_filePath;
+                    }
+                    // free the space used by viewproperties from the file metadata
+                    metaData.setAttribute(metaDataKey, "");
+                } else {
+                    qCWarning(DolphinDebug) << "could not save viewproperties to extended attributes for dir " << m_filePath << "error:" << result;
+                }
+                // keep .directory file
+                return;
+            }
+            cleanDotDirectoryFile();
+        }
+
+        m_changedProps = false;
+        return;
+    }
+
     QDir dir;
     dir.mkpath(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
     m_node->save();
-    m_changedProps = false;
-}
 
-bool ViewProperties::exist() const
-{
-    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
-    return QFile::exists(file);
+    m_changedProps = false;
 }
 
 QString ViewProperties::destinationDir(const QString &subDir) const

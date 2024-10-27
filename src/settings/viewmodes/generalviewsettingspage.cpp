@@ -40,7 +40,9 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     globalViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember display style for each folder"));
-    QLabel *localViewPropsLabel = new QLabel(i18nc("@info", "Dolphin will create a hidden .directory file in each folder you change view properties for."));
+    QLabel *localViewPropsLabel = new QLabel(i18nc("@info",
+                                                   "Dolphin will add file system metadata to folders you change view properties for. If that is not possible, "
+                                                   "a hidden .directory file is created instead."));
     localViewPropsLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     localViewPropsLabel->setWordWrap(true);
     localViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

@@ -59,7 +59,7 @@ endif()
 # ViewPropertiesTest
 ecm_add_test(viewpropertiestest.cpp testdir.cpp
 TEST_NAME viewpropertiestest
-LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test KF6::FileMetaData)
 
 # DolphinMainWindowTest
 ecm_add_test(dolphinmainwindowtest.cpp testdir.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc
