@@ -2,6 +2,7 @@ include(ECMAddAppIcon)
 
 set(ADMIN_WORKER_PACKAGE_NAME "kio-admin")
 set(FILELIGHT_PACKAGE_NAME "filelight")
+
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
 add_definitions(
@@ -52,6 +53,18 @@ install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/D
 
 add_library(dolphinprivate SHARED)
 
+if(NOT QT_NO_ACCESSIBILITY)
+    target_sources(dolphinprivate PRIVATE
+        kitemviews/accessibility/kitemlistcontaineraccessible.cpp
+        kitemviews/accessibility/kitemlistdelegateaccessible.cpp
+        kitemviews/accessibility/kitemlistviewaccessible.cpp
+
+        kitemviews/accessibility/kitemlistcontaineraccessible.h
+        kitemviews/accessibility/kitemlistdelegateaccessible.h
+        kitemviews/accessibility/kitemlistviewaccessible.h
+    )
+endif()
+
 target_sources(dolphinprivate PRIVATE
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
@@ -65,7 +78,6 @@ target_sources(dolphinprivate PRIVATE
     kitemviews/kitemlistselectionmanager.cpp
     kitemviews/kitemliststyleoption.cpp
     kitemviews/kitemlistview.cpp
-    kitemviews/kitemlistviewaccessible.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kitemset.cpp
@@ -120,7 +132,6 @@ target_sources(dolphinprivate PRIVATE
     kitemviews/kitemlistselectionmanager.h
     kitemviews/kitemliststyleoption.h
     kitemviews/kitemlistview.h
-    kitemviews/kitemlistviewaccessible.h
     kitemviews/kitemlistwidget.h
     kitemviews/kitemmodelbase.h
     kitemviews/kitemset.h

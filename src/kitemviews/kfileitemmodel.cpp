@@ -20,6 +20,9 @@
 #include <KLocalizedString>
 #include <KUrlMimeData>
 
+#ifndef QT_NO_ACCESSIBILITY
+#include <QAccessible>
+#endif
 #include <QElapsedTimer>
 #include <QIcon>
 #include <QMimeData>

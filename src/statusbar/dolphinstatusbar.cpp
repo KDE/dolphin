@@ -53,6 +53,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, contentsContainer);
     m_label->setTextFormat(Qt::PlainText);
+    m_label->setTextInteractionFlags(Qt::TextBrowserInteraction | Qt::TextSelectableByKeyboard); // for accessibility but also to allow copy-pasting this text.
 
     // Initialize zoom slider's explanatory label
     m_zoomLabel = new KSqueezedTextLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'", "Zoom:"), contentsContainer);

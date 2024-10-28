@@ -54,12 +54,19 @@ protected:
      */
     virtual bool itemIsLink(int index, const KItemListView *view) const;
 
+    /** Configure whether the requested text should be optimized for viewing on a screen or for being read out aloud by a text-to-speech engine. */
+    enum class ForUsageAs { DisplayedText, SpokenText };
+
     /**
+     * @param role          The role the text is being requested for.
+     * @param values        The data of the item. All the data is passed because the text might depend on multiple data points.
+     * @param forUsageAs    Whether the roleText should be optimized for displaying (i.e. kept somewhat short) or optimized for speaking e.g. by screen readers
+     *                      or text-to-speech in general (i.e. by prefering announcing a month as July instead of as the number 7).
      * @return String representation of the role \a role. The representation of
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.
      */
-    virtual QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const;
+    virtual QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs = ForUsageAs::DisplayedText) const;
 
     /**
     * @return A font based on baseFont which is customized for symlinks.

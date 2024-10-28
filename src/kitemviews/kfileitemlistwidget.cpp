@@ -45,7 +45,7 @@ bool KFileItemListWidgetInformant::itemIsLink(int index, const KItemListView *vi
     return item.isLink();
 }
 
-QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const
+QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs) const
 {
     QString text;
     const QVariant roleValue = values.value(role);
@@ -55,11 +55,13 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
     // Implementation note: In case if more roles require a custom handling
     // use a hash + switch for a linear runtime.
 
-    auto formatDate = [formatter, local](const QDateTime &time) {
+    auto formatDate = [formatter, local, forUsageAs](const QDateTime &time) {
         if (ContentDisplaySettings::useShortRelativeDates()) {
-            return formatter.formatRelativeDateTime(time, QLocale::ShortFormat);
+            return formatter.formatRelativeDateTime(time,
+                                                    forUsageAs == KStandardItemListWidgetInformant::ForUsageAs::DisplayedText ? QLocale::ShortFormat
+                                                                                                                              : QLocale::LongFormat);
         } else {
-            return local.toString(time, QLocale::ShortFormat);
+            return local.toString(time, forUsageAs == KStandardItemListWidgetInformant::ForUsageAs::DisplayedText ? QLocale::ShortFormat : QLocale::LongFormat);
         }
     };
 
@@ -114,7 +116,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
             break;
         }
     } else {
-        text = KStandardItemListWidgetInformant::roleText(role, values);
+        text = KStandardItemListWidgetInformant::roleText(role, values, forUsageAs);
     }
 
     return text;

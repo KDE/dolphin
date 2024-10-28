@@ -793,7 +793,7 @@ private:
     friend class KItemListController;
     friend class KItemListControllerTest;
     friend class KItemListViewAccessible;
-    friend class KItemListAccessibleCell;
+    friend class KItemListDelegateAccessible;
 };
 
 /**

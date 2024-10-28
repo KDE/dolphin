@@ -28,8 +28,11 @@ public:
 protected:
     QString itemText(int index, const KItemListView *view) const override;
     bool itemIsLink(int index, const KItemListView *view) const override;
-    QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const override;
+    /** @see KStandardItemListWidget::roleText(). */
+    QString roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs = ForUsageAs::DisplayedText) const override;
     QFont customizedFontForLinks(const QFont &baseFont) const override;
+
+    friend class KItemListDelegateAccessible;
 };
 
 /**

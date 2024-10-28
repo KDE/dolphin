@@ -12,6 +12,9 @@
 #include "dolphinitemlistview.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "draganddrophelper.h"
+#ifndef QT_NO_ACCESSIBILITY
+#include "kitemviews/accessibility/kitemlistviewaccessible.h"
+#endif
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontainer.h"
@@ -50,6 +53,9 @@
 #include <kwidgetsaddons_version.h>
 
 #include <QAbstractItemView>
+#ifndef QT_NO_ACCESSIBILITY
+#include <QAccessible>
+#endif
 #include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
@@ -2333,6 +2339,12 @@ void DolphinView::showLoadingPlaceholder()
 {
     m_placeholderLabel->setText(i18n("Loading…"));
     m_placeholderLabel->setVisible(true);
+#ifndef QT_NO_ACCESSIBILITY
+    if (QAccessible::isActive()) {
+        auto accessibleViewInterface = static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view));
+        accessibleViewInterface->announceOverallViewState(m_placeholderLabel->text());
+    }
+#endif
 }
 
 void DolphinView::updatePlaceholderLabel()
@@ -2382,6 +2394,12 @@ void DolphinView::updatePlaceholderLabel()
     }
 
     m_placeholderLabel->setVisible(true);
+#ifndef QT_NO_ACCESSIBILITY
+    if (QAccessible::isActive()) {
+        auto accessibleViewInterface = static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view));
+        accessibleViewInterface->announceOverallViewState(m_placeholderLabel->text());
+    }
+#endif
 }
 
 bool DolphinView::tryShowNameToolTip(QHelpEvent *event)

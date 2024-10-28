@@ -81,6 +81,7 @@ QWidget *AnimatedHeightWidget::prepareContentsContainer(QWidget *contentsContain
                "Another contentsContainer has already been prepared. There can only be one.");
     contentsContainer->setParent(m_contentsContainerParent);
     m_contentsContainerParent->setWidget(contentsContainer);
+    m_contentsContainerParent->setFocusProxy(contentsContainer);
     return contentsContainer;
 }
 

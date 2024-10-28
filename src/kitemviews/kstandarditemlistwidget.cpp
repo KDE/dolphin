@@ -109,11 +109,20 @@ bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView
     return false;
 }
 
-QString KStandardItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const
+QString KStandardItemListWidgetInformant::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values, ForUsageAs forUsageAs) const
 {
     if (role == "rating") {
-        // Always use an empty text, as the rating is shown by the image m_rating.
-        return QString();
+        if (forUsageAs == ForUsageAs::DisplayedText) {
+            // Always use an empty text, as the rating is shown by the image m_rating.
+            return QString();
+        } else {
+            const int rating{values.value(role).toInt()};
+            // Check if there are half stars
+            if (rating % 2) {
+                return i18ncp("@accessible rating", "%1 and a half stars", "%1 and a half stars", rating / 2);
+            }
+            return i18ncp("@accessible rating", "%1 star", "%1 stars", rating / 2);
+        }
     }
     return values.value(role).toString();
 }

@@ -21,6 +21,7 @@
 
 #include <QApplication>
 #include <QDropEvent>
+#include <QStackedWidget>
 
 DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget *parent)
     : QTabWidget(parent)
@@ -43,6 +44,13 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     setElideMode(Qt::ElideRight);
     setUsesScrollButtons(true);
     setTabBarAutoHide(true);
+
+    auto stackWidget{findChild<QStackedWidget *>()};
+    // i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
+    // area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
+    // mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
+    stackWidget->setAccessibleName(i18nc("accessible name of Dolphin's view container", "Location View")); // Without this call, the non-descript Qt provided
+                                                                                                           // "Layered Pane" role is announced.
 }
 
 DolphinTabPage *DolphinTabWidget::currentTabPage() const
