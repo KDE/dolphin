@@ -48,6 +48,7 @@ private Q_SLOTS:
     void testNewFileMenuEnabled();
     void testWindowTitle_data();
     void testWindowTitle();
+    void testFocusLocationBar();
     void testFocusPlacesPanel();
     void testPlacesPanelWidthResistance();
     void testGoActions();
@@ -387,6 +388,36 @@ void DolphinMainWindowTest::testWindowTitle()
 
     QFETCH(QString, expectedWindowTitle);
     QCOMPARE(m_mainWindow->windowTitle(), expectedWindowTitle);
+}
+
+void DolphinMainWindowTest::testFocusLocationBar()
+{
+    const QUrl homePathUrl{QUrl::fromLocalFile(QDir::homePath())};
+    m_mainWindow->openDirectories({homePathUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QAction *replaceLocationAction = m_mainWindow->actionCollection()->action(QStringLiteral("replace_location"));
+    replaceLocationAction->trigger();
+    QVERIFY(m_mainWindow->activeViewContainer()->urlNavigator()->isAncestorOf(QApplication::focusWidget()));
+    replaceLocationAction->trigger();
+    QVERIFY(m_mainWindow->activeViewContainer()->view()->hasFocus());
+
+    QAction *editableLocationAction = m_mainWindow->actionCollection()->action(QStringLiteral("editable_location"));
+    editableLocationAction->trigger();
+    QVERIFY(m_mainWindow->activeViewContainer()->urlNavigator()->isAncestorOf(QApplication::focusWidget()));
+    QVERIFY(m_mainWindow->activeViewContainer()->urlNavigator()->isUrlEditable());
+    editableLocationAction->trigger();
+    QVERIFY(!m_mainWindow->activeViewContainer()->urlNavigator()->isUrlEditable());
+
+    replaceLocationAction->trigger();
+    QVERIFY(m_mainWindow->activeViewContainer()->urlNavigator()->isAncestorOf(QApplication::focusWidget()));
+
+    // Pressing Escape multiple times should eventually move the focus back to the active view.
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape); // Focus might not go the view yet because it toggles the editable state of the location bar.
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape);
+    QVERIFY(m_mainWindow->activeViewContainer()->view()->hasFocus());
 }
 
 void DolphinMainWindowTest::testFocusPlacesPanel()

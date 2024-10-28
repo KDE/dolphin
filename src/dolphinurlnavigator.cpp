@@ -16,6 +16,7 @@
 #include <KUrlComboBox>
 
 #include <QAbstractButton>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLayout>
 #include <QLineEdit>
@@ -143,6 +144,15 @@ void DolphinUrlNavigator::slotReturnPressed()
     if (!GeneralSettings::editableUrl()) {
         setUrlEditable(false);
     }
+}
+
+void DolphinUrlNavigator::keyPressEvent(QKeyEvent *keyEvent)
+{
+    if (keyEvent->key() == Qt::Key_Escape && !isUrlEditable()) {
+        Q_EMIT requestToLoseFocus();
+        return;
+    }
+    KUrlNavigator::keyPressEvent(keyEvent);
 }
 
 #include "moc_dolphinurlnavigator.cpp"

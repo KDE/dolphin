@@ -92,6 +92,18 @@ public Q_SLOTS:
      * preferred in the Dolphin settings.
      */
     void slotReturnPressed();
+
+Q_SIGNALS:
+    /**
+     * Escape was pressed, and the focus should return to the view.
+     */
+    void requestToLoseFocus();
+
+protected:
+    /**
+     * Return focus back to the view when pressing Escape and this would have no other effect (e.g. deselecting or changing edit mode).
+     */
+    void keyPressEvent(QKeyEvent *keyEvent) override;
 };
 
 #endif // DOLPHINURLNAVIGATOR_H

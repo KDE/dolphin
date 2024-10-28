@@ -309,6 +309,9 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     // Aside from these, only visual things need to be connected.
     connect(m_view, &DolphinView::urlChanged, urlNavigator, &DolphinUrlNavigator::setLocationUrl);
     connect(urlNavigator, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
+    connect(urlNavigator, &DolphinUrlNavigator::requestToLoseFocus, m_view, [this]() {
+        m_view->setFocus();
+    });
 
     urlNavigator->setReadOnlyBadgeVisible(rootItem().isLocalFile() && !rootItem().isWritable());
 
@@ -325,6 +328,7 @@ void DolphinViewContainer::disconnectUrlNavigator()
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped, this, nullptr);
     disconnect(m_view, &DolphinView::urlChanged, m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::requestToLoseFocus, m_view, nullptr);
 
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
