@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:41+0000\n"
+"POT-Creation-Date: 2024-10-28 00:42+0000\n"
 "PO-Revision-Date: 2024-10-05 22:33+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -4699,78 +4699,76 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Įsiminti rodinio stilių kiekvienam aplankui"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:43
+#: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Kiekviename aplanke, kurio rodinio savybes keisite, Dolphin sukurs paslėptą ."
-"directory failą."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:51
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Atvaizdavimo stilius: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:59
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Atverti archyvus kaip aplankus"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:60
+#: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Tempimo operacijų metu, atverti aplankus"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Naršymas: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:68
+#: settings/viewmodes/generalviewsettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "Rodyti informaciją apie elementą užvedus pelę"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
-#: settings/viewmodes/generalviewsettingspage.cpp:77
+#: settings/viewmodes/generalviewsettingspage.cpp:71
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Įvairūs: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:73
+#: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Rodyti žymėjimo žymeklį"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:81
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Pervadinti pavienius elementus tiesiogiai"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:82
+#: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:85
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
 "Slepiant paslėptus failus tuo pačiu slėpti ir atsarginės kopijos failus"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:89
+#: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -4781,7 +4779,7 @@ msgstr ""
 "Atsarginės kopijos failai – tai failai, kurių MIME tipas yra application/x-"
 "trash, o šablonai: %1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:121
+#: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -4790,13 +4788,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "Veiksmas, kurį paleisti, kai du kartus spustelėjama ant rodinio fono"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:123
+#: settings/viewmodes/generalviewsettingspage.cpp:125
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "Nieko"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:126
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -4806,7 +4804,7 @@ msgstr "Tinkinta komanda"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:148
+#: settings/viewmodes/generalviewsettingspage.cpp:150
 #, fuzzy, kde-format
 #| msgctxt "@option:check Mouse Settings"
 #| msgid "Double-click to open files and folders"
@@ -4814,13 +4812,13 @@ msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "Failai ir aplankai atveriami spragtelėjus du kartus"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:155
+#: settings/viewmodes/generalviewsettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "Fonas: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:160
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -4830,13 +4828,13 @@ msgstr ""
 "Įveskite tinkintą komandą, kuri bus paleista, kai du kartus spustelėsite ant "
 "rodinio fono"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:161
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "Komanda…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5353,7 +5351,7 @@ msgstr "Numatytoji"
 msgid "Reload"
 msgstr "Įkelti iš naujo"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5363,7 +5361,7 @@ msgstr[1] "Pažymėti %1 aplankai"
 msgstr[2] "Pažymėta %1 aplankų"
 msgstr[3] "Pažymėtas %1 aplankas"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5373,7 +5371,7 @@ msgstr[1] "Pažymėti %1 failai"
 msgstr[2] "Pažymėta %1 failų"
 msgstr[3] "Pažymėtas %1 failas"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5383,7 +5381,7 @@ msgstr[1] "%1 aplankai"
 msgstr[2] "%1 aplankų"
 msgstr[3] "%1 aplankas"
 
-#: views/dolphinview.cpp:659
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5393,31 +5391,31 @@ msgstr[1] "%1 failai"
 msgstr[2] "%1 failų"
 msgstr[3] "%1 failas"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 aplankų, 0 failų"
 
-#: views/dolphinview.cpp:901 views/dolphinview.cpp:910
+#: views/dolphinview.cpp:900 views/dolphinview.cpp:909
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopija"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1093
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -5426,7 +5424,7 @@ msgstr[1] "Ar tikrai norite atverti %1 elementus?"
 msgstr[2] "Ar tikrai norite atverti %1 elementų?"
 msgstr[3] "Ar tikrai norite atverti %1 elementą?"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1098
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5436,43 +5434,43 @@ msgstr[1] "Atverti %1 elementus"
 msgstr[2] "Atverti %1 elementų"
 msgstr[3] "Atverti %1 elementą"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Šoninis užpildas"
 
-#: views/dolphinview.cpp:1233
+#: views/dolphinview.cpp:1232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatinis stulpelių plotis"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Tinkintas stulpelių plotis"
 
-#: views/dolphinview.cpp:1844
+#: views/dolphinview.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Perkėlimo į šiukšlinę operacija užbaigta."
 
-#: views/dolphinview.cpp:1854
+#: views/dolphinview.cpp:1853
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Ištrynimo operacija užbaigta."
 
-#: views/dolphinview.cpp:2010
+#: views/dolphinview.cpp:2009
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Pervadinti ir paslėpti"
 
-#: views/dolphinview.cpp:2014
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5482,7 +5480,7 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2015
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5492,94 +5490,94 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this File?"
 msgstr "Paslėpti šį failą?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Paslėpti šį aplanką?"
 
-#: views/dolphinview.cpp:2069
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Vieta tuščia."
 
-#: views/dolphinview.cpp:2071
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Vieta „%1“ yra neteisinga."
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Loading…"
 msgstr "Įkeliama…"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Loading canceled"
 msgstr "Įkėlimo atsisakyta"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nėra jokių filtrą atitinkančių elementų"
 
-#: views/dolphinview.cpp:2358
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nėra jokių paiešką atitinkančių elementų"
 
-#: views/dolphinview.cpp:2360
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Trash is empty"
 msgstr "Šiukšlinė tuščia"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2362
 #, kde-format
 msgid "No tags"
 msgstr "Nėra žymių"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nėra failų pažymėtų žyme „%1“"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No recently used items"
 msgstr "Nėra jokių paskiausiai naudotų elementų"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nerasta jokių bendrinamų aplankų"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nerasta jokio susijusio tinklo ištekliaus"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nerasta jokių su MTP suderinamų įrenginių"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nerasta jokių „Apple“ įrenginių"
 
-#: views/dolphinview.cpp:2380
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nerasta jokių Bluetooth įrenginių"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "Folder is empty"
 msgstr "Aplankas tuščias"
@@ -5992,6 +5990,14 @@ msgstr[3] "Veiksmai, skirti %1 pažymėtam elementui"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Atnaujinama versijos informacija…"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin will create a hidden .directory file in each folder you change "
+#~ "view properties for."
+#~ msgstr ""
+#~ "Kiekviename aplanke, kurio rodinio savybes keisite, Dolphin sukurs "
+#~ "paslėptą .directory failą."
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Praleisti peržiūras vietiniams failams virš:"

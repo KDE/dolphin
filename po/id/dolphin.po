@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:41+0000\n"
+"POT-Creation-Date: 2024-10-28 00:42+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4971,17 +4971,15 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Ingat gaya display untuk masing-masing folder"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:43
+#: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Dolphin akan menciptakan sebuah file .directory yang tersembunyi di masing-"
-"masing folder yang Anda ubah properti tampilannya."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:51
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "View Display Style"
@@ -4989,63 +4987,63 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Lihat Gaya Tampilan"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:59
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Buka arsip sebagai folder"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:60
+#: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Buka folder ketika operasi penarikan"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:68
+#: settings/viewmodes/generalviewsettingspage.cpp:70
 #, fuzzy, kde-format
 #| msgid "Show item on hover"
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "Tampilkan item saat melayanginya"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
-#: settings/viewmodes/generalviewsettingspage.cpp:77
+#: settings/viewmodes/generalviewsettingspage.cpp:71
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Beraneka: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:73
+#: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Tampilkan penanda pemilihan"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:81
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Ubah nama dalam baris"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:82
+#: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:85
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:89
+#: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -5054,7 +5052,7 @@ msgid ""
 "%1"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:121
+#: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -5063,13 +5061,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr ""
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:123
+#: settings/viewmodes/generalviewsettingspage.cpp:125
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:126
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Font"
 #| msgid "Custom Font"
@@ -5081,19 +5079,19 @@ msgstr "Font Kustom"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:148
+#: settings/viewmodes/generalviewsettingspage.cpp:150
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:155
+#: settings/viewmodes/generalviewsettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:160
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -5101,13 +5099,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:161
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5633,7 +5631,7 @@ msgstr "Baku"
 msgid "Reload"
 msgstr "Muat Ulang"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -5644,7 +5642,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 Folder dipilih"
 msgstr[1] "%1 Folder dipilih"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:655
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -5655,7 +5653,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 File dipilih"
 msgstr[1] "%1 File dipilih"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:657
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -5666,7 +5664,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 Folder"
 msgstr[1] "%1 Folder"
 
-#: views/dolphinview.cpp:659
+#: views/dolphinview.cpp:658
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Your files"
@@ -5676,19 +5674,19 @@ msgid_plural "%1 files"
 msgstr[0] "Berkas Anda"
 msgstr[1] "Berkas Anda"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:668
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -5696,20 +5694,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 Folders, 0 File"
 
-#: views/dolphinview.cpp:901 views/dolphinview.cpp:910
+#: views/dolphinview.cpp:900 views/dolphinview.cpp:909
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 salinan"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1093
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Apakah Anda yakin ingin membuka 1 butir?"
 msgstr[1] "Apakah Anda yakin ingin membuka %1 butir?"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1098
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5717,43 +5715,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Buka %1 Butir"
 msgstr[1] "Buka %1 Butir"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Padding Sisi"
 
-#: views/dolphinview.cpp:1233
+#: views/dolphinview.cpp:1232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Lebar Kolom Otomatis"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Lebar Kolom Kustom"
 
-#: views/dolphinview.cpp:1844
+#: views/dolphinview.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operasi pembuangan selesai."
 
-#: views/dolphinview.cpp:1854
+#: views/dolphinview.cpp:1853
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operasi penghapusan selesai."
 
-#: views/dolphinview.cpp:2010
+#: views/dolphinview.cpp:2009
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Ubah Nama dan Sembunyikan"
 
-#: views/dolphinview.cpp:2014
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5763,7 +5761,7 @@ msgstr ""
 "tampilan.\n"
 "Apakah Anda masih ingin mengubah namanya?"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2015
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5773,95 +5771,95 @@ msgstr ""
 "tampilan.\n"
 "Apakah Anda masih ingin mengubah namanya?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this File?"
 msgstr "Sembunyikan File ini?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Sebunyikan Folder ini?"
 
-#: views/dolphinview.cpp:2069
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokasi kosong."
 
-#: views/dolphinview.cpp:2071
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokasi '%1' tidak absah."
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2334
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "Memuat..."
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Loading canceled"
 msgstr "Memuat yang dibatalkan"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Tidak ada butir yang cocok dengan penyaringan"
 
-#: views/dolphinview.cpp:2358
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No items matching the search"
 msgstr "Tidak ada butir yang cocok dengan pencarian"
 
-#: views/dolphinview.cpp:2360
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Trash is empty"
 msgstr "Tong Sampah kosong"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2362
 #, kde-format
 msgid "No tags"
 msgstr "Tidak ada tag"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Tidak ada file yang di tag dengan \"%1\""
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No recently used items"
 msgstr "Tidak ada butir yang barusan digunakan"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No shared folders found"
 msgstr "Tidak ditemukan folder yang dibagikan"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Tidak ditemukan sumber daya jaringan yang relevan"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Tidak ditemukan peranti yang kompatibel dengan MTP"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Tidak ditemukan peranti Apple"
 
-#: views/dolphinview.cpp:2380
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Tidak ditemukan peranti Bluetooth"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "Folder is empty"
 msgstr "Folder ini kosong"
@@ -6330,6 +6328,14 @@ msgstr[1] "Aksi untuk %1 Butir Terpilih"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Memperbarui informasi versi..."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin will create a hidden .directory file in each folder you change "
+#~ "view properties for."
+#~ msgstr ""
+#~ "Dolphin akan menciptakan sebuah file .directory yang tersembunyi di "
+#~ "masing-masing folder yang Anda ubah properti tampilannya."
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Lewati pratinjau untuk file lokal di atas:"

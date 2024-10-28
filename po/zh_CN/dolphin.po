@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:41+0000\n"
+"POT-Creation-Date: 2024-10-28 00:42+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4642,77 +4642,75 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "单独记忆每个文件夹的显示风格"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:43
+#: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Dolphin 将在您更改文件夹的视图属性时在该文件夹中创建一个隐藏的 .directory 文"
-"件。"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:51
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "显示风格："
 
-#: settings/viewmodes/generalviewsettingspage.cpp:59
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "将压缩包视作文件夹打开"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:60
+#: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "拖放操作时打开文件夹"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "浏览： "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:68
+#: settings/viewmodes/generalviewsettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "悬停时显示项目信息"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
-#: settings/viewmodes/generalviewsettingspage.cpp:77
+#: settings/viewmodes/generalviewsettingspage.cpp:71
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "其他功能："
 
-#: settings/viewmodes/generalviewsettingspage.cpp:73
+#: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "显示选择标记"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:81
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "重命名单个项目"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:82
+#: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr "重命名多个项目时必须打开重命名对话框进行操作。"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:85
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "隐藏隐藏文件时同时隐藏备份文件"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:89
+#: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -4721,7 +4719,7 @@ msgid ""
 "%1"
 msgstr "备份文件是 MIME 类型为 application/x-trash 的文件，模式：%1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:121
+#: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -4730,13 +4728,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "双击视图背景时触发操作"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:123
+#: settings/viewmodes/generalviewsettingspage.cpp:125
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "无操作"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:126
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -4746,19 +4744,19 @@ msgstr "自定义命令"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:148
+#: settings/viewmodes/generalviewsettingspage.cpp:150
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "双击触发"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:155
+#: settings/viewmodes/generalviewsettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "背景："
 
-#: settings/viewmodes/generalviewsettingspage.cpp:160
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -4766,13 +4764,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr "输入在双击视图背景时要触发的自定义命令"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:161
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "命令…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5290,108 +5288,108 @@ msgstr "默认"
 msgid "Reload"
 msgstr "重新加载"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "已选中 %1 个文件夹"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "已选中 %1 个文件"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
 msgstr[0] "%1 个文件夹"
 
-#: views/dolphinview.cpp:659
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
 msgstr[0] "%1 个文件"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1，%2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 个文件夹，0 个文件"
 
-#: views/dolphinview.cpp:901 views/dolphinview.cpp:910
+#: views/dolphinview.cpp:900 views/dolphinview.cpp:909
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 副本"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1093
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "您确定要打开这 %1 项吗？"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1098
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "打开 %1 个项目"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "侧边距"
 
-#: views/dolphinview.cpp:1233
+#: views/dolphinview.cpp:1232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "自动列宽"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "自定义列宽"
 
-#: views/dolphinview.cpp:1844
+#: views/dolphinview.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "移动到回收站操作已完成。"
 
-#: views/dolphinview.cpp:1854
+#: views/dolphinview.cpp:1853
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "删除操作已完成。"
 
-#: views/dolphinview.cpp:2010
+#: views/dolphinview.cpp:2009
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "重命名并隐藏"
 
-#: views/dolphinview.cpp:2014
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5400,7 +5398,7 @@ msgstr ""
 "在文件名的开头添加一个英文点号会将其隐藏。\n"
 "您仍然想要重命名它吗？"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2015
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5409,94 +5407,94 @@ msgstr ""
 "在文件夹名的开头添加一个英文点号会将其隐藏。\n"
 "您仍然想要重命名它吗？"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this File?"
 msgstr "隐藏此文件？"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "隐藏此文件夹？"
 
-#: views/dolphinview.cpp:2069
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "位置为空。"
 
-#: views/dolphinview.cpp:2071
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "位置“%1”无效。"
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Loading canceled"
 msgstr "加载已取消"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No items matching the filter"
 msgstr "没有匹配此过滤条件的项目"
 
-#: views/dolphinview.cpp:2358
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No items matching the search"
 msgstr "没有匹配此搜索条件的项目"
 
-#: views/dolphinview.cpp:2360
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Trash is empty"
 msgstr "回收站为空"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2362
 #, kde-format
 msgid "No tags"
 msgstr "无标签"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "没有标记为“%1”的文件"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No recently used items"
 msgstr "没有最近使用过的项目"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No shared folders found"
 msgstr "没有找到共享文件夹"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "没有找到相关的网络资源"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "没有找到 MTP 兼容设备"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No Apple devices found"
 msgstr "未发现苹果设备"
 
-#: views/dolphinview.cpp:2380
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "没有找到蓝牙设备"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "Folder is empty"
 msgstr "文件夹为空"
@@ -5913,3 +5911,11 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin will create a hidden .directory file in each folder you change "
+#~ "view properties for."
+#~ msgstr ""
+#~ "Dolphin 将在您更改文件夹的视图属性时在该文件夹中创建一个隐藏的 .directory "
+#~ "文件。"

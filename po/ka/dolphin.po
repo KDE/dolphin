@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:41+0000\n"
+"POT-Creation-Date: 2024-10-28 00:42+0000\n"
 "PO-Revision-Date: 2024-08-19 05:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4794,78 +4794,76 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "თითოეული საქაღალდისთვის ცალ-ცალკე სტილის დამახსოვრება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:43
+#: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Dolphin შექმნის დამალულ .directory ფაილს ყოველი საქაღალდისთვის, რომლის ხედის "
-"თვისებებსაც შეცვლით."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:51
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "ჩვენების სტილი: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:59
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "არქივების, როგორც საქაღალდის გახსნა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:60
+#: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "გადათრევისას საქაღალდეების გახსნა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "დათვალიერება: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:68
+#: settings/viewmodes/generalviewsettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "ელემენტის ინფორმაციის ჩვენება კურსორის გადატარებისას"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
-#: settings/viewmodes/generalviewsettingspage.cpp:77
+#: settings/viewmodes/generalviewsettingspage.cpp:71
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "სხვადასხვა: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:73
+#: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "მონიშვნის მაჩვენებლის ჩვენება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:81
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "ერთი ელემენტის სახელის ხაზშივე გადარქმევა"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:82
+#: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
 "ერთზე მეტი ელემენტის სახელის გადარქმევა, ყოველთვის, დიალოგური ფანჯრით ხდება."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:85
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "დამალული ფაილების დამალვისას მარქაფის ფაილებიც დაიმალება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:89
+#: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -4876,7 +4874,7 @@ msgstr ""
 "მარქაფის ფაილები ფაილებია, რომლების mime ტიპიც application/x-trash-ს "
 "წარმოადგენს. ნიმუში: %1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:121
+#: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -4885,13 +4883,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "დასატრიგერებელი ქმედება ხედის ფონზე ორმაგი წკაპისას"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:123
+#: settings/viewmodes/generalviewsettingspage.cpp:125
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "არაფერი"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:126
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -4901,19 +4899,19 @@ msgstr "ხელით შეყვანილი ბრძანება"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:148
+#: settings/viewmodes/generalviewsettingspage.cpp:150
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "ორმაგი-წკაპის ტრიგერები"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:155
+#: settings/viewmodes/generalviewsettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "ფონი: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:160
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -4922,13 +4920,13 @@ msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
 "შეიყვანეთ თქვენი ბრძანება, რომელიც ხედის ფონზე ორმაგი წკაპისას გაეშვება"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:161
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "ბრძანება…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5451,7 +5449,7 @@ msgstr "ნაგულისხმევი"
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5459,7 +5457,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "არჩეულია 1 საქაღალდე"
 msgstr[1] "არჩეულია %1 საქაღალდე"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5467,7 +5465,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "არჩეულია 1 ფაილი"
 msgstr[1] "არჩეულია %1 ფაილი"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5475,7 +5473,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 საქაღალდე"
 msgstr[1] "%1 საქაღალდე"
 
-#: views/dolphinview.cpp:659
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5483,38 +5481,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 ფაილი"
 msgstr[1] "%1 ფაილი"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 საქაღალდე, 0 ფაილი"
 
-#: views/dolphinview.cpp:901 views/dolphinview.cpp:910
+#: views/dolphinview.cpp:900 views/dolphinview.cpp:909
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 ასლი"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1093
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "მართლა გნებავთ 1 ელემენტის გახსნა?"
 msgstr[1] "მართლა გნებავთ %1 ელემენტის გახსნა?"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1098
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5522,43 +5520,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 ჩანაწერის გახსნა"
 msgstr[1] "%1 ჩანაწერის გახსნა"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "გვერდის შევსება"
 
-#: views/dolphinview.cpp:1233
+#: views/dolphinview.cpp:1232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "სვეტის ავტომატური სიგანეები"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "სვეტის სიგანის ხელით მითითება"
 
-#: views/dolphinview.cpp:1844
+#: views/dolphinview.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ნაგვის ყუთში გადატანის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:1854
+#: views/dolphinview.cpp:1853
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "წაშლის ოპერაცია დასრულდა."
 
-#: views/dolphinview.cpp:2010
+#: views/dolphinview.cpp:2009
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "გადარქმევა და დამალვა"
 
-#: views/dolphinview.cpp:2014
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5567,7 +5565,7 @@ msgstr ""
 "ფაილის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2015
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5576,94 +5574,94 @@ msgstr ""
 "საქაღალდის სახელის დასაწყისში წერტილის დასმა მას ხედიდან დამალავს.\n"
 "მაინც გნებავთ გადაარქვათ მას სახელი?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this File?"
 msgstr "დავმალო ეს ფაილი?"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "დავმალო ეს საქაღალდე?"
 
-#: views/dolphinview.cpp:2069
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "მდებარეობა ცარიელია."
 
-#: views/dolphinview.cpp:2071
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "მდებარეობა\"%1\" არასწორია."
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Loading…"
 msgstr "იტვირთება…"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Loading canceled"
 msgstr "ჩატვირთვა გაუქმდა"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No items matching the filter"
 msgstr "ფილტრს ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2358
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No items matching the search"
 msgstr "ძებნას ელემენტები არ ემთხვევა"
 
-#: views/dolphinview.cpp:2360
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Trash is empty"
 msgstr "ურნა ცარიელია"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2362
 #, kde-format
 msgid "No tags"
 msgstr "ჭდეების გარეშე"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "ფაილები ჭდით \"%1\" აღმოჩენილი არაა"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No recently used items"
 msgstr "ახლახანს გამოყენებული ფაილებსი გარეშე"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No shared folders found"
 msgstr "გაზიარებული ფაილები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "შესაბამისი ქსელური რესურსები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-სთან თავსებადი მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Apple -ის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2380
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ბლუთუზის მოწყობილობები ვერ ვიპოვე"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "Folder is empty"
 msgstr "საქაღალდე ცარიელია"
@@ -6097,6 +6095,14 @@ msgstr[1] "ქმედებები %1 მონიშნული ჩან�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "ვერსიის ინფორმაციის განახლება…"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin will create a hidden .directory file in each folder you change "
+#~ "view properties for."
+#~ msgstr ""
+#~ "Dolphin შექმნის დამალულ .directory ფაილს ყოველი საქაღალდისთვის, რომლის "
+#~ "ხედის თვისებებსაც შეცვლით."
 
 #~ msgid "Install Filelight to View Disk Usage Statistics…"
 #~ msgstr "Firelight-ის დაყენება დისკის გამოყენების სტატისტიკის მისაღებად…"

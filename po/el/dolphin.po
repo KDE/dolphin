@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:41+0000\n"
+"POT-Creation-Date: 2024-10-28 00:42+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4868,78 +4868,76 @@ msgctxt "@option:radio"
 msgid "Remember display style for each folder"
 msgstr "Να γίνεται απομνημόνευση του στιλ εμφάνισης για κάθε φάκελο"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:43
+#: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
 msgctxt "@info"
 msgid ""
-"Dolphin will create a hidden .directory file in each folder you change view "
-"properties for."
+"Dolphin will add file system metadata to folders you change view properties "
+"for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Το Dolphin θα δημιουργήσει ένα κρυφό αρχείο .directory σε κάθε φάκελο στον "
-"οποίο αλλάζετε τις ιδιότητες προβολής."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:51
+#: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Στυλ εμφάνισης:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:59
+#: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Άνοιγμα αρχειοθηκών ως φάκελο"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:60
+#: settings/viewmodes/generalviewsettingspage.cpp:62
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Άνοιγμα φακέλων κατά τις λειτουργίες έλκυσης"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Περιήγηση:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:68
+#: settings/viewmodes/generalviewsettingspage.cpp:70
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "Εμφάνιση πληροφοριών αντικειμένου με αιώρηση"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:69
-#: settings/viewmodes/generalviewsettingspage.cpp:77
+#: settings/viewmodes/generalviewsettingspage.cpp:71
+#: settings/viewmodes/generalviewsettingspage.cpp:79
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Διάφορα: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:73
+#: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Εμφάνιση σημείου επιλογής"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:81
+#: settings/viewmodes/generalviewsettingspage.cpp:83
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Μετονομασία μεμονωμένων αντικειμένων γραμμικά"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:82
+#: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
 "Η μετονομασία πολλαπλών αντικειμένων γίνεται πάντα με ένα παράθυρο διαλόγου."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:85
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "Απόκρυψη αρχείων αντιγράφων ασφαλείας κατά την απόκρυψη κρυφών αρχείων"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:89
+#: settings/viewmodes/generalviewsettingspage.cpp:91
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -4950,7 +4948,7 @@ msgstr ""
 "Τα αρχεία αντιγράφων ασφαλείας είναι τα αρχεία των οποίων ο τύπος mime είναι "
 "application/x-trash, μοτίβα: %1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:121
+#: settings/viewmodes/generalviewsettingspage.cpp:123
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -4959,13 +4957,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "Ενέργεια που ενεργοποιείται όταν κάνετε διπλό κλικ στο παρασκήνιο"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:123
+#: settings/viewmodes/generalviewsettingspage.cpp:125
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "Τίποτα"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:126
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -4975,19 +4973,19 @@ msgstr "Προσαρμοσμένη εντολή"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:148
+#: settings/viewmodes/generalviewsettingspage.cpp:150
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "Διπλό κλικ προκαλεί"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:155
+#: settings/viewmodes/generalviewsettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "Παρασκήνιο: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:160
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -4997,13 +4995,13 @@ msgstr ""
 "Εισάγετε προσαρμοσμένη εντολή για να ενεργοποιηθεί όταν κάνετε διπλό κλικ "
 "στο φόντο προβολής"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:161
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "Εντολή…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5533,7 +5531,7 @@ msgstr "Προκαθορισμένο"
 msgid "Reload"
 msgstr "Επαναφόρτωση"
 
-#: views/dolphinview.cpp:655
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5541,7 +5539,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 επιλεγμένος φάκελος"
 msgstr[1] "%1 επιλεγμένοι φάκελοι"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:655
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5549,7 +5547,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 επιλεγμένο αρχείο"
 msgstr[1] "%1 επιλεγμένα αρχεία"
 
-#: views/dolphinview.cpp:658
+#: views/dolphinview.cpp:657
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5557,7 +5555,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 φάκελος"
 msgstr[1] "%1 φάκελοι"
 
-#: views/dolphinview.cpp:659
+#: views/dolphinview.cpp:658
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5565,38 +5563,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 αρχείο"
 msgstr[1] "%1 αρχεία"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:662
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 φάκελοι, 0 αρχεία"
 
-#: views/dolphinview.cpp:901 views/dolphinview.cpp:910
+#: views/dolphinview.cpp:900 views/dolphinview.cpp:909
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 αντίγραφο"
 
-#: views/dolphinview.cpp:1094
+#: views/dolphinview.cpp:1093
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα αντικείμενο;"
 msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 αντικείμενα;"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1098
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5604,43 +5602,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Άνοιγμα %1 αντικειμένου"
 msgstr[1] "Άνοιγμα %1 αντικειμένων"
 
-#: views/dolphinview.cpp:1229
+#: views/dolphinview.cpp:1228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Πλευρική ενίσχυση"
 
-#: views/dolphinview.cpp:1233
+#: views/dolphinview.cpp:1232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Αυτόματο πλάτος στηλών"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Προσαρμοσμένο πλάτος στηλών"
 
-#: views/dolphinview.cpp:1844
+#: views/dolphinview.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Η διαδικασία απόρριψης ολοκληρώθηκε."
 
-#: views/dolphinview.cpp:1854
+#: views/dolphinview.cpp:1853
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Η διαδικασία διαγραφής ολοκληρώθηκε."
 
-#: views/dolphinview.cpp:2010
+#: views/dolphinview.cpp:2009
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Μετονομασία και απόκρυψη"
 
-#: views/dolphinview.cpp:2014
+#: views/dolphinview.cpp:2013
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5650,7 +5648,7 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να το μετονομάσετε;"
 
-#: views/dolphinview.cpp:2016
+#: views/dolphinview.cpp:2015
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5660,94 +5658,94 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να τον μετονομάσετε;"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this File?"
 msgstr "Να γίνει απόκρυψη αυτού του αρχείου;"
 
-#: views/dolphinview.cpp:2018
+#: views/dolphinview.cpp:2017
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Να γίνει απόκρυψη αυτού του φακέλου;"
 
-#: views/dolphinview.cpp:2069
+#: views/dolphinview.cpp:2068
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Η τοποθεσία είναι κενή."
 
-#: views/dolphinview.cpp:2071
+#: views/dolphinview.cpp:2070
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Η τοποθεσία «%1» δεν είναι έγκυρη."
 
-#: views/dolphinview.cpp:2335
+#: views/dolphinview.cpp:2334
 #, kde-format
 msgid "Loading…"
 msgstr "Φόρτωση…"
 
-#: views/dolphinview.cpp:2354
+#: views/dolphinview.cpp:2353
 #, kde-format
 msgid "Loading canceled"
 msgstr "Η φόρτωση ακυρώθηκε"
 
-#: views/dolphinview.cpp:2356
+#: views/dolphinview.cpp:2355
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με το φίλτρο"
 
-#: views/dolphinview.cpp:2358
+#: views/dolphinview.cpp:2357
 #, kde-format
 msgid "No items matching the search"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με την αναζήτηση"
 
-#: views/dolphinview.cpp:2360
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Trash is empty"
 msgstr "Ο κάδος απορριμμάτων είναι άδειος"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2362
 #, kde-format
 msgid "No tags"
 msgstr "Χωρίς ετικέτες"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2365
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Κανένα αρχείο με ετικέτα «%1»"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2369
 #, kde-format
 msgid "No recently used items"
 msgstr "Χωρίς πρόσφατα αντικείμενα σε χρήση"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2371
 #, kde-format
 msgid "No shared folders found"
 msgstr "Δεν βρέθηκαν κοινόχρηστοι φάκελοι"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2373
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Δεν βρέθηκαν σχετικοί δικτυακοί πόροι"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Δεν βρέθηκαν MTP-συμβατές συσκευές"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Δεν βρέθηκαν συσκευές Apple"
 
-#: views/dolphinview.cpp:2380
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Δεν βρέθηκαν συσκευές bluetooth"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "Folder is empty"
 msgstr "Ο φάκελος είναι άδειος"
@@ -6186,6 +6184,14 @@ msgstr[1] "Ενέργειες για %1 επιλεγμένα αντικείμε�
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ενημέρωση πληροφοριών έκδοσης..."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin will create a hidden .directory file in each folder you change "
+#~ "view properties for."
+#~ msgstr ""
+#~ "Το Dolphin θα δημιουργήσει ένα κρυφό αρχείο .directory σε κάθε φάκελο "
+#~ "στον οποίο αλλάζετε τις ιδιότητες προβολής."
 
 #~ msgid "Skip previews for local files above:"
 #~ msgstr "Παράλειψη προεπισκοπήσεων για τοπικά αρχεία πάνω από:"
