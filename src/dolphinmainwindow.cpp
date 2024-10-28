@@ -1129,8 +1129,10 @@ void DolphinMainWindow::replaceLocation()
 
     // If the text field currently has focus and everything is selected,
     // pressing the keyboard shortcut returns the whole thing to breadcrumb mode
+    // and goes back to the view, just like how it was before this action was triggered the first time.
     if (navigator->isUrlEditable() && lineEdit->hasFocus() && lineEdit->selectedText() == lineEdit->text()) {
         navigator->setUrlEditable(false);
+        m_activeViewContainer->view()->setFocus();
     } else {
         navigator->setUrlEditable(true);
         navigator->setFocus();
