@@ -2280,7 +2280,7 @@ msgstr "Hier"
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
-msgstr "jjjj"
+msgstr "dddd"
 
 #: kitemviews/kfileitemmodel.cpp:2414
 #, kde-format
@@ -2337,7 +2337,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "jjjj (MMMM, aaaa)"
+msgstr "dddd (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2467
 #, kde-format
