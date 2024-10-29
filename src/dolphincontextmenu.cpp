@@ -350,7 +350,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties 
     addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
     addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
     if (ContextMenuSettings::showCopyLocation()) {
-        QAction *copyPathAction = collection->action(QString("copy_location"));
+        QAction *copyPathAction = collection->action(QStringLiteral("copy_location"));
         copyPathAction->setEnabled(m_selectedItems.size() == 1);
         addAction(copyPathAction);
     }

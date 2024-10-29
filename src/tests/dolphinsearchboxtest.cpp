@@ -52,7 +52,7 @@ void DolphinSearchBoxTest::testTextClearing()
     m_searchBox->setText("xyz");
     m_searchBox->setVisible(false, WithoutAnimation);
     m_searchBox->setVisible(true, WithoutAnimation);
-    QCOMPARE(m_searchBox->text(), QString("xyz"));
+    QCOMPARE(m_searchBox->text(), QStringLiteral("xyz"));
 
     QTest::keyClick(m_searchBox, Qt::Key_Escape);
     QVERIFY(m_searchBox->text().isEmpty());

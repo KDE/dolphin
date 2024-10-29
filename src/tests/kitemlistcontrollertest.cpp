@@ -478,7 +478,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                                      << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0));
                         }
 
-                        const QString testName = layoutNames[layout] + ", " + QString("%1 columns, ").arg(columnCount)
+                        const QString testName = layoutNames[layout] + ", " + QStringLiteral("%1 columns, ").arg(columnCount)
                             + selectionBehaviorNames[selectionBehavior] + ", " + groupingEnabledNames[groupingEnabled] + ", "
                             + layoutDirectionNames[layoutDirection];
 
@@ -543,13 +543,14 @@ void KItemListControllerTest::testKeyboardNavigation()
 
         QTest::keyClick(m_container, key, modifier);
 
-        QVERIFY2(m_selectionManager->currentItem() == current,
-                 qPrintable(QString("currentItem() returns index %1 but %2 would be expected. Before this, key \"%3\" was pressed. This test case is defined "
-                                    "in row %4 of the testList from KItemListControllerTest::testKeyboardNavigation_data().")
-                                .arg(m_selectionManager->currentItem())
-                                .arg(current)
-                                .arg(QKeySequence(key).toString())
-                                .arg(rowCount)));
+        QVERIFY2(
+            m_selectionManager->currentItem() == current,
+            qPrintable(QStringLiteral("currentItem() returns index %1 but %2 would be expected. Before this, key \"%3\" was pressed. This test case is defined "
+                                      "in row %4 of the testList from KItemListControllerTest::testKeyboardNavigation_data().")
+                           .arg(m_selectionManager->currentItem())
+                           .arg(current)
+                           .arg(QKeySequence(key).toString())
+                           .arg(rowCount)));
         switch (selectionBehavior) {
         case KItemListController::NoSelection:
             QVERIFY(m_selectionManager->selectedItems().isEmpty());

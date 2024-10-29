@@ -157,9 +157,9 @@ void KFileItemModelTest::testDefaultSortRole()
     QVERIFY(itemsInsertedSpy.wait());
 
     QCOMPARE(m_model->count(), 3);
-    QCOMPARE(m_model->data(0).value("text").toString(), QString("a.txt"));
-    QCOMPARE(m_model->data(1).value("text").toString(), QString("b.txt"));
-    QCOMPARE(m_model->data(2).value("text").toString(), QString("c.txt"));
+    QCOMPARE(m_model->data(0).value("text").toString(), QStringLiteral("a.txt"));
+    QCOMPARE(m_model->data(1).value("text").toString(), QStringLiteral("b.txt"));
+    QCOMPARE(m_model->data(2).value("text").toString(), QStringLiteral("c.txt"));
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()
@@ -262,8 +262,8 @@ void KFileItemModelTest::testSetData()
     QCOMPARE(itemsChangedSpy.count(), 1);
 
     values = m_model->data(0);
-    QCOMPARE(values.value("customRole1").toString(), QString("Test1"));
-    QCOMPARE(values.value("customRole2").toString(), QString("Test2"));
+    QCOMPARE(values.value("customRole1").toString(), QStringLiteral("Test1"));
+    QCOMPARE(values.value("customRole2").toString(), QStringLiteral("Test2"));
     QVERIFY(m_model->isConsistent());
 }
 

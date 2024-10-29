@@ -749,7 +749,7 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
             }
             while (accessibleInterface != accessibleInterfaceOfMainWindow) {
                 QVERIFY2(accessibleInterface,
-                         qPrintable(QString("%1's accessibleInterface or one of its accessible children doesn't have the main window as an ancestor.")
+                         qPrintable(QStringLiteral("%1's accessibleInterface or one of its accessible children doesn't have the main window as an ancestor.")
                                         .arg(currentlyFocusedObject->metaObject()->className())));
                 accessibleInterface = accessibleInterface->parent();
             }

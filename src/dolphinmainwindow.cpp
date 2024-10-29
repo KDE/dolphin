@@ -2454,7 +2454,7 @@ void DolphinMainWindow::updateFileAndEditActions()
     QAction *addToPlacesAction = col->action(QStringLiteral("add_to_places"));
     QAction *copyToOtherViewAction = col->action(QStringLiteral("copy_to_inactive_split_view"));
     QAction *moveToOtherViewAction = col->action(QStringLiteral("move_to_inactive_split_view"));
-    QAction *copyLocation = col->action(QString("copy_location"));
+    QAction *copyLocation = col->action(QStringLiteral("copy_location"));
 
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
