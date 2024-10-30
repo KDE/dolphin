@@ -1804,7 +1804,6 @@ msgstr "关闭标签页"
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
 msgstr "位置"
@@ -1988,8 +1987,6 @@ msgstr "移动到新建文件夹…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
 msgctxt "@info"
 msgid "hidden"
 msgstr "禁止"
@@ -2031,9 +2028,6 @@ msgstr ""
 #. readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
 msgid "not selected,"
 msgstr "已选中 %1 项"
 
@@ -2048,8 +2042,6 @@ msgstr ""
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
 msgid "expanded,"
 msgstr "可展开"
 
@@ -2057,11 +2049,6 @@ msgstr "可展开"
 #. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgid "— %1 selected item"
 msgid_plural "— %1 selected items"
 msgstr[0] "%1 个选中的项目"
@@ -4768,6 +4755,8 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin 会将文件系统元数据添加到您更改视图属性的文件夹。如果无法添加，则创建"
+"一个隐藏的 .directory 文件。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format

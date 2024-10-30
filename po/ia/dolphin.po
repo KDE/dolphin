@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 00:42+0000\n"
-"PO-Revision-Date: 2024-10-28 11:07+0100\n"
+"PO-Revision-Date: 2024-10-29 10:09+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 21.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1901,11 +1901,10 @@ msgstr "Claude scheda"
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Location"
+msgstr "Vista de Location"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2096,24 +2095,22 @@ msgid "Move to New Folder…"
 msgstr "Move a nove dossier…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "Prohibite"
+msgstr "celate"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", liga a %1 a %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2125,7 +2122,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
 #, kde-format
@@ -2133,52 +2130,44 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 a location %2"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of
 #. properties that a file or folder has. Accessible text for accessibility software like screen
 #. readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
+#, kde-format
 msgid "not selected,"
-msgstr "%1 elemento selectionate"
+msgstr "non selectionate."
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
 #, kde-format
 msgid "collapsed,"
-msgstr ""
+msgstr "plicate."
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
+#, kde-format
 msgid "expanded,"
-msgstr "Expandebile"
+msgstr "expandite."
 
 #. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
 #. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgid "— %1 selected item"
 msgid_plural "— %1 selected items"
-msgstr[0] "Renomina le %1 elemento selectionate in:"
-msgstr[1] "Renomina le %1 elementos selectionate in:"
+msgstr[0] "— %1 elemento selectionate"
+msgstr[1] "— %1 elementos selectionate"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
 #, kde-format
 msgctxt "@info refering to a file or folder"
 msgid "in a grid layout"
-msgstr ""
+msgstr "in un disposition a grillia"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2187,7 +2176,7 @@ msgctxt ""
 "currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
 "currentFolderPath"
 msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr ""
+msgstr "%1, %2 %3 %4 %5 %6 in location %7"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2780,16 +2769,16 @@ msgstr "Error incognite."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 e un medie stella"
+msgstr[1] "%1 e un medie stella"
 
 #: kitemviews/kstandarditemlistwidget.cpp:124
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 stella"
+msgstr[1] "%1 stellas"
 
 #: main.cpp:61
 #, kde-kuit-format
