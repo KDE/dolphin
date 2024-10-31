@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 00:42+0000\n"
-"PO-Revision-Date: 2024-08-20 09:33+0200\n"
+"PO-Revision-Date: 2024-10-29 09:12+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -5054,6 +5054,9 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin ajoutera des métadonnées concernant le système de fichiers aux "
+"dossiers dont vous avez modifier les propriétés d'affichage. Si cela est "
+"impossible, un fichier masqué « .directory »  est créé à la place."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
