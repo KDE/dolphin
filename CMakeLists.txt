@@ -105,6 +105,13 @@ if(PackageKitQt6_FOUND)
     set(HAVE_PACKAGEKIT TRUE)
 endif()
 
+find_package(KF6FileMetaData ${KF6_MIN_VERSION})
+set_package_properties(KF6FileMetaData PROPERTIES
+                       URL "https://projects.kde.org/kfilemetadata"
+                       TYPE REQUIRED
+                       PURPOSE "For accessing file metadata labels and filesystem metadata"
+                      )
+
 find_package(KF6Baloo ${KF6_MIN_VERSION})
 set_package_properties(KF6Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "https://www.kde.org"
@@ -118,14 +125,7 @@ set_package_properties(KF6BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        TYPE OPTIONAL
                       )
 
-find_package(KF6FileMetaData ${KF6_MIN_VERSION})
-set_package_properties(KF6FileMetaData PROPERTIES
-                       URL "https://projects.kde.org/kfilemetadata"
-                       TYPE OPTIONAL
-                       PURPOSE "For accessing file metadata labels"
-                      )
-
-if (KF6Baloo_FOUND AND KF6BalooWidgets_FOUND AND KF6FileMetaData_FOUND)
+if (KF6Baloo_FOUND AND KF6BalooWidgets_FOUND)
     message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
 else()
