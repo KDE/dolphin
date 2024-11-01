@@ -13,7 +13,7 @@
 #include "private/kitemlistsmoothscroller.h"
 
 #ifndef QT_NO_ACCESSIBILITY
-#include <QAccessibleEvent>
+#include "accessibility/kitemlistviewaccessible.h"
 #endif
 #include <QApplication>
 #include <QFontMetrics>
@@ -202,11 +202,11 @@ void KItemListContainer::focusInEvent(QFocusEvent *event)
         // We need to set the focus to the view or accessibility software will only announce the container (which has no information available itself).
         // For some reason actively setting the focus to the view needs to be delayed or the focus will immediately go back to this container.
         QTimer::singleShot(0, this, [this, view]() {
-            view->setFocus();
+            if (!isAncestorOf(QApplication::focusWidget())) {
+                view->setFocus();
+            }
 #ifndef QT_NO_ACCESSIBILITY
-            QAccessibleEvent accessibleFocusInEvent(this, QAccessible::Focus);
-            accessibleFocusInEvent.setChild(0);
-            QAccessible::updateAccessibility(&accessibleFocusInEvent);
+            static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(view))->setAccessibleFocusAndAnnounceAll();
 #endif
         });
     }

@@ -467,12 +467,6 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_Space:
         if (m_selectionBehavior == MultiSelection) {
-#ifndef QT_NO_ACCESSIBILITY
-            // Move accessible focus to the item that is acted upon, so only the state change of this item is announced and not the whole view.
-            QAccessibleEvent accessibilityEvent(view(), QAccessible::Focus);
-            accessibilityEvent.setChild(index);
-            QAccessible::updateAccessibility(&accessibilityEvent);
-#endif
             if (controlPressed) {
                 // Toggle the selection state of the current item.
                 m_selectionManager->endAnchoredSelection();

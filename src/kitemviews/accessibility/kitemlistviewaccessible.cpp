@@ -36,14 +36,11 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_, KItemList
     Q_CHECK_PTR(parent);
     m_accessibleDelegates.resize(childCount());
 
-    m_announceDescriptionChangeTimer = new QTimer{view_};
-    m_announceDescriptionChangeTimer->setSingleShot(true);
-    m_announceDescriptionChangeTimer->setInterval(100);
-    KItemListGroupHeader::connect(m_announceDescriptionChangeTimer, &QTimer::timeout, view_, [this]() {
-        // The below will have no effect if one of the list items has focus and not the view itself. Still we announce the accessibility description change
-        // here in case the view itself has focus e.g. after tabbing there or after opening a new location.
-        QAccessibleEvent announceAccessibleDescriptionEvent(this, QAccessible::DescriptionChanged);
-        QAccessible::updateAccessibility(&announceAccessibleDescriptionEvent);
+    m_announceCurrentItemTimer = new QTimer{view_};
+    m_announceCurrentItemTimer->setSingleShot(true);
+    m_announceCurrentItemTimer->setInterval(100);
+    KItemListGroupHeader::connect(m_announceCurrentItemTimer, &QTimer::timeout, view_, [this]() {
+        slotAnnounceCurrentItemTimerTimeout();
     });
 }
 
@@ -68,10 +65,6 @@ void *KItemListViewAccessible::interface_cast(QAccessible::InterfaceType type)
     default:
         return nullptr;
     }
-}
-
-void KItemListViewAccessible::modelReset()
-{
 }
 
 QAccessibleInterface *KItemListViewAccessible::accessibleDelegate(int index) const
@@ -263,7 +256,13 @@ QString KItemListViewAccessible::text(QAccessible::Text t) const
     if (t != QAccessible::Description) {
         return QString();
     }
-    const auto currentItem = child(controller->selectionManager()->currentItem());
+
+    QAccessibleInterface *currentItem = child(controller->selectionManager()->currentItem());
+
+    /**
+     * Always announce the path last because it might be very long.
+     * We do not need to announce the total count of items here because accessibility software like Orca alrady announces this automatically for lists.
+     */
     if (!currentItem) {
         return i18nc("@info 1 states that the folder is empty and sometimes why, 2 is the full filesystem path",
                      "%1 at location %2",
@@ -271,59 +270,36 @@ QString KItemListViewAccessible::text(QAccessible::Text t) const
                      modelRootUrl.toDisplayString());
     }
 
-    const QString selectionStateString{isSelected(currentItem) ? QString()
-                                                               // i18n: There is a comma at the end because this is one property in an enumeration of
-                                                               // properties that a file or folder has. Accessible text for accessibility software like screen
-                                                               // readers.
-                                                               : i18n("not selected,")};
-
-    QString expandableStateString;
-    if (currentItem->state().expandable) {
-        if (currentItem->state().collapsed) {
-            // i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-            // Accessible text for accessibility software like screen readers.
-            expandableStateString = i18n("collapsed,");
-        } else {
-            // i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-            // Accessible text for accessibility software like screen readers.
-            expandableStateString = i18n("expanded,");
-        }
-    }
-
-    const QString selectedItemCountString{selectedItemCount() > 1
-                                              // i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
-                                              // with a period. Accessible text for accessibility software like screen readers.
-                                              ? i18np("— %1 selected item", "— %1 selected items", selectedItemCount())
-                                              : QString()};
+    const int numberOfSelectedItems = selectedItemCount();
 
     // Determine if we should announce the item layout. For end users of the accessibility tree there is an expectation that a list can be scrolled through by
     // pressing the "Down" key repeatedly. This is not the case in the icon view mode, where pressing "Right" or "Left" moves through the whole list of items.
     // Therefore we need to announce this layout when in icon view mode.
-    QString layoutAnnouncementString;
     if (auto standardView = qobject_cast<const KStandardItemListView *>(view())) {
         if (standardView->itemLayout() == KStandardItemListView::ItemLayout::IconsLayout) {
-            layoutAnnouncementString = i18nc("@info refering to a file or folder", "in a grid layout");
+            if (numberOfSelectedItems < 1 || (numberOfSelectedItems == 1 && isSelected(currentItem))) {
+                // We do not announce the number of selected items if the only selected item is the current item
+                // because the selection state of the current item is already announced elsewhere.
+                return i18nc("@info accessibility, 1 is path", "in a grid layout in location %1", modelRootUrl.toDisplayString());
+            }
+            return i18ncp("@info accessibility, 2 is path",
+                          "%1 selected item in a grid layout in location %2",
+                          "%1 selected items in a grid layout in location %2",
+                          numberOfSelectedItems,
+                          modelRootUrl.toDisplayString());
         }
     }
 
-    /**
-     * Announce it in this order so the most important information is at the beginning and the potentially very long path at the end:
-     * "$currentlyFocussedItemName, $currentlyFocussedItemDescription, $currentFolderPath".
-     * We do not need to announce the total count of items here because accessibility software like Orca alrady announces this automatically for lists.
-     * Normally for list items the selection and expandadable state are also automatically announced by Orca, however we are building the accessible
-     * description of the view here, so we need to manually add all infomation about the current item we also want to announce.
-     */
-    return i18nc(
-        "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-        "currentFolderPath",
-        "%1, %2 %3 %4 %5 %6 in location %7",
-        currentItem->text(QAccessible::Name),
-        selectionStateString,
-        expandableStateString,
-        currentItem->text(QAccessible::Description),
-        selectedItemCountString,
-        layoutAnnouncementString,
-        modelRootUrl.toDisplayString());
+    if (numberOfSelectedItems < 1 || (numberOfSelectedItems == 1 && isSelected(currentItem))) {
+        // We do not announce the number of selected items if the only selected item is the current item
+        // because the selection state of the current item is already announced elsewhere.
+        return i18nc("@info accessibility, 1 is path", "in location %1", modelRootUrl.toDisplayString());
+    }
+    return i18ncp("@info accessibility, 2 is path",
+                  "%1 selected item in location %2",
+                  "%1 selected items in location %2",
+                  numberOfSelectedItems,
+                  modelRootUrl.toDisplayString());
 }
 
 QRect KItemListViewAccessible::rect() const
@@ -443,37 +419,74 @@ KItemListView *KItemListViewAccessible::view() const
     return static_cast<KItemListView *>(object());
 }
 
-void KItemListViewAccessible::announceOverallViewState(const QString &placeholderMessage)
+void KItemListViewAccessible::setAccessibleFocusAndAnnounceAll()
 {
-    m_placeholderMessage = placeholderMessage;
-
-    // Make sure we announce this placeholderMessage. However, do not announce it when the focus is on an unrelated object currently.
-    // We for example do not want to announce "Loading cancelled" when the focus is currently on an error message explaining why the loading was cancelled.
-    if (view()->hasFocus() || !QApplication::focusWidget() || static_cast<QWidget *>(m_parent->object())->isAncestorOf(QApplication::focusWidget())) {
-        view()->setFocus();
-        // If we move focus to an item and right after that the description of the item is changed, the item will be announced twice.
-        // We want to avoid that so we wait until after the description change was announced to move focus.
-        KItemListGroupHeader::connect(
-            m_announceDescriptionChangeTimer,
-            &QTimer::timeout,
-            view(),
-            [this]() {
-                if (view()->hasFocus() || !QApplication::focusWidget()
-                    || static_cast<QWidget *>(m_parent->object())->isAncestorOf(QApplication::focusWidget())) {
-                    QAccessibleEvent accessibleFocusEvent(this, QAccessible::Focus);
-                    QAccessible::updateAccessibility(&accessibleFocusEvent); // This accessibility update is perhaps even too important: It is generally
-                    // the last triggered update after changing the currently viewed folder. This call makes sure that we announce the new directory in
-                    // full. Furthermore it also serves its original purpose of making sure we announce the placeholderMessage in empty folders.
-                }
-            },
-            Qt::SingleShotConnection);
-        if (!m_announceDescriptionChangeTimer->isActive()) {
-            m_announceDescriptionChangeTimer->start();
-        }
+    const int currentItemIndex = view()->m_controller->selectionManager()->currentItem();
+    if (currentItemIndex < 0) {
+        // The current item is invalid (perhaps because the folder is empty), so we set the focus to the view itself instead.
+        QAccessibleEvent accessibleFocusInEvent(this, QAccessible::Focus);
+        QAccessible::updateAccessibility(&accessibleFocusInEvent);
+        return;
     }
+
+    QAccessibleEvent accessibleFocusInEvent(this, QAccessible::Focus);
+    accessibleFocusInEvent.setChild(currentItemIndex);
+    QAccessible::updateAccessibility(&accessibleFocusInEvent);
+    m_shouldAnnounceLocation = true;
+    announceCurrentItem();
 }
 
-void KItemListViewAccessible::announceDescriptionChange()
+void KItemListViewAccessible::announceNewlyLoadedLocation(const QString &placeholderMessage)
 {
-    m_announceDescriptionChangeTimer->start();
+    m_placeholderMessage = placeholderMessage;
+    m_shouldAnnounceLocation = true;
+
+    // Changes might still be happening in the view. We (re)start the timer to make it less likely that it announces a state that is still in flux.
+    m_announceCurrentItemTimer->start();
+}
+
+void KItemListViewAccessible::announceCurrentItem()
+{
+    m_announceCurrentItemTimer->start();
+}
+
+void KItemListViewAccessible::slotAnnounceCurrentItemTimerTimeout()
+{
+    if (!view()->hasFocus() && QApplication::focusWidget() && QApplication::focusWidget()->isVisible()
+        && !static_cast<QWidget *>(m_parent->object())->isAncestorOf(QApplication::focusWidget())) {
+        // Something else than this view has focus, so we do not announce anything.
+        m_lastAnnouncedIndex = -1; // Reset this to -1 so we properly move focus to the current item the next time this method is called.
+        return;
+    }
+
+    /// Announce the current item (or the view if there is no current item).
+    const int currentIndex = view()->m_controller->selectionManager()->currentItem();
+    if (currentIndex < 0) {
+        // The current index is invalid! There might be no items in the list. Instead the list itself is announced.
+        m_shouldAnnounceLocation = true;
+        QAccessibleEvent announceEmptyViewPlaceholderMessageEvent(this, QAccessible::Focus);
+        QAccessible::updateAccessibility(&announceEmptyViewPlaceholderMessageEvent);
+    } else if (currentIndex != m_lastAnnouncedIndex) {
+        QAccessibleEvent announceNewlyFocusedItemEvent(this, QAccessible::Focus);
+        announceNewlyFocusedItemEvent.setChild(currentIndex);
+        QAccessible::updateAccessibility(&announceNewlyFocusedItemEvent);
+    } else {
+        QAccessibleEvent announceCurrentItemNameChangeEvent(this, QAccessible::NameChanged);
+        announceCurrentItemNameChangeEvent.setChild(currentIndex);
+        QAccessible::updateAccessibility(&announceCurrentItemNameChangeEvent);
+        QAccessibleEvent announceCurrentItemDescriptionChangeEvent(this, QAccessible::DescriptionChanged);
+        announceCurrentItemDescriptionChangeEvent.setChild(currentIndex);
+        QAccessible::updateAccessibility(&announceCurrentItemDescriptionChangeEvent);
+    }
+    m_lastAnnouncedIndex = currentIndex;
+
+    /// Announce the location if we are not just moving within the same location.
+    if (m_shouldAnnounceLocation) {
+        m_shouldAnnounceLocation = false;
+
+        QAccessibleEvent announceAccessibleDescriptionEvent1(this, QAccessible::NameChanged);
+        QAccessible::updateAccessibility(&announceAccessibleDescriptionEvent1);
+        QAccessibleEvent announceAccessibleDescriptionEvent(this, QAccessible::DescriptionChanged);
+        QAccessible::updateAccessibility(&announceAccessibleDescriptionEvent);
+    }
 }

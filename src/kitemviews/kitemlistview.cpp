@@ -1244,11 +1244,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList &itemRanges)
     if (useAlternateBackgrounds()) {
         updateAlternateBackgrounds();
     }
-#ifndef QT_NO_ACCESSIBILITY
-    if (QAccessible::isActive()) { // Announce that the count of items has changed.
-        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(this))->announceDescriptionChange();
-    }
-#endif
 }
 
 void KItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
@@ -1367,11 +1362,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList &itemRanges)
     if (useAlternateBackgrounds()) {
         updateAlternateBackgrounds();
     }
-#ifndef QT_NO_ACCESSIBILITY
-    if (QAccessible::isActive()) { // Announce that the count of items has changed.
-        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(this))->announceDescriptionChange();
-    }
-#endif
 }
 
 void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int> &movedToIndexes)
@@ -1429,15 +1419,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList &itemRanges, const QSe
             updateVisibleGroupHeaders();
             doLayout(NoAnimation);
         }
-
-#ifndef QT_NO_ACCESSIBILITY
-        QAccessibleTableModelChangeEvent ev(this, QAccessibleTableModelChangeEvent::DataChanged);
-        ev.setFirstRow(itemRange.index);
-        ev.setLastRow(itemRange.index + itemRange.count);
-        QAccessible::updateAccessibility(&ev);
-#endif
     }
-
     doLayout(NoAnimation);
 }
 
@@ -1510,19 +1492,11 @@ void KItemListView::slotCurrentChanged(int current, int previous)
         KItemListWidget *currentWidget = m_visibleItems.value(current, nullptr);
         if (currentWidget) {
             currentWidget->setCurrent(true);
-            if (hasFocus() || (previousWidget && previousWidget->hasFocus())) {
-                currentWidget->setFocus(); // Mostly for accessibility, because keyboard events are handled correctly either way.
-            }
         }
     }
 #ifndef QT_NO_ACCESSIBILITY
-    if (QAccessible::isActive()) {
-        if (current >= 0) {
-            QAccessibleEvent accessibleFocusCurrentItemEvent(this, QAccessible::Focus);
-            accessibleFocusCurrentItemEvent.setChild(current);
-            QAccessible::updateAccessibility(&accessibleFocusCurrentItemEvent);
-        }
-        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(this))->announceDescriptionChange();
+    if (current != previous && QAccessible::isActive()) {
+        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(this))->announceCurrentItem();
     }
 #endif
 }
@@ -1544,14 +1518,11 @@ void KItemListView::slotSelectionChanged(const KItemSet &current, const KItemSet
         // Let the screen reader announce "selected" or "not selected" for the active item.
         const bool wasSelected(previous.contains(index));
         if (isSelected != wasSelected) {
-            QAccessibleEvent accessibleSelectionChangedEvent(this, QAccessible::Selection);
+            QAccessibleEvent accessibleSelectionChangedEvent(this, QAccessible::SelectionAdd);
             accessibleSelectionChangedEvent.setChild(index);
             QAccessible::updateAccessibility(&accessibleSelectionChangedEvent);
         }
     }
-    // Usually the below does not have an effect because the view will not have focus at this moment but one of its list items. Still we announce the
-    // change of the accessibility description just in case the user manually moved focus up by one.
-    static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(this))->announceDescriptionChange();
 #else
     }
     Q_UNUSED(previous)

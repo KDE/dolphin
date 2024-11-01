@@ -2342,8 +2342,7 @@ void DolphinView::showLoadingPlaceholder()
     m_placeholderLabel->setVisible(true);
 #ifndef QT_NO_ACCESSIBILITY
     if (QAccessible::isActive()) {
-        auto accessibleViewInterface = static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view));
-        accessibleViewInterface->announceOverallViewState(m_placeholderLabel->text());
+        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view))->announceNewlyLoadedLocation(m_placeholderLabel->text());
     }
 #endif
 }
@@ -2352,6 +2351,11 @@ void DolphinView::updatePlaceholderLabel()
 {
     m_showLoadingPlaceholderTimer->stop();
     if (itemsCount() > 0) {
+#ifndef QT_NO_ACCESSIBILITY
+        if (QAccessible::isActive()) {
+            static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view))->announceNewlyLoadedLocation(QString());
+        }
+#endif
         m_placeholderLabel->setVisible(false);
         return;
     }
@@ -2397,8 +2401,7 @@ void DolphinView::updatePlaceholderLabel()
     m_placeholderLabel->setVisible(true);
 #ifndef QT_NO_ACCESSIBILITY
     if (QAccessible::isActive()) {
-        auto accessibleViewInterface = static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view));
-        accessibleViewInterface->announceOverallViewState(m_placeholderLabel->text());
+        static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view))->announceNewlyLoadedLocation(m_placeholderLabel->text());
     }
 #endif
 }

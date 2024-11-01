@@ -96,21 +96,35 @@ public:
     KItemListView *view() const;
 
     /**
-     * Moves the focus to the list view itself so an overview over the state can be given.
-     * @param placeholderMessage   the message that should be announced when no items are visible (yet). This message is mostly identical to
-     *                              DolphinView::m_placeholderLabel in both content and purpose. @see DolphinView::updatePlaceHolderLabel().
+     * Called by KItemListContainer when it passes on focus to the view. Accessible focus is then meant to go towards this accessible interface and a detailed
+     * announcement of the current view state (current item and overall location state) should be triggered.
      */
-    void announceOverallViewState(const QString &placeholderMessage);
+    void setAccessibleFocusAndAnnounceAll();
 
     /**
-     * Announces that the description of the view has changed. The changed description will only be announced if the view has focus (from an accessibility
-     * point of view). This method ensures that multiple calls to this method within a small time frame will only lead to a singular announcement instead of
-     * multiple or already outdated ones, so calling this method instead of manually sending accessibility events for this view is preferred.
+     * Called multiple times while a new location is loading. A timer is restarted, and if this method has not been called for a split second, the newly loaded
+     * location is finally announced.
+     * Either the @p placeholderMessage is announced when there are no items in the view (yet), or the current item is announced together with the view state.
+     *
+     * @param placeholderMessage    The message that should be announced when no items are visible (yet). This message is mostly identical to
+     *                              DolphinView::m_placeholderLabel in both content and purpose. @see DolphinView::updatePlaceHolderLabel().
+     *
+     * If there are items in the view and the placeholderMessage is therefore not visible, the current item and location is announced instead.
      */
-    void announceDescriptionChange();
+    void announceNewlyLoadedLocation(const QString &placeholderMessage);
 
-protected:
-    virtual void modelReset();
+    /**
+     * Starts a timer that will trigger an announcement of the current item. The timer makes sure that quick changes to the current item will only lead to a
+     * singular announcement. This way when a new folder is loaded we only trigger a single announcement even if the items quickly change.
+     *
+     * When m_shouldAnnounceLocation is true, the current location will be announced following the announcement of the current item.
+     *
+     * If the current item is invalid, only the current location is announced, which has the responsibility of then telling why there is no valid item in the
+     * view.
+     */
+    void announceCurrentItem();
+
+private:
     /**
      * @returns a KItemListDelegateAccessible representing the file or folder at the @index. Returns nullptr for invalid indices.
      * If a KItemListDelegateAccessible for an index does not yet exist, it will be created.
@@ -120,11 +134,37 @@ protected:
 
     KItemListSelectionManager *selectionManager() const;
 
+private Q_SLOTS:
+    /**
+     * Is run in response to announceCurrentItem(). If the current item exists, it is announced. Otherwise the view is announced.
+     * Also announces some general information about the current location if it has changed recently.
+     */
+    void slotAnnounceCurrentItemTimerTimeout();
+
 private:
     /** @see setPlaceholderMessage(). */
     QString m_placeholderMessage;
 
-    QTimer *m_announceDescriptionChangeTimer;
+    /**
+     * Is started by announceCurrentItem().
+     * If we announce the current item as soon as it changes, we would announce multiple items while loading a folder.
+     * This timer makes sure we only announce the singular currently focused item when things have settled down.
+     */
+    QTimer *m_announceCurrentItemTimer;
+
+    /**
+     * If we want announceCurrentItem() to always announce the current item, we must be aware if this is equal to the previous current item, because
+     * - if the accessibility focus moves to a new item, it is automatically announced, but
+     * - if the focus is still on the item at the same index, the focus does not technically move to a new item even if the file at that index changed, so we
+     *   need to instead send change events for the accessible name and accessible description.
+     */
+    int m_lastAnnouncedIndex = -1;
+
+    /**
+     * Is set to true in response to announceDescriptionChange(). When true, the next time slotAnnounceCurrentItemTimerTimeout() is called the description is
+     * also announced. Then this bool is set to false.
+     */
+    bool m_shouldAnnounceLocation = true;
 
     class AccessibleIdWrapper
     {
