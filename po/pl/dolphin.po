@@ -494,7 +494,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Skopiuj…"
+msgstr "Kopiuj…"
 
 #: dolphinmainwindow.cpp:1764
 #, kde-kuit-format
@@ -530,13 +530,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
-msgstr "Skopiuj do innego widoku"
+msgstr "Kopiuj do innego widoku"
 
 #: dolphinmainwindow.cpp:1783
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Skopiuj do innego widoku…"
+msgstr "Kopiuj do innego widoku…"
 
 #: dolphinmainwindow.cpp:1785
 #, kde-kuit-format
@@ -847,7 +847,7 @@ msgid ""
 msgstr ""
 "To wycofuje ostatnią zmianę dokonaną na plikach i katalogach.<nl/>Takie "
 "zmiany uwzględniają <interface>tworzenie</interface>, "
-"<interface>przemianowywanie</interface> oraz <interface>przenoszenie</"
+"<interface>zmiana nazwy</interface> oraz <interface>przenoszenie</"
 "interface> ich do innych miejsc lub do <filename>Kosza</filename>. <nl/"
 ">Przed wykonaniem zmian, których nie będzie można cofnąć, najpierw zostanie "
 "wyświetlona prośba o potwierdzenie."
@@ -1266,7 +1266,7 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
-"Nie można przemianować: Nie masz uprawnień do przemianowywania rzeczy w tym "
+"Nie można zmienić nazwy: Nie masz uprawnień do zmiany nazwy rzeczy w tym "
 "katalogu."
 
 #: dolphinmainwindow.cpp:2494 dolphinmainwindow.cpp:2511
@@ -3024,13 +3024,13 @@ msgstr "Wytnij"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy"
-msgstr "Skopiuj"
+msgstr "Kopiuj"
 
 #: panels/folders/treeviewcontextmenu.cpp:70
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Przemianuj…"
+msgstr "Zmień nazwę…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -3545,9 +3545,9 @@ msgstr "Anuluj zmianę nazwy"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] "Skopiuj %2 do schowka"
-msgstr[1] "Skopiuj %2 do schowka"
-msgstr[2] "Skopiuj %2 do schowka"
+msgstr[0] "Kopiuj %2 do schowka"
+msgstr[1] "Kopiuj %2 do schowka"
+msgstr[2] "Kopiuj %2 do schowka"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3559,9 +3559,9 @@ msgstr[2] "Skopiuj %2 do schowka"
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] "Skopiuj położenie %2 do schowka"
-msgstr[1] "Skopiuj położenie %2 do schowka"
-msgstr[2] "Skopiuj położenie %2 do schowka"
+msgstr[0] "Kopiuj położenie %2 do schowka"
+msgstr[1] "Kopiuj położenie %2 do schowka"
+msgstr[2] "Kopiuj położenie %2 do schowka"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3719,7 +3719,7 @@ msgstr "Usuń"
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
-msgstr "Pokaż polecenia 'Skopiuj do' i 'Przenieś do'"
+msgstr "Pokaż polecenia 'Kopiuj do' i 'Przenieś do'"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:290
 #, kde-format
@@ -3810,7 +3810,7 @@ msgstr "Zapis uprawnień"
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Pokaż polecenia \"Skopiuj do\" i \"Przenieś do\" w menu podręcznym"
+msgstr "Pokaż polecenia \"Kopiujiuj do\" i \"Przenieś do\" w menu podręcznym"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
@@ -3854,7 +3854,7 @@ msgstr "Pokaż 'Otwórz w oddzielnym widoku' w menu podręcznym."
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr "Pokaż 'Skopiuj położenie' w menu podręcznym."
+msgstr "Pokaż 'Kopiuj położenie' w menu podręcznym."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
@@ -4117,7 +4117,7 @@ msgid ""
 msgstr ""
 "Wewnętrzna wersja ustawień Dolphina, używana głównie do tego, aby "
 "stwierdzić, czy została uruchomiona uaktualniona wersja Dolphina tak, aby "
-"dostosowaćwpisy ustawień, które zostały usunięte/przemianowane itp."
+"dostosować wpisy ustawień, które zostały usunięte/ich nazwa została zmieniona itp."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:49
@@ -5903,7 +5903,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
-msgstr "Skopiuj położenie"
+msgstr "Kopiuj położenie"
 
 #: views/dolphinviewactionhandler.cpp:153
 #, kde-format
@@ -5933,7 +5933,7 @@ msgstr "Powiel tutaj…"
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Skopiuj położenie…"
+msgstr "Kopiuj położenie…"
 
 #: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
