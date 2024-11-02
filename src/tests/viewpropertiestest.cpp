@@ -83,6 +83,7 @@ void ViewPropertiesTest::testReadOnlyBehavior()
 void ViewPropertiesTest::testReadOnlyDirectory()
 {
     auto localFolder = m_testDir->url().toLocalFile();
+
     QString dotDirectoryFile = localFolder + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
 
@@ -94,7 +95,13 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    const auto destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
+    auto folderPath = localFolder;
+#ifdef Q_OS_WIN
+    // m_filePath probably begins with C:/ - the colon is not a valid character for paths though
+    folderPath = "/" + folderPath.remove(QLatin1Char(':'));
+#endif
+
+    const auto destinationDir = props->destinationDir(QStringLiteral("local")) + folderPath;
     qDebug() << destinationDir;
     QVERIFY(QDir(destinationDir).exists());
 
