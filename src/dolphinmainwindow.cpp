@@ -1026,8 +1026,15 @@ void DolphinMainWindow::invertSelection()
 
 void DolphinMainWindow::toggleSplitView()
 {
+    QUrl newSplitViewUrl;
+    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    if (list.count() == 1) {
+        const KFileItem &item = list.first();
+        newSplitViewUrl = DolphinView::openItemAsFolderUrl(item);
+    }
+
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
-    tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
+    tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation, newSplitViewUrl);
     m_tabWidget->updateTabName(m_tabWidget->indexOf(tabPage));
     updateViewActions();
 }
