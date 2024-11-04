@@ -34,6 +34,7 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent)
     m_splitter->setChildrenCollapsible(false);
 
     m_splitter->addWidget(createNavigatorWidget(Primary));
+    m_splitter->setFocusProxy(primaryUrlNavigator());
 
     m_adjustSpacingTimer->setInterval(100);
     m_adjustSpacingTimer->setSingleShot(true);
