@@ -6184,204 +6184,33 @@ msgstr "Geçerli Görünüm İçin Eylemler"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: views/dolphinviewactionhandler.cpp:801
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@action:inmenu menu with actions like copy, paste, rename. The user's "
+#| "selection is empty when this text is shown."
+#| msgid "Actions for Current View"
 msgid "Actions for %1"
-msgstr "Eylemler: %1"
+msgstr "Geçerli Görünüm İçin Eylemler"
 
 #: views/dolphinviewactionhandler.cpp:808
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "Textual representation of selected fileitems. %1 is the number of files/"
+#| "folders."
+#| msgid "One Selected Item"
+#| msgid_plural "%1 Selected Items"
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] "Seçili Bir Öge için Eylem"
-msgstr[1] "Seçili %1 Öge için Eylem"
+msgstr[0] "Bir öge seçili"
+msgstr[1] "%1 öge seçili"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:231
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Additional Information"
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Sürüm bilgisi güncelleniyor…"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin will create a hidden .directory file in each folder you change "
-#~ "view properties for."
-#~ msgstr ""
-#~ "Dolphin, görünüm özelliklerini değiştirdiğiniz her klasörde gizli bir ."
-#~ "directory dosyası oluşturacaktır."
-
-#~ msgid "Install Filelight to View Disk Usage Statistics…"
-#~ msgstr "Disk Kullanımı İstatistikleri için Dosya Feneri’ni Kur…"
-
-#~ msgctxt "@action:button"
-#~ msgid "Stop Acting as an Administrator"
-#~ msgstr "Yönetici Gibi Kullanmayı Durdur"
-
-#~ msgid "Skip previews for local files above:"
-#~ msgstr "Şundan büyük yerel dosyalar için önizlemeleri atla:"
-
-#~ msgid "No limit"
-#~ msgstr "Sınır yok"
-
-#~ msgctxt "@label"
-#~ msgid "Skip previews for remote files above:"
-#~ msgstr "Şundan büyük uzak dosyalar için önizlemeleri atla:"
-
-#~ msgid "No previews"
-#~ msgstr "Önizleme yok"
-
-#~ msgctxt "@action:inmenu Edit"
-#~ msgid "Copy to Inactive Split View"
-#~ msgstr "Etkin Olmayan Bölünmüş Görünüme Kopyala"
-
-#~ msgctxt "@action:inmenu Edit"
-#~ msgid "Move to Inactive Split View"
-#~ msgstr "Etkin Olmayan Bölünmüş Görünüme Taşı"
-
-#~ msgctxt "@info:whatsthis find"
-#~ msgid ""
-#~ "<para>This splits the folder view below into two autonomous views.</"
-#~ "para><para>This way you can see two locations at once and move items "
-#~ "between them quickly.</para>Click this again afterwards to recombine the "
-#~ "views."
-#~ msgstr ""
-#~ "<para>Bu, aşağıdaki klasör görünümünü iki özerk görünüme böler.</"
-#~ "para><para>Bu şekilde, iki konumu aynı anda görebilir ve ögeleri "
-#~ "aralarında tez taşıyabilirsiniz.</para>Görünümleri yeniden birleştirmek "
-#~ "için daha sonra buna yeniden tıklayın."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Tab %1"
-#~ msgstr "%1. Sekmeyi Etkinleştir"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Next Tab"
-#~ msgstr "Sonraki Sekmeyi Etkinleştir"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Activate Previous Tab"
-#~ msgstr "Önceki Sekmeyi Etkinleştir"
-
-#~ msgctxt "@action:intoolbar Move right split view to a new window"
-#~ msgid "Pop out"
-#~ msgstr "Çıkar"
-
-#~ msgctxt "@action:intoolbar Move active split view to a new window"
-#~ msgid "Pop out"
-#~ msgstr "Çıkar"
-
-#~ msgid "Split the view into two panes"
-#~ msgstr "Görünümü ikiye böl"
-
-#~ msgid "Show tooltips"
-#~ msgstr "İpuçlarını göster"
-
-#~ msgid ""
-#~ "When deactivated, turning off split view will close the inactive pane"
-#~ msgstr ""
-#~ "Devre dışı bırakıldığında, bölünmüş görünümü kapatmak etkin olmayan "
-#~ "bölmeyi kapatır"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show tooltips"
-#~ msgstr "İpuçlarını göster"
-
-#~ msgctxt "option:check"
-#~ msgid "Rename inline"
-#~ msgstr "Yerinde yeniden adlandır"
-
-#~ msgid "Whether or not content count is used as directory size"
-#~ msgstr "Dizin boyutu olarak içerik sayısının kullanılıp kullanılmadığı"
-
-#~ msgctxt "@title:group"
-#~ msgid "Folder size displays:"
-#~ msgstr "Klasör boyutu şunları gösterir:"
-
-#~ msgctxt "@info:status"
-#~ msgid "1 File"
-#~ msgid_plural "%1 Files"
-#~ msgstr[0] "%1 Dosya"
-#~ msgstr[1] "%1 Dosya"
-
-#~ msgid "More Search Tools"
-#~ msgstr "Diğer Arama Araçları"
-
-#~ msgctxt "@title:window"
-#~ msgid "Configure Preview for %1"
-#~ msgstr "%1 Önizlemesini Yapılandır"
-
-#~ msgctxt "@title:group"
-#~ msgid "Startup"
-#~ msgstr "Başlangıç"
-
-#~ msgctxt "@title:group"
-#~ msgid "View Modes"
-#~ msgstr "Görünüm Kipleri"
-
-#~ msgctxt "@title:group"
-#~ msgid "Navigation"
-#~ msgstr "Dolaşım"
-
-#~ msgctxt "@title:group"
-#~ msgid "View: "
-#~ msgstr "Görünüm:"
-
-#~ msgctxt "@title:group"
-#~ msgid "General: "
-#~ msgstr "Genel:"
-
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "Yeni klasörleri sekmelerde aç"
-
-#~ msgctxt "@label:checkbox"
-#~ msgid "General:"
-#~ msgstr "Genel:"
-
-#~ msgctxt "@action:inmenu Tools"
-#~ msgid "Filter..."
-#~ msgstr "Süz..."
-
-#~ msgid "Search..."
-#~ msgstr "Ara..."
-
-#~ msgctxt "@info:progress"
-#~ msgid "Sorting..."
-#~ msgstr "Sıralanıyor..."
-
-#~ msgid "Filter..."
-#~ msgstr "Süz..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Configure..."
-#~ msgstr "Yapılandır..."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Search..."
-#~ msgstr "Ara..."
-
-#~ msgctxt "@info"
-#~ msgid "Could not access <filename>%1</filename>."
-#~ msgstr "<filename>%1</filename> dosyasına erişilemedi."
-
-#~ msgid "One or more files on this device are open within an application."
-#~ msgstr "Bu aygıttaki bir veya daha fazla dosya bir uygulama içinde açık."
-
-#~ msgid ""
-#~ "One or more files on this device are opened in application <application>"
-#~ "\"%2\"</application>."
-#~ msgid_plural ""
-#~ "One or more files on this device are opened in following applications: "
-#~ "<application>%2</application>."
-#~ msgstr[0] ""
-#~ "Bu aygıttaki bir veya daha fazla dosya şu uygulamalarda açıldı: "
-#~ "<application>%2 </application>."
-#~ msgstr[1] ""
-#~ "Bu aygıttaki bir veya daha fazla dosya aşağıdaki uygulamalarda açık: "
-#~ "<application>%2</application>."
-
-#~ msgctxt "separator in list of apps blocking device unmount"
-#~ msgid ", "
-#~ msgstr ", "
+msgstr "Ek Bilgiler"
