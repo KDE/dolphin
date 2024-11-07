@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:42+0000\n"
+"POT-Creation-Date: 2024-11-07 00:42+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -1488,23 +1488,23 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:200
+#: dolphinnavigatorswidgetaction.cpp:201
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:227
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "ඉවතලන බහලුම හිස් කරන්න"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:254
+#: dolphinnavigatorswidgetaction.cpp:255
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Go"
 #| msgid "&Network Folders"
@@ -1512,7 +1512,7 @@ msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "ජාල බහලුම් (&N)"
 
-#: dolphinnavigatorswidgetaction.cpp:293
+#: dolphinnavigatorswidgetaction.cpp:294
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"

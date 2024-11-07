@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:42+0000\n"
+"POT-Creation-Date: 2024-11-07 00:42+0000\n"
 "PO-Revision-Date: 2024-10-29 03:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1668,29 +1668,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "მდებარეობის პანელიდან ფოკუსის მოხსნა"
 
-#: dolphinnavigatorswidgetaction.cpp:200
+#: dolphinnavigatorswidgetaction.cpp:201
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "შეიყვანეთ სერვერის URL (მაგ: smb://[ip address])"
 
-#: dolphinnavigatorswidgetaction.cpp:227
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "ნაგვის დაცარიელება"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "ნაგვის გასუფთავება მეტი ადგილის მისაღებად"
 
-#: dolphinnavigatorswidgetaction.cpp:254
+#: dolphinnavigatorswidgetaction.cpp:255
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "ქსელური საქაღალდის დამატება"
 
-#: dolphinnavigatorswidgetaction.cpp:293
+#: dolphinnavigatorswidgetaction.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

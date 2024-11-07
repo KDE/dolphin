@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:42+0000\n"
+"POT-Creation-Date: 2024-11-07 00:42+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1585,29 +1585,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "焦点移出位置面板"
 
-#: dolphinnavigatorswidgetaction.cpp:200
+#: dolphinnavigatorswidgetaction.cpp:201
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "输入服务器 URL (例如： smb://[IP 地址])"
 
-#: dolphinnavigatorswidgetaction.cpp:227
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "清空回收站"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "清空回收站以腾出存储空间"
 
-#: dolphinnavigatorswidgetaction.cpp:254
+#: dolphinnavigatorswidgetaction.cpp:255
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "添加网络文件夹"
 
-#: dolphinnavigatorswidgetaction.cpp:293
+#: dolphinnavigatorswidgetaction.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

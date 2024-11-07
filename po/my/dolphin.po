@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:42+0000\n"
+"POT-Creation-Date: 2024-11-07 00:42+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -1450,29 +1450,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "တာမီနယ်ပန်နယ် အာရုံမစိုက်တော့ပါ"
 
-#: dolphinnavigatorswidgetaction.cpp:200
+#: dolphinnavigatorswidgetaction.cpp:201
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:227
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "အမှိုက်ပုံးရှင်း"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:254
+#: dolphinnavigatorswidgetaction.cpp:255
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "ကွန်ရက်ဖိုလ်ဒါ ထည့်မည်"
 
-#: dolphinnavigatorswidgetaction.cpp:293
+#: dolphinnavigatorswidgetaction.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

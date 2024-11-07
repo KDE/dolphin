@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:42+0000\n"
+"POT-Creation-Date: 2024-11-07 00:42+0000\n"
 "PO-Revision-Date: 2024-10-29 15:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1662,29 +1662,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Yerler Paneli Odağını Kaldır"
 
-#: dolphinnavigatorswidgetaction.cpp:200
+#: dolphinnavigatorswidgetaction.cpp:201
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Sunucu URL’sini girin (ör. smb://[ip adresi])"
 
-#: dolphinnavigatorswidgetaction.cpp:227
+#: dolphinnavigatorswidgetaction.cpp:228
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Çöp Kutusunu Boşalt"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Boş alan yaratmak için Çöp Kutusu’nu boşaltır"
 
-#: dolphinnavigatorswidgetaction.cpp:254
+#: dolphinnavigatorswidgetaction.cpp:255
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Ağ Klasörü Ekle"
 
-#: dolphinnavigatorswidgetaction.cpp:293
+#: dolphinnavigatorswidgetaction.cpp:294
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
@@ -6184,33 +6184,22 @@ msgstr "Geçerli Görünüm İçin Eylemler"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: views/dolphinviewactionhandler.cpp:801
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. The user's "
-#| "selection is empty when this text is shown."
-#| msgid "Actions for Current View"
+#, kde-format
 msgid "Actions for %1"
-msgstr "Geçerli Görünüm İçin Eylemler"
+msgstr "%1 için Eylemler"
 
 #: views/dolphinviewactionhandler.cpp:808
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] "Bir öge seçili"
-msgstr[1] "%1 öge seçili"
+msgstr[0] "1 Seçili Öge için Eylemler"
+msgstr[1] "%1 Seçili Öge için Eylemler"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:231
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Additional Information"
+#, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Ek Bilgiler"
+msgstr "Sürüm bilgisi güncelleniyor…"
