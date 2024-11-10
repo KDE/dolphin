@@ -296,7 +296,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
     } else if (action == showSpaceInfoAction) {
         const bool visible = showSpaceInfoAction->isChecked();
         GeneralSettings::setShowSpaceInfo(visible);
-        m_spaceInfo->setVisible(visible);
+        m_spaceInfo->setShown(visible);
     }
     updateContentsMargins();
 }
@@ -350,7 +350,6 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     }
 
     m_spaceInfo->setShown(showSpaceInfo);
-    m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();

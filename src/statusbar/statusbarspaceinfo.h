@@ -35,9 +35,11 @@ public:
     ~StatusBarSpaceInfo() override;
 
     /**
-     * Use this to set the widget visibility as it can hide itself
+     * Works similar to QWidget::setVisible() except that this will postpone showing the widget until space info has been retrieved. Hiding happens instantly.
+     *
+     * @param shown Whether this widget is supposed to be visible long-term
      */
-    void setShown(bool);
+    void setShown(bool shown);
     void setUrl(const QUrl &url);
     QUrl url() const;
 
@@ -80,6 +82,11 @@ private:
      */
     void initialiseInstallFilelightWidgetAction();
 
+    // The following three methods are only for private use.
+    using QWidget::hide; // Use StatusBarSpaceInfo::setShown() instead.
+    using QWidget::setVisible; // Use StatusBarSpaceInfo::setShown() instead.
+    using QWidget::show; // Use StatusBarSpaceInfo::setShown() instead.
+
 private:
     QScopedPointer<SpaceInfoObserver> m_observer;
     KCapacityBar *m_capacityBar;
@@ -88,7 +95,9 @@ private:
     /** An action containing a UI to install Filelight. */
     QWidgetAction *m_installFilelightWidgetAction;
     QUrl m_url;
-    bool m_ready;
+    /** Whether m_observer has already retrieved space information for the current url. */
+    bool m_hasSpaceInfo;
+    /** Whether this widget is supposed to be visible long-term. @see StatusBarSpaceInfo::setShown(). */
     bool m_shown;
 };
 

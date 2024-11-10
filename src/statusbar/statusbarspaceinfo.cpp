@@ -32,7 +32,11 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
     : QWidget(parent)
     , m_observer(nullptr)
     , m_installFilelightWidgetAction{nullptr}
+    , m_hasSpaceInfo{false}
+    , m_shown{false}
 {
+    hide(); // Only become visible when we have space info to show. @see StatusBarSpaceInfo::setShown().
+
     m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
     m_textInfoButton = new QToolButton(this);
     m_textInfoButton->setAutoRaise(true);
@@ -57,7 +61,17 @@ void StatusBarSpaceInfo::setShown(bool shown)
     m_shown = shown;
     if (!m_shown) {
         hide();
-        m_ready = false;
+        return;
+    }
+
+    // We only show() this widget in slotValueChanged() when it m_hasSpaceInfo.
+    if (m_observer.isNull()) {
+        m_observer.reset(new SpaceInfoObserver(m_url, this));
+        connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
+    }
+
+    if (m_hasSpaceInfo) {
+        slotValuesChanged();
     }
 }
 
@@ -65,7 +79,7 @@ void StatusBarSpaceInfo::setUrl(const QUrl &url)
 {
     if (m_url != url) {
         m_url = url;
-        m_ready = false;
+        m_hasSpaceInfo = false;
         if (m_observer) {
             m_observer.reset(new SpaceInfoObserver(m_url, this));
             connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
@@ -87,23 +101,18 @@ void StatusBarSpaceInfo::update()
 
 void StatusBarSpaceInfo::showEvent(QShowEvent *event)
 {
-    if (m_shown) {
-        if (m_ready) {
-            QWidget::showEvent(event);
-        }
-
-        if (m_observer.isNull()) {
-            m_observer.reset(new SpaceInfoObserver(m_url, this));
-            connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
-        }
+    if (m_shown && m_observer.isNull()) {
+        m_observer.reset(new SpaceInfoObserver(m_url, this));
+        connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
     }
+    QWidget::showEvent(event);
 }
 
 void StatusBarSpaceInfo::hideEvent(QHideEvent *event)
 {
-    if (m_ready) {
+    if (m_hasSpaceInfo) {
         m_observer.reset();
-        m_ready = false;
+        m_hasSpaceInfo = false;
     }
     QWidget::hideEvent(event);
 }
@@ -225,7 +234,7 @@ void StatusBarSpaceInfo::slotValuesChanged()
         return;
     }
 
-    m_ready = true;
+    m_hasSpaceInfo = true;
 
     const quint64 available = m_observer->available();
     const quint64 used = size - available;
