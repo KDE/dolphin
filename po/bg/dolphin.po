@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-07 00:42+0000\n"
-"PO-Revision-Date: 2024-10-30 22:59+0100\n"
+"PO-Revision-Date: 2024-11-09 20:12+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -309,8 +309,8 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
-"Програмата \"%1\" все още се изпълнява в терминала. Сигурни ли сте, че "
-"искате да напуснете?"
+"Програмата „%1“ все още се изпълнява в терминала. Сигурни ли сте, че искате "
+"да напуснете?"
 
 #: dolphinmainwindow.cpp:895
 #, kde-format
@@ -2191,14 +2191,14 @@ msgstr "%1, %2 %3 %4 %5 %6 в местоположение %7"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr "\"%1\""
+msgstr "„%1“"
 
 #: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "\"%1\" и \"%2\""
+msgstr "„%1“ и „%2“"
 
 #: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
@@ -2206,7 +2206,7 @@ msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "\"%1\", \"%2\" и \"%3\""
+msgstr "„%1“, „%2“ и „%3“"
 
 #: kitemviews/kfileitemlisttostring.cpp:37
 #, kde-format
@@ -2214,7 +2214,7 @@ msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "\"%1\", \"%2\", \"%3\" и \"%4\""
+msgstr "„%1“, „%2“, „%3“ и „%4“"
 
 #: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
@@ -2222,7 +2222,7 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr "\"%1\", \"%2\", \"%3\", \"%4\" и \"%5\""
+msgstr "„%1“, „%2“, „%3“, „%4“ и „%5“"
 
 #: kitemviews/kfileitemlisttostring.cpp:65
 #, kde-format
@@ -3318,7 +3318,7 @@ msgstr "От тук (%1)"
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
-msgstr "Ограничаване на търсенето до \"%1\" и неговите подпапки"
+msgstr "Ограничаване на търсенето до „%1“ и неговите подпапки"
 
 #: search/dolphinsearchbox.cpp:361
 #, kde-format
@@ -3373,7 +3373,7 @@ msgctxt ""
 "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
 "user entered."
 msgid "Query Results from '%1'"
-msgstr "Резултати от запитването \"%1\""
+msgstr "Резултати от запитването „%1“"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
@@ -4856,13 +4856,13 @@ msgstr "Размер на папки:"
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "Относително (напр.\"%1\")"
+msgstr "Относително (напр.„%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "Абсолютно (напр.\"%1\")"
+msgstr "Абсолютно (напр.„%1“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
@@ -5745,7 +5745,7 @@ msgstr "Местоположението е празно."
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
-msgstr "Местоположение \"%1\" е невалидно."
+msgstr "Местоположение „%1“ е невалидно."
 
 #: views/dolphinview.cpp:2340
 #, kde-format
@@ -5780,7 +5780,7 @@ msgstr "Няма етикети"
 #: views/dolphinview.cpp:2377
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr "Няма файлове с етикети \"%1\""
+msgstr "Няма файлове с етикети „%1“"
 
 #: views/dolphinview.cpp:2381
 #, kde-format
