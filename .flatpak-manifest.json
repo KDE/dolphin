@@ -20,6 +20,7 @@
         "--talk-name=org.kde.kiod6",
         "--talk-name=org.kde.JobViewServer",
         "--talk-name=org.kde.kpasswdserver",
+        "--talk-name=org.kde.kpasswdserver6",
         "--system-talk-name=org.freedesktop.UDisks2"
     ],
     "modules": [
