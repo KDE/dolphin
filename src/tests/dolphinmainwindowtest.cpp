@@ -53,7 +53,7 @@ private Q_SLOTS:
     void testPlacesPanelWidthResistance();
     void testGoActions();
     void testOpenFiles();
-    void testAccessibilityAncestorTree();
+    void testAccessibilityTree();
     void testAutoSaveSession();
     void cleanupTestCase();
 
@@ -749,7 +749,7 @@ void DolphinMainWindowTest::testOpenFiles()
     QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
 }
 
-void DolphinMainWindowTest::testAccessibilityAncestorTree()
+void DolphinMainWindowTest::testAccessibilityTree()
 {
     m_mainWindow->openDirectories({QUrl::fromLocalFile(QDir::homePath())}, false);
     m_mainWindow->show();
@@ -759,7 +759,7 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
     QAccessibleInterface *accessibleInterfaceOfMainWindow = QAccessible::queryAccessibleInterface(m_mainWindow.get());
     Q_CHECK_PTR(accessibleInterfaceOfMainWindow);
 
-    // We will test the accessibility of objects traversing forwards and backwards.
+    /// Test the accessibility of objects while traversing forwards (Tab key) and backwards (Shift+Tab).
     int testedObjectsSizeAfterTraversingForwards = 0;
     for (int i = 0; i < 2; i++) {
         std::tuple<Qt::Key, Qt::KeyboardModifier> focusChainTraversalKeyCombination = {Qt::Key::Key_Tab, Qt::NoModifier};
@@ -767,11 +767,42 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
             focusChainTraversalKeyCombination = {Qt::Key::Key_Tab, Qt::ShiftModifier};
         }
 
-        // We will do accessibility checks for every object that gets focus. Focus will be changed using the focusChainTraversalKeyCombination.
+        /// @see firstNamedAncestor below.
+        QAccessibleInterface *firstNamedAncestorOfPreviousIteration = nullptr;
+
+        /// Perform accessibility checks for every object that gets focus. Focus will be changed using the focusChainTraversalKeyCombination.
         std::set<const QObject *> testedObjects; // Makes sure we stop testing when we arrive at an item that was already tested.
         while (qApp->focusObject() && !testedObjects.count(qApp->focusObject())) {
             const auto currentlyFocusedObject = qApp->focusObject();
+            const QAccessibleInterface *accessibleIntefaceOfCurrentlyFocusedObject = QAccessible::queryAccessibleInterface(currentlyFocusedObject);
+            QVERIFY(accessibleIntefaceOfCurrentlyFocusedObject);
 
+            /// Test that each object reachable by Tab or Shift+Tab has at least some accessible information. Objects without any accessible information
+            /// are even less useful to accessibility software users than unlabeled buttons are e.g. to sighted users, because unlabeled buttons at least
+            /// convey some information through their placement and icon.
+            if (currentlyFocusedObject != m_mainWindow->m_activeViewContainer->view()->m_container) { // Skip the custom container widget which has no
+                                                                                                      // accessible name on purpose.
+                /**
+                 * The first ancestor with an accessible name is interesting because it is sometimes used to identify an object if the object itself has no
+                 * name. We keep it in mind to check if two subsequent objects without a name can at least be told apart by their first named ancestor.
+                 */
+                QAccessibleInterface *firstNamedAncestor = accessibleIntefaceOfCurrentlyFocusedObject->parent();
+                while (firstNamedAncestor) {
+                    if (!firstNamedAncestor->text(QAccessible::Name).isEmpty()) {
+                        break;
+                    }
+                    firstNamedAncestor = firstNamedAncestor->parent();
+                }
+                QTRY_VERIFY2(!accessibleIntefaceOfCurrentlyFocusedObject->text(QAccessible::Name).isEmpty()
+                                 || (firstNamedAncestor && firstNamedAncestor != firstNamedAncestorOfPreviousIteration),
+                             qPrintable(QStringLiteral("%1's accessibleInterface does not have an accessible name and can not be distinguished from the object"
+                                                       " that had focus previously. Please fix this. You can find this %1 within its parent %2.")
+                                            .arg(currentlyFocusedObject->metaObject()->className())
+                                            .arg(currentlyFocusedObject->parent()->metaObject()->className())));
+                firstNamedAncestorOfPreviousIteration = firstNamedAncestor;
+            }
+
+            /// Test that each accessible interface has the main window as its parent.
             QAccessibleInterface *accessibleInterface = QAccessible::queryAccessibleInterface(currentlyFocusedObject);
             // The accessibleInterfaces of focused objects might themselves have children.
             // We go down that hierarchy as far as possible and then test the ancestor tree from there.
@@ -798,6 +829,8 @@ void DolphinMainWindowTest::testAccessibilityAncestorTree()
                                                                                       // after going forwards which is probably not intended.
         }
     }
+    QCOMPARE_GE(testedObjectsSizeAfterTraversingForwards, 12); // The test did not reach many objects while using the Tab key to move through Dolphin. Did the
+                                                               // test run correctly?
 }
 
 void DolphinMainWindowTest::testAutoSaveSession()
