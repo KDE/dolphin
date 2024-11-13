@@ -126,7 +126,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     m_doubleClickViewComboBox->addItem(QIcon::fromTheme("list-add"), i18nc("@item:inlistbox", "Custom Command"), customCommand);
     m_doubleClickViewComboBox->insertSeparator(2);
 
-    DolphinMainWindow *mainWindow = static_cast<DolphinMainWindow *>(QApplication::activeWindow());
+    DolphinMainWindow *mainWindow = qobject_cast<DolphinMainWindow *>(QApplication::activeWindow());
+
     if (mainWindow != nullptr) {
         KActionCollection *actions = mainWindow->actionCollection();
         // get the allowed actions from actionCollection and add them to the combobox
