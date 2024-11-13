@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-07 00:42+0000\n"
+"POT-Creation-Date: 2024-11-13 00:42+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -5198,51 +5198,51 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Revelar celat files"
 
-#: statusbar/statusbarspaceinfo.cpp:136
+#: statusbar/statusbarspaceinfo.cpp:145
 #, fuzzy, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Fólder es vacui"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:156
 #, fuzzy, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Actual fólder e sub-fólderes"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:169
 #, fuzzy, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Null aparates Bluetooth es trovat"
 
-#: statusbar/statusbarspaceinfo.cpp:173
+#: statusbar/statusbarspaceinfo.cpp:182
 #, kde-format
 msgid "KDiskFree"
 msgstr ""
 
-#: statusbar/statusbarspaceinfo.cpp:199
+#: statusbar/statusbarspaceinfo.cpp:208
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
 msgstr "Copiat successosimen."
 
-#: statusbar/statusbarspaceinfo.cpp:207
+#: statusbar/statusbarspaceinfo.cpp:216
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
 msgstr "Installante actualisamentes e reiniciante pos %1 secondes"
 
-#: statusbar/statusbarspaceinfo.cpp:234
+#: statusbar/statusbarspaceinfo.cpp:243
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 líber"
 
-#: statusbar/statusbarspaceinfo.cpp:235
+#: statusbar/statusbarspaceinfo.cpp:244
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 líber ex %2 (%3% usat)"
 
-#: statusbar/statusbarspaceinfo.cpp:237
+#: statusbar/statusbarspaceinfo.cpp:246
 #, fuzzy, kde-format
 #| msgctxt "tooltip:status Free disk space"
 #| msgid "%1 free out of %2 (%3% used)"
@@ -5252,14 +5252,14 @@ msgid ""
 "Press to manage disk space usage."
 msgstr "%1 líber"
 
-#: statusbar/statusbarspaceinfo.cpp:263
+#: statusbar/statusbarspaceinfo.cpp:272
 #, fuzzy, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
 msgstr "%1 líber"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
-#: statusbar/statusbarspaceinfo.cpp:275
+#: statusbar/statusbarspaceinfo.cpp:284
 #, fuzzy, kde-kuit-format
 msgctxt "@title"
 msgid ""
@@ -5267,7 +5267,7 @@ msgid ""
 "identify big files and folders.</para>"
 msgstr "Fólderes"
 
-#: statusbar/statusbarspaceinfo.cpp:284
+#: statusbar/statusbarspaceinfo.cpp:293
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"

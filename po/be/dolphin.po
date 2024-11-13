@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-07 00:42+0000\n"
+"POT-Creation-Date: 2024-11-13 00:42+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5513,51 +5513,51 @@ msgctxt "@action:inmenu"
 msgid "Show Space Information"
 msgstr "Паказваць звесткі пра прастору"
 
-#: statusbar/statusbarspaceinfo.cpp:136
+#: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
 msgstr "Статыстыка выкарыстання дыска - бягучы каталог"
 
-#: statusbar/statusbarspaceinfo.cpp:147
+#: statusbar/statusbarspaceinfo.cpp:156
 #, kde-format
 msgid "Disk Usage Statistics - current device"
 msgstr "Статыстыка выкарыстання дыска - бягучая прылада"
 
-#: statusbar/statusbarspaceinfo.cpp:160
+#: statusbar/statusbarspaceinfo.cpp:169
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
 msgstr "Статыстыка выкарыстання дыска - усе прылады"
 
-#: statusbar/statusbarspaceinfo.cpp:173
+#: statusbar/statusbarspaceinfo.cpp:182
 #, kde-format
 msgid "KDiskFree"
 msgstr "KDiskFree"
 
-#: statusbar/statusbarspaceinfo.cpp:199
+#: statusbar/statusbarspaceinfo.cpp:208
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
 msgstr "<application>Filelight</application> паспяхова ўсталяваны."
 
-#: statusbar/statusbarspaceinfo.cpp:207
+#: statusbar/statusbarspaceinfo.cpp:216
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
 msgstr "Усталяванне Filelight…"
 
-#: statusbar/statusbarspaceinfo.cpp:234
+#: statusbar/statusbarspaceinfo.cpp:243
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "Вольна %1"
 
-#: statusbar/statusbarspaceinfo.cpp:235
+#: statusbar/statusbarspaceinfo.cpp:244
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 вольна з %2 (%3% выкарыстоўваецца)"
 
-#: statusbar/statusbarspaceinfo.cpp:237
+#: statusbar/statusbarspaceinfo.cpp:246
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -5567,14 +5567,14 @@ msgstr ""
 "%1 вольна з %2 (%3% выкарыстоўваецца)\n"
 "Націсніце, каб кіраваць выкарыстаннем прасторы на дыску."
 
-#: statusbar/statusbarspaceinfo.cpp:263
+#: statusbar/statusbarspaceinfo.cpp:272
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
 msgstr "Вызваліць ​​месца на дыску"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
-#: statusbar/statusbarspaceinfo.cpp:275
+#: statusbar/statusbarspaceinfo.cpp:284
 #, kde-kuit-format
 msgctxt "@title"
 msgid ""
@@ -5584,7 +5584,7 @@ msgstr ""
 "<para>Усталюйце дадатковае праграмнае забеспячэнне для прагляду статыстыкі "
 "выкарыстання дыска<nl/>і выяўлення вялікіх файлаў і каталогаў.</para>"
 
-#: statusbar/statusbarspaceinfo.cpp:284
+#: statusbar/statusbarspaceinfo.cpp:293
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
