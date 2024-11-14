@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-13 00:42+0000\n"
+"POT-Creation-Date: 2024-11-14 00:42+0000\n"
 "PO-Revision-Date: 2024-10-29 07:53+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -4491,7 +4491,7 @@ msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "להתחיל בתצוגה מפוצלת"
 
-#: settings/interface/folderstabssettingspage.cpp:291
+#: settings/interface/folderstabssettingspage.cpp:290
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4966,19 +4966,19 @@ msgstr "פקודה מותאמת אישית"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:150
+#: settings/viewmodes/generalviewsettingspage.cpp:151
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "הזנקות לחיצה כפולה"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:157
+#: settings/viewmodes/generalviewsettingspage.cpp:158
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "רקע:"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:162
+#: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -4986,13 +4986,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr "נא למלא פקודה מותאמת להזנקה בזמן לחיצה כפולה על רקע התצוגה"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:163
+#: settings/viewmodes/generalviewsettingspage.cpp:164
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "פקודה…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:167
+#: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
 msgctxt "@label"
 msgid ""
