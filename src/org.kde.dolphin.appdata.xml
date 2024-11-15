@@ -530,4 +530,7 @@
     <color type="primary" scheme_preference="light">#67c4ff</color>
     <color type="primary" scheme_preference="dark">#19455b</color>
   </branding>
+  <custom>
+    <value key="KDE::supporters">Ian Lohmann</value>
+  </custom>
 </component>
