@@ -2249,7 +2249,24 @@ int KFileItemModel::stringCompare(const QString &a, const QString &b, const QCol
     QMutexLocker collatorLock(s_collatorMutex());
 
     if (m_naturalSorting) {
-        return collator.compare(a, b);
+        // Split extension, taking into account it can be empty
+        constexpr QString::SectionFlags flags = QString::SectionSkipEmpty | QString::SectionIncludeLeadingSep;
+
+        // Sort by baseName first
+        const QString aBaseName = a.section('.', 0, 0, flags);
+        const QString bBaseName = b.section('.', 0, 0, flags);
+
+        const int res = collator.compare(aBaseName, bBaseName);
+        if (res != 0 || (aBaseName.length() == a.length() && bBaseName.length() == b.length())) {
+            return res;
+        }
+
+        // sliced() has undefined behavior when pos < 0 or pos > size().
+        Q_ASSERT(aBaseName.length() <= a.length() && aBaseName.length() >= 0);
+        Q_ASSERT(bBaseName.length() <= b.length() && bBaseName.length() >= 0);
+
+        // baseNames were equal, sort by extension
+        return collator.compare(a.sliced(aBaseName.length()), b.sliced(bBaseName.length()));
     }
 
     const int result = QString::compare(a, b, collator.caseSensitivity());

@@ -69,6 +69,7 @@ private Q_SLOTS:
     void testMakeExpandedItemHidden();
     void testRemoveFilteredExpandedItems();
     void testSorting();
+    void testNaturalSorting();
     void testIndexForKeyboardSearch();
     void testNameFilter();
     void testEmptyPath();
@@ -1273,6 +1274,83 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(itemsMovedSpy.count(), 1);
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 10));
     QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1 << 6 << 7 << 9 << 8);
+}
+
+void KFileItemModelTest::testNaturalSorting()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
+    QVERIFY(itemsMovedSpy.isValid());
+
+    m_model->setSortRole("text");
+    m_model->setShowHiddenFiles(true);
+
+    m_testDir->createFiles({".a", "a.txt", "b.txt", "a 1.txt", "a 2.txt", "a 10.txt", "a.tar", "b.tar"});
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Sort by Name, ascending, natural sorting enabled
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << "a.tar"
+                           << "a.txt"
+                           << "a 1.txt"
+                           << "a 2.txt"
+                           << "a 10.txt"
+                           << "b.tar"
+                           << "b.txt");
+
+    // Sort by Extension
+    m_model->setSortRole("extension");
+    QCOMPARE(m_model->sortRole(), QByteArray("extension"));
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << "a.tar"
+                           << "b.tar"
+                           << "a.txt"
+                           << "a 1.txt"
+                           << "a 2.txt"
+                           << "a 10.txt"
+                           << "b.txt");
+    QCOMPARE(itemsMovedSpy.count(), 1);
+    QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(2, 5));
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 3 << 4 << 5 << 6 << 2);
+
+    // Disable natural sorting, refresh directory for the change to take effect
+    m_model->m_naturalSorting = false;
+    m_model->refreshDirectory(m_model->directory());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Sort by Extension, ascending, natural sorting disabled
+    QCOMPARE(m_model->sortRole(), QByteArray("extension"));
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << "a.tar"
+                           << "b.tar"
+                           << "a 1.txt"
+                           << "a 10.txt"
+                           << "a 2.txt"
+                           << "a.txt"
+                           << "b.txt");
+
+    // Sort by Name
+    m_model->setSortRole("text");
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
+    QCOMPARE(itemsInModel(),
+             QStringList() << ".a"
+                           << "a 1.txt"
+                           << "a 10.txt"
+                           << "a 2.txt"
+                           << "a.tar"
+                           << "a.txt"
+                           << "b.tar"
+                           << "b.txt");
+    QCOMPARE(itemsMovedSpy.count(), 1);
+    QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(1, 6));
+    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int>>(), QList<int>() << 4 << 6 << 1 << 2 << 3 << 5);
 }
 
 void KFileItemModelTest::testIndexForKeyboardSearch()
