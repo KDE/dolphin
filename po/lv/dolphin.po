@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-14 00:42+0000\n"
-"PO-Revision-Date: 2024-11-01 20:02+0200\n"
+"PO-Revision-Date: 2024-11-13 19:09+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3918,8 +3918,8 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"Šī opcija kontrolē skata stilu. Pašlaik atbalstītās vērtības ir ikonu (0), "
-"detaļu (1) un kolonnu (2) skats."
+"Šī opcija nosaka skata stilu. Pašlaik atbalstītās vērtības ir ikonu (0), "
+"izvērstais (1) un kolonnu (2) skats."
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:31
@@ -4770,7 +4770,7 @@ msgstr "Kompakts"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
-msgstr "Detaļas"
+msgstr "Izvērsta informācija"
 
 #: settings/viewmodes/contentdisplaytab.cpp:38
 #, kde-format
@@ -5251,7 +5251,7 @@ msgstr "Kompakts"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
-msgstr "Detaļas"
+msgstr "Izvērsta informācija"
 
 #: settings/viewpropertiesdialog.cpp:77
 #, kde-format
@@ -6095,7 +6095,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
-msgstr "Ikonas"
+msgstr "Ikonu"
 
 #: views/dolphinviewactionhandler.cpp:636
 #, kde-format
@@ -6107,7 +6107,7 @@ msgstr "Ikonu skata režīms"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
-msgstr "Kompakts"
+msgstr "Kompaktais"
 
 #: views/dolphinviewactionhandler.cpp:647
 #, kde-format
@@ -6119,13 +6119,13 @@ msgstr "Kompaktā skata režīms"
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
-msgstr "Detaļas"
+msgstr "Izvērstais"
 
 #: views/dolphinviewactionhandler.cpp:658
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
-msgstr "Detalizēts skata režīms"
+msgstr "Izvērstais skata režīms"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
