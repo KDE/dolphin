@@ -531,6 +531,6 @@
     <color type="primary" scheme_preference="dark">#19455b</color>
   </branding>
   <custom>
-    <value key="KDE::supporters">Ian Lohmann;Anthony Perrett;Linus Seelinger;Nils Martens</value>
+    <value key="KDE::supporters">Ian Lohmann;Anthony Perrett;Linus Seelinger;Nils Martens;[mdPlusPlus](https://github.com/mdPlusPlus)</value>
   </custom>
 </component>
