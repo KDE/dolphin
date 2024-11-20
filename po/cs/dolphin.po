@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-14 00:42+0000\n"
+"POT-Creation-Date: 2024-11-20 00:42+0000\n"
 "PO-Revision-Date: 2024-08-20 08:36+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2024,92 +2024,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2323
+#: kitemviews/kfileitemmodel.cpp:2340
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2325
+#: kitemviews/kfileitemmodel.cpp:2342
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Ostatní"
 
-#: kitemviews/kfileitemmodel.cpp:2357
+#: kitemviews/kfileitemmodel.cpp:2374
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Složky"
 
-#: kitemviews/kfileitemmodel.cpp:2365
+#: kitemviews/kfileitemmodel.cpp:2382
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Malá"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2384
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Střední"
 
-#: kitemviews/kfileitemmodel.cpp:2369
+#: kitemviews/kfileitemmodel.cpp:2386
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Velká"
 
-#: kitemviews/kfileitemmodel.cpp:2415
+#: kitemviews/kfileitemmodel.cpp:2432
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Dnes"
 
-#: kitemviews/kfileitemmodel.cpp:2418
+#: kitemviews/kfileitemmodel.cpp:2435
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Včera"
 
-#: kitemviews/kfileitemmodel.cpp:2421
+#: kitemviews/kfileitemmodel.cpp:2438
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2425
+#: kitemviews/kfileitemmodel.cpp:2442
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2430
+#: kitemviews/kfileitemmodel.cpp:2447
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Před týdnem"
 
-#: kitemviews/kfileitemmodel.cpp:2433
+#: kitemviews/kfileitemmodel.cpp:2450
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Před 2 týdny"
 
-#: kitemviews/kfileitemmodel.cpp:2436
+#: kitemviews/kfileitemmodel.cpp:2453
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Před 3 týdny"
 
-#: kitemviews/kfileitemmodel.cpp:2440
+#: kitemviews/kfileitemmodel.cpp:2457
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Dříve tento měsíc"
 
-#: kitemviews/kfileitemmodel.cpp:2454
+#: kitemviews/kfileitemmodel.cpp:2471
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2119,7 +2119,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Včera' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2461
+#: kitemviews/kfileitemmodel.cpp:2478
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2127,7 +2127,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2474
+#: kitemviews/kfileitemmodel.cpp:2491
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2135,7 +2135,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2478
+#: kitemviews/kfileitemmodel.cpp:2495
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2143,7 +2143,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2486
+#: kitemviews/kfileitemmodel.cpp:2503
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2153,7 +2153,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Před týdnem' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2493
+#: kitemviews/kfileitemmodel.cpp:2510
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2161,7 +2161,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2524
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2171,7 +2171,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Před 2 týdny' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2514
+#: kitemviews/kfileitemmodel.cpp:2531
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2179,7 +2179,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2528
+#: kitemviews/kfileitemmodel.cpp:2545
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2189,7 +2189,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Před 3 týdny' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2535
+#: kitemviews/kfileitemmodel.cpp:2552
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2197,7 +2197,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2549
+#: kitemviews/kfileitemmodel.cpp:2566
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2207,7 +2207,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Dříve' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2556
+#: kitemviews/kfileitemmodel.cpp:2573
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2215,7 +2215,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2587
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2223,7 +2223,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2574
+#: kitemviews/kfileitemmodel.cpp:2591
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2231,275 +2231,275 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2614 kitemviews/kfileitemmodel.cpp:2627
-#: kitemviews/kfileitemmodel.cpp:2640
+#: kitemviews/kfileitemmodel.cpp:2631 kitemviews/kfileitemmodel.cpp:2644
+#: kitemviews/kfileitemmodel.cpp:2657
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Čtení, "
 
-#: kitemviews/kfileitemmodel.cpp:2617 kitemviews/kfileitemmodel.cpp:2630
-#: kitemviews/kfileitemmodel.cpp:2643
+#: kitemviews/kfileitemmodel.cpp:2634 kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2660
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Zápis, "
 
-#: kitemviews/kfileitemmodel.cpp:2620 kitemviews/kfileitemmodel.cpp:2633
-#: kitemviews/kfileitemmodel.cpp:2646
+#: kitemviews/kfileitemmodel.cpp:2637 kitemviews/kfileitemmodel.cpp:2650
+#: kitemviews/kfileitemmodel.cpp:2663
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Spuštění, "
 
-#: kitemviews/kfileitemmodel.cpp:2622 kitemviews/kfileitemmodel.cpp:2635
-#: kitemviews/kfileitemmodel.cpp:2648
+#: kitemviews/kfileitemmodel.cpp:2639 kitemviews/kfileitemmodel.cpp:2652
+#: kitemviews/kfileitemmodel.cpp:2665
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Zakázáno"
 
-#: kitemviews/kfileitemmodel.cpp:2650
+#: kitemviews/kfileitemmodel.cpp:2667
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Uživatel: %1 | Skupina: %2 | Ostatní: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2757
 msgctxt "@label"
 msgid "Name"
 msgstr "Název"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2758
 msgctxt "@label"
 msgid "Size"
 msgstr "Velikost"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2759
 msgctxt "@label"
 msgid "Modified"
 msgstr "Změněno"
 
-#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2759 kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2761
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2760
 msgctxt "@label"
 msgid "Created"
 msgstr "Vytvořeno"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2761
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Poslední přístup"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
 msgid "Type"
 msgstr "Typ"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2763
 msgctxt "@label"
 msgid "Rating"
 msgstr "Hodnocení"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2764
 msgctxt "@label"
 msgid "Tags"
 msgstr "Značky"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2765
 msgctxt "@label"
 msgid "Comment"
 msgstr "Komentář"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Title"
 msgstr "Název"
 
-#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
-#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
-#: kitemviews/kfileitemmodel.cpp:2753 kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2766 kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2768 kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Document"
 msgstr "Dokument"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2767
 msgctxt "@label"
 msgid "Author"
 msgstr "Autor"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2768
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Vydavatel"
 
-#: kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2769
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Počet stran"
 
-#: kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2770
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Počet slov"
 
-#: kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Počet řádků"
 
-#: kitemviews/kfileitemmodel.cpp:2755
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Datum pořízení fotografie"
 
-#: kitemviews/kfileitemmodel.cpp:2755 kitemviews/kfileitemmodel.cpp:2756
-#: kitemviews/kfileitemmodel.cpp:2757 kitemviews/kfileitemmodel.cpp:2758
-#: kitemviews/kfileitemmodel.cpp:2759
+#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2774 kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2776
 msgctxt "@label"
 msgid "Image"
 msgstr "Obrázek"
 
-#: kitemviews/kfileitemmodel.cpp:2756
+#: kitemviews/kfileitemmodel.cpp:2773
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Rozměry"
 
-#: kitemviews/kfileitemmodel.cpp:2757
+#: kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "Width"
 msgstr "Šířka"
 
-#: kitemviews/kfileitemmodel.cpp:2758
+#: kitemviews/kfileitemmodel.cpp:2775
 msgctxt "@label"
 msgid "Height"
 msgstr "Výška"
 
-#: kitemviews/kfileitemmodel.cpp:2759
+#: kitemviews/kfileitemmodel.cpp:2776
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Natočení"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2777
 msgctxt "@label"
 msgid "Artist"
 msgstr "Umělec"
 
-#: kitemviews/kfileitemmodel.cpp:2760 kitemviews/kfileitemmodel.cpp:2761
-#: kitemviews/kfileitemmodel.cpp:2762 kitemviews/kfileitemmodel.cpp:2763
-#: kitemviews/kfileitemmodel.cpp:2764 kitemviews/kfileitemmodel.cpp:2765
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2777 kitemviews/kfileitemmodel.cpp:2778
+#: kitemviews/kfileitemmodel.cpp:2779 kitemviews/kfileitemmodel.cpp:2780
+#: kitemviews/kfileitemmodel.cpp:2781 kitemviews/kfileitemmodel.cpp:2782
+#: kitemviews/kfileitemmodel.cpp:2783
 msgctxt "@label"
 msgid "Audio"
 msgstr "Zvuk"
 
-#: kitemviews/kfileitemmodel.cpp:2761
+#: kitemviews/kfileitemmodel.cpp:2778
 msgctxt "@label"
 msgid "Genre"
 msgstr "Žánr"
 
-#: kitemviews/kfileitemmodel.cpp:2762
+#: kitemviews/kfileitemmodel.cpp:2779
 msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2763 kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2780 kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@label"
 msgid "Duration"
 msgstr "Trvání"
 
-#: kitemviews/kfileitemmodel.cpp:2764
+#: kitemviews/kfileitemmodel.cpp:2781
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Datový tok"
 
-#: kitemviews/kfileitemmodel.cpp:2765
+#: kitemviews/kfileitemmodel.cpp:2782
 msgctxt "@label"
 msgid "Track"
 msgstr "Skladba"
 
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2783
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Rok vydání"
 
-#: kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2784
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Poměr stran"
 
-#: kitemviews/kfileitemmodel.cpp:2767 kitemviews/kfileitemmodel.cpp:2768
-#: kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2784 kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@label"
 msgid "Video"
 msgstr "Video"
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2785
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Snímkovací frekvence"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2787
 msgctxt "@label"
 msgid "Path"
 msgstr "Cesta"
 
-#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
-#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
-#: kitemviews/kfileitemmodel.cpp:2774 kitemviews/kfileitemmodel.cpp:2775
-#: kitemviews/kfileitemmodel.cpp:2776 kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2787 kitemviews/kfileitemmodel.cpp:2788
+#: kitemviews/kfileitemmodel.cpp:2789 kitemviews/kfileitemmodel.cpp:2790
+#: kitemviews/kfileitemmodel.cpp:2791 kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2793 kitemviews/kfileitemmodel.cpp:2794
 msgctxt "@label"
 msgid "Other"
 msgstr "Ostatní"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2788
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Přípona souboru"
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2789
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Čas vymazání"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2790
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Cíl odkazu"
 
-#: kitemviews/kfileitemmodel.cpp:2774
+#: kitemviews/kfileitemmodel.cpp:2791
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Staženo z"
 
-#: kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2792
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Oprávnění"
 
-#: kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2792
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2776
+#: kitemviews/kfileitemmodel.cpp:2793
 msgctxt "@label"
 msgid "Owner"
 msgstr "Vlastník"
 
-#: kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2794
 msgctxt "@label"
 msgid "User Group"
 msgstr "Uživatelská skupina"
 
-#: kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2895
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."

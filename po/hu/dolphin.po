@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-14 00:42+0000\n"
-"PO-Revision-Date: 2024-08-05 21:53+0200\n"
+"POT-Creation-Date: 2024-11-20 00:42+0000\n"
+"PO-Revision-Date: 2024-11-19 19:47+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2278,92 +2278,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2323
+#: kitemviews/kfileitemmodel.cpp:2340
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0 - 9"
 
-#: kitemviews/kfileitemmodel.cpp:2325
+#: kitemviews/kfileitemmodel.cpp:2342
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Egyéb"
 
-#: kitemviews/kfileitemmodel.cpp:2357
+#: kitemviews/kfileitemmodel.cpp:2374
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Mappák"
 
-#: kitemviews/kfileitemmodel.cpp:2365
+#: kitemviews/kfileitemmodel.cpp:2382
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Kicsi"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2384
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Közepes"
 
-#: kitemviews/kfileitemmodel.cpp:2369
+#: kitemviews/kfileitemmodel.cpp:2386
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Nagy"
 
-#: kitemviews/kfileitemmodel.cpp:2415
+#: kitemviews/kfileitemmodel.cpp:2432
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Ma"
 
-#: kitemviews/kfileitemmodel.cpp:2418
+#: kitemviews/kfileitemmodel.cpp:2435
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: kitemviews/kfileitemmodel.cpp:2421
+#: kitemviews/kfileitemmodel.cpp:2438
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2425
+#: kitemviews/kfileitemmodel.cpp:2442
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2430
+#: kitemviews/kfileitemmodel.cpp:2447
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Egy héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2433
+#: kitemviews/kfileitemmodel.cpp:2450
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Két héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2436
+#: kitemviews/kfileitemmodel.cpp:2453
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Három héttel ezelőtt"
 
-#: kitemviews/kfileitemmodel.cpp:2440
+#: kitemviews/kfileitemmodel.cpp:2457
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Korábban ebben a hónapban"
 
-#: kitemviews/kfileitemmodel.cpp:2454
+#: kitemviews/kfileitemmodel.cpp:2471
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2373,7 +2373,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Tegnap' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2461
+#: kitemviews/kfileitemmodel.cpp:2478
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2381,7 +2381,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2474
+#: kitemviews/kfileitemmodel.cpp:2491
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2389,7 +2389,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2478
+#: kitemviews/kfileitemmodel.cpp:2495
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2397,7 +2397,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2486
+#: kitemviews/kfileitemmodel.cpp:2503
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2407,7 +2407,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Egy héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2493
+#: kitemviews/kfileitemmodel.cpp:2510
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2415,7 +2415,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2524
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2425,7 +2425,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Két héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2514
+#: kitemviews/kfileitemmodel.cpp:2531
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2433,7 +2433,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2528
+#: kitemviews/kfileitemmodel.cpp:2545
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2443,7 +2443,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Három héttel ezelőtt' (yyyy MMMM)"
 
-#: kitemviews/kfileitemmodel.cpp:2535
+#: kitemviews/kfileitemmodel.cpp:2552
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2451,7 +2451,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2549
+#: kitemviews/kfileitemmodel.cpp:2566
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2461,7 +2461,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Korábban ekkor:' yyyy MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2556
+#: kitemviews/kfileitemmodel.cpp:2573
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2469,7 +2469,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2587
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2477,7 +2477,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "yyyy MMMM"
 
-#: kitemviews/kfileitemmodel.cpp:2574
+#: kitemviews/kfileitemmodel.cpp:2591
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2485,258 +2485,258 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2614 kitemviews/kfileitemmodel.cpp:2627
-#: kitemviews/kfileitemmodel.cpp:2640
+#: kitemviews/kfileitemmodel.cpp:2631 kitemviews/kfileitemmodel.cpp:2644
+#: kitemviews/kfileitemmodel.cpp:2657
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Olvasás, "
 
-#: kitemviews/kfileitemmodel.cpp:2617 kitemviews/kfileitemmodel.cpp:2630
-#: kitemviews/kfileitemmodel.cpp:2643
+#: kitemviews/kfileitemmodel.cpp:2634 kitemviews/kfileitemmodel.cpp:2647
+#: kitemviews/kfileitemmodel.cpp:2660
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Írás, "
 
-#: kitemviews/kfileitemmodel.cpp:2620 kitemviews/kfileitemmodel.cpp:2633
-#: kitemviews/kfileitemmodel.cpp:2646
+#: kitemviews/kfileitemmodel.cpp:2637 kitemviews/kfileitemmodel.cpp:2650
+#: kitemviews/kfileitemmodel.cpp:2663
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Futtatás, "
 
-#: kitemviews/kfileitemmodel.cpp:2622 kitemviews/kfileitemmodel.cpp:2635
-#: kitemviews/kfileitemmodel.cpp:2648
+#: kitemviews/kfileitemmodel.cpp:2639 kitemviews/kfileitemmodel.cpp:2652
+#: kitemviews/kfileitemmodel.cpp:2665
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Tiltott"
 
-#: kitemviews/kfileitemmodel.cpp:2650
+#: kitemviews/kfileitemmodel.cpp:2667
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Felhasználó: %1 | Csoport: %2 | Egyéb: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2740
+#: kitemviews/kfileitemmodel.cpp:2757
 msgctxt "@label"
 msgid "Name"
 msgstr "Név"
 
-#: kitemviews/kfileitemmodel.cpp:2741
+#: kitemviews/kfileitemmodel.cpp:2758
 msgctxt "@label"
 msgid "Size"
 msgstr "Méret"
 
-#: kitemviews/kfileitemmodel.cpp:2742
+#: kitemviews/kfileitemmodel.cpp:2759
 msgctxt "@label"
 msgid "Modified"
 msgstr "Módosítás"
 
-#: kitemviews/kfileitemmodel.cpp:2742 kitemviews/kfileitemmodel.cpp:2743
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2759 kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2761
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "A dátumformátum a beállításokban választható ki."
 
-#: kitemviews/kfileitemmodel.cpp:2743
+#: kitemviews/kfileitemmodel.cpp:2760
 msgctxt "@label"
 msgid "Created"
 msgstr "Létrehozva"
 
-#: kitemviews/kfileitemmodel.cpp:2744
+#: kitemviews/kfileitemmodel.cpp:2761
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Hozzáférés"
 
-#: kitemviews/kfileitemmodel.cpp:2745
+#: kitemviews/kfileitemmodel.cpp:2762
 msgctxt "@label"
 msgid "Type"
 msgstr "Típus"
 
-#: kitemviews/kfileitemmodel.cpp:2746
+#: kitemviews/kfileitemmodel.cpp:2763
 msgctxt "@label"
 msgid "Rating"
 msgstr "Értékelés"
 
-#: kitemviews/kfileitemmodel.cpp:2747
+#: kitemviews/kfileitemmodel.cpp:2764
 msgctxt "@label"
 msgid "Tags"
 msgstr "Címkék"
 
-#: kitemviews/kfileitemmodel.cpp:2748
+#: kitemviews/kfileitemmodel.cpp:2765
 msgctxt "@label"
 msgid "Comment"
 msgstr "Megjegyzés"
 
-#: kitemviews/kfileitemmodel.cpp:2749
+#: kitemviews/kfileitemmodel.cpp:2766
 msgctxt "@label"
 msgid "Title"
 msgstr "Cím"
 
-#: kitemviews/kfileitemmodel.cpp:2749 kitemviews/kfileitemmodel.cpp:2750
-#: kitemviews/kfileitemmodel.cpp:2751 kitemviews/kfileitemmodel.cpp:2752
-#: kitemviews/kfileitemmodel.cpp:2753 kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2766 kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2768 kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Document"
 msgstr "Dokumentum"
 
-#: kitemviews/kfileitemmodel.cpp:2750
+#: kitemviews/kfileitemmodel.cpp:2767
 msgctxt "@label"
 msgid "Author"
 msgstr "Szerző"
 
-#: kitemviews/kfileitemmodel.cpp:2751
+#: kitemviews/kfileitemmodel.cpp:2768
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Kiadó"
 
-#: kitemviews/kfileitemmodel.cpp:2752
+#: kitemviews/kfileitemmodel.cpp:2769
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Oldalszám"
 
-#: kitemviews/kfileitemmodel.cpp:2753
+#: kitemviews/kfileitemmodel.cpp:2770
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Szavak száma"
 
-#: kitemviews/kfileitemmodel.cpp:2754
+#: kitemviews/kfileitemmodel.cpp:2771
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Sorok száma"
 
-#: kitemviews/kfileitemmodel.cpp:2755
+#: kitemviews/kfileitemmodel.cpp:2772
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Fényképezés dátuma"
 
-#: kitemviews/kfileitemmodel.cpp:2755 kitemviews/kfileitemmodel.cpp:2756
-#: kitemviews/kfileitemmodel.cpp:2757 kitemviews/kfileitemmodel.cpp:2758
-#: kitemviews/kfileitemmodel.cpp:2759
+#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2774 kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2776
 msgctxt "@label"
 msgid "Image"
 msgstr "Kép"
 
-#: kitemviews/kfileitemmodel.cpp:2756
+#: kitemviews/kfileitemmodel.cpp:2773
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Méretek"
 
-#: kitemviews/kfileitemmodel.cpp:2757
+#: kitemviews/kfileitemmodel.cpp:2774
 msgctxt "@label"
 msgid "Width"
 msgstr "Szélesség"
 
-#: kitemviews/kfileitemmodel.cpp:2758
+#: kitemviews/kfileitemmodel.cpp:2775
 msgctxt "@label"
 msgid "Height"
 msgstr "Magasság"
 
-#: kitemviews/kfileitemmodel.cpp:2759
+#: kitemviews/kfileitemmodel.cpp:2776
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Tájolás"
 
-#: kitemviews/kfileitemmodel.cpp:2760
+#: kitemviews/kfileitemmodel.cpp:2777
 msgctxt "@label"
 msgid "Artist"
 msgstr "Előadó"
 
-#: kitemviews/kfileitemmodel.cpp:2760 kitemviews/kfileitemmodel.cpp:2761
-#: kitemviews/kfileitemmodel.cpp:2762 kitemviews/kfileitemmodel.cpp:2763
-#: kitemviews/kfileitemmodel.cpp:2764 kitemviews/kfileitemmodel.cpp:2765
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2777 kitemviews/kfileitemmodel.cpp:2778
+#: kitemviews/kfileitemmodel.cpp:2779 kitemviews/kfileitemmodel.cpp:2780
+#: kitemviews/kfileitemmodel.cpp:2781 kitemviews/kfileitemmodel.cpp:2782
+#: kitemviews/kfileitemmodel.cpp:2783
 msgctxt "@label"
 msgid "Audio"
 msgstr "Hang"
 
-#: kitemviews/kfileitemmodel.cpp:2761
+#: kitemviews/kfileitemmodel.cpp:2778
 msgctxt "@label"
 msgid "Genre"
 msgstr "Műfaj"
 
-#: kitemviews/kfileitemmodel.cpp:2762
+#: kitemviews/kfileitemmodel.cpp:2779
 msgctxt "@label"
 msgid "Album"
 msgstr "Album"
 
-#: kitemviews/kfileitemmodel.cpp:2763 kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2780 kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@label"
 msgid "Duration"
 msgstr "Időtartam"
 
-#: kitemviews/kfileitemmodel.cpp:2764
+#: kitemviews/kfileitemmodel.cpp:2781
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Bitsebesség"
 
-#: kitemviews/kfileitemmodel.cpp:2765
+#: kitemviews/kfileitemmodel.cpp:2782
 msgctxt "@label"
 msgid "Track"
 msgstr "Szám"
 
-#: kitemviews/kfileitemmodel.cpp:2766
+#: kitemviews/kfileitemmodel.cpp:2783
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Kiadás éve"
 
-#: kitemviews/kfileitemmodel.cpp:2767
+#: kitemviews/kfileitemmodel.cpp:2784
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Méretarány"
 
-#: kitemviews/kfileitemmodel.cpp:2767 kitemviews/kfileitemmodel.cpp:2768
-#: kitemviews/kfileitemmodel.cpp:2769
+#: kitemviews/kfileitemmodel.cpp:2784 kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@label"
 msgid "Video"
 msgstr "Videó"
 
-#: kitemviews/kfileitemmodel.cpp:2768
+#: kitemviews/kfileitemmodel.cpp:2785
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Képkockaszám"
 
-#: kitemviews/kfileitemmodel.cpp:2770
+#: kitemviews/kfileitemmodel.cpp:2787
 msgctxt "@label"
 msgid "Path"
 msgstr "Útvonal"
 
-#: kitemviews/kfileitemmodel.cpp:2770 kitemviews/kfileitemmodel.cpp:2771
-#: kitemviews/kfileitemmodel.cpp:2772 kitemviews/kfileitemmodel.cpp:2773
-#: kitemviews/kfileitemmodel.cpp:2774 kitemviews/kfileitemmodel.cpp:2775
-#: kitemviews/kfileitemmodel.cpp:2776 kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2787 kitemviews/kfileitemmodel.cpp:2788
+#: kitemviews/kfileitemmodel.cpp:2789 kitemviews/kfileitemmodel.cpp:2790
+#: kitemviews/kfileitemmodel.cpp:2791 kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2793 kitemviews/kfileitemmodel.cpp:2794
 msgctxt "@label"
 msgid "Other"
 msgstr "Egyéb"
 
-#: kitemviews/kfileitemmodel.cpp:2771
+#: kitemviews/kfileitemmodel.cpp:2788
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Fájlkiterjesztés"
 
-#: kitemviews/kfileitemmodel.cpp:2772
+#: kitemviews/kfileitemmodel.cpp:2789
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Törlési idő"
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2790
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Hivatkozás célja"
 
-#: kitemviews/kfileitemmodel.cpp:2774
+#: kitemviews/kfileitemmodel.cpp:2791
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Letöltve innen"
 
-#: kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2792
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Jogosultságok"
 
-#: kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2792
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -2745,17 +2745,17 @@ msgstr ""
 "A jogosultságformátum a beállításokban módosítható. A lehetőségek a "
 "Szimbolikus, Numerikus (oktális) vagy a Kombinált formátum"
 
-#: kitemviews/kfileitemmodel.cpp:2776
+#: kitemviews/kfileitemmodel.cpp:2793
 msgctxt "@label"
 msgid "Owner"
 msgstr "Tulajdonos"
 
-#: kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2794
 msgctxt "@label"
 msgid "User Group"
 msgstr "Felhasználócsoport"
 
-#: kitemviews/kfileitemmodel.cpp:2878
+#: kitemviews/kfileitemmodel.cpp:2895
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
@@ -4676,21 +4676,16 @@ msgid "files of any size"
 msgstr ""
 
 #: settings/interface/previewssettingspage.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 file"
-#| msgid_plural "%1 files"
+#, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "1 fájl"
+msgstr "nincs fájl"
 
 #: settings/interface/previewssettingspage.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr "Mappák és fájlok előnézetének megjelenítése"
+msgstr "Mappák előnézetének megjelenítése"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -5015,15 +5010,13 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
-msgstr ""
+msgstr "Semmi"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Font"
-#| msgid "Custom Font"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
-msgstr "Egyedi betűtípus"
+msgstr "Egyéni parancs"
 
 #. i18n: This sentence is incomplete because the user can choose an action that is triggered in a combobox that will appear directly after "triggers".
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
@@ -5041,7 +5034,7 @@ msgstr "Fájlok és mappák megnyitása dupla kattintással"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr ""
+msgstr "Háttér: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format
@@ -5479,13 +5472,13 @@ msgstr "KDiskFree"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "A <application>Filelight</application> sikeresen telepítve."
 
 #: statusbar/statusbarspaceinfo.cpp:216
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Filelight telepítése…"
 
 #: statusbar/statusbarspaceinfo.cpp:243
 #, kde-format
@@ -5513,7 +5506,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Lemezterület felszabadítása"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:284
@@ -5523,12 +5516,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Telepítsen további szoftvereket a lemezhasználati statisztikák<nl/> "
+"megtekintéséhez és a nagy fájlok és mappák azonosításához.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:293
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Filelight telepítése…"
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
