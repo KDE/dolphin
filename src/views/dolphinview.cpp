@@ -1881,6 +1881,7 @@ void DolphinView::selectNextItem()
         }
         if (nextItem >= 0) {
             selectionManager->setSelected(nextItem, 1);
+            selectionManager->beginAnchoredSelection(nextItem);
         }
         m_selectNextItem = false;
     }
