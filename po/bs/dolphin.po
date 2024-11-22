@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 00:42+0000\n"
+"POT-Creation-Date: 2024-11-22 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -5836,130 +5836,130 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:2015
+#: views/dolphinview.cpp:2016
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj unutar linije"
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2020
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2021
+#: views/dolphinview.cpp:2022
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2024
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Prikaži skrivene datoteke"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2024
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Početni direktorij"
 
-#: views/dolphinview.cpp:2074
+#: views/dolphinview.cpp:2075
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2076
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacija '%1' nije valjana."
 
-#: views/dolphinview.cpp:2340
+#: views/dolphinview.cpp:2341
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2366
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2368
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2369
+#: views/dolphinview.cpp:2370
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2371
+#: views/dolphinview.cpp:2372
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2375
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2378
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2382
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Nedavno zatvorene kartice"
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2390
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nema pronađenih stavki."
 
-#: views/dolphinview.cpp:2391
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2393
+#: views/dolphinview.cpp:2394
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
