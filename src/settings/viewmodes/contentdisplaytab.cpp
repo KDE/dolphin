@@ -106,7 +106,7 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
 #ifndef Q_OS_WIN
     connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &SettingsPageBase::changed);
     connect(m_numberOfItems, &QRadioButton::toggled, this, &SettingsPageBase::changed);
-    connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
+    connect(m_sizeOfContents, &QRadioButton::toggled, this, [=, this]() {
         m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
     });
     connect(m_noDirectorySize, &QRadioButton::toggled, this, &SettingsPageBase::changed);

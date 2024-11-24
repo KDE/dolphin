@@ -278,7 +278,7 @@ void TerminalPanel::sendCdToTerminalKIOFuse(const QUrl &url)
     // If we can't do that for any reason, silently fail.
     auto reply = m_kiofuseInterface.mountUrl(url.toString());
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=](QDBusPendingCallWatcher *watcher) {
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=, this](QDBusPendingCallWatcher *watcher) {
         watcher->deleteLater();
         if (!reply.isError()) {
             // Successfully mounted, point to the KIOFuse equivalent path.
@@ -326,7 +326,7 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString &dir)
 
     auto reply = m_kiofuseInterface.remoteUrl(m_konsolePartCurrentDirectory);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=](QDBusPendingCallWatcher *watcher) {
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=, this](QDBusPendingCallWatcher *watcher) {
         watcher->deleteLater();
         if (reply.isError()) {
             // KIOFuse errored out... just show the normal URL

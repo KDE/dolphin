@@ -137,10 +137,10 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     m_view->setAccessibleParentsObject(m_container);
 #endif
     setFocusProxy(m_container);
-    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] {
+    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         hideToolTip();
     });
-    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] {
+    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         hideToolTip();
     });
 

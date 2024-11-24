@@ -1608,10 +1608,10 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
         curve.addCubicBezierSegment(QPointF(0.4, 0.0), QPointF(1.0, 1.0), QPointF(1.0, 1.0));
         animation->setEasingCurve(curve);
 
-        connect(animation, &QVariantAnimation::valueChanged, this, [=](const QVariant &) {
+        connect(animation, &QVariantAnimation::valueChanged, this, [=, this](const QVariant &) {
             update();
         });
-        connect(animation, &QVariantAnimation::finished, this, [=]() {
+        connect(animation, &QVariantAnimation::finished, this, [=, this]() {
             m_rubberBandAnimations.removeAll(animation);
             delete animation;
         });

@@ -303,7 +303,7 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
 
     // Url changes are still done via m_urlNavigator.
     connect(urlNavigator, &DolphinUrlNavigator::urlChanged, m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
-    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
+    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped, this, [=, this](const QUrl &destination, QDropEvent *event) {
         m_view->dropUrls(destination, event, urlNavigator->dropWidget());
     });
     // Aside from these, only visual things need to be connected.
