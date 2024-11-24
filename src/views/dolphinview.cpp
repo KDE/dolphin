@@ -12,6 +12,8 @@
 #include "dolphinitemlistview.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "draganddrophelper.h"
+#include <kio/copyjob.h>
+#include <solid/storagedrive.h>
 #ifndef QT_NO_ACCESSIBILITY
 #include "kitemviews/accessibility/kitemlistviewaccessible.h"
 #endif
@@ -49,6 +51,7 @@
 #include <KMessageBox>
 #include <KProtocolManager>
 #include <KUrlMimeData>
+#include <Solid/Device>
 
 #include <kwidgetsaddons_version.h>
 
@@ -71,6 +74,29 @@
 #include <QTimer>
 #include <QToolTip>
 #include <QVBoxLayout>
+
+namespace
+{
+template<typename HasSetCopyOptionJob>
+    requires requires(HasSetCopyOptionJob &a, KIO::CopyJob::CopyOptions o) { a.setCopyOptions(o); }
+
+void addCopyOptionToJob(const QUrl destinationUrl, HasSetCopyOptionJob *job)
+{
+    if (destinationUrl.isLocalFile()) {
+        const auto device = Solid::Device::storageAccessFromPath(destinationUrl.toLocalFile());
+        auto drive = device.as<Solid::StorageDrive>();
+        if (!drive) {
+            drive = device.parent().as<Solid::StorageDrive>();
+        }
+        if (drive) {
+            // if the destinationUrl drive can be removed
+            if (drive->isRemovable()) {
+                job->setCopyOptions(KIO::CopyJob::UseReflink | KIO::CopyJob::UseFsync);
+            }
+        }
+    }
+}
+};
 
 DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     : QWidget(parent)
@@ -837,6 +863,8 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
     m_selectJobCreatedItems = true;
 
     KIO::CopyJob *job = KIO::copy(selection.urlList(), destinationUrl, KIO::DefaultFlags);
+    addCopyOptionToJob(destinationUrl, job);
+
     KJobWidgets::setWindow(job, this);
 
     connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
@@ -916,6 +944,8 @@ void DolphinView::duplicateSelectedItems()
         }
 
         KIO::CopyJob *job = KIO::copyAs(originalURL, duplicateURL);
+        addCopyOptionToJob(duplicateURL, job);
+
         job->setAutoRename(true);
         KJobWidgets::setWindow(job, this);
 
@@ -1379,6 +1409,7 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
 
     if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
+        addCopyOptionToJob(destUrl, job);
 
         if (destUrl == url()) {
             // Mark the dropped urls as selected.
@@ -2218,6 +2249,8 @@ void DolphinView::pasteToUrl(const QUrl &url)
     m_clearSelectionBeforeSelectingNewItems = true;
     m_markFirstNewlySelectedItemAsCurrent = true;
     m_selectJobCreatedItems = true;
+
+    addCopyOptionToJob(url, job);
     connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
     connect(job, &KIO::PasteJob::copyJobStarted, this, [this](const KIO::CopyJob *copyJob) {
         connect(copyJob, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
