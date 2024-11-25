@@ -365,7 +365,11 @@ private:
         ItemData *parent;
     };
 
-    enum RemoveItemsBehavior { KeepItemData, DeleteItemData, DeleteItemDataIfUnfiltered };
+    enum RemoveItemsBehavior {
+        KeepItemData,
+        DeleteItemData,
+        DeleteItemDataIfUnfiltered
+    };
 
     void insertItems(QList<ItemData *> &items);
     void removeItems(const KItemRangeList &itemRanges, RemoveItemsBehavior behavior);
@@ -588,7 +592,9 @@ inline bool KFileItemModel::isRoleValueNatural(RoleType roleType)
 
 inline bool KFileItemModel::nameLessThan(const ItemData *a, const ItemData *b)
 {
-    return a->item.text() < b->item.text();
+    // Split extension, taking into account it can be empty
+    constexpr QString::SectionFlags flags = QString::SectionSkipEmpty | QString::SectionIncludeLeadingSep;
+    return a->item.text().section('.', 0, 0, flags) < b->item.text().section('.', 0, 0, flags);
 }
 
 inline bool KFileItemModel::isChildItem(int index) const
