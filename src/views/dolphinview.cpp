@@ -839,7 +839,7 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
     KIO::CopyJob *job = KIO::copy(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);
 
-    connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
+    connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
     KIO::FileUndoManager::self()->recordCopyJob(job);
@@ -858,7 +858,7 @@ void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &
     KIO::CopyJob *job = KIO::move(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);
 
-    connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
+    connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
     KIO::FileUndoManager::self()->recordCopyJob(job);
