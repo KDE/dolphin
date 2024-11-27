@@ -497,7 +497,9 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
         if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
             url = Dolphin::homeUrl();
         }
-        m_urlNavigatorConnected->setLocationUrl(url);
+        if (m_urlNavigatorConnected) {
+            m_urlNavigatorConnected->setLocationUrl(url);
+        }
     }
 
     m_searchModeEnabled = enabled;
@@ -894,6 +896,7 @@ void DolphinViewContainer::redirect(const QUrl &oldUrl, const QUrl &newUrl)
     // URL history.
     m_urlNavigator->saveLocationState(QByteArray());
     m_urlNavigator->setLocationUrl(newUrl);
+    m_searchBox->setSearchPath(newUrl);
     setSearchModeEnabled(isSearchUrl(newUrl));
 
     m_urlNavigator->blockSignals(block);
