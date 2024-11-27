@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-26 02:32+0000\n"
-"PO-Revision-Date: 2024-11-11 16:29+0900\n"
+"PO-Revision-Date: 2024-11-26 21:48+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2001,7 +2001,7 @@ msgstr "隱藏"
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr "，連結到位於 %2 的 %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
@@ -2027,7 +2027,7 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "在位置 %2 %1"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of
 #. properties that a file or folder has. Accessible text for accessibility software like screen
@@ -2072,7 +2072,7 @@ msgctxt ""
 "currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
 "currentFolderPath"
 msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr ""
+msgstr "%1，%2 %3 %4 %5 %6，位於 %7"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
