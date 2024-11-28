@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-22 00:42+0000\n"
+"POT-Creation-Date: 2024-11-28 00:42+0000\n"
 "PO-Revision-Date: 2023-07-03 01:16+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
@@ -1945,7 +1945,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "Esvaziar as Páginas Fechadas Recentemente"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:518 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:520 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "Procurar por %1 em %2"
@@ -2089,36 +2089,36 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "A ordenar…"
 
-#: dolphinviewcontainer.cpp:563
+#: dolphinviewcontainer.cpp:565
 #, kde-format
 msgid "Search"
 msgstr "Procurar"
 
-#: dolphinviewcontainer.cpp:565
+#: dolphinviewcontainer.cpp:567
 #, kde-format
 msgid "Search for %1"
 msgstr "À procura de %1"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:649
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "A procurar…"
 
-#: dolphinviewcontainer.cpp:667
+#: dolphinviewcontainer.cpp:669
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Não foram encontrados nenhuns itens."
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:853
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "O Dolphin não suporta páginas Web, pelo que foi invocado o navegador Web"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:856
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2127,7 +2127,7 @@ msgstr ""
 "O protocolo não é suportado pelo Dolphin; foi invocada a aplicação "
 "predefinida em alternativa"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:863
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -2135,19 +2135,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocolo inválido"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:865
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocolo inválido"
 
-#: dolphinviewcontainer.cpp:954
+#: dolphinviewcontainer.cpp:959
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:996 dolphinviewcontainer.cpp:999
+#: dolphinviewcontainer.cpp:1001 dolphinviewcontainer.cpp:1004
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

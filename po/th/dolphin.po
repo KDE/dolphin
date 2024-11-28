@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-22 00:42+0000\n"
+"POT-Creation-Date: 2024-11-28 00:42+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1689,7 +1689,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "แท็บที่ถูกปิดไปล่าสุด"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:518 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:520 search/dolphinsearchbox.cpp:300
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1819,21 +1819,21 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "การเรียงลำดับ:"
 
-#: dolphinviewcontainer.cpp:563
+#: dolphinviewcontainer.cpp:565
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Search"
 msgid "Search"
 msgstr "ค้นหา"
 
-#: dolphinviewcontainer.cpp:565
+#: dolphinviewcontainer.cpp:567
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
 msgid "Search for %1"
 msgstr "แถบค้นหา"
 
-#: dolphinviewcontainer.cpp:647
+#: dolphinviewcontainer.cpp:649
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1841,19 +1841,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "กำลังค้นหา..."
 
-#: dolphinviewcontainer.cpp:667
+#: dolphinviewcontainer.cpp:669
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "ไม่พบรายการใด ๆ"
 
-#: dolphinviewcontainer.cpp:851
+#: dolphinviewcontainer.cpp:853
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "ดอลฟินยังไม่รองรับหน้าเว็บ จะทำการเรียกเว็บเบราว์เซอร์แทน"
 
-#: dolphinviewcontainer.cpp:854
+#: dolphinviewcontainer.cpp:856
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1862,7 +1862,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "ดอลฟินยังไม่รองรับโพรโทคอลนี้ จะทำการเรียกคอนเควอร์เรอร์แทน"
 
-#: dolphinviewcontainer.cpp:861
+#: dolphinviewcontainer.cpp:863
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1870,19 +1870,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:865
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "โพรโทคอลใช้งานไม่ได้"
 
-#: dolphinviewcontainer.cpp:954
+#: dolphinviewcontainer.cpp:959
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:996 dolphinviewcontainer.cpp:999
+#: dolphinviewcontainer.cpp:1001 dolphinviewcontainer.cpp:1004
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
