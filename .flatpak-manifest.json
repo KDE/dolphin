@@ -15,6 +15,7 @@
         "--socket=wayland",
         "--socket=pulseaudio",
         "--filesystem=host",
+        "--filesystem=~/.var/app/",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.kde.kded6",
         "--talk-name=org.kde.kiod6",
