@@ -45,6 +45,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
         m_splitViewEnabled = true;
         const QUrl &url = secondaryUrl.isValid() ? secondaryUrl : primaryUrl;
         m_secondaryViewContainer = createViewContainer(url);
+        connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
         m_splitter->addWidget(m_secondaryViewContainer);
         m_secondaryViewContainer->show();
     }
@@ -88,6 +89,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
                 secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
             }
             m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
+            connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
             m_navigatorsWidget->setSecondaryNavigatorVisible(true);
             m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, m_secondaryViewContainer);
 
@@ -104,6 +106,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
         } else {
             m_navigatorsWidget->setSecondaryNavigatorVisible(false);
             m_secondaryViewContainer->disconnectUrlNavigator();
+            disconnect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
 
             DolphinViewContainer *view;
             if (GeneralSettings::closeActiveSplitView()) {
@@ -427,17 +430,24 @@ void DolphinTabPage::slotViewActivated()
     }
 
     disconnect(oldActiveView, &DolphinView::urlChanged, this, &DolphinTabPage::activeViewUrlChanged);
-    disconnect(oldActiveView, &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
     connect(newActiveView, &DolphinView::urlChanged, this, &DolphinTabPage::activeViewUrlChanged);
-    connect(newActiveView, &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
     Q_EMIT activeViewChanged(activeViewContainer());
     Q_EMIT activeViewUrlChanged(activeViewContainer()->url());
 }
 
 void DolphinTabPage::slotViewUrlRedirection(const QUrl &oldUrl, const QUrl &newUrl)
 {
-    Q_UNUSED(oldUrl)
-
+    // Make sure the url of the view is updated. BUG:496414
+    if (splitViewEnabled()) {
+        if (primaryViewContainer()->view()->url() == oldUrl) {
+            primaryViewContainer()->view()->setUrl(newUrl);
+        }
+        if (secondaryViewContainer()->view()->url() == oldUrl) {
+            secondaryViewContainer()->view()->setUrl(newUrl);
+        }
+    } else {
+        activeViewContainer()->view()->setUrl(newUrl);
+    }
     Q_EMIT activeViewUrlChanged(newUrl);
 }
 
