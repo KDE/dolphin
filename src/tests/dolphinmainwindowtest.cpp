@@ -456,6 +456,18 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
     showPlacesPanelAction->trigger();
     QVERIFY(placesPanel->isVisible());
     QVERIFY2(placesPanel->hasFocus(), "Enabling the Places panel should move keyboard focus there.");
+
+    /// Test that activating a place always moves focus to the view.
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key::Key_Enter);
+    QVERIFY2(m_mainWindow->activeViewContainer()->isAncestorOf(QApplication::focusWidget()),
+             "Activating a place should move focus to the view that loads that place.");
+
+    focusPlacesPanelAction->trigger();
+    QVERIFY(placesPanel->hasFocus());
+
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key::Key_Enter);
+    QVERIFY2(m_mainWindow->activeViewContainer()->isAncestorOf(QApplication::focusWidget()),
+             "Activating a place should move focus to the view even if the view already has that place loaded.");
 }
 
 /**
