@@ -385,7 +385,7 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     updateGoActions();
 
     // will signal used urls to activities manager, too
-    m_recentFiles->addUrl(url);
+    m_recentFiles->addUrl(url, QString(), "inode/directory");
 
     Q_EMIT urlChanged(url);
 }
