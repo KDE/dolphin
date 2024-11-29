@@ -209,8 +209,9 @@ public Q_SLOTS:
 
     /**
      * Opens a new tab in the background showing the URL \a url.
+     * @return A pointer to the opened DolphinTabPage.
      */
-    void openNewTab(const QUrl &url);
+    DolphinTabPage *openNewTab(const QUrl &url);
 
     /**
      * Opens a new tab  showing the URL \a url and activate it.

@@ -214,4 +214,12 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent *event)
     m_smoothScrolling = previous;
 }
 
+bool KItemListSmoothScroller::isAnimating()
+{
+    if (m_animation) {
+        return (m_animation->state() == QAbstractAnimation::Running);
+    }
+    return false;
+}
+
 #include "moc_kitemlistsmoothscroller.cpp"

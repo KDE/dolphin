@@ -216,7 +216,11 @@ void DolphinContextMenu::addOpenParentFolderActions()
     });
 
     addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "Open Path in New Tab"), [this]() {
-        m_mainWindow->openNewTab(KIO::upUrl(m_fileInfo.targetUrl()));
+        const QUrl url = m_fileInfo.targetUrl();
+        const QUrl parentUrl = KIO::upUrl(url);
+        DolphinTabPage *tabPage = m_mainWindow->openNewTab(parentUrl);
+        tabPage->activeViewContainer()->view()->markUrlsAsSelected({url});
+        tabPage->activeViewContainer()->view()->markUrlAsCurrent(url);
     });
 
     addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@action:inmenu", "Open Path in New Window"), [this]() {

@@ -291,6 +291,9 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     int maximum = 0;
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
+        if (smoothScroller->isAnimating()) {
+            return;
+        }
         scrollOffsetScrollBar = verticalScrollBar();
 
         // Don't scroll super fast when using a wheel mouse:
@@ -311,6 +314,9 @@ void KItemListContainer::updateScrollOffsetScrollBar()
         maximum = qMax(0, int(view->maximumScrollOffset() - view->size().height()));
     } else {
         smoothScroller = m_horizontalSmoothScroller;
+        if (smoothScroller->isAnimating()) {
+            return;
+        }
         scrollOffsetScrollBar = horizontalScrollBar();
         singleStep = view->itemSize().width();
         pageStep = view->size().width();
@@ -347,11 +353,17 @@ void KItemListContainer::updateItemOffsetScrollBar()
     int pageStep = 0;
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_horizontalSmoothScroller;
+        if (smoothScroller->isAnimating()) {
+            return;
+        }
         itemOffsetScrollBar = horizontalScrollBar();
         singleStep = view->size().width() / 10;
         pageStep = view->size().width();
     } else {
         smoothScroller = m_verticalSmoothScroller;
+        if (smoothScroller->isAnimating()) {
+            return;
+        }
         itemOffsetScrollBar = verticalScrollBar();
         singleStep = view->size().height() / 10;
         pageStep = view->size().height();

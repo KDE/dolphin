@@ -68,6 +68,7 @@ public:
      */
     void handleWheelEvent(QWheelEvent *event);
 
+    bool isAnimating();
 Q_SIGNALS:
     /**
      * Emitted when the scrolling animation has finished

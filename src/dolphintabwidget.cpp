@@ -170,7 +170,7 @@ void DolphinTabWidget::openNewActivatedTab(const QUrl &primaryUrl, const QUrl &s
     }
 }
 
-void DolphinTabWidget::openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl, DolphinTabWidget::NewTabPosition position)
+DolphinTabPage *DolphinTabWidget::openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl, DolphinTabWidget::NewTabPosition position)
 {
     QWidget *focusWidget = QApplication::focusWidget();
 
@@ -202,6 +202,7 @@ void DolphinTabWidget::openNewTab(const QUrl &primaryUrl, const QUrl &secondaryU
         // in background, assure that the previous focused widget gets the focus back.
         focusWidget->setFocus();
     }
+    return tabPage;
 }
 
 void DolphinTabWidget::openDirectories(const QList<QUrl> &dirs, bool splitView)
