@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 00:42+0000\n"
+"POT-Creation-Date: 2024-11-30 00:42+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -178,7 +178,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Янги табда очиш"
 
-#: dolphincontextmenu.cpp:222
+#: dolphincontextmenu.cpp:226
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Window"
@@ -186,7 +186,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Янги ойнада очиш"
 
-#: dolphincontextmenu.cpp:472
+#: dolphincontextmenu.cpp:476
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1753,7 +1753,7 @@ msgstr "Манзили:"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:514
+#: dolphintabwidget.cpp:515
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1761,7 +1761,7 @@ msgstr ""
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:518
+#: dolphintabwidget.cpp:519
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
