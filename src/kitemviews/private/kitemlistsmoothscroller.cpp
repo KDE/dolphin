@@ -56,6 +56,9 @@ QScrollBar *KItemListSmoothScroller::scrollBar() const
 
 void KItemListSmoothScroller::setTargetObject(QObject *target)
 {
+    if (m_animation->state() == QAbstractAnimation::Running) {
+        m_animation->stop();
+    }
     m_animation->setTargetObject(target);
 }
 
@@ -66,6 +69,9 @@ QObject *KItemListSmoothScroller::targetObject() const
 
 void KItemListSmoothScroller::setPropertyName(const QByteArray &propertyName)
 {
+    if (m_animation->state() == QAbstractAnimation::Running) {
+        m_animation->stop();
+    }
     m_animation->setPropertyName(propertyName);
 }
 
