@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testParamMigrationToFileAttr();
     void testParamMigrationToFileAttrKeepDirectory();
     void testExtendedAttributeFull();
+    void testUseAsDefaultViewSettings();
 
 private:
     bool m_globalViewProps;
@@ -37,6 +38,9 @@ private:
 void ViewPropertiesTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
+
+    GeneralSettings::self()->setViewPropsTimestamp(QDateTime::currentDateTime());
+    QVERIFY(GeneralSettings::self()->save());
 }
 
 void ViewPropertiesTest::init()
@@ -82,28 +86,30 @@ void ViewPropertiesTest::testReadOnlyBehavior()
 
 void ViewPropertiesTest::testReadOnlyDirectory()
 {
-    auto localFolder = m_testDir->url().toLocalFile();
-    QString dotDirectoryFile = localFolder + "/.directory";
+    const QUrl testDirUrl = m_testDir->url();
+    const QString localFolder = testDirUrl.toLocalFile();
+    const QString dotDirectoryFile = localFolder + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
 
     // restrict write permissions
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
-    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
+    QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
+    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
+
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    const auto destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
     qDebug() << destinationDir;
     QVERIFY(QDir(destinationDir).exists());
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
     KFileMetaData::UserMetaData metadata(localFolder);
-    auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    const QString viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
     QVERIFY(viewProperties.isEmpty());
 
-    props.reset(new ViewProperties(m_testDir->url()));
+    props.reset(new ViewProperties(testDirUrl));
     QVERIFY(props->isAutoSaveEnabled());
     QCOMPARE(props->sortRole(), "someNewSortRole");
     props.reset();
@@ -274,6 +280,63 @@ void ViewPropertiesTest::testExtendedAttributeFull()
     } else {
         QVERIFY(QFile::exists(dotDirectoryFile));
     }
+}
+
+void ViewPropertiesTest::testUseAsDefaultViewSettings()
+{
+    // Create new test directory for this test to make sure the settings are defaults
+    auto testDir = new TestDir(QDir::homePath() + "/.viewPropertiesTest-");
+    auto cleanupTestDir = qScopeGuard([testDir] {
+        delete testDir;
+    });
+
+    // Create a global viewproperties folder
+    QUrl globalPropertiesPath =
+        QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/view_properties/").append(QStringLiteral("global")));
+    QVERIFY(QDir().mkpath(globalPropertiesPath.toLocalFile()));
+    auto cleanupGlobalDir = qScopeGuard([globalPropertiesPath] {
+        QDir().rmdir(globalPropertiesPath.toLocalFile());
+    });
+    ViewProperties globalProps(globalPropertiesPath);
+
+    // Check that theres no .directory file and metadata is supported
+    QString dotDirectoryFile = testDir->url().toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFile));
+    KFileMetaData::UserMetaData testDirMetadata(testDir->url().toLocalFile());
+    KFileMetaData::UserMetaData globalDirMetadata(globalPropertiesPath.toLocalFile());
+    if (!testDirMetadata.isSupported()) {
+        QSKIP("need extended attribute/filesystem metadata to be usefull");
+    }
+
+    const auto newDefaultViewMode = DolphinView::Mode::DetailsView;
+
+    // Equivalent of useAsDefault in ViewPropertiesDialog
+    // This sets the DetailsView as default viewMode
+    GeneralSettings::setGlobalViewProps(true);
+    globalProps.setViewMode(newDefaultViewMode);
+    globalProps.setDirProperties(globalProps);
+    globalProps.save();
+    GeneralSettings::setGlobalViewProps(false);
+
+    // Load default data
+    QScopedPointer<ViewProperties> globalDirProperties(new ViewProperties(globalPropertiesPath));
+    auto defaultData = globalDirProperties.data();
+
+    // Load testdir data
+    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(testDir->url()));
+    auto testData = testDirProperties.data();
+
+    // Make sure globalDirProperties are not empty, so they will be used
+    auto globalDirPropString = globalDirMetadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    QVERIFY(!globalDirPropString.isEmpty());
+
+    // Make sure testDirProperties is empty, so default values are used for it
+    auto testDirPropString = testDirMetadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    QVERIFY(testDirPropString.isEmpty());
+
+    // Compare that default and new folder viewMode is the new default
+    QCOMPARE(defaultData->viewMode(), newDefaultViewMode);
+    QCOMPARE(testData->viewMode(), defaultData->viewMode());
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)

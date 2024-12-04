@@ -73,14 +73,17 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
 
     // load from metadata
     const QString viewPropertiesString = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
-    if (!viewPropertiesString.isEmpty()) {
-        // load view properties from xattr to temp file then loads into ViewPropertySettings
-        // clear the temp file
-        QFile outputFile(tempFile.fileName());
-        outputFile.open(QIODevice::WriteOnly);
-        outputFile.write(viewPropertiesString.toUtf8());
-        outputFile.close();
+    if (viewPropertiesString.isEmpty()) {
+        tempFile.close();
+        tempFile.remove();
+        return nullptr;
     }
+    // load view properties from xattr to temp file then loads into ViewPropertySettings
+    // clear the temp file
+    QFile outputFile(tempFile.fileName());
+    outputFile.open(QIODevice::WriteOnly);
+    outputFile.write(viewPropertiesString.toUtf8());
+    outputFile.close();
     return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
 }
 
@@ -89,7 +92,14 @@ ViewPropertySettings *ViewProperties::defaultProperties() const
     auto props = loadProperties(destinationDir(QStringLiteral("global")));
     if (props == nullptr) {
         qCWarning(DolphinDebug) << "Could not load default global viewproperties";
-        props = new ViewPropertySettings;
+        QTemporaryFile tempFile;
+        tempFile.setAutoRemove(false);
+        if (!tempFile.open()) {
+            qCWarning(DolphinDebug) << "Could not open temp file";
+            props = new ViewPropertySettings;
+        } else {
+            props = new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+        }
     }
 
     return props;
