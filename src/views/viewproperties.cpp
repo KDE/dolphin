@@ -80,6 +80,10 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         outputFile.open(QIODevice::WriteOnly);
         outputFile.write(viewPropertiesString.toUtf8());
         outputFile.close();
+    } else {
+        // If there is no properties string, return default properties instead
+        // BUG:495878
+        return defaultProperties();
     }
     return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
 }
