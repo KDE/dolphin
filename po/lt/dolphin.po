@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-30 00:42+0000\n"
+"POT-Creation-Date: 2024-12-05 00:42+0000\n"
 "PO-Revision-Date: 2024-10-05 22:33+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -163,7 +163,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Atkurti"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1703
+#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -313,7 +313,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Atverti %1"
 
-#: dolphinmainwindow.cpp:1303 dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:1303 dolphinmainwindow.cpp:2061
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -354,19 +354,19 @@ msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Konfigūruoti"
 
-#: dolphinmainwindow.cpp:1709
+#: dolphinmainwindow.cpp:1711
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Naujas &langas"
 
-#: dolphinmainwindow.cpp:1710
+#: dolphinmainwindow.cpp:1712
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Atverti naują Dolphin langą"
 
-#: dolphinmainwindow.cpp:1712
+#: dolphinmainwindow.cpp:1714
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -380,13 +380,13 @@ msgstr ""
 "Tai atveria naują langą tokį patį kaip šis - su esama vieta ir rodiniu.<nl/"
 ">Galite tempti elementus tarp langų."
 
-#: dolphinmainwindow.cpp:1719
+#: dolphinmainwindow.cpp:1721
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nauja kortelė"
 
-#: dolphinmainwindow.cpp:1721
+#: dolphinmainwindow.cpp:1723
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -403,31 +403,31 @@ msgstr ""
 ">Kortelė yra papildomas rodinys lango viduje. Galite tempti elementus tarp "
 "kortelių."
 
-#: dolphinmainwindow.cpp:1730
+#: dolphinmainwindow.cpp:1732
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Pridėti prie vietų"
 
-#: dolphinmainwindow.cpp:1732
+#: dolphinmainwindow.cpp:1734
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Tai prideda pasirinktą aplanką į Vietų skydelį."
 
-#: dolphinmainwindow.cpp:1737
+#: dolphinmainwindow.cpp:1739
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Užverti kortelę"
 
-#: dolphinmainwindow.cpp:1738
+#: dolphinmainwindow.cpp:1740
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Užverti kortelę"
 
-#: dolphinmainwindow.cpp:1740
+#: dolphinmainwindow.cpp:1742
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -441,13 +441,13 @@ msgstr ""
 "Tai užveria šiuo metu rodomą kortelę. Jeigu daugiau nebeliks kortelių, bus "
 "užvertas šis langas."
 
-#: dolphinmainwindow.cpp:1745
+#: dolphinmainwindow.cpp:1747
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Tai užveria šį langą."
 
-#: dolphinmainwindow.cpp:1753
+#: dolphinmainwindow.cpp:1755
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -463,13 +463,13 @@ msgstr ""
 "pastebimai išdėstyti vienas šalia kito: <shortcut>Vald+X</shortcut>, "
 "<shortcut>Vald+C</shortcut> ir <shortcut>Vald+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1760
+#: dolphinmainwindow.cpp:1762
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Iškirpti…"
 
-#: dolphinmainwindow.cpp:1762
+#: dolphinmainwindow.cpp:1764
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -483,13 +483,13 @@ msgstr ""
 "nukopijuotumėte juos iš iškarpinės į naują vietą. Elementai bus pašalinti iš "
 "savo pradinės vietos."
 
-#: dolphinmainwindow.cpp:1769
+#: dolphinmainwindow.cpp:1771
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Kopijuoti…"
 
-#: dolphinmainwindow.cpp:1771
+#: dolphinmainwindow.cpp:1773
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -501,13 +501,13 @@ msgstr ""
 "emphasis>.<nl/>Po to, naudokite veiksmą <emphasis>Įdėti</emphasis>, kad "
 "nukopijuotumėte juos iš iškarpinės į naują vietą."
 
-#: dolphinmainwindow.cpp:1780
+#: dolphinmainwindow.cpp:1782
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Įdėti"
 
-#: dolphinmainwindow.cpp:1782
+#: dolphinmainwindow.cpp:1784
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -520,19 +520,19 @@ msgstr ""
 "veiksmą <emphasis>Iškirpti</emphasis>, tuomet jie bus pašalinti iš savo "
 "senosios vietos."
 
-#: dolphinmainwindow.cpp:1789
+#: dolphinmainwindow.cpp:1791
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Kopijuoti į kitą rodinį"
 
-#: dolphinmainwindow.cpp:1790
+#: dolphinmainwindow.cpp:1792
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Kopijuoti į kitą rodinį…"
 
-#: dolphinmainwindow.cpp:1792
+#: dolphinmainwindow.cpp:1794
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Copy"
 #| msgid ""
@@ -546,25 +546,25 @@ msgstr ""
 "Tai kopijuoja pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
 "neaktyvų padalytą rodinį."
 
-#: dolphinmainwindow.cpp:1796
+#: dolphinmainwindow.cpp:1798
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopijuoti į kitą rodinį"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1803
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Perkelti į kitą rodinį"
 
-#: dolphinmainwindow.cpp:1802
+#: dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Perkelti į kitą rodinį…"
 
-#: dolphinmainwindow.cpp:1804
+#: dolphinmainwindow.cpp:1806
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis Move"
 #| msgid ""
@@ -578,25 +578,25 @@ msgstr ""
 "Tai perkelia pažymėtus elementus iš <emphasis>aktyvaus</emphasis> rodinio į "
 "neaktyvų padalytą rodinį."
 
-#: dolphinmainwindow.cpp:1808
+#: dolphinmainwindow.cpp:1810
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Perkelti į kitą rodinį"
 
-#: dolphinmainwindow.cpp:1813
+#: dolphinmainwindow.cpp:1815
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Filtruoti…"
 
-#: dolphinmainwindow.cpp:1814
+#: dolphinmainwindow.cpp:1816
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Rodyti filtro juostą"
 
-#: dolphinmainwindow.cpp:1816
+#: dolphinmainwindow.cpp:1818
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -615,30 +615,30 @@ msgstr ""
 "galite įrašyti tekstą ir filtruoti esamu metu rodomus failus bei aplankus. "
 "Liks rodomi tik tie, kurių pavadinime yra nurodytas tekstas."
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1830
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Perjungti filtro juostą"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1831
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filtruoti"
 
-#: dolphinmainwindow.cpp:1837 search/dolphinsearchbox.cpp:350
+#: dolphinmainwindow.cpp:1839 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
 msgstr "Ieškoti…"
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1840
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Ieškoti failų ir aplankų"
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1842
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -661,20 +661,20 @@ msgstr ""
 "su paieškos juosta, kad galėtume į ją pažvelgti, kol yra aiškinamos "
 "nuostatos.</para>"
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1853
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Perjungti paieškos juostą"
 
-#: dolphinmainwindow.cpp:1852
+#: dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Ieškoti"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1862
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -682,13 +682,13 @@ msgstr "Žymėti failus ir aplankus"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1863
+#: dolphinmainwindow.cpp:1865
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Žymėti"
 
-#: dolphinmainwindow.cpp:1866
+#: dolphinmainwindow.cpp:1868
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -707,19 +707,19 @@ msgstr ""
 "juosta, rodanti prieinamus veiksmus su esamu metu pažymėtais elementais.</"
 "para>"
 
-#: dolphinmainwindow.cpp:1889
+#: dolphinmainwindow.cpp:1891
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Tai pažymi visus, esamoje vietoje esančius, failus ir aplankus."
 
-#: dolphinmainwindow.cpp:1893 dolphinpart.cpp:167
+#: dolphinmainwindow.cpp:1895 dolphinpart.cpp:167
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Invertuoti žymėjimą"
 
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1897
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis invert"
 #| msgid ""
@@ -733,7 +733,7 @@ msgstr ""
 "Tai, vietoj to, pažymi visus objektus, kurių šiuo metu <emphasis>nesate</"
 "emphasis> pažymėję."
 
-#: dolphinmainwindow.cpp:1915
+#: dolphinmainwindow.cpp:1917
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -743,7 +743,7 @@ msgid ""
 "para>Click this button again to close one of the views."
 msgstr ""
 
-#: dolphinmainwindow.cpp:1930
+#: dolphinmainwindow.cpp:1932
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -757,25 +757,25 @@ msgstr ""
 "Jei aplanko rodinys padalytas, tai iškels aktyvaus aplanko rodinį į naują "
 "langą."
 
-#: dolphinmainwindow.cpp:1938
+#: dolphinmainwindow.cpp:1940
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Slėpynė"
 
-#: dolphinmainwindow.cpp:1939
+#: dolphinmainwindow.cpp:1941
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Atveria slėpynės virtualų katalogą padalytame lange"
 
-#: dolphinmainwindow.cpp:1947
+#: dolphinmainwindow.cpp:1949
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Įkelti rodinį iš naujo"
 
-#: dolphinmainwindow.cpp:1949
+#: dolphinmainwindow.cpp:1951
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -785,31 +785,31 @@ msgid ""
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1956
+#: dolphinmainwindow.cpp:1958
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Stabdyti"
 
-#: dolphinmainwindow.cpp:1957
+#: dolphinmainwindow.cpp:1959
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Stabdyti įkėlimą"
 
-#: dolphinmainwindow.cpp:1958
+#: dolphinmainwindow.cpp:1960
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Tai sustabdo dabartinio aplanko turinio įkėlimą."
 
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1965
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Redaguojama vieta"
 
-#: dolphinmainwindow.cpp:1965
+#: dolphinmainwindow.cpp:1967
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -823,13 +823,13 @@ msgstr ""
 ">Taip pat galite perjungti į taisymą spusteldami iš dešinės nuo vietos, o "
 "perjungti atgal galite patvirtindami pataisytą vietą."
 
-#: dolphinmainwindow.cpp:1973
+#: dolphinmainwindow.cpp:1975
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Keisti vietą"
 
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1980
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -837,19 +837,19 @@ msgid ""
 "enter a different location."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2010
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Atverti užvertą kortelę"
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:2011
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Tai sugrąžina jus į anksčiau užvertą kortelę."
 
-#: dolphinmainwindow.cpp:2017
+#: dolphinmainwindow.cpp:2019
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -860,7 +860,7 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2048
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -869,13 +869,13 @@ msgid ""
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2053
+#: dolphinmainwindow.cpp:2055
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Palyginti failus"
 
-#: dolphinmainwindow.cpp:2061
+#: dolphinmainwindow.cpp:2063
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -887,13 +887,13 @@ msgstr ""
 "para><para>Norėdami tai konfigūruoti, naudokite <emphasis>Daugiau paieškos "
 "įrankių</emphasis> meniu.</para>"
 
-#: dolphinmainwindow.cpp:2069
+#: dolphinmainwindow.cpp:2071
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Atverti terminalą"
 
-#: dolphinmainwindow.cpp:2071
+#: dolphinmainwindow.cpp:2073
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -911,13 +911,13 @@ msgstr ""
 "meniu terminalo programoje.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2079
+#: dolphinmainwindow.cpp:2081
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Atverti čia terminalą"
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2083
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -934,13 +934,13 @@ msgstr ""
 "para><para>Norėdami daugiau sužinoti apie terminalus, naudokite pagalbos "
 "meniu terminalo programoje.</para>"
 
-#: dolphinmainwindow.cpp:2089
+#: dolphinmainwindow.cpp:2091
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "Ž&ymelės"
 
-#: dolphinmainwindow.cpp:2099
+#: dolphinmainwindow.cpp:2101
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -952,91 +952,91 @@ msgid ""
 "advanced actions more time consuming.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2132
+#: dolphinmainwindow.cpp:2134
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Eiti į kortelę %1"
 
-#: dolphinmainwindow.cpp:2145
+#: dolphinmainwindow.cpp:2147
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Paskutinė kortelė"
 
-#: dolphinmainwindow.cpp:2146
+#: dolphinmainwindow.cpp:2148
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Eiti į paskutinę kortelę"
 
-#: dolphinmainwindow.cpp:2152
+#: dolphinmainwindow.cpp:2154
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Kita kortelė"
 
-#: dolphinmainwindow.cpp:2153
+#: dolphinmainwindow.cpp:2155
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Eiti į kitą kortelę"
 
-#: dolphinmainwindow.cpp:2159
+#: dolphinmainwindow.cpp:2161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Ankstesnė kortelė"
 
-#: dolphinmainwindow.cpp:2160
+#: dolphinmainwindow.cpp:2162
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Eiti į ankstesnę kortelę"
 
-#: dolphinmainwindow.cpp:2167
+#: dolphinmainwindow.cpp:2169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Rodyti paskirtį"
 
-#: dolphinmainwindow.cpp:2173
+#: dolphinmainwindow.cpp:2175
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Atverti naujoje kortelėje"
 
-#: dolphinmainwindow.cpp:2178
+#: dolphinmainwindow.cpp:2180
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Atverti naujose kortelėse"
 
-#: dolphinmainwindow.cpp:2183
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Atverti naujame lange"
 
-#: dolphinmainwindow.cpp:2188 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2190 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Atverti padalytame rodinyje"
 
-#: dolphinmainwindow.cpp:2204
+#: dolphinmainwindow.cpp:2206
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Atrakinti skydelius"
 
-#: dolphinmainwindow.cpp:2206
+#: dolphinmainwindow.cpp:2208
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Užrakinti skydelius"
 
-#: dolphinmainwindow.cpp:2209
+#: dolphinmainwindow.cpp:2211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1046,13 +1046,13 @@ msgid ""
 "embedded more cleanly."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2218
+#: dolphinmainwindow.cpp:2220
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informacija"
 
-#: dolphinmainwindow.cpp:2241
+#: dolphinmainwindow.cpp:2243
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1060,7 +1060,7 @@ msgid ""
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2248
+#: dolphinmainwindow.cpp:2250
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1071,7 +1071,7 @@ msgid ""
 "items a preview of their contents is provided.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2256
+#: dolphinmainwindow.cpp:2258
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1082,13 +1082,13 @@ msgid ""
 "are given here by right-clicking.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2267
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Aplankai"
 
-#: dolphinmainwindow.cpp:2285
+#: dolphinmainwindow.cpp:2287
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1100,7 +1100,7 @@ msgstr ""
 "skydelį.<nl/><nl/>Jame yra rodomi <emphasis>failų sistemos</emphasis> "
 "aplankai <emphasis>medžio rodinyje</emphasis>."
 
-#: dolphinmainwindow.cpp:2290
+#: dolphinmainwindow.cpp:2292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1110,13 +1110,13 @@ msgid ""
 "quick switching between any folders.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2300
+#: dolphinmainwindow.cpp:2302
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminalas"
 
-#: dolphinmainwindow.cpp:2325
+#: dolphinmainwindow.cpp:2327
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1128,7 +1128,7 @@ msgid ""
 "application like Konsole.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2335
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1140,31 +1140,31 @@ msgid ""
 "like Konsole.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2343 dolphinmainwindow.cpp:2934
+#: dolphinmainwindow.cpp:2345 dolphinmainwindow.cpp:2936
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Fokusuoti terminalo skydelį"
 
-#: dolphinmainwindow.cpp:2344
+#: dolphinmainwindow.cpp:2346
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2357
+#: dolphinmainwindow.cpp:2359
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Vietos"
 
-#: dolphinmainwindow.cpp:2385
+#: dolphinmainwindow.cpp:2387
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Rodyti paslėptas vietas"
 
-#: dolphinmainwindow.cpp:2389
+#: dolphinmainwindow.cpp:2391
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1179,7 +1179,7 @@ msgstr ""
 "Tai vietų skydelyje rodo visas vietas, kurios yra paslėptos. Jos bus rodomos "
 "pusiau permatomai, nebent nuimsite žymėjimą nuo savybės jas slėpti."
 
-#: dolphinmainwindow.cpp:2401
+#: dolphinmainwindow.cpp:2403
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1190,7 +1190,7 @@ msgid ""
 "type.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2408
+#: dolphinmainwindow.cpp:2410
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1205,7 +1205,7 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2422 dolphinmainwindow.cpp:2952
+#: dolphinmainwindow.cpp:2424 dolphinmainwindow.cpp:2954
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Focus Terminal Panel"
@@ -1213,7 +1213,7 @@ msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Fokusuoti terminalo skydelį"
 
-#: dolphinmainwindow.cpp:2423
+#: dolphinmainwindow.cpp:2425
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "This adds the selected folder to the Places panel."
@@ -1221,13 +1221,13 @@ msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Tai prideda pasirinktą aplanką į Vietų skydelį."
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2431
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Rodyti skydelius"
 
-#: dolphinmainwindow.cpp:2498
+#: dolphinmainwindow.cpp:2500
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1235,7 +1235,7 @@ msgid ""
 msgstr ""
 "Negalima pervadinti: Jūs neturite leidimo pervadinti elementų šiame aplanke."
 
-#: dolphinmainwindow.cpp:2501 dolphinmainwindow.cpp:2518
+#: dolphinmainwindow.cpp:2503 dolphinmainwindow.cpp:2520
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1243,14 +1243,14 @@ msgid ""
 msgstr ""
 "Negalima ištrinti: Jūs neturite leidimo šalinti elementus iš šio aplanko."
 
-#: dolphinmainwindow.cpp:2503
+#: dolphinmainwindow.cpp:2505
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "Negalima iškirpti: Jūs neturite leidimo perkelti elementus iš šio aplanko."
 
-#: dolphinmainwindow.cpp:2508
+#: dolphinmainwindow.cpp:2510
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1259,33 +1259,33 @@ msgid ""
 msgstr ""
 "Negalima dubliuoti čia: Jūs neturite leidimo kurti elementų šiame aplanke."
 
-#: dolphinmainwindow.cpp:2530
+#: dolphinmainwindow.cpp:2532
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Negalima kopijuoti į kitą rodinį: Nepažymėti jokie failai."
 
-#: dolphinmainwindow.cpp:2532
+#: dolphinmainwindow.cpp:2534
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Negalima perkelti į kitą rodinį: Nepažymėti jokie failai."
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
 "Negalima kopijuoti į kitą rodinį: Kitame rodinyje jau yra šie elementai."
 
-#: dolphinmainwindow.cpp:2554
+#: dolphinmainwindow.cpp:2556
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
 "Negalima perkelti į kitą rodinį: Kitame rodinyje jau yra šie elementai."
 
-#: dolphinmainwindow.cpp:2559
+#: dolphinmainwindow.cpp:2561
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1295,7 +1295,7 @@ msgstr ""
 "Negalima kopijuoti į kitą rodinį: Jūs neturite leidimo rašyti į paskirties "
 "aplanką."
 
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2565
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1305,7 +1305,7 @@ msgstr ""
 "Negalima perkelti į kitą rodinį: Jūs neturite leidimo rašyti į paskirties "
 "aplanką."
 
-#: dolphinmainwindow.cpp:2569
+#: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1315,7 +1315,7 @@ msgstr ""
 "Negalima perkelti į kitą rodinį: Jūs neturite leidimo perkelti elementus iš "
 "šio aplanko."
 
-#: dolphinmainwindow.cpp:2593
+#: dolphinmainwindow.cpp:2595
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1331,73 +1331,73 @@ msgstr ""
 "kuriame yra visi, su šiuo kompiuteriu sujungti duomenys — <emphasis>šaknies "
 "katalogas</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2686
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Užverti"
 
-#: dolphinmainwindow.cpp:2685
+#: dolphinmainwindow.cpp:2687
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Užverti kairįjį rodinį"
 
-#: dolphinmainwindow.cpp:2687
+#: dolphinmainwindow.cpp:2689
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Iškelti kairįjį rodinį"
 
-#: dolphinmainwindow.cpp:2688
+#: dolphinmainwindow.cpp:2690
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Perkelti kairįjį rodinį į naują langą"
 
-#: dolphinmainwindow.cpp:2690
+#: dolphinmainwindow.cpp:2692
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Užverti"
 
-#: dolphinmainwindow.cpp:2691
+#: dolphinmainwindow.cpp:2693
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Užverti dešinįjį rodinį"
 
-#: dolphinmainwindow.cpp:2693
+#: dolphinmainwindow.cpp:2695
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Iškelti dešinįjį rodinį"
 
-#: dolphinmainwindow.cpp:2694
+#: dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Perkelti dešinįjį rodinį į naują langą"
 
-#: dolphinmainwindow.cpp:2703
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Padalyti"
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2706
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Padalytas rodinys"
 
-#: dolphinmainwindow.cpp:2706
+#: dolphinmainwindow.cpp:2708
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Iškelti"
 
-#: dolphinmainwindow.cpp:2761
+#: dolphinmainwindow.cpp:2763
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1409,7 +1409,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2768
+#: dolphinmainwindow.cpp:2770
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1423,7 +1423,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2780
+#: dolphinmainwindow.cpp:2782
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1440,7 +1440,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2796
+#: dolphinmainwindow.cpp:2798
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1450,7 +1450,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2802
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1459,7 +1459,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2806
+#: dolphinmainwindow.cpp:2808
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1474,7 +1474,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2828
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1485,7 +1485,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2831
+#: dolphinmainwindow.cpp:2833
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1499,7 +1499,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2842
+#: dolphinmainwindow.cpp:2844
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1519,7 +1519,7 @@ msgstr ""
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>spustelėkite čia</"
 "link>.</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2853
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1533,7 +1533,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2864
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1542,7 +1542,7 @@ msgid ""
 "in your preferred language."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2869
+#: dolphinmainwindow.cpp:2871
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1552,7 +1552,7 @@ msgstr ""
 "Tai atveria langą, kuris jus informuoja apie versiją, licenciją, naudojamas "
 "bibliotekas ir šios programos prižiūrėtojus."
 
-#: dolphinmainwindow.cpp:2874
+#: dolphinmainwindow.cpp:2876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1566,13 +1566,13 @@ msgstr ""
 "jums patinka naudoti šią programą, tačiau jūs nieko nežinote apie KDE arba, "
 "jei norite pamatyti žavų drakoną, tuomet pažvelkite čia!"
 
-#: dolphinmainwindow.cpp:2928 dolphinmainwindow.cpp:2939
+#: dolphinmainwindow.cpp:2930 dolphinmainwindow.cpp:2941
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Nebefokusuoti terminalo skydelį"
 
-#: dolphinmainwindow.cpp:2946
+#: dolphinmainwindow.cpp:2948
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
@@ -1580,7 +1580,7 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Nebefokusuoti terminalo skydelį"
 
-#: dolphinmainwindow.cpp:2957
+#: dolphinmainwindow.cpp:2959
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
