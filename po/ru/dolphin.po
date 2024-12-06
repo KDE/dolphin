@@ -13,21 +13,21 @@
 # Yury G. Kudryashov <urkud.urkud@gmail.com>, 2012.
 # Alexey D. <lq07829icatm@rambler.ru>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013, 2014.
-# Olesya Gerasimenko <translation-team@basealt.ru>, 2023.
+# SPDX-FileCopyrightText: 2023, 2024 Olesya Gerasimenko <translation-team@basealt.ru>
 # Alexander Yavorsky <kekcuha@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-26 02:32+0000\n"
-"PO-Revision-Date: 2024-09-20 13:35+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2024-12-05 15:27+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -37,14 +37,16 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Николай Шафоростов,Александр Яворский,Ольга Миронова,Мария Шикунова"
+msgstr ""
+"Николай Шафоростов,Александр Яворский,Ольга Миронова,Мария Шикунова,Олеся "
+"Герасименко"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "shaforostoff@kde.ru,kekcuha@gmail.com,omiro@basealt.ru,translation-"
-"team@basealt.ru"
+"team@basealt.ru,translation-team@basealt.ru"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -73,18 +75,16 @@ msgid "Finish acting as an administrator"
 msgstr "Завершить выполнение действий от имени администратора"
 
 #: admin/bar.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Act as Administrator"
+#, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "С правами администратора"
+msgstr "Снова действовать с правами администратора"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Истёк срок действия авторизации в качестве администратора."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -100,6 +100,10 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"Для работы с находящимися под управлением системы файлами "
+"<application>Dolphin</application> требуется программа <application>%1</"
+"application>, но она не установлена.<nl/>Нажмите «%2» для установки "
+"<application>%1</application> или «%3» для отмены."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
@@ -125,6 +129,13 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Воспользуйтесь своими правами администратора в Dolphin:"
+"<numberedlist><numbereditem>Перейдите к нужному файлу или папке.</"
+"numbereditem><numbereditem>Активируйте действие «%1» (<interface>Открыть "
+"меню|Дополнительно|Вид</interface> или <interface>Строка меню|Вид</"
+"interface>).<nl/>Комбинация клавиш по умолчанию: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>После авторизации будет можно работать с файлами "
+"от имени администратора.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
@@ -350,10 +361,10 @@ msgstr "Открыть предпочитаемый инструмент пои�
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Действительно открыть %1 окно терминалов?"
-msgstr[1] "Действительно открыть %1 окна терминалов?"
-msgstr[2] "Действительно открыть %1 окон терминалов?"
-msgstr[3] "Действительно открыть окно терминала?"
+msgstr[0] "Открыть %1 окно терминала?"
+msgstr[1] "Открыть %1 окна терминала?"
+msgstr[2] "Открыть %1 окон терминала?"
+msgstr[3] "Открыть окно терминала?"
 
 #: dolphinmainwindow.cpp:1348
 #, kde-format
@@ -1198,7 +1209,7 @@ msgstr "Активировать панель терминала"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Перенос фокуса клавиатуры на панель терминала и с неё."
 
 #: dolphinmainwindow.cpp:2357
 #, kde-format
@@ -1730,7 +1741,7 @@ msgstr "Добавить сетевую папку"
 msgctxt "@action:inmenu"
 msgid "Location Bar"
 msgid_plural "Location Bars"
-msgstr[0] "Строка адреса"
+msgstr[0] "Строки адреса"
 msgstr[1] "Строки адреса"
 msgstr[2] "Строки адреса"
 msgstr[3] "Строка адреса"
@@ -1739,13 +1750,15 @@ msgstr[3] "Строка адреса"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Не удалось найти пакет %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
 msgstr ""
+"Программа установки завершила работу без сообщения об успешном выполнении. "
+"(%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1756,6 +1769,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Не удалось установить <application>%1</application>: %2 (%3)<nl/>Попробуйте "
+"выполнить установку <application>%1</application> вручную."
 
 #: dolphinpart.cpp:148
 #, kde-format
@@ -1922,11 +1937,10 @@ msgstr "Закрыть вкладку"
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Расположение"
+msgstr "Просмотр расположения"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2087,7 +2101,7 @@ msgstr "Неверный протокол"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Для входа в эту папку требуется авторизация."
 
 #: dolphinviewcontainer.cpp:996 dolphinviewcontainer.cpp:999
 #, kde-kuit-format
@@ -2121,24 +2135,22 @@ msgid "Move to New Folder…"
 msgstr "Переместить в новую папку…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "нет доступа"
+msgstr "скрыто"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", ссылка на %1 в %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2150,7 +2162,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
 #, kde-format
@@ -2158,54 +2170,46 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 в %2"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of
 #. properties that a file or folder has. Accessible text for accessibility software like screen
 #. readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
+#, kde-format
 msgid "not selected,"
-msgstr "Выбран %1 объект"
+msgstr "не выбрано,"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
 #, kde-format
 msgid "collapsed,"
-msgstr ""
+msgstr "свёрнуто,"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
+#, kde-format
 msgid "expanded,"
-msgstr "Раскрываемые папки"
+msgstr "развёрнуто,"
 
 #. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
 #. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgid "— %1 selected item"
 msgid_plural "— %1 selected items"
-msgstr[0] "Переименовать %1 выделенный объект в:"
-msgstr[1] "Переименовать %1 выделенных объекта в:"
-msgstr[2] "Переименовать %1 выделенных объектов в:"
-msgstr[3] "Переименовать %1 выделенный объект в:"
+msgstr[0] "— %1 выбранный объект"
+msgstr[1] "— %1 выбранных объекта"
+msgstr[2] "— %1 выбранных объектов"
+msgstr[3] "— %1 выбранный объект"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
 #, kde-format
 msgctxt "@info refering to a file or folder"
 msgid "in a grid layout"
-msgstr ""
+msgstr "в табличной компоновке"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2214,7 +2218,7 @@ msgctxt ""
 "currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
 "currentFolderPath"
 msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr ""
+msgstr "%1, %2 %3 %4 %5 %6 в %7"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2258,10 +2262,10 @@ msgstr "«%1», «%2», «%3» , «%4» и «%5»"
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "%1 выбранного файла"
-msgstr[1] "%1 выбранных файлов"
+msgstr[0] "%1 выбранный файл"
+msgstr[1] "%1 выбранных файла"
 msgstr[2] "%1 выбранных файлов"
-msgstr[3] "выбранного файла"
+msgstr[3] "один выбранный файл"
 
 #: kitemviews/kfileitemlisttostring.cpp:68
 #, kde-format
@@ -2269,10 +2273,10 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "%1 выбранной папки"
-msgstr[1] "%1 выбранных папок"
+msgstr[0] "%1 выбранная папка"
+msgstr[1] "%1 выбранные папки"
 msgstr[2] "%1 выбранных папок"
-msgstr[3] "выбранной папки"
+msgstr[3] "одна выбранная папка"
 
 #: kitemviews/kfileitemlisttostring.cpp:71
 #, kde-format
@@ -2281,20 +2285,20 @@ msgctxt ""
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "%1 выбранного объекта"
-msgstr[1] "%1 выбранных объектов"
+msgstr[0] "%1 выбранный объект"
+msgstr[1] "%1 выбранных объекта"
 msgstr[2] "%1 выбранных объектов"
-msgstr[3] "выбранного объекта"
+msgstr[3] "один выбранный объект"
 
 #: kitemviews/kfileitemlisttostring.cpp:82
 #, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
-msgstr[0] "%1 файла"
-msgstr[1] "%1 файлов"
+msgstr[0] "%1 файл"
+msgstr[1] "%1 файла"
 msgstr[2] "%1 файлов"
-msgstr[3] "одного файла"
+msgstr[3] "один файл"
 
 #: kitemviews/kfileitemlisttostring.cpp:84
 #, kde-format
@@ -2304,7 +2308,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "%1 папка"
 msgstr[1] "%1 папки"
 msgstr[2] "%1 папок"
-msgstr[3] "Одна папка"
+msgstr[3] "одна папка"
 
 #: kitemviews/kfileitemlisttostring.cpp:86
 #, kde-format
@@ -2315,7 +2319,7 @@ msgid_plural "%1 Items"
 msgstr[0] "%1 объект"
 msgstr[1] "%1 объекта"
 msgstr[2] "%1 объектов"
-msgstr[3] "Один объект"
+msgstr[3] "один объект"
 
 #: kitemviews/kfileitemlistwidget.cpp:76
 #, kde-format
@@ -2855,20 +2859,20 @@ msgstr "Неизвестная ошибка."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 с половиной звезда"
+msgstr[1] "%1 с половиной звезды"
+msgstr[2] "%1 с половиной звёзд"
+msgstr[3] "%1 с половиной звезда"
 
 #: kitemviews/kstandarditemlistwidget.cpp:124
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 звезда"
+msgstr[1] "%1 звезды"
+msgstr[2] "%1 звёзд"
+msgstr[3] "%1 звезда"
 
 #: main.cpp:61
 #, kde-kuit-format
@@ -2877,6 +2881,9 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Не рекомендуется запускать <application>Dolphin</application> с помощью "
+"<command>sudo</command>. Вместо этого следует воспользоваться <icode>%1</"
+"icode>."
 
 #: main.cpp:97
 #, kde-format
@@ -3204,7 +3211,7 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "Выбран %1 объект"
 msgstr[1] "Выбраны %1 объекта"
-msgstr[2] "Выбрано %1 объектов"
+msgstr[2] "Выбраны %1 объектов"
 msgstr[3] "Выбран %1 объект"
 
 #: panels/information/phononwidget.cpp:153
@@ -3619,10 +3626,10 @@ msgstr "Отменить переименование"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] "Копировать %2 в буфер обмена"
-msgstr[1] "Копировать %2 в буфер обмена"
-msgstr[2] "Копировать %2 в буфер обмена"
-msgstr[3] "Копировать %2 в буфер обмена"
+msgstr[0] "Копировать в буфер обмена (%2)"
+msgstr[1] "Копировать в буфер обмена (%2)"
+msgstr[2] "Копировать в буфер обмена (%2)"
+msgstr[3] "Копировать в буфер обмена (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3634,10 +3641,10 @@ msgstr[3] "Копировать %2 в буфер обмена"
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] "Копировать расположение %2 в буфер обмена"
-msgstr[1] "Копировать расположение %2 в буфер обмена"
-msgstr[2] "Копировать расположение %2 в буфер обмена"
-msgstr[3] "Копировать расположение %2 в буфер обмена"
+msgstr[0] "Копировать расположение в буфер обмена (%2)"
+msgstr[1] "Копировать расположение в буфер обмена (%2)"
+msgstr[2] "Копировать расположение в буфер обмена (%2)"
+msgstr[3] "Копировать расположение в буфер обмена (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3649,10 +3656,10 @@ msgstr[3] "Копировать расположение %2 в буфер обм
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] "Вырезать %2 в буфер обмена"
-msgstr[1] "Вырезать %2 в буфер обмена"
-msgstr[2] "Вырезать %2 в буфер обмена"
-msgstr[3] "Вырезать %2 в буфер обмена"
+msgstr[0] "Вырезать в буфер обмена (%2)"
+msgstr[1] "Вырезать в буфер обмена (%2)"
+msgstr[2] "Вырезать в буфер обмена (%2)"
+msgstr[3] "Вырезать в буфер обмена (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3664,10 +3671,10 @@ msgstr[3] "Вырезать %2 в буфер обмена"
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] "Безвозвратно удалить %2"
-msgstr[1] "Безвозвратно удалить %2"
-msgstr[2] "Безвозвратно удалить %2"
-msgstr[3] "Безвозвратно удалить %2"
+msgstr[0] "Безвозвратно удалить (%2)"
+msgstr[1] "Безвозвратно удалить (%2)"
+msgstr[2] "Безвозвратно удалить (%2)"
+msgstr[3] "Безвозвратно удалить (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3679,10 +3686,10 @@ msgstr[3] "Безвозвратно удалить %2"
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Создать копию %2"
-msgstr[1] "Создать копию %2"
-msgstr[2] "Создать копию %2"
-msgstr[3] "Создать копию %2"
+msgstr[0] "Создать копию (%2)"
+msgstr[1] "Создать копию (%2)"
+msgstr[2] "Создать копию (%2)"
+msgstr[3] "Создать копию (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3694,10 +3701,10 @@ msgstr[3] "Создать копию %2"
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Удалить %2 в корзину"
-msgstr[1] "Удалить %2 в корзину"
-msgstr[2] "Удалить %2 в корзину"
-msgstr[3] "Удалить %2 в корзину"
+msgstr[0] "Удалить в корзину (%2)"
+msgstr[1] "Удалить в корзину (%2)"
+msgstr[2] "Удалить в корзину (%2)"
+msgstr[3] "Удалить в корзину (%2)"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3709,10 +3716,10 @@ msgstr[3] "Удалить %2 в корзину"
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Переименовать %2"
-msgstr[1] "Переименовать %2"
-msgstr[2] "Переименовать %2"
-msgstr[3] "Переименовать %2"
+msgstr[0] "Переименовать (%2)"
+msgstr[1] "Переименовать (%2)"
+msgstr[2] "Переименовать (%2)"
+msgstr[3] "Переименовать (%2)"
 
 #: selectionmode/topbar.cpp:28
 #, kde-kuit-format
@@ -3849,7 +3856,7 @@ msgstr "Код максимальной ширины текста (0 означ�
 #: settings/dolphin_contentdisplaysettings.kcfg:10
 #, kde-format
 msgid "How we display the size of directories"
-msgstr ""
+msgstr "Отображение размера каталогов"
 
 #. i18n: ectx: label, entry (DirectorySizeMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:13
@@ -4145,11 +4152,9 @@ msgstr "Дополнительные сведения"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgid "Select Action"
-msgstr "Выделение"
+msgstr "Действие выбора"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
@@ -4229,7 +4234,7 @@ msgstr "Сохранять состояние папок и вкладок"
 #: settings/dolphin_generalsettings.kcfg:61
 #, kde-format
 msgid "Place two views side by side"
-msgstr ""
+msgstr "Размещать две области просмотра рядом друг с другом"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:66
@@ -4537,21 +4542,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Папки, вкладки и окна последнего сеанса"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Открывать при запуске:"
+msgstr "Открывать домашнюю папку при запуске"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Путь пуст."
+msgstr "Введите путь к домашней папке"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
@@ -4649,6 +4650,9 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"Если флажок снят, будет выполнено закрытие соседней области просмотра. "
+"Значок «Закрыть» всегда показывает, какая именно область просмотра (левая "
+"или правая) будет закрыта."
 
 #: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
@@ -4798,13 +4802,7 @@ msgid "Show previews for folders"
 msgstr "Показывать миниатюры файлов"
 
 #: settings/interface/previewssettingspage.cpp:100
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "<para>Creating <emphasis>previews</emphasis> for remote folders is "
-#| "<emphasis strong='true'>very expensive</emphasis> in terms of network "
-#| "resources.</para><para>Disable this if navigating remote folders in "
-#| "Dolphin is slow or when accessing storage over metered connections.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para>Creating <emphasis>previews</emphasis> for remote folders is very "
@@ -4812,11 +4810,11 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
-"<para>Создание <emphasis>миниатюр</emphasis> для объектов, расположенных в "
-"сетевых хранилищах <emphasis strong='true'>очень затратно</emphasis> в плане "
-"использования ресурсов сети.</para> <para>Отключите этот параметр, если "
-"работа Dolphin замедляется при работе с сетевыми хранилищами, или если для "
-"доступа к хранилищам используется лимитное подключение.</para>"
+"<para>При создании <emphasis>миниатюр</emphasis> для объектов, расположенных "
+"в сетевых хранилищах, интенсивно используются ресурсы сети.</"
+"para><para>Отключите этот параметр, если работа Dolphin замедляется при "
+"работе с сетевыми хранилищами или если для доступа к хранилищам используется "
+"лимитное подключение.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -4944,10 +4942,10 @@ msgstr "Не показывать размер"
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] " вложенного уровня"
-msgstr[1] " вложенных уровней"
+msgstr[0] " вложенный уровень"
+msgstr[1] " вложенных уровня"
 msgstr[2] " вложенных уровней"
-msgstr[3] " вложенного уровня"
+msgstr[3] " вложенный уровень"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
 #, kde-format
@@ -5047,6 +5045,9 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin добавит метаданные файловой системы в папки, свойства просмотра "
+"которых изменяются пользователем. Если это окажется невозможным, будет "
+"создан скрытый файл .directory."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -5636,7 +5637,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr "Очистить место на диске"
+msgstr "Очистка места на диске"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/statusbarspaceinfo.cpp:275
@@ -5646,6 +5647,9 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Установка дополнительного программного обеспечения для просмотра "
+"статистики<nl/>использования дискового пространства и выявления больших "
+"файлов и папок.</para>"
 
 #: statusbar/statusbarspaceinfo.cpp:284
 #, kde-format
@@ -5709,7 +5713,7 @@ msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "Выбрана %1 папка"
 msgstr[1] "Выбраны %1 папки"
-msgstr[2] "Выбрано %1 папок"
+msgstr[2] "Выбраны %1 папок"
 msgstr[3] "Выбрана одна папка"
 
 #: views/dolphinview.cpp:661
@@ -5719,7 +5723,7 @@ msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "Выбран %1 файл"
 msgstr[1] "Выбраны %1 файла"
-msgstr[2] "Выбрано %1 файлов"
+msgstr[2] "Выбраны %1 файлов"
 msgstr[3] "Выбран один файл"
 
 #: views/dolphinview.cpp:663
@@ -5730,7 +5734,7 @@ msgid_plural "%1 folders"
 msgstr[0] "%1 папка"
 msgstr[1] "%1 папки"
 msgstr[2] "%1 папок"
-msgstr[3] "одна папка"
+msgstr[3] "1 папка"
 
 #: views/dolphinview.cpp:664
 #, kde-format
@@ -5740,7 +5744,7 @@ msgid_plural "%1 files"
 msgstr[0] "%1 файл"
 msgstr[1] "%1 файла"
 msgstr[2] "%1 файлов"
-msgstr[3] "один файл"
+msgstr[3] "1 файл"
 
 #: views/dolphinview.cpp:668
 #, kde-format
@@ -5770,10 +5774,10 @@ msgstr "%1 (копия)"
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
-msgstr[0] "Вы действительно хотите открыть %1 объект?"
-msgstr[1] "Вы действительно хотите открыть %1 объекта?"
-msgstr[2] "Вы действительно хотите открыть %1 объектов?"
-msgstr[3] "Вы действительно хотите открыть %1 объект?"
+msgstr[0] "Открыть %1 объект?"
+msgstr[1] "Открыть %1 объекта?"
+msgstr[2] "Открыть %1 объектов?"
+msgstr[3] "Открыть объект?"
 
 #: views/dolphinview.cpp:1104
 #, kde-format
@@ -6200,14 +6204,7 @@ msgid "Show Hidden Files"
 msgstr "Показывать скрытые файлы"
 
 #: views/dolphinviewactionhandler.cpp:322
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>When this is enabled <emphasis>hidden</emphasis> files and folders "
-#| "are visible. They will be displayed semi-transparent.</para><para>Hidden "
-#| "items only differ from other ones in that their name starts with a \".\". "
-#| "In general there is no need for users to access them which is why they "
-#| "are hidden.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>When this is enabled, <emphasis>hidden</emphasis> files and folders "
@@ -6219,11 +6216,15 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
-"<para>При включении этого параметра, <emphasis>скрытые</emphasis> файлы и "
-"папки будут видны. Для показа скрытых файлов и папок используется "
-"полупрозрачный шрифт.</para><para>Скрытые объекты отличаются только тем, что "
-"их имя начинается с точки. Как правило, пользователю не требуется доступ к "
-"таким объектам.</para>"
+"<para>При включении этого параметра будут видны <emphasis>скрытые</emphasis> "
+"файлы и папки. Для показа скрытых файлов и папок используется полупрозрачный "
+"шрифт.</para><para>Скрытые объекты отличаются только тем, что их имя "
+"начинается с точки («.»). Как правило, пользователю не требуется доступ к "
+"таким объектам.</para><para>Объекты также могут быть скрыты, если их имена "
+"перечислены в текстовом файле с именем «.hidden». Кроме того, можно скрыть "
+"файлы с типом MIME «application/x-trash» (например, файлы резервных копий) "
+"путём включения соответствующего параметра: «Настроить Dolphin > Вид > "
+"Общие».</para>"
 
 #: views/dolphinviewactionhandler.cpp:336
 #, kde-format
