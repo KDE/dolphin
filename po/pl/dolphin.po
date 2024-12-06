@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:42+0000\n"
+"POT-Creation-Date: 2024-12-06 00:42+0000\n"
 "PO-Revision-Date: 2024-11-10 15:07+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -2122,7 +2122,7 @@ msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
 msgstr ", %1 %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
 msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
@@ -2130,52 +2130,45 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr "%1 w położeniu %2"
 
-#. i18n: There is a comma at the end because this is one property in an enumeration of
-#. properties that a file or folder has. Accessible text for accessibility software like screen
-#. readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, kde-format
-msgid "not selected,"
-msgstr "niezaznaczony,"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
-#, kde-format
-msgid "collapsed,"
-msgstr "zwinięty,"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, kde-format
-msgid "expanded,"
-msgstr "rozwinięty,"
-
-#. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
-#. with a period. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, kde-format
-msgid "— %1 selected item"
-msgid_plural "— %1 selected items"
-msgstr[0] "— %1 zaznaczona rzecz"
-msgstr[1] "— %1 zaznaczone rzeczy"
-msgstr[2] "— %1 zaznaczonych rzeczy"
-
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
-#, kde-format
-msgctxt "@info refering to a file or folder"
-msgid "in a grid layout"
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#, fuzzy, kde-format
+#| msgctxt "@info refering to a file or folder"
+#| msgid "in a grid layout"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in location %1"
 msgstr "w układzie siatki"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
-msgctxt ""
-"@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 is "
-"currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-"currentFolderPath"
-msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr "%1, %2 %3 %4 %5 %6 w miejscu %7"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in location %2"
+msgid_plural "%1 selected items in a grid layout in location %2"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 1 is path"
+msgid "in location %1"
+msgstr "%1 w położeniu %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in location %2"
+msgid_plural "%1 selected items in location %2"
+msgstr[0] "%1 w położeniu %2"
+msgstr[1] "%1 w położeniu %2"
+msgstr[2] "%1 w położeniu %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5756,67 +5749,67 @@ msgstr "Adres '%1' jest niepoprawny."
 msgid "Loading…"
 msgstr "Wczytywanie…"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgid "Loading canceled"
 msgstr "Wczytywanie przerwane"
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nie znaleziono niczego odpowiadającego filtrowi"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nie znaleziono niczego odpowiadającego szukanemu słowu"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "Trash is empty"
 msgstr "Kosz jest pusty"
 
-#: views/dolphinview.cpp:2375
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No tags"
 msgstr "Brak znaczników"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2382
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nie oznaczono żadnego pliku poprzez \"%1\""
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No recently used items"
 msgstr "Brak ostatnio używanych elementów"
 
-#: views/dolphinview.cpp:2384
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nie znaleziono żadnych współdzielonych katalogów"
 
-#: views/dolphinview.cpp:2386
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nie znaleziono odpowiadających zasobów sieciowych"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nie znaleziono urządzeń zgodnych z MTP"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nie znaleziono żadnych urządzeń Apple"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nie znaleziono urządzeń Bluetooth"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "Folder is empty"
 msgstr "Katalog jest pusty"
@@ -6246,6 +6239,28 @@ msgstr[2] "Działania dla %1 zaznaczonych rzeczy"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Uaktualnienie szczegółów o wersji…"
+
+#~ msgid "not selected,"
+#~ msgstr "niezaznaczony,"
+
+#~ msgid "collapsed,"
+#~ msgstr "zwinięty,"
+
+#~ msgid "expanded,"
+#~ msgstr "rozwinięty,"
+
+#~ msgid "— %1 selected item"
+#~ msgid_plural "— %1 selected items"
+#~ msgstr[0] "— %1 zaznaczona rzecz"
+#~ msgstr[1] "— %1 zaznaczone rzeczy"
+#~ msgstr[2] "— %1 zaznaczonych rzeczy"
+
+#~ msgctxt ""
+#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
+#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
+#~ "currentFolderPath"
+#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
+#~ msgstr "%1, %2 %3 %4 %5 %6 w miejscu %7"
 
 #~ msgctxt "@info"
 #~ msgid ""

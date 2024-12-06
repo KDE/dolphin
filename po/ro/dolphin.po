@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:42+0000\n"
+"POT-Creation-Date: 2024-12-06 00:42+0000\n"
 "PO-Revision-Date: 2024-06-08 16:45+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -2122,7 +2122,7 @@ msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
 msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
@@ -2130,60 +2130,40 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr ""
 
-#. i18n: There is a comma at the end because this is one property in an enumeration of
-#. properties that a file or folder has. Accessible text for accessibility software like screen
-#. readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
-msgid "not selected,"
-msgstr "%1 element ales"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
 #, kde-format
-msgid "collapsed,"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in location %1"
 msgstr ""
 
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
-msgid "expanded,"
-msgstr "Desfășurabile"
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#, kde-format
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in location %2"
+msgid_plural "%1 selected items in a grid layout in location %2"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
-#. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu"
+#| msgid "Hide Section '%1'"
+msgctxt "@info accessibility, 1 is path"
+msgid "in location %1"
+msgstr "Ascunde secțiunea „%1”"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the %1 selected item to:"
 #| msgid_plural "Rename the %1 selected items to:"
-msgid "— %1 selected item"
-msgid_plural "— %1 selected items"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in location %2"
+msgid_plural "%1 selected items in location %2"
 msgstr[0] "Redenumește %1 element selectat în:"
 msgstr[1] "Redenumește cele %1 elemente selectate în:"
 msgstr[2] "Redenumește cele %1 de elemente selectate în:"
-
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
-#, kde-format
-msgctxt "@info refering to a file or folder"
-msgid "in a grid layout"
-msgstr ""
-
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, kde-format
-msgctxt ""
-"@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 is "
-"currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-"currentFolderPath"
-msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5751,67 +5731,67 @@ msgstr "Amplasarea „%1” nu este validă."
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgid "Loading canceled"
 msgstr "Încărcare anulată"
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Niciun element care să se potrivească filtrului"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the search"
 msgstr "Niciun element care să se potrivească căutării"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "Trash is empty"
 msgstr "Gunoiul e gol"
 
-#: views/dolphinview.cpp:2375
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No tags"
 msgstr "Niciun marcaj"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2382
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Niciun fișier marcat cu „%1”"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No recently used items"
 msgstr "Niciun element folosit recent"
 
-#: views/dolphinview.cpp:2384
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No shared folders found"
 msgstr "Niciun dosar partajat găsit"
 
-#: views/dolphinview.cpp:2386
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nicio resursă de rețea relevantă găsită"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Niciun dispozitiv compatibil cu MTP găsit"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Niciun dispozitiv Apple găsit"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Niciun dispozitiv Bluetooth găsit"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "Folder is empty"
 msgstr "Dosarul e gol"
@@ -6251,6 +6231,19 @@ msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Se actualizează informațiile de versiune…"
 
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "%1 item selected"
+#~| msgid_plural "%1 items selected"
+#~ msgid "not selected,"
+#~ msgstr "%1 element ales"
+
+#, fuzzy
+#~| msgctxt "@option:check"
+#~| msgid "Expandable"
+#~ msgid "expanded,"
+#~ msgstr "Desfășurabile"
+
 #~ msgctxt "@info"
 #~ msgid ""
 #~ "Dolphin will create a hidden .directory file in each folder you change "
@@ -6598,10 +6591,6 @@ msgstr "Se actualizează informațiile de versiune…"
 #~ msgctxt "Huge icon size"
 #~ msgid "Huge (%1x%2)"
 #~ msgstr "Foarte mare (%1x%2)"
-
-#~ msgctxt "@item:inmenu"
-#~ msgid "Hide Section '%1'"
-#~ msgstr "Ascunde secțiunea „%1”"
 
 #~ msgctxt "@info:tooltip"
 #~ msgid "Toggle Filter Bar"

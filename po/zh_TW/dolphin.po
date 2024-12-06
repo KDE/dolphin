@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:42+0000\n"
+"POT-Creation-Date: 2024-12-06 00:42+0000\n"
 "PO-Revision-Date: 2024-11-26 21:48+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -2021,7 +2021,7 @@ msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
 msgstr "，%1 %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
 msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
@@ -2029,50 +2029,41 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr "在位置 %2 %1"
 
-#. i18n: There is a comma at the end because this is one property in an enumeration of
-#. properties that a file or folder has. Accessible text for accessibility software like screen
-#. readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, kde-format
-msgid "not selected,"
-msgstr "未選擇，"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
-#, kde-format
-msgid "collapsed,"
-msgstr "已收起，"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, kde-format
-msgid "expanded,"
-msgstr "已展開，"
-
-#. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
-#. with a period. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, kde-format
-msgid "— %1 selected item"
-msgid_plural "— %1 selected items"
-msgstr[0] "— %1 個已選的項目"
-
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
-#, kde-format
-msgctxt "@info refering to a file or folder"
-msgid "in a grid layout"
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#, fuzzy, kde-format
+#| msgctxt "@info refering to a file or folder"
+#| msgid "in a grid layout"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in location %1"
 msgstr "在網格佈局中"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
-msgctxt ""
-"@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 is "
-"currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-"currentFolderPath"
-msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr "%1，%2 %3 %4 %5 %6，位於 %7"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in location %2"
+msgid_plural "%1 selected items in a grid layout in location %2"
+msgstr[0] ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 1 is path"
+msgid "in location %1"
+msgstr "在位置 %2 %1"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in location %2"
+msgid_plural "%1 selected items in location %2"
+msgstr[0] "在位置 %2 %1"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5547,67 +5538,67 @@ msgstr "此位置 %1 是無效的。"
 msgid "Loading…"
 msgstr "載入中…"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgid "Loading canceled"
 msgstr "已取消載入"
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "No items matching the filter"
 msgstr "沒有符合過濾器的項目"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the search"
 msgstr "沒有符合搜尋的項目"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "Trash is empty"
 msgstr "垃圾桶是空的"
 
-#: views/dolphinview.cpp:2375
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No tags"
 msgstr "沒有標籤"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2382
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "沒有使用 \"%1\" 標籤的檔案"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No recently used items"
 msgstr "沒有最近使用的項目"
 
-#: views/dolphinview.cpp:2384
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No shared folders found"
 msgstr "找不到共享資料夾"
 
-#: views/dolphinview.cpp:2386
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "找不到有關的網路資源"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "找不到支援 MTP 的裝置"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No Apple devices found"
 msgstr "找不到 Apple 裝置"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "找不到藍牙裝置"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "Folder is empty"
 msgstr "資料夾是空的"
@@ -6026,6 +6017,26 @@ msgstr[0] "%1 個已選項目的動作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "更新版本資訊中…"
+
+#~ msgid "not selected,"
+#~ msgstr "未選擇，"
+
+#~ msgid "collapsed,"
+#~ msgstr "已收起，"
+
+#~ msgid "expanded,"
+#~ msgstr "已展開，"
+
+#~ msgid "— %1 selected item"
+#~ msgid_plural "— %1 selected items"
+#~ msgstr[0] "— %1 個已選的項目"
+
+#~ msgctxt ""
+#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
+#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
+#~ "currentFolderPath"
+#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
+#~ msgstr "%1，%2 %3 %4 %5 %6，位於 %7"
 
 #~ msgctxt "@info"
 #~ msgid ""

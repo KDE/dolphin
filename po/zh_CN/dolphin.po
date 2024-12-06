@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:42+0000\n"
+"POT-Creation-Date: 2024-12-06 00:42+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2015,7 +2015,7 @@ msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
 msgstr "，%1 %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
 msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
@@ -2023,50 +2023,41 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr "%1 位于 %2"
 
-#. i18n: There is a comma at the end because this is one property in an enumeration of
-#. properties that a file or folder has. Accessible text for accessibility software like screen
-#. readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, kde-format
-msgid "not selected,"
-msgstr "未选择，"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:285
-#, kde-format
-msgid "collapsed,"
-msgstr "折叠，"
-
-#. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
-#. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, kde-format
-msgid "expanded,"
-msgstr "展开，"
-
-#. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
-#. with a period. Accessible text for accessibility software like screen readers.
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, kde-format
-msgid "— %1 selected item"
-msgid_plural "— %1 selected items"
-msgstr[0] "— %1 个选中的项目"
-
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
-#, kde-format
-msgctxt "@info refering to a file or folder"
-msgid "in a grid layout"
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#, fuzzy, kde-format
+#| msgctxt "@info refering to a file or folder"
+#| msgid "in a grid layout"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in location %1"
 msgstr "在网格布局"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
-msgctxt ""
-"@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 is "
-"currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-"currentFolderPath"
-msgid "%1, %2 %3 %4 %5 %6 in location %7"
-msgstr "%1，%2 %3 %4 %5 %6 位于 %7"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in location %2"
+msgid_plural "%1 selected items in a grid layout in location %2"
+msgstr[0] ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 1 is path"
+msgid "in location %1"
+msgstr "%1 位于 %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
+#| "filesystem path"
+#| msgid "%1 at location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in location %2"
+msgid_plural "%1 selected items in location %2"
+msgstr[0] "%1 位于 %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -5542,67 +5533,67 @@ msgstr "位置“%1”无效。"
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: views/dolphinview.cpp:2366
+#: views/dolphinview.cpp:2370
 #, kde-format
 msgid "Loading canceled"
 msgstr "加载已取消"
 
-#: views/dolphinview.cpp:2368
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "No items matching the filter"
 msgstr "没有匹配此过滤条件的项目"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the search"
 msgstr "没有匹配此搜索条件的项目"
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "Trash is empty"
 msgstr "回收站为空"
 
-#: views/dolphinview.cpp:2375
+#: views/dolphinview.cpp:2379
 #, kde-format
 msgid "No tags"
 msgstr "无标签"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2382
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "没有标记为“%1”的文件"
 
-#: views/dolphinview.cpp:2382
+#: views/dolphinview.cpp:2386
 #, kde-format
 msgid "No recently used items"
 msgstr "没有最近使用过的项目"
 
-#: views/dolphinview.cpp:2384
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No shared folders found"
 msgstr "没有找到共享文件夹"
 
-#: views/dolphinview.cpp:2386
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "没有找到相关的网络资源"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "没有找到 MTP 兼容设备"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No Apple devices found"
 msgstr "未发现苹果设备"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "没有找到蓝牙设备"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "Folder is empty"
 msgstr "文件夹为空"
@@ -6019,3 +6010,23 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
+
+#~ msgid "not selected,"
+#~ msgstr "未选择，"
+
+#~ msgid "collapsed,"
+#~ msgstr "折叠，"
+
+#~ msgid "expanded,"
+#~ msgstr "展开，"
+
+#~ msgid "— %1 selected item"
+#~ msgid_plural "— %1 selected items"
+#~ msgstr[0] "— %1 个选中的项目"
+
+#~ msgctxt ""
+#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
+#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
+#~ "currentFolderPath"
+#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
+#~ msgstr "%1，%2 %3 %4 %5 %6 位于 %7"
