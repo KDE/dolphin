@@ -6,13 +6,12 @@
 # SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # SPDX-FileCopyrightText: 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Empar Montoro Martín <montoro_mde@gva.es>, 2019.
-# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 00:42+0000\n"
-"PO-Revision-Date: 2024-10-29 10:04+0100\n"
+"PO-Revision-Date: 2024-12-06 10:01+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -21,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2144,12 +2143,10 @@ msgid "%1 at location %2"
 msgstr "%1 a la ubicació %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "en una disposició en quadrícula"
+msgstr "en una disposició en quadrícula a la ubicació %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2157,29 +2154,23 @@ msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] ""
+"%1 element seleccionat en una disposició en quadrícula a la ubicació %2"
 msgstr[1] ""
+"%1 elements seleccionats en una disposició en quadrícula a la ubicació %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1 a la ubicació %2"
+msgstr "a la ubicació %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1 a la ubicació %2"
-msgstr[1] "%1 a la ubicació %2"
+msgstr[0] "%1 element seleccionat a la ubicació %2"
+msgstr[1] "%1 elements seleccionats a la ubicació %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -6251,24 +6242,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgid "not selected,"
-#~ msgstr "no seleccionat,"
-
-#~ msgid "collapsed,"
-#~ msgstr "reduït,"
-
-#~ msgid "expanded,"
-#~ msgstr "expandit,"
-
-#~ msgid "— %1 selected item"
-#~ msgid_plural "— %1 selected items"
-#~ msgstr[0] "— %1 element seleccionat"
-#~ msgstr[1] "— %1 elements seleccionats"
-
-#~ msgctxt ""
-#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
-#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-#~ "currentFolderPath"
-#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
-#~ msgstr "%1, %2 %3 %4 %5 %6 a la ubicació %7"

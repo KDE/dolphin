@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 00:42+0000\n"
-"PO-Revision-Date: 2024-10-29 07:53+0200\n"
+"PO-Revision-Date: 2024-12-06 09:14+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2065,46 +2065,36 @@ msgid "%1 at location %2"
 msgstr "%1 במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "בפריסת רשת"
+msgstr "בפריסת רשת במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "נבחר פריט בפריסת רשת במקום %2"
+msgstr[1] "נבחרו שני פריטים בפריסת רשת במקום %2"
+msgstr[2] "נבחרו %1 פריטים בפריסת רשת במקום %2"
+msgstr[3] "נבחרו %1 פריטים בפריסת רשת במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1 במקום %2"
+msgstr "במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1 במקום %2"
-msgstr[1] "%1 במקום %2"
-msgstr[2] "%1 במקום %2"
-msgstr[3] "%1 במקום %2"
+msgstr[0] "פריט נבחר במקום %2"
+msgstr[1] "שני פריטים נבחרו במקום %2"
+msgstr[2] "%1 פריטים נבחרו במקום %2"
+msgstr[3] "%1 פריטים נבחרו במקום %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -4594,7 +4584,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr "קבצים שמתחת"
+msgstr "קבצים שמתחת "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4748,7 +4738,7 @@ msgstr "הצגת מספר פריטים"
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
-msgstr "להציג את גודל התוכן, עד"
+msgstr "להציג את גודל התוכן, עד "
 
 #: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
@@ -4970,7 +4960,7 @@ msgstr "הזנקות לחיצה כפולה"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr "רקע:"
+msgstr "רקע: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:163
 #, kde-format

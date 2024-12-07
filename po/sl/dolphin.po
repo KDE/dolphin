@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 00:42+0000\n"
-"PO-Revision-Date: 2024-10-29 06:52+0100\n"
+"PO-Revision-Date: 2024-12-06 06:50+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2127,59 +2127,49 @@ msgid "%1 at location %2"
 msgstr "%1 na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "v mrežni postavitvi"
+msgstr "v mrežni postavitvi na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%1 izbranih elementov v mrežni postavitvi na lokaciji %2"
+msgstr[1] "%1 izbrani element v mrežni postavitvi na lokaciji %2"
+msgstr[2] "%1 izbrana elementa v mrežni postavitvi na lokaciji %2"
+msgstr[3] "%1 izbrani elementi v mrežni postavitvi na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1 na lokaciji %2"
+msgstr "na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1 na lokaciji %2"
-msgstr[1] "%1 na lokaciji %2"
-msgstr[2] "%1 na lokaciji %2"
-msgstr[3] "%1 na lokaciji %2"
+msgstr[0] "%1 izbranih elementov na lokaciji %2"
+msgstr[1] "%1 izbran element na lokaciji %2"
+msgstr[2] "%1 izbrana elementa na lokaciji %2"
+msgstr[3] "%1 izbrani elementi na lokaciji %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr "»%1«"
+msgstr "\"%1\""
 
 #: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "»%1« in »%2«"
+msgstr "\"%1\" in \"%2\""
 
 #: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
@@ -2187,7 +2177,7 @@ msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "»%1«, »%2« in »%3«"
+msgstr "\"%1\", \"%2\" in \"%3\""
 
 #: kitemviews/kfileitemlisttostring.cpp:37
 #, kde-format
@@ -2195,7 +2185,7 @@ msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "»%1«, »%2«, »%3« in »%4«"
+msgstr "\"%1\", \"%2\", \"%3\" in \"%4\""
 
 #: kitemviews/kfileitemlisttostring.cpp:45
 #, kde-format
@@ -2203,7 +2193,7 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr "»%1«, »%2«, »%3«, »%4« in »%5«"
+msgstr "\"%1\", \"%2\", \"%3\", \"%4\" in \"%5\""
 
 #: kitemviews/kfileitemlisttostring.cpp:65
 #, kde-format
