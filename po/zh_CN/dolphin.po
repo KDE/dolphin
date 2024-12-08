@@ -2027,27 +2027,27 @@ msgstr "%1 位于 %2"
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "网格布局，位于 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
+msgstr[0] "%1 选中的项目，网格布局，位于 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr ""
+msgstr "位于 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] ""
+msgstr[0] "%1 个选中的项目，位于 %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
