@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testParamMigrationToFileAttr();
     void testParamMigrationToFileAttrKeepDirectory();
     void testExtendedAttributeFull();
+    void testUseAsDefaultViewSettings();
 
 private:
     bool m_globalViewProps;
@@ -274,6 +275,53 @@ void ViewPropertiesTest::testExtendedAttributeFull()
     } else {
         QVERIFY(QFile::exists(dotDirectoryFile));
     }
+}
+
+void ViewPropertiesTest::testUseAsDefaultViewSettings()
+{
+    // Create new test directory for this test to make sure the settings are defaults
+    auto testDir = new TestDir(QDir::homePath() + "/.viewPropertiesTest-");
+    auto cleanup = qScopeGuard([testDir] {
+        delete testDir;
+    });
+
+    // Check that theres no .directory file and metadata is supported
+    QString dotDirectoryFile = testDir->url().toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFile));
+    KFileMetaData::UserMetaData metadata(testDir->url().toLocalFile());
+    if (!metadata.isSupported()) {
+        QSKIP("need extended attribute/filesystem metadata to be usefull");
+    }
+
+    const auto newDefaultViewMode = DolphinView::Mode::DetailsView;
+
+    // Equivalent of useAsDefault in ViewPropertiesDialog
+    // This sets the DetailsView as default viewMode
+    QString globalPropertiesPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    globalPropertiesPath.append("/view_properties/").append(QStringLiteral("global"));
+    GeneralSettings::setGlobalViewProps(true);
+    ViewProperties defaultProps((QUrl(globalPropertiesPath)));
+    defaultProps.setDirProperties(defaultProps);
+    defaultProps.setViewMode(newDefaultViewMode);
+    defaultProps.save();
+    GeneralSettings::setGlobalViewProps(false);
+
+    // Load default data
+    QScopedPointer<ViewProperties> defaultProperties(new ViewProperties(QUrl(globalPropertiesPath)));
+    auto defaultData = defaultProperties.data();
+    defaultData->setViewMode(newDefaultViewMode);
+
+    // Load testdir data
+    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(testDir->url()));
+    auto testData = testDirProperties.data();
+
+    // Make sure viewProperties is empty, so default values are used
+    auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    QVERIFY(viewProperties.isEmpty());
+
+    // Compare that default and new folder viewMode is the new default
+    QCOMPARE(defaultData->viewMode(), newDefaultViewMode);
+    QCOMPARE(testData->viewMode(), defaultData->viewMode());
 }
 
 QTEST_GUILESS_MAIN(ViewPropertiesTest)
