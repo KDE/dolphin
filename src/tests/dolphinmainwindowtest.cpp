@@ -13,7 +13,9 @@
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/kitemlistwidget.h"
 #include "testdir.h"
+#include "views/dolphinitemlistview.h"
 
 #include <KActionCollection>
 #include <KConfig>
@@ -55,6 +57,7 @@ private Q_SLOTS:
     void testOpenFiles();
     void testAccessibilityTree();
     void testAutoSaveSession();
+    void testInlineRename();
     void cleanupTestCase();
 
 private:
@@ -879,6 +882,59 @@ void DolphinMainWindowTest::testAutoSaveSession()
 
     // Disable session autosave.
     m_mainWindow->setSessionAutoSaveEnabled(false);
+}
+
+void DolphinMainWindowTest::testInlineRename()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createFiles({"aaaa", "bbbb", "cccc", "dddd"});
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy itemsReorderedSpy(view->m_model, &KFileItemModel::itemsMoved);
+    QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
+
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QTest::qWait(500); // we need to wait for the file widgets to become visible
+    view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/aaaa")});
+    view->updateViewState();
+    view->renameSelectedItems();
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Left);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_E);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Down);
+
+    QVERIFY(itemsReorderedSpy.wait());
+    QVERIFY(view->m_view->m_editingRole);
+    KItemListWidget *widget = view->m_view->m_visibleItems.value(view->m_view->firstVisibleIndex());
+    QVERIFY(!widget->editedRole().isEmpty());
+
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Left);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_A);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Down);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Down);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Left);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_A);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Down);
+
+    QVERIFY(itemsReorderedSpy.wait());
+    QVERIFY(view->m_view->m_editingRole);
+    widget = view->m_view->m_visibleItems.value(view->m_view->lastVisibleIndex());
+    QVERIFY(!widget->editedRole().isEmpty());
+
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape);
+    QVERIFY(widget->isCurrent());
+    view->m_model->refreshDirectory(testDir->url());
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+
+    QCOMPARE(view->m_model->fileItem(0).name(), "abbbb");
+    QCOMPARE(view->m_model->fileItem(1).name(), "adddd");
+    QCOMPARE(view->m_model->fileItem(2).name(), "cccc");
+    QCOMPARE(view->m_model->fileItem(3).name(), "eaaaa");
+    QCOMPARE(view->m_model->count(), 4);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

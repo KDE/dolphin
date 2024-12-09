@@ -25,6 +25,8 @@
 #include "private/kitemlistsizehintresolver.h"
 #include "private/kitemlistviewlayouter.h"
 
+#include <optional>
+
 #include <QElapsedTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
@@ -743,6 +745,7 @@ void KItemListView::editRole(int index, const QByteArray &role)
     }
 
     m_editingRole = true;
+    m_controller->selectionManager()->setCurrentItem(index);
     widget->setEditedRole(role);
 
     connect(widget, &KItemListWidget::roleEditingCanceled, this, &KItemListView::slotRoleEditingCanceled);
@@ -1376,9 +1379,20 @@ void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int>
     const int firstVisibleMovedIndex = qMax(firstVisibleIndex(), itemRange.index);
     const int lastVisibleMovedIndex = qMin(lastVisibleIndex(), itemRange.index + itemRange.count - 1);
 
+    /// Represents an item that was moved while being edited.
+    struct MovedEditedItem {
+        int movedToIndex;
+        QByteArray editedRole;
+    };
+    std::optional<MovedEditedItem> movedEditedItem;
     for (int index = firstVisibleMovedIndex; index <= lastVisibleMovedIndex; ++index) {
         KItemListWidget *widget = m_visibleItems.value(index);
         if (widget) {
+            if (m_editingRole && !widget->editedRole().isEmpty()) {
+                movedEditedItem = {movedToIndexes[index - itemRange.index], widget->editedRole()};
+                disconnectRoleEditingSignals(index);
+                m_editingRole = false;
+            }
             updateWidgetProperties(widget, index);
             initializeItemListWidget(widget);
         }
@@ -1386,6 +1400,10 @@ void KItemListView::slotItemsMoved(const KItemRange &itemRange, const QList<int>
 
     doLayout(NoAnimation);
     updateSiblingsInformation();
+
+    if (movedEditedItem) {
+        editRole(movedEditedItem->movedToIndex, movedEditedItem->editedRole);
+    }
 }
 
 void KItemListView::slotItemsChanged(const KItemRangeList &itemRanges, const QSet<QByteArray> &roles)

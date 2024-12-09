@@ -845,16 +845,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
     if (current.isEmpty() || !parent || current != "text") {
         if (m_roleEditor) {
             Q_EMIT roleEditingCanceled(index(), current, data().value(current));
-
-            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled, this, &KStandardItemListWidget::slotRoleEditingCanceled);
-            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished, this, &KStandardItemListWidget::slotRoleEditingFinished);
-
-            if (m_oldRoleEditor) {
-                m_oldRoleEditor->deleteLater();
-            }
-            m_oldRoleEditor = m_roleEditor;
-            m_roleEditor->hide();
-            m_roleEditor = nullptr;
+            closeRoleEditor();
         }
         return;
     }

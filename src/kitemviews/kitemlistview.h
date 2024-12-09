@@ -794,6 +794,8 @@ private:
     friend class KItemListControllerTest;
     friend class KItemListViewAccessible;
     friend class KItemListDelegateAccessible;
+
+    friend class DolphinMainWindowTest;
 };
 
 /**
