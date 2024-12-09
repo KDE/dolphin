@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 00:42+0000\n"
-"PO-Revision-Date: 2024-11-17 22:28+0530\n"
+"PO-Revision-Date: 2024-12-08 14:30+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -2007,42 +2007,32 @@ msgid "%1 at location %2"
 msgstr "%2 தனிலுள்ள %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "கிரிட் தளவமைப்பில்"
+msgstr "கிரிட் தளவமைப்பில், %1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
+msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%2 தனிலுள்ள %1"
+msgstr "%1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%2 தனிலுள்ள %1"
-msgstr[1] "%2 தனிலுள்ள %1"
+msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, %2 எனும் இடத்தில்"
+msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், %2 எனும் இடத்தில்"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
