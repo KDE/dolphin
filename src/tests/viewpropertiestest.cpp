@@ -83,33 +83,35 @@ void ViewPropertiesTest::testReadOnlyBehavior()
 
 void ViewPropertiesTest::testReadOnlyDirectory()
 {
-    auto localFolder = m_testDir->url().toLocalFile();
-    QString dotDirectoryFile = localFolder + "/.directory";
+    const QUrl testDirUrl = m_testDir->url();
+    const QString localFolder = testDirUrl.toLocalFile();
+    const QString dotDirectoryFile = localFolder + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
 
     // restrict write permissions
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
-    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
+    QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    const auto destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
+    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
     qDebug() << destinationDir;
     QVERIFY(QDir(destinationDir).exists());
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
     KFileMetaData::UserMetaData metadata(localFolder);
-    auto viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
+    const QString viewProperties = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
     QVERIFY(viewProperties.isEmpty());
 
-    props.reset(new ViewProperties(m_testDir->url()));
+    props.reset(new ViewProperties(testDirUrl));
     QVERIFY(props->isAutoSaveEnabled());
     QCOMPARE(props->sortRole(), "someNewSortRole");
     props.reset();
 
     metadata = KFileMetaData::UserMetaData(destinationDir);
+    qWarning() << metadata.queryAttributes(metadata.All);
     if (metadata.isSupported()) {
         QVERIFY(metadata.hasAttribute("kde.fm.viewproperties#1"));
     } else {
