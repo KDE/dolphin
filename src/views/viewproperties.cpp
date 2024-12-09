@@ -73,18 +73,16 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
 
     // load from metadata
     const QString viewPropertiesString = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
-    if (!viewPropertiesString.isEmpty()) {
-        // load view properties from xattr to temp file then loads into ViewPropertySettings
-        // clear the temp file
-        QFile outputFile(tempFile.fileName());
-        outputFile.open(QIODevice::WriteOnly);
-        outputFile.write(viewPropertiesString.toUtf8());
-        outputFile.close();
-    } else {
+    if (viewPropertiesString.isEmpty()) {
         // If there is no properties string, return default properties instead
-        // BUG:495878
         return defaultProperties();
     }
+    // load view properties from xattr to temp file then loads into ViewPropertySettings
+    // clear the temp file
+    QFile outputFile(tempFile.fileName());
+    outputFile.open(QIODevice::WriteOnly);
+    outputFile.write(viewPropertiesString.toUtf8());
+    outputFile.close();
     return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
 }
 
