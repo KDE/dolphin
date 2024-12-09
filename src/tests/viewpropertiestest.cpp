@@ -92,11 +92,12 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     QVERIFY(QFile(localFolder).setPermissions(QFileDevice::ReadOwner));
 
     QScopedPointer<ViewProperties> props(new ViewProperties(testDirUrl));
+    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
+
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    const QString destinationDir = props->destinationDir(QStringLiteral("local")) + localFolder;
     qDebug() << destinationDir;
     QVERIFY(QDir(destinationDir).exists());
 
@@ -111,7 +112,6 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     props.reset();
 
     metadata = KFileMetaData::UserMetaData(destinationDir);
-    qWarning() << metadata.queryAttributes(metadata.All);
     if (metadata.isSupported()) {
         QVERIFY(metadata.hasAttribute("kde.fm.viewproperties#1"));
     } else {
