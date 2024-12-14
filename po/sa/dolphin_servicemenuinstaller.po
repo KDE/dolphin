@@ -1,0 +1,146 @@
+# Sanskrit translations for dolphin package.
+# Copyright (C) 2024 This file is copyright:
+# This file is distributed under the same license as the dolphin package.
+# Kali <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-07 02:44+0000\n"
+"PO-Revision-Date: 2024-12-13 19:09+0530\n"
+"Last-Translator: Kali <EMAIL@ADDRESS>\n"
+"Language-Team: Sanskrit\n"
+"Language: sa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: servicemenuinstaller.cpp:43
+#, kde-format
+msgid "Dolphin service menu installation failed"
+msgstr "डॉल्फिन सेवा मेनू संस्थापनं विफलम्"
+
+#: servicemenuinstaller.cpp:70
+#, kde-format
+msgid "Failed to install \"%1\", exited with status \"%2\""
+msgstr "\"%1\" संस्थापनं कर्तुं असफलम्, \"%2\" इति स्थितिना निर्गतम् ।"
+
+#: servicemenuinstaller.cpp:99
+#, kde-format
+msgid "Failed to uninstall \"%1\", exited with status \"%2\""
+msgstr "\"%1\" विस्थापनं कर्तुं असफलम्, \"%2\" स्थितिः सह निर्गतम् ।"
+
+#: servicemenuinstaller.cpp:111
+#, kde-format
+msgid "The file does not exist!"
+msgstr "सञ्चिका नास्ति !"
+
+#: servicemenuinstaller.cpp:120
+#, kde-format
+msgid "Unknown error when installing package"
+msgstr "संकुल संस्थापनसमये अज्ञातदोषः"
+
+#: servicemenuinstaller.cpp:183
+#, kde-format
+msgid "Unsupported archive type %1: %2"
+msgstr "असमर्थितः संग्रहप्रकारः %1: %2"
+
+#: servicemenuinstaller.cpp:189
+#, kde-format
+msgid "Failed to run uncompressor command for %1"
+msgstr "%1 कृते uncompressor आदेशं चालयितुं असफलम्"
+
+#: servicemenuinstaller.cpp:193
+#, kde-format
+msgid "Process did not finish in reasonable time: %1 %2"
+msgstr "प्रक्रिया उचितसमये न समाप्तवती: %1 %2"
+
+#: servicemenuinstaller.cpp:197
+#, kde-format
+msgid "Failed to uncompress %1"
+msgstr "%1 विसंपीडयितुं असफलम्"
+
+#: servicemenuinstaller.cpp:234
+#, kde-format
+msgid "Failed to run installer script %1"
+msgstr "संस्थापकस्क्रिप्ट् %1 चालयितुं असफलम्"
+
+#: servicemenuinstaller.cpp:257
+#, kde-format
+msgid "Failed to set permissions on %1: %2"
+msgstr "%1: %2 इत्यत्र अनुमतिः सेट् कर्तुं असफलम्"
+
+#: servicemenuinstaller.cpp:273
+#, kde-format
+msgctxt "%2 = comma separated list of arguments"
+msgid "Installer script %1 failed, tried arguments \"%2\"."
+msgstr "संस्थापकस्क्रिप्ट् %1 विफलः, तर्काः \"%2\" प्रयतिताः ।"
+
+#: servicemenuinstaller.cpp:275
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \" इति ।"
+
+#: servicemenuinstaller.cpp:289
+#, kde-format
+msgid "Failed to create path %1"
+msgstr "%1 मार्गस्य निर्माणे असफलः"
+
+#: servicemenuinstaller.cpp:303
+#, kde-format
+msgid "Failed to copy .desktop file %1 to %2: %3"
+msgstr ".desktop सञ्चिका %1 प्रति %2 प्रति प्रतिलिखितुं असफलम्: %3"
+
+#: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
+#, kde-format
+msgid "Failed to remove directory %1"
+msgstr "%1 निर्देशिकां निष्कासयितुं असफलम्"
+
+#: servicemenuinstaller.cpp:321
+#, kde-format
+msgid "Failed to create directory %1"
+msgstr "%1 निर्देशिका निर्मातुं असफलम्"
+
+#: servicemenuinstaller.cpp:360
+#, kde-format
+msgid "Failed to find an installation script in %1"
+msgstr "%1 मध्ये संस्थापनस्क्रिप्ट् अन्वेष्टुं असफलम्"
+
+#: servicemenuinstaller.cpp:374
+#, kde-format
+msgid "Failed to remove .desktop file %1: %2"
+msgstr ".desktop सञ्चिकां निष्कासयितुं असफलम् %1: %2"
+
+#: servicemenuinstaller.cpp:417
+#, kde-format
+msgid "Failed to find an uninstallation script in %1"
+msgstr "%1 मध्ये विस्थापनस्क्रिप्ट् अन्वेष्टुं असफलम्"
+
+#: servicemenuinstaller.cpp:436
+#, kde-format
+msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr "निष्पादयितुं आदेशः: संस्थापयन्तु अथवा विस्थापनं कुर्वन्तु।"
+
+#: servicemenuinstaller.cpp:437
+#, kde-format
+msgctxt "@info:shell"
+msgid "Path to archive."
+msgstr "संग्रहालयस्य मार्गः ।"
+
+#: servicemenuinstaller.cpp:442
+#, kde-format
+msgid "Command is required."
+msgstr "आदेशः आवश्यकः अस्ति।"
+
+#: servicemenuinstaller.cpp:445
+#, kde-format
+msgid "Path to archive is required."
+msgstr "संग्रहणमार्गः आवश्यकः अस्ति ।"
+
+#: servicemenuinstaller.cpp:461
+#, kde-format
+msgid "Unsupported command %1"
+msgstr "असमर्थितः आदेशः %1"

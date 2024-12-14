@@ -6128,16 +6128,3 @@ msgstr[1] "Handlinger for %1 valgte elementer"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#, fuzzy
-#~| msgctxt "@label"
-#~| msgid "%1 item selected"
-#~| msgid_plural "%1 items selected"
-#~ msgid "not selected,"
-#~ msgstr "%1 element valgt"
-
-#, fuzzy
-#~| msgctxt "@option:check"
-#~| msgid "Expandable"
-#~ msgid "expanded,"
-#~ msgstr "Utvidbar"

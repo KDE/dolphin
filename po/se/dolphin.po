@@ -5807,7 +5807,3 @@ msgstr[1] ""
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr ""
-
-#, fuzzy
-#~ msgid "not selected,"
-#~ msgstr "Máhppa válljejuvvon"
