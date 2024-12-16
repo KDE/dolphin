@@ -42,19 +42,26 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         return new ViewPropertySettings(KSharedConfig::openConfig(settingsFile, KConfig::SimpleConfig));
     }
 
-    QTemporaryFile tempFile;
-    tempFile.setAutoRemove(false);
-    if (!tempFile.open()) {
-        qCWarning(DolphinDebug) << "Could not open temp file";
-        return nullptr;
-    }
+    auto createTempFile = []() -> QTemporaryFile * {
+        QTemporaryFile *tempFile = new QTemporaryFile;
+        tempFile->setAutoRemove(false);
+        if (!tempFile->open()) {
+            qCWarning(DolphinDebug) << "Could not open temp file";
+            return nullptr;
+        }
+        return tempFile;
+    };
 
     if (QFile::exists(settingsFile)) {
         // copy settings to tempfile to load them separately
-        QFile::remove(tempFile.fileName());
-        QFile::copy(settingsFile, tempFile.fileName());
+        const QTemporaryFile *tempFile = createTempFile();
+        if (!tempFile) {
+            return nullptr;
+        }
+        QFile::remove(tempFile->fileName());
+        QFile::copy(settingsFile, tempFile->fileName());
 
-        auto config = KConfig(tempFile.fileName(), KConfig::SimpleConfig);
+        auto config = KConfig(tempFile->fileName(), KConfig::SimpleConfig);
         // ignore settings that are outside of dolphin scope
         if (config.hasGroup("Dolphin") || config.hasGroup("Settings")) {
             const auto groupList = config.groupList();
@@ -63,25 +70,30 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
                     config.deleteGroup(group);
                 }
             }
-            return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+            return new ViewPropertySettings(KSharedConfig::openConfig(tempFile->fileName(), KConfig::SimpleConfig));
 
         } else if (!config.groupList().isEmpty()) {
             // clear temp file content
-            QFile::remove(tempFile.fileName());
+            QFile::remove(tempFile->fileName());
         }
     }
 
     // load from metadata
     const QString viewPropertiesString = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
-    if (!viewPropertiesString.isEmpty()) {
-        // load view properties from xattr to temp file then loads into ViewPropertySettings
-        // clear the temp file
-        QFile outputFile(tempFile.fileName());
-        outputFile.open(QIODevice::WriteOnly);
-        outputFile.write(viewPropertiesString.toUtf8());
-        outputFile.close();
+    if (viewPropertiesString.isEmpty()) {
+        return nullptr;
     }
-    return new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+    // load view properties from xattr to temp file then loads into ViewPropertySettings
+    // clear the temp file
+    const QTemporaryFile *tempFile = createTempFile();
+    if (!tempFile) {
+        return nullptr;
+    }
+    QFile outputFile(tempFile->fileName());
+    outputFile.open(QIODevice::WriteOnly);
+    outputFile.write(viewPropertiesString.toUtf8());
+    outputFile.close();
+    return new ViewPropertySettings(KSharedConfig::openConfig(tempFile->fileName(), KConfig::SimpleConfig));
 }
 
 ViewPropertySettings *ViewProperties::defaultProperties() const
@@ -89,7 +101,14 @@ ViewPropertySettings *ViewProperties::defaultProperties() const
     auto props = loadProperties(destinationDir(QStringLiteral("global")));
     if (props == nullptr) {
         qCWarning(DolphinDebug) << "Could not load default global viewproperties";
-        props = new ViewPropertySettings;
+        QTemporaryFile tempFile;
+        tempFile.setAutoRemove(false);
+        if (!tempFile.open()) {
+            qCWarning(DolphinDebug) << "Could not open temp file";
+            props = new ViewPropertySettings;
+        } else {
+            props = new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+        }
     }
 
     return props;
