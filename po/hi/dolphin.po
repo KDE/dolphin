@@ -6,20 +6,21 @@
 # Ravishankar Shrivastava <raviratlami@aol.in>, 2008.
 # G Karunakar <karunakar@indlinux.org>, 2010.
 # Raghavendra Kamath <raghu@raghukamath.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2024 kali <skkalwar999@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 00:42+0000\n"
-"PO-Revision-Date: 2023-02-28 21:17+0530\n"
-"Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
-"Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
+"PO-Revision-Date: 2024-12-15 19:32+0530\n"
+"Last-Translator: kali <skkalwar999@gmail.com>\n"
+"Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -459,7 +460,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr "काटें..."
+msgstr "काटें…"
 
 #: dolphinmainwindow.cpp:1764
 #, kde-kuit-format
@@ -524,7 +525,7 @@ msgstr "निष्क्रिय विभाजित दृश्य मे
 #| msgid "Copy to Inactive Split View…"
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "निष्क्रिय विभाजित दृश्य में नकल करें..."
+msgstr "निष्क्रिय विभाजित दृश्य में नकल करें…"
 
 #: dolphinmainwindow.cpp:1794
 #, fuzzy, kde-kuit-format
@@ -562,7 +563,7 @@ msgstr "निष्क्रिय विभाजित दृश्य मे
 #| msgid "Move to Inactive Split View…"
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "निष्क्रिय विभाजित दृश्य में स्थानांतरित करें..."
+msgstr "निष्क्रिय विभाजित दृश्य में स्थानांतरित करें…"
 
 #: dolphinmainwindow.cpp:1806
 #, fuzzy, kde-kuit-format
@@ -1645,7 +1646,7 @@ msgstr ""
 #| msgid "&Edit File Type..."
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "फ़ाइल की किस्म संपादित करें...(&E)"
+msgstr "फ़ाइल की किस्म संपादित करें…(&E)"
 
 #: dolphinpart.cpp:152
 #, fuzzy, kde-format
@@ -1661,7 +1662,7 @@ msgstr "मेल खाते वस्तु चुनें"
 #| msgid "Unselect Items Matching..."
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "मेल खाने वाले आइटम अचयनित करें..."
+msgstr "मेल खाने वाले आइटम अचयनित करें…"
 
 #: dolphinpart.cpp:163
 #, kde-format
@@ -1699,7 +1700,7 @@ msgstr "स्वतः चालू"
 #| msgid "Find File..."
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "फ़ाइल ढूंढें..."
+msgstr "फ़ाइल ढूंढें…"
 
 #: dolphinpart.cpp:195
 #, kde-format
@@ -1895,7 +1896,7 @@ msgstr "डॉल्फिन को रूट के रूप में चल
 #| msgid "Loading folder..."
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "फ़ोल्डर लोड किया जा रहा है..."
+msgstr "फ़ोल्डर लोड किया जा रहा है…"
 
 #: dolphinviewcontainer.cpp:169
 #, fuzzy, kde-format
@@ -1921,7 +1922,7 @@ msgstr "%1 के लिए खोज"
 #| msgid "Searching..."
 msgctxt "@info"
 msgid "Searching…"
-msgstr "खोज रहे हैं..."
+msgstr "खोज रहे हैं…"
 
 #: dolphinviewcontainer.cpp:669
 #, kde-format
@@ -1993,7 +1994,7 @@ msgstr "फ़िल्टर पट्टी छुपाएँ"
 #| msgid "Create Folder..."
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "फ़ोल्डर बनाएँ..."
+msgstr "फ़ोल्डर बनाएँ…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
@@ -2899,7 +2900,7 @@ msgstr "नक़ल"
 #| msgid "Rename..."
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "नाम बदलें..."
+msgstr "नाम बदलें…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -3544,7 +3545,7 @@ msgstr "खोज"
 #| msgid "Download New Services..."
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "नई सेवाएँ डाउनलोड करें..."
+msgstr "नई सेवाएँ डाउनलोड करें…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -4808,7 +4809,7 @@ msgstr "मनपसंद फ़ॉन्ट"
 #| msgid "Choose..."
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "चुनें..."
+msgstr "चुनें…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:34
 #, kde-format
@@ -5644,7 +5645,7 @@ msgstr "स्थान '%1' अवैध है."
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
-msgstr "लोड किया जा रहा है..."
+msgstr "लोड किया जा रहा है…"
 
 #: views/dolphinview.cpp:2370
 #, kde-format
@@ -5717,7 +5718,7 @@ msgstr "फ़ोल्डर खाली है"
 #| msgid "Create Folder..."
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "फ़ोल्डर बनाएँ..."
+msgstr "फ़ोल्डर बनाएँ…"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
@@ -5800,13 +5801,13 @@ msgstr "मिटाएँ…"
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "यहां अनुकृति बनाएँ..."
+msgstr "यहां अनुकृति बनाएँ…"
 
 #: views/dolphinviewactionhandler.cpp:164
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "स्थान की नक़ल करें..."
+msgstr "स्थान की नक़ल करें…"
 
 #: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
@@ -5965,7 +5966,7 @@ msgstr ""
 #| msgid "Adjust View Display Style..."
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "दृश्य प्रदर्शन शैली समायोजित करें..."
+msgstr "दृश्य प्रदर्शन शैली समायोजित करें…"
 
 #: views/dolphinviewactionhandler.cpp:339
 #, kde-format
@@ -6104,7 +6105,7 @@ msgstr[1] "%1 चयनित वस्तुओं के लिए क्र�
 #| msgid "Updating version information..."
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "संस्करण की जानकारी अद्यतित हो रही है..."
+msgstr "संस्करण की जानकारी अद्यतित हो रही है…"
 
 #, fuzzy
 #~| msgctxt "@label"
