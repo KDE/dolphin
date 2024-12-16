@@ -74,7 +74,7 @@ QString DolphinSearchBox::text() const
 
 void DolphinSearchBox::setSearchPath(const QUrl &url)
 {
-    if (url == m_searchPath) {
+    if (url == m_searchPath || !m_initialized) {
         return;
     }
 
