@@ -1889,15 +1889,18 @@ void DolphinView::selectNextItem()
 
 void DolphinView::slotRenamingResult(KJob *job)
 {
-    if (job->error()) {
+    // Change model data after renaming has succeeded. On failure we do nothing.
+    // If there is already an item with the newUrl, the copyjob will open a dialog for it, and
+    // KFileItemModel will update the data when the dir lister signals that the file name has changed.
+    if (!job->error()) {
         KIO::CopyJob *copyJob = qobject_cast<KIO::CopyJob *>(job);
         Q_ASSERT(copyJob);
         const QUrl newUrl = copyJob->destUrl();
+        const QUrl oldUrl = copyJob->srcUrls().at(0);
         const int index = m_model->index(newUrl);
-        if (index >= 0) {
+        if (m_model->index(oldUrl) == index) {
             QHash<QByteArray, QVariant> data;
-            const QUrl oldUrl = copyJob->srcUrls().at(0);
-            data.insert("text", oldUrl.fileName());
+            data.insert("text", newUrl.fileName());
             m_model->setData(index, data);
         }
     }
@@ -2032,24 +2035,12 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             }
 #endif
 
-            const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
-            if (!newNameExistsAlready && m_model->index(oldUrl) == index) {
-                // Only change the data in the model if no item with the new name
-                // is in the model yet. If there is an item with the new name
-                // already, calling KIO::CopyJob will open a dialog
-                // asking for a new name, and KFileItemModel will update the
-                // data when the dir lister signals that the file name has changed.
-                QHash<QByteArray, QVariant> data;
-                data.insert(role, retVal.newName);
-                m_model->setData(index, data);
-            }
-
             KIO::Job *job = KIO::moveAs(oldUrl, newUrl);
             KJobWidgets::setWindow(job, this);
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
-            if (!newNameExistsAlready) {
+            if (m_model->index(newUrl) < 0) {
                 forceUrlsSelection(newUrl, {newUrl});
                 updateSelectionState();
 
