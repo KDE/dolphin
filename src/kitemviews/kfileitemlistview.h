@@ -136,6 +136,7 @@ private:
     QTimer *m_updateIconSizeTimer;
 
     friend class KFileItemListViewTest; // For unit testing
+    friend class DolphinMainWindowTest; // For unit testing
 };
 
 #endif

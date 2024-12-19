@@ -10,10 +10,12 @@
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kfileitemmodelrolesupdater.h"
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "testdir.h"
+#include "views/dolphinitemlistview.h"
 
 #include <KActionCollection>
 #include <KConfig>
@@ -55,6 +57,7 @@ private Q_SLOTS:
     void testOpenFiles();
     void testAccessibilityAncestorTree();
     void testAutoSaveSession();
+    void testThumbnailAfterRename();
     void cleanupTestCase();
 
 private:
@@ -834,6 +837,52 @@ void DolphinMainWindowTest::testAutoSaveSession()
 
     // Disable session autosave.
     m_mainWindow->setSessionAutoSaveEnabled(false);
+}
+
+void DolphinMainWindowTest::testThumbnailAfterRename()
+{
+    // Create testdir and red square jpg for testing
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QImage testImage(256, 256, QImage::Format_Mono);
+    testImage.setColorCount(1);
+    testImage.setColor(0, qRgba(255, 0, 0, 255)); // Index #0 = Red
+    for (short x = 0; x < 256; ++x) {
+        for (short y = 0; y < 256; ++y) {
+            testImage.setPixel(x, y, 0);
+        }
+    }
+    testImage.save(testDir.data()->path() + "/a.jpg");
+
+    // Open dir and show it
+    m_mainWindow->openDirectories({testDir->url()}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    // Prepare signal spies
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy itemsChangedSpy(view->m_model, &KFileItemModel::itemsChanged);
+    QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
+    QSignalSpy previewUpdatedSpy(view->m_view->m_modelRolesUpdater, &KFileItemModelRolesUpdater::previewJobFinished);
+    // Show window and check that our preview has been updated, then wait for it to appear
+    m_mainWindow->show();
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QVERIFY(previewUpdatedSpy.wait());
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+    QTest::qWait(500); // we need to wait for the file widgets to become visible
+
+    // Set image selected and rename it to b.jpg, make sure editing role is working
+    view->markUrlsAsSelected({QUrl(testDir->url().toString() + "/a.jpg")});
+    view->updateViewState();
+    view->renameSelectedItems();
+    QVERIFY(view->m_view->m_editingRole);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_B);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Enter);
+    QVERIFY(itemsChangedSpy.wait()); // Make sure that rename worked
+
+    // Check that preview gets updated and filename is correct
+    QVERIFY(previewUpdatedSpy.wait());
+    QVERIFY(!view->m_view->m_editingRole);
+    QCOMPARE(view->m_model->fileItem(0).name(), "b.jpg");
+    QCOMPARE(view->m_model->count(), 1);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

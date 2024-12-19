@@ -178,6 +178,9 @@ public:
      */
     void setHoverSequenceState(const QUrl &itemUrl, int seqIdx);
 
+Q_SIGNALS:
+    void previewJobFinished(); // For unit testing
+
 private Q_SLOTS:
     void slotItemsInserted(const KItemRangeList &itemRanges);
     void slotItemsRemoved(const KItemRangeList &itemRanges);
