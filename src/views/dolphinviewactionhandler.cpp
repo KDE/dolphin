@@ -27,6 +27,7 @@
 #include <QActionGroup>
 #include <QMenu>
 #include <QPointer>
+#include <QToolButton>
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection *collection, SelectionMode::ActionTextHelper *actionTextHelper, QObject *parent)
     : QObject(parent)
@@ -210,13 +211,16 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                        "location by clicking the region to the left of it. This way you can "
                                        "view the contents of multiple folders in the same list.</para>"));
 
-    KSelectAction *viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
-    viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
-    viewModeActions->addAction(iconsAction);
-    viewModeActions->addAction(compactAction);
-    viewModeActions->addAction(detailsAction);
-    viewModeActions->setToolBarMode(KSelectAction::MenuMode);
-    connect(viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+    m_viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
+    m_viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
+    m_viewModeActions->addAction(iconsAction);
+    m_viewModeActions->addAction(compactAction);
+    m_viewModeActions->addAction(detailsAction);
+    m_viewModeActions->setToolBarMode(KSelectAction::ComboBoxMode);
+    connect(m_viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+
+    QAction *viewModeButtonAction = actionCollection()->action(QStringLiteral("view_mode"));
+    connect(viewModeButtonAction, &QAction::triggered, this, &DolphinViewActionHandler::slotViewModeToolButtonTriggered);
 
     QAction *zoomInAction = KStandardAction::zoomIn(this, &DolphinViewActionHandler::zoomIn, m_actionCollection);
     zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));
@@ -419,6 +423,14 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
 
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
+}
+
+void DolphinViewActionHandler::slotViewModeToolButtonTriggered()
+{
+    if (!m_viewModeActions->setCurrentItem(m_viewModeActions->currentItem() + 1)) {
+        m_viewModeActions->setCurrentItem(0);
+    }
+    slotViewModeActionTriggered(m_viewModeActions->currentAction());
 }
 
 void DolphinViewActionHandler::slotRename()

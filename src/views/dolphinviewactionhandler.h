@@ -20,6 +20,7 @@ class QActionGroup;
 class DolphinView;
 class KActionCollection;
 class KFileItemList;
+class KSelectAction;
 namespace SelectionMode
 {
 class ActionTextHelper;
@@ -95,6 +96,11 @@ private Q_SLOTS:
      * Emitted when the user requested a change of view mode
      */
     void slotViewModeActionTriggered(QAction *);
+
+    /**
+     * Emitted when the user requested a change of view mode by clicking the tool button
+     */
+    void slotViewModeToolButtonTriggered();
 
     /**
      * Let the user input a name for the selected item(s) and trigger
@@ -272,6 +278,7 @@ private:
 
     KActionCollection *m_actionCollection;
     DolphinView *m_currentView;
+    KSelectAction *m_viewModeActions;
 
     QHash<QByteArray, KToggleAction *> m_sortByActions;
     QHash<QByteArray, KToggleAction *> m_visibleRoles;

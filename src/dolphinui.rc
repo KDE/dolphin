@@ -107,9 +107,8 @@
         <Action name="go_back" />
         <Action name="go_forward" />
         <Separator name="separator_1" />
-        <Action name="icons" />
-        <Action name="compact" />
-        <Action name="details" />
+        <Action name="view_mode" />
+        <Separator name="separator_1" />
         <Action name="url_navigators" />
         <Action name="split_view" />
         <Action name="split_stash" />
