@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 00:43+0000\n"
-"PO-Revision-Date: 2024-12-19 21:41+0530\n"
+"PO-Revision-Date: 2024-12-20 22:01+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -1661,7 +1661,7 @@ msgstr "%1 संकुलं न लब्धम् ।"
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr "सफलतायाः सूचनां विना संस्थापनं निर्गतम् । (%1) ९."
+msgstr "सफलतायाः सूचनां विना संस्थापनं निर्गतम् । (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1851,7 +1851,7 @@ msgstr "स्थानदृश्यम्"
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 | (%2) ९."
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2287,7 +2287,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Yesterday' (MMMM, yyyy)"
-msgstr "'कालः' (MMMM, yyyy) २."
+msgstr "'कालः' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2478
 #, kde-format
@@ -2303,7 +2303,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr "dddd (MMMM, yyyy) २."
+msgstr "dddd (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2495
 #, kde-format
@@ -2357,7 +2357,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr "'त्रिसप्ताहपूर्वम्' (MMMM, yyyy) २."
+msgstr "'त्रिसप्ताहपूर्वम्' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2552
 #, kde-format
@@ -2790,7 +2790,7 @@ msgstr "पीटर पेन्ज"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
-msgstr "परिपालकः विकासकः च (२००६-२०१२) २."
+msgstr "परिपालकः विकासकः च (२००६-२०१२)"
 
 #: main.cpp:121
 #, kde-format
@@ -3215,7 +3215,7 @@ msgstr "टैग्स् योजयतु"
 #, kde-format
 msgctxt "action:button"
 msgid "From Here (%1)"
-msgstr "इतः (%1) २."
+msgstr "इतः (%1)"
 
 #: search/dolphinsearchbox.cpp:105
 #, kde-format
@@ -4174,7 +4174,7 @@ msgstr "पाठविस्तारसूचकाङ्कः"
 #: settings/dolphin_iconsmodesettings.kcfg:31
 #, kde-format
 msgid "Maximum textlines (0 means unlimited)"
-msgstr "अधिकतमं पाठरेखाः (० इत्यस्य अर्थः असीमितम्) २."
+msgstr "अधिकतमं पाठरेखाः (० इत्यस्य अर्थः असीमितम्)"
 
 #. i18n: ectx: label, entry (enabledPlugins), group (VersionControl)
 #: settings/dolphin_versioncontrolsettings.kcfg:10
@@ -4293,7 +4293,7 @@ msgstr "प्रशासकरूपेण कार्यं कर्तु�
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
-msgstr "कार्यान्वयनीयसञ्चिकां उद्घाटयति समये : १."
+msgstr "कार्यान्वयनीयसञ्चिकां उद्घाटयति समये :"
 
 #: settings/interface/confirmationssettingspage.cpp:73
 #, kde-format
@@ -4351,13 +4351,13 @@ msgstr "पूर्वनिर्धारितस्थानस्य उ�
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
-msgstr "प्रारम्भे दर्शयतु : १."
+msgstr "प्रारम्भे दर्शयतु :"
 
 #: settings/interface/folderstabssettingspage.cpp:103
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "फोल्डर् उद्घाटनम् : १."
+msgstr "फोल्डर् उद्घाटनम् :"
 
 #: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
@@ -4431,7 +4431,7 @@ msgstr ""
 #: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgid "New windows:"
-msgstr "नवीनविण्डोः : १."
+msgstr "नवीनविण्डोः :"
 
 #: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
@@ -4513,7 +4513,7 @@ msgstr "&condensed date इत्यस्य उपयोगं कुर्व
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
-msgstr "सूचनापरिषदः : १."
+msgstr "सूचनापरिषदः :"
 
 #: settings/interface/panelsettingspage.cpp:52
 #, kde-format
@@ -4592,13 +4592,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Local storage:"
-msgstr "स्थानीय भण्डारणम् : १."
+msgstr "स्थानीय भण्डारणम् :"
 
 #: settings/interface/previewssettingspage.cpp:117
 #, kde-format
 msgctxt "@title:group"
 msgid "Remote storage:"
-msgstr "दूरस्थं भण्डारणं : १."
+msgstr "दूरस्थं भण्डारणं :"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:36
 #, kde-format
@@ -4633,7 +4633,7 @@ msgstr "स्थानपट्टिकां सम्पादनीयं �
 #: settings/interface/statusandlocationbarssettingspage.cpp:48
 #, kde-format
 msgid "Location bar:"
-msgstr "स्थानपट्टिका : १."
+msgstr "स्थानपट्टिका :"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:50
 #, kde-format
@@ -4721,49 +4721,49 @@ msgstr[1] " स्तराः गभीराः"
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
-msgstr "पुटस्य आकारः : १."
+msgstr "पुटस्य आकारः :"
 
 #: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
-msgstr "सापेक्ष (उदा. '%1') २."
+msgstr "सापेक्ष (उदा. '%1')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
-msgstr "निरपेक्ष (उदा. '%1') २."
+msgstr "निरपेक्ष (उदा. '%1')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
-msgstr "तिथिशैली : १."
+msgstr "तिथिशैली :"
 
 #: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr "प्रतीकात्मक (उदा. 'द्र्वक्ष्र-क्ष्') २."
+msgstr "प्रतीकात्मक (उदा. 'द्र्वक्ष्र-क्ष्')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr "संख्यात्मक (अष्टक) (उदा. '७५५') २."
+msgstr "संख्यात्मक (अष्टक) (उदा. '७५५')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr "संयुक्त (उदा. 'द्र्वक्ष्र-क्ष् (७५५)') २."
+msgstr "संयुक्त (उदा. 'द्र्वक्ष्र-क्ष् (७५५)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
-msgstr "अनुमतिशैली : १."
+msgstr "अनुमतिशैली :"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -4963,19 +4963,19 @@ msgstr "सामग्रीप्रदर्शनम्"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
-msgstr "पूर्वनिर्धारितचिह्न आकारः : १."
+msgstr "पूर्वनिर्धारितचिह्न आकारः :"
 
 #: settings/viewmodes/viewsettingstab.cpp:56
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
-msgstr "पूर्वावलोकनचिह्न आकारः : १."
+msgstr "पूर्वावलोकनचिह्न आकारः :"
 
 #: settings/viewmodes/viewsettingstab.cpp:62
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
-msgstr "लेबल फ़ॉन्ट् : १."
+msgstr "लेबल फ़ॉन्ट् :"
 
 #: settings/viewmodes/viewsettingstab.cpp:67
 #, kde-format
@@ -5005,7 +5005,7 @@ msgstr "विशालः"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label width:"
-msgstr "लेबलस्य विस्तारः : १."
+msgstr "लेबलस्य विस्तारः :"
 
 #: settings/viewmodes/viewsettingstab.cpp:74
 #, kde-format
@@ -5047,7 +5047,7 @@ msgstr "५"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
-msgstr "अधिकतमं रेखाः : १."
+msgstr "अधिकतमं रेखाः :"
 
 #: settings/viewmodes/viewsettingstab.cpp:85
 #, kde-format
@@ -5077,7 +5077,7 @@ msgstr "बृहत्‌"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
-msgstr "अधिकतमं चौड़ाई : १."
+msgstr "अधिकतमं चौड़ाई :"
 
 #: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
@@ -5089,7 +5089,7 @@ msgstr "विस्तारयोग्यः"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Folders:"
-msgstr "पुटम् : १."
+msgstr "पुटम् :"
 
 #: settings/viewmodes/viewsettingstab.cpp:97
 #, kde-format
@@ -5108,7 +5108,7 @@ msgstr "icon अथवा name इत्यत्र क्लिक् कृ�
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "सञ्चिकाः, पुटं च उद्घाटयन्तु : १."
+msgstr "सञ्चिकाः, पुटं च उद्घाटयन्तु :"
 
 #: settings/viewmodes/viewsettingstab.cpp:243
 #: statusbar/dolphinstatusbar.cpp:340
@@ -5200,18 +5200,18 @@ msgstr "प्रत्येकस्मिन् सञ्चिकाया�
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
-msgstr "दृश्यविधिः : १."
+msgstr "दृश्यविधिः :"
 
 #: settings/viewpropertiesdialog.cpp:143
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
-msgstr "क्रमाङ्कनम् : १."
+msgstr "क्रमाङ्कनम् :"
 
 #: settings/viewpropertiesdialog.cpp:147
 #, kde-format
 msgid "View options:"
-msgstr "विकल्पान् पश्यन्तु : १."
+msgstr "विकल्पान् पश्यन्तु :"
 
 #: settings/viewpropertiesdialog.cpp:166
 #, kde-format
@@ -5235,7 +5235,7 @@ msgstr "सर्वाणि पुटानि"
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
-msgstr "आवेदनं कुर्वन्तु : १."
+msgstr "आवेदनं कुर्वन्तु :"
 
 #: settings/viewpropertiesdialog.cpp:183
 #, kde-format
@@ -5281,7 +5281,7 @@ msgstr "पुटम् : %1"
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
-msgstr "जूम : १."
+msgstr "जूम :"
 
 #: statusbar/dolphinstatusbar.cpp:63
 #, kde-format
@@ -5498,13 +5498,13 @@ msgstr[1] "%1 सञ्चिकाः"
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
-msgstr "%1, %2 (%3) २."
+msgstr "%1, %2 (%3)"
 
 #: views/dolphinview.cpp:670
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
-msgstr "%1 (%2) २."
+msgstr "%1 (%2)"
 
 #: views/dolphinview.cpp:674
 #, kde-format
