@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 00:43+0000\n"
-"PO-Revision-Date: 2024-11-13 19:09+0200\n"
+"PO-Revision-Date: 2024-12-12 16:06+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -2111,44 +2111,34 @@ msgid "%1 at location %2"
 msgstr "„%1“ vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "režģa izkārtojumā"
+msgstr "režģa izkārtojumā vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%1 atlasīts vienums režģa izkārtojumā vietā „%2“"
+msgstr[1] "%1 atlasīti vienumi režģa izkārtojumā vietā „%2“"
+msgstr[2] "%1 atlasītu vienumu režģa izkārtojumā vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "„%1“ vietā „%2“"
+msgstr "vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "„%1“ vietā „%2“"
-msgstr[1] "„%1“ vietā „%2“"
-msgstr[2] "„%1“ vietā „%2“"
+msgstr[0] "%1 atlasīts vienums vietā „%2“"
+msgstr[1] "%1 atlasīti vienumi vietā „%2“"
+msgstr[2] "%1 atlasītu vienumu vietā „%2“"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
