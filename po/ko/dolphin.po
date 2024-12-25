@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 00:43+0000\n"
-"PO-Revision-Date: 2024-11-29 01:11+0100\n"
+"PO-Revision-Date: 2024-12-24 16:22+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -2048,40 +2048,30 @@ msgid "%1 at location %2"
 msgstr "%1, 위치: %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "격자 레이아웃으로"
+msgstr "격자 레이아웃, 위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
+msgstr[0] "격자 레이아웃의 선택한 항목 %1개, 위치: %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1, 위치: %2"
+msgstr "위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1, 위치: %2"
+msgstr[0] "선택한 항목 %1개, 위치: %2"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
