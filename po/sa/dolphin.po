@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 00:43+0000\n"
-"PO-Revision-Date: 2024-12-24 20:39+0530\n"
+"PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -1935,7 +1935,7 @@ msgstr "डॉल्फिनं मूलरूपेण चालयितु�
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "फोल्डर् लोड् भवति…"
+msgstr "समुच्चय लोड् भवति…"
 
 #: dolphinviewcontainer.cpp:169
 #, kde-format
@@ -2006,7 +2006,7 @@ msgstr "वर्तमानस्थानं परिवर्तितं, 
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "फोल्डर् परिवर्तनं कुर्वन् Filter स्थापयन्तु"
+msgstr "समुच्चय परिवर्तनं कुर्वन् Filter स्थापयन्तु"
 
 #: filterbar/filterbar.cpp:36
 #, kde-format
@@ -2899,7 +2899,7 @@ msgstr "गुप्तसञ्चिकाः दर्शिताः"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
 #, kde-format
 msgid "Limit folders panel to home directory if inside home"
-msgstr "यदि गृहस्य अन्तः अस्ति तर्हि फोल्डर्स् पटलं गृहनिर्देशिकां प्रति सीमितं कुर्वन्तु"
+msgstr "यदि गृहस्य अन्तः अस्ति तर्हि समुच्चयस् पटलं गृहनिर्देशिकां प्रति सीमितं कुर्वन्तु"
 
 #. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
@@ -3542,7 +3542,7 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
-"चयनविधिः : सञ्चिकाः अथवा फोल्डर् इत्यत्र क्लिक् कृत्वा तान् चयनं वा विचयनं वा कुर्वन्तु ।"
+"चयनविधिः : सञ्चिकाः अथवा समुच्चय इत्यत्र क्लिक् कृत्वा तान् चयनं वा विचयनं वा कुर्वन्तु ।"
 
 #: selectionmode/topbar.cpp:39
 #, kde-format
@@ -4314,7 +4314,7 @@ msgstr "स्क्रिप्ट् चालयन्तु"
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "अन्तिमसमयात् फोल्डर्, ट्याब्स्, विण्डो स्टेट् च"
+msgstr "अन्तिमसमयात् समुच्चय, ट्याब्स्, विण्डो स्टेट् च"
 
 #: settings/interface/folderstabssettingspage.cpp:54
 #, kde-format
@@ -4357,13 +4357,13 @@ msgstr "प्रारम्भे दर्शयतु :"
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
-msgstr "फोल्डर् उद्घाटनम् :"
+msgstr "समुच्चय उद्घाटनम् :"
 
 #: settings/interface/folderstabssettingspage.cpp:104
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
-msgstr "एकं Dolphin विण्डो स्थापयन्तु, ट्याब्स् मध्ये नूतनानि फोल्डर् उद्घाटयन्तु"
+msgstr "एकं Dolphin विण्डो स्थापयन्तु, ट्याब्स् मध्ये नूतनानि समुच्चय उद्घाटयन्तु"
 
 #: settings/interface/folderstabssettingspage.cpp:108
 #, kde-format
@@ -4451,7 +4451,7 @@ msgstr "गृहपुटस्य स्थानं अमान्यम् 
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "फोल्डर् && ट्याब्स्"
+msgstr "समुच्चय && ट्याब्स्"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -4833,7 +4833,7 @@ msgstr "आर्काइव्स् पुटरूपेण उद्घा�
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
-msgstr "drag operations इत्यस्य समये फोल्डर् उद्घाटयन्तु"
+msgstr "drag operations इत्यस्य समये समुच्चय उद्घाटयन्तु"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:63
 #, kde-format
@@ -5683,7 +5683,7 @@ msgstr "पुटं रिक्तम् अस्ति"
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "फोल्डर् रचयन्तु…"
+msgstr "समुच्चय रचयन्तु…"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
@@ -5967,7 +5967,7 @@ msgstr "दृश्यप्रदर्शनशैलीं समायो�
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
-msgstr "एतेन एकं विण्डो उद्घाट्यते यस्मिन् सर्वे फोल्डर् दृश्यगुणाः समायोजितुं शक्यन्ते ।"
+msgstr "एतेन एकं विण्डो उद्घाट्यते यस्मिन् सर्वे समुच्चय दृश्यगुणाः समायोजितुं शक्यन्ते ।"
 
 #: views/dolphinviewactionhandler.cpp:635
 #, kde-format
