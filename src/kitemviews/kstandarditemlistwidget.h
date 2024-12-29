@@ -176,7 +176,7 @@ protected:
     void dataChanged(const QHash<QByteArray, QVariant> &current, const QSet<QByteArray> &roles = QSet<QByteArray>()) override;
     void visibleRolesChanged(const QList<QByteArray> &current, const QList<QByteArray> &previous) override;
     void columnWidthChanged(const QByteArray &role, qreal current, qreal previous) override;
-    void sidePaddingChanged(qreal width) override;
+    void sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth) override;
     void styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous) override;
     void hoveredChanged(bool hovered) override;
     void selectedChanged(bool selected) override;
@@ -213,6 +213,7 @@ private:
     void updateDetailsLayoutTextCache();
 
     void drawPixmap(QPainter *painter, const QPixmap &pixmap);
+    /** Draw the lines and arrows that visualize the expanded state and level of this row. */
     void drawSiblingsInformation(QPainter *painter);
 
     QRectF roleEditingRect(const QByteArray &role) const;

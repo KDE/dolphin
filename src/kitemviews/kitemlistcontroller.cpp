@@ -243,6 +243,20 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 
     const bool horizontalScrolling = m_view->scrollOrientation() == Qt::Horizontal;
 
+    if (m_view->layoutDirection() == Qt::RightToLeft) {
+        // swap left and right arrow keys
+        switch (key) {
+        case Qt::Key_Left:
+            key = Qt::Key_Right;
+            break;
+        case Qt::Key_Right:
+            key = Qt::Key_Left;
+            break;
+        default:
+            break;
+        }
+    }
+
     // Handle the expanding/collapsing of items
     // expand / collapse all selected directories
     if (m_view->supportsItemExpanding() && m_model->isExpandable(index) && (key == Qt::Key_Right || key == Qt::Key_Left)) {
@@ -296,34 +310,6 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
             break;
         default:
             break;
-        }
-    }
-
-    if (m_view->layoutDirection() == Qt::RightToLeft) {
-        if (horizontalScrolling) {
-            // swap up and down arrow keys
-            switch (key) {
-            case Qt::Key_Up:
-                key = Qt::Key_Down;
-                break;
-            case Qt::Key_Down:
-                key = Qt::Key_Up;
-                break;
-            default:
-                break;
-            }
-        } else if (!m_view->supportsItemExpanding()) {
-            // swap left and right arrow keys
-            switch (key) {
-            case Qt::Key_Left:
-                key = Qt::Key_Right;
-                break;
-            case Qt::Key_Right:
-                key = Qt::Key_Left;
-                break;
-            default:
-                break;
-            }
         }
     }
 

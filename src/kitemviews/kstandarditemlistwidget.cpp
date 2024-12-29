@@ -409,15 +409,26 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
     painter->drawStaticText(textInfo->pos, textInfo->staticText);
 
     bool clipAdditionalInfoBounds = false;
-    if (m_supportsItemExpanding) {
-        // Prevent a possible overlapping of the additional-information texts
-        // with the icon. This can happen if the user has minimized the width
-        // of the name-column to a very small value.
-        const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.padding;
-        if (textInfo->pos.x() + columnWidth("text") > minX) {
-            clipAdditionalInfoBounds = true;
-            painter->save();
-            painter->setClipRect(minX, 0, size().width() - minX, size().height(), Qt::IntersectClip);
+    if (m_supportsItemExpanding && m_sortedVisibleRoles.count() > 1) {
+        // Prevent a possible overlapping of the additional-information-texts with the icon.
+        // This will happen if the user has resized the width of the name-column to be very narrow while having folders expanded.
+        // We only want to draw additional info text outside the area of the icon or expansion area, so we set a clip rect that does not contain the icon area.
+        // This needs to work both for left-to-right as well as right-to-left layout directions.
+        const TextInfo *potentiallyOverlappingRoleText = m_textInfo.value(m_sortedVisibleRoles[1]); // Only the first column after the name column can overlap.
+        if (layoutDirection() == Qt::LeftToRight) { // In left-to-right languages the left end of text would overlap. This is mirrored for right-to-left.
+            const qreal minX = m_iconRect.right() + 2 * itemListStyleOption.padding;
+            if (potentiallyOverlappingRoleText->pos.x() < minX) {
+                clipAdditionalInfoBounds = true;
+                painter->save();
+                painter->setClipRect(minX, 0, size().width() - minX, size().height(), Qt::IntersectClip);
+            }
+        } else {
+            const qreal maxX = m_iconRect.left() - 2 * itemListStyleOption.padding;
+            if (potentiallyOverlappingRoleText->pos.x() + m_customizedFontMetrics.horizontalAdvance(potentiallyOverlappingRoleText->staticText.text()) > maxX) {
+                clipAdditionalInfoBounds = true;
+                painter->save();
+                painter->setClipRect(0, 0, maxX, size().height(), Qt::IntersectClip);
+            }
         }
     }
 
@@ -524,7 +535,11 @@ QRectF KStandardItemListWidget::selectionRect() const
         QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
         QRectF result = adjustedIconRect | m_textRect;
         if (m_highlightEntireRow) {
-            result.setRight(m_columnWidthSum + sidePadding());
+            if (layoutDirection() == Qt::LeftToRight) {
+                result.setRight(leftPadding() + m_columnWidthSum);
+            } else {
+                result.setLeft(size().width() - m_columnWidthSum - rightPadding());
+            }
         }
         return result;
     }
@@ -786,9 +801,10 @@ void KStandardItemListWidget::columnWidthChanged(const QByteArray &role, qreal c
     m_dirtyLayout = true;
 }
 
-void KStandardItemListWidget::sidePaddingChanged(qreal padding)
+void KStandardItemListWidget::sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
-    Q_UNUSED(padding)
+    Q_UNUSED(leftPaddingWidth)
+    Q_UNUSED(rightPaddingWidth)
     m_dirtyLayout = true;
 }
 
@@ -1012,8 +1028,13 @@ void KStandardItemListWidget::updateExpansionArea()
             const qreal inc = (widgetHeight - widgetIconSize) / 2;
             const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
-            const qreal xPadding = m_highlightEntireRow ? sidePadding() : 0;
-            m_expansionArea = QRectF(xPadding + x, y, widgetIconSize, widgetIconSize);
+            if (layoutDirection() == Qt::LeftToRight) {
+                const qreal leftPaddingWidth = m_highlightEntireRow ? leftPadding() : 0;
+                m_expansionArea = QRectF(leftPaddingWidth + x, y, widgetIconSize, widgetIconSize);
+                return;
+            }
+            const qreal rightPaddingWidth = m_highlightEntireRow ? rightPadding() : 0;
+            m_expansionArea = QRectF(size().width() - rightPaddingWidth - x - widgetIconSize, y, widgetIconSize, widgetIconSize);
             return;
         }
     }
@@ -1155,8 +1176,8 @@ void KStandardItemListWidget::updatePixmapCache()
     } else {
         // Center horizontally and vertically within the icon-area
         const TextInfo *textInfo = m_textInfo.value("text");
-        if (QApplication::isRightToLeft() && m_layout == CompactLayout) {
-            m_pixmapPos.setX(size().width() - padding - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
+        if (QApplication::isRightToLeft()) {
+            m_pixmapPos.setX(m_textRect.right() + 2.0 * padding);
         } else {
             m_pixmapPos.setX(textInfo->pos.x() - 2.0 * padding - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
         }
@@ -1464,6 +1485,8 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     // +------+
     // | Icon |  Name role   Additional role 1   Additional role 2
     // +------+
+    // Mirror the above for right-to-left languages.
+    const bool isLeftToRight = QApplication::layoutDirection() == Qt::LeftToRight;
     m_textRect = QRectF();
 
     const KItemListStyleOption &option = styleOption();
@@ -1475,9 +1498,10 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     const qreal columnWidthInc = columnPadding(option);
     qreal firstColumnInc = iconSize();
     if (m_supportsItemExpanding) {
-        firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
+        firstColumnInc += isLeftToRight ? (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2
+                                        : ((size().width() - m_expansionArea.left()) + (size().width() - m_expansionArea.right()) + widgetHeight) / 2;
     } else {
-        firstColumnInc += option.padding + sidePadding();
+        firstColumnInc += option.padding + (isLeftToRight ? leftPadding() : rightPadding());
     }
 
     qreal x = firstColumnInc;
@@ -1494,7 +1518,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         const bool isTextRole = (role == "text");
         if (isTextRole) {
             text = escapeString(text);
-            availableTextWidth -= firstColumnInc - sidePadding();
+            availableTextWidth -= firstColumnInc - (isLeftToRight ? leftPadding() : rightPadding());
         }
 
         if (requiredWidth > availableTextWidth) {
@@ -1504,17 +1528,16 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         TextInfo *textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
-        textInfo->pos = QPointF(x + columnWidthInc / 2, y);
+        textInfo->pos = QPointF(isLeftToRight ? (x + columnWidthInc / 2) : (size().width() - (x + columnWidthInc / 2) - requiredWidth), y);
         x += roleWidth;
 
         if (isTextRole) {
-            const qreal textWidth = option.extendedSelectionRegion ? size().width() - textInfo->pos.x() : requiredWidth + 2 * option.padding;
-            m_textRect = QRectF(textInfo->pos.x() - option.padding, 0, textWidth, size().height());
+            m_textRect = QRectF(textInfo->pos.x() - option.padding, 0, requiredWidth + 2 * option.padding, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
-            x -= firstColumnInc - sidePadding();
-        } else if (isRoleRightAligned(role)) {
+            x -= firstColumnInc - (isLeftToRight ? leftPadding() : rightPadding());
+        } else if (isRoleRightAligned(role) && isLeftToRight) {
             textInfo->pos.rx() += roleWidth - requiredWidth - columnWidthInc;
         }
     }
@@ -1594,7 +1617,7 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter *painter)
 
         style()->drawPrimitive(QStyle::PE_IndicatorBranch, &option, painter);
 
-        siblingRect.translate(-siblingRect.width(), 0);
+        siblingRect.translate(layoutDirection() == Qt::LeftToRight ? -siblingRect.width() : siblingRect.width(), 0);
     }
 }
 

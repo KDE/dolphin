@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2022, 2024 Felix Ernst <felixernst@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -12,18 +13,44 @@
 #include <QPainter>
 #include <QStyleOptionHeader>
 
+namespace
+{
+/**
+ * @returns a list which has a reversed order of elements compared to @a list.
+ */
+QList<QByteArray> reversed(const QList<QByteArray> list)
+{
+    QList<QByteArray> reversedList;
+    for (auto i = list.rbegin(); i != list.rend(); i++) {
+        reversedList.emplaceBack(*i);
+    }
+    return reversedList;
+};
+
+/**
+ * @returns the index of the column for the name/text of items. This depends on the layoutDirection() and column count of @a itemListHeaderWidget.
+ */
+int nameColumnIndex(const KItemListHeaderWidget *itemListHeaderWidget)
+{
+    if (itemListHeaderWidget->layoutDirection() == Qt::LeftToRight) {
+        return 0;
+    }
+    return itemListHeaderWidget->columns().count() - 1;
+};
+}
+
 KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget *parent)
     : QGraphicsWidget(parent)
     , m_automaticColumnResizing(true)
     , m_model(nullptr)
     , m_offset(0)
-    , m_sidePadding(0)
+    , m_leftPadding(0)
+    , m_rightPadding(0)
     , m_columns()
     , m_columnWidths()
     , m_preferredColumnWidths()
     , m_hoveredIndex(-1)
     , m_pressedRoleIndex(-1)
-    , m_roleOperation(NoRoleOperation)
     , m_pressedMousePos()
     , m_movingRole()
 {
@@ -82,13 +109,13 @@ void KItemListHeaderWidget::setColumns(const QList<QByteArray> &roles)
         }
     }
 
-    m_columns = roles;
+    m_columns = layoutDirection() == Qt::LeftToRight ? roles : reversed(roles);
     update();
 }
 
 QList<QByteArray> KItemListHeaderWidget::columns() const
 {
-    return m_columns;
+    return layoutDirection() == Qt::LeftToRight ? m_columns : reversed(m_columns);
 }
 
 void KItemListHeaderWidget::setColumnWidth(const QByteArray &role, qreal width)
@@ -132,18 +159,35 @@ qreal KItemListHeaderWidget::offset() const
     return m_offset;
 }
 
-void KItemListHeaderWidget::setSidePadding(qreal width)
+void KItemListHeaderWidget::setSidePadding(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
-    if (m_sidePadding != width) {
-        m_sidePadding = width;
-        Q_EMIT sidePaddingChanged(width);
-        update();
+    bool changed = false;
+    if (m_leftPadding != leftPaddingWidth) {
+        m_leftPadding = leftPaddingWidth;
+        changed = true;
     }
+
+    if (m_rightPadding != rightPaddingWidth) {
+        m_rightPadding = rightPaddingWidth;
+        changed = true;
+    }
+
+    if (!changed) {
+        return;
+    }
+
+    Q_EMIT sidePaddingChanged(leftPaddingWidth, rightPaddingWidth);
+    update();
 }
 
-qreal KItemListHeaderWidget::sidePadding() const
+qreal KItemListHeaderWidget::leftPadding() const
 {
-    return m_sidePadding;
+    return m_leftPadding;
+}
+
+qreal KItemListHeaderWidget::rightPadding() const
+{
+    return m_rightPadding;
 }
 
 qreal KItemListHeaderWidget::minimumColumnWidth() const
@@ -165,7 +209,7 @@ void KItemListHeaderWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->setFont(font());
     painter->setPen(palette().text().color());
 
-    qreal x = -m_offset + m_sidePadding;
+    qreal x = -m_offset + m_leftPadding + unusedSpace();
     int orderIndex = 0;
     for (const QByteArray &role : std::as_const(m_columns)) {
         const qreal roleWidth = m_columnWidths.value(role);
@@ -176,7 +220,6 @@ void KItemListHeaderWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
     }
 
     if (!m_movingRole.pixmap.isNull()) {
-        Q_ASSERT(m_roleOperation == MoveRoleOperation);
         painter->drawPixmap(m_movingRole.x, 0, m_movingRole.pixmap);
     }
 }
@@ -185,11 +228,9 @@ void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() & Qt::LeftButton) {
         m_pressedMousePos = event->pos();
-        if (isAbovePaddingGrip(m_pressedMousePos, PaddingGrip::Leading)) {
-            m_roleOperation = ResizePaddingColumnOperation;
-        } else {
+        m_pressedGrip = isAboveResizeGrip(m_pressedMousePos);
+        if (!m_pressedGrip) {
             updatePressedRoleIndex(event->pos());
-            m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ? ResizeRoleOperation : NoRoleOperation;
         }
         event->accept();
     } else {
@@ -201,12 +242,15 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsWidget::mouseReleaseEvent(event);
 
-    if (m_pressedRoleIndex == -1) {
-        return;
-    }
-
-    switch (m_roleOperation) {
-    case NoRoleOperation: {
+    if (m_pressedGrip) {
+        // Emitting a column width change removes automatic column resizing, so we do not emit if only the padding is being changed.
+        // Eception: In mouseMoveEvent() we also resize the last column if the right padding is at zero but the user still quickly resizes beyond the screen
+        // boarder. Such a resize "of the right padding" is let through when automatic column resizing was disabled by that resize.
+        if (m_pressedGrip->roleToTheLeft != "leftPadding" && (m_pressedGrip->roleToTheRight != "rightPadding" || !m_automaticColumnResizing)) {
+            const qreal currentWidth = m_columnWidths.value(m_pressedGrip->roleToTheLeft);
+            Q_EMIT columnWidthChangeFinished(m_pressedGrip->roleToTheLeft, currentWidth);
+        }
+    } else if (m_pressedRoleIndex != -1 && m_movingRole.index == -1) {
         // Only a click has been done and no moving or resizing has been started
         const QByteArray sortRole = m_model->sortRole();
         const int sortRoleIndex = m_columns.indexOf(sortRole);
@@ -229,29 +273,15 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                 Q_EMIT sortOrderChanged(Qt::AscendingOrder, Qt::DescendingOrder);
             }
         }
-        break;
     }
 
-    case ResizeRoleOperation: {
-        const QByteArray pressedRole = m_columns[m_pressedRoleIndex];
-        const qreal currentWidth = m_columnWidths.value(pressedRole);
-        Q_EMIT columnWidthChangeFinished(pressedRole, currentWidth);
-        break;
-    }
+    m_movingRole.pixmap = QPixmap();
+    m_movingRole.x = 0;
+    m_movingRole.xDec = 0;
+    m_movingRole.index = -1;
 
-    case MoveRoleOperation:
-        m_movingRole.pixmap = QPixmap();
-        m_movingRole.x = 0;
-        m_movingRole.xDec = 0;
-        m_movingRole.index = -1;
-        break;
-
-    default:
-        break;
-    }
-
+    m_pressedGrip = std::nullopt;
     m_pressedRoleIndex = -1;
-    m_roleOperation = NoRoleOperation;
     update();
 
     QApplication::restoreOverrideCursor();
@@ -261,69 +291,51 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsWidget::mouseMoveEvent(event);
 
-    switch (m_roleOperation) {
-    case NoRoleOperation:
-        if ((event->pos() - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
-            // A role gets dragged by the user. Create a pixmap of the role that will get
-            // synchronized on each further mouse-move-event with the mouse-position.
-            m_roleOperation = MoveRoleOperation;
-            const int roleIndex = roleIndexAt(m_pressedMousePos);
-            m_movingRole.index = roleIndex;
-            if (roleIndex == 0) {
-                // TODO: It should be configurable whether moving the first role is allowed.
-                // In the context of Dolphin this is not required, however this should be
-                // changed if KItemViews are used in a more generic way.
-                QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
-            } else {
-                m_movingRole.pixmap = createRolePixmap(roleIndex);
+    if (m_pressedGrip) {
+        if (m_pressedGrip->roleToTheLeft == "leftPadding") {
+            qreal currentWidth = m_leftPadding;
+            currentWidth += event->pos().x() - event->lastPos().x();
+            m_leftPadding = qMax(0.0, currentWidth);
 
-                qreal roleX = -m_offset + m_sidePadding;
-                for (int i = 0; i < roleIndex; ++i) {
-                    const QByteArray role = m_columns[i];
-                    roleX += m_columnWidths.value(role);
-                }
-
-                m_movingRole.xDec = event->pos().x() - roleX;
-                m_movingRole.x = roleX;
-                update();
-            }
+            update();
+            Q_EMIT sidePaddingChanged(m_leftPadding, m_rightPadding);
+            return;
         }
-        break;
 
-    case ResizeRoleOperation: {
-        const QByteArray pressedRole = m_columns[m_pressedRoleIndex];
+        if (m_pressedGrip->roleToTheRight == "rightPadding") {
+            qreal currentWidth = m_rightPadding;
+            currentWidth -= event->pos().x() - event->lastPos().x();
+            m_rightPadding = qMax(0.0, currentWidth);
 
-        qreal previousWidth = m_columnWidths.value(pressedRole);
+            update();
+            Q_EMIT sidePaddingChanged(m_leftPadding, m_rightPadding);
+            if (m_rightPadding > 0.0) {
+                return;
+            }
+            // Continue so resizing of the last column beyond the view width is possible.
+            if (currentWidth > -10) {
+                return; // Automatic column resizing is valuable, so we don't want to give it up just for a few pixels of extra width for the rightmost column.
+            }
+            m_automaticColumnResizing = false;
+        }
+
+        qreal previousWidth = m_columnWidths.value(m_pressedGrip->roleToTheLeft);
         qreal currentWidth = previousWidth;
         currentWidth += event->pos().x() - event->lastPos().x();
         currentWidth = qMax(minimumColumnWidth(), currentWidth);
 
-        m_columnWidths.insert(pressedRole, currentWidth);
+        m_columnWidths.insert(m_pressedGrip->roleToTheLeft, currentWidth);
         update();
 
-        Q_EMIT columnWidthChanged(pressedRole, currentWidth, previousWidth);
-        break;
+        Q_EMIT columnWidthChanged(m_pressedGrip->roleToTheLeft, currentWidth, previousWidth);
+        return;
     }
 
-    case ResizePaddingColumnOperation: {
-        qreal currentWidth = m_sidePadding;
-        currentWidth += event->pos().x() - event->lastPos().x();
-        currentWidth = qMax(0.0, currentWidth);
-
-        m_sidePadding = currentWidth;
-
-        update();
-
-        Q_EMIT sidePaddingChanged(currentWidth);
-
-        break;
-    }
-
-    case MoveRoleOperation: {
+    if (m_movingRole.index != -1) {
         // TODO: It should be configurable whether moving the first role is allowed.
         // In the context of Dolphin this is not required, however this should be
         // changed if KItemViews are used in a more generic way.
-        if (m_movingRole.index > 0) {
+        if (m_movingRole.index != nameColumnIndex(this)) {
             m_movingRole.x = event->pos().x() - m_movingRole.xDec;
             update();
 
@@ -332,16 +344,42 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                 const QByteArray role = m_columns[m_movingRole.index];
                 const int previousIndex = m_movingRole.index;
                 m_movingRole.index = targetIndex;
-                Q_EMIT columnMoved(role, targetIndex, previousIndex);
+                if (layoutDirection() == Qt::LeftToRight) {
+                    Q_EMIT columnMoved(role, targetIndex, previousIndex);
+                } else {
+                    Q_EMIT columnMoved(role, m_columns.count() - 1 - targetIndex, m_columns.count() - 1 - previousIndex);
+                }
 
                 m_movingRole.xDec = event->pos().x() - roleXPosition(role);
             }
         }
-        break;
+        return;
     }
 
-    default:
-        break;
+    if ((event->pos() - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
+        // A role gets dragged by the user. Create a pixmap of the role that will get
+        // synchronized on each further mouse-move-event with the mouse-position.
+        const int roleIndex = roleIndexAt(m_pressedMousePos);
+        m_movingRole.index = roleIndex;
+        if (roleIndex == nameColumnIndex(this)) {
+            // TODO: It should be configurable whether moving the first role is allowed.
+            // In the context of Dolphin this is not required, however this should be
+            // changed if KItemViews are used in a more generic way.
+            QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
+            return;
+        }
+
+        m_movingRole.pixmap = createRolePixmap(roleIndex);
+
+        qreal roleX = -m_offset + m_leftPadding + unusedSpace();
+        for (int i = 0; i < roleIndex; ++i) {
+            const QByteArray role = m_columns[i];
+            roleX += m_columnWidths.value(role);
+        }
+
+        m_movingRole.xDec = event->pos().x() - roleX;
+        m_movingRole.x = roleX;
+        update();
     }
 }
 
@@ -349,17 +387,17 @@ void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *even
 {
     QGraphicsItem::mouseDoubleClickEvent(event);
 
-    const int roleIndex = roleIndexAt(event->pos());
-    if (roleIndex >= 0 && isAboveRoleGrip(event->pos(), roleIndex)) {
-        const QByteArray role = m_columns.at(roleIndex);
-
-        qreal previousWidth = columnWidth(role);
-        setColumnWidth(role, preferredColumnWidth(role));
-        qreal currentWidth = columnWidth(role);
-
-        Q_EMIT columnWidthChanged(role, currentWidth, previousWidth);
-        Q_EMIT columnWidthChangeFinished(role, currentWidth);
+    const std::optional<Grip> doubleClickedGrip = isAboveResizeGrip(event->pos());
+    if (!doubleClickedGrip || doubleClickedGrip->roleToTheLeft.isEmpty()) {
+        return;
     }
+
+    qreal previousWidth = columnWidth(doubleClickedGrip->roleToTheLeft);
+    setColumnWidth(doubleClickedGrip->roleToTheLeft, preferredColumnWidth(doubleClickedGrip->roleToTheLeft));
+    qreal currentWidth = columnWidth(doubleClickedGrip->roleToTheLeft);
+
+    Q_EMIT columnWidthChanged(doubleClickedGrip->roleToTheLeft, currentWidth, previousWidth);
+    Q_EMIT columnWidthChangeFinished(doubleClickedGrip->roleToTheLeft, currentWidth);
 }
 
 void KItemListHeaderWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -384,8 +422,7 @@ void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 
     const QPointF &pos = event->pos();
     updateHoveredIndex(pos);
-    if ((m_hoveredIndex >= 0 && isAboveRoleGrip(pos, m_hoveredIndex)) || isAbovePaddingGrip(pos, PaddingGrip::Leading)
-        || isAbovePaddingGrip(pos, PaddingGrip::Trailing)) {
+    if (isAboveResizeGrip(pos)) {
         setCursor(Qt::SplitHCursor);
     } else {
         unsetCursor();
@@ -408,14 +445,9 @@ void KItemListHeaderWidget::slotSortOrderChanged(Qt::SortOrder current, Qt::Sort
 
 void KItemListHeaderWidget::paintRole(QPainter *painter, const QByteArray &role, const QRectF &rect, int orderIndex, QWidget *widget) const
 {
-    const auto direction = widget ? widget->layoutDirection() : qApp->layoutDirection();
-
     // The following code is based on the code from QHeaderView::paintSection().
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
     QStyleOptionHeader option;
-    option.direction = direction;
-    option.textAlignment = direction == Qt::LeftToRight ? Qt::AlignLeft : Qt::AlignRight;
-
     option.section = orderIndex;
     option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
     if (isEnabled()) {
@@ -453,7 +485,7 @@ void KItemListHeaderWidget::paintRole(QPainter *painter, const QByteArray &role,
     if (m_columns.count() == 1) {
         option.position = QStyleOptionHeader::Middle;
         paintPadding(0, QRectF(0.0, 0.0, rect.left(), rect.height()), QStyleOptionHeader::Beginning);
-        paintPadding(1, QRectF(rect.left(), 0.0, size().width() - rect.left(), rect.height()), QStyleOptionHeader::End);
+        paintPadding(1, QRectF(rect.right(), 0.0, size().width() - rect.right(), rect.height()), QStyleOptionHeader::End);
     } else if (orderIndex == 0) {
         // Paint the header for the first column; check if there is some empty space to the left which needs to be filled.
         if (rect.left() > 0) {
@@ -466,7 +498,7 @@ void KItemListHeaderWidget::paintRole(QPainter *painter, const QByteArray &role,
         // Paint the header for the last column; check if there is some empty space to the right which needs to be filled.
         if (rect.right() < size().width()) {
             option.position = QStyleOptionHeader::Middle;
-            paintPadding(m_columns.count(), QRectF(rect.left(), 0.0, size().width() - rect.left(), rect.height()), QStyleOptionHeader::End);
+            paintPadding(m_columns.count(), QRectF(rect.right(), 0.0, size().width() - rect.right(), rect.height()), QStyleOptionHeader::End);
         } else {
             option.position = QStyleOptionHeader::End;
         }
@@ -488,7 +520,7 @@ void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF &pos)
 
 void KItemListHeaderWidget::updateHoveredIndex(const QPointF &pos)
 {
-    const int hoverIndex = roleIndexAt(pos);
+    const int hoverIndex = isAboveResizeGrip(pos) ? -1 : roleIndexAt(pos);
 
     if (m_hoveredIndex != hoverIndex) {
         if (m_hoveredIndex != -1) {
@@ -504,50 +536,43 @@ void KItemListHeaderWidget::updateHoveredIndex(const QPointF &pos)
 
 int KItemListHeaderWidget::roleIndexAt(const QPointF &pos) const
 {
-    int index = -1;
+    qreal x = -m_offset + m_leftPadding + unusedSpace();
+    if (pos.x() < x) {
+        return -1;
+    }
 
-    qreal x = -m_offset + m_sidePadding;
+    int index = -1;
     for (const QByteArray &role : std::as_const(m_columns)) {
         ++index;
         x += m_columnWidths.value(role);
         if (pos.x() <= x) {
-            break;
+            return index;
         }
     }
 
-    return index;
+    return -1;
 }
 
-bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF &pos, int roleIndex) const
+std::optional<const KItemListHeaderWidget::Grip> KItemListHeaderWidget::isAboveResizeGrip(const QPointF &position) const
 {
-    qreal x = -m_offset + m_sidePadding;
-    for (int i = 0; i <= roleIndex; ++i) {
+    qreal x = -m_offset + m_leftPadding + unusedSpace();
+    const int gripWidthTolerance = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+
+    if (x - gripWidthTolerance < position.x() && position.x() < x + gripWidthTolerance) {
+        return std::optional{Grip{"leftPadding", m_columns[0]}};
+    }
+
+    for (int i = 0; i < m_columns.count(); ++i) {
         const QByteArray role = m_columns[i];
         x += m_columnWidths.value(role);
-    }
-
-    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
-    return pos.x() >= (x - grip) && pos.x() <= x;
-}
-
-bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF &pos, PaddingGrip paddingGrip) const
-{
-    const qreal lx = -m_offset + m_sidePadding;
-    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
-
-    switch (paddingGrip) {
-    case Leading:
-        return pos.x() >= (lx - grip) && pos.x() <= lx;
-    case Trailing: {
-        qreal rx = lx;
-        for (const QByteArray &role : std::as_const(m_columns)) {
-            rx += m_columnWidths.value(role);
+        if (x - gripWidthTolerance < position.x() && position.x() < x + gripWidthTolerance) {
+            if (i + 1 < m_columns.count()) {
+                return std::optional{Grip{m_columns[i], m_columns[i + 1]}};
+            }
+            return std::optional{Grip{m_columns[i], "rightPadding"}};
         }
-        return pos.x() >= (rx - grip) && pos.x() <= rx;
     }
-    default:
-        return false;
-    }
+    return std::nullopt;
 }
 
 QPixmap KItemListHeaderWidget::createRolePixmap(int roleIndex) const
@@ -581,7 +606,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
     const int movingRight = movingLeft + movingWidth - 1;
 
     int targetIndex = 0;
-    qreal targetLeft = -m_offset + m_sidePadding;
+    qreal targetLeft = -m_offset + m_leftPadding + unusedSpace();
     while (targetIndex < m_columns.count()) {
         const QByteArray role = m_columns[targetIndex];
         const qreal targetWidth = m_columnWidths.value(role);
@@ -603,7 +628,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
 
 qreal KItemListHeaderWidget::roleXPosition(const QByteArray &role) const
 {
-    qreal x = -m_offset + m_sidePadding;
+    qreal x = -m_offset + m_leftPadding + unusedSpace();
     for (const QByteArray &visibleRole : std::as_const(m_columns)) {
         if (visibleRole == role) {
             return x;
@@ -613,6 +638,19 @@ qreal KItemListHeaderWidget::roleXPosition(const QByteArray &role) const
     }
 
     return -1;
+}
+
+qreal KItemListHeaderWidget::unusedSpace() const
+{
+    if (layoutDirection() == Qt::LeftToRight) {
+        return 0;
+    }
+    int unusedSpace = size().width() - m_leftPadding - m_rightPadding;
+    for (int i = 0; i < m_columns.count(); ++i) {
+        const QByteArray role = m_columns[i];
+        unusedSpace -= m_columnWidths.value(role);
+    }
+    return qMax(unusedSpace, 0);
 }
 
 #include "moc_kitemlistheaderwidget.cpp"

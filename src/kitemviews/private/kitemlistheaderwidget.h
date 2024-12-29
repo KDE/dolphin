@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2022, 2024 Felix Ernst <felixernst@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -50,8 +51,9 @@ public:
     void setOffset(qreal offset);
     qreal offset() const;
 
-    void setSidePadding(qreal width);
-    qreal sidePadding() const;
+    void setSidePadding(qreal leftPaddingWidth, qreal rightPaddingWidth);
+    qreal leftPadding() const;
+    qreal rightPadding() const;
 
     qreal minimumColumnWidth() const;
 
@@ -64,7 +66,7 @@ Q_SIGNALS:
      */
     void columnWidthChanged(const QByteArray &role, qreal currentWidth, qreal previousWidth);
 
-    void sidePaddingChanged(qreal width);
+    void sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth);
 
     /**
      * Is emitted if the user has released the mouse button after adjusting the
@@ -110,9 +112,9 @@ private Q_SLOTS:
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
-    enum PaddingGrip {
-        Leading,
-        Trailing,
+    struct Grip {
+        QByteArray roleToTheLeft;
+        QByteArray roleToTheRight;
     };
 
     void paintRole(QPainter *painter, const QByteArray &role, const QRectF &rect, int orderIndex, QWidget *widget = nullptr) const;
@@ -120,8 +122,13 @@ private:
     void updatePressedRoleIndex(const QPointF &pos);
     void updateHoveredIndex(const QPointF &pos);
     int roleIndexAt(const QPointF &pos) const;
-    bool isAboveRoleGrip(const QPointF &pos, int roleIndex) const;
-    bool isAbovePaddingGrip(const QPointF &pos, PaddingGrip paddingGrip) const;
+
+    /**
+     * @returns std::nullopt if none of the resize grips is below @p position.
+     *          Otherwise returns a Grip defined by the two roles on each side of @p position.
+     * @note If the Grip is between a padding and a role, a class-specific "leftPadding" or "rightPadding" role is used.
+     */
+    std::optional<const Grip> isAboveResizeGrip(const QPointF &position) const;
 
     /**
      * Creates a pixmap of the role with the index \a roleIndex that is shown
@@ -140,20 +147,26 @@ private:
      */
     qreal roleXPosition(const QByteArray &role) const;
 
-private:
-    enum RoleOperation { NoRoleOperation, ResizeRoleOperation, ResizePaddingColumnOperation, MoveRoleOperation };
+    /**
+     * @returns 0 for left-to-right layoutDirection().
+     *          Otherwise returns the space that is left over when space is distributed between padding and role columns.
+     * Used to make the column headers stay above their information columns for right-to-left layout directions.
+     */
+    qreal unusedSpace() const;
 
+private:
     bool m_automaticColumnResizing;
     KItemModelBase *m_model;
     qreal m_offset;
-    qreal m_sidePadding;
+    qreal m_leftPadding;
+    qreal m_rightPadding;
     QList<QByteArray> m_columns;
     QHash<QByteArray, qreal> m_columnWidths;
     QHash<QByteArray, qreal> m_preferredColumnWidths;
 
     int m_hoveredIndex;
+    std::optional<Grip> m_pressedGrip;
     int m_pressedRoleIndex;
-    RoleOperation m_roleOperation;
     QPointF m_pressedMousePos;
 
     struct MovingRole {

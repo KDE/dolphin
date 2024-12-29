@@ -61,10 +61,10 @@ qreal KItemListHeader::preferredColumnWidth(const QByteArray &role) const
     return m_headerWidget->preferredColumnWidth(role);
 }
 
-void KItemListHeader::setSidePadding(qreal width)
+void KItemListHeader::setSidePadding(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
-    if (m_headerWidget->sidePadding() != width) {
-        m_headerWidget->setSidePadding(width);
+    if (m_headerWidget->leftPadding() != leftPaddingWidth || m_headerWidget->rightPadding() != rightPaddingWidth) {
+        m_headerWidget->setSidePadding(leftPaddingWidth, rightPaddingWidth);
         if (m_headerWidget->automaticColumnResizing()) {
             m_view->applyAutomaticColumnWidths();
         }
@@ -72,9 +72,14 @@ void KItemListHeader::setSidePadding(qreal width)
     }
 }
 
-qreal KItemListHeader::sidePadding() const
+qreal KItemListHeader::leftPadding() const
 {
-    return m_headerWidget->sidePadding();
+    return m_headerWidget->leftPadding();
+}
+
+qreal KItemListHeader::rightPadding() const
+{
+    return m_headerWidget->rightPadding();
 }
 
 KItemListHeader::KItemListHeader(KItemListView *listView)

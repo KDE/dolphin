@@ -59,14 +59,15 @@ public:
     qreal preferredColumnWidth(const QByteArray &role) const;
 
     /**
-     * Sets the width of the column *before* the first column.
+     * Sets the widths of the columns *before* the first column and *after* the last column.
      * This is intended to facilitate an empty region for deselection in the main viewport.
      */
-    void setSidePadding(qreal width);
-    qreal sidePadding() const;
+    void setSidePadding(qreal leftPaddingWidth, qreal rightPaddingWidth);
+    qreal leftPadding() const;
+    qreal rightPadding() const;
 
 Q_SIGNALS:
-    void sidePaddingChanged(qreal width);
+    void sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth);
 
     /**
      * Is emitted if the width of a column has been adjusted by the user with the mouse

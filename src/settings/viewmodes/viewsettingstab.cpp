@@ -154,15 +154,20 @@ void ViewSettingsTab::applySettings()
         // So here the default padding is enabled when the full row highlight is enabled.
         if (m_entireRow->isChecked() && !detailsModeSettings->highlightEntireRow()) {
             const bool usedDefaults = detailsModeSettings->useDefaults(true);
-            const uint defaultSidePadding = detailsModeSettings->sidePadding();
+            const uint defaultLeftPadding = detailsModeSettings->leftPadding();
+            const uint defaultRightPadding = detailsModeSettings->rightPadding();
             detailsModeSettings->useDefaults(usedDefaults);
-            if (detailsModeSettings->sidePadding() < defaultSidePadding) {
-                detailsModeSettings->setSidePadding(defaultSidePadding);
+            if (detailsModeSettings->leftPadding() < defaultLeftPadding) {
+                detailsModeSettings->setLeftPadding(defaultLeftPadding);
+            }
+            if (detailsModeSettings->rightPadding() < defaultRightPadding) {
+                detailsModeSettings->setRightPadding(defaultRightPadding);
             }
         } else if (!m_entireRow->isChecked() && detailsModeSettings->highlightEntireRow()) {
             // The full row click target is disabled so now most of the view area can be used to interact
             // with the view background. Having an extra side padding has no usability benefit in this case.
-            detailsModeSettings->setSidePadding(0);
+            detailsModeSettings->setLeftPadding(0);
+            detailsModeSettings->setRightPadding(0);
         }
         detailsModeSettings->setHighlightEntireRow(m_entireRow->isChecked());
         detailsModeSettings->setExpandableFolders(m_expandableFolders->isChecked());

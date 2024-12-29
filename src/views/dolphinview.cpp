@@ -1239,7 +1239,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
 
     QAction *toggleSidePaddingAction = menu->addAction(i18nc("@action:inmenu", "Side Padding"));
     toggleSidePaddingAction->setCheckable(true);
-    toggleSidePaddingAction->setChecked(view->header()->sidePadding() > 0);
+    toggleSidePaddingAction->setChecked(layoutDirection() == Qt::LeftToRight ? view->header()->leftPadding() > 0 : view->header()->rightPadding() > 0);
 
     QAction *autoAdjustWidthsAction = menu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
     autoAdjustWidthsAction->setCheckable(true);
@@ -1272,7 +1272,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
             props.setHeaderColumnWidths(columnWidths);
             header->setAutomaticColumnResizing(false);
         } else if (action == toggleSidePaddingAction) {
-            header->setSidePadding(toggleSidePaddingAction->isChecked() ? 20 : 0);
+            if (toggleSidePaddingAction->isChecked()) {
+                header->setSidePadding(20, 20);
+            } else {
+                header->setSidePadding(0, 0);
+            }
         } else {
             // Show or hide the selected role
             const QByteArray selectedRole = action->data().toByteArray();
@@ -1325,10 +1329,11 @@ void DolphinView::slotHeaderColumnWidthChangeFinished(const QByteArray &role, qr
     props.setHeaderColumnWidths(columnWidths);
 }
 
-void DolphinView::slotSidePaddingWidthChanged(qreal width)
+void DolphinView::slotSidePaddingWidthChanged(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
     ViewProperties props(viewPropertiesUrl());
-    DetailsModeSettings::setSidePadding(int(width));
+    DetailsModeSettings::setLeftPadding(int(leftPaddingWidth));
+    DetailsModeSettings::setRightPadding(int(rightPaddingWidth));
     m_view->writeSettings();
 }
 
@@ -2184,7 +2189,7 @@ void DolphinView::applyViewProperties(const ViewProperties &props)
         } else {
             header->setAutomaticColumnResizing(true);
         }
-        header->setSidePadding(DetailsModeSettings::sidePadding());
+        header->setSidePadding(DetailsModeSettings::leftPadding(), DetailsModeSettings::rightPadding());
     }
 
     m_view->endTransaction();

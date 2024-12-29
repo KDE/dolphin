@@ -40,7 +40,8 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
-    , m_sidePadding(0)
+    , m_leftPadding(0)
+    , m_rightPadding(0)
     , m_styleOption()
     , m_siblingsInfo()
     , m_hoverOpacity(0)
@@ -183,18 +184,35 @@ qreal KItemListWidget::columnWidth(const QByteArray &role) const
     return m_columnWidths.value(role);
 }
 
-qreal KItemListWidget::sidePadding() const
+void KItemListWidget::setSidePadding(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
-    return m_sidePadding;
+    bool changed = false;
+    if (m_leftPadding != leftPaddingWidth) {
+        m_leftPadding = leftPaddingWidth;
+        changed = true;
+    }
+
+    if (m_rightPadding != rightPaddingWidth) {
+        m_rightPadding = rightPaddingWidth;
+        changed = true;
+    }
+
+    if (!changed) {
+        return;
+    }
+
+    sidePaddingChanged(leftPaddingWidth, rightPaddingWidth);
+    update();
 }
 
-void KItemListWidget::setSidePadding(qreal width)
+qreal KItemListWidget::leftPadding() const
 {
-    if (m_sidePadding != width) {
-        m_sidePadding = width;
-        sidePaddingChanged(width);
-        update();
-    }
+    return m_leftPadding;
+}
+
+qreal KItemListWidget::rightPadding() const
+{
+    return m_rightPadding;
 }
 
 void KItemListWidget::setStyleOption(const KItemListStyleOption &option)
@@ -462,9 +480,10 @@ void KItemListWidget::columnWidthChanged(const QByteArray &role, qreal current, 
     Q_UNUSED(previous)
 }
 
-void KItemListWidget::sidePaddingChanged(qreal width)
+void KItemListWidget::sidePaddingChanged(qreal leftPaddingWidth, qreal rightPaddingWidth)
 {
-    Q_UNUSED(width)
+    Q_UNUSED(leftPaddingWidth)
+    Q_UNUSED(rightPaddingWidth)
 }
 
 void KItemListWidget::styleOptionChanged(const KItemListStyleOption &current, const KItemListStyleOption &previous)
