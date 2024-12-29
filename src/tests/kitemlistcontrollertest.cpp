@@ -174,6 +174,7 @@ void KItemListControllerTest::init()
 
 void KItemListControllerTest::cleanup()
 {
+    m_controller->setSelectionModeEnabled(false);
 }
 
 /**
@@ -228,9 +229,11 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     QTest::addColumn<KFileItemListView::ItemLayout>("layout");
     QTest::addColumn<Qt::Orientation>("scrollOrientation");
     QTest::addColumn<int>("columnCount");
-    QTest::addColumn<KItemListController::SelectionBehavior>("selectionBehavior");
+    QTest::addColumn<KItemListController::SelectionBehavior>("selectionBehavior"); // Defines how many items can be selected at the same time.
     QTest::addColumn<bool>("groupingEnabled");
     QTest::addColumn<Qt::LayoutDirection>("layoutDirection");
+    QTest::addColumn<bool>(
+        "selectionModeEnabled"); // Don't confuse this with "selectionBehaviour". This is about changing controls for users to help multi-selecting.
     QTest::addColumn<QList<QPair<KeyPress, ViewState>>>("testList");
 
     QList<KFileItemListView::ItemLayout> layoutList;
@@ -264,6 +267,9 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     layoutDirectionNames[Qt::LeftToRight] = "Left-to-Right LayoutDirection";
     layoutDirectionList.append(Qt::RightToLeft);
     layoutDirectionNames[Qt::RightToLeft] = "Right-to-Left LayoutDirection";
+
+    bool selectionModeEnabled = false; // For most tests this is kept disabled because it is not really affected by all the other test conditions.
+                                       // We only enable it for a few separate tests at the end.
 
     for (const KFileItemListView::ItemLayout &layout : layoutList) {
         // The following settings depend on the layout.
@@ -484,13 +490,92 @@ void KItemListControllerTest::testKeyboardNavigation_data()
 
                         const QByteArray testNameAscii = testName.toLatin1();
 
-                        QTest::newRow(testNameAscii.data())
-                            << layout << scrollOrientation << columnCount << selectionBehavior << groupingEnabled << layoutDirection << testList;
+                        QTest::newRow(testNameAscii.data()) << layout << scrollOrientation << columnCount << selectionBehavior << groupingEnabled
+                                                            << layoutDirection << selectionModeEnabled << testList;
                     }
                 }
             }
         }
     }
+
+    /**
+     * Selection mode tests
+     * We only test for the default icon view mode with typical scrollOrientation, selectionBehaviour, no grouping, left-to-right layoutDirection because none
+     * of this should affect selection mode and special-casing selection mode within the above test would make the above code even more complex than it already
+     * is.
+     */
+    selectionModeEnabled = true;
+    const KFileItemListView::ItemLayout layout = KFileItemListView::IconsLayout;
+    const Qt::Orientation scrollOrientation = Qt::Vertical;
+    const int columnCount = 3;
+    const Qt::Key nextItemKey = Qt::Key_Right;
+    const Qt::Key previousItemKey = Qt::Key_Left;
+    const Qt::Key nextRowKey = Qt::Key_Down;
+    const Qt::Key previousRowKey = Qt::Key_Up;
+
+    const Qt::LayoutDirection layoutDirection = Qt::LeftToRight;
+    const KItemListController::SelectionBehavior &selectionBehavior = KItemListController::MultiSelection;
+    const bool groupingEnabled = false;
+
+    QList<QPair<KeyPress, ViewState>> testList;
+
+    testList << qMakePair(KeyPress(nextItemKey), ViewState(1, KItemSet())) // In selection mode nothing is selected simply by moving with arrow keys.
+             << qMakePair(KeyPress(Qt::Key_Return), ViewState(1, KItemSet() << 1)) // Pressing Return toggles the selection but does not activate.
+             << qMakePair(KeyPress(Qt::Key_Enter), ViewState(1, KItemSet())) // Pressing Enter toggles the selection but does not activate.
+             << qMakePair(KeyPress(nextItemKey), ViewState(2, KItemSet()))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2 << 3)) // Shift+Arrow key still selects in selection mode.
+             << qMakePair(KeyPress(Qt::Key_Return), ViewState(3, KItemSet() << 2))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(2, KItemSet() << 2 << 3))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, KItemSet() << 2)) // Shift+Left and then Shift+Right cancel each other out.
+             << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 2))
+             << qMakePair(KeyPress(Qt::Key_Return), ViewState(4, KItemSet() << 2 << 4))
+             << qMakePair(KeyPress(previousItemKey), ViewState(3, KItemSet() << 2 << 4))
+             << qMakePair(KeyPress(Qt::Key_Home, Qt::ShiftModifier), ViewState(0, KItemSet() << 0 << 1 << 2 << 3 << 4))
+             << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3 << 4))
+             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 2 << 3 << 4))
+             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, KItemSet() << 0 << 1 << 2 << 3 << 4))
+             << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 0 << 1 << 2 << 3 << 4))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(18, KItemSet() << 0 << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0 << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, KItemSet() << 0 << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, KItemSet() << 0 << 1 << 2 << 3 << 4 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, KItemSet() << 1 << 2 << 3 << 4 << 18 << 19)) // Space toggles selection in selection mode.
+             << qMakePair(KeyPress(Qt::Key_D), ViewState(9, KItemSet() << 1 << 2 << 3 << 4 << 18 << 19)) // No selection change by type-ahead.
+             << qMakePair(KeyPress(Qt::Key_Space), ViewState(9, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19)) // Space is not added to type-ahead.
+             << qMakePair(KeyPress(Qt::Key_4), ViewState(12, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19)) // No selection change by type-ahead.
+             << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+
+             // The following tests assume a columnCount of three and no grouping enabled.
+             << qMakePair(KeyPress(nextRowKey), ViewState(3, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextRowKey), ViewState(7, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 1 << 2 << 3 << 4 << 7 << 8 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(9, KItemSet() << 1 << 2 << 3 << 4 << 7 << 8 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(8, KItemSet() << 1 << 2 << 3 << 4 << 7 << 8 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 1 << 2 << 3 << 4 << 6 << 7 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(5, KItemSet() << 1 << 2 << 3 << 4 << 5 << 6 << 7 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(6, KItemSet() << 1 << 2 << 3 << 4 << 6 << 7 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(7, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextRowKey), ViewState(10, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextItemKey), ViewState(11, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextRowKey), ViewState(14, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextRowKey), ViewState(17, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(nextRowKey), ViewState(19, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousRowKey), ViewState(17, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_End), ViewState(19, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(previousRowKey), ViewState(16, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19))
+             << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 1 << 2 << 3 << 4 << 9 << 18 << 19));
+
+    const QString testName = "Selection Mode: " + layoutNames[layout] + ", " + QStringLiteral("%1 columns, ").arg(columnCount)
+        + selectionBehaviorNames[selectionBehavior] + ", " + groupingEnabledNames[groupingEnabled] + ", " + layoutDirectionNames[layoutDirection];
+
+    const QByteArray testNameAscii = testName.toLatin1();
+
+    QTest::newRow(testNameAscii.data()) << layout << scrollOrientation << columnCount << selectionBehavior << groupingEnabled << layoutDirection
+                                        << selectionModeEnabled << testList;
 }
 
 /**
@@ -508,6 +593,7 @@ void KItemListControllerTest::testKeyboardNavigation()
     QFETCH(KItemListController::SelectionBehavior, selectionBehavior);
     QFETCH(bool, groupingEnabled);
     QFETCH(Qt::LayoutDirection, layoutDirection);
+    QFETCH(bool, selectionModeEnabled);
     QFETCH(QList<keyPressViewStatePair>, testList);
 
     QApplication::setLayoutDirection(layoutDirection);
@@ -524,6 +610,9 @@ void KItemListControllerTest::testKeyboardNavigation()
 
     m_model->setGroupedSorting(groupingEnabled);
     QCOMPARE(m_model->groupedSorting(), groupingEnabled);
+
+    m_controller->setSelectionModeEnabled(selectionModeEnabled);
+    QCOMPARE(m_controller->selectionMode(), selectionModeEnabled);
 
     adjustGeometryForColumnCount(columnCount);
     QCOMPARE(m_view->m_layouter->m_columnCount, columnCount);

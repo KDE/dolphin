@@ -280,7 +280,17 @@ QString KItemListViewAccessible::text(QAccessible::Text t) const
             if (numberOfSelectedItems < 1 || (numberOfSelectedItems == 1 && isSelected(currentItem))) {
                 // We do not announce the number of selected items if the only selected item is the current item
                 // because the selection state of the current item is already announced elsewhere.
+                if (m_selectionMode) {
+                    return i18nc("@info accessibility, 1 is path", "in a grid layout in selection mode in location %1", modelRootUrl.toDisplayString());
+                }
                 return i18nc("@info accessibility, 1 is path", "in a grid layout in location %1", modelRootUrl.toDisplayString());
+            }
+            if (m_selectionMode) {
+                return i18ncp("@info accessibility, 2 is path",
+                              "%1 selected item in a grid layout in selection mode in location %2",
+                              "%1 selected items in a grid layout in selection mode in location %2",
+                              numberOfSelectedItems,
+                              modelRootUrl.toDisplayString());
             }
             return i18ncp("@info accessibility, 2 is path",
                           "%1 selected item in a grid layout in location %2",
@@ -293,7 +303,17 @@ QString KItemListViewAccessible::text(QAccessible::Text t) const
     if (numberOfSelectedItems < 1 || (numberOfSelectedItems == 1 && isSelected(currentItem))) {
         // We do not announce the number of selected items if the only selected item is the current item
         // because the selection state of the current item is already announced elsewhere.
+        if (m_selectionMode) {
+            return i18nc("@info accessibility, 1 is path", "in selection mode in location %1", modelRootUrl.toDisplayString());
+        }
         return i18nc("@info accessibility, 1 is path", "in location %1", modelRootUrl.toDisplayString());
+    }
+    if (m_selectionMode) {
+        return i18ncp("@info accessibility, 2 is path",
+                      "%1 selected item in selection mode in location %2",
+                      "%1 selected items in selection mode in location %2",
+                      numberOfSelectedItems,
+                      modelRootUrl.toDisplayString());
     }
     return i18ncp("@info accessibility, 2 is path",
                   "%1 selected item in location %2",
@@ -489,4 +509,15 @@ void KItemListViewAccessible::slotAnnounceCurrentItemTimerTimeout()
         QAccessibleEvent announceAccessibleDescriptionEvent(this, QAccessible::DescriptionChanged);
         QAccessible::updateAccessibility(&announceAccessibleDescriptionEvent);
     }
+}
+
+void KItemListViewAccessible::announceSelectionModeEnabled(const bool enabled)
+{
+    m_selectionMode = enabled;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0) // QAccessibleAnnouncementEvent is only available since 6.8
+    QAccessibleAnnouncementEvent announceChangedControlsEvent(view(),
+                                                              enabled ? i18nc("accessibility announcement", "Selection mode enabled")
+                                                                      : i18nc("accessibility announcement", "Selection mode disabled"));
+    QAccessible::updateAccessibility(&announceChangedControlsEvent);
+#endif
 }

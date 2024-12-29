@@ -270,7 +270,9 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
     }
 
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
-    const bool shiftOrControlPressed = shiftPressed || controlPressed;
+    if (m_selectionMode && !controlPressed && !shiftPressed && (key == Qt::Key_Enter || key == Qt::Key_Return)) {
+        key = Qt::Key_Space; // In selection mode one moves around with arrow keys and toggles selection with Enter.
+    }
     const bool navigationPressed = key == Qt::Key_Home || key == Qt::Key_End || key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_Up
         || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right;
 
@@ -467,7 +469,7 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_Space:
         if (m_selectionBehavior == MultiSelection) {
-            if (controlPressed) {
+            if (controlPressed || m_selectionMode) {
                 // Toggle the selection state of the current item.
                 m_selectionManager->endAnchoredSelection();
                 m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
@@ -503,13 +505,13 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
             break;
 
         case MultiSelection:
-            if (controlPressed) {
+            if (controlPressed || (m_selectionMode && !shiftPressed)) {
                 m_selectionManager->endAnchoredSelection();
             }
 
             m_selectionManager->setCurrentItem(index);
 
-            if (!shiftOrControlPressed) {
+            if (!shiftPressed && !controlPressed && !m_selectionMode) {
                 m_selectionManager->clearSelection();
                 m_selectionManager->setSelected(index, 1);
             }
@@ -540,10 +542,16 @@ void KItemListController::slotChangeCurrentItem(const QString &text, bool search
         index = m_model->indexForKeyboardSearch(text, 0);
     }
     if (index >= 0) {
+        if (m_selectionMode) {
+            m_selectionManager->endAnchoredSelection();
+        }
+
         m_selectionManager->setCurrentItem(index);
 
         if (m_selectionBehavior != NoSelection) {
-            m_selectionManager->replaceSelection(index);
+            if (!m_selectionMode) { // Don't clear the selection in selection mode.
+                m_selectionManager->replaceSelection(index);
+            }
             m_selectionManager->beginAnchoredSelection(index);
         }
 

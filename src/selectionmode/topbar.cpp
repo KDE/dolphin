@@ -10,8 +10,8 @@
 #include "backgroundcolorhelper.h"
 
 #include <KColorScheme>
+#include <KContextualHelpButton>
 #include <KLocalizedString>
-#include <KToolTipHelper>
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -23,14 +23,6 @@ using namespace SelectionMode;
 TopBar::TopBar(QWidget *parent)
     : AnimatedHeightWidget{parent}
 {
-    setToolTip(KToolTipHelper::whatsThisHintOnly());
-    setWhatsThis(xi18nc("@info:whatsthis",
-                        "<title>Selection Mode</title><para>Select files or folders to manage or manipulate them."
-                        "<list><item>Press on a file or folder to select it.</item><item>Press on an already selected file or folder to deselect it.</item>"
-                        "<item>Pressing an empty area does <emphasis>not</emphasis> clear the selection.</item>"
-                        "<item>Selection rectangles (created by dragging from an empty area) invert the selection status of items within.</item></list></para>"
-                        "<para>The available action buttons at the bottom change depending on the current selection.</para>"));
-
     QWidget *contentsContainer = prepareContentsContainer();
 
     BackgroundColorHelper::instance()->controlBackgroundColor(this);
@@ -39,7 +31,23 @@ TopBar::TopBar(QWidget *parent)
     m_shortLabelString = i18nc("@info label above the view explaining the state", "Selection Mode");
     m_label = new QLabel(contentsContainer);
     m_label->setMinimumWidth(0);
+    m_label->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByKeyboard); // for keyboard accessibility
     BackgroundColorHelper::instance()->controlBackgroundColor(m_label);
+
+    m_contextualHelpButton = new KContextualHelpButton{
+        xi18nc("@info",
+               "<title>Selection Mode</title><para>Select files or folders to manage or manipulate them."
+               "<list><item>Press on a file or folder to select it.</item><item>Press on an already selected file or folder to deselect it.</item>"
+               "<item>Pressing an empty area does <emphasis>not</emphasis> clear the selection.</item>"
+               "<item>Selection rectangles (created by dragging from an empty area) invert the selection status of items within.</item>"
+               "<item>Moving with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change the selection.</item>"
+               "<item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></para>"
+               "<para>The available action buttons at the bottom change depending on the current selection.</para>",
+               QKeySequence{Qt::Key_Enter}.toString(QKeySequence::NativeText),
+               QKeySequence{Qt::Key_Return}.toString(QKeySequence::NativeText),
+               QKeySequence{Qt::CTRL | Qt::Key_Space}.toString(QKeySequence::NativeText)),
+        nullptr,
+        contentsContainer};
 
     m_closeButton = new QPushButton(QIcon::fromTheme(QStringLiteral("window-close-symbolic")), "", contentsContainer);
     m_closeButton->setText(i18nc("@action:button", "Exit Selection Mode"));
@@ -54,6 +62,7 @@ TopBar::TopBar(QWidget *parent)
 
     layout->addStretch();
     layout->addWidget(m_label);
+    layout->addWidget(m_contextualHelpButton);
     layout->addStretch();
     layout->addWidget(m_closeButton);
 }
@@ -67,8 +76,8 @@ void TopBar::resizeEvent(QResizeEvent *resizeEvent)
 void TopBar::updateLabelString()
 {
     QFontMetrics fontMetrics = m_label->fontMetrics();
-    if (fontMetrics.horizontalAdvance(m_fullLabelString) + m_closeButton->sizeHint().width() + style()->pixelMetric(QStyle::PM_LayoutLeftMargin) * 2
-            + style()->pixelMetric(QStyle::PM_LayoutRightMargin) * 2
+    if (fontMetrics.horizontalAdvance(m_fullLabelString) + m_contextualHelpButton->sizeHint().width() + m_closeButton->sizeHint().width()
+            + style()->pixelMetric(QStyle::PM_LayoutLeftMargin) * 2 + style()->pixelMetric(QStyle::PM_LayoutRightMargin) * 2
         < width()) {
         m_label->setText(m_fullLabelString);
     } else {

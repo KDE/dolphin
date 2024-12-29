@@ -10,6 +10,7 @@
 
 #include "animatedheightwidget.h"
 
+class KContextualHelpButton;
 class QLabel;
 class QPushButton;
 class QResizeEvent;
@@ -46,6 +47,7 @@ private:
 
 private:
     QLabel *m_label;
+    KContextualHelpButton *m_contextualHelpButton;
     QPushButton *m_closeButton;
 
     /** @see updateLabelString() */

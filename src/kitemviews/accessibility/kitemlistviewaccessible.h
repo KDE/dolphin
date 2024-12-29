@@ -124,6 +124,12 @@ public:
      */
     void announceCurrentItem();
 
+    /**
+     * Toggling selection mode completely changes how the application controls, so it is absolutely necessary to communicate this change to users as soon as it
+     * happens.
+     */
+    void announceSelectionModeEnabled(bool enabled);
+
 private:
     /**
      * @returns a KItemListDelegateAccessible representing the file or folder at the @index. Returns nullptr for invalid indices.
@@ -144,6 +150,7 @@ private Q_SLOTS:
 private:
     /** @see setPlaceholderMessage(). */
     QString m_placeholderMessage;
+    bool m_selectionMode = false;
 
     /**
      * Is started by announceCurrentItem().

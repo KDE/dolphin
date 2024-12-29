@@ -320,6 +320,12 @@ void DolphinView::setSelectionModeEnabled(const bool enabled)
         m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     }
     m_container->controller()->setSelectionModeEnabled(enabled);
+#ifndef QT_NO_ACCESSIBILITY
+    if (QAccessible::isActive()) {
+        auto accessibleViewInterface = static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(m_view));
+        accessibleViewInterface->announceSelectionModeEnabled(enabled);
+    }
+#endif
 }
 
 bool DolphinView::selectionMode() const
