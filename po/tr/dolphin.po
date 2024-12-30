@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-20 00:43+0000\n"
+"POT-Creation-Date: 2024-12-30 00:44+0000\n"
 "PO-Revision-Date: 2024-12-07 13:43+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2110,13 +2110,33 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr "%2 konumunda %1"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 1 is path"
+#| msgid "in a grid layout in location %1"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in selection mode in location %1"
+msgstr "%1 konumunda bir ızgara yerleşiminde"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
 msgstr "%1 konumunda bir ızgara yerleşiminde"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in a grid layout in location %2"
+#| msgid_plural "%1 selected items in a grid layout in location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in selection mode in location %2"
+msgid_plural ""
+"%1 selected items in a grid layout in selection mode in location %2"
+msgstr[0] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
+msgstr[1] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
@@ -2124,19 +2144,55 @@ msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
 msgstr[1] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in location %2"
+#| msgid_plural "%1 selected items in location %2"
+msgctxt "@info accessibility, 1 is path"
+msgid "in selection mode in location %1"
+msgstr "%2 konumunda %1 seçili öge"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "%1 konumunda"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in a grid layout in location %2"
+#| msgid_plural "%1 selected items in a grid layout in location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in selection mode in location %2"
+msgid_plural "%1 selected items in selection mode in location %2"
+msgstr[0] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
+msgstr[1] "%2 konumunda ızgara yerleşiminde seçili %1 öge"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
 msgstr[0] "%2 konumunda %1 seçili öge"
 msgstr[1] "%2 konumunda %1 seçili öge"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgctxt "accessibility announcement"
+msgid "Selection mode enabled"
+msgstr "Seçim Kipi"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgctxt "accessibility announcement"
+msgid "Selection mode disabled"
+msgstr "Seçim Kipi"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3567,16 +3623,43 @@ msgid_plural "Rename %2"
 msgstr[0] "Yeniden Adlandır: %2"
 msgstr[1] "Yeniden Adlandır: %2"
 
-#: selectionmode/topbar.cpp:28
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
+#: selectionmode/topbar.cpp:30
+#, kde-format
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode: Click on files or folders to select or deselect them."
+msgstr ""
+"Seçim Kipi: Seçmek veya seçimi kaldırmak için dosyaların veya klasörlerin "
+"üzerine tıklayın."
+
+#: selectionmode/topbar.cpp:31
+#, kde-format
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode"
+msgstr "Seçim Kipi"
+
+#: selectionmode/topbar.cpp:39
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<title>Selection Mode</title><para>Select files or folders to manage or "
+#| "manipulate them.<list><item>Press on a file or folder to select it.</"
+#| "item><item>Press on an already selected file or folder to deselect it.</"
+#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+#| "selection.</item><item>Selection rectangles (created by dragging from an "
+#| "empty area) invert the selection status of items within.</item></list></"
+#| "para><para>The available action buttons at the bottom change depending on "
+#| "the current selection.</para>"
+msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
 "manipulate them.<list><item>Press on a file or folder to select it.</"
 "item><item>Press on an already selected file or folder to deselect it.</"
 "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
 "selection.</item><item>Selection rectangles (created by dragging from an "
-"empty area) invert the selection status of items within.</item></list></"
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
@@ -3589,21 +3672,7 @@ msgstr ""
 "çevirir.</item></list></para><para>Alttaki kullanılabilir eylem düğmeleri, "
 "geçerli seçime göre değişir.</para>"
 
-#: selectionmode/topbar.cpp:38
-#, kde-format
-msgctxt "@info label above the view explaining the state"
-msgid "Selection Mode: Click on files or folders to select or deselect them."
-msgstr ""
-"Seçim Kipi: Seçmek veya seçimi kaldırmak için dosyaların veya klasörlerin "
-"üzerine tıklayın."
-
-#: selectionmode/topbar.cpp:39
-#, kde-format
-msgctxt "@info label above the view explaining the state"
-msgid "Selection Mode"
-msgstr "Seçim Kipi"
-
-#: selectionmode/topbar.cpp:45
+#: selectionmode/topbar.cpp:53
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -3818,20 +3887,28 @@ msgstr "Bağlam menüsünde “Diğer Bölünmüş Görünüme Kopyala” ögesi
 msgid "Position of columns"
 msgstr "Sütunların konumu"
 
-#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, kde-format
-msgid "Side Padding"
+#, fuzzy, kde-format
+#| msgid "Side Padding"
+msgid "Left side padding"
+msgstr "Kenar Dolgusu"
+
+#. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, fuzzy, kde-format
+#| msgid "Side Padding"
+msgid "Right side padding"
 msgstr "Kenar Dolgusu"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:35
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
 msgstr "Tüm satırı vurgula"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Expandable folders"
 msgstr "Genişletilebilir klasörler"
@@ -5184,7 +5261,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Dosyaları ve klasörleri aç:"
 
-#: settings/viewmodes/viewsettingstab.cpp:243
+#: settings/viewmodes/viewsettingstab.cpp:248
 #: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
@@ -5540,7 +5617,7 @@ msgstr "Öntanımlı"
 msgid "Reload"
 msgstr "Yeniden Yükle"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:666
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5548,7 +5625,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 klasör seçili"
 msgstr[1] "%1 klasör seçili"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:667
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5556,7 +5633,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 dosya seçili"
 msgstr[1] "%1 dosya seçili"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:669
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5564,7 +5641,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 klasör"
 msgstr[1] "%1 klasör"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:670
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5572,38 +5649,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 dosya"
 msgstr[1] "%1 dosya"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:676
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:680
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 klasör, 0 dosya"
 
-#: views/dolphinview.cpp:906 views/dolphinview.cpp:915
+#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopyası"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1105
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "%1 ögeyi açmak istediğinizden emin misiniz?"
 msgstr[1] "%1 ögeyi açmak istediğinizden emin misiniz?"
 
-#: views/dolphinview.cpp:1104
+#: views/dolphinview.cpp:1110
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -5611,43 +5688,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 Ögeyi Aç"
 msgstr[1] "%1 Ögeyi Aç"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Kenar Dolgusu"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1244
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Otomatik Sütun Genişliği"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Özel Sütun Genişlikleri"
 
-#: views/dolphinview.cpp:1849
+#: views/dolphinview.cpp:1860
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Silme işlemi tamamlandı."
 
-#: views/dolphinview.cpp:1859
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Silme işlemi tamamlandı."
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2030
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Yeniden Adlandır ve Gizle"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5656,7 +5733,7 @@ msgstr ""
 "Bu dosyanın adının başına bir nokta eklemek onu görünümden gizleyecektir.\n"
 "Hâlâ yeniden adlandırmak istiyor musunuz?"
 
-#: views/dolphinview.cpp:2025
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5665,94 +5742,94 @@ msgstr ""
 "Bu klasörün adının başına bir nokta eklemek onu görünümden gizleyecektir.\n"
 "Hâlâ yeniden adlandırmak istiyor musunuz?"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this File?"
 msgstr "Bu dosya gizlensin mi?"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Bu klasör gizlensin mi?"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Konum boş."
 
-#: views/dolphinview.cpp:2068
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "“%1” konumu geçersiz."
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "Loading canceled"
 msgstr "Yükleme iptal edildi"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Süzgeçle eşleşen öge yok"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "No items matching the search"
 msgstr "Aramayla eşleşen öge yok"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2378
 #, kde-format
 msgid "Trash is empty"
 msgstr "Çöp kutusu boş"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
 msgstr "Etiketsiz"
 
-#: views/dolphinview.cpp:2373
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "“%1” ile hiçbir dosya etiketlenmemiş"
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No recently used items"
 msgstr "Yakın zamanda kullanılan öge yok"
 
-#: views/dolphinview.cpp:2379
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No shared folders found"
 msgstr "Paylaşılan klasör bulunamadı"
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "İlgili ağ kaynağı bulunamadı"
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP uyumlu aygıt bulunamadı"
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Bir Apple aygıtı bulunamadı"
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetooth aygıtı bulunamadı"
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgid "Folder is empty"
 msgstr "Klasör boş"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-20 00:43+0000\n"
+"POT-Creation-Date: 2024-12-30 00:44+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -1941,27 +1941,63 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
+#, kde-format
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in selection mode in location %1"
+msgstr ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in selection mode in location %2"
+msgid_plural ""
+"%1 selected items in a grid layout in selection mode in location %2"
+msgstr[0] "تاللانغان %1 تۈر ئاتىنى ئۆزگەرتىدۇ:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 1 is path"
+msgid "in selection mode in location %1"
+msgstr "تاللانغان %1 تۈر ئاتىنى ئۆزگەرتىدۇ:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, fuzzy, kde-format
 #| msgid "Location"
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "ئورنى"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in selection mode in location %2"
+msgid_plural "%1 selected items in selection mode in location %2"
+msgstr[0] "تاللانغان %1 تۈر ئاتىنى ئۆزگەرتىدۇ:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the %1 selected item to:"
@@ -1970,6 +2006,22 @@ msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
 msgstr[0] "تاللانغان %1 تۈر ئاتىنى ئۆزگەرتىدۇ:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode enabled"
+msgstr "تاللاش"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode disabled"
+msgstr "تاللاش"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3522,27 +3574,13 @@ msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "ئات ئۆزگەرت(&R)"
 
-#: selectionmode/topbar.cpp:28
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<title>Selection Mode</title><para>Select files or folders to manage or "
-"manipulate them.<list><item>Press on a file or folder to select it.</"
-"item><item>Press on an already selected file or folder to deselect it.</"
-"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-"selection.</item><item>Selection rectangles (created by dragging from an "
-"empty area) invert the selection status of items within.</item></list></"
-"para><para>The available action buttons at the bottom change depending on "
-"the current selection.</para>"
-msgstr ""
-
-#: selectionmode/topbar.cpp:38
+#: selectionmode/topbar.cpp:30
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:39
+#: selectionmode/topbar.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3550,7 +3588,24 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "تاللاش"
 
-#: selectionmode/topbar.cpp:45
+#: selectionmode/topbar.cpp:39
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<title>Selection Mode</title><para>Select files or folders to manage or "
+"manipulate them.<list><item>Press on a file or folder to select it.</"
+"item><item>Press on an already selected file or folder to deselect it.</"
+"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+"selection.</item><item>Selection rectangles (created by dragging from an "
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
+"para><para>The available action buttons at the bottom change depending on "
+"the current selection.</para>"
+msgstr ""
+
+#: selectionmode/topbar.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3787,20 +3842,26 @@ msgstr "مەزمۇن تىزىملىكىدە «گە كۆچۈر» ۋە «گە يۆ
 msgid "Position of columns"
 msgstr "ئىستون ئورنى"
 
-#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
-msgid "Side Padding"
+msgid "Left side padding"
+msgstr ""
+
+#. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, kde-format
+msgid "Right side padding"
 msgstr ""
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:35
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
 msgstr ""
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Expandable folders"
 msgstr "يېيىلىشچان قىسقۇچلار"
@@ -5251,7 +5312,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "ھۆججەت ۋە قىسقۇچنىڭ ئالدىن كۆزىتىشىنى كۆرسەت"
 
-#: settings/viewmodes/viewsettingstab.cpp:243
+#: settings/viewmodes/viewsettingstab.cpp:248
 #: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
@@ -5604,7 +5665,7 @@ msgstr "كۆڭۈلدىكى"
 msgid "Reload"
 msgstr "قايتا يۈكلە"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:666
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -5614,7 +5675,7 @@ msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "%1 قىسقۇچ تاللاندى"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:667
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -5624,7 +5685,7 @@ msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "%1 ھۆججەت تاللاندى"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -5634,7 +5695,7 @@ msgid "1 folder"
 msgid_plural "%1 folders"
 msgstr[0] "%1 قىسقۇچ"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:670
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -5643,19 +5704,19 @@ msgid "1 file"
 msgid_plural "%1 files"
 msgstr[0] "sahran.ug@gmail.com,  gheyret@gmail.com"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1، %2 (%3)"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:676
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:680
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -5663,19 +5724,19 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 قىسقۇچ، 0 ھۆججەت"
 
-#: views/dolphinview.cpp:906 views/dolphinview.cpp:915
+#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1105
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "راستلا %1 تۈرنى ئاچامسىز؟"
 
-#: views/dolphinview.cpp:1104
+#: views/dolphinview.cpp:1110
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "By Path"
@@ -5684,25 +5745,25 @@ msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "يولى بويىچە"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1244
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "ئاپتوماتىك ئىستون كەڭلىكى"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "ئىختىيارى ئىستون كەڭلىكى"
 
-#: views/dolphinview.cpp:1849
+#: views/dolphinview.cpp:1860
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Delete operation completed."
@@ -5710,136 +5771,136 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ئۆچۈرۈش مەشغۇلاتى تاماملاندى."
 
-#: views/dolphinview.cpp:1859
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "ئۆچۈرۈش مەشغۇلاتى تاماملاندى."
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2030
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ئىچكى ئات ئۆزگەرت"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2025
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "يوشۇرۇن ھۆججەتلەرنى كۆرسەت"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "ماكان مۇندەرىجە"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "ئورۇن بوش."
 
-#: views/dolphinview.cpp:2068
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "ئورۇن «%1» ئىناۋەتسىز."
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2343
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "قىسقۇچ ئوقۇۋاتىدۇ…"
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2372
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "قىسقۇچ ئوقۇۋاتىدۇ…"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2374
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "بۇ ئەندىزىگە ماس كەلگەن بارلىق تۈرنى تاللا:"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "بۇ ئەندىزىگە ماس كەلگەن بارلىق تۈرنى تاللا:"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2378
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "ئورۇن بوش."
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2373
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "يېقىندا تاقالغان بەتكۈچلەر"
 
-#: views/dolphinview.cpp:2379
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2396
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "تۈر تېپىلمىدى."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2400
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-20 00:43+0000\n"
+"POT-Creation-Date: 2024-12-30 00:44+0000\n"
 "PO-Revision-Date: 2021-10-15 10:46+0200\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -1910,13 +1910,33 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
+#, kde-format
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in selection mode in location %1"
+msgstr ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in selection mode in location %2"
+msgid_plural ""
+"%1 selected items in a grid layout in selection mode in location %2"
+msgstr[0] "%1 wubrany objekt přemjenować na:"
+msgstr[1] "%1 wubranej objektaj přemjenować na:"
+msgstr[2] "%1 wubrane objekty přemjenować na:"
+msgstr[3] "%1 wubranych objektow přemjenować na:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
@@ -1926,14 +1946,36 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 1 is path"
+msgid "in selection mode in location %1"
+msgstr "%1 wubrany objekt přemjenować na:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, fuzzy, kde-format
 #| msgid "Location"
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "Městno"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in selection mode in location %2"
+msgid_plural "%1 selected items in selection mode in location %2"
+msgstr[0] "%1 wubrany objekt přemjenować na:"
+msgstr[1] "%1 wubranej objektaj přemjenować na:"
+msgstr[2] "%1 wubrane objekty přemjenować na:"
+msgstr[3] "%1 wubranych objektow přemjenować na:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the %1 selected item to:"
@@ -1945,6 +1987,22 @@ msgstr[0] "%1 wubrany objekt přemjenować na:"
 msgstr[1] "%1 wubranej objektaj přemjenować na:"
 msgstr[2] "%1 wubrane objekty přemjenować na:"
 msgstr[3] "%1 wubranych objektow přemjenować na:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode enabled"
+msgstr "Wuzwolenje"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode disabled"
+msgstr "Wuzwolenje"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3478,27 +3536,13 @@ msgstr[1] "Přemjenować"
 msgstr[2] "Přemjenować"
 msgstr[3] "Přemjenować"
 
-#: selectionmode/topbar.cpp:28
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<title>Selection Mode</title><para>Select files or folders to manage or "
-"manipulate them.<list><item>Press on a file or folder to select it.</"
-"item><item>Press on an already selected file or folder to deselect it.</"
-"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-"selection.</item><item>Selection rectangles (created by dragging from an "
-"empty area) invert the selection status of items within.</item></list></"
-"para><para>The available action buttons at the bottom change depending on "
-"the current selection.</para>"
-msgstr ""
-
-#: selectionmode/topbar.cpp:38
+#: selectionmode/topbar.cpp:30
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:39
+#: selectionmode/topbar.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3506,7 +3550,24 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Wuzwolenje"
 
-#: selectionmode/topbar.cpp:45
+#: selectionmode/topbar.cpp:39
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<title>Selection Mode</title><para>Select files or folders to manage or "
+"manipulate them.<list><item>Press on a file or folder to select it.</"
+"item><item>Press on an already selected file or folder to deselect it.</"
+"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+"selection.</item><item>Selection rectangles (created by dragging from an "
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
+"para><para>The available action buttons at the bottom change depending on "
+"the current selection.</para>"
+msgstr ""
+
+#: selectionmode/topbar.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3753,20 +3814,26 @@ msgstr "Přikazaj 'Kopěrować' a 'Přesunyć' w kontekstowym meniju pokazać"
 msgid "Position of columns"
 msgstr ""
 
-#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
-msgid "Side Padding"
+msgid "Left side padding"
+msgstr ""
+
+#. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, kde-format
+msgid "Right side padding"
 msgstr ""
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:35
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
 msgstr ""
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Expandable folders"
@@ -5303,7 +5370,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Přehladku pokazać"
 
-#: settings/viewmodes/viewsettingstab.cpp:243
+#: settings/viewmodes/viewsettingstab.cpp:248
 #: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
@@ -5676,7 +5743,7 @@ msgstr "Standard"
 msgid "Reload"
 msgstr "Znowa začitać"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:666
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -5689,7 +5756,7 @@ msgstr[1] "%1 zapiskaj wubranej"
 msgstr[2] "%1 zapiski wubrane"
 msgstr[3] "%1 zapiskow wubranych"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:667
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -5702,7 +5769,7 @@ msgstr[1] "%1 dataji wubranej"
 msgstr[2] "%1 dataje wubrane"
 msgstr[3] "%1 datajow wubranych"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -5715,7 +5782,7 @@ msgstr[1] "%1 zapiskaj"
 msgstr[2] "%1 zapiski"
 msgstr[3] "%1 zapiskow"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:670
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -5727,19 +5794,19 @@ msgstr[1] "edi.werner@gmx.de"
 msgstr[2] "edi.werner@gmx.de"
 msgstr[3] "edi.werner@gmx.de"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:676
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:680
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -5747,13 +5814,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "Žadyn zapisk, žana dataja"
 
-#: views/dolphinview.cpp:906 views/dolphinview.cpp:915
+#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1105
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -5762,7 +5829,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: views/dolphinview.cpp:1104
+#: views/dolphinview.cpp:1110
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
@@ -5774,13 +5841,13 @@ msgstr[1] "%1 wočinić"
 msgstr[2] "%1 wočinić"
 msgstr[3] "%1 wočinić"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1244
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -5788,7 +5855,7 @@ msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Šěrokosć stołpikow"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1249
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -5796,7 +5863,7 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Šěrokosć stołpikow"
 
-#: views/dolphinview.cpp:1849
+#: views/dolphinview.cpp:1860
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -5804,13 +5871,13 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Dopřesunjene do papjernika."
 
-#: views/dolphinview.cpp:1859
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Dowumazane."
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2030
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rename inline"
@@ -5818,119 +5885,119 @@ msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Na lince přemjenować"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2025
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "schowane dataje pokazać"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Domjacy zapisk"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Městnosć je prózdna."
 
-#: views/dolphinview.cpp:2068
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Městnosć '%1' njeje walidna."
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2343
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "Čitam..."
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2372
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Začitam zapisk..."
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2378
 #, kde-format
 msgid "Trash is empty"
 msgstr "Papjernik je prózdny"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2373
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2388
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "No recently used items"
 msgstr "Tabulator začinić"
 
-#: views/dolphinview.cpp:2379
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2396
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Njejsym ničo namakał."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2400
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"

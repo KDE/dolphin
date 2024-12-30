@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-20 00:43+0000\n"
+"POT-Creation-Date: 2024-12-30 00:44+0000\n"
 "PO-Revision-Date: 2011-05-08 17:45+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -1962,13 +1962,32 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
+#, kde-format
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in selection mode in location %1"
+msgstr ""
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
 msgstr ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in selection mode in location %2"
+msgid_plural ""
+"%1 selected items in a grid layout in selection mode in location %2"
+msgstr[0] "Preimenuj %1 odabranu stavku u:"
+msgstr[1] "Preimenuj %1 odabrane stavke u:"
+msgstr[2] "Preimenuj %1 odabranih stavki u:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
@@ -1977,14 +1996,35 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 1 is path"
+msgid "in selection mode in location %1"
+msgstr "Preimenuj %1 odabranu stavku u:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, fuzzy, kde-format
 #| msgid "Location"
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "Lokacija"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the %1 selected item to:"
+#| msgid_plural "Rename the %1 selected items to:"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in selection mode in location %2"
+msgid_plural "%1 selected items in selection mode in location %2"
+msgstr[0] "Preimenuj %1 odabranu stavku u:"
+msgstr[1] "Preimenuj %1 odabrane stavke u:"
+msgstr[2] "Preimenuj %1 odabranih stavki u:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the %1 selected item to:"
@@ -1995,6 +2035,22 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "Preimenuj %1 odabranu stavku u:"
 msgstr[1] "Preimenuj %1 odabrane stavke u:"
 msgstr[2] "Preimenuj %1 odabranih stavki u:"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode enabled"
+msgstr "Odabrano"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "accessibility announcement"
+msgid "Selection mode disabled"
+msgstr "Odabrano"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3610,27 +3666,13 @@ msgstr[0] "P&reimenuj"
 msgstr[1] "P&reimenuj"
 msgstr[2] "P&reimenuj"
 
-#: selectionmode/topbar.cpp:28
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<title>Selection Mode</title><para>Select files or folders to manage or "
-"manipulate them.<list><item>Press on a file or folder to select it.</"
-"item><item>Press on an already selected file or folder to deselect it.</"
-"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-"selection.</item><item>Selection rectangles (created by dragging from an "
-"empty area) invert the selection status of items within.</item></list></"
-"para><para>The available action buttons at the bottom change depending on "
-"the current selection.</para>"
-msgstr ""
-
-#: selectionmode/topbar.cpp:38
+#: selectionmode/topbar.cpp:30
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:39
+#: selectionmode/topbar.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3638,7 +3680,24 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Odabrano"
 
-#: selectionmode/topbar.cpp:45
+#: selectionmode/topbar.cpp:39
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"<title>Selection Mode</title><para>Select files or folders to manage or "
+"manipulate them.<list><item>Press on a file or folder to select it.</"
+"item><item>Press on an already selected file or folder to deselect it.</"
+"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+"selection.</item><item>Selection rectangles (created by dragging from an "
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
+"para><para>The available action buttons at the bottom change depending on "
+"the current selection.</para>"
+msgstr ""
+
+#: selectionmode/topbar.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3890,20 +3949,26 @@ msgstr ""
 msgid "Position of columns"
 msgstr "Pozicije stupaca"
 
-#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
-msgid "Side Padding"
+msgid "Left side padding"
+msgstr ""
+
+#. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, kde-format
+msgid "Right side padding"
 msgstr ""
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:35
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
 msgstr ""
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Expandable folders"
 msgstr "Proširujuće mape"
@@ -5402,7 +5467,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "Prikaži pregled datoteka i mapa"
 
-#: settings/viewmodes/viewsettingstab.cpp:243
+#: settings/viewmodes/viewsettingstab.cpp:248
 #: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
@@ -5765,7 +5830,7 @@ msgstr "Zadan"
 msgid "Reload"
 msgstr "Učitaj ponovno"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:666
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -5777,7 +5842,7 @@ msgstr[0] "%1 mapa odabrana"
 msgstr[1] "%1 mape odabrane"
 msgstr[2] "%1 mapa odabranih"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:667
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -5789,7 +5854,7 @@ msgstr[0] "Odabrana %1 datoteka"
 msgstr[1] "Odabrane %1 datoteke"
 msgstr[2] "Odabrano %1 datoteka"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -5800,7 +5865,7 @@ msgstr[0] "Mapa"
 msgstr[1] "Mapa"
 msgstr[2] "Mapa"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:670
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -5811,19 +5876,19 @@ msgstr[0] "zarko.pintar@gmail.com, adundovi@gmail.com, marko@dimjasevic.net"
 msgstr[1] "zarko.pintar@gmail.com, adundovi@gmail.com, marko@dimjasevic.net"
 msgstr[2] "zarko.pintar@gmail.com, adundovi@gmail.com, marko@dimjasevic.net"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:676
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:680
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -5831,13 +5896,13 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "Prvo mape"
 
-#: views/dolphinview.cpp:906 views/dolphinview.cpp:915
+#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1105
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -5845,7 +5910,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: views/dolphinview.cpp:1104
+#: views/dolphinview.cpp:1110
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path in New Tab"
@@ -5856,27 +5921,27 @@ msgstr[0] "Otvori u novoj kartici"
 msgstr[1] "Otvori u novoj kartici"
 msgstr[2] "Otvori u novoj kartici"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1244
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Širina stupca"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Column width"
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Širina stupca"
 
-#: views/dolphinview.cpp:1849
+#: views/dolphinview.cpp:1860
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -5884,136 +5949,136 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operacija premještanja u smeće je završena."
 
-#: views/dolphinview.cpp:1859
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2030
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj unutar linije"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2025
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Prikaži skrivene datoteke"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Osobna mapa"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2068
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacija '%1' nije valjana."
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2343
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Učitavanje mape…"
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2372
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Učitavanje mape…"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2374
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Odaberi sve stavke koje se slažu s ovim uzorkom:"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Odaberi sve stavke koje se slažu s ovim uzorkom:"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2378
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2373
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Nedavno zatvorene kartice"
 
-#: views/dolphinview.cpp:2379
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2396
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nema nađenih stavki."
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2400
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

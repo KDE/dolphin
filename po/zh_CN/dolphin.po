@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-20 00:43+0000\n"
+"POT-Creation-Date: 2024-12-30 00:44+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2023,31 +2023,85 @@ msgctxt ""
 msgid "%1 at location %2"
 msgstr "%1 位于 %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:283
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 1 is path"
+#| msgid "in a grid layout in location %1"
+msgctxt "@info accessibility, 1 is path"
+msgid "in a grid layout in selection mode in location %1"
+msgstr "网格布局，位于 %1"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
 msgstr "网格布局，位于 %1"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in a grid layout in location %2"
+#| msgid_plural "%1 selected items in a grid layout in location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in a grid layout in selection mode in location %2"
+msgid_plural ""
+"%1 selected items in a grid layout in selection mode in location %2"
+msgstr[0] "%1 选中的项目，网格布局，位于 %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] "%1 选中的项目，网格布局，位于 %2"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in location %2"
+#| msgid_plural "%1 selected items in location %2"
+msgctxt "@info accessibility, 1 is path"
+msgid "in selection mode in location %1"
+msgstr "%1 个选中的项目，位于 %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "位于 %1"
 
-#: kitemviews/accessibility/kitemlistviewaccessible.cpp:299
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
+#, fuzzy, kde-format
+#| msgctxt "@info accessibility, 2 is path"
+#| msgid "%1 selected item in a grid layout in location %2"
+#| msgid_plural "%1 selected items in a grid layout in location %2"
+msgctxt "@info accessibility, 2 is path"
+msgid "%1 selected item in selection mode in location %2"
+msgid_plural "%1 selected items in selection mode in location %2"
+msgstr[0] "%1 选中的项目，网格布局，位于 %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
 msgstr[0] "%1 个选中的项目，位于 %2"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgctxt "accessibility announcement"
+msgid "Selection mode enabled"
+msgstr "选择模式"
+
+#: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgctxt "accessibility announcement"
+msgid "Selection mode disabled"
+msgstr "选择模式"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3453,16 +3507,41 @@ msgid "Rename %2"
 msgid_plural "Rename %2"
 msgstr[0] "重命名 %2 项"
 
-#: selectionmode/topbar.cpp:28
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
+#: selectionmode/topbar.cpp:30
+#, kde-format
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode: Click on files or folders to select or deselect them."
+msgstr "选择模式：逐个点击文件或者文件夹来选择/取消选择。"
+
+#: selectionmode/topbar.cpp:31
+#, kde-format
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode"
+msgstr "选择模式"
+
+#: selectionmode/topbar.cpp:39
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<title>Selection Mode</title><para>Select files or folders to manage or "
+#| "manipulate them.<list><item>Press on a file or folder to select it.</"
+#| "item><item>Press on an already selected file or folder to deselect it.</"
+#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+#| "selection.</item><item>Selection rectangles (created by dragging from an "
+#| "empty area) invert the selection status of items within.</item></list></"
+#| "para><para>The available action buttons at the bottom change depending on "
+#| "the current selection.</para>"
+msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
 "manipulate them.<list><item>Press on a file or folder to select it.</"
 "item><item>Press on an already selected file or folder to deselect it.</"
 "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
 "selection.</item><item>Selection rectangles (created by dragging from an "
-"empty area) invert the selection status of items within.</item></list></"
+"empty area) invert the selection status of items within.</item><item>Moving "
+"with <shortcut>arrow keys</shortcut> does <emphasis>not</emphasis> change "
+"the selection.</item><item>Pressing <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, or <shortcut>%3</shortcut> toggles the selection.</item></list></"
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
@@ -3473,19 +3552,7 @@ msgstr ""
 "item></list></para><para>窗口底部显示了可用的操作按钮，它们会根据当前选中的项"
 "目发生变化。</para>"
 
-#: selectionmode/topbar.cpp:38
-#, kde-format
-msgctxt "@info label above the view explaining the state"
-msgid "Selection Mode: Click on files or folders to select or deselect them."
-msgstr "选择模式：逐个点击文件或者文件夹来选择/取消选择。"
-
-#: selectionmode/topbar.cpp:39
-#, kde-format
-msgctxt "@info label above the view explaining the state"
-msgid "Selection Mode"
-msgstr "选择模式"
-
-#: selectionmode/topbar.cpp:45
+#: selectionmode/topbar.cpp:53
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
@@ -3697,20 +3764,28 @@ msgstr "在右键菜单中显示“移动到其他分割视图”。"
 msgid "Position of columns"
 msgstr "列位置"
 
-#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, kde-format
-msgid "Side Padding"
+#, fuzzy, kde-format
+#| msgid "Side Padding"
+msgid "Left side padding"
+msgstr "侧边距"
+
+#. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, fuzzy, kde-format
+#| msgid "Side Padding"
+msgid "Right side padding"
 msgstr "侧边距"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:35
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
 msgstr "高亮显示整行"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Expandable folders"
 msgstr "可展开文件夹"
@@ -5029,7 +5104,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "打开文件和文件夹："
 
-#: settings/viewmodes/viewsettingstab.cpp:243
+#: settings/viewmodes/viewsettingstab.cpp:248
 #: statusbar/dolphinstatusbar.cpp:340
 #, kde-format
 msgctxt "@info:tooltip"
@@ -5377,108 +5452,108 @@ msgstr "默认"
 msgid "Reload"
 msgstr "重新加载"
 
-#: views/dolphinview.cpp:660
+#: views/dolphinview.cpp:666
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
 msgid_plural "%1 folders selected"
 msgstr[0] "已选中 %1 个文件夹"
 
-#: views/dolphinview.cpp:661
+#: views/dolphinview.cpp:667
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "已选中 %1 个文件"
 
-#: views/dolphinview.cpp:663
+#: views/dolphinview.cpp:669
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
 msgid_plural "%1 folders"
 msgstr[0] "%1 个文件夹"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:670
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
 msgid_plural "%1 files"
 msgstr[0] "%1 个文件"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1，%2 (%3)"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:676
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:680
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 个文件夹，0 个文件"
 
-#: views/dolphinview.cpp:906 views/dolphinview.cpp:915
+#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 副本"
 
-#: views/dolphinview.cpp:1099
+#: views/dolphinview.cpp:1105
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "您确定要打开这 %1 项吗？"
 
-#: views/dolphinview.cpp:1104
+#: views/dolphinview.cpp:1110
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
 msgstr[0] "打开 %1 个项目"
 
-#: views/dolphinview.cpp:1234
+#: views/dolphinview.cpp:1240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "侧边距"
 
-#: views/dolphinview.cpp:1238
+#: views/dolphinview.cpp:1244
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "自动列宽"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "自定义列宽"
 
-#: views/dolphinview.cpp:1849
+#: views/dolphinview.cpp:1860
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "移动到回收站操作已完成。"
 
-#: views/dolphinview.cpp:1859
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "删除操作已完成。"
 
-#: views/dolphinview.cpp:2019
+#: views/dolphinview.cpp:2030
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "重命名并隐藏"
 
-#: views/dolphinview.cpp:2023
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5487,7 +5562,7 @@ msgstr ""
 "在文件名的开头添加一个英文点号会将其隐藏。\n"
 "您仍然想要重命名它吗？"
 
-#: views/dolphinview.cpp:2025
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5496,94 +5571,94 @@ msgstr ""
 "在文件夹名的开头添加一个英文点号会将其隐藏。\n"
 "您仍然想要重命名它吗？"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this File?"
 msgstr "隐藏此文件？"
 
-#: views/dolphinview.cpp:2027
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "隐藏此文件夹？"
 
-#: views/dolphinview.cpp:2066
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "位置为空。"
 
-#: views/dolphinview.cpp:2068
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "位置“%1”无效。"
 
-#: views/dolphinview.cpp:2332
+#: views/dolphinview.cpp:2343
 #, kde-format
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2372
 #, kde-format
 msgid "Loading canceled"
 msgstr "加载已取消"
 
-#: views/dolphinview.cpp:2363
+#: views/dolphinview.cpp:2374
 #, kde-format
 msgid "No items matching the filter"
 msgstr "没有匹配此过滤条件的项目"
 
-#: views/dolphinview.cpp:2365
+#: views/dolphinview.cpp:2376
 #, kde-format
 msgid "No items matching the search"
 msgstr "没有匹配此搜索条件的项目"
 
-#: views/dolphinview.cpp:2367
+#: views/dolphinview.cpp:2378
 #, kde-format
 msgid "Trash is empty"
 msgstr "回收站为空"
 
-#: views/dolphinview.cpp:2370
+#: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
 msgstr "无标签"
 
-#: views/dolphinview.cpp:2373
+#: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "没有标记为“%1”的文件"
 
-#: views/dolphinview.cpp:2377
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "No recently used items"
 msgstr "没有最近使用过的项目"
 
-#: views/dolphinview.cpp:2379
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No shared folders found"
 msgstr "没有找到共享文件夹"
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "没有找到相关的网络资源"
 
-#: views/dolphinview.cpp:2383
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "没有找到 MTP 兼容设备"
 
-#: views/dolphinview.cpp:2385
+#: views/dolphinview.cpp:2396
 #, kde-format
 msgid "No Apple devices found"
 msgstr "未发现苹果设备"
 
-#: views/dolphinview.cpp:2387
+#: views/dolphinview.cpp:2398
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "没有找到蓝牙设备"
 
-#: views/dolphinview.cpp:2389
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgid "Folder is empty"
 msgstr "文件夹为空"
