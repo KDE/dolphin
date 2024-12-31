@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-06 15:55+0200\n"
+"PO-Revision-Date: 2024-12-30 11:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2166,12 +2166,10 @@ msgid "%1 at location %2"
 msgstr "%1 у %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "у табличному компонуванні у місці %1"
+msgstr "у табличному компонуванні у режимі позначення у місці %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2180,18 +2178,20 @@ msgid "in a grid layout in location %1"
 msgstr "у табличному компонуванні у місці %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 позначений запис у табличному компонуванні у місці %2"
-msgstr[1] "%1 позначені записи у табличному компонуванні у місці %2"
-msgstr[2] "%1 позначених записів у табличному компонуванні у місці %2"
-msgstr[3] "%1 позначений запис у табличному компонуванні у місці %2"
+msgstr[0] ""
+"%1 позначений запис у табличному компонуванні у режимі позначення у місці %2"
+msgstr[1] ""
+"%1 позначені записи у табличному компонуванні у режимі позначення у місці %2"
+msgstr[2] ""
+"%1 позначених записів у табличному компонуванні у режимі позначення у місці "
+"%2"
+msgstr[3] ""
+"%1 позначений запис у табличному компонуванні у режимі позначення у місці %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2204,13 +2204,10 @@ msgstr[2] "%1 позначених записів у табличному ком
 msgstr[3] "%1 позначений запис у табличному компонуванні у місці %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 позначений запис у місці %2"
+msgstr "у режимі позначення у місці %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2219,17 +2216,14 @@ msgid "in location %1"
 msgstr "у місці %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 позначений запис у табличному компонуванні у місці %2"
-msgstr[1] "%1 позначені записи у табличному компонуванні у місці %2"
-msgstr[2] "%1 позначених записів у табличному компонуванні у місці %2"
-msgstr[3] "%1 позначений запис у табличному компонуванні у місці %2"
+msgstr[0] "%1 позначений запис у режимі позначення у місці %2"
+msgstr[1] "%1 позначені записи у режимі позначення у місці %2"
+msgstr[2] "%1 позначених записів у режимі позначення у місці %2"
+msgstr[3] "%1 позначений запис у режимі позначення у місці %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2242,20 +2236,16 @@ msgstr[2] "%1 позначених записів у місці %2"
 msgstr[3] "%1 позначений запис у місці %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Режим вибору"
+msgstr "Увімкнено режим позначення"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Режим вибору"
+msgstr "Вимкнено режим позначення"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3739,17 +3729,7 @@ msgid "Selection Mode"
 msgstr "Режим вибору"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3770,8 +3750,12 @@ msgstr ""
 "позначення.</item><item>Натискання на порожньому місці <emphasis>не</"
 "emphasis> знімає позначення.</item><item>Прямокутники позначення (створені "
 "перетягування з порожнього місця) інвертують стан позначення об'єктів у них."
-"</item></list></para><para>Набір доступних кнопок дій у нижній частині вікна "
-"змінюватиметься залежно від поточного позначення.</para>"
+"</item><item>Пересування за допомогою <shortcut>клавіш зі стрілками</"
+"shortcut> <emphasis>не</emphasis> змінює позначення.</item><item>Натискання "
+"<shortcut>%1</shortcut>, <shortcut>%2</shortcut> або <shortcut>%3</shortcut> "
+"вмикає або вимикає позначення.</item></list></para><para>Набір доступних "
+"кнопок дій у нижній частині вікна змінюватиметься залежно від поточного "
+"позначення.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3999,17 +3983,15 @@ msgstr "Розташування стовпчиків"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Бічна фаска"
+msgstr "Бічна фаска ліворуч"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Бічна фаска"
+msgstr "Бічна фаска праворуч"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-19 17:36+0900\n"
+"PO-Revision-Date: 2024-12-30 17:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -2030,12 +2030,10 @@ msgid "%1 at location %2"
 msgstr "在位置 %2 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "在位置 %1 處於網格佈局中"
+msgstr "在位置 %1 處於網格佈局中，已啟用選取模式"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2044,15 +2042,12 @@ msgid "in a grid layout in location %1"
 msgstr "在位置 %1 處於網格佈局中"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "在位置 %2 已選 %1 個項目，處於網格佈局中"
+msgstr[0] "在位置 %2 已選 %1 個項目，處於網格佈局中，已啟用選取模式"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2062,13 +2057,10 @@ msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] "在位置 %2 已選 %1 個項目，處於網格佈局中"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "在位置 %2 已選 %1 個項目"
+msgstr "在位置 %1，已啟用選取模式"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2077,14 +2069,11 @@ msgid "in location %1"
 msgstr "在位置 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "在位置 %2 已選 %1 個項目，處於網格佈局中"
+msgstr[0] "在位置 %2 已選 %1 個項目，處於網格佈局中，已啟用選取模式"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2094,20 +2083,16 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "在位置 %2 已選 %1 個項目"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "選取模式"
+msgstr "選取模式已啟用"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "選取模式"
+msgstr "選取模式已停用"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3526,17 +3511,7 @@ msgid "Selection Mode"
 msgstr "選取模式"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3551,11 +3526,14 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>選取模式</title><para>選取檔案或資料夾來管理或操控它們。<list><item>點"
-"擊檔案或資料夾來選取它。</item><item>點擊已選取的檔案或資料夾來取消選取它。</"
-"item><item>點擊空白區域<emphasis>不會</emphasis>清除選取。</item><item>選取矩"
-"形（從空白區域拖曳時會出現的）會反轉範圍內的項目的選取狀態。</item></list></"
-"para><para>下方可用的動作按鈕會依目前選取項目改變。</para>"
+"<title>選取模式</title><para>選取檔案或資料夾來管理或操控它們。  <list>    "
+"<item>點擊檔案或資料夾來選取它。</item>    <item>點擊已選取的檔案或資料夾來取"
+"消選取它。</item>    <item>點擊空白區域<emphasis>不會</emphasis>清除選取。</"
+"item>    <item>選取矩形（從空白區域拖曳時會出現的）會反轉範圍內的項目的選取狀"
+"態。</item>    <item>用<shortcut>方向鍵</shortcut>移動時<emphasis>不會</"
+"emphasis>改變選取範圍。</item>    <item>按下 <shortcut>%1</shortcut>、"
+"<shortcut>%2</shortcut> 或 <shortcut>%3</shortcut> 會切換選取。</item>  </"
+"list></para><para>下方可用的動作按鈕會依目前選取項目改變。</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3771,17 +3749,15 @@ msgstr "欄位位置"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "側邊填充"
+msgstr "左側填充"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "側邊填充"
+msgstr "右側填充"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

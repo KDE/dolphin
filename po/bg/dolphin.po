@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-09 22:35+0100\n"
+"PO-Revision-Date: 2024-12-30 22:49+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -2143,12 +2143,10 @@ msgid "%1 at location %2"
 msgstr "%1 в местоположение %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "в оформление на мрежа в %1"
+msgstr "в мрежово оформление в режим на селекция в местоположение %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2157,16 +2155,15 @@ msgid "in a grid layout in location %1"
 msgstr "в оформление на мрежа в %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 избран елемент в изглед мрежа в местоположение %2"
-msgstr[1] "%1 избрани елемента в изглед мрежа в местоположение %2"
+msgstr[0] ""
+"%1 избран елемент в изглед мрежа в режим на селекция в местоположение %2"
+msgstr[1] ""
+"%1 избрани елемента в изглед мрежа в режим на селекция в местоположение %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2177,13 +2174,10 @@ msgstr[0] "%1 избран елемент в изглед мрежа в мест
 msgstr[1] "%1 избрани елемента в изглед мрежа в местоположение %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 избран елемент в местоположение %2"
+msgstr "в режим на селекция в местоположение %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2192,15 +2186,12 @@ msgid "in location %1"
 msgstr "в местоположение %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 избран елемент в изглед мрежа в местоположение %2"
-msgstr[1] "%1 избрани елемента в изглед мрежа в местоположение %2"
+msgstr[0] "%1 избран елемент в режим на селекция в местоположение %2"
+msgstr[1] "%1 избрани елемента в режим на селекция в местоположение %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2211,20 +2202,16 @@ msgstr[0] "%1 избран елемент в местоположение %2"
 msgstr[1] "%1 избрани елемента в местоположение %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Режим на селекция"
+msgstr "Режим на селекция е активиран"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Режим на селекция"
+msgstr "Режим на селекция е деактивиран"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3672,17 +3659,7 @@ msgid "Selection Mode"
 msgstr "Режим на селекция"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3697,14 +3674,18 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Режим на селекция </title><para> Изберете файлове или папки за "
-"управление или манипулиране. <list><item> Натиснете върху файл или папка, за "
-"да ги изберете.</item><item> Натиснете върху вече избран файл или папка, за "
-"да го премахнете.</item><item> Натискането на празна зона <emphasis> не </"
-"emphasis> изчиства избора. </item><item> Очертаването на правоъгълник за "
-"избор (чрез плъзгане от празна област) обръща състоянието на избора на "
-"елементите в рамката му.</item>  </list></para><para> Наличните бутони за "
-"действие в долната част се променят в зависимост от текущия избор.</para>"
+"<title>Режим на селекция</title><para>Изберете файлове или папки за "
+"управление или манипулиране. <list><item>Натиснете върху файл или папка, за "
+"да ги изберете.</item><item>Натиснете върху вече избран файл или папка, за "
+"да го премахнете от селекцията.</item><item>Натискането в празна зона "
+"<emphasis> не </emphasis> изчиства избора. </item><item>Очертаването на "
+"правоъгълник за избор (чрез плъзгане от празна област) обръща състоянието на "
+"избора на елементите в рамката му.</item><item>Преместване с "
+"<shortcut>клавиши със стрелки</shortcut> <emphasis> не </emphasis> променя "
+"избора. </item><item>Натискане на <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut> или <shortcut>%3</shortcut> превключва избора.</item></list></"
+"para><para> Наличните бутони за действие в долната част се променят в "
+"зависимост от текущия избор.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3931,17 +3912,15 @@ msgstr "Разположение на колоните"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Страничен отстъп"
+msgstr "Страничен отстъп вляво"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Страничен отстъп"
+msgstr "Страничен отстъп вдясно"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

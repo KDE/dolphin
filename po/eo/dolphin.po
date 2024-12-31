@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-29 12:45+0100\n"
+"PO-Revision-Date: 2024-12-20 16:53+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2108,12 +2108,10 @@ msgid "%1 at location %2"
 msgstr "%1 ĉe loko %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "en krada aranĝo en loko %1"
+msgstr "en krada aranĝo en elekta reĝimo en loko %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2122,16 +2120,13 @@ msgid "in a grid layout in location %1"
 msgstr "en krada aranĝo en loko %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 elektita ero en kradaranĝo en loko %2"
-msgstr[1] "%1 elektitaj eroj en kradaranĝo en loko %2"
+msgstr[0] "%1 elektita ero en kradaranĝo en elekta reĝimo en loko %2"
+msgstr[1] "%1 elektitaj eroj en kradaranĝo en elekta reĝimo en loko %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2143,12 +2138,9 @@ msgstr[1] "%1 elektitaj eroj en kradaranĝo en loko %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
 #, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 elektita ero en loko %2"
+msgstr "en elekta reĝimo en loko %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2157,15 +2149,12 @@ msgid "in location %1"
 msgstr "en loko %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 elektita ero en kradaranĝo en loko %2"
-msgstr[1] "%1 elektitaj eroj en kradaranĝo en loko %2"
+msgstr[0] "%1 elektita ero en kradaranĝo en elekta reĝimo en loko %2"
+msgstr[1] "%1 elektitaj eroj en kradaranĝo en elekta reĝimo en loko %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2176,20 +2165,16 @@ msgstr[0] "%1 elektita ero en loko %2"
 msgstr[1] "%1 elektitaj eroj en loko %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Elekta Reĝimo"
+msgstr "Elekta reĝimo ŝaltita"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Elekta Reĝimo"
+msgstr "Elekta reĝimo malŝaltita"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3634,17 +3619,7 @@ msgid "Selection Mode"
 msgstr "Elekta Reĝimo"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3661,12 +3636,15 @@ msgid ""
 msgstr ""
 "<title>Elekta reĝimo</title><para>Elektu dosierojn aŭ dosierujojn por "
 "administri aŭ manipuli ilin.<list><item>Premu dosieron aŭ dosierujon por "
-"elekti ĝin.</item><item>Premu jam elektitan. dosieron aŭ dosierujon por "
+"elekti ĝin.</item><item>Premu jam elektitan dosieron aŭ dosierujon por "
 "malelekti ĝin.</item><item>Premado de malplena areo <emphasis>ne</emphasis> "
 "malplenigas la elekton.</item><item> Elektaj ortanguloj (kreitaj per trenado "
-"de malplena areo) inversigas la elekta stato de eroj ene.</item></list></"
-"para><para>La disponeblaj agobutonoj ĉe la malsupro ŝanĝiĝas depende de la "
-"nuna elekto.</para>"
+"de malplena areo) inversigas la elektan staton de eroj ene.</item><item>Movi "
+"per <shortcut>sagoklavoj</shortcut> <emphasis>ne</emphasis> ŝanĝas la "
+"elekton.</item><item>Premi <shortcut>%1</shortcut>, <shortcut>%2</shortcut> "
+"aŭ <shortcut>%3</shortcut> ŝanĝas la elekton.</item></list></para><para>La "
+"disponeblaj agobutonoj ĉe la malsupro ŝanĝiĝas depende de la nuna elekto.</"
+"para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3886,17 +3864,15 @@ msgstr "Posicio de kolumnoj"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Flankŝtopado"
+msgstr "Maldesktraflanka ŝtopado"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Flankŝtopado"
+msgstr "Desktraflanka ŝtopado"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

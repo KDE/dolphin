@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-06 04:01+0100\n"
+"PO-Revision-Date: 2024-12-30 03:22+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2116,12 +2116,10 @@ msgid "%1 at location %2"
 msgstr "%1 მდებარეობაზე %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "ბადის განლაგებაში მდებარეობაზე %1"
+msgstr "ბადის განლაგებაში მონიშვნის რეჟიმში მდებარეობაზე %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2130,16 +2128,15 @@ msgid "in a grid layout in location %1"
 msgstr "ბადის განლაგებაში მდებარეობაზე %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 მონიშნული ელემენტი ბადის განლაგებაზე მდებარეობაზე %2"
-msgstr[1] "%1 მონიშნული ელემენტი ბადის განლაგებაზე მდებარეობაზე %2"
+msgstr[0] ""
+"%1 მონიშნული ელემენტი ბადის განლაგებაზე მონიშვნის რეჟიმში გამდებარეობაზე %2"
+msgstr[1] ""
+"%1 მონიშნული ელემენტი ბადის განლაგებაზე მონიშვნის რეჟიმში გამდებარეობაზე %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2150,13 +2147,10 @@ msgstr[0] "%1 მონიშნული ელემენტი ბადი�
 msgstr[1] "%1 მონიშნული ელემენტი ბადის განლაგებაზე მდებარეობაზე %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 მონიშნული ელემენტი მდებარეობაზე %2"
+msgstr "მონიშვნის რეჟიმში მდებარეობაზე %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2165,15 +2159,12 @@ msgid "in location %1"
 msgstr "მდებარეობაზე %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 მონიშნული ელემენტი ბადის განლაგებაზე მდებარეობაზე %2"
-msgstr[1] "%1 მონიშნული ელემენტი ბადის განლაგებაზე მდებარეობაზე %2"
+msgstr[0] "%1 მონიშნული ელემენტი მონიშვნის რეჟიმში მდებარეობაზე %2"
+msgstr[1] "%1 მონიშნული ელემენტი მონიშვნის რეჟიმში მდებარეობაზე %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2184,20 +2175,16 @@ msgstr[0] "%1 მონიშნული ელემენტი მდებ�
 msgstr[1] "%1 მონიშნული ელემენტი მდებარეობაზე %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "არჩევის რეჟიმი"
+msgstr "მონიშვნის რეჟიმი ჩართულია"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "არჩევის რეჟიმი"
+msgstr "მონიშვნის რეჟიმი გამორთულია"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3644,17 +3631,7 @@ msgid "Selection Mode"
 msgstr "არჩევის რეჟიმი"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3675,8 +3652,12 @@ msgstr ""
 "მონიშვნა მოხსნათ.</item><item>ცარიელ ადგილას დაწკაპუნება მონიშვნას "
 "<emphasis>არ</emphasis> მოხსნის.</item><item>მონიშვნის მართკუთხედი (რომელიც "
 "ცარიელი ადგილიდან გადათრევით იქმნება) მონიშნული ელემენტების მონიშვნის "
-"ინვერსიას გამოიწვევს.</item></list></para><para>ხელმისაწვდომი ქმედების "
-"ღილაკები ქვემოთაა ნაჩვენები, მიმდინარე მონიშნულიდან გამომდინარე.</para>"
+"ინვერსიას გამოიწვევს.</item><item>გადატანა <shortcut>ისრის ღილაკებით</"
+"shortcut><emphasis>არ</emphasis> შეცვლის მონიშვნას.</item><item>თუ დააწვებით "
+"მალსახმობს <shortcut>%1</shortcut>, <shortcut>%2</shortcut> ან <shortcut>%3</"
+"shortcut>, მონიშვნა გადაირთვება.</item></list></para><para>ხელმისაწვდომი "
+"ქმედების ღილაკები ქვემოთაა ნაჩვენები, მიმდინარე მონიშნულიდან გამომდინარე.</"
+"para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3896,17 +3877,15 @@ msgstr "სვეტების მდებარეობა"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "გვერდის შევსება"
+msgstr "მარცხენა მხრის შევსება"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "გვერდის შევსება"
+msgstr "მარჯვენა მხრის შევსება"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

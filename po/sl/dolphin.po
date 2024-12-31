@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-06 06:50+0100\n"
+"PO-Revision-Date: 2024-12-30 07:23+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2127,12 +2127,10 @@ msgid "%1 at location %2"
 msgstr "%1 na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "v mrežni postavitvi na lokaciji %1"
+msgstr "v mrežni postavitvi v izbirnem načinu na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2141,18 +2139,19 @@ msgid "in a grid layout in location %1"
 msgstr "v mrežni postavitvi na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 izbranih elementov v mrežni postavitvi na lokaciji %2"
-msgstr[1] "%1 izbrani element v mrežni postavitvi na lokaciji %2"
-msgstr[2] "%1 izbrana elementa v mrežni postavitvi na lokaciji %2"
-msgstr[3] "%1 izbrani elementi v mrežni postavitvi na lokaciji %2"
+msgstr[0] ""
+"%1 izbranih elementov v mrežni postavitvi v izbirnem načinu na lokaciji %2"
+msgstr[1] ""
+"%1 izbrani element v mrežni postavitvi v izbirnem načinu na lokaciji %2"
+msgstr[2] ""
+"%1 izbrana elementa v mrežni postavitvi v izbirnem načinu na lokaciji %2"
+msgstr[3] ""
+"%1 izbrani elementi v mrežni postavitvi v izbirnem načinu na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2165,13 +2164,10 @@ msgstr[2] "%1 izbrana elementa v mrežni postavitvi na lokaciji %2"
 msgstr[3] "%1 izbrani elementi v mrežni postavitvi na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 izbranih elementov na lokaciji %2"
+msgstr "v izbirnem načinu na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2180,17 +2176,14 @@ msgid "in location %1"
 msgstr "na lokaciji %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 izbranih elementov v mrežni postavitvi na lokaciji %2"
-msgstr[1] "%1 izbrani element v mrežni postavitvi na lokaciji %2"
-msgstr[2] "%1 izbrana elementa v mrežni postavitvi na lokaciji %2"
-msgstr[3] "%1 izbrani elementi v mrežni postavitvi na lokaciji %2"
+msgstr[0] "%1 izbranih elementov v izbirnem načinu na lokaciji %2"
+msgstr[1] "%1 izbrani element v izbirnem načinu na lokaciji %2"
+msgstr[2] "%1 izbrana elementa v izbirnem načinu na lokaciji %2"
+msgstr[3] "%1 izbrani elementi v izbirnem načinu na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2203,20 +2196,16 @@ msgstr[2] "%1 izbrana elementa na lokaciji %2"
 msgstr[3] "%1 izbrani elementi na lokaciji %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Način izbora"
+msgstr "Izbirni način omogočen"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Način izbora"
+msgstr "Izbirni način onemogočen"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3693,17 +3682,7 @@ msgid "Selection Mode"
 msgstr "Način izbora"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3718,13 +3697,17 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Izbirni način</title><para> Izberite datoteke ali mape, da jih "
-"upravljate ali manipulirate z njimi.<list><item>Pritisnite na datoteko ali "
-"mapo, da jo izberete.</item><item>Pritisnite na že izbrano datoteko ali "
-"mapo, da prekličete izbor.</item><item>Izbirni pravokotniki (ustvarjeni z "
-"vlečenjem miške iz praznega prostora) preklopijo stanje izbora predmetov "
-"znotraj pravokotnika.</item></list></para><para>Razpoložljivi akcijski gumbi "
-"na dnu se spremenijo v odvisnosti od trenutne izbire.</para>"
+"<title>Izbirni način</title><para>Izberite datoteke ali mape, da jih "
+"upravljate ali manipulirate z njimi.<list><item>Pritisnite datoteko ali "
+"mapo, da jo izberete.</item><item>Pritisnite že izbrano datoteke ali mape, "
+"da prekličete izbor.</item><item>Če pritisnete prazno območje, <emphasis>ne</"
+"emphasis> počistite izbora.</item><item>Izbirni pravokotniki (ustvarjeni z "
+"vlečenjem iz praznega območja) obrne status izbire elementov znotraj.</"
+"item><item>Premikanje s <shortcut>puščičnimi tipkami</shortcut> "
+"<emphasis>ne</emphasis> spremeni izbire.</item> <item>Če pritisnete "
+"<shortcut>%1</shortcut>, <shortcut>%2</shortcut> ali <shortcut>%3</"
+"shortcut>, preklopite izbiro.</item></list></para><para>Razpoložljivi "
+"akcijski gumbi na dnu se spreminjajo glede na trenutno izbiro.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3942,17 +3925,15 @@ msgstr "Položaj stolpcev"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Stranska obloga"
+msgstr "Leva stranska obloga"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Stranska obloga"
+msgstr "Desna stranska obloga"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
