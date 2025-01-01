@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-07 18:22+0100\n"
+"PO-Revision-Date: 2024-12-31 20:08+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2132,47 +2132,43 @@ msgid "%1 at location %2"
 msgstr "%1 %2 kokalekuan"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "sareta antolaera batean %1 kokalekuan"
+msgstr "%1 kokalekuan hautapen moduan sareta antolaera batean"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "sareta antolaera batean %1 kokalekuan"
+msgstr "%1 kokalekuan sareta antolaera batean"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "elementu %1 hautatuta sareta antolaera batean %2 kokalekuan"
-msgstr[1] "%1 elementu hautatuta sareta antolaera batean %2 kokalekuan"
+msgstr[0] ""
+"elementu %1 hautatuta, %2 kokalekuan, hautapen moduan, sareta antolaera "
+"batean"
+msgstr[1] ""
+"%1 elementu hautatuta, %2 kokalekuan, hautapen moduan, sareta antolaera "
+"batean"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] "elementu %1 hautatuta sareta antolaera batean %2 kokalekuan"
-msgstr[1] "%1 elementu hautatuta sareta antolaera batean %2 kokalekuan"
+msgstr[0] "elementu %1 hautatuta, %2 kokalekuan, sareta antolaera batean"
+msgstr[1] "%1 elementu hautatuta, %2 kokalekuan, sareta antolaera batean"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "elementu %1 hautatuta %2 kokalekuan"
+msgstr "%1 kokalekuan, hautapen moduan"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2181,52 +2177,45 @@ msgid "in location %1"
 msgstr "%1 kokalekuan"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "elementu %1 hautatuta sareta antolaera batean %2 kokalekuan"
-msgstr[1] "%1 elementu hautatuta sareta antolaera batean %2 kokalekuan"
+msgstr[0] "elementu %1 hautatuta, %2 kokalekuan, hautapen moduan"
+msgstr[1] "%1 elementu hautatuta, %2 kokalekuan, hautapen moduan"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "elementu %1 hautatuta %2 kokalekuan"
-msgstr[1] "%1 elementu hautatuta %2 kokalekuan"
+msgstr[0] "elementu %1 hautatuta, %2 kokalekuan"
+msgstr[1] "%1 elementu hautatuta, %2 kokalekuan"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Hautapen modua"
+msgstr "Hautapen modua gaituta"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Hautapen modua"
+msgstr "Hautapen modua ezgaituta"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr "«%1»"
+msgstr "\"%1\""
 
 #: kitemviews/kfileitemlisttostring.cpp:26
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "«%1» eta «%2»"
+msgstr "\"%1\" eta \"%2\""
 
 #: kitemviews/kfileitemlisttostring.cpp:30
 #, kde-format
@@ -3657,17 +3646,7 @@ msgid "Selection Mode"
 msgstr "Hautapen modua"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3686,11 +3665,14 @@ msgstr ""
 "kudeatzeko edo manipulatzeko.<list><item>Sakatu fitxategi batean edo karpeta "
 "batean hura hautatzeko.</item><item>Sakatu dagoeneko hautatuta dagoen "
 "fitxategi batean edo karpeta batean hura desautatzeko.</item><item>Azalera "
-"huts batean sakatzeak <emphasis>ez</emphasis> du hautapena garbitzen.</"
+"huts batean sakatzeak <emphasis>ez</emphasis> du hautapena garbitzen. </"
 "item><item>Hautapen laukizuzenek (azalera huts batetik arrastatuz sortuak) "
-"barneko elementuen egoera aldatzen du.</item></list></para><para>Behean "
-"eskuragarri dauden ekintza-botoiak unean uneko hautapenaren arabera aldatzen "
-"dira.</para>"
+"barneko elementuen egoera alderantzikatzen du.</item><item> <shortcut>gezi "
+"teklekin</shortcut> mugitzea <emphasis>ez</emphasis> du hautapena aldatzen.</"
+"item><item><shortcut>%1</shortcut>, <shortcut>%2</shortcut>, edo <shortcut>"
+"%3</shortcut> sakatzea hautapena txandakatzen du.</item></list> </"
+"para><para>Behean eskuragarri dauden ekintza-botoiak unean uneko "
+"hautapenaren arabera aldatzen dira.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3911,17 +3893,15 @@ msgstr "Zutabeen kokalekua"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Alboko betegarria"
+msgstr "Ezker aldeko betegarria"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Alboko betegarria"
+msgstr "Eskuin aldeko betegarria"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

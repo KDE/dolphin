@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-06 09:14+0200\n"
+"PO-Revision-Date: 2024-12-31 07:59+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2065,12 +2065,10 @@ msgid "%1 at location %2"
 msgstr "%1 במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "בפריסת רשת במקום %1"
+msgstr "בפריסת רשת במצב בחירה במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2079,18 +2077,15 @@ msgid "in a grid layout in location %1"
 msgstr "בפריסת רשת במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "נבחר פריט בפריסת רשת במקום %2"
-msgstr[1] "נבחרו שני פריטים בפריסת רשת במקום %2"
-msgstr[2] "נבחרו %1 פריטים בפריסת רשת במקום %2"
-msgstr[3] "נבחרו %1 פריטים בפריסת רשת במקום %2"
+msgstr[0] "נבחר פריט בפריסת רשת במצב בחירה במקום %2"
+msgstr[1] "נבחרו שני פריטים בפריסת רשת במצב בחירה במקום %2"
+msgstr[2] "נבחרו %1 פריטים בפריסת רשת במצב בחירה במקום %2"
+msgstr[3] "נבחרו %1 פריטים בפריסת רשת במצב בחירה במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2103,13 +2098,10 @@ msgstr[2] "נבחרו %1 פריטים בפריסת רשת במקום %2"
 msgstr[3] "נבחרו %1 פריטים בפריסת רשת במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "פריט נבחר במקום %2"
+msgstr "במצב בחירה במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2118,17 +2110,14 @@ msgid "in location %1"
 msgstr "במקום %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "נבחר פריט בפריסת רשת במקום %2"
-msgstr[1] "נבחרו שני פריטים בפריסת רשת במקום %2"
-msgstr[2] "נבחרו %1 פריטים בפריסת רשת במקום %2"
-msgstr[3] "נבחרו %1 פריטים בפריסת רשת במקום %2"
+msgstr[0] "נבחר פריט במצב בחירה במקום %2"
+msgstr[1] "נבחרו שני פריטים במצב בחירה במקום %2"
+msgstr[2] "נבחרו %1 פריטים במצב בחירה במקום %2"
+msgstr[3] "נבחרו %1 פריטים במצב בחירה במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2141,20 +2130,16 @@ msgstr[2] "%1 פריטים נבחרו במקום %2"
 msgstr[3] "%1 פריטים נבחרו במקום %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "מצב בחירה"
+msgstr "מצב בחירה פעיל"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "מצב בחירה"
+msgstr "מצב בחירה כבוי"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3631,17 +3616,7 @@ msgid "Selection Mode"
 msgstr "מצב בחירה"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3656,12 +3631,15 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>מצב בחירה</title><para>לבחור קבצים או תיקיות כדי לנהל או לשנות אותם."
+"<title>מצב בחירה</title><para>בחירת קבצים או תיקיות כדי לבצע עליהם פעולות."
 "<list><item>לחיצה על קובץ או תיקייה תבחר אותם.</item><item>לחיצה על קובץ או "
-"תיקייה שכבר נבחרו תבטל את בחירתם.</item><item>לחיצה באזור ריק "
+"תיקייה שכבר נבחרו תבטל את הבחירה.</item><item>לחיצה על אזור ריק "
 "<emphasis>אינה</emphasis> מבטלת את הבחירה.</item><item>מרובעי בחירה (שנוצרים "
-"על ידי גרירה מאזור ריק) הופכים את מצב הבחירה של הפריטים שבטווח.</item></"
-"list></para><para>כפתורי הפעילות הזמינים משתנים בהתאם לבחירה הנוכחית.</para>"
+"בגרירה ממקום ריק) הופכים את מצב הבחירה של הפריטים שבפנים.</item><item>תזוזה "
+"עם <shortcut>מקשי חיצים</shortcut> <emphasis>אינה</emphasis> משנה את הבחירה."
+"</item><item>לחיצה על <shortcut>%1</shortcut>, <shortcut>%2</shortcut>, או "
+"על <shortcut>%3</shortcut> הופכת את מצב הבחירה.</item></list></"
+"para><para>כפתורי הפעולה הזמינים בתחתית משתנים בהתאם לבחירה הנוכחית.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3878,17 +3856,15 @@ msgstr "מקום העמודות"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "ריפוד צד"
+msgstr "ריפוד צד שמאל"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "ריפוד צד"
+msgstr "ריפוד צד ימין"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
