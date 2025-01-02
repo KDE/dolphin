@@ -147,28 +147,36 @@ void DolphinContextMenu::addTrashItemContextMenu()
     Q_ASSERT(m_context & TrashContext);
     Q_ASSERT(m_context & ItemContext);
 
-    addAction(QIcon::fromTheme("restoration"), i18nc("@action:inmenu", "Restore"), [this]() {
-        QList<QUrl> selectedUrls;
-        selectedUrls.reserve(m_selectedItems.count());
-        for (const KFileItem &item : std::as_const(m_selectedItems)) {
-            selectedUrls.append(item.url());
-        }
+    addAction(QIcon::fromTheme(QStringLiteral("edit-reset")),
+              i18ncp("@action:inmenu Restore the selected files that are in the trash to the place they lived at the moment they were trashed. Minimize the "
+                     "length of this string if possible.",
+                     "Restore to Former Location",
+                     "Restore to Former Locations",
+                     m_selectedItems.count()),
+              [this]() {
+                  QList<QUrl> selectedUrls;
+                  selectedUrls.reserve(m_selectedItems.count());
+                  for (const KFileItem &item : std::as_const(m_selectedItems)) {
+                      selectedUrls.append(item.url());
+                  }
 
-        KIO::RestoreJob *job = KIO::restoreFromTrash(selectedUrls);
-        KJobWidgets::setWindow(job, m_mainWindow);
-        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-    });
+                  KIO::RestoreJob *job = KIO::restoreFromTrash(selectedUrls);
+                  KJobWidgets::setWindow(job, m_mainWindow);
+                  job->uiDelegate()->setAutoErrorHandlingEnabled(true);
+              });
 
-    QAction *deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
-    addAction(deleteAction);
+    QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
+    addAction(propertiesAction);
 
     addSeparator();
+
     addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Cut)));
     addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     addSeparator();
-    QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
-    addAction(propertiesAction);
+
+    QAction *deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
+    addAction(deleteAction);
 }
 
 void DolphinContextMenu::addDirectoryItemContextMenu()
