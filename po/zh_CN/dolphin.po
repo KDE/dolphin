@@ -2027,7 +2027,7 @@ msgstr "%1 位于 %2"
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr ""
+msgstr "网格布局，选择模式，位于 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2041,20 +2041,20 @@ msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] ""
+msgstr[0] "%1 个选中的项目，网格布局，选择模式，位于 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] "%1 选中的项目，网格布局，位于 %2"
+msgstr[0] "%1 个选中的项目，网格布局，位于 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr ""
+msgstr "选择模式，位于 %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2067,7 +2067,7 @@ msgstr "位于 %1"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] ""
+msgstr[0] "%1 个选中的项目，选择模式，位于 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2080,13 +2080,13 @@ msgstr[0] "%1 个选中的项目，位于 %2"
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr ""
+msgstr "选择模式已启用"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
 #, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr ""
+msgstr "选择模式已禁用"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3520,6 +3520,14 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>选择模式</title><para>选择要管理或操作的文件或文件夹。<list><item>点击"
+"文件或文件夹即可选中。</item><item>点击已选择的文件或文件夹即可取消选择。</"
+"item><item>点击空白区域<emphasis>不会</emphasis>清除当前已选项目。</"
+"item><item>矩形选框 (在空白区域拖动即可创建) 可以反转项目的选择状态。</"
+"item><item>使用 <shortcut>方向键</shortcut><emphasis>不会</emphasis> 更改已选"
+"项目。</item><item>按 <shortcut>%1</shortcut>、<shortcut>%2</shortcut> 或 "
+"<shortcut>%3</shortcut> 切换选择模式。</item></list></para><para>窗口底部显示"
+"了可用的操作按钮，它们会根据当前选中的项目发生变化。</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3737,13 +3745,13 @@ msgstr "列位置"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Left side padding"
-msgstr ""
+msgstr "左内边距"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Right side padding"
-msgstr ""
+msgstr "右内边距"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
