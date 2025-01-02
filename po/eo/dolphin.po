@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 02:40+0000\n"
-"PO-Revision-Date: 2024-09-19 21:59+0200\n"
+"PO-Revision-Date: 2024-12-31 11:42+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -774,7 +774,7 @@ msgstr "Halti"
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
-msgstr "Ĉesi ŝargadon"
+msgstr "Ĉesi ŝargi"
 
 #: dolphinmainwindow.cpp:1958
 #, kde-format
@@ -1881,11 +1881,10 @@ msgstr "Fermi Langeton"
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Loko"
+msgstr "Loka Vido"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2071,24 +2070,22 @@ msgid "Move to New Folder…"
 msgstr "Movi al Nova Dosierujo…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "Malpermesita"
+msgstr "kaŝita"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", ligilo al %1 ĉe %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2100,7 +2097,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:269
 #, kde-format
@@ -2108,18 +2105,15 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 ĉe loko %2"
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of
 #. properties that a file or folder has. Accessible text for accessibility software like screen
 #. readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
+#, kde-format
 msgid "not selected,"
-msgstr "%1 ero elektita"
+msgstr ""
 
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
@@ -2131,24 +2125,17 @@ msgstr ""
 #. i18n: There is a comma at the end because this is one property in an enumeration of properties that a folder in a tree view has.
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
+#, kde-format
 msgid "expanded,"
-msgstr "Vastebla"
+msgstr ""
 
 #. i18n: There is a "—" at the beginning because this is a followup sentence to a text that did not properly end
 #. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgid "— %1 selected item"
 msgid_plural "— %1 selected items"
-msgstr[0] "Unu Elektita Ero"
+msgstr[0] ""
 msgstr[1] "%1 Elektitaj Eroj"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:305
@@ -2757,16 +2744,16 @@ msgstr "Nekonata eraro."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 kaj duona steloj"
+msgstr[1] "%1 kaj duona steloj"
 
 #: kitemviews/kstandarditemlistwidget.cpp:124
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 stelo"
+msgstr[1] "%1 steloj"
 
 #: main.cpp:61
 #, kde-kuit-format
@@ -3016,7 +3003,7 @@ msgstr "Forigi"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Hidden Files"
-msgstr "Montri la kaŝitajn dosierojn"
+msgstr "Montri kaŝitajn dosierojn"
 
 #: panels/folders/treeviewcontextmenu.cpp:113
 #, kde-format
@@ -3034,7 +3021,7 @@ msgstr "Aŭtomata Rulumo"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Properties"
-msgstr "Ecoj"
+msgstr "Trajtoj"
 
 #. i18n: ectx: label, entry (previewsShown), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:10
@@ -3052,7 +3039,7 @@ msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
 #, kde-format
 msgid "Show item on hover"
-msgstr "Montri elementon je musumo"
+msgstr "Montri elementon je musoŝvebo"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:22
@@ -3076,7 +3063,7 @@ msgstr "Aŭtomate-ludi aŭdvidaĵajn dosierojn"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
-msgstr "Montri elementon je musumo"
+msgstr "Montri elementon je musoŝvebo"
 
 #: panels/information/informationpanel.cpp:168
 #, kde-format
@@ -3901,7 +3888,7 @@ msgstr "Ĉi tiu elekteblo difinas la uzatan version de la vidaj trajtoj."
 #, kde-format
 msgctxt "@label"
 msgid "View Mode"
-msgstr "Rigarda moduso"
+msgstr "Rigarda reĝimo"
 
 #. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:26
@@ -4913,6 +4900,9 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin aldonos dosiersistemajn metadatumojn al dosierujoj, por kiuj vi "
+"ŝanĝas proprecojn de vido. Se tio ne eblas, kaŝita dosiero .directory estas "
+"kreita anstataŭe."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
@@ -6206,11 +6196,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin will create a hidden .directory file in each folder you change "
-#~ "view properties for."
-#~ msgstr ""
-#~ "Dolfin kreos kaŝitan .dosierujon en ĉiu dosierujo, por kiu vi ŝanĝas "
-#~ "rigardajn proprietojn."
