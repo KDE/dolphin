@@ -218,8 +218,6 @@ private:
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
-    QString elideRightKeepExtension(const QString &text, int elidingWidth) const;
-
     /**
      * Escapes text for display purposes.
      *
