@@ -2,7 +2,7 @@
 # translation of dolphin.po to
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2008, 2012, 2021, 2022, 2023, 2024 zayed <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2008, 2012, 2021, 2022, 2023, 2024, 2025 zayed <zayed.alsaidi@gmail.com>
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # محمد الحرقان <imksa@hotmail.com>, 2008.
 # Anas Husseini <linux.anas@gmail.com>, 2008.
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-12 09:59+0400\n"
+"PO-Revision-Date: 2025-01-02 11:12+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2095,12 +2095,10 @@ msgid "%1 at location %2"
 msgstr "%1 في الموقع %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "في تخطيط الشبكة في موقع %1"
+msgstr "في تخطيط الشبكة في وضح التحديد في موقع %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2109,20 +2107,17 @@ msgid "in a grid layout in location %1"
 msgstr "في تخطيط الشبكة في موقع %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "حدد %1 عنصرًا في تخطيط الشبكة في الموقع %2"
-msgstr[1] "حدد عنصر واحد في تخطيط الشبكة في الموقع %2"
-msgstr[2] "حدد عنصرين في تخطيط الشبكة في الموقع %2"
-msgstr[3] "حدد %1 عناصر في تخطيط الشبكة في الموقع %2"
-msgstr[4] "حدد %1 عنصرًا في تخطيط الشبكة في الموقع %2"
-msgstr[5] "حدد %1 عنصر في تخطيط الشبكة في الموقع %2"
+msgstr[0] "حدد %1 عنصرًا في تخطيط الشبكة في وضع التحديد في الموقع %2"
+msgstr[1] "حدد عنصر واحد في تخطيط الشبكة في وضع التحديد في الموقع %2"
+msgstr[2] "حدد عنصرين في تخطيط الشبكة في وضع التحديد في الموقع %2"
+msgstr[3] "حدد %1 عناصر في تخطيط الشبكة في وضع التحديد في الموقع %2"
+msgstr[4] "حدد %1 عنصرًا في تخطيط الشبكة في وضع التحديد في الموقع %2"
+msgstr[5] "حدد %1 عنصر في تخطيط الشبكة في وضع التحديد في الموقع %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2137,13 +2132,10 @@ msgstr[4] "حدد %1 عنصرًا في تخطيط الشبكة في الموقع
 msgstr[5] "حدد %1 عنصر في تخطيط الشبكة في الموقع %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "حدد %1 عنصرا في الموقع %2"
+msgstr "في وضع التحديد في الموقع %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2152,19 +2144,16 @@ msgid "in location %1"
 msgstr "في الموقع %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "حدد %1 عنصرًا في تخطيط الشبكة في الموقع %2"
-msgstr[1] "حدد عنصر واحد في تخطيط الشبكة في الموقع %2"
-msgstr[2] "حدد عنصرين في تخطيط الشبكة في الموقع %2"
-msgstr[3] "حدد %1 عناصر في تخطيط الشبكة في الموقع %2"
-msgstr[4] "حدد %1 عنصرًا في تخطيط الشبكة في الموقع %2"
-msgstr[5] "حدد %1 عنصر في تخطيط الشبكة في الموقع %2"
+msgstr[0] "حدد %1 عنصرًا في وضع التحديد في الموقع %2"
+msgstr[1] "حدد عنصر واحد في وضع التحديد في الموقع %2"
+msgstr[2] "حدد عنصرين في وضع التحديد في الموقع %2"
+msgstr[3] "حدد %1 عناصر في وضع التحديد في الموقع %2"
+msgstr[4] "حدد %1 عنصرًا في وضع التحديد في الموقع %2"
+msgstr[5] "حدد %1 عنصر في وضع التحديد في الموقع %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2179,20 +2168,16 @@ msgstr[4] "حدد %1 عنصرًا في الموقع %2"
 msgstr[5] "حدد %1 عنصر في الموقع %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "وضع التّحديد"
+msgstr "وضع التّحديد ممكن"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "وضع التّحديد"
+msgstr "وضع التّحديد معطل"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -3704,17 +3689,7 @@ msgid "Selection Mode"
 msgstr "وضع التّحديد"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3729,13 +3704,16 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>وضع التحديد</title> <para> حدد الملفات أو المجلدات لإدارتها أو "
-"معالجتها. <list> <item> اضغط على ملف أو مجلد لتحديده. </item> <item> اضغط "
-"على أي ملف أو مجلد محدد لإلغاء تحديده. </item> <item> الضغط على منطقة فارغة "
-"<emphasis>لا</emphasis> يمسح التحديد. </item> <item> مستطيلات التحديد "
-"(المنشأة بالسحب من منطقة فارغة) تعكس حالة التحديد للعناصر التي تشملها. </"
-"item> </list> </para> <para> تتغير أزرار الإجراءات المتوفرة في الجزء السفلي "
-"اعتمادًا على التحديد الحالي. </para>"
+"<title>وضع التحديد</title><para>حدد الملفات أو المجلدات لإدارتها أو معالجتها."
+"<list><item>اضغط على ملف أو مجلد لتحديده.</item><item>اضغط على ملف أو مجلد "
+"محدد بالفعل لإلغاء تحديده.</item><item>لا يؤدي الضغط على منطقة فارغة إلى مسح "
+"التحديد.</item><item>تعكس مستطيلات التحديد (التي يتم إنشاؤها عن طريق السحب "
+"من منطقة فارغة) حالة تحديد العناصر الموجودة داخلها.</item><item>لا يؤدي "
+"التحرك باستخدام <shortcut>مفاتيح الأسهم</shortcut> إلى تغيير التحديد.</"
+"item><item>يؤدي الضغط على <shortcut>%1</shortcut> أو <shortcut>%2</shortcut> "
+"أو <shortcut>%3</shortcut> إلى تبديل التحديد.</item></list></"
+"para><para>تتغير أزرار الإجراءات المتوفرة في الأسفل وفقًا للتحديد الحالي.</"
+"para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3953,17 +3931,15 @@ msgstr "موضع الأعمدة"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "الحشو الجانبي"
+msgstr "الحشو الجانبي الأيسر"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "الحشو الجانبي"
+msgstr "الحشو الجانبي الأيمن"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
