@@ -6,6 +6,7 @@
 
 #include "dolphindockwidget.h"
 
+#include <QEvent>
 #include <QStyle>
 
 namespace
@@ -75,6 +76,22 @@ void DolphinDockWidget::setLocked(bool lock)
 bool DolphinDockWidget::isLocked() const
 {
     return m_locked;
+}
+
+bool DolphinDockWidget::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::Show:
+    case QEvent::Hide:
+        if (event->spontaneous()) {
+            // The Dolphin window has been minimized or restored. We do not want this to be interpreted like a user was toggling the visibility of this widget.
+            // We return here so no QDockWidget::visibilityChanged() signal is emitted. This does not seem to happen either way on Wayland.
+            return true;
+        }
+        [[fallthrough]];
+    default:
+        return QDockWidget::event(event);
+    }
 }
 
 #include "dolphindockwidget.moc"
