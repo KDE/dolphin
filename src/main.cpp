@@ -98,7 +98,7 @@ int main(int argc, char **argv)
                          QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
-                         i18nc("@info:credit", "(C) 2006-2022 The Dolphin Developers"));
+                         i18nc("@info:credit", "(C) 2006-2025 The Dolphin Developers"));
     aboutData.setHomepage(QStringLiteral("https://apps.kde.org/dolphin"));
     aboutData.addAuthor(i18nc("@info:credit", "Felix Ernst"),
                         i18nc("@info:credit", "Maintainer (since 2021) and developer"),
