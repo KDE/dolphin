@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-20 02:40+0000\n"
-"PO-Revision-Date: 2024-10-31 08:29+0100\n"
+"PO-Revision-Date: 2024-12-31 12:18+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -32,13 +32,13 @@ msgstr "smart2128vr@gmail.com"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Agire come amministratore — Fai attenzione!"
+msgstr "Stai agendo come amministratore — Fai attenzione!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr "Agire come amministratore"
+msgstr "Agire da amministratore"
 
 #: admin/bar.cpp:55
 #, kde-format
@@ -140,7 +140,7 @@ msgstr ""
 "questo sistema. Ciò include elementi critici per il funzionamento del "
 "sistema.</para><para>Puoi <emphasis>eliminare i dati di tutti gli utenti</"
 "emphasis> su questo computer e <emphasis>danneggiare questa installazione in "
-"modo irreparabile.</emphasis>L'aggiunta di una sola lettera nel nome di una "
+"modo irreparabile.</emphasis> L'aggiunta di una sola lettera nel nome di una "
 "cartella o di un file o nel suo contenuto può rendere il sistema "
 "<emphasis>non più avviabile.</emphasis></para><para>Probabilmente non sarà "
 "visualizzato un altro avviso anche se stai per per danneggiare questo "
