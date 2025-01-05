@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:44+0000\n"
+"POT-Creation-Date: 2025-01-05 00:43+0000\n"
 "PO-Revision-Date: 2010-10-26 21:40+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -2755,7 +2755,7 @@ msgstr "ફાઇલ વ્યવસ્થાપક"
 #: main.cpp:101
 #, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2022 The Dolphin Developers"
+msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:103

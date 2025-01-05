@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:44+0000\n"
+"POT-Creation-Date: 2025-01-05 00:43+0000\n"
 "PO-Revision-Date: 2024-11-19 19:47+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2830,9 +2830,11 @@ msgid "File Manager"
 msgstr "Fájlkezelő"
 
 #: main.cpp:101
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2022 The Dolphin Developers"
+msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr "© A Dolphin fejlesztői, 2006-2022."
 
 #: main.cpp:103

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:44+0000\n"
+"POT-Creation-Date: 2025-01-05 00:43+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -2801,7 +2801,7 @@ msgstr "ഫയല്‍ മാനേജര്‍"
 #: main.cpp:101
 #, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2022 The Dolphin Developers"
+msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:103

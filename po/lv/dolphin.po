@@ -2,7 +2,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
+# SPDX-FileCopyrightText: 2024, 2025 Toms Trasuns <toms.trasuns@posteo.net>
 # Maris Nartiss <maris.kde@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2015, 2019, 2020, 2021, 2024.
 # Linux localization project <viesturs.zarins@mii.lu.lv>, 2007.
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2007, 2008.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:44+0000\n"
-"PO-Revision-Date: 2024-12-12 16:06+0200\n"
+"POT-Creation-Date: 2025-01-05 00:43+0000\n"
+"PO-Revision-Date: 2025-01-03 15:56+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -686,7 +686,7 @@ msgid ""
 msgstr ""
 "<para>Šī programma var saprast, ar kurām datnēm un mapēm tai ir jāveic "
 "darbības tikai tad, ja tās ir <emphasis>atlasītas</emphasis>. Nospiediet šo, "
-"lai pārslēgtu <emphasis>Atlasīšanas režīmu</emphasis>, kas atlasīšanu un "
+"lai pārslēgtu <emphasis>Atlases režīmu</emphasis>, kas atlasīšanu un "
 "izņemšanu no atlases vienkāršo līdz vienam klikšķim.</para><para>Esot šajā "
 "režīmā, jums ir pieejama ātrās piekļuves josla, kurā ir redzamas pieejamās "
 "un ar atlasītajiem vienumiem veicamās darbības.</para>"
@@ -1450,7 +1450,7 @@ msgstr ""
 "<para>Šī ir <emphasis>Rīkjosla</emphasis>. Tā sniedz ātru pieeju biežāk "
 "lietotajām darbībām.</para><para>To varat pielāgot, kā vēlaties. Visus "
 "vienumi, ko redzat <interface>Izvēlnē</interface> vai <interface>Izvēļņu "
-"joslā</interface> varat novietot arī rīkjoslā. Lai to izdarīto, spiediet "
+"joslā</interface>, varat novietot arī rīkjoslā. Lai to izdarītu, spiediet "
 "labo peles taustiņu un atlasiet <interface>Pielāgot rīkjoslas…</interface> "
 "vai atrodiet šo darbību <interface>izvēlnē</interface>.</para><para>Šīs "
 "joslas atrašanās vieta un pogu stils ir maināms izvēlnē, kas atveras, "
@@ -1578,12 +1578,11 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Šī darbība atver logu, kas jūs izvadīs cauri kļūdu un nepilnību par šo "
-"programmu vai citu KDE programmu ziņošanas procesam.</"
+"<para>Šī darbība atver logu, kas jūs izvadīs cauri šīs programmas vai citu "
+"KDE programmu kļūdu un nepilnību ziņošanas procesam.</"
 "para><para>Izstrādātāji ir ļoti pateicīgi par augstvērtīgiem kļūdu "
-"ziņojumiem. Lai uzzinātu, kā iesniegt kļūdu ziņojumu tik labi, cik tas ir "
-"iespējams <link url='https://community.kde.org/Get_Involved/"
-"Bug_Reporting'>spiediet</link>.</para>"
+"ziņojumiem. Lai uzzinātu, kā iesniegt labus kļūdu ziņojumus, spiediet<link "
+"url='https://community.kde.org/Get_Involved/Bug_Reporting'>te</link>.</para>"
 
 #: dolphinmainwindow.cpp:2853
 #, kde-kuit-format
@@ -2111,12 +2110,10 @@ msgid "%1 at location %2"
 msgstr "„%1“ vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "režģa izkārtojumā vietā „%1“"
+msgstr "režģa izkārtojumā atlases režīmā vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2125,17 +2122,14 @@ msgid "in a grid layout in location %1"
 msgstr "režģa izkārtojumā vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 atlasīts vienums režģa izkārtojumā vietā „%2“"
-msgstr[1] "%1 atlasīti vienumi režģa izkārtojumā vietā „%2“"
-msgstr[2] "%1 atlasītu vienumu režģa izkārtojumā vietā „%2“"
+msgstr[0] "%1 atlasīts vienums režģa izkārtojumā atlases režīmā vietā „%2“"
+msgstr[1] "%1 atlasīti vienumi režģa izkārtojumā atlases režīmā vietā „%2“"
+msgstr[2] "%1 atlasītu vienumu režģa izkārtojumā atlases režīmā vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2147,13 +2141,10 @@ msgstr[1] "%1 atlasīti vienumi režģa izkārtojumā vietā „%2“"
 msgstr[2] "%1 atlasītu vienumu režģa izkārtojumā vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 atlasīts vienums vietā „%2“"
+msgstr "atlases režīms vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2162,16 +2153,13 @@ msgid "in location %1"
 msgstr "vietā „%1“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 atlasīts vienums režģa izkārtojumā vietā „%2“"
-msgstr[1] "%1 atlasīti vienumi režģa izkārtojumā vietā „%2“"
-msgstr[2] "%1 atlasītu vienumu režģa izkārtojumā vietā „%2“"
+msgstr[0] "%1 atlasīts vienums atlases režīmā vietā „%2“"
+msgstr[1] "%1 atlasīti vienumi atlases režīmā vietā „%2“"
+msgstr[2] "%1 atlasītu vienumu atlases režīmā vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2183,20 +2171,16 @@ msgstr[1] "%1 atlasīti vienumi vietā „%2“"
 msgstr[2] "%1 atlasītu vienumu vietā „%2“"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Atlases režīms"
+msgstr "Atlases režīms ir ieslēgts"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Atlases režīms"
+msgstr "Atlases režīms ir izslēgts"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2831,9 +2815,11 @@ msgid "File Manager"
 msgstr "Datņu pārvaldnieks"
 
 #: main.cpp:101
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2022 The Dolphin Developers"
+msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr "(C) 2006—2022 „Dolphin“ izstrādātāji"
 
 #: main.cpp:103
@@ -3658,17 +3644,7 @@ msgid "Selection Mode"
 msgstr "Atlases režīms"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3683,12 +3659,15 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Atlasīšanas režīms</title><para>Atlasiet datnes vai mapes, lai tās "
-"pārvaldītu vai izmainītu.<list><item>Press on a file or folder to select it."
-"</item><item>Spiediet uz jau atlasītas datnes vai mapes, lai noņemtu "
-"atlasīšanu.</item><item>Spiežot tukšā vietā, atlasījums <emphasis>nenotīrās</"
+"<title>Atlases režīms</title><para>Atlasiet datnes vai mapes, lai tās "
+"pārvaldītu vai izmainītu.<list><item>Spiediet uz datnes vai mapes, lai to "
+"atlasītu.</item><item>Spiediet uz jau atlasītas datnes vai mapes, lai "
+"noņemtu atlasi.</item><item>Spiežot tukšā vietā, atlase <emphasis>nenotīrās</"
 "emphasis>.</item><item>Atlases četrstūri (izveido velkot no tukšas zonas) "
-"apgriež atlases statusu ietvertajiem vienumiem.</item></list></"
+"apgriež atlases statusu ietvertajiem vienumiem.</item> <item>Pārvietojoties "
+"ar <shortcut>bultiņu taustiņiem</shortcut>, atlase <emphasis>nemainās</"
+"emphasis>.</item><item> <shortcut>%1</shortcut>, <shortcut>%2</shortcut> vai "
+"<shortcut>%3</shortcut> spiešana atlasi pārslēdz.</item></list></"
 "para><para>Pieejamās darbības pogas skata apakšā mainās atkarībā no atlases."
 "</para>"
 
@@ -3909,23 +3888,21 @@ msgstr "Kolonnu novietojums"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Sānu atstarpes"
+msgstr "Kreisās puses atstarpe"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Sānu atstarpes"
+msgstr "Labās puses atstarpe"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Highlight entire row"
-msgstr "Iekrāsot visu rindu"
+msgstr "Izcelt visu rindu"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:43
