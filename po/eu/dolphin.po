@@ -1,18 +1,18 @@
 # Translation for dolphin.po to Euskara/Basque (eu).
-# Copyright (C) 2007-2024 This file is copyright:
+# Copyright (C) 2007-2025 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-# SPDX-FileCopyrightText: 2023, 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # marcos <marcos@euskalgnu.org>, 2007, 2008, 2010.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2009, 2010, 2011, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2009, 2010, 2011, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-05 00:43+0000\n"
-"PO-Revision-Date: 2024-12-31 20:08+0100\n"
+"PO-Revision-Date: 2025-01-05 11:17+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2829,12 +2829,10 @@ msgid "File Manager"
 msgstr "Fitxategi-kudeatzailea"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(C) 2006-2022 Dolphin-en garatzaileak"
+msgstr "(C) 2006-2025 Dolphin-en garatzaileak"
 
 #: main.cpp:103
 #, kde-format

@@ -1847,7 +1847,6 @@ msgstr "Lukk fane"
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
 msgstr "Sted"
@@ -2040,8 +2039,6 @@ msgstr "Opprett mappe …"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
 msgctxt "@info"
 msgid "hidden"
 msgstr "Forbudt"
@@ -2092,11 +2089,6 @@ msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
@@ -2114,29 +2106,18 @@ msgstr[1] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
 msgstr "Ett valgt element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "Sted"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
@@ -2145,11 +2126,6 @@ msgstr[1] "%1 valgt element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
@@ -2158,16 +2134,12 @@ msgstr[1] "%1 valgt element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
 #, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Markeringsvisning"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
 #, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
 msgstr "Markeringsvisning"
@@ -2795,8 +2767,6 @@ msgstr "Filbehandler"
 
 #: main.cpp:101
 #, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr "(C) 2006-2022 Dolphin-utviklerene"
@@ -3613,16 +3583,6 @@ msgstr "Markeringsvisning"
 
 #: selectionmode/topbar.cpp:39
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3865,14 +3825,12 @@ msgstr "Plassering av kolonner"
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, fuzzy, kde-format
-#| msgid "Side Padding"
 msgid "Left side padding"
 msgstr "Marg"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, fuzzy, kde-format
-#| msgid "Side Padding"
 msgid "Right side padding"
 msgstr "Marg"
 

@@ -1814,7 +1814,6 @@ msgstr "Lukk fane"
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
 msgstr "Plassering"
@@ -2007,8 +2006,6 @@ msgstr "Ny mappe …"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
 msgctxt "@info"
 msgid "hidden"
 msgstr "Forbode"
@@ -2059,11 +2056,6 @@ msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
@@ -2081,29 +2073,18 @@ msgstr[1] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
 msgstr "Eitt merkt element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
 msgstr "Plassering"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
@@ -2112,11 +2093,6 @@ msgstr[1] "%1 merkte element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
@@ -2125,16 +2101,12 @@ msgstr[1] "%1 merkte element"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
 #, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
 msgstr "Merkjemodus"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
 #, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
 msgstr "Merkjemodus"
@@ -2762,8 +2734,6 @@ msgstr "Filhandsamar"
 
 #: main.cpp:101
 #, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
 msgstr "© 2006–2022 Dolphin-utviklarane"
@@ -3810,14 +3780,12 @@ msgstr "Kolonneplassering"
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, fuzzy, kde-format
-#| msgid "Side Padding"
 msgid "Left side padding"
 msgstr "Luft før første kolonne"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, fuzzy, kde-format
-#| msgid "Side Padding"
 msgid "Right side padding"
 msgstr "Luft før første kolonne"
 

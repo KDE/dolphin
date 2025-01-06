@@ -2701,12 +2701,10 @@ msgid "File Manager"
 msgstr "文件管理器"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(C) 2006-2022 The Dolphin Developers"
+msgstr ""
 
 #: main.cpp:103
 #, kde-format
