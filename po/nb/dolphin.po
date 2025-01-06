@@ -1847,7 +1847,6 @@ msgstr "Lukk fane"
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:52
 #, fuzzy, kde-format
-#| msgid "Location"
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
 msgstr "Sted"
@@ -2040,8 +2039,6 @@ msgstr "Opprett mappe …"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
 msgctxt "@info"
 msgid "hidden"
 msgstr "Forbudt"
@@ -2083,9 +2080,6 @@ msgstr ""
 #. readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:278
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "%1 item selected"
-#| msgid_plural "%1 items selected"
 msgid "not selected,"
 msgstr "%1 element valgt"
 
@@ -2100,8 +2094,6 @@ msgstr ""
 #. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:289
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Expandable"
 msgid "expanded,"
 msgstr "Utvidbar"
 
@@ -2109,11 +2101,6 @@ msgstr "Utvidbar"
 #. with a period. Accessible text for accessibility software like screen readers.
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
 msgid "— %1 selected item"
 msgid_plural "— %1 selected items"
 msgstr[0] "Ett valgt element"

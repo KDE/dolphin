@@ -1808,8 +1808,6 @@ msgstr ""
 # unreviewed-context
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
 msgctxt "@info"
 msgid "hidden"
 msgstr "Geldejuvvon"
