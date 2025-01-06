@@ -353,7 +353,8 @@ void InformationPanelContent::showIcon(const KFileItem &item)
 {
     m_outdatedPreviewTimer->stop();
     QIcon icon = QIcon::fromTheme(item.iconName());
-    QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size());
+    QPixmap pixmap = KIconUtils::addOverlays(icon, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
     m_preview->setPixmap(pixmap);
 }
 
@@ -361,8 +362,9 @@ void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &
 {
     m_outdatedPreviewTimer->stop();
 
-    const QSize size = pixmap.size();
-    QPixmap p = KIconUtils::addOverlays(pixmap, item.overlays()).pixmap(size);
+    const QSize logicalSize = pixmap.size() / pixmap.devicePixelRatioF();
+    QPixmap p = KIconUtils::addOverlays(pixmap, item.overlays()).pixmap(logicalSize, pixmap.devicePixelRatioF());
+    p.setDevicePixelRatio(pixmap.devicePixelRatioF());
 
     if (m_isVideo) {
         // adds a play arrow overlay
@@ -371,8 +373,8 @@ void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &
         auto arrowSize = qMax(PLAY_ARROW_SIZE, maxDim / 8);
 
         // compute relative pixel positions
-        const int zeroX = static_cast<int>((p.width() / 2 - arrowSize / 2) / pixmap.devicePixelRatio());
-        const int zeroY = static_cast<int>((p.height() / 2 - arrowSize / 2) / pixmap.devicePixelRatio());
+        const int zeroX = static_cast<int>((p.width() / 2 - arrowSize / 2) / p.devicePixelRatio());
+        const int zeroY = static_cast<int>((p.height() / 2 - arrowSize / 2) / p.devicePixelRatio());
 
         QPolygon arrow;
         arrow << QPoint(zeroX, zeroY);
