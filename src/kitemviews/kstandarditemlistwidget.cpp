@@ -1670,7 +1670,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStrin
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
                 const QSize size = pixmap.size();
-                pixmap = KIconUtils::addOverlays(pixmap, overlays).pixmap(size, mode);
+                pixmap = KIconUtils::addOverlays(pixmap, overlays).pixmap(size, dpr, mode);
                 break;
             }
         }

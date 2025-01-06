@@ -563,8 +563,8 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
             if (!overlay.isEmpty()) {
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
-                const QSize size = scaledPixmap.size();
-                scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(size);
+                const QSize logicalSize = scaledPixmap.size() / scaledPixmap.devicePixelRatioF();
+                scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(logicalSize, scaledPixmap.devicePixelRatioF());
                 break;
             }
         }
