@@ -466,7 +466,7 @@ void DolphinPart::openSelectionDialog(const QString &title, const QString &text,
 
     dialog->setTextValue(QStringLiteral("*"));
 
-    connect(dialog, &QDialog::accepted, this, [=]() {
+    connect(dialog, &QDialog::accepted, this, [=, this]() {
         const QString pattern = dialog->textValue();
         if (!pattern.isEmpty()) {
             QStringList items = dialog->comboBoxItems();
