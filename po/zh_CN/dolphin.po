@@ -2704,7 +2704,7 @@ msgstr "文件管理器"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2025 The Dolphin Developers"
 
 #: main.cpp:103
 #, kde-format
