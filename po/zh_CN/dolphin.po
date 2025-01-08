@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 00:43+0000\n"
+"POT-Creation-Date: 2025-01-08 00:44+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -175,37 +175,43 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "清空回收站"
 
-#: dolphincontextmenu.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Restore"
-msgstr "还原"
+#: dolphincontextmenu.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Select Home Location"
+msgctxt ""
+"@action:inmenu Restore the selected files that are in the trash to the place "
+"they lived at the moment they were trashed. Minimize the length of this "
+"string if possible."
+msgid "Restore to Former Location"
+msgid_plural "Restore to Former Locations"
+msgstr[0] "选择主文件夹位置"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
+#: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "新建"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "打开路径"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "在新标签页中打开路径"
 
-#: dolphincontextmenu.cpp:226
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "在新窗口中打开路径"
 
-#: dolphincontextmenu.cpp:476
+#: dolphincontextmenu.cpp:484
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -6050,3 +6056,7 @@ msgstr[0] "对 %1 个选中项目进行操作"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "正在更新版本信息…"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Restore"
+#~ msgstr "还原"

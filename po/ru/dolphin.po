@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 00:43+0000\n"
+"POT-Creation-Date: 2025-01-08 00:44+0000\n"
 "PO-Revision-Date: 2024-12-05 15:27+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -194,37 +194,46 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Очистить корзину"
 
-#: dolphincontextmenu.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Restore"
-msgstr "Восстановить"
+#: dolphincontextmenu.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Select Home Location"
+msgctxt ""
+"@action:inmenu Restore the selected files that are in the trash to the place "
+"they lived at the moment they were trashed. Minimize the length of this "
+"string if possible."
+msgid "Restore to Former Location"
+msgid_plural "Restore to Former Locations"
+msgstr[0] "Изменить путь"
+msgstr[1] "Изменить путь"
+msgstr[2] "Изменить путь"
+msgstr[3] "Изменить путь"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
+#: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Создать"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Открыть путь"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Открыть путь в новой вкладке"
 
-#: dolphincontextmenu.cpp:226
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Открыть путь в новом окне"
 
-#: dolphincontextmenu.cpp:476
+#: dolphincontextmenu.cpp:484
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -6451,6 +6460,10 @@ msgstr[3] "Действия для выбранного объекта"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновление информации о версиях…"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Restore"
+#~ msgstr "Восстановить"
 
 #~ msgid "not selected,"
 #~ msgstr "не выбрано,"

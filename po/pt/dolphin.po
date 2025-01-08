@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 00:43+0000\n"
+"POT-Creation-Date: 2025-01-08 00:44+0000\n"
 "PO-Revision-Date: 2023-07-03 01:16+0100\n"
 "Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
@@ -157,37 +157,44 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Esvaziar o Lixo"
 
-#: dolphincontextmenu.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Restore"
-msgstr "Repor"
+#: dolphincontextmenu.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Select Home Location"
+msgctxt ""
+"@action:inmenu Restore the selected files that are in the trash to the place "
+"they lived at the moment they were trashed. Minimize the length of this "
+"string if possible."
+msgid "Restore to Former Location"
+msgid_plural "Restore to Former Locations"
+msgstr[0] "Substituir a Localização Inicial"
+msgstr[1] "Substituir a Localização Inicial"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
+#: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Criar um Novo"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Abrir o Local"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Abrir o Local numa Nova Página"
 
-#: dolphincontextmenu.cpp:226
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Abrir o Local numa Nova Janela"
 
-#: dolphincontextmenu.cpp:476
+#: dolphincontextmenu.cpp:484
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -6491,6 +6498,10 @@ msgstr[1] "Acções dos %1 Itens Seleccionados"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "A actualizar a informação da versão…"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Restore"
+#~ msgstr "Repor"
 
 #, fuzzy
 #~| msgctxt "@label"

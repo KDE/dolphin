@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 00:43+0000\n"
+"POT-Creation-Date: 2025-01-08 00:44+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -152,19 +152,26 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Affalltünn leddig maken"
 
-#: dolphincontextmenu.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Restore"
-msgstr "Wedderherstellen"
+#: dolphincontextmenu.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Select Home Location"
+msgctxt ""
+"@action:inmenu Restore the selected files that are in the trash to the place "
+"they lived at the moment they were trashed. Minimize the length of this "
+"string if possible."
+msgid "Restore to Former Location"
+msgid_plural "Restore to Former Locations"
+msgstr[0] "Tohuussteed utsöken"
+msgstr[1] "Tohuussteed utsöken"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
+#: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Nieg opstellen"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:218
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -172,19 +179,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Opmaken"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Padd as nieg Paneel opmaken"
 
-#: dolphincontextmenu.cpp:226
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Padd as nieg Finster opmaken"
 
-#: dolphincontextmenu.cpp:476
+#: dolphincontextmenu.cpp:484
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -6418,6 +6425,10 @@ msgstr[1] ""
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Verschoon-Informatschonen warrt opfrischt..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Restore"
+#~ msgstr "Wedderherstellen"
 
 #, fuzzy
 #~| msgctxt "@label"

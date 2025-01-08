@@ -16,7 +16,7 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # William Oprandi <william.oprandi@gmail.com>, 2019, 2020.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
 # Thomas Vergnaud <thomas.vergnaud@mailo.eu>, 2023.
 #
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 00:43+0000\n"
-"PO-Revision-Date: 2024-12-31 10:20+0100\n"
+"POT-Creation-Date: 2025-01-08 00:44+0000\n"
+"PO-Revision-Date: 2025-01-06 09:17+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -199,37 +199,44 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Vider la corbeille"
 
-#: dolphincontextmenu.cpp:150
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Restore"
-msgstr "Restaurer"
+#: dolphincontextmenu.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Select Home Location"
+msgctxt ""
+"@action:inmenu Restore the selected files that are in the trash to the place "
+"they lived at the moment they were trashed. Minimize the length of this "
+"string if possible."
+msgid "Restore to Former Location"
+msgid_plural "Restore to Former Locations"
+msgstr[0] "Sélectionner un emplacement de dossier personnel"
+msgstr[1] "Sélectionner un emplacement de dossier personnel"
 
-#: dolphincontextmenu.cpp:201 dolphinmainwindow.cpp:1705
+#: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Créer un nouveau"
 
-#: dolphincontextmenu.cpp:210
+#: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Ouvrir l'emplacement"
 
-#: dolphincontextmenu.cpp:218
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Ouvrir l'emplacement dans un nouvel onglet"
 
-#: dolphincontextmenu.cpp:226
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
 
-#: dolphincontextmenu.cpp:476
+#: dolphincontextmenu.cpp:484
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -2907,12 +2914,10 @@ msgid "File Manager"
 msgstr "Gestionnaire de fichiers"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(c) 2006-2022, Les développeurs de Dolphin"
+msgstr "(c) 2006 - 2025, L'équipe de développement de Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -6407,6 +6412,10 @@ msgstr[1] "Actions pour %1 éléments sélectionnés"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Mise à jour des informations de version…"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Restore"
+#~ msgstr "Restaurer"
 
 #~ msgid "not selected,"
 #~ msgstr "non sélectionné,"
