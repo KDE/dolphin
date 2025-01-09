@@ -15,10 +15,9 @@ SpaceInfoObserver::SpaceInfoObserver(const QUrl &url, QObject *parent)
     , m_dataSize(0)
     , m_dataAvailable(0)
 {
-    m_mountPointObserver = MountPointObserver::observerForUrl(url);
-    m_mountPointObserver->ref();
-    connect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
-    m_mountPointObserver->update();
+    if (!url.isEmpty()) {
+        setUrl(url);
+    }
 }
 
 SpaceInfoObserver::~SpaceInfoObserver()
