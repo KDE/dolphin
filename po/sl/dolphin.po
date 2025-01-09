@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-05 08:35+0100\n"
+"PO-Revision-Date: 2025-01-08 05:34+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -183,19 +183,17 @@ msgid "Empty Trash"
 msgstr "Izprazni Smeti"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Izberi domače mesto"
-msgstr[1] "Izberi domače mesto"
-msgstr[2] "Izberi domače mesto"
-msgstr[3] "Izberi domače mesto"
+msgstr[0] "Obnovi prejšnja mesta"
+msgstr[1] "Obnovi prejšnje mesto"
+msgstr[2] "Obnovi prejšnji mesti"
+msgstr[3] "Obnovi prejšnja mesta"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format

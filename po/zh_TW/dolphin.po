@@ -3,7 +3,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
 # Frank Weng (a.k.a. Franklin) <franklin@mail.everfocus.com.tw>, 2007.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2024-12-30 17:31+0900\n"
+"PO-Revision-Date: 2025-01-08 18:05+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -181,16 +181,14 @@ msgid "Empty Trash"
 msgstr "清空垃圾桶"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "選擇家目錄位置"
+msgstr[0] "還原到原先的位置"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -2713,12 +2711,10 @@ msgid "File Manager"
 msgstr "檔案管理員"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(C) 2006-2022 Dolphin 開發團隊"
+msgstr "(C) 2006-2025 Dolphin 開發團隊"
 
 #: main.cpp:103
 #, kde-format
@@ -4027,7 +4023,7 @@ msgstr "此檢視屬性是否要套用到所有目錄"
 #: settings/dolphin_generalsettings.kcfg:74
 #, kde-format
 msgid "Browse through archives"
-msgstr "透過歸檔瀏覽"
+msgstr "瀏覽封存檔內容"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:78

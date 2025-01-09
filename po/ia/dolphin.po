@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024 g.sora <g.sora@tiscali.it>
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025 g.sora <g.sora@tiscali.it>
 # Giovanni Sora <g.sora@tioscali.it>, 2014, 2015, 2016, 2018, 2019, 2020, 2021.
 # giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2024-12-18 17:51+0100\n"
+"PO-Revision-Date: 2025-01-08 12:27+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -173,17 +173,15 @@ msgid "Empty Trash"
 msgstr "Vacua corbe"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Selige le location domo o initial"
-msgstr[1] "Selige le location domo o initial"
+msgstr[0] "Restabili  al location previe"
+msgstr[1] "Restabili al locationes previe"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -2140,12 +2138,10 @@ msgid "%1 at location %2"
 msgstr "%1 a location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "in un disposition a grillia in location %1"
+msgstr "in un disposition a grillia  in modo de selection in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2154,17 +2150,17 @@ msgid "in a grid layout in location %1"
 msgstr "in un disposition a grillia in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 elemento selectionate in un disposition a grillia in location %2"
+msgstr[0] ""
+"%1 elemento selectionate in un disposition a grillia in modo de selection in "
+"location %2"
 msgstr[1] ""
-"%1 elementos selectionate in un disposition a grillia in location %2"
+"%1 elementos selectionate in un disposition a grillia in modo de selection  "
+"in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2176,13 +2172,10 @@ msgstr[1] ""
 "%1 elementos selectionate in un disposition a grillia in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 elemento selectionate in location %2"
+msgstr "in modo de selection in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2191,16 +2184,12 @@ msgid "in location %1"
 msgstr "in location %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 elemento selectionate in un disposition a grillia in location %2"
-msgstr[1] ""
-"%1 elementos selectionate in un disposition a grillia in location %2"
+msgstr[0] "%1 elemento selectionate in modo de selection  in location %2"
+msgstr[1] "%1 elementos selectionate in modo de selection  in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2211,20 +2200,16 @@ msgstr[0] "%1 elemento selectionate in location %2"
 msgstr[1] "%1 elementos selectionate in location %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Modo de Selection"
+msgstr "Modo de Selection habilitate"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Modo de Selection"
+msgstr "Modo de Selection dishabilitate"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2850,12 +2835,10 @@ msgid "File Manager"
 msgstr "Gerente de file"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(c)2006 -2022, Le disveloppatores de Dolphinj"
+msgstr "(c)2006 -2025, Le disveloppatores de Dolphin"
 
 #: main.cpp:103
 #, kde-format
@@ -3675,17 +3658,7 @@ msgid "Selection Mode"
 msgstr "Modo de Selection"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3705,7 +3678,10 @@ msgstr ""
 "item><item>Pressa sur un file o dossier ja seligite per deselectionar lo.</"
 "item><item>Pressar un area vacue  <emphasis>non</emphasis> clara le "
 "selection.</item><item>Rectangulos de Selection  (create per traher ex un "
-"area vacue) inverte l stato de selection del elementos in su interior.</"
+"area vacue) inverte le stato de selection del elementos in su interior.</"
+"item><item>Mover con <shortcut>claves de flecha</shortcut> <emphasis>non</"
+"emphasis> cambia le selection.</item><item>Pressar <shortcut>%1</shortcut>,"
+"<shortcut>%2</shortcut>,  o <shortcut>%3</shortcut> commuta le selection.</"
 "item></list></para><para>Le buttones de actiones disponibile a basso cambia "
 "in dependentia  del selection currente.</para>"
 
@@ -3926,17 +3902,15 @@ msgstr "Position de columnas"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Borrar lateral"
+msgstr "Reimpletion  lateral sinistre"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Borrar lateral"
+msgstr "Reimpletion  lateral dextere"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

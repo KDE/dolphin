@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-05 08:11+0200\n"
+"PO-Revision-Date: 2025-01-08 16:35+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -181,19 +181,17 @@ msgid "Empty Trash"
 msgstr "פינוי האשפה"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "בחירת מיקום תיקיית הבית"
-msgstr[1] "בחירת מיקום תיקיית הבית"
-msgstr[2] "בחירת מיקום תיקיית הבית"
-msgstr[3] "בחירת מיקום תיקיית הבית"
+msgstr[0] "שחזור למקום הקודם"
+msgstr[1] "שחזור למקומות הקודמים"
+msgstr[2] "שחזור למקומות הקודמים"
+msgstr[3] "שחזור למקומות הקודמים"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-05 11:55+0200\n"
+"PO-Revision-Date: 2025-01-08 11:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -179,19 +179,17 @@ msgid "Empty Trash"
 msgstr "Спорожнити смітник"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Виберіть розташування початкової сторінки"
-msgstr[1] "Виберіть розташування початкової сторінки"
-msgstr[2] "Виберіть розташування початкової сторінки"
-msgstr[3] "Виберіть розташування початкової сторінки"
+msgstr[0] "Відновити попередні місця"
+msgstr[1] "Відновити попередні місця"
+msgstr[2] "Відновити попередні місця"
+msgstr[3] "Відновити попереднє місце"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
