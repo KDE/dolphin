@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-02 11:12+0400\n"
+"PO-Revision-Date: 2025-01-09 09:55+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -178,21 +178,19 @@ msgid "Empty Trash"
 msgstr "أفرغ المهملات"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "اختر موقع المنزل"
-msgstr[1] "اختر موقع المنزل"
-msgstr[2] "اختر موقع المنزل"
-msgstr[3] "اختر موقع المنزل"
-msgstr[4] "اختر موقع المنزل"
-msgstr[5] "اختر موقع المنزل"
+msgstr[0] "استعد إلى المكان السابق"
+msgstr[1] "استعد إلى المكان السابق"
+msgstr[2] "استعد إلى الأماكن السابقة"
+msgstr[3] "استعد إلى الأماكن السابقة"
+msgstr[4] "استعد إلى الأماكن السابقة"
+msgstr[5] "استعد إلى الأماكن السابقة"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -2850,12 +2848,10 @@ msgid "File Manager"
 msgstr "مدير ملفات"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "© 2006-2012 لمطوري دولفين"
+msgstr "© 2006-2025 لمطوري دولفين"
 
 #: main.cpp:103
 #, kde-format

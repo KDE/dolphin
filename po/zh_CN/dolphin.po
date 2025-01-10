@@ -183,7 +183,7 @@ msgctxt ""
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] ""
+msgstr[0] "还原到之前位置"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
