@@ -556,18 +556,9 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     QHash<QByteArray, QVariant> data = rolesData(item, index);
 
     const QStringList overlays = data["iconOverlays"].toStringList();
-    // Strangely KFileItem::overlays() returns empty string-values, so
-    // we need to check first whether an overlay must be drawn at all.
-    if (!scaledPixmap.isNull()) {
-        for (const QString &overlay : overlays) {
-            if (!overlay.isEmpty()) {
-                // There is at least one overlay, draw all overlays above m_pixmap
-                // and cancel the check
-                const QSize logicalSize = scaledPixmap.size() / scaledPixmap.devicePixelRatioF();
-                scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(logicalSize, scaledPixmap.devicePixelRatioF());
-                break;
-            }
-        }
+    if (!pixmap.isNull() && !overlays.isEmpty()) {
+        const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize, m_devicePixelRatio);
     }
 
     data.insert("iconPixmap", scaledPixmap);
