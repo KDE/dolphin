@@ -296,9 +296,10 @@ private:
      * Transforms a raw preview image, applying scale and frame.
      *
      * @param pixmap A raw preview image from a PreviewJob.
+     * @param overlays the overlays to add to the pixmap
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewPixmap(const QPixmap &pixmap);
+    QPixmap transformPreviewPixmap(const QPixmap &pixmap, const QStringList &overlays);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.

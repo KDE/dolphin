@@ -551,17 +551,10 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
         return;
     }
 
-    QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
-
     QHash<QByteArray, QVariant> data = rolesData(item, index);
-
     const QStringList overlays = data["iconOverlays"].toStringList();
-    if (!pixmap.isNull() && !overlays.isEmpty()) {
-        const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize, m_devicePixelRatio);
-    }
 
-    data.insert("iconPixmap", scaledPixmap);
+    data.insert("iconPixmap", transformPreviewPixmap(pixmap, overlays));
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
@@ -639,7 +632,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
         // Add the preview to the model data
 
-        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
+        QPixmap scaledPixmap = transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList());
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -1017,11 +1010,15 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_previewJob = job;
 }
 
-QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap)
+QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap, const QStringList &overlays)
 {
     QPixmap scaledPixmap = pixmap;
 
-    if (!pixmap.hasAlpha() && !pixmap.isNull() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
+    if (pixmap.isNull()) {
+        return scaledPixmap;
+    }
+
+    if (!pixmap.hasAlpha() && m_iconSize.width() > KIconLoader::SizeSmallMedium && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
         if (m_enlargeSmallPreviews) {
             KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
         } else {
@@ -1049,9 +1046,14 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
                 KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
             }
         }
-    } else if (!pixmap.isNull()) {
+    } else {
         KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
         scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
+    }
+
+    if (!overlays.isEmpty()) {
+        const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize, m_devicePixelRatio);
     }
 
     return scaledPixmap;
