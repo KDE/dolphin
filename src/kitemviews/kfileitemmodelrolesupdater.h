@@ -341,6 +341,7 @@ private:
     void trimHoverSequenceLoadedItems();
 
 private:
+    QSize cacheSize();
     /**
      * enqueue directory size counting for KFileItem item at index
      */

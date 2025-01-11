@@ -552,9 +552,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     }
 
     QHash<QByteArray, QVariant> data = rolesData(item, index);
-    const QStringList overlays = data["iconOverlays"].toStringList();
-
-    data.insert("iconPixmap", transformPreviewPixmap(pixmap, overlays));
+    data.insert("iconPixmap", transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList()));
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
@@ -632,7 +630,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
         // Add the preview to the model data
 
-        QPixmap scaledPixmap = transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList());
+        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList());
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -961,13 +959,6 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         return;
     }
 
-    // PreviewJob internally caches items always with the size of
-    // 128 x 128 pixels or 256 x 256 pixels. A (slow) downscaling is done
-    // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
-    // do a downscaling anyhow because of the frame, so in this case only the provided
-    // cache sizes are requested.
-    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
-
     // KIO::filePreview() will request the MIME-type of all passed items, which (in the
     // worst case) might block the application for several seconds. To prevent such
     // a blocking, we only pass items with known mime type to the preview job.
@@ -996,7 +987,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         } while (!m_pendingPreviewItems.isEmpty() && timer.elapsed() < MaxBlockTimeout);
     }
 
-    KIO::PreviewJob *job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(itemSubSet, cacheSize(), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && !itemSubSet.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
@@ -1052,11 +1043,20 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
     }
 
     if (!overlays.isEmpty()) {
-        const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize, m_devicePixelRatio);
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize(), m_devicePixelRatio);
     }
 
     return scaledPixmap;
+}
+
+QSize KFileItemModelRolesUpdater::cacheSize()
+{
+    // PreviewJob internally caches items always with the size of
+    // 128 x 128 pixels or 256 x 256 pixels. A (slow) downscaling is done
+    // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
+    // do a downscaling anyhow because of the frame, so in this case only the provided
+    // cache sizes are requested.
+    return (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 }
 
 void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
@@ -1099,14 +1099,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
         return;
     }
 
-    // PreviewJob internally caches items always with the size of
-    // 128 x 128 pixels or 256 x 256 pixels. A (slow) downscaling is done
-    // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
-    // do a downscaling anyhow because of the frame, so in this case only the provided
-    // cache sizes are requested.
-    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
-
-    KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize(), &m_enabledPlugins);
 
     job->setSequenceIndex(loadSeqIdx);
     job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && !m_hoverSequenceItem.isSlow() && m_localFileSizePreviewLimit <= 0);
