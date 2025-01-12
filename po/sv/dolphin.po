@@ -2,7 +2,7 @@
 # Copyright (C) 2007 This file is part of KDE
 # This file is distributed under the same license as the kdebase package.
 #
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2024, 2025 Stefan Asserhäll <stefan.asserhall@gmail.com>
 # Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2024-11-24 17:48+0100\n"
+"PO-Revision-Date: 2025-01-11 15:30+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -175,17 +175,15 @@ msgid "Empty Trash"
 msgstr "Töm papperskorgen"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Välj hemplats"
-msgstr[1] "Välj hemplats"
+msgstr[0] "Återställ till föregående plats"
+msgstr[1] "Återställ till föregående platser"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -2125,101 +2123,74 @@ msgid "%1 at location %2"
 msgstr "%1 på platsen %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "i en rutlayout"
+msgstr "i en rutlayout med markeringsläge på position %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "i en rutlayout"
+msgstr "i en rutlayout på position %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 på platsen %2"
-msgstr[1] "%1 på platsen %2"
+msgstr[0] "%1 markerat objekt i en rutlayout med markeringsläge på position %2"
+msgstr[1] ""
+"%1 markerade objekt i en rutlayout med markeringsläge på position %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 markerat objekt i en rutlayout på position %2"
+msgstr[1] "%1 markerade objekt i en rutlayout på position %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 på platsen %2"
+msgstr "med markeringsläge på position %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1 på platsen %2"
+msgstr "på position %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 på platsen %2"
-msgstr[1] "%1 på platsen %2"
+msgstr[0] "%1 markerat objekt med markeringsläge på position %2"
+msgstr[1] "%1 markerade objekt med markeringsläge på position %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1 på platsen %2"
-msgstr[1] "%1 på platsen %2"
+msgstr[0] "%1 markerat objekt på position %2"
+msgstr[1] "%1 markerade objekt på position %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Markeringsläge"
+msgstr "Markeringsläge aktiverat"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Markeringsläge"
+msgstr "Markeringsläge inaktiverat"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2845,12 +2816,10 @@ msgid "File Manager"
 msgstr "Filhanterare"
 
 #: main.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "© 2006-2022, Dolphin-utvecklarna"
+msgstr "© 2006-2025 Dolphin-utvecklarna"
 
 #: main.cpp:103
 #, kde-format
@@ -3665,17 +3634,7 @@ msgid "Selection Mode"
 msgstr "Markeringsläge"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3691,14 +3650,17 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 "<title>Markeringsläge</title><para>Markera filer eller kataloger för att "
-"hantera eller påverka dem.<list><item>Klicka på en fil eller katalog för att "
-"markera den.</item><item>Klicka på en fil eller katalog som redan är "
-"markerad för att avmarkera den.</item><item>Att klicka på ett tomt utrymme "
+"hantera eller manipulera dem.<list><item>Tryck på en fil eller katalog för "
+"att markera den.</item><item>Tryck på en fil eller katalog som redan är "
+"markerad för att avmarkera den.</item><item>Att trycka på ett tomt utrymme "
 "rensar <emphasis>inte</emphasis> markeringen.</"
 "item><item>Markeringsrektanglar (skapade genom att dra från ett tomt "
-"utrymme) inverterar markeringsstatus för objekten inuti.</item></list></"
-"para><para>De tillgängliga åtgärdsknapparna längst ner ändras beroende på "
-"den nuvarande markeringen.</para>"
+"utrymme) inverterar markeringsstatus för objekten inuti.</item><item>Att "
+"flytta med <shortcut>piltangenter</shortcut> ändrar <emphasis>inte</"
+"emphasis> markeringen.</item><item>Att trycka på <shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut> eller <shortcut>%3</shortcut> byter markering.</"
+"item></list></para><para>De tillgängliga åtgärdsknapparna längst ner ändras "
+"beroende på den nuvarande markeringen.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3920,17 +3882,15 @@ msgstr "Kolumnpositioner"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Sidovaddering"
+msgstr "Vaddering på vänster sida"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Sidovaddering"
+msgstr "Vaddering på höger sida"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
