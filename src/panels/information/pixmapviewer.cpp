@@ -45,6 +45,7 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
 
     // Avoid flicker with static pixmap if an animated image is running
     if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
+        m_animatedImage->setScaledSize(pixmap.size());
         return;
     }
 
