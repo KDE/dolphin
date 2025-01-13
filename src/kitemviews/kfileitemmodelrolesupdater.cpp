@@ -1043,8 +1043,8 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
     }
 
     if (!overlays.isEmpty()) {
-        const QSize logicalSize = scaledPixmap.size() / m_devicePixelRatio;
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(logicalSize, m_devicePixelRatio);
+        const QSize logicalSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(logicalSize, scaledPixmap.devicePixelRatio());
     }
 
     return scaledPixmap;
