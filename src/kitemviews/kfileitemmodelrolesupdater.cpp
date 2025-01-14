@@ -1037,14 +1037,13 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
                 KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
             }
         }
-    } else {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
+    } else if (overlays.isEmpty()) {
+        KPixmapModifier::scale(scaledPixmap, cacheSize());
         scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
     }
 
     if (!overlays.isEmpty()) {
-        const QSize logicalSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(logicalSize, scaledPixmap.devicePixelRatio());
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize(), m_devicePixelRatio);
     }
 
     return scaledPixmap;
@@ -1057,7 +1056,7 @@ QSize KFileItemModelRolesUpdater::cacheSize()
     // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
     // do a downscaling anyhow because of the frame, so in this case only the provided
     // cache sizes are requested.
-    return (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
+    return (m_iconSize.width() > 128) && (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 }
 
 void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
