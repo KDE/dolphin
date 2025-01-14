@@ -299,7 +299,7 @@ private:
      * @param overlays the overlays to add to the pixmap
      * @return The scaled and decorated preview image.
      */
-    QPixmap transformPreviewPixmap(const QPixmap &pixmap, const QStringList &overlays);
+    QPixmap transformPreviewPixmap(const QPixmap &pixmap);
 
     /**
      * Starts a PreviewJob for loading the next hover sequence image.

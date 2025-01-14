@@ -24,6 +24,7 @@ void DolphinFileItemListWidget::refreshCache()
 {
     QColor color;
     const QHash<QByteArray, QVariant> values = data();
+    QHash<Qt::Corner, QString> overlays;
     if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding
         // to its version state.
@@ -70,27 +71,28 @@ void DolphinFileItemListWidget::refreshCache()
                        (tintColor.blue() + textColor.blue()) / 2,
                        (tintColor.alpha() + textColor.alpha()) / 2);
 
-        setOverlay(overlayForState(version, styleOption().iconSize));
-    } else if (!overlay().isNull()) {
-        setOverlay(QPixmap());
+        overlays.insert(Qt::Corner::BottomLeftCorner, overlayForState(version));
     }
 
+    if (values.contains("iconOverlays")) {
+        const auto corners = {Qt::Corner::BottomRightCorner, Qt::Corner::TopLeftCorner, Qt::Corner::TopRightCorner};
+        const auto iconOverlays = values.value("iconOverlays").toStringList();
+        auto overlaysIt = iconOverlays.constBegin();
+        for (const auto &corner : corners) {
+            if (overlaysIt == iconOverlays.constEnd()) {
+                break;
+            }
+            overlays.insert(corner, *overlaysIt);
+            overlaysIt = ++overlaysIt;
+        }
+    }
+
+    setOverlays(overlays);
     setTextColor(color);
 }
 
-QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version, int size) const
+QString DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version) const
 {
-    int overlayHeight = KIconLoader::SizeSmall;
-    if (size >= KIconLoader::SizeEnormous) {
-        overlayHeight = KIconLoader::SizeMedium;
-    } else if (size >= KIconLoader::SizeLarge) {
-        overlayHeight = KIconLoader::SizeSmallMedium;
-    } else if (size >= KIconLoader::SizeMedium) {
-        overlayHeight = KIconLoader::SizeSmall;
-    } else {
-        overlayHeight = KIconLoader::SizeSmall / 2;
-    }
-
     QString iconName;
     switch (version) {
     case KVersionControlPlugin::NormalVersion:
@@ -123,8 +125,7 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVe
         break;
     }
 
-    const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
-    return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight), dpr);
+    return iconName;
 }
 
 #include "moc_dolphinfileitemlistwidget.cpp"
