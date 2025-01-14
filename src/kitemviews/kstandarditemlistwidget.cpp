@@ -276,7 +276,7 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant *infor
     , m_expansionArea()
     , m_customTextColor()
     , m_additionalInfoTextColor()
-    , m_overlay()
+    , m_overlays()
     , m_rating()
     , m_roleEditor(nullptr)
     , m_oldRoleEditor(nullptr)
@@ -737,16 +737,21 @@ QColor KStandardItemListWidget::textColor(const QWidget &widget) const
     return styleOption().palette.color(group, role);
 }
 
-void KStandardItemListWidget::setOverlay(const QPixmap &overlay)
+void KStandardItemListWidget::setOverlays(QHash<Qt::Corner, QString> &overlays)
 {
-    m_overlay = overlay;
+    if (overlays == m_overlays) {
+        return;
+    }
+
+    m_overlays = overlays;
     m_dirtyContent = true;
+    m_dirtyContentRoles.insert("iconOverlays");
     update();
 }
 
-QPixmap KStandardItemListWidget::overlay() const
+QHash<Qt::Corner, QString> KStandardItemListWidget::overlays() const
 {
-    return m_overlay;
+    return m_overlays;
 }
 
 QString KStandardItemListWidget::roleText(const QByteArray &role, const QHash<QByteArray, QVariant> &values) const
@@ -1105,14 +1110,18 @@ void KStandardItemListWidget::updatePixmapCache()
             const QStringList overlays = values["iconOverlays"].toStringList();
             const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
             m_pixmap = pixmapForIcon(iconName,
-                                     overlays,
-                                     maxIconHeight,
+                                     m_overlays,
+                                     QSize(maxIconWidth, maxIconHeight),
                                      m_layout != IconsLayout && isActiveWindow() && isSelected() && hasFocus ? QIcon::Selected : QIcon::Normal);
 
-        } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
-            // A custom pixmap has been applied. Assure that the pixmap
-            // is scaled to the maximum available size.
-            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * dpr);
+        } else {
+            if (!m_overlays.isEmpty()) {
+                m_pixmap = addOverlays(m_pixmap, m_overlays, QSize(maxIconWidth, maxIconHeight), dpr);
+            } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
+                // A custom pixmap has been applied. Assure that the pixmap
+                // is scaled to the maximum available size.
+                KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * dpr);
+            }
         }
 
         if (m_pixmap.isNull()) {
@@ -1138,11 +1147,6 @@ void KStandardItemListWidget::updatePixmapCache()
             KIconEffect::colorize(image, color, 0.8f);
             m_pixmap = QPixmap::fromImage(image);
         }
-    }
-
-    if (!m_overlay.isNull()) {
-        QPainter painter(&m_pixmap);
-        painter.drawPixmap(0, (m_pixmap.height() - m_overlay.height()) / m_pixmap.devicePixelRatio(), m_overlay);
     }
 
     int scaledIconSize = 0;
@@ -1538,6 +1542,25 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
         QColor((c1.red() * p1 + c2.red() * p2) / 100, (c1.green() * p1 + c2.green() * p2) / 100, (c1.blue() * p1 + c2.blue() * p2) / 100);
 }
 
+QPixmap KStandardItemListWidget::addOverlays(const QPixmap &pixmap,
+                                             const QHash<Qt::Corner, QString> &overlays,
+                                             const QSize &size,
+                                             qreal devicePixelRatioF,
+                                             QIcon::Mode mode) const
+{
+    if (overlays.isEmpty()) {
+        return pixmap;
+    }
+
+    QHash<Qt::Corner, QIcon> overlayIcons;
+
+    for (const auto &[corner, overlay] : overlays.asKeyValueRange()) {
+        overlayIcons.insert(corner, QIcon::fromTheme(overlay));
+    }
+
+    return KIconUtils::addOverlays(pixmap, overlayIcons).pixmap(size, devicePixelRatioF, mode);
+}
+
 void KStandardItemListWidget::drawPixmap(QPainter *painter, const QPixmap &pixmap)
 {
     if (m_scaledPixmapSize != pixmap.size() / pixmap.devicePixelRatio()) {
@@ -1625,15 +1648,16 @@ void KStandardItemListWidget::closeRoleEditor()
     m_roleEditor = nullptr;
 }
 
-QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode) const
+QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QHash<Qt::Corner, QString> &overlays, const QSize &size, QIcon::Mode mode) const
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
     const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
-    size *= dpr;
+    int iconHeight = size.height();
+    QSize iconSize = QSize(iconHeight, iconHeight);
 
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % "@" % QString::number(dpr)
-        % ":" % QString::number(mode);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.values().join(QLatin1Char(':')) % ":" % QString::number(iconHeight) % "@"
+        % QString::number(dpr) % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, &pixmap)) {
@@ -1641,26 +1665,18 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QStrin
         if (icon.isNull()) {
             icon = QIcon(name);
         }
-        if (icon.isNull() || icon.pixmap(size / dpr, size / dpr, mode).isNull()) {
+        if (!icon.isNull()) {
+            pixmap = icon.pixmap(iconSize, dpr, mode);
+        }
+        if (pixmap.isNull()) {
             icon = fallbackIcon;
+            pixmap = icon.pixmap(iconSize, dpr, mode);
+        }
+        if (pixmap.width() != iconHeight * dpr || pixmap.height() != iconHeight * dpr) {
+            KPixmapModifier::scale(pixmap, iconSize * dpr);
         }
 
-        pixmap = icon.pixmap(QSize(size / dpr, size / dpr), dpr, mode);
-        if (pixmap.width() != size || pixmap.height() != size) {
-            KPixmapModifier::scale(pixmap, QSize(size, size));
-        }
-
-        // Strangely KFileItem::overlays() returns empty string-values, so
-        // we need to check first whether an overlay must be drawn at all.
-        for (const QString &overlay : overlays) {
-            if (!overlay.isEmpty()) {
-                // There is at least one overlay, draw all overlays above m_pixmap
-                // and cancel the check
-                const QSize size = pixmap.size();
-                pixmap = KIconUtils::addOverlays(pixmap, overlays).pixmap(size, dpr, mode);
-                break;
-            }
-        }
+        pixmap = addOverlays(pixmap, overlays, size, dpr, mode);
 
         QPixmapCache::insert(key, pixmap);
     }

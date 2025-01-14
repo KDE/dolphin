@@ -158,8 +158,8 @@ protected:
     void setTextColor(const QColor &color);
     QColor textColor(const QWidget &widget) const;
 
-    void setOverlay(const QPixmap &overlay);
-    QPixmap overlay() const;
+    void setOverlays(QHash<Qt::Corner, QString> &overlay);
+    QHash<Qt::Corner, QString> overlays() const;
 
     /**
      * @see KStandardItemListWidgetInformant::roleText().
@@ -212,6 +212,12 @@ private:
     void updateCompactLayoutTextCache();
     void updateDetailsLayoutTextCache();
 
+    QPixmap addOverlays(const QPixmap &pixmap,
+                        const QHash<Qt::Corner, QString> &overlays,
+                        const QSize &size,
+                        qreal devicePixelRatioF,
+                        QIcon::Mode mode = QIcon::Normal) const;
+
     void drawPixmap(QPainter *painter, const QPixmap &pixmap);
     /** Draw the lines and arrows that visualize the expanded state and level of this row. */
     void drawSiblingsInformation(QPainter *painter);
@@ -231,7 +237,7 @@ private:
      */
     void closeRoleEditor();
 
-    QPixmap pixmapForIcon(const QString &name, const QStringList &overlays, int size, QIcon::Mode mode) const;
+    QPixmap pixmapForIcon(const QString &name, const QHash<Qt::Corner, QString> &overlays, const QSize &size, QIcon::Mode mode) const;
 
     /**
      * @return Preferred size of the rating-image based on the given
@@ -283,7 +289,7 @@ private:
     QColor m_customTextColor;
     QColor m_additionalInfoTextColor;
 
-    QPixmap m_overlay;
+    QHash<Qt::Corner, QString> m_overlays;
     QPixmap m_rating;
 
     KItemListRoleEditor *m_roleEditor;

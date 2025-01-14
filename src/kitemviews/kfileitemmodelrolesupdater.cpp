@@ -552,7 +552,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     }
 
     QHash<QByteArray, QVariant> data = rolesData(item, index);
-    data.insert("iconPixmap", transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList()));
+    data.insert("iconPixmap", transformPreviewPixmap(pixmap));
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
@@ -630,7 +630,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
         // Add the preview to the model data
 
-        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap, data["iconOverlays"].toStringList());
+        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -1001,7 +1001,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_previewJob = job;
 }
 
-QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap, const QStringList &overlays)
+QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap)
 {
     QPixmap scaledPixmap = pixmap;
 
@@ -1040,10 +1040,6 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
     } else {
         KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
         scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
-    }
-
-    if (!overlays.isEmpty()) {
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize(), m_devicePixelRatio);
     }
 
     return scaledPixmap;

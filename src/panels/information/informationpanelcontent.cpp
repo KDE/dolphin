@@ -362,8 +362,23 @@ void InformationPanelContent::showPreview(const KFileItem &item, const QPixmap &
 {
     m_outdatedPreviewTimer->stop();
 
-    QPixmap p = KIconUtils::addOverlays(pixmap, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
-    p.setDevicePixelRatio(devicePixelRatioF());
+    QPixmap p = pixmap;
+    if (!item.overlays().isEmpty()) {
+        // Avoid scaling the images that are smaller than the preview size, to be consistent when there is no overlays
+        if (pixmap.height() < m_preview->height() && pixmap.width() < m_preview->width()) {
+            p = QPixmap(m_preview->size() * devicePixelRatioF());
+            p.fill(Qt::transparent);
+            p.setDevicePixelRatio(devicePixelRatioF());
+
+            QPainter painter(&p);
+            painter.drawPixmap(QPointF{m_preview->width() / 2.0 - pixmap.width() / pixmap.devicePixelRatioF() / 2,
+                                       m_preview->height() / 2.0 - pixmap.height() / pixmap.devicePixelRatioF() / 2}
+                                   .toPoint(),
+                               pixmap);
+        }
+        p = KIconUtils::addOverlays(p, item.overlays()).pixmap(m_preview->size(), devicePixelRatioF());
+        p.setDevicePixelRatio(devicePixelRatioF());
+    }
 
     if (m_isVideo) {
         // adds a play arrow overlay
