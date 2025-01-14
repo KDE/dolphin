@@ -1037,10 +1037,11 @@ QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap &pixmap
                 KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
             }
         }
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * m_devicePixelRatio);
     } else if (overlays.isEmpty()) {
         KPixmapModifier::scale(scaledPixmap, cacheSize());
-        scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
     }
+    scaledPixmap.setDevicePixelRatio(m_devicePixelRatio);
 
     if (!overlays.isEmpty()) {
         scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize(), m_devicePixelRatio);
