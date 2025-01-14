@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-05 10:11+0100\n"
+"PO-Revision-Date: 2025-01-08 11:01+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -178,17 +178,15 @@ msgid "Empty Trash"
 msgstr "Buida la paperera"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Seleccioneu la ubicació d'inici"
-msgstr[1] "Seleccioneu la ubicació d'inici"
+msgstr[0] "Restaura a la ubicació anterior"
+msgstr[1] "Restaura a les ubicacions anteriors"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -6306,7 +6304,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Restore"
-#~ msgstr "Restaura"
