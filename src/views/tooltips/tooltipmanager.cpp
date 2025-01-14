@@ -135,7 +135,8 @@ void ToolTipManager::startContentRetrieval()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QLatin1String("PreviewSettings"));
     const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
-    KIO::PreviewJob *job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256), &plugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(512, 512), &plugins);
+    job->setDevicePixelRatio(m_fileMetaDataWidget->devicePixelRatioF());
     job->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
