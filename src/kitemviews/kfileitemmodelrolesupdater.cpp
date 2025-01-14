@@ -1057,7 +1057,7 @@ QSize KFileItemModelRolesUpdater::cacheSize()
     // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
     // do a downscaling anyhow because of the frame, so in this case only the provided
     // cache sizes are requested.
-    return (m_iconSize.width() > 128) && (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
+    return (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 }
 
 void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
