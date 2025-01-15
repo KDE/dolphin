@@ -44,8 +44,11 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
     }
 
     // Avoid flicker with static pixmap if an animated image is running
-    if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
-        return;
+    if (m_animatedImage) {
+        m_animatedImage->setScaledSize(pixmap.size());
+        if (m_animatedImage->state() == QMovie::Running) {
+            return;
+        }
     }
 
     if ((m_transition != NoTransition) && (m_animation.state() == QTimeLine::Running)) {
@@ -68,7 +71,6 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
         // If there is no transition animation but an animatedImage
         // and it is not already running, start animating now
         if (m_animatedImage->state() != QMovie::Running) {
-            m_animatedImage->setScaledSize(m_pixmap.size());
             m_animatedImage->start();
         }
     }
@@ -126,7 +128,8 @@ void PixmapViewer::paintEvent(QPaintEvent *event)
         const bool useOldPixmap = (m_transition == SizeTransition) && (m_oldPixmap.width() > m_pixmap.width());
         const QPixmap &largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
         if (!largePixmap.isNull()) {
-            const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth, scaledHeight, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            QPixmap scaledPixmap = largePixmap.scaled(scaledWidth, scaledHeight, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            scaledPixmap.setDevicePixelRatio(devicePixelRatioF());
 
             style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
         }
@@ -144,7 +147,6 @@ void PixmapViewer::checkPendingPixmaps()
         update();
         m_animation.start();
     } else if (m_hasAnimatedImage) {
-        m_animatedImage->setScaledSize(m_pixmap.size());
         m_animatedImage->start();
     } else {
         m_oldPixmap = m_pixmap;
