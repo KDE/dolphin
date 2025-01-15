@@ -69,9 +69,7 @@ int main(int argc, char **argv)
     /**
      * trigger initialisation of proper icon theme
      */
-#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 3, 0)
     KIconTheme::initTheme();
-#endif
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
