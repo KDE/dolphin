@@ -43,14 +43,6 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
         return;
     }
 
-    // Avoid flicker with static pixmap if an animated image is running
-    if (m_animatedImage) {
-        m_animatedImage->setScaledSize(pixmap.size());
-        if (m_animatedImage->state() == QMovie::Running) {
-            return;
-        }
-    }
-
     if ((m_transition != NoTransition) && (m_animation.state() == QTimeLine::Running)) {
         m_pendingPixmaps.enqueue(pixmap);
         if (m_pendingPixmaps.count() > 5) {
@@ -62,6 +54,12 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
 
     m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
     m_pixmap = pixmap;
+
+    // Avoid flicker with static pixmap if an animated image is running
+    if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
+        return;
+    }
+
     update();
 
     const bool animateTransition = (m_transition != NoTransition) && (m_pixmap.size() != m_oldPixmap.size());
@@ -99,7 +97,6 @@ void PixmapViewer::setAnimatedImageFileName(const QString &fileName)
     }
 
     if (m_animatedImage->fileName() != fileName) {
-        m_animatedImage->stop();
         m_animatedImage->setFileName(fileName);
     }
 
@@ -166,6 +163,8 @@ void PixmapViewer::stopAnimatedImage()
     if (m_hasAnimatedImage) {
         m_animatedImage->stop();
         m_hasAnimatedImage = false;
+        delete m_animatedImage;
+        m_animatedImage = nullptr;
     }
 }
 
