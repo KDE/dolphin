@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="41">
+<gui name="dolphin" version="42">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
