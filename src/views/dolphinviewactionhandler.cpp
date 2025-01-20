@@ -217,6 +217,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     m_viewModeActions->addAction(compactAction);
     m_viewModeActions->addAction(detailsAction);
     m_viewModeActions->setToolBarMode(KSelectAction::ComboBoxMode);
+    m_viewModeActions->setComboFrame(false);
     connect(m_viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 
     QAction *viewModeButtonAction = actionCollection()->action(QStringLiteral("view_mode"));
