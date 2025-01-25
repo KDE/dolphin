@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-17 00:43+0000\n"
-"PO-Revision-Date: 2025-01-08 16:35+0200\n"
+"PO-Revision-Date: 2025-01-24 09:27+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -749,7 +749,7 @@ msgstr "פותח את תיקיית הברירה הווירטואלית בחלו�
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "רענון תצוגה"
+msgstr "ריענון תצוגה"
 
 #: dolphinmainwindow.cpp:1951
 #, kde-kuit-format
@@ -760,7 +760,7 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
-"<para>מרענן את תצוגת התיקייה.</para><para>אם תוכן התיקייה הזאת השתנה, רענון "
+"<para>מרענן את תצוגת התיקייה.</para><para>אם תוכן התיקייה הזאת השתנה, ריענון "
 "יסרוק את התיקייה הזאת מחדש ויציג לך תצוגה חדשה-עדכנית של הקבצים והתיקיות "
 "שנמצאים כאן.</para><para>אם התצוגה מפוצלת, פעולה זו מרעננת את התיקייה שעליה "
 "המיקוד.</para>"
