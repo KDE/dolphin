@@ -142,7 +142,7 @@ public:
 
     void setTitle(const QString &name);
 
-    QString title();
+    QString title() const;
 
 Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer *viewContainer);
