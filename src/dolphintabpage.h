@@ -13,9 +13,7 @@
 #include <QPointer>
 #include <QSplitter>
 #include <QUrl>
-#include <QUuid>
 #include <QWidget>
-#include <quuid.h>
 
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;

@@ -524,7 +524,6 @@ QString DolphinTabWidget::tabName(DolphinTabPage *tabPage) const
     if (!tabPage) {
         return QString();
     }
-
     // clang-format off
     QString name;
     if (tabPage->splitViewEnabled()) {

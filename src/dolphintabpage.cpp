@@ -13,7 +13,6 @@
 #include <QGridLayout>
 #include <QStyle>
 #include <QVariantAnimation>
-#include <quuid.h>
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
