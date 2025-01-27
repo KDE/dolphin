@@ -38,6 +38,7 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     connect(tabBar, &DolphinTabBar::tabDragMoveEvent, this, &DolphinTabWidget::tabDragMoveEvent);
     connect(tabBar, &DolphinTabBar::tabDropEvent, this, &DolphinTabWidget::tabDropEvent);
     connect(tabBar, &DolphinTabBar::tabDetachRequested, this, &DolphinTabWidget::detachTab);
+    connect(tabBar, &DolphinTabBar::tabRenamed, this, &DolphinTabWidget::renameTab);
 
     setTabBar(tabBar);
     setDocumentMode(true);
@@ -122,6 +123,13 @@ void DolphinTabWidget::refreshViews()
 void DolphinTabWidget::updateTabName(int index)
 {
     Q_ASSERT(index >= 0);
+
+    if (!tabPageAt(index)->title().isEmpty()) {
+        QString name = tabPageAt(index)->title();
+        tabBar()->setTabText(index, name);
+        return;
+    }
+
     tabBar()->setTabText(index, tabName(tabPageAt(index)));
 }
 
@@ -472,6 +480,16 @@ void DolphinTabWidget::currentTabChanged(int index)
     m_lastViewedTab = tabPage;
 }
 
+void DolphinTabWidget::renameTab(int index, const QString &name)
+{
+    if (name.isEmpty()) {
+        updateTabName(index);
+    } else {
+        tabPageAt(index)->setTitle(name);
+        tabBar()->setTabText(index, name);
+    }
+}
+
 void DolphinTabWidget::tabInserted(int index)
 {
     QTabWidget::tabInserted(index);
@@ -506,6 +524,7 @@ QString DolphinTabWidget::tabName(DolphinTabPage *tabPage) const
     if (!tabPage) {
         return QString();
     }
+
     // clang-format off
     QString name;
     if (tabPage->splitViewEnabled()) {

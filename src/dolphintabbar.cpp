@@ -9,6 +9,7 @@
 #include <KLocalizedString>
 
 #include <QDragEnterEvent>
+#include <QInputDialog>
 #include <QMenu>
 #include <QMimeData>
 #include <QTimer>
@@ -157,6 +158,8 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
         QAction *closeOtherTabsAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close-other")), i18nc("@action:inmenu", "Close Other Tabs"));
         QAction *closeTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close")), i18nc("@action:inmenu", "Close Tab"));
 
+        QAction *renameTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-rename")), i18nc("@action:inmenu", "Rename Tab"));
+
         QAction *selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {
             Q_EMIT openNewActivatedTab(index);
@@ -172,6 +175,13 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
             }
         } else if (selectedAction == closeTabAction) {
             Q_EMIT tabCloseRequested(index);
+        } else if (selectedAction == renameTabAction) {
+            bool renamed = false;
+            const QString tabNewName = QInputDialog::getText(this, i18n("Rename Tab"), i18n("New tab name:"), QLineEdit::Normal, tabText(index), &renamed);
+
+            if (renamed) {
+                Q_EMIT tabRenamed(index, tabNewName);
+            }
         }
 
         return;

@@ -13,7 +13,9 @@
 #include <QPointer>
 #include <QSplitter>
 #include <QUrl>
+#include <QUuid>
 #include <QWidget>
+#include <quuid.h>
 
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
@@ -140,6 +142,10 @@ public:
 
     void switchActiveView();
 
+    void setTitle(const QString &name);
+
+    QString title();
+
 Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer *viewContainer);
     void activeViewUrlChanged(const QUrl &url);
@@ -201,6 +207,7 @@ private:
     bool m_primaryViewActive;
     bool m_splitViewEnabled;
     bool m_active;
+    QString m_title;
 };
 
 class DolphinTabPageSplitterHandle : public QSplitterHandle

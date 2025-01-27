@@ -13,6 +13,7 @@
 #include <QGridLayout>
 #include <QStyle>
 #include <QVariantAnimation>
+#include <quuid.h>
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
@@ -340,6 +341,16 @@ void DolphinTabPage::setActive(bool active)
     }
     // we want view to fire activated when goes from false to true
     activeViewContainer()->setActive(active);
+}
+
+void DolphinTabPage::setTitle(const QString &name)
+{
+    m_title = QString(name);
+}
+
+QString DolphinTabPage::title()
+{
+    return m_title;
 }
 
 void DolphinTabPage::slotAnimationFinished()
