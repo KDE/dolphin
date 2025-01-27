@@ -344,7 +344,7 @@ void DolphinTabPage::setActive(bool active)
 
 void DolphinTabPage::setTitle(const QString &name)
 {
-    m_title = QString(name);
+    m_title = name;
 }
 
 QString DolphinTabPage::title()
