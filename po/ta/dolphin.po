@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # ஆமாச்சு <amachu@ubuntu.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Kishore G <kishore96@gmail.com>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-17 00:43+0000\n"
-"PO-Revision-Date: 2024-12-08 14:30+0530\n"
+"PO-Revision-Date: 2025-01-26 16:53+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -172,17 +172,15 @@ msgid "Empty Trash"
 msgstr "அகற்றிடத்தை காலியாக்கு"
 
 #: dolphincontextmenu.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "முகப்பு இடத்தை தேர்வு செய்"
-msgstr[1] "முகப்பு இடத்தை தேர்வு செய்"
+msgstr[0] "முந்தைய இடத்தில் மீட்டமை"
+msgstr[1] "முந்தைய இடங்களில் மீட்டமை"
 
 #: dolphincontextmenu.cpp:209 dolphinmainwindow.cpp:1705
 #, kde-format
@@ -2014,12 +2012,10 @@ msgid "%1 at location %2"
 msgstr "%2 தனிலுள்ள %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "கிரிட் தளவமைப்பில், %1 எனும் இடத்தில்"
+msgstr "கிரிட் தளவமைப்பில், தேர்வு பயன்முறையில், %1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2028,16 +2024,15 @@ msgid "in a grid layout in location %1"
 msgstr "கிரிட் தளவமைப்பில், %1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
-msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
+msgstr[0] ""
+"%1 தேர்ந்தெடுத்துள்ள உருப்படி, கிரிட் தளவமைப்பில், தேர்வு பயன்முறையில், %2 எனும் இடத்தில்"
+msgstr[1] ""
+"%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், கிரிட் தளவமைப்பில், தேர்வு பயன்முறையில், %2 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2048,13 +2043,10 @@ msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப�
 msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 தேர்ந்தெடுத்துள்ள உருப்படி, %2 எனும் இடத்தில்"
+msgstr "தேர்வு பயன்முறையில் %1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2063,15 +2055,12 @@ msgid "in location %1"
 msgstr "%1 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
-msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், கிரிட் தளவமைப்பில், %2 எனும் இடத்தில்"
+msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப்படி, தேர்வு பயன்முறையில், %2 எனும் இடத்தில்"
+msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், தேர்வு பயன்முறையில், %2 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2082,20 +2071,16 @@ msgstr[0] "%1 தேர்ந்தெடுத்துள்ள உருப�
 msgstr[1] "%1 தேர்ந்தெடுத்துள்ள உருப்படிகள், %2 எனும் இடத்தில்"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "தேர்வு பயன்முறை"
+msgstr "தேர்வு பயன்முறை இயக்கப்பட்டுள்ளது"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "தேர்வு பயன்முறை"
+msgstr "தேர்வு பயன்முறை முடக்கப்பட்டுள்ளது"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2721,12 +2706,10 @@ msgid "File Manager"
 msgstr "கோப்பு உலாவி"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(c) 2006-2022, டால்பின் நிரலாளர்கள்"
+msgstr "(c) 2006-2025, டால்பின் நிரலாளர்கள்"
 
 #: main.cpp:101
 #, kde-format
@@ -3778,17 +3761,15 @@ msgstr "நெடுவரிசைகளின் இருப்பிடம�
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "ஓரத்திலுள்ள காலியிடம்"
+msgstr "இடது ஓரத்திலுள்ள காலியிடம்"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "ஓரத்திலுள்ள காலியிடம்"
+msgstr "வலது ஓரத்திலுள்ள காலியிடம்"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
