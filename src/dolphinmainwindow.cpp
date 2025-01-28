@@ -981,6 +981,7 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
     QMenu *menu = m_forwardAction->popupMenu();
+    menu->clear();
     for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
         QAction *action = urlNavigatorHistoryAction(urlNavigator, i, menu);
         menu->addAction(action);
