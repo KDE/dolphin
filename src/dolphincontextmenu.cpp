@@ -121,7 +121,7 @@ void DolphinContextMenu::addTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"), [this]() {
+    QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Empty Trash"), [this]() {
         Trash::empty(m_mainWindow);
     });
     emptyTrashAction->setEnabled(!Trash::isEmpty());
