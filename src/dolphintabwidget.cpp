@@ -485,6 +485,7 @@ void DolphinTabWidget::renameTab(int index, const QString &name)
     if (!name.isEmpty()) {
         tabPageAt(index)->setTitle(name);
     }
+
     updateTabName(index);
 }
 

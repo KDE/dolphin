@@ -13,7 +13,6 @@
 #include <QGridLayout>
 #include <QStyle>
 #include <QVariantAnimation>
-
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
     , m_expandingContainer{nullptr}
@@ -275,6 +274,10 @@ QByteArray DolphinTabPage::saveState() const
     stream << m_primaryViewActive;
     stream << m_splitter->saveState();
 
+    if (!m_title.isEmpty()) {
+        stream << m_title;
+    }
+
     return state;
 }
 
@@ -328,6 +331,12 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     QByteArray splitterState;
     stream >> splitterState;
     m_splitter->restoreState(splitterState);
+
+    if (!stream.atEnd()) {
+        QString tabTitle;
+        stream >> tabTitle;
+        setTitle(tabTitle);
+    }
 }
 
 void DolphinTabPage::setActive(bool active)
