@@ -211,12 +211,25 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                        "view the contents of multiple folders in the same list.</para>"));
 
     KSelectAction *viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
-    viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
+    viewModeActions->setText(i18nc("@action:intoolbar", "Change View Mode"));
+    viewModeActions->setWhatsThis(xi18nc("@info:whatsthis View Mode Toolbutton", "This cycles through all view modes."));
     viewModeActions->addAction(iconsAction);
     viewModeActions->addAction(compactAction);
     viewModeActions->addAction(detailsAction);
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
+    viewModeActions->setToolButtonPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
     connect(viewModeActions, &KSelectAction::actionTriggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+    connect(viewModeActions, &KSelectAction::triggered, this, [this, viewModeActions, iconsAction, compactAction, detailsAction]() {
+        // Loop through the actions when button is clicked
+        const auto currentAction = viewModeActions->currentAction();
+        if (currentAction == iconsAction) {
+            slotViewModeActionTriggered(compactAction);
+        } else if (currentAction == compactAction) {
+            slotViewModeActionTriggered(detailsAction);
+        } else if (currentAction == detailsAction) {
+            slotViewModeActionTriggered(iconsAction);
+        }
+    });
 
     QAction *zoomInAction = KStandardAction::zoomIn(this, &DolphinViewActionHandler::zoomIn, m_actionCollection);
     zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));

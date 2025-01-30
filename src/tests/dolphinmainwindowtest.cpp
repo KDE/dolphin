@@ -846,7 +846,7 @@ void DolphinMainWindowTest::testAccessibilityTree()
                                                                                       // after going forwards which is probably not intended.
         }
     }
-    QCOMPARE_GE(testedObjectsSizeAfterTraversingForwards, 12); // The test did not reach many objects while using the Tab key to move through Dolphin. Did the
+    QCOMPARE_GE(testedObjectsSizeAfterTraversingForwards, 11); // The test did not reach many objects while using the Tab key to move through Dolphin. Did the
                                                                // test run correctly?
 }
 
