@@ -20,6 +20,7 @@
 #include <QIcon>
 #include <QMenu>
 #include <QPainter>
+#include <QPainterPath>
 #include <QProgressBar>
 #include <QSlider>
 #include <QStyleOption>
@@ -149,7 +150,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
 
-    setMinimumHeight(30);
+    setMinimumHeight(35);
+    setContentsMargins(5, 0, 0, 2);
 }
 
 DolphinStatusBar::~DolphinStatusBar()
@@ -374,7 +376,12 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QStyleOptionFrame opt;
     opt.initFrom(this);
     opt.state = QStyle::State_Sunken;
-    style()->drawPrimitive(QStyle::PE_FrameGroupBox, &opt, &p, this);
+    QPainterPath path;
+    // Clip the left and bottom border off
+    QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+    path.addRect(clipRect);
+    p.setClipPath(path);
+    style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
 }
 
 int DolphinStatusBar::preferredHeight() const
