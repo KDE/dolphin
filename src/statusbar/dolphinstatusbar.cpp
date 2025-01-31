@@ -148,6 +148,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "to adjust the size of the icons in the view.</item>"
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
+
+    setMinimumHeight(30);
 }
 
 DolphinStatusBar::~DolphinStatusBar()
@@ -369,9 +371,10 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
 {
     Q_UNUSED(paintEvent)
     QPainter p(this);
-    QStyleOption opt;
+    QStyleOptionFrame opt;
     opt.initFrom(this);
-    style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
+    opt.state = QStyle::State_Sunken;
+    style()->drawPrimitive(QStyle::PE_FrameGroupBox, &opt, &p, this);
 }
 
 int DolphinStatusBar::preferredHeight() const

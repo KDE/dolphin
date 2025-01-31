@@ -432,6 +432,9 @@ private:
      */
     QString getNearestExistingAncestorOfPath(const QString &path) const;
 
+protected:
+    void resizeEvent(QResizeEvent *resizeEvent) override;
+
 private:
     QGridLayout *m_topLayout;
 

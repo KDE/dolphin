@@ -186,7 +186,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
-    m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
 
     setSearchModeEnabled(isSearchUrl(url));
 
@@ -1041,6 +1040,18 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
     } while (!dir.exists() && !dir.isRoot());
 
     return dir.exists() ? dir.path() : QString{};
+}
+
+void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
+{
+    Q_UNUSED(resizeEvent);
+
+    if (m_statusBar) {
+        m_statusBar->setMaximumWidth(width() / 1.5);
+        QPoint topLeft(rect().left(), rect().bottom() - m_statusBar->minimumHeight());
+        QPoint bottomRight(rect().right(), rect().bottom());
+        m_statusBar->setGeometry(QRect(topLeft, bottomRight));
+    }
 }
 
 #include "moc_dolphinviewcontainer.cpp"
