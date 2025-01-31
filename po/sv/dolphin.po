@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-30 00:43+0000\n"
+"POT-Creation-Date: 2025-01-31 00:43+0000\n"
 "PO-Revision-Date: 2025-01-11 15:30+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -5980,59 +5980,67 @@ msgstr ""
 "visa innehållet i flera kataloger i samma lista.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar"
+#| msgid "View Mode"
 msgctxt "@action:intoolbar"
-msgid "View Mode"
+msgid "Change View Mode"
 msgstr "Visningsläge"
 
-#: views/dolphinviewactionhandler.cpp:222
+#: views/dolphinviewactionhandler.cpp:215
+#, kde-kuit-format
+msgctxt "@info:whatsthis View Mode Toolbutton"
+msgid "This cycles through all view modes."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:235
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Ökar ikonstorleken."
 
-#: views/dolphinviewactionhandler.cpp:225
+#: views/dolphinviewactionhandler.cpp:238
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Nollställ zoomnivå"
 
-#: views/dolphinviewactionhandler.cpp:226
+#: views/dolphinviewactionhandler.cpp:239
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Zooma till standardvärde"
 
-#: views/dolphinviewactionhandler.cpp:227
+#: views/dolphinviewactionhandler.cpp:240
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Nollställer ikonstorleken till standardvärde."
 
-#: views/dolphinviewactionhandler.cpp:233
+#: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Reducerar ikonstorleken."
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:249
 #, kde-format
 msgctxt "@action:inmenu menu of zoom actions"
 msgid "Zoom"
 msgstr "Zooma"
 
-#: views/dolphinviewactionhandler.cpp:244
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Visa förhandsgranskningar"
 
-#: views/dolphinviewactionhandler.cpp:245
+#: views/dolphinviewactionhandler.cpp:258
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Visa förhandsgranskning av filer och kataloger"
 
-#: views/dolphinviewactionhandler.cpp:247
+#: views/dolphinviewactionhandler.cpp:260
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6044,49 +6052,49 @@ msgstr ""
 "när det här är aktiverat.<nl/>Exempelvis blir bildikoner nerskalade "
 "versioner av bilderna."
 
-#: views/dolphinviewactionhandler.cpp:256
+#: views/dolphinviewactionhandler.cpp:269
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Kataloger först"
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:273
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Dolda filer sist"
 
-#: views/dolphinviewactionhandler.cpp:268
+#: views/dolphinviewactionhandler.cpp:281
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sortera enligt"
 
-#: views/dolphinviewactionhandler.cpp:303
+#: views/dolphinviewactionhandler.cpp:316
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Visa ytterligare information"
 
-#: views/dolphinviewactionhandler.cpp:314
+#: views/dolphinviewactionhandler.cpp:327
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Visa i grupper"
 
-#: views/dolphinviewactionhandler.cpp:315
+#: views/dolphinviewactionhandler.cpp:328
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Grupperar filer och kataloger enligt deras första bokstav."
 
-#: views/dolphinviewactionhandler.cpp:320
+#: views/dolphinviewactionhandler.cpp:333
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Visa dolda filer"
 
-#: views/dolphinviewactionhandler.cpp:322
+#: views/dolphinviewactionhandler.cpp:335
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6108,13 +6116,13 @@ msgstr ""
 "\"application/x-trash\", såsom säkerhetskopior, kan också döljas genom att "
 "aktivera inställningen i Anpassa Dolphin > Visa > Allmänt.</para>"
 
-#: views/dolphinviewactionhandler.cpp:336
+#: views/dolphinviewactionhandler.cpp:349
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Justera visningsstil…"
 
-#: views/dolphinviewactionhandler.cpp:339
+#: views/dolphinviewactionhandler.cpp:352
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6122,103 +6130,103 @@ msgid ""
 msgstr ""
 "Öppnar ett fönster där alla katalogens visningsegenskaper kan anpassas."
 
-#: views/dolphinviewactionhandler.cpp:635
+#: views/dolphinviewactionhandler.cpp:648
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Ikoner"
 
-#: views/dolphinviewactionhandler.cpp:636
+#: views/dolphinviewactionhandler.cpp:649
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Ikonvisningsläge"
 
-#: views/dolphinviewactionhandler.cpp:646
+#: views/dolphinviewactionhandler.cpp:659
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Kompakt"
 
-#: views/dolphinviewactionhandler.cpp:647
+#: views/dolphinviewactionhandler.cpp:660
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Kompakt visningsläge"
 
-#: views/dolphinviewactionhandler.cpp:657
+#: views/dolphinviewactionhandler.cpp:670
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detaljer"
 
-#: views/dolphinviewactionhandler.cpp:658
+#: views/dolphinviewactionhandler.cpp:671
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Detaljvisningsläge"
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:694
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:695
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:684
+#: views/dolphinviewactionhandler.cpp:697
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Största först"
 
-#: views/dolphinviewactionhandler.cpp:685
+#: views/dolphinviewactionhandler.cpp:698
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Minsta först"
 
-#: views/dolphinviewactionhandler.cpp:687
+#: views/dolphinviewactionhandler.cpp:700
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Nyaste först"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:701
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Äldsta först"
 
-#: views/dolphinviewactionhandler.cpp:690
+#: views/dolphinviewactionhandler.cpp:703
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Högsta först"
 
-#: views/dolphinviewactionhandler.cpp:691
+#: views/dolphinviewactionhandler.cpp:704
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Lägsta först"
 
-#: views/dolphinviewactionhandler.cpp:693
+#: views/dolphinviewactionhandler.cpp:706
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Fallande"
 
-#: views/dolphinviewactionhandler.cpp:694
+#: views/dolphinviewactionhandler.cpp:707
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Stigande"
 
-#: views/dolphinviewactionhandler.cpp:792
+#: views/dolphinviewactionhandler.cpp:805
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6231,12 +6239,12 @@ msgstr "Åtgärder för aktuell vy"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:801
+#: views/dolphinviewactionhandler.cpp:814
 #, kde-format
 msgid "Actions for %1"
 msgstr "Åtgärder för %1"
 
-#: views/dolphinviewactionhandler.cpp:808
+#: views/dolphinviewactionhandler.cpp:821
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
