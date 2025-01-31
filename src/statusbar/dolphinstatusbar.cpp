@@ -277,6 +277,13 @@ void DolphinStatusBar::updateSpaceInfo()
     m_spaceInfo->update();
 }
 
+void DolphinStatusBar::updateStatusBarWidth()
+{
+    const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
+    const int maximumViewWidth = parentWidget()->width() / 1.2;
+    setFixedWidth(qMin(textWidth, maximumViewWidth));
+}
+
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
@@ -336,6 +343,7 @@ void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
     m_label->setText(text);
+    updateStatusBarWidth();
 }
 
 void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)

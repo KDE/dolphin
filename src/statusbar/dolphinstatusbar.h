@@ -85,6 +85,8 @@ public:
      */
     void updateSpaceInfo();
 
+    void updateStatusBarWidth();
+
 public Q_SLOTS:
     void setText(const QString &text);
     void setUrl(const QUrl &url);

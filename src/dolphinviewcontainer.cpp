@@ -1047,7 +1047,7 @@ void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
     Q_UNUSED(resizeEvent);
 
     if (m_statusBar) {
-        m_statusBar->setMaximumWidth(width() / 2);
+        m_statusBar->updateStatusBarWidth();
         // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
         QRect statusBarRect(rect().adjusted(-5, rect().bottom() - m_statusBar->minimumHeight() + 5, 0, 0));
         m_statusBar->setGeometry(statusBarRect);
