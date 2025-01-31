@@ -380,16 +380,18 @@ void DolphinStatusBar::updateContentsMargins()
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
 {
     Q_UNUSED(paintEvent)
-    QPainter p(this);
-    QStyleOptionFrame opt;
-    opt.initFrom(this);
-    opt.state = QStyle::State_Sunken;
-    QPainterPath path;
-    // Clip the left and bottom border off
-    QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
-    path.addRect(clipRect);
-    p.setClipPath(path);
-    style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+    if (m_label && !m_label->fullText().isEmpty()) {
+        QPainter p(this);
+        QStyleOptionFrame opt;
+        opt.initFrom(this);
+        opt.state = QStyle::State_Sunken;
+        QPainterPath path;
+        // Clip the left and bottom border off
+        QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+        path.addRect(clipRect);
+        p.setClipPath(path);
+        style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+    }
 }
 
 int DolphinStatusBar::preferredHeight() const
