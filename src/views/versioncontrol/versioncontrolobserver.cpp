@@ -61,8 +61,16 @@ VersionControlObserver::~VersionControlObserver()
 void VersionControlObserver::setModel(KFileItemModel *model)
 {
     if (m_model) {
+        if (m_currentPlugin) {
+            delete m_currentPlugin;
+            m_currentPlugin = nullptr;
+        }
+        if (m_updateItemStatesThread) {
+            m_updateItemStatesThread->requestInterruption();
+        }
         disconnect(m_model, &KFileItemModel::itemsInserted, this, &VersionControlObserver::delayedDirectoryVerification);
         disconnect(m_model, &KFileItemModel::itemsChanged, this, &VersionControlObserver::slotItemsChanged);
+        disconnect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &VersionControlObserver::verifyDirectory);
     }
 
     m_model = model;
@@ -70,6 +78,7 @@ void VersionControlObserver::setModel(KFileItemModel *model)
     if (model) {
         connect(m_model, &KFileItemModel::itemsInserted, this, &VersionControlObserver::delayedDirectoryVerification);
         connect(m_model, &KFileItemModel::itemsChanged, this, &VersionControlObserver::slotItemsChanged);
+        connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &VersionControlObserver::verifyDirectory);
     }
 }
 
@@ -124,12 +133,22 @@ QList<QAction *> VersionControlObserver::actions(const KFileItemList &items) con
 
 void VersionControlObserver::delayedDirectoryVerification()
 {
+    if (!isVersionControlled()) {
+        m_dirVerificationTimer->stop();
+        return;
+    }
+
     m_silentUpdate = false;
     m_dirVerificationTimer->start();
 }
 
 void VersionControlObserver::silentDirectoryVerification()
 {
+    if (!isVersionControlled()) {
+        m_dirVerificationTimer->stop();
+        return;
+    }
+
     m_silentUpdate = true;
     m_dirVerificationTimer->start();
 }
