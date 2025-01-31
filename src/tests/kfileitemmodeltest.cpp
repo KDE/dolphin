@@ -1357,7 +1357,7 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
 {
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
-    m_testDir->createFiles({"a", "aa", "Image.jpg", "Image.png", "Text", "Text1", "Text2", "Text11"});
+    m_testDir->createFiles({"a", "aa", "Image.jpg", "Image.png", "Text", "Text1", "Text2", "Text11", "U", "Ü", "Üu", "Ž"});
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
@@ -1374,6 +1374,9 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
     QCOMPARE(m_model->indexForKeyboardSearch("text1", 0), 5);
     QCOMPARE(m_model->indexForKeyboardSearch("text2", 0), 6);
     QCOMPARE(m_model->indexForKeyboardSearch("text11", 0), 7);
+    QCOMPARE(m_model->indexForKeyboardSearch("u", 0), 8);
+    QCOMPARE(m_model->indexForKeyboardSearch("üu", 0), 10);
+    QCOMPARE(m_model->indexForKeyboardSearch("ž", 0), 11);
 
     // Start a search somewhere in the middle
     QCOMPARE(m_model->indexForKeyboardSearch("a", 1), 1);
@@ -1399,6 +1402,12 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
     QCOMPARE(m_model->indexForKeyboardSearch("aA", 0), 1);
     QCOMPARE(m_model->indexForKeyboardSearch("TexT", 5), 5);
     QCOMPARE(m_model->indexForKeyboardSearch("IMAGE", 4), 2);
+
+    // Test searches that match items with marks
+    QCOMPARE(m_model->indexForKeyboardSearch("u", 9), 9);
+    QCOMPARE(m_model->indexForKeyboardSearch("u", 10), 10);
+    QCOMPARE(m_model->indexForKeyboardSearch("uu", 0), 10);
+    QCOMPARE(m_model->indexForKeyboardSearch("z", 0), 11);
 
     // TODO: Maybe we should also test keyboard searches in directories which are not sorted by Name?
 }

@@ -335,16 +335,32 @@ QMimeData *KFileItemModel::createMimeData(const KItemSet &indexes) const
     return data;
 }
 
+namespace
+{
+QString removeMarks(const QString &original)
+{
+    const auto normalized = original.normalized(QString::NormalizationForm_D);
+    QString res;
+    for (auto ch : normalized) {
+        if (!ch.isMark()) {
+            res.append(ch);
+        }
+    }
+    return res;
+}
+}
+
 int KFileItemModel::indexForKeyboardSearch(const QString &text, int startFromIndex) const
 {
+    const auto noMarkText = removeMarks(text);
     startFromIndex = qMax(0, startFromIndex);
     for (int i = startFromIndex; i < count(); ++i) {
-        if (fileItem(i).text().startsWith(text, Qt::CaseInsensitive)) {
+        if (removeMarks(fileItem(i).text()).startsWith(noMarkText, Qt::CaseInsensitive)) {
             return i;
         }
     }
     for (int i = 0; i < startFromIndex; ++i) {
-        if (fileItem(i).text().startsWith(text, Qt::CaseInsensitive)) {
+        if (removeMarks(fileItem(i).text()).startsWith(noMarkText, Qt::CaseInsensitive)) {
             return i;
         }
     }
