@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-31 00:43+0000\n"
-"PO-Revision-Date: 2025-01-24 09:27+0200\n"
+"PO-Revision-Date: 2025-01-31 10:34+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -5943,18 +5943,16 @@ msgstr ""
 "על האזור שמימינו. כך אפשר לצפות בתוכן של מספר תיקיות באותה הרשימה.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "מצב תצוגה"
+msgstr "החלפת מצב תצוגה"
 
 #: views/dolphinviewactionhandler.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "עובר בין כל מצבי התצוגה בלולאה."
 
 #: views/dolphinviewactionhandler.cpp:235
 #, kde-format

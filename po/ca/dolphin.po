@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-31 00:43+0000\n"
-"PO-Revision-Date: 2025-01-08 11:01+0100\n"
+"PO-Revision-Date: 2025-01-31 10:18+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6031,18 +6031,16 @@ msgstr ""
 "veure el contingut de múltiples carpetes a la mateixa llista.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Mode de vista"
+msgstr "Canvia el mode de vista"
 
 #: views/dolphinviewactionhandler.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Això circula entre tots els modes de vista."
 
 #: views/dolphinviewactionhandler.cpp:235
 #, kde-format
