@@ -21,7 +21,7 @@ Q_SIGNALS:
     void tabDragMoveEvent(int index, QDragMoveEvent *event);
     void tabDropEvent(int index, QDropEvent *event);
     void tabDetachRequested(int index);
-    void tabRenamed(int index, const QString &name);
+    void tabRenamed(int index, const QString &label);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

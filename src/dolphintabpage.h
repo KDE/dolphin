@@ -140,9 +140,17 @@ public:
 
     void switchActiveView();
 
-    void setTitle(const QString &name);
+    /**
+     * Overwrites the automatically generated label of this tab with @p label.
+     * This @p label will be kept until it is overwritten by calling this method again.
+     * Calling this with an empty string will restore the automatic labelling.
+     */
+    void setCustomLabel(const QString &label);
 
-    QString title() const;
+    /**
+     * @see setCustomLabel.
+     */
+    QString customLabel() const;
 
 Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer *viewContainer);
@@ -205,7 +213,8 @@ private:
     bool m_primaryViewActive;
     bool m_splitViewEnabled;
     bool m_active;
-    QString m_title;
+    /** @see setCustomLabel(). */
+    QString m_customLabel;
 };
 
 class DolphinTabPageSplitterHandle : public QSplitterHandle

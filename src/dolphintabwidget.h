@@ -229,7 +229,12 @@ private Q_SLOTS:
 
     void currentTabChanged(int index);
 
-    void renameTab(int index, const QString &name);
+    /**
+     * Calls DolphinTabPage::setCustomLabel(label) for the tab at @p index
+     * and propagates that change to the DolphinTabBar.
+     * @see DolphinTabPage::setCustomLabel().
+     */
+    void renameTab(int index, const QString &label);
 
 protected:
     void tabInserted(int index) override;
