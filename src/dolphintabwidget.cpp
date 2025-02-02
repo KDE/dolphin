@@ -124,8 +124,8 @@ void DolphinTabWidget::updateTabName(int index)
 {
     Q_ASSERT(index >= 0);
 
-    if (!tabPageAt(index)->title().isEmpty()) {
-        QString name = tabPageAt(index)->title();
+    if (!tabPageAt(index)->customLabel().isEmpty()) {
+        QString name = tabPageAt(index)->customLabel();
         tabBar()->setTabText(index, name);
         return;
     }
@@ -483,7 +483,7 @@ void DolphinTabWidget::currentTabChanged(int index)
 void DolphinTabWidget::renameTab(int index, const QString &name)
 {
     if (!name.isEmpty()) {
-        tabPageAt(index)->setTitle(name);
+        tabPageAt(index)->setCustomLabel(name);
     }
 
     updateTabName(index);

@@ -13,6 +13,7 @@
 #include <QGridLayout>
 #include <QStyle>
 #include <QVariantAnimation>
+
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
     , m_expandingContainer{nullptr}
@@ -274,8 +275,8 @@ QByteArray DolphinTabPage::saveState() const
     stream << m_primaryViewActive;
     stream << m_splitter->saveState();
 
-    if (!m_title.isEmpty()) {
-        stream << m_title;
+    if (!m_customLabel.isEmpty()) {
+        stream << m_customLabel;
     }
 
     return state;
@@ -335,7 +336,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     if (!stream.atEnd()) {
         QString tabTitle;
         stream >> tabTitle;
-        setTitle(tabTitle);
+        setCustomLabel(tabTitle);
     }
 }
 
@@ -351,14 +352,14 @@ void DolphinTabPage::setActive(bool active)
     activeViewContainer()->setActive(active);
 }
 
-void DolphinTabPage::setTitle(const QString &name)
+void DolphinTabPage::setCustomLabel(const QString &label)
 {
-    m_title = name;
+    m_customLabel = label;
 }
 
-QString DolphinTabPage::title() const
+QString DolphinTabPage::customLabel() const
 {
-    return m_title;
+    return m_customLabel;
 }
 
 void DolphinTabPage::slotAnimationFinished()
