@@ -665,15 +665,19 @@ void DolphinView::emitStatusBarText(const int folderCount, const int fileCount, 
         // DolphinView::requestStatusBarText().
         foldersText = i18ncp("@info:status", "1 folder selected", "%1 folders selected", folderCount);
         filesText = i18ncp("@info:status", "1 file selected", "%1 files selected", fileCount);
-        if (fileCount > 0 && folderCount > 0) {
-            summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)", foldersText, filesText, KFormat().formatByteSize(totalFileSize));
-        } else if (fileCount > 0) {
-            summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, KFormat().formatByteSize(totalFileSize));
-        } else if (folderCount > 0) {
-            summary = foldersText;
-        }
     } else {
-        summary = "";
+        foldersText = i18ncp("@info:status", "1 folder", "%1 folders", folderCount);
+        filesText = i18ncp("@info:status", "1 file", "%1 files", fileCount);
+    }
+
+    if (fileCount > 0 && folderCount > 0) {
+        summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)", foldersText, filesText, KFormat().formatByteSize(totalFileSize));
+    } else if (fileCount > 0) {
+        summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, KFormat().formatByteSize(totalFileSize));
+    } else if (folderCount > 0) {
+        summary = foldersText;
+    } else {
+        summary = i18nc("@info:status", "0 folders, 0 files");
     }
     Q_EMIT statusBarTextChanged(summary);
 }

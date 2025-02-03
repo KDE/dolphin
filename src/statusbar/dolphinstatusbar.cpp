@@ -150,8 +150,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
 
-    setMinimumHeight(35);
-    setContentsMargins(5, 0, 0, 2);
+    connect(this, &DolphinStatusBar::statusBarModeUpdated, this, &DolphinStatusBar::updateStatusBarSize);
 }
 
 DolphinStatusBar::~DolphinStatusBar()
@@ -270,6 +269,7 @@ void DolphinStatusBar::readSettings()
 {
     setVisible(GeneralSettings::showStatusBar(), WithAnimation);
     setExtensionsVisible(true);
+    updateStatusBarMode();
 }
 
 void DolphinStatusBar::updateSpaceInfo()
@@ -277,11 +277,44 @@ void DolphinStatusBar::updateSpaceInfo()
     m_spaceInfo->update();
 }
 
-void DolphinStatusBar::updateStatusBarWidth()
+void DolphinStatusBar::updateStatusBarSize()
 {
-    const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
-    const int maximumViewWidth = parentWidget()->width() / 1.2;
-    setFixedWidth(qMin(textWidth, maximumViewWidth));
+    if (m_mode == StatusBarMode::Transient) {
+        setMinimumHeight(35);
+        setContentsMargins(5, 0, 0, 2);
+        const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
+        const int maximumViewWidth = parentWidget()->width() / 1.2;
+        setFixedWidth(qMin(textWidth, maximumViewWidth));
+        // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
+        QRect statusBarRect(parentWidget()->rect().adjusted(-5, parentWidget()->rect().bottom() - minimumHeight() + 5, 0, 0));
+        setGeometry(statusBarRect);
+    } else {
+        setMinimumHeight(0);
+        setContentsMargins(0, 0, 0, 0);
+        setFixedWidth(QWIDGETSIZE_MAX);
+    }
+}
+
+void DolphinStatusBar::updateStatusBarMode()
+{
+    if (!GeneralSettings::showZoomSlider() && !GeneralSettings::showSpaceInfo()) {
+        setStatusBarMode(Transient);
+    } else {
+        setStatusBarMode(Normal);
+    }
+}
+
+DolphinStatusBar::StatusBarMode DolphinStatusBar::statusBarMode()
+{
+    return m_mode;
+}
+
+void DolphinStatusBar::setStatusBarMode(StatusBarMode mode)
+{
+    if (m_mode != mode) {
+        m_mode = mode;
+        Q_EMIT statusBarModeUpdated();
+    }
 }
 
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
@@ -310,6 +343,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
         m_spaceInfo->setShown(visible);
     }
     updateContentsMargins();
+    updateStatusBarMode();
 }
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
@@ -343,7 +377,8 @@ void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
     m_label->setText(text);
-    updateStatusBarWidth();
+    updateStatusBarMode();
+    updateStatusBarSize();
 }
 
 void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
@@ -365,6 +400,7 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();
+    updateStatusBarMode();
 }
 
 void DolphinStatusBar::updateContentsMargins()
@@ -380,17 +416,24 @@ void DolphinStatusBar::updateContentsMargins()
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
 {
     Q_UNUSED(paintEvent)
-    if (m_label && !m_label->fullText().isEmpty()) {
-        QPainter p(this);
-        QStyleOptionFrame opt;
-        opt.initFrom(this);
-        opt.state = QStyle::State_Sunken;
-        QPainterPath path;
-        // Clip the left and bottom border off
-        QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
-        path.addRect(clipRect);
-        p.setClipPath(path);
-        style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+    QPainter p(this);
+    QStyleOption opt;
+    opt.initFrom(this);
+    // Draw statusbar only if theres text
+    if (m_mode == StatusBarMode::Transient) {
+        if (m_label && !m_label->fullText().isEmpty()) {
+            opt.state = QStyle::State_Sunken;
+            QPainterPath path;
+            // Clip the left and bottom border off
+            QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+            path.addRect(clipRect);
+            p.setClipPath(path);
+            style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+        }
+    }
+    // Draw regular statusbar
+    else {
+        style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
     }
 }
 

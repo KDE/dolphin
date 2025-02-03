@@ -40,6 +40,11 @@ public:
     QString text() const;
 
     enum class CancelLoading { Allowed, Disallowed };
+
+    enum StatusBarMode {
+        Normal,
+        Transient
+    };
     /**
      * Shows progress for a task on the status bar.
      *
@@ -85,7 +90,11 @@ public:
      */
     void updateSpaceInfo();
 
-    void updateStatusBarWidth();
+    void updateStatusBarSize();
+
+    void setStatusBarMode(StatusBarMode mode);
+    StatusBarMode statusBarMode();
+    void updateStatusBarMode();
 
 public Q_SLOTS:
     void setText(const QString &text);
@@ -104,6 +113,11 @@ Q_SIGNALS:
      * Requests for @p message with the given @p messageType to be shown to the user in a non-modal way.
      */
     void showMessage(const QString &message, KMessageWidget::MessageType messageType);
+
+    /**
+     * Emitted when statusbar mode is changed
+     */
+    void statusBarModeUpdated();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -160,6 +174,8 @@ private:
     QTime m_textTimestamp;
 
     QHBoxLayout *m_topLayout;
+
+    StatusBarMode m_mode;
 };
 
 #endif

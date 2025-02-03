@@ -186,6 +186,20 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
+    if (m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Normal) {
+        m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+    }
+    connect(m_statusBar, &DolphinStatusBar::statusBarModeUpdated, this, [this]() {
+        if (m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Normal) {
+            if (!m_topLayout->itemAtPosition(positionFor.statusBar, 0)) {
+                m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+            }
+        } else {
+            if (m_topLayout->itemAtPosition(positionFor.statusBar, 0)) {
+                m_topLayout->removeWidget(m_statusBar);
+            }
+        }
+    });
 
     setSearchModeEnabled(isSearchUrl(url));
 
@@ -1046,11 +1060,8 @@ void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
 {
     Q_UNUSED(resizeEvent);
 
-    if (m_statusBar) {
-        m_statusBar->updateStatusBarWidth();
-        // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
-        QRect statusBarRect(rect().adjusted(-5, rect().bottom() - m_statusBar->minimumHeight() + 5, 0, 0));
-        m_statusBar->setGeometry(statusBarRect);
+    if (m_statusBar && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+        m_statusBar->updateStatusBarSize();
     }
 }
 
