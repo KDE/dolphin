@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-02 00:44+0000\n"
-"PO-Revision-Date: 2025-01-26 16:53+0530\n"
+"PO-Revision-Date: 2025-02-02 16:32+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -5818,18 +5818,16 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:214
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "காட்சி முறை"
+msgstr "காட்சி முறையை மாற்று"
 
 #: views/dolphinviewactionhandler.cpp:215
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "உள்ள அனைத்து காட்சிமுறைகளுக்கிடையே மாறும்."
 
 #: views/dolphinviewactionhandler.cpp:235
 #, kde-format
