@@ -12,10 +12,11 @@
 
 #include <QAction>
 
-DolphinNewFileMenu::DolphinNewFileMenu(QAction *createDirAction, QObject *parent)
+DolphinNewFileMenu::DolphinNewFileMenu(QAction *createDirAction, QAction *createFileAction, QObject *parent)
     : KNewFileMenu(parent)
 {
     setNewFolderShortcutAction(createDirAction);
+    setNewFileShortcutAction(createFileAction);
     DolphinNewFileMenuObserver::instance().attach(this);
 }
 

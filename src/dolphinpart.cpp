@@ -45,6 +45,7 @@
 #include <QTextDocument>
 
 #include <KPluginFactory>
+#include <QAction>
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinPart, "dolphinpart.json")
 
@@ -139,8 +140,9 @@ DolphinPart::~DolphinPart()
 void DolphinPart::createActions()
 {
     // Edit menu
-
-    m_newFileMenu = new DolphinNewFileMenu(actionCollection()->action(QStringLiteral("create_dir")), this);
+    QAction *newDirAction = actionCollection()->action(QStringLiteral("create_dir"));
+    QAction *newFileAction = actionCollection()->action(QStringLiteral("create_file"));
+    m_newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, this);
     m_newFileMenu->setParentWidget(widget());
     connect(m_newFileMenu->menu(), &QMenu::aboutToShow, this, &DolphinPart::updateNewMenu);
 

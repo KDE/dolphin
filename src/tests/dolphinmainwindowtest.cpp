@@ -30,6 +30,10 @@
 #include <QStandardPaths>
 #include <QTest>
 
+#include <kfileitem.h>
+#include <qapplication.h>
+#include <qkeysequence.h>
+#include <qnamespace.h>
 #include <set>
 #include <unordered_set>
 
@@ -49,6 +53,8 @@ private Q_SLOTS:
     void testOpenInNewTabTitle();
     void testNewFileMenuEnabled_data();
     void testNewFileMenuEnabled();
+    void testCreateFileAction();
+    void testCreateFileActionRequiresWritePermission();
     void testWindowTitle_data();
     void testWindowTitle();
     void testFocusLocationBar();
@@ -370,6 +376,74 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
 
     QFETCH(bool, expectedEnabled);
     QTRY_COMPARE(newFileMenu->isEnabled(), expectedEnabled);
+}
+
+void DolphinMainWindowTest::testCreateFileAction()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
+
+    auto createFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
+    QTRY_COMPARE(createFileAction->isEnabled(), true);
+
+    createFileAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_N));
+
+    QSignalSpy createFileActionSpy(createFileAction, &QAction::triggered);
+
+    QTest::keyClick(QApplication::activeWindow(), Qt::Key_N, Qt::ControlModifier | Qt::AltModifier);
+
+    QTRY_COMPARE(createFileActionSpy.count(), 1);
+
+    QTRY_VERIFY(QApplication::activeModalWidget() != nullptr);
+
+    auto newFileDialog = QApplication::activeModalWidget()->focusWidget();
+    QTest::keyClick(newFileDialog, Qt::Key_X);
+    QTest::keyClick(newFileDialog, Qt::Key_Y);
+    QTest::keyClick(newFileDialog, Qt::Key_Z);
+    QTest::keyClick(newFileDialog, Qt::Key_Enter);
+
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 1);
+
+    QFile file(testDir->url().toLocalFile() + "/xyz.txt");
+    QVERIFY(file.exists());
+    QCOMPARE(file.size(), 0);
+}
+
+ void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
+    auto testDirAsFile = QFile(testDir->url().toLocalFile());
+
+    // make test dir read only
+    QVERIFY(testDirAsFile.setPermissions(QFileDevice::ReadOwner));
+
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
+
+    auto createFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
+    QTRY_COMPARE(createFileAction->isEnabled(), false);
+
+    createFileAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_N));
+    QTest::keyClick(QApplication::activeWindow(), Qt::Key_N, Qt::ControlModifier | Qt::AltModifier);
+
+    QTRY_COMPARE(QApplication::activeModalWidget(), nullptr);
+
+    QTRY_COMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
+
+    QTRY_COMPARE(createFileAction->isEnabled(), false);
+
+    QVERIFY(m_mainWindow->isVisible());
 }
 
 void DolphinMainWindowTest::testWindowTitle_data()

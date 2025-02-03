@@ -87,6 +87,13 @@ Q_SIGNALS:
      */
     void createDirectoryTriggered();
 
+    /**
+     * Emitted if the user requested creating a new file.
+     * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
+     * the method createFile of their KNewFileMenu instance.
+     */
+    void createFileTriggered();
+
     /** Used to request either entering or leaving of selection mode */
     void selectionModeChangeTriggered(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
 

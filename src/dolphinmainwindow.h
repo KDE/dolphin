@@ -296,6 +296,7 @@ private Q_SLOTS:
     void updateNewMenu();
 
     void createDirectory();
+    void createFile();
 
     /** Shows the error message in the status bar of the active view. */
     void showErrorMessage(const QString &message);

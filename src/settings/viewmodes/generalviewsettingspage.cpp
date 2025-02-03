@@ -112,6 +112,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
                                "edit_select_all",
                                "toggle_selection_mode",
                                "create_dir",
+                               "create_file",
                                "show_preview",
                                "show_hidden_files",
                                "show_in_groups",

@@ -32,6 +32,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
+#include <QAction>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow *parent,
                                        const KFileItem &fileInfo,
@@ -198,7 +199,9 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     addOpenWithActions();
 
     // set up 'Create New' menu
-    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection()->action(QStringLiteral("create_dir")), m_mainWindow);
+    QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
+    QAction *newFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
+    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, m_mainWindow);
     newFileMenu->checkUpToDate();
     newFileMenu->setWorkingDirectory(m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());

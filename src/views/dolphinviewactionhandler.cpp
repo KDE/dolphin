@@ -84,6 +84,12 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     newDirAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
     connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectoryTriggered);
 
+    QAction *newFileAction = m_actionCollection->addAction(QStringLiteral("create_file"));
+    newFileAction->setText(i18nc("@action", "Create File…"));
+    newFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    newFileAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
+    connect(newFileAction, &QAction::triggered, this, &DolphinViewActionHandler::createFileTriggered);
+
     // File menu
 
     auto renameAction = KStandardAction::renameFile(this, &DolphinViewActionHandler::slotRename, m_actionCollection);
@@ -639,7 +645,9 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 
 void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
 {
-    m_actionCollection->action(QStringLiteral("create_dir"))->setEnabled(isFolderWritable && KProtocolManager::supportsMakeDir(currentView()->url()));
+    const bool supportsMakeDir = KProtocolManager::supportsMakeDir(currentView()->url());
+    m_actionCollection->action(QStringLiteral("create_dir"))->setEnabled(isFolderWritable && supportsMakeDir);
+    m_actionCollection->action(QStringLiteral("create_file"))->setEnabled(isFolderWritable);
 }
 
 KToggleAction *DolphinViewActionHandler::iconsModeAction()

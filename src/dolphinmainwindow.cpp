@@ -176,10 +176,16 @@ DolphinMainWindow::DolphinMainWindow()
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), m_actionTextHelper, this);
     connect(m_actionHandler, &DolphinViewActionHandler::actionBeingHandled, this, &DolphinMainWindow::clearStatusBar);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
+    connect(m_actionHandler, &DolphinViewActionHandler::createFileTriggered, this, &DolphinMainWindow::createFile);
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
-    Q_CHECK_PTR(actionCollection()->action(QStringLiteral("create_dir")));
-    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action(QStringLiteral("create_dir")));
+    QAction *newDirAction = actionCollection()->action(QStringLiteral("create_dir"));
+    Q_CHECK_PTR(newDirAction);
+    m_newFileMenu->setNewFolderShortcutAction(newDirAction);
+
+    QAction *newFileAction = actionCollection()->action(QStringLiteral("create_file"));
+    Q_CHECK_PTR(newFileAction);
+    m_newFileMenu->setNewFileShortcutAction(newFileAction);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
@@ -816,6 +822,15 @@ void DolphinMainWindow::createDirectory()
     }
 }
 
+void DolphinMainWindow::createFile()
+{
+    // Use the same logic as in createDirectory()
+    if (!m_newFileMenu->isCreateFileRunning()) {
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+        m_newFileMenu->createFile();
+    }
+}
+
 void DolphinMainWindow::quit()
 {
     close();
@@ -1446,6 +1461,8 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     newFileMenu()->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
     // When the menu is disabled, actions in it are disabled later in the event loop, and we need to set the disabled reason after that.
     QTimer::singleShot(0, this, [this]() {
+        m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_file")),
+                                                    i18nc("@info", "Cannot create new file: You do not have permission to create items in this folder."));
         m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_dir")),
                                                     i18nc("@info", "Cannot create new folder: You do not have permission to create items in this folder."));
     });
@@ -1700,7 +1717,7 @@ void DolphinMainWindow::setupActions()
     auto hamburgerMenuAction = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
 
     // setup 'File' menu
-    m_newFileMenu = new DolphinNewFileMenu(nullptr, this);
+    m_newFileMenu = new DolphinNewFileMenu(nullptr, nullptr, this);
     actionCollection()->addAction(QStringLiteral("new_menu"), m_newFileMenu);
     QMenu *menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
