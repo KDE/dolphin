@@ -1065,4 +1065,21 @@ void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
     }
 }
 
+void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
+{
+    Q_UNUSED(enterEvent);
+
+    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+        m_statusBar->setHidden(false);
+    }
+}
+void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
+{
+    Q_UNUSED(leaveEvent);
+
+    if (m_statusBar && m_statusBar->isVisible() && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+        m_statusBar->setHidden(true);
+    }
+}
+
 #include "moc_dolphinviewcontainer.cpp"

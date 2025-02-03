@@ -434,6 +434,8 @@ private:
 
 protected:
     void resizeEvent(QResizeEvent *resizeEvent) override;
+    void enterEvent(QEnterEvent *enterEvent) override;
+    void leaveEvent(QEvent *leaveEvent) override;
 
 private:
     QGridLayout *m_topLayout;
