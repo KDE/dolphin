@@ -17,6 +17,7 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "filterbar/filterbar.h"
 #include "global.h"
+#include "kitemviews/kitemlistcontainer.h"
 #include "search/dolphinsearchbox.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -42,6 +43,7 @@
 #include <QGridLayout>
 #include <QGuiApplication>
 #include <QRegularExpression>
+#include <QScrollBar>
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
@@ -162,6 +164,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::operationCompletedMessage, m_statusBar, &DolphinStatusBar::setText);
     connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::setDefaultText);
     connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::resetToDefaultText);
+    connect(m_view, &DolphinView::statusBarTextChanged, this, &DolphinViewContainer::updateStatusBarGeometry);
     connect(m_view, &DolphinView::directoryLoadingProgress, m_statusBar, [this](int percent) {
         m_statusBar->showProgress(i18nc("@info:progress", "Loading folder…"), percent);
     });
@@ -190,13 +193,15 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
     }
     connect(m_statusBar, &DolphinStatusBar::statusBarModeUpdated, this, [this]() {
+        const bool statusBarInLayout = m_topLayout->itemAtPosition(positionFor.statusBar, 0);
         if (m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Normal) {
-            if (!m_topLayout->itemAtPosition(positionFor.statusBar, 0)) {
+            if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
             }
         } else {
-            if (m_topLayout->itemAtPosition(positionFor.statusBar, 0)) {
+            if (statusBarInLayout) {
                 m_topLayout->removeWidget(m_statusBar);
+                updateStatusBarGeometry();
             }
         }
     });
@@ -651,6 +656,7 @@ void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
     m_view->requestStatusBarText();
+    updateStatusBarGeometry();
 }
 
 void DolphinViewContainer::slotDirectoryLoadingStarted()
@@ -1059,8 +1065,23 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
 {
     Q_UNUSED(resizeEvent);
+    updateStatusBarGeometry();
+}
 
+void DolphinViewContainer::updateStatusBarGeometry()
+{
+    // Add offset depending if horizontal scrollbar is visible
     if (m_statusBar && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+        QSize scrollbarOffset;
+        auto container = m_view->container();
+        if (container) {
+            if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
+                scrollbarOffset.setHeight(container->horizontalScrollBar()->height());
+            } else {
+                scrollbarOffset.setHeight(0);
+            }
+        }
+        m_statusBar->setOffset(scrollbarOffset);
         m_statusBar->updateStatusBarSize();
     }
 }
@@ -1071,6 +1092,7 @@ void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
 
     if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
         m_statusBar->setHidden(false);
+        updateStatusBarGeometry();
     }
 }
 void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)

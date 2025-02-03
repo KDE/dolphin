@@ -357,6 +357,8 @@ public:
      */
     bool isFolderWritable() const;
 
+    KItemListContainer *container();
+
 public Q_SLOTS:
 
     void reload();

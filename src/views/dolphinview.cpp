@@ -2285,6 +2285,11 @@ bool DolphinView::isFolderWritable() const
     return m_isFolderWritable;
 }
 
+KItemListContainer *DolphinView::container()
+{
+    return m_container;
+}
+
 QUrl DolphinView::viewPropertiesUrl() const
 {
     if (m_viewPropertiesContext.isEmpty()) {
