@@ -1072,16 +1072,19 @@ void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
     if (m_statusBar && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
-        QSize scrollbarOffset;
+        int scrollbarHeightOffset = 0;
         auto container = m_view->container();
         if (container) {
             if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
-                scrollbarOffset.setHeight(container->horizontalScrollBar()->height());
-            } else {
-                scrollbarOffset.setHeight(0);
+                scrollbarHeightOffset = container->horizontalScrollBar()->height();
             }
         }
-        m_statusBar->setOffset(scrollbarOffset);
+        // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
+        const int clipAdjustment = 5;
+        // Move statusbar to bottomLeft
+        const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset;
+        QRect statusBarRect(rect().adjusted(-clipAdjustment, yPos, 0, 0));
+        m_statusBar->setGeometry(statusBarRect);
         m_statusBar->updateStatusBarSize();
     }
 }

@@ -46,7 +46,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     , m_showProgressBarTimer(nullptr)
     , m_delayUpdateTimer(nullptr)
     , m_textTimestamp()
-    , m_offset(QSize())
 {
     setProperty("_breeze_statusbar_separator", true);
 
@@ -288,21 +287,10 @@ void DolphinStatusBar::updateStatusBarSize()
         const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
         const int maximumViewWidth = parentWidget()->width() / 1.2;
         setFixedWidth(qMin(textWidth, maximumViewWidth));
-        // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
-        QRect statusBarRect(
-            parentWidget()->rect().adjusted(-5 + m_offset.width(), parentWidget()->rect().bottom() - minimumHeight() + 5 - m_offset.height(), 0, 0));
-        setGeometry(statusBarRect);
     } else {
         setMinimumHeight(0);
         setContentsMargins(0, 0, 0, 0);
         setFixedWidth(QWIDGETSIZE_MAX);
-    }
-}
-
-void DolphinStatusBar::setOffset(QSize offset)
-{
-    if (m_offset != offset) {
-        m_offset = offset;
     }
 }
 

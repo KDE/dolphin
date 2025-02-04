@@ -91,7 +91,6 @@ public:
     void updateSpaceInfo();
 
     void updateStatusBarSize();
-    void setOffset(QSize offset);
 
     void setStatusBarMode(StatusBarMode mode);
     StatusBarMode statusBarMode();
@@ -177,8 +176,6 @@ private:
     QHBoxLayout *m_topLayout;
 
     StatusBarMode m_mode;
-
-    QSize m_offset;
 };
 
 #endif
