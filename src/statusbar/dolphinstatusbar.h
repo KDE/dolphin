@@ -126,6 +126,11 @@ Q_SIGNALS:
      */
     void modeUpdated();
 
+    /**
+     * Emitted when statusbar width is updated to fit content
+     */
+    void widthUpdated();
+
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
     void paintEvent(QPaintEvent *paintEvent) override;

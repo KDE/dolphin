@@ -176,6 +176,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_statusBar, &DolphinStatusBar::showMessage, this, [this](const QString &message, KMessageWidget::MessageType messageType) {
         showMessage(message, messageType);
     });
+    connect(m_statusBar, &DolphinStatusBar::widthUpdated, this, &DolphinViewContainer::updateStatusBarGeometry);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -1081,11 +1082,13 @@ void DolphinViewContainer::updateStatusBarGeometry()
         }
         // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
         const int clipAdjustment = 5;
-        // Move statusbar to bottomLeft
         const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset;
         QRect statusBarRect(rect().adjusted(-clipAdjustment, yPos, 0, 0));
+        if (view()->layoutDirection() == Qt::RightToLeft) {
+            statusBarRect.setLeft(rect().width() - m_statusBar->width() + clipAdjustment);
+        }
+        // Move statusbar to bottomLeft
         m_statusBar->setGeometry(statusBarRect);
-        m_statusBar->updateWidthToContent();
     }
 }
 

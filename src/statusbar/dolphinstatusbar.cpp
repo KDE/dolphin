@@ -287,10 +287,12 @@ void DolphinStatusBar::updateWidthToContent()
         const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
         const int maximumViewWidth = parentWidget()->width() / 1.2;
         setFixedWidth(qMin(textWidth, maximumViewWidth));
+        Q_EMIT widthUpdated();
     } else {
         setMinimumHeight(0);
         setContentsMargins(0, 0, 0, 0);
         setFixedWidth(QWIDGETSIZE_MAX);
+        Q_EMIT widthUpdated();
     }
 }
 
@@ -424,7 +426,12 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
             opt.state = QStyle::State_Sunken;
             QPainterPath path;
             // Clip the left and bottom border off
-            QRect clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+            QRect clipRect;
+            if (layoutDirection() == Qt::RightToLeft) {
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -4, -4);
+            } else {
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+            }
             path.addRect(clipRect);
             p.setClipPath(path);
             style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
