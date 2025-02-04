@@ -42,8 +42,8 @@ public:
     enum class CancelLoading { Allowed, Disallowed };
 
     enum StatusBarMode {
-        Normal,
-        Transient
+        Normal, // Regular full width statusbar
+        Transient // Statusbar takes least amount of space possible
     };
     /**
      * Shows progress for a task on the status bar.
@@ -90,11 +90,18 @@ public:
      */
     void updateSpaceInfo();
 
-    void updateStatusBarSize();
+    /**
+     * Changes the statusbar between transient and regular
+     * depending on settings enabled
+     */
+    void updateMode();
+    StatusBarMode mode();
+    void setMode(StatusBarMode mode);
 
-    void setStatusBarMode(StatusBarMode mode);
-    StatusBarMode statusBarMode();
-    void updateStatusBarMode();
+    /**
+     * Updates the statusbar width to fit all content
+     */
+    void updateWidthToContent();
 
 public Q_SLOTS:
     void setText(const QString &text);
@@ -117,7 +124,7 @@ Q_SIGNALS:
     /**
      * Emitted when statusbar mode is changed
      */
-    void statusBarModeUpdated();
+    void modeUpdated();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;

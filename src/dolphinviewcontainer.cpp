@@ -189,12 +189,12 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
-    if (m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Normal) {
+    if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Normal) {
         m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
     }
-    connect(m_statusBar, &DolphinStatusBar::statusBarModeUpdated, this, [this]() {
+    connect(m_statusBar, &DolphinStatusBar::modeUpdated, this, [this]() {
         const bool statusBarInLayout = m_topLayout->itemAtPosition(positionFor.statusBar, 0);
-        if (m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Normal) {
+        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Normal) {
             if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
             }
@@ -1071,7 +1071,7 @@ void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
 void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
-    if (m_statusBar && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
         int scrollbarHeightOffset = 0;
         auto container = m_view->container();
         if (container) {
@@ -1085,7 +1085,7 @@ void DolphinViewContainer::updateStatusBarGeometry()
         const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset;
         QRect statusBarRect(rect().adjusted(-clipAdjustment, yPos, 0, 0));
         m_statusBar->setGeometry(statusBarRect);
-        m_statusBar->updateStatusBarSize();
+        m_statusBar->updateWidthToContent();
     }
 }
 
@@ -1093,7 +1093,7 @@ void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
 {
     Q_UNUSED(enterEvent);
 
-    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
         m_statusBar->setHidden(false);
         updateStatusBarGeometry();
     }
@@ -1102,7 +1102,7 @@ void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
 {
     Q_UNUSED(leaveEvent);
 
-    if (m_statusBar && m_statusBar->isVisible() && m_statusBar->statusBarMode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
         m_statusBar->setHidden(true);
     }
 }

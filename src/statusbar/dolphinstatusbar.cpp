@@ -150,8 +150,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
 
-    connect(this, &DolphinStatusBar::statusBarModeUpdated, this, [this]() {
-        updateStatusBarSize();
+    connect(this, &DolphinStatusBar::modeUpdated, this, [this]() {
+        updateWidthToContent();
     });
 }
 
@@ -271,7 +271,7 @@ void DolphinStatusBar::readSettings()
 {
     setVisible(GeneralSettings::showStatusBar(), WithAnimation);
     setExtensionsVisible(true);
-    updateStatusBarMode();
+    updateMode();
 }
 
 void DolphinStatusBar::updateSpaceInfo()
@@ -279,7 +279,7 @@ void DolphinStatusBar::updateSpaceInfo()
     m_spaceInfo->update();
 }
 
-void DolphinStatusBar::updateStatusBarSize()
+void DolphinStatusBar::updateWidthToContent()
 {
     if (m_mode == StatusBarMode::Transient) {
         setMinimumHeight(35);
@@ -294,25 +294,25 @@ void DolphinStatusBar::updateStatusBarSize()
     }
 }
 
-void DolphinStatusBar::updateStatusBarMode()
+void DolphinStatusBar::updateMode()
 {
     if (!GeneralSettings::showZoomSlider() && !GeneralSettings::showSpaceInfo()) {
-        setStatusBarMode(Transient);
+        setMode(Transient);
     } else {
-        setStatusBarMode(Normal);
+        setMode(Normal);
     }
 }
 
-DolphinStatusBar::StatusBarMode DolphinStatusBar::statusBarMode()
+DolphinStatusBar::StatusBarMode DolphinStatusBar::mode()
 {
     return m_mode;
 }
 
-void DolphinStatusBar::setStatusBarMode(StatusBarMode mode)
+void DolphinStatusBar::setMode(StatusBarMode mode)
 {
     if (m_mode != mode) {
         m_mode = mode;
-        Q_EMIT statusBarModeUpdated();
+        Q_EMIT modeUpdated();
     }
 }
 
@@ -342,7 +342,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
         m_spaceInfo->setShown(visible);
     }
     updateContentsMargins();
-    updateStatusBarMode();
+    updateMode();
 }
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
@@ -376,8 +376,8 @@ void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
     m_label->setText(text);
-    updateStatusBarMode();
-    updateStatusBarSize();
+    updateMode();
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
@@ -399,7 +399,7 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();
-    updateStatusBarMode();
+    updateMode();
 }
 
 void DolphinStatusBar::updateContentsMargins()
@@ -418,7 +418,7 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QPainter p(this);
     QStyleOption opt;
     opt.initFrom(this);
-    // Draw statusbar only if theres text
+    // Draw statusbar only if there is text
     if (m_mode == StatusBarMode::Transient) {
         if (m_label && !m_label->fullText().isEmpty()) {
             opt.state = QStyle::State_Sunken;
