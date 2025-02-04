@@ -1105,7 +1105,7 @@ void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
 {
     Q_UNUSED(leaveEvent);
 
-    if (m_statusBar && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
         m_statusBar->setHidden(true);
     }
 }
