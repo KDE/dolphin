@@ -117,17 +117,18 @@
             <label>Use auto-expanding folders for all view types</label>
             <default>false</default>
         </entry>
-        <entry name="ShowStatusBar" type="Bool">
-            <label>Show the statusbar</label>
-            <default>true</default>
+        <entry name="ShowStatusBar" type="Enum">
+            <choices>
+                <choice name="Small" />
+                <choice name="FullWidth" />
+                <choice name="Disabled" />
+            </choices>
+            <label>Statusbar</label>
+            <default>0</default>
             <emit signal="showStatusBarChanged" />
         </entry>
         <entry name="ShowZoomSlider" type="Bool">
             <label>Show zoom slider in the statusbar</label>
-            <default>false</default>
-        </entry>
-        <entry name="ShowSpaceInfo" type="Bool">
-            <label>Show the space information in the statusbar</label>
             <default>false</default>
         </entry>
         <entry name="LockPanels" type="Bool">

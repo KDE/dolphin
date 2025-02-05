@@ -190,12 +190,12 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
-    if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Normal) {
+    if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::FullWidth) {
         m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
     }
     connect(m_statusBar, &DolphinStatusBar::modeUpdated, this, [this]() {
         const bool statusBarInLayout = m_topLayout->itemAtPosition(positionFor.statusBar, 0);
-        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Normal) {
+        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::FullWidth) {
             if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
                 m_statusBar->setUrl(m_view->url());
@@ -1074,7 +1074,7 @@ void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
 void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
-    if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
         int scrollbarHeightOffset = 0;
         auto container = m_view->container();
         if (container) {
@@ -1098,7 +1098,7 @@ void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
 {
     Q_UNUSED(enterEvent);
 
-    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
         m_statusBar->setHidden(false);
         updateStatusBarGeometry();
     }
@@ -1107,7 +1107,7 @@ void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
 {
     Q_UNUSED(leaveEvent);
 
-    if (m_statusBar && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Transient) {
+    if (m_statusBar && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
         m_statusBar->setHidden(true);
     }
 }

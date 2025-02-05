@@ -137,7 +137,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_topLayout->addWidget(m_progressTextLabel);
     m_topLayout->addWidget(m_progressBar);
 
-    setVisible(GeneralSettings::showStatusBar(), WithoutAnimation);
+    updateMode();
+
     setExtensionsVisible(true);
     setWhatsThis(xi18nc("@info:whatsthis Statusbar",
                         "<para>This is "
@@ -267,9 +268,8 @@ int DolphinStatusBar::zoomLevel() const
 
 void DolphinStatusBar::readSettings()
 {
-    setVisible(GeneralSettings::showStatusBar(), WithAnimation);
-    setExtensionsVisible(true);
     updateMode();
+    setExtensionsVisible(true);
 }
 
 void DolphinStatusBar::updateSpaceInfo()
@@ -279,7 +279,7 @@ void DolphinStatusBar::updateSpaceInfo()
 
 void DolphinStatusBar::updateWidthToContent()
 {
-    if (m_mode == StatusBarMode::Transient) {
+    if (m_mode == StatusBarMode::Small) {
         setMinimumHeight(35);
         setContentsMargins(5, 0, 0, 2);
         const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
@@ -296,10 +296,20 @@ void DolphinStatusBar::updateWidthToContent()
 
 void DolphinStatusBar::updateMode()
 {
-    if (!GeneralSettings::showZoomSlider() && !GeneralSettings::showSpaceInfo()) {
-        setMode(Transient);
-    } else {
-        setMode(Normal);
+    switch (GeneralSettings::showStatusBar()) {
+    case GeneralSettings::EnumShowStatusBar::Small:
+        setMode(Small);
+        m_spaceInfo->setShown(false);
+        setVisible(true, WithAnimation);
+        break;
+    case GeneralSettings::EnumShowStatusBar::FullWidth:
+        setMode(FullWidth);
+        m_spaceInfo->setShown(true);
+        setVisible(true, WithAnimation);
+        break;
+    case GeneralSettings::EnumShowStatusBar::Disabled:
+        setVisible(false, WithoutAnimation);
+        break;
     }
 }
 
@@ -326,20 +336,12 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
     showZoomSliderAction->setCheckable(true);
     showZoomSliderAction->setChecked(GeneralSettings::showZoomSlider());
 
-    QAction *showSpaceInfoAction = menu.addAction(i18nc("@action:inmenu", "Show Space Information"));
-    showSpaceInfoAction->setCheckable(true);
-    showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
-
     const QAction *action = menu.exec(event->reason() == QContextMenuEvent::Reason::Mouse ? QCursor::pos() : mapToGlobal(QPoint(width() / 2, height() / 2)));
     if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
         m_zoomSlider->setVisible(visible);
         m_zoomLabel->setVisible(visible);
-    } else if (action == showSpaceInfoAction) {
-        const bool visible = showSpaceInfoAction->isChecked();
-        GeneralSettings::setShowSpaceInfo(visible);
-        m_spaceInfo->setShown(visible);
     }
     updateContentsMargins();
     updateMode();
@@ -388,14 +390,11 @@ void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
-    bool showSpaceInfo = visible;
     bool showZoomSlider = visible;
     if (visible) {
-        showSpaceInfo = GeneralSettings::showSpaceInfo();
         showZoomSlider = GeneralSettings::showZoomSlider();
     }
 
-    m_spaceInfo->setShown(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();
@@ -404,12 +403,8 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
 
 void DolphinStatusBar::updateContentsMargins()
 {
-    if (GeneralSettings::showSpaceInfo()) {
-        // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
-        m_topLayout->setContentsMargins(6, 0, 2, 0);
-    } else {
-        m_topLayout->setContentsMargins(6, 0, 6, 0);
-    }
+    // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
+    m_topLayout->setContentsMargins(6, 0, 2, 0);
 }
 
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
@@ -419,7 +414,7 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QStyleOption opt;
     opt.initFrom(this);
     // Draw statusbar only if there is text
-    if (m_mode == StatusBarMode::Transient) {
+    if (m_mode == StatusBarMode::Small) {
         if (m_label && !m_label->fullText().isEmpty()) {
             opt.state = QStyle::State_Sunken;
             QPainterPath path;

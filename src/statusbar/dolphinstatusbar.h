@@ -42,8 +42,8 @@ public:
     enum class CancelLoading { Allowed, Disallowed };
 
     enum StatusBarMode {
-        Normal, // Regular full width statusbar
-        Transient // Statusbar takes least amount of space possible
+        FullWidth, // Regular full width statusbar
+        Small // Statusbar takes least amount of space possible
     };
     /**
      * Shows progress for a task on the status bar.
