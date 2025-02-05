@@ -198,11 +198,13 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Normal) {
             if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+                m_statusBar->setUrl(m_view->url());
+                updateStatusBar();
             }
         } else {
             if (statusBarInLayout) {
                 m_topLayout->removeWidget(m_statusBar);
-                updateStatusBarGeometry();
+                updateStatusBar();
             }
         }
     });

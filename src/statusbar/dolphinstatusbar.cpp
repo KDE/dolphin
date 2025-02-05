@@ -245,9 +245,7 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl &url)
 {
-    if (GeneralSettings::showSpaceInfo()) {
-        m_spaceInfo->setUrl(url);
-    }
+    m_spaceInfo->setUrl(url);
 }
 
 QUrl DolphinStatusBar::url() const
