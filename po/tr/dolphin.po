@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-31 17:17+0300\n"
+"PO-Revision-Date: 2025-02-04 11:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -364,17 +364,13 @@ msgstr[0] "%1 Uçbirim Aç"
 msgstr[1] "%1 Uçbirim Aç"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Yeni klasör oluşturulamıyor: Bu klasörde yeni ögeler oluşturma izniniz yok."
+"Yeni dosya oluşturulamıyor: Bu klasörde yeni ögeler oluşturma izniniz yok."
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -5835,12 +5831,10 @@ msgid "Create Folder…"
 msgstr "Klasör Oluştur…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Klasör Oluştur…"
+msgstr "Dosya Oluştur…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format

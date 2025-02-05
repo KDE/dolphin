@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-02-02 08:34+0100\n"
+"PO-Revision-Date: 2025-02-04 07:36+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -370,18 +370,14 @@ msgstr[2] "Odpri %1 terminala"
 msgstr[3] "Odpri %1 terminale"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Ni bilo mogoče ustvariti nove mape: Nimate dovoljenja za ustvarjanje "
-"elementov v tej mapi."
+"Ni mogoče ustvariti nove mape: Nimate dovoljenja za ustvarjanje elementov v "
+"tej mapi."
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -4180,9 +4176,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
-"Interna konfiguracijska različica Dolphina, ki se uporablja predvsem za "
-"določitev ali posodobljena različica Dolphina teče in za preselitev postavk "
-"konfiguracije, ki so bile odstranjene/preimenovane … itd."
+"Notranja konfiguracijska različica Dolphina, predvsem se uporablja za "
+"ugotavljanje, ali se izvaja posodobljena različica Dolphina, da se preselijo "
+"konfiguracijski vnosi, ki so bili odstranjeni/preimenovani ... itd."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:49
@@ -5907,12 +5903,10 @@ msgid "Create Folder…"
 msgstr "Ustvari mapo …"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Ustvari mapo …"
+msgstr "Ustvari datoteko…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format

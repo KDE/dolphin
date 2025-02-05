@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-31 11:12+0100\n"
+"PO-Revision-Date: 2025-02-04 22:32+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -361,17 +361,13 @@ msgstr[0] "&Terminal openen"
 msgstr[1] "%1 terminals openen"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Kan geen nieuwe map aanmaken: u hebt geen rechten om items in deze map te "
+"Kan geen nieuw bestand aanmaken: u hebt geen rechten om items in deze map te "
 "aan te maken."
 
 #: dolphinmainwindow.cpp:1467
@@ -5881,12 +5877,10 @@ msgid "Create Folder…"
 msgstr "Map aanmaken…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Map aanmaken…"
+msgstr "Bestand aanmaken…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format

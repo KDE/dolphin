@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-31 09:57+0200\n"
+"PO-Revision-Date: 2025-02-04 12:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -369,17 +369,13 @@ msgstr[2] "Відкрити %1 терміналів"
 msgstr[3] "Відкрити термінал"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Не вдалося створити теку: у вас немає прав доступу для створення записів у "
+"Не вдалося створити файл: у вас немає прав доступу для створення записів у "
 "цій теці."
 
 #: dolphinmainwindow.cpp:1467
@@ -5973,12 +5969,10 @@ msgid "Create Folder…"
 msgstr "Створити теку…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Створити теку…"
+msgstr "Створити файл…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
