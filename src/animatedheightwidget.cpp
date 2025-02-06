@@ -66,9 +66,15 @@ void AnimatedHeightWidget::setVisible(bool visible, Animated animated)
     if (visible) {
         show();
         m_heightAnimation->setEndValue(preferredHeight());
+        connect(m_heightAnimation, &QAbstractAnimation::finished, this, [this]() {
+            Q_EMIT visibilityChanged();
+        });
     } else {
         m_heightAnimation->setEndValue(0);
-        connect(m_heightAnimation, &QAbstractAnimation::finished, this, &QWidget::hide);
+        connect(m_heightAnimation, &QAbstractAnimation::finished, this, [this]() {
+            hide();
+            Q_EMIT visibilityChanged();
+        });
     }
 
     m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);

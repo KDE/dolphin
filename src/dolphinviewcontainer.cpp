@@ -125,7 +125,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_filterBar, &FilterBar::filterChanged, this, &DolphinViewContainer::setNameFilter);
     connect(m_filterBar, &FilterBar::closeRequest, this, &DolphinViewContainer::closeFilterBar);
     connect(m_filterBar, &FilterBar::focusViewRequest, this, &DolphinViewContainer::requestFocus);
-
+    connect(m_filterBar, &FilterBar::visibilityChanged, this, &DolphinViewContainer::updateStatusBarGeometry);
     // Initialize the main view
     m_view = new DolphinView(url, this);
     connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
@@ -1074,6 +1074,7 @@ void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
     if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+        int filterBarHeightOffset = 0;
         int scrollbarHeightOffset = 0;
         auto container = m_view->container();
         if (container) {
@@ -1081,9 +1082,12 @@ void DolphinViewContainer::updateStatusBarGeometry()
                 scrollbarHeightOffset = container->horizontalScrollBar()->height();
             }
         }
+        if (m_filterBar->isVisible()) {
+            filterBarHeightOffset = m_filterBar->height();
+        }
         // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
         const int clipAdjustment = 5;
-        const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset;
+        const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset - filterBarHeightOffset;
         QRect statusBarRect(rect().adjusted(-clipAdjustment, yPos, 0, 0));
         if (view()->layoutDirection() == Qt::RightToLeft) {
             statusBarRect.setLeft(rect().width() - m_statusBar->width() + clipAdjustment);

@@ -21,6 +21,7 @@ class QScrollArea;
  */
 class AnimatedHeightWidget : public QWidget
 {
+    Q_OBJECT
 public:
     AnimatedHeightWidget(QWidget *parent);
 
@@ -40,6 +41,9 @@ public:
      *          The returned height equals preferredHeight().
      */
     QSize sizeHint() const override;
+
+Q_SIGNALS:
+    void visibilityChanged();
 
 protected:
     /**
