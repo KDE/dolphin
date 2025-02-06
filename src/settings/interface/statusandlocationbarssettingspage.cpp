@@ -17,6 +17,8 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 #include <QSpacerItem>
+#include <QStyle>
+#include <QStyleOption>
 
 StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *parent, FoldersTabsSettingsPage *foldersPage)
     : SettingsPageBase(parent)
@@ -48,9 +50,18 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
 
     topLayout->addRow(i18nc("@title:group", "Status Bar: "), m_showStatusBarSmall);
     topLayout->addRow(QString(), m_showStatusBarFullWidth);
-    topLayout->addRow(QString(), m_disableStatusBar);
-    topLayout->addRow(QString(), m_showZoomSlider);
 
+    // Indent the m_showZoomSlider checkbox under m_showStatusBarFullWidth
+    QHBoxLayout *zoomSliderLayout = new QHBoxLayout(this);
+    QStyleOption opt;
+    opt.initFrom(this);
+    zoomSliderLayout->addItem(
+        new QSpacerItem(style()->pixelMetric(QStyle::PM_IndicatorWidth, &opt, this), Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    zoomSliderLayout->addWidget(m_showZoomSlider);
+
+    topLayout->addRow(QString(), zoomSliderLayout->layout());
+
+    topLayout->addRow(QString(), m_disableStatusBar);
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Location bar
