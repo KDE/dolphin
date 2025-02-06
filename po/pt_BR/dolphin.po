@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-27 16:28-0300\n"
+"PO-Revision-Date: 2025-02-05 20:50-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -187,17 +187,15 @@ msgid "Empty Trash"
 msgstr "Esvaziar a Lixeira"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Selecione a localização da pasta pessoal"
-msgstr[1] "Selecione a localização da pasta pessoal"
+msgstr[0] "Restaurar para o local anterior"
+msgstr[1] "Restaurar para os locais anteriores"
 
 #: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1723
 #, kde-format
@@ -372,18 +370,14 @@ msgstr[0] "Abrir %1 terminal"
 msgstr[1] "Abrir %1 terminais"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Não é possível criar uma nova pasta: Você não tem permissão para criar novos "
-"itens nessa pasta."
+"Não é possível criar um novo arquivo: Você não tem permissão para criar "
+"novos itens nessa pasta."
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -2173,20 +2167,16 @@ msgid "%1 at location %2"
 msgstr "%1 no local %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "em uma disposição de grade"
+msgstr "em uma disposição de grade no modo de seleção no local %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "@info refering to a file or folder"
-#| msgid "in a grid layout"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr "em uma disposição de grade"
+msgstr "em uma disposição de grade no local %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
 #, kde-format
@@ -2208,64 +2198,44 @@ msgstr[0] "%1 item selecionado em um layout de grade no local %2"
 msgstr[1] "%1 itens selecionados em um layout de grade no local %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 no local %2"
+msgstr "em modo de seleção no local %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "%1 no local %2"
+msgstr "no local %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 no local %2"
-msgstr[1] "%1 no local %2"
+msgstr[0] "%1 item selecionado no modo de seleção no local %2"
+msgstr[1] "%1 itens selecionados no modo de seleção no local %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "%1 no local %2"
-msgstr[1] "%1 no local %2"
+msgstr[0] "%1 item selecionado no local %2"
+msgstr[1] "%1 itens selecionados no local %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Modo de seleção"
+msgstr "Modo de seleção ativado"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Modo de seleção"
+msgstr "Modo de seleção desativado"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2891,12 +2861,10 @@ msgid "File Manager"
 msgstr "Gerenciador de arquivos"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(c) 2006-2022, Os desenvolvedores do Dolphin"
+msgstr "(c) 2006-2025, Os desenvolvedores do Dolphin"
 
 #: main.cpp:101
 #, kde-format
@@ -3714,17 +3682,7 @@ msgid "Selection Mode"
 msgstr "Modo de seleção"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3740,13 +3698,16 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 "<title>Modo de Seleção</title><para>Selecione arquivos ou pastas para "
-"gerenciá-los ou manipulá-los.<list><item>Pressione sobre um arquivo ou pasta "
-"para selecioná-lo.</item><item>Pressione sobre um já selecionado arquivo ou "
-"pasta para desmarcá-lo.</item><item>Pressionar uma área vazia <emphasis>não</"
-"emphasis> limpa a seleção.</item><item>Retângulos de seleção (criados "
-"arrastando de uma área vazia) invertem o status de seleção dos itens dentro "
-"deles.</item></list></para><para>Os botões de ação disponíveis na parte "
-"inferior mudam dependendo da seleção atual.</para>"
+"gerenciá-los ou manipulá-los.<list><item>Pressione um arquivo ou pasta para "
+"selecioná-lo.</item><item>Pressione um arquivo ou pasta já selecionado para "
+"desmarcá-lo.</item><item>Pressionar uma área vazia <emphasis>não</emphasis> "
+"limpa a seleção.</item><item>Retângulos de seleção (criados arrastando de "
+"uma área vazia) invertem o status de seleção dos itens dentro.</"
+"item><item>Mover com <shortcut>teclas de seta</shortcut> <emphasis>não</"
+"emphasis> altera a seleção.</item><item>Pressionar <shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut> ou <shortcut>%3</shortcut> alterna a seleção.</"
+"item></list></para><para>Os botões de ação disponíveis na parte inferior "
+"mudam dependendo da seleção.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3967,17 +3928,15 @@ msgstr "Posição das colunas"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Preenchimento lateral"
+msgstr "Preenchimento lateral à esquerda"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Preenchimento lateral"
+msgstr "Preenchimento lateral à direita"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -5924,12 +5883,10 @@ msgid "Create Folder…"
 msgstr "Criar pasta..."
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Criar pasta..."
+msgstr "Criar arquivo..."
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6082,18 +6039,16 @@ msgstr ""
 "você poderá ver o conteúdo de várias pastas na mesma lista.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Modo de exibição"
+msgstr "Alterar modo de exibição"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Isso alterna entre todos os modos de visualização."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format

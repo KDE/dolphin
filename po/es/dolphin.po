@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-31 12:16+0100\n"
+"PO-Revision-Date: 2025-02-04 12:15+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -363,17 +363,13 @@ msgstr[0] "Abrir %1 terminal"
 msgstr[1] "Abrir %1 terminales"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"No se puede crear la nueva carpeta: no tiene permiso para crear elementos en "
+"No se puede crear el nuevo archivo: no tiene permiso para crear elementos en "
 "esta carpeta."
 
 #: dolphinmainwindow.cpp:1467
@@ -5897,12 +5893,10 @@ msgid "Create Folder…"
 msgstr "Crear carpeta..."
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Crear carpeta..."
+msgstr "Crear archivo..."
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
