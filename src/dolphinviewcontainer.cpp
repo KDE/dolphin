@@ -1088,7 +1088,7 @@ void DolphinViewContainer::updateStatusBarGeometry()
         if (view()->layoutDirection() == Qt::RightToLeft) {
             statusBarRect.setLeft(rect().width() - m_statusBar->width() + clipAdjustment);
         }
-        // Move statusbar to bottomLeft
+        // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout
         m_statusBar->setGeometry(statusBarRect);
     }
 }
