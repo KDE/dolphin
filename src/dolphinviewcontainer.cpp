@@ -204,7 +204,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         } else {
             if (statusBarInLayout) {
                 m_topLayout->removeWidget(m_statusBar);
-                updateStatusBar();
             }
         }
     });
