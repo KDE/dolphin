@@ -1102,6 +1102,7 @@ void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
         updateStatusBarGeometry();
     }
 }
+
 void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
 {
     Q_UNUSED(leaveEvent);
