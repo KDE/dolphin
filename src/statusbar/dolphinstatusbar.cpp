@@ -248,6 +248,7 @@ void DolphinStatusBar::setUrl(const QUrl &url)
 {
     if (m_mode == StatusBarMode::FullWidth) {
         m_spaceInfo->setUrl(url);
+        Q_EMIT urlChanged();
     }
 }
 

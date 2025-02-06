@@ -131,6 +131,11 @@ Q_SIGNALS:
      */
     void widthUpdated();
 
+    /**
+     * Emitted when statusbar url has changed
+     */
+    void urlChanged();
+
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
     void paintEvent(QPaintEvent *paintEvent) override;

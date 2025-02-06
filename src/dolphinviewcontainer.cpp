@@ -177,6 +177,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
         showMessage(message, messageType);
     });
     connect(m_statusBar, &DolphinStatusBar::widthUpdated, this, &DolphinViewContainer::updateStatusBarGeometry);
+    connect(m_statusBar, &DolphinStatusBar::urlChanged, this, &DolphinViewContainer::updateStatusBar);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -199,7 +200,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
             if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
                 m_statusBar->setUrl(m_view->url());
-                updateStatusBar();
             }
         } else {
             if (statusBarInLayout) {
