@@ -634,7 +634,21 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
 install( FILES settings/dolphin_detailsmodesettings.upd
                settings/dolphin_directorysizemode.upd
                settings/dolphin_directorysizemode.py
+               settings/dolphin_statusandlocationbarssettings.upd
          DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR} )
+
+# install KF6 kconfig updater C++ scripts to kconf_update_bin
+add_executable(dolphin_25.04_update_statusandlocationbarssettings "settings/dolphin_25.04_update_statusandlocationbarssettings.cpp")
+target_link_libraries(dolphin_25.04_update_statusandlocationbarssettings
+    KF6::ConfigCore
+    KF6::XmlGui
+)
+
+install(
+    TARGETS
+        dolphin_25.04_update_statusandlocationbarssettings
+    DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin
+)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

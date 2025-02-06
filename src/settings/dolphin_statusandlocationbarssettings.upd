@@ -1,0 +1,6 @@
+#Configuration update for Dolphin
+Version=6
+
+#Convert bool ShowStatusBar to enum ShowStatusBar
+Id=25.04-convert-bool-showstatusbar-to-enum-showstatusbar
+Script=dolphin_25.04_update_statusandlocationbarssettings
