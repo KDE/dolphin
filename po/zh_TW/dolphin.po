@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-04 00:43+0000\n"
-"PO-Revision-Date: 2025-01-08 18:05+0900\n"
+"POT-Creation-Date: 2025-02-07 00:44+0000\n"
+"PO-Revision-Date: 2025-02-06 20:16+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -359,16 +359,12 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "開啟 %1 個終端機"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
-msgstr "無法建立新資料夾：您沒有在此資料夾建立新項目的權限。"
+msgstr "無法建立新檔案：您沒有在此資料夾建立新項目的權限。"
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -1797,34 +1793,59 @@ msgstr "清空最近關閉的分頁"
 msgid "Search for %1 in %2"
 msgstr "在 %2 中搜尋 %1"
 
-#: dolphintabbar.cpp:155
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "新增分頁"
 
-#: dolphintabbar.cpp:156
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "分離分頁"
 
-#: dolphintabbar.cpp:157
+#: dolphintabbar.cpp:158
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "關閉其他分頁"
 
-#: dolphintabbar.cpp:158
+#: dolphintabbar.cpp:159
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "關閉分頁"
 
+#: dolphintabbar.cpp:161
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Rename %2"
+#| msgid_plural "Rename %2"
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "重新命名 %2"
+
+#: dolphintabbar.cpp:180
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Rename %2"
+#| msgid_plural "Rename %2"
+msgctxt "@title:window for text input"
+msgid "Rename Tab"
+msgstr "重新命名 %2"
+
+#: dolphintabbar.cpp:180
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "New name #"
+msgid "New tab name:"
+msgstr "新名稱 #"
+
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
-#: dolphintabwidget.cpp:52
+#: dolphintabwidget.cpp:53
 #, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
@@ -1832,7 +1853,7 @@ msgstr "位置檢視"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:515
+#: dolphintabwidget.cpp:529
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1840,7 +1861,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:519
+#: dolphintabwidget.cpp:533
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -5667,12 +5688,10 @@ msgid "Create Folder…"
 msgstr "建立資料夾…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "建立資料夾…"
+msgstr "建立檔案…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -5816,18 +5835,16 @@ msgstr ""
 "容。</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "檢視模式"
+msgstr "變更檢視模式"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "這會循環切換所有檢視模式。"
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
@@ -6466,10 +6483,6 @@ msgstr "更新版本資訊中…"
 #~ msgctxt "@label:textbox"
 #~ msgid "Rename the item <filename>%1</filename> to:"
 #~ msgstr "將項目 %1 重新命名為："
-
-#~ msgctxt "@info:status"
-#~ msgid "New name #"
-#~ msgstr "新名稱 #"
 
 #~ msgctxt "@info"
 #~ msgid "# will be replaced by ascending numbers starting with:"

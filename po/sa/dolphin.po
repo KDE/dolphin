@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-04 00:43+0000\n"
+"POT-Creation-Date: 2025-02-07 00:44+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -1831,34 +1831,57 @@ msgstr "रिक्तं सद्यः बन्दं ट्याब्स
 msgid "Search for %1 in %2"
 msgstr "%2 मध्ये %1 अन्वेष्टुम्"
 
-#: dolphintabbar.cpp:155
+#: dolphintabbar.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "नवीन ट्याब्"
 
-#: dolphintabbar.cpp:156
+#: dolphintabbar.cpp:157
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "ट्याब् विच्छेदं कुर्वन्तु"
 
-#: dolphintabbar.cpp:157
+#: dolphintabbar.cpp:158
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "अन्ये ट्याब्स् बन्दं कुर्वन्तु"
 
-#: dolphintabbar.cpp:158
+#: dolphintabbar.cpp:159
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "ट्याब् बन्दं कुर्वन्तु"
 
+#: dolphintabbar.cpp:161
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Rename %2"
+#| msgid_plural "Rename %2"
+msgctxt "@action:inmenu"
+msgid "Rename Tab"
+msgstr "%2 इत्यस्य नाम परिवर्तनं कुर्वन्तु"
+
+#: dolphintabbar.cpp:180
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Rename %2"
+#| msgid_plural "Rename %2"
+msgctxt "@title:window for text input"
+msgid "Rename Tab"
+msgstr "%2 इत्यस्य नाम परिवर्तनं कुर्वन्तु"
+
+#: dolphintabbar.cpp:180
+#, kde-format
+msgid "New tab name:"
+msgstr ""
+
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
-#: dolphintabwidget.cpp:52
+#: dolphintabwidget.cpp:53
 #, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
@@ -1866,7 +1889,7 @@ msgstr "स्थानदृश्यम्"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:515
+#: dolphintabwidget.cpp:529
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1874,7 +1897,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:519
+#: dolphintabwidget.cpp:533
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
