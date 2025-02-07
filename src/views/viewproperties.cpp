@@ -531,9 +531,27 @@ void ViewProperties::save()
         const auto metaDataKey = QStringLiteral("kde.fm.viewproperties#1");
 
         const auto items = m_node->items();
-        const bool allDefault = std::all_of(items.cbegin(), items.cend(), [this](const KConfigSkeletonItem *item) {
-            return item->name() == "Timestamp" || (item->name() == "Version" && m_node->version() == CurrentViewPropertiesVersion) || item->isDefault();
-        });
+        const auto defaultConfig = defaultProperties();
+        bool allDefault = true;
+        for (const auto item : items) {
+            if (item->name() == "Timestamp") {
+                continue;
+            }
+            if (item->name() == "Version") {
+                if (m_node->version() != CurrentViewPropertiesVersion) {
+                    allDefault = false;
+                    break;
+                } else {
+                    continue;
+                }
+            }
+            auto defaultItem = defaultConfig->findItem(item->name());
+            if (!defaultItem || defaultItem->property() != item->property()) {
+                allDefault = false;
+                break;
+            }
+        }
+
         if (allDefault) {
             if (metaData.hasAttribute(metaDataKey)) {
                 qCDebug(DolphinDebug) << "clearing extended attributes for " << m_filePath;
