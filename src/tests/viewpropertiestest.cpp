@@ -285,12 +285,6 @@ void ViewPropertiesTest::testExtendedAttributeFull()
 
 void ViewPropertiesTest::testUseAsDefaultViewSettings()
 {
-    // Create new test directory for this test to make sure the settings are defaults
-    auto testDir = new TestDir(QDir::homePath() + "/.viewPropertiesTest-");
-    auto cleanupTestDir = qScopeGuard([testDir] {
-        delete testDir;
-    });
-
     // Create a global viewproperties folder
     QUrl globalPropertiesPath =
         QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/view_properties/").append(QStringLiteral("global")));
@@ -301,9 +295,9 @@ void ViewPropertiesTest::testUseAsDefaultViewSettings()
     ViewProperties globalProps(globalPropertiesPath);
 
     // Check that theres no .directory file and metadata is supported
-    QString dotDirectoryFile = testDir->url().toLocalFile() + "/.directory";
+    QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
-    KFileMetaData::UserMetaData testDirMetadata(testDir->url().toLocalFile());
+    KFileMetaData::UserMetaData testDirMetadata(m_testDir->url().toLocalFile());
     KFileMetaData::UserMetaData globalDirMetadata(globalPropertiesPath.toLocalFile());
     if (!testDirMetadata.isSupported()) {
         QSKIP("need extended attribute/filesystem metadata to be usefull");
@@ -324,7 +318,7 @@ void ViewPropertiesTest::testUseAsDefaultViewSettings()
     auto defaultData = globalDirProperties.data();
 
     // Load testdir data
-    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(testDir->url()));
+    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(m_testDir->url()));
     auto testData = testDirProperties.data();
 
     // Make sure globalDirProperties are not empty, so they will be used
@@ -342,12 +336,6 @@ void ViewPropertiesTest::testUseAsDefaultViewSettings()
 
 void ViewPropertiesTest::testUseAsCustomDefaultViewSettings()
 {
-    // Create new test directory for this test to make sure the settings are defaults
-    auto testDir = new TestDir(QDir::homePath() + "/.viewPropertiesTest-");
-    auto cleanupTestDir = qScopeGuard([testDir] {
-        delete testDir;
-    });
-
     // Create a global viewproperties folder
     QUrl globalPropertiesPath =
         QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/view_properties/").append(QStringLiteral("global")));
@@ -358,9 +346,9 @@ void ViewPropertiesTest::testUseAsCustomDefaultViewSettings()
     ViewProperties globalProps(globalPropertiesPath);
 
     // Check that theres no .directory file and metadata is supported
-    QString dotDirectoryFile = testDir->url().toLocalFile() + "/.directory";
+    QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
-    KFileMetaData::UserMetaData testDirMetadata(testDir->url().toLocalFile());
+    KFileMetaData::UserMetaData testDirMetadata(m_testDir->url().toLocalFile());
     KFileMetaData::UserMetaData globalDirMetadata(globalPropertiesPath.toLocalFile());
     if (!testDirMetadata.isSupported()) {
         QSKIP("need extended attribute/filesystem metadata to be usefull");
@@ -384,7 +372,7 @@ void ViewPropertiesTest::testUseAsCustomDefaultViewSettings()
     QCOMPARE(defaultData->viewMode(), DolphinView::Mode::DetailsView);
 
     // Load testdir data, set to icon, i.e default hardcoded, not current user default
-    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(testDir->url()));
+    QScopedPointer<ViewProperties> testDirProperties(new ViewProperties(m_testDir->url()));
     testDirProperties->setViewMode(DolphinView::Mode::IconsView);
     testDirProperties->save();
 
