@@ -28,6 +28,16 @@
     ],
     "modules": [
         {
+            "name": "kde-cli-tools",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/plasma/kde-cli-tools.git"
+                }
+            ]
+        },
+        {
             "name": "zstd",
             "buildsystem": "simple",
             "build-commands": [
