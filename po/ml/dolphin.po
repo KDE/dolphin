@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-07 00:44+0000\n"
+"POT-Creation-Date: 2025-02-09 00:43+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -6345,7 +6345,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/versioncontrol/versioncontrolobserver.cpp:231
+#: views/versioncontrol/versioncontrolobserver.cpp:250
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Updating version information..."

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-07 00:44+0000\n"
+"POT-Creation-Date: 2025-02-09 00:43+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -6424,7 +6424,7 @@ msgstr[1] "Дзеянні для %1 абраных элементаў"
 msgstr[2] "Дзеянні для %1 абраных элементаў"
 msgstr[3] "Дзеянні для %1 абраных элементаў"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:231
+#: views/versioncontrol/versioncontrolobserver.cpp:250
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-07 00:44+0000\n"
+"POT-Creation-Date: 2025-02-09 00:43+0000\n"
 "PO-Revision-Date: 2025-01-27 15:56+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -6221,7 +6221,7 @@ msgstr[1] "Veiksmai, skirti %1 pažymėtiems elementams"
 msgstr[2] "Veiksmai, skirti %1 pažymėtų elementų"
 msgstr[3] "Veiksmai, skirti %1 pažymėtam elementui"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:231
+#: views/versioncontrol/versioncontrolobserver.cpp:250
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"

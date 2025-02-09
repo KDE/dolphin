@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-07 00:44+0000\n"
-"PO-Revision-Date: 2025-02-04 09:22+0100\n"
+"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"PO-Revision-Date: 2025-02-07 09:41+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1923,27 +1923,21 @@ msgid "Close Tab"
 msgstr "Tanca la pestanya"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Canvia el nom de %2"
+msgstr "Canvia el nom de la pestanya"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Canvia el nom de %2"
+msgstr "Canvia el nom de la pestanya"
 
 #: dolphintabbar.cpp:180
 #, kde-format
 msgid "New tab name:"
-msgstr ""
+msgstr "Nom nou de la pestanya:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -6344,7 +6338,7 @@ msgid_plural "Actions for %1 Selected Items"
 msgstr[0] "Accions per a un element seleccionat"
 msgstr[1] "Accions per a %1 elements seleccionats"
 
-#: views/versioncontrol/versioncontrolobserver.cpp:231
+#: views/versioncontrol/versioncontrolobserver.cpp:250
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
