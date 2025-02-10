@@ -164,7 +164,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_view, &DolphinView::operationCompletedMessage, m_statusBar, &DolphinStatusBar::setText);
     connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::setDefaultText);
     connect(m_view, &DolphinView::statusBarTextChanged, m_statusBar, &DolphinStatusBar::resetToDefaultText);
-    connect(m_view, &DolphinView::statusBarTextChanged, this, &DolphinViewContainer::updateStatusBarGeometry);
     connect(m_view, &DolphinView::directoryLoadingProgress, m_statusBar, [this](int percent) {
         m_statusBar->showProgress(i18nc("@info:progress", "Loading folder…"), percent);
     });
@@ -1088,29 +1087,29 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
     case QEvent::MouseMove: {
         QMouseEvent *e = static_cast<QMouseEvent *>(event);
-        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small && statusBarGeometry().contains(e->pos())) {
-            m_statusBar->setHidden(true);
-        } else {
-            m_statusBar->setHidden(false);
+        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+            if (statusBarGeometry().adjusted(0, -20, 0, 0).contains(e->pos())) {
+                m_statusBar->setHidden(true);
+            } else {
+                m_statusBar->setHidden(false);
+            }
+            break;
         }
-        break;
     }
     case QEvent::Enter: {
         if (object == this && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
             m_statusBar->setHidden(false);
-            updateStatusBarGeometry();
         }
         break;
     }
     case QEvent::Leave: {
         if (object == this && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-            updateStatusBarGeometry();
             m_statusBar->setHidden(true);
         }
         break;
     }
     case QEvent::Resize: {
-        if (this == object) {
+        if (object == this && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
             updateStatusBarGeometry();
             m_statusBar->updateWidthToContent();
         }
@@ -1125,7 +1124,7 @@ QRect DolphinViewContainer::statusBarGeometry()
 {
     int filterBarHeightOffset = 0;
     int scrollbarHeightOffset = 0;
-    auto container = m_view->container();
+    const auto container = m_view->container();
     if (container) {
         if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
             scrollbarHeightOffset = container->horizontalScrollBar()->height();
