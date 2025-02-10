@@ -220,6 +220,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(placesModel, &KFilePlacesModel::rowsRemoved, this, &DolphinViewContainer::slotPlacesModelChanged);
 
     connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
+
+    QApplication::instance()->installEventFilter(this);
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -1064,31 +1066,14 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
     return dir.exists() ? dir.path() : QString{};
 }
 
-void DolphinViewContainer::resizeEvent(QResizeEvent *resizeEvent)
-{
-    Q_UNUSED(resizeEvent);
-    updateStatusBarGeometry();
-}
-
 void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
     if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-        int filterBarHeightOffset = 0;
-        int scrollbarHeightOffset = 0;
-        auto container = m_view->container();
-        if (container) {
-            if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
-                scrollbarHeightOffset = container->horizontalScrollBar()->height();
-            }
-        }
-        if (m_filterBar->isVisible()) {
-            filterBarHeightOffset = m_filterBar->height();
-        }
         // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
         const int clipAdjustment = 5;
-        const int yPos = rect().bottom() - m_statusBar->minimumHeight() + clipAdjustment - scrollbarHeightOffset - filterBarHeightOffset;
-        QRect statusBarRect(rect().adjusted(-clipAdjustment, yPos, 0, 0));
+        QRect statusBarRect(statusBarGeometry());
+        statusBarRect.adjust(-clipAdjustment, clipAdjustment, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
             statusBarRect.setLeft(rect().width() - m_statusBar->width() + clipAdjustment);
         }
@@ -1097,23 +1082,61 @@ void DolphinViewContainer::updateStatusBarGeometry()
     }
 }
 
-void DolphinViewContainer::enterEvent(QEnterEvent *enterEvent)
+bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 {
-    Q_UNUSED(enterEvent);
-
-    if (m_statusBar && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-        m_statusBar->setHidden(false);
-        updateStatusBarGeometry();
+    // Hide statusbar if mouse is on top of it
+    switch (event->type()) {
+    case QEvent::MouseMove: {
+        QMouseEvent *e = static_cast<QMouseEvent *>(event);
+        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small && statusBarGeometry().contains(e->pos())) {
+            m_statusBar->setHidden(true);
+        } else {
+            m_statusBar->setHidden(false);
+        }
+        break;
     }
+    case QEvent::Enter: {
+        if (object == this && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+            m_statusBar->setHidden(false);
+            updateStatusBarGeometry();
+        }
+        break;
+    }
+    case QEvent::Leave: {
+        if (object == this && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+            updateStatusBarGeometry();
+            m_statusBar->setHidden(true);
+        }
+        break;
+    }
+    case QEvent::Resize: {
+        if (this == object) {
+            updateStatusBarGeometry();
+            m_statusBar->updateWidthToContent();
+        }
+    }
+    default:
+        break;
+    }
+    return QWidget::eventFilter(object, event);
 }
 
-void DolphinViewContainer::leaveEvent(QEvent *leaveEvent)
+QRect DolphinViewContainer::statusBarGeometry()
 {
-    Q_UNUSED(leaveEvent);
-
-    if (m_statusBar && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-        m_statusBar->setHidden(true);
+    int filterBarHeightOffset = 0;
+    int scrollbarHeightOffset = 0;
+    auto container = m_view->container();
+    if (container) {
+        if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
+            scrollbarHeightOffset = container->horizontalScrollBar()->height();
+        }
     }
+    if (m_filterBar->isVisible()) {
+        filterBarHeightOffset = m_filterBar->height();
+    }
+    // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
+    const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset;
+    return rect().adjusted(0, yPos, 0, 0);
 }
 
 #include "moc_dolphinviewcontainer.cpp"

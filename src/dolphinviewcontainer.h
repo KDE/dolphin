@@ -435,10 +435,10 @@ private:
 
     void updateStatusBarGeometry();
 
+    QRect statusBarGeometry();
+
 protected:
-    void resizeEvent(QResizeEvent *resizeEvent) override;
-    void enterEvent(QEnterEvent *enterEvent) override;
-    void leaveEvent(QEvent *leaveEvent) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     QGridLayout *m_topLayout;

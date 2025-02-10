@@ -286,7 +286,7 @@ void DolphinStatusBar::updateWidthToContent()
         setMinimumHeight(35);
         setContentsMargins(5, 0, 0, 2);
         const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
-        const int maximumViewWidth = parentWidget()->width() / 1.2;
+        const int maximumViewWidth = parentWidget()->width() / 2;
         setFixedWidth(qMin(textWidth, maximumViewWidth));
         Q_EMIT widthUpdated();
     } else {
@@ -316,6 +316,7 @@ void DolphinStatusBar::updateMode()
         setVisible(false, WithoutAnimation);
         break;
     }
+    setAttribute(Qt::WA_TransparentForMouseEvents, GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small);
 }
 
 DolphinStatusBar::StatusBarMode DolphinStatusBar::mode()
