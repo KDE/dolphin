@@ -1068,10 +1068,11 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 void DolphinViewContainer::updateStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar is visible
-    if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+    if (m_statusBar && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
         // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
         const int clipAdjustment = 5;
         QRect statusBarRect(statusBarGeometry());
+        m_statusBarHideArea = statusBarRect.adjusted(0, -20, 0, 0);
         statusBarRect.adjust(-clipAdjustment, clipAdjustment, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
             statusBarRect.setLeft(rect().width() - m_statusBar->width() + clipAdjustment);
@@ -1088,11 +1089,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     case QEvent::MouseMove: {
         QMouseEvent *e = static_cast<QMouseEvent *>(event);
         if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-            if (statusBarGeometry().adjusted(0, -20, 0, 0).contains(e->pos())) {
-                m_statusBar->setHidden(true);
-            } else {
-                m_statusBar->setHidden(false);
-            }
+            m_statusBar->setHidden(m_statusBarHideArea.contains(e->pos()));
             break;
         }
     }
@@ -1117,7 +1114,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     default:
         break;
     }
-    return QWidget::eventFilter(object, event);
+    return false;
 }
 
 QRect DolphinViewContainer::statusBarGeometry()
