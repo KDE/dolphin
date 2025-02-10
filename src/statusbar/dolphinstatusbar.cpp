@@ -305,7 +305,7 @@ void DolphinStatusBar::updateMode()
         m_spaceInfo->setShown(false);
         m_zoomSlider->setVisible(false);
         m_zoomLabel->setVisible(false);
-        setVisible(true, WithAnimation);
+        // Visibility for small statusbar is handled by DolphinViewContainer
         break;
     case GeneralSettings::EnumShowStatusBar::FullWidth:
         setMode(FullWidth);
