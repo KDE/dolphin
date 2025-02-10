@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2025-02-01 20:43+0100\n"
+"PO-Revision-Date: 2025-02-09 19:39+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -362,17 +362,13 @@ msgstr[0] "Ireki terminal %1"
 msgstr[1] "Ireki %1 terminal"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Ezin du karpeta berria sortu: Ez duzu karpeta honetan elementu berriak "
+"Ezin du fitxategi berria sortu: Ez duzu karpeta honetan elementu berriak "
 "sortzeko baimenik."
 
 #: dolphinmainwindow.cpp:1467
@@ -1917,29 +1913,21 @@ msgid "Close Tab"
 msgstr "Itxi fitxa"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Berrizendatu %2"
+msgstr "Berrizendatu fitxa"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Berrizendatu %2"
+msgstr "Berrizendatu fitxa"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Izen berria #"
+msgstr "Fitxaren izen berria:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5894,12 +5882,10 @@ msgid "Create Folder…"
 msgstr "Sortu karpeta..."
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Sortu karpeta..."
+msgstr "Sortu fitxategia..."
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
