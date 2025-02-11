@@ -433,6 +433,7 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
             }
             path.addRect(clipRect);
             p.setClipPath(path);
+            opt.palette.setColor(QPalette::Base, palette().window().color());
             style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
         }
     }
