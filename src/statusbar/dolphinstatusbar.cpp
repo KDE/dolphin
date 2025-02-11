@@ -286,7 +286,7 @@ void DolphinStatusBar::updateWidthToContent()
         setMinimumHeight(35);
         setContentsMargins(5, 0, 0, 2);
         const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
-        const int maximumViewWidth = parentWidget()->width() / 2;
+        const int maximumViewWidth = parentWidget()->width() - 20;
         setFixedWidth(qMin(textWidth, maximumViewWidth));
         Q_EMIT widthUpdated();
     } else {
