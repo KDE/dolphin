@@ -489,6 +489,8 @@ private:
 
     // If mouse is in this rectangle, hide the statusbar
     QRect m_statusBarHideArea;
+
+    bool m_mouseInView;
 };
 
 #endif // DOLPHINVIEWCONTAINER_H
