@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
- - 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
+ - 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
    'require':
     'frameworks/extra-cmake-modules': '@latest-kf6'
     'frameworks/kcoreaddons': '@latest-kf6'
@@ -27,13 +27,13 @@ Dependencies:
     'frameworks/kuserfeedback': '@latest-kf6'
     'libraries/phonon': '@latest-kf6'
 
- - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
+ - 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'FreeBSD/Qt6']
    'require':
     'frameworks/baloo': '@latest-kf6'
     'libraries/baloo-widgets': '@same'
     'third-party/packagekit-qt': '@latest'
 
- - 'on': ['Linux/Qt6', 'Windows/Qt6', 'macOS/Qt6']
+ - 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'Windows/Qt6', 'macOS/Qt6']
    'require':
     'network/kio-extras': '@same'
 
