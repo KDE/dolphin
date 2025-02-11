@@ -155,18 +155,16 @@ msgid "Empty Trash"
 msgstr "Vyprázdnit koš"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Vyberte umístění domovského adresáře"
-msgstr[1] "Vyberte umístění domovského adresáře"
-msgstr[2] "Vyberte umístění domovského adresáře"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1723
 #, kde-format
@@ -341,17 +339,12 @@ msgstr[1] "Otevřít %1 terminály"
 msgstr[2] "Otevřít %1 terminálů"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Nelze vytvořit novou složku: Nemáte práva k vytváření položek v této složce."
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -1662,22 +1655,16 @@ msgid "Close Tab"
 msgstr "Zavřít kartu"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Přejmenovat %2"
+msgstr ""
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Přejmenovat %2"
+msgstr ""
 
 #: dolphintabbar.cpp:180
 #, kde-format
@@ -1688,11 +1675,10 @@ msgstr ""
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:53
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Umístění"
+msgstr ""
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1862,12 +1848,10 @@ msgid "Move to New Folder…"
 msgstr "Přesunout do nové složky…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "Zakázáno"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
@@ -1914,19 +1898,14 @@ msgid "in a grid layout in location %1"
 msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "Jedna vybraná položka"
-msgstr[1] "%1 vybrané položky"
-msgstr[2] "%1 vybraných položek"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -1938,66 +1917,46 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "Jedna vybraná položka"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "Umístění"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "Jedna vybraná položka"
-msgstr[1] "%1 vybrané položky"
-msgstr[2] "%1 vybraných položek"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Textual representation of selected fileitems. %1 is the number of files/"
-#| "folders."
-#| msgid "One Selected Item"
-#| msgid_plural "%1 Selected Items"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "Jedna vybraná položka"
-msgstr[1] "%1 vybrané položky"
-msgstr[2] "%1 vybraných položek"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Režim výběru"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Režim výběru"
+msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2628,12 +2587,10 @@ msgid "File Manager"
 msgstr "Správce souborů"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(c) 2006-2022, Vývojáři Dolphinu"
+msgstr ""
 
 #: main.cpp:101
 #, kde-format
@@ -5593,12 +5550,10 @@ msgid "Create Folder…"
 msgstr "Vytvořit složku..."
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Vytvořit složku..."
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -5723,12 +5678,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Režim zobrazení"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
@@ -5991,20 +5944,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Restore"
-#~ msgstr "Obnovit"
-
-#, fuzzy
-#~| msgctxt "@label"
-#~| msgid "%1 item selected"
-#~| msgid_plural "%1 items selected"
-#~ msgid "not selected,"
-#~ msgstr "Vybrána 1 položka"
-
-#, fuzzy
-#~| msgctxt "@option:check"
-#~| msgid "Expandable"
-#~ msgid "expanded,"
-#~ msgstr "Rozbalitelné"
