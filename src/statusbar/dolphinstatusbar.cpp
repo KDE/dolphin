@@ -283,11 +283,16 @@ void DolphinStatusBar::updateSpaceInfo()
 void DolphinStatusBar::updateWidthToContent()
 {
     if (m_mode == StatusBarMode::Small) {
-        setMinimumHeight(35);
-        setContentsMargins(5, 0, 0, 2);
-        const int textWidth = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText()).width() + 20;
-        const int maximumViewWidth = parentWidget()->width() - 20;
-        setFixedWidth(qMin(textWidth, maximumViewWidth));
+        QStyleOptionSlider opt;
+        opt.initFrom(this);
+        opt.orientation = Qt::Vertical;
+        const QSize textSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
+        setMinimumHeight(textSize.height() * 2);
+        const int splitterWidth = style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this);
+        setContentsMargins(splitterWidth, 0, 0, splitterWidth / 2);
+        const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
+        const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
+        setFixedWidth(qMin(textSize.width() + splitterWidth, maximumViewWidth));
         Q_EMIT widthUpdated();
     } else {
         setMinimumHeight(0);
