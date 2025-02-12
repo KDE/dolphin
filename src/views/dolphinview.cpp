@@ -2285,7 +2285,7 @@ bool DolphinView::isFolderWritable() const
     return m_isFolderWritable;
 }
 
-KItemListContainer *DolphinView::container()
+KItemListContainer *DolphinView::container() const
 {
     return m_container;
 }

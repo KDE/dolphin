@@ -44,7 +44,7 @@
 #include <QGuiApplication>
 #include <QRegularExpression>
 #include <QScrollBar>
-#include <QStyleOption>
+#include <QStyle>
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
@@ -1126,7 +1126,6 @@ QRect DolphinViewContainer::statusBarGeometry()
     // Add offset depending if horizontal scrollbar or filterbar is visible
     int filterBarHeightOffset = 0;
     int scrollbarHeightOffset = 0;
-    // 5 is the amount we clip + other adjustments in dolphinstatusbar paintEvent
     const auto container = m_view->container();
     if (container) {
         if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {

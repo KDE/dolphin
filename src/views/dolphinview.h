@@ -357,7 +357,10 @@ public:
      */
     bool isFolderWritable() const;
 
-    KItemListContainer *container();
+    /**
+     * Returns the KItemListContainer, useful for accessing scrollbars for example.
+     */
+    KItemListContainer *container() const;
 
 public Q_SLOTS:
 
