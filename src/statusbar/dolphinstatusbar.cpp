@@ -293,7 +293,7 @@ void DolphinStatusBar::updateWidthToContent()
         // Add extra padding to textSize width to avoid truncating on shorter texts
         // this is due to KSqueezedLabel
         setFixedWidth(qMin(textSize.width() + 15, maximumViewWidth));
-        setContentsMargins(clippingAmount(), 0, 0, 0);
+        setContentsMargins(clippingAmount(), 0, clippingAmount() / 2, 0);
         Q_EMIT widthUpdated();
     } else {
         setContentsMargins(0, 0, 0, 0);
