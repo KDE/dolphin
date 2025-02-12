@@ -246,7 +246,7 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl &url)
 {
-    if (m_mode == StatusBarMode::FullWidth) {
+    if (m_mode == StatusBarMode::FullWidth && m_spaceInfo && m_spaceInfo->url() != url) {
         m_spaceInfo->setUrl(url);
         Q_EMIT urlChanged();
     }
