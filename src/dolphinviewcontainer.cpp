@@ -1072,8 +1072,6 @@ void DolphinViewContainer::updateStatusBarGeometry()
         QRect statusBarRect(statusBarGeometry());
         m_statusBarHideArea = statusBarRect.adjusted(0, -20, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
-            QStyleOption opt;
-            opt.initFrom(this);
             const int splitterWidth = m_statusBar->clippingAmount();
             statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount
         }
@@ -1138,12 +1136,10 @@ QRect DolphinViewContainer::statusBarGeometry()
     }
 
     // Adjust to clipping
-    QStyleOption opt;
-    opt.initFrom(this);
-    const int clipAdjustment = m_statusBar->clippingAmount();
-    const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset;
-    QRect statusBarRect = rect().adjusted(0, yPos, 0, 0);
-    return statusBarRect.adjusted(-clipAdjustment, clipAdjustment, 0, 0);
+    int clipAdjustment = m_statusBar->clippingAmount() * 2;
+    const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset + clipAdjustment;
+    QRect statusBarRect = rect().adjusted(-clipAdjustment, yPos, 0, 0);
+    return statusBarRect;
 }
 
 #include "moc_dolphinviewcontainer.cpp"

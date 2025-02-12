@@ -288,15 +288,16 @@ void DolphinStatusBar::updateWidthToContent()
         opt.orientation = Qt::Vertical;
         const QSize textSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
         setMinimumHeight(textSize.height() * 2);
-        const int splitterWidth = clippingAmount();
-        setContentsMargins(splitterWidth, 0, 0, splitterWidth / 2);
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
         const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
-        setFixedWidth(qMin(textSize.width() + splitterWidth, maximumViewWidth));
+        // Add extra padding to textSize width to avoid truncating on shorter texts
+        // this is due to KSqueezedLabel
+        setFixedWidth(qMin(textSize.width() + 15, maximumViewWidth));
+        setContentsMargins(clippingAmount(), 0, 0, 0);
         Q_EMIT widthUpdated();
     } else {
-        setMinimumHeight(0);
         setContentsMargins(0, 0, 0, 0);
+        setMinimumHeight(0);
         setFixedWidth(QWIDGETSIZE_MAX);
         Q_EMIT widthUpdated();
     }
@@ -306,7 +307,8 @@ int DolphinStatusBar::clippingAmount()
 {
     QStyleOption opt;
     opt.initFrom(this);
-    return style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this);
+    const int val = style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this) * 2;
+    return val;
 }
 
 void DolphinStatusBar::updateMode()
@@ -438,10 +440,11 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
             QPainterPath path;
             // Clip the left and bottom border off
             QRect clipRect;
+            const int clip = clippingAmount() + 1; // We have to add 1 pixel due to how QRect coords work
             if (layoutDirection() == Qt::RightToLeft) {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clip, -clip);
             } else {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clip, 0, 0, -clip);
             }
             path.addRect(clipRect);
             p.setClipPath(path);
