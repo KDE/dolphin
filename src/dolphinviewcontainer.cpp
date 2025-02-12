@@ -44,6 +44,7 @@
 #include <QGuiApplication>
 #include <QRegularExpression>
 #include <QScrollBar>
+#include <QStyleOption>
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
@@ -1071,7 +1072,10 @@ void DolphinViewContainer::updateStatusBarGeometry()
         QRect statusBarRect(statusBarGeometry());
         m_statusBarHideArea = statusBarRect.adjusted(0, -20, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
-            statusBarRect.setLeft(rect().width() - m_statusBar->width() + 5); // Add clipping amount
+            QStyleOption opt;
+            opt.initFrom(this);
+            const int splitterWidth = m_statusBar->clippingAmount();
+            statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount
         }
         // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout
         m_statusBar->setGeometry(statusBarRect);
@@ -1134,7 +1138,9 @@ QRect DolphinViewContainer::statusBarGeometry()
     }
 
     // Adjust to clipping
-    const int clipAdjustment = 5;
+    QStyleOption opt;
+    opt.initFrom(this);
+    const int clipAdjustment = m_statusBar->clippingAmount();
     const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset;
     QRect statusBarRect = rect().adjusted(0, yPos, 0, 0);
     return statusBarRect.adjusted(-clipAdjustment, clipAdjustment, 0, 0);

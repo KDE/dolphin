@@ -288,7 +288,7 @@ void DolphinStatusBar::updateWidthToContent()
         opt.orientation = Qt::Vertical;
         const QSize textSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
         setMinimumHeight(textSize.height() * 2);
-        const int splitterWidth = style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this);
+        const int splitterWidth = clippingAmount();
         setContentsMargins(splitterWidth, 0, 0, splitterWidth / 2);
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
         const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
@@ -300,6 +300,13 @@ void DolphinStatusBar::updateWidthToContent()
         setFixedWidth(QWIDGETSIZE_MAX);
         Q_EMIT widthUpdated();
     }
+}
+
+int DolphinStatusBar::clippingAmount()
+{
+    QStyleOption opt;
+    opt.initFrom(this);
+    return style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this);
 }
 
 void DolphinStatusBar::updateMode()
@@ -432,9 +439,9 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
             // Clip the left and bottom border off
             QRect clipRect;
             if (layoutDirection() == Qt::RightToLeft) {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -4, -4);
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
             } else {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(4, 0, 0, -4);
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
             }
             path.addRect(clipRect);
             p.setClipPath(path);

@@ -103,6 +103,8 @@ public:
      */
     void updateWidthToContent();
 
+    int clippingAmount();
+
 public Q_SLOTS:
     void setText(const QString &text);
     void setUrl(const QUrl &url);
