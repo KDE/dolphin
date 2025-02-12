@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2025-01-27 18:09+0200\n"
+"PO-Revision-Date: 2025-02-10 16:38+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -367,16 +367,13 @@ msgstr[1] "Atvērt %1 termināļus"
 msgstr[2] "Atvērt %1 termināļu"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
-msgstr "Nevar izveidot jaunu mapi. Jums nav atļauju šajā mapē veidot vienumus."
+msgstr ""
+"Nevar izveidot jaunu datni. Jums nav atļauju šajā mapē veidot vienumus."
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -1895,29 +1892,21 @@ msgid "Close Tab"
 msgstr "Aizvērt cilni"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Pārdēvēt %2"
+msgstr "Pārdēvēt cilni"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Pārdēvēt %2"
+msgstr "Pārdēvēt cilni"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Jaunais nosaukums #"
+msgstr "Cilnes jaunais nosaukums:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5882,12 +5871,10 @@ msgid "Create Folder…"
 msgstr "Izveidot mapi…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Izveidot mapi…"
+msgstr "Izveidot datni…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6038,18 +6025,16 @@ msgstr ""
 "atvieglot vairāku mapju vienā sarakstā pārskatīšanu.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Skata režīms"
+msgstr "Mainīt skata režīmu"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Iziet cauri visiem aktīvajiem režīmiem."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
