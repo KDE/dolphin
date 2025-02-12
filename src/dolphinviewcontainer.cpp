@@ -126,7 +126,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_filterBar, &FilterBar::filterChanged, this, &DolphinViewContainer::setNameFilter);
     connect(m_filterBar, &FilterBar::closeRequest, this, &DolphinViewContainer::closeFilterBar);
     connect(m_filterBar, &FilterBar::focusViewRequest, this, &DolphinViewContainer::requestFocus);
-    connect(m_filterBar, &FilterBar::visibilityChanged, this, &DolphinViewContainer::updateStatusBarGeometry);
+
     // Initialize the main view
     m_view = new DolphinView(url, this);
     connect(m_view, &DolphinView::urlChanged, m_filterBar, &FilterBar::clearIfUnlocked);
@@ -178,6 +178,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     });
     connect(m_statusBar, &DolphinStatusBar::widthUpdated, this, &DolphinViewContainer::updateStatusBarGeometry);
     connect(m_statusBar, &DolphinStatusBar::urlChanged, this, &DolphinViewContainer::updateStatusBar);
+    connect(this, &DolphinViewContainer::showFilterBarChanged, this, &DolphinViewContainer::updateStatusBar);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -636,6 +637,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
         m_filterBar->setVisible(true, WithAnimation);
         m_filterBar->setFocus();
         m_filterBar->selectAll();
+        Q_EMIT showFilterBarChanged(true);
     } else {
         closeFilterBar();
     }
