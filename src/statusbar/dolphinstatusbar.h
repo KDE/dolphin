@@ -41,11 +41,6 @@ public:
 
     enum class CancelLoading { Allowed, Disallowed };
 
-    enum StatusBarMode {
-        Small, // Statusbar takes least amount of space possible
-        FullWidth, // Regular full width statusbar
-        Disabled
-    };
     /**
      * Shows progress for a task on the status bar.
      *
@@ -96,8 +91,6 @@ public:
      * depending on settings enabled
      */
     void updateMode();
-    StatusBarMode mode();
-    void setMode(StatusBarMode mode);
 
     /**
      * Updates the statusbar width to fit all content
@@ -194,8 +187,6 @@ private:
     QTime m_textTimestamp;
 
     QHBoxLayout *m_topLayout;
-
-    StatusBarMode m_mode;
 };
 
 #endif

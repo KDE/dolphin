@@ -192,12 +192,12 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
-    if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::FullWidth) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
         m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
     }
     connect(m_statusBar, &DolphinStatusBar::modeUpdated, this, [this]() {
         const bool statusBarInLayout = m_topLayout->itemAtPosition(positionFor.statusBar, 0);
-        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::FullWidth) {
+        if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
             if (!statusBarInLayout) {
                 m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
                 m_statusBar->setUrl(m_view->url());
@@ -223,7 +223,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
 
     connect(m_view, &DolphinView::selectionItemPointsChanged, this, [this](const QList<QPointF> &itemPoints) {
-        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+        if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
             m_selectedItemInStatusBarHideArea = false;
             for (const auto &point : itemPoints) {
                 // Hide statusbar if point.y is below hidearea start position
@@ -1084,7 +1084,7 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 
 void DolphinViewContainer::updateStatusBarGeometry()
 {
-    if (m_statusBar && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+    if (m_statusBar && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
         QRect statusBarRect(statusBarGeometry());
         m_statusBarHideArea = statusBarRect.adjusted(0, -20, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
@@ -1102,7 +1102,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
     case QEvent::MouseMove: {
         QMouseEvent *e = static_cast<QMouseEvent *>(event);
-        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+        if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
             if (m_statusBarHideArea.contains(e->pos()) || m_selectedItemInStatusBarHideArea) {
                 m_statusBar->setHidden(true);
             } else {
@@ -1112,7 +1112,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
         break;
     }
     case QEvent::Resize: {
-        if (object == this && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+        if (object == this && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
             m_statusBar->updateWidthToContent();
         }
         break;

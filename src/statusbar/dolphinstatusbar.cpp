@@ -137,9 +137,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_topLayout->addWidget(m_progressTextLabel);
     m_topLayout->addWidget(m_progressBar);
 
-    updateMode();
-
-    setExtensionsVisible(true);
+    readSettings();
     setWhatsThis(xi18nc("@info:whatsthis Statusbar",
                         "<para>This is "
                         "the <emphasis>Statusbar</emphasis>. It contains three elements "
@@ -244,7 +242,7 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl &url)
 {
-    if (m_mode == StatusBarMode::FullWidth && m_spaceInfo && m_spaceInfo->url() != url) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small && m_spaceInfo && m_spaceInfo->url() != url) {
         m_spaceInfo->setUrl(url);
         Q_EMIT urlChanged();
     }
@@ -280,7 +278,7 @@ void DolphinStatusBar::updateSpaceInfo()
 
 void DolphinStatusBar::updateWidthToContent()
 {
-    if (m_mode == StatusBarMode::Small) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
         QStyleOptionSlider opt;
         opt.initFrom(this);
         opt.orientation = Qt::Vertical;
@@ -313,14 +311,12 @@ void DolphinStatusBar::updateMode()
 {
     switch (GeneralSettings::showStatusBar()) {
     case GeneralSettings::EnumShowStatusBar::Small:
-        setMode(Small);
         m_spaceInfo->setShown(false);
         m_zoomSlider->setVisible(false);
         m_zoomLabel->setVisible(false);
         // Visibility for small statusbar is handled by DolphinViewContainer
         break;
     case GeneralSettings::EnumShowStatusBar::FullWidth:
-        setMode(FullWidth);
         m_spaceInfo->setShown(true);
         setVisible(true, WithAnimation);
         break;
@@ -329,19 +325,7 @@ void DolphinStatusBar::updateMode()
         break;
     }
     setAttribute(Qt::WA_TransparentForMouseEvents, GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small);
-}
-
-DolphinStatusBar::StatusBarMode DolphinStatusBar::mode()
-{
-    return m_mode;
-}
-
-void DolphinStatusBar::setMode(StatusBarMode mode)
-{
-    if (m_mode != mode) {
-        m_mode = mode;
-        Q_EMIT modeUpdated();
-    }
+    Q_EMIT modeUpdated();
 }
 
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
@@ -362,7 +346,6 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
         m_zoomLabel->setVisible(visible);
     }
     updateContentsMargins();
-    updateMode();
 }
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
@@ -396,7 +379,6 @@ void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
     m_label->setText(text);
-    updateMode();
     updateWidthToContent();
 }
 
@@ -410,13 +392,12 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
     bool showZoomSlider = visible;
     if (visible) {
-        showZoomSlider = GeneralSettings::showZoomSlider();
+        showZoomSlider = GeneralSettings::showZoomSlider() && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth;
     }
 
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();
-    updateMode();
 }
 
 void DolphinStatusBar::updateContentsMargins()
@@ -432,7 +413,7 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QStyleOption opt;
     opt.initFrom(this);
     // Draw statusbar only if there is text
-    if (m_mode == StatusBarMode::Small) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
         if (m_label && !m_label->fullText().isEmpty()) {
             opt.state = QStyle::State_Sunken;
             QPainterPath path;
