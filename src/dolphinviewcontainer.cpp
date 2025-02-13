@@ -1092,21 +1092,8 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
             if (m_statusBarHideArea.contains(e->pos())) {
                 m_statusBar->setHidden(true);
             } else {
-                m_statusBar->setHidden(!m_mouseInView);
+                m_statusBar->setHidden(false);
             }
-            break;
-        }
-    }
-    case QEvent::Enter: {
-        if (object == this && !m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-            m_mouseInView = true;
-            m_statusBar->updateWidthToContent();
-        }
-        break;
-    }
-    case QEvent::Leave: {
-        if (object == this && m_view->selectedItems().isEmpty() && m_statusBar->isVisible() && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-            m_mouseInView = false;
         }
         break;
     }
@@ -1114,6 +1101,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
         if (object == this && m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
             m_statusBar->updateWidthToContent();
         }
+        break;
     }
     default:
         break;
