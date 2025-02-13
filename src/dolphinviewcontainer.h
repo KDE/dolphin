@@ -489,6 +489,9 @@ private:
 
     /// If mouse is in this rectangle, hide the statusbar
     QRect m_statusBarHideArea;
+
+    /// True if selected item is inside m_statusBarHideArea
+    bool m_selectedItemInStatusBarHideArea;
 };
 
 #endif // DOLPHINVIEWCONTAINER_H

@@ -676,6 +676,8 @@ Q_SIGNALS:
      */
     void doubleClickViewBackground(Qt::MouseButton button);
 
+    void selectionItemPointsChanged(const QList<QPointF> &itemPoints);
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent *event) override;

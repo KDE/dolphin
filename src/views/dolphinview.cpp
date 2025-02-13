@@ -1523,6 +1523,13 @@ void DolphinView::slotSelectionChanged(const KItemSet &current, const KItemSet &
 void DolphinView::emitSelectionChangedSignal()
 {
     m_selectionChangedTimer->stop();
+    QList<QPointF> selectionPoints;
+    for (const auto &item : selectedItems()) {
+        QRectF itemRect = m_container->controller()->view()->itemRect(m_model->index(item));
+        selectionPoints.append(m_container->mapToParent(itemRect.bottomRight()));
+    }
+
+    Q_EMIT selectionItemPointsChanged(selectionPoints);
     Q_EMIT selectionChanged(selectedItems());
 }
 

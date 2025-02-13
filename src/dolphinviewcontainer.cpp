@@ -222,6 +222,20 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
 
     connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
 
+    connect(m_view, &DolphinView::selectionItemPointsChanged, this, [this](const QList<QPointF> &itemPoints) {
+        if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
+            m_selectedItemInStatusBarHideArea = false;
+            for (const auto &point : itemPoints) {
+                // Hide statusbar if point.y is below hidearea start position
+                if (point.toPoint().y() >= m_statusBarHideArea.topLeft().y()) {
+                    m_selectedItemInStatusBarHideArea = true;
+                    break;
+                }
+            }
+            m_statusBar->setHidden(m_selectedItemInStatusBarHideArea);
+        }
+    });
+
     QApplication::instance()->installEventFilter(this);
 }
 
@@ -1089,7 +1103,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     case QEvent::MouseMove: {
         QMouseEvent *e = static_cast<QMouseEvent *>(event);
         if (m_statusBar->mode() == DolphinStatusBar::StatusBarMode::Small) {
-            if (m_statusBarHideArea.contains(e->pos())) {
+            if (m_statusBarHideArea.contains(e->pos()) || m_selectedItemInStatusBarHideArea) {
                 m_statusBar->setHidden(true);
             } else {
                 m_statusBar->setHidden(false);
