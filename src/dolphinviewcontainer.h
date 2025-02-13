@@ -487,7 +487,7 @@ private:
      */
     std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
 
-    // If mouse is in this rectangle, hide the statusbar
+    /// If mouse is in this rectangle, hide the statusbar
     QRect m_statusBarHideArea;
 };
 
