@@ -358,9 +358,9 @@ public:
     bool isFolderWritable() const;
 
     /**
-     * Returns the KItemListContainer, useful for accessing scrollbars for example.
+     * @returns the height of the scrollbar at the bottom of the view or zero if no such scroll bar is visible.
      */
-    KItemListContainer *container() const;
+    int horizontalScrollBarHeight() const;
 
 public Q_SLOTS:
 

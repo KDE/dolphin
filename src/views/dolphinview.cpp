@@ -2292,9 +2292,12 @@ bool DolphinView::isFolderWritable() const
     return m_isFolderWritable;
 }
 
-KItemListContainer *DolphinView::container() const
+int DolphinView::horizontalScrollBarHeight() const
 {
-    return m_container;
+    if (m_container && m_container->horizontalScrollBar() && m_container->horizontalScrollBar()->isVisible()) {
+        return m_container->horizontalScrollBar()->height();
+    }
+    return 0;
 }
 
 QUrl DolphinView::viewPropertiesUrl() const

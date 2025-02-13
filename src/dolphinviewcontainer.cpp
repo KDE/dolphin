@@ -1127,13 +1127,8 @@ QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar or filterbar is visible
     int filterBarHeightOffset = 0;
-    int scrollbarHeightOffset = 0;
-    const auto container = m_view->container();
-    if (container) {
-        if (container->horizontalScrollBar() && container->horizontalScrollBar()->isVisible()) {
-            scrollbarHeightOffset = container->horizontalScrollBar()->height();
-        }
-    }
+    int scrollbarHeightOffset = m_view->horizontalScrollBarHeight();
+
     if (m_filterBar->isVisible()) {
         filterBarHeightOffset = m_filterBar->height();
     }
