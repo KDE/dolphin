@@ -311,16 +311,19 @@ void DolphinStatusBar::updateMode()
 {
     switch (GeneralSettings::showStatusBar()) {
     case GeneralSettings::EnumShowStatusBar::Small:
+        setEnabled(true);
         m_spaceInfo->setShown(false);
         m_zoomSlider->setVisible(false);
         m_zoomLabel->setVisible(false);
         // Visibility for small statusbar is handled by DolphinViewContainer
         break;
     case GeneralSettings::EnumShowStatusBar::FullWidth:
+        setEnabled(true);
         m_spaceInfo->setShown(true);
         setVisible(true, WithAnimation);
         break;
     case GeneralSettings::EnumShowStatusBar::Disabled:
+        setEnabled(false);
         setVisible(false, WithoutAnimation);
         break;
     }
