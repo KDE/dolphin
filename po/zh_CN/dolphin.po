@@ -354,16 +354,12 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "打开 %1 个终端"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
-msgstr "无法创建新文件夹：您没有在此文件夹中创建项目的权限。"
+msgstr "无法创建新文件：您没有在此文件夹中创建项目的权限。"
 
 #: dolphinmainwindow.cpp:1467
 #, kde-format
@@ -1816,27 +1812,21 @@ msgid "Close Tab"
 msgstr "关闭标签页"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "重命名 %2 项"
+msgstr "重命名标签页"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "重命名 %2 项"
+msgstr "重命名标签页"
 
 #: dolphintabbar.cpp:180
 #, kde-format
 msgid "New tab name:"
-msgstr ""
+msgstr "新标签页名称："
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5684,12 +5674,10 @@ msgid "Create Folder…"
 msgstr "创建文件夹…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "创建文件夹…"
+msgstr "创建文件…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -5831,18 +5819,16 @@ msgstr ""
 "查看多个文件夹中的内容。</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "视图模式"
+msgstr "更改视图模式"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "循环切换所有视图模式。"
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
