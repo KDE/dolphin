@@ -151,9 +151,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
 
-    connect(this, &DolphinStatusBar::modeUpdated, this, [this]() {
-        updateWidthToContent();
-    });
+    connect(this, &DolphinStatusBar::modeUpdated, this, &DolphinStatusBar::updateWidthToContent);
 }
 
 DolphinStatusBar::~DolphinStatusBar()
