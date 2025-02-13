@@ -1085,7 +1085,7 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
 void DolphinViewContainer::updateStatusBarGeometry()
 {
     if (m_statusBar && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
-        QRect statusBarRect(statusBarGeometry());
+        QRect statusBarRect(preferredSmallStatusBarGeometry());
         m_statusBarHideArea = statusBarRect.adjusted(0, -20, 0, 0);
         if (view()->layoutDirection() == Qt::RightToLeft) {
             const int splitterWidth = m_statusBar->clippingAmount();
@@ -1123,7 +1123,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-QRect DolphinViewContainer::statusBarGeometry()
+QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
     // Add offset depending if horizontal scrollbar or filterbar is visible
     int filterBarHeightOffset = 0;

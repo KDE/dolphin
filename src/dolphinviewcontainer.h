@@ -435,7 +435,7 @@ private:
 
     void updateStatusBarGeometry();
 
-    QRect statusBarGeometry();
+    QRect preferredSmallStatusBarGeometry();
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
