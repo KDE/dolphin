@@ -1,7 +1,7 @@
 # Translation of dolphin.po to Finnish
 # Copyright © 2007 Teemu Rytilahti
 # This file is distributed under the same license as the kde-baseapps package.
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Tommi Nieminen <translator@legisign.org>
 # Teemu Rytilahti <tpr@d5k.net>, 2007, 2008.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2007, 2012.
 # Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>, 2008.
@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2024-12-09 21:07+0200\n"
+"PO-Revision-Date: 2025-01-28 18:26+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -191,17 +191,15 @@ msgid "Empty Trash"
 msgstr "Tyhjennä roskakori"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Aseta kotisijainti"
-msgstr[1] "Aseta kotisijainti"
+msgstr[0] "Palauta aiemmaksi sijainniksi"
+msgstr[1] "Palauta aiemmiksi sijainneiksi"
 
 #: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1723
 #, kde-format
@@ -2171,12 +2169,10 @@ msgid "%1 at location %2"
 msgstr "%1 sijainnissa %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "ruudukkoasettelussa sijainnissa %1"
+msgstr "ruudukkoasettelussa valintatilassa sijainnissa %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2185,16 +2181,14 @@ msgid "in a grid layout in location %1"
 msgstr "ruudukkoasettelussa sijainnissa %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 valittu kohde ruudukkoasettelussa sijainnissa %2"
-msgstr[1] "%1 valittua kohdetta ruudukkoasettelussa sijainnissa %2"
+msgstr[0] "%1 valittu kohde ruudukkoasettelussa valintatilassa sijainnissa %2"
+msgstr[1] ""
+"%1 valittua kohdetta ruudukkoasettelussa valintatilassa sijainnissa %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2205,13 +2199,10 @@ msgstr[0] "%1 valittu kohde ruudukkoasettelussa sijainnissa %2"
 msgstr[1] "%1 valittua kohdetta ruudukkoasettelussa sijainnissa %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 valittu kohde sijainnissa %2"
+msgstr "valintatilassa sijainnissa %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2220,15 +2211,12 @@ msgid "in location %1"
 msgstr "sijainnissa %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 valittu kohde ruudukkoasettelussa sijainnissa %2"
-msgstr[1] "%1 valittua kohdetta ruudukkoasettelussa sijainnissa %2"
+msgstr[0] "%1 valittu kohde valintatilassa sijainnissa %2"
+msgstr[1] "%1 valittua kohdetta valintatilassa sijainnissa %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2239,20 +2227,16 @@ msgstr[0] "%1 valittu kohde sijainnissa %2"
 msgstr[1] "%1 valittua kohdetta sijainnissa %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Valintatila"
+msgstr "Valintatila käytössä"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Valintatila"
+msgstr "Valintatila ei käytössä"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2880,12 +2864,10 @@ msgid "File Manager"
 msgstr "Tiedostonhallinta"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "© 2006–2022 Dolphin-kehittäjät"
+msgstr "© 2006–2025 Dolphinin kehittäjät"
 
 #: main.cpp:101
 #, kde-format
@@ -3698,17 +3680,7 @@ msgid "Selection Mode"
 msgstr "Valintatila"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3723,12 +3695,17 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Valintatila</title><para>Valitse käsiteltävät tiedostot ja kansiot."
-"<list><item>Valitse kohde napsauttamalla sitä.</item><item>Poista valinta "
-"napsauttamalla uudestaan.</item><item>Tyhjän tilan napsauttamalla "
-"<emphasis>ei</emphasis> tyhjennä valintaa.</item><item>Valintanelikulmiot "
-"(jotka on piirretty tyhjälle alueelle) kääntävät sisälleen jäävien kohteiden "
-"valinnan tilan.</item></list></para>"
+"<title>Valintatila</title><para>Valitse hallinnoitavat tai käsiteltävät "
+"tiedostot ja kansiot.<list><item>Valitse kohde napsauttamalla sitä.</"
+"item><item>Poista valinta napsauttamalla jo valittua kohdetta uudestaan.</"
+"item><item>Tyhjän tilan napsauttaminen <emphasis>ei</emphasis> tyhjennä "
+"valintaa.</item><item>Tyhjälle alueelle piirretyt valintanelikulmiot "
+"kääntävät sisäänsä jäävien kohteiden valinnan tilan.</"
+"item><item><shortcut>Nuolinäppäimin</shortcut> liikkuminen <emphasis>ei</"
+"emphasis> muuta valintaa.</item><item>Näppäinten <shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut> tai <shortcut>%3</shortcut> painallus kääntää "
+"valinnan tilan.</item></list></para><para>Alla käytettävissä olevat "
+"toimintapainikkeet vaihtuvat valinnan mukaan.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3951,17 +3928,15 @@ msgstr "Sarakkeiden sijainti"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Reunustäyte"
+msgstr "Vasen sivutäyte"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Reunustäyte"
+msgstr "Oikea sivutäyte"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39

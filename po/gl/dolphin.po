@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2025-01-08 20:09+0100\n"
+"PO-Revision-Date: 2025-02-14 08:07+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36,7 +36,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "mgl.branco@gmail.com, mvillarino@gmail.com, xosecalvo@gmail.com, "
-"adrian@chaves.io"
+"adrian@chaves.gal"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -366,17 +366,13 @@ msgstr[0] "Abrir %1 terminal"
 msgstr[1] "Abrir %1 terminais"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Non é posíbel crear un novo cartafol: non ten permiso para crear elementos "
+"Non é posíbel crear un novo ficheiro: non ten permiso para crear elementos "
 "neste cartafol."
 
 #: dolphinmainwindow.cpp:1467
@@ -1917,29 +1913,21 @@ msgid "Close Tab"
 msgstr "Pechar a lapela"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Renomear %2"
+msgstr "Renomear a lapela"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Renomear %2"
+msgstr "Renomear a lapela"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Novo nome #"
+msgstr "Nome da nova lapela:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5895,12 +5883,10 @@ msgid "Create Folder…"
 msgstr "Crear un cartafol…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Crear un cartafol…"
+msgstr "Crear un ficheiro…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6051,18 +6037,16 @@ msgstr ""
 "de varios cartafoles desde a mesma lista.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Modo de visualización"
+msgstr "Cambiar o modo de visualización"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Isto itera polos modos de visualización."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
