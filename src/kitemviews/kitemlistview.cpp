@@ -555,6 +555,9 @@ void KItemListView::scrollToItem(int index, ViewItemPosition viewItemPosition)
         const qreal headerHeight = m_headerWidget->size().height();
         viewGeometry.adjust(0, headerHeight, 0, 0);
     }
+    if (m_statusBarOffset != 0) {
+        viewGeometry.adjust(0, 0, 0, -m_statusBarOffset);
+    }
     QRectF currentRect = itemRect(index);
 
     if (layoutDirection() == Qt::RightToLeft && scrollOrientation() == Qt::Horizontal) {
