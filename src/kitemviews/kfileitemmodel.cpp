@@ -2486,7 +2486,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "part of the text that should not be formatted as a date",
                         "'Yesterday' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                    if (const int count = translatedFormat.count(QLatin1Char('\'')); count >= 2 && count % 2 == 0) {
                         newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
@@ -2518,7 +2518,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "part of the text that should not be formatted as a date",
                         "'One Week Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                    if (const int count = translatedFormat.count(QLatin1Char('\'')); count >= 2 && count % 2 == 0) {
                         newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
@@ -2539,7 +2539,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "part of the text that should not be formatted as a date",
                         "'Two Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                    if (const int count = translatedFormat.count(QLatin1Char('\'')); count >= 2 && count % 2 == 0) {
                         newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
@@ -2560,7 +2560,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "part of the text that should not be formatted as a date",
                         "'Three Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                    if (const int count = translatedFormat.count(QLatin1Char('\'')); count >= 2 && count % 2 == 0) {
                         newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
@@ -2581,7 +2581,7 @@ QList<QPair<int, QVariant>> KFileItemModel::timeRoleGroups(const std::function<Q
                         "part of the text that should not be formatted as a date",
                         "'Earlier on' MMMM, yyyy");
                     const QString translatedFormat = format.toString();
-                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                    if (const int count = translatedFormat.count(QLatin1Char('\'')); count >= 2 && count % 2 == 0) {
                         newGroupValue = locale.toString(fileTime, translatedFormat);
                         newGroupValue = i18nc(
                             "Can be used to script translation of "
