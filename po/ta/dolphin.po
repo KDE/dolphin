@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2025-02-02 16:32+0530\n"
+"PO-Revision-Date: 2025-02-16 16:56+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -355,17 +355,13 @@ msgstr[0] "%1 முனையத்தைத் திற"
 msgstr[1] "%1 முனையங்களைத் திற"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"புதிய அடைவை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
+"புதிய கோப்பை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
 "உங்களுக்கு இல்லை."
 
 #: dolphinmainwindow.cpp:1467
@@ -1813,29 +1809,21 @@ msgid "Close Tab"
 msgstr "கீற்றை மூடு"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "%2 ஆகியதற்கு மறுபெயரிடு"
+msgstr "கீற்றுக்கு மறுபெயரிடு"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "%2 ஆகியதற்கு மறுபெயரிடு"
+msgstr "கீற்றுக்கு மறுபெயரிடுவது"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "புதிய பெயர் #"
+msgstr "கீற்றின் புதிய பெயர்:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5728,12 +5716,10 @@ msgid "Create Folder…"
 msgstr "அடைவை உருவாக்கு…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "அடைவை உருவாக்கு…"
+msgstr "கோப்பை உருவாக்கு…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
