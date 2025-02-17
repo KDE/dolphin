@@ -486,12 +486,6 @@ private:
      * connected to this ViewContainer.
      */
     std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
-
-    /// If mouse is in this rectangle, hide the statusbar
-    QRect m_statusBarHideArea;
-
-    /// True if selected item is inside m_statusBarHideArea
-    bool m_selectedItemInStatusBarHideArea;
 };
 
 #endif // DOLPHINVIEWCONTAINER_H

@@ -1523,13 +1523,6 @@ void DolphinView::slotSelectionChanged(const KItemSet &current, const KItemSet &
 void DolphinView::emitSelectionChangedSignal()
 {
     m_selectionChangedTimer->stop();
-    QList<QPointF> selectionPoints;
-    for (const auto &item : selectedItems()) {
-        QRectF itemRect = m_container->controller()->view()->itemRect(m_model->index(item));
-        selectionPoints.append(m_container->mapToParent(itemRect.bottomRight()));
-    }
-
-    Q_EMIT selectionItemPointsChanged(selectionPoints);
     Q_EMIT selectionChanged(selectedItems());
 }
 
@@ -2298,6 +2291,14 @@ int DolphinView::horizontalScrollBarHeight() const
         return m_container->horizontalScrollBar()->height();
     }
     return 0;
+}
+
+void DolphinView::setStatusBarOffset(int offset)
+{
+    KItemListView *view = m_container->controller()->view();
+    if (view) {
+        view->setStatusBarOffset(offset);
+    }
 }
 
 QUrl DolphinView::viewPropertiesUrl() const

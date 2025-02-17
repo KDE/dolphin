@@ -362,6 +362,8 @@ public:
      */
     int horizontalScrollBarHeight() const;
 
+    void setStatusBarOffset(int offset);
+
 public Q_SLOTS:
 
     void reload();
@@ -675,8 +677,6 @@ Q_SIGNALS:
      * Used to trigger an user configured action.
      */
     void doubleClickViewBackground(Qt::MouseButton button);
-
-    void selectionItemPointsChanged(const QList<QPointF> &itemPoints);
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */

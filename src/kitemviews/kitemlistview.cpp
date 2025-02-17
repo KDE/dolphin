@@ -106,6 +106,7 @@ KItemListView::KItemListView(QGraphicsWidget *parent)
     , m_header(nullptr)
     , m_headerWidget(nullptr)
     , m_indicatorAnimation(nullptr)
+    , m_statusBarOffset(0)
     , m_dropIndicator()
     , m_sizeHintResolver(nullptr)
 {
@@ -192,7 +193,7 @@ qreal KItemListView::scrollOffset() const
 
 qreal KItemListView::maximumScrollOffset() const
 {
-    return m_layouter->maximumScrollOffset();
+    return m_layouter->maximumScrollOffset() + m_statusBarOffset;
 }
 
 void KItemListView::setItemOffset(qreal offset)
@@ -826,6 +827,13 @@ void KItemListView::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         color.setAlpha(128);
         painter->setPen(color);
         painter->drawRect(r.left(), r.top() - 1, r.width() - 1, 2);
+    }
+}
+
+void KItemListView::setStatusBarOffset(int offset)
+{
+    if (m_statusBarOffset != offset) {
+        m_statusBarOffset = offset;
     }
 }
 
