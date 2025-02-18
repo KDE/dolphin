@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 00:43+0000\n"
-"PO-Revision-Date: 2025-02-07 09:47+0300\n"
+"PO-Revision-Date: 2025-02-17 18:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1740,19 +1740,19 @@ msgstr "Dosya Türünü Dü&zenle…"
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Uyuşan Ögeleri Seç…"
+msgstr "Eşleşen Ögeleri Seç…"
 
 #: dolphinpart.cpp:159
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Uyuşan Ögelerin Seçimini Kaldır…"
+msgstr "Eşleşen Ögelerin Seçimini Kaldır…"
 
 #: dolphinpart.cpp:165
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
-msgstr "Tümünü Bırak"
+msgstr "Tümünün Seçimini Kaldır"
 
 #: dolphinpart.cpp:180
 #, kde-format
@@ -1776,7 +1776,7 @@ msgstr "Çöp Kutusu"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
-msgstr "Otomatik başlat"
+msgstr "Kendiliğinden Başlat"
 
 #: dolphinpart.cpp:191
 #, kde-format
@@ -1799,24 +1799,24 @@ msgstr "Seç"
 #: dolphinpart.cpp:449
 #, kde-format
 msgid "Select all items matching this pattern:"
-msgstr "Bu desene uyan tüm ögeleri seç:"
+msgstr "Bu dizgiye uyan tüm ögeleri seç:"
 
 #: dolphinpart.cpp:454
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
-msgstr "Seçimi temizle"
+msgstr "Seçimi Kaldır"
 
 #: dolphinpart.cpp:454
 #, kde-format
 msgid "Unselect all items matching this pattern:"
-msgstr "Bu desene uyan tüm ögelerin seçimini temizle:"
+msgstr "Bu dizgiye uyan tüm ögelerin seçimini kaldır:"
 
 #. i18n: ectx: Menu (edit)
 #: dolphinpart.rc:5
 #, kde-format
 msgid "&Edit"
-msgstr "Dü&zenle"
+msgstr "Dü&zen"
 
 #. i18n: ectx: Menu (selection)
 #: dolphinpart.rc:15
@@ -2598,7 +2598,7 @@ msgstr "Derecelendirme"
 #: kitemviews/kfileitemmodel.cpp:2780
 msgctxt "@label"
 msgid "Tags"
-msgstr "Etiketler"
+msgstr "Künyeler"
 
 #: kitemviews/kfileitemmodel.cpp:2781
 msgctxt "@label"
@@ -2715,12 +2715,12 @@ msgstr "Parça"
 #: kitemviews/kfileitemmodel.cpp:2799
 msgctxt "@label"
 msgid "Release Year"
-msgstr "Yayınlanma Yılı"
+msgstr "Yayımlanma Yılı"
 
 #: kitemviews/kfileitemmodel.cpp:2800
 msgctxt "@label"
 msgid "Aspect Ratio"
-msgstr "En Boy Oranı"
+msgstr "En–Boy Oranı"
 
 #: kitemviews/kfileitemmodel.cpp:2800 kitemviews/kfileitemmodel.cpp:2801
 #: kitemviews/kfileitemmodel.cpp:2802
@@ -3025,7 +3025,7 @@ msgstr "Ana dizin içindeyse klasörler panelini ana dizine sınırla"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
 #, kde-format
 msgid "Automatic scrolling"
-msgstr "Otomatik sarma"
+msgstr "Kendiliğinden sarma"
 
 #: panels/folders/treeviewcontextmenu.cpp:50
 #, kde-format
@@ -3322,14 +3322,14 @@ msgstr ", "
 msgctxt "@action:button %2 is a list of tags"
 msgid "Tag: %2"
 msgid_plural "Tags: %2"
-msgstr[0] "Etiket: %2"
-msgstr[1] "Etiketler: %2"
+msgstr[0] "Künye: %2"
+msgstr[1] "Künyeler: %2"
 
 #: search/dolphinfacetswidget.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Tags"
-msgstr "Etiket Ekle"
+msgstr "Künyeler Ekle"
 
 #: search/dolphinsearchbox.cpp:104
 #, kde-format
@@ -5799,12 +5799,12 @@ msgstr "Çöp kutusu boş"
 #: views/dolphinview.cpp:2381
 #, kde-format
 msgid "No tags"
-msgstr "Etiketsiz"
+msgstr "Künye yok"
 
 #: views/dolphinview.cpp:2384
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr "“%1” ile hiçbir dosya etiketlenmemiş"
+msgstr "“%1” ile künyelenmiş hiçbir dosya yok"
 
 #: views/dolphinview.cpp:2388
 #, kde-format
