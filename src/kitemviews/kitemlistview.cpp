@@ -837,6 +837,9 @@ void KItemListView::setStatusBarOffset(int offset)
 {
     if (m_statusBarOffset != offset) {
         m_statusBarOffset = offset;
+        if (m_layouter) {
+            m_layouter->setStatusBarOffset(offset);
+        }
     }
 }
 

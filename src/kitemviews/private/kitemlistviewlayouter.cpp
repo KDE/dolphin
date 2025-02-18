@@ -341,6 +341,13 @@ void KItemListViewLayouter::markAsDirty()
     m_dirty = true;
 }
 
+void KItemListViewLayouter::setStatusBarOffset(int offset)
+{
+    if (m_statusBarOffset != offset) {
+        m_statusBarOffset = offset;
+    }
+}
+
 #ifndef QT_NO_DEBUG
 bool KItemListViewLayouter::isDirty()
 {
@@ -378,6 +385,8 @@ void KItemListViewLayouter::doLayout()
         itemSize.transpose();
         itemMargin.transpose();
         size.transpose();
+        size.rwidth() -= m_statusBarOffset;
+        ;
 
         if (grouped) {
             // In the horizontal scrolling case all groups are aligned

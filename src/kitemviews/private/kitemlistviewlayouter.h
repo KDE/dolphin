@@ -154,6 +154,8 @@ public:
         return m_columnCount;
     }
 
+    void setStatusBarOffset(int offset);
+
 #ifndef QT_NO_DEBUG
     /**
      * @return True if the layouter has been marked as dirty and hence has
@@ -218,6 +220,8 @@ private:
         int row;
     };
     QVector<ItemInfo> m_itemInfos;
+
+    int m_statusBarOffset;
 
     friend class KItemListControllerTest;
 };
