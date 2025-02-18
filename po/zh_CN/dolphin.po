@@ -1392,7 +1392,7 @@ msgstr ""
 "para><para>工具栏可进行深度定制。您在<interface>菜单</interface>或者"
 "<interface>菜单栏</interface>看到的所有功能均可放置到工具栏上。右键点击工具"
 "栏，选择<interface>配置工具栏...</interface>或者在<interface>菜单</interface>"
-"中找到该操作。</para><para>工具栏的位置和按钮的显示风格也可以在右键菜单中更"
+"中找到该操作。</para><para>工具栏的位置和按钮的显示样式也可以在右键菜单中更"
 "改。右键点击某个按钮可以选择显示或隐藏其文本。</para>"
 
 #: dolphinmainwindow.cpp:2781
@@ -3636,7 +3636,7 @@ msgstr "如果选中，则使用短式相对日期；如果不选中，则使用
 #: settings/dolphin_contentdisplaysettings.kcfg:33
 #, kde-format
 msgid "Permissions style format"
-msgstr "权限格式风格"
+msgstr "权限样式格式"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -3779,7 +3779,7 @@ msgid ""
 "This option controls the style of the view. Currently supported values "
 "include icons (0), details (1) and column (2) views."
 msgstr ""
-"此选项用于切换视图的风格。当前支持的值包括图标 (0)、详情 (1) 和紧凑 (2) 视"
+"此选项用于切换视图的样式。当前支持的值包括图标 (0)、详情 (1) 和紧凑 (2) 视"
 "图。"
 
 #. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
@@ -4730,7 +4730,7 @@ msgstr "选择…"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr "统一所有文件夹的显示风格"
+msgstr "所有文件夹使用相同的显示样式"
 
 #. i18n: The information in this sentence contradicts the preceding sentence. That's what the word "still" is communicating.
 #. The previous sentence is "Use common display style for all folders".
@@ -4740,13 +4740,13 @@ msgctxt "@info"
 msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
-msgstr "一些特殊视图，例如搜索、最近文件或者回收站仍将使用自定义的显示风格。"
+msgstr "某些特殊视图，如搜索、最近文件或回收站，仍将使用自定义显示样式。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:42
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr "单独记忆每个文件夹的显示风格"
+msgstr "单独记忆每个文件夹的显示样式"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:44
 #, kde-format
@@ -4755,14 +4755,14 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
-"Dolphin 会将文件系统元数据添加到您更改视图属性的文件夹。如果无法添加，则创建"
-"一个隐藏的 .directory 文件。"
+"Dolphin 会将文件系统元数据添加到您更改过视图属性的文件夹中。如果无法添加，则"
+"会创建一个隐藏的 .directory 文件作为替代方案。"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
-msgstr "显示风格："
+msgstr "显示样式："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:61
 #, kde-format
@@ -5060,7 +5060,7 @@ msgstr[0] "大小：%1 像素"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "视图显示风格"
+msgstr "视图显示样式"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format
@@ -5882,7 +5882,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "调整视图显示风格…"
+msgstr "调整视图显示样式…"
 
 #: views/dolphinviewactionhandler.cpp:339
 #, kde-format

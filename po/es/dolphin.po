@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2007 Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
 # SPDX-FileCopyrightText: 2007, 2008, 2009 Jaime Robles <jaime@kde.org>
 # SPDX-FileCopyrightText: 2007 Jaime Robles <jaime@robles.nu>
-# SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2008, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2013 Cristina Yenyxe González García <the.blue.valkyrie@gmail.com>
 # SPDX-FileCopyrightText: 2011 Javier Vinal <fjvinal@gmail.com>
 # SPDX-FileCopyrightText: 2013, 2014, 2015, 2016, 2017 Rocio Gallego <traducciones@rociogallego.com>
@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-30 02:34+0000\n"
-"PO-Revision-Date: 2024-10-29 17:04+0100\n"
+"PO-Revision-Date: 2025-02-17 23:03+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -475,7 +475,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr "Cortar..."
+msgstr "Cortar…"
 
 #: dolphinmainwindow.cpp:1763
 #, kde-kuit-format
@@ -495,7 +495,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Copiar..."
+msgstr "Copiar…"
 
 #: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
@@ -539,7 +539,7 @@ msgstr "Copiar a otra vista"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "Copiar a otra vista..."
+msgstr "Copiar a otra vista…"
 
 #: dolphinmainwindow.cpp:1793
 #, kde-kuit-format
@@ -567,7 +567,7 @@ msgstr "Mover a otra vista"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "Mover a otra vista..."
+msgstr "Mover a otra vista…"
 
 #: dolphinmainwindow.cpp:1805
 #, kde-kuit-format
@@ -589,7 +589,7 @@ msgstr "Mover a otra vista"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtrar..."
+msgstr "Filtrar…"
 
 #: dolphinmainwindow.cpp:1815
 #, kde-format
@@ -626,7 +626,7 @@ msgstr "Filtrar"
 #: dolphinmainwindow.cpp:1838 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
-msgstr "Buscar..."
+msgstr "Buscar…"
 
 #: dolphinmainwindow.cpp:1839
 #, kde-format
@@ -1482,7 +1482,7 @@ msgstr ""
 "interface> o en la <interface>barra de menú</interface> se pueden situar en "
 "la barra de herramientas. Solo tiene que pulsar sobre ella con el botón "
 "derecho del ratón y seleccionar <interface>Configurar las barras de "
-"herramientas...</interface> o encontrar esa acción en el <interface>menú</"
+"herramientas…</interface> o encontrar esa acción en el <interface>menú</"
 "interface>.</para><para>La posición de la barra y el estilo de sus botones "
 "también se pueden cambiar usando el menú que aparece al pulsar sobre ella "
 "con el botón derecho del ratón. Haga clic derecho sobre un botón si desea "
@@ -1754,19 +1754,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "&Editar tipo de archivo..."
+msgstr "&Editar tipo de archivo…"
 
 #: dolphinpart.cpp:152
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Seleccionar elementos que cumplan..."
+msgstr "Seleccionar elementos que cumplan…"
 
 #: dolphinpart.cpp:157
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Deseleccionar elementos que cumplan..."
+msgstr "Deseleccionar elementos que cumplan…"
 
 #: dolphinpart.cpp:163
 #, kde-format
@@ -1802,7 +1802,7 @@ msgstr "Inicio automático"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Buscar archivo..."
+msgstr "Buscar archivo…"
 
 #: dolphinpart.cpp:195
 #, kde-format
@@ -2010,20 +2010,19 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
-"La ejecución de Dolphin como usuario root puede ser peligrosa. Por favor, "
-"tenga cuidado."
+"La ejecución de Dolphin como usuario root puede ser peligrosa. Tenga cuidado."
 
 #: dolphinviewcontainer.cpp:166
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Cargando carpeta..."
+msgstr "Cargando carpeta…"
 
 #: dolphinviewcontainer.cpp:169
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
-msgstr "Ordenando..."
+msgstr "Ordenando…"
 
 #: dolphinviewcontainer.cpp:563
 #, kde-format
@@ -2039,7 +2038,7 @@ msgstr "Buscar %1"
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Buscando..."
+msgstr "Buscando…"
 
 #: dolphinviewcontainer.cpp:667
 #, kde-format
@@ -2097,7 +2096,7 @@ msgstr "Mantener los filtros cuando se cambia de carpeta"
 #: filterbar/filterbar.cpp:36
 #, kde-format
 msgid "Filter…"
-msgstr "Filtrar..."
+msgstr "Filtrar…"
 
 #: filterbar/filterbar.cpp:44
 #, kde-format
@@ -2109,7 +2108,7 @@ msgstr "Ocultar la barra de filtros"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
-msgstr "Mover a una nueva carpeta..."
+msgstr "Mover a una nueva carpeta…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -3030,7 +3029,7 @@ msgstr "Copiar"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Cambiar nombre..."
+msgstr "Cambiar nombre…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -3114,7 +3113,7 @@ msgstr "Mostrar elemento al pasar por encima"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Configurar..."
+msgstr "Configurar…"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3157,7 +3156,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Configurar la papelera..."
+msgstr "Configurar la papelera…"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format
@@ -3165,8 +3164,8 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
-"No se puede mostrar el terminal porque Konsole no está instalado. Por favor, "
-"instálelo y vuelva a abrir el panel."
+"No se puede mostrar el terminal porque Konsole no está instalado. Instálelo "
+"y vuelva a abrir el panel."
 
 #: panels/terminal/terminalpanel.cpp:192
 #, kde-format
@@ -3681,13 +3680,13 @@ msgstr "Seleccione qué servicios se mostrarán en el menú de contexto:"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Buscar..."
+msgstr "Buscar…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Descargar nuevos servicios..."
+msgstr "Descargar nuevos servicios…"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -4918,7 +4917,7 @@ msgstr "Tipo de letra personalizado"
 #, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Escoger..."
+msgstr "Escoger…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:34
 #, kde-format
@@ -5079,7 +5078,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
-msgstr "Orden..."
+msgstr "Orden…"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
@@ -5514,7 +5513,7 @@ msgstr "<application>Filelight</application> se ha instalado correctamente."
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr "Instalando Filelight..."
+msgstr "Instalando Filelight…"
 
 #: statusbar/statusbarspaceinfo.cpp:234
 #, kde-format
@@ -5559,7 +5558,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr "Instalar Filelight..."
+msgstr "Instalar Filelight…"
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
@@ -5762,7 +5761,7 @@ msgstr "La ubicación «%1» no es válida."
 #: views/dolphinview.cpp:2331
 #, kde-format
 msgid "Loading…"
-msgstr "Cargando..."
+msgstr "Cargando…"
 
 #: views/dolphinview.cpp:2356
 #, kde-format
@@ -5833,7 +5832,7 @@ msgstr "La carpeta está vacía"
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Crear carpeta..."
+msgstr "Crear carpeta…"
 
 #: views/dolphinviewactionhandler.cpp:91
 #, kde-kuit-format
@@ -5918,25 +5917,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Mover a la papelera..."
+msgstr "Mover a la papelera…"
 
 #: views/dolphinviewactionhandler.cpp:162
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Borrar..."
+msgstr "Borrar…"
 
 #: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Duplicar aquí..."
+msgstr "Duplicar aquí…"
 
 #: views/dolphinviewactionhandler.cpp:164
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Copiar ubicación..."
+msgstr "Copiar ubicación…"
 
 #: views/dolphinviewactionhandler.cpp:193
 #, kde-kuit-format
@@ -6122,7 +6121,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Ajustar el estilo de visualización..."
+msgstr "Ajustar el estilo de visualización…"
 
 #: views/dolphinviewactionhandler.cpp:339
 #, kde-format
@@ -6261,7 +6260,7 @@ msgstr[1] "Acciones para %1 elementos seleccionados"
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Actualizando información de versión..."
+msgstr "Actualizando información de versión…"
 
 #~ msgctxt "@info"
 #~ msgid ""
