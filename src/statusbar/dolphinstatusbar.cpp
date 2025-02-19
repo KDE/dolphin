@@ -327,7 +327,6 @@ void DolphinStatusBar::updateMode()
         setVisible(false, WithoutAnimation);
         break;
     }
-    setAttribute(Qt::WA_TransparentForMouseEvents, GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small);
     Q_EMIT modeUpdated();
 }
 
