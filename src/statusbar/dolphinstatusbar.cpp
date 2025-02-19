@@ -205,6 +205,7 @@ void DolphinStatusBar::showProgress(const QString &currentlyRunningTaskTitle, in
     }
 
     m_progressTextLabel->setText(currentlyRunningTaskTitle);
+    updateWidthToContent();
 }
 
 QString DolphinStatusBar::progressText() const
@@ -282,14 +283,19 @@ void DolphinStatusBar::updateWidthToContent()
         QStyleOptionSlider opt;
         opt.initFrom(this);
         opt.orientation = Qt::Vertical;
-        const QSize textSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
-        setMinimumHeight(textSize.height() * 2);
+        const QSize labelSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
+
+        setMinimumHeight(labelSize.height() * 2);
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
         const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
-        // Add extra padding to textSize width to avoid truncating on shorter texts
-        // this is due to KSqueezedLabel
-        setFixedWidth(qMin(textSize.width() + 15, maximumViewWidth));
-        setContentsMargins(clippingAmount(), 0, clippingAmount() / 2, 0);
+        if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
+            // Use maximum width when interactable elements are shown, to keep them
+            // from "jumping around" when user tries to interact with them.
+            setFixedWidth(maximumViewWidth);
+        } else {
+            const int contentWidth = labelSize.width() + 15;
+            setFixedWidth(qMin(contentWidth, maximumViewWidth));
+        }
         Q_EMIT widthUpdated();
     } else {
         setContentsMargins(0, 0, 0, 0);
@@ -375,6 +381,7 @@ void DolphinStatusBar::updateProgressInfo()
         m_progressBar->hide();
         setExtensionsVisible(true);
     }
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::updateLabelText()
@@ -404,8 +411,14 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
 
 void DolphinStatusBar::updateContentsMargins()
 {
-    // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
-    m_topLayout->setContentsMargins(6, 0, 2, 0);
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
+        // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
+        m_topLayout->setContentsMargins(6, 0, 2, 0);
+    } else {
+        // Add extra padding to textSize width to avoid truncating on shorter texts
+        // this is due to KSqueezedLabel
+        setContentsMargins(clippingAmount(), 0, clippingAmount() / 2, 0);
+    }
 }
 
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
