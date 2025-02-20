@@ -154,6 +154,10 @@ public:
         return m_columnCount;
     }
 
+    /**
+     * Set the offset for moving the view so that small statusbar
+     * wont cover any items by accident.
+     */
     void setStatusBarOffset(int offset);
 
 #ifndef QT_NO_DEBUG

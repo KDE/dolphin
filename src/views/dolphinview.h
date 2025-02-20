@@ -362,6 +362,11 @@ public:
      */
     int horizontalScrollBarHeight() const;
 
+    /**
+     * Set the offset for any view items that small statusbar would otherwise
+     * cover. For example, in compact view this is used to make sure no
+     * item is covered by statusbar.
+     */
     void setStatusBarOffset(int offset);
 
 public Q_SLOTS:

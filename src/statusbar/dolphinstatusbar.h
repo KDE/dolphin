@@ -39,8 +39,10 @@ public:
 
     QString text() const;
 
-    enum class CancelLoading { Allowed, Disallowed };
-
+    enum class CancelLoading {
+        Allowed,
+        Disallowed
+    };
     /**
      * Shows progress for a task on the status bar.
      *
@@ -97,6 +99,9 @@ public:
      */
     void updateWidthToContent();
 
+    /**
+     * @return The amount of clipping done to the small statusbar side and bottom
+     */
     int clippingAmount();
 
 public Q_SLOTS:

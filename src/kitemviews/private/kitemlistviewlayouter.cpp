@@ -386,7 +386,6 @@ void KItemListViewLayouter::doLayout()
         itemMargin.transpose();
         size.transpose();
         size.rwidth() -= m_statusBarOffset;
-        ;
 
         if (grouped) {
             // In the horizontal scrolling case all groups are aligned
