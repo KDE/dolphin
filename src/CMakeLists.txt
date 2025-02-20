@@ -213,6 +213,7 @@ target_link_libraries(
     Qt6::Concurrent
     Qt6::DBus
     Qt6::Gui
+    Qt6::Quick
     KF6::I18n
     KF6::GuiAddons
     KF6::IconThemes

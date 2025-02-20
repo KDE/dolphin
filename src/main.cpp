@@ -36,6 +36,7 @@
 #include <QCommandLineParser>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
+#include <QQuickWindow>
 #include <QSessionManager>
 
 #if HAVE_X11
@@ -65,6 +66,13 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 #endif
+
+    /**
+     * Set QtQuick rendering to software to avoid random Dolphin restarts,
+     * when opening plugins with QtQuick items in them.
+     * BUG:494627
+     */
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
 
     /**
      * trigger initialisation of proper icon theme
