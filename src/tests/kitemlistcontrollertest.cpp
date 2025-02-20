@@ -277,10 +277,10 @@ void KItemListControllerTest::testKeyboardNavigation_data()
         // Compact layout.
         Qt::Orientation scrollOrientation;
         QList<int> columnCountList;
-        Qt::Key nextItemKey;
-        Qt::Key previousItemKey;
-        Qt::Key nextRowKey;
-        Qt::Key previousRowKey;
+        Qt::Key nextItemKey = Qt::Key_Right;
+        Qt::Key previousItemKey = Qt::Key_Right;
+        Qt::Key nextRowKey = Qt::Key_Right;
+        Qt::Key previousRowKey = Qt::Key_Right;
 
         switch (layout) {
         case KFileItemListView::IconsLayout:
