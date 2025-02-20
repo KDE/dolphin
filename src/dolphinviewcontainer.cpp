@@ -1115,8 +1115,8 @@ QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
         filterBarHeightOffset = m_filterBar->height();
     }
 
-    // Adjust to clipping
-    int clipAdjustment = m_statusBar->clippingAmount() * 2;
+    // Adjust to clipping, we need to add 1 due to how QRects coordinates work
+    int clipAdjustment = m_statusBar->clippingAmount() + 1;
     const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset + clipAdjustment;
     QRect statusBarRect = rect().adjusted(-clipAdjustment, yPos, 0, 0);
     return statusBarRect;

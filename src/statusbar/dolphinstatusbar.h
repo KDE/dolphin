@@ -102,7 +102,7 @@ public:
     /**
      * @return The amount of clipping done to the small statusbar side and bottom
      */
-    int clippingAmount();
+    int clippingAmount() const;
 
 public Q_SLOTS:
     void setText(const QString &text);

@@ -284,8 +284,8 @@ void DolphinStatusBar::updateWidthToContent()
         opt.initFrom(this);
         opt.orientation = Qt::Vertical;
         const QSize labelSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
-
-        setMinimumHeight(labelSize.height() * 2);
+        // Make sure minimum height takes clipping into account
+        setMinimumHeight(m_label->height() + clippingAmount() * 2);
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
         const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
         if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
@@ -298,18 +298,18 @@ void DolphinStatusBar::updateWidthToContent()
         }
         Q_EMIT widthUpdated();
     } else {
-        setContentsMargins(0, 0, 0, 0);
         setMinimumHeight(0);
         setFixedWidth(QWIDGETSIZE_MAX);
         Q_EMIT widthUpdated();
     }
 }
 
-int DolphinStatusBar::clippingAmount()
+int DolphinStatusBar::clippingAmount() const
 {
     QStyleOption opt;
     opt.initFrom(this);
-    const int val = style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this) * 2;
+    // Add 2 for extra padding due to how QRect coordinates work
+    const int val = 2 + style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this) * 2;
     return val;
 }
 
@@ -414,11 +414,12 @@ void DolphinStatusBar::updateContentsMargins()
     if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
         // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
         m_topLayout->setContentsMargins(6, 0, 2, 0);
+
     } else {
-        // Add extra padding to textSize width to avoid truncating on shorter texts
-        // this is due to KSqueezedLabel
-        setContentsMargins(clippingAmount(), 0, clippingAmount() / 2, 0);
+        // Add extra margins to toplayout to avoid clipping too early
+        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), 0);
     }
+    setContentsMargins(0, 0, 0, 0);
 }
 
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
@@ -432,13 +433,13 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
         if (m_label && !m_label->fullText().isEmpty()) {
             opt.state = QStyle::State_Sunken;
             QPainterPath path;
+            // We have to add 1 pixel due to how QRect coords work
             // Clip the left and bottom border off
             QRect clipRect;
-            const int clip = clippingAmount() + 1; // We have to add 1 pixel due to how QRect coords work
             if (layoutDirection() == Qt::RightToLeft) {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clip, -clip);
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
             } else {
-                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clip, 0, 0, -clip);
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
             }
             path.addRect(clipRect);
             p.setClipPath(path);
