@@ -72,7 +72,6 @@ private:
     bool shouldClearSearchIfInputTimeReached();
 
     QString m_searchedString;
-    bool m_isSearchRestarted;
     /** Measures the time since the last key press. */
     QElapsedTimer m_keyboardInputTime;
     /** Time in milliseconds in which a key press is considered as a continuation of the previous search input. */

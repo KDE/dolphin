@@ -45,7 +45,7 @@ void KItemListKeyboardSearchManagerTest::testBasicKeyboardSearch()
 
     m_keyboardSearchManager.addKeys("f");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << false);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << true);
 
     m_keyboardSearchManager.addKeys("i");
     QCOMPARE(spy.count(), 1);
@@ -71,7 +71,7 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
 
     m_keyboardSearchManager.addKeys("f");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << false);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << true);
 
     m_keyboardSearchManager.addKeys("i");
     QCOMPARE(spy.count(), 1);
@@ -94,7 +94,7 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
 
     m_keyboardSearchManager.addKeys("a");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << false);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << true);
 }
 
 void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
@@ -110,7 +110,7 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
 
     m_keyboardSearchManager.addKeys("p");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "p" << false);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "p" << true);
 
     m_keyboardSearchManager.addKeys("p");
     QCOMPARE(spy.count(), 1);
@@ -139,7 +139,7 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
     // Simulate that the user enters "a_b".
     m_keyboardSearchManager.addKeys("a");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << false);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << true);
 
     m_keyboardSearchManager.addKeys("");
     QCOMPARE(spy.count(), 0);

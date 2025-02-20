@@ -521,9 +521,9 @@ void KItemListController::slotChangeCurrentItem(const QString &text, bool search
         return;
     }
     int index;
-    if (searchFromNextItem) {
-        const int currentIndex = m_selectionManager->currentItem();
-        index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
+    // In selection mode, always use the current (underlined) item, or the next item, for search start position.
+    if (m_selectionBehavior == NoSelection || m_selectionMode || m_selectionManager->hasSelection()) {
+        index = m_model->indexForKeyboardSearch(text, searchFromNextItem ? m_selectionManager->currentItem() + 1 : m_selectionManager->currentItem());
     } else {
         index = m_model->indexForKeyboardSearch(text, 0);
     }

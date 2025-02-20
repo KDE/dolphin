@@ -10,7 +10,6 @@
 
 KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject *parent)
     : QObject(parent)
-    , m_isSearchRestarted(false)
     , m_timeout(1000)
 {
     m_keyboardInputTime.invalidate();
@@ -55,13 +54,9 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
         const bool sameKey = m_searchedString.length() > 1 && m_searchedString.count(firstKey) == m_searchedString.length();
 
         // Searching for a matching item should start from the next item if either
-        // 1. a new search is started and a search has not been restarted or
+        // 1. a new search is started, or
         // 2. a 'repeated key' search is done.
-        const bool searchFromNextItem = (!m_isSearchRestarted && newSearch) || sameKey;
-
-        // to remember not to searchFromNextItem if selection was deselected
-        // losing keyboard search context basically
-        m_isSearchRestarted = false;
+        const bool searchFromNextItem = newSearch || sameKey;
 
         Q_EMIT changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
     }
@@ -80,7 +75,6 @@ qint64 KItemListKeyboardSearchManager::timeout() const
 
 void KItemListKeyboardSearchManager::cancelSearch()
 {
-    m_isSearchRestarted = true;
     m_searchedString.clear();
 }
 
