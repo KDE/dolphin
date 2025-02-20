@@ -557,8 +557,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
 
     const QStringList overlays = data["iconOverlays"].toStringList();
     if (!pixmap.isNull() && !overlays.isEmpty()) {
-        const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
-        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(cacheSize, m_devicePixelRatio);
+        scaledPixmap = KIconUtils::addOverlays(scaledPixmap, overlays).pixmap(scaledPixmap.size(), m_devicePixelRatio);
     }
 
     data.insert("iconPixmap", scaledPixmap);
