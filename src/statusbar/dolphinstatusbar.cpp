@@ -285,7 +285,7 @@ void DolphinStatusBar::updateWidthToContent()
         opt.orientation = Qt::Vertical;
         const QSize labelSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
         // Make sure minimum height takes clipping into account
-        setMinimumHeight(m_label->height() + clippingAmount() * 2);
+        setMinimumHeight(m_label->height() + clippingAmount());
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
         const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
         if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
@@ -417,7 +417,7 @@ void DolphinStatusBar::updateContentsMargins()
 
     } else {
         // Add extra margins to toplayout to avoid clipping too early
-        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), 0);
+        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), clippingAmount());
     }
     setContentsMargins(0, 0, 0, 0);
 }
