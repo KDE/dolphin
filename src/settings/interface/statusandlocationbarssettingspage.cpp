@@ -59,7 +59,7 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
         new QSpacerItem(style()->pixelMetric(QStyle::PM_IndicatorWidth, &opt, this), Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
     zoomSliderLayout->addWidget(m_showZoomSlider);
 
-    topLayout->addRow(QString(), zoomSliderLayout->layout());
+    topLayout->addRow(QString(), zoomSliderLayout);
 
     topLayout->addRow(QString(), m_disableStatusBar);
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
