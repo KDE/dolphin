@@ -1083,7 +1083,8 @@ void DolphinViewContainer::updateStatusBarGeometry()
         }
         // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout
         m_statusBar->setGeometry(statusBarRect);
-        m_view->setStatusBarOffset(statusBarRect.height());
+        // Add 1 due to how qrect coordinates work
+        m_view->setStatusBarOffset(m_statusBar->geometry().height() - m_statusBar->clippingAmount() + 1);
     } else {
         m_view->setStatusBarOffset(0);
     }
