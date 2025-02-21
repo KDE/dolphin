@@ -41,3 +41,8 @@ RuntimeDependencies:
  - 'on': ['Linux']
    'require':
     'sdk/selenium-webdriver-at-spi': '@latest-kf6'
+
+Options:
+ ctest-arguments: '--repeat until-pass:3'
+ use-ccache: True
+ require-passing-tests-on: ['Linux/Qt6', 'FreeBSD/Qt6']
