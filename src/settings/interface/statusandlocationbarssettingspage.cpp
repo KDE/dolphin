@@ -52,7 +52,7 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     topLayout->addRow(QString(), m_showStatusBarFullWidth);
 
     // Indent the m_showZoomSlider checkbox under m_showStatusBarFullWidth
-    QHBoxLayout *zoomSliderLayout = new QHBoxLayout(this);
+    QHBoxLayout *zoomSliderLayout = new QHBoxLayout;
     QStyleOption opt;
     opt.initFrom(this);
     zoomSliderLayout->addItem(
