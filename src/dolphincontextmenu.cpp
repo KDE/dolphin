@@ -318,7 +318,9 @@ void DolphinContextMenu::addViewportContextMenu()
     m_fileItemActions->setItemListProperties(baseUrlProperties);
 
     // Set up and insert 'Create New' menu
-    KNewFileMenu *newFileMenu = m_mainWindow->newFileMenu();
+    QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
+    QAction *newFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
+    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, this);
     newFileMenu->checkUpToDate();
     newFileMenu->setWorkingDirectory(m_baseUrl);
     addMenu(newFileMenu->menu());

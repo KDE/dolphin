@@ -786,9 +786,4 @@ inline DolphinViewContainer *DolphinMainWindow::activeViewContainer() const
     return m_activeViewContainer;
 }
 
-inline KNewFileMenu *DolphinMainWindow::newFileMenu() const
-{
-    return m_newFileMenu;
-}
-
 #endif // DOLPHIN_MAINWINDOW_H

@@ -1458,7 +1458,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 {
     // trash:/ is writable but we don't want to create new items in it.
     // TODO: remove the trash check once https://phabricator.kde.org/T8234 is implemented
-    newFileMenu()->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
+    m_newFileMenu->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
     // When the menu is disabled, actions in it are disabled later in the event loop, and we need to set the disabled reason after that.
     QTimer::singleShot(0, this, [this]() {
         m_disabledActionNotifier->setDisabledReason(actionCollection()->action(QStringLiteral("create_file")),
