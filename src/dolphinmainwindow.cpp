@@ -2704,12 +2704,16 @@ void DolphinMainWindow::updateSplitActions()
             m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             m_splitViewAction->setToolTip(i18nc("@info", "Close left view"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
+            m_splitViewMenuAction->setText(i18nc("@action:inmenu Close left view", "Close Left View"));
+
             popoutSplitAction->setText(i18nc("@action:intoolbar Move left view to a new window", "Pop out Left View"));
             popoutSplitAction->setToolTip(i18nc("@info", "Move left view to a new window"));
         } else {
             m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             m_splitViewAction->setToolTip(i18nc("@info", "Close right view"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+            m_splitViewMenuAction->setText(i18nc("@action:inmenu Close left view", "Close Right View"));
+
             popoutSplitAction->setText(i18nc("@action:intoolbar Move right view to a new window", "Pop out Right View"));
             popoutSplitAction->setToolTip(i18nc("@info", "Move right view to a new window"));
         }
@@ -2721,6 +2725,7 @@ void DolphinMainWindow::updateSplitActions()
         }
     } else {
         m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
+        m_splitViewMenuAction->setText(m_splitViewAction->text());
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
         m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
         popoutSplitAction->setText(i18nc("@action:intoolbar Move view in focus to a new window", "Pop out"));
@@ -2734,7 +2739,6 @@ void DolphinMainWindow::updateSplitActions()
     }
 
     // Update state from toolbar action
-    m_splitViewMenuAction->setText(m_splitViewAction->text());
     m_splitViewMenuAction->setToolTip(m_splitViewAction->toolTip());
     m_splitViewMenuAction->setIcon(m_splitViewAction->icon());
 }
