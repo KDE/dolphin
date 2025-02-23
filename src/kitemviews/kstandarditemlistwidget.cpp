@@ -7,7 +7,6 @@
 #include "kstandarditemlistwidget.h"
 
 #include "kfileitemlistview.h"
-#include "kfileitemmodel.h"
 #include "private/kfileitemclipboard.h"
 #include "private/kitemlistroleeditor.h"
 #include "private/kitemviewsutils.h"
@@ -18,6 +17,7 @@
 #include <KIconUtils>
 #include <KRatingPainter>
 #include <KStringHandler>
+#include <klocalizedstring.h>
 
 #include <QApplication>
 #include <QGraphicsScene>
@@ -685,7 +685,6 @@ void KStandardItemListWidget::invalidateIconCache()
 {
     m_dirtyContent = true;
     m_dirtyContentRoles.insert("iconPixmap");
-    m_dirtyContentRoles.insert("iconOverlays");
 }
 
 void KStandardItemListWidget::refreshCache()
@@ -1542,23 +1541,74 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
         QColor((c1.red() * p1 + c2.red() * p2) / 100, (c1.green() * p1 + c2.green() * p2) / 100, (c1.blue() * p1 + c2.blue() * p2) / 100);
 }
 
-QPixmap KStandardItemListWidget::addOverlays(const QPixmap &pixmap,
-                                             const QHash<Qt::Corner, QString> &overlays,
-                                             const QSize &size,
-                                             qreal devicePixelRatioF,
-                                             QIcon::Mode mode) const
+QPixmap
+KStandardItemListWidget::addOverlays(const QPixmap &pixmap, const QHash<Qt::Corner, QString> &overlays, const QSize &size, qreal dpr, QIcon::Mode mode) const
 {
+    // similar to KIconUtils::addOverlays, keep in sync preferrably
     if (overlays.isEmpty()) {
         return pixmap;
     }
 
-    QHash<Qt::Corner, QIcon> overlayIcons;
+    int width = size.width();
+    int height = size.height();
+    const int iconSize = qMin(width, height);
 
-    for (const auto &[corner, overlay] : overlays.asKeyValueRange()) {
-        overlayIcons.insert(corner, QIcon::fromTheme(overlay));
+    // Determine the overlay icon
+    int overlaySize;
+    if (iconSize < 32) {
+        overlaySize = 8;
+    } else if (iconSize <= 48) {
+        overlaySize = 16;
+    } else if (iconSize <= 96) {
+        overlaySize = 22;
+    } else if (iconSize < 256) {
+        overlaySize = 32;
+    } else {
+        overlaySize = 64;
     }
 
-    return KIconUtils::addOverlays(pixmap, overlayIcons).pixmap(size, devicePixelRatioF, mode);
+    auto phyiscalSize = QSize(std::clamp(pixmap.width(), qFloor(2 * overlaySize * dpr), qFloor(size.width() * dpr)),
+                              std::clamp(pixmap.height(), qFloor(2 * overlaySize * dpr), qFloor(size.height() * dpr)));
+
+    QPixmap output(phyiscalSize);
+    output.setDevicePixelRatio(dpr);
+    output.fill(Qt::transparent);
+
+    QPainter painter(&output);
+    painter.drawPixmap(qFloor(phyiscalSize.width() / dpr / 2) - qFloor(pixmap.width() / pixmap.devicePixelRatio() / 2),
+                       // align the icon to the bottom to match the behavior elsewhere
+                       qFloor(phyiscalSize.height() / dpr) - qFloor(pixmap.height() / pixmap.devicePixelRatio()),
+                       pixmap);
+
+    width = qCeil(phyiscalSize.width() / dpr);
+    height = qCeil(phyiscalSize.height() / dpr);
+
+    // Iterate over stored overlays
+    for (const auto &[corner, overlay] : overlays.asKeyValueRange()) {
+        const QPixmap overlayPixmap = QIcon::fromTheme(overlay).pixmap(QSize{overlaySize, overlaySize}, dpr, mode);
+        if (overlayPixmap.isNull()) {
+            continue;
+        }
+
+        QPoint startPoint;
+        switch (corner) {
+        case Qt::BottomLeftCorner:
+            startPoint = QPoint{0, height - overlaySize};
+            break;
+        case Qt::BottomRightCorner:
+            startPoint = QPoint{width - overlaySize, height - overlaySize};
+            break;
+        case Qt::TopRightCorner:
+            startPoint = QPoint{width - overlaySize, 0};
+            break;
+        case Qt::TopLeftCorner:
+            startPoint = QPoint{};
+            break;
+        }
+        painter.drawPixmap(startPoint, overlayPixmap);
+    }
+
+    return output;
 }
 
 void KStandardItemListWidget::drawPixmap(QPainter *painter, const QPixmap &pixmap)
