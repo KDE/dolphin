@@ -1092,15 +1092,19 @@ void DolphinViewContainer::updateStatusBarGeometry()
 
 bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 {
-    switch (event->type()) {
-    case QEvent::Resize: {
-        if (object == this && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small && object == m_view) {
+        switch (event->type()) {
+        case QEvent::Resize: {
             m_statusBar->updateWidthToContent();
+            break;
         }
-        break;
-    }
-    default:
-        break;
+        case QEvent::LayoutRequest: {
+            m_statusBar->updateWidthToContent();
+            break;
+        }
+        default:
+            break;
+        }
     }
     return false;
 }

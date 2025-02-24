@@ -319,7 +319,7 @@ void DolphinStatusBar::updateMode()
         m_spaceInfo->setShown(false);
         m_zoomSlider->setVisible(false);
         m_zoomLabel->setVisible(false);
-        setVisible(true, WithoutAnimation);
+        setVisible(true, WithAnimation);
         break;
     case GeneralSettings::EnumShowStatusBar::FullWidth:
         setEnabled(true);
