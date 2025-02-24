@@ -90,17 +90,17 @@ public:
 
     /**
      * Changes the statusbar between disabled, small, and full width
-     * depending on settings enabled
+     * depending on settings enabled.
      */
     void updateMode();
 
     /**
-     * Updates the statusbar width to fit all content
+     * Updates the statusbar width to fit all content.
      */
     void updateWidthToContent();
 
     /**
-     * @return The amount of clipping done to the small statusbar side and bottom
+     * @return The amount of clipping done to the small statusbar side and bottom.
      */
     int clippingAmount() const;
 
@@ -123,17 +123,17 @@ Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType messageType);
 
     /**
-     * Emitted when statusbar mode is changed
+     * Emitted when statusbar mode is changed.
      */
     void modeUpdated();
 
     /**
-     * Emitted when statusbar width is updated to fit content
+     * Emitted when statusbar width is updated to fit content.
      */
     void widthUpdated();
 
     /**
-     * Emitted when statusbar url has changed
+     * Emitted when statusbar url has changed.
      */
     void urlChanged();
 

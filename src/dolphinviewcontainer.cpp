@@ -1079,11 +1079,11 @@ void DolphinViewContainer::updateStatusBarGeometry()
         QRect statusBarRect(preferredSmallStatusBarGeometry());
         if (view()->layoutDirection() == Qt::RightToLeft) {
             const int splitterWidth = m_statusBar->clippingAmount();
-            statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount
+            statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount.
         }
-        // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout
+        // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout.
         m_statusBar->setGeometry(statusBarRect);
-        // Add 1 due to how qrect coordinates work
+        // Add 1 due to how qrect coordinates work.
         m_view->setStatusBarOffset(m_statusBar->geometry().height() - m_statusBar->clippingAmount() + 1);
     } else {
         m_view->setStatusBarOffset(0);
@@ -1107,7 +1107,7 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 
 QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
-    // Add offset depending if horizontal scrollbar or filterbar is visible
+    // Add offset depending if horizontal scrollbar or filterbar is visible.
     int filterBarHeightOffset = 0;
     int scrollbarHeightOffset = m_view->horizontalScrollBarHeight();
 
@@ -1115,7 +1115,7 @@ QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
         filterBarHeightOffset = m_filterBar->height();
     }
 
-    // Adjust to clipping, we need to add 1 due to how QRects coordinates work
+    // Adjust to clipping, we need to add 1 due to how QRects coordinates work.
     int clipAdjustment = m_statusBar->clippingAmount() + 1;
     const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset + clipAdjustment;
     QRect statusBarRect = rect().adjusted(-clipAdjustment, yPos, 0, 0);

@@ -48,10 +48,10 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     m_statusBarButtonGroup->addButton(m_showStatusBarFullWidth, GeneralSettings::EnumShowStatusBar::FullWidth);
     m_statusBarButtonGroup->addButton(m_disableStatusBar, GeneralSettings::EnumShowStatusBar::Disabled);
 
-    topLayout->addRow(i18nc("@title:group", "Status Bar: "), m_showStatusBarSmall);
+    topLayout->addRow(i18nc("@title:group", "Status Bar:"), m_showStatusBarSmall);
     topLayout->addRow(QString(), m_showStatusBarFullWidth);
 
-    // Indent the m_showZoomSlider checkbox under m_showStatusBarFullWidth
+    // Indent the m_showZoomSlider checkbox under m_showStatusBarFullWidth.
     QHBoxLayout *zoomSliderLayout = new QHBoxLayout;
     QStyleOption opt;
     opt.initFrom(this);

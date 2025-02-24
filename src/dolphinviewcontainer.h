@@ -434,7 +434,7 @@ private:
     QString getNearestExistingAncestorOfPath(const QString &path) const;
 
     /**
-     * Update the geometry of statusbar depending on what mode it is using
+     * Update the geometry of statusbar depending on what mode it is using.
      */
     void updateStatusBarGeometry();
 
