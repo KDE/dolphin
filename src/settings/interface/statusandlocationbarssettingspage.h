@@ -16,6 +16,7 @@ class QCheckBox;
 class QLineEdit;
 class QLabel;
 class QRadioButton;
+class QButtonGroup;
 
 /**
  * @brief Tab page for the 'Behavior' settings of the Dolphin settings dialog.
@@ -47,9 +48,11 @@ private:
     QCheckBox *m_editableUrl;
     QCheckBox *m_showFullPath;
 
-    QCheckBox *m_showStatusBar;
+    QButtonGroup *m_statusBarButtonGroup;
+    QRadioButton *m_showStatusBarSmall;
+    QRadioButton *m_showStatusBarFullWidth;
     QCheckBox *m_showZoomSlider;
-    QCheckBox *m_showSpaceInfo;
+    QRadioButton *m_disableStatusBar;
 };
 
 #endif

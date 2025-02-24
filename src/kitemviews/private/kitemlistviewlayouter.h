@@ -154,6 +154,12 @@ public:
         return m_columnCount;
     }
 
+    /**
+     * Set the bottom offset for moving the view so that the small overlayed statusbar
+     * won't cover any items by accident.
+     */
+    void setStatusBarOffset(int offset);
+
 #ifndef QT_NO_DEBUG
     /**
      * @return True if the layouter has been marked as dirty and hence has
@@ -218,6 +224,8 @@ private:
         int row;
     };
     QVector<ItemInfo> m_itemInfos;
+
+    int m_statusBarOffset;
 
     friend class KItemListControllerTest;
 };

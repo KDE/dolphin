@@ -2129,14 +2129,6 @@ void DolphinMainWindow::setupActions()
             &DolphinMainWindow::toggleShowMenuBar,
             Qt::QueuedConnection);
 
-    KToggleAction *showStatusBar = KStandardAction::showStatusbar(nullptr, nullptr, actionCollection());
-    showStatusBar->setChecked(GeneralSettings::showStatusBar());
-    connect(GeneralSettings::self(), &GeneralSettings::showStatusBarChanged, showStatusBar, &KToggleAction::setChecked);
-    connect(showStatusBar, &KToggleAction::triggered, this, [this](bool checked) {
-        GeneralSettings::setShowStatusBar(checked);
-        refreshViews();
-    });
-
     KStandardAction::keyBindings(this, &DolphinMainWindow::slotKeyBindings, actionCollection());
     KStandardAction::preferences(this, &DolphinMainWindow::editSettings, actionCollection());
 

@@ -357,6 +357,18 @@ public:
      */
     bool isFolderWritable() const;
 
+    /**
+     * @returns the height of the scrollbar at the bottom of the view or zero if no such scroll bar is visible.
+     */
+    int horizontalScrollBarHeight() const;
+
+    /**
+     * Set the offset for any view items that small statusbar would otherwise
+     * cover. For example, in compact view this is used to make sure no
+     * item is covered by statusbar.
+     */
+    void setStatusBarOffset(int offset);
+
 public Q_SLOTS:
 
     void reload();

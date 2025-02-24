@@ -39,7 +39,10 @@ public:
 
     QString text() const;
 
-    enum class CancelLoading { Allowed, Disallowed };
+    enum class CancelLoading {
+        Allowed,
+        Disallowed
+    };
     /**
      * Shows progress for a task on the status bar.
      *
@@ -85,6 +88,22 @@ public:
      */
     void updateSpaceInfo();
 
+    /**
+     * Changes the statusbar between disabled, small, and full width
+     * depending on settings enabled.
+     */
+    void updateMode();
+
+    /**
+     * Updates the statusbar width to fit all content.
+     */
+    void updateWidthToContent();
+
+    /**
+     * @return The amount of clipping done to the small statusbar side and bottom.
+     */
+    int clippingAmount() const;
+
 public Q_SLOTS:
     void setText(const QString &text);
     void setUrl(const QUrl &url);
@@ -102,6 +121,21 @@ Q_SIGNALS:
      * Requests for @p message with the given @p messageType to be shown to the user in a non-modal way.
      */
     void showMessage(const QString &message, KMessageWidget::MessageType messageType);
+
+    /**
+     * Emitted when statusbar mode is changed.
+     */
+    void modeUpdated();
+
+    /**
+     * Emitted when statusbar width is updated to fit content.
+     */
+    void widthUpdated();
+
+    /**
+     * Emitted when statusbar url has changed.
+     */
+    void urlChanged();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;

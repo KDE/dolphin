@@ -17,6 +17,7 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "filterbar/filterbar.h"
 #include "global.h"
+#include "kitemviews/kitemlistcontainer.h"
 #include "search/dolphinsearchbox.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -42,6 +43,8 @@
 #include <QGridLayout>
 #include <QGuiApplication>
 #include <QRegularExpression>
+#include <QScrollBar>
+#include <QStyle>
 #include <QTimer>
 #include <QUrl>
 #include <QUrlQuery>
@@ -173,6 +176,9 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(m_statusBar, &DolphinStatusBar::showMessage, this, [this](const QString &message, KMessageWidget::MessageType messageType) {
         showMessage(message, messageType);
     });
+    connect(m_statusBar, &DolphinStatusBar::widthUpdated, this, &DolphinViewContainer::updateStatusBarGeometry);
+    connect(m_statusBar, &DolphinStatusBar::urlChanged, this, &DolphinViewContainer::updateStatusBar);
+    connect(this, &DolphinViewContainer::showFilterBarChanged, this, &DolphinViewContainer::updateStatusBar);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -186,7 +192,24 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
-    m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
+        m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+    }
+    connect(m_statusBar, &DolphinStatusBar::modeUpdated, this, [this]() {
+        const bool statusBarInLayout = m_topLayout->itemAtPosition(positionFor.statusBar, 0);
+        if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
+            if (!statusBarInLayout) {
+                m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
+                m_statusBar->setUrl(m_view->url());
+            }
+        } else {
+            if (statusBarInLayout) {
+                m_topLayout->removeWidget(m_statusBar);
+            }
+        }
+        updateStatusBarGeometry();
+    });
+    m_statusBar->setHidden(false);
 
     setSearchModeEnabled(isSearchUrl(url));
 
@@ -200,6 +223,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(placesModel, &KFilePlacesModel::rowsRemoved, this, &DolphinViewContainer::slotPlacesModelChanged);
 
     connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
+
+    QApplication::instance()->installEventFilter(this);
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -614,6 +639,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
         m_filterBar->setVisible(true, WithAnimation);
         m_filterBar->setFocus();
         m_filterBar->selectAll();
+        Q_EMIT showFilterBarChanged(true);
     } else {
         closeFilterBar();
     }
@@ -638,6 +664,7 @@ void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
     m_view->requestStatusBarText();
+    updateStatusBarGeometry();
 }
 
 void DolphinViewContainer::slotDirectoryLoadingStarted()
@@ -1041,6 +1068,62 @@ QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString &pa
     } while (!dir.exists() && !dir.isRoot());
 
     return dir.exists() ? dir.path() : QString{};
+}
+
+void DolphinViewContainer::updateStatusBarGeometry()
+{
+    if (!m_statusBar) {
+        return;
+    }
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
+        QRect statusBarRect(preferredSmallStatusBarGeometry());
+        if (view()->layoutDirection() == Qt::RightToLeft) {
+            const int splitterWidth = m_statusBar->clippingAmount();
+            statusBarRect.setLeft(rect().width() - m_statusBar->width() + splitterWidth); // Add clipping amount.
+        }
+        // Move statusbar to bottomLeft, or bottomRight with right-to-left-layout.
+        m_statusBar->setGeometry(statusBarRect);
+        // Add 1 due to how qrect coordinates work.
+        m_view->setStatusBarOffset(m_statusBar->geometry().height() - m_statusBar->clippingAmount() + 1);
+    } else {
+        m_view->setStatusBarOffset(0);
+    }
+}
+
+bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
+{
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small && object == m_view) {
+        switch (event->type()) {
+        case QEvent::Resize: {
+            m_statusBar->updateWidthToContent();
+            break;
+        }
+        case QEvent::LayoutRequest: {
+            m_statusBar->updateWidthToContent();
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    return false;
+}
+
+QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
+{
+    // Add offset depending if horizontal scrollbar or filterbar is visible.
+    int filterBarHeightOffset = 0;
+    int scrollbarHeightOffset = m_view->horizontalScrollBarHeight();
+
+    if (m_filterBar->isVisible()) {
+        filterBarHeightOffset = m_filterBar->height();
+    }
+
+    // Adjust to clipping, we need to add 1 due to how QRects coordinates work.
+    int clipAdjustment = m_statusBar->clippingAmount() + 1;
+    const int yPos = rect().bottom() - m_statusBar->minimumHeight() - scrollbarHeightOffset - filterBarHeightOffset + clipAdjustment;
+    QRect statusBarRect = rect().adjusted(-clipAdjustment, yPos, 0, 0);
+    return statusBarRect;
 }
 
 #include "moc_dolphinviewcontainer.cpp"

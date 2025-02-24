@@ -14,16 +14,21 @@
 #include <QCheckBox>
 #include <QFormLayout>
 
+#include <QButtonGroup>
 #include <QRadioButton>
 #include <QSpacerItem>
+#include <QStyle>
+#include <QStyleOption>
 
 StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *parent, FoldersTabsSettingsPage *foldersPage)
     : SettingsPageBase(parent)
     , m_editableUrl(nullptr)
     , m_showFullPath(nullptr)
-    , m_showStatusBar(nullptr)
+    , m_statusBarButtonGroup(nullptr)
+    , m_showStatusBarSmall(nullptr)
+    , m_showStatusBarFullWidth(nullptr)
     , m_showZoomSlider(nullptr)
-    , m_showSpaceInfo(nullptr)
+    , m_disableStatusBar(nullptr)
 {
     // We need to update some urls at the Folders & Tabs tab. We get that from foldersPage and set it on a private attribute
     // foldersTabsPage. That way, we can modify the necessary stuff from here. Specifically, any changes on locationUpdateInitialViewOptions()
@@ -33,14 +38,30 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     QFormLayout *topLayout = new QFormLayout(this);
 
     // Status bar
-    m_showStatusBar = new QCheckBox(i18nc("@option:check", "Show status bar"), this);
+    m_statusBarButtonGroup = new QButtonGroup(this);
+    m_showStatusBarSmall = new QRadioButton(i18nc("@option:radio", "Small"), this);
+    m_showStatusBarFullWidth = new QRadioButton(i18nc("@option:radio", "Full width"), this);
     m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), this);
-    m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);
+    m_disableStatusBar = new QRadioButton(i18nc("@option:check", "Disabled"), this);
 
-    topLayout->addRow(i18nc("@title:group", "Status Bar: "), m_showStatusBar);
-    topLayout->addRow(QString(), m_showZoomSlider);
-    topLayout->addRow(QString(), m_showSpaceInfo);
+    m_statusBarButtonGroup->addButton(m_showStatusBarSmall, GeneralSettings::EnumShowStatusBar::Small);
+    m_statusBarButtonGroup->addButton(m_showStatusBarFullWidth, GeneralSettings::EnumShowStatusBar::FullWidth);
+    m_statusBarButtonGroup->addButton(m_disableStatusBar, GeneralSettings::EnumShowStatusBar::Disabled);
 
+    topLayout->addRow(i18nc("@title:group", "Status Bar:"), m_showStatusBarSmall);
+    topLayout->addRow(QString(), m_showStatusBarFullWidth);
+
+    // Indent the m_showZoomSlider checkbox under m_showStatusBarFullWidth.
+    QHBoxLayout *zoomSliderLayout = new QHBoxLayout;
+    QStyleOption opt;
+    opt.initFrom(this);
+    zoomSliderLayout->addItem(
+        new QSpacerItem(style()->pixelMetric(QStyle::PM_IndicatorWidth, &opt, this), Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    zoomSliderLayout->addWidget(m_showZoomSlider);
+
+    topLayout->addRow(QString(), zoomSliderLayout);
+
+    topLayout->addRow(QString(), m_disableStatusBar);
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Location bar
@@ -57,10 +78,9 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     connect(m_editableUrl, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::locationSlotSettingsChanged);
     connect(m_showFullPath, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::locationSlotSettingsChanged);
 
-    connect(m_showStatusBar, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::changed);
-    connect(m_showStatusBar, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::onShowStatusBarToggled);
+    connect(m_statusBarButtonGroup, &QButtonGroup::idClicked, this, &StatusAndLocationBarsSettingsPage::changed);
+    connect(m_statusBarButtonGroup, &QButtonGroup::idClicked, this, &StatusAndLocationBarsSettingsPage::onShowStatusBarToggled);
     connect(m_showZoomSlider, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::changed);
-    connect(m_showSpaceInfo, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::changed);
 }
 
 StatusAndLocationBarsSettingsPage::~StatusAndLocationBarsSettingsPage()
@@ -74,18 +94,16 @@ void StatusAndLocationBarsSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setShowFullPath(m_showFullPath->isChecked());
 
-    settings->setShowStatusBar(m_showStatusBar->isChecked());
+    settings->setShowStatusBar(m_statusBarButtonGroup->checkedId());
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
-    settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
 
     settings->save();
 }
 
 void StatusAndLocationBarsSettingsPage::onShowStatusBarToggled()
 {
-    const bool checked = m_showStatusBar->isChecked();
+    const bool checked = (m_statusBarButtonGroup->checkedId() == GeneralSettings::EnumShowStatusBar::FullWidth);
     m_showZoomSlider->setEnabled(checked);
-    m_showSpaceInfo->setEnabled(checked);
 }
 
 void StatusAndLocationBarsSettingsPage::restoreDefaults()
@@ -118,9 +136,8 @@ void StatusAndLocationBarsSettingsPage::loadSettings()
 {
     m_editableUrl->setChecked(GeneralSettings::editableUrl());
     m_showFullPath->setChecked(GeneralSettings::showFullPath());
-    m_showStatusBar->setChecked(GeneralSettings::showStatusBar());
+    m_statusBarButtonGroup->button(GeneralSettings::showStatusBar())->setChecked(true);
     m_showZoomSlider->setChecked(GeneralSettings::showZoomSlider());
-    m_showSpaceInfo->setChecked(GeneralSettings::showSpaceInfo());
 
     onShowStatusBarToggled();
 }

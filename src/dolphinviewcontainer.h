@@ -33,6 +33,7 @@ class QGridLayout;
 class QUrl;
 class DolphinSearchBox;
 class DolphinStatusBar;
+class KFileItemList;
 namespace SelectionMode
 {
 class TopBar;
@@ -431,6 +432,19 @@ private:
      * @return Path of nearest existing ancestor directory.
      */
     QString getNearestExistingAncestorOfPath(const QString &path) const;
+
+    /**
+     * Update the geometry of statusbar depending on what mode it is using.
+     */
+    void updateStatusBarGeometry();
+
+    /**
+     * @return Preferred geometry of the small statusbar.
+     */
+    QRect preferredSmallStatusBarGeometry();
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     QGridLayout *m_topLayout;

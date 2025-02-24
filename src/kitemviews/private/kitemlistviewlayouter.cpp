@@ -40,6 +40,7 @@ KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver *sizeHint
     , m_groupHeaderHeight(0)
     , m_groupHeaderMargin(0)
     , m_itemInfos()
+    , m_statusBarOffset(0)
 {
     Q_ASSERT(m_sizeHintResolver);
 }
@@ -341,6 +342,13 @@ void KItemListViewLayouter::markAsDirty()
     m_dirty = true;
 }
 
+void KItemListViewLayouter::setStatusBarOffset(int offset)
+{
+    if (m_statusBarOffset != offset) {
+        m_statusBarOffset = offset;
+    }
+}
+
 #ifndef QT_NO_DEBUG
 bool KItemListViewLayouter::isDirty()
 {
@@ -378,6 +386,7 @@ void KItemListViewLayouter::doLayout()
         itemSize.transpose();
         itemMargin.transpose();
         size.transpose();
+        size.rwidth() -= m_statusBarOffset;
 
         if (grouped) {
             // In the horizontal scrolling case all groups are aligned

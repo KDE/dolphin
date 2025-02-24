@@ -302,6 +302,12 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
+    /**
+     * Set the bottom offset for moving the view so that the small overlayed statusbar
+     * won't cover any items by accident.
+     */
+    void setStatusBarOffset(int offset);
+
 Q_SIGNALS:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void scrollOffsetChanged(qreal current, qreal previous);
@@ -775,6 +781,8 @@ private:
     KItemListHeaderWidget *m_headerWidget;
 
     QPropertyAnimation *m_indicatorAnimation;
+
+    int m_statusBarOffset;
 
     // When dragging items into the view where the sort-role of the model
     // is empty, a visual indicator should be shown during dragging where

@@ -2285,6 +2285,22 @@ bool DolphinView::isFolderWritable() const
     return m_isFolderWritable;
 }
 
+int DolphinView::horizontalScrollBarHeight() const
+{
+    if (m_container && m_container->horizontalScrollBar() && m_container->horizontalScrollBar()->isVisible()) {
+        return m_container->horizontalScrollBar()->height();
+    }
+    return 0;
+}
+
+void DolphinView::setStatusBarOffset(int offset)
+{
+    KItemListView *view = m_container->controller()->view();
+    if (view) {
+        view->setStatusBarOffset(offset);
+    }
+}
+
 QUrl DolphinView::viewPropertiesUrl() const
 {
     if (m_viewPropertiesContext.isEmpty()) {

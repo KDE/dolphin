@@ -20,6 +20,7 @@
 #include <QIcon>
 #include <QMenu>
 #include <QPainter>
+#include <QPainterPath>
 #include <QProgressBar>
 #include <QSlider>
 #include <QStyleOption>
@@ -136,8 +137,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     m_topLayout->addWidget(m_progressTextLabel);
     m_topLayout->addWidget(m_progressBar);
 
-    setVisible(GeneralSettings::showStatusBar(), WithoutAnimation);
-    setExtensionsVisible(true);
+    readSettings();
     setWhatsThis(xi18nc("@info:whatsthis Statusbar",
                         "<para>This is "
                         "the <emphasis>Statusbar</emphasis>. It contains three elements "
@@ -203,6 +203,7 @@ void DolphinStatusBar::showProgress(const QString &currentlyRunningTaskTitle, in
     }
 
     m_progressTextLabel->setText(currentlyRunningTaskTitle);
+    updateWidthToContent();
 }
 
 QString DolphinStatusBar::progressText() const
@@ -240,8 +241,9 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl &url)
 {
-    if (GeneralSettings::showSpaceInfo()) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth && m_spaceInfo && m_spaceInfo->url() != url) {
         m_spaceInfo->setUrl(url);
+        Q_EMIT urlChanged();
     }
 }
 
@@ -264,13 +266,73 @@ int DolphinStatusBar::zoomLevel() const
 
 void DolphinStatusBar::readSettings()
 {
-    setVisible(GeneralSettings::showStatusBar(), WithAnimation);
+    updateMode();
     setExtensionsVisible(true);
 }
 
 void DolphinStatusBar::updateSpaceInfo()
 {
     m_spaceInfo->update();
+}
+
+void DolphinStatusBar::updateWidthToContent()
+{
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
+        QStyleOptionSlider opt;
+        opt.initFrom(this);
+        opt.orientation = Qt::Vertical;
+        const QSize labelSize = QFontMetrics(font()).size(Qt::TextSingleLine, m_label->fullText());
+        // Make sure minimum height takes clipping into account.
+        setMinimumHeight(m_label->height() + clippingAmount());
+        const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
+        const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
+        if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
+            // Use maximum width when interactable elements are shown, to keep them
+            // from "jumping around" when user tries to interact with them.
+            setFixedWidth(maximumViewWidth);
+        } else {
+            const int contentWidth = labelSize.width() + 15;
+            setFixedWidth(qMin(contentWidth, maximumViewWidth));
+        }
+        Q_EMIT widthUpdated();
+    } else {
+        setMinimumHeight(0);
+        setFixedWidth(QWIDGETSIZE_MAX);
+        Q_EMIT widthUpdated();
+    }
+}
+
+int DolphinStatusBar::clippingAmount() const
+{
+    QStyleOption opt;
+    opt.initFrom(this);
+    // Add 2 for extra padding due to how QRect coordinates work.
+    const int val = 2 + style()->pixelMetric(QStyle::PM_SplitterWidth, &opt, this) * 2;
+    return val;
+}
+
+void DolphinStatusBar::updateMode()
+{
+    switch (GeneralSettings::showStatusBar()) {
+    case GeneralSettings::EnumShowStatusBar::Small:
+        setEnabled(true);
+        m_spaceInfo->setShown(false);
+        m_zoomSlider->setVisible(false);
+        m_zoomLabel->setVisible(false);
+        setVisible(true, WithAnimation);
+        break;
+    case GeneralSettings::EnumShowStatusBar::FullWidth:
+        setEnabled(true);
+        m_spaceInfo->setShown(true);
+        setVisible(true, WithAnimation);
+        break;
+    case GeneralSettings::EnumShowStatusBar::Disabled:
+        setEnabled(false);
+        setVisible(false, WithoutAnimation);
+        break;
+    }
+    Q_EMIT modeUpdated();
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
@@ -283,20 +345,12 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
     showZoomSliderAction->setCheckable(true);
     showZoomSliderAction->setChecked(GeneralSettings::showZoomSlider());
 
-    QAction *showSpaceInfoAction = menu.addAction(i18nc("@action:inmenu", "Show Space Information"));
-    showSpaceInfoAction->setCheckable(true);
-    showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
-
     const QAction *action = menu.exec(event->reason() == QContextMenuEvent::Reason::Mouse ? QCursor::pos() : mapToGlobal(QPoint(width() / 2, height() / 2)));
     if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
         m_zoomSlider->setVisible(visible);
         m_zoomLabel->setVisible(visible);
-    } else if (action == showSpaceInfoAction) {
-        const bool visible = showSpaceInfoAction->isChecked();
-        GeneralSettings::setShowSpaceInfo(visible);
-        m_spaceInfo->setShown(visible);
     }
     updateContentsMargins();
 }
@@ -326,12 +380,14 @@ void DolphinStatusBar::updateProgressInfo()
         m_progressBar->hide();
         setExtensionsVisible(true);
     }
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
     m_label->setText(text);
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
@@ -342,14 +398,11 @@ void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
-    bool showSpaceInfo = visible;
     bool showZoomSlider = visible;
     if (visible) {
-        showSpaceInfo = GeneralSettings::showSpaceInfo();
-        showZoomSlider = GeneralSettings::showZoomSlider();
+        showZoomSlider = GeneralSettings::showZoomSlider() && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth;
     }
 
-    m_spaceInfo->setShown(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
     m_zoomLabel->setVisible(showZoomSlider);
     updateContentsMargins();
@@ -357,12 +410,14 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
 
 void DolphinStatusBar::updateContentsMargins()
 {
-    if (GeneralSettings::showSpaceInfo()) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
         // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
         m_topLayout->setContentsMargins(6, 0, 2, 0);
     } else {
-        m_topLayout->setContentsMargins(6, 0, 6, 0);
+        // Add extra margins to toplayout to avoid clipping too early.
+        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), clippingAmount());
     }
+    setContentsMargins(0, 0, 0, 0);
 }
 
 void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
@@ -371,7 +426,28 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
     QPainter p(this);
     QStyleOption opt;
     opt.initFrom(this);
-    style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
+    // Draw statusbar only if there is text.
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
+        if (m_label && !m_label->fullText().isEmpty()) {
+            opt.state = QStyle::State_Sunken;
+            QPainterPath path;
+            // Clip the left and bottom border off.
+            QRect clipRect;
+            if (layoutDirection() == Qt::RightToLeft) {
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
+            } else {
+                clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
+            }
+            path.addRect(clipRect);
+            p.setClipPath(path);
+            opt.palette.setColor(QPalette::Base, palette().window().color());
+            style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
+        }
+    }
+    // Draw regular statusbar.
+    else {
+        style()->drawPrimitive(QStyle::PE_PanelStatusBar, &opt, &p, this);
+    }
 }
 
 int DolphinStatusBar::preferredHeight() const
