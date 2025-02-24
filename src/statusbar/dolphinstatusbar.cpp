@@ -243,7 +243,7 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl &url)
 {
-    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small && m_spaceInfo && m_spaceInfo->url() != url) {
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth && m_spaceInfo && m_spaceInfo->url() != url) {
         m_spaceInfo->setUrl(url);
         Q_EMIT urlChanged();
     }
