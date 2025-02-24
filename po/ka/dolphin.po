@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-24 00:43+0000\n"
-"PO-Revision-Date: 2025-02-08 04:19+0100\n"
+"PO-Revision-Date: 2025-02-24 06:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1385,9 +1385,7 @@ msgid "Close left view"
 msgstr "მარცხენა ხედის დახურვა"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "მარცხენა ხედის დახურვა"
@@ -1417,9 +1415,7 @@ msgid "Close right view"
 msgstr "მარჯვენა ხედვის დახურვა"
 
 #: dolphinmainwindow.cpp:2715
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "მარჯვენა ხედვის დახურვა"

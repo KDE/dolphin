@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-24 00:43+0000\n"
-"PO-Revision-Date: 2025-02-17 18:57+0300\n"
+"PO-Revision-Date: 2025-02-24 09:04+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1377,12 +1377,10 @@ msgid "Close left view"
 msgstr "Sol görünümü kapat"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
-msgstr "Sol görünümü kapat"
+msgstr "Sol Görünümü Kapat"
 
 #: dolphinmainwindow.cpp:2709
 #, kde-format
@@ -1409,12 +1407,10 @@ msgid "Close right view"
 msgstr "Sağ görünümü kapat"
 
 #: dolphinmainwindow.cpp:2715
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
-msgstr "Sağ görünümü kapat"
+msgstr "Sağ Görünümü Kapat"
 
 #: dolphinmainwindow.cpp:2717
 #, kde-format
