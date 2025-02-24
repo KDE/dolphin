@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -1112,7 +1112,7 @@ msgid ""
 "like Konsole.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1173,7 +1173,7 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1294,47 +1294,59 @@ msgstr ""
 
 #: dolphinmainwindow.cpp:2707
 #, kde-format
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2709
+#, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "మూయి"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, kde-format
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "విభజించు"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -1342,13 +1354,13 @@ msgctxt "@info"
 msgid "Split view"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1360,7 +1372,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1374,7 +1386,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1391,7 +1403,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1401,7 +1413,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1410,7 +1422,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1425,7 +1437,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1436,7 +1448,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1450,7 +1462,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1461,7 +1473,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1475,7 +1487,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1484,7 +1496,7 @@ msgid ""
 "in your preferred language."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1492,7 +1504,7 @@ msgid ""
 "libraries and maintainers of this application."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1502,19 +1514,19 @@ msgid ""
 "a look!"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"

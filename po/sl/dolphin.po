@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2025-02-07 07:14+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1183,7 +1183,7 @@ msgstr ""
 "zahtevne naloge. Da bi se bolje poučili o terminalih, uporabite pomoč v "
 "samostojni aplikaciji terminalov kot npr. Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1260,7 +1260,7 @@ msgstr ""
 "prazen prostor na tej plošči in izberite <interface>Prikaži skrita mesta</"
 "interface>, da se spet prikažejo.</para>"
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1398,60 +1398,76 @@ msgid "Close left view"
 msgstr "Zapri levi prikaz"
 
 #: dolphinmainwindow.cpp:2707
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr "Zapri levi prikaz"
+
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Pogovorno okno levega pogleda"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Premakni levi pogled v novo okno"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Zapri"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Zapri desni pogled"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr "Zapri desni pogled"
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Pogovorno okno desnega pogleda"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Premakni desni pogled v novo okno"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Razdeli"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Razdeli pogled"
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Pogovorno okno"
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1469,7 +1485,7 @@ msgstr ""
 "interface>. Potem je večina njegove vsebine na voljo prek gumba "
 "<interface>Meni</interface> na <emphasis>Orodni vrstici</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1492,7 +1508,7 @@ msgstr ""
 "spreminjate tudi v meniju z desnim klikom. Z desnim klikom na gumb, lahko "
 "pokažete ali skrijete besedilo gumba.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1519,7 +1535,7 @@ msgstr ""
 "url='help:/dolphin/dolphin-view.html'>kliknite tukaj</link>. Odprla se bo "
 "stran iz  <emphasis>Priročnika</emphasis>, ki pokriva osnove.</para>"
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1533,7 +1549,7 @@ msgstr ""
 "tipke hkrati pritisnete. Vsi ukazi v tej aplikaciji se lahko sprožijo tako.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1546,7 +1562,7 @@ msgstr ""
 "ki jih vidite v <interface>Meni</interface> se lahko postavijo tudi v orodno "
 "vrstico.</para>"
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1565,7 +1581,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1580,7 +1596,7 @@ msgstr ""
 "userbase.kde.org/Dolphin/File_Management'>kliknite tukaj</link>. Odprla se "
 "bo namenska stran Wiki UserBase KDE.</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1602,7 +1618,7 @@ msgstr ""
 "para><para>Pomoč »Kaj je to?« pri večini drugih oken manjka, zato se na to "
 "ne zanašajte preveč.</para>"
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1619,7 +1635,7 @@ msgstr ""
 "url='https: //community.kde.org/Get_Involved/Bug_Reporting'>kliknite tukaj</"
 "link>.</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1641,7 +1657,7 @@ msgstr ""
 "razvijalcev itd.</para> <para><emphasis>KDE e.V.</emphasis> je neprofitna "
 "organizacija, ki stoji za skupnostjo KDE.</para>"
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1653,7 +1669,7 @@ msgstr ""
 "nastavite sekundarne jezike, ki se bodo uporabljali, če besedila niso na "
 "voljo v vašem želenem jeziku."
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1663,7 +1679,7 @@ msgstr ""
 "To odpre okno, ki vas seznani z uporabljeno različico, licenco, uporabljene "
 "programske knjižnice in vzdrževalci te aplikacije."
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1676,19 +1692,19 @@ msgstr ""
 "ki stojijo za to brezplačno programsko opremo.<nl/>Če vas veseli uporabljati "
 "to aplikacijo, a še ne veste za KDE si morda lahko ogledate prijaznega zmaja!"
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Prekliči fokus na ploščo terminala"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Prekliči fokus na plošči terminala"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"

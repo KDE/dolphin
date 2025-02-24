@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2025-01-28 18:26+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1191,7 +1191,7 @@ msgstr ""
 "Päätteiden käytöstä löytyy lisätietoa erillisten päätesovellusten kuten "
 "Konsolen ohjeesta.</para>"
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1266,7 +1266,7 @@ msgstr ""
 "oikealla painikkeella paneelin tyhjää tilaa ja valitsemalla <interface>Näytä "
 "piilotetut kohteet</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1398,61 +1398,77 @@ msgid "Close left view"
 msgstr "Sulje vasemmanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2707
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr "Sulje vasemmanpuoleinen näkymä"
+
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Ponnauta vasen näkymä"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Siirrä vasen näkymä uuteen ikkunaan"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Sulje"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Sulje oikeanpuoleinen näkymä"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr "Sulje oikeanpuoleinen näkymä"
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Ponnauta oikea näkymä"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Siirrä oikea näkymä uuteen ikkunaan"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Puolita"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Puolita näkymä"
 
 # HUOM! Muutenkin voisi kääntää, mutta yritin välttää esim. verbiä ”irrota” (jottei sekaannu unmount-, eject-komentoihin) ja ”poista” (ilmeisistä syistä) sekä liian pitkiä jonoja (esim. ”siirrä uuteen ikkunaan”).
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Ponnauta"
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1470,7 +1486,7 @@ msgstr ""
 "osa sisällöstä siirtyy <emphasis>työkalurivin</emphasis> "
 "<interface>valikkopainikkeen</interface> alle.</para>"
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1494,7 +1510,7 @@ msgstr ""
 "Näytä tai piilota painikkeen teksti napsauttamalla sitä hiiren oikealla "
 "painikkeella.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1522,7 +1538,7 @@ msgstr ""
 "html'>napsauttamalla tästä</link>. Tämä avaa perusteet kattavan sivun "
 "<emphasis>käsikirjasta</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1535,7 +1551,7 @@ msgstr ""
 ">Voit asettaa ikkunassa eri toimintoja käynnistäviä näppäinyhdistelmiä. "
 "Kaikki sovelluksen komennot voi käynnistää näin.</para>"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1547,7 +1563,7 @@ msgstr ""
 "näytettävät painikkeet.</para><para>Kaikki <interface>valikon</interface> "
 "kohteet voi sijoittaa myös työkaluriville.</para>"
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1565,7 +1581,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1582,7 +1598,7 @@ msgstr ""
 "File_Management'>löytää täältä</link>. Linkki avaa KDE Userbase -wikin "
 "asianomaisen sivun.</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1604,7 +1620,7 @@ msgstr ""
 "para><para>Useimmilla ikkunoilla ei ole ”Mikä tämä on?” -ohjetta, joten "
 "siihen ei kannata tottua liikaa.</para>"
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1620,7 +1636,7 @@ msgstr ""
 "vikailmoituksesta mahdollisimman hyvä, <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>napsauta tästä</link>.</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1641,7 +1657,7 @@ msgstr ""
 "jne. kulujen kattamiseksi.</para><para><emphasis>KDE e.V.</emphasis> on KDE-"
 "yhteisön takana oleva yleishyödyllinen järjestö.</para>"
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1653,7 +1669,7 @@ msgstr ""
 "toissijaisia kieliä, joita käytetään, ellei tekstejä voi esittää "
 "ensisijaisella kielelläsi."
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1663,7 +1679,7 @@ msgstr ""
 "Avaa ikkunan, joka kertoo sovelluksen version, lisenssin, käytetyt kirjastot "
 "sekä ylläpitäjät."
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1677,19 +1693,19 @@ msgstr ""
 "tästä sovelluksesta muttet tunne KDE:ta (tai haluat vain nähdä kivan "
 "lohikäärmeen), kurkista!"
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Siirrä kohdistus päätepaneelista"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Siirrä kohdistus päätepaneelista"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"

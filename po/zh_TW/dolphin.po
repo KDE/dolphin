@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2025-02-07 22:58+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 "是很有幫助的。對於終端機的更多資訊請使用如 Konsole 等獨立終端機應用程式的說明"
 "功能。</para>"
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1201,7 +1201,7 @@ msgstr ""
 "新增。右鍵點擊任何區塊或項目來隱藏它。右鍵點擊這個面板的空白區域並選取"
 "<interface>顯示隱藏位置</interface>來重新顯示它。</para>"
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1322,60 +1322,76 @@ msgid "Close left view"
 msgstr "關閉左方檢視"
 
 #: dolphinmainwindow.cpp:2707
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr "關閉左方檢視"
+
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "彈出左方檢視"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "將左方檢視移至新視窗"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "關閉"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "關閉右方檢視"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr "關閉右方檢視"
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "彈出右方檢視"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "將右方檢視移至新視窗"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "分割"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "分割檢視"
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "彈出"
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1391,7 +1407,7 @@ msgstr ""
 "單列</interface>來隱藏。隱藏之後它的大部分內容還是會整理在<emphasis>工具列</"
 "emphasis>上的<interface>選單</interface>按鈕當中。</para>"
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1411,7 +1427,7 @@ msgstr ""
 "這個動作，就可以了。</para><para>工具列的位置和它的按鈕的風格也可以在右鍵選單"
 "中變更。右鍵點擊按鈕來隱藏或顯示它的文字說明。</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1437,7 +1453,7 @@ msgstr ""
 "dolphin-view.html'>參照此處</link>。這會開啟<emphasis>手冊</emphasis>當中介紹"
 "基礎的頁面。</para>"
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1450,7 +1466,7 @@ msgstr ""
 "也可以設定同時按下鍵盤組合時要觸發的動作。此應用程式中所有命令皆可以此方式觸"
 "發。</para>"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1462,7 +1478,7 @@ msgstr ""
 "</para><para>您可以將<interface>選單</interface>當中任何項目放置於工具列中。"
 "</para>"
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1480,7 +1496,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1496,7 +1512,7 @@ msgstr ""
 "</link>。它會開啟 KDE UserBase Wiki 當中對應的頁面。</para><para>註：目前手冊"
 "和 UserBasse Wiki 都沒有中文版。</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1517,7 +1533,7 @@ msgstr ""
 "para><para>其他大部分視窗都沒有「這是什麼？」的說明，所以可能不要太仰賴這個功"
 "能。</para>"
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1532,7 +1548,7 @@ msgstr ""
 "可能有效，<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>請"
 "點擊此處</link>。</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1551,7 +1567,7 @@ msgstr ""
 "能維持需要金錢的東西，像是伺服器、貢獻者會議等等。</para><para><emphasis>KDE "
 "e.V.</emphasis> 是 KDE 社群背後的非營利組織。</para>"
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1562,7 +1578,7 @@ msgstr ""
 "在此您可以變更此應用程式所使用的語言。<nl/>您還可以設定備用語言，如果偏好語言"
 "有缺乏的文本時便會嘗試各個備用語言。"
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1572,7 +1588,7 @@ msgstr ""
 "這會開啟一個視窗告訴您這個應用程式的版本、授權、使用的函式庫與維護者有關的資"
 "訊。"
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1585,19 +1601,19 @@ msgstr ""
 "由軟體背後的人們。<nl/>如果您喜歡使用這個應用程式但不知道 KDE 或是想要看看一"
 "隻可愛的龍，那就進來看看吧！"
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "焦點移離終端機面板"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "焦點移離終端機面板"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"

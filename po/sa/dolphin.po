@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -1155,7 +1155,7 @@ msgstr ""
 "किन्तु उन्नतकार्यस्य कृते उपयोगी भवितुम् अर्हति टर्मिनल् विषये अधिकं ज्ञातुं Konsole इत्यादिषु "
 "स्वतन्त्रेषु टर्मिनल् अनुप्रयोगे सहायताविशेषतानां उपयोगं कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1228,7 +1228,7 @@ msgstr ""
 "अस्मिन् पटले रिक्तस्थानं राइट्-क्लिक् कृत्वा पुनः प्रदर्शयितुं <interface>Show Hidden "
 "Places</interface> इति चिनोतु ।</para>"
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1350,60 +1350,76 @@ msgid "Close left view"
 msgstr "वामदृश्यं पिधाय"
 
 #: dolphinmainwindow.cpp:2707
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr "वामदृश्यं पिधाय"
+
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Pop out Left View इति"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "वामदृश्यं नूतनविण्डो प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "पिधानं करोतु"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "दक्षिणदृश्यं पिधाय"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr "दक्षिणदृश्यं पिधाय"
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Pop out Right View इति"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "दक्षिणदृश्यं नूतनविण्डो प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "भंज"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "विभक्त दृश्य"
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "पॉप आउट्"
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1420,7 +1436,7 @@ msgstr ""
 "कृत्वा Menubar गोपयितुं शक्यते । ततः तस्य अधिकांशः सामग्रीः <emphasis>Toolbar</"
 "emphasis> इत्यत्र <interface>Menu</interface> इति बटन् मार्गेण उपलभ्यते ।</para>"
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1442,7 +1458,7 @@ msgstr ""
 "राइट्-क्लिक् मेन्यू मध्ये बटन् अपि परिवर्तयितुं शक्यते । यदि भवान् तस्य पाठं दर्शयितुम् अथवा "
 "गोपयितुम् इच्छति तर्हि बटन् राइट्-क्लिक् कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1469,7 +1485,7 @@ msgstr ""
 "तत्स्थाने। एतेन तः एकं पृष्ठं उद्घाट्यते<emphasis> हस्तपुस्तिका</emphasis> यत् मूलभूतं "
 "आच्छादयति।</para>"
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1482,7 +1498,7 @@ msgstr ""
 "करोति ।<nl/>तत्र भवन्तः युगपत् निपीडितानां क्रियायाः प्रवर्तनार्थं कीलसंयोजनानि स्थापयितुं "
 "शक्नुवन्ति । अस्मिन् अनुप्रयोगे सर्वे आदेशाः एवं प्रवर्तयितुं शक्यन्ते ।</para>"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1494,7 +1510,7 @@ msgstr ""
 "बटन् दृश्यन्ते इति परिवर्तयितुं शक्नुवन्ति।</para><para><interface>Menu</interface> "
 "इत्यत्र भवन्तः सर्वाणि वस्तूनि अपि भवितुम् अर्हन्ति Toolbar इत्यत्र स्थापितं।</para>"
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1512,7 +1528,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1528,7 +1544,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'> अत्र क्लिक् कुर्वन्तु</"
 "link> . एतत् KDE UserBase Wiki इत्यस्मिन् समर्पितं पृष्ठं उद्घाटयिष्यति ।</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1550,7 +1566,7 @@ msgstr ""
 "link> .</para><para> &quot;किम् एतत्?&quot; अन्येषु अधिकांशेषु विण्डोषु सहायता अनुपलब्धा "
 "अस्ति अतः एतस्य अत्यधिकं अभ्यस्तं मा भवतु।</para>"
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1566,7 +1582,7 @@ msgstr ""
 "इति ज्ञातुं<link url='https://community.kde.org/Get_Involved/Bug_Reporting'> "
 "अत्र क्लिक् कुर्वन्तु</link> .</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1587,7 +1603,7 @@ msgstr ""
 "आच्छादयितुं</para><para><emphasis>KDE e.V.</emphasis> KDE इत्यस्य पृष्ठतः अलाभकारी "
 "संस्था अस्ति समुदायः ।</para>"
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1599,7 +1615,7 @@ msgstr ""
 "अपि सेट् कर्तुं शक्नुवन्ति येषां उपयोगः भविष्यति यदि भवतः इष्टभाषायां पाठाः उपलब्धाः न "
 "सन्ति।"
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1609,7 +1625,7 @@ msgstr ""
 "एतेन एकं विण्डो उद्घाट्यते यत् अस्य अनुप्रयोगस्य संस्करणस्य, अनुज्ञापत्रस्य, प्रयुक्तानां "
 "पुस्तकालयानाम्, परिपालकानां च विषये सूचयति ।"
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1622,19 +1638,19 @@ msgstr ""
 "मुक्तसॉफ्टवेयरस्य पृष्ठतः जनाः सन्ति।<nl/>यदि भवान् अस्य अनुप्रयोगस्य उपयोगं रोचते परन्तु KDE "
 "विषये न जानाति अथवा एकं प्रियं अजगरं द्रष्टुम् इच्छति तर्हि एकवारं पश्यन्तु!"
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "डिफोकस टर्मिनल पैनल"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "डिफोकस टर्मिनल पैनल"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"

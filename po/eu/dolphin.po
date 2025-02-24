@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 00:43+0000\n"
+"POT-Creation-Date: 2025-02-24 00:43+0000\n"
 "PO-Revision-Date: 2025-02-09 19:39+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1186,7 +1186,7 @@ msgstr ""
 "ikasteko erabili Konsole bezalako terminal aplikazio autonomo bateko "
 "laguntza ezaugarria.</para>"
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2954
+#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1263,7 +1263,7 @@ msgstr ""
 "honetako zati huts batean eta hautatu <interface>Erakutsi ezkutuko lekuak</"
 "interface> hura berriz azaltzeko.</para>"
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
@@ -1397,60 +1397,76 @@ msgid "Close left view"
 msgstr "Itxi ezkerreko ikuspegia"
 
 #: dolphinmainwindow.cpp:2707
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Left View"
+msgstr "Itxi ezkerreko ikuspegia"
+
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Atera ezkerreko ikuspegia"
 
-#: dolphinmainwindow.cpp:2708
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Eraman ezkerreko ikuspegia leiho berri batera"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2712
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Itxi"
 
-#: dolphinmainwindow.cpp:2711
+#: dolphinmainwindow.cpp:2713
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Itxi eskuineko ikuspegia"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2715
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgctxt "@action:inmenu Close left view"
+msgid "Close Right View"
+msgstr "Itxi eskuineko ikuspegia"
+
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Atera eskuineko ikuspegia"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2718
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Eraman eskuineko ikuspegia leiho berri batera"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2727
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Zatitu"
 
-#: dolphinmainwindow.cpp:2724
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Zatitu ikuspegia"
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Gaineratu"
 
-#: dolphinmainwindow.cpp:2781
+#: dolphinmainwindow.cpp:2785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1468,7 +1484,7 @@ msgstr ""
 "Ondoren bere eduki gehiena eskuragarri dago <emphasis>tresna-barra</"
 "emphasis>ko <interface>Menu</interface> botoi baten bidez.</para>"
 
-#: dolphinmainwindow.cpp:2788
+#: dolphinmainwindow.cpp:2792
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1491,7 +1507,7 @@ msgstr ""
 "eta bere botoien estiloa alda daiteke eskuin-klik menutik. Eskuin-klik egin "
 "botoi bati bere testua erakutsi edo ezkutatu nahi baduzu.</para>"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2804
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1520,7 +1536,7 @@ msgstr ""
 "html'>egin klik hemen</link>. Honek oinarrizkoak biltzen dituen "
 "<emphasis>Eskuliburu</emphasis>ko orri bat irekiko du.</para>"
 
-#: dolphinmainwindow.cpp:2816
+#: dolphinmainwindow.cpp:2820
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1534,7 +1550,7 @@ msgstr ""
 "berean sakatzen direnean ekintza bat eragiteko. Aplikazio honetako komando "
 "guztiak eragin daitezke era honetara.</para>"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1547,7 +1563,7 @@ msgstr ""
 "interface>an ikusten dituzun elementu guztiak Tresna-barran ere kokatu "
 "daitezke.</para>"
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1565,7 +1581,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2850
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1582,7 +1598,7 @@ msgstr ""
 "Dolphin/File_Management'>egin klik hemen</link>. KDE UserBase Wikian honi "
 "eskainitako orria irekiko du.</para>"
 
-#: dolphinmainwindow.cpp:2851
+#: dolphinmainwindow.cpp:2855
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1604,7 +1620,7 @@ msgstr ""
 "UserBase Wiki</link>a.</para><para>Gainontzeko leihoetako gehienetan «Zer da "
 "hau?» laguntza falta da, beraz, ez zaitez horretara gehiegi ohitu.</para>"
 
-#: dolphinmainwindow.cpp:2862
+#: dolphinmainwindow.cpp:2866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1620,7 +1636,7 @@ msgstr ""
 "eraginkorren nola egin ikasteko <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>egin klik hemen</link>.</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2875
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1643,7 +1659,7 @@ msgstr ""
 "emphasis> da KDE komunitatearen atzean dagoen irabazi asmorik gabeko "
 "erakundea.</para>"
 
-#: dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1655,7 +1671,7 @@ msgstr ""
 ">Bigarren mailako hizkuntzak ere ezar ditzakezu, ordezko hizkuntza gisa "
 "erabiliko dira zure hizkuntza hobetsian erabilgarri ez dauden testuentzat."
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1665,7 +1681,7 @@ msgstr ""
 "Honek leiho bat irekitzen du, aplikazioaren bertsioa, lizentzia, erabilitako "
 "liburutegiak eta mantentzaileei buruz informatuko zaituena."
 
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2898
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1679,19 +1695,19 @@ msgstr ""
 ">Aplikazio hau erabiltzea gustuko baduzu baino ez badakizu KDEri buruz edo "
 "dragoi eder bat ikusi nahi baduzu eman begiratu bat!"
 
-#: dolphinmainwindow.cpp:2948 dolphinmainwindow.cpp:2959
+#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Kendu fokua terminalaren paneletik"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2970
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Kendu fokua Terminala paneletik"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2981
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
