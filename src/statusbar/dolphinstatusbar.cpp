@@ -414,7 +414,6 @@ void DolphinStatusBar::updateContentsMargins()
     if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::FullWidth) {
         // We reduce the outside margin for the flat button so it visually has the same margin as the status bar text label on the other end of the bar.
         m_topLayout->setContentsMargins(6, 0, 2, 0);
-
     } else {
         // Add extra margins to toplayout to avoid clipping too early
         m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), clippingAmount());

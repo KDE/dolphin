@@ -89,7 +89,7 @@ public:
     void updateSpaceInfo();
 
     /**
-     * Changes the statusbar between transient and regular
+     * Changes the statusbar between disabled, small, and full width
      * depending on settings enabled
      */
     void updateMode();

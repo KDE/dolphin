@@ -1092,7 +1092,6 @@ void DolphinViewContainer::updateStatusBarGeometry()
 
 bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 {
-    // Hide statusbar if mouse is on top of it
     switch (event->type()) {
     case QEvent::Resize: {
         if (object == this && GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {

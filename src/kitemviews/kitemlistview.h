@@ -302,6 +302,10 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
+    /**
+     * Set the bottom offset for moving the view so that the small overlayed statusbar
+     * won't cover any items by accident.
+     */
     void setStatusBarOffset(int offset);
 
 Q_SIGNALS:

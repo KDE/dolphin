@@ -155,8 +155,8 @@ public:
     }
 
     /**
-     * Set the offset for moving the view so that small statusbar
-     * wont cover any items by accident.
+     * Set the bottom offset for moving the view so that the small overlayed statusbar
+     * won't cover any items by accident.
      */
     void setStatusBarOffset(int offset);
 
