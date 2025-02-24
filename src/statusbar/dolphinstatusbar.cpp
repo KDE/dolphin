@@ -148,8 +148,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "to adjust the size of the icons in the view.</item>"
                         "<item><emphasis>Space information</emphasis> about the "
                         "current storage device.</item></list></para>"));
-
-    connect(this, &DolphinStatusBar::modeUpdated, this, &DolphinStatusBar::updateWidthToContent);
 }
 
 DolphinStatusBar::~DolphinStatusBar()
@@ -334,6 +332,7 @@ void DolphinStatusBar::updateMode()
         break;
     }
     Q_EMIT modeUpdated();
+    updateWidthToContent();
 }
 
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
