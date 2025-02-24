@@ -9,6 +9,7 @@
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
+#include "dolphin_generalsettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kfileitemmodelrolesupdater.h"
 #include "kitemviews/kitemlistcontainer.h"
@@ -75,6 +76,11 @@ private:
 void DolphinMainWindowTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
+    // Use fullWidth statusbar during testing, to test out most of the features.
+    GeneralSettings *settings = GeneralSettings::self();
+    settings->setShowStatusBar(GeneralSettings::EnumShowStatusBar::FullWidth);
+    settings->setShowZoomSlider(true);
+    settings->save();
 }
 
 void DolphinMainWindowTest::init()
