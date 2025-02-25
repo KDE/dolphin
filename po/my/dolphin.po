@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-24 00:43+0000\n"
+"POT-Creation-Date: 2025-02-25 00:42+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -858,13 +858,13 @@ msgid ""
 "advanced actions more time consuming.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2152
+#: dolphinmainwindow.cpp:2144
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2157
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -872,7 +872,7 @@ msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "နောက်တပ်ဘ်ကို သက်ဝင်စေမည်"
 
-#: dolphinmainwindow.cpp:2166
+#: dolphinmainwindow.cpp:2158
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -880,13 +880,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "နောက်တပ်ဘ်ကို သက်ဝင်စေမည်"
 
-#: dolphinmainwindow.cpp:2172
+#: dolphinmainwindow.cpp:2164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "နောက်တပ်ဘ်"
 
-#: dolphinmainwindow.cpp:2173
+#: dolphinmainwindow.cpp:2165
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Next Tab"
@@ -894,13 +894,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "နောက်တပ်ဘ်"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "ရှေ့တပ်ဘ်"
 
-#: dolphinmainwindow.cpp:2180
+#: dolphinmainwindow.cpp:2172
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Previous Tab"
@@ -908,50 +908,50 @@ msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "ရှေ့တပ်ဘ်"
 
-#: dolphinmainwindow.cpp:2187
+#: dolphinmainwindow.cpp:2179
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "ဦိးတည်ပစ်မှတ် ပြမည်"
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "တပ်ဘ်အသစ်တွင် ဖွင့်မည်"
 
-#: dolphinmainwindow.cpp:2198
+#: dolphinmainwindow.cpp:2190
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "တပ်ဘ်အသစ်များတွင် ဖွင့်မည်"
 
-#: dolphinmainwindow.cpp:2203
+#: dolphinmainwindow.cpp:2195
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "ဝင်းဒိုးအသစ်တွင် ဖွင့်မည်"
 
-#: dolphinmainwindow.cpp:2208 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2200 panels/places/placespanel.cpp:45
 #, fuzzy, kde-format
 #| msgid "Open in application"
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "အပ္ပလီကေးရှင်းတွင်ဖွင့်မည်"
 
-#: dolphinmainwindow.cpp:2224
+#: dolphinmainwindow.cpp:2216
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "ပန်နယ်များ သော့ဖွင့်မည်"
 
-#: dolphinmainwindow.cpp:2226
+#: dolphinmainwindow.cpp:2218
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "ပန်နယ်များ သော့ခတ်မည်"
 
-#: dolphinmainwindow.cpp:2229
+#: dolphinmainwindow.cpp:2221
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -961,13 +961,13 @@ msgid ""
 "embedded more cleanly."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2238
+#: dolphinmainwindow.cpp:2230
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "သတင်းအချက်အလက်"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2253
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -975,7 +975,7 @@ msgid ""
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2268
+#: dolphinmainwindow.cpp:2260
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -986,7 +986,7 @@ msgid ""
 "items a preview of their contents is provided.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2276
+#: dolphinmainwindow.cpp:2268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -997,13 +997,13 @@ msgid ""
 "are given here by right-clicking.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2285
+#: dolphinmainwindow.cpp:2277
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "ဖိုလ်ဒါများ"
 
-#: dolphinmainwindow.cpp:2305
+#: dolphinmainwindow.cpp:2297
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1012,7 +1012,7 @@ msgid ""
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2310
+#: dolphinmainwindow.cpp:2302
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1022,13 +1022,13 @@ msgid ""
 "quick switching between any folders.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2320
+#: dolphinmainwindow.cpp:2312
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "တာမီနယ်"
 
-#: dolphinmainwindow.cpp:2345
+#: dolphinmainwindow.cpp:2337
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1040,7 +1040,7 @@ msgid ""
 "application like Konsole.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2353
+#: dolphinmainwindow.cpp:2345
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1052,31 +1052,31 @@ msgid ""
 "like Konsole.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2363 dolphinmainwindow.cpp:2958
+#: dolphinmainwindow.cpp:2355 dolphinmainwindow.cpp:2950
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "တာမီနယ်ပန်နယ် အာရုံစိုက်မည်"
 
-#: dolphinmainwindow.cpp:2364
+#: dolphinmainwindow.cpp:2356
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2377
+#: dolphinmainwindow.cpp:2369
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "နေရာများ"
 
-#: dolphinmainwindow.cpp:2405
+#: dolphinmainwindow.cpp:2397
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "ဖွက်ထားသောနေရာများ ပြမည်"
 
-#: dolphinmainwindow.cpp:2409
+#: dolphinmainwindow.cpp:2401
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1085,7 +1085,7 @@ msgid ""
 "property."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2421
+#: dolphinmainwindow.cpp:2413
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1096,7 +1096,7 @@ msgid ""
 "type.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1111,7 +1111,7 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2442 dolphinmainwindow.cpp:2976
+#: dolphinmainwindow.cpp:2434 dolphinmainwindow.cpp:2968
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Focus Terminal Panel"
@@ -1119,39 +1119,39 @@ msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "တာမီနယ်ပန်နယ် အာရုံစိုက်မည်"
 
-#: dolphinmainwindow.cpp:2443
+#: dolphinmainwindow.cpp:2435
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2449
+#: dolphinmainwindow.cpp:2441
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "ပန်နယ်များပြမည်"
 
-#: dolphinmainwindow.cpp:2518
+#: dolphinmainwindow.cpp:2510
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2521 dolphinmainwindow.cpp:2538
+#: dolphinmainwindow.cpp:2513 dolphinmainwindow.cpp:2530
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2523
+#: dolphinmainwindow.cpp:2515
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2528
+#: dolphinmainwindow.cpp:2520
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1159,31 +1159,31 @@ msgid ""
 "folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2550
+#: dolphinmainwindow.cpp:2542
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2552
+#: dolphinmainwindow.cpp:2544
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2571
+#: dolphinmainwindow.cpp:2563
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2574
+#: dolphinmainwindow.cpp:2566
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2579
+#: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1191,7 +1191,7 @@ msgid ""
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2583
+#: dolphinmainwindow.cpp:2575
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1199,7 +1199,7 @@ msgid ""
 "destination folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2589
+#: dolphinmainwindow.cpp:2581
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1207,7 +1207,7 @@ msgid ""
 "this folder."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2605
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1218,19 +1218,19 @@ msgid ""
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2704
+#: dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "ပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2705
+#: dolphinmainwindow.cpp:2697
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "ဘယ်မြင်ကွင်းပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2707
+#: dolphinmainwindow.cpp:2699
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -1238,7 +1238,7 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "ဘယ်မြင်ကွင်းပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2709
+#: dolphinmainwindow.cpp:2701
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -1246,25 +1246,25 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ကူးယူမည်"
 
-#: dolphinmainwindow.cpp:2710
+#: dolphinmainwindow.cpp:2702
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2712
+#: dolphinmainwindow.cpp:2704
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "ပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2713
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "ညာမြင်ကွင်းပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2715
+#: dolphinmainwindow.cpp:2707
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1272,7 +1272,7 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "ညာမြင်ကွင်းပိတ်မည်"
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2709
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -1280,31 +1280,31 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ကူးယူမည်"
 
-#: dolphinmainwindow.cpp:2718
+#: dolphinmainwindow.cpp:2710
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2727
+#: dolphinmainwindow.cpp:2719
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "သီးခြားခွဲမည်"
 
-#: dolphinmainwindow.cpp:2729
+#: dolphinmainwindow.cpp:2721
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "မြင်ကွင်းခွဲမည်"
 
-#: dolphinmainwindow.cpp:2731
+#: dolphinmainwindow.cpp:2723
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2785
+#: dolphinmainwindow.cpp:2777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1316,7 +1316,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2792
+#: dolphinmainwindow.cpp:2784
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1330,7 +1330,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2804
+#: dolphinmainwindow.cpp:2796
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1347,7 +1347,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2820
+#: dolphinmainwindow.cpp:2812
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1357,7 +1357,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2826
+#: dolphinmainwindow.cpp:2818
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1366,7 +1366,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2830
+#: dolphinmainwindow.cpp:2822
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1381,7 +1381,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2850
+#: dolphinmainwindow.cpp:2842
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1392,7 +1392,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2855
+#: dolphinmainwindow.cpp:2847
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1406,7 +1406,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2866
+#: dolphinmainwindow.cpp:2858
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1417,7 +1417,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2875
+#: dolphinmainwindow.cpp:2867
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1431,7 +1431,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2880
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1440,7 +1440,7 @@ msgid ""
 "in your preferred language."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2893
+#: dolphinmainwindow.cpp:2885
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1448,7 +1448,7 @@ msgid ""
 "libraries and maintainers of this application."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2898
+#: dolphinmainwindow.cpp:2890
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1458,13 +1458,13 @@ msgid ""
 "a look!"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2952 dolphinmainwindow.cpp:2963
+#: dolphinmainwindow.cpp:2944 dolphinmainwindow.cpp:2955
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "တာမီနယ်ပန်နယ် အာရုံမစိုက်တော့ပါ"
 
-#: dolphinmainwindow.cpp:2970
+#: dolphinmainwindow.cpp:2962
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
@@ -1472,7 +1472,7 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "တာမီနယ်ပန်နယ် အာရုံမစိုက်တော့ပါ"
 
-#: dolphinmainwindow.cpp:2981
+#: dolphinmainwindow.cpp:2973
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Defocus Terminal Panel"
@@ -1671,7 +1671,7 @@ msgid "Empty Recently Closed Tabs"
 msgstr "မကြာမီကပိတ်ခဲ့သောတပ်ဘ်များ ရှင်းပစ်မည်"
 
 #: dolphinrecenttabsmenu.cpp:37 dolphinrecenttabsmenu.cpp:40
-#: dolphinviewcontainer.cpp:520 search/dolphinsearchbox.cpp:300
+#: dolphinviewcontainer.cpp:545 search/dolphinsearchbox.cpp:300
 #, kde-format
 msgid "Search for %1 in %2"
 msgstr "%2တွင် %1အတွက် ရှာမည်"
@@ -1786,7 +1786,7 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:95
+#: dolphinviewcontainer.cpp:98
 #, kde-kuit-format
 msgctxt "@info:whatsthis findbar"
 msgid ""
@@ -1801,12 +1801,12 @@ msgid ""
 "find an item.</item></list></para>"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:115
+#: dolphinviewcontainer.cpp:118
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:166
+#: dolphinviewcontainer.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1814,7 +1814,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "ဖိုလ်ဒါတွန်းတင်နေသည်..."
 
-#: dolphinviewcontainer.cpp:169
+#: dolphinviewcontainer.cpp:172
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1822,17 +1822,17 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "စီသည် -"
 
-#: dolphinviewcontainer.cpp:565
+#: dolphinviewcontainer.cpp:590
 #, kde-format
 msgid "Search"
 msgstr "ရှာမည်"
 
-#: dolphinviewcontainer.cpp:567
+#: dolphinviewcontainer.cpp:592
 #, kde-format
 msgid "Search for %1"
 msgstr "%1အတွက် ရှာမည်"
 
-#: dolphinviewcontainer.cpp:649
+#: dolphinviewcontainer.cpp:676
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1840,26 +1840,26 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "ရှာဖွေနေသည်..."
 
-#: dolphinviewcontainer.cpp:669
+#: dolphinviewcontainer.cpp:696
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "အိုင်တမ်များ မတွေ့ပါ။"
 
-#: dolphinviewcontainer.cpp:853
+#: dolphinviewcontainer.cpp:880
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:856
+#: dolphinviewcontainer.cpp:883
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:863
+#: dolphinviewcontainer.cpp:890
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1867,19 +1867,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "မမှန်ကန်သော ပရိုတိုကော"
 
-#: dolphinviewcontainer.cpp:865
+#: dolphinviewcontainer.cpp:892
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "မမှန်ကန်သော ပရိုတိုကော"
 
-#: dolphinviewcontainer.cpp:959
+#: dolphinviewcontainer.cpp:986
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1001 dolphinviewcontainer.cpp:1004
+#: dolphinviewcontainer.cpp:1028 dolphinviewcontainer.cpp:1031
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -4053,37 +4053,33 @@ msgid "Use auto-expanding folders for all view types"
 msgstr ""
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:121
-#, kde-format
-msgid "Show the statusbar"
-msgstr "အခြေအနေပြ-တန်း ပြမည်"
+#: settings/dolphin_generalsettings.kcfg:126
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgid "Statusbar"
+msgstr "အခြေအနေပြတန်း"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:126
+#: settings/dolphin_generalsettings.kcfg:131
 #, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "ဇွန်း တိုး/လျော့တန်းကို အခြေအနေပြ-တန်းတွင် ပြမည်"
 
-#. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
-#: settings/dolphin_generalsettings.kcfg:130
-#, kde-format
-msgid "Show the space information in the statusbar"
-msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များကို အခြေအနေပြ-တန်းတွင် ပြမည်"
-
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:134
+#: settings/dolphin_generalsettings.kcfg:135
 #, kde-format
 msgid "Lock the layout of the panels"
 msgstr "ပန်နယ်များ၏အခင်းအကျင်းကို ပုံသေထားမည်"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:138
+#: settings/dolphin_generalsettings.kcfg:139
 #, kde-format
 msgid "Enlarge Small Previews"
 msgstr "သေးငယ််သောအကြိုမြင်ကွင်းများ ချဲ့ပြမည်"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:147
+#: settings/dolphin_generalsettings.kcfg:148
 #, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4091,13 +4087,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:152
+#: settings/dolphin_generalsettings.kcfg:153
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:158
+#: settings/dolphin_generalsettings.kcfg:159
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4105,7 +4101,7 @@ msgid "Ask for confirmation when opening many folders at once."
 msgstr "လင်းပိုင်တွင်အတည်ပြုချက်တောင်းခံရန်၊ အောက်ပါအချိန်တွင် -"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:162
+#: settings/dolphin_generalsettings.kcfg:163
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4578,39 +4574,49 @@ msgctxt "@title:group"
 msgid "Remote storage:"
 msgstr "ပြန်လည်ထားသိုမည်"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:36
-#, kde-format
-msgctxt "@option:check"
-msgid "Show status bar"
-msgstr "အခြေအနေပြတန်း ပြမည်"
+#: settings/interface/statusandlocationbarssettingspage.cpp:42
+#, fuzzy, kde-format
+#| msgctxt "@title:group Size"
+#| msgid "Small"
+msgctxt "@option:radio"
+msgid "Small"
+msgstr "သေးငယ်"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:37
+#: settings/interface/statusandlocationbarssettingspage.cpp:43
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Label width:"
+msgctxt "@option:radio"
+msgid "Full width"
+msgstr "အညွှန်းစာ အနံ"
+
+#: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
 msgctxt "@option:check"
 msgid "Show zoom slider"
 msgstr "ဇွန်း တိုး/လျော့တန်း ပြမည်"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:38
+#: settings/interface/statusandlocationbarssettingspage.cpp:45
 #, kde-format
 msgctxt "@option:check"
-msgid "Show space information"
-msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များ ပြမည်"
+msgid "Disabled"
+msgstr ""
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:40
+#: settings/interface/statusandlocationbarssettingspage.cpp:51
 #, fuzzy, kde-format
 #| msgctxt "@title:tab Status Bar settings"
 #| msgid "Status Bar"
 msgctxt "@title:group"
-msgid "Status Bar: "
+msgid "Status Bar:"
 msgstr "အခြေအနေပြတန်း"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:47
+#: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
 msgstr "တည်နေရာပြ-တန်းကို တည်းဖြတ်ခွင့်ပြုမည်"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:48
+#: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Location Bar"
@@ -4618,7 +4624,7 @@ msgstr "တည်နေရာပြ-တန်းကို တည်းဖြတ�
 msgid "Location bar:"
 msgstr "တည်နေရာပြ-တန်း"
 
-#: settings/interface/statusandlocationbarssettingspage.cpp:50
+#: settings/interface/statusandlocationbarssettingspage.cpp:71
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
@@ -5111,7 +5117,7 @@ msgid "Open files and folders:"
 msgstr "ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ရှာဖွေမည်"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:340
+#: statusbar/dolphinstatusbar.cpp:396
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5275,29 +5281,29 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "ဖိုလ်ဒါများ - %1"
 
-#: statusbar/dolphinstatusbar.cpp:59
+#: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "ဇွန်း -"
 
-#: statusbar/dolphinstatusbar.cpp:63
+#: statusbar/dolphinstatusbar.cpp:64
 #, kde-format
 msgid "Zoom"
 msgstr "ဇွန်း"
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:65
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:85
+#: statusbar/dolphinstatusbar.cpp:86
 #, kde-format
 msgid "Stop"
 msgstr "ရပ်မည်"
 
-#: statusbar/dolphinstatusbar.cpp:87
+#: statusbar/dolphinstatusbar.cpp:88
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
@@ -5316,17 +5322,11 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:282
+#: statusbar/dolphinstatusbar.cpp:344
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "ဇွန်း တိုး/လျော့တန်း ပြမည်"
-
-#: statusbar/dolphinstatusbar.cpp:286
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Show Space Information"
-msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များ ပြမည်"
 
 #: statusbar/statusbarspaceinfo.cpp:145
 #, kde-format
@@ -5600,74 +5600,74 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "တည်နေရာ '%1' သည် မမှန်ကန်ပါ။"
 
-#: views/dolphinview.cpp:2343
+#: views/dolphinview.cpp:2359
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "တွန်းတင်နေသည်..."
 
-#: views/dolphinview.cpp:2372
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "Loading canceled"
 msgstr "တွန်းတင်ခြင်းပယ်ဖျက်ခဲ့သည်"
 
-#: views/dolphinview.cpp:2374
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No items matching the filter"
 msgstr "မည်သည်အိုင်တမ်မှ စစ်ထုတ်ချက်နှင့် မကိုက်ညီပါ"
 
-#: views/dolphinview.cpp:2376
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No items matching the search"
 msgstr "ရှာဖွေမှုနှင့်ကိုက်ညီသော အိုင်တမ်များမတွေ့ပါ"
 
-#: views/dolphinview.cpp:2378
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Trash is empty"
 msgstr "အမှိုက်ပုံး ဗလာ"
 
-#: views/dolphinview.cpp:2381
+#: views/dolphinview.cpp:2397
 #, kde-format
 msgid "No tags"
 msgstr "တပ်ဂ်များမရှိ"
 
-#: views/dolphinview.cpp:2384
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2404
 #, kde-format
 msgid "No recently used items"
 msgstr "မကြာသေးမီကအသုံးပြုခဲ့သောအိုင်တမ်များမရှိ"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2406
 #, kde-format
 msgid "No shared folders found"
 msgstr "ဝေမျှထားသော ဖိုလ်ဒါများမတွေ့ပါ"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2408
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2410
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2396
+#: views/dolphinview.cpp:2412
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
 
-#: views/dolphinview.cpp:2398
+#: views/dolphinview.cpp:2414
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
 
-#: views/dolphinview.cpp:2400
+#: views/dolphinview.cpp:2416
 #, kde-format
 msgid "Folder is empty"
 msgstr "ဖိုလ်ဒါသည် ဗလာဖြစ်နေသည်"
@@ -6081,6 +6081,24 @@ msgstr[0] "ရွေးချယ်ထားသော အိုင်တမ် %
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "ဗားရှင်းဆိုင်ရာ အချက်အလက်များ အပ်ဒိတ်တင်နေသည်..."
+
+#~ msgid "Show the statusbar"
+#~ msgstr "အခြေအနေပြ-တန်း ပြမည်"
+
+#~ msgid "Show the space information in the statusbar"
+#~ msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များကို အခြေအနေပြ-တန်းတွင် ပြမည်"
+
+#~ msgctxt "@option:check"
+#~ msgid "Show status bar"
+#~ msgstr "အခြေအနေပြတန်း ပြမည်"
+
+#~ msgctxt "@option:check"
+#~ msgid "Show space information"
+#~ msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များ ပြမည်"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Show Space Information"
+#~ msgstr "နေရာလွတ်ဆိုင်ရာ သတင်းအချက်အလက်များ ပြမည်"
 
 #~ msgctxt "@action:inmenu"
 #~ msgid "Restore"
