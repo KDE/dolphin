@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-30 02:34+0000\n"
-"PO-Revision-Date: 2025-02-17 23:03+0100\n"
+"PO-Revision-Date: 2025-02-24 18:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1387,7 +1387,7 @@ msgstr "Cerrar"
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
-msgstr "Cerrar vista izquierda"
+msgstr "Cerrar vista de la izquierda"
 
 #: dolphinmainwindow.cpp:2688
 #, kde-format
@@ -1411,7 +1411,7 @@ msgstr "Cerrar"
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
-msgstr "Cerrar vista derecha"
+msgstr "Cerrar vista de la derecha"
 
 #: dolphinmainwindow.cpp:2694
 #, kde-format
