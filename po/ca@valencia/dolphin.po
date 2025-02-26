@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-25 00:42+0000\n"
-"PO-Revision-Date: 2025-02-07 09:41+0100\n"
+"PO-Revision-Date: 2025-02-25 10:11+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1406,9 +1406,7 @@ msgid "Close left view"
 msgstr "Tanca la vista de l'esquerra"
 
 #: dolphinmainwindow.cpp:2699
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Tanca la vista de l'esquerra"
@@ -1438,9 +1436,7 @@ msgid "Close right view"
 msgstr "Tanca la vista de la dreta"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Tanca la vista de la dreta"
@@ -4328,11 +4324,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Barra d'estat: "
+msgstr "Barra d'estat"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4822,20 +4816,16 @@ msgid "Remote storage:"
 msgstr "Emmagatzematge remot:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Xicoteta"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Amplària de les etiquetes:"
+msgstr "Amplària total"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4847,15 +4837,13 @@ msgstr "Mostra el control lliscant del zoom"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivada"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Barra d'estat: "
+msgstr "Barra d'estat:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -6361,21 +6349,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Mostra la barra d'estat"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Mostra la informació sobre l'espai en la barra d'estat"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Mostra la barra d'estat"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Mostra la informació sobre l'espai"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Mostra la informació sobre l'espai"
