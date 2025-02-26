@@ -339,6 +339,11 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
 
+    // Do not show the context menu on small statusbar.
+    if (GeneralSettings::showStatusBar() == GeneralSettings::EnumShowStatusBar::Small) {
+        return;
+    }
+
     QMenu menu(this);
 
     QAction *showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
