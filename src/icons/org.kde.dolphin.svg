@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-SPDX-FileCopyrightText: 2016 Alessandro Longo <alessandro.longo@kdemail.net>
-SPDX-FileCopyrightText: 2025 Darshan Phaldesai <dev.darshanphaldesai@gmail.com>
-SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
--->
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
    width="64"
@@ -24,6 +18,12 @@ SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <!--
+  SPDX-FileCopyrightText: 2016 Alessandro Longo <alessandro.longo@kdemail.net>
+  SPDX-FileCopyrightText: 2025 Darshan Phaldesai <dev.darshanphaldesai@gmail.com>
+  SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+  -->
+  <!-- Created with Inkscape (http://www.inkscape.org/) -->
   <sodipodi:namedview
      id="namedview1"
      pagecolor="#ffffff"
