@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-25 00:42+0000\n"
-"PO-Revision-Date: 2025-02-24 17:00+0100\n"
+"POT-Creation-Date: 2025-02-27 00:43+0000\n"
+"PO-Revision-Date: 2025-02-26 18:01+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -4281,11 +4281,9 @@ msgstr "Använd automatiskt expanderande kataloger i alla visningslägen"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Statusrad: "
+msgstr "Statusrad"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4775,20 +4773,16 @@ msgid "Remote storage:"
 msgstr "Fjärrlagring:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Liten"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Beteckningsbredd:"
+msgstr "Full bredd"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4800,15 +4794,13 @@ msgstr "Visa zoomreglage"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Inaktiverad"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Statusrad: "
+msgstr "Statusrad:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -5298,7 +5290,7 @@ msgid "Open files and folders:"
 msgstr "Öppna filer och kataloger:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:396
+#: statusbar/dolphinstatusbar.cpp:401
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5514,7 +5506,7 @@ msgstr ""
 "item><item><emphasis>Utrymmesinformation</emphasis> om den nuvarande "
 "lagringsenheten.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:344
+#: statusbar/dolphinstatusbar.cpp:349
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

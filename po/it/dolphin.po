@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-25 00:42+0000\n"
+"POT-Creation-Date: 2025-02-27 00:43+0000\n"
 "PO-Revision-Date: 2025-02-24 17:39+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -5351,7 +5351,7 @@ msgid "Open files and folders:"
 msgstr "Apri file e cartelle:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:396
+#: statusbar/dolphinstatusbar.cpp:401
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5569,7 +5569,7 @@ msgstr ""
 "item><item><emphasis>Informazioni sullo spazio</emphasis> relative al "
 "dispositivo di archiviazione attuale.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:344
+#: statusbar/dolphinstatusbar.cpp:349
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

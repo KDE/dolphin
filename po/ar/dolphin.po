@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-25 00:42+0000\n"
+"POT-Creation-Date: 2025-02-27 00:43+0000\n"
 "PO-Revision-Date: 2025-02-09 10:46+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -5345,7 +5345,7 @@ msgid "Open files and folders:"
 msgstr "افتح الملفات والمجلدات:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:396
+#: statusbar/dolphinstatusbar.cpp:401
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5561,7 +5561,7 @@ msgstr ""
 "emphasis> الذي يسمح لك بضبط حجم الرموز في العرض. </item> <item> <emphasis> "
 "معلومات المساحة </emphasis> حول جهاز التخزين الحالي. </item> </list> </para> "
 
-#: statusbar/dolphinstatusbar.cpp:344
+#: statusbar/dolphinstatusbar.cpp:349
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
