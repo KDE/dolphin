@@ -2440,7 +2440,7 @@ bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
             const KFileItem item = m_model->fileItem(index.value());
             const QString text = item.text();
             const QPoint pos = mapToGlobal(event->pos());
-            QToolTip::showText(pos, text);
+            QToolTip::showText(pos, text, this);
             return true;
         }
     }
