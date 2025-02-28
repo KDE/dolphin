@@ -942,7 +942,12 @@ void DolphinViewContainer::startSearching()
     const QUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
         m_view->setViewPropertiesContext(QStringLiteral("search"));
-        m_urlNavigatorConnected->setLocationUrl(url);
+        // If we open a new tab that has a search assigned to it, we can't
+        // update the urlNavigator, since there is none connected to that tab.
+        // See BUG:500101
+        if (m_urlNavigatorConnected) {
+            m_urlNavigatorConnected->setLocationUrl(url);
+        }
     }
 }
 
