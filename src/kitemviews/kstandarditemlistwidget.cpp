@@ -345,24 +345,39 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         drawSiblingsInformation(painter);
     }
 
+    auto pixmap = m_pixmap;
+    if (!m_overlays.isEmpty()) {
+        const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
+
+        const bool iconOnTop = (m_layout == IconsLayout);
+        const KItemListStyleOption &option = styleOption();
+        const qreal padding = option.padding;
+
+        const int widgetIconSize = iconSize();
+        const int maxIconWidth = iconOnTop ? size().width() - 2 * padding : widgetIconSize;
+        const int maxIconHeight = widgetIconSize;
+
+        pixmap = addOverlays(pixmap, m_overlays, QSize(maxIconWidth, maxIconHeight), dpr);
+    }
+
     const KItemListStyleOption &itemListStyleOption = styleOption();
-    if (isHovered() && !m_pixmap.isNull()) {
+    if (isHovered() && !pixmap.isNull()) {
         if (hoverOpacity() < 1.0) {
             /*
-             * Linear interpolation between m_pixmap and m_hoverPixmap.
+             * Linear interpolation between pixmap and m_hoverPixmap.
              *
              * Note that this cannot be achieved by painting m_hoverPixmap over
-             * m_pixmap, even if the opacities are adjusted. For details see
+             * pixmap, even if the opacities are adjusted. For details see
              * https://git.reviewboard.kde.org/r/109614/
              */
-            // Paint pixmap1 so that pixmap1 = m_pixmap * (1.0 - hoverOpacity())
-            QPixmap pixmap1(m_pixmap.size());
-            pixmap1.setDevicePixelRatio(m_pixmap.devicePixelRatio());
+            // Paint pixmap1 so that pixmap1 = pixmap * (1.0 - hoverOpacity())
+            QPixmap pixmap1(pixmap.size());
+            pixmap1.setDevicePixelRatio(pixmap.devicePixelRatio());
             pixmap1.fill(Qt::transparent);
             {
                 QPainter p(&pixmap1);
                 p.setOpacity(1.0 - hoverOpacity());
-                p.drawPixmap(0, 0, m_pixmap);
+                p.drawPixmap(0, 0, pixmap);
             }
 
             // Paint pixmap2 so that pixmap2 = m_hoverPixmap * hoverOpacity()
@@ -376,8 +391,8 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
             }
 
             // Paint pixmap2 on pixmap1 using CompositionMode_Plus
-            // Now pixmap1 = pixmap2 + m_pixmap * (1.0 - hoverOpacity())
-            //             = m_hoverPixmap * hoverOpacity() + m_pixmap * (1.0 - hoverOpacity())
+            // Now pixmap1 = pixmap2 + pixmap * (1.0 - hoverOpacity())
+            //             = m_hoverPixmap * hoverOpacity() + pixmap * (1.0 - hoverOpacity())
             {
                 QPainter p(&pixmap1);
                 p.setCompositionMode(QPainter::CompositionMode_Plus);
@@ -389,8 +404,8 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         } else {
             drawPixmap(painter, m_hoverPixmap);
         }
-    } else if (!m_pixmap.isNull()) {
-        drawPixmap(painter, m_pixmap);
+    } else if (!pixmap.isNull()) {
+        drawPixmap(painter, pixmap);
     }
 
     painter->setFont(m_customizedFont);
@@ -1109,14 +1124,11 @@ void KStandardItemListWidget::updatePixmapCache()
             const QStringList overlays = values["iconOverlays"].toStringList();
             const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
             m_pixmap = pixmapForIcon(iconName,
-                                     m_overlays,
                                      QSize(maxIconWidth, maxIconHeight),
                                      m_layout != IconsLayout && isActiveWindow() && isSelected() && hasFocus ? QIcon::Selected : QIcon::Normal);
 
         } else {
-            if (!m_overlays.isEmpty()) {
-                m_pixmap = addOverlays(m_pixmap, m_overlays, QSize(maxIconWidth, maxIconHeight), dpr);
-            } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
+            if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
                 // A custom pixmap has been applied. Assure that the pixmap
                 // is scaled to the maximum available size.
                 KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * dpr);
@@ -1698,7 +1710,7 @@ void KStandardItemListWidget::closeRoleEditor()
     m_roleEditor = nullptr;
 }
 
-QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QHash<Qt::Corner, QString> &overlays, const QSize &size, QIcon::Mode mode) const
+QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QSize &size, QIcon::Mode mode) const
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
     const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
@@ -1706,8 +1718,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QHash<
     int iconHeight = size.height();
     QSize iconSize = QSize(iconHeight, iconHeight);
 
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.values().join(QLatin1Char(':')) % ":" % QString::number(iconHeight) % "@"
-        % QString::number(dpr) % ":" % QString::number(mode);
+    const QString key = "KStandardItemListWidget:" % name % ":" % QString::number(iconHeight) % "@" % QString::number(dpr) % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, &pixmap)) {
@@ -1725,8 +1736,6 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString &name, const QHash<
         if (pixmap.width() != iconHeight * dpr || pixmap.height() != iconHeight * dpr) {
             KPixmapModifier::scale(pixmap, iconSize * dpr);
         }
-
-        pixmap = addOverlays(pixmap, overlays, size, dpr, mode);
 
         QPixmapCache::insert(key, pixmap);
     }
