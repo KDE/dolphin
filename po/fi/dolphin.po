@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 00:43+0000\n"
+"POT-Creation-Date: 2025-03-01 00:52+0000\n"
 "PO-Revision-Date: 2025-01-28 18:26+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2109,13 +2109,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Virheellinen yhteyskäytäntö"
 
-#: dolphinviewcontainer.cpp:986
+#: dolphinviewcontainer.cpp:991
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Kansioon siirtymiseksi vaaditaan tunnistautuminen."
 
-#: dolphinviewcontainer.cpp:1028 dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1033 dolphinviewcontainer.cpp:1036
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
