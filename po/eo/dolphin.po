@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:52+0000\n"
-"PO-Revision-Date: 2025-02-13 22:57+0100\n"
+"PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1378,12 +1378,10 @@ msgid "Close left view"
 msgstr "Fermi maldekstran vidon"
 
 #: dolphinmainwindow.cpp:2699
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
-msgstr "Fermi maldekstran vidon"
+msgstr "Fermi Maldekstran Vidon"
 
 #: dolphinmainwindow.cpp:2701
 #, kde-format
@@ -1410,12 +1408,10 @@ msgid "Close right view"
 msgstr "Fermi dekstran vidon"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
-msgstr "Fermi dekstran vidon"
+msgstr "Fermi Dekstran Vidon"
 
 #: dolphinmainwindow.cpp:2709
 #, kde-format
@@ -4272,11 +4268,9 @@ msgstr "Uzi aŭtomate vastiĝantajn dosierujojn por ĉiuj vidospecoj"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Statusbreto: "
+msgstr "Statusbreto"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4766,20 +4760,16 @@ msgid "Remote storage:"
 msgstr "Fora konservejo:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Malgranda"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Larĝo de etikedo:"
+msgstr "Plena larĝeco"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4791,15 +4781,13 @@ msgstr "Montri zoman ŝovilon"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Malŝaltita"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Statusbreto: "
+msgstr "Statusbreto:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -6293,21 +6281,3 @@ msgstr[1] "Agoj por %1 Elektitaj Eroj"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Ĝisdatigante informojn pri versio…"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Montri la statobreton"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Montri la spacajn informojn en la statobreto"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Montri statobreton"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Montri informon pri spaco"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Montri Spacinformojn"

@@ -856,7 +856,7 @@ has all features from dolphin ?-->
 <para
 >Če je pult <guilabel
 >Mesta</guilabel
-> skrita; v obeh načinih se pred potjo prikaže dodatna ikona. To ikono lahko kliknete z &LMB; in odprete meni, ki ponuja hiter dostop do <quote
+> skrit; v obeh načinih se pred potjo prikaže dodatna ikona. To ikono lahko kliknete z &LMB; in odprete meni, ki ponuja hiter dostop do <quote
 >mest</quote
 > in medijev za shranjevanje. Za podrobnosti glejte <link linkend="places-panel"
 >poglavje o pultu Mesta</link
@@ -930,7 +930,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenuitem
 >Dodaj vnos...</guimenuitem
 ></menuchoice
->. Prvi postopek ustvari sistemsko zaznamek, drugi postopek pa lahko uporabite za dodajanje trenutne poti v lokacijsko vrstico ali katero koli želeno mapo ali napravo. Odpre se pogovorno okno, v katerem lahko urejate oznako, lokacijo in ikono ter omejite uporabo tega vnosa na &dolphin;. </para>
+>. Prvi postopek ustvari sistemski zaznamek, drugi postopek pa lahko uporabite za dodajanje trenutne poti v lokacijsko vrstico ali katero koli želeno mapo ali napravo. Odpre se pogovorno okno, v katerem lahko urejate oznako, lokacijo in ikono ter omejite uporabo tega vnosa na &dolphin;. </para>
 
 <para
 >S &RMB; klikom se odpre kontekstni meni za urejanje, dodajanje, skrivanje ali odstranjevanje vnosov in spreminjanje velikosti ikone na eno od vnaprej določenih vrednosti ali zaklepanje/odklenjanje plošč. </para>
@@ -1087,7 +1087,7 @@ context menu Icon Size? No different entries ?-->
 >Možnost iz <guilabel
 >Povsod</guilabel
 > z aktiviranimi storitvami Baloo išče v vseh indeksiranih mapah, brez storitve Baloo pa ta možnost začne iskanje v uporabnikovi mapi <replaceable
->Domači</replaceable
+>Dom</replaceable
 >.</para>
 <screenshot>
 <screeninfo
@@ -1142,7 +1142,7 @@ context menu Icon Size? No different entries ?-->
 
 <para
 >Z ikono Shrani shranite iskanje v razdelek <guilabel
->Išči </guilabel
+>Išči</guilabel
 > na plošči <guilabel
 >Mesta</guilabel
 >, da do njega v prihodnosti hitro dostopate. </para>
@@ -1399,7 +1399,7 @@ context menu Icon Size? No different entries ?-->
 ><para
 >Omogočanje <guilabel
 >Preklapljanje med razdeljenimi podokni s tipko tabulator</guilabel
-> omogoča preklapljanje med razdeljenimi pogledi s tipko &Tab; ključ. </para
+> omogoča preklapljanje med razdeljenimi pogledi s tipko &Tab;. </para
 ></listitem>
 
 <listitem
@@ -2527,7 +2527,7 @@ context menu Icon Size? No different entries ?-->
 >Omogoči in onemogoči <link linkend="filter-files"
 >filtrirno vrstico</link
 >.</action
->Za to dejanje lahko uporabite tudi nadomestno bližnjico <keycombo action="simul"
+> Za to dejanje lahko uporabite tudi nadomestno bližnjico <keycombo action="simul"
 >&Shift;<keycap
 >/</keycap
 ></keycombo
