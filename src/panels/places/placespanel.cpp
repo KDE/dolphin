@@ -257,7 +257,7 @@ void PlacesPanel::slotTearDownDone(const QModelIndex &index, Solid::ErrorType er
 void PlacesPanel::slotRowsInserted(const QModelIndex &parent, int first, int last)
 {
     for (int i = first; i <= last; ++i) {
-        connectDeviceSignals(model()->index(first, 0, parent));
+        connectDeviceSignals(model()->index(i, 0, parent));
     }
 }
 
