@@ -18,6 +18,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QStyle>
 #include <QToolBar>
 
 #include <limits>
@@ -134,9 +135,13 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 {
     if (visible) {
         Q_ASSERT(m_splitter->count() == 2);
+        m_splitter->widget(0)->setContentsMargins(0, 0, m_splitter->style()->pixelMetric(QStyle::PM_LayoutRightMargin), 0);
+        m_splitter->widget(1)->setContentsMargins(m_splitter->style()->pixelMetric(QStyle::PM_LayoutLeftMargin), 0, 0, 0);
         m_splitter->widget(1)->setVisible(true);
     } else if (m_splitter->count() > 1) {
         m_splitter->widget(1)->setVisible(false);
+        m_splitter->widget(0)->setContentsMargins(0, 0, 0, 0);
+        m_splitter->widget(1)->setContentsMargins(0, 0, 0, 0);
         // Fix an unlikely event of wrong trash button visibility.
         emptyTrashButton(Secondary)->setVisible(false);
     }
@@ -172,6 +177,7 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto layout = new QHBoxLayout{navigatorWidget};
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
+
     if (side == Primary) {
         auto leadingSpacing = new QWidget{navigatorWidget};
         layout->addWidget(leadingSpacing);
