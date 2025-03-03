@@ -6201,21 +6201,3 @@ msgstr[1] "Handlingar for %1 merkte element"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Vis statuslinja"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Vis informasjon om plass i statuslinja"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Vis statuslinja"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Vis plassinformasjon"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Vis plassinformasjon"

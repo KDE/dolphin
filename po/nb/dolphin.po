@@ -6241,17 +6241,3 @@ msgstr[1] "Handlinger for %1 valgte elementer"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Oppdaterer versjonsinformasjon …"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Vis statuslinja"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Vis plassinformasjon i statuslinja"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Vis plassinformasjon"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Vis plassinformasjon"

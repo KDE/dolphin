@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:52+0000\n"
-"PO-Revision-Date: 2025-02-09 10:46+0400\n"
+"PO-Revision-Date: 2025-03-02 10:42+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1373,9 +1373,7 @@ msgid "Close left view"
 msgstr "أغلق العرض الأيسر"
 
 #: dolphinmainwindow.cpp:2699
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "أغلق العرض الأيسر"
@@ -1405,9 +1403,7 @@ msgid "Close right view"
 msgstr "أغلق العرض الأيمن"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "أغلق العرض الأيمن"
@@ -4332,11 +4328,9 @@ msgstr "استخدام المجلدات القابلة للتوسّع لكلّ �
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "شريط الحالة: "
+msgstr "شريط الحالة"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4820,20 +4814,16 @@ msgid "Remote storage:"
 msgstr "التخزين الخارجي:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "صغيرة"
+msgstr "صغير"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "عرض اللصيقة:"
+msgstr "كامل العرض"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4845,15 +4835,13 @@ msgstr "أظهر منزلقة التكبير"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "معطّلة"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "شريط الحالة: "
+msgstr "شريط الحالة:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
