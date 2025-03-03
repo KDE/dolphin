@@ -2198,7 +2198,7 @@ void DolphinMainWindow::setupActions()
 
     QAction *openInSplitViewAction = actionCollection()->addAction(QStringLiteral("open_in_split_view"));
     openInSplitViewAction->setText(i18nc("@action:inmenu", "Open in Split View"));
-    openInSplitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+    openInSplitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     connect(openInSplitViewAction, &QAction::triggered, this, [this]() {
         openInSplitView(QUrl());
     });
@@ -2719,7 +2719,7 @@ void DolphinMainWindow::updateSplitActions()
         m_splitViewAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         m_splitViewMenuAction->setText(m_splitViewAction->text());
         m_splitViewAction->setToolTip(i18nc("@info", "Split view"));
-        m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+        m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
         popoutSplitAction->setText(i18nc("@action:intoolbar Move view in focus to a new window", "Pop out"));
         popoutSplitAction->setEnabled(false);
         if (m_splitViewAction->menu()) {

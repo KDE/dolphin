@@ -42,7 +42,7 @@ PlacesPanel::PlacesPanel(QWidget *parent)
         slotTearDownRequested(index);
     });
 
-    m_openInSplitView = new QAction(QIcon::fromTheme(QStringLiteral("view-right-new")), i18nc("@action:inmenu", "Open in Split View"));
+    m_openInSplitView = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18nc("@action:inmenu", "Open in Split View"));
     m_openInSplitView->setPriority(QAction::HighPriority);
     connect(m_openInSplitView, &QAction::triggered, this, [this]() {
         const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
