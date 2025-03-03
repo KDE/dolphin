@@ -285,7 +285,8 @@ void DolphinStatusBar::updateWidthToContent()
         // Make sure minimum height takes clipping into account.
         setMinimumHeight(m_label->height() + clippingAmount());
         const int scrollbarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &opt, this);
-        const int maximumViewWidth = parentWidget()->width() - scrollbarWidth;
+        // Make sure maximumViewWidth does not go below 0.
+        const int maximumViewWidth = qMax(0, parentWidget()->width() - scrollbarWidth);
         if (m_stopButton->isVisible() || m_progressTextLabel->isVisible() || m_progressBar->isVisible()) {
             // Use maximum width when interactable elements are shown, to keep them
             // from "jumping around" when user tries to interact with them.
