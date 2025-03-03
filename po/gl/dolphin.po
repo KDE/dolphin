@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 02:50+0000\n"
-"PO-Revision-Date: 2025-02-14 08:07+0100\n"
-"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
+"PO-Revision-Date: 2025-02-28 07:16+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -4502,7 +4502,7 @@ msgstr "Tras a lapela actual."
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "Ao final da barra de lapelas."
+msgstr "Ao final da barra de separadores."
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
