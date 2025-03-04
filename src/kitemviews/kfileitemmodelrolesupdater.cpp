@@ -1207,6 +1207,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
 
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
+        resetCountData(index);
         startDirectorySizeCounting(item, index);
         return;
     } else {
@@ -1358,6 +1359,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
+        resetCountData(index);
         startDirectorySizeCounting(item, index);
     }
 
@@ -1509,6 +1511,16 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
             m_model->setData(index, data);
         }
     }
+}
+
+void KFileItemModelRolesUpdater::resetCountData(const int index)
+{
+    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    auto data = m_model->data(index);
+    data.insert("size", 0);
+    data.insert("count", 0);
+    m_model->setData(index, data);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 }
 
 #include "moc_kfileitemmodelrolesupdater.cpp"
