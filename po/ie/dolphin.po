@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-01 00:52+0000\n"
+"POT-Creation-Date: 2025-03-04 00:43+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -1475,29 +1475,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinnavigatorswidgetaction.cpp:201
+#: dolphinnavigatorswidgetaction.cpp:207
 #, fuzzy, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Adresse"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:234
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Vacuar li Paper-corb"
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:235
 #, fuzzy, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Paper-corb"
 
-#: dolphinnavigatorswidgetaction.cpp:255
+#: dolphinnavigatorswidgetaction.cpp:261
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Adjunter un fólder in li rete"
 
-#: dolphinnavigatorswidgetaction.cpp:294
+#: dolphinnavigatorswidgetaction.cpp:300
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

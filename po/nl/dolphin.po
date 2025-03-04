@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-01 00:52+0000\n"
+"POT-Creation-Date: 2025-03-04 00:43+0000\n"
 "PO-Revision-Date: 2025-02-25 12:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1710,29 +1710,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Focus van plaatsenpaneel weghalen"
 
-#: dolphinnavigatorswidgetaction.cpp:201
+#: dolphinnavigatorswidgetaction.cpp:207
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Server-URL invoeren (bijv. smb://[ip-adres])"
 
-#: dolphinnavigatorswidgetaction.cpp:228
+#: dolphinnavigatorswidgetaction.cpp:234
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Prullenbak legen"
 
-#: dolphinnavigatorswidgetaction.cpp:229
+#: dolphinnavigatorswidgetaction.cpp:235
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Leegt de prullenbak om vrije ruimte te maken"
 
-#: dolphinnavigatorswidgetaction.cpp:255
+#: dolphinnavigatorswidgetaction.cpp:261
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Netwerkmap toevoegen"
 
-#: dolphinnavigatorswidgetaction.cpp:294
+#: dolphinnavigatorswidgetaction.cpp:300
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
