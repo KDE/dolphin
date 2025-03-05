@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-04 00:43+0000\n"
+"POT-Creation-Date: 2025-03-05 00:45+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -5256,7 +5256,7 @@ msgid "Open files and folders:"
 msgstr "सञ्चिकाः, पुटं च उद्घाटयन्तु :"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:401
+#: statusbar/dolphinstatusbar.cpp:402
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5469,7 +5469,7 @@ msgstr ""
 "चिह्नानां आकारं समायोजयितुं शक्नोति ।</item> वर्तमान भण्डारणयन्त्रस्य विषये "
 "<item><emphasis>अन्तरिक्षसूचना</emphasis> ।</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:349
+#: statusbar/dolphinstatusbar.cpp:350
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
