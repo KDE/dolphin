@@ -340,7 +340,7 @@ private:
 
     void trimHoverSequenceLoadedItems();
 
-    void resetCountData(const int index);
+    void resetSizeData(const int index);
 
 private:
     QSize cacheSize();

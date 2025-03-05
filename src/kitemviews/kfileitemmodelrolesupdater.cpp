@@ -439,30 +439,32 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
             m_directoryContentsCounter->stopWorker();
         }
     } else {
-        QStringList dirsWithDeletedItems;
+        QList<QUrl> dirsWithDeletedItems;
         // Only remove the items from m_finishedItems. They will be removed
         // from the other sets later on.
         QSet<KFileItem>::iterator it = m_finishedItems.begin();
         while (it != m_finishedItems.end()) {
             if (m_model->index(*it) < 0) {
                 // Get the folder path of the file.
-                dirsWithDeletedItems.append(QFileInfo(it->localPath()).absolutePath());
+                const auto folderUrl = it->parentFolderUrl();
+                if (!dirsWithDeletedItems.contains(folderUrl)) {
+                    dirsWithDeletedItems.append(folderUrl);
+                }
                 it = m_finishedItems.erase(it);
             } else {
                 ++it;
             }
         }
-        dirsWithDeletedItems.removeDuplicates();
 
         // Recount the sizes for directories that had files removed from them.
         for (const auto &dir : dirsWithDeletedItems) {
-            auto index = m_model->index(QUrl::fromLocalFile(dir));
+            auto index = m_model->index(dir);
             if (index < 0) {
                 continue;
             }
             auto item = m_model->fileItem(index);
             if (item.isDir()) {
-                resetCountData(index);
+                resetSizeData(index);
                 startDirectorySizeCounting(item, index);
             }
         }
@@ -1224,7 +1226,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
 
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
-        resetCountData(index);
+        resetSizeData(index);
         startDirectorySizeCounting(item, index);
         return;
     } else {
@@ -1349,7 +1351,6 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
 
             if (origCount != entryCount) {
                 newData.insert("count", entryCount);
-                newData.insert("size", entryCount);
             }
 
             if (!newData.isEmpty()) {
@@ -1378,7 +1379,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
-        resetCountData(index);
+        resetSizeData(index);
         startDirectorySizeCounting(item, index);
     }
 
@@ -1532,7 +1533,7 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
     }
 }
 
-void KFileItemModelRolesUpdater::resetCountData(const int index)
+void KFileItemModelRolesUpdater::resetSizeData(const int index)
 {
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     auto data = m_model->data(index);
