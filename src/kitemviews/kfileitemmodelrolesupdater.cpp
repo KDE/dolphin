@@ -439,14 +439,31 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
             m_directoryContentsCounter->stopWorker();
         }
     } else {
+        QStringList dirsWithDeletedItems;
         // Only remove the items from m_finishedItems. They will be removed
         // from the other sets later on.
         QSet<KFileItem>::iterator it = m_finishedItems.begin();
         while (it != m_finishedItems.end()) {
             if (m_model->index(*it) < 0) {
+                // Get the folder path of the file.
+                dirsWithDeletedItems.append(QFileInfo(it->localPath()).absolutePath());
                 it = m_finishedItems.erase(it);
             } else {
                 ++it;
+            }
+        }
+        dirsWithDeletedItems.removeDuplicates();
+
+        // Recount the sizes for directories that had files removed from them.
+        for (const auto &dir : dirsWithDeletedItems) {
+            auto index = m_model->index(QUrl::fromLocalFile(dir));
+            if (index < 0) {
+                continue;
+            }
+            auto item = m_model->fileItem(index);
+            if (item.isDir()) {
+                resetCountData(index);
+                startDirectorySizeCounting(item, index);
             }
         }
 
@@ -1296,15 +1313,15 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         m_model->setData(index, data);
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
+        QSharedPointer<int> totalCount(new int(0));
+
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item, totalCount](const KJob * /*job*/, const KIO::UDSEntryList &list) {
             int index = m_model->index(item);
-            if (index < 0) {
+            if (index < 0 || totalCount.isNull()) {
                 return;
             }
-            auto data = m_model->data(index);
-            int origCount = data.value("count").toInt();
-            int entryCount = origCount;
+            int entryCount = 0;
 
             for (const KIO::UDSEntry &entry : list) {
                 const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
@@ -1320,17 +1337,27 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
                 }
                 ++entryCount;
             }
+            *totalCount += entryCount;
+        });
 
+        QObject::connect(listJob, &KIO::ListJob::finished, this, [this, item, totalCount]() {
+            int index = m_model->index(item);
+            if (index < 0 || totalCount.isNull()) {
+                return;
+            }
             QHash<QByteArray, QVariant> newData;
+            auto data = m_model->data(index);
+            int origCount = data.value("count").toInt();
+
             QVariant expandable = data.value("isExpandable");
-            if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
+            if (expandable.isNull() || expandable.toBool() != (*totalCount > 0)) {
                 // if expandable has changed
-                newData.insert("isExpandable", entryCount > 0);
+                newData.insert("isExpandable", *totalCount > 0);
             }
 
-            if (origCount != entryCount) {
-                // count has changed
-                newData.insert("count", entryCount);
+            if (origCount != *totalCount) {
+                newData.insert("count", *totalCount);
+                newData.insert("size", *totalCount);
             }
 
             if (!newData.isEmpty()) {
@@ -1518,7 +1545,6 @@ void KFileItemModelRolesUpdater::resetCountData(const int index)
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     auto data = m_model->data(index);
     data.insert("size", 0);
-    data.insert("count", 0);
     m_model->setData(index, data);
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 }
