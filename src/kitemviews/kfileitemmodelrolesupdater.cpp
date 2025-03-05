@@ -1313,17 +1313,20 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         m_model->setData(index, data);
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
-        QSharedPointer<int> totalCount(new int(0));
-
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item, totalCount](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+
+        QObject::connect(listJob, &KIO::ListJob::result, this, [this, item, listJob]() {
             int index = m_model->index(item);
-            if (index < 0 || totalCount.isNull()) {
+            if (index < 0) {
                 return;
             }
+
+            QHash<QByteArray, QVariant> newData;
+            auto data = m_model->data(index);
+            int origCount = data.value("count").toInt();
             int entryCount = 0;
 
-            for (const KIO::UDSEntry &entry : list) {
+            for (const KIO::UDSEntry &entry : listJob->itemList()) {
                 const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
 
                 if (name == QStringLiteral("..") || name == QStringLiteral(".")) {
@@ -1337,27 +1340,16 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
                 }
                 ++entryCount;
             }
-            *totalCount += entryCount;
-        });
-
-        QObject::connect(listJob, &KIO::ListJob::finished, this, [this, item, totalCount]() {
-            int index = m_model->index(item);
-            if (index < 0 || totalCount.isNull()) {
-                return;
-            }
-            QHash<QByteArray, QVariant> newData;
-            auto data = m_model->data(index);
-            int origCount = data.value("count").toInt();
 
             QVariant expandable = data.value("isExpandable");
-            if (expandable.isNull() || expandable.toBool() != (*totalCount > 0)) {
+            if (expandable.isNull() || expandable.toBool() != (entryCount > 0)) {
                 // if expandable has changed
-                newData.insert("isExpandable", *totalCount > 0);
+                newData.insert("isExpandable", entryCount > 0);
             }
 
-            if (origCount != *totalCount) {
-                newData.insert("count", *totalCount);
-                newData.insert("size", *totalCount);
+            if (origCount != entryCount) {
+                newData.insert("count", entryCount);
+                newData.insert("size", entryCount);
             }
 
             if (!newData.isEmpty()) {
