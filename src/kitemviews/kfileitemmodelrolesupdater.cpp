@@ -1287,7 +1287,17 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None || !item.isLocalFile()) {
+    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None) {
+        return;
+    }
+
+    // Set any remote files to unknown size (-1).
+    if (!item.isLocalFile()) {
+        auto data = m_model->data(index);
+        data.insert("size", -1);
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+        m_model->setData(index, data);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         return;
     }
 
