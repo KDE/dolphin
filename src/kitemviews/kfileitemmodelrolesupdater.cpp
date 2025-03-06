@@ -370,18 +370,26 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList &itemRan
 
     // Determine the sort role synchronously for as many items as possible.
     if (m_resolvableRoles.contains(m_model->sortRole())) {
+        QList<QUrl> dirsWithAddedItems;
+
         int insertedCount = 0;
         for (const KItemRange &range : itemRanges) {
             const int lastIndex = insertedCount + range.index + range.count - 1;
             for (int i = insertedCount + range.index; i <= lastIndex; ++i) {
+                const auto fileItem = m_model->fileItem(i);
+                if (!dirsWithAddedItems.contains(fileItem.parentFolderUrl())) {
+                    dirsWithAddedItems.append(fileItem.parentFolderUrl());
+                }
                 if (timer.elapsed() < MaxBlockTimeout) {
                     applySortRole(i);
                 } else {
-                    m_pendingSortRoleItems.insert(m_model->fileItem(i));
+                    m_pendingSortRoleItems.insert(fileItem);
                 }
             }
             insertedCount += range.count;
         }
+
+        recountDirectoryItems(dirsWithAddedItems);
 
         applySortProgressToModel();
 
@@ -456,18 +464,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
             }
         }
 
-        // Recount the sizes for directories that had files removed from them.
-        for (const auto &dir : dirsWithDeletedItems) {
-            auto index = m_model->index(dir);
-            if (index < 0) {
-                continue;
-            }
-            auto item = m_model->fileItem(index);
-            if (item.isDir()) {
-                resetSizeData(index);
-                startDirectorySizeCounting(item, index);
-            }
-        }
+        recountDirectoryItems(dirsWithDeletedItems);
 
         // Removed items won't have hover previews loaded anymore.
         for (const KItemRange &itemRange : itemRanges) {
@@ -1540,6 +1537,21 @@ void KFileItemModelRolesUpdater::resetSizeData(const int index)
     data.insert("size", 0);
     m_model->setData(index, data);
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+}
+
+void KFileItemModelRolesUpdater::recountDirectoryItems(const QList<QUrl> directories)
+{
+    for (const auto &dir : directories) {
+        auto index = m_model->index(dir);
+        if (index < 0) {
+            continue;
+        }
+        auto item = m_model->fileItem(index);
+        if (item.isDir()) {
+            resetSizeData(index);
+            startDirectorySizeCounting(item, index);
+        }
+    }
 }
 
 #include "moc_kfileitemmodelrolesupdater.cpp"

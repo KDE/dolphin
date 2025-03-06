@@ -342,6 +342,8 @@ private:
 
     void resetSizeData(const int index);
 
+    void recountDirectoryItems(const QList<QUrl> directories);
+
 private:
     QSize cacheSize();
     /**
