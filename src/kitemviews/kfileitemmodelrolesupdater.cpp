@@ -377,8 +377,9 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList &itemRan
             const int lastIndex = insertedCount + range.index + range.count - 1;
             for (int i = insertedCount + range.index; i <= lastIndex; ++i) {
                 const auto fileItem = m_model->fileItem(i);
-                if (!dirsWithAddedItems.contains(fileItem.parentFolderUrl())) {
-                    dirsWithAddedItems.append(fileItem.parentFolderUrl());
+                const auto fileItemParentFolderUrl = fileItem.url().adjusted(QUrl::RemoveFilename);
+                if (!dirsWithAddedItems.contains(fileItemParentFolderUrl)) {
+                    dirsWithAddedItems.append(fileItemParentFolderUrl);
                 }
                 if (timer.elapsed() < MaxBlockTimeout) {
                     applySortRole(i);
@@ -454,7 +455,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
         while (it != m_finishedItems.end()) {
             if (m_model->index(*it) < 0) {
                 // Get the folder path of the file.
-                const auto folderUrl = it->parentFolderUrl();
+                const auto folderUrl = it->url().adjusted(QUrl::RemoveFilename);
                 if (!dirsWithDeletedItems.contains(folderUrl)) {
                     dirsWithDeletedItems.append(folderUrl);
                 }
