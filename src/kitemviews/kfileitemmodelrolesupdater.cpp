@@ -1325,7 +1325,7 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
 
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
 
-        QObject::connect(listJob, &KIO::ListJob::result, this, [this, item, listJob]() {
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob *job, const KIO::UDSEntryList &list) {
             int index = m_model->index(item);
             if (index < 0) {
                 return;
@@ -1334,21 +1334,25 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
             QHash<QByteArray, QVariant> newData;
             auto data = m_model->data(index);
             int origCount = data.value("count").toInt();
-            int entryCount = 0;
+            // Get the amount of processed items...
+            int entryCount = job->processedAmount(KJob::Bytes);
 
-            for (const KIO::UDSEntry &entry : listJob->itemList()) {
+            // ...and then remove the unwanted items from the amount.
+            for (const KIO::UDSEntry &entry : list) {
                 const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
 
                 if (name == QStringLiteral("..") || name == QStringLiteral(".")) {
+                    --entryCount;
                     continue;
                 }
                 if (!m_model->showHiddenFiles() && name.startsWith(QLatin1Char('.'))) {
+                    --entryCount;
                     continue;
                 }
                 if (m_model->showDirectoriesOnly() && !entry.isDir()) {
+                    --entryCount;
                     continue;
                 }
-                ++entryCount;
             }
 
             QVariant expandable = data.value("isExpandable");
