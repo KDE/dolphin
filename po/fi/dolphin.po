@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:45+0000\n"
-"PO-Revision-Date: 2025-01-28 18:26+0200\n"
+"PO-Revision-Date: 2025-02-17 20:14+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -374,17 +374,13 @@ msgstr[0] "Avaa %1 pääte"
 msgstr[1] "Avaa %1 päätettä"
 
 #: dolphinmainwindow.cpp:1465
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Ei voida luoda uutta kansiota: sinulla ei ole kansioon kohteiden "
+"Ei voida luoda uutta tiedostoa: sinulla ei ole kansioon kohteiden "
 "luontioikeutta."
 
 #: dolphinmainwindow.cpp:1467
@@ -1927,29 +1923,21 @@ msgid "Close Tab"
 msgstr "Sulje välilehti"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Muuta nimeä: %2"
+msgstr "Muuta välilehden nimeä"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Muuta nimeä: %2"
+msgstr "Muuta välilehden nimeä"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Uusi nimi #"
+msgstr "Välilehden uusi nimi:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -5897,12 +5885,10 @@ msgid "Create Folder…"
 msgstr "Luo kansio…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Luo kansio…"
+msgstr "Luo tiedosto…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6053,18 +6039,16 @@ msgstr ""
 "luettelossa useamman kansion sisällön.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Näkymä"
+msgstr "Vaihda näkymää"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Tämä kiertää eri näkymätilojen läpi."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format

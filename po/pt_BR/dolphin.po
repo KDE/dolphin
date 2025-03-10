@@ -18,15 +18,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:45+0000\n"
-"PO-Revision-Date: 2025-02-27 20:29-0300\n"
-"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
+"PO-Revision-Date: 2025-03-09 00:12-0300\n"
+"Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1413,9 +1413,7 @@ msgid "Close left view"
 msgstr "Fechar exibição à esquerda"
 
 #: dolphinmainwindow.cpp:2699
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Fechar exibição à esquerda"
@@ -1445,9 +1443,7 @@ msgid "Close right view"
 msgstr "Fechar exibição à direita"
 
 #: dolphinmainwindow.cpp:2707
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Fechar exibição à direita"
@@ -4321,11 +4317,9 @@ msgstr "Usar pastas de expansão automática para todos os tipos de exibição"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Barra de status: "
+msgstr "Barra de status"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4816,20 +4810,16 @@ msgid "Remote storage:"
 msgstr "Armazenamento remoto:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Pequeno"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Largura da legenda:"
+msgstr "Largura  completa"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4841,15 +4831,13 @@ msgstr "Mostrar barra de zoom"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Desabilitado"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Barra de status: "
+msgstr "Barra de status:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
