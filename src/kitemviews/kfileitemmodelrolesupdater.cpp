@@ -370,18 +370,27 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList &itemRan
 
     // Determine the sort role synchronously for as many items as possible.
     if (m_resolvableRoles.contains(m_model->sortRole())) {
+        QList<QUrl> dirsWithAddedItems;
+
         int insertedCount = 0;
         for (const KItemRange &range : itemRanges) {
             const int lastIndex = insertedCount + range.index + range.count - 1;
             for (int i = insertedCount + range.index; i <= lastIndex; ++i) {
+                const auto fileItem = m_model->fileItem(i);
+                const auto fileItemParentFolderUrl = fileItem.url().adjusted(QUrl::RemoveFilename);
+                if (!dirsWithAddedItems.contains(fileItemParentFolderUrl)) {
+                    dirsWithAddedItems.append(fileItemParentFolderUrl);
+                }
                 if (timer.elapsed() < MaxBlockTimeout) {
                     applySortRole(i);
                 } else {
-                    m_pendingSortRoleItems.insert(m_model->fileItem(i));
+                    m_pendingSortRoleItems.insert(fileItem);
                 }
             }
             insertedCount += range.count;
         }
+
+        recountDirectoryItems(dirsWithAddedItems);
 
         applySortProgressToModel();
 
@@ -439,16 +448,24 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList &itemRang
             m_directoryContentsCounter->stopWorker();
         }
     } else {
+        QList<QUrl> dirsWithDeletedItems;
         // Only remove the items from m_finishedItems. They will be removed
         // from the other sets later on.
         QSet<KFileItem>::iterator it = m_finishedItems.begin();
         while (it != m_finishedItems.end()) {
             if (m_model->index(*it) < 0) {
+                // Get the folder path of the file.
+                const auto folderUrl = it->url().adjusted(QUrl::RemoveFilename);
+                if (!dirsWithDeletedItems.contains(folderUrl)) {
+                    dirsWithDeletedItems.append(folderUrl);
+                }
                 it = m_finishedItems.erase(it);
             } else {
                 ++it;
             }
         }
+
+        recountDirectoryItems(dirsWithDeletedItems);
 
         // Removed items won't have hover previews loaded anymore.
         for (const KItemRange &itemRange : itemRanges) {
@@ -1270,13 +1287,20 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
 void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &item, int index)
 {
-    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None || !item.isLocalFile()) {
+    if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::None) {
         return;
+    }
+
+    // Set any remote files to unknown size (-1).
+    if (!item.isLocalFile()) {
+        resetSizeData(index, -1);
+        return;
+    } else {
+        resetSizeData(index);
     }
 
     if (ContentDisplaySettings::directorySizeMode() == ContentDisplaySettings::EnumDirectorySizeMode::ContentCount || item.isSlow()) {
         // fastpath no recursion necessary
-
         auto data = m_model->data(index);
         if (data.value("size") == -2) {
             // means job already started
@@ -1296,28 +1320,33 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
         auto listJob = KIO::listDir(url, KIO::HideProgressInfo);
-        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob * /*job*/, const KIO::UDSEntryList &list) {
+
+        QObject::connect(listJob, &KIO::ListJob::entries, this, [this, item](const KJob *job, const KIO::UDSEntryList &list) {
             int index = m_model->index(item);
             if (index < 0) {
                 return;
             }
             auto data = m_model->data(index);
             int origCount = data.value("count").toInt();
-            int entryCount = origCount;
+            // Get the amount of processed items...
+            int entryCount = job->processedAmount(KJob::Bytes);
 
+            // ...and then remove the unwanted items from the amount.
             for (const KIO::UDSEntry &entry : list) {
                 const auto name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
 
                 if (name == QStringLiteral("..") || name == QStringLiteral(".")) {
+                    --entryCount;
                     continue;
                 }
                 if (!m_model->showHiddenFiles() && name.startsWith(QLatin1Char('.'))) {
+                    --entryCount;
                     continue;
                 }
                 if (m_model->showDirectoriesOnly() && !entry.isDir()) {
+                    --entryCount;
                     continue;
                 }
-                ++entryCount;
             }
 
             QHash<QByteArray, QVariant> newData;
@@ -1328,7 +1357,6 @@ void KFileItemModelRolesUpdater::startDirectorySizeCounting(const KFileItem &ite
             }
 
             if (origCount != entryCount) {
-                // count has changed
                 newData.insert("count", entryCount);
             }
 
@@ -1507,6 +1535,29 @@ void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
             QHash<QByteArray, QVariant> data = m_model->data(index);
             data["hoverSequencePixmaps"] = QVariant::fromValue(QVector<QPixmap>() << QPixmap());
             m_model->setData(index, data);
+        }
+    }
+}
+
+void KFileItemModelRolesUpdater::resetSizeData(const int index, const int size)
+{
+    disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+    auto data = m_model->data(index);
+    data.insert("size", size);
+    m_model->setData(index, data);
+    connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
+}
+
+void KFileItemModelRolesUpdater::recountDirectoryItems(const QList<QUrl> directories)
+{
+    for (const auto &dir : directories) {
+        auto index = m_model->index(dir);
+        if (index < 0) {
+            continue;
+        }
+        auto item = m_model->fileItem(index);
+        if (item.isDir()) {
+            startDirectorySizeCounting(item, index);
         }
     }
 }
