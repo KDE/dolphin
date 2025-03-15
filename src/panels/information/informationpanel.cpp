@@ -8,6 +8,9 @@
 
 #include "informationpanelcontent.h"
 
+#define HAVE_KDIRNOTIFY __has_include(<KDirNotify>)
+#if HAVE_KDIRNOTIFY
+#endif
 #include <KDirNotify>
 #include <KIO/StatJob>
 #include <KJobWidgets>
@@ -406,6 +409,7 @@ void InformationPanel::init()
     Q_ASSERT(m_urlChangedTimer->interval() < m_infoTimer->interval());
     Q_ASSERT(m_urlChangedTimer->interval() < m_resetUrlTimer->interval());
 
+#if HAVE_KDIRNOTIFY
     org::kde::KDirNotify *dirNotify = new org::kde::KDirNotify(QString(), QString(), QDBusConnection::sessionBus(), this);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FileRenamed, this, &InformationPanel::slotFileRenamed);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesAdded, this, &InformationPanel::slotFilesAdded);
@@ -413,6 +417,7 @@ void InformationPanel::init()
     connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesRemoved, this, &InformationPanel::slotFilesRemoved);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::enteredDirectory, this, &InformationPanel::slotEnteredDirectory);
     connect(dirNotify, &OrgKdeKDirNotifyInterface::leftDirectory, this, &InformationPanel::slotLeftDirectory);
+#endif
 
     m_content = new InformationPanelContent(this);
     connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
