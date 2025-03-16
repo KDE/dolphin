@@ -10,8 +10,8 @@
 
 #define HAVE_KDIRNOTIFY __has_include(<KDirNotify>)
 #if HAVE_KDIRNOTIFY
-#endif
 #include <KDirNotify>
+#endif
 #include <KIO/StatJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
