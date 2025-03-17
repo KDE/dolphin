@@ -41,6 +41,7 @@
 #include <KColorSchemeManager>
 #include <KConfig>
 #include <KConfigGui>
+#include <KDesktopFile>
 #include <KDialogJobUiDelegate>
 #include <KDualAction>
 #include <KFileItemListProperties>
@@ -2085,12 +2086,18 @@ void DolphinMainWindow::setupActions()
     connect(openPreferredSearchTool, &QAction::triggered, this, &DolphinMainWindow::openPreferredSearchTool);
 
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
+        // Get icon of user default terminal emulator application
+        const KConfigGroup group(KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::SimpleConfig), QStringLiteral("General"));
+        const QString terminalDesktopFilename = group.readEntry("TerminalService");
+        // Use utilities-terminal icon from theme if readEntry() has failed
+        const QString terminalIcon = terminalDesktopFilename.isEmpty() ? "utilities-terminal" : KDesktopFile(terminalDesktopFilename).readIcon();
+
         QAction *openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
                                           "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
                                           "<para>To learn more about terminals use the help features in the terminal application.</para>"));
-        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        openTerminal->setIcon(QIcon::fromTheme(terminalIcon));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
@@ -2100,7 +2107,7 @@ void DolphinMainWindow::setupActions()
         openTerminalHere->setWhatsThis(xi18nc("@info:whatsthis",
                                               "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
                                               "<para>To learn more about terminals use the help features in the terminal application.</para>"));
-        openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        openTerminalHere->setIcon(QIcon::fromTheme(terminalIcon));
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
     }
