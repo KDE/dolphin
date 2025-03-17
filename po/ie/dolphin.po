@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:45+0000\n"
+"POT-Creation-Date: 2025-03-17 00:43+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -2914,31 +2914,31 @@ msgstr "%1 element"
 msgid "Date display format"
 msgstr "Formate de date"
 
-#: panels/information/informationpanel.cpp:153
+#: panels/information/informationpanel.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Previder"
 
-#: panels/information/informationpanel.cpp:158
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Automaticmen reproducter media"
 
-#: panels/information/informationpanel.cpp:163
+#: panels/information/informationpanel.cpp:166
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Revelar celat files"
 
-#: panels/information/informationpanel.cpp:168
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Configurar..."
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:177
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

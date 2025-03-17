@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:45+0000\n"
+"POT-Creation-Date: 2025-03-17 00:43+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3012,31 +3012,31 @@ msgstr "悬停时显示项目"
 msgid "Date display format"
 msgstr "日期显示格式"
 
-#: panels/information/informationpanel.cpp:153
+#: panels/information/informationpanel.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "预览图"
 
-#: panels/information/informationpanel.cpp:158
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "自动播放媒体文件"
 
-#: panels/information/informationpanel.cpp:163
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "悬停时显示项目"
 
-#: panels/information/informationpanel.cpp:168
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "配置…"
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:177
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:45+0000\n"
+"POT-Creation-Date: 2025-03-17 00:43+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3218,31 +3218,31 @@ msgstr "Εμφάνιση αντικειμένου στην αιώρηση"
 msgid "Date display format"
 msgstr "Μορφή εμφάνισης ημερομηνίας"
 
-#: panels/information/informationpanel.cpp:153
+#: panels/information/informationpanel.cpp:156
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
-#: panels/information/informationpanel.cpp:158
+#: panels/information/informationpanel.cpp:161
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Αρχεία πολυμέσων αυτόματης αναπαραγωγής"
 
-#: panels/information/informationpanel.cpp:163
+#: panels/information/informationpanel.cpp:166
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Εμφάνιση αντικειμένου στην αιώρηση"
 
-#: panels/information/informationpanel.cpp:168
+#: panels/information/informationpanel.cpp:171
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Διαμόρφωση…"
 
-#: panels/information/informationpanel.cpp:174
+#: panels/information/informationpanel.cpp:177
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
