@@ -4006,11 +4006,9 @@ msgstr "Použít samorozbalovací složky pro všechny typy pohledů"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Stavový panel: "
+msgstr "Stavový panel"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4513,7 +4511,7 @@ msgstr "Zobrazovat jezdec zvětšování"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Zakázáno"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
 #, fuzzy, kde-format
