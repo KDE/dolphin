@@ -166,9 +166,6 @@ void DolphinContextMenu::addTrashItemContextMenu()
                   job->uiDelegate()->setAutoErrorHandlingEnabled(true);
               });
 
-    QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
-    addAction(propertiesAction);
-
     addSeparator();
 
     addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Cut)));
@@ -178,6 +175,10 @@ void DolphinContextMenu::addTrashItemContextMenu()
 
     QAction *deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     addAction(deleteAction);
+
+    addSeparator();
+
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("properties")));
 }
 
 void DolphinContextMenu::addDirectoryItemContextMenu()
