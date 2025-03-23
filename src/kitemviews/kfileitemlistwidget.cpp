@@ -176,15 +176,14 @@ int KFileItemListWidget::selectionLength(const QString &text) const
     const QString extension = db.suffixForFileName(text);
     if (extension.isEmpty()) {
         // For an unknown extension just exclude the extension after
-        // the last point. This does not work for multiple extensions like
+        // the last dot. This does not work for multiple extensions like
         // *.tar.gz but usually this is anyhow a known extension.
         indexOfExtension = text.lastIndexOf(QLatin1Char('.'));
 
-        // If no point could be found, use whole text length for selection.
-        if (indexOfExtension < 1) {
+        // if there either is no dot, or the last dot is the first or last char, treat as no extension.
+        if (indexOfExtension < 1 || indexOfExtension == text.length() - 1) {
             indexOfExtension = text.length();
         }
-
     } else {
         indexOfExtension -= extension.length() + 1;
     }
