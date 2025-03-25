@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 00:45+0000\n"
+"POT-Creation-Date: 2025-03-25 00:44+0000\n"
 "PO-Revision-Date: 2025-02-25 12:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -186,31 +186,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Terugzetten op voormalige locatie"
 msgstr[1] "Terugzetten op voormalige locaties"
 
-#: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1724
+#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1724
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Nieuwe aanmaken"
 
-#: dolphincontextmenu.cpp:221
+#: dolphincontextmenu.cpp:222
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Open pad"
 
-#: dolphincontextmenu.cpp:229
+#: dolphincontextmenu.cpp:230
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Pad in nieuw tabblad openen"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:238
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Pad in nieuw venster openen"
 
-#: dolphincontextmenu.cpp:487
+#: dolphincontextmenu.cpp:488
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

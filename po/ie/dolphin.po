@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 00:45+0000\n"
+"POT-Creation-Date: 2025-03-25 00:44+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -161,31 +161,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Usar un predefinit localisation"
 msgstr[1] "Usar un predefinit localisation"
 
-#: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1724
+#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1724
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crear un nov"
 
-#: dolphincontextmenu.cpp:221
+#: dolphincontextmenu.cpp:222
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Aperter li rute"
 
-#: dolphincontextmenu.cpp:229
+#: dolphincontextmenu.cpp:230
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Aperter li rute in un nov carte"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:238
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Aperter li rute in un nov fenestre"
 
-#: dolphincontextmenu.cpp:487
+#: dolphincontextmenu.cpp:488
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
