@@ -46,7 +46,6 @@
             <Action name="view_mode" />
             <Action name="additional_info" />
             <Action name="show_preview" />
-            <Action name="show_in_groups" />
             <Action name="show_hidden_files" />
             <Action name="act_as_admin" />
             <Separator/>
