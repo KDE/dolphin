@@ -236,6 +236,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
             slotViewModeActionTriggered(iconsAction);
         }
     });
+    viewModeActions->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     QAction *zoomInAction = KStandardAction::zoomIn(this, &DolphinViewActionHandler::zoomIn, m_actionCollection);
     zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));
