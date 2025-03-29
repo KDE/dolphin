@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-25 00:44+0000\n"
+"POT-Creation-Date: 2025-03-29 00:44+0000\n"
 "PO-Revision-Date: 2009-01-07 17:06+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
@@ -1659,20 +1659,20 @@ msgid "&View"
 msgstr "ଦୃଶ୍ୟମାନ ଅବସ୍ଥା"
 
 #. i18n: ectx: Menu (go)
-#: dolphinpart.rc:33
+#: dolphinpart.rc:32
 #, kde-format
 msgid "&Go"
 msgstr ""
 
 #. i18n: ectx: Menu (tools)
-#: dolphinpart.rc:41
+#: dolphinpart.rc:40
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
 msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinpart.rc:51
+#: dolphinpart.rc:50
 #, fuzzy, kde-format
 #| msgctxt "@title"
 #| msgid "Dolphin"
@@ -1773,7 +1773,7 @@ msgid "(%1) | %2"
 msgstr ""
 
 #. i18n: ectx: Menu (location_bar)
-#: dolphinui.rc:61 dolphinuiforphones.rc:61
+#: dolphinui.rc:60 dolphinuiforphones.rc:60
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -1782,7 +1782,7 @@ msgid "Location Bar"
 msgstr "ସ୍ଥାନ:"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:106 dolphinuiforphones.rc:106
+#: dolphinui.rc:105 dolphinuiforphones.rc:105
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -6290,25 +6290,25 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:322
+#: views/dolphinviewactionhandler.cpp:313
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show in Groups"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:314
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "This groups files and folders by their first letter."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:328
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show space information"
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "ସ୍ଥାନ ସୂଚନା ଦର୍ଶାନ୍ତୁ"
-
-#: views/dolphinviewactionhandler.cpp:333
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show in Groups"
-msgstr ""
-
-#: views/dolphinviewactionhandler.cpp:334
-#, kde-format
-msgctxt "@info:whatsthis"
-msgid "This groups files and folders by their first letter."
-msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:339
 #, fuzzy, kde-format

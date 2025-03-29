@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-25 00:44+0000\n"
+"POT-Creation-Date: 2025-03-29 00:44+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2025,20 +2025,20 @@ msgid "&View"
 msgstr "&Vyhliad"
 
 #. i18n: ectx: Menu (go)
-#: dolphinpart.rc:33
+#: dolphinpart.rc:32
 #, kde-format
 msgid "&Go"
 msgstr "&Pierachod"
 
 #. i18n: ectx: Menu (tools)
-#: dolphinpart.rc:41
+#: dolphinpart.rc:40
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
 msgstr "Instrumienty"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinpart.rc:51
+#: dolphinpart.rc:50
 #, kde-format
 msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
@@ -2138,14 +2138,14 @@ msgid "(%1) | %2"
 msgstr ""
 
 #. i18n: ectx: Menu (location_bar)
-#: dolphinui.rc:61 dolphinuiforphones.rc:61
+#: dolphinui.rc:60 dolphinuiforphones.rc:60
 #, kde-format
 msgctxt "@title:menu"
 msgid "Location Bar"
 msgstr "Adrasnaja paneĺ"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:106 dolphinuiforphones.rc:106
+#: dolphinui.rc:105 dolphinuiforphones.rc:105
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -6645,23 +6645,23 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sartavannie"
 
-#: views/dolphinviewactionhandler.cpp:322
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show Additional Information"
-msgstr "Pakazvać dadatkovyja zviestki"
-
-#: views/dolphinviewactionhandler.cpp:333
+#: views/dolphinviewactionhandler.cpp:313
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Pakazvać u hrupach"
 
-#: views/dolphinviewactionhandler.cpp:334
+#: views/dolphinviewactionhandler.cpp:314
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Hety paramietr hrupuje fajly i katalohi pa ich pieršaj litary."
+
+#: views/dolphinviewactionhandler.cpp:328
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show Additional Information"
+msgstr "Pakazvać dadatkovyja zviestki"
 
 #: views/dolphinviewactionhandler.cpp:339
 #, kde-format

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-25 00:44+0000\n"
+"POT-Creation-Date: 2025-03-29 00:44+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -1883,20 +1883,20 @@ msgid "&View"
 msgstr "&Выгляд"
 
 #. i18n: ectx: Menu (go)
-#: dolphinpart.rc:33
+#: dolphinpart.rc:32
 #, kde-format
 msgid "&Go"
 msgstr "&Пераход"
 
 #. i18n: ectx: Menu (tools)
-#: dolphinpart.rc:41
+#: dolphinpart.rc:40
 #, kde-format
 msgctxt "@title:menu"
 msgid "Tools"
 msgstr "Інструменты"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinpart.rc:51
+#: dolphinpart.rc:50
 #, kde-format
 msgctxt "@title:menu"
 msgid "Dolphin Toolbar"
@@ -1994,14 +1994,14 @@ msgid "(%1) | %2"
 msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
-#: dolphinui.rc:61 dolphinuiforphones.rc:61
+#: dolphinui.rc:60 dolphinuiforphones.rc:60
 #, kde-format
 msgctxt "@title:menu"
 msgid "Location Bar"
 msgstr "Адрасная панэль"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:106 dolphinuiforphones.rc:106
+#: dolphinui.rc:105 dolphinuiforphones.rc:105
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -6255,23 +6255,23 @@ msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Сартаванне"
 
-#: views/dolphinviewactionhandler.cpp:322
-#, kde-format
-msgctxt "@action:inmenu View"
-msgid "Show Additional Information"
-msgstr "Паказваць дадатковыя звесткі"
-
-#: views/dolphinviewactionhandler.cpp:333
+#: views/dolphinviewactionhandler.cpp:313
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Паказваць у групах"
 
-#: views/dolphinviewactionhandler.cpp:334
+#: views/dolphinviewactionhandler.cpp:314
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Гэты параметр групуе файлы і каталогі па іх першай літары."
+
+#: views/dolphinviewactionhandler.cpp:328
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show Additional Information"
+msgstr "Паказваць дадатковыя звесткі"
 
 #: views/dolphinviewactionhandler.cpp:339
 #, kde-format
