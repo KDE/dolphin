@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 00:44+0000\n"
-"PO-Revision-Date: 2025-02-17 20:14+0200\n"
+"PO-Revision-Date: 2025-03-23 15:59+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -1394,9 +1394,7 @@ msgid "Close left view"
 msgstr "Sulje vasemmanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2706
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Sulje vasemmanpuoleinen näkymä"
@@ -1426,9 +1424,7 @@ msgid "Close right view"
 msgstr "Sulje oikeanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2714
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Sulje oikeanpuoleinen näkymä"
@@ -4293,11 +4289,9 @@ msgstr "Käytä automaattisesti laajentuvia kansioita kaikille näkymätyypeille
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Tilarivi:"
+msgstr "Tilarivi"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4793,20 +4787,16 @@ msgid "Remote storage:"
 msgstr "Etätalletustila:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Pieni"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Nimikkeen leveys:"
+msgstr "Koko leveys"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4818,12 +4808,10 @@ msgstr "Näytä suurennusliukusäädin"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Ei käytössä"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Tilarivi:"
