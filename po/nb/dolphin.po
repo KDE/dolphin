@@ -162,8 +162,6 @@ msgstr "Tøm papirkurven"
 
 #: dolphincontextmenu.cpp:154
 #, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
@@ -1348,8 +1346,6 @@ msgstr "Lukk venstre visning"
 
 #: dolphinmainwindow.cpp:2706
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Lukk venstre visning"
@@ -1380,8 +1376,6 @@ msgstr "Lukk høyre visning"
 
 #: dolphinmainwindow.cpp:2714
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Lukk høyre visning"
@@ -1875,18 +1869,12 @@ msgstr "Lukk fane"
 
 #: dolphintabbar.cpp:161
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Endre navn %2"
 
 #: dolphintabbar.cpp:180
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Endre navn %2"
@@ -4240,8 +4228,6 @@ msgstr "Bruk automatisk utvidelse av mapper for alle visningstyper"
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show status bar"
 msgid "Statusbar"
 msgstr "Vis statuslinja"
 
@@ -4725,16 +4711,12 @@ msgstr "Gjenopprett"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
 #, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Liten"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
 #, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
 msgctxt "@option:radio"
 msgid "Full width"
 msgstr "Bredde på merkelapp:"
@@ -4753,8 +4735,6 @@ msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
 #, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Show status bar"
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Vis statuslinja"
@@ -5808,8 +5788,6 @@ msgstr "Opprett mappe …"
 
 #: views/dolphinviewactionhandler.cpp:88
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Opprett mappe …"
@@ -5965,8 +5943,6 @@ msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:220
 #, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Visningsmodus"

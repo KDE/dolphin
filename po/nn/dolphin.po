@@ -154,8 +154,6 @@ msgstr "Tøm papirkorga"
 
 #: dolphincontextmenu.cpp:154
 #, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
@@ -341,10 +339,6 @@ msgstr[1] "Opna %1 terminalar"
 
 #: dolphinmainwindow.cpp:1466
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
@@ -1345,8 +1339,6 @@ msgstr "Lukk venstre rute"
 
 #: dolphinmainwindow.cpp:2706
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Lukk venstre rute"
@@ -1377,8 +1369,6 @@ msgstr "Lukk høgre rute"
 
 #: dolphinmainwindow.cpp:2714
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Lukk høgre rute"
@@ -1848,18 +1838,12 @@ msgstr "Lukk fane"
 
 #: dolphintabbar.cpp:161
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Endra namn på %2"
 
 #: dolphintabbar.cpp:180
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Endra namn på %2"
@@ -4199,8 +4183,6 @@ msgstr "Bruk mapper med autoutviding for alle visingstypar"
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
 #, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
 msgid "Statusbar"
 msgstr "Statuslinje: "
 
@@ -4683,16 +4665,12 @@ msgstr "Fjernlagring:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
 #, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Liten"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
 #, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
 msgctxt "@option:radio"
 msgid "Full width"
 msgstr "Skriftbreidd:"
@@ -4711,8 +4689,6 @@ msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
 #, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Statuslinje: "
@@ -5770,8 +5746,6 @@ msgstr "Ny mappe …"
 
 #: views/dolphinviewactionhandler.cpp:88
 #, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Ny mappe …"
@@ -5926,8 +5900,6 @@ msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:220
 #, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Visingsmodus"
