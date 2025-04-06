@@ -153,8 +153,6 @@ msgstr "Gurre ruskalihti"
 
 #: dolphincontextmenu.cpp:154
 #, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Use Current Location"
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
@@ -4444,8 +4442,6 @@ msgstr "Máhcat"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
 #, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Unni"
@@ -5516,8 +5512,6 @@ msgstr ""
 # unreviewed-context
 #: views/dolphinviewactionhandler.cpp:88
 #, fuzzy, kde-format
-#| msgctxt "@title:menu Create new folder, file, link, etc."
-#| msgid "Create New"
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Ráhkat ođđa"
@@ -5646,8 +5640,6 @@ msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:220
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "View Mode"
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Čájehanmodus"
