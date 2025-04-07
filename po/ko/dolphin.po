@@ -1,5 +1,5 @@
 # Translation of dolphin.po to Korean
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Shinjo Park <kde@peremen.name>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Shinjo Park <kde@peremen.name>
 # This file is distributed under the same license as the kdebase package.
 # Minori Hiraoka <minori@mnetwork.co.kr>, 2018.
 # JungHee Lee <daemul72@gmail.com>, 2019, 2020, 2021.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 00:44+0000\n"
-"PO-Revision-Date: 2024-12-24 16:22+0100\n"
+"PO-Revision-Date: 2025-04-07 01:24+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -170,16 +170,14 @@ msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "홈 위치 선택"
+msgstr[0] "이전 위치로 복원"
 
 #: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1724
 #, kde-format
@@ -350,16 +348,12 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "터미널 %1개 열기"
 
 #: dolphinmainwindow.cpp:1466
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
-msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
+msgstr "새 파일을 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
 #: dolphinmainwindow.cpp:1468
 #, kde-format
@@ -1339,9 +1333,7 @@ msgid "Close left view"
 msgstr "왼쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2706
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "왼쪽 보기 닫기"
@@ -1371,9 +1363,7 @@ msgid "Close right view"
 msgstr "오른쪽 보기 닫기"
 
 #: dolphinmainwindow.cpp:2714
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "오른쪽 보기 닫기"
@@ -1854,29 +1844,21 @@ msgid "Close Tab"
 msgstr "탭 닫기"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "%2 이름 바꾸기"
+msgstr "탭 이름 바꾸기"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "%2 이름 바꾸기"
+msgstr "탭 이름 바꾸기"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "새 이름 #"
+msgstr "새 탭 이름:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2107,12 +2089,10 @@ msgid "%1 at location %2"
 msgstr "%1, 위치: %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 1 is path"
-#| msgid "in a grid layout in location %1"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr "격자 레이아웃, 위치: %1"
+msgstr "격자 레이아웃, 선택 모드, 위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
@@ -2121,15 +2101,12 @@ msgid "in a grid layout in location %1"
 msgstr "격자 레이아웃, 위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "격자 레이아웃의 선택한 항목 %1개, 위치: %2"
+msgstr[0] "격자 레이아웃, 선택 모드, %2 위치에서 항목 %1개 선택됨"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2139,13 +2116,10 @@ msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] "격자 레이아웃의 선택한 항목 %1개, 위치: %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in location %2"
-#| msgid_plural "%1 selected items in location %2"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "선택한 항목 %1개, 위치: %2"
+msgstr "선택 모드, 위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2154,14 +2128,11 @@ msgid "in location %1"
 msgstr "위치: %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@info accessibility, 2 is path"
-#| msgid "%1 selected item in a grid layout in location %2"
-#| msgid_plural "%1 selected items in a grid layout in location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "격자 레이아웃의 선택한 항목 %1개, 위치: %2"
+msgstr[0] "선택 모드, %2 위치에서 항목 %1개 선택됨"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2171,20 +2142,16 @@ msgid_plural "%1 selected items in location %2"
 msgstr[0] "선택한 항목 %1개, 위치: %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "선택 모드"
+msgstr "선택 모드 활성화됨"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "선택 모드"
+msgstr "선택 모드 비활성화됨"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2801,12 +2768,10 @@ msgid "File Manager"
 msgstr "파일 관리자"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(C) 2006-2022 The Dolphin Developers"
+msgstr "(C) 2006-2025 The Dolphin Developers"
 
 #: main.cpp:101
 #, kde-format
@@ -3029,7 +2994,7 @@ msgstr "삭제"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Hidden Files"
-msgstr "숨김 파일 보기"
+msgstr "숨겨진 파일 표시"
 
 #: panels/folders/treeviewcontextmenu.cpp:113
 #, kde-format
@@ -3609,17 +3574,7 @@ msgid "Selection Mode"
 msgstr "선택 모드"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3639,8 +3594,11 @@ msgstr ""
 "이미 선택된 파일이나 폴더를 누르면 선택을 해제합니다.</item><item>빈 영역을 "
 "눌러도 선택을 해제하지 <emphasis>않습니다</emphasis>.</item><item>선택 사각형"
 "(빈 영역에서 드래그)을 만들면 사각형 내 항목의 선택 상태를 전환합니다.</"
-"item></list></para><para>아래쪽에 표시된 사용 가능한 동작 단추는 현재 선택 항"
-"목에 따라 전환됩니다.</para>"
+"item><item><shortcut>화살표 키</shortcut>로 이동하더라도 선택을 변경하지 "
+"<emphasis>않습니다</emphasis>.</item><item><shortcut>%1</shortcut> 또는 "
+"<shortcut>%2</shortcut>, <shortcut>%3</shortcut> 키를 누르면 선택을 전환합니"
+"다.</item></list></para><para>아래쪽에 표시된 사용 가능한 동작 단추는 현재 선"
+"택 항목에 따라 전환됩니다.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3856,17 +3814,15 @@ msgstr "열 위치"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "사이드 패딩"
+msgstr "왼쪽 패딩"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "사이드 패딩"
+msgstr "오른쪽 패딩"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4211,11 +4167,9 @@ msgstr "모든 보기 형식에 대해서 자동으로 늘어나는 폴더 사�
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "상태 표시줄: "
+msgstr "상태 표시줄"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4701,20 +4655,16 @@ msgid "Remote storage:"
 msgstr "원격 저장소:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "작음"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "이름표 너비:"
+msgstr "전체 너비"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4726,15 +4676,13 @@ msgstr "확대/축소 슬라이더 표시"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "사용 안 함"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "상태 표시줄: "
+msgstr "상태 표시줄:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -5780,12 +5728,10 @@ msgid "Create Folder…"
 msgstr "폴더 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "폴더 만들기…"
+msgstr "파일 만들기…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -5933,18 +5879,16 @@ msgstr ""
 "목록에 있는 여러 폴더의 내용을 동시에 볼 수 있습니다.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "보기 모드"
+msgstr "보기 모드 전환"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "모든 보기 모드를 전환합니다."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
@@ -6044,7 +5988,7 @@ msgstr "추가 정보 표시"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
-msgstr "숨김 파일 보기"
+msgstr "숨겨진 파일 표시"
 
 #: views/dolphinviewactionhandler.cpp:341
 #, kde-kuit-format

@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # íslensk þýðing Dolphin
 # þýðing byggð á eldri þýðingum Konqueror og KDE
-# Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Sveinn í Felli <sveinki@nett.is>
 # SPDX-FileCopyrightText: 2022, 2024 Guðmundur Erlingsson <gudmundure@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 00:44+0000\n"
-"PO-Revision-Date: 2024-07-22 21:51+0000\n"
-"Last-Translator: Gummi <gudmundure@gmail.com>\n"
-"Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2025-04-06 21:31+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,17 +185,15 @@ msgid "Empty Trash"
 msgstr "Tæma rusl"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Veldu staðsetningu Heimamöppu"
-msgstr[1] "Veldu staðsetningu Heimamöppu"
+msgstr[0] "Endurheimta á fyrri staðsetningu"
+msgstr[1] "Endurheimt á fyrri staðsetningar"
 
 #: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1724
 #, kde-format
@@ -371,18 +369,14 @@ msgstr[0] "Opna %1 skjáhermi"
 msgstr[1] "Opna %1 skjáherma"
 
 #: dolphinmainwindow.cpp:1466
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Gat ekki búið til nýja möppu: Þú hefur ekki heimild til að búa til nýja "
-"hluti í þessari möppu."
+"Gat ekki búið til nýja skrá: Þú hefur ekki heimild til að búa til ný atriði "
+"í þessari möppu."
 
 #: dolphinmainwindow.cpp:1468
 #, kde-format
@@ -1270,20 +1264,16 @@ msgstr ""
 "birta aftur.</para>"
 
 #: dolphinmainwindow.cpp:2441 dolphinmainwindow.cpp:2975
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Focus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Gefa skjáhermispjaldi fókus"
+msgstr "Gefa staðaspjaldi fókus"
 
 #: dolphinmainwindow.cpp:2442
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This adds the selected folder to the Places panel."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
-msgstr "Þetta bætir völdu möppunni við spjaldið Staðir."
+msgstr "Færir virkni lyklaborðs af og á spjaldið Staðir."
 
 #: dolphinmainwindow.cpp:2448
 #, kde-format
@@ -1413,12 +1403,10 @@ msgid "Close left view"
 msgstr "Loka vinstra yfirliti"
 
 #: dolphinmainwindow.cpp:2706
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
-msgstr "Loka vinstra yfirliti"
+msgstr "Loka vinstri sýn"
 
 #: dolphinmainwindow.cpp:2708
 #, kde-format
@@ -1445,12 +1433,10 @@ msgid "Close right view"
 msgstr "Loka hægra yfirliti"
 
 #: dolphinmainwindow.cpp:2714
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
-msgstr "Loka hægra yfirliti"
+msgstr "Loka hægri sýn"
 
 #: dolphinmainwindow.cpp:2716
 #, kde-format
@@ -1716,20 +1702,16 @@ msgid "Defocus Terminal Panel"
 msgstr "Taka fókus af skjáhermispjaldi"
 
 #: dolphinmainwindow.cpp:2969
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Taka fókus af skjáhermispjaldi"
 
 #: dolphinmainwindow.cpp:2980
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Defocus Terminal Panel"
+#, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
-msgstr "Taka fókus af skjáhermispjaldi"
+msgstr "Taka fókus af staðaspjaldi"
 
 #: dolphinnavigatorswidgetaction.cpp:207
 #, kde-format
@@ -1947,39 +1929,30 @@ msgid "Close Tab"
 msgstr "Loka flipa"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Endurnefna %2"
+msgstr "Endurnefna flipa"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Endurnefna %2"
+msgstr "Endurnefna flipa"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Nýtt heiti #"
+msgstr "Heiti á nýjum flipa:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:53
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Staðsetning"
+msgstr "Staðsetningarsýn"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2136,7 +2109,7 @@ msgstr "Ógild samskiptaregla"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Auðkenningar krafist til að fara inn í þessa möppu."
 
 #: dolphinviewcontainer.cpp:1033 dolphinviewcontainer.cpp:1036
 #, kde-kuit-format
@@ -2170,24 +2143,22 @@ msgid "Move to New Folder…"
 msgstr "Færa í nýja möppu…"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
-#, fuzzy, kde-format
-#| msgctxt "@item:intext Access permission, concatenated"
-#| msgid "Forbidden"
+#, kde-format
 msgctxt "@info"
 msgid "hidden"
-msgstr "Bannað"
+msgstr "falið"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:164
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", tengill í %1 á %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2199,7 +2170,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
@@ -2207,7 +2178,7 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 á staðsetningunni %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
 #, kde-format
@@ -2251,12 +2222,10 @@ msgid "in selection mode in location %1"
 msgstr "Endurnefna valda hlutinn %1 sem:"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide Section '%1'"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in location %1"
-msgstr "Fela hlutann '%1'"
+msgstr "á staðsetningunni %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
 #, fuzzy, kde-format
@@ -2281,20 +2250,16 @@ msgstr[0] "Endurnefna valda hlutinn %1 sem:"
 msgstr[1] "Endurnefna völdu hlutina %1 sem:"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Valstilling"
+msgstr "Valhamur virkur"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Valstilling"
+msgstr "Valhamur óvirkur"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2887,16 +2852,16 @@ msgstr "Óþekkt villa."
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
 msgid_plural "%1 and a half stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 og hálf stjarna"
+msgstr[1] "%1 og hálf stjarna"
 
 #: kitemviews/kstandarditemlistwidget.cpp:124
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
 msgid_plural "%1 stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 stjarna"
+msgstr[1] "%1 stjörnur"
 
 #: main.cpp:61
 #, kde-kuit-format
@@ -2920,12 +2885,10 @@ msgid "File Manager"
 msgstr "Skráastjóri"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "(C) 2006-2022 Dolphin forritararnir"
+msgstr "(C) 2006-2025 Dolphin forritararnir"
 
 #: main.cpp:101
 #, kde-format
@@ -3988,17 +3951,15 @@ msgstr "Staðsetning dálka"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Fylling til hliðar"
+msgstr "Fylling til vinstri"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Fylling til hliðar"
+msgstr "Fylling til hægri"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4348,11 +4309,9 @@ msgstr "Nota sjálfvirka útvíkkun á möppum í öllum yfirlitsgerðum"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Stöðustika: "
+msgstr "Stöðustika"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4553,21 +4512,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Staða á möppum, flipum og glugga frá því síðast"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Sýna við ræsingu:"
+msgstr "Sýna heimastaðsetningu við ræsingu"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Staðsetningu vantar."
+msgstr "Settu inn heimastaðsetningu"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
@@ -4844,20 +4799,16 @@ msgid "Remote storage:"
 msgstr "Fjartengd geymsla:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Lítið"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Breidd textalínu:"
+msgstr "Fullbreidd"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4869,15 +4820,13 @@ msgstr "Sýna aðdráttarsleða"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Óvirkt"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Stöðustika: "
+msgstr "Stöðustika:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -5937,12 +5886,10 @@ msgid "Create Folder…"
 msgstr "Búa til möppu…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Búa til möppu…"
+msgstr "Búa til skrá…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6093,18 +6040,16 @@ msgstr ""
 "sama listanum.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Yfirlitssnið"
+msgstr "Skipta um skoðunarham"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Þetta flettir í gegnum alla skoðunarhami."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
