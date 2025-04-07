@@ -12,7 +12,11 @@
         </entry>
         <entry name="What" type="String">
             <label>What</label>
-            <default>FileName</default>
+            <default>FileNames</default>
+        </entry>
+        <entry name="SearchTool" type="String">
+            <label>SearchTool</label>
+            <default>Filenamesearch</default>
         </entry>
     </group>
 </kcfg>

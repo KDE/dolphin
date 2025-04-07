@@ -26,6 +26,7 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/terminal/terminalpanel.h"
+#include "search/dolphinquery.h"
 #include "selectionmode/actiontexthelper.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -404,9 +405,9 @@ void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl &url)
         m_tearDownFromPlacesRequested = false;
     }
 
-    m_activeViewContainer->setAutoGrabFocus(false);
+    m_activeViewContainer->setGrabFocusOnUrlChange(false);
     changeUrl(url);
-    m_activeViewContainer->setAutoGrabFocus(true);
+    m_activeViewContainer->setGrabFocusOnUrlChange(true);
 }
 
 void DolphinMainWindow::slotEditableStateChanged(bool editable)
@@ -487,7 +488,7 @@ void DolphinMainWindow::addToPlaces()
     }
     if (url.isValid()) {
         QString icon;
-        if (m_activeViewContainer->isSearchModeEnabled()) {
+        if (isSearchUrl(url)) {
             icon = QStringLiteral("folder-saved-search-symbolic");
         } else {
             icon = KIO::iconNameForUrl(url);
@@ -892,13 +893,14 @@ void DolphinMainWindow::paste()
 
 void DolphinMainWindow::find()
 {
-    m_activeViewContainer->setSearchModeEnabled(true);
+    m_activeViewContainer->setSearchBarVisible(true);
+    m_activeViewContainer->setFocusToSearchBar();
 }
 
 void DolphinMainWindow::updateSearchAction()
 {
     QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
-    toggleSearchAction->setChecked(m_activeViewContainer->isSearchModeEnabled());
+    toggleSearchAction->setChecked(m_activeViewContainer->isSearchBarVisible());
 }
 
 void DolphinMainWindow::updatePasteAction()
@@ -935,9 +937,13 @@ QAction *DolphinMainWindow::urlNavigatorHistoryAction(const KUrlNavigator *urlNa
 {
     const QUrl url = urlNavigator->locationUrl(historyIndex);
 
-    QString text = url.toDisplayString(QUrl::PreferLocalFile);
+    QString text;
 
-    if (!urlNavigator->showFullPath()) {
+    if (isSearchUrl(url)) {
+        text = Search::DolphinQuery(url, QUrl{}).title();
+    } else if (urlNavigator->showFullPath()) {
+        text = url.toDisplayString(QUrl::PreferLocalFile);
+    } else {
         const KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
 
         const QModelIndex closestIdx = placesModel->closestItem(url);
@@ -1604,9 +1610,6 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
     m_activeViewContainer = viewContainer;
 
     if (oldViewContainer) {
-        const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
-        toggleSearchAction->disconnect(oldViewContainer);
-
         // Disconnect all signals between the old view container (container,
         // view and url navigator) and main window.
         oldViewContainer->disconnect(this);
@@ -1861,9 +1864,7 @@ void DolphinMainWindow::setupActions()
                                       "<para>This helps you "
                                       "find files and folders by opening a <emphasis>search bar</emphasis>. "
                                       "There you can enter search terms and specify settings to find the "
-                                      "items you are looking for.</para><para>Use this help again on "
-                                      "the search bar so we can have a look at it while the settings are "
-                                      "explained.</para>"));
+                                      "items you are looking for.</para>"));
 
     // toggle_search acts as a copy of the main searchAction to be used mainly
     // in the toolbar, with no default shortcut attached, to avoid messing with
@@ -1875,6 +1876,13 @@ void DolphinMainWindow::setupActions()
     toggleSearchAction->setToolTip(searchAction->toolTip());
     toggleSearchAction->setWhatsThis(searchAction->whatsThis());
     toggleSearchAction->setCheckable(true);
+    connect(toggleSearchAction, &QAction::triggered, this, [this](bool checked) {
+        if (checked) {
+            find();
+        } else {
+            m_activeViewContainer->setSearchBarVisible(false);
+        }
+    });
 
     QAction *toggleSelectionModeAction = actionCollection()->addAction(QStringLiteral("toggle_selection_mode"));
     // i18n: This action toggles a selection mode.
@@ -2641,13 +2649,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(container, &DolphinViewContainer::showFilterBarChanged, this, &DolphinMainWindow::updateFilterBarAction);
     connect(container, &DolphinViewContainer::writeStateChanged, this, &DolphinMainWindow::slotWriteStateChanged);
     slotWriteStateChanged(container->view()->isFolderWritable());
-    connect(container, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinMainWindow::updateSearchAction);
+    connect(container, &DolphinViewContainer::searchBarVisibilityChanged, this, &DolphinMainWindow::updateSearchAction);
     connect(container, &DolphinViewContainer::captionChanged, this, &DolphinMainWindow::updateWindowTitle);
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
-
-    const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
-    connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
 
     // Make the toggled state of the selection mode actions visually follow the selection mode state of the view.
     auto toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));

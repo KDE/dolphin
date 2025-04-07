@@ -31,13 +31,21 @@ class FilterBar;
 class QAction;
 class QGridLayout;
 class QUrl;
-class DolphinSearchBox;
+namespace Search
+{
+class Bar;
+}
 class DolphinStatusBar;
 class KFileItemList;
 namespace SelectionMode
 {
 class TopBar;
 }
+
+/**
+ * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).
+ */
+bool isSearchUrl(const QUrl &url);
 
 /**
  * @short Represents a view for the directory content
@@ -78,10 +86,7 @@ public:
      * as soon as the URL has been changed. Per default the grabbing
      * of the focus is enabled.
      */
-    void setAutoGrabFocus(bool grab);
-    bool autoGrabFocus() const;
-
-    QString currentSearchText() const;
+    void setGrabFocusOnUrlChange(bool grabFocus);
 
     const DolphinStatusBar *statusBar() const;
     DolphinStatusBar *statusBar();
@@ -134,6 +139,28 @@ public:
     void disconnectUrlNavigator();
 
     /**
+     * Sets the visibility of this objects search configuration user interface. This search bar is the primary interface in Dolphin to search for files and
+     * folders.
+     *
+     * The signal searchBarVisibilityChanged will be emitted when the new visibility state is different from the old.
+     *
+     * Typically an animation will play when the search bar is shown or hidden, so the visibility of the bar will not necessarily match @p visible when this
+     * method returns. Instead use isSearchBarVisible(), which will always communicate the visibility state the search bar is heading to.
+     *
+     * @see Search::Bar.
+     * @see isSearchBarVisible().
+     */
+    void setSearchBarVisible(bool visible);
+
+    /** @returns true if the search bar is visible while not being in the process to hide itself. */
+    bool isSearchBarVisible() const;
+
+    /**
+     * Moves keyboard focus to the search bar. The search term is fully selected to allow easy replacing.
+     */
+    void setFocusToSearchBar();
+
+    /**
      * Sets a selection mode that is useful for quick and easy selecting or deselecting of files.
      * This method is the central authority about enabling or disabling selection mode:
      * All other classes that want to enable or disable selection mode should trigger a call of this method.
@@ -165,9 +192,6 @@ public:
     /** @returns true, if the filter bar is visible.
      *           false, if it is hidden or currently animating towards a hidden state. */
     bool isFilterBarVisible() const;
-
-    /** Returns true if the search mode is enabled. */
-    bool isSearchModeEnabled() const;
 
     /**
      * @return Text that should be used for the current URL when creating
@@ -221,12 +245,6 @@ public Q_SLOTS:
      */
     void setFilterBarVisible(bool visible);
 
-    /**
-     * Enables the search mode, if \p enabled is true. In the search mode the URL navigator
-     * will be hidden and replaced by a line editor that allows to enter a search term.
-     */
-    void setSearchModeEnabled(bool enabled);
-
     /** Used to notify the m_selectionModeBottomBar that there is no other ViewContainer in the tab. */
     void slotSplitTabDisabled();
 
@@ -236,9 +254,14 @@ Q_SIGNALS:
      */
     void showFilterBarChanged(bool shown);
     /**
-     * Is emitted whenever the search mode has changed its state.
+     * Is emitted whenever a change to the search bar's visibility is invoked. The visibility change might not have actually already taken effect by the time
+     * this signal is emitted because typically the showing and hiding is animated.
+     * @param visible The visibility state the search bar is going to end up at.
+     * @see Search::Bar.
+     * @see setSearchBarVisible().
+     * @see isSearchBarVisible().
      */
-    void searchModeEnabledChanged(bool enabled);
+    void searchBarVisibilityChanged(bool visible);
 
     void selectionModeChanged(bool enabled);
 
@@ -374,13 +397,6 @@ private Q_SLOTS:
     void requestFocus();
 
     /**
-     * Gets the search URL from the searchbox and starts searching.
-     */
-    void startSearching();
-    void openSearchBox();
-    void closeSearchBox();
-
-    /**
      * Stops the loading of a directory. Is connected with the "stopPressed" signal
      * from the statusbar.
      */
@@ -411,11 +427,6 @@ private Q_SLOTS:
     void slotOpenUrlFinished(KJob *job);
 
 private:
-    /**
-     * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).
-     */
-    bool isSearchUrl(const QUrl &url) const;
-
     /**
      * Saves the state of the current view: contents position,
      * root URL, ...
@@ -463,7 +474,7 @@ private:
      */
     QPointer<DolphinUrlNavigator> m_urlNavigatorConnected;
 
-    DolphinSearchBox *m_searchBox;
+    Search::Bar *m_searchBar;
     bool m_searchModeEnabled;
 
     /// A bar shown at the top of the view to signify that the view is currently viewed and acted on with elevated privileges.
@@ -486,7 +497,7 @@ private:
     DolphinStatusBar *m_statusBar;
     QTimer *m_statusBarTimer; // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp; // Time in ms since last update
-    bool m_autoGrabFocus;
+    bool m_grabFocusOnUrlChange;
     /**
      * The visual state to be applied to the next UrlNavigator that gets
      * connected to this ViewContainer.

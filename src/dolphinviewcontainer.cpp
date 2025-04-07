@@ -18,7 +18,7 @@
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "kitemviews/kitemlistcontainer.h"
-#include "search/dolphinsearchbox.h"
+#include "search/bar.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
 
@@ -49,9 +49,14 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+bool isSearchUrl(const QUrl &url)
+{
+    return url.scheme().contains(QLatin1String("search"));
+}
+
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
-    int searchBox = 0;
+    int searchBar = 0;
     int adminBar = 1;
     int messageWidget = 2;
     int selectionModeTopBar = 3;
@@ -67,7 +72,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     , m_topLayout(nullptr)
     , m_urlNavigator{new DolphinUrlNavigator(url)}
     , m_urlNavigatorConnected{nullptr}
-    , m_searchBox(nullptr)
+    , m_searchBar(nullptr)
     , m_searchModeEnabled(false)
     , m_adminBar{nullptr}
     , m_authorizeToEnterFolderAction{nullptr}
@@ -79,33 +84,13 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     , m_statusBar(nullptr)
     , m_statusBarTimer(nullptr)
     , m_statusBarTimestamp()
-    , m_autoGrabFocus(true)
+    , m_grabFocusOnUrlChange{true}
 {
     hide();
 
     m_topLayout = new QGridLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setContentsMargins(0, 0, 0, 0);
-
-    m_searchBox = new DolphinSearchBox(this);
-    m_searchBox->setVisible(false, WithoutAnimation);
-    connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
-    connect(m_searchBox, &DolphinSearchBox::openRequest, this, &DolphinViewContainer::openSearchBox);
-    connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
-    connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
-    connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
-    m_searchBox->setWhatsThis(xi18nc("@info:whatsthis findbar",
-                                     "<para>This helps you find files and folders. Enter a <emphasis>"
-                                     "search term</emphasis> and specify search settings with the "
-                                     "buttons at the bottom:<list><item>Filename/Content: "
-                                     "Does the item you are looking for contain the search terms "
-                                     "within its filename or its contents?<nl/>The contents of images, "
-                                     "audio files and videos will not be searched.</item><item>"
-                                     "From Here/Everywhere: Do you want to search in this "
-                                     "folder and its sub-folders or everywhere?</item><item>"
-                                     "More Options: Click this to search by media type, access "
-                                     "time or rating.</item><item>More Search Tools: Install other "
-                                     "means to find an item.</item></list></para>"));
 
     m_messageWidget = new KMessageWidget(this);
     m_messageWidget->setCloseButtonVisible(true);
@@ -188,7 +173,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     KIO::FileUndoManager *undoManager = KIO::FileUndoManager::self();
     connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished, this, &DolphinViewContainer::delayedStatusBarUpdate);
 
-    m_topLayout->addWidget(m_searchBox, positionFor.searchBox, 0);
     m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
     m_topLayout->addWidget(m_view, positionFor.view, 0);
     m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
@@ -211,7 +195,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     });
     m_statusBar->setHidden(false);
 
-    setSearchModeEnabled(isSearchUrl(url));
+    setSearchBarVisible(isSearchUrl(url));
 
     // Update view as the ContentDisplaySettings change
     // this happens here and not in DolphinView as DolphinviewContainer and DolphinView are not in the same build target ATM
@@ -221,8 +205,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     connect(placesModel, &KFilePlacesModel::dataChanged, this, &DolphinViewContainer::slotPlacesModelChanged);
     connect(placesModel, &KFilePlacesModel::rowsInserted, this, &DolphinViewContainer::slotPlacesModelChanged);
     connect(placesModel, &KFilePlacesModel::rowsRemoved, this, &DolphinViewContainer::slotPlacesModelChanged);
-
-    connect(this, &DolphinViewContainer::searchModeEnabledChanged, this, &DolphinViewContainer::captionChanged);
 
     QApplication::instance()->installEventFilter(this);
 }
@@ -243,7 +225,6 @@ KFileItem DolphinViewContainer::rootItem() const
 
 void DolphinViewContainer::setActive(bool active)
 {
-    m_searchBox->setActive(active);
     if (m_urlNavigatorConnected) {
         m_urlNavigatorConnected->setActive(active);
     }
@@ -255,19 +236,9 @@ bool DolphinViewContainer::isActive() const
     return m_view->isActive();
 }
 
-void DolphinViewContainer::setAutoGrabFocus(bool grab)
+void DolphinViewContainer::setGrabFocusOnUrlChange(bool grabFocus)
 {
-    m_autoGrabFocus = grab;
-}
-
-bool DolphinViewContainer::autoGrabFocus() const
-{
-    return m_autoGrabFocus;
-}
-
-QString DolphinViewContainer::currentSearchText() const
-{
-    return m_searchBox->text();
+    m_grabFocusOnUrlChange = grabFocus;
 }
 
 const DolphinStatusBar *DolphinViewContainer::statusBar() const
@@ -357,6 +328,79 @@ void DolphinViewContainer::disconnectUrlNavigator()
 
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
+}
+
+void DolphinViewContainer::setSearchBarVisible(bool visible)
+{
+    if (!visible) {
+        if (isSearchBarVisible()) {
+            m_searchBar->setVisible(false, WithAnimation);
+        }
+        return;
+    }
+
+    if (!m_searchBar) {
+        m_searchBar = new Search::Bar(std::make_shared<const Search::DolphinQuery>(m_urlNavigator->locationUrl(), QUrl{} /** will be set below. */), this);
+        connect(m_searchBar, &Search::Bar::urlChangeRequested, this, [this](const QUrl &url) {
+            m_view->setViewPropertiesContext(isSearchUrl(url) ? QStringLiteral("search") : QString());
+            setGrabFocusOnUrlChange(false); // Prevent loss of focus while typing or refining a search.
+            setUrl(url);
+            setGrabFocusOnUrlChange(true);
+        });
+        connect(m_searchBar, &Search::Bar::focusViewRequest, this, &DolphinViewContainer::requestFocus);
+        connect(m_searchBar, &Search::Bar::showMessage, this, [this](const QString &message, KMessageWidget::MessageType messageType) {
+            showMessage(message, messageType);
+        });
+        connect(m_searchBar,
+                &Search::Bar::showInstallationProgress,
+                m_statusBar,
+                [this](const QString &currentlyRunningTaskTitle, int installationProgressPercent) {
+                    m_statusBar->showProgress(currentlyRunningTaskTitle, installationProgressPercent, DolphinStatusBar::CancelLoading::Disallowed);
+                });
+        connect(m_searchBar, &Search::Bar::visibilityChanged, this, &DolphinViewContainer::searchBarVisibilityChanged);
+        m_topLayout->addWidget(m_searchBar, positionFor.searchBar, 0);
+    }
+
+    m_searchBar->setVisible(true, WithAnimation);
+
+    // The Search::Bar has been set visible but its state does not yet match with this view container or view.
+    // The view might for example already be searching because it was opened with a search URL. The Search::Bar needs to be updated to show the parameters of
+    // that search. And even if there is no search URL loaded in the view currently, we still need to figure out where the Search::Bar should be searching if
+    // the user starts a search from there. Let's figure out the search location in this method and let the DolphinQuery constructor figure out the rest from
+    // the current m_urlNavigator->locationUrl().
+    for (int i = m_urlNavigator->historyIndex(); i < m_urlNavigator->historySize(); i++) {
+        QUrl url = m_urlNavigator->locationUrl(i);
+        if (isSearchUrl(url)) {
+            // The previous location was a search URL. Try to see if that search URL has a valid search path so we keep searching in the same location.
+            const auto searchPath = Search::DolphinQuery(url, QUrl{}).searchPath(); // DolphinQuery is great at extracting the search path from a search URL.
+            if (searchPath.isValid()) {
+                m_searchBar->updateStateToMatch(std::make_shared<const Search::DolphinQuery>(m_urlNavigator->locationUrl(), searchPath));
+                return;
+            }
+        } else if (url.scheme() == QLatin1String("tags")) {
+            continue; // We avoid setting a tags url as the backup search path because a DolphinQuery constructed from a tags url will already search tagged
+                      // items everywhere.
+        } else {
+            m_searchBar->updateStateToMatch(std::make_shared<const Search::DolphinQuery>(m_urlNavigator->locationUrl(), url));
+            return;
+        }
+    }
+    // We could not find any URL fit for searching in the history. This might happen because this view only ever loaded a search which searches "Everywhere"
+    // and therefore there is no specific search path to choose from. But the Search::Bar *needs* to know a search path because the user might switch from
+    // searching "Everywhere" to "Here" and it is everybody's guess what "Here" is supposed to mean in that context… We'll simply fall back to the user's home
+    // path for lack of a better option.
+    m_searchBar->updateStateToMatch(std::make_shared<const Search::DolphinQuery>(m_urlNavigator->locationUrl(), QUrl::fromUserInput(QDir::homePath())));
+}
+
+bool DolphinViewContainer::isSearchBarVisible() const
+{
+    return m_searchBar && m_searchBar->isVisible() && m_searchBar->isEnabled();
+}
+
+void DolphinViewContainer::setFocusToSearchBar()
+{
+    Q_ASSERT(isSearchBarVisible());
+    m_searchBar->selectAll();
 }
 
 void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionMode::BottomBar::Contents bottomBarContents)
@@ -496,53 +540,12 @@ bool DolphinViewContainer::isFilterBarVisible() const
     return m_filterBar->isEnabled(); // Gets disabled in AnimatedHeightWidget while animating towards a hidden state.
 }
 
-void DolphinViewContainer::setSearchModeEnabled(bool enabled)
-{
-    m_searchBox->setVisible(enabled, WithAnimation);
-
-    if (enabled) {
-        const QUrl &locationUrl = m_urlNavigator->locationUrl();
-        m_searchBox->fromSearchUrl(locationUrl);
-    }
-
-    if (enabled == isSearchModeEnabled()) {
-        if (enabled && !m_searchBox->hasFocus()) {
-            m_searchBox->setFocus();
-            m_searchBox->selectAll();
-        }
-        return;
-    }
-
-    if (!enabled) {
-        m_view->setViewPropertiesContext(QString());
-
-        // Restore the URL for the URL navigator. If Dolphin has been
-        // started with a search-URL, the home URL is used as fallback.
-        QUrl url = m_searchBox->searchPath();
-        if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
-            url = Dolphin::homeUrl();
-        }
-        if (m_urlNavigatorConnected) {
-            m_urlNavigatorConnected->setLocationUrl(url);
-        }
-    }
-
-    m_searchModeEnabled = enabled;
-
-    Q_EMIT searchModeEnabledChanged(enabled);
-}
-
-bool DolphinViewContainer::isSearchModeEnabled() const
-{
-    return m_searchModeEnabled;
-}
-
 QString DolphinViewContainer::placesText() const
 {
     QString text;
 
-    if (isSearchModeEnabled()) {
-        text = i18n("Search for %1 in %2", m_searchBox->text(), m_searchBox->searchPath().fileName());
+    if (isSearchBarVisible() && m_searchBar->isSearchConfigured()) {
+        text = m_searchBar->queryTitle();
     } else {
         text = url().adjusted(QUrl::StripTrailingSlash).fileName();
         if (text.isEmpty()) {
@@ -564,7 +567,7 @@ void DolphinViewContainer::reload()
 
 QString DolphinViewContainer::captionWindowTitle() const
 {
-    if (GeneralSettings::showFullPathInTitlebar() && !isSearchModeEnabled()) {
+    if (GeneralSettings::showFullPathInTitlebar() && (!isSearchBarVisible() || !m_searchBar->isSearchConfigured())) {
         if (!url().isLocalFile()) {
             return url().adjusted(QUrl::StripTrailingSlash).toString();
         }
@@ -579,18 +582,14 @@ QString DolphinViewContainer::caption() const
     // see KUrlNavigatorPrivate::firstButtonText().
     if (url().path().isEmpty() || url().path() == QLatin1Char('/')) {
         QUrlQuery query(url());
-        const QString title = query.queryItemValue(QStringLiteral("title"));
+        const QString title = query.queryItemValue(QStringLiteral("title"), QUrl::FullyDecoded);
         if (!title.isEmpty()) {
             return title;
         }
     }
 
-    if (isSearchModeEnabled()) {
-        if (currentSearchText().isEmpty()) {
-            return i18n("Search");
-        } else {
-            return i18n("Search for %1", currentSearchText());
-        }
+    if (isSearchBarVisible() && m_searchBar->isSearchConfigured()) {
+        return m_searchBar->queryTitle();
     }
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
@@ -628,6 +627,9 @@ void DolphinViewContainer::setUrl(const QUrl &newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
+        if (m_searchBar && !Search::isSupportedSearchScheme(newUrl.scheme())) {
+            m_searchBar->setSearchPath(newUrl);
+        }
     }
 }
 
@@ -862,13 +864,17 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
     }
 
     if (KProtocolManager::supportsListing(url)) {
-        const bool searchBoxInitialized = isSearchModeEnabled() && m_searchBox->text().isEmpty();
-        setSearchModeEnabled(isSearchUrl(url) || searchBoxInitialized);
+        if (isSearchUrl(url)) {
+            setSearchBarVisible(true);
+        } else if (m_searchBar && m_searchBar->isSearchConfigured()) {
+            // Hide the search bar because it shows an outdated search which the user does not care about anymore.
+            setSearchBarVisible(false);
+        }
 
         m_view->setUrl(url);
         tryRestoreViewState();
 
-        if (m_autoGrabFocus && isActive() && !isSearchModeEnabled()) {
+        if (m_grabFocusOnUrlChange && isActive()) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.
@@ -923,10 +929,7 @@ void DolphinViewContainer::redirect(const QUrl &oldUrl, const QUrl &newUrl)
     // URL history.
     m_urlNavigator->saveLocationState(QByteArray());
     m_urlNavigator->setLocationUrl(newUrl);
-    if (m_searchBox->isActive()) {
-        m_searchBox->setSearchPath(newUrl);
-    }
-    setSearchModeEnabled(isSearchUrl(newUrl));
+    setSearchBarVisible(isSearchUrl(newUrl));
 
     m_urlNavigator->blockSignals(block);
 }
@@ -934,31 +937,6 @@ void DolphinViewContainer::redirect(const QUrl &oldUrl, const QUrl &newUrl)
 void DolphinViewContainer::requestFocus()
 {
     m_view->setFocus();
-}
-
-void DolphinViewContainer::startSearching()
-{
-    Q_CHECK_PTR(m_urlNavigatorConnected);
-    const QUrl url = m_searchBox->urlForSearching();
-    if (url.isValid() && !url.isEmpty()) {
-        m_view->setViewPropertiesContext(QStringLiteral("search"));
-        // If we open a new tab that has a search assigned to it, we can't
-        // update the urlNavigator, since there is none connected to that tab.
-        // See BUG:500101
-        if (m_urlNavigatorConnected) {
-            m_urlNavigatorConnected->setLocationUrl(url);
-        }
-    }
-}
-
-void DolphinViewContainer::openSearchBox()
-{
-    setSearchModeEnabled(true);
-}
-
-void DolphinViewContainer::closeSearchBox()
-{
-    setSearchModeEnabled(false);
 }
 
 void DolphinViewContainer::stopDirectoryLoading()
@@ -1001,7 +979,7 @@ void DolphinViewContainer::showErrorMessage(const QString &message)
 
 void DolphinViewContainer::slotPlacesModelChanged()
 {
-    if (!GeneralSettings::showFullPathInTitlebar() && !isSearchModeEnabled()) {
+    if (!GeneralSettings::showFullPathInTitlebar()) {
         Q_EMIT captionChanged();
     }
 }
@@ -1041,11 +1019,6 @@ void DolphinViewContainer::slotOpenUrlFinished(KJob *job)
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
         showErrorMessage(job->errorString());
     }
-}
-
-bool DolphinViewContainer::isSearchUrl(const QUrl &url) const
-{
-    return url.scheme().contains(QLatin1String("search"));
 }
 
 void DolphinViewContainer::saveViewState()

@@ -32,12 +32,8 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject *parent)
 void DolphinRecentTabsMenu::rememberClosedTab(const QUrl &url, const QByteArray &state)
 {
     QAction *action = new QAction(menu());
-    if (DolphinQuery::supportsScheme(url.scheme())) {
-        const DolphinQuery query = DolphinQuery::fromSearchUrl(url);
-        action->setText(i18n("Search for %1 in %2", query.text(), query.includeFolder()));
-    } else if (url.scheme() == QLatin1String("filenamesearch")) {
-        const QUrlQuery query(url);
-        action->setText(i18n("Search for %1 in %2", query.queryItemValue(QStringLiteral("search")), query.queryItemValue(QStringLiteral("url"))));
+    if (Search::isSupportedSearchScheme(url.scheme())) {
+        action->setText(Search::DolphinQuery{url, QUrl{}}.title());
     } else {
         action->setText(url.path());
     }

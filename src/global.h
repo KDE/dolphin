@@ -47,10 +47,10 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> do
 QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
 
 /**
- * TODO: Move this somewhere global to all KDE apps, not just Dolphin
+ * TODO: Use global KDE spacings instead of Dolphin-specific ones once we have them.
  */
 constexpr int VERTICAL_SPACER_HEIGHT = 12;
-constexpr int LAYOUT_SPACING_SMALL = 2;
+constexpr int LAYOUT_SPACING_SMALL = 4;
 }
 
 enum Animated { WithAnimation, WithoutAnimation };

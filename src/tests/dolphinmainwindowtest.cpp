@@ -204,7 +204,7 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     QVERIFY(tabWidget);
 
     // Show search box on first tab.
-    tabWidget->currentTabPage()->activeViewContainer()->setSearchModeEnabled(true);
+    tabWidget->currentTabPage()->activeViewContainer()->setSearchBarVisible(true);
 
     tabWidget->openNewActivatedTab(QUrl::fromLocalFile(QDir::homePath()));
     QCOMPARE(tabWidget->count(), 2);

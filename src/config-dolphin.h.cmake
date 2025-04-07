@@ -5,8 +5,13 @@
 #cmakedefine01 HAVE_TERMINAL
 #cmakedefine01 HAVE_X11
 
+#define KDE_INSTALL_FULL_DATADIR "${KDE_INSTALL_FULL_DATADIR}"
+
 /** The name of the package that needs to be installed so URLs starting with "admin:" can be opened in Dolphin. */
 #cmakedefine ADMIN_WORKER_PACKAGE_NAME "@ADMIN_WORKER_PACKAGE_NAME@"
 
 /** The name of the KDE Filelight package. */
 #cmakedefine FILELIGHT_PACKAGE_NAME "@FILELIGHT_PACKAGE_NAME@"
+
+/** The name of the KFind package. */
+#cmakedefine KFIND_PACKAGE_NAME "@KFIND_PACKAGE_NAME@"

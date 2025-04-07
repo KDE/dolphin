@@ -42,10 +42,10 @@ target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt6::Test)
 # KItemListKeyboardSearchManagerTest
 ecm_add_test(kitemlistkeyboardsearchmanagertest.cpp LINK_LIBRARIES dolphinprivate Qt6::Test)
 
-# DolphinSearchBox
+# DolphinSearchBar
 if (KF6Baloo_FOUND)
-    ecm_add_test(dolphinsearchboxtest.cpp
-    TEST_NAME dolphinsearchboxtest
+    ecm_add_test(dolphinsearchbartest.cpp
+    TEST_NAME dolphinsearchbartest
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt6::Test)
 endif()
 

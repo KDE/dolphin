@@ -2,6 +2,7 @@ include(ECMAddAppIcon)
 
 set(ADMIN_WORKER_PACKAGE_NAME "kio-admin")
 set(FILELIGHT_PACKAGE_NAME "filelight")
+set(KFIND_PACKAGE_NAME "kfind")
 
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
@@ -304,9 +305,16 @@ target_sources(dolphinstatic PRIVATE
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
     panels/terminal/terminalpanel.cpp
-    search/dolphinfacetswidget.cpp
+    search/bar.cpp
+    search/barsecondrowflowlayout.cpp
+    search/chip.cpp
     search/dolphinquery.cpp
-    search/dolphinsearchbox.cpp
+    search/popup.cpp
+    search/selectors/dateselector.cpp
+    search/selectors/filetypeselector.cpp
+    search/selectors/minimumratingselector.cpp
+    search/selectors/tagsselector.cpp
+    search/widgetmenu.cpp
     selectionmode/actiontexthelper.cpp
     selectionmode/actionwithwidget.cpp
     selectionmode/backgroundcolorhelper.cpp
@@ -365,9 +373,16 @@ target_sources(dolphinstatic PRIVATE
     panels/folders/treeviewcontextmenu.h
     panels/folders/folderspanel.h
     panels/terminal/terminalpanel.h
-    search/dolphinfacetswidget.h
+    search/bar.h
+    search/barsecondrowflowlayout.h
+    search/chip.h
     search/dolphinquery.h
-    search/dolphinsearchbox.h
+    search/popup.h
+    search/selectors/dateselector.h
+    search/selectors/filetypeselector.h
+    search/selectors/minimumratingselector.h
+    search/selectors/tagsselector.h
+    search/widgetmenu.h
     selectionmode/actiontexthelper.h
     selectionmode/actionwithwidget.h
     selectionmode/backgroundcolorhelper.h
