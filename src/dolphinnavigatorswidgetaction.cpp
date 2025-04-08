@@ -148,6 +148,16 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
     updateText();
 }
 
+void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
+{
+    if (primaryUrlNavigator()) {
+        primaryUrlNavigator()->setBackgroundEnabled(enabled);
+    }
+    if (secondaryUrlNavigator()) {
+        secondaryUrlNavigator()->setBackgroundEnabled(enabled);
+    }
+}
+
 QWidget *DolphinNavigatorsWidgetAction::createWidget(QWidget *parent)
 {
     QWidget *oldParent = m_splitter->parentWidget();

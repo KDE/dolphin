@@ -2750,7 +2750,8 @@ void DolphinMainWindow::updateSplitActions()
 void DolphinMainWindow::updateAllowedToolbarAreas()
 {
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
-    if (toolBar()->actions().contains(navigators)) {
+    const bool inToolbar = toolBar()->actions().contains(navigators);
+    if (inToolbar) {
         toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
         if (toolBarArea(toolBar()) == Qt::LeftToolBarArea || toolBarArea(toolBar()) == Qt::RightToolBarArea) {
             addToolBar(Qt::TopToolBarArea, toolBar());
@@ -2758,6 +2759,8 @@ void DolphinMainWindow::updateAllowedToolbarAreas()
     } else {
         toolBar()->setAllowedAreas(Qt::AllToolBarAreas);
     }
+    // Set background disabled if navigator is outside of toolbar.
+    navigators->setBackgroundEnabled(inToolbar);
 }
 
 bool DolphinMainWindow::isKompareInstalled() const
