@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-08 00:44+0000\n"
-"PO-Revision-Date: 2025-02-25 06:30+0100\n"
+"PO-Revision-Date: 2025-04-08 07:22+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -651,14 +651,7 @@ msgid "Search for files and folders"
 msgstr "Poišči datoteke in mape"
 
 #: dolphinmainwindow.cpp:1864
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>search "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the items you are looking for.</para><para>Use this help again on "
-#| "the search bar so we can have a look at it while the settings are "
-#| "explained.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -666,10 +659,8 @@ msgid ""
 "find the items you are looking for.</para>"
 msgstr ""
 "<para>To vam pomaga najti datoteke in mape tako, da odprete "
-"<emphasis>vrstico iskanja</emphasis>. Tam lahko vnesete iskalne izraze in "
-"določite nastavitve za elemente, ki jih iščete.</para><para>Ponovno "
-"uporabite to pomoč na iskalni vrstici, da si jo lahko ogledamo, medtem ko so "
-"nastavitve razložene.</para>"
+"<emphasis>iskalno vrstico</emphasis>. Tam lahko vnesete iskalne izraze in "
+"določite nastavitve za iskanje elementov, ki jih iščete.</para>"
 
 #: dolphinmainwindow.cpp:1873
 #, kde-format
@@ -3219,9 +3210,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Shrani to iskanje za hitrejši dostop v prihodnosti"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Filter"
@@ -3233,18 +3222,16 @@ msgid "Quit searching"
 msgstr "Končaj iskanje"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "Od tu naprej"
+msgstr "Tukaj"
 
 #: search/bar.cpp:118
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
-msgstr ""
+msgstr "Povsod"
 
 #: search/bar.cpp:153
 #, kde-kuit-format
@@ -3259,20 +3246,27 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>To vam pomaga najti datoteke in mape.<list><item>Vnesite "
+"<emphasis>iskalni izraz</emphasis> v vnosno polje.</item><item>Odločite se, "
+"kje želite iskati, tako da pritisnete gumbe za lokacijo pod iskalnim poljem. "
+"\"Tukaj\" se nanaša na lokacijo, ki je bila odprta pred začetkom iskanja, "
+"tako da lahko najprej navigacija do druge lokacije zoži iskanje.</"
+"item><item>Pritisnite gumb “%1”, da dodatno izboljšate način iskanja ali "
+"rezultate.</item><item>Pritisnite ikono \"Shrani\", da dodate trenutno "
+"konfiguracijo iskanja na <emphasis>ploščo Mesta</emphasis>.</item></list></"
+"para>"
 
 #: search/bar.cpp:212
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Iskanje po vsebini datoteke…"
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Omeji iskanje na »%1« in njene podmape"
+msgstr "Omeji iskanje na <filename>%1</filename> in njene podmape."
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3283,7 +3277,7 @@ msgstr "Omeji iskanje na »%1« in njene podmape"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Preišči vse imenike od korena navzgor."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3295,14 +3289,15 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Preišči vse indeksirane lokacije.<nl/><nl/>Konfigurirajte, katere lokacije "
+"so indeksirane v <interface>Sistemske nastavitve|Delovni prostor|Iskanje</"
+"interface>."
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "Filter"
+msgstr "Odstrani filter"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3318,19 +3313,17 @@ msgstr "Kaj"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
-msgstr "Poišči"
+msgstr "Orodje iskanja"
 
 #: search/dolphinquery.cpp:378
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "Poišči %1 v %2"
+msgstr "Zadetki iskanja za \"%1\" v %2"
 
 #: search/dolphinquery.cpp:384
 #, kde-format
@@ -3338,16 +3331,15 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Datoteke, ki vsebujejo \"%1\" v %2"
 
 #: search/dolphinquery.cpp:391
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "Poišči %1 v %2"
+msgstr "Išči elemente z oznako \"%1\" v %2"
 
 #: search/dolphinquery.cpp:396
 #, kde-format
@@ -3355,50 +3347,47 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "Išči elemente z oznako \"%1\" in \"%2\" v %3"
 
 #: search/dolphinquery.cpp:403
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "Poišči %1 v %2"
+msgstr "%1 zadetki iskanja v %2"
 
 #: search/dolphinquery.cpp:409
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "Poišči %1 v %2"
+msgstr "Poišči zadetke v %1"
 
 #: search/dolphinquery.cpp:419
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "Poišči %1"
+msgstr "Poišči zadetke v \"%1\""
 
 #: search/dolphinquery.cpp:422
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Datoteke, ki vsebujejo “%1”"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "Iskanje elementov z oznako “%1”"
 
 #: search/dolphinquery.cpp:429
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "Iskanje elementov z oznako \"%1\" in \"%2\""
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3407,51 +3396,44 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "%1 zadetkov iskanja"
 
 #: search/dolphinquery.cpp:440
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "Poišči"
+msgstr "Poišči zadetke"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Simple search"
-msgstr "Poišči"
+msgstr "Enostavno iskanje"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:54
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "Indeksiranje datoteke"
 
 #: search/popup.cpp:74
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Poišči"
+msgstr "Poišči v:"
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Ime datoteke"
+msgstr "Imena datoteke"
 
 #: search/popup.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Iskanje …"
+msgstr "Išči z uporabo:"
 
 #: search/popup.cpp:132
 #, kde-kuit-format
@@ -3469,52 +3451,54 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>Za iskanje po vsebini datoteke <application>%1</application> poskuša "
+"uporabiti iskalna orodja tretjih oseb, če so na voljo v tem sistemu in se "
+"pričakuje, da bodo vodila do boljših ali hitrejših rezultatov. "
+"<application>ripgrep</application> in <application>ripgrep-all</application> "
+"lahko izboljšata vašo izkušnjo iskanja, če sta nameščena. "
+"<application>ripgrep-all</application> zlasti omogoča iskanje v več vrstah "
+"datotek (npr. pdf, docx, sqlite, jpg, filmski podnapisi (mkv, mp4)).</"
+"para><para>Način, na katerega so priklicana ta iskalna orodja, je mogoče "
+"konfigurirati z urejanjem skriptne datoteke. Kopirajte jo iz <filename>%2</"
+"filename> v <filename>%3</filename>, preden spremenite svojo kopijo. Če se "
+"pojavijo težave, izbrišite svojo kopijo <filename>%3</filename>, da "
+"razveljavite spremembe.</para>"
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Nastavi …"
+msgstr "Konfiguriraj %1…"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "Ur&edi vrsto datoteke …"
+msgstr "Vrsta datoteke:"
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "Spremenjeno"
+msgstr "Spremenjeno od:"
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr "Ocena"
+msgstr "Ocena:"
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr "Oznake"
+msgstr "Oznake:"
 
 #: search/popup.cpp:252
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "Za naprednejša iskanja:"
 
 #: search/popup.cpp:277
 #, kde-kuit-format
@@ -3524,6 +3508,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Iskanje v <filename>%1</filename> z uporabo <application>%2</"
+"application> trenutno ni mogoče, ker je <application>%2</application> "
+"konfigurirana tako, da nikoli ne ustvari iskalnega indeksa te lokacije.</"
+"para>"
 
 #: search/popup.cpp:284
 #, kde-kuit-format
@@ -3533,14 +3521,15 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Iskanje po vsebini datoteke z <application>%1</application> trenutno "
+"ni mogoče, ker je <application>%1</application> konfigurirana tako, da "
+"nikoli ne ustvari iskalnega indeksa za vsebino datoteke.</para>"
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3558,51 +3547,54 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> za iskanje uporablja bazo podatkov. "
+"Podatkovna baza je ustvarjena z indeksiranjem vaših datotek v ozadju glede "
+"na to, kako je konfigurirana <application>%1</application>."
+"<list><item><application>%1</application> izjemno hitro zagotavlja rezultate."
+"</item><item>Omogoča iskanje po vrstah datotek, datumih, oznakah itd.</"
+"item><item>Išče samo v indeksiranih mapah. Konfigurirajte, katere mape naj "
+"bodo indeksirane v <application>Nastavitvah sistema</application>.</"
+"item><item>Če iskane lokacije vsebujejo povezave do drugih datotek ali map, "
+"te ne bodo preiskane ali prikazane v rezultatih iskanja.</item><item>Skrite "
+"datoteke in mape ter njihova vsebina morda tudi ne bodo preiskane, odvisno "
+"od tega, kako je konfigurirana <application>%1</application>.</item></list></"
+"para>"
 
 #: search/popup.cpp:308
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "Imena in vsebina datotek"
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Podaljšek datoteke"
+msgstr "Vsebina datoteke"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Odpri %1"
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Namesti Filelight…"
+msgstr "Namesti KFind…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Filelight</application> uspešno nameščen."
+msgstr "<application>KFind</application> uspešno nameščena."
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Nameščanje Filelight…"
+msgstr "Nameščanje KFind"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3647,9 +3639,7 @@ msgid "4 or more"
 msgstr "4 ali več"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3659,13 +3649,13 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:181
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr ""
+msgstr "Noben"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
