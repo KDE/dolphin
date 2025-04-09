@@ -9,6 +9,7 @@
 
 #include "trash/dolphintrash.h"
 
+#include <KCoreAddons>
 #include <KLocalizedString>
 #include <KNotificationJobUiDelegate>
 #include <KService>
@@ -151,9 +152,11 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 
 void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
 {
-    primaryUrlNavigator()->setBackgroundEnabled(enabled);
-    if (secondaryUrlNavigator()) {
-        secondaryUrlNavigator()->setBackgroundEnabled(enabled);
+    if (KCoreAddons::version() >= QT_VERSION_CHECK(6, 14, 0)) {
+        primaryUrlNavigator()->setBackgroundEnabled(enabled);
+        if (secondaryUrlNavigator()) {
+            secondaryUrlNavigator()->setBackgroundEnabled(enabled);
+        }
     }
 }
 
