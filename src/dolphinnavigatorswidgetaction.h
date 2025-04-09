@@ -86,7 +86,7 @@ public:
     void setSecondaryNavigatorVisible(bool visible);
 
     /**
-     * Sets the background cosmetic of the toolbar visible or hidden.
+     * Sets the background cosmetic of the location bar(s) visible or hidden.
      * In frameless designs it's better to hide the background.
      * @param enabled True for showing background cosmetic, false for hiding it.
      */
