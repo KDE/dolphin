@@ -151,9 +151,7 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 
 void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
 {
-    if (primaryUrlNavigator()) {
-        primaryUrlNavigator()->setBackgroundEnabled(enabled);
-    }
+    primaryUrlNavigator()->setBackgroundEnabled(enabled);
     if (secondaryUrlNavigator()) {
         secondaryUrlNavigator()->setBackgroundEnabled(enabled);
     }
