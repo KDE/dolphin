@@ -2760,8 +2760,6 @@ void DolphinMainWindow::updateAllowedToolbarAreas()
     } else {
         toolBar()->setAllowedAreas(Qt::AllToolBarAreas);
     }
-    // Set background disabled if navigator is outside of toolbar.
-    navigators->setBackgroundEnabled(inToolbar);
 }
 
 void DolphinMainWindow::updateNavigatorBackground()
