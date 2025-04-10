@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-08 00:44+0000\n"
-"PO-Revision-Date: 2025-03-10 20:38+0900\n"
+"PO-Revision-Date: 2025-04-09 17:34+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -626,14 +626,7 @@ msgid "Search for files and folders"
 msgstr "搜尋檔案及資料夾"
 
 #: dolphinmainwindow.cpp:1864
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>search "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the items you are looking for.</para><para>Use this help again on "
-#| "the search bar so we can have a look at it while the settings are "
-#| "explained.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -641,8 +634,7 @@ msgid ""
 "find the items you are looking for.</para>"
 msgstr ""
 "<para>這會開啟一個<emphasis>搜尋列</emphasis>來幫助您尋找檔案和資料夾。在其中"
-"您可以輸入搜尋字串或指定設定來找到您在找的項目。</para><para>在搜尋列上再次使"
-"用這個說明的話可以邊看著它邊說明它的設定。</para>"
+"您可以輸入搜尋字串或指定設定來找到您在找的項目。</para>"
 
 #: dolphinmainwindow.cpp:1873
 #, kde-format
@@ -3071,9 +3063,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "儲存此搜尋條件以供將來快速尋找"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "過濾器"
@@ -3085,18 +3075,16 @@ msgid "Quit searching"
 msgstr "離開搜尋"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "從這裡"
+msgstr "這裡"
 
 #: search/bar.cpp:118
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
-msgstr ""
+msgstr "任何地方"
 
 #: search/bar.cpp:153
 #, kde-kuit-format
@@ -3111,20 +3099,24 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>這個功能幫助您尋找檔案或資料夾。<list><item>在輸入欄位中輸入<emphasis>"
+"搜尋文字</emphasis>。</item><item>按搜尋欄位下方的位置按鈕來選擇要在哪裡搜"
+"尋。「這裡」代表在開始進行搜尋之前已開啟的位置，如果先瀏覽到另一個位置的話就"
+"能將搜尋限制於該位置當中。</item><item>按下「%1」按鈕來繼續改善搜尋方式或結"
+"果。</item><item>按下「儲存」按鈕來將目前搜尋配置加入<emphasis>快速存取面板</"
+"emphasis>。</item></list></para>"
 
 #: search/bar.cpp:212
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "搜尋檔案內容…"
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "將搜尋限制至「%1」與其子目錄"
+msgstr "將搜尋限制至 <filename>%1</filename> 及它的子目錄。"
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3135,7 +3127,7 @@ msgstr "將搜尋限制至「%1」與其子目錄"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "搜尋所有目錄。"
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3147,14 +3139,14 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"搜尋所有已索引的資料夾。<nl/><nl/>哪些資料夾有被索引可以在<interface>系統設"
+"定|工作空間|搜尋</interface>進行設定。"
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "過濾器"
+msgstr "移除過濾器"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3170,19 +3162,17 @@ msgstr "什麼"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
-msgstr "搜尋"
+msgstr "搜尋工具"
 
 #: search/dolphinquery.cpp:378
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "在 %2 中搜尋 %1"
+msgstr "在 %2 中搜尋「%1」的結果"
 
 #: search/dolphinquery.cpp:384
 #, kde-format
@@ -3190,16 +3180,15 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "在 %2 當中且包含「%1」的檔案"
 
 #: search/dolphinquery.cpp:391
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "在 %2 中搜尋 %1"
+msgstr "在 %2 當中且有「%1」標籤的搜尋項目"
 
 #: search/dolphinquery.cpp:396
 #, kde-format
@@ -3207,50 +3196,47 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "在 %3 當中且有「%1」和「%2」標籤的搜尋項目"
 
 #: search/dolphinquery.cpp:403
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "在 %2 中搜尋 %1"
+msgstr "%2 當中的%1搜尋結果"
 
 #: search/dolphinquery.cpp:409
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "在 %2 中搜尋 %1"
+msgstr "%1 當中的搜尋結果"
 
 #: search/dolphinquery.cpp:419
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "搜尋 %1"
+msgstr "「%1」的搜尋結果"
 
 #: search/dolphinquery.cpp:422
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "包含「%1」的檔案"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "有「%1」標籤的搜尋項目"
 
 #: search/dolphinquery.cpp:429
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "有「%1」和「%2」標籤的搜尋項目"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3259,51 +3245,44 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "%1 個搜尋結果"
 
 #: search/dolphinquery.cpp:440
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "搜尋"
+msgstr "搜尋結果"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Simple search"
-msgstr "搜尋"
+msgstr "簡易搜尋"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:54
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "檔案索引"
 
 #: search/popup.cpp:74
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "搜尋"
+msgstr "搜尋於："
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "檔案名稱"
 
 #: search/popup.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "搜尋中…"
+msgstr "搜尋使用："
 
 #: search/popup.cpp:132
 #, kde-kuit-format
@@ -3321,52 +3300,50 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>為了搜尋檔案內容，<application>%1</application> 會嘗試使用第三方搜尋工"
+"具，如果系統上有安裝而且預期結果能更快或更準確的話。<application>ripgrep</"
+"application> 和 <application>ripgrep-all</application> 有安裝的時候可能可以加"
+"強搜尋結果。<application>ripgrep-all</application> 讓搜尋檔案內容時也能夠搜尋"
+"更多檔案型態（像是 PDF、docx、sqlite、jpg、電影字幕（mkv、mp4）等等）。</"
+"para><para>這些搜尋工具被呼叫的方式可以透過編輯文稿檔案來變更。把 <filename>"
+"%2</filename> 複製到 <filename>%3</filename> 之後即可編輯您的副本。如果有發生"
+"任何問題，刪除 <filename>%3</filename> 的副本就可以復原您的變更。</para>"
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "設定…"
+msgstr "設定《%1》…"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "編輯檔案型態(&E)…"
+msgstr "檔案型態："
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "已變更"
+msgstr "上次變更："
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr "評分"
+msgstr "評分："
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr "標籤"
+msgstr "標籤："
 
 #: search/popup.cpp:252
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "更進階的搜尋請使用："
 
 #: search/popup.cpp:277
 #, kde-kuit-format
@@ -3376,6 +3353,9 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>目前無法使用 <application>%2</application> 搜尋 <filename>%1</"
+"filename>，因為 <application>%2</application> 已設定為不要建立該位置的搜尋索"
+"引。</para>"
 
 #: search/popup.cpp:284
 #, kde-kuit-format
@@ -3385,14 +3365,14 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>使用 <application>%1</application> 搜尋檔案內容功能目前無法使用，因為 "
+"<application>%1</application> 已設定為不要建立檔案內容的搜尋索引。</para>"
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3410,51 +3390,50 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> 內部使用資料庫進行搜尋。這個資料庫是在背"
+"景依 <application>%1</application> 設定索引您的檔案來建立的。"
+"<list><item><application>%1</application> 可以非常快速地提供結果。</"
+"item><item>提供搜尋檔案型態、日期、標籤等等的功能。</item><item>只能搜尋已索"
+"引的資料夾。要調整哪些資料夾被索引請到 <application>系統設定</application> 進"
+"行設定。</item><item>當被搜尋到的位置包含到其他檔案或資料夾的連結的時候，這些"
+"連結不會被搜尋或是出現在搜尋結果裡。</item><item>隱藏檔案和資料夾會依 "
+"<application>%1</application> 設定決定是否搜尋。</item></list></para>"
 
 #: search/popup.cpp:308
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "檔案名稱和內容"
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "檔案副檔名："
+msgstr "檔案內容"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "開啟 %1"
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "安裝 Filelight…"
+msgstr "安裝 KFind…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Filelight</application> 已成功安裝。"
+msgstr "<application>KFind</application> 已成功安裝。"
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "正在安裝 Filelight…"
+msgstr "正在安裝 KFind"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3499,9 +3478,7 @@ msgid "4 or more"
 msgstr "四星以上"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3511,13 +3488,13 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:181
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format

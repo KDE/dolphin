@@ -2,7 +2,7 @@
 # This file is put in the public domain.
 #
 # SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023, 2024 Alexander Yavorsky <kekcuha@gmail.com>
-# SPDX-FileCopyrightText: 2023, 2024 Olesya Gerasimenko <translation-team@basealt.ru>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Olesya Gerasimenko <translation-team@basealt.ru>
 # Иван Бобров <ibobrik@gmail.com>, 2006.
 # Nick Shaforostoff <shafff@ukr.net>, 2007-2009.
 # Leonid Kanter <leon@asplinux.ru>, 2008.
@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-08 00:44+0000\n"
-"PO-Revision-Date: 2025-01-29 11:20+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2025-04-09 12:56+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -195,19 +195,17 @@ msgid "Empty Trash"
 msgstr "Очистить корзину"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Изменить путь"
-msgstr[1] "Изменить путь"
-msgstr[2] "Изменить путь"
-msgstr[3] "Изменить путь"
+msgstr[0] "Восстановить в прежних расположениях"
+msgstr[1] "Восстановить в прежних расположениях"
+msgstr[2] "Восстановить в прежних расположениях"
+msgstr[3] "Восстановить в прежнем расположении"
 
 #: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1727
 #, kde-format
@@ -386,17 +384,13 @@ msgstr[2] "Открыть %1 терминалов"
 msgstr[3] "Открыть терминал"
 
 #: dolphinmainwindow.cpp:1472
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Не удалось создать папку: у вас недостаточно прав для создания объектов в "
+"Не удалось создать файл: у вас недостаточно прав для создания объектов в "
 "этой папке."
 
 #: dolphinmainwindow.cpp:1474
@@ -676,13 +670,6 @@ msgstr "Поиск файлов и папок"
 
 #: dolphinmainwindow.cpp:1864
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>search "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the items you are looking for.</para><para>Use this help again on "
-#| "the search bar so we can have a look at it while the settings are "
-#| "explained.</para>"
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -1441,9 +1428,7 @@ msgid "Close left view"
 msgstr "Закрыть левую панель"
 
 #: dolphinmainwindow.cpp:2711
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Закрыть левую панель"
@@ -1473,9 +1458,7 @@ msgid "Close right view"
 msgstr "Закрыть правую панель"
 
 #: dolphinmainwindow.cpp:2719
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Закрыть правую панель"
@@ -1972,29 +1955,21 @@ msgid "Close Tab"
 msgstr "Закрыть вкладку"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Переименовать (%2)"
+msgstr "Переименовать вкладку"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Переименовать (%2)"
+msgstr "Переименование вкладки"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Объект #"
+msgstr "Новое имя вкладки:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2211,19 +2186,23 @@ msgid "in a grid layout in location %1"
 msgstr "в табличной компоновке в расположении %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "%1 в %2"
-msgstr[1] "%1 в %2"
-msgstr[2] "%1 в %2"
-msgstr[3] "%1 в %2"
+msgstr[0] ""
+"%1 выбранный объект в табличной компоновке в режиме выделения в расположении "
+"%2"
+msgstr[1] ""
+"%1 выбранных объекта в табличной компоновке в режиме выделения в "
+"расположении %2"
+msgstr[2] ""
+"%1 выбранных объектов в табличной компоновке в режиме выделения в "
+"расположении %2"
+msgstr[3] ""
+"%1 выбранный объект в табличной компоновке в режиме выделения в расположении "
+"%2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
@@ -2232,7 +2211,7 @@ msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
 msgstr[0] "%1 выбранный объект в табличной компоновке в расположении %2"
 msgstr[1] "%1 выбранных объекта в табличной компоновке в расположении %2"
-msgstr[2] "%1 выбранный объектов в табличной компоновке в расположении %2"
+msgstr[2] "%1 выбранных объектов в табличной компоновке в расположении %2"
 msgstr[3] "%1 выбранный объект в табличной компоновке в расположении %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
@@ -2248,18 +2227,14 @@ msgid "in location %1"
 msgstr "в расположении %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@info 1 states that the folder is empty and sometimes why, 2 is the full "
-#| "filesystem path"
-#| msgid "%1 at location %2"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 в %2"
-msgstr[1] "%1 в %2"
-msgstr[2] "%1 в %2"
-msgstr[3] "%1 в %2"
+msgstr[0] "%1 выбранный объект в режиме выделения в расположении %2"
+msgstr[1] "%1 выбранных объекта в режиме выделения в расположении %2"
+msgstr[2] "%1 выбранных объектов в режиме выделения в расположении %2"
+msgstr[3] "%1 выбранный объект в режиме выделения в расположении %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2272,20 +2247,16 @@ msgstr[2] "%1 выбранных объектов в расположении %2
 msgstr[3] "%1 выбранный объект в расположении %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Режим выделения"
+msgstr "Режим выделения включён"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Режим выделения"
+msgstr "Режим выделения отключён"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2964,12 +2935,10 @@ msgid "File Manager"
 msgstr "Диспетчер файлов"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "© Разработчики Dolphin, 2006–2022"
+msgstr "© Разработчики Dolphin, 2006–2025"
 
 #: main.cpp:101
 #, kde-format
@@ -3329,8 +3298,6 @@ msgstr "Сохранить результаты поиска для быстро
 
 #: search/bar.cpp:71
 #, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Фильтр"
@@ -3343,16 +3310,12 @@ msgstr "Закрыть панель поиска"
 
 #: search/bar.cpp:103
 #, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "В этой папке"
 
 #: search/bar.cpp:118
 #, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Везде"
@@ -3379,8 +3342,6 @@ msgstr ""
 
 #: search/bar.cpp:226
 #, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
 msgstr "Ограничить область поиска папкой «%1» и её вложенными папками"
@@ -3409,8 +3370,6 @@ msgstr ""
 
 #: search/chip.cpp:22
 #, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
 msgctxt "@action:button"
 msgid "Remove Filter"
 msgstr "Фильтр"
@@ -3430,13 +3389,11 @@ msgstr "Предмет поиска"
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
 #, fuzzy, kde-format
-#| msgid "Search"
 msgid "SearchTool"
 msgstr "Поиск"
 
 #: search/dolphinquery.cpp:378
 #, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
@@ -3453,7 +3410,6 @@ msgstr ""
 
 #: search/dolphinquery.cpp:391
 #, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
@@ -3470,7 +3426,6 @@ msgstr ""
 
 #: search/dolphinquery.cpp:403
 #, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
@@ -3479,7 +3434,6 @@ msgstr "Поиск %1 в %2"
 
 #: search/dolphinquery.cpp:409
 #, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
@@ -3488,7 +3442,6 @@ msgstr "Поиск %1 в %2"
 
 #: search/dolphinquery.cpp:419
 #, fuzzy, kde-format
-#| msgid "Search for %1"
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "Поиск %1"
@@ -3522,8 +3475,6 @@ msgstr ""
 
 #: search/dolphinquery.cpp:440
 #, fuzzy, kde-format
-#| msgctxt "@item"
-#| msgid "Search For"
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
@@ -3543,24 +3494,18 @@ msgstr ""
 
 #: search/popup.cpp:74
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Search:"
 msgctxt "@title:group"
 msgid "Search in:"
 msgstr "Искать:"
 
 #: search/popup.cpp:78
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Filenames"
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "Имена файлов"
 
 #: search/popup.cpp:113
 #, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
 msgctxt "@title:group"
 msgid "Search using:"
 msgstr "Выполняется поиск…"
@@ -3584,40 +3529,30 @@ msgstr ""
 
 #: search/popup.cpp:166
 #, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
 msgstr "Настроить…"
 
 #: search/popup.cpp:209
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Type:"
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
 msgstr "Тип:"
 
 #: search/popup.cpp:217
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified:"
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr "Дата изменения:"
 
 #: search/popup.cpp:226
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating:"
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Оценка:"
 
 #: search/popup.cpp:234
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags:"
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "Метки:"
@@ -3648,8 +3583,6 @@ msgstr ""
 
 #: search/popup.cpp:293
 #, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
 msgstr "<ol>%1</ol>"
@@ -3679,39 +3612,30 @@ msgstr ""
 
 #: search/popup.cpp:315
 #, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
 msgctxt "@option:radio Search in:"
 msgid "File contents"
 msgstr "Расширение файла"
 
 #: search/popup.cpp:330
 #, fuzzy, kde-format
-#| msgid "Open %1"
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Открыть %1"
 
 #: search/popup.cpp:333
 #, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
 msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "Установить Filelight…"
 
 #: search/popup.cpp:365
 #, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "Приложение <application>Filelight</application> успешно установлено."
 
 #: search/popup.cpp:369
 #, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
 msgctxt "@info:status"
 msgid "Installing KFind"
 msgstr "Устанавливается приложение Filelight…"
@@ -3760,8 +3684,6 @@ msgstr "4 и выше"
 
 #: search/selectors/minimumratingselector.cpp:25
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3775,8 +3697,6 @@ msgstr ""
 
 #: search/selectors/tagsselector.cpp:181
 #, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "Нет"
@@ -4050,17 +3970,7 @@ msgid "Selection Mode"
 msgstr "Режим выделения"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -4081,9 +3991,12 @@ msgstr ""
 "папку из выделения, нажмите на неё.</item><item>Нажатие на пустую область "
 "<emphasis>не</emphasis> снимает выделение.</item><item>Прямоугольники "
 "выделения (создаваемые перетаскиванием из пустой области) обращают состояние "
-"выделения находящихся внутри объектов.</item></list></para><para>Показанные "
-"в нижней части окна кнопки доступных действий меняются в зависимости от "
-"текущего выделения.</para>"
+"выделения находящихся внутри объектов.</item><item>Перемещение с помощью "
+"<shortcut>клавиш со стрелками</shortcut> <emphasis>не</emphasis> изменяет "
+"выделение.</item><item>Нажатие <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut> или <shortcut>%3</shortcut> включает или отключает выделение.</"
+"item></list></para><para>Показанные в нижней части окна кнопки доступных "
+"действий меняются в зависимости от текущего выделения.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -4305,17 +4218,15 @@ msgstr "Расположение столбцов"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Отступ перед столбцом"
+msgstr "Отступ слева"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Отступ перед столбцом"
+msgstr "Отступ справа"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4666,11 +4577,9 @@ msgstr "Использовать раскрываемые папки во все
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Строка состояния:"
+msgstr "Строка состояния"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -5160,20 +5069,16 @@ msgid "Remote storage:"
 msgstr "Сетевое хранилище:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "Маленькие"
+msgstr "Маленькая"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Ширина надписей:"
+msgstr "Полная ширина"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -5185,12 +5090,10 @@ msgstr "Показывать ползунок масштаба"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Отключить"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
 msgstr "Строка состояния:"
@@ -6130,7 +6033,7 @@ msgstr[3] "Открыть объект"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr "Отступ перед столбцом"
+msgstr "Боковой отступ"
 
 #: views/dolphinview.cpp:1244
 #, kde-format
@@ -6279,12 +6182,10 @@ msgid "Create Folder…"
 msgstr "Создать папку…"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Создать папку…"
+msgstr "Создать файл…"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6442,18 +6343,16 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Режим просмотра"
+msgstr "Изменить режим просмотра"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Циклический перебор всех режимов просмотра."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format

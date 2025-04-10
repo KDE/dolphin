@@ -13,15 +13,15 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-08 00:44+0000\n"
-"PO-Revision-Date: 2025-02-25 09:34+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2025-04-09 19:47+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -645,14 +645,7 @@ msgid "Search for files and folders"
 msgstr "Dosyaları ve klasörleri ara"
 
 #: dolphinmainwindow.cpp:1864
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis find"
-#| msgid ""
-#| "<para>This helps you find files and folders by opening a <emphasis>search "
-#| "bar</emphasis>. There you can enter search terms and specify settings to "
-#| "find the items you are looking for.</para><para>Use this help again on "
-#| "the search bar so we can have a look at it while the settings are "
-#| "explained.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -661,9 +654,7 @@ msgid ""
 msgstr ""
 "<para>Bu, bir <emphasis>arama çubuğu</emphasis> açarak dosya ve klasörleri "
 "bulmanıza yardımcı olur. Orada aradığınız ögeleri bulmak için arama "
-"terimlerini girebilir ve ayarları belirleyebilirsiniz.</para><para>Ayarlar "
-"açıklanırken bir göz atabilmemiz için arama çubuğunda bu yardımı yeniden "
-"kullanın.</para>"
+"terimlerini girebilir ve ayarları belirleyebilirsiniz.</para>"
 
 #: dolphinmainwindow.cpp:1873
 #, kde-format
@@ -2501,21 +2492,21 @@ msgstr "%1"
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
-msgstr "Oku,"
+msgstr "Oku, "
 
 #: kitemviews/kfileitemmodel.cpp:2650 kitemviews/kfileitemmodel.cpp:2663
 #: kitemviews/kfileitemmodel.cpp:2676
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
-msgstr "Yaz,"
+msgstr "Yaz, "
 
 #: kitemviews/kfileitemmodel.cpp:2653 kitemviews/kfileitemmodel.cpp:2666
 #: kitemviews/kfileitemmodel.cpp:2679
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
-msgstr "Yürüt,"
+msgstr "Yürüt, "
 
 #: kitemviews/kfileitemmodel.cpp:2655 kitemviews/kfileitemmodel.cpp:2668
 #: kitemviews/kfileitemmodel.cpp:2681
@@ -3168,9 +3159,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "İleride yeniden tez erişmek için bu aramayı kaydet"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Süzgeç"
@@ -3182,18 +3171,16 @@ msgid "Quit searching"
 msgstr "Aramayı durdur"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "Buradan"
+msgstr "Burada"
 
 #: search/bar.cpp:118
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
-msgstr ""
+msgstr "Her Yerde"
 
 #: search/bar.cpp:153
 #, kde-kuit-format
@@ -3208,20 +3195,28 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>Bu, dosyaları ve klasörleri bulmanıza yardımcı olur.<list><item>Giriş "
+"alanına bir <emphasis>arama terimi</emphasis> girin.</item><item>Arama "
+"alanının altındaki konum düğmelerine basarak nerede arama yapmak "
+"istediğinize karar verin. “Burada”, arama yapmadan önce açılmış olan konumu "
+"belirtir, bu yüzden, başka bir konuma gitmek arama yapılacak kapsamı "
+"daraltabilir.</item><item>Arama yapma yönteminde biraz daha ince ayar yapmak "
+"için “%1” düğmesine basın.</item><item>Geçerli arama yapılandırmasını "
+"<emphasis>Yerler</emphasis> paneline kaydetmek için “Kaydet” düğmesine basın."
+"</item></list></para>"
 
 #: search/bar.cpp:212
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Dosya içeriğinde ara…"
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Aramayı “%1” ve alt klasörleriyle sınırlandır"
+msgstr ""
+"Aramayı <filename>%1</filename> ile ve onun alt klasörleriyle sınırlandırın."
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3232,7 +3227,7 @@ msgstr "Aramayı “%1” ve alt klasörleriyle sınırlandır"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Kökten yukarı tüm dizinleri arayın."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3244,14 +3239,15 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Tüm indeklenmiş konumlarda arayın.<nl/><nl/>Hangi konumların "
+"indeksleneceğini <interface>Sistem Ayarları | Çalışma Alanı | Arama</"
+"interface> bölümünde yapılandırın."
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "Süzgeç"
+msgstr "Süzgeci Kaldır"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3267,19 +3263,17 @@ msgstr "Ne"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
-msgstr "Ara"
+msgstr "Arama Aracı"
 
 #: search/dolphinquery.cpp:378
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "%2 içinde %1 ara"
+msgstr "%2 İçinde “%1” Araması"
 
 #: search/dolphinquery.cpp:384
 #, kde-format
@@ -3287,16 +3281,15 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "%2 İçinde “%1” İçeren Dosyalar"
 
 #: search/dolphinquery.cpp:391
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "%2 içinde %1 ara"
+msgstr "%2 İçinde “%1” ile Künyeli Ögeler"
 
 #: search/dolphinquery.cpp:396
 #, kde-format
@@ -3304,50 +3297,47 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "%3 İçinde “%1” ve “%2” ile Künyeli Ögeler"
 
 #: search/dolphinquery.cpp:403
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "%2 içinde %1 ara"
+msgstr "%2 İçinde %1 Araması Sonucu"
 
 #: search/dolphinquery.cpp:409
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "%2 içinde %1 ara"
+msgstr "%1 İçindeki Arama Sonuçları"
 
 #: search/dolphinquery.cpp:419
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "Ara: %1"
+msgstr "“%1” için Arama Sonuçları"
 
 #: search/dolphinquery.cpp:422
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "“%1” İçeren Dosyalar"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "“%1” ile Künyeli Ögeler"
 
 #: search/dolphinquery.cpp:429
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "“%1” ve “%2” ile Künyeli Ögeler"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3356,51 +3346,44 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "%1 Araması Sonucu"
 
 #: search/dolphinquery.cpp:440
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "Ara"
+msgstr "Arama Sonuçları"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Simple search"
-msgstr "Ara"
+msgstr "Basit Arama"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:54
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "Dosya İndeksleme"
 
 #: search/popup.cpp:74
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Ara"
+msgstr "Şurada Ara:"
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Dosya Adı"
+msgstr "Dosya adları"
 
 #: search/popup.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Aranıyor…"
+msgstr "Şunu Kullanarak Ara:"
 
 #: search/popup.cpp:132
 #, kde-kuit-format
@@ -3418,52 +3401,54 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>Dosya içeriğinde arama yapmak için <application>%1</application>, bu "
+"sistemde varsa üçüncü parti arama araçlarını kullanır ve bunun daha iyi ve "
+"daha hızlı arama sonuçları vermesi beklenir. <application>ripgrep</"
+"application> ve <application>ripgrep-all</application>, eğer kuruluylarsa "
+"arama deneyiminizi iyileştirebilir. Özellikle <application>ripgrep-all</"
+"application>, daha çok dosya türünde aramayı etkinleştirir (örneğin, pdf, "
+"docx, sqlite, jpg, film altyazıları (mkv, mp4)).</para><para>Bu arama "
+"araçlarının nasıl çağrılacağı, bir betik dosyası düzenlenerek "
+"yapılandırılabilir. Kendi kopyanızı düzenlemeden önce onu, <filename>%2</"
+"filename> konumundan <filename>%3</filename> konumuna kopyalayın. Herhangi "
+"bir sorunla karşılaşırsanız değişikliklerinizi geri almak için <filename>%3</"
+"filename> kopyanızı silin.</para>"
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Yapılandır…"
+msgstr "%1 Uygulamasını Yapılandır…"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "Dosya Türünü Dü&zenle…"
+msgstr "Dosya Türü:"
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "Değiştirilme"
+msgstr "Değiştirilme Tarihi:"
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr "Derecelendirme"
+msgstr "Derecelendirme:"
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr "Künyeler"
+msgstr "Künyeler:"
 
 #: search/popup.cpp:252
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "Daha gelişmiş aramalar için:"
 
 #: search/popup.cpp:277
 #, kde-kuit-format
@@ -3473,6 +3458,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para><application>%2</application> kullanarak <filename>%1</filename> "
+"içinde arama yapmak henüz olanaklı değil; çünkü <application>%2</"
+"application> uygulaması, o konumun bir arama indeksini oluşturmak üzere "
+"yapılandırılmamış.</para>"
 
 #: search/popup.cpp:284
 #, kde-kuit-format
@@ -3482,14 +3471,15 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para><application>%1</application> kullanarak dosya içeriğinde arama yapmak "
+"henüz olanaklı değil; çünkü <application>%1</application> uygulaması, dosya "
+"içeriğinin arama indeksini oluşturmak üzere yapılandırılmamış.</para>"
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3507,51 +3497,55 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> uygulaması, arama yapmak için bir "
+"veritabanı kullanıyor. Veritabanı, <application>%1</application> "
+"uygulamasının nasıl yapılandırıldığına bağlı olarak dosyalarınızı arka "
+"planda indeksleyerek bir veritabanı oluşturur.<list><item><application>%1</"
+"application>, sonuçları genelde pek hızlı olarak sunar.</item><item>Dosya "
+"türleri, tarihleri, künyeler vb. içinde arama yapmaya izin verir.</"
+"item><item>Yalnızca indekslenmiş klasörlerde arama yapar. Hangi klasörlerin "
+"indeksleneceğini <application>Sistem Ayarları</application>’nda yapılandırın."
+"</item><item>Arama konumları başka dosyalara veya klasörlere bağlantılar "
+"içeriyorsa bunlar, arama sonuçlarında gösterilmek üzere kullanılmaz.</"
+"item><item>Gizli dosyaların ve klasörlerin içeriği de <application>%1</"
+"application> uygulamasının nasıl yapılandırıldığına bağlı olarak "
+"gösterilmeyebilirler.</item></list></para>"
 
 #: search/popup.cpp:308
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "Dosya adı ve içeriği"
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Dosya Uzantısı"
+msgstr "Dosya içeriği"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Aç: %1"
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Dosya Feneri’ni Kur…"
+msgstr "K Bul’u Kur…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Dosya Feneri</application> uygulaması başarıyla kuruldu."
+msgstr "<application>K Bul</application> uygulaması başarıyla kuruldu."
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Dosya Feneri kuruluyor…"
+msgstr "K Bul kuruluyor…"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3596,9 +3590,7 @@ msgid "4 or more"
 msgstr "4 veya daha çok"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3608,13 +3600,13 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " ve "
 
 #: search/selectors/tagsselector.cpp:181
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr ""
+msgstr "Yok"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
@@ -4765,7 +4757,7 @@ msgstr "Sekme çubuğunun sonunda"
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
-msgstr "Yeni sekmeleri aç:"
+msgstr "Yeni sekmeleri aç: "
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
@@ -5006,7 +4998,7 @@ msgstr "Konum çubuğunu düzenlenebilir yap"
 #: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, kde-format
 msgid "Location bar:"
-msgstr "Konum çubuğu: "
+msgstr "Konum çubuğu:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:71
 #, kde-format
@@ -5063,7 +5055,7 @@ msgstr "Abecesel, BÜYÜK/küçük harf duyarlı"
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
-msgstr "Sıralama kipi:"
+msgstr "Sıralama kipi: "
 
 #: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
@@ -5226,7 +5218,7 @@ msgstr "Üzerine gelindiğinde öge bilgisini göster"
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
-msgstr "Çeşitli:"
+msgstr "Çeşitli: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:75
 #, kde-format
@@ -6493,153 +6485,3 @@ msgstr[1] "%1 Seçili Öge için Eylemler"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Sürüm bilgisi güncelleniyor…"
-
-#~ msgctxt "@info:whatsthis findbar"
-#~ msgid ""
-#~ "<para>This helps you find files and folders. Enter a <emphasis>search "
-#~ "term</emphasis> and specify search settings with the buttons at the "
-#~ "bottom:<list><item>Filename/Content: Does the item you are looking for "
-#~ "contain the search terms within its filename or its contents?<nl/>The "
-#~ "contents of images, audio files and videos will not be searched.</"
-#~ "item><item>From Here/Everywhere: Do you want to search in this folder and "
-#~ "its sub-folders or everywhere?</item><item>More Options: Click this to "
-#~ "search by media type, access time or rating.</item><item>More Search "
-#~ "Tools: Install other means to find an item.</item></list></para>"
-#~ msgstr ""
-#~ "<para>Bu, dosya ve klasörleri bulmanıza yardımcı olur. Bir "
-#~ "<emphasis>arama terimi</emphasis> girin ve alttaki düğmelerle arama "
-#~ "ayarlarını belirtin: <list> <item>Dosya Adı/İçerik: Aradığınız öge, dosya "
-#~ "adı veya içeriği içinde arama terimlerini içeriyor mu?<nl/>Görsellerin, "
-#~ "ses dosyalarının ve videoların içeriği aranmayacaktır. </"
-#~ "item><item>Buradan/Her Yerde: Bu klasörde ve alt klasörlerinde veya her "
-#~ "yerde aramak istiyor musunuz? </item> <item>Daha Fazla Seçenek: Ortam "
-#~ "türüne, erişim zamanına veya derecelendirmeye göre arama yapmak için bunu "
-#~ "tıklayın. </item> <item>Daha Fazla Arama Aracı: Bir ögeyi bulmak için "
-#~ "diğer yöntemlerden kurun. </item> </list></para>"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Folders"
-#~ msgstr "Klasörler"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Documents"
-#~ msgstr "Belgeler"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Images"
-#~ msgstr "Görseller"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Ses Dosyaları"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Videos"
-#~ msgstr "Videolar"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Today"
-#~ msgstr "Bugün"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Yesterday"
-#~ msgstr "Dün"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Week"
-#~ msgstr "Bu Hafta"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Month"
-#~ msgstr "Bu Ay"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Year"
-#~ msgstr "Bu Yıl"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Highest Rating"
-#~ msgstr "En Yüksek Derecelendirme"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Clear Selection"
-#~ msgstr "Seçimi Temizle"
-
-#~ msgctxt "String list separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgctxt "@action:button %2 is a list of tags"
-#~ msgid "Tag: %2"
-#~ msgid_plural "Tags: %2"
-#~ msgstr[0] "Künye: %2"
-#~ msgstr[1] "Künyeler: %2"
-
-#~ msgctxt "@action:button"
-#~ msgid "Add Tags"
-#~ msgstr "Künyeler Ekle"
-
-#~ msgctxt "action:button"
-#~ msgid "From Here (%1)"
-#~ msgstr "Buradan (%1)"
-
-#~ msgctxt "action:button"
-#~ msgid "Content"
-#~ msgstr "İçerik"
-
-#~ msgctxt "action:button"
-#~ msgid "Your files"
-#~ msgstr "Dosyaların"
-
-#~ msgctxt "action:button"
-#~ msgid "Search in your home directory"
-#~ msgstr "Ana dizininde ara"
-
-#~ msgctxt ""
-#~ "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
-#~ "user entered."
-#~ msgid "Query Results from '%1'"
-#~ msgstr "“%1” Sorgusunun Sonuçları"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Durum çubuğunu göster"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Durum çubuğunda depolama alanı bilgisini göster"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Durum çubuğunu göster"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Depolama alanı bilgisini göster"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Depolama Alan Bilgisini Göster"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Restore"
-#~ msgstr "Geri Yükle"
-
-#~ msgid "not selected,"
-#~ msgstr "seçili değil,"
-
-#~ msgid "collapsed,"
-#~ msgstr "daraltıldı,"
-
-#~ msgid "expanded,"
-#~ msgstr "genişletildi,"
-
-#~ msgid "— %1 selected item"
-#~ msgid_plural "— %1 selected items"
-#~ msgstr[0] "— %1 seçili öge"
-#~ msgstr[1] "— %1 seçili öge"
-
-#~ msgctxt ""
-#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
-#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-#~ "currentFolderPath"
-#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
-#~ msgstr "%1, %2 %3 %4 %5 %6, %7 konumunda"
