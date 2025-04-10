@@ -2765,8 +2765,7 @@ void DolphinMainWindow::updateAllowedToolbarAreas()
 void DolphinMainWindow::updateNavigatorBackground()
 {
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
-    const bool inToolbar = toolBar()->actions().contains(navigators);
-    navigators->setBackgroundEnabled(inToolbar);
+    navigators->setBackgroundEnabled(navigators->isInToolbar());
 }
 
 bool DolphinMainWindow::isKompareInstalled() const
