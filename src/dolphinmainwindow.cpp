@@ -236,7 +236,7 @@ DolphinMainWindow::DolphinMainWindow()
     }
 
     updateAllowedToolbarAreas();
-    updateNavigatorBackground();
+    updateNavigatorsBackground();
 
     // enable middle-click on back/forward/up to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
@@ -2761,7 +2761,7 @@ void DolphinMainWindow::updateAllowedToolbarAreas()
     }
 }
 
-void DolphinMainWindow::updateNavigatorBackground()
+void DolphinMainWindow::updateNavigatorsBackground()
 {
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
     navigators->setBackgroundEnabled(navigators->isInToolbar());
@@ -2953,7 +2953,7 @@ void DolphinMainWindow::saveNewToolbarConfig()
         m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
     }
     updateAllowedToolbarAreas();
-    updateNavigatorBackground();
+    updateNavigatorsBackground();
     (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
 }
 

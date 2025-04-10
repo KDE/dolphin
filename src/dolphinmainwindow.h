@@ -708,7 +708,7 @@ private:
      * Sets the background of the location bar(s) on if they are inside the toolbar,
      * or off if they are outside the toolbar.
      */
-    void updateNavigatorBackground();
+    void updateNavigatorsBackground();
 
     bool isKompareInstalled() const;
 
