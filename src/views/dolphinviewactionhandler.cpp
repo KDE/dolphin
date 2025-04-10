@@ -358,6 +358,40 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                         "This opens a window "
                                         "in which all folder view properties can be adjusted."));
     connect(adjustViewProps, &QAction::triggered, this, &DolphinViewActionHandler::slotAdjustViewProperties);
+
+    // View settings: the dropdown menu contains various view-related actions
+    KActionMenu *viewSettings = m_actionCollection->add<KActionMenu>(QStringLiteral("view_settings"));
+    viewSettings->setText(i18nc("@action:intoolbar", "View Settings"));
+    viewSettings->setWhatsThis(
+        xi18nc("@info:whatsthis View Settings Toolbutton", "This cycles through all view modes. The dropdown menu contains various view-related actions."));
+    QActionGroup *viewModesGroup = new QActionGroup(viewSettings);
+    iconsAction->setActionGroup(viewModesGroup);
+    compactAction->setActionGroup(viewModesGroup);
+    detailsAction->setActionGroup(viewModesGroup);
+    viewSettings->addAction(iconsAction);
+    viewSettings->addAction(compactAction);
+    viewSettings->addAction(detailsAction);
+    viewSettings->addSeparator();
+    viewSettings->addAction(zoomMenu);
+    viewSettings->addAction(sortByActionMenu);
+    viewSettings->addAction(visibleRolesMenu);
+    viewSettings->addAction(showPreview);
+    viewSettings->addAction(showInGroups);
+    viewSettings->addAction(showHiddenFiles);
+    viewSettings->addAction(adjustViewProps);
+    viewSettings->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
+    connect(viewSettings, &KActionMenu::triggered, this, [this, viewModesGroup, iconsAction, compactAction, detailsAction]() {
+        // Loop through the actions when button is clicked
+        const auto currentAction = viewModesGroup->checkedAction();
+        if (currentAction == iconsAction) {
+            slotViewModeActionTriggered(compactAction);
+        } else if (currentAction == compactAction) {
+            slotViewModeActionTriggered(detailsAction);
+        } else if (currentAction == detailsAction) {
+            slotViewModeActionTriggered(iconsAction);
+        }
+    });
+    connect(viewModesGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 }
 
 QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix)
@@ -438,6 +472,9 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
 
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
+
+    QAction *viewSettingsButton = m_actionCollection->action(QStringLiteral("view_settings"));
+    viewSettingsButton->setIcon(action->icon());
 }
 
 void DolphinViewActionHandler::slotRename()
@@ -516,6 +553,9 @@ void DolphinViewActionHandler::updateViewActions()
 
         QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
         viewModeMenu->setIcon(viewModeAction->icon());
+
+        QAction *viewSettingsButton = m_actionCollection->action(QStringLiteral("view_settings"));
+        viewSettingsButton->setIcon(viewModeAction->icon());
     }
 
     QAction *showPreviewAction = m_actionCollection->action(QStringLiteral("show_preview"));
