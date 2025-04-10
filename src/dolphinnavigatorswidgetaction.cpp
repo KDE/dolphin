@@ -152,14 +152,14 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 
 void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
 {
-    if (KCoreAddons::version() >= QT_VERSION_CHECK(6, 14, 0)) {
-        m_splitter->setAutoFillBackground(!enabled);
-        m_splitter->setBackgroundRole(enabled ? QPalette::Window : QPalette::Base);
-        primaryUrlNavigator()->setBackgroundEnabled(enabled);
-        if (secondaryUrlNavigator()) {
-            secondaryUrlNavigator()->setBackgroundEnabled(enabled);
-        }
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
+    m_splitter->setAutoFillBackground(!enabled);
+    m_splitter->setBackgroundRole(enabled ? QPalette::Window : QPalette::Base);
+    primaryUrlNavigator()->setBackgroundEnabled(enabled);
+    if (secondaryUrlNavigator()) {
+        secondaryUrlNavigator()->setBackgroundEnabled(enabled);
     }
+#endif
 }
 
 QWidget *DolphinNavigatorsWidgetAction::createWidget(QWidget *parent)
