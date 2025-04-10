@@ -705,8 +705,8 @@ private:
     void updateAllowedToolbarAreas();
 
     /**
-     * Sets the background of the navigation bar on if it's inside toolbar,
-     * off if it's outside of toolbar.
+     * Sets the background of the location bar(s) on if they are inside the toolbar,
+     * or off if they are outside the toolbar.
      */
     void updateNavigatorBackground();
 
