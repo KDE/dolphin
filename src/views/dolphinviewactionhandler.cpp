@@ -309,17 +309,11 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
         m_currentView->setSortOrder(Qt::DescendingOrder);
     });
 
-    KToggleAction *showInGroups = m_actionCollection->add<KToggleAction>(QStringLiteral("show_in_groups"));
-    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
-    showInGroups->setWhatsThis(i18nc("@info:whatsthis", "This groups files and folders by their first letter."));
-    connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
-
     sortByActionMenu->addAction(ascendingAction);
     sortByActionMenu->addAction(descendingAction);
     sortByActionMenu->addSeparator();
     sortByActionMenu->addAction(sortFoldersFirst);
     sortByActionMenu->addAction(sortHiddenLast);
-    sortByActionMenu->addAction(showInGroups);
 
     // View -> Additional Information
     QActionGroup *visibleRolesGroup = createFileItemRolesActionGroup(QStringLiteral("show_"));
@@ -333,6 +327,12 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     for (QAction *action : visibleRolesGroupActions) {
         visibleRolesMenu->addAction(action);
     }
+
+    KToggleAction *showInGroups = m_actionCollection->add<KToggleAction>(QStringLiteral("show_in_groups"));
+    showInGroups->setIcon(QIcon::fromTheme(QStringLiteral("view-group")));
+    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
+    showInGroups->setWhatsThis(i18nc("@info:whatsthis", "This groups files and folders by their first letter."));
+    connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
     KToggleAction *showHiddenFiles = m_actionCollection->add<KToggleAction>(QStringLiteral("show_hidden_files"));
     showHiddenFiles->setIcon(QIcon::fromTheme(QStringLiteral("view-visible")));
