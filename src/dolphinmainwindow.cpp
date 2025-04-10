@@ -2751,8 +2751,7 @@ void DolphinMainWindow::updateSplitActions()
 void DolphinMainWindow::updateAllowedToolbarAreas()
 {
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
-    const bool inToolbar = toolBar()->actions().contains(navigators);
-    if (inToolbar) {
+    if (toolBar()->actions().contains(navigators)) {
         toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
         if (toolBarArea(toolBar()) == Qt::LeftToolBarArea || toolBarArea(toolBar()) == Qt::RightToolBarArea) {
             addToolBar(Qt::TopToolBarArea, toolBar());
