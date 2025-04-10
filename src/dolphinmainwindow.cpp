@@ -1558,14 +1558,17 @@ void DolphinMainWindow::updateHamburgerMenu()
     // and to change the more general UI.
     if (!toolBar()->isVisible()
         || (!toolbarActions.contains(ac->action(QStringLiteral("icons"))) && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("details"))) && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))) {
+            && !toolbarActions.contains(ac->action(QStringLiteral("details"))) && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))
+            && !toolbarActions.contains(ac->action(QStringLiteral("view_settings")))) {
         menu->addAction(ac->action(QStringLiteral("view_mode")));
     }
-    menu->addAction(ac->action(QStringLiteral("show_hidden_files")));
-    menu->addAction(ac->action(QStringLiteral("sort")));
-    menu->addAction(ac->action(QStringLiteral("additional_info")));
-    if (!GeneralSettings::showStatusBar() || !GeneralSettings::showZoomSlider()) {
-        menu->addAction(ac->action(QStringLiteral("zoom")));
+    if (!toolBar()->isVisible() || !toolbarActions.contains(ac->action(QStringLiteral("view_settings")))) {
+        menu->addAction(ac->action(QStringLiteral("show_hidden_files")));
+        menu->addAction(ac->action(QStringLiteral("sort")));
+        menu->addAction(ac->action(QStringLiteral("additional_info")));
+        if (!GeneralSettings::showStatusBar() || !GeneralSettings::showZoomSlider()) {
+            menu->addAction(ac->action(QStringLiteral("zoom")));
+        }
     }
     menu->addAction(ac->action(QStringLiteral("panels")));
 

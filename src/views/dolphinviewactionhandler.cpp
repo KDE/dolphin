@@ -358,6 +358,25 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
                                         "This opens a window "
                                         "in which all folder view properties can be adjusted."));
     connect(adjustViewProps, &QAction::triggered, this, &DolphinViewActionHandler::slotAdjustViewProperties);
+
+    // View settings: the dropdown menu contains various view-related actions
+    KActionMenu *viewSettings = m_actionCollection->add<KActionMenu>(QStringLiteral("view_settings"));
+    viewSettings->setText(i18nc("@action:intoolbar", "View Settings"));
+    viewSettings->setWhatsThis(
+        xi18nc("@info:whatsthis View Settings Toolbutton", "This cycles through all view modes. The dropdown menu contains various view-related actions."));
+    for (QAction *action : viewModeActions->actions()) {
+        viewSettings->addAction(action);
+    }
+    viewSettings->addSeparator();
+    viewSettings->addAction(zoomMenu);
+    viewSettings->addAction(sortByActionMenu);
+    viewSettings->addAction(visibleRolesMenu);
+    viewSettings->addAction(showPreview);
+    viewSettings->addAction(showInGroups);
+    viewSettings->addAction(showHiddenFiles);
+    viewSettings->addAction(adjustViewProps);
+    viewSettings->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
+    connect(viewSettings, &KActionMenu::triggered, viewModeActions, &KSelectAction::triggered);
 }
 
 QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix)
@@ -438,6 +457,9 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
 
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
+
+    QAction *viewSettingsAction = m_actionCollection->action(QStringLiteral("view_settings"));
+    viewSettingsAction->setIcon(action->icon());
 }
 
 void DolphinViewActionHandler::slotRename()
@@ -516,6 +538,9 @@ void DolphinViewActionHandler::updateViewActions()
 
         QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
         viewModeMenu->setIcon(viewModeAction->icon());
+
+        QAction *viewSettingsAction = m_actionCollection->action(QStringLiteral("view_settings"));
+        viewSettingsAction->setIcon(viewModeAction->icon());
     }
 
     QAction *showPreviewAction = m_actionCollection->action(QStringLiteral("show_preview"));
