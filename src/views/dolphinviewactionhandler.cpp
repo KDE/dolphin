@@ -473,8 +473,8 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction *action)
     QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
 
-    QAction *viewSettingsButton = m_actionCollection->action(QStringLiteral("view_settings"));
-    viewSettingsButton->setIcon(action->icon());
+    QAction *viewSettingsAction = m_actionCollection->action(QStringLiteral("view_settings"));
+    viewSettingsAction->setIcon(action->icon());
 }
 
 void DolphinViewActionHandler::slotRename()
@@ -554,8 +554,8 @@ void DolphinViewActionHandler::updateViewActions()
         QAction *viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
         viewModeMenu->setIcon(viewModeAction->icon());
 
-        QAction *viewSettingsButton = m_actionCollection->action(QStringLiteral("view_settings"));
-        viewSettingsButton->setIcon(viewModeAction->icon());
+        QAction *viewSettingsAction = m_actionCollection->action(QStringLiteral("view_settings"));
+        viewSettingsAction->setIcon(viewModeAction->icon());
     }
 
     QAction *showPreviewAction = m_actionCollection->action(QStringLiteral("show_preview"));
