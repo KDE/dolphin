@@ -364,13 +364,9 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->setText(i18nc("@action:intoolbar", "View Settings"));
     viewSettings->setWhatsThis(
         xi18nc("@info:whatsthis View Settings Toolbutton", "This cycles through all view modes. The dropdown menu contains various view-related actions."));
-    QActionGroup *viewModesGroup = new QActionGroup(viewSettings);
-    iconsAction->setActionGroup(viewModesGroup);
-    compactAction->setActionGroup(viewModesGroup);
-    detailsAction->setActionGroup(viewModesGroup);
-    viewSettings->addAction(iconsAction);
-    viewSettings->addAction(compactAction);
-    viewSettings->addAction(detailsAction);
+    for (QAction *action : viewModeActions->actions()) {
+        viewSettings->addAction(action);
+    }
     viewSettings->addSeparator();
     viewSettings->addAction(zoomMenu);
     viewSettings->addAction(sortByActionMenu);
@@ -380,18 +376,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->addAction(showHiddenFiles);
     viewSettings->addAction(adjustViewProps);
     viewSettings->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
-    connect(viewSettings, &KActionMenu::triggered, this, [this, viewModesGroup, iconsAction, compactAction, detailsAction]() {
-        // Loop through the actions when button is clicked
-        const auto currentAction = viewModesGroup->checkedAction();
-        if (currentAction == iconsAction) {
-            slotViewModeActionTriggered(compactAction);
-        } else if (currentAction == compactAction) {
-            slotViewModeActionTriggered(detailsAction);
-        } else if (currentAction == detailsAction) {
-            slotViewModeActionTriggered(iconsAction);
-        }
-    });
-    connect(viewModesGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+    connect(viewSettings, &KActionMenu::triggered, viewModeActions, &KSelectAction::triggered);
 }
 
 QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix)
