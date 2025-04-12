@@ -85,6 +85,13 @@ public:
      */
     void setSecondaryNavigatorVisible(bool visible);
 
+    /**
+     * Sets the background cosmetic of the location bar(s) visible or hidden.
+     * In frameless designs it's better to hide the background.
+     * @param enabled True for showing background cosmetic, false for hiding it.
+     */
+    void setBackgroundEnabled(bool enabled);
+
 protected:
     /**
      * There should always ever be one navigatorsWidget for this action so

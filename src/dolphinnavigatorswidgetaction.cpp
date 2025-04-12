@@ -9,6 +9,7 @@
 
 #include "trash/dolphintrash.h"
 
+#include <KCoreAddons>
 #include <KLocalizedString>
 #include <KNotificationJobUiDelegate>
 #include <KService>
@@ -102,6 +103,7 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     Q_ASSERT(m_splitter->count() == 1);
     m_splitter->addWidget(createNavigatorWidget(Secondary));
     Q_ASSERT(m_splitter->count() == 2);
+    secondaryUrlNavigator()->setBackgroundEnabled(primaryUrlNavigator()->isBackgroundEnabled());
     updateText();
 }
 
@@ -146,6 +148,18 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
         emptyTrashButton(Secondary)->setVisible(false);
     }
     updateText();
+}
+
+void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
+    m_splitter->setAutoFillBackground(!enabled);
+    m_splitter->setBackgroundRole(enabled ? QPalette::Window : QPalette::Base);
+    primaryUrlNavigator()->setBackgroundEnabled(enabled);
+    if (secondaryUrlNavigator()) {
+        secondaryUrlNavigator()->setBackgroundEnabled(enabled);
+    }
+#endif
 }
 
 QWidget *DolphinNavigatorsWidgetAction::createWidget(QWidget *parent)
