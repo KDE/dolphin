@@ -2007,7 +2007,7 @@ msgstr "当前位置已经更改，<filename>%1</filename> 已经无法访问。
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr "切换文件夹时保留过滤条件"
+msgstr "切换文件夹时保持过滤"
 
 #: filterbar/filterbar.cpp:36
 #, kde-format
