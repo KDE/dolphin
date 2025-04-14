@@ -1,0 +1,8 @@
+#SPDX-FileCopyrightText: 2025 Jin Liu <m.liu.jin@gmail.com>
+#SPDX-License-Identifier: GPL-2.0-or-later
+
+#Configuration update for Dolphin
+Version=6
+
+Id=replace-view-mode-with-view-settings-in-toolbar
+Script=dolphin_replace_view_mode_with_view_settings_in_toolbar.py,python3

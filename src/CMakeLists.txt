@@ -650,6 +650,8 @@ install( FILES settings/dolphin_detailsmodesettings.upd
                settings/dolphin_directorysizemode.upd
                settings/dolphin_directorysizemode.py
                settings/dolphin_statusandlocationbarssettings.upd
+               settings/dolphin_replace_view_mode_with_view_settings_in_toolbar.upd
+               settings/dolphin_replace_view_mode_with_view_settings_in_toolbar.py
          DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR} )
 
 # install KF6 kconfig updater C++ scripts to kconf_update_bin
