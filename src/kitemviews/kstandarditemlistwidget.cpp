@@ -549,11 +549,11 @@ QRectF KStandardItemListWidget::selectionRect() const
         } else {
             result.setLeft(size().width() - m_columnWidthSum - rightPadding());
         }
-    }
-
-    if (m_layout == IconsLayout) {
-        const int availableWidth = size().width() - 2 * padding - result.width();
-        result = result.adjusted(-0.5 * availableWidth, 0, 0.5 * availableWidth, 0);
+    } else {
+        // Make sure values are always positive
+        const int availableWidth = qAbs((size().width() - 2 * padding - result.width()) * 0.5);
+        const int availableHeight = m_layout == CompactLayout ? 0 : qAbs((size().height() - 2 * padding - result.height()) * 0.5);
+        result = result.adjusted(-availableWidth, -availableHeight, availableWidth, availableHeight);
     }
 
     return result;
