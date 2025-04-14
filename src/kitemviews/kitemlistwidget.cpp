@@ -612,7 +612,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.rect = viewItemOption.rect.adjusted(focusPenWidth, focusPenWidth, -focusPenWidth, -focusPenWidth);
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
-    QColor accentColor{widget->palette().color(QPalette::Accent)};
+    QColor accentColor{widget->palette().color(QPalette::Highlight)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
 
@@ -638,7 +638,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Focus decoration
     if (m_current || m_hovered) {
         accentColor.setAlphaF(1.0);
-        const QPen pen{accentColor, focusPenWidth};
+        const QPen pen{accentColor.lighter(120), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
     }
