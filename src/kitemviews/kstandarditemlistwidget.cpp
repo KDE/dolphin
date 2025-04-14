@@ -1120,17 +1120,6 @@ void KStandardItemListWidget::updatePixmapCache()
         if (m_isHidden) {
             KIconEffect::semiTransparent(m_pixmap);
         }
-
-        if (m_layout == IconsLayout && isSelected()) {
-            const QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
-            QImage image = m_pixmap.toImage();
-            if (image.isNull()) {
-                m_hoverPixmap = QPixmap();
-                return;
-            }
-            KIconEffect::colorize(image, color, 0.8f);
-            m_pixmap = QPixmap::fromImage(image);
-        }
     }
 
     int scaledIconSize = 0;
