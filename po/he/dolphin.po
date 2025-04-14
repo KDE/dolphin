@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-13 00:43+0000\n"
-"PO-Revision-Date: 2025-04-12 11:54+0300\n"
+"PO-Revision-Date: 2025-04-13 20:28+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -74,7 +74,7 @@ msgstr "תפעול ניהולי פעם נוספת"
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr "תוקף אישור לניהול פג."
+msgstr "תוקף אישור ההנהלה פג."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
@@ -3181,6 +3181,13 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>מסייע לך למצוא קבצים ותיקיות.<list><item>נא למלא <emphasis>ביטוי "
+"לחיפוש</emphasis> בשדה הקלט.</item><item>אפשר להחליט היכן לחפש בלחיצה על "
+"כפתורי המקום שמתחת לשדה החיפוש. „כאן” מתייחס למקום שהיה פתוח טרום תחילת "
+"החיפוש, לכן ניווט למקום אחר תחילה יכול לצמצם את תוצאות החיפוש.</"
+"item><item>לחיצה על הכפתור „%1” תכוון את אופן החיפוש או את התוצאות.</"
+"item><item>לחיצה על סמל ה„שמירה” תוסיף את הגדרות החיפוש הנוכחיות "
+"ל<emphasis>לוח המקומות</emphasis>.</item></list></para>"
 
 #: search/bar.cpp:212
 #, kde-format
@@ -3215,6 +3222,8 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"חיפוש בכל המקומות שמתועדים למפתח.<nl/><nl/>אפשר להגדיר את המקומות שמתועדים "
+"למפתח תחת <interface>הגדרות מערכת|מרחב עבודה|חיפוש</interface>."
 
 #: search/chip.cpp:22
 #, kde-format
@@ -3374,6 +3383,16 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>כדי לחפש בתוכן של קבצים <application>%1</application> מנסה להשתמש בכלי "
+"חיפוש מגורמי צד־שלישי אם הם זמינים במערכת והם אמורים להוביללתוצאות מהירות "
+"יותר. <application>ripgrep</application> ו־<application>ripgrep-all</"
+"application> עשויים לשפר את חוויית החיפוש שלך אם הם מותקנים. "
+"<application>ripgrep-all</application> במיוחד מאפשר חיפוש ביותר סוגי קבצים "
+"(למשל: pdf,‏ docx,‏ sqlite,‏ jpg,‏ כתוביות של סרטים (mkv, mp4)).</para><para>את "
+"אופן הפעלת כלי החיפוש האלה אפשר להגדיר על ידי עריכת קובץ סקריפט. יש להעתיק "
+"אותו מתוך <filename>%2</filename> אל <filename>%3</filename> בטרם שינוי "
+"העותק שלך. אם מתעוררות תקלות, נא למחוק את העותק שלך <filename>%3</filename> "
+"כדי להשיב אחורנית את השינויים שערכת.</para>"
 
 #: search/popup.cpp:166
 #, kde-format
@@ -3388,12 +3407,10 @@ msgid "File Type:"
 msgstr "סוג קובץ:"
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "תאריך שינוי"
+msgstr "נערך מאז:"
 
 #: search/popup.cpp:226
 #, kde-format
@@ -3433,6 +3450,9 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>חיפוש בתוכן של קבצים עם <application>%1</application> אינו אפשרי כי "
+"<application>%1</application> מוגדר אף פעם לא ליצור מפתח חיפוש לתוכן הקבצים."
+"</para>"
 
 #: search/popup.cpp:293
 #, kde-format
@@ -3456,6 +3476,16 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> משתמש במסד נתונים לחיפוש. מסד הנתונים "
+"נוצר על ידי תיעוד הקבצים שלך למפתח ברקע בהתאם לאופן שבו<application>%1</"
+"application> מוגדר.<list><item><application>%1</application> מספק תוצאות "
+"במהירות מסחררת.</item><item>מאפשר לחפש סוגי קבצים, תאריכים, תגיות ועוד.</"
+"item><item>מחפש רק בתיקיות שמתועדות במפתח. אפשר להגדיר אילו תיקיות לתעד "
+"במפתח תחת <application>הגדרות המערכת</application>.</item><item>כאשר המקומות "
+"בחיפוש מכילים קישורים לקבצים או לתיקיות אחרים, הם לא יהיו חלק מהחיפוש או "
+"יופיעו בתוצאות החיפוש.</item><item>קבצים ותיקיות מוסתרים לרבות התוכן שלהם גם "
+"לא יהיו חלק מהחיפוש כתלות באופן ההגדרה של <application>%1</application>.</"
+"item></list></para>"
 
 #: search/popup.cpp:308
 #, kde-format
@@ -3482,12 +3512,10 @@ msgid "Install KFind…"
 msgstr "התקנת KFind…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Filelight</application> הותקן בהצלחה."
+msgstr "<application>KFind</application> הותקן בהצלחה."
 
 #: search/popup.cpp:369
 #, kde-format
