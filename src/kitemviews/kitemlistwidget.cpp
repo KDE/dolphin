@@ -608,20 +608,23 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
 {
     QStyleOptionViewItem viewItemOption;
     const int focusPenWidth = 2;
+    // Small adjustment due to how QRect coordinates work
+    const int viewItemRectAdjustment = focusPenWidth + 1;
     const int roundness = 5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRect().toRect();
-    viewItemOption.rect = viewItemOption.rect.adjusted(focusPenWidth, focusPenWidth, -focusPenWidth, -focusPenWidth);
+    viewItemOption.rect = viewItemOption.rect.adjusted(viewItemRectAdjustment, viewItemRectAdjustment, -viewItemRectAdjustment, -viewItemRectAdjustment);
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
     QColor accentColor{widget->palette().color(QPalette::Highlight)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
 
-    // Background item
+    // Background item, alpha values are from
+    // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
     accentColor.setAlphaF(0.0);
     if (m_selected && m_hovered) {
         accentColor.setAlphaF(1.0);
@@ -641,7 +644,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     }
 
     // Focus decoration
-    if (m_current || m_hovered) {
+    if (current || m_hovered) {
         accentColor.setAlphaF(1.0);
         const QPen pen{accentColor.lighter(120), focusPenWidth};
         painter->setPen(pen);
