@@ -720,7 +720,7 @@ QColor KStandardItemListWidget::textColor(const QWidget &widget) const
     }
 
     const QPalette::ColorGroup group = isActiveWindow() && widget.hasFocus() ? QPalette::Active : QPalette::Inactive;
-    const QPalette::ColorRole role = /*isSelected() ? QPalette::HighlightedText :*/ normalTextColorRole();
+    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
     return styleOption().palette.color(group, role);
 }
 
