@@ -602,13 +602,16 @@ void KItemListWidget::clearHoverCache()
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
+    const int focusPenWidth = 2;
+    const int roundness = 5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRect().toRect().adjusted(2, 2, -2, -2);
+    viewItemOption.rect = selectionRect().toRect();
+    viewItemOption.rect = viewItemOption.rect.adjusted(focusPenWidth, focusPenWidth, -focusPenWidth, -focusPenWidth);
     QPainterPath path;
-    path.addRoundedRect(viewItemOption.rect, 5, 5);
+    path.addRoundedRect(viewItemOption.rect, roundness, roundness);
     QColor accentColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
@@ -616,26 +619,26 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Background item
     accentColor.setAlphaF(0.0);
     if (m_selected && m_hovered) {
-        accentColor.setAlphaF(0.5);
+        accentColor.setAlphaF(1.0);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.4);
-    } else if (m_hovered && current) {
-        accentColor.setAlphaF(0.3);
+        accentColor.setAlphaF(0.8);
     } else if (m_hovered) {
-        accentColor.setAlphaF(0.1);
+        accentColor.setAlphaF(0.3);
     }
-    painter->fillPath(path, accentColor);
+    if (current) {
+        auto currentGap = focusPenWidth;
+        auto currentPathRect = viewItemOption.rect.adjusted(currentGap, currentGap, -currentGap, -currentGap);
+        QPainterPath currentPath;
+        currentPath.addRoundedRect(currentPathRect, roundness, roundness);
+        painter->fillPath(currentPath, accentColor);
+    } else {
+        painter->fillPath(path, accentColor);
+    }
 
     // Focus decoration
-    if (current && m_hovered) {
-        accentColor.setAlphaF(1.0);
-    } else if (current || m_hovered) {
-        accentColor.setAlphaF(0.9);
-    } else if (m_current) {
-        accentColor.setAlphaF(0.3);
-    }
     if (m_current || m_hovered) {
-        const QPen pen{accentColor, 2};
+        accentColor.setAlphaF(1.0);
+        const QPen pen{accentColor, focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
     }
