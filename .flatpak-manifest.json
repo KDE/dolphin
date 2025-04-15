@@ -2,7 +2,7 @@
     "id": "org.kde.dolphin",
     "branch": "master",
     "runtime": "org.kde.Platform",
-    "runtime-version": "6.7",
+    "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
     "command": "dolphin",
     "tags": [
@@ -192,6 +192,106 @@
                     "branch": "master"
                 }
             ]
+        },
+        {
+            "name": "phonon-vlc",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DPHONON_BUILD_QT5=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.kde.org/stable/phonon/phonon-backend-vlc/0.12.0/phonon-backend-vlc-0.12.0.tar.xz",
+                    "sha256": "338479dc451e4b94b3ca5b578def741dcf82f5c626a2807d36235be2dce7c9a5",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 229046,
+                        "stable-only": true,
+                        "url-template": "https://download.kde.org/stable/phonon/phonon-backend-vlc/$version/phonon-backend-vlc-$version.tar.xz"
+                    }
+                }
+            ],
+            "modules": [
+                {
+                    "name": "phonon",
+                    "config-opts": [
+                        "-DBUILD_TESTING=OFF",
+                        "-DPHONON_BUILD_QT5=OFF",
+                        "-DPHONON_BUILD_QT6=ON"
+                    ],
+                    "buildsystem": "cmake-ninja",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://download.kde.org/stable/phonon/4.12.0/phonon-4.12.0.tar.xz",
+                            "sha256": "3287ffe0fbcc2d4aa1363f9e15747302d0b080090fe76e5f211d809ecb43f39a",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 229047,
+                                "stable-only": true,
+                                "url-template": "https://download.kde.org/stable/phonon/$version/phonon-$version.tar.xz"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "libvlc",
+                    "config-opts": [
+                        "BUILDCC=gcc",
+                        "--disable-lua",
+                        "--disable-a52",
+                        "--disable-qt",
+                        "--disable-ncurses",
+                        "--disable-udev"
+                    ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://get.videolan.org/vlc/3.0.21/vlc-3.0.21.tar.xz",
+                            "sha256": "24dbbe1d7dfaeea0994d5def0bbde200177347136dbfe573f5b6a4cee25afbb0",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 6504,
+                                "stable-only": true,
+                                "url-template": "https://get.videolan.org/vlc/$version/vlc-$version.tar.xz"
+                            }
+                        },
+                        {
+                            "type": "patch",
+                            "path": ".flatpak-vlc-ignore-time-for-cache.patch"
+                        },
+                        {
+                            "type": "patch",
+                            "path": ".flatpak-vlc-taglib-2.patch"
+                        }
+                    ],
+                    "modules": [
+                        {
+                            "name": "ffmpeg",
+                            "config-opts": [
+                                "--enable-pic",
+                                "--enable-shared",
+                                "--disable-doc",
+                                "--disable-static",
+                                "--enable-gpl",
+                                "--enable-libvpx",
+                                "--enable-libmp3lame",
+                                "--enable-libvorbis",
+                                "--enable-libopus"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://ffmpeg.org/releases/ffmpeg-4.4.5.tar.xz",
+                                    "sha256": "f9514e0d3515aee5a271283df71636e1d1ff7274b15853bcd84e144be416ab07"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+
         },
         {
             "config-opts": [
