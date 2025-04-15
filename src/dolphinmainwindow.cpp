@@ -760,6 +760,8 @@ void DolphinMainWindow::slotSaveSession()
         KConfig *config = KConfigGui::sessionConfig();
         saveGlobalProperties(config);
         savePropertiesInternal(config, 1);
+        KConfigGroup group = config->group(QStringLiteral("Number"));
+        group.writeEntry("NumberOfWindows", 1); // Makes session restore aware that there is a window to restore.
 
         auto future = QtConcurrent::run([config]() {
             config->sync();
