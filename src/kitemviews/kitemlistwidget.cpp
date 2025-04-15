@@ -624,7 +624,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     if (m_selected && m_hovered) {
         accentColor.setAlphaF(1.0);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.5);
+        accentColor.setAlphaF(0.8);
     } else if (m_hovered) {
         accentColor.setAlphaF(0.3);
     }
@@ -634,7 +634,8 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Focus decoration
     if (current) {
         accentColor.setAlphaF(1.0);
-        const QPen pen{accentColor.lighter(120), focusPenWidth};
+        // Set the pen color lighter or darker depending on background color
+        const QPen pen{m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker() : accentColor.lighter(), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
     }
