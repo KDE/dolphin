@@ -103,7 +103,9 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     Q_ASSERT(m_splitter->count() == 1);
     m_splitter->addWidget(createNavigatorWidget(Secondary));
     Q_ASSERT(m_splitter->count() == 2);
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 14, 0)
     secondaryUrlNavigator()->setBackgroundEnabled(primaryUrlNavigator()->isBackgroundEnabled());
+#endif
     updateText();
 }
 
