@@ -1171,7 +1171,9 @@ void KStandardItemListWidget::updatePixmapCache()
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
-        KIconEffect::toActive(m_hoverPixmap);
+        if (isSelected()) {
+            KIconEffect::toActive(m_hoverPixmap);
+        }
     } else if (hoverOpacity() <= 0.0) {
         // No hover animation is ongoing. Clear m_hoverPixmap to save memory.
         m_hoverPixmap = QPixmap();
