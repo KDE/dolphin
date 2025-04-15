@@ -624,23 +624,16 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     if (m_selected && m_hovered) {
         accentColor.setAlphaF(1.0);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.8);
+        accentColor.setAlphaF(0.5);
     } else if (m_hovered) {
         accentColor.setAlphaF(0.3);
     }
-    if (current) {
-        auto currentGap = focusPenWidth;
-        auto currentPathRect = viewItemOption.rect.adjusted(currentGap, currentGap, -currentGap, -currentGap);
-        QPainterPath currentPath;
-        currentPath.addRoundedRect(currentPathRect, roundness, roundness);
-        painter->fillPath(currentPath, accentColor);
-    } else {
-        painter->fillPath(path, accentColor);
-    }
+
+    painter->fillPath(path, accentColor);
 
     // Focus decoration
-    if (current || m_hovered) {
-        accentColor.setAlphaF(m_hovered ? 0.4 : 1.0);
+    if (current) {
+        accentColor.setAlphaF(1.0);
         const QPen pen{accentColor.lighter(120), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
