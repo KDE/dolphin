@@ -478,6 +478,10 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
         return false;
     }
 
+    if (index < 0) {
+        index = 0;
+    }
+
     if (m_selectionManager->currentItem() != index) {
         switch (m_selectionBehavior) {
         case NoSelection:
