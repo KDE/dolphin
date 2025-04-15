@@ -640,7 +640,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
 
     // Focus decoration
     if (current || m_hovered) {
-        accentColor.setAlphaF(1.0);
+        accentColor.setAlphaF(m_hovered ? 0.4 : 1.0);
         const QPen pen{accentColor.lighter(120), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
