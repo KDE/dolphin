@@ -720,7 +720,7 @@ QColor KStandardItemListWidget::textColor(const QWidget &widget) const
     }
 
     const QPalette::ColorGroup group = isActiveWindow() && widget.hasFocus() ? QPalette::Active : QPalette::Inactive;
-    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
+    const QPalette::ColorRole role = normalTextColorRole();
     return styleOption().palette.color(group, role);
 }
 
@@ -1170,9 +1170,7 @@ void KStandardItemListWidget::updatePixmapCache()
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
-        if (isSelected()) {
-            KIconEffect::toActive(m_hoverPixmap);
-        }
+        KIconEffect::toActive(m_hoverPixmap);
     } else if (hoverOpacity() <= 0.0) {
         // No hover animation is ongoing. Clear m_hoverPixmap to save memory.
         m_hoverPixmap = QPixmap();
@@ -1497,10 +1495,10 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
     const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
     if (m_customTextColor.isValid()) {
         c1 = m_customTextColor;
-    } else if (false && isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
+    } else if (isSelected() && hasFocus && (m_layout != DetailsLayout || m_highlightEntireRow)) {
         // The detail text color needs to match the main text (HighlightedText) for the same level
         // of readability. We short circuit early here to avoid interpolating with another color.
-        m_additionalInfoTextColor = styleOption().palette.color(QPalette::HighlightedText);
+        m_additionalInfoTextColor = styleOption().palette.color(normalTextColorRole());
         return;
     } else {
         c1 = styleOption().palette.text().color();
