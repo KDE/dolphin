@@ -1278,7 +1278,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     const KItemListStyleOption &option = styleOption();
     const qreal padding = option.padding;
     // adjust the max width according to new outline style
-    const qreal maxWidth = size().width() - 2 * padding - 10;
+    const qreal maxWidth = size().width() - 2 * padding;
     const qreal lineSpacing = m_customizedFontMetrics.lineSpacing();
 
     // Initialize properties for the "text" role. It will be used as anchor
