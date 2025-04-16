@@ -614,7 +614,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.rect = viewItemOption.rect.adjusted(viewItemRectAdjustment, viewItemRectAdjustment, -viewItemRectAdjustment, -viewItemRectAdjustment);
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
-    QColor accentColor{widget->palette().color(QPalette::Highlight)};
+    QColor accentColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
 
@@ -622,9 +622,9 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
     accentColor.setAlphaF(0.0);
     if (m_selected && m_hovered) {
-        accentColor.setAlphaF(1.0);
+        accentColor.setAlphaF(0.5);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.8);
+        accentColor.setAlphaF(0.4);
     } else if (m_hovered) {
         accentColor.setAlphaF(0.3);
     }
