@@ -1720,6 +1720,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
 
         if (!m_pressedIndex.has_value()) {
             // We have a right-click in an empty region, don't create rubber band.
+            m_selectionManager->setCurrentItem(-1);
             return true;
         }
     }
@@ -1783,6 +1784,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         }
 
         return !createRubberBand;
+    } else {
+        m_selectionManager->setCurrentItem(-1);
     }
 
     return false;
