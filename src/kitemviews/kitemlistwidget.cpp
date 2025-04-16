@@ -635,7 +635,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     if (current) {
         accentColor.setAlphaF(1.0);
         // Set the pen color lighter or darker depending on background color
-        const QPen pen{m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker() : accentColor.lighter(), focusPenWidth};
+        const QPen pen{m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
     }
