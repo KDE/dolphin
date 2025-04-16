@@ -1170,7 +1170,9 @@ void KStandardItemListWidget::updatePixmapCache()
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
-        KIconEffect::toActive(m_hoverPixmap);
+        if (isSelected()) {
+            KIconEffect::toActive(m_hoverPixmap);
+        }
     } else if (hoverOpacity() <= 0.0) {
         // No hover animation is ongoing. Clear m_hoverPixmap to save memory.
         m_hoverPixmap = QPixmap();
@@ -1274,7 +1276,8 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
 
     const KItemListStyleOption &option = styleOption();
     const qreal padding = option.padding;
-    const qreal maxWidth = size().width() - 2 * padding;
+    // adjust the max width according to new outline style
+    const qreal maxWidth = size().width() - 2 * padding - 10;
     const qreal lineSpacing = m_customizedFontMetrics.lineSpacing();
 
     // Initialize properties for the "text" role. It will be used as anchor
