@@ -1720,7 +1720,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
 
         if (!m_pressedIndex.has_value()) {
             // We have a right-click in an empty region, don't create rubber band.
-            m_selectionManager->setCurrentItem(-1);
+            cleanUpCurrentItem();
             return true;
         }
     }
@@ -1785,7 +1785,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
 
         return !createRubberBand;
     } else {
-        m_selectionManager->setCurrentItem(-1);
+        cleanUpCurrentItem();
     }
 
     return false;
@@ -1881,6 +1881,8 @@ bool KItemListController::onRelease(const QPointF &pos, const Qt::KeyboardModifi
     m_pressedMouseGlobalPos = QPointF();
     m_pressedIndex = std::nullopt;
     m_clearSelectionIfItemsAreNotDragged = false;
+    // Clean up current item if nothing is selected after release from drag operation
+    cleanUpCurrentItem();
     return false;
 }
 
@@ -1910,6 +1912,16 @@ void KItemListController::slotStateChanged(QScroller::State newState)
         m_scrollerIsScrolling = true;
     } else if (newState == QScroller::Inactive) {
         m_scrollerIsScrolling = false;
+    }
+}
+
+void KItemListController::cleanUpCurrentItem()
+{
+    if (m_selectionManager->currentItem() != -1 && m_selectionManager->selectedItems().count() == 0) {
+        if (m_selectionManager->isAnchoredSelectionActive()) {
+            m_selectionManager->endAnchoredSelection();
+        }
+        m_selectionManager->setCurrentItem(-1);
     }
 }
 
