@@ -1523,8 +1523,6 @@ void KItemListView::slotCurrentChanged(int current, int previous)
 
         KItemListWidget *currentWidget = m_visibleItems.value(current, nullptr);
         if (currentWidget) {
-            // If previous item was -1, we're setting the first item current, so we can hide focus
-            currentWidget->showFocusEffect(previous >= 0 ? true : false);
             currentWidget->setCurrent(true);
         }
     }
@@ -1544,7 +1542,6 @@ void KItemListView::slotSelectionChanged(const KItemSet &current, const KItemSet
         KItemListWidget *widget = it.value();
         const bool isSelected(current.contains(index));
         widget->setSelected(isSelected);
-        widget->showFocusEffect(true);
 
 #ifndef QT_NO_ACCESSIBILITY
         if (!QAccessible::isActive()) {
