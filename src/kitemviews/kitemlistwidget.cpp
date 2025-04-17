@@ -37,6 +37,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_expansionAreaHovered(false)
     , m_alternateBackground(false)
     , m_enabledSelectionToggle(false)
+    , m_showFocusEffect(true)
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
@@ -634,13 +635,18 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     painter->fillPath(path, accentColor);
 
     // Focus decoration
-    if (current) {
+    if (current && m_showFocusEffect) {
         accentColor.setAlphaF(1.0);
         // Set the pen color lighter or darker depending on background color
         const QPen pen{m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110), focusPenWidth};
         painter->setPen(pen);
         painter->drawPath(path);
     }
+}
+
+void KItemListWidget::showFocusEffect(bool show)
+{
+    m_showFocusEffect = show;
 }
 
 #include "moc_kitemlistwidget.cpp"
