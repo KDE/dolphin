@@ -1721,19 +1721,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
     }
 
     if (m_pressedIndex.has_value()) {
-        // The hover highlight area of an item is being pressed.
-        const auto row = m_view->m_visibleItems.value(m_pressedIndex.value()); // anything outside of row.contains() will be the empty region of the row rect
-        const bool hitTargetIsRowEmptyRegion = !row->contains(row->mapFromItem(m_view, pos));
-        // again, when this method returns false, a rubberBand selection is created as the event is not consumed;
-        // createRubberBand here tells us whether to return true or false.
-        bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
-
-        if (rightClick && hitTargetIsRowEmptyRegion) {
-            // We have a right click outside the icon and text rect but within the hover highlight area.
-            // We don't want items to get selected through this, so we return now.
-            showFocusWidget(false);
-            return true;
-        }
+        bool createRubberBand = false;
 
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
 
