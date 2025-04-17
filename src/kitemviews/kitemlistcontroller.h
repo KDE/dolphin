@@ -325,11 +325,6 @@ private:
     bool onPress(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
     bool onRelease(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
     void startRubberBand();
-    /**
-     * Ends the anchoredSelection and sets the currentItem in selectionManager to -1.
-     * This is used to not draw the focus item when using mouse to operate the view.
-     */
-    void cleanUpCurrentItem();
 
 private:
     bool m_singleClickActivationEnforced;
