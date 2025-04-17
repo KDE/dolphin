@@ -238,7 +238,7 @@ bool KItemListController::isSearchAsYouTypeActive() const
 bool KItemListController::keyPressEvent(QKeyEvent *event)
 {
     int index = m_selectionManager->currentItem();
-    showFocusWidget(true);
+    showKeyboardFocusEffect(true);
     int key = event->key();
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
 
@@ -1770,7 +1770,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
 
         return !createRubberBand;
     } else {
-        showFocusWidget(false);
+        showKeyboardFocusEffect(false);
     }
 
     return false;
@@ -1898,11 +1898,11 @@ void KItemListController::slotStateChanged(QScroller::State newState)
     }
 }
 
-void KItemListController::showFocusWidget(bool show)
+void KItemListController::showKeyboardFocusEffect(bool show)
 {
     const auto widgets = m_view->visibleItemListWidgets();
     for (auto widget : widgets) {
-        widget->showFocusEffect(show);
+        widget->showKeyboardFocusEffect(show);
     }
 }
 
