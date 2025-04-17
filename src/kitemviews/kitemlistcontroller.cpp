@@ -238,6 +238,7 @@ bool KItemListController::isSearchAsYouTypeActive() const
 bool KItemListController::keyPressEvent(QKeyEvent *event)
 {
     int index = m_selectionManager->currentItem();
+    showFocusWidget(true);
     int key = event->key();
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
 
@@ -1901,10 +1902,7 @@ void KItemListController::showFocusWidget(bool show)
 {
     const auto widgets = m_view->visibleItemListWidgets();
     for (auto widget : widgets) {
-        if (widget->isCurrent()) {
-            widget->showFocusEffect(show);
-            return;
-        }
+        widget->showFocusEffect(show);
     }
 }
 
