@@ -641,7 +641,10 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
 
 void KItemListWidget::showFocusEffect(bool show)
 {
-    m_showFocusEffect = show;
+    if (m_showFocusEffect != show) {
+        m_showFocusEffect = show;
+        update();
+    }
 }
 
 #include "moc_kitemlistwidget.cpp"
