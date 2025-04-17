@@ -1731,6 +1731,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         if (rightClick && hitTargetIsRowEmptyRegion) {
             // We have a right click outside the icon and text rect but within the hover highlight area.
             // We don't want items to get selected through this, so we return now.
+            showFocusWidget(false);
             return true;
         }
 
@@ -1779,6 +1780,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         }
 
         return !createRubberBand;
+    } else {
+        showFocusWidget(false);
     }
 
     return false;
@@ -1903,6 +1906,17 @@ void KItemListController::slotStateChanged(QScroller::State newState)
         m_scrollerIsScrolling = true;
     } else if (newState == QScroller::Inactive) {
         m_scrollerIsScrolling = false;
+    }
+}
+
+void KItemListController::showFocusWidget(bool show)
+{
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (auto widget : widgets) {
+        if (widget->isCurrent()) {
+            widget->showFocusEffect(show);
+            return;
+        }
     }
 }
 
