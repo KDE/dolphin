@@ -603,15 +603,12 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
 {
     QStyleOptionViewItem viewItemOption;
     const int focusPenWidth = 2;
-    // Small adjustment due to how QRect coordinates work
-    const int viewItemRectAdjustment = focusPenWidth + 1;
     const int roundness = 5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRect().toRect();
-    viewItemOption.rect = viewItemOption.rect.adjusted(viewItemRectAdjustment, viewItemRectAdjustment, -viewItemRectAdjustment, -viewItemRectAdjustment);
+    viewItemOption.rect = rect().toRect();
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
     QColor accentColor{widget->palette().color(QPalette::Accent)};
