@@ -217,7 +217,9 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList &itemRanges)
     const KItemSet previousSelection = selectedItems();
 
     // Update the current item
-    if (m_currentItem >= 0) {
+    if (m_currentItem < 0) {
+        setCurrentItem(0);
+    } else {
         const int previousCurrent = m_currentItem;
         int inc = 0;
         for (const KItemRange &itemRange : itemRanges) {
