@@ -340,6 +340,7 @@ private:
     bool onPress(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
     bool onRelease(const QPointF &pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
     void startRubberBand();
+    void showFocusWidget(bool show);
 
 private:
     bool m_singleClickActivationEnforced;
