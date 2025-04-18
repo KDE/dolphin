@@ -345,7 +345,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         drawSiblingsInformation(painter);
     }
 
-    auto pixmap = m_pixmap;
+    auto pixmap = isHovered() ? m_hoverPixmap : m_pixmap;
     if (!m_overlays.isEmpty()) {
         const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
@@ -402,7 +402,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
             // Finally paint pixmap1 on the widget
             drawPixmap(painter, pixmap1);
         } else {
-            drawPixmap(painter, m_hoverPixmap);
+            drawPixmap(painter, pixmap);
         }
     } else if (!pixmap.isNull()) {
         drawPixmap(painter, pixmap);
