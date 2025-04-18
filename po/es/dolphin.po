@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-17 00:43+0000\n"
-"PO-Revision-Date: 2025-04-08 17:32+0100\n"
+"PO-Revision-Date: 2025-04-17 11:34+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6423,12 +6423,10 @@ msgstr ""
 "la vista de carpetas."
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Preferencias"
+msgstr "Preferencias de la vista"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6437,6 +6435,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Esto recorre todos los modos de vista. El menú desplegable contiene diversas "
+"acciones relacionadas con las vistas."
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format

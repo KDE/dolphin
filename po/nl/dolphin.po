@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-17 00:43+0000\n"
-"PO-Revision-Date: 2025-04-08 13:50+0200\n"
+"PO-Revision-Date: 2025-04-18 00:53+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6408,12 +6408,10 @@ msgstr ""
 "worden."
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Instellingen"
+msgstr "Weergave-instellingen"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6422,6 +6420,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Dit draait door alle weergavemodi. Het afrolmenu bevat verschillende "
+"weergavegerelateerde acties."
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format

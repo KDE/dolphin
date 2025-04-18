@@ -6159,12 +6159,10 @@ msgid ""
 msgstr "打开一个对话框，您可以在其中调整所有文件夹的视图属性。"
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "设置"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
