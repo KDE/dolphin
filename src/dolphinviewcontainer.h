@@ -185,6 +185,12 @@ public:
     void showMessage(const QString &message, KMessageWidget::MessageType messageType, std::initializer_list<QAction *> buttonActions = {});
 
     /**
+     * Forwards to DolphinStatusBar::showProgress(). Only exception: The button to cancel the task is hidden.
+     * @see DolphinStatusBar::showProgress().
+     */
+    void showProgress(const QString &currentlyRunningTaskTitle, int progressPercent);
+
+    /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
      */
     void readSettings();

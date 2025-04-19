@@ -29,6 +29,7 @@
 #include "search/dolphinquery.h"
 #include "selectionmode/actiontexthelper.h"
 #include "settings/dolphinsettingsdialog.h"
+#include "statusbar/diskspaceusagemenu.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
@@ -126,6 +127,7 @@ DolphinMainWindow::DolphinMainWindow()
     , m_forwardAction(nullptr)
     , m_splitViewAction(nullptr)
     , m_splitViewMenuAction(nullptr)
+    , m_diskSpaceUsageMenu(nullptr)
     , m_sessionSaveTimer(nullptr)
     , m_sessionSaveWatcher(nullptr)
     , m_sessionSaveScheduled(false)
@@ -392,6 +394,7 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     updatePasteAction();
     updateViewActions();
     updateGoActions();
+    m_diskSpaceUsageMenu->setUrl(url);
 
     // will signal used urls to activities manager, too
     m_recentFiles->addUrl(url, QString(), "inode/directory");
@@ -1626,6 +1629,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
         if (auto secondaryUrlNavigator = navigators->secondaryUrlNavigator()) {
             secondaryUrlNavigator->disconnect(this);
         }
+        oldViewContainer->disconnect(m_diskSpaceUsageMenu);
 
         // except the requestItemInfo so that on hover the information panel can still be updated
         connect(oldViewContainer->view(), &DolphinView::requestItemInfo, this, &DolphinMainWindow::requestItemInfo);
@@ -1647,6 +1651,13 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
     updateViewActions();
     updateGoActions();
     updateSearchAction();
+    connect(m_diskSpaceUsageMenu,
+            &DiskSpaceUsageMenu::showMessage,
+            viewContainer,
+            [viewContainer](const QString &message, KMessageWidget::MessageType messageType) {
+                viewContainer->showMessage(message, messageType);
+            });
+    connect(m_diskSpaceUsageMenu, &DiskSpaceUsageMenu::showInstallationProgress, viewContainer, &DolphinViewContainer::showProgress);
 
     const QUrl url = viewContainer->url();
     Q_EMIT urlChanged(url);
@@ -2089,6 +2100,12 @@ void DolphinMainWindow::setupActions()
     compareFiles->setIcon(QIcon::fromTheme(QStringLiteral("kompare")));
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
+
+    QAction *manageDiskSpaceUsage = actionCollection()->addAction(QStringLiteral("manage_disk_space"));
+    manageDiskSpaceUsage->setText(i18nc("@action:inmenu Tools", "Manage Disk Space Usage"));
+    manageDiskSpaceUsage->setIcon(QIcon::fromTheme(QStringLiteral("filelight")));
+    m_diskSpaceUsageMenu = new DiskSpaceUsageMenu{this};
+    manageDiskSpaceUsage->setMenu(m_diskSpaceUsageMenu);
 
     QAction *openPreferredSearchTool = actionCollection()->addAction(QStringLiteral("open_preferred_search_tool"));
     openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open Preferred Search Tool"));

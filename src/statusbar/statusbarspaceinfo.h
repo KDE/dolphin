@@ -63,25 +63,10 @@ protected:
     void hideEvent(QHideEvent *event) override;
     QSize minimumSizeHint() const override;
 
-    void updateMenu();
-
 private Q_SLOTS:
-    /**
-     * Asynchronously starts a Filelight installation using DolphinPackageInstaller. @see DolphinPackageInstaller.
-     * Installation success or failure is reported through showMessage(). @see StatusBarSpaceInfo::showMessage().
-     * Installation progress is reported through showInstallationProgress(). @see StatusBarSpaceInfo::showInstallationProgress().
-     */
-    void slotInstallFilelightButtonClicked();
-
     void slotValuesChanged();
 
 private:
-    /**
-     * Creates a new QWidgetAction that contains a UI to install Filelight.
-     * m_installFilelightWidgetAction is initialised after calling this method once.
-     */
-    void initialiseInstallFilelightWidgetAction();
-
     // The following three methods are only for private use.
     using QWidget::hide; // Use StatusBarSpaceInfo::setShown() instead.
     using QWidget::setVisible; // Use StatusBarSpaceInfo::setShown() instead.
@@ -91,9 +76,6 @@ private:
     QScopedPointer<SpaceInfoObserver> m_observer;
     KCapacityBar *m_capacityBar;
     QToolButton *m_textInfoButton;
-    QMenu *m_buttonMenu;
-    /** An action containing a UI to install Filelight. */
-    QWidgetAction *m_installFilelightWidgetAction;
     QUrl m_url;
     /** Whether m_observer has already retrieved space information for the current url. */
     bool m_hasSpaceInfo;

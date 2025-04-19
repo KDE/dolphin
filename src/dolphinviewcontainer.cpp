@@ -522,6 +522,11 @@ void DolphinViewContainer::showMessage(const QString &message, KMessageWidget::M
 #endif
 }
 
+void DolphinViewContainer::showProgress(const QString &currentlyRunningTaskTitle, int progressPercent)
+{
+    m_statusBar->showProgress(currentlyRunningTaskTitle, progressPercent, DolphinStatusBar::CancelLoading::Disallowed);
+}
+
 void DolphinViewContainer::readSettings()
 {
     // The startup settings should (only) get applied if they have been

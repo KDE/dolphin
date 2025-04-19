@@ -337,6 +337,7 @@ target_sources(dolphinstatic PRIVATE
     settings/viewmodes/viewsettingstab.cpp
     settings/viewmodes/contentdisplaytab.cpp
     settings/viewmodes/generalviewsettingspage.cpp
+    statusbar/diskspaceusagemenu.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/mountpointobserver.cpp
     statusbar/mountpointobservercache.cpp
@@ -405,6 +406,7 @@ target_sources(dolphinstatic PRIVATE
     settings/viewmodes/viewsettingstab.h
     settings/viewmodes/contentdisplaytab.h
     settings/viewmodes/generalviewsettingspage.h
+    statusbar/diskspaceusagemenu.h
     statusbar/dolphinstatusbar.h
     statusbar/mountpointobserver.h
     statusbar/mountpointobservercache.h

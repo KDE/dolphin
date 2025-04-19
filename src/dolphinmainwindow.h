@@ -32,6 +32,7 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
+class DiskSpaceUsageMenu;
 class DolphinBookmarkHandler;
 class DolphinViewActionHandler;
 class DolphinSettingsDialog;
@@ -772,6 +773,7 @@ private:
     KToolBarPopupAction *m_forwardAction;
     KActionMenu *m_splitViewAction;
     QAction *m_splitViewMenuAction;
+    DiskSpaceUsageMenu *m_diskSpaceUsageMenu;
 
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;
