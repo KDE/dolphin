@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 00:43+0000\n"
+"POT-Creation-Date: 2025-04-20 00:43+0000\n"
 "PO-Revision-Date: 2025-03-05 21:24+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -191,7 +191,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Lehengoratu lehengo kokalekuan"
 msgstr[1] "Lehengoratu lehengo kokalekuetan"
 
-#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1733
+#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1744
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -222,138 +222,138 @@ msgctxt ""
 msgid "Middle Click"
 msgstr "Erdiko klik"
 
-#: dolphinmainwindow.cpp:352
+#: dolphinmainwindow.cpp:354
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Ongi kopiatu da."
 
-#: dolphinmainwindow.cpp:355
+#: dolphinmainwindow.cpp:357
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Lekuz ongi aldatu da."
 
-#: dolphinmainwindow.cpp:358
+#: dolphinmainwindow.cpp:360
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Ongi estekatu da."
 
-#: dolphinmainwindow.cpp:361
+#: dolphinmainwindow.cpp:363
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Ongi bota da zakarrontzira."
 
-#: dolphinmainwindow.cpp:364
+#: dolphinmainwindow.cpp:366
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Izenez ongi aldatu da."
 
-#: dolphinmainwindow.cpp:368
+#: dolphinmainwindow.cpp:370
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Sortutako karpeta."
 
-#: dolphinmainwindow.cpp:443
+#: dolphinmainwindow.cpp:446
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Joan atzera"
 
-#: dolphinmainwindow.cpp:444
+#: dolphinmainwindow.cpp:447
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Itzuli aurrez ikusitako karpetara."
 
-#: dolphinmainwindow.cpp:450
+#: dolphinmainwindow.cpp:453
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Joan aurrera"
 
-#: dolphinmainwindow.cpp:451
+#: dolphinmainwindow.cpp:454
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Honek desegiten du <interface>Joan|Atzera</interface> ekintza."
 
-#: dolphinmainwindow.cpp:641 dolphinmainwindow.cpp:687
+#: dolphinmainwindow.cpp:644 dolphinmainwindow.cpp:690
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Baieztapena"
 
-#: dolphinmainwindow.cpp:645
+#: dolphinmainwindow.cpp:648
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Irten %1-(e)tik"
 
-#: dolphinmainwindow.cpp:647
+#: dolphinmainwindow.cpp:650
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "I&txi uneko fitxa"
 
-#: dolphinmainwindow.cpp:656
+#: dolphinmainwindow.cpp:659
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "Hainbat fitxa zabalik daude leihoan. Ziur zaude irtetzea nahi duzula?"
 
-#: dolphinmainwindow.cpp:658 dolphinmainwindow.cpp:708
+#: dolphinmainwindow.cpp:661 dolphinmainwindow.cpp:711
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ez galdetu berriro"
 
-#: dolphinmainwindow.cpp:696
+#: dolphinmainwindow.cpp:699
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Erakutsi &Terminalaren panela"
 
-#: dolphinmainwindow.cpp:706
+#: dolphinmainwindow.cpp:709
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr "'%1' programa terminalean martxan dago. Ziur zaude irten nahi duzula?"
 
-#: dolphinmainwindow.cpp:916
+#: dolphinmainwindow.cpp:919
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Ezin du itsatsi: Arbela hutsik dago."
 
-#: dolphinmainwindow.cpp:917
+#: dolphinmainwindow.cpp:920
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Ezin du itsatsi: Ez duzu karpeta honetan idazteko baimenik."
 
-#: dolphinmainwindow.cpp:1320
+#: dolphinmainwindow.cpp:1323
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Ireki %1"
 
-#: dolphinmainwindow.cpp:1329 dolphinmainwindow.cpp:2094
+#: dolphinmainwindow.cpp:1332 dolphinmainwindow.cpp:2111
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Ireki bilaketa tresna hobetsia"
 
-#: dolphinmainwindow.cpp:1369
+#: dolphinmainwindow.cpp:1372
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Ziur zaude terminal leiho 1 ireki nahi duzula?"
 msgstr[1] "Ziur zaude %1 terminal leiho ireki nahi dituzula?"
 
-#: dolphinmainwindow.cpp:1374
+#: dolphinmainwindow.cpp:1377
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -361,7 +361,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Ireki terminal %1"
 msgstr[1] "Ireki %1 terminal"
 
-#: dolphinmainwindow.cpp:1475
+#: dolphinmainwindow.cpp:1478
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -371,7 +371,7 @@ msgstr ""
 "Ezin du fitxategi berria sortu: Ez duzu karpeta honetan elementu berriak "
 "sortzeko baimenik."
 
-#: dolphinmainwindow.cpp:1477
+#: dolphinmainwindow.cpp:1480
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -381,25 +381,25 @@ msgstr ""
 "Ezin du karpeta berria sortu: Ez duzu karpeta honetan elementu berriak "
 "sortzeko baimenik."
 
-#: dolphinmainwindow.cpp:1579
+#: dolphinmainwindow.cpp:1582
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Konfiguratu"
 
-#: dolphinmainwindow.cpp:1739
+#: dolphinmainwindow.cpp:1750
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "&Leiho berria"
 
-#: dolphinmainwindow.cpp:1740
+#: dolphinmainwindow.cpp:1751
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Ireki Dolphin-en leiho berri bat"
 
-#: dolphinmainwindow.cpp:1742
+#: dolphinmainwindow.cpp:1753
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -409,13 +409,13 @@ msgstr ""
 "Honek, leiho berri bat irekitzen du, honen berdin-berdina uneko kokalekuan."
 "<nl/>Leihoen artean elementuak arrastatu eta jaregin ditzakezu."
 
-#: dolphinmainwindow.cpp:1749
+#: dolphinmainwindow.cpp:1760
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Fitxa berria"
 
-#: dolphinmainwindow.cpp:1751
+#: dolphinmainwindow.cpp:1762
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -428,31 +428,31 @@ msgstr ""
 "aldatzen uzten dizute. Fitxen artean elementuak arrastatu eta jaregin "
 "ditzakezu."
 
-#: dolphinmainwindow.cpp:1760
+#: dolphinmainwindow.cpp:1771
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Gehitu lekuetara"
 
-#: dolphinmainwindow.cpp:1762
+#: dolphinmainwindow.cpp:1773
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Honek hautatutako karpeta «Lekuak» panelera gehitzen du."
 
-#: dolphinmainwindow.cpp:1767
+#: dolphinmainwindow.cpp:1778
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Itxi fitxa"
 
-#: dolphinmainwindow.cpp:1768
+#: dolphinmainwindow.cpp:1779
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Itxi fitxa"
 
-#: dolphinmainwindow.cpp:1770
+#: dolphinmainwindow.cpp:1781
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -462,13 +462,13 @@ msgstr ""
 "Honek, unean ikusten den fitxa ixten du. Fitxa gehiago ez badago, horren "
 "ordez leihoa ixten du."
 
-#: dolphinmainwindow.cpp:1775
+#: dolphinmainwindow.cpp:1786
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Honek leiho hau ixten du."
 
-#: dolphinmainwindow.cpp:1783
+#: dolphinmainwindow.cpp:1794
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -484,13 +484,13 @@ msgstr ""
 "elkarrengandik horren hurbil teklatuan: <shortcut>Ktrl+X</shortcut>, "
 "<shortcut>Ktrl+C</shortcut> eta <shortcut>Ktrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1790
+#: dolphinmainwindow.cpp:1801
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Ebaki…"
 
-#: dolphinmainwindow.cpp:1792
+#: dolphinmainwindow.cpp:1803
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -504,13 +504,13 @@ msgstr ""
 "haiek arbeletik kokaleku berri batera kopiatzeko. Elementuak beraien "
 "haserako kokalekutik kenduko dira."
 
-#: dolphinmainwindow.cpp:1799
+#: dolphinmainwindow.cpp:1810
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Kopiatu…"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1812
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -522,13 +522,13 @@ msgstr ""
 "kopiatzen ditu.<nl/>Erabili <emphasis>Itsatsi</emphasis> ekintza ondoren "
 "haiek arbeletik kokaleku berri batera kopiatzeko."
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1821
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Itsatsi"
 
-#: dolphinmainwindow.cpp:1812
+#: dolphinmainwindow.cpp:1823
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -540,19 +540,19 @@ msgstr ""
 "karpetara kopiatuko ditu.<nl/>Elementuak arbelera <emphasis>Ebaki</emphasis> "
 "ekintzaren bidez gehitu baziren zeuden kokalekutik kenduko dira."
 
-#: dolphinmainwindow.cpp:1819
+#: dolphinmainwindow.cpp:1830
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Kopiatu beste ikuspegira"
 
-#: dolphinmainwindow.cpp:1820
+#: dolphinmainwindow.cpp:1831
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Kopiatu beste ikuspegira…"
 
-#: dolphinmainwindow.cpp:1822
+#: dolphinmainwindow.cpp:1833
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -562,25 +562,25 @@ msgstr ""
 "Honek, hautatutako elementuak kopiatzen ditu, fokua duen ikuspegitik beste "
 "ikuspegira (Ikuspegi-zatitu moduan bakarrik erabilgarri)."
 
-#: dolphinmainwindow.cpp:1826
+#: dolphinmainwindow.cpp:1837
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopiatu beste ikuspegira"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1842
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Eraman beste ikuspegira"
 
-#: dolphinmainwindow.cpp:1832
+#: dolphinmainwindow.cpp:1843
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Eraman beste ikuspegira…"
 
-#: dolphinmainwindow.cpp:1834
+#: dolphinmainwindow.cpp:1845
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -590,25 +590,25 @@ msgstr ""
 "Honek, hautatutako elementuak, fokua duen ikuspegitik beste ikuspegira "
 "kopiatzen ditu (Ikuspegi-zatitu moduan bakarrik erabilgarri)."
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1849
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Eraman beste ikuspegira"
 
-#: dolphinmainwindow.cpp:1843
+#: dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Iragazi..."
 
-#: dolphinmainwindow.cpp:1844
+#: dolphinmainwindow.cpp:1855
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Erakutsi iragazki-barra"
 
-#: dolphinmainwindow.cpp:1846
+#: dolphinmainwindow.cpp:1857
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -622,30 +622,30 @@ msgstr ""
 "sar dezakezu. Soilik haien izenean testua dutenak jarraituko dute ikuspegian "
 "azaltzen."
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1869
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Txandakatu Iragazki-barra"
 
-#: dolphinmainwindow.cpp:1859
+#: dolphinmainwindow.cpp:1870
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Iragazi"
 
-#: dolphinmainwindow.cpp:1867 search/bar.cpp:213
+#: dolphinmainwindow.cpp:1878 search/bar.cpp:213
 #, kde-format
 msgid "Search…"
 msgstr "Bilatu..."
 
-#: dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1879
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Bilatu fitxategiak eta karpetak"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1881
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -666,20 +666,20 @@ msgstr ""
 "para><para>Erabili laguntza hau berriz bilaketa-barran, ezarpenak azaldu "
 "bitartean begiratu bat eman diezaiogun.</para>"
 
-#: dolphinmainwindow.cpp:1879
+#: dolphinmainwindow.cpp:1890
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Txandakatu Bilaketa-barra"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1891
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Bilatu"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1906
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -687,13 +687,13 @@ msgstr "Hautatu fitxategiak eta karpetak"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1898
+#: dolphinmainwindow.cpp:1909
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Hautatu"
 
-#: dolphinmainwindow.cpp:1901
+#: dolphinmainwindow.cpp:1912
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -711,19 +711,19 @@ msgstr ""
 "horretan dagoen bitartean, behean agertzen den atzipen azkarreko barra batek "
 "hautatuta dauden elementuentzako ekintza erabilgarriak erakusten ditu.</para>"
 
-#: dolphinmainwindow.cpp:1924
+#: dolphinmainwindow.cpp:1935
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Honek uneko kokalekuko fitxategi eta karpeta guztiak hautatzen ditu."
 
-#: dolphinmainwindow.cpp:1928 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:1939 dolphinpart.cpp:169
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Alderantzikatu hautapena"
 
-#: dolphinmainwindow.cpp:1930
+#: dolphinmainwindow.cpp:1941
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -733,7 +733,7 @@ msgstr ""
 "Honek, horren ordez, une honetan hautatu <emphasis>ez</emphasis> dituzun "
 "elementu guztiak hautatzen ditu."
 
-#: dolphinmainwindow.cpp:1950
+#: dolphinmainwindow.cpp:1961
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -748,7 +748,7 @@ msgstr ""
 "lausotu egingo da. </para>Egin klik berriro botoi honetan, ikuspegietako bat "
 "ixteko."
 
-#: dolphinmainwindow.cpp:1965
+#: dolphinmainwindow.cpp:1976
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -758,25 +758,25 @@ msgstr ""
 "Ikuspegia zatitu bada, honek, fokua duen ikuspegia leiho berri batean "
 "gaineratuko du."
 
-#: dolphinmainwindow.cpp:1973
+#: dolphinmainwindow.cpp:1984
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Gordelekua"
 
-#: dolphinmainwindow.cpp:1974
+#: dolphinmainwindow.cpp:1985
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Gordelekua alegiazko direktorioa leiho zatitu batean irekitzen du"
 
-#: dolphinmainwindow.cpp:1982
+#: dolphinmainwindow.cpp:1993
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Berritu ikuspegia"
 
-#: dolphinmainwindow.cpp:1984
+#: dolphinmainwindow.cpp:1995
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -790,31 +790,31 @@ msgstr ""
 "karpeta eta fitxategien ikuspegi eguneratua erakutsiko dizu.</para> "
 "<para>Ikuspegia zatituta badago, fokua duena berrituko du.</para>"
 
-#: dolphinmainwindow.cpp:1991
+#: dolphinmainwindow.cpp:2002
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Gelditu"
 
-#: dolphinmainwindow.cpp:1992
+#: dolphinmainwindow.cpp:2003
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Gelditu kargatzea"
 
-#: dolphinmainwindow.cpp:1993
+#: dolphinmainwindow.cpp:2004
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Honek uneko karpetako edukia zamatzea geldiarazten du."
 
-#: dolphinmainwindow.cpp:1998
+#: dolphinmainwindow.cpp:2009
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Kokaleku editagarria"
 
-#: dolphinmainwindow.cpp:2000
+#: dolphinmainwindow.cpp:2011
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -828,13 +828,13 @@ msgstr ""
 "<nl/>Editatzera alda dezakezu ere kokalekuaren eskuinean klik eginez eta "
 "atzera berriz editatutako kokalekua berretsiz."
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2019
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Ordeztu kokalekua"
 
-#: dolphinmainwindow.cpp:2013
+#: dolphinmainwindow.cpp:2024
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -844,19 +844,19 @@ msgstr ""
 "Honek kokalekua editatu eta hautatzen du bizkor beste kokaleku bat sar "
 "dezazun."
 
-#: dolphinmainwindow.cpp:2043
+#: dolphinmainwindow.cpp:2054
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Desegin fitxa ixtea"
 
-#: dolphinmainwindow.cpp:2044
+#: dolphinmainwindow.cpp:2055
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Honek aurretik itxi duzun fitxara itzultzen zaitu."
 
-#: dolphinmainwindow.cpp:2052
+#: dolphinmainwindow.cpp:2063
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -872,7 +872,7 @@ msgstr ""
 "<filename>zakarrontzira</filename> <interface>mugitzea</interface>.<nl/"
 ">Desegin ezin daitezkeen aldaketek zure berrespena eskatuko dute."
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2092
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -885,13 +885,19 @@ msgstr ""
 "dituena, baita aplikazioen datuak eta konfigurazio fitxategiak dituzten "
 "ezkutuko karpetak ere."
 
-#: dolphinmainwindow.cpp:2088
+#: dolphinmainwindow.cpp:2099
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Konparatu fitxategiak"
 
-#: dolphinmainwindow.cpp:2096
+#: dolphinmainwindow.cpp:2105
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Manage Disk Space Usage"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -903,13 +909,13 @@ msgstr ""
 "du.</para><para>Erabili <emphasis>Bilaketa tresna gehiago</emphasis> menua "
 "konfiguratzeko.</para>"
 
-#: dolphinmainwindow.cpp:2110
+#: dolphinmainwindow.cpp:2127
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Ireki terminala"
 
-#: dolphinmainwindow.cpp:2112
+#: dolphinmainwindow.cpp:2129
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -922,13 +928,13 @@ msgstr ""
 "terminal aplikazioko laguntza ezaugarria.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2120
+#: dolphinmainwindow.cpp:2137
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Ireki terminala hemen"
 
-#: dolphinmainwindow.cpp:2122
+#: dolphinmainwindow.cpp:2139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -940,13 +946,13 @@ msgstr ""
 "emphasis> aplikazioak irekitzen ditu.</para><para>Terminalei buruz gehiago "
 "jakiteko erabili terminal aplikazioko laguntza ezaugarria.</para>"
 
-#: dolphinmainwindow.cpp:2130
+#: dolphinmainwindow.cpp:2147
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Laster-markak"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -965,91 +971,91 @@ msgstr ""
 "interface> botoia sinpleagoa eta txikia da, ekintza aurreratuak eragitea "
 "luzeago jotzen du.</para>"
 
-#: dolphinmainwindow.cpp:2165
+#: dolphinmainwindow.cpp:2182
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Joan %1 fitxara"
 
-#: dolphinmainwindow.cpp:2178
+#: dolphinmainwindow.cpp:2195
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Azken fitxa"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2196
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Joan azken fitxara"
 
-#: dolphinmainwindow.cpp:2185
+#: dolphinmainwindow.cpp:2202
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Hurrengo fitxa"
 
-#: dolphinmainwindow.cpp:2186
+#: dolphinmainwindow.cpp:2203
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Joan hurrengo fitxara"
 
-#: dolphinmainwindow.cpp:2192
+#: dolphinmainwindow.cpp:2209
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Aurreko fitxa"
 
-#: dolphinmainwindow.cpp:2193
+#: dolphinmainwindow.cpp:2210
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Joan aurreko fitxara"
 
-#: dolphinmainwindow.cpp:2200
+#: dolphinmainwindow.cpp:2217
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Erakutsi jomuga"
 
-#: dolphinmainwindow.cpp:2206
+#: dolphinmainwindow.cpp:2223
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Ireki fitxa berrian"
 
-#: dolphinmainwindow.cpp:2211
+#: dolphinmainwindow.cpp:2228
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Ireki fitxa berrietan"
 
-#: dolphinmainwindow.cpp:2216
+#: dolphinmainwindow.cpp:2233
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Ireki leiho berrian"
 
-#: dolphinmainwindow.cpp:2221 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2238 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Ireki ikuspegi zatituan"
 
-#: dolphinmainwindow.cpp:2237
+#: dolphinmainwindow.cpp:2254
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Desblokeatu panelak"
 
-#: dolphinmainwindow.cpp:2239
+#: dolphinmainwindow.cpp:2256
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Blokeatu panelak"
 
-#: dolphinmainwindow.cpp:2242
+#: dolphinmainwindow.cpp:2259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1063,13 +1069,13 @@ msgstr ""
 "leihoaren beste aldera arrastatu daitezke eta ixteko botoi bat dute.<nl/"
 ">Giltzatutako panelak era garbiagoan txertatuta daude."
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2268
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informazioa"
 
-#: dolphinmainwindow.cpp:2274
+#: dolphinmainwindow.cpp:2291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1080,7 +1086,7 @@ msgstr ""
 "Panelak</interface> edo <interface>Ikuspegia| Panelak</interface> aukeretara."
 "</para>"
 
-#: dolphinmainwindow.cpp:2281
+#: dolphinmainwindow.cpp:2298
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1097,7 +1103,7 @@ msgstr ""
 "du.<nl/>Bakarkako elementuekin haien edukiaren aurreikuspegi bat eskaintzen "
 "du.</para>"
 
-#: dolphinmainwindow.cpp:2289
+#: dolphinmainwindow.cpp:2306
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1114,13 +1120,13 @@ msgstr ""
 "para><para>Zein zehaztasun eta nola ematen diren konfiguratu dezakezu hemen "
 "eskuin klik bat eginez.</para>"
 
-#: dolphinmainwindow.cpp:2298
+#: dolphinmainwindow.cpp:2315
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Karpetak"
 
-#: dolphinmainwindow.cpp:2318
+#: dolphinmainwindow.cpp:2335
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1132,7 +1138,7 @@ msgstr ""
 "ezker aldean erakustea.<nl/><nl/><emphasis>Fitxategi-sistemako</emphasis> "
 "karpetak <emphasis>zuhaitz ikuspegi</emphasis> batean erakusten ditu."
 
-#: dolphinmainwindow.cpp:2323
+#: dolphinmainwindow.cpp:2340
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1147,13 +1153,13 @@ msgstr ""
 "ezkerreko geziari bere azpi-karpetak ikusteko. Honek karpeten artean bizkor "
 "aldatzen uzten dizu.</para>"
 
-#: dolphinmainwindow.cpp:2333
+#: dolphinmainwindow.cpp:2350
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminala"
 
-#: dolphinmainwindow.cpp:2358
+#: dolphinmainwindow.cpp:2375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1172,7 +1178,7 @@ msgstr ""
 "Terminalei buruz gehiago ikasteko erabili Konsole bezalako terminal "
 "aplikazio autonomo bateko laguntza ezaugarria.</para>"
 
-#: dolphinmainwindow.cpp:2366
+#: dolphinmainwindow.cpp:2383
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1191,31 +1197,31 @@ msgstr ""
 "ikasteko erabili Konsole bezalako terminal aplikazio autonomo bateko "
 "laguntza ezaugarria.</para>"
 
-#: dolphinmainwindow.cpp:2376 dolphinmainwindow.cpp:2975
+#: dolphinmainwindow.cpp:2393 dolphinmainwindow.cpp:2992
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Fokua terminalaren panelera"
 
-#: dolphinmainwindow.cpp:2377
+#: dolphinmainwindow.cpp:2394
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Eraman teklatuaren fokua Terminal panele-ra/tik."
 
-#: dolphinmainwindow.cpp:2390
+#: dolphinmainwindow.cpp:2407
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Lekuak"
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2435
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Erakutsi ezkutuko lekuak"
 
-#: dolphinmainwindow.cpp:2422
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1227,7 +1233,7 @@ msgstr ""
 "garden agertuko dira, eta beraien \"Ezkutatu\" propietateari marka kentzen "
 "utziko dizu."
 
-#: dolphinmainwindow.cpp:2434
+#: dolphinmainwindow.cpp:2451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1243,7 +1249,7 @@ msgstr ""
 "edo sarekoetara. Oraintsu gordetako fitxategiak edo mota jakin bateko "
 "fitxategiak aurkitzeko atalak ere baditu.</para>"
 
-#: dolphinmainwindow.cpp:2441
+#: dolphinmainwindow.cpp:2458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1268,25 +1274,25 @@ msgstr ""
 "honetako zati huts batean eta hautatu <interface>Erakutsi ezkutuko lekuak</"
 "interface> hura berriz azaltzeko.</para>"
 
-#: dolphinmainwindow.cpp:2455 dolphinmainwindow.cpp:2993
+#: dolphinmainwindow.cpp:2472 dolphinmainwindow.cpp:3010
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Fokua Lekuak panelera"
 
-#: dolphinmainwindow.cpp:2456
+#: dolphinmainwindow.cpp:2473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Eraman teklatuaren fokua Lekuak panele-ra/tik."
 
-#: dolphinmainwindow.cpp:2462
+#: dolphinmainwindow.cpp:2479
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Erakutsi panelak"
 
-#: dolphinmainwindow.cpp:2531
+#: dolphinmainwindow.cpp:2548
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1295,7 +1301,7 @@ msgstr ""
 "Ezin du berrizendatu: Ez duzu karpeta honetako elementuak berrizendatzeko "
 "baimenik."
 
-#: dolphinmainwindow.cpp:2534 dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:2568
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1303,13 +1309,13 @@ msgid ""
 msgstr ""
 "Ezin du ezabatu: Ez duzu karpeta honetako elementuak kentzeko baimenik."
 
-#: dolphinmainwindow.cpp:2536
+#: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "Ezin du ebaki: Ez duzu karpeta honetako elementuak mugitzeko baimenik."
 
-#: dolphinmainwindow.cpp:2541
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1318,33 +1324,33 @@ msgid ""
 msgstr ""
 "Ezin du hemen bikoiztu: Ez duzu karpeta honetan elementuak sortzeko baimenik."
 
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2580
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Ezin du beste ikuspegira kopiatu: Ez da fitxategirik hautatu."
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2582
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Ezin du beste ikuspegira mugitu: Ez da fitxategirik hautatu."
 
-#: dolphinmainwindow.cpp:2584
+#: dolphinmainwindow.cpp:2601
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
 "Ezin du beste ikuspegira kopiatu: Beste ikuspegiak jada elementu horiek ditu."
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2604
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
 "Ezin du beste ikuspegira mugitu: Beste ikuspegiak jada elementu horiek ditu."
 
-#: dolphinmainwindow.cpp:2592
+#: dolphinmainwindow.cpp:2609
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1354,7 +1360,7 @@ msgstr ""
 "Ezin du beste ikuspegira kopiatu: Ez duzu helburuko karpetan idatzeko "
 "baimenik."
 
-#: dolphinmainwindow.cpp:2596
+#: dolphinmainwindow.cpp:2613
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1364,7 +1370,7 @@ msgstr ""
 "Ezin du beste ikuspegira mugitu: Ez duzu helburuko karpetan idatzeko "
 "baimenik."
 
-#: dolphinmainwindow.cpp:2602
+#: dolphinmainwindow.cpp:2619
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1374,7 +1380,7 @@ msgstr ""
 "Ezin du beste ikuspegira mugitu: Ez duzu karpeta honetako elementuak "
 "mugitzeko baimenik."
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2643
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1389,85 +1395,85 @@ msgstr ""
 "antolatuta daude. Hierarkia honen gailurrean ordenagailu honi lotutako datu "
 "guztiak dituen direktorioa dago—<emphasis>erro direktorioa</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Itxi"
 
-#: dolphinmainwindow.cpp:2715
+#: dolphinmainwindow.cpp:2732
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Itxi ezkerreko ikuspegia"
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2734
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Itxi ezkerreko ikuspegia"
 
-#: dolphinmainwindow.cpp:2719
+#: dolphinmainwindow.cpp:2736
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Atera ezkerreko ikuspegia"
 
-#: dolphinmainwindow.cpp:2720
+#: dolphinmainwindow.cpp:2737
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Eraman ezkerreko ikuspegia leiho berri batera"
 
-#: dolphinmainwindow.cpp:2722
+#: dolphinmainwindow.cpp:2739
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Itxi"
 
-#: dolphinmainwindow.cpp:2723
+#: dolphinmainwindow.cpp:2740
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Itxi eskuineko ikuspegia"
 
-#: dolphinmainwindow.cpp:2725
+#: dolphinmainwindow.cpp:2742
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Itxi eskuineko ikuspegia"
 
-#: dolphinmainwindow.cpp:2727
+#: dolphinmainwindow.cpp:2744
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Atera eskuineko ikuspegia"
 
-#: dolphinmainwindow.cpp:2728
+#: dolphinmainwindow.cpp:2745
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Eraman eskuineko ikuspegia leiho berri batera"
 
-#: dolphinmainwindow.cpp:2737
+#: dolphinmainwindow.cpp:2754
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Zatitu"
 
-#: dolphinmainwindow.cpp:2739
+#: dolphinmainwindow.cpp:2756
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Zatitu ikuspegia"
 
-#: dolphinmainwindow.cpp:2741
+#: dolphinmainwindow.cpp:2758
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Gaineratu"
 
-#: dolphinmainwindow.cpp:2801
+#: dolphinmainwindow.cpp:2818
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1485,7 +1491,7 @@ msgstr ""
 "Ondoren bere eduki gehiena eskuragarri dago <emphasis>tresna-barra</"
 "emphasis>ko <interface>Menu</interface> botoi baten bidez.</para>"
 
-#: dolphinmainwindow.cpp:2808
+#: dolphinmainwindow.cpp:2825
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1508,7 +1514,7 @@ msgstr ""
 "eta bere botoien estiloa alda daiteke eskuin-klik menutik. Eskuin-klik egin "
 "botoi bati bere testua erakutsi edo ezkutatu nahi baduzu.</para>"
 
-#: dolphinmainwindow.cpp:2820
+#: dolphinmainwindow.cpp:2837
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1537,7 +1543,7 @@ msgstr ""
 "html'>egin klik hemen</link>. Honek oinarrizkoak biltzen dituen "
 "<emphasis>Eskuliburu</emphasis>ko orri bat irekiko du.</para>"
 
-#: dolphinmainwindow.cpp:2836
+#: dolphinmainwindow.cpp:2853
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1551,7 +1557,7 @@ msgstr ""
 "berean sakatzen direnean ekintza bat eragiteko. Aplikazio honetako komando "
 "guztiak eragin daitezke era honetara.</para>"
 
-#: dolphinmainwindow.cpp:2842
+#: dolphinmainwindow.cpp:2859
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1564,7 +1570,7 @@ msgstr ""
 "interface>an ikusten dituzun elementu guztiak Tresna-barran ere kokatu "
 "daitezke.</para>"
 
-#: dolphinmainwindow.cpp:2846
+#: dolphinmainwindow.cpp:2863
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1582,7 +1588,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2866
+#: dolphinmainwindow.cpp:2883
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1599,7 +1605,7 @@ msgstr ""
 "Dolphin/File_Management'>egin klik hemen</link>. KDE UserBase Wikian honi "
 "eskainitako orria irekiko du.</para>"
 
-#: dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2888
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1621,7 +1627,7 @@ msgstr ""
 "UserBase Wiki</link>a.</para><para>Gainontzeko leihoetako gehienetan «Zer da "
 "hau?» laguntza falta da, beraz, ez zaitez horretara gehiegi ohitu.</para>"
 
-#: dolphinmainwindow.cpp:2882
+#: dolphinmainwindow.cpp:2899
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1637,7 +1643,7 @@ msgstr ""
 "eraginkorren nola egin ikasteko <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>egin klik hemen</link>.</para>"
 
-#: dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2908
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1660,7 +1666,7 @@ msgstr ""
 "emphasis> da KDE komunitatearen atzean dagoen irabazi asmorik gabeko "
 "erakundea.</para>"
 
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2921
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1672,7 +1678,7 @@ msgstr ""
 ">Bigarren mailako hizkuntzak ere ezar ditzakezu, ordezko hizkuntza gisa "
 "erabiliko dira zure hizkuntza hobetsian erabilgarri ez dauden testuentzat."
 
-#: dolphinmainwindow.cpp:2909
+#: dolphinmainwindow.cpp:2926
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1682,7 +1688,7 @@ msgstr ""
 "Honek leiho bat irekitzen du, aplikazioaren bertsioa, lizentzia, erabilitako "
 "liburutegiak eta mantentzaileei buruz informatuko zaituena."
 
-#: dolphinmainwindow.cpp:2914
+#: dolphinmainwindow.cpp:2931
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1696,19 +1702,19 @@ msgstr ""
 ">Aplikazio hau erabiltzea gustuko baduzu baino ez badakizu KDEri buruz edo "
 "dragoi eder bat ikusi nahi baduzu eman begiratu bat!"
 
-#: dolphinmainwindow.cpp:2969 dolphinmainwindow.cpp:2980
+#: dolphinmainwindow.cpp:2986 dolphinmainwindow.cpp:2997
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Kendu fokua terminalaren paneletik"
 
-#: dolphinmainwindow.cpp:2987
+#: dolphinmainwindow.cpp:3004
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Kendu fokua Terminala paneletik"
 
-#: dolphinmainwindow.cpp:2998
+#: dolphinmainwindow.cpp:3015
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -1973,7 +1979,7 @@ msgid "Location Bar"
 msgstr "Kokaleku-barra"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: dolphinui.rc:106 dolphinuiforphones.rc:106
+#: dolphinui.rc:107 dolphinuiforphones.rc:107
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
@@ -2027,25 +2033,25 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Sailkatzen..."
 
-#: dolphinviewcontainer.cpp:678
+#: dolphinviewcontainer.cpp:683
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Bilatzen..."
 
-#: dolphinviewcontainer.cpp:698
+#: dolphinviewcontainer.cpp:703
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Ez da elementurik aurkitu."
 
-#: dolphinviewcontainer.cpp:886
+#: dolphinviewcontainer.cpp:891
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin-ek ez du web orririk onartzen, web arakatzailea abiarazi da"
 
-#: dolphinviewcontainer.cpp:889
+#: dolphinviewcontainer.cpp:894
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2053,25 +2059,25 @@ msgid ""
 msgstr ""
 "Dolphin-ek ez du protokolo hau onartzen, lehenetsitako aplikazioa abiarazi da"
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:901
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protokolo baliogabea '%1'"
 
-#: dolphinviewcontainer.cpp:898
+#: dolphinviewcontainer.cpp:903
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protokolo baliogabea"
 
-#: dolphinviewcontainer.cpp:969
+#: dolphinviewcontainer.cpp:974
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Karpeta honetara sortzeko baimena izan behar da."
 
-#: dolphinviewcontainer.cpp:1011 dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1016 dolphinviewcontainer.cpp:1019
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -5692,6 +5698,61 @@ msgctxt "@info:progress"
 msgid "Folders: %1"
 msgstr "Karpetak: %1"
 
+#: statusbar/diskspaceusagemenu.cpp:47
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<application>Filelight</application> installed successfully."
+msgstr "<application>Filelight</application> ondo instalatu da."
+
+#: statusbar/diskspaceusagemenu.cpp:55
+#, kde-format
+msgctxt "@info:status"
+msgid "Installing Filelight…"
+msgstr "Filelight instalatzen…"
+
+#: statusbar/diskspaceusagemenu.cpp:86
+#, kde-format
+msgid "Disk Usage Statistics - current folder"
+msgstr "Diskoaren erabilera estatistikak - uneko karpeta"
+
+#: statusbar/diskspaceusagemenu.cpp:96
+#, kde-format
+msgid "Disk Usage Statistics - current device"
+msgstr "Diskoaren erabilera estatistikak - uneko gailua"
+
+#: statusbar/diskspaceusagemenu.cpp:109
+#, kde-format
+msgid "Disk Usage Statistics - all devices"
+msgstr "Diskoaren erabilera estatistikak - gailua guztiak"
+
+#: statusbar/diskspaceusagemenu.cpp:122
+#, kde-format
+msgid "KDiskFree"
+msgstr "KDiskFree"
+
+#: statusbar/diskspaceusagemenu.cpp:153
+#, kde-format
+msgctxt "@title"
+msgid "Free Up Disk Space"
+msgstr "Diskoan lekua hustu"
+
+#. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
+#: statusbar/diskspaceusagemenu.cpp:165
+#, kde-kuit-format
+msgctxt "@title"
+msgid ""
+"<para>Install additional software to view disk usage statistics<nl/>and "
+"identify big files and folders.</para>"
+msgstr ""
+"<para>Instalatu disko-erabileraren estatistikak ikusteko eta fitxategi<nl/> "
+"eta karpeta handiak identifikatzeko software gehigarria.</para>"
+
+#: statusbar/diskspaceusagemenu.cpp:174
+#, kde-format
+msgctxt "@action:button"
+msgid "Install Filelight…"
+msgstr "Instalatu Filelight…"
+
 #: statusbar/dolphinstatusbar.cpp:60
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
@@ -5746,51 +5807,19 @@ msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
 msgstr "Erakutsi zoomaren graduatzailea"
 
-#: statusbar/statusbarspaceinfo.cpp:145
-#, kde-format
-msgid "Disk Usage Statistics - current folder"
-msgstr "Diskoaren erabilera estatistikak - uneko karpeta"
-
-#: statusbar/statusbarspaceinfo.cpp:156
-#, kde-format
-msgid "Disk Usage Statistics - current device"
-msgstr "Diskoaren erabilera estatistikak - uneko gailua"
-
-#: statusbar/statusbarspaceinfo.cpp:169
-#, kde-format
-msgid "Disk Usage Statistics - all devices"
-msgstr "Diskoaren erabilera estatistikak - gailua guztiak"
-
-#: statusbar/statusbarspaceinfo.cpp:182
-#, kde-format
-msgid "KDiskFree"
-msgstr "KDiskFree"
-
-#: statusbar/statusbarspaceinfo.cpp:208
-#, kde-kuit-format
-msgctxt "@info"
-msgid "<application>Filelight</application> installed successfully."
-msgstr "<application>Filelight</application> ondo instalatu da."
-
-#: statusbar/statusbarspaceinfo.cpp:216
-#, kde-format
-msgctxt "@info:status"
-msgid "Installing Filelight…"
-msgstr "Filelight instalatzen…"
-
-#: statusbar/statusbarspaceinfo.cpp:243
+#: statusbar/statusbarspaceinfo.cpp:131
 #, kde-format
 msgctxt "@info:status Free disk space"
 msgid "%1 free"
 msgstr "%1 libre"
 
-#: statusbar/statusbarspaceinfo.cpp:244
+#: statusbar/statusbarspaceinfo.cpp:132
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
 msgstr "%1/%2 libre (%3 erabilita)"
 
-#: statusbar/statusbarspaceinfo.cpp:246
+#: statusbar/statusbarspaceinfo.cpp:134
 #, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
@@ -5799,29 +5828,6 @@ msgid ""
 msgstr ""
 "%1/%2 libre (%%3 erabilita)\n"
 "Sakatu diskoko lekua kudeatzeko."
-
-#: statusbar/statusbarspaceinfo.cpp:272
-#, kde-format
-msgctxt "@title"
-msgid "Free Up Disk Space"
-msgstr "Diskoan lekua hustu"
-
-#. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
-#: statusbar/statusbarspaceinfo.cpp:284
-#, kde-kuit-format
-msgctxt "@title"
-msgid ""
-"<para>Install additional software to view disk usage statistics<nl/>and "
-"identify big files and folders.</para>"
-msgstr ""
-"<para>Instalatu disko-erabileraren estatistikak ikusteko eta fitxategi<nl/> "
-"eta karpeta handiak identifikatzeko software gehigarria.</para>"
-
-#: statusbar/statusbarspaceinfo.cpp:293
-#, kde-format
-msgctxt "@action:button"
-msgid "Install Filelight…"
-msgstr "Instalatu Filelight…"
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
