@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-17 02:33+0000\n"
-"PO-Revision-Date: 2025-03-09 16:38+0530\n"
+"PO-Revision-Date: 2025-04-20 17:48+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -728,6 +728,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"காட்சிப்பகுதி பிரிக்கப்பட்டிருக்கும் பட்சத்தில், குவியத்திலுள்ள காட்சிப்பகுதியை புதிய "
+"சாளரத்திற்கு இது நகர்த்தும்."
 
 #: dolphinmainwindow.cpp:1960
 #, kde-format
