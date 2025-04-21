@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 00:43+0000\n"
-"PO-Revision-Date: 2025-04-17 07:00+0200\n"
+"PO-Revision-Date: 2025-04-20 07:07+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -888,7 +888,7 @@ msgstr "Primerjaj datoteki"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Upravlja uporabo prostora na disku"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format

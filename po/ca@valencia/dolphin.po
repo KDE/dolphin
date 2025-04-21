@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 00:43+0000\n"
-"PO-Revision-Date: 2025-04-17 10:11+0200\n"
+"PO-Revision-Date: 2025-04-20 09:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -890,7 +890,7 @@ msgstr "Compara fitxers"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Gestioneu l'ús de l'espai del disc"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
