@@ -37,7 +37,6 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_expansionAreaHovered(false)
     , m_alternateBackground(false)
     , m_enabledSelectionToggle(false)
-    , m_showKeyboardFocusEffect(false)
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
@@ -608,7 +607,6 @@ void KItemListWidget::clearHoverCache()
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
-    const int focusPenWidth = 2;
     const int roundness = 5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
@@ -635,26 +633,15 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     painter->fillPath(path, accentColor);
 
     // Focus decoration
-    if (current && m_showKeyboardFocusEffect) {
-        accentColor.setAlphaF(1.0);
+    if (current) {
+        accentColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110);
+        accentColor.setAlphaF(m_selected || m_hovered ? 1.0 : 0.5);
         // Set the pen color lighter or darker depending on background color
-        const QPen pen{m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110), focusPenWidth};
+        QPen pen{accentColor, 1.5};
+        pen.setCosmetic(true);
         painter->setPen(pen);
         painter->drawPath(path);
     }
-}
-
-void KItemListWidget::showKeyboardFocusEffect(bool show)
-{
-    if (m_showKeyboardFocusEffect != show) {
-        m_showKeyboardFocusEffect = show;
-        update();
-    }
-}
-
-bool KItemListWidget::keyboardFocusEffectShown()
-{
-    return m_showKeyboardFocusEffect;
 }
 
 #include "moc_kitemlistwidget.cpp"
