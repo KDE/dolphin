@@ -195,9 +195,6 @@ public:
      */
     virtual void startActivateSoonAnimation(int timeUntilActivation);
 
-    void showKeyboardFocusEffect(bool showFocusEffect);
-    bool keyboardFocusEffectShown();
-
 Q_SIGNALS:
     void roleEditingCanceled(int index, const QByteArray &role, const QVariant &value);
     void roleEditingFinished(int index, const QByteArray &role, const QVariant &value);
@@ -264,7 +261,6 @@ private:
     bool m_expansionAreaHovered;
     bool m_alternateBackground;
     bool m_enabledSelectionToggle;
-    bool m_showKeyboardFocusEffect;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;
