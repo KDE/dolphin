@@ -146,11 +146,6 @@ public:
     bool contains(const QPointF &point) const override;
 
     /**
-     * @return Rectangle for the area that shows the icon.
-     */
-    virtual QRectF iconRect() const = 0;
-
-    /**
      * @return Rectangle for the area that contains the text-properties.
      */
     virtual QRectF textRect() const = 0;
@@ -246,6 +241,11 @@ private Q_SLOTS:
     void slotHoverSequenceTimerTimeout();
 
 private:
+    /**
+     * @return Rectangle for the area that shows the icon.
+     */
+    virtual QRectF iconRect() const = 0;
+
     void initializeSelectionToggle();
     void setHoverOpacity(qreal opacity);
     void drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState);

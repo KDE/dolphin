@@ -540,23 +540,19 @@ QRectF KStandardItemListWidget::selectionRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
 
-    const int padding = styleOption().padding;
-    QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
-    QRectF result = adjustedIconRect | m_textRect;
     if (m_highlightEntireRow) {
+        const int padding = styleOption().padding;
+        QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
+        QRectF result = adjustedIconRect | m_textRect;
         if (layoutDirection() == Qt::LeftToRight) {
             result.setRight(leftPadding() + m_columnWidthSum);
         } else {
             result.setLeft(size().width() - m_columnWidthSum - rightPadding());
         }
+        return result;
     } else {
-        // Make sure values are always positive
-        const int availableWidth = qAbs((size().width() - 2 * padding - result.width()) * 0.5);
-        const int availableHeight = m_layout == CompactLayout ? 0 : qAbs((size().height() - 2 * padding - result.height()) * 0.5);
-        result = result.adjusted(-availableWidth, -availableHeight, availableWidth, availableHeight);
+        return rect();
     }
-
-    return result;
 }
 
 QRectF KStandardItemListWidget::expansionToggleRect() const
