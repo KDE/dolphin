@@ -612,7 +612,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = rect().toRect();
+    viewItemOption.rect = selectionRect().toRect();
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
     QColor accentColor{widget->palette().color(QPalette::Accent)};
