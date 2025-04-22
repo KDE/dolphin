@@ -292,7 +292,8 @@ void DolphinStatusBar::updateWidthToContent()
             // from "jumping around" when user tries to interact with them.
             setFixedWidth(maximumViewWidth);
         } else {
-            const int contentWidth = labelSize.width() + 15;
+            const int contentWidth = style()->pixelMetric(QStyle::PM_LayoutLeftMargin, &opt, this) + labelSize.width()
+                + style()->pixelMetric(QStyle::PM_LayoutRightMargin, &opt, this);
             setFixedWidth(qMin(contentWidth, maximumViewWidth));
         }
         Q_EMIT widthUpdated();
@@ -447,6 +448,9 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
             path.addRect(clipRect);
             p.setClipPath(path);
             opt.palette.setColor(QPalette::Base, palette().window().color());
+            p.setBrush(palette().window().color());
+            p.setPen(Qt::transparent);
+            p.drawRoundedRect(opt.rect, 5, 5); // Radius is from Breeze style.
             style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
         }
     }
