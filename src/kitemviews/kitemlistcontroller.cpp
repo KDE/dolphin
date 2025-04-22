@@ -222,9 +222,6 @@ bool KItemListController::singleClickActivationEnforced() const
 
 void KItemListController::setSelectionModeEnabled(bool enabled)
 {
-    if (enabled) {
-        showKeyboardFocusEffect(true);
-    }
     m_selectionMode = enabled;
 }
 
@@ -292,10 +289,6 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
     }
     const bool navigationPressed = key == Qt::Key_Home || key == Qt::Key_End || key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_Up
         || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right;
-
-    if (navigationPressed) {
-        showKeyboardFocusEffect(true);
-    }
 
     const int itemCount = m_model->count();
 
@@ -1775,8 +1768,6 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         }
 
         return !createRubberBand;
-    } else {
-        showKeyboardFocusEffect(false);
     }
 
     return false;
@@ -1901,14 +1892,6 @@ void KItemListController::slotStateChanged(QScroller::State newState)
         m_scrollerIsScrolling = true;
     } else if (newState == QScroller::Inactive) {
         m_scrollerIsScrolling = false;
-    }
-}
-
-void KItemListController::showKeyboardFocusEffect(bool show)
-{
-    const auto widgets = m_view->visibleItemListWidgets();
-    for (auto widget : widgets) {
-        widget->showKeyboardFocusEffect(show);
     }
 }
 
