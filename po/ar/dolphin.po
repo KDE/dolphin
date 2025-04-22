@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 00:43+0000\n"
-"PO-Revision-Date: 2025-04-19 13:11+0400\n"
+"PO-Revision-Date: 2025-04-21 17:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -886,7 +886,7 @@ msgstr "قارن الملفات"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "أدر استخدام مساحة القرص"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 00:43+0000\n"
-"PO-Revision-Date: 2025-04-15 23:33+0200\n"
+"PO-Revision-Date: 2025-04-22 01:20+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -849,7 +849,7 @@ msgstr "파일 비교하기"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "디스크 공간 사용량 관리"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
@@ -6223,12 +6223,10 @@ msgid ""
 msgstr "모든 보기 속성을 조정할 수 있는 새 창을 엽니다."
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "설정"
+msgstr "보기 설정"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6237,6 +6235,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"모든 보기 모드를 전환합니다. 드롭다운 메뉴에서 여러 보기 관련 동작에 접근할 "
+"수 있습니다."
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
