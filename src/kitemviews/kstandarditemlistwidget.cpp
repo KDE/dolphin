@@ -540,8 +540,8 @@ QRectF KStandardItemListWidget::selectionRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
 
+    const int padding = styleOption().padding;
     if (m_highlightEntireRow) {
-        const int padding = styleOption().padding;
         QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
         QRectF result = adjustedIconRect | m_textRect;
         if (layoutDirection() == Qt::LeftToRight) {
@@ -551,6 +551,9 @@ QRectF KStandardItemListWidget::selectionRect() const
         }
         return result;
     } else {
+        if (m_layout == CompactLayout) {
+            return rect().adjusted(0, padding, 0, -padding);
+        }
         return rect();
     }
 }
