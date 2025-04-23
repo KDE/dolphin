@@ -1174,6 +1174,9 @@ void DolphinView::slotItemContextMenuRequested(int index, const QPointF &pos)
     if (m_selectionChangedTimer->isActive()) {
         emitSelectionChangedSignal();
     }
+    if (m_twoClicksRenamingTimer->isActive()) {
+        abortTwoClicksRenaming();
+    }
 
     const KFileItem item = m_model->fileItem(index);
     Q_EMIT requestContextMenu(pos.toPoint(), item, selectedItems(), url());
