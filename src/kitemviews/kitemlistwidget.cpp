@@ -607,7 +607,7 @@ void KItemListWidget::clearHoverCache()
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
-    const int roundness = 5;
+    constexpr int roundness = 5; // From Breeze style.
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
