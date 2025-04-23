@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:43+0000\n"
+"POT-Creation-Date: 2025-04-23 00:44+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -5681,7 +5681,7 @@ msgid "Open files and folders:"
 msgstr "Mở tệp và thư mục:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:402
+#: statusbar/dolphinstatusbar.cpp:403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5950,7 +5950,7 @@ msgstr ""
 "trong khung xem.</item><item><emphasis>Thông tin không gian</emphasis> của "
 "thiết bị lưu trữ hiện tại.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:350
+#: statusbar/dolphinstatusbar.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

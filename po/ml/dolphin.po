@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:43+0000\n"
+"POT-Creation-Date: 2025-04-23 00:44+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -5585,7 +5585,7 @@ msgid "Open files and folders:"
 msgstr "അറകളും ഫയലുകളും തിരയുക"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:402
+#: statusbar/dolphinstatusbar.cpp:403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5847,7 +5847,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:350
+#: statusbar/dolphinstatusbar.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

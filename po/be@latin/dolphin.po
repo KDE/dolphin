@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:43+0000\n"
+"POT-Creation-Date: 2025-04-23 00:44+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5949,7 +5949,7 @@ msgid "Open files and folders:"
 msgstr "Pošuk fajlaŭ i katalohaŭ"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:402
+#: statusbar/dolphinstatusbar.cpp:403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -6220,7 +6220,7 @@ msgstr ""
 "pamier značkoŭ.</item> <item><emphasis>Zviestki pra prastoru</emphasis> pra "
 "biahučuju nazapašvaĺnuju pryladu.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:350
+#: statusbar/dolphinstatusbar.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

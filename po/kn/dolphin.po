@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:43+0000\n"
+"POT-Creation-Date: 2025-04-23 00:44+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -5714,7 +5714,7 @@ msgid "Open files and folders:"
 msgstr "ಕಡತ ಹಾಗು ಕಡತಕೋಶಗಳ ಮುನ್ನೋಟವನ್ನು ತೋರಿಸು"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:402
+#: statusbar/dolphinstatusbar.cpp:403
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5987,7 +5987,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:350
+#: statusbar/dolphinstatusbar.cpp:351
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
