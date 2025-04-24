@@ -1,5 +1,5 @@
 #Configuration update for Dolphin
-Version=6
+Version=5
 
 #Convert DirectorySizeCount to enum DirectorySizeMode
 Id=convert-directorysizecount-to-directorysizemode
