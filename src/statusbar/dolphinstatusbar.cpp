@@ -50,6 +50,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
     setProperty("_breeze_statusbar_separator", true);
 
     QWidget *contentsContainer = prepareContentsContainer();
+    contentsContainer->setContentsMargins(0, 0, 0, 0);
 
     // Initialize text label
     m_label = new KSqueezedTextLabel(m_text, contentsContainer);
@@ -292,7 +293,8 @@ void DolphinStatusBar::updateWidthToContent()
             // from "jumping around" when user tries to interact with them.
             setFixedWidth(maximumViewWidth);
         } else {
-            const int contentWidth = labelSize.width() + 15;
+            // Make sure we have room for the text
+            const int contentWidth = labelSize.width() + QFontMetrics(font()).averageCharWidth() + (clippingAmount() * 2);
             setFixedWidth(qMin(contentWidth, maximumViewWidth));
         }
         Q_EMIT widthUpdated();
@@ -421,7 +423,7 @@ void DolphinStatusBar::updateContentsMargins()
         m_topLayout->setContentsMargins(6, 0, 2, 0);
     } else {
         // Add extra margins to toplayout to avoid clipping too early.
-        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), clippingAmount());
+        m_topLayout->setContentsMargins(clippingAmount() * 2, 0, clippingAmount(), 0);
     }
     setContentsMargins(0, 0, 0, 0);
 }
@@ -437,16 +439,21 @@ void DolphinStatusBar::paintEvent(QPaintEvent *paintEvent)
         if (m_label && !m_label->fullText().isEmpty()) {
             opt.state = QStyle::State_Sunken;
             QPainterPath path;
-            // Clip the left and bottom border off.
+            // Adjust the rectangle to be a bit larger, then clip the left and bottom border off.
             QRect clipRect;
             if (layoutDirection() == Qt::RightToLeft) {
+                opt.rect = rect().adjusted(0, 0, clippingAmount(), clippingAmount());
                 clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(0, 0, -clippingAmount(), -clippingAmount());
             } else {
+                opt.rect = rect().adjusted(-clippingAmount(), 0, 0, clippingAmount());
                 clipRect = QRect(opt.rect.topLeft(), opt.rect.bottomRight()).adjusted(clippingAmount(), 0, 0, -clippingAmount());
             }
             path.addRect(clipRect);
             p.setClipPath(path);
             opt.palette.setColor(QPalette::Base, palette().window().color());
+            p.setBrush(palette().window().color());
+            p.setPen(Qt::transparent);
+            p.drawRoundedRect(opt.rect, 5, 5); // Radius is from Breeze style.
             style()->drawPrimitive(QStyle::PE_Frame, &opt, &p, this);
         }
     }
