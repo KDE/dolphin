@@ -1094,11 +1094,9 @@ bool DolphinViewContainer::eventFilter(QObject *object, QEvent *event)
 
 QRect DolphinViewContainer::preferredSmallStatusBarGeometry()
 {
-    // Adjust to clipping, we need to add 1 due to how QRects coordinates work.
-    int clipAdjustment = m_statusBar->clippingAmount() + 1;
-    // Add offset depending if horizontal scrollbar or filterbar is visible.
-    const int yPos = m_view->geometry().bottom() - m_view->horizontalScrollBarHeight() - m_statusBar->minimumHeight() + clipAdjustment;
-    QRect statusBarRect = rect().adjusted(-clipAdjustment, yPos, 0, 0);
+    // Add offset depending if horizontal scrollbar or filterbar is visible, we need to add 1 due to how QRect coordinates work.
+    const int yPos = m_view->geometry().bottom() - m_view->horizontalScrollBarHeight() - m_statusBar->minimumHeight() + 1;
+    QRect statusBarRect = rect().adjusted(0, yPos, 0, 0);
     return statusBarRect;
 }
 
