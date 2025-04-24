@@ -1776,7 +1776,6 @@ void DolphinView::updateSelectionState()
             if (!selectedItems.isEmpty()) {
                 selectionManager->beginAnchoredSelection(selectionManager->currentItem());
                 selectionManager->setSelectedItems(selectedItems);
-                selectionManager->endAnchoredSelection();
                 if (shouldScrollToCurrentItem) {
                     m_view->scrollToItem(selectedItems.first());
                 }
