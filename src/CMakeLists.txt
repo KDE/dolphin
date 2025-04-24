@@ -649,7 +649,6 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 
 install( FILES settings/dolphin_detailsmodesettings.upd
-               settings/dolphin_directorysizemode.upd
                settings/dolphin_directorysizemode.py
                settings/dolphin_statusandlocationbarssettings.upd
                settings/dolphin_replace_view_mode_with_view_settings_in_toolbar.upd
