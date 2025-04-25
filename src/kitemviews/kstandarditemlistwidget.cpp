@@ -270,7 +270,6 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant *infor
     , m_scaledPixmapSize()
     , m_columnWidthSum()
     , m_iconRect()
-    , m_hoverPixmap()
     , m_textRect()
     , m_sortedVisibleRoles()
     , m_expansionArea()
@@ -345,7 +344,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         drawSiblingsInformation(painter);
     }
 
-    auto pixmap = isHovered() ? m_hoverPixmap : m_pixmap;
+    auto pixmap = m_pixmap;
     if (!m_overlays.isEmpty()) {
         const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
@@ -387,7 +386,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
             {
                 QPainter p(&pixmap2);
                 p.setOpacity(hoverOpacity());
-                p.drawPixmap(0, 0, m_hoverPixmap);
+                p.drawPixmap(0, 0, m_pixmap);
             }
 
             // Paint pixmap2 on pixmap1 using CompositionMode_Plus
@@ -1107,7 +1106,7 @@ void KStandardItemListWidget::updatePixmapCache()
         }
 
         if (m_pixmap.isNull()) {
-            m_hoverPixmap = QPixmap();
+            m_pixmap = QPixmap();
             return;
         }
 
@@ -1164,17 +1163,6 @@ void KStandardItemListWidget::updatePixmapCache()
         const QPointF squareIconPos(m_pixmapPos.x() - 0.5 * widthOffset, m_pixmapPos.y() - 0.5 * heightOffset);
         const QSizeF squareIconSize(widgetIconSize, widgetIconSize);
         m_iconRect = QRectF(squareIconPos, squareIconSize);
-    }
-
-    // Prepare the pixmap that is used when the item gets hovered
-    if (isHovered()) {
-        m_hoverPixmap = m_pixmap;
-        if (isSelected()) {
-            KIconEffect::toActive(m_hoverPixmap);
-        }
-    } else if (hoverOpacity() <= 0.0) {
-        // No hover animation is ongoing. Clear m_hoverPixmap to save memory.
-        m_hoverPixmap = QPixmap();
     }
 }
 

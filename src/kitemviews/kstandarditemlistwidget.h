@@ -278,7 +278,6 @@ private:
 
     qreal m_columnWidthSum;
     QRectF m_iconRect; // Cache for KItemListWidget::iconRect()
-    QPixmap m_hoverPixmap; // Cache for modified m_pixmap when hovering the item
 
     QRectF m_textRect;
 
