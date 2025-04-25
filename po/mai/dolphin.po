@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 00:43+0000\n"
+"POT-Creation-Date: 2025-04-25 00:44+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -5665,7 +5665,7 @@ msgid "Open files and folders:"
 msgstr "पूर्वावलोकन देखाबू"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:403
+#: statusbar/dolphinstatusbar.cpp:404
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5899,31 +5899,31 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:65
 #, kde-format
 msgid "Zoom"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:65
+#: statusbar/dolphinstatusbar.cpp:66
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:86
+#: statusbar/dolphinstatusbar.cpp:87
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Stop"
 msgid "Stop"
 msgstr "रोकू"
 
-#: statusbar/dolphinstatusbar.cpp:88
+#: statusbar/dolphinstatusbar.cpp:89
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -5931,7 +5931,7 @@ msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "छाँटल जाए रहल अछि:"
 
-#: statusbar/dolphinstatusbar.cpp:142
+#: statusbar/dolphinstatusbar.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -5944,7 +5944,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:351
+#: statusbar/dolphinstatusbar.cpp:352
 #, fuzzy, kde-format
 #| msgid "Show tooltips"
 msgctxt "@action:inmenu"

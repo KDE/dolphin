@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 00:43+0000\n"
+"POT-Creation-Date: 2025-04-25 00:44+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -5681,7 +5681,7 @@ msgid "Open files and folders:"
 msgstr "Mở tệp và thư mục:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:403
+#: statusbar/dolphinstatusbar.cpp:404
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5902,35 +5902,35 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr ""
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Thu phóng:"
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:65
 #, kde-format
 msgid "Zoom"
 msgstr "Thu phóng"
 
-#: statusbar/dolphinstatusbar.cpp:65
+#: statusbar/dolphinstatusbar.cpp:66
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Đặt cỡ của các biểu tượng tệp."
 
-#: statusbar/dolphinstatusbar.cpp:86
+#: statusbar/dolphinstatusbar.cpp:87
 #, kde-format
 msgid "Stop"
 msgstr "Dừng"
 
-#: statusbar/dolphinstatusbar.cpp:88
+#: statusbar/dolphinstatusbar.cpp:89
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Dừng tải"
 
-#: statusbar/dolphinstatusbar.cpp:142
+#: statusbar/dolphinstatusbar.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -5950,7 +5950,7 @@ msgstr ""
 "trong khung xem.</item><item><emphasis>Thông tin không gian</emphasis> của "
 "thiết bị lưu trữ hiện tại.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:351
+#: statusbar/dolphinstatusbar.cpp:352
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 00:43+0000\n"
+"POT-Creation-Date: 2025-04-25 00:44+0000\n"
 "PO-Revision-Date: 2025-04-20 16:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -5529,7 +5529,7 @@ msgid "Open files and folders:"
 msgstr "Bestanden en mappen openen:"
 
 #: settings/viewmodes/viewsettingstab.cpp:248
-#: statusbar/dolphinstatusbar.cpp:403
+#: statusbar/dolphinstatusbar.cpp:404
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Size: 1 pixel"
@@ -5753,35 +5753,35 @@ msgctxt "@action:button"
 msgid "Install Filelight…"
 msgstr "Filelight installeren…"
 
-#: statusbar/dolphinstatusbar.cpp:60
+#: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
 msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
 msgid "Zoom:"
 msgstr "Zoomniveau:"
 
-#: statusbar/dolphinstatusbar.cpp:64
+#: statusbar/dolphinstatusbar.cpp:65
 #, kde-format
 msgid "Zoom"
 msgstr "Zoomen"
 
-#: statusbar/dolphinstatusbar.cpp:65
+#: statusbar/dolphinstatusbar.cpp:66
 #, kde-format
 msgctxt "Description for zoom-slider (accessibility)"
 msgid "Sets the size of the file icons."
 msgstr "Stel de grootte van de bestandspictogrammen in."
 
-#: statusbar/dolphinstatusbar.cpp:86
+#: statusbar/dolphinstatusbar.cpp:87
 #, kde-format
 msgid "Stop"
 msgstr "Stoppen"
 
-#: statusbar/dolphinstatusbar.cpp:88
+#: statusbar/dolphinstatusbar.cpp:89
 #, kde-format
 msgctxt "@tooltip"
 msgid "Stop loading"
 msgstr "Laden stoppen"
 
-#: statusbar/dolphinstatusbar.cpp:142
+#: statusbar/dolphinstatusbar.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis Statusbar"
 msgid ""
@@ -5801,7 +5801,7 @@ msgstr ""
 "pictogrammen in de weergave aan te passen.</item><item><emphasis>Informatie "
 "over de ruimte</emphasis> op het huidige opslagapparaat.</item></list></para>"
 
-#: statusbar/dolphinstatusbar.cpp:351
+#: statusbar/dolphinstatusbar.cpp:352
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Zoom Slider"
