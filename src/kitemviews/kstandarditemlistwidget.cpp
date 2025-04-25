@@ -1107,7 +1107,6 @@ void KStandardItemListWidget::updatePixmapCache()
         }
 
         if (m_pixmap.isNull()) {
-            m_pixmap = QPixmap();
             return;
         }
 
