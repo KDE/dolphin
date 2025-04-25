@@ -652,6 +652,10 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent *event, const 
                 m_selectionManager->endAnchoredSelection();
                 m_selectionManager->setCurrentItem(newCurrent.value());
                 m_selectionManager->beginAnchoredSelection(newCurrent.value());
+                // Set hovered effect when dragging.
+                for (const auto widget : m_view->visibleItemListWidgets()) {
+                    widget->setHovered(widget->isCurrent());
+                }
             }
 
             if (m_view->scrollOrientation() == Qt::Vertical) {
