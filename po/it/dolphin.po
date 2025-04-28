@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 00:44+0000\n"
-"PO-Revision-Date: 2025-04-10 08:46+0200\n"
+"PO-Revision-Date: 2025-04-23 09:11+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -885,7 +885,7 @@ msgstr "Confronta file"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Gestisci l'utilizzo dello spazio su disco"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
@@ -6438,12 +6438,10 @@ msgstr ""
 "possono essere modificate."
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Impostazioni"
+msgstr "Impostazioni di visualizzazione"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6452,6 +6450,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"In questo modo è possibile scorrere tutte le modalità di visualizzazione. Il "
+"menu a tendina contiene varie azioni relative alla visualizzazione."
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
