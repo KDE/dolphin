@@ -618,11 +618,11 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
     accentColor.setAlphaF(0.0);
     if (m_selected && m_hovered) {
-        accentColor.setAlphaF(0.25);
+        accentColor.setAlphaF(0.32);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.2);
+        accentColor.setAlphaF(0.30);
     } else if (m_hovered) {
-        accentColor.setAlphaF(0.15);
+        accentColor.setAlphaF(0.20);
     }
 
     painter->fillPath(path, accentColor);
@@ -630,7 +630,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Focus decoration
     if (current) {
         accentColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110);
-        accentColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.5);
+        accentColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
         // Set the pen color lighter or darker depending on background color
         QPen pen{accentColor, 1.5};
         pen.setCosmetic(true);
