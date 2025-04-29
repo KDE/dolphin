@@ -130,8 +130,8 @@ void DiskSpaceUsageMenu::updateMenu()
 
 void DiskSpaceUsageMenu::showEvent(QShowEvent *event)
 {
-    if (!event->spontaneous()) {
-        auto widgetAction = qobject_cast<QWidgetAction *>(actions().first());
+    if (!event->spontaneous() && !actions().isEmpty()) {
+        auto widgetAction = qobject_cast<QWidgetAction *>(*actions().constBegin());
         if (widgetAction) {
             widgetAction->defaultWidget()->setFocus();
         }

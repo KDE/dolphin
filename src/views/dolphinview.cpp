@@ -1883,7 +1883,7 @@ void DolphinView::selectNextItem()
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
         }
-        const auto lastSelectedIndex = m_model->index(selectedItems().last());
+        const auto lastSelectedIndex = m_model->index(*selectedItems().constEnd());
         if (lastSelectedIndex < 0) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;

@@ -248,7 +248,8 @@ void FoldersTabsSettingsPage::useCurrentLocation()
 {
 #ifndef IS_KCM
     DolphinMainWindow *mainWindow = nullptr;
-    for (const auto widget : QApplication::topLevelWidgets()) {
+    const auto topLevelsWidgets = QApplication::topLevelWidgets();
+    for (const auto widget : topLevelsWidgets) {
         mainWindow = qobject_cast<DolphinMainWindow *>(widget);
         if (mainWindow) {
             break;

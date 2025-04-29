@@ -98,6 +98,11 @@ QHash<QByteArray, QVariant> KItemListWidget::data() const
     return m_data;
 }
 
+QVariant KItemListWidget::value(const QByteArray &key) const
+{
+    return m_data.value(key);
+}
+
 void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

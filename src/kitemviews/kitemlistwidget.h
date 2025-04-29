@@ -52,8 +52,6 @@ class DOLPHIN_EXPORT KItemListWidget : public QGraphicsWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(int iconSize READ iconSize WRITE setIconSize)
-
 public:
     KItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent);
     ~KItemListWidget() override;
@@ -63,6 +61,7 @@ public:
 
     void setData(const QHash<QByteArray, QVariant> &data, const QSet<QByteArray> &roles = QSet<QByteArray>());
     QHash<QByteArray, QVariant> data() const;
+    QVariant value(const QByteArray &key) const;
 
     /**
      * Draws the hover-rectangle if the item is hovered. Overwrite this method
@@ -251,8 +250,6 @@ private:
     void drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState);
 
 private:
-    Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)
-
     KItemListWidgetInformant *m_informant;
     int m_index;
     bool m_selected;

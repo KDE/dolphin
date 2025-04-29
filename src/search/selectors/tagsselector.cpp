@@ -133,7 +133,8 @@ void TagsSelector::updateMenu(const std::shared_ptr<const DolphinQuery> &dolphin
         menu()->hide(); // The menu needs to be hidden now, then updated, and then shown again.
     }
     // Delete all existing actions in the menu
-    for (QAction *action : menu()->actions()) {
+    const auto actions = menu()->actions();
+    for (QAction *action : actions) {
         action->deleteLater();
     }
     menu()->clear();
@@ -180,7 +181,8 @@ void TagsSelector::updateState(const std::shared_ptr<const DolphinQuery> &dolphi
         setIcon(QIcon{}); // No icon for the empty state
         setText(i18nc("@action:button Required tags for search results: None", "None"));
     }
-    for (const auto &tag : dolphinQuery->requiredTags()) {
+    const auto tags = dolphinQuery->requiredTags();
+    for (const auto &tag : tags) {
         tagsList()->addTag(tag); // We add it just in case this tag is not (or no longer) available on the system. This way the UI always works as expected.
     }
     if (menu()->isVisible()) {

@@ -505,7 +505,6 @@ void KItemListControllerTest::testKeyboardNavigationMultiSelection_data()
     const Qt::Key previousRowKey = Qt::Key_Up;
 
     const Qt::LayoutDirection layoutDirection = Qt::LeftToRight;
-    const KItemListController::SelectionBehavior &selectionBehavior = KItemListController::MultiSelection;
     const bool groupingEnabled = false;
 
     QList<QPair<KeyPress, ViewState>> testList;

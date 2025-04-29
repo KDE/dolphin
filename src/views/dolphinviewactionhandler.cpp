@@ -364,7 +364,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->setText(i18nc("@action:intoolbar", "View Settings"));
     viewSettings->setWhatsThis(
         xi18nc("@info:whatsthis View Settings Toolbutton", "This cycles through all view modes. The dropdown menu contains various view-related actions."));
-    for (QAction *action : viewModeActions->actions()) {
+    const auto actions = viewModeActions->actions();
+    for (QAction *action : actions) {
         viewSettings->addAction(action);
     }
     viewSettings->addSeparator();

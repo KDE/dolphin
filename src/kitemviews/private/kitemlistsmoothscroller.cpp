@@ -29,7 +29,7 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar *scrollBar, QObject 
     KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
     updateAnimationDuration(configGroup.readEntry("SmoothScroll", true));
 
-    QDBusConnection::sessionBus().connect(QStringLiteral(""),
+    QDBusConnection::sessionBus().connect(QString(),
                                           QStringLiteral("/SmoothScroll"),
                                           QStringLiteral("org.kde.SmoothScroll"),
                                           QStringLiteral("notifyChange"),

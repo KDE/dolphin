@@ -141,7 +141,7 @@ private Q_SLOTS:
      * @see UpdatableStateInterface::updateStateToMatch().
      * @see commitCurrentConfiguration().
      */
-    void slotConfigurationChanged(const DolphinQuery &searchConfiguration);
+    void slotConfigurationChanged(const Search::DolphinQuery &searchConfiguration);
 
     /**
      * Changes the m_searchConfiguration in response to the user editing the search term. If no further changes to the search term happen within a time limit,

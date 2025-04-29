@@ -154,20 +154,20 @@ void DolphinMainWindowTest::testSyncDesktopAndPhoneUi()
     do {
         QVERIFY2(desktopUiElement.tagName() == phoneUiElement.tagName(),
                  qPrintable(QStringLiteral("Node mismatch: dolphinui.rc/%1::%2 and dolphinuiforphones.rc/%3::%4")
-                                .arg(desktopUiElement.parentNode().toElement().tagName())
-                                .arg(desktopUiElement.tagName())
-                                .arg(phoneUiElement.parentNode().toElement().tagName())
-                                .arg(phoneUiElement.tagName())));
+                                .arg(desktopUiElement.parentNode().toElement().tagName(),
+                                     desktopUiElement.tagName(),
+                                     phoneUiElement.parentNode().toElement().tagName(),
+                                     phoneUiElement.tagName())));
         QCOMPARE(desktopUiElement.text(), phoneUiElement.text());
         const auto desktopUiElementAttributes = desktopUiElement.attributes();
         const auto phoneUiElementAttributes = phoneUiElement.attributes();
         for (int i = 0; i < desktopUiElementAttributes.count(); i++) {
             QVERIFY2(phoneUiElementAttributes.count() >= i,
                      qPrintable(QStringLiteral("Attribute mismatch: dolphinui.rc/%1::%2 has more attributes than dolphinuiforphones.rc/%3::%4")
-                                    .arg(desktopUiElement.parentNode().toElement().tagName())
-                                    .arg(desktopUiElement.tagName())
-                                    .arg(phoneUiElement.parentNode().toElement().tagName())
-                                    .arg(phoneUiElement.tagName())));
+                                    .arg(desktopUiElement.parentNode().toElement().tagName(),
+                                         desktopUiElement.tagName(),
+                                         phoneUiElement.parentNode().toElement().tagName(),
+                                         phoneUiElement.tagName())));
             if (exceptions.count(desktopUiElementAttributes.item(i).nodeName())) {
                 continue;
             }
@@ -177,12 +177,11 @@ void DolphinMainWindowTest::testSyncDesktopAndPhoneUi()
         }
         QVERIFY2(desktopUiElementAttributes.count() == phoneUiElementAttributes.count(),
                  qPrintable(QStringLiteral("Attribute mismatch: dolphinui.rc/%1::%2 has fewer attributes than dolphinuiforphones.rc/%3::%4. %5 < %6")
-                                .arg(desktopUiElement.parentNode().toElement().tagName())
-                                .arg(desktopUiElement.tagName())
-                                .arg(phoneUiElement.parentNode().toElement().tagName())
-                                .arg(phoneUiElement.tagName())
-                                .arg(phoneUiElementAttributes.count())
-                                .arg(desktopUiElementAttributes.count())));
+                                .arg(desktopUiElement.parentNode().toElement().tagName(),
+                                     desktopUiElement.tagName(),
+                                     phoneUiElement.parentNode().toElement().tagName(),
+                                     phoneUiElement.tagName())
+                                .arg(phoneUiElementAttributes.count(), desktopUiElementAttributes.count())));
 
         desktopUiElement = nextUiElement(desktopUiElement);
         phoneUiElement = nextUiElement(phoneUiElement);

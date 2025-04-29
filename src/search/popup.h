@@ -45,7 +45,7 @@ public:
 
 Q_SIGNALS:
     /** Is emitted whenever settings have changed and a new search might be necessary. */
-    void configurationChanged(const DolphinQuery &dolphinQuery);
+    void configurationChanged(const Search::DolphinQuery &dolphinQuery);
 
     /**
      * Requests for @p message with the given @p messageType to be shown to the user in a non-modal way.

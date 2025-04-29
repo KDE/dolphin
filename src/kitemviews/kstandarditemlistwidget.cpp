@@ -647,7 +647,7 @@ void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation
     m_activateSoonAnimation->setEndValue(1.0);
     m_activateSoonAnimation->setDuration(timeUntilActivation);
 
-    const QVariant originalIconName{data()["iconName"]};
+    const QVariant originalIconName{value("iconName")};
     connect(m_activateSoonAnimation, &QVariantAnimation::valueChanged, this, [originalIconName, this](const QVariant &value) {
         auto progress = value.toFloat();
 
@@ -682,7 +682,7 @@ void KStandardItemListWidget::startActivateSoonAnimation(int timeUntilActivation
 
 bool KStandardItemListWidget::isIconControlledByActivateSoonAnimation() const
 {
-    return m_activateSoonAnimation && data()["iconName"] == "folder-open";
+    return m_activateSoonAnimation && value("iconName") == "folder-open";
 }
 
 KItemListWidgetInformant *KStandardItemListWidget::createInformant()
@@ -1121,7 +1121,6 @@ void KStandardItemListWidget::updatePixmapCache()
                 // use a generic icon as fallback
                 iconName = QStringLiteral("unknown");
             }
-            const QStringList overlays = values["iconOverlays"].toStringList();
             const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
             m_pixmap = pixmapForIcon(iconName,
                                      QSize(maxIconWidth, maxIconHeight),

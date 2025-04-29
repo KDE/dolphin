@@ -41,7 +41,7 @@ void WidgetMenu::mouseReleaseEvent(QMouseEvent *event)
 
 void WidgetMenu::resizeToFitContents()
 {
-    auto *widgetAction = static_cast<QWidgetAction *>(actions().first());
+    auto *widgetAction = static_cast<QWidgetAction *>(actions().constFirst());
     auto focusedChildWidget = QApplication::focusWidget();
     if (!widgetAction->defaultWidget()->isAncestorOf(focusedChildWidget)) {
         focusedChildWidget = nullptr;
@@ -60,7 +60,7 @@ void WidgetMenu::resizeToFitContents()
 void WidgetMenu::showEvent(QShowEvent *event)
 {
     if (!event->spontaneous()) {
-        auto widgetAction = static_cast<QWidgetAction *>(actions().first());
+        auto widgetAction = static_cast<QWidgetAction *>(actions().constFirst());
         widgetAction->defaultWidget()->setFocus();
     }
     QMenu::showEvent(event);

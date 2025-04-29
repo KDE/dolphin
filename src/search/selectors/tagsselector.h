@@ -27,7 +27,7 @@ public:
 
 Q_SIGNALS:
     /** Is emitted whenever settings have changed and a new search might be necessary. */
-    void configurationChanged(const DolphinQuery &dolphinQuery);
+    void configurationChanged(const Search::DolphinQuery &dolphinQuery);
 
 private:
     /**
