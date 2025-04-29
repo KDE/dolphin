@@ -615,29 +615,31 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.rect = selectionRect().toRect();
     QPainterPath path;
     path.addRoundedRect(viewItemOption.rect, roundness, roundness);
-    QColor accentColor{widget->palette().color(QPalette::Accent)};
+    QColor backgroundColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
 
     // Background item, alpha values are from
     // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
-    accentColor.setAlphaF(0.0);
+    backgroundColor.setAlphaF(0.0);
     if (m_selected && m_hovered) {
-        accentColor.setAlphaF(0.32);
+        backgroundColor.setAlphaF(0.40);
     } else if (m_selected) {
-        accentColor.setAlphaF(0.30);
+        backgroundColor.setAlphaF(0.32);
     } else if (m_hovered) {
-        accentColor.setAlphaF(0.20);
+        backgroundColor = widget->palette().color(QPalette::Text);
+        backgroundColor.setAlphaF(0.06);
     }
 
-    painter->fillPath(path, accentColor);
+    painter->fillPath(path, backgroundColor);
 
     // Focus decoration
     if (current) {
-        accentColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? accentColor.darker(110) : accentColor.lighter(110);
-        accentColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
+        QColor focusColor{widget->palette().color(QPalette::Accent)};
+        focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
+        focusColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
         // Set the pen color lighter or darker depending on background color
-        QPen pen{accentColor, 1.5};
+        QPen pen{focusColor, 1.5};
         pen.setCosmetic(true);
         painter->setPen(pen);
         painter->drawPath(path);
