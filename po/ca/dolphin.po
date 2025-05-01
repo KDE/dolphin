@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-27 00:44+0000\n"
+"POT-Creation-Date: 2025-05-01 00:44+0000\n"
 "PO-Revision-Date: 2025-04-20 09:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3649,14 +3649,14 @@ msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
 
-#: search/selectors/tagsselector.cpp:178
+#: search/selectors/tagsselector.cpp:179
 #, kde-format
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
 msgstr " && "
 
-#: search/selectors/tagsselector.cpp:181
+#: search/selectors/tagsselector.cpp:182
 #, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
@@ -4855,7 +4855,7 @@ msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
 msgstr "Comença en el mode de vista dividida"
 
-#: settings/interface/folderstabssettingspage.cpp:290
+#: settings/interface/folderstabssettingspage.cpp:291
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6439,103 +6439,103 @@ msgstr ""
 "Això circula entre tots els modes de visualització. El menú desplegable "
 "conté diverses accions relacionades amb la visualització."
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:682
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Icones"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:683
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Mode de vista d'icones"
 
-#: views/dolphinviewactionhandler.cpp:692
+#: views/dolphinviewactionhandler.cpp:693
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compacte"
 
-#: views/dolphinviewactionhandler.cpp:693
+#: views/dolphinviewactionhandler.cpp:694
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Mode de vista compacte"
 
-#: views/dolphinviewactionhandler.cpp:703
+#: views/dolphinviewactionhandler.cpp:704
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detalls"
 
-#: views/dolphinviewactionhandler.cpp:704
+#: views/dolphinviewactionhandler.cpp:705
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Mode de vista de detalls"
 
-#: views/dolphinviewactionhandler.cpp:727
+#: views/dolphinviewactionhandler.cpp:728
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:728
+#: views/dolphinviewactionhandler.cpp:729
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:730
+#: views/dolphinviewactionhandler.cpp:731
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Primer el més gran"
 
-#: views/dolphinviewactionhandler.cpp:731
+#: views/dolphinviewactionhandler.cpp:732
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Primer el més petit"
 
-#: views/dolphinviewactionhandler.cpp:733
+#: views/dolphinviewactionhandler.cpp:734
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Primer el més nou"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:735
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Primer el més antic"
 
-#: views/dolphinviewactionhandler.cpp:736
+#: views/dolphinviewactionhandler.cpp:737
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Primera la més elevada"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:738
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Primera la més baixa"
 
-#: views/dolphinviewactionhandler.cpp:739
+#: views/dolphinviewactionhandler.cpp:740
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Descendent"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:741
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ascendent"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:839
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6548,12 +6548,12 @@ msgstr "Accions per a la vista actual"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:847
+#: views/dolphinviewactionhandler.cpp:848
 #, kde-format
 msgid "Actions for %1"
 msgstr "Accions per a %1"
 
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:855
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
