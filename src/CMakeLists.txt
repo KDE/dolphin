@@ -230,6 +230,7 @@ target_link_libraries(
     KF6::Codecs
     KF6::KCMUtils
     KF6::FileMetaData
+    KF6::ColorScheme
 
     ${FTS_LIB}
 )

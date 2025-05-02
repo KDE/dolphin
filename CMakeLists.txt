@@ -86,6 +86,7 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     WidgetsAddons
     Codecs
     GuiAddons
+    ColorScheme
 )
 
 find_package(KF6UserFeedback ${KF6_MIN_VERSION})
