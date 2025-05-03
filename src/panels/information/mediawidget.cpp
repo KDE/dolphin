@@ -18,6 +18,8 @@
 #include <QStyleOptionSlider>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <qnamespace.h>
+#include <qwidget.h>
 
 class EmbeddedVideoPlayer : public QVideoWidget
 {
@@ -106,6 +108,32 @@ protected:
             }
         } else {
             QSlider::mousePressEvent(event);
+        }
+    }
+
+    void keyPressEvent(QKeyEvent *event) override
+    {
+        int newPosition = -1;
+        if (event->key() == Qt::Key_Right) {
+            // slide right 1%
+            newPosition = std::min(maximum(), sliderPosition() + maximum() / 100);
+        } else if (event->key() == Qt::Key_Left) {
+            // slide left 1%
+            newPosition = std::max(0, sliderPosition() - maximum() / 100);
+        }
+
+        if (newPosition != -1) {
+            event->accept();
+
+            if (newPosition != sliderPosition()) {
+                setSliderPosition(newPosition);
+                triggerAction(SliderMove);
+                setRepeatAction(SliderNoAction);
+
+                Q_EMIT sliderMoved(newPosition);
+            }
+        } else {
+            QSlider::keyPressEvent(event);
         }
     }
 };
@@ -231,11 +259,6 @@ void MediaWidget::showEvent(QShowEvent *event)
         m_pauseButton->setAutoRaise(true);
         m_pauseButton->hide();
         connect(m_pauseButton, &QToolButton::clicked, this, &MediaWidget::togglePlayback);
-
-        // Creating an audio player or video player instance might take up to
-        // 2 seconds when doing it the first time. To prevent that the user
-        // interface gets noticeable blocked, the creation is delayed until
-        // the play button has been pressed (see PhononWidget::play()).
     }
 }
 
