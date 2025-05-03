@@ -211,9 +211,9 @@ void InformationPanelContent::refreshPreview()
             const QString mimeType = m_item.mimetype();
             const bool isAnimatedImage = m_preview->isAnimatedMimeType(mimeType);
             m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
-            bool usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
+            bool useMedia = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
-            if (usePhonon) {
+            if (useMedia) {
                 // change the cursor of the preview
                 m_preview->setCursor(Qt::PointingHandCursor);
                 m_preview->installEventFilter(m_mediaWidget);
@@ -221,7 +221,7 @@ void InformationPanelContent::refreshPreview()
                 m_mediaWidget->show();
 
                 // if the video is playing, has been paused or stopped
-                // we don't need to update the preview/phonon widget states
+                // we don't need to update the preview/media widget states
                 // unless the previewed file has changed,
                 // or the setting previewshown has changed
                 if ((m_mediaWidget->state() != QMediaPlayer::PlayingState && m_mediaWidget->state() != QMediaPlayer::PausedState
@@ -242,7 +242,7 @@ void InformationPanelContent::refreshPreview()
                 if (isAnimatedImage) {
                     m_preview->setAnimatedImageFileName(itemUrl.toLocalFile());
                 }
-                // When we don't need it, hide the phonon widget first to avoid flickering
+                // When we don't need it, hide the media widget first to avoid flickering
                 m_mediaWidget->hide();
                 m_preview->show();
                 m_preview->removeEventFilter(m_mediaWidget);
