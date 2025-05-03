@@ -161,6 +161,8 @@ void DolphinNavigatorsWidgetAction::setBackgroundEnabled(bool enabled)
     if (secondaryUrlNavigator()) {
         secondaryUrlNavigator()->setBackgroundEnabled(enabled);
     }
+#else
+    Q_UNUSED(enabled);
 #endif
 }
 
