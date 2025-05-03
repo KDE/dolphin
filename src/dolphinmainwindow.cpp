@@ -1562,9 +1562,9 @@ void DolphinMainWindow::updateHamburgerMenu()
     // The third group contains actions to change what one sees in the view
     // and to change the more general UI.
     if (!toolBar()->isVisible()
-        || (!toolbarActions.contains(ac->action(QStringLiteral("icons"))) && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
-            && !toolbarActions.contains(ac->action(QStringLiteral("details"))) && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))
-            && !toolbarActions.contains(ac->action(QStringLiteral("view_settings")))) {
+        || ((!toolbarActions.contains(ac->action(QStringLiteral("icons"))) && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
+             && !toolbarActions.contains(ac->action(QStringLiteral("details"))) && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))
+            && !toolbarActions.contains(ac->action(QStringLiteral("view_settings"))))) {
         menu->addAction(ac->action(QStringLiteral("view_mode")));
     }
     if (!toolBar()->isVisible() || !toolbarActions.contains(ac->action(QStringLiteral("view_settings")))) {
