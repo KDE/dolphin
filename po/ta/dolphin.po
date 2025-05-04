@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-01 00:44+0000\n"
+"POT-Creation-Date: 2025-05-04 00:45+0000\n"
 "PO-Revision-Date: 2025-04-20 18:06+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1610,29 +1610,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "இடங்கள் பலகையிலிருந்து குவியத்தை எடு"
 
-#: dolphinnavigatorswidgetaction.cpp:223
+#: dolphinnavigatorswidgetaction.cpp:225
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "சேவையகத்தின் முகவரியை உள்ளிடுங்கள் (எ.கா. smb://[ip address])"
 
-#: dolphinnavigatorswidgetaction.cpp:250
+#: dolphinnavigatorswidgetaction.cpp:252
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "அகற்றிடத்தை காலியாக்கு"
 
-#: dolphinnavigatorswidgetaction.cpp:251
+#: dolphinnavigatorswidgetaction.cpp:253
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "காலியிடத்தை உருவாக்க அகற்றிடத்தை காலியாக்கும்"
 
-#: dolphinnavigatorswidgetaction.cpp:277
+#: dolphinnavigatorswidgetaction.cpp:279
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "பிணைய அடைவைச் சேர்"
 
-#: dolphinnavigatorswidgetaction.cpp:316
+#: dolphinnavigatorswidgetaction.cpp:318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

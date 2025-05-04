@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-01 00:44+0000\n"
+"POT-Creation-Date: 2025-05-04 00:45+0000\n"
 "PO-Revision-Date: 2025-04-22 01:20+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1632,29 +1632,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "위치 패널에 포커스 맞추지 않기"
 
-#: dolphinnavigatorswidgetaction.cpp:223
+#: dolphinnavigatorswidgetaction.cpp:225
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "서버 URL 입력(예: smb://[ip 주소])"
 
-#: dolphinnavigatorswidgetaction.cpp:250
+#: dolphinnavigatorswidgetaction.cpp:252
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
-#: dolphinnavigatorswidgetaction.cpp:251
+#: dolphinnavigatorswidgetaction.cpp:253
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "휴지통을 비워서 공간 확보"
 
-#: dolphinnavigatorswidgetaction.cpp:277
+#: dolphinnavigatorswidgetaction.cpp:279
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "네트워크 폴더 추가"
 
-#: dolphinnavigatorswidgetaction.cpp:316
+#: dolphinnavigatorswidgetaction.cpp:318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

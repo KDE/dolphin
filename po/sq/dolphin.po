@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-01 00:44+0000\n"
+"POT-Creation-Date: 2025-05-04 00:45+0000\n"
 "PO-Revision-Date: 2024-07-29 21:45-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -1500,29 +1500,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:223
+#: dolphinnavigatorswidgetaction.cpp:225
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:250
+#: dolphinnavigatorswidgetaction.cpp:252
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Zbraz Koshin"
 
-#: dolphinnavigatorswidgetaction.cpp:251
+#: dolphinnavigatorswidgetaction.cpp:253
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr ""
 
-#: dolphinnavigatorswidgetaction.cpp:277
+#: dolphinnavigatorswidgetaction.cpp:279
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Shto skedar rrjeti"
 
-#: dolphinnavigatorswidgetaction.cpp:316
+#: dolphinnavigatorswidgetaction.cpp:318
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Location:"

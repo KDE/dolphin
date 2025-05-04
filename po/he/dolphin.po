@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-01 00:44+0000\n"
+"POT-Creation-Date: 2025-05-04 00:45+0000\n"
 "PO-Revision-Date: 2025-04-22 08:02+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1651,29 +1651,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "הסטת מיקוד מלוח המקום"
 
-#: dolphinnavigatorswidgetaction.cpp:223
+#: dolphinnavigatorswidgetaction.cpp:225
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "נא למלא כתובת שרת (למשל: ‪smb://[‫כתובת IP‬]‬)"
 
-#: dolphinnavigatorswidgetaction.cpp:250
+#: dolphinnavigatorswidgetaction.cpp:252
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "פינוי האשפה"
 
-#: dolphinnavigatorswidgetaction.cpp:251
+#: dolphinnavigatorswidgetaction.cpp:253
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "מפנה את האשפה כדי לפנות שטח אחסון"
 
-#: dolphinnavigatorswidgetaction.cpp:277
+#: dolphinnavigatorswidgetaction.cpp:279
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "הוספת תיקיית רשת"
 
-#: dolphinnavigatorswidgetaction.cpp:316
+#: dolphinnavigatorswidgetaction.cpp:318
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
