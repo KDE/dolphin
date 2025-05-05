@@ -603,13 +603,14 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
 {
     QStyleOptionViewItem viewItemOption;
     constexpr int roundness = 5; // From Breeze style.
+    constexpr qreal penWidth = 1.5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRect().toRect();
     QPainterPath path;
-    path.addRoundedRect(viewItemOption.rect, roundness, roundness);
+    path.addRoundedRect(selectionRect().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
     QColor backgroundColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
@@ -634,7 +635,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
         focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
         focusColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
         // Set the pen color lighter or darker depending on background color
-        QPen pen{focusColor, 1.5};
+        QPen pen{focusColor, penWidth};
         pen.setCosmetic(true);
         painter->setPen(pen);
         painter->drawPath(path);
