@@ -9,21 +9,21 @@
 # Rolf Eike Beer <kde@opensource.sf-tec.de>, 2012.
 # Jonas Schürmann <jonasschuermann@aol.de>, 2012.
 # SPDX-FileCopyrightText: 2021, 2024, 2025 Frank Steinmetzger <dev@felsenfleischer.de>
-# SPDX-FileCopyrightText: 2024 Flori G <Renner03@protonmail.com>
+# SPDX-FileCopyrightText: 2024, 2025 Flori G <Renner03@protonmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-25 02:36+0000\n"
-"PO-Revision-Date: 2025-01-28 19:42+0100\n"
-"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
+"PO-Revision-Date: 2025-04-15 03:30+0200\n"
+"Last-Translator: Flori G <Renner03@protonmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -39,13 +39,13 @@ msgstr "kde-i18n-de@kde.org"
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr "Als Systemverwalter agieren — Seien Sie vorsichtig!"
+msgstr "Als Administrator handeln — Seien Sie vorsichtig!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr "Als Systemverwalter agieren"
+msgstr "Als Administrator handeln"
 
 #: admin/bar.cpp:55
 #, kde-format
@@ -57,25 +57,25 @@ msgstr "Fertigstellen"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr "Das Agieren als Systemverwalter fertigstellen"
+msgstr "Das Agieren als Administrator beenden"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr "Nochmals als Systemverwalter agieren"
+msgstr "Nochmals als Administrator handeln"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr "Die Systemverwalterrechte sind abgelaufen."
+msgstr "Die Administratorrechte sind abgelaufen."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr "Als Systemverwalter agieren"
+msgstr "Als Administrator handeln"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -87,7 +87,7 @@ msgid ""
 msgstr ""
 "<application>Dolphin</application> benötigt <application>%1</application>, "
 "um Systemdateien zu verändern, was aber nicht installiert ist.<nl/>Drücken "
-"Sie %2, um <application>%1</application> zu installieren oder %3 um "
+"Sie %2, um <application>%1</application> zu installieren oder %3, um "
 "abzubrechen."
 
 #: admin/workerintegration.cpp:76
@@ -114,13 +114,13 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
-"<para>Nutzen Sie Ihre Systemverwalterberechtigungen in Dolphin:"
+"<para>Nutzen Sie Ihre Administratorberechtigungen in Dolphin:"
 "<numberedlist><numbereditem>Rufen Sie den Ordner auf, den Sie verändern "
 "möchten.</numbereditem><numbereditem>Lösen Sie die Aktion „%1“ aus; entweder "
 "in <interface>Menü öffnen|Weiter|Ansicht</interface> oder "
 "<interface>Menüleiste|Ansicht</interface>.<nl/>Standard-Tastenkürzel: "
 "<shortcut>%2</shortcut></numbereditem><numbereditem>Nach der Autorisierung "
-"können Sie die Dateien als Systemverwalter bearbeiten.</numbereditem></"
+"können Sie die Dateien als Administrator bearbeiten.</numbereditem></"
 "numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
@@ -144,25 +144,24 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
-"<para>Sie sind dabei, Systemverwalterberechtigungen einzusetzen. Wenn Sie "
-"als Systemverwalter (Administrator) agieren, können Sie jede beliebige Datei "
-"und jeden Ordner auf dem System bearbeiten. Dies schließt auch Elemente ein, "
-"die für eine ordentliche Funktion des Systems unbedingt notwendig sind.</"
-"para><para>Sie sind in der Lage, auf diesem Rechner <emphasis>die Daten "
-"eines beliebigen Nutzers zu löschen</emphasis> sowie <emphasis>diese "
-"Installation irreparabel zu beschädigen.</emphasis> Schon die Änderung eines "
-"Buchstaben im Namen oder Inhalt eines Ordners oder einer Datei kann dazu "
-"führen, dass das System <emphasis>nicht mehr startet.</emphasis></"
-"para><para>Es gibt wahrscheinlich keine weitere Warnung, selbst wenn Sie "
-"kurz davor sind, das System zu beschädigen.</para><para>Es wird empfohlen, "
-"<emphasis>Sicherungen von Dateien und Ordnern</emphasis> anzulegen bevor Sie "
-"fortfahren.</para>"
+"<para>Sie sind dabei, Administratorberechtigungen einzusetzen. Wenn Sie als "
+"Administrator agieren, können Sie jede beliebige Datei und jeden Ordner auf "
+"dem System bearbeiten. Dies schließt auch Elemente ein, die für eine "
+"ordentliche Funktion des Systems unbedingt notwendig sind.</para><para>Sie "
+"sind in der Lage, auf diesem Rechner <emphasis>die Daten eines beliebigen "
+"Nutzers zu löschen</emphasis> sowie <emphasis>diese Installation irreparabel "
+"zu beschädigen.</emphasis> Schon die Änderung eines Buchstaben im Namen oder "
+"Inhalt eines Ordners oder einer Datei kann dazu führen, dass das System "
+"<emphasis>nicht mehr startet.</emphasis></para><para>Es gibt wahrscheinlich "
+"keine weitere Warnung, selbst wenn Sie kurz davor sind, das System zu "
+"beschädigen.</para><para>Es wird empfohlen, <emphasis>Sicherungen von "
+"Dateien und Ordnern</emphasis> anzulegen bevor Sie fortfahren.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr "Risiken beim Agieren als Systemverwalter"
+msgstr "Risiken beim Handeln als Administrator"
 
 #: admin/workerintegration.cpp:163
 #, kde-format
@@ -183,17 +182,15 @@ msgid "Empty Trash"
 msgstr "Papierkorb leeren"
 
 #: dolphincontextmenu.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "Startordner auswählen"
-msgstr[1] "Startordner auswählen"
+msgstr[0] "An ursprünglichem Ort wiederherstellen"
+msgstr[1] "An ursprünglichen Orten wiederherstellen"
 
 #: dolphincontextmenu.cpp:212 dolphinmainwindow.cpp:1725
 #, kde-format
@@ -370,17 +367,13 @@ msgstr[0] "Ein Terminal öffnen"
 msgstr[1] "%1 Terminals öffnen"
 
 #: dolphinmainwindow.cpp:1467
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid ""
-#| "Cannot create new folder: You do not have permission to create items in "
-#| "this folder."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
-"Erstellen des neuen Ordners fehlgeschlagen: Sie haben keine Berechtigung, "
+"Erstellen der neuen Datei fehlgeschlagen: Sie haben keine Berechtigung, "
 "Elemente in diesem Ordner zu erstellen."
 
 #: dolphinmainwindow.cpp:1469
@@ -503,7 +496,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr "Ausschneiden ..."
+msgstr "Ausschneiden …"
 
 #: dolphinmainwindow.cpp:1784
 #, kde-kuit-format
@@ -523,7 +516,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopieren ..."
+msgstr "Kopieren …"
 
 #: dolphinmainwindow.cpp:1793
 #, kde-kuit-format
@@ -566,7 +559,7 @@ msgstr "In die andere Ansicht kopieren"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
-msgstr "In die andere Ansicht kopieren ..."
+msgstr "In die andere Ansicht kopieren …"
 
 #: dolphinmainwindow.cpp:1814
 #, kde-kuit-format
@@ -594,7 +587,7 @@ msgstr "In die andere Ansicht verschieben"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
-msgstr "In die andere Ansicht verschieben ..."
+msgstr "In die andere Ansicht verschieben …"
 
 #: dolphinmainwindow.cpp:1826
 #, kde-kuit-format
@@ -616,7 +609,7 @@ msgstr "In die andere Ansicht verschieben"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filter ..."
+msgstr "Filter …"
 
 #: dolphinmainwindow.cpp:1836
 #, kde-format
@@ -653,7 +646,7 @@ msgstr "Filtern"
 #: dolphinmainwindow.cpp:1859 search/dolphinsearchbox.cpp:350
 #, kde-format
 msgid "Search…"
-msgstr "Suchen ..."
+msgstr "Suchen …"
 
 #: dolphinmainwindow.cpp:1860
 #, kde-format
@@ -1430,9 +1423,7 @@ msgid "Close left view"
 msgstr "Linke Ansicht schließen"
 
 #: dolphinmainwindow.cpp:2701
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Linke Ansicht schließen"
@@ -1462,9 +1453,7 @@ msgid "Close right view"
 msgstr "Rechte Ansicht schließen"
 
 #: dolphinmainwindow.cpp:2709
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Rechte Ansicht schließen"
@@ -1630,8 +1619,8 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 "<para>Dies öffnet das Benutzerhandbuch für diese Anwendung. Es enthält "
-"Erläuterungen für alle Bereiche von <emphasis>Dolphin</emphasis>.</para> "
-"<para>Wenn Sie eine ausführlichere Einführung in die verschiedenen "
+"Erläuterungen für alle Bereiche von <emphasis>Dolphin</emphasis>.</"
+"para><para>Wenn Sie eine ausführlichere Einführung in die verschiedenen "
 "Funktionen von <emphasis>Dolphin</emphasis> wünschen, <link url='https://"
 "userbase.kde.org/Dolphin/File_Management/de'>klicken Sie hier</link>. Dies "
 "öffnet eine neue Seite des KDE-Userbase-Wikis.</para>"
@@ -1652,7 +1641,7 @@ msgstr ""
 "<para>Dieser Knopf startet die Hilfefunktion, die Sie in diesem Moment "
 "benutzen. Klicken Sie ihn und anschließend das Element an, zu dem Sie die "
 "Frage „Was ist das?“ beantwortet haben möchten. Der Mauszeiger ändert seine "
-"Form, wenn an einer Stelle keine Hilfe verfügbar ist.</para> <para>Es gibt "
+"Form, wenn an einer Stelle keine Hilfe verfügbar ist.</para><para>Es gibt "
 "zwei weitere Arten, Hilfe zu erhalten: das <link url='help:/dolphin/index."
 "html'>Dolphin-Benutzerhandbuch</link> und das <link url='https://userbase."
 "kde.org/Dolphin/File_Management'>KDE-Userbase-Wiki</link>.</para><para>Die "
@@ -1671,7 +1660,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 "<para>Hiermit wird ein Fenster geöffnet, welches Sie durch den Meldevorgang "
-"von Fehlern oder Mängeln in dieser Anwendung führt.</para> <para>Wir freuen "
+"von Fehlern oder Mängeln in dieser Anwendung führt.</para><para>Wir freuen "
 "uns über hochqualitative Fehlerberichte. <link url='https://community.kde."
 "org/Get_Involved/Bug_Reporting'>Klicken Sie hier</link>, um zu erfahren, wie "
 "man möglichst effektive Fehlerberichte erstellt.</para>"
@@ -1811,19 +1800,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Datei&typ bearbeiten ..."
+msgstr "Datei&typ bearbeiten …"
 
 #: dolphinpart.cpp:154
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Passende Elemente auswählen ..."
+msgstr "Passende Elemente auswählen …"
 
 #: dolphinpart.cpp:159
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
-msgstr "Auswahl für passende Elemente aufheben ..."
+msgstr "Auswahl für passende Elemente aufheben …"
 
 #: dolphinpart.cpp:165
 #, kde-format
@@ -1859,7 +1848,7 @@ msgstr "Autostart"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr "Dateien suchen ..."
+msgstr "Dateien suchen …"
 
 #: dolphinpart.cpp:197
 #, kde-format
@@ -1969,29 +1958,21 @@ msgid "Close Tab"
 msgstr "Unterfenster schließen"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "%2 umbenennen"
+msgstr "Unterfenster umbenennen"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "%2 umbenennen"
+msgstr "Unterfenster umbenennen"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Neuer Name #"
+msgstr "Neuer Unterfenstername:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2090,14 +2071,14 @@ msgstr ""
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
-"Die Ausführung von Dolphin als Systemverwalter kann gefährlich sein. Bitte "
+"Die Ausführung von Dolphin als Administrator kann gefährlich sein. Bitte "
 "beachten Sie das."
 
 #: dolphinviewcontainer.cpp:169
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
-msgstr "Ordner wird geladen ..."
+msgstr "Ordner wird geladen …"
 
 #: dolphinviewcontainer.cpp:172
 #, kde-format
@@ -2119,7 +2100,7 @@ msgstr "Suchen nach %1"
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
-msgstr "Suchvorgang ..."
+msgstr "Suchvorgang …"
 
 #: dolphinviewcontainer.cpp:696
 #, kde-format
@@ -2177,7 +2158,7 @@ msgstr "Filter beim Wechsel der Ordner behalten"
 #: filterbar/filterbar.cpp:36
 #, kde-format
 msgid "Filter…"
-msgstr "Filter ..."
+msgstr "Filter …"
 
 #: filterbar/filterbar.cpp:44
 #, kde-format
@@ -2263,13 +2244,10 @@ msgstr[0] "%1 ausgewählter Eintrag in einer Rasteransicht unter Adresse %2"
 msgstr[1] "%1 ausgewählte Einträge in einer Rasteransicht unter Adresse %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "%1 ausgewähltes Element umbenennen zu:"
+msgstr "im Auswahlmodus im Ort %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2278,15 +2256,12 @@ msgid "in location %1"
 msgstr "unter Adresse %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "%1 ausgewähltes Element umbenennen zu:"
-msgstr[1] "%1 ausgewählte Elemente umbenennen zu:"
+msgstr[0] "%1 ausgewähltes Element im Auswahlmodus an Ort %2"
+msgstr[1] "%1 ausgewählte Elemente im Auswahlmodus an Ort %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
 #, kde-format
@@ -2297,20 +2272,16 @@ msgstr[0] "%1 ausgewählter Eintrag unter Adresse %2"
 msgstr[1] "%1 ausgewählte Einträge unter Adresse %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "Auswahlmodus"
+msgstr "Auswahlmodus aktiviert"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "Auswahlmodus"
+msgstr "Auswahlmodus deaktiviert"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2938,12 +2909,10 @@ msgid "File Manager"
 msgstr "Dateiverwaltung"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2022 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2025 The Dolphin Developers"
-msgstr "Copyright 2006–2022, die KDE-Entwickler"
+msgstr "(C) 2006–2025, die Dolphin-Entwickler"
 
 #: main.cpp:101
 #, kde-format
@@ -3100,7 +3069,7 @@ msgstr "Dolphin wird in einem neuen Fenster geöffnet."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr "Dolphin für Systemverwaltungsaufgaben einrichten."
+msgstr "Dolphin für administrative Aufgaben einrichten."
 
 #: main.cpp:144
 #, kde-format
@@ -3150,7 +3119,7 @@ msgstr "Kopieren"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Umbenennen ..."
+msgstr "Umbenennen …"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
@@ -3234,7 +3203,7 @@ msgstr "Element beim Überfahren anzeigen"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
-msgstr "Einrichten ..."
+msgstr "Einrichten …"
 
 #: panels/information/informationpanel.cpp:174
 #, kde-format
@@ -3277,7 +3246,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Papierkorb einrichten ..."
+msgstr "Papierkorb einrichten …"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format
@@ -3764,17 +3733,7 @@ msgid "Selection Mode"
 msgstr "Auswahlmodus"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3795,9 +3754,12 @@ msgstr ""
 "einen ausgewählten Ordner drücken um die Auswahl aufzuheben.</item><item>Auf "
 "eine leere Fläche drücken hebt die Auswahl <emphasis>nicht</emphasis> auf.</"
 "item><item>Rechteck-Auswahl (erstellt durch ziehen auf einer leeren Fläche) "
-"kehrt den Auswahlstatus der Elemente um.</item></list></para><para>Die "
-"Knöpfe der verfügbaren Aktionen am unteren Rand verändern sich und sind von "
-"der aktuellen Auswahl abhängig.</para>"
+"schaltet den Auswahlstatus der Elemente um.</item><item>Das Bewegen mit den "
+"<shortcut>Pfeiltasten</shortcut> ändert <emphasis>nicht</emphasis> die "
+"Auswahl.</item><item>Drücken von <shortcut>%1</shortcut>, <shortcut>%2</"
+"shortcut>, oder <shortcut>%3</shortcut> kehrt die Auswahl um.</item></list></"
+"para><para>Die Knöpfe der verfügbaren Aktionen am unteren Rand verändern "
+"sich und sind von der aktuellen Auswahl abhängig.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3815,13 +3777,13 @@ msgstr "Wählen Sie die Dienste, die im Kontextmenü angezeigt werden sollen:"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
-msgstr "Suchen ..."
+msgstr "Suchen …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:89
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
-msgstr "Neue Dienste herunterladen ..."
+msgstr "Neue Dienste herunterladen …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -4020,17 +3982,15 @@ msgstr "Position der Spalten"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Seitlicher Randabstand"
+msgstr "Linker Randabstand"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Seitlicher Randabstand"
+msgstr "Rechter Randabstand"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4395,11 +4355,9 @@ msgstr "Automatisch öffnende Ordner für alle Ansichten verwenden"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Statusleiste: "
+msgstr "Statusleiste"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4573,7 +4531,7 @@ msgstr "Öffnen von vielen Terminals auf einmal"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr "Wechseln in den Systemverwaltermodus"
+msgstr "Wechseln in den Administratormodus"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
@@ -4893,20 +4851,16 @@ msgid "Remote storage:"
 msgstr "Entfernte Speicher:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Klein"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Beschriftungsbreite:"
+msgstr "Ganze Breite"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4918,15 +4872,13 @@ msgstr "Größenregler anzeigen"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktiviert"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Statusleiste: "
+msgstr "Statusleiste:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -5085,7 +5037,7 @@ msgstr "Benutzerdefiniert"
 #, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose…"
-msgstr "Auswählen ..."
+msgstr "Auswählen …"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:34
 #, kde-format
@@ -5920,7 +5872,7 @@ msgstr "Die Adresse „%1“ ist ungültig."
 #: views/dolphinview.cpp:2362
 #, kde-format
 msgid "Loading…"
-msgstr "Wird geladen ..."
+msgstr "Wird geladen …"
 
 #: views/dolphinview.cpp:2391
 #, kde-format
@@ -5991,15 +5943,13 @@ msgstr "Der Ordner ist leer"
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
-msgstr "Ordner erstellen ..."
+msgstr "Ordner erstellen …"
 
 #: views/dolphinviewactionhandler.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Ordner erstellen ..."
+msgstr "Datei erstellen …"
 
 #: views/dolphinviewactionhandler.cpp:97
 #, kde-kuit-format
@@ -6086,25 +6036,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "In den Papierkorb verschieben ..."
+msgstr "In den Papierkorb verschieben …"
 
 #: views/dolphinviewactionhandler.cpp:168
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Löschen ..."
+msgstr "Löschen …"
 
 #: views/dolphinviewactionhandler.cpp:169
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Hier duplizieren ..."
+msgstr "Hier duplizieren …"
 
 #: views/dolphinviewactionhandler.cpp:170
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Adresse kopieren ..."
+msgstr "Adresse kopieren …"
 
 #: views/dolphinviewactionhandler.cpp:199
 #, kde-kuit-format
@@ -6157,18 +6107,16 @@ msgstr ""
 "para>"
 
 #: views/dolphinviewactionhandler.cpp:220
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Ansichtsmodus"
+msgstr "Ansichtsmodus ändern"
 
 #: views/dolphinviewactionhandler.cpp:221
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Wechselt zwischen Ansichts-Modi."
 
 #: views/dolphinviewactionhandler.cpp:241
 #, kde-format
@@ -6299,7 +6247,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
-msgstr "Anzeigestil anpassen ..."
+msgstr "Anzeigestil anpassen …"
 
 #: views/dolphinviewactionhandler.cpp:358
 #, kde-format
@@ -6438,7 +6386,7 @@ msgstr[1] "Aktionen für %1 ausgewählte Einträge"
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information…"
-msgstr "Versionsinformationen werden aktualisiert ..."
+msgstr "Versionsinformationen werden aktualisiert …"
 
 #~ msgid "Show the statusbar"
 #~ msgstr "Statusleiste anzeigen"
