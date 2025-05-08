@@ -1,5 +1,6 @@
-# Translation of dolphin to Spanish
-# This file is put in the public domain.
+# Spanish translations for dolphin.po package.
+# Copyright (C) 2006-2025 This file is copyright:
+# This file is distributed under the same license as the dolphin package.
 #
 # SPDX-FileCopyrightText: 2006 Nestor Diaz <nestordiaz@equusdigital.com>
 # SPDX-FileCopyrightText: 2007 Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-25 02:36+0000\n"
-"PO-Revision-Date: 2025-03-19 14:22+0100\n"
+"PO-Revision-Date: 2025-05-07 18:30+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
