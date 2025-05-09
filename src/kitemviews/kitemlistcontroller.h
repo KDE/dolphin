@@ -88,23 +88,8 @@ public:
 
     int indexCloseToMousePressedPosition() const;
 
-    /**
-     * Sets the delay in milliseconds when dragging an object above an item
-     * until the item gets activated automatically. A value of -1 indicates
-     * that no automatic activation will be done at all (= default value).
-     *
-     * The hovered item must support dropping (see KItemModelBase::supportsDropping()),
-     * otherwise the automatic activation is not available.
-     *
-     * After activating the item the signal itemActivated() will be
-     * emitted. If the view supports the expanding of items
-     * (KItemListView::supportsItemExpanding() returns true) and the item
-     * itself is expandable (see KItemModelBase::isExpandable()) then instead
-     * of activating the item it gets expanded instead (see
-     * KItemModelBase::setExpanded()).
-     */
-    void setAutoActivationDelay(int delay);
-    int autoActivationDelay() const;
+    void setAutoActivationEnabled(bool enabled);
+    bool isAutoActivationEnabled() const;
 
     /**
      * If set to true, the signals itemActivated() and itemsActivated() are emitted
@@ -362,6 +347,7 @@ private:
     std::optional<int> m_pressedIndex;
     QPointF m_pressedMouseGlobalPos;
 
+    bool m_autoActivationEnabled = false;
     QTimer *m_autoActivationTimer;
 
     Qt::GestureType m_swipeGesture;

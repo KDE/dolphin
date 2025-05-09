@@ -64,7 +64,7 @@ KItemListController::KItemListController(KItemModelBase *model, KItemListView *v
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
-    m_autoActivationTimer->setInterval(-1);
+    m_autoActivationTimer->setInterval(750);
     connect(m_autoActivationTimer, &QTimer::timeout, this, &KItemListController::slotAutoActivationTimeout);
 
     setModel(model);
@@ -200,14 +200,14 @@ int KItemListController::indexCloseToMousePressedPosition() const
     return -1;
 }
 
-void KItemListController::setAutoActivationDelay(int delay)
+void KItemListController::setAutoActivationEnabled(bool enabled)
 {
-    m_autoActivationTimer->setInterval(delay);
+    m_autoActivationEnabled = enabled;
 }
 
-int KItemListController::autoActivationDelay() const
+bool KItemListController::isAutoActivationEnabled() const
 {
-    return m_autoActivationTimer->interval();
+    return m_autoActivationEnabled;
 }
 
 void KItemListController::setSingleClickActivationEnforced(bool singleClick)
@@ -857,7 +857,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent *event, cons
                 Q_EMIT itemHovered(index);
             }
 
-            if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0 && m_model->canEnterOnHover(index)) {
+            if (m_autoActivationEnabled && !m_autoActivationTimer->isActive() && m_model->canEnterOnHover(index)) {
                 m_autoActivationTimer->setProperty("index", index);
                 m_autoActivationTimer->start();
                 newHoveredWidget->startActivateSoonAnimation(m_autoActivationTimer->remainingTime());
