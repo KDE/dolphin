@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:45+0000\n"
+"POT-Creation-Date: 2025-05-10 00:45+0000\n"
 "PO-Revision-Date: 2024-06-08 16:45+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -5927,7 +5927,7 @@ msgstr "Implicit"
 msgid "Reload"
 msgstr "Reîncarcă"
 
-#: views/dolphinview.cpp:666
+#: views/dolphinview.cpp:664
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -5936,7 +5936,7 @@ msgstr[0] "1 dosar ales"
 msgstr[1] "%1 dosare alese"
 msgstr[2] "%1 de dosare alese"
 
-#: views/dolphinview.cpp:667
+#: views/dolphinview.cpp:665
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -5945,7 +5945,7 @@ msgstr[0] "1 fișier ales"
 msgstr[1] "%1 fișiere alese"
 msgstr[2] "%1 de fișiere alese"
 
-#: views/dolphinview.cpp:669
+#: views/dolphinview.cpp:667
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -5954,7 +5954,7 @@ msgstr[0] "1 dosar"
 msgstr[1] "%1 dosare"
 msgstr[2] "%1 de dosare"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -5963,31 +5963,31 @@ msgstr[0] "1 fișier"
 msgstr[1] "%1 fișiere"
 msgstr[2] "%1 de fișiere"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:672
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:676
+#: views/dolphinview.cpp:674
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:680
+#: views/dolphinview.cpp:678
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 dosare, 0 fișiere"
 
-#: views/dolphinview.cpp:912 views/dolphinview.cpp:921
+#: views/dolphinview.cpp:910 views/dolphinview.cpp:919
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "Copiere %1"
 
-#: views/dolphinview.cpp:1105
+#: views/dolphinview.cpp:1103
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -5995,7 +5995,7 @@ msgstr[0] "Sigur deschideți 1 element?"
 msgstr[1] "Sigur deschideți %1 elemente?"
 msgstr[2] "Sigur deschideți %1 de elemente?"
 
-#: views/dolphinview.cpp:1110
+#: views/dolphinview.cpp:1108
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6004,43 +6004,43 @@ msgstr[0] "Deschide %1 element"
 msgstr[1] "Deschide %1 elemente"
 msgstr[2] "Deschide %1 de elemente"
 
-#: views/dolphinview.cpp:1243
+#: views/dolphinview.cpp:1241
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Umplutură laterală"
 
-#: views/dolphinview.cpp:1247
+#: views/dolphinview.cpp:1245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Lățimi automate pentru coloane"
 
-#: views/dolphinview.cpp:1252
+#: views/dolphinview.cpp:1250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Lățimi personalizate pentru coloane"
 
-#: views/dolphinview.cpp:1862
+#: views/dolphinview.cpp:1860
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operația coșului de gunoi încheiată."
 
-#: views/dolphinview.cpp:1872
+#: views/dolphinview.cpp:1870
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operație de ștergere încheiată."
 
-#: views/dolphinview.cpp:2032
+#: views/dolphinview.cpp:2030
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Redenumește și ascunde"
 
-#: views/dolphinview.cpp:2036
+#: views/dolphinview.cpp:2034
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6050,7 +6050,7 @@ msgstr ""
 "vizualizare.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2036
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6060,94 +6060,94 @@ msgstr ""
 "vizualizare.\n"
 "Doriți să-l redenumiți oricum?"
 
-#: views/dolphinview.cpp:2040
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this File?"
 msgstr "Ascundeți acest fișier?"
 
-#: views/dolphinview.cpp:2040
+#: views/dolphinview.cpp:2038
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Ascundeți acest dosar?"
 
-#: views/dolphinview.cpp:2079
+#: views/dolphinview.cpp:2077
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Amplasarea este goală."
 
-#: views/dolphinview.cpp:2081
+#: views/dolphinview.cpp:2079
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Amplasarea „%1” nu este validă."
 
-#: views/dolphinview.cpp:2361
+#: views/dolphinview.cpp:2359
 #, kde-format
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2388
 #, kde-format
 msgid "Loading canceled"
 msgstr "Încărcare anulată"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2390
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Niciun element care să se potrivească filtrului"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2392
 #, kde-format
 msgid "No items matching the search"
 msgstr "Niciun element care să se potrivească căutării"
 
-#: views/dolphinview.cpp:2396
+#: views/dolphinview.cpp:2394
 #, kde-format
 msgid "Trash is empty"
 msgstr "Gunoiul e gol"
 
-#: views/dolphinview.cpp:2399
+#: views/dolphinview.cpp:2397
 #, kde-format
 msgid "No tags"
 msgstr "Niciun marcaj"
 
-#: views/dolphinview.cpp:2402
+#: views/dolphinview.cpp:2400
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Niciun fișier marcat cu „%1”"
 
-#: views/dolphinview.cpp:2406
+#: views/dolphinview.cpp:2404
 #, kde-format
 msgid "No recently used items"
 msgstr "Niciun element folosit recent"
 
-#: views/dolphinview.cpp:2408
+#: views/dolphinview.cpp:2406
 #, kde-format
 msgid "No shared folders found"
 msgstr "Niciun dosar partajat găsit"
 
-#: views/dolphinview.cpp:2410
+#: views/dolphinview.cpp:2408
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nicio resursă de rețea relevantă găsită"
 
-#: views/dolphinview.cpp:2412
+#: views/dolphinview.cpp:2410
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Niciun dispozitiv compatibil cu MTP găsit"
 
-#: views/dolphinview.cpp:2414
+#: views/dolphinview.cpp:2412
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Niciun dispozitiv Apple găsit"
 
-#: views/dolphinview.cpp:2416
+#: views/dolphinview.cpp:2414
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Niciun dispozitiv Bluetooth găsit"
 
-#: views/dolphinview.cpp:2418
+#: views/dolphinview.cpp:2416
 #, kde-format
 msgid "Folder is empty"
 msgstr "Dosarul e gol"
