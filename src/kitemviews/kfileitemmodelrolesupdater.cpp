@@ -591,7 +591,6 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
     if (index >= 0) {
         QHash<QByteArray, QVariant> data;
         data.insert("iconPixmap", QPixmap());
-        data.insert("supportsSequencing", false);
 
         disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
@@ -930,6 +929,9 @@ void KFileItemModelRolesUpdater::startUpdating()
         m_pendingPreviewItems.reserve(indexes.count());
 
         for (int index : std::as_const(indexes)) {
+            QHash<QByteArray, QVariant> data = m_model->data(index);
+            data.insert("supportsSequencing", false);
+            m_model->setData(index, data);
             const KFileItem item = m_model->fileItem(index);
             if (!m_finishedItems.contains(item)) {
                 m_pendingPreviewItems.append(item);
