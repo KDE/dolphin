@@ -653,6 +653,7 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
+        data.insert("supportsSequencing", true);
 
         m_model->setData(index, data);
 
@@ -683,6 +684,8 @@ void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem 
 
     if (m_hoverSequenceNumSuccessiveFailures >= numRetries) {
         // Give up and simply duplicate the previous sequence image (if any)
+
+        data.insert("supportsSequencing", false);
 
         pixmaps.append(pixmaps.empty() ? QPixmap() : pixmaps.last());
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
