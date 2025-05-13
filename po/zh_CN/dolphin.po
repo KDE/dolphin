@@ -847,7 +847,7 @@ msgstr "比较文件"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "管理磁盘空间使用"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
@@ -6168,7 +6168,7 @@ msgstr "打开一个对话框，您可以在其中调整所有文件夹的视图
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr ""
+msgstr "视图设置"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6176,7 +6176,7 @@ msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
-msgstr ""
+msgstr "这将在全部视图模式之间循环切换。下拉菜单包含各种与视图相关的操作。"
 
 #: views/dolphinviewactionhandler.cpp:682
 #, kde-format

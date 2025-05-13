@@ -1219,12 +1219,10 @@ msgid "Close left view"
 msgstr "Zavřít levý pohled"
 
 #: dolphinmainwindow.cpp:2734
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
-msgstr "Zavřít levý pohled"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2736
 #, kde-format
@@ -1251,12 +1249,10 @@ msgid "Close right view"
 msgstr "Zavřít pravý pohled"
 
 #: dolphinmainwindow.cpp:2742
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
-msgstr "Zavřít pravý pohled"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2744
 #, kde-format
@@ -2934,12 +2930,10 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Uložit prohledávat pro rychlý přístup v budoucnosti"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
-msgstr "Filtr"
+msgstr ""
 
 #: search/bar.cpp:89
 #, kde-format
@@ -2948,12 +2942,10 @@ msgid "Quit searching"
 msgstr "Ukončit hledání"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "Odsud"
+msgstr ""
 
 #: search/bar.cpp:118
 #, kde-format
@@ -2982,12 +2974,10 @@ msgid "Search in file contents…"
 msgstr ""
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Omezit hledání na '%1' a podsložky"
+msgstr ""
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3012,12 +3002,10 @@ msgid ""
 msgstr ""
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "Filtr"
+msgstr ""
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3033,19 +3021,17 @@ msgstr "Co"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
-msgstr "Hledat"
+msgstr ""
 
 #: search/dolphinquery.cpp:378
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "Hledat %1 v %2"
+msgstr ""
 
 #: search/dolphinquery.cpp:384
 #, kde-format
@@ -3056,13 +3042,12 @@ msgid "Files containing “%1” in %2"
 msgstr ""
 
 #: search/dolphinquery.cpp:391
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "Hledat %1 v %2"
+msgstr ""
 
 #: search/dolphinquery.cpp:396
 #, kde-format
@@ -3073,29 +3058,26 @@ msgid "Search items tagged “%1” and “%2” in %3"
 msgstr ""
 
 #: search/dolphinquery.cpp:403
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "Hledat %1 v %2"
+msgstr ""
 
 #: search/dolphinquery.cpp:409
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "Hledat %1 v %2"
+msgstr ""
 
 #: search/dolphinquery.cpp:419
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "Vyhledávám %1"
+msgstr ""
 
 #: search/dolphinquery.cpp:422
 #, kde-format
@@ -3125,19 +3107,17 @@ msgid "%1 search results"
 msgstr ""
 
 #: search/dolphinquery.cpp:440
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "Hledat"
+msgstr ""
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Simple search"
-msgstr "Hledat"
+msgstr ""
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:54
@@ -3146,27 +3126,22 @@ msgid "File Indexing"
 msgstr "Indexování souborů"
 
 #: search/popup.cpp:74
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Hledat"
+msgstr ""
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Název souboru"
+msgstr ""
 
 #: search/popup.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Hledání..."
+msgstr ""
 
 #: search/popup.cpp:132
 #, kde-kuit-format
@@ -3186,44 +3161,34 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Nastavit…"
+msgstr ""
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "U&pravit typ souboru..."
+msgstr ""
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "Změněno"
+msgstr ""
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr "Hodnocení"
+msgstr ""
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr "Značky"
+msgstr ""
 
 #: search/popup.cpp:252
 #, kde-format
@@ -3250,12 +3215,10 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr ""
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3281,43 +3244,34 @@ msgid "File names and contents"
 msgstr ""
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Přípona souboru"
+msgstr ""
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
-msgstr "Otevřít %1"
+msgstr ""
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Nainstalovat Filelight…"
+msgstr ""
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Filelight</application> byl úspěšně nainstalován."
+msgstr ""
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Instaluje se Filelight…"
+msgstr ""
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3362,12 +3316,10 @@ msgid "4 or more"
 msgstr "4 nebo více"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
-msgstr "5"
+msgstr ""
 
 #: search/selectors/tagsselector.cpp:179
 #, kde-format
@@ -4700,20 +4652,16 @@ msgid "Remote storage:"
 msgstr "Vzdálené úložiště:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr "Malá"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Šířka popisky:"
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4728,12 +4676,10 @@ msgid "Disabled"
 msgstr "Zakázáno"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Stavový panel: "
+msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -6045,12 +5991,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Nastavení"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6190,106 +6134,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Folders"
-#~ msgstr "Složky"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Documents"
-#~ msgstr "Dokumenty"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Images"
-#~ msgstr "Obrázky"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Audio soubory"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Videos"
-#~ msgstr "Videa"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Today"
-#~ msgstr "Dnes"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Yesterday"
-#~ msgstr "Včera"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Week"
-#~ msgstr "Tento týden"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Month"
-#~ msgstr "Tento měsíc"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Year"
-#~ msgstr "Tento rok"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Highest Rating"
-#~ msgstr "Nejvyšší hodnocení"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Clear Selection"
-#~ msgstr "Smazat výběr"
-
-#~ msgctxt "String list separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgctxt "@action:button %2 is a list of tags"
-#~ msgid "Tag: %2"
-#~ msgid_plural "Tags: %2"
-#~ msgstr[0] "Značka: %2"
-#~ msgstr[1] "Značky: %2"
-#~ msgstr[2] "Značky: %2"
-
-#~ msgctxt "@action:button"
-#~ msgid "Add Tags"
-#~ msgstr "Přidat značky"
-
-#~ msgctxt "action:button"
-#~ msgid "From Here (%1)"
-#~ msgstr "Odsud (%1)"
-
-#~ msgctxt "action:button"
-#~ msgid "Content"
-#~ msgstr "Obsah"
-
-#~ msgctxt "action:button"
-#~ msgid "Your files"
-#~ msgstr "Vaše soubory"
-
-#~ msgctxt "action:button"
-#~ msgid "Search in your home directory"
-#~ msgstr "Hledat v domácí složce"
-
-#~ msgctxt ""
-#~ "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
-#~ "user entered."
-#~ msgid "Query Results from '%1'"
-#~ msgstr "Výsledky dotazu od %1"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Zobrazit stavový řádek"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Zobrazovat informace o volném místě ve stavovém řádku"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Zobrazovat stavový panel"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Zobrazovat informace o volném místě"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Zobrazovat informace o volném místě"
