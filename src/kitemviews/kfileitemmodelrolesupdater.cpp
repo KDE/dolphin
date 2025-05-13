@@ -347,8 +347,7 @@ void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl &itemUrl, int 
 {
     const KFileItem item = m_model->fileItem(itemUrl);
 
-    auto index = m_model->index(item);
-    if (item != m_hoverSequenceItem || !m_model->data(index).value("supportsSequencing").toBool()) {
+    if (item != m_hoverSequenceItem) {
         killHoverSequencePreviewJob();
     }
 
