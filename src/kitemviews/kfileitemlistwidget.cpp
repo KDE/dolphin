@@ -219,7 +219,7 @@ void KFileItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
 {
     KFileItemListView *view = listView();
 
-    if (!view) {
+    if (!view || !data().value("supportsSequencing").toBool()) {
         return;
     }
 
