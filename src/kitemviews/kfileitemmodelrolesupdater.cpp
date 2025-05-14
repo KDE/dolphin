@@ -570,6 +570,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
 
     QHash<QByteArray, QVariant> data = rolesData(item, index);
     data.insert("iconPixmap", transformPreviewPixmap(pixmap));
+    data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
@@ -651,7 +652,6 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
 
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
-        data.insert("supportsSequencing", true);
 
         m_model->setData(index, data);
 
@@ -682,8 +682,6 @@ void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem 
 
     if (m_hoverSequenceNumSuccessiveFailures >= numRetries) {
         // Give up and simply duplicate the previous sequence image (if any)
-
-        data.insert("supportsSequencing", false);
 
         pixmaps.append(pixmaps.empty() ? QPixmap() : pixmaps.last());
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
@@ -1017,17 +1015,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, &KIO::PreviewJob::gotPreview, this, [this, job](const KFileItem &item, const QPixmap &pixmap) {
-        if (m_model) {
-            auto index = m_model->index(item);
-            if (index >= 0) {
-                QHash<QByteArray, QVariant> data = m_model->data(index);
-                data.insert("supportsSequencing", job->handlesSequences());
-                m_model->setData(index, data);
-            }
-        }
-        KFileItemModelRolesUpdater::slotGotPreview(item, pixmap);
-    });
+    connect(job, &KIO::PreviewJob::gotPreview, this, &KFileItemModelRolesUpdater::slotGotPreview);
     connect(job, &KIO::PreviewJob::failed, this, &KFileItemModelRolesUpdater::slotPreviewFailed);
     connect(job, &KIO::PreviewJob::finished, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
 
