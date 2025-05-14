@@ -570,6 +570,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
 
     QHash<QByteArray, QVariant> data = rolesData(item, index);
     data.insert("iconPixmap", transformPreviewPixmap(pixmap));
+    data.insert("supportsSequencing", m_previewJob->handlesSequences());
 
     disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
