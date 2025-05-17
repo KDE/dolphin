@@ -120,35 +120,35 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
 
     bool local;
     m_localUrl = fileItem.mostLocalUrl(&local);
-    if (!local) {
+    if (!local && fileItemInfos.supportsWriting()) {
         return {};
     }
 
-    using StringPair = QPair<QString, QString>;
+    using StringPair = QPair<KLocalizedString, QString>;
     // keep in sync with kio/src/filewidgets/knewfilemenu.cpp
     const QList<StringPair> icons = {// colors.
                                      // default folder icon goes here.
-                                     StringPair{i18n("Red"), QStringLiteral("folder-red")},
-                                     StringPair{i18n("Yellow"), QStringLiteral("folder-yellow")},
-                                     StringPair{i18n("Orange"), QStringLiteral("folder-orange")},
-                                     StringPair{i18n("Green"), QStringLiteral("folder-green")},
-                                     StringPair{i18n("Cyan"), QStringLiteral("folder-cyan")},
-                                     StringPair{i18n("Blue"), QStringLiteral("folder-blue")},
-                                     StringPair{i18n("Violet"), QStringLiteral("folder-violet")},
-                                     StringPair{i18n("Brown"), QStringLiteral("folder-brown")},
-                                     StringPair{i18n("Grey"), QStringLiteral("folder-grey")},
+                                     StringPair{ki18n("Red"), QStringLiteral("folder-red")},
+                                     StringPair{ki18n("Yellow"), QStringLiteral("folder-yellow")},
+                                     StringPair{ki18n("Orange"), QStringLiteral("folder-orange")},
+                                     StringPair{ki18n("Green"), QStringLiteral("folder-green")},
+                                     StringPair{ki18n("Cyan"), QStringLiteral("folder-cyan")},
+                                     StringPair{ki18n("Blue"), QStringLiteral("folder-blue")},
+                                     StringPair{ki18n("Violet"), QStringLiteral("folder-violet")},
+                                     StringPair{ki18n("Brown"), QStringLiteral("folder-brown")},
+                                     StringPair{ki18n("Grey"), QStringLiteral("folder-grey")},
 
                                      // emblems.
-                                     StringPair{i18n("Bookmark"), QStringLiteral("folder-bookmark")},
-                                     StringPair{i18n("Cloud"), QStringLiteral("folder-cloud")},
-                                     StringPair{i18n("Development"), QStringLiteral("folder-development")},
-                                     StringPair{i18n("Games"), QStringLiteral("folder-games")},
-                                     StringPair{i18n("Mail"), QStringLiteral("folder-mail")},
-                                     StringPair{i18n("Music"), QStringLiteral("folder-music")},
-                                     StringPair{i18n("Print"), QStringLiteral("folder-print")},
-                                     StringPair{i18n("Compressed"), QStringLiteral("folder-tar")},
-                                     StringPair{i18n("Temporary"), QStringLiteral("folder-temp")},
-                                     StringPair{i18n("Important"), QStringLiteral("folder-important")}};
+                                     StringPair{ki18n("Bookmark"), QStringLiteral("folder-bookmark")},
+                                     StringPair{ki18n("Cloud"), QStringLiteral("folder-cloud")},
+                                     StringPair{ki18n("Development"), QStringLiteral("folder-development")},
+                                     StringPair{ki18n("Games"), QStringLiteral("folder-games")},
+                                     StringPair{ki18n("Mail"), QStringLiteral("folder-mail")},
+                                     StringPair{ki18n("Music"), QStringLiteral("folder-music")},
+                                     StringPair{ki18n("Print"), QStringLiteral("folder-print")},
+                                     StringPair{ki18n("Compressed"), QStringLiteral("folder-tar")},
+                                     StringPair{ki18n("Temporary"), QStringLiteral("folder-temp")},
+                                     StringPair{ki18n("Important"), QStringLiteral("folder-important")}};
 
     QActionGroup *actiongroup = new QActionGroup(parentWidget);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
@@ -164,7 +164,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
             continue;
         }
 
-        QAction *folderIconAction = new QAction(name);
+        QAction *folderIconAction = new QAction(KLocalizedString(name).toString(), parentWidget);
         folderIconAction->setIcon(icon);
         folderIconAction->setCheckable(true);
         folderIconAction->setChecked(fileIconName == iconName);
@@ -182,7 +182,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
         }
     }
 
-    QWidgetAction *action = new ButtonsWithSubMenuWidgetAction(actions, subMenu, this);
+    QWidgetAction *action = new ButtonsWithSubMenuWidgetAction(actions, subMenu, parentWidget);
 
     return {action};
 }
