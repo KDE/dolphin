@@ -20,5 +20,6 @@ public:
 
 private:
     void setFolderIcon(bool check);
+    QUrl m_url;
     QUrl m_localUrl;
 };
