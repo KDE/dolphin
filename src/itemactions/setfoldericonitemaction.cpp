@@ -128,27 +128,29 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     // keep in sync with kio/src/filewidgets/knewfilemenu.cpp
     const QList<StringPair> icons = {// colors.
                                      // default folder icon goes here.
-                                     StringPair{ki18n("Red"), QStringLiteral("folder-red")},
-                                     StringPair{ki18n("Yellow"), QStringLiteral("folder-yellow")},
-                                     StringPair{ki18n("Orange"), QStringLiteral("folder-orange")},
-                                     StringPair{ki18n("Green"), QStringLiteral("folder-green")},
-                                     StringPair{ki18n("Cyan"), QStringLiteral("folder-cyan")},
-                                     StringPair{ki18n("Blue"), QStringLiteral("folder-blue")},
-                                     StringPair{ki18n("Violet"), QStringLiteral("folder-violet")},
-                                     StringPair{ki18n("Brown"), QStringLiteral("folder-brown")},
-                                     StringPair{ki18n("Grey"), QStringLiteral("folder-grey")},
+                                     StringPair{ki18nc("@label as in default folder color", "Red"), QStringLiteral("folder-red")},
+                                     StringPair{ki18nc("@label as in default folder color", "Yellow"), QStringLiteral("folder-yellow")},
+                                     StringPair{ki18nc("@label as in default folder color", "Orange"), QStringLiteral("folder-orange")},
+                                     StringPair{ki18nc("@label as in default folder color", "Green"), QStringLiteral("folder-green")},
+                                     StringPair{ki18nc("@label as in default folder color", "Cyan"), QStringLiteral("folder-cyan")},
+                                     StringPair{ki18nc("@label as in default folder color", "Blue"), QStringLiteral("folder-blue")},
+                                     StringPair{ki18nc("@label as in default folder color", "Violet"), QStringLiteral("folder-violet")},
+                                     StringPair{ki18nc("@label as in default folder color", "Brown"), QStringLiteral("folder-brown")},
+                                     StringPair{ki18nc("@label as in default folder color", "Grey"), QStringLiteral("folder-grey")},
+
+                                     StringPair{ki18nc("@label: as in default folder icon", "Default"), QStringLiteral("inode-directory")},
 
                                      // emblems.
-                                     StringPair{ki18n("Bookmark"), QStringLiteral("folder-bookmark")},
-                                     StringPair{ki18n("Cloud"), QStringLiteral("folder-cloud")},
-                                     StringPair{ki18n("Development"), QStringLiteral("folder-development")},
-                                     StringPair{ki18n("Games"), QStringLiteral("folder-games")},
-                                     StringPair{ki18n("Mail"), QStringLiteral("folder-mail")},
-                                     StringPair{ki18n("Music"), QStringLiteral("folder-music")},
-                                     StringPair{ki18n("Print"), QStringLiteral("folder-print")},
-                                     StringPair{ki18n("Compressed"), QStringLiteral("folder-tar")},
-                                     StringPair{ki18n("Temporary"), QStringLiteral("folder-temp")},
-                                     StringPair{ki18n("Important"), QStringLiteral("folder-important")}};
+                                     StringPair{ki18nc("@label as in default folder color", "Bookmark"), QStringLiteral("folder-bookmark")},
+                                     StringPair{ki18nc("@label as in default folder color", "Cloud"), QStringLiteral("folder-cloud")},
+                                     StringPair{ki18nc("@label as in default folder color", "Development"), QStringLiteral("folder-development")},
+                                     StringPair{ki18nc("@label as in default folder color", "Games"), QStringLiteral("folder-games")},
+                                     StringPair{ki18nc("@label as in default folder color", "Mail"), QStringLiteral("folder-mail")},
+                                     StringPair{ki18nc("@label as in default folder color", "Music"), QStringLiteral("folder-music")},
+                                     StringPair{ki18nc("@label as in default folder color", "Print"), QStringLiteral("folder-print")},
+                                     StringPair{ki18nc("@label as in default folder color", "Compressed"), QStringLiteral("folder-tar")},
+                                     StringPair{ki18nc("@label as in default folder color", "Temporary"), QStringLiteral("folder-temp")},
+                                     StringPair{ki18nc("@label as in default folder color", "Important"), QStringLiteral("folder-important")}};
 
     QActionGroup *actiongroup = new QActionGroup(parentWidget);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
