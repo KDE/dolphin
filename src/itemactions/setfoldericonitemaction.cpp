@@ -62,7 +62,7 @@ void SetFolderIconItemAction::setFolderIcon(bool check)
     }
 
 #ifdef QT_DBUS_LIB
-    org::kde::KDirNotify::emitFilesChanged({m_localUrl});
+    org::kde::KDirNotify::emitFilesChanged({m_url});
 #endif
 }
 
@@ -117,6 +117,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     }
 
     auto fileItem = fileItemInfos.items().at(0);
+    m_url = fileItem.url();
 
     bool local;
     m_localUrl = fileItem.mostLocalUrl(&local);
