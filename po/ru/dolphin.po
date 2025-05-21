@@ -1,7 +1,7 @@
 # translation of dolphin.po to Russian
 # This file is put in the public domain.
 #
-# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023, 2024 Alexander Yavorsky <kekcuha@gmail.com>
+# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Alexander Yavorsky <kekcuha@gmail.com>
 # SPDX-FileCopyrightText: 2023, 2024, 2025 Olesya Gerasimenko <translation-team@basealt.ru>
 # Иван Бобров <ibobrik@gmail.com>, 2006.
 # Nick Shaforostoff <shafff@ukr.net>, 2007-2009.
@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 00:45+0000\n"
-"PO-Revision-Date: 2025-04-09 12:56+0300\n"
-"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
-"Language-Team: Basealt Translation Team\n"
+"PO-Revision-Date: 2025-05-20 16:38+0300\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.1\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -3303,7 +3303,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Сохранить результаты поиска для быстрого доступа к ним в будущем"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Фильтр"
@@ -3315,13 +3315,13 @@ msgid "Quit searching"
 msgstr "Закрыть панель поиска"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "В этой папке"
 
 #: search/bar.cpp:118
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Везде"
@@ -3339,15 +3339,23 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>Поиск папок и файлов.<list> <item>Введите <emphasis>поисковый запрос</"
+"emphasis> в поле ввода.</item> <item>Выберите, где искать, нажав на кнопки "
+"местоположений под полем поиска. «Здесь» означает папку, открывавшуюся до "
+"начала поиска, так что переход к нужному каталогу заранее может сузить "
+"область поиска.</item> <item>Нажмите кнопку «%1», чтобы дополнительно "
+"уточнить способ поиска или его результаты.</item> <item>Нажмите значок "
+"«Сохранить», чтобы добавить текущую конфигурацию поиска в <emphasis>панель "
+"мест</emphasis>.</item> </list></para>"
 
 #: search/bar.cpp:212
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Поиск по содержимому файлов…"
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
 msgstr "Ограничить область поиска папкой «%1» и её вложенными папками"
@@ -3375,10 +3383,10 @@ msgid ""
 msgstr ""
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "Фильтр"
+msgstr "Удалить фильтр"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3394,7 +3402,7 @@ msgstr "Предмет поиска"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "SearchTool"
 msgstr "Поиск"
 
@@ -3439,24 +3447,24 @@ msgid "%1 search results in %2"
 msgstr "Поиск %1 в %2"
 
 #: search/dolphinquery.cpp:409
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "Поиск %1 в %2"
+msgstr "Результаты поиска в «%1»"
 
 #: search/dolphinquery.cpp:419
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "Поиск %1"
+msgstr "Результаты поиска «%1»"
 
 #: search/dolphinquery.cpp:422
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Файлы, содержащие «%1»"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
@@ -3480,41 +3488,41 @@ msgid "%1 search results"
 msgstr ""
 
 #: search/dolphinquery.cpp:440
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "Искать"
+msgstr "Результаты поиска"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Simple search"
-msgstr "Очистить корзину"
+msgstr "Простой поиск"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:54
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "Индексирование файлов"
 
 #: search/popup.cpp:74
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Искать:"
+msgstr "Искать по:"
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Имена файлов"
+msgstr "Именам файлов"
 
 #: search/popup.cpp:113
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Выполняется поиск…"
+msgstr "Использовать для поиска:"
 
 #: search/popup.cpp:132
 #, kde-kuit-format
@@ -3534,31 +3542,31 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Настроить…"
+msgstr "Настроить %1…"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "Тип:"
+msgstr "Тип файла:"
 
 #: search/popup.cpp:217
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr "Дата изменения:"
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Оценка:"
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "Метки:"
@@ -3588,10 +3596,10 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3609,42 +3617,54 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> использует базу данных для поиска. База "
+"данных создаётся путём индексирования файлов в фоновом режиме в соответствии "
+"с настройками <application>%1</application>. <list> <item><application>%1</"
+"application> обеспечивает очень быструю выдачу результатов.</item> "
+"<item>Позволяет искать по типам файлов, датам, тегам и т. д.</item> "
+"<item>Производит поиск только в проиндексированных папках. Настройка списка "
+"папка для индексации выполняется в <application>Системных настройках</"
+"application>.</item> <item>Если в указанных для поиска местах есть ссылки на "
+"другие файлы или папки, они не будут просматриваться и не появятся в "
+"результатах поиска.</item> <item>Скрытые файлы и папки, а также их "
+"содержимое также могут не учитываться при поиске — это зависит от "
+"конфигурации <application>%1</application>.</item> </list></para>"
 
 #: search/popup.cpp:308
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "Имена файлов и их содержимое"
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Расширение файла"
+msgstr "Содержимое файла"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Открыть %1"
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Установить Filelight…"
+msgstr "Установить KFind…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "Приложение <application>Filelight</application> успешно установлено."
+msgstr "Приложение <application>KFind</application> успешно установлено."
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Устанавливается приложение Filelight…"
+msgstr "Устанавливается приложение KFind…"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3689,7 +3709,7 @@ msgid "4 or more"
 msgstr "4 и выше"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3699,7 +3719,7 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:182
 #, fuzzy, kde-format
@@ -6498,12 +6518,10 @@ msgid ""
 msgstr "Это действие открывает диалог настройки режима просмотра папок."
 
 #: views/dolphinviewactionhandler.cpp:364
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Параметры"
+msgstr "Настройка просмотра"
 
 #: views/dolphinviewactionhandler.cpp:366
 #, kde-kuit-format
@@ -6512,6 +6530,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Эта действие переключает все режимы отображения по кругу. Выпадающее меню "
+"содержит различные действия, связанные с режимом просмотра."
 
 #: views/dolphinviewactionhandler.cpp:682
 #, kde-format
