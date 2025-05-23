@@ -1726,7 +1726,11 @@ void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString &mountPath)
 {
     const QVector<DolphinViewContainer *> theViewContainers = viewContainers();
     for (DolphinViewContainer *viewContainer : theViewContainers) {
-        if (viewContainer && viewContainer->url().toLocalFile().startsWith(mountPath)) {
+        if (!viewContainer) {
+            continue;
+        }
+        const auto viewPath = viewContainer->url().toLocalFile();
+        if (viewPath.startsWith(mountPath + QLatin1String("/")) || viewPath == mountPath) {
             viewContainer->setUrl(QUrl::fromLocalFile(QDir::homePath()));
         }
     }
