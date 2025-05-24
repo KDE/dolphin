@@ -90,6 +90,7 @@ public:
             p->setCheckable(true);
             p->setChecked(action->isChecked());
             p->setToolTip(action->text());
+            p->setAccessibleName(i18nc("@label", "Set folder icon to %1", action->iconText()));
 
             connect(p, &QPushButton::clicked, action, &QAction::triggered);
             connect(action, &QAction::toggled, p, &QPushButton::setChecked);
@@ -99,6 +100,7 @@ public:
 
         auto p = new QPushButton(widget);
         p->setText(i18nc("@action open a submeun with additional entries", "Other"));
+        p->setAccessibleName(i18nc("@label", "Other folder icons"));
         p->setMenu(m_subMenu);
         m_layout->addWidget(p);
 
