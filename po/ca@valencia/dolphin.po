@@ -742,7 +742,7 @@ msgstr ""
 "<para>Açò presenta una segona vista en paral·lel amb la vista actual, de "
 "manera que podeu veure el contingut de dues carpetes alhora i moure amb "
 "facilitat elements entre elles.</para><para>La vista que no està «en el "
-"focus» s'enfosquirà. </para>Feu clic de nou en este botó per a tancar una de "
+"focus» s'enfosquirà. </para>Cliqueu de nou en este botó per a tancar una de "
 "les vistes."
 
 #: dolphinmainwindow.cpp:1952
@@ -824,7 +824,7 @@ msgid ""
 msgstr ""
 "Canvia a editable la <emphasis>Barra d'ubicació</emphasis> de manera que es "
 "puga introduir directament una ubicació en la qual es vullga anar.<nl/>També "
-"podeu canviar a edició fent clic a la dreta de la ubicació i tornar arrere "
+"podeu canviar a edició clicant a la dreta de la ubicació i tornar arrere "
 "confirmant la ubicació editada."
 
 #: dolphinmainwindow.cpp:1995
@@ -961,8 +961,8 @@ msgstr ""
 "un botó <interface>%1</interface>. Tots dos contenen principalment les "
 "mateixes accions i opcions de configuració.</para><para>La barra de menús "
 "ocupa més espai, però permet un accés ràpid i organitzat a totes les accions "
-"que oferix una aplicació.</para><para>El botó %1 és més simple i xicotet que "
-"fa que l'activació de les accions avançades tarde més temps.</para>"
+"que oferix una aplicació.</para><para>El botó «%1» és més simple i xicotet "
+"que fa que l'activació de les accions avançades tarde més temps.</para>"
 
 #: dolphinmainwindow.cpp:2146
 #, kde-format
@@ -1140,10 +1140,10 @@ msgid ""
 "quick switching between any folders.</para>"
 msgstr ""
 "<para>Este quadro mostra les carpetes del <emphasis>sistema de fitxers</"
-"emphasis> a una <emphasis>vista en arbre</emphasis>.</para><para>Feu clic en "
-"una carpeta per a anar-hi. Feu clic en la fletxa de l'esquerra d'una carpeta "
-"per a veure les seues subcarpetes. Açò permet canviar ràpidament entre "
-"qualsevol carpeta.</para>"
+"emphasis> a una <emphasis>vista en arbre</emphasis>.</para><para>Cliqueu "
+"damunt d'una carpeta per a anar-hi. Cliqueu damunt de la fletxa de "
+"l'esquerra d'una carpeta per a veure les seues subcarpetes. Açò permet "
+"canviar ràpidament entre qualsevol carpeta.</para>"
 
 #: dolphinmainwindow.cpp:2314
 #, kde-format
@@ -1258,13 +1258,13 @@ msgstr ""
 "ubicacions que heu indicat en les adreces d'interés i accedir al disc o "
 "suport connectat amb l'ordinador o amb la xarxa. També conté seccions per a "
 "buscar els fitxers guardats recentment o els fitxers d'un tipus determinat.</"
-"para><para>Feu clic en una entrada per a anar-hi. De manera alternativa, feu "
-"clic amb el botó dret del ratolí per a obrir l'entrada en una pestanya nova "
-"o a una finestra nova.</para><para>Es poden afegir entrades noves "
-"arrossegant carpetes cap a este quadro. Feu clic dret en qualsevol secció o "
-"entrada per a ocultar-la. Feu clic dret en un espai buit d'este quadro i "
-"seleccioneu <interface>Mostra els llocs ocults</interface> per a tornar-los "
-"a veure.</para>"
+"para><para>Cliqueu damunt d'una entrada per a anar-hi. De manera "
+"alternativa, cliqueu amb el botó dret del ratolí per a obrir l'entrada en "
+"una pestanya nova o a una finestra nova.</para><para>Es poden afegir "
+"entrades noves arrossegant carpetes cap a este quadro. Feu clic dret damunt "
+"de qualsevol secció o entrada per a ocultar-la. Feu clic dret damunt d'un "
+"espai buit d'este quadro i seleccioneu <interface>Mostra els llocs ocults</"
+"interface> per a tornar-los a veure.</para>"
 
 #: dolphinmainwindow.cpp:2436 dolphinmainwindow.cpp:2970
 #, kde-format
@@ -1483,7 +1483,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 "<para>Esta és la <emphasis>Barra de menús</emphasis>. Proporciona accés a "
-"les ordres i a les opcions de configuració. Feu un clic esquerre en "
+"les ordres i a les opcions de configuració. Feu clic esquerre damunt de "
 "qualsevol dels menús d'esta barra per a veure el seu contingut.</"
 "para><para>La barra de menús es pot ocultar desmarcant "
 "<interface>Configuració|Mostra la barra de menús</interface>. La majoria del "
@@ -1510,8 +1510,8 @@ msgstr ""
 "Només cal fer-hi clic dret i seleccionar <interface>Configura les barres "
 "d'eines…</interface> o busqueu esta acció en el <interface>Menú</interface>."
 "</para><para>La ubicació de la barra i l'estil dels seus botons també es pot "
-"canviar amb el menú en fer clic dret. Feu clic dret en un botó si voleu "
-"mostrar o amagar el seu text.</para>"
+"canviar amb el menú quan es faça clic dret. Feu clic dret damunt d'un botó "
+"si voleu mostrar o amagar el seu text.</para>"
 
 #: dolphinmainwindow.cpp:2798
 #, kde-kuit-format
@@ -1535,11 +1535,11 @@ msgstr ""
 "central d'esta aplicació a on podeu navegar pels fitxers que voleu utilitzar."
 "</para><para>Per a una introducció general i més elaborada a esta aplicació "
 "<link url='https://userbase.kde.org/Dolphin/File_Management/"
-"ca#Introducció_al_Dolphin'>feu clic ací</link>. Açò obrirà un article "
+"ca#Introducció_al_Dolphin'>cliqueu ací</link>. Açò obrirà un article "
 "introductori del <emphasis>Wiki UserBase de KDE</emphasis>.</"
 "para><para>Altrament, per a explicacions breus de totes les característiques "
 "d'esta <emphasis>vista</emphasis> <link url='help:/dolphin/dolphin-view."
-"html'>feu clic ací</link>. Açò obrirà una pàgina del <emphasis>Manual</"
+"html'>cliqueu ací</link>. Açò obrirà una pàgina del <emphasis>Manual</"
 "emphasis> que cobrix els aspectes bàsics.</para>"
 
 #: dolphinmainwindow.cpp:2814
@@ -1601,8 +1601,8 @@ msgstr ""
 "<para>Obri el manual d'esta aplicació. Proporciona explicacions de cada part "
 "de <emphasis>Dolphin</emphasis>.</para><para>Si voleu introduccions més "
 "elaborades de les diferents característiques de <emphasis>Dolphin</emphasis> "
-"<link url='https://userbase.kde.org/Dolphin/File_Management/ca'>feu clic "
-"ací</link>. S'obrirà la pàgina dedicada al Wiki UserBase de KDE.</para>"
+"<link url='https://userbase.kde.org/Dolphin/File_Management/ca'>cliqueu ací</"
+"link>. S'obrirà la pàgina dedicada al Wiki UserBase de KDE.</para>"
 
 #: dolphinmainwindow.cpp:2849
 #, kde-kuit-format
@@ -1618,7 +1618,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 "<para>Este és el botó que invoca la característica d'ajuda que esteu emprant "
-"ara mateix! Feu-hi clic, a continuació feu clic en qualsevol component "
+"ara mateix! Cliqueu-hi, a continuació cliqueu damunt de qualsevol component "
 "d'esta aplicació per a demanar «Què és açò?». El cursor del ratolí canviarà "
 "d'aparença si no hi ha cap ajuda disponible d'un punt.</para><para>Hi ha "
 "dues altres maneres per a aconseguir ajuda: el <link url='help:/dolphin/"
@@ -1641,7 +1641,7 @@ msgstr ""
 "esta aplicació o en altre programari de KDE.</para><para>Els informes "
 "d'error d'alta qualitat són molt apreciats. Per a aprendre com fer l'informe "
 "d'error tan efectiu com siga possible <link url='https://community.kde.org/"
-"Get_Involved/Bug_Reporting'>feu clic ací</link>.</para>"
+"Get_Involved/Bug_Reporting'>cliqueu ací</link>.</para>"
 
 #: dolphinmainwindow.cpp:2869
 #, kde-kuit-format
@@ -2012,7 +2012,7 @@ msgstr ""
 "s'arriba ací.</para><para>Este camí interactiu és més potent del que es "
 "podria esperar. Per a aprendre més quant a les característiques bàsiques i "
 "avançades de la barra d'ubicació <link url='help:/dolphin/location-bar."
-"html'>feu clic ací</link>. Açò obrirà la pàgina dedicada del Manual.</para>"
+"html'>cliqueu ací</link>. Açò obrirà la pàgina dedicada del Manual.</para>"
 
 #: dolphinurlnavigator.cpp:57
 #, kde-format
@@ -2041,8 +2041,8 @@ msgstr ""
 "contingut? <nl/>No es buscarà en el contingut de les imatges, ni dels "
 "fitxers d'àudio i vídeo.</item><item>Des d'ací/Per tot arreu: Voleu buscar "
 "en esta carpeta i les seues subcarpetes o per tot arreu?</item><item>Més "
-"opcions: Feu clic ací per a buscar per tipus de suport, data i hora d'accés "
-"o valoració.</item><item>Més eines de busca: Instal·la altres recursos per a "
+"opcions: Cliqueu ací per a buscar per tipus de suport, data i hora d'accés o "
+"valoració.</item><item>Més eines de busca: Instal·la altres recursos per a "
 "buscar un element.</item></list></para>"
 
 #: dolphinviewcontainer.cpp:118
@@ -3705,8 +3705,8 @@ msgstr[1] "Canvia el nom de %2"
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
-"Mode de selecció: Feu clic on els fitxers o carpetes per a seleccionar-los o "
-"desseleccionar-los."
+"Mode de selecció: Cliqueu damunt dels fitxers o carpetes per a seleccionar-"
+"los o desseleccionar-los."
 
 #: selectionmode/topbar.cpp:31
 #, kde-format
@@ -5091,8 +5091,7 @@ msgstr "Canvia el nom d'elements individuals inclosos"
 #: settings/viewmodes/generalviewsettingspage.cpp:84
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
-"Canviar el nom de diversos elements sempre es fa amb una finestra de diàleg."
+msgstr "Canviar el nom de diversos elements sempre es fa amb una diàleg."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
@@ -5118,7 +5117,7 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr "Acció a activar en fer doble clic en el fons de la vista"
+msgstr "Acció a activar en fer doble clic damunt del fons de la vista"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:126
@@ -5156,8 +5155,8 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
-"Introduïu l'ordre personalitzada a activar en fer doble clic en el fons de "
-"la vista"
+"Introduïu l'ordre personalitzada a activar en fer doble clic damunt del fons "
+"de la vista"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:165
 #, kde-format
@@ -5322,13 +5321,13 @@ msgstr "Carpetes:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr "Fent clic en qualsevol lloc de la fila"
+msgstr "Clicant damunt de qualsevol lloc de la fila"
 
 #: settings/viewmodes/viewsettingstab.cpp:98
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Fent clic damunt de la icona o el nom"
+msgstr "Clicant damunt de la icona o el nom"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
@@ -6061,13 +6060,13 @@ msgid ""
 "contents of multiple folders in the same list.</para>"
 msgstr ""
 "<para>Canvia a un mode de vista que se centra en els detalls de les carpetes "
-"i els fitxers.</para><para>Feu clic en un detall de la capçalera de columna "
-"per a ordenar els elements per a esta. Feu clic una altra vegada per a "
-"ordenar en l'altre sentit. Per a seleccionar els detalls que s'haurien de "
-"mostrar feu clic en la capçalera amb el botó dret del ratolí.</"
+"i els fitxers.</para><para>Cliqueu damunt d'un detall de la capçalera de "
+"columna per a ordenar els elements per a esta. Cliqueu una altra vegada per "
+"a ordenar en l'altre sentit. Per a seleccionar els detalls que s'haurien de "
+"mostrar cliqueu damunt de la capçalera amb el botó dret del ratolí.</"
 "para><para>Podeu veure el contingut d'una carpeta sense deixar la ubicació "
-"actual fent-hi clic en la regió de la seua esquerra. D'esta manera podeu "
-"veure el contingut de múltiples carpetes en la mateixa llista.</para>"
+"actual clicant-hi a la regió de la seua esquerra. D'esta manera podeu veure "
+"el contingut de múltiples carpetes en la mateixa llista.</para>"
 
 #: views/dolphinviewactionhandler.cpp:220
 #, kde-format
