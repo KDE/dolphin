@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 00:45+0000\n"
-"PO-Revision-Date: 2025-03-15 10:05+0100\n"
+"PO-Revision-Date: 2025-05-24 08:44+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -896,7 +896,7 @@ msgstr "Porównaj pliki"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Zarządzaj zapełnieniem dysku"
 
 #: dolphinmainwindow.cpp:2113
 #, kde-kuit-format
@@ -3214,12 +3214,10 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Zachowaj to wyszukiwanie do szybkiego dostępu w przyszłości"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
-msgstr "Filtr"
+msgstr "Odfiltruj"
 
 #: search/bar.cpp:89
 #, kde-format
@@ -3228,17 +3226,13 @@ msgid "Quit searching"
 msgstr "Zakończ wyszukiwanie"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "Stąd"
 
 #: search/bar.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Wszędzie"
@@ -3261,15 +3255,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Poszukaj w treści pliku…"
 
 #: search/bar.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Ogranicz wyszukiwanie do '%1' i ich podkatalogów"
+msgstr "Ogranicz wyszukiwanie do <filename>%1</filename> i jego podkatalogów."
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3280,7 +3272,7 @@ msgstr "Ogranicz wyszukiwanie do '%1' i ich podkatalogów"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Poszukaj we wszystkich katalogach, zaczynając od głównego."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3292,6 +3284,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Poszukaj we wszystkich spisanych miejscach.<nl/><nl/>Wskaż miejsca do "
+"spisania w <interface>Ustawienia Systemowe|Przestrzeń Pracy|Wyszukiwanie</"
+"interface>."
 
 #: search/chip.cpp:22
 #, fuzzy, kde-format
