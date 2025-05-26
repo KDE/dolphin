@@ -194,8 +194,9 @@ void DolphinItemListView::updateGridSize()
 
         itemHeight = padding * 3 + iconSize + option.fontMetrics.lineSpacing();
 
-        horizontalMargin = qMax(8.0, ((iconSize + padding) / 4.0)) * qApp->devicePixelRatio();
-        verticalMargin = 8;
+        const auto margin = style()->pixelMetric(QStyle::PM_SizeGripSize);
+        horizontalMargin = margin;
+        verticalMargin = margin;
         maxTextLines = IconsModeSettings::maximumTextLines();
         break;
     }
