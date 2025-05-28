@@ -127,6 +127,7 @@ GenericName[x-test]=xxFile Managerxx
 GenericName[zh_CN]=文件管理器
 GenericName[zh_TW]=檔案管理員
 Comment=Manage your files
+Comment[ar]=أدر ملفاتك
 Comment[ca]=Gestioneu els fitxers
 Comment[ca@valencia]=Gestioneu els fitxers
 Comment[es]=Gestión de archivos
