@@ -51,6 +51,7 @@ private:
     QCheckBox *m_openArchivesAsFolder = nullptr;
     QCheckBox *m_autoExpandFolders = nullptr;
     QCheckBox *m_hideXtrashFiles = nullptr;
+    QCheckBox *m_dynamicView = nullptr;
     QComboBox *m_doubleClickViewComboBox = nullptr;
     QLineEdit *m_doubleClickViewCustomAction = nullptr;
     QLabel *m_doubleClickViewCustomActionInfo = nullptr;

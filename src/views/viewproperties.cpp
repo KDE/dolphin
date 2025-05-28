@@ -369,6 +369,19 @@ bool ViewProperties::sortHiddenLast() const
     return m_node->sortHiddenLast();
 }
 
+void ViewProperties::setDynamicViewPassed(bool dynamicViewPassed)
+{
+    if (m_node->dynamicViewPassed() != dynamicViewPassed) {
+        m_node->setDynamicViewPassed(dynamicViewPassed);
+        update();
+    }
+}
+
+bool ViewProperties::dynamicViewPassed() const
+{
+    return m_node->dynamicViewPassed();
+}
+
 void ViewProperties::setVisibleRoles(const QList<QByteArray> &roles)
 {
     if (roles == visibleRoles()) {

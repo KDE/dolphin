@@ -77,6 +77,11 @@
             <whatsthis context="@info:whatsthis">The last time these properties were changed by the user.</whatsthis>
         </entry>
 
+        <entry name="DynamicViewPassed" type="Bool">
+            <label context="@label">View mode changed once by dynamic view</label>
+            <default>false</default>
+        </entry>
+
         <!-- Obsolete - replaced by VisibleRoles -->
         <entry name="AdditionalInfo" type="StringList">
             <label context="@label">Additional Information</label>

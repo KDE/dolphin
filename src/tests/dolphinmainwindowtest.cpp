@@ -5,11 +5,11 @@
  */
 
 #include "dolphinmainwindow.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
-#include "dolphin_generalsettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kfileitemmodelrolesupdater.h"
 #include "kitemviews/kitemlistcontainer.h"
@@ -18,6 +18,7 @@
 #include "kitemviews/kitemlistwidget.h"
 #include "testdir.h"
 #include "views/dolphinitemlistview.h"
+#include "views/viewproperties.h"
 
 #include <KActionCollection>
 #include <KConfig>
@@ -67,6 +68,7 @@ private Q_SLOTS:
     void testAutoSaveSession();
     void testInlineRename();
     void testThumbnailAfterRename();
+    void testViewModeAfterDynamicView();
     void cleanupTestCase();
 
 private:
@@ -1062,6 +1064,86 @@ void DolphinMainWindowTest::testThumbnailAfterRename()
     QVERIFY(!view->m_view->m_editingRole);
     QCOMPARE(view->m_model->fileItem(0).name(), "b.jpg");
     QCOMPARE(view->m_model->count(), 1);
+}
+
+void DolphinMainWindowTest::testViewModeAfterDynamicView()
+{
+    GeneralSettings *settings = GeneralSettings::self();
+    settings->setDynamicView(true);
+    settings->save();
+
+    // prepare test data
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
+    testDir->createDir("a");
+    QImage testImage(256, 256, QImage::Format_Mono);
+    testImage.setColorCount(1);
+    testImage.setColor(0, qRgba(255, 0, 0, 255)); // Index #0 = Red
+    for (short x = 0; x < 256; ++x) {
+        for (short y = 0; y < 256; ++y) {
+            testImage.setPixel(x, y, 0);
+        }
+    }
+    testImage.save(testDir->url().path() + "/a/1.jpg");
+
+    // open test dir and set default view mode to "Details"
+    m_mainWindow->openDirectories({testDirUrl}, false);
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy modelDirectoryLoadingCompletedSpy(view->m_model, &KFileItemModel::directoryLoadingCompleted);
+    m_mainWindow->show();
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+    m_mainWindow->actionCollection()->action(QStringLiteral("details"))->trigger();
+    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+
+    // move to child folder and check that dynamic view changed view mode to icons
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
+    view->setUrl(QUrl(testDirUrl + "/a"));
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->m_mode, DolphinView::IconsView);
+
+    // go back to parent folder and check that view mode reverted to details
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    view->m_model->loadDirectory(testDir->url());
+    view->setUrl(testDir->url());
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+
+    // test for local views
+    settings->setGlobalViewProps(false);
+    settings->save();
+
+    // go to child folder and check DynamicViewPassed key in view properties as well as view mode
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
+    view->setUrl(QUrl(testDirUrl + "/a"));
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->m_mode, DolphinView::IconsView);
+    QTest::qWait(100);
+    QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+
+    // change view mode of child folder to "Details"
+    m_mainWindow->actionCollection()->action(QStringLiteral("details"))->trigger();
+    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+
+    // go back to parent folder
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    view->m_model->loadDirectory(testDir->url());
+    view->setUrl(testDir->url());
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+    QVERIFY(!ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+
+    // go to child folder and make sure view mode change to "Details" is permanent
+    m_mainWindow->openFiles({testDirUrl + "/a"}, false);
+    view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
+    view->setUrl(QUrl(testDirUrl + "/a"));
+    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
+    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+    QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
 }
 
 void DolphinMainWindowTest::cleanupTestCase()

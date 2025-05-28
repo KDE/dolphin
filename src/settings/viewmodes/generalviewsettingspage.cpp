@@ -47,6 +47,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     localViewPropsLabel->setWordWrap(true);
     localViewPropsLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    m_dynamicView = new QCheckBox(i18nc("option:check", "Use icons view mode for locations which mostly contain media files"));
+
     QButtonGroup *viewGroup = new QButtonGroup(this);
     viewGroup->addButton(m_globalViewProps);
     viewGroup->addButton(m_localViewProps);
@@ -54,6 +56,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     topLayout->addRow(QString(), globalViewPropsLabel);
     topLayout->addRow(QString(), m_localViewProps);
     topLayout->addRow(QString(), localViewPropsLabel);
+    topLayout->addRow(QString(), m_dynamicView);
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
@@ -191,6 +194,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     connect(m_showSelectionToggle, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_renameInline, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_hideXtrashFiles, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
+    connect(m_dynamicView, &QCheckBox::toggled, this, &GeneralViewSettingsPage::changed);
     connect(m_doubleClickViewCustomAction, &QLineEdit::textChanged, this, &GeneralViewSettingsPage::changed);
     connect(m_doubleClickViewComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &GeneralViewSettingsPage::changed);
     connect(m_doubleClickViewComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &GeneralViewSettingsPage::updateCustomActionVisibility);
@@ -212,6 +216,7 @@ void GeneralViewSettingsPage::applySettings()
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setHideXTrashFile(m_hideXtrashFiles->isChecked());
+    settings->setDynamicView(m_dynamicView->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setDoubleClickViewCustomAction(m_doubleClickViewCustomAction->text());
@@ -246,6 +251,7 @@ void GeneralViewSettingsPage::loadSettings()
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_renameInline->setChecked(GeneralSettings::renameInline());
     m_hideXtrashFiles->setChecked(GeneralSettings::hideXTrashFile());
+    m_dynamicView->setChecked(GeneralSettings::dynamicView());
 
     m_localViewProps->setChecked(!useGlobalViewProps);
     m_globalViewProps->setChecked(useGlobalViewProps);

@@ -867,6 +867,11 @@ private:
      */
     void applyModeToView();
 
+    /**
+     * Changes the current view based on the content of the directory.
+     */
+    void applyDynamicView();
+
     enum Selection { HasSelection, NoSelection };
     /**
      * Helper method for DolphinView::requestStatusBarText().

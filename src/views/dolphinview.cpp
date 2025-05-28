@@ -1945,6 +1945,7 @@ void DolphinView::slotDirectoryLoadingCompleted()
 
     Q_EMIT directoryLoadingCompleted();
 
+    applyDynamicView();
     updatePlaceholderLabel();
     updateWritableState();
 }
@@ -2211,6 +2212,51 @@ void DolphinView::applyModeToView()
         Q_ASSERT(false);
         break;
     }
+}
+
+void DolphinView::applyDynamicView()
+{
+    ViewProperties props(viewPropertiesUrl());
+    /* return early if:
+     * - dynamic view is not enabled
+     * - the current view mode is already Icon View
+     * - dynamic view has previously changed the view mode
+     */
+    if (!GeneralSettings::dynamicView() || m_mode == IconsView || props.dynamicViewPassed()) {
+        return;
+    }
+
+    uint imageAndVideoCount = 0;
+    uint checkedItems = 0;
+    const uint totalItems = itemsCount();
+    const KFileItemList itemList = items();
+    bool applyDynamicView = false;
+
+    for (const auto &file : itemList) {
+        ++checkedItems;
+        const QString type = file.mimetype().slice(0, 5);
+
+        if (type == "image" || type == "video") {
+            ++imageAndVideoCount;
+            // if 2/3 or more of the items are images/videos, dynamic view should be applied
+            applyDynamicView = imageAndVideoCount >= (totalItems * 2 / 3);
+            if (applyDynamicView) {
+                break;
+            }
+        } else if (checkedItems - imageAndVideoCount > totalItems / 3) {
+            // if more than a third of the checked files are not media files, return
+            return;
+        }
+    }
+
+    if (!applyDynamicView) {
+        return;
+    }
+
+    props.setAutoSaveEnabled(!GeneralSettings::globalViewProps());
+    props.setDynamicViewPassed(true);
+    props.setViewMode(IconsView);
+    applyViewProperties(props);
 }
 
 void DolphinView::pasteToUrl(const QUrl &url)
