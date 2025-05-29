@@ -18,6 +18,9 @@
 
 #include <QActionGroup>
 #include <QBoxLayout>
+#include <QEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
 #include <QMenu>
 #include <QPushButton>
 #include <QUrl>
@@ -69,46 +72,87 @@ void SetFolderIconItemAction::setFolderIcon(bool check)
 class ButtonsWithSubMenuWidgetAction : public QWidgetAction
 {
 public:
-    ButtonsWithSubMenuWidgetAction(const QList<QAction *> actions, QMenu *subMenu, QObject *parent)
-        : QWidgetAction(parent)
+    ButtonsWithSubMenuWidgetAction(const QList<QAction *> actions, QMenu *subMenu, QWidget *parentWidget)
+        : QWidgetAction(parentWidget)
         , m_actions(actions)
         , m_subMenu(subMenu)
     {
     }
 
+    bool eventFilter(QObject *object, QEvent *event) override
+    {
+        if (event->type() == QEvent::KeyPress) {
+            const QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            auto widget = qobject_cast<QWidget *>(object);
+
+            if (keyEvent->keyCombination() == QKeyCombination(Qt::Modifier::SHIFT, Qt::Key_Backtab) || keyEvent->key() == Qt::Key_Left) {
+                auto previous = widget->previousInFocusChain();
+                if (previous == widget->parentWidget()) {
+                    // the next object is the parent, let the focus bubble up
+                    return false;
+                }
+                previous->setFocus(Qt::BacktabFocusReason);
+                event->accept();
+                return true;
+            }
+
+            if (keyEvent->keyCombination() == QKeyCombination(Qt::Key_Tab) || keyEvent->key() == Qt::Key_Right) {
+                auto next = widget->nextInFocusChain();
+                if (next->parentWidget() != widget->parentWidget()) {
+                    // the next object is not a sibling, let the focus bubble up
+                    return false;
+                }
+
+                next->setFocus(Qt::TabFocusReason);
+                event->accept();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     QWidget *createWidget(QWidget *parent) override
     {
         QWidget *widget = new QWidget(parent);
-        m_layout = new QHBoxLayout(widget);
+        auto layout = new QHBoxLayout(widget);
 
+        bool firstAction = false;
         for (const auto action : std::as_const(m_actions)) {
-            action->setParent(this);
+            action->setParent(widget);
 
             auto p = new QPushButton(widget);
 
             p->setIcon(action->icon());
             p->setCheckable(true);
             p->setChecked(action->isChecked());
-            p->setToolTip(action->text());
-            p->setAccessibleName(i18nc("@label", "Set folder icon to %1", action->iconText()));
+            p->setToolTip(action->toolTip());
+            p->installEventFilter(this);
 
             connect(p, &QPushButton::clicked, action, &QAction::triggered);
             connect(action, &QAction::toggled, p, &QPushButton::setChecked);
 
-            m_layout->addWidget(p);
+            layout->addWidget(p);
+
+            if (!firstAction) {
+                widget->setFocusProxy(p);
+                firstAction = true;
+            }
         }
 
         auto p = new QPushButton(widget);
         p->setText(i18nc("@action open a submeun with additional entries", "Other"));
-        p->setAccessibleName(i18nc("@label", "Other folder icons"));
+        p->setToolTip(i18nc("@label", "Other folder icon options"));
         p->setMenu(m_subMenu);
-        m_layout->addWidget(p);
+        layout->addWidget(p);
+        p->installEventFilter(this);
+
+        widget->setFocusPolicy(Qt::StrongFocus);
 
         return widget;
     }
 
     QList<QAction *> m_actions;
-    QHBoxLayout *m_layout;
     QMenu *m_subMenu;
 };
 
@@ -155,11 +199,11 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
                                      StringPair{ki18nc("@label as in default folder color", "Temporary"), QStringLiteral("folder-temp")},
                                      StringPair{ki18nc("@label as in default folder color", "Important"), QStringLiteral("folder-important")}};
 
-    QActionGroup *actiongroup = new QActionGroup(parentWidget);
+    QActionGroup *actiongroup = new QActionGroup(this);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
 
     int i = 0;
-    QMenu *subMenu = new QMenu(parentWidget);
+    QMenu *subMenu = new QMenu();
     QList<QAction *> actions;
     const auto fileIconName = fileItem.iconName();
     for (const auto &[name, iconName] : icons) {
@@ -173,6 +217,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
         folderIconAction->setIcon(icon);
         folderIconAction->setCheckable(true);
         folderIconAction->setChecked(fileIconName == iconName);
+        folderIconAction->setToolTip(i18nc("@label %1 is a folder icon name (Red, Music...) etc", "Set folder icon to %1", folderIconAction->iconText()));
         actiongroup->addAction(folderIconAction);
 
         connect(folderIconAction, &QAction::triggered, this, &SetFolderIconItemAction::setFolderIcon);
