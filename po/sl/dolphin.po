@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-10 00:45+0000\n"
+"POT-Creation-Date: 2025-05-29 00:45+0000\n"
 "PO-Revision-Date: 2025-04-20 07:07+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -4345,8 +4345,15 @@ msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "Kdaj je uporabnik nazadnje spremenil te lastnosti."
 
+#. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#, kde-format
+msgctxt "@label"
+msgid "View mode changed once by dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -4570,14 +4577,20 @@ msgstr ""
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "Skrij tudi datoteke z vrsto mime application/x-trash"
 
+#. i18n: ectx: label, entry (DynamicView), group (General)
+#: settings/dolphin_generalsettings.kcfg:157
+#, kde-format
+msgid "Enable dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:159
+#: settings/dolphin_generalsettings.kcfg:163
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "Pred zapiranjem okna z več zavihki vprašaj za potrditev."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:163
+#: settings/dolphin_generalsettings.kcfg:167
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "Pred zapiranjem okna z več zavihki vprašaj za potrditev."
@@ -5248,67 +5261,73 @@ msgstr ""
 "spreminjate lastnosti pogleda. Če to ni mogoče, se namesto tega ustvari "
 "skrita datoteka .directory."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:50
+#, kde-format
+msgctxt "option:check"
+msgid "Use icons view mode for locations which mostly contain media files"
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "Način prikaza: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "Odpri arhive kot mape"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "Odpiraj mape med vlečenjem datotek ali map"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:63
+#: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "Brskanje: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:70
+#: settings/viewmodes/generalviewsettingspage.cpp:73
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "Pokaži postavko pod miškino kazalko"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:71
-#: settings/viewmodes/generalviewsettingspage.cpp:79
+#: settings/viewmodes/generalviewsettingspage.cpp:74
+#: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "Razno: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:75
+#: settings/viewmodes/generalviewsettingspage.cpp:78
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "Pokaži označevalnik izbire"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:83
+#: settings/viewmodes/generalviewsettingspage.cpp:86
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "Preimenuj posamezne elemente v vrstici"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:84
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr "Preimenovanje več elementov se vedno izvede s pogovornim oknom."
 
-#: settings/viewmodes/generalviewsettingspage.cpp:87
+#: settings/viewmodes/generalviewsettingspage.cpp:90
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "Skrij tudi varnostne kopije, ko skrivaš skrite datoteke"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:91
+#: settings/viewmodes/generalviewsettingspage.cpp:94
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -5319,7 +5338,7 @@ msgstr ""
 "Datoteke varnostne kopije so datoteke, katerih tip mime je aplikacija/x-"
 "trash, vzorcev %1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:127
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -5328,13 +5347,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "Dejavnost za proženje ob dvokliku pogleda ozadja"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:126
+#: settings/viewmodes/generalviewsettingspage.cpp:129
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "Nič"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:127
+#: settings/viewmodes/generalviewsettingspage.cpp:130
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -5344,19 +5363,19 @@ msgstr "Ukaz po meri"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:152
+#: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "Prožilniki ob dvojnem kliku"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:159
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "Ozadje: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:164
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -5364,13 +5383,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr "Vnesite ukaz po meri za proženje ob dvojnem kliku na pogled ozadja"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "Ukaz…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:169
+#: settings/viewmodes/generalviewsettingspage.cpp:172
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -6002,13 +6021,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Brisanje zaključeno."
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2031
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj in skrij"
 
-#: views/dolphinview.cpp:2034
+#: views/dolphinview.cpp:2035
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6018,7 +6037,7 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:2036
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6028,94 +6047,94 @@ msgstr ""
 "pogledom.\n"
 "Ali še to vedno želite preimenovati?"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this File?"
 msgstr "Naj skrijem to datoteko?"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Naj skrijem to mapo?"
 
-#: views/dolphinview.cpp:2077
+#: views/dolphinview.cpp:2078
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Mesto je prazno."
 
-#: views/dolphinview.cpp:2079
+#: views/dolphinview.cpp:2080
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Mesto »%1« je neveljavno."
 
-#: views/dolphinview.cpp:2359
+#: views/dolphinview.cpp:2405
 #, kde-format
 msgid "Loading…"
 msgstr "Nalaganje …"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2434
 #, kde-format
 msgid "Loading canceled"
 msgstr "Nalaganje preklicano"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2436
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Ni predmetov, ki bi ustrezali filtru"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "No items matching the search"
 msgstr "Ni predmetov, ki bi ustrezali iskanju"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2440
 #, kde-format
 msgid "Trash is empty"
 msgstr "Smeti so prazne"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2443
 #, kde-format
 msgid "No tags"
 msgstr "Ni značk"
 
-#: views/dolphinview.cpp:2400
+#: views/dolphinview.cpp:2446
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Ni datotek z oznako »%1«"
 
-#: views/dolphinview.cpp:2404
+#: views/dolphinview.cpp:2450
 #, kde-format
 msgid "No recently used items"
 msgstr "Ni nedavno uporabljenih predmetov"
 
-#: views/dolphinview.cpp:2406
+#: views/dolphinview.cpp:2452
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nobenih skupnih map ni najti"
 
-#: views/dolphinview.cpp:2408
+#: views/dolphinview.cpp:2454
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Ni najti pomembnih nobenih mrežnih virov"
 
-#: views/dolphinview.cpp:2410
+#: views/dolphinview.cpp:2456
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ni nadene nobene MTP združljive naprave"
 
-#: views/dolphinview.cpp:2412
+#: views/dolphinview.cpp:2458
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ni najdenih Applovih naprav"
 
-#: views/dolphinview.cpp:2414
+#: views/dolphinview.cpp:2460
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ni najdene nobene Bluetooth naprave"
 
-#: views/dolphinview.cpp:2416
+#: views/dolphinview.cpp:2462
 #, kde-format
 msgid "Folder is empty"
 msgstr "Mapa je prazna"

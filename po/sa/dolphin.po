@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-10 00:45+0000\n"
+"POT-Creation-Date: 2025-05-29 00:45+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -4280,8 +4280,15 @@ msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr "अन्तिमवारं एते गुणाः उपयोक्त्रा परिवर्तिताः आसन् ।"
 
+#. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#, kde-format
+msgctxt "@label"
+msgid "View mode changed once by dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -4499,14 +4506,20 @@ msgstr "द्रव्याणां क्रमणं प्राकृत�
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "application/x-trash mimetype इत्यनेन सह सञ्चिकाः अपि गोपयन्तु"
 
+#. i18n: ectx: label, entry (DynamicView), group (General)
+#: settings/dolphin_generalsettings.kcfg:157
+#, kde-format
+msgid "Enable dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:159
+#: settings/dolphin_generalsettings.kcfg:163
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "एकदा एव अनेकपुटं उद्घाटयन् पुष्टिकरणं याचत।"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:163
+#: settings/dolphin_generalsettings.kcfg:167
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "एकदा एव बहवः टर्मिनल् उद्घाटयन्ते सति पुष्टिः पृच्छन्तु।"
@@ -5176,67 +5189,73 @@ msgstr ""
 "डॉल्फिन् भवन्तः दृश्यगुणान् परिवर्तयन्ति तेषु पुटेषु सञ्चिकातन्त्रस्य मेटाडाटा योजयिष्यति । यदि "
 "तत् न सम्भवति तर्हि तस्य स्थाने गुप्तं .directory सञ्चिका निर्मीयते ।"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:50
+#, kde-format
+msgctxt "option:check"
+msgid "Use icons view mode for locations which mostly contain media files"
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
 msgctxt "@title:group"
 msgid "Display style: "
 msgstr "प्रदर्शनशैली : "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "आर्काइव्स् पुटरूपेण उद्घाटयन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr "drag operations इत्यस्य समये समुच्चय उद्घाटयन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:63
+#: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr "ब्राउजिंग् : "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:70
+#: settings/viewmodes/generalviewsettingspage.cpp:73
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "hover इत्यत्र मदस्य सूचनां दर्शयतु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:71
-#: settings/viewmodes/generalviewsettingspage.cpp:79
+#: settings/viewmodes/generalviewsettingspage.cpp:74
+#: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "विविध: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:75
+#: settings/viewmodes/generalviewsettingspage.cpp:78
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "चयनचिह्नं दर्शयतु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:83
+#: settings/viewmodes/generalviewsettingspage.cpp:86
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "एकल-वस्तूनाम् इनलाइन्-रूपेण नामकरणं कुर्वन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:84
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr "बहुविधवस्तूनाम् पुनर्नामकरणं सर्वदा संवादविण्डो इत्यनेन भवति ।"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:87
+#: settings/viewmodes/generalviewsettingspage.cpp:90
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr "गुप्तसञ्चिकाः गोपयन् अपि बैकअपसञ्चिकाः गोपयन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:91
+#: settings/viewmodes/generalviewsettingspage.cpp:94
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -5247,7 +5266,7 @@ msgstr ""
 "बैकअप सञ्चिकाः ताः सञ्चिकाः सन्ति येषां mime-प्रकारः application/x-trash अस्ति, "
 "प्रतिमानाः: %1"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:127
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -5256,13 +5275,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr "view background इत्यत्र डबल क्लिक् करणसमये trigger कर्तुं क्रिया"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:126
+#: settings/viewmodes/generalviewsettingspage.cpp:129
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr "किमपि न"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:127
+#: settings/viewmodes/generalviewsettingspage.cpp:130
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Custom Command"
@@ -5272,19 +5291,19 @@ msgstr "कस्टम आदेश"
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:152
+#: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr "ट्रिगर्स् इत्यत्र द्विवारं क्लिक् कुर्वन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:159
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr "पृष्ठभूमि: "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:164
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -5292,13 +5311,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr "view background इत्यत्र डबल क्लिक् करणसमये trigger कर्तुं custom आदेशं प्रविशन्तु"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr "आदेश…"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:169
+#: settings/viewmodes/generalviewsettingspage.cpp:172
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5916,13 +5935,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "डिलीट ऑपरेशन सम्पन्न।"
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2031
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "नाम परिवर्तनं कृत्वा गोपनं कुर्वन्तु"
 
-#: views/dolphinview.cpp:2034
+#: views/dolphinview.cpp:2035
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -5931,7 +5950,7 @@ msgstr ""
 "अस्याः सञ्चिकायाः नामस्य आरम्भे बिन्दुं योजयित्वा तत् दृश्यात् गोपनीयं भविष्यति ।\n"
 "किं भवन्तः अद्यापि तस्य नाम परिवर्तयितुम् इच्छन्ति ?"
 
-#: views/dolphinview.cpp:2036
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -5940,94 +5959,94 @@ msgstr ""
 "अस्य पुटस्य नाम आरम्भे बिन्दुं योजयित्वा तत् दृश्यात् गोपनीयं भविष्यति ।\n"
 "किं भवन्तः अद्यापि तस्य नाम परिवर्तयितुम् इच्छन्ति ?"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this File?"
 msgstr "एतत् सञ्चिकां गोपयन्तु?"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "एतत् पुटं गोपयन्तु?"
 
-#: views/dolphinview.cpp:2077
+#: views/dolphinview.cpp:2078
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "स्थानं शून्यम् अस्ति।"
 
-#: views/dolphinview.cpp:2079
+#: views/dolphinview.cpp:2080
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' इति स्थानम् अमान्यम् अस्ति ।"
 
-#: views/dolphinview.cpp:2359
+#: views/dolphinview.cpp:2405
 #, kde-format
 msgid "Loading…"
 msgstr "लोडिंग…"
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2434
 #, kde-format
 msgid "Loading canceled"
 msgstr "लोडिंग् रद्दम्"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2436
 #, kde-format
 msgid "No items matching the filter"
 msgstr "फ़िल्टरेन सह मेलनं कुर्वन्तः वस्तूनि न सन्ति"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "No items matching the search"
 msgstr "अन्वेषणेन सह मेलनं कुर्वन्तः वस्तूनि न सन्ति"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2440
 #, kde-format
 msgid "Trash is empty"
 msgstr "कचरा रिक्तः अस्ति"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2443
 #, kde-format
 msgid "No tags"
 msgstr "न टैग्स्"
 
-#: views/dolphinview.cpp:2400
+#: views/dolphinview.cpp:2446
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "\"%1\" इत्यनेन टैग् कृताः सञ्चिकाः नास्ति ।"
 
-#: views/dolphinview.cpp:2404
+#: views/dolphinview.cpp:2450
 #, kde-format
 msgid "No recently used items"
 msgstr "अद्यतनप्रयुक्तानि वस्तूनि नास्ति"
 
-#: views/dolphinview.cpp:2406
+#: views/dolphinview.cpp:2452
 #, kde-format
 msgid "No shared folders found"
 msgstr "साझापुटं न प्राप्तम्"
 
-#: views/dolphinview.cpp:2408
+#: views/dolphinview.cpp:2454
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "कोऽपि प्रासंगिकः जालसंसाधनः न लब्धः"
 
-#: views/dolphinview.cpp:2410
+#: views/dolphinview.cpp:2456
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-सङ्गतयन्त्राणि न प्राप्यन्ते"
 
-#: views/dolphinview.cpp:2412
+#: views/dolphinview.cpp:2458
 #, kde-format
 msgid "No Apple devices found"
 msgstr "एप्पल्-यन्त्राणि न प्राप्तानि"
 
-#: views/dolphinview.cpp:2414
+#: views/dolphinview.cpp:2460
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ब्लूटूथ-यन्त्राणि न प्राप्तानि"
 
-#: views/dolphinview.cpp:2416
+#: views/dolphinview.cpp:2462
 #, kde-format
 msgid "Folder is empty"
 msgstr "पुटं रिक्तम् अस्ति"

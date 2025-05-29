@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-10 00:45+0000\n"
+"POT-Creation-Date: 2025-05-29 00:45+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -4078,8 +4078,15 @@ msgctxt "@info:whatsthis"
 msgid "The last time these properties were changed by the user."
 msgstr ""
 
+#. i18n: ectx: label, entry (DynamicViewPassed), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:81
+#, kde-format
+msgctxt "@label"
+msgid "View mode changed once by dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
-#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#: settings/dolphin_directoryviewpropertysettings.kcfg:87
 #, kde-format
 msgctxt "@label"
 msgid "Additional Information"
@@ -4299,8 +4306,14 @@ msgstr ""
 msgid "Also hide files with application/x-trash mimetype"
 msgstr ""
 
+#. i18n: ectx: label, entry (DynamicView), group (General)
+#: settings/dolphin_generalsettings.kcfg:157
+#, kde-format
+msgid "Enable dynamic view"
+msgstr ""
+
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:159
+#: settings/dolphin_generalsettings.kcfg:163
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4308,7 +4321,7 @@ msgid "Ask for confirmation when opening many folders at once."
 msgstr "လင်းပိုင်တွင်အတည်ပြုချက်တောင်းခံရန်၊ အောက်ပါအချိန်တွင် -"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:163
+#: settings/dolphin_generalsettings.kcfg:167
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -5020,7 +5033,13 @@ msgid ""
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:53
+#: settings/viewmodes/generalviewsettingspage.cpp:50
+#, kde-format
+msgctxt "option:check"
+msgid "Use icons view mode for locations which mostly contain media files"
+msgstr ""
+
+#: settings/viewmodes/generalviewsettingspage.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "View Display Style"
@@ -5028,25 +5047,25 @@ msgctxt "@title:group"
 msgid "Display style: "
 msgstr "ပြသ-စတိုင် ကြည့်မည်"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:61
+#: settings/viewmodes/generalviewsettingspage.cpp:64
 #, kde-format
 msgctxt "@option:check"
 msgid "Open archives as folder"
 msgstr "ထိမ်းသိမ်းတိုက်များကို ဖိုလ်ဒါအဖြစ်သုံးမည်"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:62
+#: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
 msgctxt "option:check"
 msgid "Open folders during drag operations"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:63
+#: settings/viewmodes/generalviewsettingspage.cpp:66
 #, kde-format
 msgctxt "@title:group"
 msgid "Browsing: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:70
+#: settings/viewmodes/generalviewsettingspage.cpp:73
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -5054,38 +5073,38 @@ msgctxt "@option:check"
 msgid "Show item information on hover"
 msgstr "စစ်ထုတ်တန်း ပြမည်"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:71
-#: settings/viewmodes/generalviewsettingspage.cpp:79
+#: settings/viewmodes/generalviewsettingspage.cpp:74
+#: settings/viewmodes/generalviewsettingspage.cpp:82
 #, kde-format
 msgctxt "@title:group"
 msgid "Miscellaneous: "
 msgstr "တိုလီမိုလီများ - "
 
-#: settings/viewmodes/generalviewsettingspage.cpp:75
+#: settings/viewmodes/generalviewsettingspage.cpp:78
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
 msgstr "ရွေးချယ်မှုအမှတ်အသား ပြမည်"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:83
+#: settings/viewmodes/generalviewsettingspage.cpp:86
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "option:check"
 msgid "Rename single items inline"
 msgstr "စာကြောင်းနေရာတွင်တန်းအမည်ပြောင်းမည်"
 
-#: settings/viewmodes/generalviewsettingspage.cpp:84
+#: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:87
+#: settings/viewmodes/generalviewsettingspage.cpp:90
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:91
+#: settings/viewmodes/generalviewsettingspage.cpp:94
 #, kde-format
 msgctxt ""
 "@info:tooltip %1 are the file patterns for mimetype application/x-trash"
@@ -5094,7 +5113,7 @@ msgid ""
 "%1"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:124
+#: settings/viewmodes/generalviewsettingspage.cpp:127
 #, kde-format
 msgctxt ""
 "Accessible description for combobox with actions of double click view "
@@ -5103,13 +5122,13 @@ msgid "Action to trigger when double clicking view background"
 msgstr ""
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
-#: settings/viewmodes/generalviewsettingspage.cpp:126
+#: settings/viewmodes/generalviewsettingspage.cpp:129
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Nothing"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:127
+#: settings/viewmodes/generalviewsettingspage.cpp:130
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Font"
 #| msgid "Custom Font"
@@ -5121,19 +5140,19 @@ msgstr "ကိုယ်ပိုင်ဓလေ့သတ်မှတ်ထား
 #. (While using a left-to-right language it will be to the right of "triggers", in a right-to-left layout it will be to the left.)
 #. So please try to keep this translation in a way that it is a complete sentence when reading the content of the combobox as part of the sentence.
 #. There can be many possible actions in the combobox. The default is "Nothing". Other actions are "New Tab", "Create Folder", "Show Hidden Files", …
-#: settings/viewmodes/generalviewsettingspage.cpp:152
+#: settings/viewmodes/generalviewsettingspage.cpp:155
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:159
+#: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:164
+#: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
 msgctxt ""
 "Accessible description for custom command text field of double click view "
@@ -5141,13 +5160,13 @@ msgctxt ""
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:165
+#: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
 msgctxt "@info:placeholder for terminal command"
 msgid "Command…"
 msgstr ""
 
-#: settings/viewmodes/generalviewsettingspage.cpp:169
+#: settings/viewmodes/generalviewsettingspage.cpp:172
 #, kde-format
 msgctxt "@label"
 msgid ""
@@ -5765,116 +5784,116 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "ဖျက်သိမ်းမှုလုပ်ဆောင်ချက်ပြီးမြောက်ပါပြီ"
 
-#: views/dolphinview.cpp:2030
+#: views/dolphinview.cpp:2031
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "အမည်ပြောင်း၍ဖွက်မည်"
 
-#: views/dolphinview.cpp:2034
+#: views/dolphinview.cpp:2035
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2036
+#: views/dolphinview.cpp:2037
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this File?"
 msgstr "ဤဖိုင်လ်ဖွက်မည်လား။"
 
-#: views/dolphinview.cpp:2038
+#: views/dolphinview.cpp:2039
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "ဤဖိုလ်ဒါဖွက်မည်လား။"
 
-#: views/dolphinview.cpp:2077
+#: views/dolphinview.cpp:2078
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "တည်နေရာသည် ဗလာဖြစ်နေသည်။"
 
-#: views/dolphinview.cpp:2079
+#: views/dolphinview.cpp:2080
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "တည်နေရာ '%1' သည် မမှန်ကန်ပါ။"
 
-#: views/dolphinview.cpp:2359
+#: views/dolphinview.cpp:2405
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "တွန်းတင်နေသည်..."
 
-#: views/dolphinview.cpp:2388
+#: views/dolphinview.cpp:2434
 #, kde-format
 msgid "Loading canceled"
 msgstr "တွန်းတင်ခြင်းပယ်ဖျက်ခဲ့သည်"
 
-#: views/dolphinview.cpp:2390
+#: views/dolphinview.cpp:2436
 #, kde-format
 msgid "No items matching the filter"
 msgstr "မည်သည်အိုင်တမ်မှ စစ်ထုတ်ချက်နှင့် မကိုက်ညီပါ"
 
-#: views/dolphinview.cpp:2392
+#: views/dolphinview.cpp:2438
 #, kde-format
 msgid "No items matching the search"
 msgstr "ရှာဖွေမှုနှင့်ကိုက်ညီသော အိုင်တမ်များမတွေ့ပါ"
 
-#: views/dolphinview.cpp:2394
+#: views/dolphinview.cpp:2440
 #, kde-format
 msgid "Trash is empty"
 msgstr "အမှိုက်ပုံး ဗလာ"
 
-#: views/dolphinview.cpp:2397
+#: views/dolphinview.cpp:2443
 #, kde-format
 msgid "No tags"
 msgstr "တပ်ဂ်များမရှိ"
 
-#: views/dolphinview.cpp:2400
+#: views/dolphinview.cpp:2446
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2404
+#: views/dolphinview.cpp:2450
 #, kde-format
 msgid "No recently used items"
 msgstr "မကြာသေးမီကအသုံးပြုခဲ့သောအိုင်တမ်များမရှိ"
 
-#: views/dolphinview.cpp:2406
+#: views/dolphinview.cpp:2452
 #, kde-format
 msgid "No shared folders found"
 msgstr "ဝေမျှထားသော ဖိုလ်ဒါများမတွေ့ပါ"
 
-#: views/dolphinview.cpp:2408
+#: views/dolphinview.cpp:2454
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2410
+#: views/dolphinview.cpp:2456
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2412
+#: views/dolphinview.cpp:2458
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
 
-#: views/dolphinview.cpp:2414
+#: views/dolphinview.cpp:2460
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
 
-#: views/dolphinview.cpp:2416
+#: views/dolphinview.cpp:2462
 #, kde-format
 msgid "Folder is empty"
 msgstr "ဖိုလ်ဒါသည် ဗလာဖြစ်နေသည်"
