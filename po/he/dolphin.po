@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-29 00:45+0000\n"
-"PO-Revision-Date: 2025-04-22 08:02+0300\n"
+"PO-Revision-Date: 2025-05-29 14:41+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4269,7 +4269,7 @@ msgstr "התאריך האחרון בו המאפיינים שונו על ידי �
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "מצב התצוגה השתנה פעם אחת על ידי תצוגה דינמית"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4490,7 +4490,7 @@ msgstr "להסתיר גם קבצים עם סוג המדיה application/x-trash"
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "הפעלת תצוגה דינמית"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5169,7 +5169,7 @@ msgstr ""
 #, kde-format
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
-msgstr ""
+msgstr "להשתמש במצב תצוגת סמלים למקומות שמכילים בעיקר קובצי מדיה"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-29 00:45+0000\n"
-"PO-Revision-Date: 2025-04-20 04:17+0200\n"
+"PO-Revision-Date: 2025-05-29 04:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4301,7 +4301,7 @@ msgstr "უკანასკნელი დრო, როცა ეს თვ�
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "ხედის რეჟიმი შეიცვალა ერთხელ დინამიკური ხედით"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4531,7 +4531,7 @@ msgstr "ასევე დაიმალება application/x-trash MIMEtype
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "დინამიური ხედის ჩართვა"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5216,6 +5216,8 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"ხატულების ხედის რეჟიმის გამოყენება მდებარეობებისთვის, რომლებიც ძირითადად "
+"მედიაფაილებს შეიცავენ"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format

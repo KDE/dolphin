@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-29 00:45+0000\n"
-"PO-Revision-Date: 2025-04-20 07:07+0200\n"
+"PO-Revision-Date: 2025-05-29 06:49+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4350,7 +4350,7 @@ msgstr "Kdaj je uporabnik nazadnje spremenil te lastnosti."
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "Dinamični pogled je enkrat spremenil način pogleda"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4581,7 +4581,7 @@ msgstr "Skrij tudi datoteke z vrsto mime application/x-trash"
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Omogoči dinamični pogled"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5266,6 +5266,7 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"Uporabi način prikaza ikon za mesta, ki večinoma vsebujejo medijske datoteke"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
