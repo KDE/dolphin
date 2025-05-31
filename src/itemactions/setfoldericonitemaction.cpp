@@ -174,22 +174,24 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     if (!local || !fileItemInfos.supportsWriting() || !fileItem.isWritable()) {
         return {};
     }
+    const short s_numberOfEntriesVisible = 5;
 
     using StringPair = QPair<KLocalizedString, QString>;
     // keep in sync with kio/src/filewidgets/knewfilemenu.cpp
+    // default folder icon goes here.
     const QList<StringPair> icons = {// colors.
-                                     // default folder icon goes here.
                                      StringPair{ki18nc("@label as in default folder color", "Red"), QStringLiteral("folder-red")},
                                      StringPair{ki18nc("@label as in default folder color", "Yellow"), QStringLiteral("folder-yellow")},
                                      StringPair{ki18nc("@label as in default folder color", "Orange"), QStringLiteral("folder-orange")},
                                      StringPair{ki18nc("@label as in default folder color", "Green"), QStringLiteral("folder-green")},
                                      StringPair{ki18nc("@label as in default folder color", "Cyan"), QStringLiteral("folder-cyan")},
+                                     // must match s_numberOfEntriesVisible
+                                     StringPair{ki18nc("@label: as in default folder icon", "Default"), QStringLiteral("inode-directory")},
+
                                      StringPair{ki18nc("@label as in default folder color", "Blue"), QStringLiteral("folder-blue")},
                                      StringPair{ki18nc("@label as in default folder color", "Violet"), QStringLiteral("folder-violet")},
                                      StringPair{ki18nc("@label as in default folder color", "Brown"), QStringLiteral("folder-brown")},
                                      StringPair{ki18nc("@label as in default folder color", "Grey"), QStringLiteral("folder-grey")},
-
-                                     StringPair{ki18nc("@label: as in default folder icon", "Default"), QStringLiteral("inode-directory")},
 
                                      // emblems.
                                      StringPair{ki18nc("@label as in default folder color", "Bookmark"), QStringLiteral("folder-bookmark")},
@@ -205,8 +207,6 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
 
     QActionGroup *actiongroup = new QActionGroup(this);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
-
-    const short s_numberOfEntriesVisible = 5;
 
     int i = 0;
     QMenu *subMenu = new QMenu();
