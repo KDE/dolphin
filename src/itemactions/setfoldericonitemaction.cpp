@@ -167,7 +167,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
 
     bool local;
     m_localUrl = fileItem.mostLocalUrl(&local);
-    if (!local && fileItemInfos.supportsWriting()) {
+    if (!local || !fileItemInfos.supportsWriting() || !fileItem.isWritable()) {
         return {};
     }
 
