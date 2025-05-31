@@ -91,6 +91,7 @@ public:
                     // the next object is the parent, let the focus bubble up
                     return false;
                 }
+
                 previous->setFocus(Qt::BacktabFocusReason);
                 event->accept();
                 return true;
@@ -108,6 +109,9 @@ public:
                 return true;
             }
         }
+
+        // TODO implement proper SHIFT+TAB
+        // See https://bugreports.qt.io/browse/QTBUG-137298
 
         return false;
     }
@@ -202,6 +206,8 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     QActionGroup *actiongroup = new QActionGroup(this);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
 
+    const short s_numberOfEntriesVisible = 5;
+
     int i = 0;
     QMenu *subMenu = new QMenu();
     QList<QAction *> actions;
@@ -224,7 +230,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
         connect(folderIconAction, &QAction::triggered, parentWidget, &QWidget::close);
 
         ++i;
-        if (i < 6) {
+        if (i < s_numberOfEntriesVisible + 1) {
             actions.append(folderIconAction);
         } else {
             folderIconAction->setParent(subMenu);
