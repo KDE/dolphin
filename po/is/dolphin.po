@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 00:45+0000\n"
+"POT-Creation-Date: 2025-06-01 00:45+0000\n"
 "PO-Revision-Date: 2025-04-07 09:58+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -195,7 +195,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Endurheimta á fyrri staðsetningu"
 msgstr[1] "Endurheimt á fyrri staðsetningar"
 
-#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1744
+#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1748
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -347,7 +347,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Opna %1"
 
-#: dolphinmainwindow.cpp:1332 dolphinmainwindow.cpp:2111
+#: dolphinmainwindow.cpp:1332 dolphinmainwindow.cpp:2115
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -394,19 +394,19 @@ msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Grunnstilla"
 
-#: dolphinmainwindow.cpp:1750
+#: dolphinmainwindow.cpp:1754
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Nýr &gluggi"
 
-#: dolphinmainwindow.cpp:1751
+#: dolphinmainwindow.cpp:1755
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Opna í nýjum Dolphin-glugga"
 
-#: dolphinmainwindow.cpp:1753
+#: dolphinmainwindow.cpp:1757
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -416,13 +416,13 @@ msgstr ""
 "Þetta opnar nýjan glugga alveg eins og þennan með núverandi staðsetningu.<nl/"
 ">Þú getur dregið og sleppt hlutum á milli glugga."
 
-#: dolphinmainwindow.cpp:1760
+#: dolphinmainwindow.cpp:1764
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nýr flipi"
 
-#: dolphinmainwindow.cpp:1762
+#: dolphinmainwindow.cpp:1766
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -434,31 +434,31 @@ msgstr ""
 ">Með flipum geturðu farið á milli ólíkra staða og yfirlita í sama glugga. Þú "
 "getur dregið og sleppt hlutum á milli flipa."
 
-#: dolphinmainwindow.cpp:1771
+#: dolphinmainwindow.cpp:1775
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Bæta við Staði"
 
-#: dolphinmainwindow.cpp:1773
+#: dolphinmainwindow.cpp:1777
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Þetta bætir völdu möppunni við spjaldið Staðir."
 
-#: dolphinmainwindow.cpp:1778
+#: dolphinmainwindow.cpp:1782
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Loka flipa"
 
-#: dolphinmainwindow.cpp:1779
+#: dolphinmainwindow.cpp:1783
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Loka flipa"
 
-#: dolphinmainwindow.cpp:1781
+#: dolphinmainwindow.cpp:1785
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -468,13 +468,13 @@ msgstr ""
 "Þetta lokar flipanum sem er opinn. Ef ekki eru fleiri flipar í notkun verður "
 "glugganum lokað í staðinn."
 
-#: dolphinmainwindow.cpp:1786
+#: dolphinmainwindow.cpp:1790
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Þetta lokar þessum glugga."
 
-#: dolphinmainwindow.cpp:1794
+#: dolphinmainwindow.cpp:1798
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -490,13 +490,13 @@ msgstr ""
 "hver öðrum á lyklaborðinu: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</"
 "shortcut> og <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1801
+#: dolphinmainwindow.cpp:1805
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Klippa…"
 
-#: dolphinmainwindow.cpp:1803
+#: dolphinmainwindow.cpp:1807
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -510,13 +510,13 @@ msgstr ""
 "afrita þá af klippispjaldinu á nýjan stað. Hluturinn verður fjarlægður af "
 "upphaflega staðnum."
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1814
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Afrita…"
 
-#: dolphinmainwindow.cpp:1812
+#: dolphinmainwindow.cpp:1816
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -528,13 +528,13 @@ msgstr ""
 "emphasis><nl/>Notaðu aðgerðina <emphasis>Líma</emphasis> á eftir til að "
 "afrita þá af klippispjaldinu á nýjan stað."
 
-#: dolphinmainwindow.cpp:1821
+#: dolphinmainwindow.cpp:1825
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Líma"
 
-#: dolphinmainwindow.cpp:1823
+#: dolphinmainwindow.cpp:1827
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -547,19 +547,19 @@ msgstr ""
 "aðgerðinni <emphasis>Klippa</emphasis> verða þeir fjarlægðir af gamla "
 "staðnum."
 
-#: dolphinmainwindow.cpp:1830
+#: dolphinmainwindow.cpp:1834
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Afrita í aðra sýn"
 
-#: dolphinmainwindow.cpp:1831
+#: dolphinmainwindow.cpp:1835
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Afrita í aðra sýn…"
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1837
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -569,25 +569,25 @@ msgstr ""
 "Þetta afritar völdu atriðin úr virka yfirlitinu í hitt yfirlitið. (Aðeins í "
 "boði í tvískiptum glugga)"
 
-#: dolphinmainwindow.cpp:1837
+#: dolphinmainwindow.cpp:1841
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Afrita í hitt yfirlitið"
 
-#: dolphinmainwindow.cpp:1842
+#: dolphinmainwindow.cpp:1846
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Færa í aðra sýn"
 
-#: dolphinmainwindow.cpp:1843
+#: dolphinmainwindow.cpp:1847
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Færa í aðra sýn…"
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1849
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -597,25 +597,25 @@ msgstr ""
 "Þetta færir völdu atriðin úr virka yfirlitinu í hitt yfirlitið. (Aðeins í "
 "boði í tvískiptum glugga)"
 
-#: dolphinmainwindow.cpp:1849
+#: dolphinmainwindow.cpp:1853
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Færa í hitt yfirlitið"
 
-#: dolphinmainwindow.cpp:1854
+#: dolphinmainwindow.cpp:1858
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Sía…"
 
-#: dolphinmainwindow.cpp:1855
+#: dolphinmainwindow.cpp:1859
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Sýna síustiku"
 
-#: dolphinmainwindow.cpp:1857
+#: dolphinmainwindow.cpp:1861
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -628,30 +628,30 @@ msgstr ""
 "geturðu slegið inn texta til að sía út skrár og möppur sem verið er að "
 "skoða. Einungis þær sem eru með textann í heiti sínu eru sýndar."
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1873
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Opna/loka síustiku"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1874
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Sía"
 
-#: dolphinmainwindow.cpp:1878 search/bar.cpp:213
+#: dolphinmainwindow.cpp:1882 search/bar.cpp:213
 #, kde-format
 msgid "Search…"
 msgstr "Leita…"
 
-#: dolphinmainwindow.cpp:1879
+#: dolphinmainwindow.cpp:1883
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Leita að skrám og möppum"
 
-#: dolphinmainwindow.cpp:1881
+#: dolphinmainwindow.cpp:1885
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -672,20 +672,20 @@ msgstr ""
 "para><para>Notaðu þessa hjálp aftur í leitarglugganum svo við getum kíkt á "
 "hana þegar stillingarnar eru útskýrðar.</para>"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1894
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Opna/loka leitarstiku"
 
-#: dolphinmainwindow.cpp:1891
+#: dolphinmainwindow.cpp:1895
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Leita"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1910
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -693,13 +693,13 @@ msgstr "Veldu skrár og möppur"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1909
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Velja"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1916
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -717,19 +717,19 @@ msgstr ""
 "sýnir flýtistika neðst hvaða aðgerðir eru í boði fyrir hlutina sem eru "
 "valdir.</para>"
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1939
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Þetta velur allar skrár og möppur á núverandi stað."
 
-#: dolphinmainwindow.cpp:1939 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:1943 dolphinpart.cpp:169
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Umsnúa vali"
 
-#: dolphinmainwindow.cpp:1941
+#: dolphinmainwindow.cpp:1945
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -737,7 +737,7 @@ msgid ""
 "selected instead."
 msgstr "Þetta velur alla hlutina sem þú hefur <emphasis>ekki</emphasis> valið."
 
-#: dolphinmainwindow.cpp:1961
+#: dolphinmainwindow.cpp:1965
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -751,7 +751,7 @@ msgstr ""
 "para><para>Yfirlitið sem er ekki \"með fókus\" dofnar aðeins. </para>Smelltu "
 "aftur á þennan hnapp til að loka öðru yfirlitinu."
 
-#: dolphinmainwindow.cpp:1976
+#: dolphinmainwindow.cpp:1980
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -761,26 +761,26 @@ msgstr ""
 "Ef möppuyfirlitinu hefur verið skipt upp opnar þetta virka möppuyfirlitið í "
 "nýjum glugga."
 
-#: dolphinmainwindow.cpp:1984
+#: dolphinmainwindow.cpp:1988
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Stafla"
 
-#: dolphinmainwindow.cpp:1985
+#: dolphinmainwindow.cpp:1989
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr ""
 "Opnar sýndarmöppu í tvískiptum glugga þar sem hægt er að stafla á lager"
 
-#: dolphinmainwindow.cpp:1993
+#: dolphinmainwindow.cpp:1997
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Endurnýja sýn"
 
-#: dolphinmainwindow.cpp:1995
+#: dolphinmainwindow.cpp:1999
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -795,31 +795,31 @@ msgstr ""
 "yfirlitsglugginn er tvískiptur verður það yfirlit sem er með fókusinn "
 "endurhlaðið.</para>"
 
-#: dolphinmainwindow.cpp:2002
+#: dolphinmainwindow.cpp:2006
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Stöðva"
 
-#: dolphinmainwindow.cpp:2003
+#: dolphinmainwindow.cpp:2007
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Stöðva hleðslu"
 
-#: dolphinmainwindow.cpp:2004
+#: dolphinmainwindow.cpp:2008
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Þetta stöðvar hleðslu á innihaldi núverandi möppu."
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:2013
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Breytanleg staðsetning"
 
-#: dolphinmainwindow.cpp:2011
+#: dolphinmainwindow.cpp:2015
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -834,13 +834,13 @@ msgstr ""
 "með því að smella hægra megin við staðsetninguna og snúið til baka með því "
 "að staðfesta staðsetninguna sem var breytt."
 
-#: dolphinmainwindow.cpp:2019
+#: dolphinmainwindow.cpp:2023
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Skipta út staðsetningu"
 
-#: dolphinmainwindow.cpp:2024
+#: dolphinmainwindow.cpp:2028
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -850,19 +850,19 @@ msgstr ""
 "Þetta skiptir yfir í að breyta staðsetningu og velur hana svo þú getir "
 "slegið inn aðra staðsetningu."
 
-#: dolphinmainwindow.cpp:2054
+#: dolphinmainwindow.cpp:2058
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Afturkalla lokun á flipa"
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2059
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Þetta fer með þig aftur á flipa sem er nýbúið að loka."
 
-#: dolphinmainwindow.cpp:2063
+#: dolphinmainwindow.cpp:2067
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -879,7 +879,7 @@ msgstr ""
 "staðfestingu þína fyrirfram fyrir allar breytingar sem er ekki hægt að "
 "afturkalla."
 
-#: dolphinmainwindow.cpp:2092
+#: dolphinmainwindow.cpp:2096
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -891,19 +891,19 @@ msgstr ""
 "<filename>heimamöppu</filename> sem inniheldur gögnin þeirra, þ.á m. faldar "
 "möppur sem innihalda gögn og grunnstillingaskrár fyrir forrit þeirra."
 
-#: dolphinmainwindow.cpp:2099
+#: dolphinmainwindow.cpp:2103
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Bera saman skrár"
 
-#: dolphinmainwindow.cpp:2105
+#: dolphinmainwindow.cpp:2109
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2113
+#: dolphinmainwindow.cpp:2117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -915,13 +915,13 @@ msgstr ""
 "para><para>Notaðu valmyndina <emphasis>Fleiri leitarverkfæri</emphasis> til "
 "að setja það upp.</para>"
 
-#: dolphinmainwindow.cpp:2127
+#: dolphinmainwindow.cpp:2131
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Opna skjáhermi"
 
-#: dolphinmainwindow.cpp:2129
+#: dolphinmainwindow.cpp:2133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -934,13 +934,13 @@ msgstr ""
 "upplýsingar um skjáherma.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2137
+#: dolphinmainwindow.cpp:2141
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Opna skjáhermi hér"
 
-#: dolphinmainwindow.cpp:2139
+#: dolphinmainwindow.cpp:2143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -952,13 +952,13 @@ msgstr ""
 "eru valin.</para><para>Notaðu hjálpina í skjáhermiforritinu til að læra "
 "meira um notkun skjáherma.</para>"
 
-#: dolphinmainwindow.cpp:2147
+#: dolphinmainwindow.cpp:2151
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Bókamerki"
 
-#: dolphinmainwindow.cpp:2157
+#: dolphinmainwindow.cpp:2161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -976,91 +976,91 @@ msgstr ""
 "para><para>%1-hnappurinn er einfaldari og smærri en hann er ögn tímafrekari "
 "í notkun, sérstaklega fyrir flóknari aðgerðir.</para>"
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2186
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Fara á síðasta flipann %1"
 
-#: dolphinmainwindow.cpp:2195
+#: dolphinmainwindow.cpp:2199
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Síðasti flipi"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2200
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Fara á síðasta flipann"
 
-#: dolphinmainwindow.cpp:2202
+#: dolphinmainwindow.cpp:2206
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Næsti flipi"
 
-#: dolphinmainwindow.cpp:2203
+#: dolphinmainwindow.cpp:2207
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Fara á næsta flipa"
 
-#: dolphinmainwindow.cpp:2209
+#: dolphinmainwindow.cpp:2213
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Fyrri flipi"
 
-#: dolphinmainwindow.cpp:2210
+#: dolphinmainwindow.cpp:2214
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Fara á fyrri flipa"
 
-#: dolphinmainwindow.cpp:2217
+#: dolphinmainwindow.cpp:2221
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Sýna viðtökustað"
 
-#: dolphinmainwindow.cpp:2223
+#: dolphinmainwindow.cpp:2227
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Opna í nýjum flipa"
 
-#: dolphinmainwindow.cpp:2228
+#: dolphinmainwindow.cpp:2232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Opna í nýjum flipum"
 
-#: dolphinmainwindow.cpp:2233
+#: dolphinmainwindow.cpp:2237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Opna í nýjum glugga"
 
-#: dolphinmainwindow.cpp:2238 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2242 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Opna í klofinni sýn"
 
-#: dolphinmainwindow.cpp:2254
+#: dolphinmainwindow.cpp:2258
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Aflæsa spjöldum"
 
-#: dolphinmainwindow.cpp:2256
+#: dolphinmainwindow.cpp:2260
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Læsa spjöldum"
 
-#: dolphinmainwindow.cpp:2259
+#: dolphinmainwindow.cpp:2263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1074,13 +1074,13 @@ msgstr ""
 "hliðina á glugganum og þau eru með lokunarhnapp.<nl/>Læst spjöld eru felld "
 "inn í gluggann á hreinlegri hátt."
 
-#: dolphinmainwindow.cpp:2268
+#: dolphinmainwindow.cpp:2272
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Upplýsingar"
 
-#: dolphinmainwindow.cpp:2291
+#: dolphinmainwindow.cpp:2295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1090,7 +1090,7 @@ msgstr ""
 "<para>Til að sýna eða fela spjöld skaltu fara í <interface>Valmynd|Spjöld</"
 "interface> eða <interface>Skoða|Spjöld</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2298
+#: dolphinmainwindow.cpp:2302
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1106,7 +1106,7 @@ msgstr ""
 "sýnir það upplýsingar um möppuna sem verið er að skoða.<nl/>Ef um stakt "
 "atriði er að ræða birtist forskoðun á innihaldi þess.</para>"
 
-#: dolphinmainwindow.cpp:2306
+#: dolphinmainwindow.cpp:2310
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1122,13 +1122,13 @@ msgstr ""
 "forskoðun á innihaldi þess.</para><para>Þú getur stillt hvort og hvernig "
 "upplýsingarnar birtast hér með því að hægrismella.</para>"
 
-#: dolphinmainwindow.cpp:2315
+#: dolphinmainwindow.cpp:2319
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Möppur"
 
-#: dolphinmainwindow.cpp:2335
+#: dolphinmainwindow.cpp:2339
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1140,7 +1140,7 @@ msgstr ""
 "á glugganum.<nl/><nl/>Það sýnir möppurnar í <emphasis>skráakerfinu</"
 "emphasis> í <emphasis>tréyfirliti</emphasis>."
 
-#: dolphinmainwindow.cpp:2340
+#: dolphinmainwindow.cpp:2344
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1154,13 +1154,13 @@ msgstr ""
 "hana. Smelltu á ör vinstra megin við möppu til að sjá undirmöppurnar. Með "
 "þessum hætti er fljótlegt að flakka á milli mappa.</para>"
 
-#: dolphinmainwindow.cpp:2350
+#: dolphinmainwindow.cpp:2354
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Skjáhermir"
 
-#: dolphinmainwindow.cpp:2375
+#: dolphinmainwindow.cpp:2379
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1179,7 +1179,7 @@ msgstr ""
 "læra meira um notkun skjáherma ættirðu að skoða hjálparskjöl í sjálfstæðum "
 "skjáhermiforritum á borð við Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2383
+#: dolphinmainwindow.cpp:2387
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1198,31 +1198,31 @@ msgstr ""
 "notkun skjáherma ættirðu að skoða hjálparskjöl í skjáhermiforritum eins og "
 "Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2393 dolphinmainwindow.cpp:2992
+#: dolphinmainwindow.cpp:2397 dolphinmainwindow.cpp:2996
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Gefa skjáhermispjaldi fókus"
 
-#: dolphinmainwindow.cpp:2394
+#: dolphinmainwindow.cpp:2398
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Færa virkni lyklaborðs af og á spjaldið Skjáhermir."
 
-#: dolphinmainwindow.cpp:2407
+#: dolphinmainwindow.cpp:2411
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Staðir"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Sýna falda staði"
 
-#: dolphinmainwindow.cpp:2439
+#: dolphinmainwindow.cpp:2443
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1233,7 +1233,7 @@ msgstr ""
 "Þetta sýnir alla staðina á spjaldinu Staðir sem voru faldir. Þeir birtast "
 "hálfgagnsæir og þú getur afhakað felustillinguna á þeim."
 
-#: dolphinmainwindow.cpp:2451
+#: dolphinmainwindow.cpp:2455
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1249,7 +1249,7 @@ msgstr ""
 "við netið. Þar er einnig hægt að finna skrár sem voru nýlega vistaðar eða "
 "skrár af tiltekinni gerð.</para>"
 
-#: dolphinmainwindow.cpp:2458
+#: dolphinmainwindow.cpp:2462
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1274,25 +1274,25 @@ msgstr ""
 "stað á spjaldinu og veldu <interface>Sýna falda staði</interface> til að "
 "birta aftur.</para>"
 
-#: dolphinmainwindow.cpp:2472 dolphinmainwindow.cpp:3010
+#: dolphinmainwindow.cpp:2476 dolphinmainwindow.cpp:3014
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Gefa staðaspjaldi fókus"
 
-#: dolphinmainwindow.cpp:2473
+#: dolphinmainwindow.cpp:2477
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Færa virkni lyklaborðs af og á spjaldið Staðir."
 
-#: dolphinmainwindow.cpp:2479
+#: dolphinmainwindow.cpp:2483
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Sýna spjöld"
 
-#: dolphinmainwindow.cpp:2548
+#: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1301,7 +1301,7 @@ msgstr ""
 "Gat ekki endurnefnt: Þú ert ekki með heimild til að endurnefna hluti í "
 "þessari möppu."
 
-#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:2568
+#: dolphinmainwindow.cpp:2555 dolphinmainwindow.cpp:2572
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1310,14 +1310,14 @@ msgstr ""
 "Gat ekki eytt: Þú ert ekki með heimild til að fjarlægja hluti úr þessari "
 "möppu."
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2557
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "Gat ekki klippt: Þú ert ekki með heimild til að færa hluti úr þessari möppu."
 
-#: dolphinmainwindow.cpp:2558
+#: dolphinmainwindow.cpp:2562
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1327,19 +1327,19 @@ msgstr ""
 "Gat ekki tvítekið hér: Þú ert ekki með heimild til að búa til hluti í "
 "þessari möppu."
 
-#: dolphinmainwindow.cpp:2580
+#: dolphinmainwindow.cpp:2584
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Gat ekki afritað í hitt yfirlitið: Engar skrár valdar."
 
-#: dolphinmainwindow.cpp:2582
+#: dolphinmainwindow.cpp:2586
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Gat ekki afritað í hitt yfirlitið: Engar skrár valdar."
 
-#: dolphinmainwindow.cpp:2601
+#: dolphinmainwindow.cpp:2605
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1347,7 +1347,7 @@ msgstr ""
 "Gat ekki afritað í hitt yfirlitið: Hitt yfirlitið inniheldur nú þegar þessa "
 "hluti."
 
-#: dolphinmainwindow.cpp:2604
+#: dolphinmainwindow.cpp:2608
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1355,7 +1355,7 @@ msgstr ""
 "Gat ekki afritað í hitt yfirlitið: Hitt yfirlitið inniheldur nú þegar þessa "
 "hluti."
 
-#: dolphinmainwindow.cpp:2609
+#: dolphinmainwindow.cpp:2613
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1365,7 +1365,7 @@ msgstr ""
 "Gat ekki afritað í hitt yfirlitið: Þú ert ekki með heimild til að skrifa í "
 "viðtökumöppuna."
 
-#: dolphinmainwindow.cpp:2613
+#: dolphinmainwindow.cpp:2617
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1375,7 +1375,7 @@ msgstr ""
 "Gat ekki fært í hitt yfirlitið: Þú ert ekki með heimild til að skrifa í "
 "viðtökumöppuna."
 
-#: dolphinmainwindow.cpp:2619
+#: dolphinmainwindow.cpp:2623
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1385,7 +1385,7 @@ msgstr ""
 "Gat ekki fært í hitt yfirlitið: Þú ert ekki með heimild til að færa hluti úr "
 "þessari möppu."
 
-#: dolphinmainwindow.cpp:2643
+#: dolphinmainwindow.cpp:2647
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1401,85 +1401,85 @@ msgstr ""
 "inniheldur öll gögn sem tengjast tölvunni - sjálf <emphasis>rótarmappan</"
 "emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2731
+#: dolphinmainwindow.cpp:2735
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Loka"
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2736
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Loka vinstra yfirliti"
 
-#: dolphinmainwindow.cpp:2734
+#: dolphinmainwindow.cpp:2738
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Loka vinstri sýn"
 
-#: dolphinmainwindow.cpp:2736
+#: dolphinmainwindow.cpp:2740
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Opna yfirlit til vinstri í glugga"
 
-#: dolphinmainwindow.cpp:2737
+#: dolphinmainwindow.cpp:2741
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Færa yfirlitið til vinstri í nýjan glugga"
 
-#: dolphinmainwindow.cpp:2739
+#: dolphinmainwindow.cpp:2743
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Loka"
 
-#: dolphinmainwindow.cpp:2740
+#: dolphinmainwindow.cpp:2744
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Loka hægra yfirliti"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2746
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Loka hægri sýn"
 
-#: dolphinmainwindow.cpp:2744
+#: dolphinmainwindow.cpp:2748
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Opna yfirlit til hægri í glugga"
 
-#: dolphinmainwindow.cpp:2745
+#: dolphinmainwindow.cpp:2749
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Færa yfirlitið til hægri í nýjan glugga"
 
-#: dolphinmainwindow.cpp:2754
+#: dolphinmainwindow.cpp:2758
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Tvískipta"
 
-#: dolphinmainwindow.cpp:2756
+#: dolphinmainwindow.cpp:2760
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Tvískipta yfirliti"
 
-#: dolphinmainwindow.cpp:2758
+#: dolphinmainwindow.cpp:2762
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Opna í nýjum glugga"
 
-#: dolphinmainwindow.cpp:2818
+#: dolphinmainwindow.cpp:2822
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1497,7 +1497,7 @@ msgstr ""
 "megnið af innihaldi hennar aðgengilegt í gegnum hnappinn <interface>Valmynd</"
 "interface> á <emphasis>tækjastikunni</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2825
+#: dolphinmainwindow.cpp:2829
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1520,7 +1520,7 @@ msgstr ""
 "hægrismellsvalmyndinni. Hægrismelltu á hnapp ef þú vilt sýna eða fela "
 "textann á honum.</para>"
 
-#: dolphinmainwindow.cpp:2837
+#: dolphinmainwindow.cpp:2841
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1549,7 +1549,7 @@ msgstr ""
 "staðinn. Þá opnast síða úr <emphasis>Handbókinni</emphasis> sem fer yfir það "
 "helsta.</para>"
 
-#: dolphinmainwindow.cpp:2853
+#: dolphinmainwindow.cpp:2857
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1563,7 +1563,7 @@ msgstr ""
 "þegar ýtt er á þá samtímis. Hægt er að keyra allar skipanir í þessu forriti "
 "á þennan hátt.</para>"
 
-#: dolphinmainwindow.cpp:2859
+#: dolphinmainwindow.cpp:2863
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1575,7 +1575,7 @@ msgstr ""
 "<emphasis>tækjastikunni</emphasis>.</para><para>Hægt er að setja öll atriðin "
 "í <interface>valmyndinni</interface> á tækjastikuna.</para>"
 
-#: dolphinmainwindow.cpp:2863
+#: dolphinmainwindow.cpp:2867
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1594,7 +1594,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2883
+#: dolphinmainwindow.cpp:2887
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1610,7 +1610,7 @@ msgstr ""
 "<link url='https://userbase.kde.org/Dolphin/File_Management'>smella hér</"
 "link>. Þá opnast síða úr KDE UserBase Wiki-síðunni.</para>"
 
-#: dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2892
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1632,7 +1632,7 @@ msgstr ""
 "link>.</para><para>\"Hvað er þetta?\"-hjálpin er ekki til staðar í mörgum "
 "öðrum gluggum og því skaltu ekki venjast henni um of.</para>"
 
-#: dolphinmainwindow.cpp:2899
+#: dolphinmainwindow.cpp:2903
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1648,7 +1648,7 @@ msgstr ""
 "kde.org/Get_Involved/Bug_Reporting'>Smelltu hér</link> til að læra að gera "
 "villuskýrslur þannig að þær komi að sem mestu gagni.</para>"
 
-#: dolphinmainwindow.cpp:2908
+#: dolphinmainwindow.cpp:2912
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1670,7 +1670,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> eru samtök sem ekki eru rekin í "
 "hagnaðarskyni og standa að baki KDE-samfélaginu.</para>"
 
-#: dolphinmainwindow.cpp:2921
+#: dolphinmainwindow.cpp:2925
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1682,7 +1682,7 @@ msgstr ""
 "aukatungumál sem verður notað ef textar eru ekki í boði á tungumálinu sem þú "
 "kýst helst að nota."
 
-#: dolphinmainwindow.cpp:2926
+#: dolphinmainwindow.cpp:2930
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1692,7 +1692,7 @@ msgstr ""
 "Þetta opnar glugga sem sýnir þér útgáfu, hugbúnaðarleyfi, gagnasöfn sem eru "
 "notuð og umsjónaraðila þessa forrits."
 
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2935
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1706,19 +1706,19 @@ msgstr ""
 "þetta ef þú kannt vel að meta þetta forrit en þekkir ekki til KDE eða langar "
 "að sjá krúttlegan dreka!"
 
-#: dolphinmainwindow.cpp:2986 dolphinmainwindow.cpp:2997
+#: dolphinmainwindow.cpp:2990 dolphinmainwindow.cpp:3001
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Taka fókus af skjáhermispjaldi"
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3008
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Taka fókus af skjáhermispjaldi"
 
-#: dolphinmainwindow.cpp:3015
+#: dolphinmainwindow.cpp:3019
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
