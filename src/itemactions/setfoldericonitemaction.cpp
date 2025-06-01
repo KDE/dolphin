@@ -72,11 +72,15 @@ void SetFolderIconItemAction::setFolderIcon(bool check)
 class ButtonsWithSubMenuWidgetAction : public QWidgetAction
 {
 public:
-    ButtonsWithSubMenuWidgetAction(const QList<QAction *> actions, QMenu *subMenu, QWidget *parentWidget)
+    ButtonsWithSubMenuWidgetAction(QMenu *subMenu, QWidget *parentWidget)
         : QWidgetAction(parentWidget)
-        , m_actions(actions)
         , m_subMenu(subMenu)
     {
+    }
+
+    void setActions(const QList<QAction *> actions)
+    {
+        m_actions = actions;
     }
 
     bool eventFilter(QObject *object, QEvent *event) override
@@ -208,8 +212,10 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
     QActionGroup *actiongroup = new QActionGroup(this);
     actiongroup->setExclusionPolicy(QActionGroup::ExclusionPolicy::ExclusiveOptional);
 
-    int i = 0;
     QMenu *subMenu = new QMenu();
+    auto action = new ButtonsWithSubMenuWidgetAction(subMenu, parentWidget);
+
+    int i = 0;
     QList<QAction *> actions;
     const auto fileIconName = fileItem.iconName();
     for (const auto &[name, iconName] : icons) {
@@ -227,7 +233,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
         actiongroup->addAction(folderIconAction);
 
         connect(folderIconAction, &QAction::triggered, this, &SetFolderIconItemAction::setFolderIcon);
-        connect(folderIconAction, &QAction::triggered, parentWidget, &QWidget::close);
+        connect(folderIconAction, &QAction::triggered, action, &QAction::triggered);
 
         ++i;
         if (i < s_numberOfEntriesVisible + 1) {
@@ -237,8 +243,7 @@ QList<QAction *> SetFolderIconItemAction::actions(const KFileItemListProperties 
             subMenu->addAction(folderIconAction);
         }
     }
-
-    QWidgetAction *action = new ButtonsWithSubMenuWidgetAction(actions, subMenu, parentWidget);
+    action->setActions(actions);
 
     return {action};
 }
