@@ -532,8 +532,12 @@ QRectF KStandardItemListWidget::textFocusRect() const
 QRectF KStandardItemListWidget::visualSelectionRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
-    if (m_highlightEntireRow) {
-        return selectionRectExtended();
+    if (m_layout == DetailsLayout) {
+        if (m_highlightEntireRow) {
+            return rect();
+        } else {
+            return selectionRectExtended();
+        }
     } else {
         if (m_layout == CompactLayout) {
             const int padding = styleOption().padding;
