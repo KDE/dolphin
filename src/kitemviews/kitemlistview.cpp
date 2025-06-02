@@ -419,7 +419,7 @@ std::optional<int> KItemListView::itemAt(const QPointF &pos) const
 
         const KItemListWidget *widget = it.value();
         const QPointF mappedPos = widget->mapFromItem(this, pos);
-        if (widget->contains(mappedPos) || widget->visualSelectionRect().contains(mappedPos)) {
+        if (widget->contains(mappedPos)) {
             return it.key();
         }
     }
