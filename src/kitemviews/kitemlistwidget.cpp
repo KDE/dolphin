@@ -407,7 +407,7 @@ bool KItemListWidget::contains(const QPointF &point) const
         return false;
     }
 
-    return selectionRectCore().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
+    return visualSelectionRect().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
 }
 
 QRectF KItemListWidget::textFocusRect() const
