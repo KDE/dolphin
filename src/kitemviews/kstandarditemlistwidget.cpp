@@ -579,7 +579,7 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
     }
 
     const int padding = styleOption().padding;
-    const QRectF selectionRectMinusPadding = selectionRectCore().adjusted(padding, padding, -padding, -padding);
+    const QRectF selectionRectMinusPadding = visualSelectionRect().adjusted(padding, padding, -padding, -padding);
     QPointF pos = selectionRectMinusPadding.topLeft();
     if (QApplication::isRightToLeft()) {
         pos.setX(selectionRectMinusPadding.right() - (pos.x() + toggleSize - selectionRectMinusPadding.left()));
