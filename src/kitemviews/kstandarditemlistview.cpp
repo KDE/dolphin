@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include <QApplication>
+
 #include "kstandarditemlistview.h"
 
 #include "kstandarditemlistwidget.h"
@@ -108,6 +110,17 @@ bool KStandardItemListView::itemLayoutHighlightEntireRow(ItemLayout layout) cons
 bool KStandardItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const
 {
     return layout == DetailsLayout;
+}
+
+qreal KStandardItemListView::scrollSingleStep() const
+{
+    if (itemLayout() == DetailsLayout) {
+        // We want each scroll in details view mode to move by some number of complete rows.
+        const int rowsPerFullScroll = qCeil((KItemListView::scrollSingleStep() * QApplication::wheelScrollLines()) / itemSize().height());
+        return (rowsPerFullScroll * itemSize().height()) / QApplication::wheelScrollLines();
+    }
+
+    return KItemListView::scrollSingleStep();
 }
 
 void KStandardItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)

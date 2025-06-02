@@ -176,6 +176,11 @@ public:
     qreal verticalPageStep() const;
 
     /**
+     * @return The line step which should be used for the scroll by mouse wheel.
+     */
+    virtual qreal scrollSingleStep() const;
+
+    /**
      * @return Index of the item that is below the point \a pos.
      *         The position is relative to the upper right of
      *         the visible area. Only (at least partly) visible

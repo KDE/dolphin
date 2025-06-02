@@ -398,6 +398,12 @@ void KItemListView::setGeometry(const QRectF &rect)
     doLayout(NoAnimation);
 }
 
+qreal KItemListView::scrollSingleStep() const
+{
+    const QFontMetrics metrics(font());
+    return metrics.height();
+}
+
 qreal KItemListView::verticalPageStep() const
 {
     qreal headerHeight = 0;

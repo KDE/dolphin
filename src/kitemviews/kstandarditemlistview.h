@@ -48,6 +48,7 @@ protected:
     /** To be overriden by sub-classes to specify when full row highlighting should be enabled. */
     virtual bool itemLayoutHighlightEntireRow(ItemLayout layout) const;
     virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
+    virtual qreal scrollSingleStep() const override;
     void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous) override;
     void onSupportsItemExpandingChanged(bool supportsExpanding) override;
     void polishEvent() override;

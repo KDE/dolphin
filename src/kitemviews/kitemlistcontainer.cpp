@@ -286,7 +286,6 @@ void KItemListContainer::updateScrollOffsetScrollBar()
 
     KItemListSmoothScroller *smoothScroller = nullptr;
     QScrollBar *scrollOffsetScrollBar = nullptr;
-    int singleStep = 0;
     int pageStep = 0;
     int maximum = 0;
     if (view->scrollOrientation() == Qt::Vertical) {
@@ -295,13 +294,6 @@ void KItemListContainer::updateScrollOffsetScrollBar()
             return;
         }
         scrollOffsetScrollBar = verticalScrollBar();
-
-        // Don't scroll super fast when using a wheel mouse:
-        // We want to consider one "line" to be the text label which has a
-        // roughly fixed height rather than using the height of the icon which
-        // may be very tall
-        const QFontMetrics metrics(font());
-        singleStep = metrics.height() * QApplication::wheelScrollLines();
 
         // We cannot use view->size().height() because this height might
         // include the header widget, which is not part of the scrolled area.
@@ -318,11 +310,11 @@ void KItemListContainer::updateScrollOffsetScrollBar()
             return;
         }
         scrollOffsetScrollBar = horizontalScrollBar();
-        singleStep = view->itemSize().width();
         pageStep = view->size().width();
         maximum = qMax(0, int(view->maximumScrollOffset() - view->size().width()));
     }
 
+    const int singleStep = view->scrollSingleStep();
     const int value = view->scrollOffset();
     if (smoothScroller->requestScrollBarUpdate(maximum)) {
         const bool updatePolicy = (scrollOffsetScrollBar->maximum() > 0 && maximum == 0) || horizontalScrollBarPolicy() == Qt::ScrollBarAlwaysOn;
