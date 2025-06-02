@@ -4,15 +4,15 @@
 # íslensk þýðing Dolphin
 # þýðing byggð á eldri þýðingum Konqueror og KDE
 # SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Sveinn í Felli <sveinki@nett.is>
-# SPDX-FileCopyrightText: 2022, 2024 Guðmundur Erlingsson <gudmundure@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2024, 2025 Guðmundur Erlingsson <gudmundure@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-25 02:36+0000\n"
-"PO-Revision-Date: 2025-03-24 10:46+0000\n"
-"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
-"Language-Team: Icelandic\n"
+"PO-Revision-Date: 2025-05-31 17:09+0000\n"
+"Last-Translator: Gummi <gudmundure@gmail.com>\n"
+"Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr ""
 "\n"
 "\n"
 "\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2184,42 +2184,36 @@ msgstr "%1 á staðsetningunni %2"
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr ""
+msgstr "í reitayfirliti í valstillingu á staðsetningunni %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "í reitayfirliti á staðsetningunni %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in selection mode in location %2"
 msgid_plural ""
 "%1 selected items in a grid layout in selection mode in location %2"
-msgstr[0] "Endurnefna valda hlutinn %1 sem:"
-msgstr[1] "Endurnefna völdu hlutina %1 sem:"
+msgstr[0] "%1 valið atriði í reitayfirliti í valstillingu á staðsetningunni %"
+msgstr[1] "%1 valin atriði í reitasýn í valstillingu á staðsetningunni %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:296
 #, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in a grid layout in location %2"
 msgid_plural "%1 selected items in a grid layout in location %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 valið atriði í reitayfirliti á staðsetningunni %2"
+msgstr[1] "%1 valin atriði í reitayfirliti á staðsetningunni %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:307
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in selection mode in location %1"
-msgstr "Endurnefna valda hlutinn %1 sem:"
+msgstr "í valstillingu á staðsetningunni %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:309
 #, kde-format
@@ -2228,26 +2222,20 @@ msgid "in location %1"
 msgstr "á staðnum %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:313
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in selection mode in location %2"
 msgid_plural "%1 selected items in selection mode in location %2"
-msgstr[0] "Endurnefna valda hlutinn %1 sem:"
-msgstr[1] "Endurnefna völdu hlutina %1 sem:"
+msgstr[0] "%1 valið atriði í valstillingu á staðsetningunni %2"
+msgstr[1] "%1 valin atriði í valsniði á staðsetningunni %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:319
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Rename the %1 selected item to:"
-#| msgid_plural "Rename the %1 selected items to:"
+#, kde-format
 msgctxt "@info accessibility, 2 is path"
 msgid "%1 selected item in location %2"
 msgid_plural "%1 selected items in location %2"
-msgstr[0] "Endurnefna valda hlutinn %1 sem:"
-msgstr[1] "Endurnefna völdu hlutina %1 sem:"
+msgstr[0] "%1 valið atriði á staðsetningunni %2"
+msgstr[1] "%1 valin atriði á staðsetningunni %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
 #, kde-format
@@ -3700,17 +3688,7 @@ msgid "Selection Mode"
 msgstr "Valstilling"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -3729,10 +3707,13 @@ msgstr ""
 "eða breyta þeim.<list><item>Smelltu á skrá eða möppu til að velja hana.</"
 "item><item>Smelltu á valda skrá eða möppu til að afvelja hana.</"
 "item><item>Ef smellt er á autt svæði hreinsast valið <emphasis>ekki</"
-"emphasis>.</item><item>Valferningar (gerðir með því að draga með músinni frá "
-"auðu svæði) umsnúa valstöðu atriðanna innan ferningsins.</item></list></"
-"para><para>Tiltækir aðgerðahnappar neðst breytast í samræmi við það sem er "
-"valið hverju sinni.</para>"
+"emphasis>.</item><item>Valrammar (gerðir með því að draga með músinni frá "
+"auðu svæði) umsnúa valstöðu atriðanna innan svæðisins.</item><item>Tilfærsla "
+"með<shortcut>örvalyklum</shortcut> breytir <emphasis>ekki</emphasis> valinu."
+"</item><item>Sé ýtt á <shortcut>%1</shortcut>, <shortcut>%2</shortcut>, eða "
+"<shortcut>%3</shortcut> er valinu víxlað.</item></list></para><para>Tiltækir "
+"aðgerðahnappar neðst breytast í samræmi við það sem er valið hverju sinni.</"
+"para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3951,17 +3932,15 @@ msgstr "Staðsetning dálka"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Fylling til hliðar"
+msgstr "Fylling til vinstri"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Fylling til hliðar"
+msgstr "Fylling til hægri"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4514,27 +4493,23 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Staða á möppum, flipum og glugga frá því síðast"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Sýna við ræsingu:"
+msgstr "Sýna heimamöppu við ræsingu"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Staðsetningu vantar."
+msgstr "Sláðu inn slóð á heimamöppu"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
-msgstr "Veldu staðsetningu Heimamöppu"
+msgstr "Veldu Heimamöppu"
 
 #: settings/interface/folderstabssettingspage.cpp:78
 #, kde-format
@@ -5024,6 +4999,9 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin mun bæta inn lýsigögnum við möppur þar sem þú breytir "
+"yfirlitseiginleikum. Ef slíkt er ekki mögulegt verður útbúin falin ."
+"directory-skrá."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:53
 #, kde-format
