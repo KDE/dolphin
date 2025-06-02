@@ -994,7 +994,7 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent *event, const 
             // we also unhover any old expansion toggle hovers, in case the mouse movement from expansion toggle to icon+text is too fast (i.e. newHoveredWidget is never null between the transition)
             unhoverOldExpansionWidget();
 
-            const bool isOverIconAndText = newHoveredWidget->selectionRect().contains(mappedPos);
+            const bool isOverIconAndText = newHoveredWidget->selectionRectCore().contains(mappedPos);
             const bool hasMultipleSelection = m_selectionManager->selectedItems().count() > 1;
 
             if (hasMultipleSelection && !isOverIconAndText) {
@@ -1369,7 +1369,7 @@ void KItemListController::slotRubberBandChanged()
         const QRectF widgetRect = m_view->itemRect(index);
         if (widgetRect.intersects(rubberBandRect)) {
             // Select the full row intersecting with the rubberband rectangle
-            const QRectF selectionRect = widget->selectionRect().translated(widgetRect.topLeft());
+            const QRectF selectionRect = widget->visualSelectionRect().translated(widgetRect.topLeft());
             if (selectionRect.intersects(rubberBandRect)) {
                 selectedItems.insert(index);
             }
@@ -1470,7 +1470,7 @@ KItemListWidget *KItemListController::widgetForPos(const QPointF &pos) const
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
-        if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
+        if (widget->contains(mappedPos) || widget->visualSelectionRect().contains(mappedPos)) {
             return widget;
         }
     }
@@ -1664,7 +1664,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         if (selectedItemsCount > 1 && m_pressedIndex.has_value()) {
             const auto row = m_view->m_visibleItems.value(m_pressedIndex.value());
             const auto mappedPos = row->mapFromItem(m_view, pos);
-            if (pressedItemAlreadySelected || row->selectionRect().contains(mappedPos)) {
+            if (pressedItemAlreadySelected || row->selectionRectCore().contains(mappedPos)) {
                 // we are indeed inside the text/icon rect, keep m_pressedIndex what it is
                 // and short-circuit for single-click activation (it will then propagate to onRelease and activate the item)
                 // or we just keep going for double-click activation
@@ -1758,7 +1758,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 // We rule out the latter, if the item is not clicked directly and was unselected previously.
                 const auto row = m_view->m_visibleItems.value(m_pressedIndex.value());
                 const auto mappedPos = row->mapFromItem(m_view, pos);
-                if (!row->selectionRect().contains(mappedPos) && !pressedItemAlreadySelected) {
+                if (!row->selectionRectCore().contains(mappedPos) && !pressedItemAlreadySelected) {
                     createRubberBand = true;
                 } else {
                     m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);

@@ -105,10 +105,11 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    QRectF iconRect() const override;
     QRectF textRect() const override;
     QRectF textFocusRect() const override;
-    QRectF selectionRect() const override;
+    QRectF visualSelectionRect() const override;
+    QRectF selectionRectCore() const override;
+    QRectF selectionRectExtended() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
     QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

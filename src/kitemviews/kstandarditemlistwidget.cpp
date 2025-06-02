@@ -482,12 +482,6 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
 #endif
 }
 
-QRectF KStandardItemListWidget::iconRect() const
-{
-    const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
-    return m_iconRect;
-}
-
 QRectF KStandardItemListWidget::textRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
@@ -535,26 +529,35 @@ QRectF KStandardItemListWidget::textFocusRect() const
     return m_textRect;
 }
 
-QRectF KStandardItemListWidget::selectionRect() const
+QRectF KStandardItemListWidget::visualSelectionRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
-
-    const int padding = styleOption().padding;
     if (m_highlightEntireRow) {
-        QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
-        QRectF result = adjustedIconRect | m_textRect;
-        if (layoutDirection() == Qt::LeftToRight) {
-            result.setRight(leftPadding() + m_columnWidthSum);
-        } else {
-            result.setLeft(size().width() - m_columnWidthSum - rightPadding());
-        }
-        return result;
+        return selectionRectExtended();
     } else {
         if (m_layout == CompactLayout) {
-            return rect().adjusted(0, padding, 0, -padding);
+            const int padding = styleOption().padding;
+            return rect().adjusted(-padding, 0, padding, 0);
         }
         return rect();
     }
+}
+
+QRectF KStandardItemListWidget::selectionRectCore() const
+{
+    QRectF result = m_iconRect | m_textRect;
+    return result;
+}
+
+QRectF KStandardItemListWidget::selectionRectExtended() const
+{
+    QRectF result = selectionRectCore();
+    if (layoutDirection() == Qt::LeftToRight) {
+        result.setRight(leftPadding() + m_columnWidthSum);
+    } else {
+        result.setLeft(size().width() - m_columnWidthSum - rightPadding());
+    }
+    return result;
 }
 
 QRectF KStandardItemListWidget::expansionToggleRect() const
@@ -576,7 +579,7 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
     }
 
     const int padding = styleOption().padding;
-    const QRectF selectionRectMinusPadding = selectionRect().adjusted(padding, padding, -padding, -padding);
+    const QRectF selectionRectMinusPadding = selectionRectCore().adjusted(padding, padding, -padding, -padding);
     QPointF pos = selectionRectMinusPadding.topLeft();
     if (QApplication::isRightToLeft()) {
         pos.setX(selectionRectMinusPadding.right() - (pos.x() + toggleSize - selectionRectMinusPadding.left()));

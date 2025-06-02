@@ -145,11 +145,6 @@ public:
     bool contains(const QPointF &point) const override;
 
     /**
-     * @return Rectangle for the area that shows the icon.
-     */
-    virtual QRectF iconRect() const = 0;
-
-    /**
      * @return Rectangle for the area that contains the text-properties.
      */
     virtual QRectF textRect() const = 0;
@@ -164,9 +159,22 @@ public:
     virtual QRectF textFocusRect() const;
 
     /**
-     * @return Rectangle around which a selection box should be drawn if the item is selected.
+     * Used for drawing the visuals, and situations where we want the behavior of the
+     * selection to match the visuals.
+     *
+     * @return The rectangle around selection, depending on if it's full width or not.
      */
-    virtual QRectF selectionRect() const = 0;
+    virtual QRectF visualSelectionRect() const = 0;
+
+    /**
+     * @return Rectangle around icon and it's text: The core area of the item.
+     */
+    virtual QRectF selectionRectCore() const = 0;
+
+    /**
+     * @return Same as core, but extended to the full width of the details view.
+     */
+    virtual QRectF selectionRectExtended() const = 0;
 
     /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
