@@ -652,10 +652,6 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent *event, const 
                 m_selectionManager->endAnchoredSelection();
                 m_selectionManager->setCurrentItem(newCurrent.value());
                 m_selectionManager->beginAnchoredSelection(newCurrent.value());
-                // Set hovered effect when dragging.
-                for (const auto widget : m_view->visibleItemListWidgets()) {
-                    widget->setHovered(widget->isCurrent());
-                }
             }
 
             if (m_view->scrollOrientation() == Qt::Vertical) {
@@ -1363,7 +1359,7 @@ void KItemListController::slotRubberBandChanged()
 
     // Select all visible items that intersect with the rubberband
     const auto widgets = m_view->visibleItemListWidgets();
-    for (const KItemListWidget *widget : widgets) {
+    for (KItemListWidget *widget : widgets) {
         const int index = widget->index();
 
         const QRectF widgetRect = m_view->itemRect(index);
