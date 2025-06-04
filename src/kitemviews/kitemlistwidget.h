@@ -109,6 +109,8 @@ public:
     void setEnabledSelectionToggle(bool enabled);
     bool enabledSelectionToggle() const;
 
+    void setClickHighlight(bool enabled);
+
     /**
      * Sets the sibling information for the item and all of its parents.
      * The sibling information of the upper most parent is represented by
@@ -266,6 +268,7 @@ private:
     bool m_expansionAreaHovered;
     bool m_alternateBackground;
     bool m_enabledSelectionToggle;
+    bool m_clickHighlighted;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;

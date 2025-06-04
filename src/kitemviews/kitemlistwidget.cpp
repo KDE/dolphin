@@ -37,6 +37,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_expansionAreaHovered(false)
     , m_alternateBackground(false)
     , m_enabledSelectionToggle(false)
+    , m_clickHighlighted(false)
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
@@ -281,6 +282,7 @@ void KItemListWidget::setHovered(bool hovered)
 
         m_hoverSequenceTimer.start(interval);
     } else {
+        m_clickHighlighted = false;
         setHoverOpacity(0.0);
 
         if (m_selectionToggle) {
@@ -604,6 +606,14 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = nullptr;
 }
 
+void KItemListWidget::setClickHighlight(bool enabled)
+{
+    if (m_clickHighlighted != enabled) {
+        m_clickHighlighted = enabled;
+        update();
+    }
+}
+
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
@@ -624,11 +634,11 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Background item, alpha values are from
     // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
     backgroundColor.setAlphaF(0.0);
-    if (m_selected && m_hovered) {
+    if ((m_selected && m_hovered) || m_clickHighlighted) {
         backgroundColor.setAlphaF(0.40);
     } else if (m_selected) {
         backgroundColor.setAlphaF(0.32);
-    } else if (m_hovered) {
+    } else if (m_hovered && !m_clickHighlighted) {
         backgroundColor = widget->palette().color(QPalette::Text);
         backgroundColor.setAlphaF(0.06);
     }

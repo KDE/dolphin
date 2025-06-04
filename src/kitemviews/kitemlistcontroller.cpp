@@ -1640,6 +1640,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                                                                                       // simplify the overall logic and possibilities both for users and devs.
     const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
+    const bool singleClickActivation = m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick);
 
     // The previous selection is cleared if either
     // 1. The selection mode is SingleSelection, or
@@ -1664,7 +1665,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 // we are indeed inside the text/icon rect, keep m_pressedIndex what it is
                 // and short-circuit for single-click activation (it will then propagate to onRelease and activate the item)
                 // or we just keep going for double-click activation
-                if (m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) {
+                if (singleClickActivation || m_singleClickActivationEnforced) {
                     if (!pressedItemAlreadySelected) {
                         // An unselected item was clicked directly while deselecting multiple other items so we mark it "current".
                         m_selectionManager->setCurrentItem(m_pressedIndex.value());
@@ -1740,8 +1741,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
             break;
 
         case SingleSelection:
-            if (!leftClick || shiftOrControlPressed
-                || (!m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) && !m_singleClickActivationEnforced)) {
+            if (!leftClick || shiftOrControlPressed || (!singleClickActivation && !m_singleClickActivationEnforced)) {
                 m_selectionManager->setSelected(m_pressedIndex.value());
             }
             break;
@@ -1764,9 +1764,10 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 }
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
-                if (!leftClick || shiftOrControlPressed
-                    || (!m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) && !m_singleClickActivationEnforced)) {
+                if (!leftClick || shiftOrControlPressed || (!singleClickActivation && !m_singleClickActivationEnforced)) {
                     m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
+                } else if (leftClick && (m_singleClickActivationEnforced || singleClickActivation)) {
+                    row->setClickHighlight(true);
                 }
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
             }
