@@ -16,6 +16,7 @@
 
 #include <KFileMetaData/TypeInfo>
 #include <KLocalizedString>
+#include <KShell>
 
 #include <QRegularExpression>
 #include <QUrlQuery>
@@ -366,7 +367,11 @@ QString DolphinQuery::title() const
             prettySearchLocation = m_searchPath.fileName();
         }
         if (prettySearchLocation.isEmpty()) {
-            prettySearchLocation = m_searchPath.toString(QUrl::RemoveAuthority);
+            if (m_searchPath.isLocalFile()) {
+                prettySearchLocation = KShell::tildeCollapse(m_searchPath.adjusted(QUrl::StripTrailingSlash).toLocalFile());
+            } else {
+                prettySearchLocation = m_searchPath.toString(QUrl::RemoveAuthority | QUrl::StripTrailingSlash);
+            }
         }
 
         // A great title clearly identifies a search results page among many tabs, windows, or links in the Places panel.
