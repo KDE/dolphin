@@ -564,6 +564,15 @@ QRectF KStandardItemListWidget::selectionRectExtended() const
     return result;
 }
 
+QRectF KStandardItemListWidget::hitTargetRect() const
+{
+    if (m_layout == DetailsLayout) {
+        return selectionRectCore();
+    } else {
+        return visualSelectionRect();
+    }
+}
+
 QRectF KStandardItemListWidget::expansionToggleRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();

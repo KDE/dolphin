@@ -110,6 +110,7 @@ public:
     QRectF visualSelectionRect() const override;
     QRectF selectionRectCore() const override;
     QRectF selectionRectExtended() const override;
+    QRectF hitTargetRect() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
     QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
