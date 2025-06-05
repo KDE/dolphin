@@ -139,8 +139,8 @@ public:
     int iconSize() const;
 
     /**
-     * @return True if \a point is inside KItemListWidget::hoverRect(),
-     *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
+     * @return True if \a point is inside KItemListWidget::visualSelectionRect(),
+     *         KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
@@ -177,6 +177,13 @@ public:
      * @return Same as core, but extended to the full width of the details view.
      */
     virtual QRectF selectionRectExtended() const = 0;
+
+    /**
+     * @return Rectangle where dragging the item is allowed to start.
+     *         In compact and icon views, it returns KItemListWidget::visualSelectionRect().
+     *         In details view, it returns KItemListWidget::selectionRectCore().
+     */
+    virtual QRectF hitTargetRect() const = 0;
 
     /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
