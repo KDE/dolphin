@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 00:45+0000\n"
+"POT-Creation-Date: 2025-06-07 00:45+0000\n"
 "PO-Revision-Date: 2010-07-19 10:30+0100\n"
 "Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
 "Language-Team: Frysk <kde-i18n-fry@kde.org>\n"
@@ -3272,7 +3272,7 @@ msgstr "Wat"
 msgid "SearchTool"
 msgstr "Sykje"
 
-#: search/dolphinquery.cpp:378
+#: search/dolphinquery.cpp:383
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -3282,7 +3282,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "Sykbalke"
 
-#: search/dolphinquery.cpp:384
+#: search/dolphinquery.cpp:389
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3290,7 +3290,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr ""
 
-#: search/dolphinquery.cpp:391
+#: search/dolphinquery.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -3300,7 +3300,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "Sykbalke"
 
-#: search/dolphinquery.cpp:396
+#: search/dolphinquery.cpp:401
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3308,7 +3308,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr ""
 
-#: search/dolphinquery.cpp:403
+#: search/dolphinquery.cpp:408
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -3318,7 +3318,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "Sykbalke"
 
-#: search/dolphinquery.cpp:409
+#: search/dolphinquery.cpp:414
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -3328,7 +3328,7 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "Sykbalke"
 
-#: search/dolphinquery.cpp:419
+#: search/dolphinquery.cpp:424
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -3336,19 +3336,19 @@ msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "Sykbalke"
 
-#: search/dolphinquery.cpp:422
+#: search/dolphinquery.cpp:427
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr ""
 
-#: search/dolphinquery.cpp:426
+#: search/dolphinquery.cpp:431
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr ""
 
-#: search/dolphinquery.cpp:429
+#: search/dolphinquery.cpp:434
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3357,13 +3357,13 @@ msgstr ""
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:437
+#: search/dolphinquery.cpp:442
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr ""
 
-#: search/dolphinquery.cpp:440
+#: search/dolphinquery.cpp:445
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"

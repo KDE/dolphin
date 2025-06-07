@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 00:45+0000\n"
+"POT-Creation-Date: 2025-06-07 00:45+0000\n"
 "PO-Revision-Date: 2025-05-29 17:44+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -3172,7 +3172,7 @@ msgstr "什麼"
 msgid "SearchTool"
 msgstr "搜尋工具"
 
-#: search/dolphinquery.cpp:378
+#: search/dolphinquery.cpp:383
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3180,7 +3180,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "在 %2 中搜尋「%1」的結果"
 
-#: search/dolphinquery.cpp:384
+#: search/dolphinquery.cpp:389
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3188,7 +3188,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr "在 %2 當中且包含「%1」的檔案"
 
-#: search/dolphinquery.cpp:391
+#: search/dolphinquery.cpp:396
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
@@ -3196,7 +3196,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "在 %2 當中且有「%1」標籤的搜尋項目"
 
-#: search/dolphinquery.cpp:396
+#: search/dolphinquery.cpp:401
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3204,7 +3204,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr "在 %3 當中且有「%1」和「%2」標籤的搜尋項目"
 
-#: search/dolphinquery.cpp:403
+#: search/dolphinquery.cpp:408
 #, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
@@ -3212,7 +3212,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "%2 當中的%1搜尋結果"
 
-#: search/dolphinquery.cpp:409
+#: search/dolphinquery.cpp:414
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
@@ -3220,25 +3220,25 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "%1 當中的搜尋結果"
 
-#: search/dolphinquery.cpp:419
+#: search/dolphinquery.cpp:424
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "「%1」的搜尋結果"
 
-#: search/dolphinquery.cpp:422
+#: search/dolphinquery.cpp:427
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr "包含「%1」的檔案"
 
-#: search/dolphinquery.cpp:426
+#: search/dolphinquery.cpp:431
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr "有「%1」標籤的搜尋項目"
 
-#: search/dolphinquery.cpp:429
+#: search/dolphinquery.cpp:434
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3247,13 +3247,13 @@ msgstr "有「%1」和「%2」標籤的搜尋項目"
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:437
+#: search/dolphinquery.cpp:442
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr "%1 個搜尋結果"
 
-#: search/dolphinquery.cpp:440
+#: search/dolphinquery.cpp:445
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
