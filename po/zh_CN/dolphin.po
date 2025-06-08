@@ -4150,7 +4150,7 @@ msgstr "用户上次更改这些属性的时间。"
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "动态视图更改了一次视图模式"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4370,7 +4370,7 @@ msgstr "同时隐藏 MIME 类型为 application/x-trash 的文件"
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "启用动态视图"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5042,7 +5042,7 @@ msgstr ""
 #, kde-format
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
-msgstr ""
+msgstr "在主要包含媒体文件的位置使用图标视图模式"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
