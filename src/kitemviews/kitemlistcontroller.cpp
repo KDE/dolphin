@@ -675,6 +675,10 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, con
         return false;
     }
 
+    for (KItemListWidget *widget : m_view->visibleItemListWidgets()) {
+        widget->setClickHighlight(false);
+    }
+
     if (m_view->m_tapAndHoldIndicator->isActive()) {
         m_view->m_tapAndHoldIndicator->setActive(false);
     }
@@ -1029,6 +1033,7 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent *event, const
 
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
+        widget->setClickHighlight(false);
         if (widget->isHovered()) {
             widget->setHovered(false);
             Q_EMIT itemUnhovered(widget->index());
@@ -1766,7 +1771,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 // Select the pressed item and start a new anchored selection
                 if (!leftClick || shiftOrControlPressed || (!singleClickActivation && !m_singleClickActivationEnforced)) {
                     m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
-                } else if (leftClick && (m_singleClickActivationEnforced || singleClickActivation)) {
+                }
+                if (leftClick) {
                     row->setClickHighlight(true);
                 }
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());

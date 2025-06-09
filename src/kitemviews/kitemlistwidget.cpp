@@ -282,7 +282,6 @@ void KItemListWidget::setHovered(bool hovered)
 
         m_hoverSequenceTimer.start(interval);
     } else {
-        m_clickHighlighted = false;
         setHoverOpacity(0.0);
 
         if (m_selectionToggle) {
@@ -634,13 +633,18 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     // Background item, alpha values are from
     // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
     backgroundColor.setAlphaF(0.0);
-    if ((m_selected && m_hovered) || m_clickHighlighted) {
-        backgroundColor.setAlphaF(0.40);
-    } else if (m_selected) {
-        backgroundColor.setAlphaF(0.32);
-    } else if (m_hovered && !m_clickHighlighted) {
-        backgroundColor = widget->palette().color(QPalette::Text);
-        backgroundColor.setAlphaF(0.06);
+
+    if (m_clickHighlighted) {
+        backgroundColor.setAlphaF(0.5);
+    } else {
+        if (m_selected && m_hovered) {
+            backgroundColor.setAlphaF(0.40);
+        } else if (m_selected) {
+            backgroundColor.setAlphaF(0.32);
+        } else if (m_hovered) {
+            backgroundColor = widget->palette().color(QPalette::Text);
+            backgroundColor.setAlphaF(0.06);
+        }
     }
 
     painter->fillPath(path, backgroundColor);
