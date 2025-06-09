@@ -122,7 +122,7 @@ void DolphinContextMenu::addTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Empty Trash"), [this]() {
+    QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@action:inmenu", "Empty Trash"), this, [this]() {
         Trash::empty(m_mainWindow);
     });
     emptyTrashAction->setEnabled(!Trash::isEmpty());
@@ -154,6 +154,7 @@ void DolphinContextMenu::addTrashItemContextMenu()
                      "Restore to Former Location",
                      "Restore to Former Locations",
                      m_selectedItems.count()),
+              this,
               [this]() {
                   QList<QUrl> selectedUrls;
                   selectedUrls.reserve(m_selectedItems.count());
@@ -202,7 +203,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     // set up 'Create New' menu
     QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
     QAction *newFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
-    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, m_mainWindow);
+    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, this);
     newFileMenu->checkUpToDate();
     newFileMenu->setWorkingDirectory(m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());

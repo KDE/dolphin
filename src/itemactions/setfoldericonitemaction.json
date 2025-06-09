@@ -1,0 +1,11 @@
+{
+    "KPlugin": {
+        "Icon": "folder-new",
+        "MimeTypes": [
+            "inode/directory"
+        ],
+        "Name": "Set Folder Icon"
+    },
+    "X-KDE-Require": "Write",
+    "X-KDE-Show-In-Submenu": "true"
+}
