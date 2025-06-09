@@ -42,22 +42,14 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         return new ViewPropertySettings(KSharedConfig::openConfig(settingsFile, KConfig::SimpleConfig));
     }
 
-    auto createTempFile = []() -> QTemporaryFile * {
-        QTemporaryFile *tempFile = new QTemporaryFile;
-        tempFile->setAutoRemove(false);
-        if (!tempFile->open()) {
-            qCWarning(DolphinDebug) << "Could not open temp file";
-            return nullptr;
-        }
-        return tempFile;
-    };
-
+    std::unique_ptr<QTemporaryFile> tempFile(new QTemporaryFile());
+    tempFile->setAutoRemove(false);
+    if (!tempFile->open()) {
+        qCWarning(DolphinDebug) << "Could not open temp file";
+        return nullptr;
+    }
     if (QFile::exists(settingsFile)) {
         // copy settings to tempfile to load them separately
-        const QTemporaryFile *tempFile = createTempFile();
-        if (!tempFile) {
-            return nullptr;
-        }
         QFile::remove(tempFile->fileName());
         QFile::copy(settingsFile, tempFile->fileName());
 
@@ -84,11 +76,6 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         return nullptr;
     }
     // load view properties from xattr to temp file then loads into ViewPropertySettings
-    // clear the temp file
-    const QTemporaryFile *tempFile = createTempFile();
-    if (!tempFile) {
-        return nullptr;
-    }
     QFile outputFile(tempFile->fileName());
     outputFile.open(QIODevice::WriteOnly);
     outputFile.write(viewPropertiesString.toUtf8());
