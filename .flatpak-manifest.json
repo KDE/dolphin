@@ -77,8 +77,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.libarchive.org/downloads/libarchive-3.4.3.tar.xz",
-                    "sha256": "0bfc3fd40491768a88af8d9b86bf04a9e95b6d41a94f9292dbc0ec342288c05f"
+                    "url": "https://www.libarchive.org/downloads/libarchive-3.8.1.tar.xz",
+                    "sha256": "19f917d42d530f98815ac824d90c7eaf648e9d9a50e4f309c812457ffa5496b5"
                 }
             ]
         },
@@ -129,8 +129,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/24.08.3/src/ark-24.08.3.tar.xz",
-                    "sha256": "3c6a100fbb8512b8f891726274658c51ce10f9318d4c14dbb2380a2c602f321b",
+                    "url": "https://download.kde.org/stable/release-service/25.08.1/src/ark-25.08.1.tar.xz",
+                    "sha256": "2febbab11881e3d32f44c4107041d53b1d5353c8c95c4d6536ab57de0958f96f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
@@ -291,7 +291,6 @@
                     ]
                 }
             ]
-
         },
         {
             "config-opts": [
