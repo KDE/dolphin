@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:45+0000\n"
+"POT-Creation-Date: 2025-06-10 00:45+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -162,31 +162,31 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "Chọn địa điểm nhà"
 
-#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1748
+#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1748
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Tạo mới"
 
-#: dolphincontextmenu.cpp:222
+#: dolphincontextmenu.cpp:223
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Mở đường dẫn"
 
-#: dolphincontextmenu.cpp:230
+#: dolphincontextmenu.cpp:231
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Mở đường dẫn trong thẻ mới"
 
-#: dolphincontextmenu.cpp:238
+#: dolphincontextmenu.cpp:239
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Mở đường dẫn trong cửa sổ mới"
 
-#: dolphincontextmenu.cpp:488
+#: dolphincontextmenu.cpp:489
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -2188,6 +2188,156 @@ msgstr "Ẩn thanh lọc"
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "Tạo thư mục..."
+
+#: itemactions/setfoldericonitemaction.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Other"
+msgctxt "@action open a submeun with additional entries"
+msgid "Other"
+msgstr "Khác"
+
+#: itemactions/setfoldericonitemaction.cpp:154
+#, fuzzy, kde-format
+#| msgctxt "option:check"
+#| msgid "Open folders during drag operations"
+msgctxt "@label"
+msgid "Other folder icon options"
+msgstr "Mở thư mục khi thực hiện thao tác kéo"
+
+#: itemactions/setfoldericonitemaction.cpp:188
+#, fuzzy, kde-format
+#| msgid "Reload"
+msgctxt "@label as in default folder color"
+msgid "Red"
+msgstr "Tải lại"
+
+#: itemactions/setfoldericonitemaction.cpp:189
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Yellow"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:190
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Orange"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:191
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Green"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:192
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Cyan"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:194
+#, fuzzy, kde-format
+#| msgid "Default"
+msgctxt "@label: as in default folder icon"
+msgid "Default"
+msgstr "Mặc định"
+
+#: itemactions/setfoldericonitemaction.cpp:196
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Blue"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:197
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Violet"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:198
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Brown"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:199
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Grey"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:202
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "&Bookmarks"
+msgctxt "@label as in default folder color"
+msgid "Bookmark"
+msgstr "&Dấu nhớ"
+
+#: itemactions/setfoldericonitemaction.cpp:203
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Cloud"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:204
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Developer"
+msgctxt "@label as in default folder color"
+msgid "Development"
+msgstr "Nhà phát triển"
+
+#: itemactions/setfoldericonitemaction.cpp:205
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Games"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:206
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Mail"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:207
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Music"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:208
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Print"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:209
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Compare Files"
+msgctxt "@label as in default folder color"
+msgid "Compressed"
+msgstr "So sánh tệp"
+
+#: itemactions/setfoldericonitemaction.cpp:210
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Temporary"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:211
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Important"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:233
+#, kde-format
+msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
+msgid "Set folder icon to %1"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format

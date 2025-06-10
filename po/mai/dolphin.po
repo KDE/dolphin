@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-07 00:45+0000\n"
+"POT-Creation-Date: 2025-06-10 00:45+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -170,13 +170,13 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "स्थान बदलू"
 msgstr[1] "स्थान बदलू"
 
-#: dolphincontextmenu.cpp:213 dolphinmainwindow.cpp:1748
+#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1748
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "नवीन बनाबू"
 
-#: dolphincontextmenu.cpp:222
+#: dolphincontextmenu.cpp:223
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -184,7 +184,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "साटू"
 
-#: dolphincontextmenu.cpp:230
+#: dolphincontextmenu.cpp:231
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Tab"
@@ -192,7 +192,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "नवीन टैब मे खोलू"
 
-#: dolphincontextmenu.cpp:238
+#: dolphincontextmenu.cpp:239
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open in New Window"
@@ -200,7 +200,7 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "नवीन विंडोमे खोलू."
 
-#: dolphincontextmenu.cpp:488
+#: dolphincontextmenu.cpp:489
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1938,6 +1938,154 @@ msgstr "फिल्टर पट्टी नुकाबू"
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
 msgstr "फोल्डर बनाबू..."
+
+#: itemactions/setfoldericonitemaction.cpp:153
+#, fuzzy, kde-format
+#| msgctxt "@title:group Name"
+#| msgid "Others"
+msgctxt "@action open a submeun with additional entries"
+msgid "Other"
+msgstr "आन "
+
+#: itemactions/setfoldericonitemaction.cpp:154
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open in New Tab"
+msgctxt "@label"
+msgid "Other folder icon options"
+msgstr "नवीन टैब मे खोलू"
+
+#: itemactions/setfoldericonitemaction.cpp:188
+#, fuzzy, kde-format
+#| msgid "Reload"
+msgctxt "@label as in default folder color"
+msgid "Red"
+msgstr "पुनः लोड करू"
+
+#: itemactions/setfoldericonitemaction.cpp:189
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Yellow"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:190
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Orange"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:191
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Green"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:192
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Cyan"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:194
+#, fuzzy, kde-format
+#| msgid "Default"
+msgctxt "@label: as in default folder icon"
+msgid "Default"
+msgstr "मूलभूत"
+
+#: itemactions/setfoldericonitemaction.cpp:196
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Blue"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:197
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Violet"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:198
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Brown"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:199
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Grey"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:202
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Bookmark"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:203
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Cloud"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:204
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Developer"
+msgctxt "@label as in default folder color"
+msgid "Development"
+msgstr "डेवलपर"
+
+#: itemactions/setfoldericonitemaction.cpp:205
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Games"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:206
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Mail"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:207
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Music"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:208
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Print"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:209
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Compare Files"
+msgctxt "@label as in default folder color"
+msgid "Compressed"
+msgstr "फाइलसभक तुलना करू..."
+
+#: itemactions/setfoldericonitemaction.cpp:210
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Temporary"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:211
+#, kde-format
+msgctxt "@label as in default folder color"
+msgid "Important"
+msgstr ""
+
+#: itemactions/setfoldericonitemaction.cpp:233
+#, kde-format
+msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
+msgid "Set folder icon to %1"
+msgstr ""
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
@@ -6975,13 +7123,6 @@ msgstr "बाइली सूचना"
 #~ msgctxt "@title:group"
 #~ msgid "General: "
 #~ msgstr "सामान्य"
-
-#, fuzzy
-#~| msgctxt "@action:inmenu"
-#~| msgid "Open in New Tab"
-#~ msgctxt "@option:check Startup Settings"
-#~ msgid "Open new folders in tabs"
-#~ msgstr "नवीन टैब मे खोलू"
 
 #, fuzzy
 #~| msgctxt "@title:group General settings"
