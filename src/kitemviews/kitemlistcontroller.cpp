@@ -1733,6 +1733,10 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         // createRubberBand here tells us whether to return true or false.
         bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
 
+        if (leftClick) {
+            row->setClickHighlight(true);
+        }
+
         if (rightClick && hitTargetIsRowEmptyRegion) {
             // We have a right click outside the icon and text rect but within the hover highlight area.
             // We don't want items to get selected through this, so we return now.
@@ -1771,9 +1775,6 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                 // Select the pressed item and start a new anchored selection
                 if (!leftClick || shiftOrControlPressed || (!singleClickActivation && !m_singleClickActivationEnforced)) {
                     m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
-                }
-                if (leftClick) {
-                    row->setClickHighlight(true);
                 }
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
             }

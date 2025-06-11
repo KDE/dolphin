@@ -609,6 +609,7 @@ void KItemListWidget::setClickHighlight(bool enabled)
 {
     if (m_clickHighlighted != enabled) {
         m_clickHighlighted = enabled;
+        clearHoverCache();
         update();
     }
 }
@@ -635,7 +636,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     backgroundColor.setAlphaF(0.0);
 
     if (m_clickHighlighted) {
-        backgroundColor.setAlphaF(0.5);
+        backgroundColor.setAlphaF(1.0);
     } else {
         if (m_selected && m_hovered) {
             backgroundColor.setAlphaF(0.40);
