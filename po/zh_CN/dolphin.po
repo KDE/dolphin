@@ -1993,27 +1993,22 @@ msgid "Move to New Folder…"
 msgstr "移动到新建文件夹…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submeun with additional entries"
 msgid "Other"
 msgstr "其他"
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "拖放操作时打开文件夹"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "重新加载"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
@@ -2040,8 +2035,7 @@ msgid "Cyan"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "默认"
@@ -2059,12 +2053,10 @@ msgid "Violet"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "浏览： "
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
@@ -2073,12 +2065,10 @@ msgid "Grey"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "书签(&B)"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
@@ -2087,12 +2077,10 @@ msgid "Cloud"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "开发者"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
@@ -2119,12 +2107,10 @@ msgid "Print"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "比较文件"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-10 00:45+0000\n"
-"PO-Revision-Date: 2025-05-29 04:46+0200\n"
+"PO-Revision-Date: 2025-06-10 05:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2084,55 +2084,49 @@ msgid "Move to New Folder…"
 msgstr "გადატანა ახალ საქაღალდეში…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submeun with additional entries"
 msgid "Other"
 msgstr "სხვა"
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "გადათრევისას საქაღალდეების გახსნა"
+msgstr "სხვა საქაღალდის ხატულას პარამეტრები"
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "თავიდან ჩატვირთვა"
+msgstr "წითელი"
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "ყვითელი"
 
 #: itemactions/setfoldericonitemaction.cpp:190
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "ნარინჯისფერი"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "მწვანე"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "ცისფერი"
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "ნაგულისხმევი"
@@ -2141,99 +2135,91 @@ msgstr "ნაგულისხმევი"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "ლურჯი"
 
 #: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "იისფერი"
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "დათვალიერება: "
+msgstr "ყავისფერი"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "ნაცრისფერი"
 
 #: itemactions/setfoldericonitemaction.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "&სანიშნეები"
+msgstr "სანიშნე"
 
 #: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "ღრუბელი"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "პროგრამისტი"
+msgstr "შემუშავება"
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "თამაშები"
 
 #: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "ფოსტა"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "მუსიკა"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "ბეჭდვა"
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "ფაილების შედარება"
+msgstr "შეკუმშული"
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "დროებითი"
 
 #: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "მნიშვნელოვანი"
 
 #: itemactions/setfoldericonitemaction.cpp:233
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "საქაღალდის ხატულას დაყენება %1-ზე"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -4881,7 +4867,7 @@ msgstr "მიმდინარე მდებარეობის გამ�
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
-msgstr "ნაგულისხმები მდებარეობის გამოყენება"
+msgstr "ნაგულისხმევი მდებარეობის გამოყენება"
 
 #: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
@@ -5519,7 +5505,7 @@ msgstr "შემცველობის ჩვენება"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Default icon size:"
-msgstr "ხატულის ნაგულისხმები ზომა:"
+msgstr "ხატულის ნაგულისხმევი ზომა:"
 
 #: settings/viewmodes/viewsettingstab.cpp:56
 #, kde-format
@@ -5797,7 +5783,7 @@ msgstr "გადატარება:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
-msgstr "ხედის ნაგულისხმებ პარამეტრებად გამოყენება"
+msgstr "ხედის ნაგულისხმევ პარამეტრებად გამოყენება"
 
 #: settings/viewpropertiesdialog.cpp:335
 #, kde-format
@@ -6418,13 +6404,13 @@ msgstr "გადიდების დონის დაბრუნება"
 #: views/dolphinviewactionhandler.cpp:245
 #, kde-format
 msgid "Zoom To Default"
-msgstr "ნაგულისხმებ მნიშვნელობაზე გადიდება"
+msgstr "ნაგულისხმევ მნიშვნელობაზე გადიდება"
 
 #: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr "ეს ხატულის ზომას ნაგულისხმებ ზომაზე დააბრუნებს."
+msgstr "ეს ხატულის ზომას ნაგულისხმევ ზომაზე დააბრუნებს."
 
 #: views/dolphinviewactionhandler.cpp:252
 #, kde-format
