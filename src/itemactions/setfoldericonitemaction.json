@@ -4,7 +4,20 @@
         "MimeTypes": [
             "inode/directory"
         ],
-        "Name": "Set Folder Icon"
+        "Name": "Set Folder Icon",
+        "Name[bg]": "Задаване на икона на папка",
+        "Name[ca@valencia]": "Establix la icona de carpeta",
+        "Name[ca]": "Estableix la icona de carpeta",
+        "Name[es]": "Definir icono de carpeta",
+        "Name[he]": "הגדרת סמל תיקייה",
+        "Name[ka]": "საქაღალდის ხატულას დაყენება",
+        "Name[ko]": "폴더 아이콘 설정",
+        "Name[nl]": "Mappictogram instellen",
+        "Name[sl]": "Nastavi ikono mape",
+        "Name[tr]": "Klasör Simgesi Ayarla",
+        "Name[uk]": "Встановити піктограму теки",
+        "Name[x-test]": "xxSet Folder Iconxx",
+        "Name[zh_TW]": "設定資料夾圖示"
     },
     "X-KDE-Require": "Write",
     "X-KDE-Show-In-Submenu": "true"
