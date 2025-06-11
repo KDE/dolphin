@@ -109,6 +109,7 @@ public:
     void setEnabledSelectionToggle(bool enabled);
     bool enabledSelectionToggle() const;
 
+    bool isClickHighlighted() const;
     void setClickHighlight(bool enabled);
 
     /**

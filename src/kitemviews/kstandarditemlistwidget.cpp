@@ -711,7 +711,11 @@ QFont KStandardItemListWidget::customizedFont(const QFont &baseFont) const
 
 QPalette::ColorRole KStandardItemListWidget::normalTextColorRole() const
 {
-    return QPalette::Text;
+    if (isClickHighlighted()) {
+        return QPalette::HighlightedText;
+    } else {
+        return QPalette::Text;
+    }
 }
 
 void KStandardItemListWidget::setTextColor(const QColor &color)

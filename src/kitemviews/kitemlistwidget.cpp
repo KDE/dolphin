@@ -605,6 +605,11 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = nullptr;
 }
 
+bool KItemListWidget::isClickHighlighted() const
+{
+    return m_clickHighlighted;
+}
+
 void KItemListWidget::setClickHighlight(bool enabled)
 {
     if (m_clickHighlighted != enabled) {
