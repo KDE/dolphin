@@ -109,7 +109,6 @@ public:
     QRectF textFocusRect() const override;
     QRectF visualSelectionRect() const override;
     QRectF selectionRectCore() const override;
-    QRectF selectionRectExtended() const override;
     QRectF hitTargetRect() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;

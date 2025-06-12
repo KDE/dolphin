@@ -175,11 +175,6 @@ public:
     virtual QRectF selectionRectCore() const = 0;
 
     /**
-     * @return Same as core, but extended to the full width of the details view.
-     */
-    virtual QRectF selectionRectExtended() const = 0;
-
-    /**
      * @return Returns rectangle where item is considered "hit" during actions, such as drag and drop.
      *         In compact and icon views, it returns KItemListWidget::visualSelectionRect().
      *         In details view, it returns KItemListWidget::selectionRectCore().

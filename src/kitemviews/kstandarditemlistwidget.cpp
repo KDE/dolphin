@@ -536,7 +536,11 @@ QRectF KStandardItemListWidget::visualSelectionRect() const
     if (m_layout == DetailsLayout) {
         auto rect = selectionRectCore();
         if (m_highlightEntireRow) {
-            rect = selectionRectExtended();
+            if (layoutDirection() == Qt::LeftToRight) {
+                rect.setRight(leftPadding() + m_columnWidthSum);
+            } else {
+                rect.setLeft(size().width() - m_columnWidthSum - rightPadding());
+            }
         }
         return rect.adjusted(-padding, 0, padding, 0);
     } else {
@@ -550,17 +554,6 @@ QRectF KStandardItemListWidget::visualSelectionRect() const
 QRectF KStandardItemListWidget::selectionRectCore() const
 {
     QRectF result = m_iconRect | m_textRect;
-    return result;
-}
-
-QRectF KStandardItemListWidget::selectionRectExtended() const
-{
-    QRectF result = selectionRectCore();
-    if (layoutDirection() == Qt::LeftToRight) {
-        result.setRight(leftPadding() + m_columnWidthSum);
-    } else {
-        result.setLeft(size().width() - m_columnWidthSum - rightPadding());
-    }
     return result;
 }
 
