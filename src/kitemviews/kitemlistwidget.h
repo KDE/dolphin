@@ -140,7 +140,7 @@ public:
     int iconSize() const;
 
     /**
-     * @return True if \a point is inside KItemListWidget::visualSelectionRect(),
+     * @return True if \a point is inside KItemListWidget::selectionRectFull(),
      *         KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
@@ -167,7 +167,7 @@ public:
      *
      * @return The rectangle around selection, depending on if it's full width or not.
      */
-    virtual QRectF visualSelectionRect() const = 0;
+    virtual QRectF selectionRectFull() const = 0;
 
     /**
      * @return Rectangle around icon and it's text: The core area of the item.
@@ -176,7 +176,7 @@ public:
 
     /**
      * @return Returns rectangle where item is considered "hit" during actions, such as drag and drop.
-     *         In compact and icon views, it returns KItemListWidget::visualSelectionRect().
+     *         In compact and icon views, it returns KItemListWidget::selectionRectFull().
      *         In details view, it returns KItemListWidget::selectionRectCore().
      */
     virtual QRectF hitTargetRect() const = 0;

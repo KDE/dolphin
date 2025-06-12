@@ -408,7 +408,7 @@ bool KItemListWidget::contains(const QPointF &point) const
         return false;
     }
 
-    return visualSelectionRect().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
+    return selectionRectFull().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
 }
 
 QRectF KItemListWidget::textFocusRect() const
@@ -629,9 +629,9 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     // TODO: check if we're extended or not
-    viewItemOption.rect = visualSelectionRect().toRect();
+    viewItemOption.rect = selectionRectFull().toRect();
     QPainterPath path;
-    path.addRoundedRect(visualSelectionRect().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
+    path.addRoundedRect(selectionRectFull().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
     QColor backgroundColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;

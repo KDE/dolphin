@@ -536,7 +536,7 @@ QRectF KItemListView::itemContextRect(int index) const
 
     const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
-        contextRect = widget->visualSelectionRect();
+        contextRect = widget->selectionRectFull();
         contextRect.translate(itemRect(index).topLeft());
     }
 
