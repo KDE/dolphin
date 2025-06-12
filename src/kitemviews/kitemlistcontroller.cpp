@@ -1490,7 +1490,7 @@ KItemListWidget *KItemListController::widgetForDropPos(const QPointF &pos) const
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
-        if (widget->contains(mappedPos)) {
+        if (widget->hitTargetRect().contains(mappedPos)) {
             return widget;
         }
     }
