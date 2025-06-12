@@ -628,7 +628,6 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    // TODO: check if we're extended or not
     viewItemOption.rect = selectionRectFull().toRect();
     QPainterPath path;
     path.addRoundedRect(selectionRectFull().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
