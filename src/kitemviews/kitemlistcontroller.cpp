@@ -676,7 +676,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, con
     }
 
     for (KItemListWidget *widget : m_view->visibleItemListWidgets()) {
-        widget->setClickHighlight(false);
+        widget->setPressed(false);
     }
 
     if (m_view->m_tapAndHoldIndicator->isActive()) {
@@ -1033,7 +1033,7 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent *event, const
 
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
-        widget->setClickHighlight(false);
+        widget->setPressed(false);
         if (widget->isHovered()) {
             widget->setHovered(false);
             Q_EMIT itemUnhovered(widget->index());
@@ -1734,7 +1734,7 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
 
         if (leftClick) {
-            row->setClickHighlight(true);
+            row->setPressed(true);
         }
 
         if (rightClick && hitTargetIsRowEmptyRegion) {

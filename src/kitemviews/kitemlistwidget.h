@@ -98,6 +98,10 @@ public:
     void setHovered(bool hovered);
     bool isHovered() const;
 
+    /** Sets a purely visual pressed highlight effect. */
+    void setPressed(bool enabled);
+    bool isPressed() const;
+
     void setExpansionAreaHovered(bool hover);
     bool expansionAreaHovered() const;
 
@@ -108,9 +112,6 @@ public:
 
     void setEnabledSelectionToggle(bool enabled);
     bool enabledSelectionToggle() const;
-
-    bool isClickHighlighted() const;
-    void setClickHighlight(bool enabled);
 
     /**
      * Sets the sibling information for the item and all of its parents.

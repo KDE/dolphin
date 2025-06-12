@@ -605,12 +605,12 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = nullptr;
 }
 
-bool KItemListWidget::isClickHighlighted() const
+bool KItemListWidget::isPressed() const
 {
     return m_clickHighlighted;
 }
 
-void KItemListWidget::setClickHighlight(bool enabled)
+void KItemListWidget::setPressed(bool enabled)
 {
     if (m_clickHighlighted != enabled) {
         m_clickHighlighted = enabled;
