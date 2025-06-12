@@ -180,7 +180,7 @@ public:
     virtual QRectF selectionRectExtended() const = 0;
 
     /**
-     * @return Rectangle where dragging the item is allowed to start.
+     * @return Returns rectangle where item is considered "hit" during actions, such as drag and drop.
      *         In compact and icon views, it returns KItemListWidget::visualSelectionRect().
      *         In details view, it returns KItemListWidget::selectionRectCore().
      */
