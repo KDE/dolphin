@@ -5,6 +5,7 @@
             "inode/directory"
         ],
         "Name": "Set Folder Icon",
+        "Name[ar]": "عيّن أيقونة المجلد",
         "Name[bg]": "Задаване на икона на папка",
         "Name[ca@valencia]": "Establix la icona de carpeta",
         "Name[ca]": "Estableix la icona de carpeta",
@@ -15,6 +16,7 @@
         "Name[ko]": "폴더 아이콘 설정",
         "Name[nl]": "Mappictogram instellen",
         "Name[sl]": "Nastavi ikono mape",
+        "Name[sv]": "Ange katalogikon",
         "Name[tr]": "Klasör Simgesi Ayarla",
         "Name[uk]": "Встановити піктограму теки",
         "Name[x-test]": "xxSet Folder Iconxx",
