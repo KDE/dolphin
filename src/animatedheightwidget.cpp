@@ -10,6 +10,7 @@
 #include <QGridLayout>
 #include <QPropertyAnimation>
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QStyle>
 
 AnimatedHeightWidget::AnimatedHeightWidget(QWidget *parent)
@@ -30,6 +31,9 @@ AnimatedHeightWidget::AnimatedHeightWidget(QWidget *parent)
     m_contentsContainerParent->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_contentsContainerParent->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_contentsContainerParent->setWidgetResizable(true);
+    // Disables manual scrolling, for example with mouse scrollwheel.
+    m_contentsContainerParent->verticalScrollBar()->setEnabled(false);
+    m_contentsContainerParent->horizontalScrollBar()->setEnabled(false);
 
     setMinimumWidth(0);
 }
