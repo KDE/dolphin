@@ -534,7 +534,7 @@ QRectF KStandardItemListWidget::selectionRectFull() const
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
     const int padding = styleOption().padding;
     if (m_layout == DetailsLayout) {
-        auto rect = selectionRectCore();
+        auto rect = m_iconRect | m_textRect;
         if (m_highlightEntireRow) {
             if (layoutDirection() == Qt::LeftToRight) {
                 rect.setRight(leftPadding() + m_columnWidthSum);
@@ -553,8 +553,12 @@ QRectF KStandardItemListWidget::selectionRectFull() const
 
 QRectF KStandardItemListWidget::selectionRectCore() const
 {
-    QRectF result = m_iconRect | m_textRect;
-    return result;
+    // Allow dragging from selection area in details view.
+    if (m_layout == DetailsLayout && highlightEntireRow() && !isSelected()) {
+        QRectF result = m_iconRect | m_textRect;
+        return result;
+    }
+    return selectionRectFull();
 }
 
 QRectF KStandardItemListWidget::expansionToggleRect() const
