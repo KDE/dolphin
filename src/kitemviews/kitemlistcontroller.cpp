@@ -1490,7 +1490,7 @@ KItemListWidget *KItemListController::widgetForDropPos(const QPointF &pos) const
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget *widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
-        if (widget->hitTargetRect().contains(mappedPos)) {
+        if (widget->selectionRectCore().contains(mappedPos)) {
             return widget;
         }
     }
@@ -1728,7 +1728,10 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
     if (m_pressedIndex.has_value()) {
         // The hover highlight area of an item is being pressed.
         const auto row = m_view->m_visibleItems.value(m_pressedIndex.value()); // anything outside of row.contains() will be the empty region of the row rect
-        const bool hitTargetIsRowEmptyRegion = !row->hitTargetRect().contains(row->mapFromItem(m_view, pos));
+
+        // When full row is highlighted, we want to be able to start dragging from anywhere except the core of the item.
+        const auto hitRect = m_view->highlightEntireRow() ? row->selectionRectCore() : row->selectionRectFull();
+        const bool hitTargetIsRowEmptyRegion = !hitRect.contains(row->mapFromItem(m_view, pos));
         // again, when this method returns false, a rubberBand selection is created as the event is not consumed;
         // createRubberBand here tells us whether to return true or false.
         bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());

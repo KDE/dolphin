@@ -109,7 +109,6 @@ public:
     QRectF textFocusRect() const override;
     QRectF selectionRectFull() const override;
     QRectF selectionRectCore() const override;
-    QRectF hitTargetRect() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
     QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

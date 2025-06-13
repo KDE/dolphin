@@ -176,13 +176,6 @@ public:
     virtual QRectF selectionRectCore() const = 0;
 
     /**
-     * @return Returns rectangle where item is considered "hit" during actions, such as drag and drop.
-     *         In compact and icon views, it returns KItemListWidget::selectionRectFull().
-     *         In details view, it returns KItemListWidget::selectionRectCore().
-     */
-    virtual QRectF hitTargetRect() const = 0;
-
-    /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
      *         Per default an empty rectangle is returned which means that no selection-toggle
      *         is available.
