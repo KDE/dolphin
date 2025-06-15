@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-25 02:36+0000\n"
-"PO-Revision-Date: 2025-03-15 10:05+0100\n"
+"PO-Revision-Date: 2025-06-14 13:47+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3142,7 +3142,7 @@ msgstr "Pokaż podglądy"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Samoodtwarzaj pliki multimedialne"
+msgstr "Sam zacznij odtwarzać pliki multimedialne"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -3166,7 +3166,7 @@ msgstr "Podgląd"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Samoodtwarzaj pliki multimedialne"
+msgstr "Sam zacznij odtwarzać pliki multimedialne"
 
 #: panels/information/informationpanel.cpp:163
 #, kde-format
