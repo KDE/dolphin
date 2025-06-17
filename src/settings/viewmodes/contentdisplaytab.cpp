@@ -31,6 +31,8 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     , m_useSymbolicPermissions(nullptr)
     , m_useNumericPermissions(nullptr)
     , m_useCombinedPermissions(nullptr)
+    , m_elideMiddle(nullptr)
+    , m_elideEnding(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
@@ -103,6 +105,16 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     permissionsFormatGroup->addButton(m_useNumericPermissions);
     permissionsFormatGroup->addButton(m_useCombinedPermissions);
 
+    m_elideMiddle = new QRadioButton(i18nc("@option:radio Long file names", "Elide in the middle (e.g. ’Some very… name.txt')"));
+    m_elideEnding = new QRadioButton(i18nc("@option:radio Long file names", "Elide at the end (e.g. ’Some very long….txt')"));
+
+    topLayout->addRow(i18nc("@title:group", "Long file names:"), m_elideMiddle);
+    topLayout->addRow(QString(), m_elideEnding);
+
+    QButtonGroup *elidingModeGroup = new QButtonGroup(this);
+    elidingModeGroup->addButton(m_elideMiddle);
+    elidingModeGroup->addButton(m_elideEnding);
+
 #ifndef Q_OS_WIN
     connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &SettingsPageBase::changed);
     connect(m_numberOfItems, &QRadioButton::toggled, this, &SettingsPageBase::changed);
@@ -120,6 +132,8 @@ ContentDisplayTab::ContentDisplayTab(QWidget *parent)
     connect(m_naturalSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_caseInsensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
     connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+    connect(m_elideMiddle, &QRadioButton::toggled, this, &SettingsPageBase::changed);
+    connect(m_elideEnding, &QRadioButton::toggled, this, &SettingsPageBase::changed);
 
     loadSettings();
 }
@@ -148,6 +162,11 @@ void ContentDisplayTab::applySettings()
     } else if (m_useCombinedPermissions->isChecked()) {
         settings->setUsePermissionsFormat(ContentDisplaySettings::EnumUsePermissionsFormat::CombinedFormat);
     }
+    if (m_elideMiddle->isChecked()) {
+        settings->setElidingMode(ContentDisplaySettings::ElidingMode::Middle);
+    } else if (m_elideEnding->isChecked()) {
+        settings->setElidingMode(ContentDisplaySettings::ElidingMode::Right);
+    }
     settings->save();
 }
 
@@ -166,6 +185,8 @@ void ContentDisplayTab::loadSettings()
     m_useNumericPermissions->setChecked(settings->usePermissionsFormat() == ContentDisplaySettings::EnumUsePermissionsFormat::NumericFormat);
     m_useCombinedPermissions->setChecked(settings->usePermissionsFormat() == ContentDisplaySettings::EnumUsePermissionsFormat::CombinedFormat);
     loadSortingChoiceSettings();
+    m_elideMiddle->setChecked(settings->elidingMode() == ContentDisplaySettings::ElidingMode::Middle);
+    m_elideEnding->setChecked(settings->elidingMode() == ContentDisplaySettings::ElidingMode::Right);
 }
 
 void ContentDisplayTab::setSortingChoiceValue()

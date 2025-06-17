@@ -6,6 +6,7 @@
 
 #include "kstandarditemlistwidget.h"
 
+#include "dolphin_contentdisplaysettings.h"
 #include "kfileitemlistview.h"
 #include "private/kfileitemclipboard.h"
 #include "private/kitemlistroleeditor.h"
@@ -1286,6 +1287,31 @@ void KStandardItemListWidget::updateTextsCache()
     }
 }
 
+QString KStandardItemListWidget::elideText(QString text, qreal maxWidth) const
+{
+    if (ContentDisplaySettings::elidingMode() == ContentDisplaySettings::ElidingMode::Middle) {
+        return m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
+    }
+
+    if (ContentDisplaySettings::elidingMode() == ContentDisplaySettings::ElidingMode::Right) {
+        qsizetype lastDotPosition = text.lastIndexOf(".");
+        QString extension = text.mid(lastDotPosition);
+
+        if (m_customizedFontMetrics.horizontalAdvance(QStringLiteral("…") + extension) > maxWidth) {
+            extension = "";
+            lastDotPosition = text.size();
+        }
+
+        maxWidth -= m_customizedFontMetrics.horizontalAdvance(extension);
+        QString leftPart = m_customizedFontMetrics.elidedText(text.left(lastDotPosition), Qt::ElideRight, maxWidth);
+
+        return leftPart + extension;
+    }
+
+    Q_UNREACHABLE();
+    return text;
+}
+
 QString KStandardItemListWidget::escapeString(const QString &text) const
 {
     QString escaped(text);
@@ -1346,7 +1372,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 qreal lastLineWidth;
                 do {
                     QString lastTextLine = nameText.mid(line.textStart());
-                    lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine, Qt::ElideMiddle, elidingWidth);
+                    lastTextLine = elideText(lastTextLine, elidingWidth);
                     const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                     nameTextInfo->staticText.setText(elidedText);
 
@@ -1394,7 +1420,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             textLine.setLineWidth(maxWidth);
             requiredWidth = textLine.naturalTextWidth();
             if (requiredWidth > maxWidth) {
-                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
+                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.horizontalAdvance(elidedText);
             } else if (role == "rating") {
@@ -1446,8 +1472,13 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         qreal requiredWidth = m_customizedFontMetrics.horizontalAdvance(text);
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
-            const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
-            textInfo->staticText.setText(elidedText);
+            if (role == "text") {
+                const QString elidedText = elideText(text, maxWidth);
+                textInfo->staticText.setText(elidedText);
+            } else {
+                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
+                textInfo->staticText.setText(elidedText);
+            }
         }
 
         textInfo->pos = QPointF(x, y);
@@ -1506,7 +1537,11 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         }
 
         if (requiredWidth > availableTextWidth) {
-            text = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, availableTextWidth);
+            if (isTextRole) {
+                text = elideText(text, availableTextWidth);
+            } else {
+                text = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, availableTextWidth);
+            }
             requiredWidth = m_customizedFontMetrics.horizontalAdvance(text);
         }
 

@@ -38,5 +38,13 @@
             </choices>
             <default>0</default>
         </entry>
+        <entry name="ElidingMode" type="Enum">
+            <label>Eliding Mode</label>
+            <choices name="ElidingMode">
+                <choice name="Right"/>
+                <choice name="Middle"/>
+            </choices>
+            <default>Middle</default>
+        </entry>
     </group>
 </kcfg>

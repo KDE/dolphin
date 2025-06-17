@@ -43,6 +43,8 @@ private:
     QRadioButton *m_useSymbolicPermissions;
     QRadioButton *m_useNumericPermissions;
     QRadioButton *m_useCombinedPermissions;
+    QRadioButton *m_elideMiddle;
+    QRadioButton *m_elideEnding;
 };
 
 #endif // GENERALTAB_H

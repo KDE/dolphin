@@ -224,6 +224,8 @@ private:
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
+    QString elideText(QString text, qreal elidingWidth) const;
+
     /**
      * Escapes text for display purposes.
      *
