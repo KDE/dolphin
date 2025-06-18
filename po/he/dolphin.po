@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-10 00:45+0000\n"
+"POT-Creation-Date: 2025-06-18 00:45+0000\n"
 "PO-Revision-Date: 2025-06-10 04:48+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -2888,7 +2888,7 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "שגיאה בלתי מוכרת."
 
-#: kitemviews/kstandarditemlistwidget.cpp:122
+#: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
@@ -2898,7 +2898,7 @@ msgstr[1] "שני כוכבים וחצי"
 msgstr[2] "%1 כוכבים וחצי"
 msgstr[3] "%1 כוכבים וחצי"
 
-#: kitemviews/kstandarditemlistwidget.cpp:124
+#: kitemviews/kstandarditemlistwidget.cpp:125
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
@@ -4154,6 +4154,14 @@ msgstr "אם ‚true’ (אמת) להשתמש בתאריכים יחסיים, א�
 msgid "Permissions style format"
 msgstr "תבנית סגנון הרשאות"
 
+#. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:42
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgid "Eliding Mode"
+msgstr "מצב בחירה"
+
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
@@ -5152,49 +5160,49 @@ msgctxt "@title:tab"
 msgid "Details"
 msgstr "פרטים"
 
-#: settings/viewmodes/contentdisplaytab.cpp:38
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "האופן הטבעי"
 
-#: settings/viewmodes/contentdisplaytab.cpp:39
+#: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "אלפאביתי, ללא יחס לאותיות רישיות"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:42
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "אלפאביתי, עם יחס לאותיות רישיות"
 
-#: settings/viewmodes/contentdisplaytab.cpp:46
+#: settings/viewmodes/contentdisplaytab.cpp:48
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "מצב מיון: "
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "הצגת מספר פריטים"
 
-#: settings/viewmodes/contentdisplaytab.cpp:53
+#: settings/viewmodes/contentdisplaytab.cpp:55
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "להציג את גודל התוכן, עד "
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:56
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "לא להציג גודל"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:65
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
@@ -5203,53 +5211,73 @@ msgstr[1] " רמות פנימה"
 msgstr[2] " רמות פנימה"
 msgstr[3] " רמות פנימה"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "גודל תיקייה:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:82
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "יחסי (למשל: ‚%1’)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "מלא (למשל: ‚%1’)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:90
+#: settings/viewmodes/contentdisplaytab.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "סגנון תאריך:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:93
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "סמלי (למשל: ‚drwxr-xr-x’)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:94
+#: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "מספרי (אוקטלי) (למשל: ‚755’)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "משולב (למשל: ‚drwxr-xr-x (755)’)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:99
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "סגנון הרשאות:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:108
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide in the middle (e.g. ’Some very… name.txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:109
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide at the end (e.g. ’Some very long….txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:111
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Search in:"
+#| msgid "File names"
+msgctxt "@title:group"
+msgid "Long file names:"
+msgstr "שמות קבצים"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format

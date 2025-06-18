@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-10 00:45+0000\n"
+"POT-Creation-Date: 2025-06-18 00:45+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -3052,7 +3052,7 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Tundmatu viga."
 
-#: kitemviews/kstandarditemlistwidget.cpp:122
+#: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
@@ -3060,7 +3060,7 @@ msgid_plural "%1 and a half stars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: kitemviews/kstandarditemlistwidget.cpp:124
+#: kitemviews/kstandarditemlistwidget.cpp:125
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
@@ -4347,6 +4347,14 @@ msgstr ""
 msgid "Permissions style format"
 msgstr "Õigused"
 
+#. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:42
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgid "Eliding Mode"
+msgstr "Valik"
+
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
@@ -5418,31 +5426,31 @@ msgctxt "@title:tab"
 msgid "Details"
 msgstr "Üksikasjad"
 
-#: settings/viewmodes/contentdisplaytab.cpp:38
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "Loomulik"
 
-#: settings/viewmodes/contentdisplaytab.cpp:39
+#: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "Tähestiku järgi, tõstutundetu"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:42
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "Tähestiku järgi, tõstutundlik"
 
-#: settings/viewmodes/contentdisplaytab.cpp:46
+#: settings/viewmodes/contentdisplaytab.cpp:48
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "Sortimisviis:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "Number of items"
@@ -5450,7 +5458,7 @@ msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "Elementide arv"
 
-#: settings/viewmodes/contentdisplaytab.cpp:53
+#: settings/viewmodes/contentdisplaytab.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "Size of contents, up to "
@@ -5458,7 +5466,7 @@ msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "Sisu suurus kuni:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:56
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show zoom slider"
@@ -5466,14 +5474,14 @@ msgctxt "option:radio"
 msgid "Show no size"
 msgstr "Suurendusliuguri näitamine"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:65
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] "-tasandiline"
 msgstr[1] "-tasandiline"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:74
 #, fuzzy, kde-format
 #| msgctxt "@label:checkbox"
 #| msgid "Folders:"
@@ -5481,49 +5489,69 @@ msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "Kataloogid:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:82
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Suhteline (nt \"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absoluutne (nt \"%1\")"
 
-#: settings/viewmodes/contentdisplaytab.cpp:90
+#: settings/viewmodes/contentdisplaytab.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Kuupäevastiil:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:93
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:94
+#: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:99
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Permissions:"
 msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "Õigused:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:108
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide in the middle (e.g. ’Some very… name.txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:109
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide at the end (e.g. ’Some very long….txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:111
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Filenames"
+msgctxt "@title:group"
+msgid "Long file names:"
+msgstr "Failinimed"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-10 00:45+0000\n"
+"POT-Creation-Date: 2025-06-18 00:45+0000\n"
 "PO-Revision-Date: 2025-06-10 09:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2992,7 +2992,7 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr "Невідома помилка."
 
-#: kitemviews/kstandarditemlistwidget.cpp:122
+#: kitemviews/kstandarditemlistwidget.cpp:123
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 and a half stars"
@@ -3002,7 +3002,7 @@ msgstr[1] "%1 і пів зірки"
 msgstr[2] "%1 і пів зірки"
 msgstr[3] "%1 і пів зірки"
 
-#: kitemviews/kstandarditemlistwidget.cpp:124
+#: kitemviews/kstandarditemlistwidget.cpp:125
 #, kde-format
 msgctxt "@accessible rating"
 msgid "%1 star"
@@ -4279,6 +4279,14 @@ msgstr ""
 msgid "Permissions style format"
 msgstr "Формат стилю прав доступу"
 
+#. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
+#: settings/dolphin_contentdisplaysettings.kcfg:42
+#, fuzzy, kde-format
+#| msgctxt "@info label above the view explaining the state"
+#| msgid "Selection Mode"
+msgid "Eliding Mode"
+msgstr "Режим вибору"
+
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
@@ -5307,49 +5315,49 @@ msgctxt "@title:tab"
 msgid "Details"
 msgstr "Подробиці"
 
-#: settings/viewmodes/contentdisplaytab.cpp:38
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "Природний"
 
-#: settings/viewmodes/contentdisplaytab.cpp:39
+#: settings/viewmodes/contentdisplaytab.cpp:41
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "За абеткою, без врахування регістру"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:42
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "За абеткою, із врахуванням регістру"
 
-#: settings/viewmodes/contentdisplaytab.cpp:46
+#: settings/viewmodes/contentdisplaytab.cpp:48
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "Режим упорядковування: "
 
-#: settings/viewmodes/contentdisplaytab.cpp:52
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "Показувати кількість записів"
 
-#: settings/viewmodes/contentdisplaytab.cpp:53
+#: settings/viewmodes/contentdisplaytab.cpp:55
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "Показувати розмір вмісту, аж до "
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:56
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "Не показувати розмір"
 
-#: settings/viewmodes/contentdisplaytab.cpp:63
+#: settings/viewmodes/contentdisplaytab.cpp:65
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
@@ -5358,53 +5366,73 @@ msgstr[1] " рівнів вкладеності"
 msgstr[2] " рівнів вкладеності"
 msgstr[3] " рівня вкладеності"
 
-#: settings/viewmodes/contentdisplaytab.cpp:72
+#: settings/viewmodes/contentdisplaytab.cpp:74
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "Розмір теки:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:82
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Відносні (наприклад «%1»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:86
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Абсолютні (наприклад «%1»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:90
+#: settings/viewmodes/contentdisplaytab.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Стиль дат:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:93
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Символічний (наприклад «drwxr-xr-x»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:94
+#: settings/viewmodes/contentdisplaytab.cpp:96
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Числовий (вісімковий) (наприклад, «755»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Комбінований (наприклад, «drwxr-xr-x (755)»)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:99
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "Стиль прав доступу:"
+
+#: settings/viewmodes/contentdisplaytab.cpp:108
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide in the middle (e.g. ’Some very… name.txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:109
+#, kde-format
+msgctxt "@option:radio Long file names"
+msgid "Elide at the end (e.g. ’Some very long….txt')"
+msgstr ""
+
+#: settings/viewmodes/contentdisplaytab.cpp:111
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Search in:"
+#| msgid "File names"
+msgctxt "@title:group"
+msgid "Long file names:"
+msgstr "назвах файлів"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
