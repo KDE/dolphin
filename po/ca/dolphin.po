@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 00:45+0000\n"
-"PO-Revision-Date: 2025-06-10 08:28+0200\n"
+"PO-Revision-Date: 2025-06-18 08:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4223,11 +4223,9 @@ msgstr "Format d'estil dels permisos"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Mode de selecció"
+msgstr "Mode d'elisió"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -5353,21 +5351,19 @@ msgstr "Estil dels permisos:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Elideix al mig (p. ex. «Alguna cosa… nom.txt»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Elideix al final (p. ex. «Alguna cosa llarga….txt»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Noms de fitxers"
+msgstr "Noms llargs de fitxers:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -6755,110 +6751,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
-
-#~ msgctxt "@info:whatsthis findbar"
-#~ msgid ""
-#~ "<para>This helps you find files and folders. Enter a <emphasis>search "
-#~ "term</emphasis> and specify search settings with the buttons at the "
-#~ "bottom:<list><item>Filename/Content: Does the item you are looking for "
-#~ "contain the search terms within its filename or its contents?<nl/>The "
-#~ "contents of images, audio files and videos will not be searched.</"
-#~ "item><item>From Here/Everywhere: Do you want to search in this folder and "
-#~ "its sub-folders or everywhere?</item><item>More Options: Click this to "
-#~ "search by media type, access time or rating.</item><item>More Search "
-#~ "Tools: Install other means to find an item.</item></list></para>"
-#~ msgstr ""
-#~ "<para>Això ajuda a cercar fitxers i carpetes. Introduïu un "
-#~ "<emphasis>terme de cerca</emphasis> i especifiqueu les opcions de cerca "
-#~ "amb els botons de la part inferior:<list><item>Nom de fitxer/Contingut: "
-#~ "L'element que esteu cercant conté els termes de cerca al seu nom de "
-#~ "fitxer o al seu contingut? <nl/>No se cercarà en el contingut de les "
-#~ "imatges, ni dels fitxers d'àudio i vídeo.</item><item>Des d'aquí/Per tot "
-#~ "arreu: Voleu cercar en aquesta carpeta i les seves subcarpetes o per tot "
-#~ "arreu?</item><item>Més opcions: Feu clic aquí per a cercar per tipus de "
-#~ "suport, data i hora d'accés o valoració.</item><item>Més eines de cerca: "
-#~ "Instal·la altres recursos per a cercar un element.</item></list></para>"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Folders"
-#~ msgstr "Carpetes"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Documents"
-#~ msgstr "Documents"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Images"
-#~ msgstr "Imatges"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Fitxers d'àudio"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Videos"
-#~ msgstr "Vídeos"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Today"
-#~ msgstr "Avui"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Yesterday"
-#~ msgstr "Ahir"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Week"
-#~ msgstr "Aquesta setmana"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Month"
-#~ msgstr "Aquest mes"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Year"
-#~ msgstr "Aquest any"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Highest Rating"
-#~ msgstr "La puntuació més elevada"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Clear Selection"
-#~ msgstr "Neteja la selecció"
-
-#~ msgctxt "String list separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgctxt "@action:button %2 is a list of tags"
-#~ msgid "Tag: %2"
-#~ msgid_plural "Tags: %2"
-#~ msgstr[0] "Etiqueta: %2"
-#~ msgstr[1] "Etiquetes: %2"
-
-#~ msgctxt "@action:button"
-#~ msgid "Add Tags"
-#~ msgstr "Afegeix etiquetes"
-
-#~ msgctxt "action:button"
-#~ msgid "From Here (%1)"
-#~ msgstr "Des d'aquí (%1)"
-
-#~ msgctxt "action:button"
-#~ msgid "Content"
-#~ msgstr "Contingut"
-
-#~ msgctxt "action:button"
-#~ msgid "Your files"
-#~ msgstr "Els vostres arxius"
-
-#~ msgctxt "action:button"
-#~ msgid "Search in your home directory"
-#~ msgstr "Cerca al vostre directori d'inici"
-
-#~ msgctxt ""
-#~ "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
-#~ "user entered."
-#~ msgid "Query Results from '%1'"
-#~ msgstr "Resultats de la consulta de «%1»"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 00:45+0000\n"
-"PO-Revision-Date: 2025-06-10 06:57+0200\n"
+"PO-Revision-Date: 2025-06-18 07:05+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4232,53 +4232,51 @@ msgstr "Oblika sloga dovoljenja"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Način izbora"
+msgstr "Način izključevanja"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
 #, kde-format
 msgid "Show 'Copy To' and 'Move To' commands in context menu"
-msgstr "Pokaži ukaza »Kopiraj v« in »Premakni v« v vsebinskem meniju"
+msgstr "Pokaži ukaza 'Kopiraj v' in 'Premakni v' v vsebinskem meniju"
 
 #. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:14
 #, kde-format
 msgid "Show 'Add to Places' in context menu."
-msgstr "Pokaži »Dodaj na pult Mesta« v vsebinskem meniju."
+msgstr "Pokaži 'Dodaj na pult Mesta' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr "Prikaži »Razvrsti po« v vsebinskem meniju."
+msgstr "Prikaži 'Razvrsti po' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr "Pokaži »Način pogleda« v vsebinskem meniju."
+msgstr "Pokaži 'Način pogleda' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr "Pokaži »Odpri v novem zavihku« v vsebinskem meniju."
+msgstr "Pokaži 'Odpri v novem zavihku' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Pokaži »Odpri v novem oknu« v vsebinskem meniju."
+msgstr "Pokaži 'Odpri v novem oknu' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowOpenInSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Open In Split View' in context menu."
-msgstr "Pokaži »Odpri v razdeljenem pogledu« v vsebinskem meniju."
+msgstr "Pokaži 'Odpri v razdeljenem pogledu' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
@@ -4296,19 +4294,19 @@ msgstr "Pokaži »Podvoji sem« v vsebinskem meniju."
 #: settings/dolphin_contextmenusettings.kcfg:46
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr "Pokaži »Odpri terminal« v vsebinskem meniju."
+msgstr "Pokaži 'Odpri terminal' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowCopyToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:50
 #, kde-format
 msgid "Show 'Copy to other split view' in context menu."
-msgstr "Pokaži »Kopiraj v drugi razdeljeni pogled« v vsebinskem meniju."
+msgstr "Pokaži 'Kopiraj v drugi razdeljeni pogled' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ShowMoveToOtherSplitView), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:54
 #, kde-format
 msgid "Show 'Move to other split view' in context menu."
-msgstr "Prikaži »Premakni v drugi razdeljeni pogled« v vsebinskem meniju."
+msgstr "Prikaži 'Premakni v drugi razdeljeni pogled' v vsebinskem meniju."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -5358,21 +5356,19 @@ msgstr "Slog dovoljenja:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Odstrani na sredini (npr. 'Nekaj ​​zelo… ime.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Odstrani na koncu (npr. 'Nekaj ​​zelo dolgega…txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Imena datoteke"
+msgstr "Dolga imena datoteke:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
