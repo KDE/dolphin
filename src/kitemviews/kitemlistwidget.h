@@ -98,6 +98,10 @@ public:
     void setHovered(bool hovered);
     bool isHovered() const;
 
+    /** Sets a purely visual pressed highlight effect. */
+    void setPressed(bool enabled);
+    bool isPressed() const;
+
     void setExpansionAreaHovered(bool hover);
     bool expansionAreaHovered() const;
 
@@ -137,17 +141,12 @@ public:
     int iconSize() const;
 
     /**
-     * @return True if \a point is inside KItemListWidget::hoverRect(),
-     *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
+     * @return True if \a point is inside KItemListWidget::selectionRectFull(),
+     *         KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
     bool contains(const QPointF &point) const override;
-
-    /**
-     * @return Rectangle for the area that shows the icon.
-     */
-    virtual QRectF iconRect() const = 0;
 
     /**
      * @return Rectangle for the area that contains the text-properties.
@@ -164,9 +163,17 @@ public:
     virtual QRectF textFocusRect() const;
 
     /**
-     * @return Rectangle around which a selection box should be drawn if the item is selected.
+     * Used for drawing the visuals, and situations where we want the behavior of the
+     * selection to match the visuals.
+     *
+     * @return The rectangle around selection.
      */
-    virtual QRectF selectionRect() const = 0;
+    virtual QRectF selectionRectFull() const = 0;
+
+    /**
+     * @return The core area of the item. All of it reacts exactly the same way to mouse clicks.
+     */
+    virtual QRectF selectionRectCore() const = 0;
 
     /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
@@ -258,6 +265,7 @@ private:
     bool m_expansionAreaHovered;
     bool m_alternateBackground;
     bool m_enabledSelectionToggle;
+    bool m_clickHighlighted;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;

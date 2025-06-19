@@ -105,10 +105,10 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    QRectF iconRect() const override;
     QRectF textRect() const override;
     QRectF textFocusRect() const override;
-    QRectF selectionRect() const override;
+    QRectF selectionRectFull() const override;
+    QRectF selectionRectCore() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
     QPixmap createDragPixmap(const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -280,7 +280,6 @@ private:
 
     qreal m_columnWidthSum;
     QRectF m_iconRect; // Cache for KItemListWidget::iconRect()
-    QPixmap m_hoverPixmap; // Cache for modified m_pixmap when hovering the item
 
     QRectF m_textRect;
 

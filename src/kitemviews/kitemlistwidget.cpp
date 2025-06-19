@@ -37,6 +37,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsI
     , m_expansionAreaHovered(false)
     , m_alternateBackground(false)
     , m_enabledSelectionToggle(false)
+    , m_clickHighlighted(false)
     , m_data()
     , m_visibleRoles()
     , m_columnWidths()
@@ -124,21 +125,9 @@ void KItemListWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
-    if (m_selected && m_editedRole.isEmpty()) {
+    if ((m_selected || m_current) && m_editedRole.isEmpty()) {
         const QStyle::State activeState(isActiveWindow() && widget->hasFocus() ? QStyle::State_Active : 0);
         drawItemStyleOption(painter, widget, activeState | QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item);
-    }
-
-    if (m_current && m_editedRole.isEmpty()) {
-        QStyleOptionFocusRect focusRectOption;
-        initStyleOption(&focusRectOption);
-        focusRectOption.rect = textFocusRect().toRect();
-        focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item | QStyle::State_KeyboardFocusChange;
-        if (m_selected && widget->hasFocus()) {
-            focusRectOption.state |= QStyle::State_Selected;
-        }
-
-        style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
     }
 
     if (m_hoverOpacity > 0.0) {
@@ -419,7 +408,7 @@ bool KItemListWidget::contains(const QPointF &point) const
         return false;
     }
 
-    return iconRect().contains(point) || textRect().contains(point) || expansionToggleRect().contains(point) || selectionToggleRect().contains(point);
+    return selectionRectFull().contains(point) || expansionToggleRect().contains(point);
 }
 
 QRectF KItemListWidget::textFocusRect() const
@@ -616,15 +605,66 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = nullptr;
 }
 
+bool KItemListWidget::isPressed() const
+{
+    return m_clickHighlighted;
+}
+
+void KItemListWidget::setPressed(bool enabled)
+{
+    if (m_clickHighlighted != enabled) {
+        m_clickHighlighted = enabled;
+        clearHoverCache();
+        update();
+    }
+}
+
 void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
+    constexpr int roundness = 5; // From Breeze style.
+    constexpr qreal penWidth = 1.5;
     initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRect().toRect();
-    style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    viewItemOption.rect = selectionRectFull().toRect();
+    QPainterPath path;
+    path.addRoundedRect(selectionRectFull().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
+    QColor backgroundColor{widget->palette().color(QPalette::Accent)};
+    painter->setRenderHint(QPainter::Antialiasing);
+    bool current = m_current && styleState & QStyle::State_Active;
+
+    // Background item, alpha values are from
+    // https://invent.kde.org/plasma/libplasma/-/blob/master/src/desktoptheme/breeze/widgets/viewitem.svg
+    backgroundColor.setAlphaF(0.0);
+
+    if (m_clickHighlighted) {
+        backgroundColor.setAlphaF(1.0);
+    } else {
+        if (m_selected && m_hovered) {
+            backgroundColor.setAlphaF(0.40);
+        } else if (m_selected) {
+            backgroundColor.setAlphaF(0.32);
+        } else if (m_hovered) {
+            backgroundColor = widget->palette().color(QPalette::Text);
+            backgroundColor.setAlphaF(0.06);
+        }
+    }
+
+    painter->fillPath(path, backgroundColor);
+
+    // Focus decoration
+    if (current) {
+        QColor focusColor{widget->palette().color(QPalette::Accent)};
+        focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
+        focusColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
+        // Set the pen color lighter or darker depending on background color
+        QPen pen{focusColor, penWidth};
+        pen.setCosmetic(true);
+        painter->setPen(pen);
+        painter->drawPath(path);
+    }
 }
 
 #include "moc_kitemlistwidget.cpp"

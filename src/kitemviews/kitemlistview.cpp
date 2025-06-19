@@ -425,7 +425,7 @@ std::optional<int> KItemListView::itemAt(const QPointF &pos) const
 
         const KItemListWidget *widget = it.value();
         const QPointF mappedPos = widget->mapFromItem(this, pos);
-        if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
+        if (widget->contains(mappedPos)) {
             return it.key();
         }
     }
@@ -542,7 +542,7 @@ QRectF KItemListView::itemContextRect(int index) const
 
     const KItemListWidget *widget = m_visibleItems.value(index);
     if (widget) {
-        contextRect = widget->iconRect() | widget->textRect();
+        contextRect = widget->selectionRectCore();
         contextRect.translate(itemRect(index).topLeft());
     }
 
