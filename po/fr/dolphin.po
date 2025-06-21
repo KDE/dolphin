@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 00:45+0000\n"
-"PO-Revision-Date: 2025-06-13 13:09+0200\n"
+"PO-Revision-Date: 2025-06-19 13:18+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -5463,12 +5463,10 @@ msgid "Elide at the end (e.g. ’Some very long….txt')"
 msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Noms de fichiers"
+msgstr "Noms longs de fichiers :"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format

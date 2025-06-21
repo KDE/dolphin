@@ -4039,11 +4039,9 @@ msgstr "权限样式格式"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "选择模式"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -5147,12 +5145,10 @@ msgid "Elide at the end (e.g. ’Some very long….txt')"
 msgstr ""
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "文件名"
+msgstr ""
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
