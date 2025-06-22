@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 00:45+0000\n"
-"PO-Revision-Date: 2025-06-10 11:23+0200\n"
+"PO-Revision-Date: 2025-06-21 10:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -4211,11 +4211,9 @@ msgstr "Стилов формат на правата за достъп"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Режим на селекция"
+msgstr "Режим на съкращаване"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -5344,21 +5342,19 @@ msgstr "Стил на права на достъп:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Съкращаване в средата (например „Едно много …име.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Съкращаване на края (например „Едно много дълго….txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Име на файл"
+msgstr "Дълги имена на файлове:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -6743,162 +6739,3 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
-
-#~ msgctxt "@info:whatsthis findbar"
-#~ msgid ""
-#~ "<para>This helps you find files and folders. Enter a <emphasis>search "
-#~ "term</emphasis> and specify search settings with the buttons at the "
-#~ "bottom:<list><item>Filename/Content: Does the item you are looking for "
-#~ "contain the search terms within its filename or its contents?<nl/>The "
-#~ "contents of images, audio files and videos will not be searched.</"
-#~ "item><item>From Here/Everywhere: Do you want to search in this folder and "
-#~ "its sub-folders or everywhere?</item><item>More Options: Click this to "
-#~ "search by media type, access time or rating.</item><item>More Search "
-#~ "Tools: Install other means to find an item.</item></list></para>"
-#~ msgstr ""
-#~ "<para>Това ви помага да намирате файлове и папки. Въведете <emphasis> "
-#~ "термин за търсене </emphasis> и посочете настройките за търсене с "
-#~ "бутоните в долната част: <list><item> Име на файл / съдържание: Дали "
-#~ "елементът, който търсите съдържат думите за търсене в името на файла или "
-#~ "съдържанието му? <nl/> Съдържанието на изображения, аудио файлове и "
-#~ "видеоклипове няма да бъде претърсено. </item><item> От тук/Навсякъде: "
-#~ "Искате ли да търсите в тази папка и неговите подпапки или навсякъде? </"
-#~ "item><item> Още опции: Щракнете върху това, за да търсите по тип носител, "
-#~ "време за достъп или оценка. </item><item> Допълнителни инструменти за "
-#~ "търсене: Инсталирайте други средства за намиране на елемент. </item></"
-#~ "list></para>"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Folders"
-#~ msgstr "Папки"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Documents"
-#~ msgstr "Документи"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Images"
-#~ msgstr "Изображения"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Audio Files"
-#~ msgstr "Аудио файлове"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Videos"
-#~ msgstr "Видео"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Today"
-#~ msgstr "Днес"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Yesterday"
-#~ msgstr "Вчера"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Week"
-#~ msgstr "Тази седмица"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Month"
-#~ msgstr "Този месец"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "This Year"
-#~ msgstr "Тази година"
-
-#~ msgctxt "@item:inlistbox"
-#~ msgid "Highest Rating"
-#~ msgstr "Максимална оценка"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Clear Selection"
-#~ msgstr "Изчистване на избора"
-
-#~ msgctxt "String list separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgctxt "@action:button %2 is a list of tags"
-#~ msgid "Tag: %2"
-#~ msgid_plural "Tags: %2"
-#~ msgstr[0] "Таг: %2"
-#~ msgstr[1] "Тагове: %2"
-
-#~ msgctxt "@action:button"
-#~ msgid "Add Tags"
-#~ msgstr "Добавяне на етикети"
-
-#~ msgctxt "action:button"
-#~ msgid "From Here (%1)"
-#~ msgstr "От тук (%1)"
-
-#~ msgctxt "action:button"
-#~ msgid "Content"
-#~ msgstr "Съдържание"
-
-#~ msgctxt "action:button"
-#~ msgid "Your files"
-#~ msgstr "Домашна папка"
-
-#~ msgctxt "action:button"
-#~ msgid "Search in your home directory"
-#~ msgstr "Търсене само в  Домашната папка"
-
-#~ msgctxt ""
-#~ "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
-#~ "user entered."
-#~ msgid "Query Results from '%1'"
-#~ msgstr "Резултати от запитването „%1“"
-
-#~ msgid "Show the statusbar"
-#~ msgstr "Показване на лентата на състоянието"
-
-#~ msgid "Show the space information in the statusbar"
-#~ msgstr "Показване на информацията за пространството в лентата за състояние"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show status bar"
-#~ msgstr "Показване на лентата за състоянието"
-
-#~ msgctxt "@option:check"
-#~ msgid "Show space information"
-#~ msgstr "Показване на данни за дисково пространство"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Show Space Information"
-#~ msgstr "Показване на данни за дисково пространство"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Restore"
-#~ msgstr "Възстановяване"
-
-#~ msgid "not selected,"
-#~ msgstr "неизбран,"
-
-#~ msgid "collapsed,"
-#~ msgstr "свит,"
-
-#~ msgid "expanded,"
-#~ msgstr "разширен,"
-
-#~ msgid "— %1 selected item"
-#~ msgid_plural "— %1 selected items"
-#~ msgstr[0] "— %1 избран елемент"
-#~ msgstr[1] "— %1 избрани елемента"
-
-#~ msgctxt ""
-#~ "@info 1 is currentlyFocussedItemName, 2 is empty or \"not selected, \", 3 "
-#~ "is currentlyFocussedItemDescription, 3 is currentFolderName, 4 is "
-#~ "currentFolderPath"
-#~ msgid "%1, %2 %3 %4 %5 %6 in location %7"
-#~ msgstr "%1, %2 %3 %4 %5 %6 в местоположение %7"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin will create a hidden .directory file in each folder you change "
-#~ "view properties for."
-#~ msgstr ""
-#~ "Dolphin ще създаде скрит .directory файл във всяка папка, за която "
-#~ "променяте свойствата на изгледа."
