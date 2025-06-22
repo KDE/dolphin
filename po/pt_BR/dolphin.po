@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-25 02:36+0000\n"
-"PO-Revision-Date: 2025-03-15 00:38-0300\n"
+"PO-Revision-Date: 2025-06-21 19:43-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4819,7 +4819,7 @@ msgstr "Pequeno"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Largura  completa"
+msgstr "Largura completa"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
