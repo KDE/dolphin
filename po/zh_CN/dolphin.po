@@ -4041,7 +4041,7 @@ msgstr "权限样式格式"
 #: settings/dolphin_contentdisplaysettings.kcfg:42
 #, kde-format
 msgid "Eliding Mode"
-msgstr ""
+msgstr "省略模式"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -5136,19 +5136,19 @@ msgstr "权限格式："
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "省略中间部分 (例如：“文件名开头…末尾.txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "省略末尾部分 (例如：“文件名开头….txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr ""
+msgstr "长文件名："
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
