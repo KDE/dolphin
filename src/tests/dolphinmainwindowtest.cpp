@@ -23,19 +23,18 @@
 #include <KActionCollection>
 #include <KConfig>
 #include <KConfigGui>
+#include <KFileItem>
 
 #include <QAccessible>
+#include <QApplication>
 #include <QDomDocument>
 #include <QFileSystemWatcher>
+#include <QKeySequence>
 #include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
 
-#include <kfileitem.h>
-#include <qapplication.h>
-#include <qkeysequence.h>
-#include <qnamespace.h>
 #include <set>
 #include <unordered_set>
 

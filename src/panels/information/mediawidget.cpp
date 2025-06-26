@@ -18,8 +18,6 @@
 #include <QStyleOptionSlider>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <qnamespace.h>
-#include <qwidget.h>
 
 class EmbeddedVideoPlayer : public QVideoWidget
 {
