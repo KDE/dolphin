@@ -1511,7 +1511,7 @@ void DolphinMainWindow::updateHamburgerMenu()
         menu = new QMenu(this);
         hamburgerMenu->setMenu(menu);
         hamburgerMenu->hideActionsOf(ac->action(QStringLiteral("basic_actions"))->menu());
-        hamburgerMenu->hideActionsOf(ac->action(QStringLiteral("zoom"))->menu());
+        hamburgerMenu->hideActionsOf(qobject_cast<KToolBarPopupAction *>(ac->action(QStringLiteral("zoom")))->popupMenu());
     } else {
         menu->clear();
     }
