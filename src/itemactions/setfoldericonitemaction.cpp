@@ -150,7 +150,7 @@ public:
         }
 
         auto p = new QPushButton(widget);
-        p->setText(i18nc("@action open a submeun with additional entries", "Other"));
+        p->setText(i18nc("@action open a submenu with additional entries", "Other"));
         p->setToolTip(i18nc("@label", "Other folder icon options"));
         p->setMenu(m_subMenu);
         layout->addWidget(p);
