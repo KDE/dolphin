@@ -12,6 +12,7 @@
 #include "selectionmode/actiontexthelper.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
+#include "views/zoomwidgetaction.h"
 
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>
@@ -251,13 +252,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     QAction *zoomOutAction = KStandardAction::zoomOut(this, &DolphinViewActionHandler::zoomOut, m_actionCollection);
     zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom out", "This reduces the icon size."));
 
-    KActionMenu *zoomMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("zoom"));
-    zoomMenu->setText(i18nc("@action:inmenu menu of zoom actions", "Zoom"));
-    zoomMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom")));
-    zoomMenu->setPopupMode(QToolButton::InstantPopup);
-    zoomMenu->addAction(zoomInAction);
-    zoomMenu->addAction(zoomResetAction);
-    zoomMenu->addAction(zoomOutAction);
+    ZoomWidgetAction *zoomWidgetAction = new ZoomWidgetAction(zoomInAction, zoomResetAction, zoomOutAction, m_actionCollection);
+    m_actionCollection->addAction(QStringLiteral("zoom"), zoomWidgetAction);
 
     KToggleAction *showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));
     showPreview->setText(i18nc("@action:intoolbar", "Show Previews"));
@@ -369,7 +365,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
         viewSettings->addAction(action);
     }
     viewSettings->addSeparator();
-    viewSettings->addAction(zoomMenu);
+    viewSettings->addAction(zoomWidgetAction);
     viewSettings->addAction(sortByActionMenu);
     viewSettings->addAction(visibleRolesMenu);
     viewSettings->addAction(showPreview);

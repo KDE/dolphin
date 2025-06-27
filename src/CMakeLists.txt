@@ -117,6 +117,7 @@ target_sources(dolphinprivate PRIVATE
     views/viewmodecontroller.cpp
     views/viewproperties.cpp
     views/zoomlevelinfo.cpp
+    views/zoomwidgetaction.cpp
     dolphinremoveaction.cpp
     middleclickactioneventfilter.cpp
     dolphinnewfilemenu.cpp
@@ -170,6 +171,7 @@ target_sources(dolphinprivate PRIVATE
     views/viewmodecontroller.h
     views/viewproperties.h
     views/zoomlevelinfo.h
+    views/zoomwidgetaction.h
     dolphinremoveaction.h
     middleclickactioneventfilter.h
     dolphinnewfilemenu.h
