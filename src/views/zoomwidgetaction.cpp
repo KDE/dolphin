@@ -109,14 +109,19 @@ QWidget *ZoomWidgetAction::createWidget(QWidget *parent)
 
     ZoomWidget *zoomWidget = new ZoomWidget(parent);
     QHBoxLayout *zoomWidgetLayout = new QHBoxLayout;
-    zoomWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    zoomWidgetLayout->setContentsMargins(0, 2, 0, 2);
     zoomWidget->setLayout(zoomWidgetLayout);
     zoomWidget->setFocusPolicy(Qt::StrongFocus);
 
     QSpacerItem *zoomSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
     zoomWidgetLayout->addSpacerItem(zoomSpacer);
 
-    int maxButtonSize = parent->style()->pixelMetric(QStyle::PM_ButtonIconSize) + 10;
+    QStyleOptionMenuItem option;
+    option.initFrom(zoomWidget);
+    option.menuItemType = QStyleOptionMenuItem::Normal;
+    option.icon = icon();
+    option.text = text();
+    int maxButtonSize = parent->style()->sizeFromContents(QStyle::CT_MenuItem, &option, QSize()).height() - 4;
 
     QToolButton *zoomOutButton = new QToolButton(zoomWidget);
     zoomOutButton->setMaximumSize(maxButtonSize, maxButtonSize);
