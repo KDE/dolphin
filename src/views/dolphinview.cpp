@@ -810,7 +810,7 @@ void DolphinView::deleteSelectedItems()
 
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
-    connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
+    connect(trashJob, &KJob::result, this, &DolphinView::slotDeleteFileFinished);
     m_selectNextItem = true;
     trashJob->start();
 }
