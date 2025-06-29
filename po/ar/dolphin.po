@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
-"PO-Revision-Date: 2025-06-26 10:24+0400\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"PO-Revision-Date: 2025-06-28 17:07+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -768,7 +768,7 @@ msgstr "يفتح مجلد تخزين افتراضي مؤقت في نافذة م�
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
-msgstr "أنعش العرض"
+msgstr "حدّث العرض"
 
 #: dolphinmainwindow.cpp:1999
 #, kde-kuit-format
@@ -2067,9 +2067,7 @@ msgid "Move to New Folder…"
 msgstr "انقل إلى مجلد جديد…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "أخرى"
@@ -3289,13 +3287,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "التاريخ المكثف"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "اختر أيّ البيانات التي يجب أن تظهر:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3307,12 +3305,12 @@ msgstr[3] "%1 عناصر محدّدة"
 msgstr[4] "%1 عنصرًا محدّدًا"
 msgstr[5] "%1 عنصر محدّد"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "شغّل"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "ألبث"
@@ -6744,18 +6742,16 @@ msgid "Updating version information…"
 msgstr "يحدّث معلومات الإصدار…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr "التّكبير"
+msgstr "تكبير"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "التّكبير"
+msgstr "تكبير"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
 "PO-Revision-Date: 2024-08-20 08:36+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3024,13 +3024,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Zúžené datum"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Zvolte, která data mají být zobrazena:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3039,12 +3039,12 @@ msgstr[0] "Vybrána 1 položka"
 msgstr[1] "Vybrány %1 položky"
 msgstr[2] "Vybráno %1 položek"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "hrát"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "Pozastavit"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
 "PO-Revision-Date: 2025-04-15 19:05+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -3274,13 +3274,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Īsais datums"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Izvēlieties parādāmos datus:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3289,12 +3289,12 @@ msgstr[0] "Izvēlēts %1 vienums"
 msgstr[1] "Izvēlēti %1 vienumi"
 msgstr[2] "Izvēlēti %1 vienumi"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "atskaņot"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "pauzēt"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
-"PO-Revision-Date: 2025-06-19 02:56+0100\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"PO-Revision-Date: 2025-06-28 12:32+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2118,9 +2118,7 @@ msgid "Move to New Folder…"
 msgstr "Mover a una nueva carpeta…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Otras"
@@ -3298,13 +3296,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Fecha condensada"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Seleccione qué datos se mostrarán:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3312,12 +3310,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 elemento seleccionado"
 msgstr[1] "%1 elementos seleccionados"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "reproducir"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "pausar"
@@ -6755,19 +6753,13 @@ msgid "Updating version information…"
 msgstr "Actualizando información de versión…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr "Ampliación"
+msgstr "Ampliar"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "Ampliación"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Ampliación"
+msgstr "Ampliar"

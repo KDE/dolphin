@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
-"PO-Revision-Date: 2025-06-18 08:50+0200\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"PO-Revision-Date: 2025-06-28 10:24+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2110,9 +2110,7 @@ msgid "Move to New Folder…"
 msgstr "Mou cap a una carpeta nova…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Altres"
@@ -3294,13 +3292,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Data condensada"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Seleccioneu les dades que s'han de mostrar:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3308,12 +3306,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 element seleccionat"
 msgstr[1] "%1 elements seleccionats"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "reproduïx"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "pausa"
@@ -4224,7 +4222,7 @@ msgstr "Format d'estil dels permisos"
 #: settings/dolphin_contentdisplaysettings.kcfg:42
 #, kde-format
 msgid "Eliding Mode"
-msgstr "Mode d'elisió"
+msgstr "Mode elisió"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -6747,19 +6745,13 @@ msgid "Updating version information…"
 msgstr "S'està actualitzant la informació de la versió…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Zoom"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Zoom"

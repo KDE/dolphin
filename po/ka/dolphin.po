@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
-"PO-Revision-Date: 2025-06-18 04:41+0200\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"PO-Revision-Date: 2025-06-28 03:56+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2084,9 +2084,7 @@ msgid "Move to New Folder…"
 msgstr "გადატანა ახალ საქაღალდეში…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "სხვა"
@@ -3259,13 +3257,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "თარიღის მოკლე ფორმატი"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "აირჩიეთ საჩვენებელი მონაცემები:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3273,12 +3271,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "მონიშნულია %1 ჩანაწერი"
 msgstr[1] "მონიშნულია %1 ჩანაწერი"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "დაკვრა"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "შეჩერება"
@@ -6694,18 +6692,16 @@ msgid "Updating version information…"
 msgstr "ვერსიის ინფორმაციის განახლება…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr "გადიდება"
+msgstr "მასშტაბი"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "გადიდება"
+msgstr "მასშტაბი"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

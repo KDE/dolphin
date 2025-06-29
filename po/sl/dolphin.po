@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-28 00:44+0000\n"
-"PO-Revision-Date: 2025-06-18 07:05+0200\n"
+"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"PO-Revision-Date: 2025-06-28 08:18+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2097,9 +2097,7 @@ msgid "Move to New Folder…"
 msgstr "Premakni v novo mapo…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Drugo"
@@ -3297,13 +3295,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Kratek datum"
 
-#: panels/information/informationpanelcontent.cpp:106
+#: panels/information/informationpanelcontent.cpp:103
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Izberite podatke, ki naj bodo prikazani:"
 
-#: panels/information/informationpanelcontent.cpp:286
+#: panels/information/informationpanelcontent.cpp:284
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -3313,12 +3311,12 @@ msgstr[1] "%1 izbran predmet"
 msgstr[2] "%1 izbrana predmeta"
 msgstr[3] "%1 izbrani predmeti"
 
-#: panels/information/phononwidget.cpp:153
+#: panels/information/mediawidget.cpp:248
 #, kde-format
 msgid "play"
 msgstr "predvajaj"
 
-#: panels/information/phononwidget.cpp:159
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "pause"
 msgstr "premor"
@@ -4559,9 +4557,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
-"Notranja konfiguracijska različica Dolphina, predvsem se uporablja za "
-"ugotavljanje, ali se izvaja posodobljena različica Dolphina, da se preselijo "
-"konfiguracijski vnosi, ki so bili odstranjeni/preimenovani ... itd."
+"Notranja konfiguracijska različica Dolphina, ki se uporablja predvsem za "
+"ugotavljanje, ali se izvaja posodobljena različica Dolphina, da se lahko "
+"prenesejo odstranjeni/preimenovani vnosi konfiguracije itd."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:49
@@ -6755,18 +6753,16 @@ msgid "Updating version information…"
 msgstr "Posodabljanje podatkov o različici …"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr "Približanje"
+msgstr "Zoom"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "Približanje"
+msgstr "Zoom"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"
