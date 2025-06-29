@@ -44,6 +44,7 @@
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/RenameFileDialog>
+#include <KJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -846,7 +847,7 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
     connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
-    connect(job, &KIO::CopyJob::warning, this, [](KJob *job, const QString &warning) {
+    connect(job, &KIO::CopyJob::warning, this, [this](KJob *job, const QString & /* warning */) {
         Q_EMIT errorMessage(job->errorString(), job->error());
     });
     KIO::FileUndoManager::self()->recordCopyJob(job);
@@ -868,7 +869,7 @@ void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &
     connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
-    connect(job, &KIO::CopyJob::warning, this, [](KJob *job, const QString &warning) {
+    connect(job, &KIO::CopyJob::warning, this, [this](KJob *job, const QString & /*warning */) {
         Q_EMIT errorMessage(job->errorString(), job->error());
     });
     KIO::FileUndoManager::self()->recordCopyJob(job);
@@ -932,6 +933,9 @@ void DolphinView::duplicateSelectedItems()
         connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
         connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
         connect(job, &KIO::CopyJob::copyingLinkDone, this, &DolphinView::slotItemLinkCreatedFromJob);
+        connect(job, &KIO::CopyJob::warning, this, [this](KJob *job, const QString & /*warning*/) {
+            Q_EMIT errorMessage(job->errorString(), job->error());
+        });
         KIO::FileUndoManager::self()->recordCopyJob(job);
     }
 }
@@ -1407,6 +1411,9 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
             connect(job, &KIO::DropJob::copyJobStarted, this, [this](const KIO::CopyJob *copyJob) {
                 connect(copyJob, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
                 connect(copyJob, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
+                connect(copyJob, &KIO::CopyJob::warning, this, [this](KJob *job, const QString & /*warning*/) {
+                    Q_EMIT errorMessage(job->errorString(), job->error());
+                });
                 connect(copyJob, &KIO::CopyJob::linking, this, [this](KIO::Job *job, const QString &src, const QUrl &dest) {
                     Q_UNUSED(job)
                     Q_UNUSED(src)
@@ -2276,6 +2283,9 @@ void DolphinView::pasteToUrl(const QUrl &url)
     connect(job, &KIO::PasteJob::copyJobStarted, this, [this](const KIO::CopyJob *copyJob) {
         connect(copyJob, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
         connect(copyJob, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
+        connect(copyJob, &KIO::CopyJob::warning, this, [this](KJob *job, const QString & /*warning*/) {
+            Q_EMIT errorMessage(job->errorString(), job->error());
+        });
         connect(copyJob, &KIO::CopyJob::linking, this, [this](KIO::Job *job, const QString &src, const QUrl &dest) {
             Q_UNUSED(job)
             Q_UNUSED(src)
