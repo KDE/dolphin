@@ -846,6 +846,9 @@ void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &
     connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::copying, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
+    connect(job, &KIO::CopyJob::warning, this, [](KJob *job, const QString &warning) {
+        Q_EMIT errorMessage(job->errorString(), job->error());
+    });
     KIO::FileUndoManager::self()->recordCopyJob(job);
 }
 
@@ -865,6 +868,9 @@ void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &
     connect(job, &KIO::CopyJob::result, this, &DolphinView::slotJobResult);
     connect(job, &KIO::CopyJob::moving, this, &DolphinView::slotItemCreatedFromJob);
     connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotItemCreatedFromJob);
+    connect(job, &KIO::CopyJob::warning, this, [](KJob *job, const QString &warning) {
+        Q_EMIT errorMessage(job->errorString(), job->error());
+    });
     KIO::FileUndoManager::self()->recordCopyJob(job);
 }
 
