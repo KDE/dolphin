@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-29 00:45+0000\n"
-"PO-Revision-Date: 2025-06-21 10:47+0200\n"
+"PO-Revision-Date: 2025-06-29 20:35+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -2111,12 +2111,10 @@ msgid "Move to New Folder…"
 msgstr "Преместване в нова папка…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
-msgstr "Друго"
+msgstr "Други"
 
 #: itemactions/setfoldericonitemaction.cpp:154
 #, kde-format
@@ -6737,18 +6735,16 @@ msgid "Updating version information…"
 msgstr "Обновяване данните за версията…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
-msgstr "Мащаб"
+msgstr "Мащабиране"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "Мащаб"
+msgstr "Мащабиране"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

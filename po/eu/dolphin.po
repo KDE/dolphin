@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-29 00:45+0000\n"
-"PO-Revision-Date: 2025-06-24 19:26+0200\n"
+"PO-Revision-Date: 2025-06-29 23:59+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2099,12 +2099,10 @@ msgid "Move to New Folder…"
 msgstr "Eraman karpeta berrira…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
-msgstr "Bestelakoak"
+msgstr "Bestelakoa"
 
 #: itemactions/setfoldericonitemaction.cpp:154
 #, kde-format
@@ -6723,15 +6721,13 @@ msgid "Updating version information…"
 msgstr "Bertsioaren informazioa eguneratzen..."
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Zooma"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zooma"
