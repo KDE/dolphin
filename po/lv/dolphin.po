@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-29 00:45+0000\n"
-"PO-Revision-Date: 2025-04-15 19:05+0300\n"
+"PO-Revision-Date: 2025-06-25 12:13+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -883,7 +883,7 @@ msgstr "Salīdzināt datnes"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Pārvaldiet vietas diskā lietojumu"
 
 #: dolphinmainwindow.cpp:2117
 #, kde-kuit-format
@@ -2080,155 +2080,143 @@ msgstr "Pārvietot uz jaunu mapi…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
 #, fuzzy, kde-format
-#| msgctxt "@label"
+#| msgctxt "@action open a submeun with additional entries"
 #| msgid "Other"
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Citi"
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "Atvērt mapes, veicot vilkšanas darbības"
+msgstr "Citas mapes ikonas opcijas"
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "Pārlādēt"
+msgstr "Sarkana"
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "Dzeltena"
 
 #: itemactions/setfoldericonitemaction.cpp:190
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "Oranža"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Zaļa"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "Ciāna"
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
-msgstr "Noklusētais"
+msgstr "Noklusējuma"
 
 #: itemactions/setfoldericonitemaction.cpp:196
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "Zila"
 
 #: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "Violeta"
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "Pārlūkošana: "
+msgstr "Brūna"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Pelēka"
 
 #: itemactions/setfoldericonitemaction.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "&Grāmatzīmes"
+msgstr "Grāmatzīme"
 
 #: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Mākonis"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "Izstrādātājs"
+msgstr "Izstrāde"
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "Spēles"
 
 #: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Pasts"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "Mūzika"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "Drukāt"
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "Salīdzināt datnes"
+msgstr "Saspiests"
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Pagaidu"
 
 #: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "Svarīgi"
 
 #: itemactions/setfoldericonitemaction.cpp:233
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Iestatīt ikonu uz „%1“"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -4204,11 +4192,9 @@ msgstr "Atļauju stila fomāts"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Atlases režīms"
+msgstr "Gara nosaukuma apgriešana"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -4470,7 +4456,7 @@ msgstr "Laiks, kad lietotājs pēdējoreiz mainīja šīs īpašības."
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "Skatīt režīmu, kas ir izmanīts ar dinamisko skatu"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4700,7 +4686,7 @@ msgstr "Tāpat arī slēpt datnes ar „application/x-trash“ MIME tipu"
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Ieslēgt dinamisko skatu"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5329,21 +5315,19 @@ msgstr "Atļauju stils:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Apgriezt no vidus (piemēram, „Ļoti garš… nosaukums..txt“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Apgriezt no beigām (piemēram, „Ļoti garš datnes….txt“"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Datņu nosaukumi"
+msgstr "Gari datņu nosaukumi:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -5403,6 +5387,7 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"Lietot ikonu skata režīmu vietām, kas lielākoties satur multivides datnes-"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
@@ -6573,12 +6558,10 @@ msgstr ""
 "Šī darbība atver logu, kurā iespējams mainīt visas mapes skata īpašības."
 
 #: views/dolphinviewactionhandler.cpp:360
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Iestatījumi"
+msgstr "Skata iestatījumi"
 
 #: views/dolphinviewactionhandler.cpp:362
 #, kde-kuit-format
@@ -6587,6 +6570,8 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Šī opcija pēc kārtas iziet cauri visiem skata režīmiem. Nolaižamā izvēlne "
+"satur dažādas ar skatu saistītas darbības."
 
 #: views/dolphinviewactionhandler.cpp:678
 #, kde-format

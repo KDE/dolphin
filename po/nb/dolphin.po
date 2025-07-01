@@ -6637,7 +6637,3 @@ msgstr "Skalering"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Skalering"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Skalering"

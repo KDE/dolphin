@@ -6603,7 +6603,3 @@ msgstr "Forstørr"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørr"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Forstørr"
