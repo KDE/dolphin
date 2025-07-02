@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"POT-Creation-Date: 2025-07-02 10:15+0000\n"
 "PO-Revision-Date: 2015-01-09 11:56+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -6171,7 +6171,7 @@ msgstr "Podrazumijevano"
 msgid "Reload"
 msgstr "Učitaj ponovo"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:665
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder selected"
@@ -6183,7 +6183,7 @@ msgstr[0] "%1 direktorij odabran"
 msgstr[1] "%1 direktorija odabrana"
 msgstr[2] "%1 direktorija odabranih"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:666
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 File selected"
@@ -6195,7 +6195,7 @@ msgstr[0] "%1 datoteka odabrana"
 msgstr[1] "%1 datoteke odabrane"
 msgstr[2] "%1 datoteka odabrano"
 
-#: views/dolphinview.cpp:667
+#: views/dolphinview.cpp:668
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "1 Folder"
@@ -6207,7 +6207,7 @@ msgstr[0] "%1 direktorij"
 msgstr[1] "%1 direktorija"
 msgstr[2] "%1 direktorija"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6224,19 +6224,19 @@ msgstr[2] ""
 "Ai@etf.ba,nedimmuminovic@gmail.com,samir.ribic@etf.unsa.ba,amustafic2@etf."
 "unsa.ba,vljubovic@smartnet.ba"
 
-#: views/dolphinview.cpp:672
+#: views/dolphinview.cpp:673
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:675
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:678
+#: views/dolphinview.cpp:679
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "0 Folders, 0 Files"
@@ -6244,14 +6244,14 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 Direktorija, 0 Datoteka"
 
-#: views/dolphinview.cpp:910 views/dolphinview.cpp:919
+#: views/dolphinview.cpp:917 views/dolphinview.cpp:926
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
 #         translations.
-#: views/dolphinview.cpp:1103
+#: views/dolphinview.cpp:1113
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -6259,7 +6259,7 @@ msgstr[0] "Jeste li sigurni da želite otvoriti %1 stavku?"
 msgstr[1] "Jeste li sigurni da želite otvoriti %1 stavke?"
 msgstr[2] "Jeste li sigurni da želite otvoriti %1 stavki?"
 
-#: views/dolphinview.cpp:1108
+#: views/dolphinview.cpp:1118
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path in New Tab"
@@ -6270,25 +6270,25 @@ msgstr[0] "Otvori stazu u novoj kartici"
 msgstr[1] "Otvori stazu u novoj kartici"
 msgstr[2] "Otvori stazu u novoj kartici"
 
-#: views/dolphinview.cpp:1241
+#: views/dolphinview.cpp:1251
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1245
+#: views/dolphinview.cpp:1255
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Automatski postavljanje širine kolona"
 
-#: views/dolphinview.cpp:1250
+#: views/dolphinview.cpp:1260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Slobodno određivanje širine kolone"
 
-#: views/dolphinview.cpp:1860
+#: views/dolphinview.cpp:1873
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Delete operation completed."
@@ -6296,136 +6296,136 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:1870
+#: views/dolphinview.cpp:1883
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Operacija brisanja je završena."
 
-#: views/dolphinview.cpp:2031
+#: views/dolphinview.cpp:2044
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Preimenuj unutar linije"
 
-#: views/dolphinview.cpp:2035
+#: views/dolphinview.cpp:2048
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2037
+#: views/dolphinview.cpp:2050
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2039
+#: views/dolphinview.cpp:2052
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Prikaži skrivene datoteke"
 
-#: views/dolphinview.cpp:2039
+#: views/dolphinview.cpp:2052
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Početni direktorij"
 
-#: views/dolphinview.cpp:2078
+#: views/dolphinview.cpp:2091
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2080
+#: views/dolphinview.cpp:2093
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Lokacija '%1' nije valjana."
 
-#: views/dolphinview.cpp:2405
+#: views/dolphinview.cpp:2421
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2434
+#: views/dolphinview.cpp:2450
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Učitavanje direktorija..."
 
-#: views/dolphinview.cpp:2436
+#: views/dolphinview.cpp:2452
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2438
+#: views/dolphinview.cpp:2454
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Označi sve stavke koje se podudaraju s ovim šablonom:"
 
-#: views/dolphinview.cpp:2440
+#: views/dolphinview.cpp:2456
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Lokacija je prazna."
 
-#: views/dolphinview.cpp:2443
+#: views/dolphinview.cpp:2459
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2446
+#: views/dolphinview.cpp:2462
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2450
+#: views/dolphinview.cpp:2466
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Nedavno zatvorene kartice"
 
-#: views/dolphinview.cpp:2452
+#: views/dolphinview.cpp:2468
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2454
+#: views/dolphinview.cpp:2470
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2456
+#: views/dolphinview.cpp:2472
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2458
+#: views/dolphinview.cpp:2474
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Nema pronađenih stavki."
 
-#: views/dolphinview.cpp:2460
+#: views/dolphinview.cpp:2476
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2462
+#: views/dolphinview.cpp:2478
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-29 00:45+0000\n"
+"POT-Creation-Date: 2025-07-02 10:15+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -6035,7 +6035,7 @@ msgstr "Defaŭlta"
 msgid "Reload"
 msgstr "Reŝargi"
 
-#: views/dolphinview.cpp:664
+#: views/dolphinview.cpp:665
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6043,7 +6043,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 dosierujo elektita"
 msgstr[1] "%1 dosierujoj elektitaj"
 
-#: views/dolphinview.cpp:665
+#: views/dolphinview.cpp:666
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6051,7 +6051,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 dosierujo elektita"
 msgstr[1] "%1 dosierujoj elektitaj"
 
-#: views/dolphinview.cpp:667
+#: views/dolphinview.cpp:668
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6059,7 +6059,7 @@ msgid_plural "%1 folders"
 msgstr[0] "1 dosierujo"
 msgstr[1] "%1 dosierujoj"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:669
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6067,38 +6067,38 @@ msgid_plural "%1 files"
 msgstr[0] "1 dosiero"
 msgstr[1] "%1 dosieroj"
 
-#: views/dolphinview.cpp:672
+#: views/dolphinview.cpp:673
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:675
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:678
+#: views/dolphinview.cpp:679
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "0 dosierujoj, 0 dosieroj"
 
-#: views/dolphinview.cpp:910 views/dolphinview.cpp:919
+#: views/dolphinview.cpp:917 views/dolphinview.cpp:926
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 kopio"
 
-#: views/dolphinview.cpp:1103
+#: views/dolphinview.cpp:1113
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Ĉu vi certas ke vi volas malfermi 1 objekton?"
 msgstr[1] "Ĉu vi certas ke vi volas malfermi %1 objektojn?"
 
-#: views/dolphinview.cpp:1108
+#: views/dolphinview.cpp:1118
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6106,43 +6106,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Malfermi %1 Eron"
 msgstr[1] "Malfermi %1 Erojn"
 
-#: views/dolphinview.cpp:1241
+#: views/dolphinview.cpp:1251
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Flankŝtopado"
 
-#: views/dolphinview.cpp:1245
+#: views/dolphinview.cpp:1255
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Aŭtomataj Kolumnaj Larĝoj"
 
-#: views/dolphinview.cpp:1250
+#: views/dolphinview.cpp:1260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Propraj Kolumnaj Larĝoj"
 
-#: views/dolphinview.cpp:1860
+#: views/dolphinview.cpp:1873
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Rubo-operacio finiĝis."
 
-#: views/dolphinview.cpp:1870
+#: views/dolphinview.cpp:1883
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Forigado plenumita."
 
-#: views/dolphinview.cpp:2031
+#: views/dolphinview.cpp:2044
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Alinomi kaj Kaŝi"
 
-#: views/dolphinview.cpp:2035
+#: views/dolphinview.cpp:2048
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6152,7 +6152,7 @@ msgstr ""
 "vido.\n"
 "Ĉu vi ankoraŭ volas renomi ĝin?"
 
-#: views/dolphinview.cpp:2037
+#: views/dolphinview.cpp:2050
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6162,94 +6162,94 @@ msgstr ""
 "vido.\n"
 "Ĉu vi ankoraŭ volas renomi ĝin?"
 
-#: views/dolphinview.cpp:2039
+#: views/dolphinview.cpp:2052
 #, kde-format
 msgid "Hide this File?"
 msgstr "Ĉu kaŝi ĉi tiun dosieron?"
 
-#: views/dolphinview.cpp:2039
+#: views/dolphinview.cpp:2052
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Ĉu kaŝi ĉi tiun dosierujon?"
 
-#: views/dolphinview.cpp:2078
+#: views/dolphinview.cpp:2091
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "La loko estas malplena."
 
-#: views/dolphinview.cpp:2080
+#: views/dolphinview.cpp:2093
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "La loko '%1' estas nevalida."
 
-#: views/dolphinview.cpp:2405
+#: views/dolphinview.cpp:2421
 #, kde-format
 msgid "Loading…"
 msgstr "Ŝargante…"
 
-#: views/dolphinview.cpp:2434
+#: views/dolphinview.cpp:2450
 #, kde-format
 msgid "Loading canceled"
 msgstr "Ŝargo nuligita"
 
-#: views/dolphinview.cpp:2436
+#: views/dolphinview.cpp:2452
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Neniuj eroj kongruas kun la filtrilo"
 
-#: views/dolphinview.cpp:2438
+#: views/dolphinview.cpp:2454
 #, kde-format
 msgid "No items matching the search"
 msgstr "Neniuj eroj kongruas kun la serĉo"
 
-#: views/dolphinview.cpp:2440
+#: views/dolphinview.cpp:2456
 #, kde-format
 msgid "Trash is empty"
 msgstr "Rubujo estas malplena"
 
-#: views/dolphinview.cpp:2443
+#: views/dolphinview.cpp:2459
 #, kde-format
 msgid "No tags"
 msgstr "Neniuj etikedoj"
 
-#: views/dolphinview.cpp:2446
+#: views/dolphinview.cpp:2462
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Neniuj dosieroj etikeditaj kun \"%1\""
 
-#: views/dolphinview.cpp:2450
+#: views/dolphinview.cpp:2466
 #, kde-format
 msgid "No recently used items"
 msgstr "Neniuj lastatempe uzataj eroj"
 
-#: views/dolphinview.cpp:2452
+#: views/dolphinview.cpp:2468
 #, kde-format
 msgid "No shared folders found"
 msgstr "Neniuj komunaj dosierujoj trovitaj"
 
-#: views/dolphinview.cpp:2454
+#: views/dolphinview.cpp:2470
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Neniuj rilataj retaj rimedoj trovitaj"
 
-#: views/dolphinview.cpp:2456
+#: views/dolphinview.cpp:2472
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Neniuj MTP-kongruaj aparatoj trovitaj"
 
-#: views/dolphinview.cpp:2458
+#: views/dolphinview.cpp:2474
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Neniuj Apple-aparatoj trovitaj"
 
-#: views/dolphinview.cpp:2460
+#: views/dolphinview.cpp:2476
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Neniuj Bluetooth-aparatoj trovitaj"
 
-#: views/dolphinview.cpp:2462
+#: views/dolphinview.cpp:2478
 #, kde-format
 msgid "Folder is empty"
 msgstr "Dosierujo estas malplena"
