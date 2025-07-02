@@ -1993,9 +1993,7 @@ msgid "Move to New Folder…"
 msgstr "移动到新建文件夹…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "其他"
@@ -6485,19 +6483,13 @@ msgid "Updating version information…"
 msgstr "正在更新版本信息…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "缩放"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "缩放"
