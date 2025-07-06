@@ -144,6 +144,7 @@ void PixmapViewer::checkPendingPixmaps()
         update();
         m_animation.start();
     } else if (m_hasAnimatedImage) {
+        m_animatedImage->setScaledSize(m_pixmap.size());
         m_animatedImage->start();
     } else {
         m_oldPixmap = m_pixmap;
@@ -155,6 +156,10 @@ void PixmapViewer::updateAnimatedImageFrame()
     Q_ASSERT(m_animatedImage);
 
     m_pixmap = m_animatedImage->currentPixmap();
+    if (m_pixmap.width() > m_sizeHint.width() || m_pixmap.height() > m_sizeHint.height()) {
+        m_pixmap = m_pixmap.scaled(m_sizeHint, Qt::KeepAspectRatio);
+        m_animatedImage->setScaledSize(m_pixmap.size());
+    }
     update();
 }
 
