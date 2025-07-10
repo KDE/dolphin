@@ -2,7 +2,8 @@
     "KPlugin": {
         "Icon": "folder-new",
         "MimeTypes": [
-            "application/octet-stream"
+            "application/octet-stream",
+            "inode/directory"
         ],
         "Name": "Move to New Folder",
         "Name[ar]": "انقل إلى مجلد جديد",
