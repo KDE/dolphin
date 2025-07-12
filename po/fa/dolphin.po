@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 10:15+0000\n"
+"POT-Creation-Date: 2025-07-12 00:45+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -1912,7 +1912,7 @@ msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "مخفی کردن میله پالایش"
 
-#: itemactions/movetonewfolderitemaction.cpp:31
+#: itemactions/movetonewfolderitemaction.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."

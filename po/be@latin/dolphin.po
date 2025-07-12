@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 10:15+0000\n"
+"POT-Creation-Date: 2025-07-12 00:45+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2287,7 +2287,7 @@ msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Schavać paneĺ fiĺtra"
 
-#: itemactions/movetonewfolderitemaction.cpp:31
+#: itemactions/movetonewfolderitemaction.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."

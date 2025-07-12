@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 10:15+0000\n"
+"POT-Creation-Date: 2025-07-12 00:45+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1952,7 +1952,7 @@ msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Folaigh Barra na Scagairí"
 
-#: itemactions/movetonewfolderitemaction.cpp:31
+#: itemactions/movetonewfolderitemaction.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."

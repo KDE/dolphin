@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 10:15+0000\n"
+"POT-Creation-Date: 2025-07-12 00:45+0000\n"
 "PO-Revision-Date: 2009-02-14 14:05+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -1915,7 +1915,7 @@ msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "फिल्टर पट्टी लुकाव"
 
-#: itemactions/movetonewfolderitemaction.cpp:31
+#: itemactions/movetonewfolderitemaction.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder..."

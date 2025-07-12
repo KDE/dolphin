@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 10:15+0000\n"
+"POT-Creation-Date: 2025-07-12 00:45+0000\n"
 "PO-Revision-Date: 2025-06-25 12:13+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2072,7 +2072,7 @@ msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Slēpt filtra joslu"
 
-#: itemactions/movetonewfolderitemaction.cpp:31
+#: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to New Folder…"
