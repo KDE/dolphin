@@ -6327,18 +6327,16 @@ msgid "Updating version information…"
 msgstr "Aktualizuji informace o verzi..."
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Zvětšení"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
-msgstr "Zvětšení"
+msgstr "Přiblížení"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"
