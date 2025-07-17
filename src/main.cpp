@@ -96,7 +96,7 @@ int main(int argc, char **argv)
                          QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
-                         i18nc("@info:credit", "(C) 2006-2025 The Dolphin Developers"));
+                         i18nc("@info:credit", "© 2006–2025 The Dolphin Developers"));
     aboutData.setHomepage(QStringLiteral("https://apps.kde.org/dolphin"));
     aboutData.addAuthor(i18nc("@info:credit", "Felix Ernst"),
                         i18nc("@info:credit", "Maintainer (since 2021) and developer"),
@@ -105,16 +105,16 @@ int main(int argc, char **argv)
                         i18nc("@info:credit", "Maintainer (since 2021) and developer (since 2019)"),
                         QStringLiteral("meven@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Elvis Angelaccio"),
-                        i18nc("@info:credit", "Maintainer (2018-2021) and developer"),
+                        i18nc("@info:credit", "Maintainer (2018–2021) and developer"),
                         QStringLiteral("elvis.angelaccio@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Emmanuel Pescosta"),
-                        i18nc("@info:credit", "Maintainer (2014-2018) and developer"),
+                        i18nc("@info:credit", "Maintainer (2014–2018) and developer"),
                         QStringLiteral("emmanuelpescosta099@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Frank Reininghaus"),
-                        i18nc("@info:credit", "Maintainer (2012-2014) and developer"),
+                        i18nc("@info:credit", "Maintainer (2012–2014) and developer"),
                         QStringLiteral("frank78ac@googlemail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Peter Penz"),
-                        i18nc("@info:credit", "Maintainer and developer (2006-2012)"),
+                        i18nc("@info:credit", "Maintainer and developer (2006–2012)"),
                         QStringLiteral("peter.penz19@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Sebastian Trüg"), i18nc("@info:credit", "Developer"), QStringLiteral("trueg@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "David Faure"), i18nc("@info:credit", "Developer"), QStringLiteral("faure@kde.org"));
