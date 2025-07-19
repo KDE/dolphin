@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2024-07-13 22:07+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -2900,7 +2900,7 @@ msgstr "Filhandsamar"
 #: main.cpp:99
 #, fuzzy, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "© 2006–2022 Dolphin-utviklarane"
 
 #: main.cpp:101
@@ -2934,9 +2934,11 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "Vedlikehaldar (2018–2021) og utviklar"
 
 #: main.cpp:110
@@ -2946,9 +2948,11 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "Vedlikehaldar (2014–2018) og utviklar"
 
 #: main.cpp:113
@@ -2958,9 +2962,11 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "Vedlikehaldar (2012–2014) og utviklar"
 
 #: main.cpp:116
@@ -2970,9 +2976,11 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "Utviklar og vedlikehaldar (2006–2012)"
 
 #: main.cpp:119

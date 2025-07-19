@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -2879,7 +2879,7 @@ msgstr "ھۆججەت باشقۇرغۇ"
 #: main.cpp:99
 #, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:101
@@ -2921,7 +2921,7 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer (since 2012) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "مەسئۇل كىشى(2012-يىلدىن باشلاپ) ۋە ئىجادىيەتچى"
 
 #: main.cpp:110
@@ -2935,7 +2935,7 @@ msgstr "Emmanuel Pescosta"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer (since 2012) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "مەسئۇل كىشى(2012-يىلدىن باشلاپ) ۋە ئىجادىيەتچى"
 
 #: main.cpp:113
@@ -2949,7 +2949,7 @@ msgstr "Frank Reininghaus"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer (since 2012) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "مەسئۇل كىشى(2012-يىلدىن باشلاپ) ۋە ئىجادىيەتچى"
 
 #: main.cpp:116
@@ -2959,9 +2959,11 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "مەسئۇل كىشى ۋە ئىجادىيەتچى(2006-2012)"
 
 #: main.cpp:119

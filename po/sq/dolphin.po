@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2024-07-29 21:45-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -2842,7 +2842,7 @@ msgstr "Organizues i Skedarëve"
 #| msgctxt "@info:credit"
 #| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(C) 2006-2022 Programerët e Dolphin-it"
 
 #: main.cpp:101
@@ -2884,7 +2884,7 @@ msgstr "Elvis Angelaccio"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
 
 #: main.cpp:110
@@ -2898,7 +2898,7 @@ msgstr "Emmanuel Pescosta"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
 
 #: main.cpp:113
@@ -2908,9 +2908,11 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "Mirëmbajtësi (2012-2014) dhe programeri"
 
 #: main.cpp:116
@@ -2924,7 +2926,7 @@ msgstr "Peter Penz"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "Mirëmbajtësi dhe zhvilluesi (2006-2012)"
 
 #: main.cpp:119

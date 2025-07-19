@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2025-04-20 18:06+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2871,9 +2871,11 @@ msgid "File Manager"
 msgstr "கோப்பு உலாவி"
 
 #: main.cpp:99
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "(C) 2006-2025 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(c) 2006-2025, டால்பின் நிரலாளர்கள்"
 
 #: main.cpp:101
@@ -2907,9 +2909,11 @@ msgid "Elvis Angelaccio"
 msgstr "எல்விஸ் ஆஞ்செலாசியோ"
 
 #: main.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "நிரலாளரும், 2018-2021-இல் பராமரிப்பாளரும் "
 
 #: main.cpp:110
@@ -2919,9 +2923,11 @@ msgid "Emmanuel Pescosta"
 msgstr "எம்மானுவேல் பெஸ்கோஸ்தா"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "நிரலாளரும், 2014-2018-இல் பராமரிப்பாளரும் "
 
 #: main.cpp:113
@@ -2931,9 +2937,11 @@ msgid "Frank Reininghaus"
 msgstr "ஃபிராங்கு ரெயினிங்ஹாவுஸ்"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "நிரலாளரும், 2012-2014-இல் பராமரிப்பாளரும் "
 
 #: main.cpp:116
@@ -2943,9 +2951,11 @@ msgid "Peter Penz"
 msgstr "பீட்டர் பென்ஸ்"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "நிரலாளரும், 2006-2012-இல் பராமரிப்பாளரும் "
 
 #: main.cpp:119

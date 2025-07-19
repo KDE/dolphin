@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -2907,7 +2907,7 @@ msgstr "Файл бошқарувчиси"
 #: main.cpp:99
 #, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:101
@@ -2949,7 +2949,7 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "Таъминловчи ва тузувчи"
 
 #: main.cpp:110
@@ -2963,7 +2963,7 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "Таъминловчи ва тузувчи"
 
 #: main.cpp:113
@@ -2977,7 +2977,7 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "Таъминловчи ва тузувчи"
 
 #: main.cpp:116
@@ -2991,7 +2991,7 @@ msgstr ""
 #| msgctxt "@info:credit"
 #| msgid "Maintainer and developer"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "Таъминловчи ва тузувчи"
 
 #: main.cpp:119

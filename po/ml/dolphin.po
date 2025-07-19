@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -2976,7 +2976,7 @@ msgstr "ഫയല്‍ മാനേജര്‍"
 #: main.cpp:99
 #, kde-format
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr ""
 
 #: main.cpp:101
@@ -3018,7 +3018,7 @@ msgstr "എല്വിസ് ഏഞ്ചലാസിയോ"
 #| msgctxt "@info:credit"
 #| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "പരിപാലകനും(2014-2018) രചയിതാവും"
 
 #: main.cpp:110
@@ -3028,9 +3028,11 @@ msgid "Emmanuel Pescosta"
 msgstr "ഇമ്മാനുവൽ പെസ്കൌസ്റ്റ"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "പരിപാലകനും(2014-2018) രചയിതാവും"
 
 #: main.cpp:113
@@ -3040,9 +3042,11 @@ msgid "Frank Reininghaus"
 msgstr "ഫ്രാങ്ക് റെയിനിംഗ്ഹോസ്"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "പരിപാലകനും(2012-2014) രചയിതാവും"
 
 #: main.cpp:116
@@ -3052,9 +3056,11 @@ msgid "Peter Penz"
 msgstr "പീറ്റര്‍ പെന്‍സ്"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "പരിപാലകനും രചയിതാവും(2006-2012)"
 
 #: main.cpp:119

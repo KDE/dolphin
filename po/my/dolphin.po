@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -2782,7 +2782,7 @@ msgstr "ဖိုင်လ်မန်နေဂျာ"
 #| msgctxt "@info:credit"
 #| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(C) ၁၉၉၈-၂၀၂၂ လင်းပိုင်းဒက်ဗ်ဗလော့ပါများ"
 
 #: main.cpp:101
@@ -2816,9 +2816,11 @@ msgid "Elvis Angelaccio"
 msgstr "အယ်ဗစ်အန်ဂျလာဆီယို"
 
 #: main.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၈-၂၀၂၁) နှင့် ပရိုဂရမ်မာ"
 
 #: main.cpp:110
@@ -2828,9 +2830,11 @@ msgid "Emmanuel Pescosta"
 msgstr "အန်မြူရယ်ပက်ကိုတာ"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၄-၂၀၁၈) နှင့် ပရိုဂရမ်မာ"
 
 #: main.cpp:113
@@ -2840,9 +2844,11 @@ msgid "Frank Reininghaus"
 msgstr "ဖရန့်ခ်ရိိန်နင်ဂက်စ်"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "ထိန်းသိမ်းသူ (၂၀၁၂-၂၀၁၄) နှင့် ပရိုဂရမ်မာ"
 
 #: main.cpp:116
@@ -2852,9 +2858,11 @@ msgid "Peter Penz"
 msgstr "ပီတာပန့်ဇ်"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "ထိန်းသိမ်းသူ နှင့် ပရိုဂရမ်မာ (၂၀၀၆-၂၀၁၂)"
 
 #: main.cpp:119

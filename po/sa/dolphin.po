@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -2957,7 +2957,7 @@ msgstr "सञ्चिकाप्रबन्धकः"
 #| msgctxt "@info:credit"
 #| msgid "(C) 2006-2022 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(C) 2006-2022 द डॉल्फिन डेवलपर्स"
 
 #: main.cpp:101
@@ -2991,9 +2991,11 @@ msgid "Elvis Angelaccio"
 msgstr "एल्विस एन्जेलाक्सिओ"
 
 #: main.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "अनुरक्षणकर्ता (२०१८-२०२१) तथा विकासक"
 
 #: main.cpp:110
@@ -3003,9 +3005,11 @@ msgid "Emmanuel Pescosta"
 msgstr "इमैनुएल पेस्कोस्ता"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "परिपालकः (२०१४-२०१८) विकासकः च"
 
 #: main.cpp:113
@@ -3015,9 +3019,11 @@ msgid "Frank Reininghaus"
 msgstr "फ्रैंक रेनिंगहाउस"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "परिपालकः (२०१२-२०१४) विकासकः च"
 
 #: main.cpp:116
@@ -3027,9 +3033,11 @@ msgid "Peter Penz"
 msgstr "पीटर पेन्ज"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "परिपालकः विकासकः च (२००६-२०१२)"
 
 #: main.cpp:119

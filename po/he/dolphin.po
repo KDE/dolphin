@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-12 00:45+0000\n"
+"POT-Creation-Date: 2025-07-19 05:23+0000\n"
 "PO-Revision-Date: 2025-06-28 17:30+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -2930,9 +2930,11 @@ msgid "File Manager"
 msgstr "מנהל קבצים"
 
 #: main.cpp:99
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "(C) 2006-2025 The Dolphin Developers"
 msgctxt "@info:credit"
-msgid "(C) 2006-2025 The Dolphin Developers"
+msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(C) 2006‏-2025 מפתחי Dolphin"
 
 #: main.cpp:101
@@ -2966,9 +2968,11 @@ msgid "Elvis Angelaccio"
 msgstr "אלביס אנגלצ׳יו"
 
 #: main.cpp:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2018-2021) and developer"
+msgid "Maintainer (2018–2021) and developer"
 msgstr "מתחזק (2018‏-2021) ומפתח"
 
 #: main.cpp:110
@@ -2978,9 +2982,11 @@ msgid "Emmanuel Pescosta"
 msgstr "עמנואל פסקוסטה"
 
 #: main.cpp:111
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2014-2018) and developer"
+msgid "Maintainer (2014–2018) and developer"
 msgstr "מתחזק (2012‏-2018) ומפתח"
 
 #: main.cpp:113
@@ -2990,9 +2996,11 @@ msgid "Frank Reininghaus"
 msgstr "פראנק ריינינגהאוס"
 
 #: main.cpp:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
-msgid "Maintainer (2012-2014) and developer"
+msgid "Maintainer (2012–2014) and developer"
 msgstr "מתחזק (2012‏-2014) ומפתח"
 
 #: main.cpp:116
@@ -3002,9 +3010,11 @@ msgid "Peter Penz"
 msgstr "פיטר פנז"
 
 #: main.cpp:117
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer and developer (2006-2012)"
 msgctxt "@info:credit"
-msgid "Maintainer and developer (2006-2012)"
+msgid "Maintainer and developer (2006–2012)"
 msgstr "מתחזק ומפתח (2006‏-2012)"
 
 #: main.cpp:119
