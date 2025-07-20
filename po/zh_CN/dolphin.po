@@ -2846,12 +2846,10 @@ msgid "File Manager"
 msgstr "文件管理器"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(C) 2006-2025 The Dolphin Developers"
+msgstr ""
 
 #: main.cpp:101
 #, kde-format
@@ -2884,12 +2882,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "维护者 (2018-2021) 和开发者"
+msgstr ""
 
 #: main.cpp:110
 #, kde-format
@@ -2898,12 +2894,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "维护者 (2014-2018) 和开发者"
+msgstr ""
 
 #: main.cpp:113
 #, kde-format
@@ -2912,12 +2906,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "2012-2014 年间的维护者和开发者"
+msgstr ""
 
 #: main.cpp:116
 #, kde-format
@@ -2926,12 +2918,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "维护者和开发者(2006-2012)"
+msgstr ""
 
 #: main.cpp:119
 #, kde-format
