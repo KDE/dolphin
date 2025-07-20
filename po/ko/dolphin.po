@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-02 10:15+0000\n"
-"PO-Revision-Date: 2025-06-11 00:20+0200\n"
+"PO-Revision-Date: 2025-07-20 00:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -2015,9 +2015,7 @@ msgid "Move to New Folder…"
 msgstr "새 폴더로 이동…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@action open a submeun with additional entries"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "기타"
@@ -4074,11 +4072,9 @@ msgstr "권한 스타일 형식"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "선택 모드"
+msgstr "축약 모드"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -5187,21 +5183,19 @@ msgstr "권한 스타일:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "중간에서 축약(예: '어떤 매우… 이름.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "끝에서 축약(예: '어떤 매우 긴….txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "파일 이름"
+msgstr "긴 파일 이름:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -6549,15 +6543,13 @@ msgid "Updating version information…"
 msgstr "버전 정보 업데이트 중…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "확대/축소"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "확대/축소"
