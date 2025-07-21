@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-19 05:23+0000\n"
-"PO-Revision-Date: 2025-06-28 03:56+0200\n"
+"PO-Revision-Date: 2025-07-20 04:13+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2954,12 +2954,10 @@ msgid "File Manager"
 msgstr "ფაილების მმართველი"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(C) 2006-2025 Dolphin-ის პროგრამისტები"
+msgstr "© 2006-2025 Dolphin-ის პროგრამისტები"
 
 #: main.cpp:101
 #, kde-format
@@ -2992,9 +2990,7 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "წამყვანი (2018-2021) და პროგრამისტი"
@@ -3006,9 +3002,7 @@ msgid "Emmanuel Pescosta"
 msgstr "ემანუელ პესკოსტა"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
 msgstr "წამყვანი (2014-2018) და პროგრამისტი"
@@ -3020,9 +3014,7 @@ msgid "Frank Reininghaus"
 msgstr "ფრენკ რეინინგჰაუსი"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "წამყვანი (2012-2014) და პროგრამისტი"
@@ -3034,9 +3026,7 @@ msgid "Peter Penz"
 msgstr "პიტერ პენცი"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
 msgstr "წამყვანი (2006-2012) და პროგრამისტი"
