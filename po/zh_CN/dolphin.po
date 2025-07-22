@@ -2849,7 +2849,7 @@ msgstr "文件管理器"
 #, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr ""
+msgstr "© 2006–2025 The Dolphin Developers"
 
 #: main.cpp:101
 #, kde-format
@@ -2885,7 +2885,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr ""
+msgstr "维护者 (2018–2021) 和开发者"
 
 #: main.cpp:110
 #, kde-format
@@ -2897,7 +2897,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr ""
+msgstr "维护者 (2014–2018) 和开发者"
 
 #: main.cpp:113
 #, kde-format
@@ -2909,7 +2909,7 @@ msgstr "Frank Reininghaus"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr ""
+msgstr "维护者 (2012–2014) 和开发者"
 
 #: main.cpp:116
 #, kde-format
@@ -2921,7 +2921,7 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr ""
+msgstr "维护者和开发者 (2006–2012)"
 
 #: main.cpp:119
 #, kde-format
