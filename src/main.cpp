@@ -187,7 +187,6 @@ int main(int argc, char **argv)
         QString token;
         if (KWindowSystem::isPlatformWayland()) {
             token = qEnvironmentVariable("XDG_ACTIVATION_TOKEN");
-            qunsetenv("XDG_ACTIVATION_TOKEN");
         } else if (KWindowSystem::isPlatformX11()) {
 #if HAVE_X11
             token = QX11Info::nextStartupId();
