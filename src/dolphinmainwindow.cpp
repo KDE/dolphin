@@ -2125,7 +2125,7 @@ void DolphinMainWindow::setupActions()
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
                                           "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
                                           "<para>To learn more about terminals use the help features in the terminal application.</para>"));
-        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal-symbolic")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
@@ -2135,7 +2135,7 @@ void DolphinMainWindow::setupActions()
         openTerminalHere->setWhatsThis(xi18nc("@info:whatsthis",
                                               "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
                                               "<para>To learn more about terminals use the help features in the terminal application.</para>"));
-        openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal-symbolic")));
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
     }
