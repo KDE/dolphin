@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-19 05:23+0000\n"
-"PO-Revision-Date: 2025-06-29 09:30+0200\n"
+"PO-Revision-Date: 2025-07-21 14:26+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.07.80\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -3049,12 +3049,10 @@ msgid "File Manager"
 msgstr "Gestionnaire de fichiers"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(c) 2006 - 2025, L'équipe de développement de Dolphin"
+msgstr "© 2006 - 2025, L'équipe de développement de Dolphin"
 
 #: main.cpp:101
 #, kde-format
@@ -3087,12 +3085,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Mainteneur (2018-2021) et développeur"
+msgstr "Mainteneur (2018 - 2021) et développeur"
 
 #: main.cpp:110
 #, kde-format
@@ -3101,12 +3097,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Mainteneur (2014-2018) et développeur"
+msgstr "Mainteneur (2014 - 2018) et développeur"
 
 #: main.cpp:113
 #, kde-format
@@ -3115,12 +3109,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Mainteneur (2012-2014) et développeur"
+msgstr "Mainteneur (2012 - 2014) et développeur"
 
 #: main.cpp:116
 #, kde-format
@@ -3129,12 +3121,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Mainteneur et développeur (2006-2012)"
+msgstr "Mainteneur et développeur (2006 - 2012)"
 
 #: main.cpp:119
 #, kde-format
