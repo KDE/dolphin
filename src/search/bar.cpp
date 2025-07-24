@@ -275,7 +275,7 @@ void Bar::updateState(const std::shared_ptr<const DolphinQuery> &dolphinQuery)
 
 void Bar::keyPressEvent(QKeyEvent *event)
 {
-    QWidget::keyReleaseEvent(event);
+    QWidget::keyPressEvent(event);
     if (event->key() == Qt::Key_Escape) {
         if (m_searchTermEditor->text().isEmpty()) {
             setVisible(false, WithAnimation);
