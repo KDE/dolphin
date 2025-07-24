@@ -750,7 +750,11 @@ QPixmap KItemListView::createDragPixmap(const KItemSet &indexes) const
 void KItemListView::editRole(int index, const QByteArray &role)
 {
     KStandardItemListWidget *widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
-    if (!widget || m_editingRole) {
+    if (!widget) {
+        return;
+    }
+    if (m_editingRole || m_animation->isStarted(widget)) {
+        Q_EMIT widget->roleEditingCanceled(index, role, QVariant());
         return;
     }
 
@@ -1916,6 +1920,9 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
         if (animate) {
             if (m_animation->isStarted(widget, KItemListViewAnimation::MovingAnimation)) {
+                if (m_editingRole) {
+                    Q_EMIT widget->roleEditingCanceled(widget->index(), QByteArray(), QVariant());
+                }
                 m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
                 applyNewPos = false;
             }
