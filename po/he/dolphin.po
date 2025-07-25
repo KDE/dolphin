@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-19 05:23+0000\n"
-"PO-Revision-Date: 2025-06-28 17:30+0300\n"
+"PO-Revision-Date: 2025-07-24 09:52+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Launchpad-Export-Date: 2011-01-04 19:22+0000\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2930,12 +2930,10 @@ msgid "File Manager"
 msgstr "מנהל קבצים"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(C) 2006‏-2025 מפתחי Dolphin"
+msgstr "© 2006‏-2025 מפתחי Dolphin"
 
 #: main.cpp:101
 #, kde-format
@@ -2968,9 +2966,7 @@ msgid "Elvis Angelaccio"
 msgstr "אלביס אנגלצ׳יו"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
 msgstr "מתחזק (2018‏-2021) ומפתח"
@@ -2982,12 +2978,10 @@ msgid "Emmanuel Pescosta"
 msgstr "עמנואל פסקוסטה"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "מתחזק (2012‏-2018) ומפתח"
+msgstr "מתחזק (2014‏-2018) ומפתח"
 
 #: main.cpp:113
 #, kde-format
@@ -2996,9 +2990,7 @@ msgid "Frank Reininghaus"
 msgstr "פראנק ריינינגהאוס"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "מתחזק (2012‏-2014) ומפתח"
@@ -3010,9 +3002,7 @@ msgid "Peter Penz"
 msgstr "פיטר פנז"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
 msgstr "מתחזק ומפתח (2006‏-2012)"
