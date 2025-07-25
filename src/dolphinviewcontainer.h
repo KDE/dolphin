@@ -487,6 +487,8 @@ private:
     Admin::Bar *m_adminBar;
     /// An action to switch to the admin protocol. This variable will always be nullptr unless kio-admin was installed. @see Admin::WorkerIntegration.
     QAction *m_authorizeToEnterFolderAction;
+    /// An action to create new folder in case user enters a nonexistent URL in the location bar.
+    QAction *m_createFolderAction;
 
     KMessageWidget *m_messageWidget;
 
