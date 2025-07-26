@@ -1,20 +1,21 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2025 This file is copyright:
 # This file is distributed under the same license as the dolphin package.
-#
 # Burkhard Lück <lueck@hube-lueck.de>, 2019, 2020.
+# SPDX-FileCopyrightText: 2025 Philipp Kiemle <l10n@prly.mozmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin_servicemenuinstaller\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-07 02:44+0000\n"
-"PO-Revision-Date: 2020-09-14 07:16+0200\n"
-"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"PO-Revision-Date: 2025-07-21 11:24+0200\n"
+"Last-Translator: Philipp Kiemle <l10n@prly.mozmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
@@ -35,7 +36,7 @@ msgstr ""
 #: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
-msgstr "Die Datei existiert nicht"
+msgstr "Die Datei existiert nicht!"
 
 #: servicemenuinstaller.cpp:120
 #, kde-format
@@ -60,12 +61,12 @@ msgstr "Der Prozess wurde nicht in angemessener Zeit abgeschlossen: %1 %2"
 #: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr "Die Datei %1 lässt sich nicht entpacken"
+msgstr "Entpacken von %1 ist fehlgeschlagen"
 
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr "Ausführung des Installations-Skripts %1 ist fehlgeschlagen"
+msgstr "Ausführen des Installations-Skripts %1 ist fehlgeschlagen"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
@@ -76,7 +77,7 @@ msgstr "Das Einstellen der Zugriffsrechte für %1  ist fehlgeschlagen: %2"
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
-msgstr "Installations-Skripts %1 mit dem Argument %2 ist fehlgeschlagen."
+msgstr "Das Installations-Skript %1 mit den Argumenten %2 ist fehlgeschlagen."
 
 #: servicemenuinstaller.cpp:275
 #, kde-format
@@ -92,12 +93,12 @@ msgstr "Pfad %1 kann nicht erstellt werden"
 #: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr "„.desktop“-Datei %1 kann nicht zu %2 kopiert werden: %%3"
+msgstr "„.desktop“-Datei %1 kann nicht nach %2 kopiert werden: %3"
 
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr "Ordner %1  kann nicht entfernt werden"
+msgstr "Ordner %1 kann nicht entfernt werden"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
@@ -112,7 +113,7 @@ msgstr "Es wurde kein Installations-Skript in %1 gefunden"
 #: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr "Das Entfernen von  der „.desktop“-Datei %1 ist fehlgeschlagen: %2"
+msgstr "Die „.desktop“-Datei %1 kann nicht entfernt werden: %2"
 
 #: servicemenuinstaller.cpp:417
 #, kde-format
@@ -134,7 +135,7 @@ msgstr "Pfad zum Archiv."
 #: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
-msgstr "Ein Befehl ist erforderlich."
+msgstr "Befehl ist erforderlich."
 
 #: servicemenuinstaller.cpp:445
 #, kde-format
