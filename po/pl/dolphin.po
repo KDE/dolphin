@@ -13,16 +13,16 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-19 05:23+0000\n"
-"PO-Revision-Date: 2025-06-29 08:34+0200\n"
+"PO-Revision-Date: 2025-07-26 19:17+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
-"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language-Team: pl\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1922,13 +1922,13 @@ msgstr "Zamknij kartę"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Przemianuj kartę"
+msgstr "Zmień nazwę karty"
 
 #: dolphintabbar.cpp:180
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Przemianuj kartę"
+msgstr "Zmień nazwę karty"
 
 #: dolphintabbar.cpp:180
 #, kde-format
@@ -2984,12 +2984,10 @@ msgid "File Manager"
 msgstr "Zarządzanie plikami"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(C) 2006-2025 Programiści Dolphina"
+msgstr "© 2006–2025 Programiści Dolphina"
 
 #: main.cpp:101
 #, kde-format
@@ -3022,12 +3020,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Opiekun (2018-2021) i programista"
+msgstr "Opiekun (2018–2021) i programista"
 
 #: main.cpp:110
 #, kde-format
@@ -3036,12 +3032,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Opiekun (2014-2018) i programista"
+msgstr "Opiekun (2014–2018) i programista"
 
 #: main.cpp:113
 #, kde-format
@@ -3050,12 +3044,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Opiekun (2012-2014) i programista"
+msgstr "Opiekun (2012–2014) i programista"
 
 #: main.cpp:116
 #, kde-format
@@ -3064,12 +3056,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Opiekun i programista (2006-2012)"
+msgstr "Opiekun i programista (2006–2012)"
 
 #: main.cpp:119
 #, kde-format
@@ -3203,7 +3193,7 @@ msgstr "Skopiuj"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename…"
-msgstr "Przemianuj…"
+msgstr "Zmień nazwę…"
 
 #: panels/folders/treeviewcontextmenu.cpp:83
 #, kde-format
