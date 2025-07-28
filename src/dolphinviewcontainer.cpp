@@ -957,6 +957,21 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
     m_view->setZoomLevel(zoomLevel);
 }
 
+bool DolphinViewContainer::isFolderCreatable(QUrl url)
+{
+    while (url.isValid()) {
+        url = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+        QFileInfo info(url.toLocalFile());
+        if (info.exists()) {
+            return info.isWritable();
+        }
+        if (info.isSymLink()) {
+            return false;
+        }
+    }
+    return false;
+}
+
 void DolphinViewContainer::slotErrorMessageFromView(const QString &message, const int kioErrorCode)
 {
     if (kioErrorCode == KIO::ERR_CANNOT_ENTER_DIRECTORY && m_view->url().scheme() == QStringLiteral("file")
@@ -975,7 +990,7 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
         }
         showMessage(i18nc("@info", "Authorization required to enter this folder."), KMessageWidget::Error, {m_authorizeToEnterFolderAction});
         return;
-    } else if (kioErrorCode == KIO::ERR_DOES_NOT_EXIST && m_view->url().isLocalFile()) {
+    } else if (kioErrorCode == KIO::ERR_DOES_NOT_EXIST && m_view->url().isLocalFile() && isFolderCreatable(m_view->url())) {
         if (!m_createFolderAction) {
             m_createFolderAction = new QAction(this);
             m_createFolderAction->setText(i18nc("@action", "Create missing folder"));
