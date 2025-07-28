@@ -978,9 +978,9 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
     } else if (kioErrorCode == KIO::ERR_DOES_NOT_EXIST && m_view->url().isLocalFile()) {
         if (!m_createFolderAction) {
             m_createFolderAction = new QAction(this);
-            m_createFolderAction->setText(i18nc("@action", "Create"));
+            m_createFolderAction->setText(i18nc("@action", "Create missing folder"));
             m_createFolderAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
-            m_createFolderAction->setToolTip(i18nc("@info:tooltip", "Create this folder and open it"));
+            m_createFolderAction->setToolTip(i18nc("@info:tooltip", "Create the folder at this path and open it"));
             connect(m_createFolderAction, &QAction::triggered, this, [this](bool) {
                 KIO::MkpathJob *job = KIO::mkpath(m_view->url());
                 KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Mkpath, {}, m_view->url(), job);
