@@ -14,6 +14,7 @@
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
 #include "global.h"
+#include "settings/dolphinsettingsdialog.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
 
@@ -139,8 +140,18 @@ void DolphinContextMenu::addTrashContextMenu()
     }
 
     addSeparator();
-    QAction *propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
-    addAction(propertiesAction);
+
+    auto *configureTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash…"), this);
+    connect(configureTrashAction, &QAction::triggered, this, &DolphinContextMenu::configureTrash);
+    addAction(configureTrashAction);
+}
+
+void DolphinContextMenu::configureTrash()
+{
+    DolphinSettingsDialog *settingsDialog = new DolphinSettingsDialog(m_baseUrl, m_mainWindow);
+    settingsDialog->setCurrentPage(settingsDialog->trashSettings);
+    settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
+    settingsDialog->show();
 }
 
 void DolphinContextMenu::addTrashItemContextMenu()
