@@ -97,6 +97,7 @@ private:
 private:
     void addDirectoryItemContextMenu();
     void addOpenParentFolderActions();
+    void configureTrash();
 
     struct Entry {
         int type;
