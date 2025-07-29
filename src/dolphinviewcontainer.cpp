@@ -991,12 +991,11 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
         }
         showMessage(i18nc("@info", "Authorization required to enter this folder."), KMessageWidget::Error, {m_authorizeToEnterFolderAction});
         return;
-    } else if (kioErrorCode == KIO::ERR_DOES_NOT_EXIST && m_view->url().isLocalFile() && isFolderCreatable(m_view->url())) {
+    } else if (kioErrorCode == KIO::ERR_DOES_NOT_EXIST && m_view->url().isLocalFile()) {
         if (!m_createFolderAction) {
             m_createFolderAction = new QAction(this);
             m_createFolderAction->setText(i18nc("@action", "Create missing folder"));
             m_createFolderAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
-            m_createFolderAction->setToolTip(i18nc("@info:tooltip", "Create the folder at this path and open it"));
             connect(m_createFolderAction, &QAction::triggered, this, [this](bool) {
                 KIO::MkpathJob *job = KIO::mkpath(m_view->url());
                 KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Mkpath, {}, m_view->url(), job);
@@ -1009,6 +1008,13 @@ void DolphinViewContainer::slotErrorMessageFromView(const QString &message, cons
                     }
                 });
             });
+        }
+        if (isTopMostParentFolderWritable(m_view->url())) {
+            m_createFolderAction->setEnabled(true);
+            m_createFolderAction->setToolTip(i18nc("@info:tooltip", "Create the folder at this path and open it"));
+        } else {
+            m_createFolderAction->setEnabled(false);
+            m_createFolderAction->setToolTip(i18nc("@info:tooltip", "You do not have permission to create the folder"));
         }
         showMessage(message, KMessageWidget::Error, {m_createFolderAction});
         return;

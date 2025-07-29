@@ -464,7 +464,7 @@ private:
      * Check if a folder can be created at url.
      * This method supports only local URLs.
      */
-    bool isFolderCreatable(QUrl url);
+    bool isTopMostParentFolderWritable(QUrl url);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
