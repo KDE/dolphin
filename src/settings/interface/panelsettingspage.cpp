@@ -28,8 +28,9 @@ PanelSettingsPage::PanelSettingsPage(QWidget *parent)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
-    QString m_longDateTime = (new KFormat)->formatRelativeDateTime(QDateTime(QDate(2024, 02, 28), QTime(10, 0)), QLocale::LongFormat);
-    QString m_shortDateTime = (new KFormat)->formatRelativeDateTime(QDateTime(QDate(2024, 02, 28), QTime(10, 0)), QLocale::ShortFormat);
+    KFormat formatter;
+    QString m_longDateTime = formatter.formatRelativeDateTime(QDateTime(QDate(2024, 02, 28), QTime(10, 0)), QLocale::LongFormat);
+    QString m_shortDateTime = formatter.formatRelativeDateTime(QDateTime(QDate(2024, 02, 28), QTime(10, 0)), QLocale::ShortFormat);
 
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show previews"), this);
     m_autoPlayMedia = new QCheckBox(i18nc("@option:check", "Auto-play media files"), this);
