@@ -957,8 +957,9 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
     m_view->setZoomLevel(zoomLevel);
 }
 
-bool DolphinViewContainer::isFolderCreatable(QUrl url)
+bool DolphinViewContainer::isTopMostParentFolderWritable(QUrl url)
 {
+    Q_ASSERT(url.isLocalFile());
     while (url.isValid()) {
         url = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
         QFileInfo info(url.toLocalFile());
