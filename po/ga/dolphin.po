@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:23+0000\n"
+"POT-Creation-Date: 2025-07-30 00:45+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5152,7 +5152,7 @@ msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "Barra Suímh"
 
-#: settings/interface/panelsettingspage.cpp:34
+#: settings/interface/panelsettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
@@ -5160,13 +5160,13 @@ msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Taispeáin réamhamharc"
 
-#: settings/interface/panelsettingspage.cpp:35
+#: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:36
+#: settings/interface/panelsettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -5174,19 +5174,19 @@ msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Taispeáin Barra na Scagairí"
 
-#: settings/interface/panelsettingspage.cpp:37
+#: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:38
+#: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:44
+#: settings/interface/panelsettingspage.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Information Panel"
@@ -5194,7 +5194,7 @@ msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "Painéal Eolais"
 
-#: settings/interface/panelsettingspage.cpp:52
+#: settings/interface/panelsettingspage.cpp:53
 #, kde-format
 msgctxt "@info"
 msgid ""

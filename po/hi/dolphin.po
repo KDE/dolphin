@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:23+0000\n"
+"POT-Creation-Date: 2025-07-30 00:45+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4991,7 +4991,7 @@ msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "स्थान पट्टी"
 
-#: settings/interface/panelsettingspage.cpp:34
+#: settings/interface/panelsettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
@@ -4999,14 +4999,14 @@ msgctxt "@option:check"
 msgid "Show previews"
 msgstr "पूर्वावलोकन दिखाएँ"
 
-#: settings/interface/panelsettingspage.cpp:35
+#: settings/interface/panelsettingspage.cpp:36
 #, fuzzy, kde-format
 #| msgid "Auto-Play media files"
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "मीडिया फ़ाइलों को स्वचालित रूप से चलाएं"
 
-#: settings/interface/panelsettingspage.cpp:36
+#: settings/interface/panelsettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -5014,19 +5014,19 @@ msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "फ़िल्टर पट्टी दिखाएँ "
 
-#: settings/interface/panelsettingspage.cpp:37
+#: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:38
+#: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:44
+#: settings/interface/panelsettingspage.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Information"
@@ -5034,7 +5034,7 @@ msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "जानकारी"
 
-#: settings/interface/panelsettingspage.cpp:52
+#: settings/interface/panelsettingspage.cpp:53
 #, kde-format
 msgctxt "@info"
 msgid ""

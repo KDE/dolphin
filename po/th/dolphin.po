@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:23+0000\n"
+"POT-Creation-Date: 2025-07-30 00:45+0000\n"
 "PO-Revision-Date: 2010-12-25 15:02+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -5105,7 +5105,7 @@ msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "แถบตำแหน่ง"
 
-#: settings/interface/panelsettingspage.cpp:34
+#: settings/interface/panelsettingspage.cpp:35
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show preview"
@@ -5113,13 +5113,13 @@ msgctxt "@option:check"
 msgid "Show previews"
 msgstr "แสดงตัวอย่าง"
 
-#: settings/interface/panelsettingspage.cpp:35
+#: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:36
+#: settings/interface/panelsettingspage.cpp:37
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -5127,19 +5127,19 @@ msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "แสดงแถบตัวกรอง"
 
-#: settings/interface/panelsettingspage.cpp:37
+#: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:38
+#: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
 msgstr ""
 
-#: settings/interface/panelsettingspage.cpp:44
+#: settings/interface/panelsettingspage.cpp:45
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Information"
@@ -5147,7 +5147,7 @@ msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "ข้อมูล"
 
-#: settings/interface/panelsettingspage.cpp:52
+#: settings/interface/panelsettingspage.cpp:53
 #, kde-format
 msgctxt "@info"
 msgid ""

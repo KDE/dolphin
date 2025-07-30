@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:23+0000\n"
+"POT-Creation-Date: 2025-07-30 00:45+0000\n"
 "PO-Revision-Date: 2025-07-20 00:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4888,43 +4888,43 @@ msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "상태와 위치 표시줄"
 
-#: settings/interface/panelsettingspage.cpp:34
+#: settings/interface/panelsettingspage.cpp:35
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "미리 보기 표시"
 
-#: settings/interface/panelsettingspage.cpp:35
+#: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "미디어 파일 자동 재생"
 
-#: settings/interface/panelsettingspage.cpp:36
+#: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "마우스를 올렸을 때 항목 표시"
 
-#: settings/interface/panelsettingspage.cpp:37
+#: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
 msgstr "긴 날짜 사용, 예제: '%1'(&L)"
 
-#: settings/interface/panelsettingspage.cpp:38
+#: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
 msgstr "간략한 날짜 사용, 예제: '%1'(&C)"
 
-#: settings/interface/panelsettingspage.cpp:44
+#: settings/interface/panelsettingspage.cpp:45
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "정보 패널:"
 
-#: settings/interface/panelsettingspage.cpp:52
+#: settings/interface/panelsettingspage.cpp:53
 #, kde-format
 msgctxt "@info"
 msgid ""

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-19 05:23+0000\n"
+"POT-Creation-Date: 2025-07-30 00:45+0000\n"
 "PO-Revision-Date: 2025-07-19 22:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5000,43 +5000,43 @@ msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
 msgstr "Durum ve Konum Çubukları"
 
-#: settings/interface/panelsettingspage.cpp:34
+#: settings/interface/panelsettingspage.cpp:35
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews"
 msgstr "Önizlemeleri göster"
 
-#: settings/interface/panelsettingspage.cpp:35
+#: settings/interface/panelsettingspage.cpp:36
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
 msgstr "Ortam dosyalarını kendiliğinden çal/oynat"
 
-#: settings/interface/panelsettingspage.cpp:36
+#: settings/interface/panelsettingspage.cpp:37
 #, kde-format
 msgctxt "@option:check"
 msgid "Show item on hover"
 msgstr "Üzerine gelindiğinde ögeyi göster"
 
-#: settings/interface/panelsettingspage.cpp:37
+#: settings/interface/panelsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
 msgstr "&Uzun tarih kullan; örneğin, “%1”"
 
-#: settings/interface/panelsettingspage.cpp:38
+#: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
 msgstr "&Kısa tarih kullan; örneğin, “%1”"
 
-#: settings/interface/panelsettingspage.cpp:44
+#: settings/interface/panelsettingspage.cpp:45
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Information Panel:"
 msgstr "Bilgi paneli:"
 
-#: settings/interface/panelsettingspage.cpp:52
+#: settings/interface/panelsettingspage.cpp:53
 #, kde-format
 msgctxt "@info"
 msgid ""
