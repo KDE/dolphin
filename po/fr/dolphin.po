@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-30 00:45+0000\n"
+"POT-Creation-Date: 2025-07-31 00:44+0000\n"
 "PO-Revision-Date: 2025-07-21 14:26+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -2074,45 +2074,45 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Vous n'avez pas de droits en écriture sur ce dossier."
 
-#: dolphinviewcontainer.cpp:103
+#: dolphinviewcontainer.cpp:105
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Exécuter Dolphin en tant qu'administrateur peut s'avérer dangereux. Soyez "
 "prudent."
 
-#: dolphinviewcontainer.cpp:154
+#: dolphinviewcontainer.cpp:156
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Chargement du dossier…"
 
-#: dolphinviewcontainer.cpp:157
+#: dolphinviewcontainer.cpp:159
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Tri en cours..."
 
-#: dolphinviewcontainer.cpp:683
+#: dolphinviewcontainer.cpp:685
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Recherche en cours…"
 
-#: dolphinviewcontainer.cpp:703
+#: dolphinviewcontainer.cpp:705
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Aucun élément n'a été trouvé."
 
-#: dolphinviewcontainer.cpp:891
+#: dolphinviewcontainer.cpp:893
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr ""
 "Dolphin ne prend pas en charge les pages web, le navigateur a été lancé"
 
-#: dolphinviewcontainer.cpp:894
+#: dolphinviewcontainer.cpp:896
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2121,25 +2121,48 @@ msgstr ""
 "Protocole non pris en charge par Dolphin, l'application par défaut a été "
 "lancée"
 
-#: dolphinviewcontainer.cpp:901
+#: dolphinviewcontainer.cpp:903
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocole non valable « %1 »"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:905
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocole non valable"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:992
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Autorisation requise pour entrer dans ce dossier."
 
-#: dolphinviewcontainer.cpp:1016 dolphinviewcontainer.cpp:1019
+#: dolphinviewcontainer.cpp:997
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Created folder."
+msgctxt "@action"
+msgid "Create missing folder"
+msgstr "Dossier créé."
+
+#: dolphinviewcontainer.cpp:1014
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Create the folder at this path and open it"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:1017
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Cannot paste: You do not have permission to write into this folder."
+msgctxt "@info:tooltip"
+msgid "You do not have permission to create the folder"
+msgstr ""
+"Impossible de coller : vous n'êtes pas autorisé à écrire dans ce dossier."
+
+#: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

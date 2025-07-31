@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-30 00:45+0000\n"
+"POT-Creation-Date: 2025-07-31 00:44+0000\n"
 "PO-Revision-Date: 2025-06-25 12:13+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -1985,43 +1985,43 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Jums nav tiesību rakstīt šajā datnē."
 
-#: dolphinviewcontainer.cpp:103
+#: dolphinviewcontainer.cpp:105
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "„Dolphin“ palaišana kā saknes lietotājam var būt bīstama. Esiet uzmanīgi."
 
-#: dolphinviewcontainer.cpp:154
+#: dolphinviewcontainer.cpp:156
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ielādē mapi…"
 
-#: dolphinviewcontainer.cpp:157
+#: dolphinviewcontainer.cpp:159
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Kārtošana…"
 
-#: dolphinviewcontainer.cpp:683
+#: dolphinviewcontainer.cpp:685
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Meklē…"
 
-#: dolphinviewcontainer.cpp:703
+#: dolphinviewcontainer.cpp:705
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Nekas nav atrasts."
 
-#: dolphinviewcontainer.cpp:891
+#: dolphinviewcontainer.cpp:893
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "„Dolphin“ neatbalsta tīmekļa lapas, tāpēc ir atvērts tīmekļa pārlūks"
 
-#: dolphinviewcontainer.cpp:894
+#: dolphinviewcontainer.cpp:896
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2029,25 +2029,47 @@ msgid ""
 msgstr ""
 "„Dolphin“ neatbalsta šo protokolu, tāpēc ir atvērta noklusējuma programma"
 
-#: dolphinviewcontainer.cpp:901
+#: dolphinviewcontainer.cpp:903
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Nederīgs protokols „%1“"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:905
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Nederīgs protokols"
 
-#: dolphinviewcontainer.cpp:974
+#: dolphinviewcontainer.cpp:992
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Lai piekļūtu šai mapei, ir jāautorizējas."
 
-#: dolphinviewcontainer.cpp:1016 dolphinviewcontainer.cpp:1019
+#: dolphinviewcontainer.cpp:997
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Created folder."
+msgctxt "@action"
+msgid "Create missing folder"
+msgstr "Izveidota mape."
+
+#: dolphinviewcontainer.cpp:1014
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Create the folder at this path and open it"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:1017
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Cannot paste: You do not have permission to write into this folder."
+msgctxt "@info:tooltip"
+msgid "You do not have permission to create the folder"
+msgstr "Neizdodas ielīmēt — jums nav atļaujas rakstīt šajā mapē."
+
+#: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
