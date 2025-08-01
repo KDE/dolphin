@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-07-23 13:57+0200\n"
+"PO-Revision-Date: 2025-07-31 12:13+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2069,26 +2069,22 @@ msgid "Authorization required to enter this folder."
 msgstr "Karpeta honetara sortzeko baimena izan behar da."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Sortutako karpeta."
+msgstr "Sortuta falta den karpeta"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Sortu karpeta bide-izen honetan eta ireki"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Ezin du itsatsi: Ez duzu karpeta honetan idazteko baimenik."
+msgstr "Ez duzu karpeta sortzeko baimenik"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format

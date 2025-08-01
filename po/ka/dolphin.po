@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-07-20 04:13+0200\n"
+"PO-Revision-Date: 2025-07-31 03:41+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2054,26 +2054,22 @@ msgid "Authorization required to enter this folder."
 msgstr "ამ საქაღალდეში შესასვლელად აუცილებელია ავტორიზაციის გავლა."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "საქაღალდე შეიქმნა."
+msgstr "არარსებული საქაღალდის შექმნა"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "საქაღალდის შექმნა ამ ბილიკზე და მისი გახსნა"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "ჩასმა შეუძლებელია: ამ საქაღალდეში ჩაწერის უფლება არ გაქვთ."
+msgstr "საქაღალდის შექმნის უფლება არ გაქვთ"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format

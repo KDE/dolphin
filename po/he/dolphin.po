@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-07-24 09:52+0300\n"
+"PO-Revision-Date: 2025-07-31 11:57+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2007,26 +2007,22 @@ msgid "Authorization required to enter this folder."
 msgstr "צריך לעבור אימות כדי להיכנס לתיקייה הזאת."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "תיקייה נוצרה."
+msgstr "יצירת תיקייה חסרה"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "יצירת תיקייה בנתיב הזה ולפתוח אותה"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "לא ניתן להדביק: אין לך הרשאה לכתוב לתיקייה הזאת."
+msgstr "אין לך הרשאה ליצור את התיקייה"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-07-19 20:23+0200\n"
+"PO-Revision-Date: 2025-07-31 07:58+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2067,26 +2067,22 @@ msgid "Authorization required to enter this folder."
 msgstr "Za vstop v to mapo je potrebna avtorizacija."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Mapa ustvarjena."
+msgstr "Ustvari manjkajočo mapo"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Ustvari mapo na tej poti in jo odpri"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Ni bilo mogoče prilepiti: Nimate dovoljenja za pisanje v to mapo."
+msgstr "Nimate dovoljenja za kreiranje mape"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format

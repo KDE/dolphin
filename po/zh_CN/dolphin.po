@@ -1964,12 +1964,10 @@ msgid "Authorization required to enter this folder."
 msgstr "进入此文件夹需要身份验证。"
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "文件夹已创建。"
+msgstr ""
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
@@ -1978,12 +1976,10 @@ msgid "Create the folder at this path and open it"
 msgstr ""
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "无法粘贴：您没有写入此文件夹的权限。"
+msgstr ""
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
