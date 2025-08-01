@@ -1661,6 +1661,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer *viewContainer)
 
     const QUrl url = viewContainer->url();
     Q_EMIT urlChanged(url);
+    Q_EMIT selectionChanged(m_activeViewContainer->view()->selectedItems());
 }
 
 void DolphinMainWindow::tabCountChanged(int count)
