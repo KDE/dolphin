@@ -167,6 +167,7 @@ void WorkerIntegration::toggleActAsAdmin()
         risksAccepted = warningDialog.exec() == KMessageDialog::PrimaryAction;
 
         if (!risksAccepted) {
+            url.setScheme(QStringLiteral("file"));
             updateActAsAdminAction(); // Uncheck the action
             return;
         }
