@@ -165,13 +165,14 @@ void WorkerIntegration::toggleActAsAdmin()
         warningDialog.setDontAskAgainText(i18nc("@option:check", "Do not warn me about these risks again"));
 
         risksAccepted = warningDialog.exec() == KMessageDialog::PrimaryAction;
-        if (warningDialog.isDontAskAgainChecked()) {
-            KMessageBox::saveDontShowAgainContinue(warningDontShowAgainName);
-        }
 
         if (!risksAccepted) {
             updateActAsAdminAction(); // Uncheck the action
             return;
+        }
+
+        if (warningDialog.isDontAskAgainChecked()) {
+            KMessageBox::saveDontShowAgainContinue(warningDontShowAgainName);
         }
     }
 
