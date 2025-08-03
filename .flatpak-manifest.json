@@ -298,7 +298,7 @@
             "buildsystem": "cmake-ninja",
             "sources": [
                 {
-                    "type": "archive",
+                    "type": "git",
                     "url": "https://invent.kde.org/utilities/konsole.git",
                     "branch": "master"
                 }
