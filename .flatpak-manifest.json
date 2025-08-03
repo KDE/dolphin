@@ -294,6 +294,17 @@
 
         },
         {
+            "name": "konsole",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://invent.kde.org/utilities/konsole.git",
+                    "branch": "master"
+                }
+            ]
+        },
+        {
             "config-opts": [
                 "-DFLATPAK=ON"
             ],
