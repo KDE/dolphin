@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-06-28 17:07+0400\n"
+"PO-Revision-Date: 2025-08-03 09:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1866,7 +1866,7 @@ msgstr "الألسنة المُغلقة حديثًا"
 #: dolphinrecenttabsmenu.cpp:23
 #, kde-format
 msgid "Empty Recently Closed Tabs"
-msgstr "امسح الألسنة المُغلقة حديثًا"
+msgstr "امحُ الألسنة المُغلقة حديثًا"
 
 #: dolphintabbar.cpp:156
 #, kde-format
@@ -1946,7 +1946,7 @@ msgstr "شريط الموقع"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Main Toolbar"
-msgstr "شريط الأدوات الرئيسية"
+msgstr "شريط الأدوات الرئيسة"
 
 #: dolphinurlnavigator.cpp:39
 #, kde-kuit-format
@@ -2038,26 +2038,22 @@ msgid "Authorization required to enter this folder."
 msgstr "مطلوب إذن لدخول هذا المجلد."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "أُنشئ مجلد."
+msgstr "أُنشئ المجلد المفقود"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "أنشئ مجلد في هذا المسار وافتحه"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "لا يمكن اللصق: ليست لديك الصلاحيات للكتابة في هذا المجلد."
+msgstr "لا تملك تصريح لإنشاء هذا المجلّد"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
@@ -3009,12 +3005,10 @@ msgid "File Manager"
 msgstr "مدير ملفات"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "© 2006-2025 لمطوري دولفين"
+msgstr "©2006–2025 لمطوري دولفين"
 
 #: main.cpp:101
 #, kde-format
@@ -3047,12 +3041,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "المصين (2018-2021) ومطوّر"
+msgstr "صائن (2018–2021) ومطوّر"
 
 #: main.cpp:110
 #, kde-format
@@ -3061,12 +3053,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "المصين (2014-2018) ومطوّر"
+msgstr "صائن (2014–2018) ومطوّر"
 
 #: main.cpp:113
 #, kde-format
@@ -3075,12 +3065,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "المصين (2012-2014) ومطوّر"
+msgstr "صائن (2012–2014) ومطوّر"
 
 #: main.cpp:116
 #, kde-format
@@ -3089,12 +3077,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "المصين ومطوّر (2006-2012)"
+msgstr "صائن ومطوّر (2006–2012)"
 
 #: main.cpp:119
 #, kde-format
