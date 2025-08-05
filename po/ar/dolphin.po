@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-02 10:15+0000\n"
-"PO-Revision-Date: 2025-08-03 09:06+0400\n"
+"PO-Revision-Date: 2025-08-04 19:52+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -118,7 +118,7 @@ msgstr ""
 "<numberedlist><numbereditem>انتقل إلى الملف أو المجلد الذي تريد تغييره.</"
 "numbereditem><numbereditem>قم بتنشيط الإجراء \"%1\" إما ضمن <interface>فتح "
 "القائمة|المزيد|عرض</interface> أو <interface>شريط القائمة|عرض</interface>."
-"<nl/>الاختصار الافتراضي: <shortcut>%2</shortcut></"
+"<nl/>الاختصار المبدئي: <shortcut>%2</shortcut></"
 "numbereditem><numbereditem>بعد أخذ التصريح يمكنك إدارة الملفات كمدير نظام.</"
 "numbereditem></numberedlist></para>"
 
@@ -762,7 +762,7 @@ msgstr "تخزين مؤقتا"
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
-msgstr "يفتح مجلد تخزين افتراضي مؤقت في نافذة منقسمة"
+msgstr "يفتح مجلد تخزين افترضي مؤقت في نافذة منقسمة"
 
 #: dolphinmainwindow.cpp:1997
 #, kde-format
@@ -1783,7 +1783,7 @@ msgstr "المهملات"
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
-msgstr "البدء الآلي"
+msgstr "البدء الآليّ"
 
 #: dolphinpart.cpp:191
 #, kde-format
@@ -3002,7 +3002,7 @@ msgstr "Felix Ernst"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "المصين (منذ 2021) ومطوّر"
+msgstr "الصائن (منذ 2021) ومطوّر"
 
 #: main.cpp:104
 #, kde-format
@@ -3014,7 +3014,7 @@ msgstr "Méven Car"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "المصين (منذ2021) ومطوّر (منذ 2019)"
+msgstr "الصائن (منذ2021) ومطوّر (منذ 2019)"
 
 #: main.cpp:107
 #, kde-format
@@ -3026,7 +3026,7 @@ msgstr "Elvis Angelaccio"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "المصين (2018-2021) ومطوّر"
+msgstr "الصائن (2018-2021) ومطوّر"
 
 #: main.cpp:110
 #, kde-format
@@ -3038,7 +3038,7 @@ msgstr "Emmanuel Pescosta"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
-msgstr "المصين (2014-2018) ومطوّر"
+msgstr "الصائن (2014-2018) ومطوّر"
 
 #: main.cpp:113
 #, kde-format
@@ -3050,7 +3050,7 @@ msgstr "Frank Reininghaus"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
-msgstr "المصين (2012-2014) ومطوّر"
+msgstr "الصائن (2012-2014) ومطوّر"
 
 #: main.cpp:116
 #, kde-format
@@ -3062,7 +3062,7 @@ msgstr "Peter Penz"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
-msgstr "المصين ومطوّر (2006-2012)"
+msgstr "الصائن ومطوّر (2006-2012)"
 
 #: main.cpp:119
 #, kde-format
@@ -3177,7 +3177,7 @@ msgstr "اقصر لوح المجلدات على الدليل الرئيسي إذ
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
 #, kde-format
 msgid "Automatic scrolling"
-msgstr "التمرير الآلي"
+msgstr "التمرير الآليّ"
 
 #: panels/folders/treeviewcontextmenu.cpp:50
 #, kde-format
@@ -3225,7 +3225,7 @@ msgstr "اقتصر على الدليل المنزل"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Scrolling"
-msgstr "التمرير آليًا"
+msgstr "التمرير آليًّا"
 
 #: panels/folders/treeviewcontextmenu.cpp:132
 #, kde-format
@@ -3243,7 +3243,7 @@ msgstr "إظهار المعاينات"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "التشغيل الآلي لملفات الوسائط"
+msgstr "التشغيل الآليّ لملفات الوسائط"
 
 #. i18n: ectx: label, entry (showHovered), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -3267,7 +3267,7 @@ msgstr "معاينة"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "التشغيل الآلي لملفات الوسائط"
+msgstr "التشغيل الآليّ لملفات الوسائط"
 
 #: panels/information/informationpanel.cpp:166
 #, kde-format
@@ -3319,7 +3319,7 @@ msgstr "ألبث"
 #: panels/places/dolphin_placespanelsettings.kcfg:11
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
-msgstr "حجم أيقونات لوحة الأماكن (-1 يعني \"آلي\")"
+msgstr "حجم أيقونات لوحة الأماكن (-1 يعني \"آليّ\")"
 
 #: panels/places/placespanel.cpp:53
 #, kde-format
@@ -4906,7 +4906,7 @@ msgstr "استخدم الموقع الحالي"
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
-msgstr "استخدم الموقع الافتراضي"
+msgstr "استخدم الموقع المبدئي"
 
 #: settings/interface/folderstabssettingspage.cpp:90
 #, kde-format
@@ -5050,7 +5050,7 @@ msgstr "أظهر معاينة"
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-play media files"
-msgstr "التشغيل الآلي لملفات الوسائط"
+msgstr "التشغيل الآليّ لملفات الوسائط"
 
 #: settings/interface/panelsettingspage.cpp:36
 #, kde-format
@@ -5970,7 +5970,7 @@ msgid ""
 "device.</item></list></para>"
 msgstr ""
 "<para> هذا هو <emphasis> شريط الحالة </emphasis>. يحتوي على ثلاثة عناصر بشكل "
-"افتراضي (من اليسار إلى اليمين): <list> <item> <emphasis> حقل نصي </emphasis> "
+"مبدئي (من اليسار إلى اليمين): <list> <item> <emphasis> حقل نصي </emphasis> "
 "يعرض حجم العناصر المحددة. إذا تم تحديد عنصر واحد فقط ، فسيتم عرض الاسم "
 "والنوع أيضًا. </item> <item> <emphasis> شريط تمرير التكبير / التصغير </"
 "emphasis> الذي يسمح لك بضبط حجم الرموز في العرض. </item> <item> <emphasis> "
@@ -6046,7 +6046,7 @@ msgstr "اختر طقم محارف بعيد"
 #: views/dolphinremoteencoding.cpp:91
 #, kde-format
 msgid "Default"
-msgstr "الافتراضي"
+msgstr "المبدئي"
 
 #: views/dolphinremoteencoding.cpp:100
 #, kde-format
@@ -6473,7 +6473,7 @@ msgstr "هذا يزيد من حجم الأيقونة"
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
-msgstr "صفر مستوى التكبير"
+msgstr "صفّر مستوى التكبير"
 
 #: views/dolphinviewactionhandler.cpp:246
 #, kde-format
@@ -6484,7 +6484,7 @@ msgstr "صفّر إلى المبدئي"
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
-msgstr "هذا يصفر حجم الأيقونة إلى القيمة المبدئية"
+msgstr "هذا يصفّر حجم الأيقونة إلى القيمة المبدئية"
 
 #: views/dolphinviewactionhandler.cpp:253
 #, kde-format
