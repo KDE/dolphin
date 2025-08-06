@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-31 00:44+0000\n"
-"PO-Revision-Date: 2025-08-04 19:52+0400\n"
+"PO-Revision-Date: 2025-08-05 17:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -625,7 +625,7 @@ msgid ""
 "view."
 msgstr ""
 "هذا يفتح <emphasis> شريط المرشح </emphasis>في الجزء السفلي من النافذة.<nl/"
-">هناك يمكنك إدخال نص لترشيح الملفات والمجلدات المعروضة حاليًا. لن يتم عرض سوى "
+">هناك يمكنك إدخال نص لترشيح الملفات والمجلدات المعروضة حاليًا. لن يعرض سوى "
 "تلك التي تحتوي على النص في أسمائها."
 
 #: dolphinmainwindow.cpp:1873
@@ -779,10 +779,10 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
-"<para> يؤدي هذا إلى تحديث عرض المجلد. </para> <para> إذا تغيرت محتويات هذا "
-"المجلد،  فسيعيد التحديث مسح هذا المجلد ويعرض لك طريقة عرض تم تحديثها مؤخرًا "
-"للملفات والمجلدات الموجودة هنا. </para> <para> في حالة تقسيم العرض، يؤدي ذلك "
-"إلى تحديث العرض قيد التركيز حاليًا. </para>"
+"<para> يؤدي هذا إلى تحديث عرض المجلد. </para><para> إذا تغيرت محتويات هذا "
+"المجلد،  فسيعيد التحديث مسح هذا المجلد ويعرض لك الملفات والمجلدات الموجودة "
+"هنا. </para><para> في حالة تقسيم العرض، يؤدي ذلك إلى تحديث العرض قيد التركيز "
+"حاليًا. </para>"
 
 #: dolphinmainwindow.cpp:2006
 #, kde-format
@@ -1085,7 +1085,7 @@ msgstr ""
 "<para> هذا يبدل لوحة <emphasis> المعلومات </emphasis> في الجانب الأيمن من "
 "النافذة. </para> <para> توفر اللوحة معلومات متعمقة حول العناصر التي تحوم "
 "الفأرة فوقها أو حول العناصر المحددة . وإلا فإنه يعلمك بالمجلد المعروض حاليًا. "
-"<nl/> بالنسبة للعناصر الفردية ، يتم توفير معاينة لمحتوياتها. </para> "
+"<nl/> بالنسبة للعناصر الفردية ،ستُوفر معاينة لمحتوياتها. </para> "
 
 #: dolphinmainwindow.cpp:2310
 #, kde-kuit-format
@@ -1099,7 +1099,7 @@ msgid ""
 msgstr ""
 "<para>توفر هذه اللوحة معلومات متعمقة حول العناصر التي تحوم الفأرة فوقها أو "
 "حول العناصر المحددة. وإلا فإنه يعلمك بالمجلد المعروض حاليًا. <nl/> بالنسبة "
-"للعناصر الفردية ، يتم توفير معاينة لمحتوياتها. </para> <para> يمكنك تكوين أي "
+"للعناصر الفردية ستوفر معاينة لمحتوياتها. </para> <para> يمكنك ضبط أي "
 "التفاصيل وكيفية عرضها هنا بالنقر بزر الفأرة الأيمن. </para>"
 
 #: dolphinmainwindow.cpp:2319
@@ -1151,11 +1151,11 @@ msgid ""
 "learn more about terminals use the help features in a standalone terminal "
 "application like Konsole.</para>"
 msgstr ""
-"ت<para> هذه تبدل لوحة <emphasis> الطرفية </emphasis> في أسفل النافذة. "
-"سيتطابق الموقع في الطرفية مع موقع المجلد المعروض حتى تتمكن من التنقل "
-"باستخدام أيا منهما. </para> <para> اللوحة الطرفية ليست ضرورية للاستخدام "
-"الأساسي للحاسوب ولكنها يمكن أن تكون مفيدة للمهام المتقدمة. لمعرفة المزيد حول "
-"المحطات الطرفية ، استخدم المساعدة في تطبيق طرفي مستقل مثل كونسول. </para>"
+"<para> هذه تبدل لوحة <emphasis> الطرفية </emphasis> في أسفل النافذة. سيتطابق "
+"الموقع في الطرفية مع موقع المجلد المعروض حتى تتمكن من التنقل باستخدام أيا "
+"منهما. </para> <para> اللوحة الطرفية ليست ضرورية للاستخدام الأساسي للحاسوب "
+"ولكنها يمكن أن تكون مفيدة للمهام المتقدمة. لمعرفة المزيد حول المحطات "
+"الطرفية ، استخدم المساعدة في تطبيق طرفي مستقل مثل كونسول. </para>"
 
 #: dolphinmainwindow.cpp:2387
 #, kde-kuit-format
@@ -1634,9 +1634,8 @@ msgid ""
 "even set secondary languages which will be used if texts are not available "
 "in your preferred language."
 msgstr ""
-"باستخدام هذا يمكنك تغيير اللغة التي يستخدمها هذا التطبيق. <nl/> يمكنك حتى "
-"تعيين اللغات الثانوية التي سيتم استخدامها إذا كانت النصوص غير متوفرة بلغتك "
-"المفضلة."
+"باستخدام هذا يمكنك تغيير اللغة التي يستخدمها هذا التطبيق. <nl/>يمكنك حتى "
+"تعيين اللغات الثانوية التي ستُستخدم إذا كانت النصوص غير متوفرة بلغتك المفضلة."
 
 #: dolphinmainwindow.cpp:2930
 #, kde-kuit-format
@@ -3606,10 +3605,10 @@ msgstr ""
 "<para>للبحث في محتويات الملفات، يحاول <application>%1</application> استخدام "
 "أدوات بحث خارجية إذا كانت متوفرة على هذا النظام، ومن المتوقع أن تؤدي إلى "
 "نتائج أفضل أو أسرع. قد يُحسّن <application>ripgrep</application> "
-"و<application>ripgrep-all</application> تجربة البحث لديك إذا تم تثبيتهما. "
-"يُمكّن <application>ripgrep-all</application> تحديدًا البحث في أنواع ملفات أكثر "
-"(مثل pdf، docx، sqlite، jpg، ترجمات الأفلام (mkv، mp4)).</para><para>يمكن "
-"ضبط طريقة استدعاء أدوات البحث هذه بتعديل ملف نصي. انسخه من <filename>%2</"
+"و<application>ripgrep-all</application> تجربة البحث لديك إذا ثبتها. يُمكّن "
+"<application>ripgrep-all</application> تحديدًا البحث في أنواع ملفات أكثر (مثل "
+"pdf، docx، sqlite، jpg، ترجمات الأفلام (mkv، mp4)).</para><para>يمكن ضبط "
+"طريقة استدعاء أدوات البحث هذه بتعديل ملف نصي. انسخه من <filename>%2</"
 "filename> إلى <filename>%3</filename> قبل تعديل نسختك. في حال حدوث أي مشاكل، "
 "احذف نسختك <filename>%3</filename> للتراجع عن تغييراتك.</para>"
 
@@ -3695,16 +3694,15 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
-"يستخدم <para><application>%1</application> قاعدة بيانات للبحث. تُنشأ قاعدة "
+"<para>يستخدم <application>%1</application> قاعدة بيانات للبحث. تُنشأ قاعدة "
 "البيانات هذه بفهرسة ملفاتك في الخلفية بناءً على إعدادات <application>%1</"
 "application>.<list><item>يوفر <application>%1</application> نتائج سريعة "
 "للغاية.</item><item>يسمح بالبحث عن أنواع الملفات والتواريخ والوسوم، إلخ.</"
 "item><item>يبحث فقط في المجلدات المفهرسة. حدّد المجلدات التي يجب فهرستها في "
 "<application>إعدادات النظام</application>.</item><item>عندما تحتوي المواقع "
-"التي تم البحث فيها على روابط لملفات أو مجلدات أخرى، فلن يبحث عنها ولن تظهر "
-"في نتائج البحث.</item><item>قد لا يبحث عن الملفات والمجلدات المخفية "
-"ومحتوياتها أيضًا، وذلك حسب إعدادات <application>%1</application>.</item></"
-"list></para>"
+"المبحوث فيها على روابط لملفات أو مجلدات أخرى، فلن يبحث عنها ولن تظهر في "
+"نتائج البحث.</item><item>قد لا يبحث عن الملفات والمجلدات المخفية ومحتوياتها "
+"أيضًا، وذلك حسب إعدادات <application>%1</application>.</item></list></para>"
 
 #: search/popup.cpp:308
 #, kde-format
@@ -4101,9 +4099,9 @@ msgstr ""
 "<title>وضع التحديد</title><para>حدد الملفات أو المجلدات لإدارتها أو معالجتها."
 "<list><item>اضغط على ملف أو مجلد لتحديده.</item><item>اضغط على ملف أو مجلد "
 "محدد بالفعل لإلغاء تحديده.</item><item>لا يؤدي الضغط على منطقة فارغة إلى مسح "
-"التحديد.</item><item>تعكس مستطيلات التحديد (التي يتم إنشاؤها عن طريق السحب "
-"من منطقة فارغة) حالة تحديد العناصر الموجودة داخلها.</item><item>لا يؤدي "
-"التحرك باستخدام <shortcut>مفاتيح الأسهم</shortcut> إلى تغيير التحديد.</"
+"التحديد.</item><item>تعكس مستطيلات التحديد (المنشئة عن طريق السحب من منطقة "
+"فارغة) حالة تحديد العناصر الموجودة داخلها.</item><item>لا يؤدي التحرك "
+"باستخدام <shortcut>مفاتيح الأسهم</shortcut> إلى تغيير التحديد.</"
 "item><item>يؤدي الضغط على <shortcut>%1</shortcut> أو <shortcut>%2</shortcut> "
 "أو <shortcut>%3</shortcut> إلى تبديل التحديد.</item></list></"
 "para><para>تتغير أزرار الإجراءات المتوفرة في الأسفل وفقًا للتحديد الحالي.</"
@@ -4113,7 +4111,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "اخر من وضع التحديد"
+msgstr "اخرج من وضع التحديد"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:59
 #, kde-format
@@ -4483,7 +4481,7 @@ msgstr "الأدوار الظّاهرة"
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
-msgstr "عرض عواميد التّرويسة"
+msgstr "عرض أعمدة التّرويسة"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:76
@@ -5024,7 +5022,7 @@ msgctxt "@info"
 msgid ""
 "The location for the home folder is invalid or does not exist, it will not "
 "be applied."
-msgstr "موقع مجلد المنزل غير صالح أو غير موجود ولن يتم استخدامه."
+msgstr "موقع مجلد المنزل غير صالح أو غير موجود ولن تستخدم."
 
 #: settings/interface/interfacesettingspage.cpp:37
 #, kde-format
@@ -5146,7 +5144,7 @@ msgstr "للملفات من أي حجم"
 #, kde-format
 msgctxt "e.g. 'Show previews for [no file]'"
 msgid "no file"
-msgstr "للا شيء"
+msgstr "لا يوجد ملف"
 
 #: settings/interface/previewssettingspage.cpp:91
 #, kde-format
@@ -5989,10 +5987,10 @@ msgid ""
 msgstr ""
 "<para> هذا هو <emphasis> شريط الحالة </emphasis>. يحتوي على ثلاثة عناصر بشكل "
 "مبدئي (من اليسار إلى اليمين): <list> <item> <emphasis> حقل نصي </emphasis> "
-"يعرض حجم العناصر المحددة. إذا تم تحديد عنصر واحد فقط ، فسيتم عرض الاسم "
-"والنوع أيضًا. </item> <item> <emphasis> شريط تمرير التكبير / التصغير </"
-"emphasis> الذي يسمح لك بضبط حجم الرموز في العرض. </item> <item> <emphasis> "
-"معلومات المساحة </emphasis> حول جهاز التخزين الحالي. </item> </list> </para> "
+"يعرض حجم العناصر المحددة. إذا حُدد عنصر واحد فقط ، فسيُعرض الاسم والنوع أيضًا. "
+"</item> <item> <emphasis> شريط تمرير التكبير / التصغير </emphasis> الذي يسمح "
+"لك بضبط حجم الرموز في العرض. </item> <item> <emphasis> معلومات المساحة </"
+"emphasis> حول جهاز التخزين الحالي. </item> </list> </para> "
 
 #: statusbar/dolphinstatusbar.cpp:352
 #, kde-format
@@ -6383,9 +6381,9 @@ msgid ""
 "currently viewed folder instead.<nl/>You can configure advanced options "
 "there like managing read- and write-permissions."
 msgstr ""
-"يعرض هذا قائمة كاملة بخصائص العناصر المحددة حاليًا في نافذة جديدة. <nl/> إذا "
-"لم يتم تحديد أي شيء ، فستكون النافذة حول المجلد المعروض حاليًا بدلاً من ذلك. "
-"<nl/> يمكنك تكوين خيارات متقدمة هناك مثل إدارة القراءة- وأذونات الكتابة."
+"يعرض هذا قائمة كاملة بخصائص العناصر المحددة حاليًا في نافذة جديدة. <nl/>إذا "
+"لم تُحدد أي شيء ، فستكون النافذة حول المجلد المعروض حاليًا بدلاً من ذلك. <nl/"
+">يمكنك تكوين خيارات متقدمة هناك مثل إدارة القراءة- وأذونات الكتابة."
 
 #: views/dolphinviewactionhandler.cpp:159
 #, kde-format
@@ -6530,7 +6528,7 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
-"عند تمكين هذا ، تكون الأيقونات منسوخة من محتويات الملف أو المجلد الفعلي. <nl/"
+"عند تمكين هذا، تكون الأيقونات منسوخة من محتويات الملف أو المجلد الفعلي. <nl/"
 "> على سبيل المثال ، تصبح أيقونات الصور نسخًا مصغرة من الصور."
 
 #: views/dolphinviewactionhandler.cpp:271
