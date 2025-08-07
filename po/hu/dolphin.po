@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-02 10:15+0000\n"
-"PO-Revision-Date: 2025-07-28 22:26+0200\n"
+"PO-Revision-Date: 2025-08-06 22:59+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -3756,12 +3756,10 @@ msgid "<application>KFind</application> installed successfully."
 msgstr "A <application>Filelight</application> sikeresen telepítve."
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Filelight telepítése…"
+msgstr "KFind telepítése"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3806,9 +3804,7 @@ msgid "4 or more"
 msgstr "Négy vagy több"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3818,12 +3814,10 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " és "
 
 #: search/selectors/tagsselector.cpp:182
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
 msgstr "Nincs"
@@ -5245,12 +5239,10 @@ msgid "Disabled"
 msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Állapotsáv: "
+msgstr "Állapotsáv:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
