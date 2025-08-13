@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="3">
+<gui name="dolphin" version="4">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -76,6 +76,9 @@
             <Action name="manage_disk_space" />
             <Action name="compare_files" />
             <Action name="change_remote_encoding" />
+        </Menu>
+        <Menu name="settings">
+            <Action name="window_color_sheme"/>
         </Menu>
     </MenuBar>
     <State name="new_file" >

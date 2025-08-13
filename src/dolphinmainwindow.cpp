@@ -41,6 +41,7 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KColorSchemeManager>
+#include <KColorSchemeMenu>
 #include <KConfig>
 #include <KConfigGui>
 #include <KDesktopFile>
@@ -1580,6 +1581,8 @@ void DolphinMainWindow::updateHamburgerMenu()
     // The "Configure" menu is not added to the actionCollection() because there is hardly
     // a good reason for users to put it on their toolbar.
     auto configureMenu = menu->addMenu(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu menu for configure actions", "Configure"));
+    configureMenu->addAction(actionCollection()->action(QStringLiteral("window_color_sheme")));
+    configureMenu->addSeparator();
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
@@ -2245,6 +2248,15 @@ void DolphinMainWindow::setupActions()
     connect(openInSplitViewAction, &QAction::triggered, this, [this]() {
         openInSplitView(QUrl());
     });
+
+    // Window color scheme menu
+    auto *manager = KColorSchemeManager::instance();
+    KActionMenu *selectionMenu = KColorSchemeMenu::createMenu(manager, this);
+    auto windowColorSchemeMenu = new QAction(this);
+    windowColorSchemeMenu->setMenu(selectionMenu->menu());
+    windowColorSchemeMenu->menu()->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-color")));
+    windowColorSchemeMenu->menu()->setTitle(i18n("&Window Color Scheme"));
+    actionCollection()->addAction(QStringLiteral("window_color_sheme"), windowColorSchemeMenu);
 
     m_recentFiles = new KRecentFilesAction(this);
 }
