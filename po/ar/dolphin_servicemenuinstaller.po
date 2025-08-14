@@ -25,12 +25,12 @@ msgstr "فشل في تثبيت قائمة خدمات دولفين"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr "فشل في تثبيت \"%1\" ، خرج بحالة \"%2\""
+msgstr "فشل في تثبيت \"%1\"، خرج بحالة \"%2\""
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "فشل في إلغاء تثبيت \"%1\" ، خرج بحالة \"%2\""
+msgstr "فشل في إلغاء تثبيت \"%1\"، خرج بحالة \"%2\""
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
@@ -70,7 +70,7 @@ msgstr "فشل في تشغيل سكربت تثبيت  %1"
 #: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr "فشل في ضبط تصاريح %1: %2"
+msgstr "فشل في ضبط أذونات %1: %2"
 
 #: servicemenuinstaller.cpp:273
 #, kde-format
