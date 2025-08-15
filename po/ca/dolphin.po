@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-14 00:44+0000\n"
-"PO-Revision-Date: 2025-07-31 18:27+0200\n"
+"PO-Revision-Date: 2025-08-14 11:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1042,7 +1042,7 @@ msgstr "Obre en una vista dividida"
 #: dolphinmainwindow.cpp:2258
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "Esquema de color de les &finestres"
 
 #: dolphinmainwindow.cpp:2271
 #, kde-format

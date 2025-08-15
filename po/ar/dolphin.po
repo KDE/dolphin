@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-14 00:44+0000\n"
-"PO-Revision-Date: 2025-08-13 18:23+0400\n"
+"PO-Revision-Date: 2025-08-14 13:24+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "<para> كيفية استخدم صلاحيات مدير النظام في دولفين:"
 "<numberedlist><numbereditem>انتقل إلى الملف أو المجلد الذي تريد تغييره.</"
-"numbereditem><numbereditem>قم بتنشيط الإجراء \"%1\" إما ضمن <interface>فتح "
+"numbereditem><numbereditem> نشّط الإجراء \"%1\" إما ضمن <interface>فتح "
 "القائمة|المزيد|عرض</interface> أو <interface>شريط القائمة|عرض</interface>."
 "<nl/>الاختصار المبدئي: <shortcut>%2</shortcut></"
 "numbereditem><numbereditem>بعد أخذ الإذْن يمكنك إدارة الملفات كمدير نظام.</"
@@ -1225,10 +1225,10 @@ msgid ""
 "type.</para>"
 msgstr ""
 "<para> هذا يبدل لوحة <emphasis> الأماكن </emphasis> في الجانب الأيسر من "
-"النافذة. </para> <para> ويسمح لك بالذهاب إلى المواقع التي قمت بوضع إشارة "
-"مرجعية عليها والوصول إلى القرص أو الوسائط المتصلة بالحاسوب أو إلى الشبكة. "
-"يحتوي أيضًا على أقسام للعثور على الملفات أو الملفات المحفوظة مؤخرًا من نوع "
-"معين. </para>"
+"النافذة. </para> <para> ويسمح لك بالذهاب إلى المواقع التي وضعت إشارة مرجعية "
+"عليها والوصول إلى القرص أو الوسائط المتصلة بالحاسوب أو إلى الشبكة. يحتوي "
+"أيضًا على أقسام للعثور على الملفات أو الملفات المحفوظة مؤخرًا من نوع معين. </"
+"para>"
 
 #: dolphinmainwindow.cpp:2475
 #, kde-kuit-format
@@ -1245,10 +1245,10 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 "<para> هذه هي لوحة <emphasis> الأماكن </emphasis>. يسمح لك بالذهاب إلى "
-"المواقع التي قمت بوضع إشارة مرجعية عليها والوصول إلى القرص أو الوسائط "
-"المتصلة بالحاسوب أو بالشبكة. يحتوي أيضًا على أقسام للعثور على الملفات أو "
-"الملفات المحفوظة مؤخرًا من نوع معين. </para> <para> انقر فوق إدخال للذهاب إلى "
-"هناك. انقر بزر الفأرة الأيمن بدلاً من ذلك لفتح أي إدخال في لسان جديد أو نافذة "
+"المواقع التي وضعت إشارة مرجعية عليها والوصول إلى القرص أو الوسائط المتصلة "
+"بالحاسوب أو بالشبكة. يحتوي أيضًا على أقسام للعثور على الملفات أو الملفات "
+"المحفوظة مؤخرًا من نوع معين. </para> <para> انقر فوق إدخال للذهاب إلى هناك. "
+"انقر بزر الفأرة الأيمن بدلاً من ذلك لفتح أي إدخال في لسان جديد أو نافذة "
 "جديدة. </para> <para> يمكن إضافة إدخالات جديدة عن طريق سحب المجلدات إلى هذه "
 "اللوحة. انقر بزر الفأرة الأيمن فوق أي قسم أو إدخال لإخفائه. انقر بزر الفأرة "
 "الأيمن فوق مساحة فارغة في هذه اللوحة وحدد <interface> أظهر الملفات المخفية </"
@@ -4103,7 +4103,7 @@ msgid ""
 msgstr ""
 "<title>وضع التحديد</title><para>حدد الملفات أو المجلدات لإدارتها أو معالجتها."
 "<list><item>اضغط على ملف أو مجلد لتحديده.</item><item>اضغط على ملف أو مجلد "
-"محدد بالفعل لإلغاء تحديده.</item><item>لا يؤدي الضغط على منطقة فارغة إلى مسح "
+"محدد فعلًا لإلغاء تحديده.</item><item>لا يؤدي الضغط على منطقة فارغة إلى مسح "
 "التحديد.</item><item>تعكس مستطيلات التحديد (المنشئة عن طريق السحب من منطقة "
 "فارغة) حالة تحديد العناصر الموجودة داخلها.</item><item>لا يؤدي التحرك "
 "باستخدام <shortcut>مفاتيح الأسهم</shortcut> إلى تغيير التحديد.</"
@@ -4725,7 +4725,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:153
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr "قم أيضًا بإخفاء الملفات باستخدام نوع mimetype للتطبيق/x-trash"
+msgstr "أخفِ أيضًا الملفات باستخدام نوع mimetype للتطبيق/x-trash"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
 #: settings/dolphin_generalsettings.kcfg:157
@@ -4992,7 +4992,7 @@ msgstr "قسم العرض: "
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
-msgstr "انتقل بين العروض المنقسمة بواسطة مفتاح Tab"
+msgstr "انتقل بين العروض المنقسمة بواسطة مفتاح الجدولة"
 
 #: settings/interface/folderstabssettingspage.cpp:136
 #, kde-format
@@ -6569,7 +6569,7 @@ msgstr "أظهر في مجموعات"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
-msgstr "يقوم هذا بتجميع الملفات والمجلدات حسب الحرف الأول."
+msgstr "يجمع هذا الملفات والمجلدات حسب الحرف الأول."
 
 #: views/dolphinviewactionhandler.cpp:335
 #, kde-format
