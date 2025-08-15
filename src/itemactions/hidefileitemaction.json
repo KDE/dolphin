@@ -1,0 +1,10 @@
+{
+    "KPlugin": {
+        "Icon": "hide_table_row",
+        "MimeTypes": [
+            "application/octet-stream"
+        ],
+        "Name": "Hide"
+    },
+    "X-KDE-Show-In-Submenu": true
+}

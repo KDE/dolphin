@@ -300,7 +300,10 @@ void ContextMenuSettingsPage::loadServices()
     for (const auto &jsonMetadata : jsonPlugins) {
         const QString desktopEntryName = jsonMetadata.pluginId();
         if (!isInServicesList(desktopEntryName)) {
-            const bool checked = showGroup.readEntry(desktopEntryName, true);
+            bool checked = showGroup.readEntry(desktopEntryName, true);
+            if (!showGroup.hasKey(desktopEntryName) && desktopEntryName == QStringLiteral("hidefileitemaction")) {
+                checked = false;
+            }
             addRow(jsonMetadata.iconName(), jsonMetadata.name(), desktopEntryName, checked);
         }
     }
