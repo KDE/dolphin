@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
 "PO-Revision-Date: 2025-07-20 00:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -163,13 +163,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "위험성 경고를 다시 표시하지 않음"
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "휴지통 설정…"
+
+#: dolphincontextmenu.cpp:165
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -179,31 +185,31 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "이전 위치로 복원"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "새로 만들기"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "경로 열기"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "새 탭으로 경로 열기"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "새 창으로 경로 열기"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -3225,12 +3231,6 @@ msgstr "일시 정지"
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "위치 패널 아이콘 크기(-1: \"자동\")"
-
-#: panels/places/placespanel.cpp:53
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "휴지통 설정…"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format

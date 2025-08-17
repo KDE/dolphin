@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
 "PO-Revision-Date: 2024-07-13 22:07+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -146,13 +146,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "Ikkje åtvar meg om risikoen lenger"
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Tøm papirkorga"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "Set opp papirkorga …"
+
+#: dolphincontextmenu.cpp:165
 #, fuzzy, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -163,31 +169,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Vel heimeadresse"
 msgstr[1] "Vel heimeadresse"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Lag ny"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Opna adresse"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Opna adressa i ny fane"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Opna adressa i nytt vindauge"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -3263,12 +3269,6 @@ msgstr "pause"
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "Storleiken på ikon i Stadar-ruta («-1» tyder automatisk)"
-
-#: panels/places/placespanel.cpp:53
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "Set opp papirkorga …"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format

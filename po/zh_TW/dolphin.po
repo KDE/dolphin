@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
-"PO-Revision-Date: 2025-08-08 01:54+0900\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
+"PO-Revision-Date: 2025-08-16 14:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -174,13 +174,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "不要再警告我這些風險"
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "清空垃圾桶"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "設定垃圾桶…"
+
+#: dolphincontextmenu.cpp:165
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -190,31 +196,31 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "還原到原先的位置"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "建立新的"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "開啟路徑"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "在新分頁開啟路徑"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "在新視窗開啟路徑"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -996,7 +1002,7 @@ msgstr "用分割檢視開啟"
 #: dolphinmainwindow.cpp:2258
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "視窗配色(&W)"
 
 #: dolphinmainwindow.cpp:2271
 #, kde-format
@@ -3203,12 +3209,6 @@ msgstr "暫停"
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "書籤面板裡的圖示大小（-1 表示「自動」）"
-
-#: panels/places/placespanel.cpp:53
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "設定垃圾桶…"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
 "PO-Revision-Date: 2025-08-14 06:33+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -174,13 +174,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr "לא להזהיר אותי שוב על הסכנות האלו"
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "פינוי האשפה"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "הגדרת אשפה…"
+
+#: dolphincontextmenu.cpp:165
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -193,31 +199,31 @@ msgstr[1] "שחזור למקומות הקודמים"
 msgstr[2] "שחזור למקומות הקודמים"
 msgstr[3] "שחזור למקומות הקודמים"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "יצירת חדש"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "פתיחת נתיב"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "פתיחת הנתיב בלשונית חדשה"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "פתיחת הנתיב בחלון חדש"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -3284,12 +3290,6 @@ msgstr "השהיה"
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr "הגודל של הסמלים בלוח המקומות (‎-1 זה „אוטומטי”)"
-
-#: panels/places/placespanel.cpp:53
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "הגדרת אשפה…"
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format

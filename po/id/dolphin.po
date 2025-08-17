@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -150,13 +150,19 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Kosongkan Tong Sampah"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "Konfigurasikan Tong Sampah..."
+
+#: dolphincontextmenu.cpp:165
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -169,31 +175,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Pilih Lokasi Beranda"
 msgstr[1] "Pilih Lokasi Beranda"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Buat Baru"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Buka Alur"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Buka Alur di Tab Baru"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Buka Alur di jendela Baru"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -3475,12 +3481,6 @@ msgstr "jeda"
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "Ukuran ikon di Panel Tempat (-1 berarti \" menggunakan gaya ukuran kecil\")"
-
-#: panels/places/placespanel.cpp:53
-#, kde-format
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "Konfigurasikan Tong Sampah..."
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format

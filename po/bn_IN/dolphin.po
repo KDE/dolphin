@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 00:44+0000\n"
+"POT-Creation-Date: 2025-08-17 00:44+0000\n"
 "PO-Revision-Date: 2009-07-04 22:21+0530\n"
 "Last-Translator: Arindam Ghosh <arindam.foss@gmail.com>\n"
 "Language-Team: Bengali (India) <fedora-trans-bn_IN@redhat.com>\n"
@@ -143,13 +143,21 @@ msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
 msgstr ""
 
-#: dolphincontextmenu.cpp:125
+#: dolphincontextmenu.cpp:126
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "অাবর্জনার বাক্স খালি করা হবে"
 
-#: dolphincontextmenu.cpp:154
+#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Change Tags..."
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "ট্যাগ পরিবর্তন করুন..."
+
+#: dolphincontextmenu.cpp:165
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Navigation Bar"
 #| msgid "Replace Location"
@@ -162,13 +170,13 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "অবস্থান পরিবর্তন"
 msgstr[1] "অবস্থান পরিবর্তন"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1752
+#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "নতুন তৈরি করুন"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:234
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -176,19 +184,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "পেস্ট"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr ""
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:250
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr ""
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:500
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -3289,14 +3297,6 @@ msgstr ""
 #, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
-
-#: panels/places/placespanel.cpp:53
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Change Tags..."
-msgctxt "@action:inmenu"
-msgid "Configure Trash…"
-msgstr "ট্যাগ পরিবর্তন করুন..."
 
 #: panels/terminal/terminalpanel.cpp:185
 #, kde-format
