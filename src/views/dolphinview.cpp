@@ -2247,7 +2247,7 @@ void DolphinView::applyDynamicView()
 
     for (const auto &file : itemList) {
         ++checkedItems;
-        const QString type = file.mimetype().slice(0, 5);
+        const QString type = file.mimetype().sliced(0, 5);
 
         if (type == "image" || type == "video") {
             ++imageAndVideoCount;
