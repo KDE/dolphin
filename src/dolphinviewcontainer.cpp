@@ -784,7 +784,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
     // executable scripts
     auto mimeType = item.currentMimeType();
     if (item.isLocalFile() && mimeType.inherits(QStringLiteral("application/x-executable")) && mimeType.inherits(QStringLiteral("text/plain"))
-        && QFileInfo(item.localPath()).isExecutable()) {
+        && item.isExecutable()) {
         KConfigGroup cfgGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), QStringLiteral("Executable scripts"));
         const QString value = cfgGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
 
