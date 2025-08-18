@@ -628,9 +628,7 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = selectionRectFull().toRect();
-    QPainterPath path;
-    path.addRoundedRect(selectionRectFull().adjusted(penWidth, penWidth, -penWidth, -penWidth), roundness, roundness);
+    viewItemOption.rect = selectionRectFull().toAlignedRect();
     QColor backgroundColor{widget->palette().color(QPalette::Accent)};
     painter->setRenderHint(QPainter::Antialiasing);
     bool current = m_current && styleState & QStyle::State_Active;
@@ -652,10 +650,15 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
         }
     }
 
-    painter->fillPath(path, backgroundColor);
+    painter->setPen(Qt::transparent);
+    painter->setBrush(backgroundColor);
 
     // Focus decoration
     if (current) {
+        // Test if we have focus indicator
+        QStyleOptionFocusRect focusOption;
+        focusOption.initFrom(widget);
+
         QColor focusColor{widget->palette().color(QPalette::Accent)};
         focusColor = m_styleOption.palette.color(QPalette::Base).lightnessF() > 0.5 ? focusColor.darker(110) : focusColor.lighter(110);
         focusColor.setAlphaF(m_selected || m_hovered ? 0.8 : 0.6);
@@ -663,8 +666,8 @@ void KItemListWidget::drawItemStyleOption(QPainter *painter, QWidget *widget, QS
         QPen pen{focusColor, penWidth};
         pen.setCosmetic(true);
         painter->setPen(pen);
-        painter->drawPath(path);
     }
+    painter->drawRoundedRect(viewItemOption.rect, roundness, roundness);
 }
 
 #include "moc_kitemlistwidget.cpp"
