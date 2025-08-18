@@ -999,7 +999,7 @@ msgstr "在拆分视图中打开"
 #: dolphinmainwindow.cpp:2258
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "窗口配色方案(&W)"
 
 #: dolphinmainwindow.cpp:2271
 #, kde-format
