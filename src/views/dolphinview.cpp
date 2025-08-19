@@ -2247,7 +2247,11 @@ void DolphinView::applyDynamicView()
 
     for (const auto &file : itemList) {
         ++checkedItems;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+        const QString type = file.mimetype().slice(0, 5);
+#else
         const QString type = file.mimetype().sliced(0, 5);
+#endif
 
         if (type == "image" || type == "video") {
             ++imageAndVideoCount;
