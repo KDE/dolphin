@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-17 00:44+0000\n"
+"POT-Creation-Date: 2025-08-20 00:46+0000\n"
 "PO-Revision-Date: 2010-01-28 23:53+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -6473,83 +6473,83 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Локацијата „%1“ не е валидна."
 
-#: views/dolphinview.cpp:2421
+#: views/dolphinview.cpp:2425
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "Вчитувам папка..."
 
-#: views/dolphinview.cpp:2450
+#: views/dolphinview.cpp:2454
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Вчитувам папка..."
 
-#: views/dolphinview.cpp:2452
+#: views/dolphinview.cpp:2456
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Изберете ги сите елементи што одговараат на овој шаблон:"
 
-#: views/dolphinview.cpp:2454
+#: views/dolphinview.cpp:2458
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Изберете ги сите елементи што одговараат на овој шаблон:"
 
-#: views/dolphinview.cpp:2456
+#: views/dolphinview.cpp:2460
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Локацијата е празна."
 
-#: views/dolphinview.cpp:2459
+#: views/dolphinview.cpp:2463
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2462
+#: views/dolphinview.cpp:2466
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2466
+#: views/dolphinview.cpp:2470
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Скорешни затворени ливчиња"
 
-#: views/dolphinview.cpp:2468
+#: views/dolphinview.cpp:2472
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2470
+#: views/dolphinview.cpp:2474
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2472
+#: views/dolphinview.cpp:2476
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2474
+#: views/dolphinview.cpp:2478
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Не се пронајдени ставки."
 
-#: views/dolphinview.cpp:2476
+#: views/dolphinview.cpp:2480
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2478
+#: views/dolphinview.cpp:2482
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
