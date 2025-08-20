@@ -90,13 +90,20 @@ void DolphinTabWidget::saveProperties(KConfigGroup &group) const
 
 void DolphinTabWidget::readProperties(const KConfigGroup &group)
 {
+    if (m_lastViewedTab) {
+        m_lastViewedTab->disconnectNavigators();
+        m_lastViewedTab = nullptr;
+    }
     const int tabCount = group.readEntry("Tab Count", 0);
     for (int i = 0; i < tabCount; ++i) {
         if (i >= count()) {
             openNewActivatedTab();
         }
         const QByteArray state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
-        tabPageAt(i)->restoreState(state);
+        DolphinTabPage *tabPage = tabPageAt(i);
+        tabPage->connectNavigators(m_navigatorsWidget);
+        tabPage->restoreState(state);
+        tabPage->disconnectNavigators();
     }
 
     const int index = group.readEntry("Active Tab Index", 0);
