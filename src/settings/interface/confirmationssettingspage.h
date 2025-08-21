@@ -46,6 +46,7 @@ private:
     QCheckBox *m_confirmOpenManyFolders;
     QCheckBox *m_confirmOpenManyTerminals;
     QCheckBox *m_confirmRisksOfActingAsAdmin;
+    QCheckBox *m_confirmRenameFileType = nullptr;
 };
 
 #endif

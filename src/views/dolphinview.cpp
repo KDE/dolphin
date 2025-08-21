@@ -44,10 +44,12 @@
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/RenameFileDialog>
+#include <KIconUtils>
 #include <KJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMessageDialog>
 #include <KProtocolManager>
 #include <KUrlMimeData>
 
@@ -2057,8 +2059,54 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
                 if (code == KMessageBox::SecondaryAction) {
                     return;
                 }
-            }
+            } else
 #endif
+                // Confirm potentially changing the file type.
+                if (GeneralSettings::confirmRenameFileType() && oldItem.isFile() && oldItem.isLocalFile() && !oldItem.isSlow() && oldItem.isMimeTypeKnown()) {
+                    QMimeDatabase db;
+                    const QMimeType oldMimeType = db.mimeTypeForName(oldItem.mimetype());
+
+                    // Guess what the new file type would be.
+                    // We have to also read the file as its new type could be auto-determined from content.
+                    QFile oldFile(oldItem.localPath());
+                    const QMimeType newMimeType = db.mimeTypeForFileNameAndData(newName, &oldFile);
+
+                    if (oldMimeType.isValid() && !oldMimeType.isDefault() && newMimeType.isValid() && newMimeType != oldMimeType) {
+                        const KGuiItem yesGuiItem(i18nc("@action:button", "Rename"), QStringLiteral("edit-rename"));
+
+                        const QIcon mimeTypeIcon = QIcon::fromTheme(newMimeType.iconName(), QIcon::fromTheme(QStringLiteral("unknown")));
+                        // emblem-warning is non-standard, fall back to emblem-important if necessary.
+                        const QIcon warningBadge = QIcon::fromTheme(QStringLiteral("emblem-warning"), QIcon::fromTheme(QStringLiteral("emblem-important")));
+
+                        const QIcon messageBoxIcon =
+                            KIconUtils::addOverlay(mimeTypeIcon, warningBadge, isRightToLeft() ? Qt::BottomLeftCorner : Qt::BottomRightCorner);
+
+                        const QString prompt = newMimeType.isDefault() ? i18n(
+                                                                             "This will make the file type unknown.\n"
+                                                                             "The file's content won't change but applications may no longer recognize it.\n"
+                                                                             "Do you still want to rename it?")
+                                                                       : i18n(
+                                                                             "This will change the file type from \"%1\" to \"%2\".\n"
+                                                                             "The file's content won't change but applications may no longer recognize it.\n"
+                                                                             "Do you still want to rename it?",
+                                                                             oldMimeType.comment(),
+                                                                             newMimeType.comment());
+                        auto *dialog = new KMessageDialog(KMessageDialog::QuestionTwoActions, prompt, this);
+                        dialog->setWindowTitle(i18nc("@title:window", "Change File Type"));
+                        dialog->setButtons(yesGuiItem, KStandardGuiItem::cancel());
+                        dialog->setIcon(messageBoxIcon);
+                        dialog->setDontAskAgainText(i18n("Do not ask again"));
+
+                        if (dialog->exec() != KMessageDialog::PrimaryAction) {
+                            return;
+                        }
+
+                        if (dialog->isDontAskAgainChecked()) {
+                            GeneralSettings::setConfirmRenameFileType(false);
+                            GeneralSettings::self()->save();
+                        }
+                    }
+                }
 
             KIO::Job *job = KIO::moveAs(oldUrl, newUrl);
             KJobWidgets::setWindow(job, this);
