@@ -167,5 +167,9 @@
             <label>Ask for confirmation when opening many terminals at once.</label>
             <default>true</default>
         </entry>
+        <entry name="ConfirmRenameFileType" type="Bool">
+            <label>Ask for confirmation when remaing a file changes its type.</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>
