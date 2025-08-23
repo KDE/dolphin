@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-14 02:50+0000\n"
-"PO-Revision-Date: 2025-05-20 16:38+0300\n"
+"PO-Revision-Date: 2025-08-22 17:20+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -669,7 +669,7 @@ msgid "Search for files and folders"
 msgstr "Поиск файлов и папок"
 
 #: dolphinmainwindow.cpp:1886
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
 "<para>This helps you find files and folders by opening a <emphasis>search "
@@ -678,9 +678,7 @@ msgid ""
 msgstr ""
 "<para>Этот инструмент служит для поиска файлов и папок с помощью "
 "<emphasis>панели поиска</emphasis>. В панели поиска возможно задавать "
-"условия и параметры поиска нужных объектов.</para><para>Для получения "
-"дополнительной информации о параметрах поиска используйте вызов справки из "
-"панели поиска.</para>"
+"условия и параметры поиска нужных объектов.</para>"
 
 #: dolphinmainwindow.cpp:1895
 #, kde-format
@@ -916,7 +914,7 @@ msgstr "Сравнить файлы"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Управление использованием дискового пространства"
 
 #: dolphinmainwindow.cpp:2118
 #, kde-kuit-format
@@ -1532,7 +1530,7 @@ msgid ""
 msgstr ""
 "<para>Это <emphasis>Панель инструментов</emphasis>. Панель предназначена для "
 "быстрого выполнения часто используемых действий.</para><para>Панель может "
-"быть настроена: на панели могут быть размещены любые элементы, доступные в  "
+"быть настроена: на панели могут быть размещены любые элементы, доступные в "
 "<interface>Меню</interface> и в <interface>Строке меню</interface>. Для "
 "добавления элементов предназначен диалог, вызываемый выбором пункта "
 "<interface>Панели инструментов…</interface>. Этот пункт доступен в "
@@ -1644,7 +1642,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 "<para>Это кнопка вызова той самой возможности получения справки, которая "
-"используется прямо сейчас! Нажмите её, а затем щёлкните по любому компоненту "
+"используется прямо сейчас. Нажмите её, а затем щёлкните по любому компоненту "
 "приложения, чтобы получить ответ на вопрос «Что это?». Указатель мыши станет "
 "выглядеть по-другому, если для выбранного компонента нет справочной "
 "информации.</para><para>Доступны два источника справочной информации: <link "
@@ -2142,55 +2140,49 @@ msgid "Move to New Folder…"
 msgstr "Переместить в новую папку…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Другое"
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "Открывать папки при перетаскивании"
+msgstr "Прочие параметры значка папки"
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "Обновить"
+msgstr "Красный"
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "Жёлтый"
 
 #: itemactions/setfoldericonitemaction.cpp:190
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "Оранжевый"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Зелёный"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "Бирюзовый"
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "По умолчанию"
@@ -2199,99 +2191,91 @@ msgstr "По умолчанию"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "Синий"
 
 #: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "Фиолетовый"
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "Просмотр: "
+msgstr "Коричневый"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Серый"
 
 #: itemactions/setfoldericonitemaction.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "&Закладки"
+msgstr "Закладка"
 
 #: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Облако"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "Разработчик"
+msgstr "Разработка"
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "Игры"
 
 #: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Почта"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "Музыка"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "Печать"
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "Сравнить файлы"
+msgstr "Сжатая"
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Временная"
 
 #: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "Важное"
 
 #: itemactions/setfoldericonitemaction.cpp:233
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Задать значок папки: %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -2451,7 +2435,7 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr "«%1», «%2», «%3» , «%4» и «%5»"
+msgstr "«%1», «%2», «%3», «%4» и «%5»"
 
 #: kitemviews/kfileitemlisttostring.cpp:65
 #, kde-format
@@ -3521,7 +3505,7 @@ msgstr "Ограничить область поиска папкой «%1» и 
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Поиска по всем папкам начиная с корневой."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3533,6 +3517,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Поиск по всем проиндексированным местоположениям.<nl/><nl/>\n"
+"Для управления списком индексируемых папок используйте <interface>Параметры "
+"системы|Рабочая среда|Поиск</interface>"
 
 #: search/chip.cpp:22
 #, kde-format
@@ -3559,12 +3546,12 @@ msgid "SearchTool"
 msgstr "Поиск"
 
 #: search/dolphinquery.cpp:383
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "Поиск %1 в %2"
+msgstr "Результаты поиска «%1» в %2"
 
 #: search/dolphinquery.cpp:389
 #, kde-format
@@ -3572,15 +3559,15 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Файлы, содержащие «%1» в %2"
 
 #: search/dolphinquery.cpp:396
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "Поиск %1 в %2"
+msgstr "Поиск объектов с отметкой «%1» в %2"
 
 #: search/dolphinquery.cpp:401
 #, kde-format
@@ -3588,15 +3575,15 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "Поиск объектов с отметкой «%1» и «%2» в %3"
 
 #: search/dolphinquery.cpp:408
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "Поиск %1 в %2"
+msgstr "%1, найденные в %2"
 
 #: search/dolphinquery.cpp:414
 #, kde-format
@@ -3622,13 +3609,13 @@ msgstr "Файлы, содержащие «%1»"
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "Поиск объектов с отметкой «%1»"
 
 #: search/dolphinquery.cpp:434
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "Поиск объектов с отметкой «%1» и «%2»"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3637,7 +3624,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "Поиск объектов с типом «%1»"
 
 #: search/dolphinquery.cpp:445
 #, kde-format
@@ -3727,7 +3714,7 @@ msgstr "Метки:"
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "Расширенные варианты поиска:"
 
 #: search/popup.cpp:277
 #, kde-kuit-format
@@ -3737,6 +3724,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Поиск в <filename>%1</filename> с использованием <application>%2</"
+"application> сейчас недоступен, так как приложение <application>%2</"
+"application> настроено таким образом, что не выполняет индексирование в этом "
+"расположении.</para>"
 
 #: search/popup.cpp:284
 #, kde-kuit-format
@@ -3746,6 +3737,10 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Поиск содержимого с использованием <application>%1</application> "
+"сейчас недоступен, так как приложение <application>%1</application> "
+"настроено таким образом, что не выполняет индексирование содержимого файлов."
+"</para>"
 
 #: search/popup.cpp:293
 #, kde-format
@@ -3874,10 +3869,10 @@ msgid " && "
 msgstr " && "
 
 #: search/selectors/tagsselector.cpp:182
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr "Нет"
+msgstr "Отсутствует"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
@@ -4316,11 +4311,9 @@ msgstr "Просмотр прав доступа"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Режим выделения"
+msgstr "Режим сокращения"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -4580,7 +4573,7 @@ msgstr "Время последнего изменения свойств"
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "Однократно включён динамический режим просмотра"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4812,7 +4805,7 @@ msgstr "Также скрывать файлы, имеющие MIME-тип appli
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Включить динамический режим просмотра"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5444,21 +5437,19 @@ msgstr "Просмотр прав доступа:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Сокращать в середине (пример: «Файл с очень… именем.txt»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Сокращать в середине (пример: «Файл с очень длинным….txt»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Именам файлов"
+msgstr "Длинные имена файлов:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -5519,6 +5510,8 @@ msgstr ""
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"Использовать режим просмотра «Значки» для расположений, в которых в основном "
+"расположены медиафайлы"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
@@ -6723,7 +6716,7 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
-"Эта действие переключает все режимы отображения по кругу. Выпадающее меню "
+"Это действие переключает все режимы отображения по кругу. Выпадающее меню "
 "содержит различные действия, связанные с режимом просмотра."
 
 #: views/dolphinviewactionhandler.cpp:678
@@ -6860,15 +6853,13 @@ msgid "Updating version information…"
 msgstr "Обновление информации о версиях…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Масштаб"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Масштаб"
