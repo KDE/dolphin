@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-20 00:46+0000\n"
-"PO-Revision-Date: 2025-01-27 15:56+0200\n"
+"PO-Revision-Date: 2025-08-23 00:27+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1382,9 +1382,7 @@ msgid "Close left view"
 msgstr "Užverti kairįjį rodinį"
 
 #: dolphinmainwindow.cpp:2751
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Užverti kairįjį rodinį"
@@ -1414,9 +1412,7 @@ msgid "Close right view"
 msgstr "Užverti dešinįjį rodinį"
 
 #: dolphinmainwindow.cpp:2759
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Užverti dešinįjį rodinį"
@@ -1852,22 +1848,16 @@ msgid "Close Tab"
 msgstr "Užverti kortelę"
 
 #: dolphintabbar.cpp:161
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
-msgstr "Pervadinti %2"
+msgstr "Pervadinti kortelę"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Rename %2"
-#| msgid_plural "Rename %2"
+#, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
-msgstr "Pervadinti %2"
+msgstr "Pervadinti kortelę"
 
 #: dolphintabbar.cpp:180
 #, fuzzy, kde-format
@@ -1880,11 +1870,10 @@ msgstr "Naujas pavadinimas #"
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
 #. mode bars, so calling it just a "View" is a bit wrong, but hopefully still gets the point across.
 #: dolphintabwidget.cpp:53
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgctxt "accessible name of Dolphin's view container"
 msgid "Location View"
-msgstr "Vieta"
+msgstr "Vietos rodinys"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -2015,12 +2004,10 @@ msgid "Create the folder at this path and open it"
 msgstr ""
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Negalima įdėti: Jūs neturite leidimo rašyti į šį aplanką."
+msgstr "Jūs neturite leidimo sukurti aplanką"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
@@ -2053,55 +2040,49 @@ msgid "Move to New Folder…"
 msgstr "Perkelti į naują aplanką…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Kita"
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "Tempimo operacijų metu, atverti aplankus"
+msgstr "Kitos aplanko piktogramos parinktys"
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "Įkelti iš naujo"
+msgstr "Raudona"
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "Geltona"
 
 #: itemactions/setfoldericonitemaction.cpp:190
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "Oranžinė"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Žalia"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "Žydra"
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Numatytoji"
@@ -2110,27 +2091,25 @@ msgstr "Numatytoji"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "Mėlyna"
 
 #: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "Violetinė"
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "Naršymas: "
+msgstr "Ruda"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Pilka"
 
 #: itemactions/setfoldericonitemaction.cpp:202
 #, fuzzy, kde-format
@@ -2144,7 +2123,7 @@ msgstr "Ž&ymelės"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Debesija"
 
 #: itemactions/setfoldericonitemaction.cpp:204
 #, fuzzy, kde-format
@@ -2158,25 +2137,25 @@ msgstr "Programuotojas"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "Žaidimai"
 
 #: itemactions/setfoldericonitemaction.cpp:206
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Paštas"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "Muzika"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "Spausdinti"
 
 #: itemactions/setfoldericonitemaction.cpp:209
 #, fuzzy, kde-format
@@ -2190,19 +2169,19 @@ msgstr "Palyginti failus"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Laikina"
 
 #: itemactions/setfoldericonitemaction.cpp:211
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "Svarbu"
 
 #: itemactions/setfoldericonitemaction.cpp:233
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Nustatyti aplanko piktogramą į %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, fuzzy, kde-format
@@ -3595,20 +3574,16 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Konfigūruoti…"
+msgstr "Konfigūruoti %1…"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "&Edit File Type…"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "&Taisyti failo tipą…"
+msgstr "Failo tipas:"
 
 #: search/popup.cpp:217
 #, fuzzy, kde-format
@@ -3619,12 +3594,10 @@ msgid "Modified since:"
 msgstr "Pakeista"
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
-msgstr "Įvertinimas"
+msgstr "Įvertinimas:"
 
 #: search/popup.cpp:234
 #, fuzzy, kde-format
@@ -3698,35 +3671,28 @@ msgid "File contents"
 msgstr "Failo prievardis"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Atverti %1"
 
 #: search/popup.cpp:333
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Install Filelight…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Įdiegti Filelight…"
+msgstr "Įdiegti K paiešką…"
 
 #: search/popup.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "<application>Filelight</application> installed successfully."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr "<application>Filelight</application> sėkmingai įdiegta."
+msgstr "<application>K paieška</application> sėkmingai įdiegta."
 
 #: search/popup.cpp:369
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Installing Filelight…"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Įdiegiama Filelight…"
+msgstr "Įdiegiama K paieška"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3771,9 +3737,7 @@ msgid "4 or more"
 msgstr "4 ar daugiau"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -4296,17 +4260,15 @@ msgstr "Stulpelių pozicijos"
 
 #. i18n: ectx: label, entry (LeftPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Left side padding"
-msgstr "Šoninis užpildas"
+msgstr "Kairiojo šono užpildas"
 
 #. i18n: ectx: label, entry (RightPadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
-#, fuzzy, kde-format
-#| msgid "Side Padding"
+#, kde-format
 msgid "Right side padding"
-msgstr "Šoninis užpildas"
+msgstr "Dešiniojo šono užpildas"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4488,7 +4450,7 @@ msgstr "Papildoma informacija"
 
 #. i18n: ectx: label, entry (DoubleClickViewAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select Action"
 msgstr "Pasirinkti veiksmą"
 
@@ -4659,11 +4621,9 @@ msgstr "Naudoti automatiškai išskleidžiamus aplankus visų tipų rodiniams"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Būsenos juosta: "
+msgstr "Būsenos juosta"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -5180,12 +5140,10 @@ msgid "Disabled"
 msgstr ""
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr "Būsenos juosta: "
+msgstr "Būsenos juosta:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -6280,12 +6238,10 @@ msgid "Create Folder…"
 msgstr "Sukurti aplanką…"
 
 #: views/dolphinviewactionhandler.cpp:89
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Sukurti aplanką…"
+msgstr "Sukurti failą…"
 
 #: views/dolphinviewactionhandler.cpp:98
 #, kde-kuit-format
@@ -6412,12 +6368,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:221
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Rodinio veiksena"
+msgstr "Keisti rodinio veikseną"
 
 #: views/dolphinviewactionhandler.cpp:222
 #, kde-kuit-format
