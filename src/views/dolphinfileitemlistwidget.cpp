@@ -89,6 +89,7 @@ void DolphinFileItemListWidget::refreshCache()
 
     setOverlays(overlays);
     setTextColor(color);
+    setProperty(QByteArrayLiteral("iconSize"), styleOption().iconSize);
 }
 
 QString DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version) const
