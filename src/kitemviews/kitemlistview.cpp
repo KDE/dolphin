@@ -1983,7 +1983,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
         const int newIconSize = widget->styleOption().iconSize;
         if (widget->iconSize() != newIconSize) {
-            if (animateIconResizing) {
+            if (animateIconResizing && !m_animation->isStarted(widget, KItemListViewAnimation::IconResizeAnimation)) {
                 m_animation->start(widget, KItemListViewAnimation::IconResizeAnimation, newIconSize);
             } else {
                 widget->setIconSize(newIconSize);
