@@ -353,7 +353,7 @@ void KStandardItemListWidget::paint(QPainter *painter, const QStyleOptionGraphic
         const KItemListStyleOption &option = styleOption();
         const qreal padding = option.padding;
 
-        const int widgetIconSize = iconSize();
+        const int widgetIconSize = styleOption().iconSize;
         const int maxIconWidth = iconOnTop ? size().width() - 2 * padding : widgetIconSize;
         const int maxIconHeight = widgetIconSize;
 
@@ -572,7 +572,7 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
 {
     const_cast<KStandardItemListWidget *>(this)->triggerCacheRefreshing();
 
-    const int widgetIconSize = iconSize();
+    const int widgetIconSize = styleOption().iconSize;
     int toggleSize = KIconLoader::SizeSmall;
     if (widgetIconSize >= KIconLoader::SizeEnormous) {
         toggleSize = KIconLoader::SizeMedium;
@@ -1022,7 +1022,7 @@ void KStandardItemListWidget::updateExpansionArea()
         const QHash<QByteArray, QVariant> values = data();
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
-            const int widgetIconSize = iconSize();
+            const int widgetIconSize = styleOption().iconSize;
             const qreal widgetHeight = size().height();
             const qreal inc = (widgetHeight - widgetIconSize) / 2;
             const qreal x = expandedParentsCount * widgetHeight + inc;
@@ -1052,7 +1052,7 @@ void KStandardItemListWidget::updatePixmapCache()
     const qreal padding = option.padding;
     const qreal dpr = KItemViewsUtils::devicePixelRatio(this);
 
-    const int widgetIconSize = iconSize();
+    const int widgetIconSize = option.iconSize;
     const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : widgetIconSize;
     const int maxIconHeight = widgetIconSize;
 
@@ -1351,7 +1351,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
 
     // Use one line for each additional information
     nameTextInfo->staticText.setTextWidth(maxWidth);
-    nameTextInfo->pos = QPointF(padding, iconSize() + 2 * padding);
+    nameTextInfo->pos = QPointF(padding, styleOption().iconSize + 2 * padding);
     m_textRect = QRectF(padding + (maxWidth - nameWidth) / 2, nameTextInfo->pos.y(), nameWidth, nameHeight);
 
     // Calculate the position for each additional information
@@ -1419,9 +1419,9 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * lineSpacing;
 
     qreal maximumRequiredTextWidth = 0;
-    const qreal x = QApplication::isRightToLeft() ? option.padding : option.padding * 3 + iconSize();
+    const qreal x = QApplication::isRightToLeft() ? option.padding : option.padding * 3 + styleOption().iconSize;
     qreal y = qRound((widgetHeight - textLinesHeight) / 2);
-    const qreal maxWidth = size().width() - iconSize() - 4 * option.padding;
+    const qreal maxWidth = size().width() - styleOption().iconSize - 4 * option.padding;
     for (const QByteArray &role : std::as_const(m_sortedVisibleRoles)) {
         const QString text = escapeString(roleText(role, values));
         TextInfo *textInfo = m_textInfo.value(role);
@@ -1469,7 +1469,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     const int fontHeight = m_customizedFontMetrics.height();
 
     const qreal columnWidthInc = columnPadding(option);
-    qreal firstColumnInc = iconSize();
+    qreal firstColumnInc = styleOption().iconSize;
     if (m_supportsItemExpanding) {
         firstColumnInc += isLeftToRight ? (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2
                                         : ((size().width() - m_expansionArea.left()) + (size().width() - m_expansionArea.right()) + widgetHeight) / 2;
