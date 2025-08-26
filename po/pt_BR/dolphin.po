@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-20 00:46+0000\n"
-"PO-Revision-Date: 2025-08-13 23:32-0300\n"
+"PO-Revision-Date: 2025-08-25 00:17-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4834,7 +4834,7 @@ msgstr "Mover arquivos ou pastas para a Lixeira"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
-msgstr "Esvaziando a Lixeira"
+msgstr "Esvaziar a Lixeira"
 
 #: settings/interface/confirmationssettingspage.cpp:53
 #, kde-format
@@ -4864,13 +4864,13 @@ msgstr "Fechar as janelas com um programa em execução no painel do terminal"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many folders at once"
-msgstr "Abrindo muitas pastas de uma vez"
+msgstr "Abrir muitas pastas de uma vez"
 
 #: settings/interface/confirmationssettingspage.cpp:66
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr "Abrindo muitos terminais de uma vez"
+msgstr "Abrir muitos terminais de uma vez"
 
 #: settings/interface/confirmationssettingspage.cpp:67
 #, kde-format
@@ -5414,8 +5414,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
-"Algumas vistas especiais como Procurar, Arquivos Recentes ou Lixeira ainda "
-"utilizarão um estilo de exibição personalizado."
+"Algumas exibições especiais como Procurar, Arquivos Recentes ou Lixeira "
+"ainda utilizarão um estilo de exibição personalizado."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:42
 #, kde-format
@@ -5712,7 +5712,7 @@ msgstr "Largura máxima:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
-msgstr "Expansível"
+msgstr "Expansíveis"
 
 #: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
@@ -5730,7 +5730,7 @@ msgstr "Ao clicar em qualquer lugar na linha"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Clicando no ícone ou nome"
+msgstr "Ao clicar no ícone ou nome"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:106
