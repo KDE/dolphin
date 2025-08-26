@@ -137,15 +137,12 @@ DolphinUrlNavigator *DolphinNavigatorsWidgetAction::secondaryUrlNavigator() cons
 
 void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
 {
+    setSplitterMargins(visible);
     if (visible) {
         Q_ASSERT(m_splitter->count() == 2);
-        m_splitter->widget(0)->setContentsMargins(0, 0, m_splitter->style()->pixelMetric(QStyle::PM_LayoutRightMargin), 0);
-        m_splitter->widget(1)->setContentsMargins(m_splitter->style()->pixelMetric(QStyle::PM_LayoutLeftMargin), 0, 0, 0);
         m_splitter->widget(1)->setVisible(true);
     } else if (m_splitter->count() > 1) {
         m_splitter->widget(1)->setVisible(false);
-        m_splitter->widget(0)->setContentsMargins(0, 0, 0, 0);
-        m_splitter->widget(1)->setContentsMargins(0, 0, 0, 0);
         // Fix an unlikely event of wrong trash button visibility.
         emptyTrashButton(Secondary)->setVisible(false);
     }
@@ -189,25 +186,42 @@ void DolphinNavigatorsWidgetAction::deleteWidget(QWidget *widget)
     m_splitter->setParent(nullptr);
 }
 
+void DolphinNavigatorsWidgetAction::setSplitterMargins(bool splitViewVisible) const
+{
+    if (splitViewVisible) {
+        Q_ASSERT(m_splitter->count() == 2);
+        if (primaryUrlNavigator() && primaryUrlNavigator()->isBackgroundEnabled()) {
+            m_splitter->widget(0)->setContentsMargins(0, 0, m_splitter->style()->pixelMetric(QStyle::PM_LayoutRightMargin), 0);
+            m_splitter->widget(1)->setContentsMargins(m_splitter->style()->pixelMetric(QStyle::PM_LayoutLeftMargin), 0, 0, 0);
+        } else {
+            m_splitter->widget(0)->setContentsMargins(0, 0, 0, 0);
+            m_splitter->widget(1)->setContentsMargins(0, 0, 0, 0);
+        }
+    } else if (m_splitter->count() > 1) {
+        m_splitter->widget(0)->setContentsMargins(0, 0, 0, 0);
+        m_splitter->widget(1)->setContentsMargins(0, 0, 0, 0);
+    }
+}
+
 QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
 {
     auto navigatorWidget = new QWidget(m_splitter.get());
-    auto layout = new QHBoxLayout{navigatorWidget};
+    auto layout = new QGridLayout{navigatorWidget};
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
     if (side == Primary) {
         auto leadingSpacing = new QWidget{navigatorWidget};
-        layout->addWidget(leadingSpacing);
+        layout->addWidget(leadingSpacing, 0, 0);
     }
     auto urlNavigator = new DolphinUrlNavigator(navigatorWidget);
-    layout->addWidget(urlNavigator);
+    layout->addWidget(urlNavigator, 0, 1);
 
     auto emptyTrashButton = newEmptyTrashButton(urlNavigator, navigatorWidget);
-    layout->addWidget(emptyTrashButton);
+    layout->addWidget(emptyTrashButton, 0, 2);
 
     auto networkFolderButton = newNetworkFolderButton(urlNavigator, navigatorWidget);
-    layout->addWidget(networkFolderButton);
+    layout->addWidget(networkFolderButton, 0, 3);
 
     connect(
         urlNavigator,
@@ -233,8 +247,22 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
         },
         Qt::QueuedConnection);
 
+    auto separator = new QFrame{navigatorWidget};
+    // Hide separator when editable, since the edit mode uses input rectangle
+    connect(urlNavigator, &KUrlNavigator::layoutChanged, this, [urlNavigator, separator, this]() {
+        if (!urlNavigator->isBackgroundEnabled()) {
+            separator->setVisible(!urlNavigator->isUrlEditable());
+        } else {
+            separator->setVisible(false);
+        }
+        setSplitterMargins(secondaryUrlNavigator() && secondaryUrlNavigator()->isVisible());
+    });
+
     auto trailingSpacing = new QWidget{navigatorWidget};
-    layout->addWidget(trailingSpacing);
+    layout->addWidget(trailingSpacing, 0, 4);
+    separator->setFrameStyle(QFrame::HLine);
+    separator->setContentsMargins(0, 1, 0, 0);
+    layout->addWidget(separator, 1, 0, -1, -1);
     return navigatorWidget;
 }
 

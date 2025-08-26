@@ -158,6 +158,13 @@ private:
     void updateText();
 
     /**
+     * Adjusts the margins around the splitter if needed:
+     * When the location bars are inside menu, apply margins from QStyle.
+     * If they're outside of menu (inside tabview), apply zero margins.
+     */
+    void setSplitterMargins(bool splitViewVisible) const;
+
+    /**
      * The defaultWidget() of this QWidgetAction.
      */
     std::unique_ptr<QSplitter> m_splitter;
