@@ -107,7 +107,13 @@ void DolphinTabWidget::readProperties(const KConfigGroup &group)
     }
 
     const int index = group.readEntry("Active Tab Index", 0);
-    setCurrentIndex(index);
+    if (index != currentIndex()) {
+        setCurrentIndex(index);
+    } else {
+        DolphinTabPage *tabPage = tabPageAt(index);
+        tabPage->connectNavigators(m_navigatorsWidget);
+        m_lastViewedTab = tabPage;
+    }
 }
 
 void DolphinTabWidget::refreshViews()
