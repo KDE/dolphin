@@ -168,7 +168,7 @@
             <default>true</default>
         </entry>
         <entry name="ConfirmRenameFileType" type="Bool">
-            <label>Ask for confirmation when remaing a file changes its type.</label>
+            <label>Ask for confirmation when renaming file changes its type.</label>
             <default>true</default>
         </entry>
     </group>
