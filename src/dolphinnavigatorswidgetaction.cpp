@@ -251,9 +251,9 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     // Hide separator when editable, since the edit mode uses input rectangle
     connect(urlNavigator, &KUrlNavigator::layoutChanged, this, [urlNavigator, separator, this]() {
         if (!urlNavigator->isBackgroundEnabled()) {
-            separator->setVisible(!urlNavigator->isUrlEditable());
+            separator->setFrameStyle(urlNavigator->isUrlEditable() ? QFrame::NoFrame : QFrame::HLine);
         } else {
-            separator->setVisible(false);
+            separator->setFrameStyle(QFrame::NoFrame);
         }
         setSplitterMargins(secondaryUrlNavigator() && secondaryUrlNavigator()->isVisible());
     });
@@ -261,7 +261,8 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto trailingSpacing = new QWidget{navigatorWidget};
     layout->addWidget(trailingSpacing, 0, 4);
     separator->setFrameStyle(QFrame::HLine);
-    separator->setContentsMargins(0, 1, 0, 0);
+    separator->setContentsMargins(0, 0, 0, 0);
+    separator->setFixedHeight(1); // Make sure the height is never 0
     layout->addWidget(separator, 1, 0, -1, -1);
     return navigatorWidget;
 }
