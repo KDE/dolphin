@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2025-05-30 18:28+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -4771,7 +4771,7 @@ msgstr "Demanda un confirmation quando aperi multe terminales in un vice."
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when opening many folders at once."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Demanda un confirmation quando on aperi multe dossieres in un vice."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

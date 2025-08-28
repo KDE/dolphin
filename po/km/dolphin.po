@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2012-12-18 08:25+0700\n"
 "Last-Translator: sutha <sutha@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros>\n"
@@ -4698,7 +4698,7 @@ msgstr "សួរ​ដើម្បី​​បញ្ជាក់​ ​នៅ�
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when closing windows with multiple tabs."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "សួរ​ដើម្បី​​បញ្ជាក់​ ​នៅពេល​បិទ​បង្អួច​ដែល​មាន​ផ្ទាំង​ជា​ច្រើន ។"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

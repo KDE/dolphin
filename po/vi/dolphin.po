@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2023-03-21 18:35+0100\n"
 "Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -4878,7 +4878,7 @@ msgstr "Yêu cầu xác nhận khi đóng cửa sổ có nhiều thẻ."
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when closing windows with multiple tabs."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Yêu cầu xác nhận khi đóng cửa sổ có nhiều thẻ."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2024-07-29 21:45-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -4604,7 +4604,7 @@ msgstr ""
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
 #, kde-format
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

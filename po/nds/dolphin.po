@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4762,7 +4762,7 @@ msgstr "Nafragen, wenn Finstern mit mehr as een Paneel tomaakt warrt"
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when closing windows with multiple tabs."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Nafragen, wenn Finstern mit mehr as een Paneel tomaakt warrt"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

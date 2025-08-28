@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4556,7 +4556,7 @@ msgstr "一次打开大量终端时请求确认。"
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when opening many folders at once."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "一次打开大量文件夹时请求确认。"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
@@ -6005,12 +6005,10 @@ msgid "Hide this Folder?"
 msgstr "隐藏此文件夹？"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "重命名…"
+msgstr ""
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6031,12 +6029,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "文件类型："
+msgstr ""
 
 #: views/dolphinview.cpp:2139
 #, kde-format

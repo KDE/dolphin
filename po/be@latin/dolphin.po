@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5130,7 +5130,7 @@ msgstr "Pytacca pacviardžennia pry zakrycci akon z niekaĺkimi ŭkladkami."
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when closing windows with multiple tabs."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Pytacca pacviardžennia pry zakrycci akon z niekaĺkimi ŭkladkami."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)

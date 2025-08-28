@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
-"PO-Revision-Date: 2025-08-14 09:52+0200\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
+"PO-Revision-Date: 2025-08-27 09:56+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4732,9 +4732,10 @@ msgstr "Eskatu baieztapena terminal asko batera irekitzean."
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
-msgid "Ask for confirmation when remaing a file changes its type."
-msgstr "Eskatu baieztapena karpeta asko batera irekitzean."
+#| msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
+msgstr ""
+"Eskatu baieztapena fitxategi bat berrizendatzeak bere mota aldatzen duenean."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4867,7 +4868,7 @@ msgstr "Administratzaile gisa jardutera aldatzen"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Fitxategi bat izendatzeak bere mota aldatuko du"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6219,12 +6220,10 @@ msgid "Hide this Folder?"
 msgstr "Karpeta hau ezkutatu?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Berrizendatu…"
+msgstr "Berrizendatu"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6234,6 +6233,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Horrek fitxategi-mota ezezaguna egingo du.\n"
+"Fitxategiaren edukia ez da aldatuko baina aplikazioek ez dute ezagutuko.\n"
+"Hala ere berrizendatu nahi duzu?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6243,14 +6245,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Horrek fitxategi-mota \"%1\"(e)tik \"%2\"(e)ra aldatuko du.\n"
+"Fitxategiaren edukia ez da aldatuko baina aplikazioek ez dute ezagutuko.\n"
+"Hala ere berrizendatu nahi duzu?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Fitxategi mota:"
+msgstr "Aldatu fitxategi-mota"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

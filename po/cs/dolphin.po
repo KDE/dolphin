@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2024-08-20 08:36+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -939,7 +939,7 @@ msgstr "Otevřít v rozděleném pohledu"
 #: dolphinmainwindow.cpp:2276
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "Barevné sc&héma okna"
 
 #: dolphinmainwindow.cpp:2289
 #, kde-format
@@ -1815,12 +1815,10 @@ msgid "Authorization required to enter this folder."
 msgstr "Pro vstup do této složky je vyžadováno ověření totožnosti."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Složka vytvořena."
+msgstr ""
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
@@ -1829,12 +1827,10 @@ msgid "Create the folder at this path and open it"
 msgstr ""
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Nelze vložit: Nemáte práva k zápisu do této složky."
+msgstr ""
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
@@ -1867,27 +1863,22 @@ msgid "Move to New Folder…"
 msgstr "Přesunout do nové složky…"
 
 #: itemactions/setfoldericonitemaction.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
-msgstr "Ostatní"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "Při přetahování otevírat složky"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:188
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "Obnovit"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
@@ -1914,11 +1905,10 @@ msgid "Cyan"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:194
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
-msgstr "Výchozí"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:196
 #, kde-format
@@ -1933,12 +1923,10 @@ msgid "Violet"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "Prohlížení: "
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
@@ -1947,12 +1935,10 @@ msgid "Grey"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "&Záložky"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:203
 #, kde-format
@@ -1961,12 +1947,10 @@ msgid "Cloud"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "Vývojář"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
@@ -1993,12 +1977,10 @@ msgid "Print"
 msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "Porovnat soubory"
+msgstr ""
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
@@ -2794,12 +2776,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Správce (2018-2021) a vývojář"
+msgstr ""
 
 #: main.cpp:110
 #, kde-format
@@ -2808,12 +2788,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Správce (2014-2018) a vývojář"
+msgstr ""
 
 #: main.cpp:113
 #, kde-format
@@ -2822,12 +2800,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Správce (2012-2014) a vývojář"
+msgstr ""
 
 #: main.cpp:116
 #, kde-format
@@ -2836,12 +2812,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Správce a vývojář (2006-2012)"
+msgstr ""
 
 #: main.cpp:119
 #, kde-format
@@ -3932,11 +3906,9 @@ msgstr "Styl formátu oprávnění"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Režim výběru"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -4435,7 +4407,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
 #| msgid "Ask for confirmation when closing windows with multiple tabs."
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Zeptat se na potvrzení při zavírání oken s více kartami."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
@@ -5884,12 +5856,10 @@ msgid "Hide this Folder?"
 msgstr "Skrýt tuto složku?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Přejmenovat…"
+msgstr "Přejmenovat"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6418,7 +6388,3 @@ msgstr "Zvětšení"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Přiblížení"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Zvětšení"

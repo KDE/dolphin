@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
-"PO-Revision-Date: 2025-08-14 07:20+0200\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
+"PO-Revision-Date: 2025-08-27 07:27+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4766,9 +4766,9 @@ msgstr "Pred zapiranjem okna z več zavihki vprašaj za potrditev."
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
-msgid "Ask for confirmation when remaing a file changes its type."
-msgstr "Pred zapiranjem okna z več zavihki vprašaj za potrditev."
+#| msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
+msgstr "Zahtevaj potrditev, ko preimenovanje datoteke spremeni zvrst."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4901,7 +4901,7 @@ msgstr "Preklop v delovanje skrbnika"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Preimenovanje datoteke bo spremenilo njeno zvrst"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6258,12 +6258,10 @@ msgid "Hide this Folder?"
 msgstr "Naj skrijem to mapo?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Preimenuj …"
+msgstr "Preimenuj"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6273,6 +6271,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"S tem bo zvrst datoteke neznana.\n"
+"Vsebina datoteke se ne bo spremenila, vendar je aplikacije morda ne bodo več "
+"prepoznale.\n"
+"Ali jo še vedno želite preimenovati?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6282,14 +6284,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"S tem se bo vrsta datoteke spremenila iz \"%1\" v \"%2\".\n"
+"Vsebina datoteke se ne bo spremenila, vendar je aplikacije morda ne bodo več "
+"prepoznale.\n"
+"Ali jo še vedno želite preimenovati?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Vrsta datoteke:"
+msgstr "Spremeni zvrst datoteke"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

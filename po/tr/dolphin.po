@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
-"PO-Revision-Date: 2025-08-14 16:54+0300\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
+"PO-Revision-Date: 2025-08-27 09:09+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4710,9 +4710,10 @@ msgstr "Aynı anda birden çok uçbirim açarken onay isteyin."
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
 #, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
-msgid "Ask for confirmation when remaing a file changes its type."
-msgstr "Aynı anda birden çok klasör açarken onay isteyin."
+#| msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
+msgstr ""
+"Bir dosyayı yeniden adlandırmak dosyanın türünü değiştiriyorsa onay isteyin."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4845,7 +4846,7 @@ msgstr "Yönetici gibi davranmaya geçerken"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Dosyayı yeniden adlandırmak dosyanın türünü değiştirir"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6189,12 +6190,10 @@ msgid "Hide this Folder?"
 msgstr "Bu klasör gizlensin mi?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Yeniden Adlandır…"
+msgstr "Yeniden Adlandır"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6204,6 +6203,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Bu işlem, dosyanın türünü bilinmeyen bir türe çevirecektir.\n"
+"Dosyanın içeriği değişmez; ancak uygulamalar artık onu tanıyamayabilir.\n"
+"Hâlâ yeniden adlandırmak istiyor musunuz?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6213,14 +6215,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Bu işlem, “%1” olan dosya türünü “%2” olarak değiştirecektir.\n"
+"Dosyanın içeriği değişmez; ancak uygulamalar artık onu tanıyamayabilir.\n"
+"Hâlâ yeniden adlandırmak istiyor musunuz?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Dosya türü:"
+msgstr "Dosya Türünü Değiştir"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

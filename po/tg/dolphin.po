@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 00:46+0000\n"
+"POT-Creation-Date: 2025-08-28 00:45+0000\n"
 "PO-Revision-Date: 2020-09-17 20:47+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <kde-i18n-doc@kde.org>\n"
@@ -4685,7 +4685,7 @@ msgstr "Тасдиқотро пурсед вақте, ки"
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask For Confirmation When"
-msgid "Ask for confirmation when remaing a file changes its type."
+msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Тасдиқотро пурсед вақте, ки"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
