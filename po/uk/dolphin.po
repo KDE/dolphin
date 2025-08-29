@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-27 14:10+0300\n"
+"PO-Revision-Date: 2025-08-28 13:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4823,8 +4823,7 @@ msgstr "Вимагати підтвердження при одночасном�
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when remaing a file changes its type."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
 "Просити підтвердити перейменування файла, якщо його результатом є зміна типу."

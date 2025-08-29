@@ -4554,10 +4554,9 @@ msgstr "一次打开大量终端时请求确认。"
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "一次打开大量文件夹时请求确认。"
+msgstr ""
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4688,7 +4687,7 @@ msgstr "正在切换到以管理员身份操作"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "重命名文件将改变其文件类型"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6008,7 +6007,7 @@ msgstr "隐藏此文件夹？"
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr ""
+msgstr "重命名"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6018,6 +6017,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"这将把文件类型更改为未知类型。\n"
+"文件内容不会改变，但应用程序可能不再能够识别它。\n"
+"您确定要重命名该文件吗？"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6027,12 +6029,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"这将把文件类型从“%1”更改为“%2”。\n"
+"文件内容不会改变，但应用程序可能不再能够识别它。\n"
+"您确定要重命名该文件吗？"
 
 #: views/dolphinview.cpp:2095
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr ""
+msgstr "更改文件类型"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

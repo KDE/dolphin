@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-27 09:56+0200\n"
+"PO-Revision-Date: 2025-08-28 10:30+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4731,8 +4731,7 @@ msgstr "Eskatu baieztapena terminal asko batera irekitzean."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when remaing a file changes its type."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
 "Eskatu baieztapena fitxategi bat berrizendatzeak bere mota aldatzen duenean."
