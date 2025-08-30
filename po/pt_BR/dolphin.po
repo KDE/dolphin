@@ -8,7 +8,7 @@
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2019, 2020.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2010, 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Aracele Torres <araceletorres@gmail.com>, 2010, 2011, 2016, 2017.
-# Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
+# SPDX-FileCopyrightText: 2011, 2012, 2025 Marcus Gama <marcus.gama@gmail.com>
 # Camila Moura <camila.moura@kde.org>, 2017.
 # Thiago Masato Costa Sueto <herzenschein@gmail.com>, 2019, 2021.
 # SPDX-FileCopyrightText: 2023, 2024, 2025 Geraldo Simiao <geraldosimiao@fedoraproject.org>
@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-25 00:17-0300\n"
-"Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
+"PO-Revision-Date: 2025-08-29 09:20-0300\n"
+"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -4753,10 +4753,9 @@ msgstr "Solicitar confirmação ao abrir vários terminais de uma vez."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Solicitar confirmação ao abrir várias pastas de uma vez."
+msgstr "Solicitar confirmação quando renomear altera o tipo de arquivo."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4890,7 +4889,7 @@ msgstr "Mudar para agir como administrador"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Renomear um arquivo mudará seu tipo"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6240,12 +6239,10 @@ msgid "Hide this Folder?"
 msgstr "Ocultar esta pasta?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Renomear..."
+msgstr "Renomear"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6255,6 +6252,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Isso tornará o tipo de arquivo desconhecido.\n"
+"O conteúdo do arquivo não será alterado, mas os aplicativos podem não "
+"reconhecê-lomais.\n"
+"Ainda deseja renomeá-lo?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6264,14 +6265,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Isso alterará o tipo de arquivo de \"%1\" para \"%2\".\n"
+"O conteúdo do arquivo não será alterado, mas os aplicativos podem não "
+"reconhecê-lomais.\n"
+"Ainda deseja renomeá-lo?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Tipo de arquivo:"
+msgstr "Alterar tipo de arquivo"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-14 07:46+0200\n"
+"PO-Revision-Date: 2025-08-29 07:46+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4713,10 +4713,9 @@ msgstr "Fråga efter bekräftelse när många terminaler öppnas samtidigt."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Fråga efter bekräftelse när många kataloger öppnas samtidigt."
+msgstr "Fråga efter bekräftelse när namnbyte av en fil ändrar dess typ."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4848,7 +4847,7 @@ msgstr "Byter till att agera som administratör"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Att byta namn på en fil ändrar dess typ"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6194,12 +6193,10 @@ msgid "Hide this Folder?"
 msgstr "Dölj katalogen?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Byt namn…"
+msgstr "Namnbyte"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6209,6 +6206,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Det här gör filtypen okänd.\n"
+"Filens innehåll ändras inte, men program kanske inte längre känner igen "
+"den.\n"
+"Vill du ändå byta namn på den?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6218,14 +6219,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Det här ändrar filtypen från \"%1\" till \"%2\".\n"
+"Filens innehåll ändras inte, men program kanske inte längre känner igen "
+"den.\n"
+"Vill du ändå byta namn på den?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Filtyp:"
+msgstr "Ändra filtyp"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

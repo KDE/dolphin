@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-27 09:33+0300\n"
+"PO-Revision-Date: 2025-08-28 20:04+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4674,8 +4674,7 @@ msgstr "לבקש אישור לפני פתיחת מספר מסופים בו־זמ
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when remaing a file changes its type."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr "לבקש אישור כאשר שינוי שם קובץ משנה את סוגו."
 
