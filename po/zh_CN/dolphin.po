@@ -2008,31 +2008,31 @@ msgstr "其他文件夹图标选项"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "红"
+msgstr "红色"
 
 #: itemactions/setfoldericonitemaction.cpp:189
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr "黄"
+msgstr "黄色"
 
 #: itemactions/setfoldericonitemaction.cpp:190
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr "橙"
+msgstr "橙色"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr "绿"
+msgstr "绿色"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr "青"
+msgstr "青色"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
@@ -2044,25 +2044,25 @@ msgstr "默认"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr "蓝"
+msgstr "蓝色"
 
 #: itemactions/setfoldericonitemaction.cpp:197
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr "紫"
+msgstr "紫色"
 
 #: itemactions/setfoldericonitemaction.cpp:198
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "棕"
+msgstr "棕色"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr "灰"
+msgstr "灰色"
 
 #: itemactions/setfoldericonitemaction.cpp:202
 #, kde-format
@@ -2128,7 +2128,7 @@ msgstr "重要"
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr "设置文件夹图标为 %1"
+msgstr "文件夹图标设置为：%1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -4751,13 +4751,13 @@ msgstr "显示过滤栏"
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr "在当前标签页右侧"
+msgstr "当前标签页右侧"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "在标签页栏最右侧"
+msgstr "标签页栏最右侧"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
@@ -4815,7 +4815,7 @@ msgstr "主文件夹位置无效或者不存在，无法应用。"
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "文件夹、标签页"
+msgstr "文件夹与标签页"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -4841,7 +4841,7 @@ msgstr "面板"
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "状态栏、位置栏"
+msgstr "状态栏与位置栏"
 
 #: settings/interface/panelsettingspage.cpp:34
 #, kde-format
@@ -4996,7 +4996,7 @@ msgstr "状态栏："
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "位置栏处于可编辑状态"
+msgstr "位置栏默认在可编辑状态"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, kde-format
