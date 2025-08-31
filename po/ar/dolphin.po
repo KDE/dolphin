@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-17 21:58+0400\n"
+"POT-Creation-Date: 2025-08-31 00:45+0000\n"
+"PO-Revision-Date: 2025-08-30 09:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1931,7 +1931,7 @@ msgstr "عرض الموقع"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:542
+#: dolphintabwidget.cpp:530
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1939,7 +1939,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:546
+#: dolphintabwidget.cpp:534
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -4748,10 +4748,9 @@ msgstr "اطلب التأكيد عند فتح العديد من الطرفيات
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "اطلب التأكيد عند فتح العديد من الملفات في وقت واحد."
+msgstr "اطلب تأكيدًا عندما يتغير نوع الملف عند تغيير الاسم."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4882,7 +4881,7 @@ msgstr "التحول للعمل بصلاحيات مدير النظام"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "إعادة تسميّة الملف ستغيّر نوعه"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6247,12 +6246,10 @@ msgid "Hide this Folder?"
 msgstr "أأخفي هذا المجلد؟"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "أعد التسمية…"
+msgstr "غيّر الاسم"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6262,6 +6259,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"سيؤدي ذلك إلى جعل نوع الملف غير معروف.\n"
+"لن يتغير محتوى الملف، ولكن قد لا تتمكن التطبيقات من التعرف عليه بعد الآن.\n"
+"هل ما زلت تريد تغيير تسميته؟"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6271,14 +6271,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"سيؤدي ذلك إلى تغيير نوع الملف من ”%1“ إلى ”%2“.\n"
+"لن يتغير محتوى الملف، ولكن قد لا تعرفه التطبيقات بعد الآن.\n"
+"هل تريد تغيير تسميته؟"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "نوع الملف:"
+msgstr "غيّر نوع الملف"
 
 #: views/dolphinview.cpp:2139
 #, kde-format

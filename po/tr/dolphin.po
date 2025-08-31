@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-28 00:45+0000\n"
-"PO-Revision-Date: 2025-08-27 09:09+0300\n"
+"POT-Creation-Date: 2025-08-31 00:45+0000\n"
+"PO-Revision-Date: 2025-08-30 18:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1939,7 +1939,7 @@ msgstr "Konum Görünümü"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:542
+#: dolphintabwidget.cpp:530
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1947,7 +1947,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:546
+#: dolphintabwidget.cpp:534
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -4709,8 +4709,7 @@ msgstr "Aynı anda birden çok uçbirim açarken onay isteyin."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when remaing a file changes its type."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
 "Bir dosyayı yeniden adlandırmak dosyanın türünü değiştiriyorsa onay isteyin."
