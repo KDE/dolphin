@@ -80,7 +80,11 @@ void Trash::empty(QWidget *window)
 {
     using Iface = KIO::AskUserActionInterface;
     auto *emptyJob = new KIO::DeleteOrTrashJob(QList<QUrl>{}, Iface::EmptyTrash, Iface::DefaultConfirmation, window);
-    QObject::connect(emptyJob, &KIO::Job::result, notifyEmptied);
+    QObject::connect(emptyJob, &KIO::Job::result, emptyJob, [emptyJob] {
+        if (!emptyJob->error()) {
+            notifyEmptied();
+        }
+    });
     emptyJob->start();
 }
 
