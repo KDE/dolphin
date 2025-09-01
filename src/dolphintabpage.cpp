@@ -10,6 +10,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinviewcontainer.h"
 
+#include <QFrame>
 #include <QGridLayout>
 #include <QStyle>
 #include <QVariantAnimation>
@@ -196,6 +197,9 @@ int DolphinTabPage::selectedItemsCount() const
 
 void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigatorsWidget)
 {
+    m_navigatorSeparator = new QFrame(this);
+    m_navigatorSeparator->setFixedHeight(1);
+    m_navigatorSeparator->setContentsMargins(0, 0, 0, 0);
     insertNavigatorsWidget(navigatorsWidget);
     m_navigatorsWidget = navigatorsWidget;
     auto primaryNavigator = navigatorsWidget->primaryUrlNavigator();
@@ -210,6 +214,7 @@ void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigators
 void DolphinTabPage::disconnectNavigators()
 {
     m_navigatorsWidget = nullptr;
+    m_navigatorSeparator = nullptr;
     m_primaryViewContainer->disconnectUrlNavigator();
     if (m_splitViewEnabled) {
         m_secondaryViewContainer->disconnectUrlNavigator();
@@ -220,12 +225,16 @@ void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navig
 {
     QGridLayout *gridLayout = static_cast<QGridLayout *>(layout());
     if (navigatorsWidget->isInToolbar()) {
+        m_navigatorSeparator->setFrameStyle(QFrame::NoFrame);
+        gridLayout->removeWidget(m_navigatorSeparator);
         gridLayout->setRowMinimumHeight(0, 0);
     } else {
         // We set a row minimum height, so the height does not visibly change whenever
         // navigatorsWidget is inserted which happens every time the current tab is changed.
+        m_navigatorSeparator->setFrameStyle(QFrame::HLine);
         gridLayout->setRowMinimumHeight(0, navigatorsWidget->primaryUrlNavigator()->height());
         gridLayout->addWidget(navigatorsWidget->requestWidget(this), 0, 0);
+        gridLayout->addWidget(m_navigatorSeparator, 1, 0, 0, -1);
     }
 }
 
