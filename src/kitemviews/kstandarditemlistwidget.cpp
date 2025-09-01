@@ -1104,7 +1104,7 @@ void KStandardItemListWidget::updatePixmapCache()
             const bool hasFocus = scene()->views()[0]->parentWidget()->hasFocus();
             m_pixmap = pixmapForIcon(iconName,
                                      QSize(maxIconWidth, maxIconHeight),
-                                     m_layout != IconsLayout && isActiveWindow() && isSelected() && hasFocus ? QIcon::Selected : QIcon::Normal);
+                                     m_layout != IconsLayout && isActiveWindow() && isPressed() && hasFocus ? QIcon::Selected : QIcon::Normal);
 
         } else {
             if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
