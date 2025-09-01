@@ -214,12 +214,15 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     // set up 'Create New' menu
     QAction *newDirAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_dir"));
     QAction *newFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
-    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, this);
+    // Do not parent this to the menu, it has to outlive it. It is deleted manually below once a file has been created.
+    DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(newDirAction, newFileAction, m_mainWindow);
     newFileMenu->checkUpToDate();
     newFileMenu->setWorkingDirectory(m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
     connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+    connect(newFileMenu, &DolphinNewFileMenu::fileCreationRejected, newFileMenu, &DolphinNewFileMenu::deleteLater);
     connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+    connect(newFileMenu, &DolphinNewFileMenu::directoryCreationRejected, newFileMenu, &DolphinNewFileMenu::deleteLater);
 
     QMenu *menu = newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
