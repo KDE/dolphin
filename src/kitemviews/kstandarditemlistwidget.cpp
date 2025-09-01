@@ -904,6 +904,8 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
     m_roleEditor->autoAdjustSize();
     m_roleEditor->show();
     m_roleEditor->setFocus();
+    setHovered(false);
+    update();
 }
 
 void KStandardItemListWidget::iconSizeChanged(int current, int previous)
