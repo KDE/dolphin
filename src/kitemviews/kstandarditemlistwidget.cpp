@@ -1643,8 +1643,6 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter *painter)
 
     const QBitArray siblings = siblingsInformation();
     QStyleOption option;
-    const auto normalColor = option.palette.color(normalTextColorRole());
-    const auto highlightColor = option.palette.color(expansionAreaHovered() ? QPalette::Highlight : normalTextColorRole());
     for (int i = siblings.count() - 1; i >= 0; --i) {
         option.rect = siblingRect;
         option.state = siblings.at(i) ? QStyle::State_Sibling : QStyle::State_None;
@@ -1656,10 +1654,7 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter *painter)
             if (data().value("isExpanded").toBool()) {
                 option.state |= QStyle::State_Open;
             }
-            option.palette.setColor(QPalette::Text, highlightColor);
             isItemSibling = false;
-        } else {
-            option.palette.setColor(QPalette::Text, normalColor);
         }
 
         style()->drawPrimitive(QStyle::PE_IndicatorBranch, &option, painter);
