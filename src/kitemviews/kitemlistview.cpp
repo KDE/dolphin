@@ -400,8 +400,15 @@ void KItemListView::setGeometry(const QRectF &rect)
 
 qreal KItemListView::scrollSingleStep() const
 {
+    /**
+     * The scroll distance is supposed to be similar between every scroll area in existence, so users can predict how much scrolling they need to do to see the
+     * part of the view they are interested in. We try to conform to the global scroll distance setting which is defined through
+     * QApplication::wheelScrollLines. A single line is assumed to be the height of the default font. This single step is what is supposed to be returned here.
+     * The issue is that the application the user scrolls in the most (Firefox) does not care about our scroll speed and goes considerably faster. So we
+     * amend a random times two (* 2) so users are happy with the scroll speed in Dolphin.
+     */
     const QFontMetrics metrics(font());
-    return metrics.height();
+    return metrics.height() * 2;
 }
 
 qreal KItemListView::verticalPageStep() const
