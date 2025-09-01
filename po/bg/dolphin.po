@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-31 00:45+0000\n"
-"PO-Revision-Date: 2025-08-16 22:29+0200\n"
+"PO-Revision-Date: 2025-09-01 00:05+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -4750,10 +4750,10 @@ msgstr "Изискване на потвърждение при отваряне
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Изискване на потвърждение при отваряне на много папки наведнъж."
+msgstr ""
+"Изискване на потвърждение, когато преименуването на файл променя типа му."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4886,7 +4886,7 @@ msgstr "Преминаване към действие като админист
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Преименуването на файла ще промени неговия тип"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6237,12 +6237,10 @@ msgid "Hide this Folder?"
 msgstr "Скриване на папката?"
 
 #: views/dolphinview.cpp:2075
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Преименуване…"
+msgstr "Преименуване"
 
 #: views/dolphinview.cpp:2085
 #, kde-format
@@ -6252,6 +6250,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Това ще направи типа на файла неизвестен.\n"
+"Съдържанието на файла няма да се промени, но приложенията може вече да не го "
+"разпознават.\n"
+"Все още ли искате да го преименувате?"
 
 #: views/dolphinview.cpp:2089
 #, kde-format
@@ -6261,14 +6263,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Това ще промени типа на файла от \"%1\" на \"%2\".\n"
+"Съдържанието на файла няма да се промени, но приложенията може вече да не го "
+"разпознават.\n"
+"Все още ли искате да го преименувате?"
 
 #: views/dolphinview.cpp:2095
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Вид на файла:"
+msgstr "Промяна на вида на файла:"
 
 #: views/dolphinview.cpp:2139
 #, kde-format
