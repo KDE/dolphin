@@ -675,7 +675,7 @@ msgstr "Busca"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Seleccioneu els fitxers i carpetes"
+msgstr "Trieu els fitxers i carpetes"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
@@ -1265,7 +1265,7 @@ msgstr ""
 "una pestanya nova o a una finestra nova.</para><para>Es poden afegir "
 "entrades noves arrossegant carpetes cap a este quadro. Feu clic dret damunt "
 "de qualsevol secció o entrada per a ocultar-la. Feu clic dret damunt d'un "
-"espai buit d'este quadro i seleccioneu <interface>Mostra els llocs ocults</"
+"espai buit d'este quadro i trieu <interface>Mostra els llocs ocults</"
 "interface> per a tornar-los a veure.</para>"
 
 #: dolphinmainwindow.cpp:2477 dolphinmainwindow.cpp:3015
@@ -1509,9 +1509,9 @@ msgstr ""
 "les accions utilitzades amb freqüència.</para><para>És molt personalitzable. "
 "Tots els elements que veeu en el <interface>Menú</interface> o en la "
 "<interface>Barra de menús</interface> es poden situar en la barra d'eines. "
-"Només cal fer-hi clic dret i seleccionar <interface>Configura les barres "
-"d'eines…</interface> o busqueu esta acció en el <interface>Menú</interface>."
-"</para><para>La ubicació de la barra i l'estil dels seus botons també es pot "
+"Només cal fer-hi clic dret i triar <interface>Configura les barres d'eines…</"
+"interface> o busqueu esta acció en el <interface>Menú</interface>.</"
+"para><para>La ubicació de la barra i l'estil dels seus botons també es pot "
 "canviar amb el menú quan es faça clic dret. Feu clic dret damunt d'un botó "
 "si voleu mostrar o amagar el seu text.</para>"
 
@@ -1659,7 +1659,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 "<para>Obri una <emphasis>pàgina web</emphasis> a on podeu fer una donació "
-"per a ajudar el treball continuat en esta aplicació i en molts altres "
+"per ajudar el treball continuat en esta aplicació i en molts altres "
 "projectes de la comunitat <emphasis>KDE</emphasis>.</para><para>Una donació "
 "és la manera més fàcil i ràpida de patrocinar eficientment a KDE i els seus "
 "projectes. Els projectes de KDE estan disponibles debades i, per tant, la "
@@ -1785,7 +1785,7 @@ msgstr "&Edita el tipus de fitxer…"
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
-msgstr "Selecciona els elements que coincidisquen…"
+msgstr "Tria els elements que coincidisquen…"
 
 #: dolphinpart.cpp:159
 #, kde-format
@@ -1839,12 +1839,12 @@ msgstr "Obri un &terminal"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
-msgstr "Selecciona"
+msgstr "Tria"
 
 #: dolphinpart.cpp:449
 #, kde-format
 msgid "Select all items matching this pattern:"
-msgstr "Selecciona tots els elements que coincidisquen amb este patró:"
+msgstr "Tria tots els elements que coincidisquen amb este patró:"
 
 #: dolphinpart.cpp:454
 #, kde-format
@@ -3296,7 +3296,7 @@ msgstr "Data condensada"
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr "Seleccioneu les dades que s'han de mostrar:"
+msgstr "Trieu les dades que s'han de mostrar:"
 
 #: panels/information/informationpanelcontent.cpp:284
 #, kde-format
@@ -3800,7 +3800,7 @@ msgstr "Cap"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Seleccioneu els fitxers i carpetes que s'haurien de copiar."
+msgstr "Trieu els fitxers i carpetes que s'haurien de copiar."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -3817,20 +3817,20 @@ msgstr "Cancel·la la còpia"
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
-"Seleccioneu un fitxer o carpeta del qual s'hauria de copiar la seua ubicació."
+"Trieu un fitxer o carpeta del qual s'hauria de copiar la seua ubicació."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:212
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Seleccioneu els fitxers i carpetes sobre els quals s'hauria de copiar."
+msgstr "Trieu els fitxers i carpetes sobre els quals s'hauria de copiar."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Seleccioneu els fitxers i carpetes que s'haurien de retallar."
+msgstr "Trieu els fitxers i carpetes que s'haurien de retallar."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:240
@@ -3843,8 +3843,7 @@ msgstr "Cancel·la el retallat"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr ""
-"Seleccioneu els fitxers i carpetes que s'haurien de suprimir permanentment."
+msgstr "Trieu els fitxers i carpetes que s'haurien de suprimir permanentment."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -3859,7 +3858,7 @@ msgstr "Cancel·la"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Seleccioneu els fitxers i carpetes que s'haurien de duplicar ací."
+msgstr "Trieu els fitxers i carpetes que s'haurien de duplicar ací."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:296
@@ -3881,7 +3880,7 @@ msgstr "Més"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr "Seleccioneu els fitxers i carpetes sobre els quals s'hauria de moure."
+msgstr "Trieu els fitxers i carpetes sobre els quals s'hauria de moure."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
@@ -3895,7 +3894,7 @@ msgstr "Cancel·la el moviment"
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
-"Seleccioneu els fitxers i carpetes que s'haurien de moure cap a dins de la "
+"Trieu els fitxers i carpetes que s'haurien de moure cap a dins de la "
 "paperera."
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
@@ -3939,7 +3938,7 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
-"Seleccioneu el fitxer o carpeta que s'ha de canviar de nom.\n"
+"Trieu el fitxer o carpeta que s'ha de canviar de nom.\n"
 "És possible el canvi de nom en massa quan se seleccionen diversos elements."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
@@ -4070,7 +4069,7 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
-"<title>Mode de selecció</title><para>Seleccioneu fitxers o carpetes per a "
+"<title>Mode de selecció</title><para>Trieu els fitxers o les carpetes per a "
 "gestionar-los o manipular-los.<list><item>Premeu en un fitxer o carpeta per "
 "a seleccionar-lo.</item><item>Premeu en un fitxer o carpeta ja seleccionat "
 "per a desseleccionar-lo.</item><item>Prémer una àrea buida <emphasis>no</"
@@ -4092,7 +4091,7 @@ msgstr "Ix del mode de selecció"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
-msgstr "Seleccioneu els serveis que s'han de mostrar en el menú contextual:"
+msgstr "Trieu els serveis que s'han de mostrar en el menú contextual:"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:64
 #, kde-format
@@ -4497,7 +4496,7 @@ msgstr "Informació addicional"
 #: settings/dolphin_generalsettings.kcfg:18
 #, kde-format
 msgid "Select Action"
-msgstr "Seleccioneu acció"
+msgstr "Trieu una acció"
 
 #. i18n: ectx: label, entry (DoubleClickViewCustomAction), group (General)
 #: settings/dolphin_generalsettings.kcfg:22
@@ -4706,7 +4705,7 @@ msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
 "items"
 msgstr ""
-"Seleccioneu el mode d'ordenació dels elements: natural, distingint entre "
+"Trieu el mode d'ordenació dels elements: natural, distingint entre "
 "majúscules i minúscules, o sense distingir entre majúscules i minúscules"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
@@ -4903,7 +4902,7 @@ msgstr "Introduïu el camí de la ubicació d'inici"
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
-msgstr "Seleccioneu la ubicació d'inici"
+msgstr "Trieu la ubicació d'inici"
 
 #: settings/interface/folderstabssettingspage.cpp:78
 #, kde-format
@@ -5805,7 +5804,7 @@ msgstr "Informació addicional"
 #: settings/viewpropertiesdialog.cpp:132
 #, kde-format
 msgid "Choose what to see on each file or folder:"
-msgstr "Seleccioneu què veure de cada fitxer o carpeta:"
+msgstr "Trieu què veure de cada fitxer o carpeta:"
 
 #: settings/viewpropertiesdialog.cpp:142
 #, kde-format
@@ -6059,7 +6058,7 @@ msgstr "Un subconjunt de la configuració de Dolphin."
 #: views/dolphinremoteencoding.cpp:39
 #, kde-format
 msgid "Select Remote Charset"
-msgstr "Selecciona el joc de caràcters remot"
+msgstr "Tria el joc de caràcters remot"
 
 #: views/dolphinremoteencoding.cpp:91
 #, kde-format
