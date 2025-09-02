@@ -470,17 +470,7 @@ void DolphinTabPage::slotViewActivated()
 
 void DolphinTabPage::slotViewUrlRedirection(const QUrl &oldUrl, const QUrl &newUrl)
 {
-    // Make sure the url of the view is updated. BUG:496414
-    if (splitViewEnabled()) {
-        if (primaryViewContainer()->view()->url() == oldUrl) {
-            primaryViewContainer()->view()->setUrl(newUrl);
-        }
-        if (secondaryViewContainer()->view()->url() == oldUrl) {
-            secondaryViewContainer()->view()->setUrl(newUrl);
-        }
-    } else {
-        activeViewContainer()->view()->setUrl(newUrl);
-    }
+    Q_UNUSED(oldUrl)
     Q_EMIT activeViewUrlChanged(newUrl);
 }
 
