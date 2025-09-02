@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-31 00:45+0000\n"
+"POT-Creation-Date: 2025-09-02 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 15:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -176,13 +176,13 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "मुख्य स्थान निवडा"
 msgstr[1] "मुख्य स्थान निवडा"
 
-#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1770
+#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1770
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "नवीन बनवा"
 
-#: dolphincontextmenu.cpp:234
+#: dolphincontextmenu.cpp:237
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -190,19 +190,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "चिटकवा"
 
-#: dolphincontextmenu.cpp:242
+#: dolphincontextmenu.cpp:245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "मार्ग नवीन टॅब अंतर्गत उघडा"
 
-#: dolphincontextmenu.cpp:250
+#: dolphincontextmenu.cpp:253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "मार्ग नवीन चौकटीत उघडा"
 
-#: dolphincontextmenu.cpp:500
+#: dolphincontextmenu.cpp:503
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

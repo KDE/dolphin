@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-31 00:45+0000\n"
+"POT-Creation-Date: 2025-09-02 00:46+0000\n"
 "PO-Revision-Date: 2025-08-15 09:59+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -216,31 +216,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Restaurer avec le dernier emplacement"
 msgstr[1] "Restaurer avec les derniers emplacements"
 
-#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1770
+#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1770
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Créer un nouveau"
 
-#: dolphincontextmenu.cpp:234
+#: dolphincontextmenu.cpp:237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Ouvrir l'emplacement"
 
-#: dolphincontextmenu.cpp:242
+#: dolphincontextmenu.cpp:245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Ouvrir l'emplacement dans un nouvel onglet"
 
-#: dolphincontextmenu.cpp:250
+#: dolphincontextmenu.cpp:253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ouvrir l'emplacement dans une nouvelle fenêtre"
 
-#: dolphincontextmenu.cpp:500
+#: dolphincontextmenu.cpp:503
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

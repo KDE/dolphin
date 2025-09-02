@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-31 00:45+0000\n"
+"POT-Creation-Date: 2025-09-02 00:46+0000\n"
 "PO-Revision-Date: 2025-08-28 09:31+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -194,31 +194,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Restaura a la ubicació anterior"
 msgstr[1] "Restaura a les ubicacions anteriors"
 
-#: dolphincontextmenu.cpp:225 dolphinmainwindow.cpp:1770
+#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1770
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Crea nou"
 
-#: dolphincontextmenu.cpp:234
+#: dolphincontextmenu.cpp:237
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Obri el camí"
 
-#: dolphincontextmenu.cpp:242
+#: dolphincontextmenu.cpp:245
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Obri el camí en una pestanya nova"
 
-#: dolphincontextmenu.cpp:250
+#: dolphincontextmenu.cpp:253
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Obri el camí en una finestra nova"
 
-#: dolphincontextmenu.cpp:500
+#: dolphincontextmenu.cpp:503
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -1671,7 +1671,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 "<para>Obri una <emphasis>pàgina web</emphasis> a on podeu fer una donació "
-"per a ajudar el treball continuat en esta aplicació i en molts altres "
+"per ajudar el treball continuat en esta aplicació i en molts altres "
 "projectes de la comunitat <emphasis>KDE</emphasis>.</para><para>Una donació "
 "és la manera més fàcil i ràpida de patrocinar eficientment a KDE i els seus "
 "projectes. Els projectes de KDE estan disponibles debades i, per tant, la "
