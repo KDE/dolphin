@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-14 02:50+0000\n"
+"POT-Creation-Date: 2025-09-02 03:02+0000\n"
 "PO-Revision-Date: 2025-07-20 00:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -179,31 +179,31 @@ msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
 msgstr[0] "이전 위치로 복원"
 
-#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1749
+#: dolphincontextmenu.cpp:217 dolphinmainwindow.cpp:1767
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "새로 만들기"
 
-#: dolphincontextmenu.cpp:223
+#: dolphincontextmenu.cpp:226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "경로 열기"
 
-#: dolphincontextmenu.cpp:231
+#: dolphincontextmenu.cpp:234
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "새 탭으로 경로 열기"
 
-#: dolphincontextmenu.cpp:239
+#: dolphincontextmenu.cpp:242
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "새 창으로 경로 열기"
 
-#: dolphincontextmenu.cpp:489
+#: dolphincontextmenu.cpp:492
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
@@ -310,44 +310,44 @@ msgid ""
 "want to quit?"
 msgstr "터미널 패널에서 '%1' 프로그램이 실행 중입니다. 종료하시겠습니까?"
 
-#: dolphinmainwindow.cpp:919
+#: dolphinmainwindow.cpp:937
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "붙여넣을 수 없음: 클립보드가 비어 있습니다."
 
-#: dolphinmainwindow.cpp:920
+#: dolphinmainwindow.cpp:938
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "붙여넣을 수 없음: 이 폴더에 쓸 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:1323
+#: dolphinmainwindow.cpp:1341
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1 열기"
 
-#: dolphinmainwindow.cpp:1332 dolphinmainwindow.cpp:2116
+#: dolphinmainwindow.cpp:1350 dolphinmainwindow.cpp:2134
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "선호하는 검색 도구 열기"
 
-#: dolphinmainwindow.cpp:1372
+#: dolphinmainwindow.cpp:1390
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "터미널 창 %1개를 여시겠습니까?"
 
-#: dolphinmainwindow.cpp:1377
+#: dolphinmainwindow.cpp:1395
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
 msgstr[0] "터미널 %1개 열기"
 
-#: dolphinmainwindow.cpp:1478
+#: dolphinmainwindow.cpp:1496
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -355,7 +355,7 @@ msgid ""
 "folder."
 msgstr "새 파일을 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:1480
+#: dolphinmainwindow.cpp:1498
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -363,25 +363,25 @@ msgid ""
 "folder."
 msgstr "새 폴더를 만들 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:1582
+#: dolphinmainwindow.cpp:1600
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "설정"
 
-#: dolphinmainwindow.cpp:1755
+#: dolphinmainwindow.cpp:1773
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "새 창(&W)"
 
-#: dolphinmainwindow.cpp:1756
+#: dolphinmainwindow.cpp:1774
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "새 Dolphin 창 열기"
 
-#: dolphinmainwindow.cpp:1758
+#: dolphinmainwindow.cpp:1776
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -391,13 +391,13 @@ msgstr ""
 "현재 위치를 사용하여 새 창을 엽니다.<nl/>창 간에 항목을 드래그 앤 드롭할 수 "
 "있습니다."
 
-#: dolphinmainwindow.cpp:1765
+#: dolphinmainwindow.cpp:1783
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "새 탭"
 
-#: dolphinmainwindow.cpp:1767
+#: dolphinmainwindow.cpp:1785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -409,31 +409,31 @@ msgstr ""
 "현재 창 내에서 여러 위치와 보기를 빠르게 전환할 수 있습니다. 탭 간에 항목을 "
 "드래그 앤 드롭할 수 있습니다."
 
-#: dolphinmainwindow.cpp:1776
+#: dolphinmainwindow.cpp:1794
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "위치에 추가"
 
-#: dolphinmainwindow.cpp:1778
+#: dolphinmainwindow.cpp:1796
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "선택한 폴더를 위치 패널에 추가합니다."
 
-#: dolphinmainwindow.cpp:1783
+#: dolphinmainwindow.cpp:1801
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "탭 닫기"
 
-#: dolphinmainwindow.cpp:1784
+#: dolphinmainwindow.cpp:1802
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "탭 닫기"
 
-#: dolphinmainwindow.cpp:1786
+#: dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -441,13 +441,13 @@ msgid ""
 "the whole window instead."
 msgstr "현재 열린 탭을 닫습니다. 창에 탭이 더 이상 없으면 전체 창을 닫습니다."
 
-#: dolphinmainwindow.cpp:1791
+#: dolphinmainwindow.cpp:1809
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "창을 닫습니다."
 
-#: dolphinmainwindow.cpp:1799
+#: dolphinmainwindow.cpp:1817
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -462,13 +462,13 @@ msgstr ""
 "드 단축키</emphasis> 역시 키보드에서 인접해 있습니다. <shortcut>Ctrl+X</"
 "shortcut>, <shortcut>Ctrl+C</shortcut>, <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1806
+#: dolphinmainwindow.cpp:1824
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "잘라내기…"
 
-#: dolphinmainwindow.cpp:1808
+#: dolphinmainwindow.cpp:1826
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -481,13 +481,13 @@ msgstr ""
 "><emphasis>붙여넣기</emphasis> 명령을 사용하면 클립보드에 있는 항목을 새로운 "
 "위치에 붙여 넣고 이전 위치에서 삭제합니다."
 
-#: dolphinmainwindow.cpp:1815
+#: dolphinmainwindow.cpp:1833
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "복사…"
 
-#: dolphinmainwindow.cpp:1817
+#: dolphinmainwindow.cpp:1835
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -499,13 +499,13 @@ msgstr ""
 "><emphasis>붙여넣기</emphasis> 명령을 사용하면 클립보드에 있는 항목을 새로운 "
 "위치에 붙여 넣습니다."
 
-#: dolphinmainwindow.cpp:1826
+#: dolphinmainwindow.cpp:1844
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "붙여넣기"
 
-#: dolphinmainwindow.cpp:1828
+#: dolphinmainwindow.cpp:1846
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -517,19 +517,19 @@ msgstr ""
 "<nl/><emphasis>잘라내기</emphasis> 동작을 통해서 클립보드에 항목을 추가했다"
 "면 이전 위치에서 항목을 삭제합니다."
 
-#: dolphinmainwindow.cpp:1835
+#: dolphinmainwindow.cpp:1853
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "다른 보기로 복사"
 
-#: dolphinmainwindow.cpp:1836
+#: dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "다른 보기로 복사…"
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1856
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -539,25 +539,25 @@ msgstr ""
 "선택한 항목을 포커스가 맞춰진 보기에서 다른 보기로 복사합니다.(분할 보기 모드"
 "에서만 사용 가능)"
 
-#: dolphinmainwindow.cpp:1842
+#: dolphinmainwindow.cpp:1860
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "다른 보기로 복사"
 
-#: dolphinmainwindow.cpp:1847
+#: dolphinmainwindow.cpp:1865
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "다른 보기로 이동"
 
-#: dolphinmainwindow.cpp:1848
+#: dolphinmainwindow.cpp:1866
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "다른 보기로 이동…"
 
-#: dolphinmainwindow.cpp:1850
+#: dolphinmainwindow.cpp:1868
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -567,25 +567,25 @@ msgstr ""
 "선택한 항목을 포커스가 맞춰진 보기에서 다른 보기로 이동합니다.(분할 보기 모드"
 "에서만 사용 가능)"
 
-#: dolphinmainwindow.cpp:1854
+#: dolphinmainwindow.cpp:1872
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "다른 보기로 이동"
 
-#: dolphinmainwindow.cpp:1859
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "필터…"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1878
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "필터 표시줄 표시"
 
-#: dolphinmainwindow.cpp:1862
+#: dolphinmainwindow.cpp:1880
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -598,30 +598,30 @@ msgstr ""
 "이나 폴더를 필터할 때 사용할 문자열을 입력할 수 있습니다. 해당 문자열이 들어 "
 "있는 항목만 표시됩니다."
 
-#: dolphinmainwindow.cpp:1874
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "필터 표시줄 전환"
 
-#: dolphinmainwindow.cpp:1875
+#: dolphinmainwindow.cpp:1893
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "필터"
 
-#: dolphinmainwindow.cpp:1883 search/bar.cpp:213
+#: dolphinmainwindow.cpp:1901 search/bar.cpp:213
 #, kde-format
 msgid "Search…"
 msgstr "검색…"
 
-#: dolphinmainwindow.cpp:1884
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "파일 및 폴더 검색"
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1904
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -632,20 +632,20 @@ msgstr ""
 "<para><emphasis>검색 표시줄</emphasis>을 표시하여 파일과 폴더를 찾습니다. 검"
 "색어 및 찾을 항목의 종류를 지정할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:1895
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "검색 표시줄 전환"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1914
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "검색"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1929
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -653,13 +653,13 @@ msgstr "파일 및 폴더 선택"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1932
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "선택"
 
-#: dolphinmainwindow.cpp:1917
+#: dolphinmainwindow.cpp:1935
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -676,19 +676,19 @@ msgstr ""
 "para><para>선택 모드에서는 아래쪽에 빠른 접근 표시줄이 표시되어 현재 선택한 "
 "항목으로 동작을 수행할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:1940
+#: dolphinmainwindow.cpp:1958
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "현재 위치의 모든 파일과 폴더를 선택합니다."
 
-#: dolphinmainwindow.cpp:1944 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:1962 dolphinpart.cpp:169
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "선택 반전"
 
-#: dolphinmainwindow.cpp:1946
+#: dolphinmainwindow.cpp:1964
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -696,7 +696,7 @@ msgid ""
 "selected instead."
 msgstr "현재 선택하지 <emphasis>않은</emphasis> 모든 항목을 선택합니다."
 
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1984
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -709,7 +709,7 @@ msgstr ""
 "간 파일을 쉽게 이동할 수 있습니다.</para><para>\"포커스가 없는\" 보기는 흐리"
 "게 표시됩니다.</para>이 단추를 다시 클릭하면 보기 중 하나를 닫습니다."
 
-#: dolphinmainwindow.cpp:1981
+#: dolphinmainwindow.cpp:1999
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -717,25 +717,25 @@ msgid ""
 "window."
 msgstr "보기를 나눴을 때 현재 활성 보기를 새 창으로 떼냅니다."
 
-#: dolphinmainwindow.cpp:1989
+#: dolphinmainwindow.cpp:2007
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "임시 저장"
 
-#: dolphinmainwindow.cpp:1990
+#: dolphinmainwindow.cpp:2008
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "가상 임시 저장 디렉터리를 나뉜 창으로 열기"
 
-#: dolphinmainwindow.cpp:1998
+#: dolphinmainwindow.cpp:2016
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "보기 새로 고침"
 
-#: dolphinmainwindow.cpp:2000
+#: dolphinmainwindow.cpp:2018
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -749,31 +749,31 @@ msgstr ""
 "업데이트된 목록을 표시합니다.</para><para>보기가 나뉘어 있으면 현재 포커스가 "
 "맞춰진 부분을 새로 고칩니다.</para>"
 
-#: dolphinmainwindow.cpp:2007
+#: dolphinmainwindow.cpp:2025
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "정지"
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2026
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "그만 불러오기"
 
-#: dolphinmainwindow.cpp:2009
+#: dolphinmainwindow.cpp:2027
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "현재 폴더의 내용을 더 이상 불러오지 않습니다."
 
-#: dolphinmainwindow.cpp:2014
+#: dolphinmainwindow.cpp:2032
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "위치 표시줄 편집하기"
 
-#: dolphinmainwindow.cpp:2016
+#: dolphinmainwindow.cpp:2034
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -786,13 +786,13 @@ msgstr ""
 "를 직접 입력할 수 있습니다.<nl/>위치 표시줄 오른쪽을 클릭하여 위치 편집과 편"
 "집한 위치로 전환을 실행할 수 있습니다."
 
-#: dolphinmainwindow.cpp:2024
+#: dolphinmainwindow.cpp:2042
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "위치 바꾸기"
 
-#: dolphinmainwindow.cpp:2029
+#: dolphinmainwindow.cpp:2047
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -800,19 +800,19 @@ msgid ""
 "enter a different location."
 msgstr "위치 편집을 전환하여 새 위치를 빠르게 입력할 수 있도록 합니다."
 
-#: dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:2077
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "탭 닫기 실행 취소"
 
-#: dolphinmainwindow.cpp:2060
+#: dolphinmainwindow.cpp:2078
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "이전에 닫은 탭으로 되돌아갑니다."
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2086
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -827,7 +827,7 @@ msgstr ""
 "interface>, <filename>휴지통으로 이동</filename> 작업을 취소할 수 있습니다."
 "<nl/>실행 취소할 수 없는 작업은 실행 전에 물어봅니다."
 
-#: dolphinmainwindow.cpp:2097
+#: dolphinmainwindow.cpp:2115
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -839,19 +839,19 @@ msgstr ""
 "<filename>홈</filename> 폴더를 가지고 있으며, 해당 폴더에는 사용자 개인 데이"
 "터 및 앱 데이터와 설정 파일이 포함된 숨겨진 폴더를 포함하고 있습니다."
 
-#: dolphinmainwindow.cpp:2104
+#: dolphinmainwindow.cpp:2122
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "파일 비교하기"
 
-#: dolphinmainwindow.cpp:2110
+#: dolphinmainwindow.cpp:2128
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "디스크 공간 사용량 관리"
 
-#: dolphinmainwindow.cpp:2118
+#: dolphinmainwindow.cpp:2136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -863,13 +863,13 @@ msgstr ""
 "para><para><emphasis>더 많은 검색 도구</emphasis> 메뉴에서 설정할 수 있습니"
 "다.</para>"
 
-#: dolphinmainwindow.cpp:2132
+#: dolphinmainwindow.cpp:2150
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "터미널 열기"
 
-#: dolphinmainwindow.cpp:2134
+#: dolphinmainwindow.cpp:2152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -882,13 +882,13 @@ msgstr ""
 "십시오.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2142
+#: dolphinmainwindow.cpp:2160
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "여기에서 터미널 열기"
 
-#: dolphinmainwindow.cpp:2144
+#: dolphinmainwindow.cpp:2162
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -900,13 +900,13 @@ msgstr ""
 "para><para>터미널 사용에 대해서 자세히 알아보려면 터미널 앱의 도움말을 참조하"
 "십시오.</para>"
 
-#: dolphinmainwindow.cpp:2152
+#: dolphinmainwindow.cpp:2170
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "책갈피(&B)"
 
-#: dolphinmainwindow.cpp:2162
+#: dolphinmainwindow.cpp:2180
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -923,91 +923,91 @@ msgstr ""
 "고 정돈된 형태로 접근할 수 있습니다.</para><para>%1 단추는 간단하고 작지만 고"
 "급 작업에 접근하기에는 시간이 더 걸릴 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2187
+#: dolphinmainwindow.cpp:2205
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "탭 %1(으)로 이동"
 
-#: dolphinmainwindow.cpp:2200
+#: dolphinmainwindow.cpp:2218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "마지막 탭"
 
-#: dolphinmainwindow.cpp:2201
+#: dolphinmainwindow.cpp:2219
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "마지막 탭으로 이동"
 
-#: dolphinmainwindow.cpp:2207
+#: dolphinmainwindow.cpp:2225
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "다음 탭"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2226
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "다음 탭으로 이동"
 
-#: dolphinmainwindow.cpp:2214
+#: dolphinmainwindow.cpp:2232
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "이전 탭"
 
-#: dolphinmainwindow.cpp:2215
+#: dolphinmainwindow.cpp:2233
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "이전 탭으로 이동"
 
-#: dolphinmainwindow.cpp:2222
+#: dolphinmainwindow.cpp:2240
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "대상 표시"
 
-#: dolphinmainwindow.cpp:2228
+#: dolphinmainwindow.cpp:2246
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "새 탭으로 열기"
 
-#: dolphinmainwindow.cpp:2233
+#: dolphinmainwindow.cpp:2251
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "새 탭으로 열기"
 
-#: dolphinmainwindow.cpp:2238
+#: dolphinmainwindow.cpp:2256
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "새 창으로 열기"
 
-#: dolphinmainwindow.cpp:2243 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2261 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "분할 보기로 열기"
 
-#: dolphinmainwindow.cpp:2259
+#: dolphinmainwindow.cpp:2277
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "패널 잠금 해제"
 
-#: dolphinmainwindow.cpp:2261
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "패널 잠금"
 
-#: dolphinmainwindow.cpp:2264
+#: dolphinmainwindow.cpp:2282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1020,13 +1020,13 @@ msgstr ""
 "니다.<nl/>잠금 해제된 패널은 창의 다른 쪽으로 드래그할 수 있으며 닫기 단추가 "
 "표시됩니다.<nl/>잠긴 패널은 창에 더 깨끗하게 임베드됩니다."
 
-#: dolphinmainwindow.cpp:2273
+#: dolphinmainwindow.cpp:2291
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "정보"
 
-#: dolphinmainwindow.cpp:2296
+#: dolphinmainwindow.cpp:2314
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1036,7 +1036,7 @@ msgstr ""
 "<para>패널을 표시하거나 숨기려면 <interface>메뉴|패널</interface> 또는 "
 "<interface>보기|패널</interface> 항목을 사용하십시오.</para>"
 
-#: dolphinmainwindow.cpp:2303
+#: dolphinmainwindow.cpp:2321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1051,7 +1051,7 @@ msgstr ""
 "시합니다. 선택한 항목이 없으면 현재 폴더의 정보를 표시합니다.<nl/>항목을 한 "
 "개만 선택했다면 해당 항목의 내용을 미리 보여 줍니다.</para>"
 
-#: dolphinmainwindow.cpp:2311
+#: dolphinmainwindow.cpp:2329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1066,13 +1066,13 @@ msgstr ""
 "택했다면 해당 항목의 내용을 미리 보여 줍니다.</para><para>마우스 오른쪽 단추"
 "를 클릭해서 표시할 정보를 선택할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2320
+#: dolphinmainwindow.cpp:2338
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "폴더"
 
-#: dolphinmainwindow.cpp:2340
+#: dolphinmainwindow.cpp:2358
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1084,7 +1084,7 @@ msgstr ""
 "<nl/><nl/>해당 패널에서는 <emphasis>파일 시스템</emphasis>의 폴더를 "
 "<emphasis>트리 구조</emphasis>로 표시합니다."
 
-#: dolphinmainwindow.cpp:2345
+#: dolphinmainwindow.cpp:2363
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1098,13 +1098,13 @@ msgstr ""
 "왼쪽에 있는 화살표를 클릭하면 하위 폴더를 볼 수 있습니다. 이 동작을 사용하여 "
 "폴더 간을 빠르게 전환할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2355
+#: dolphinmainwindow.cpp:2373
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "터미널"
 
-#: dolphinmainwindow.cpp:2380
+#: dolphinmainwindow.cpp:2398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1121,7 +1121,7 @@ msgstr ""
 "필요하지 않지만 복잡한 작업을 실행할 때 유용합니다. 터미널 작업에 대해서 더 "
 "알아 보려면 단독 터미널 앱 Konsole의 도움말을 참조하십시오.</para>"
 
-#: dolphinmainwindow.cpp:2388
+#: dolphinmainwindow.cpp:2406
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1138,31 +1138,31 @@ msgstr ""
 "을 실행할 때 유용합니다. 터미널 작업에 대해서 더 알아 보려면 단독 터미널 앱 "
 "Konsole의 도움말을 참조하십시오.</para>"
 
-#: dolphinmainwindow.cpp:2398 dolphinmainwindow.cpp:2997
+#: dolphinmainwindow.cpp:2416 dolphinmainwindow.cpp:3015
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "터미널에 포커스 맞추기"
 
-#: dolphinmainwindow.cpp:2399
+#: dolphinmainwindow.cpp:2417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "키보드 포커스를 터미널 패널과 전환합니다."
 
-#: dolphinmainwindow.cpp:2412
+#: dolphinmainwindow.cpp:2430
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "위치"
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2458
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "숨겨진 위치 표시"
 
-#: dolphinmainwindow.cpp:2444
+#: dolphinmainwindow.cpp:2462
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1173,7 +1173,7 @@ msgstr ""
 "위치 패널에서 숨겨진 장소를 표시합니다. 숨김을 해제하지 않으면 반투명한 상태"
 "로 표시됩니다."
 
-#: dolphinmainwindow.cpp:2456
+#: dolphinmainwindow.cpp:2474
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1188,7 +1188,7 @@ msgstr ""
 "및 네트워크 위치에 빠르게 접근할 수 있습니다. 최근 저장한 파일이나 특정 형식"
 "의 파일을 빠르게 찾을 수도 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2463
+#: dolphinmainwindow.cpp:2481
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1211,25 +1211,25 @@ msgstr ""
 "추를 클릭하면 숨길 수 있습니다. 이 패널의 빈 공간을 마우스 오른쪽 단추로 누르"
 "고 <interface>숨은 장소 보기</interface>를 선택하면 다시 표시합니다.</para>"
 
-#: dolphinmainwindow.cpp:2477 dolphinmainwindow.cpp:3015
+#: dolphinmainwindow.cpp:2495 dolphinmainwindow.cpp:3033
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "위치 패널에 포커스 맞추기"
 
-#: dolphinmainwindow.cpp:2478
+#: dolphinmainwindow.cpp:2496
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "키보드 포커스를 위치 패널과 전환합니다."
 
-#: dolphinmainwindow.cpp:2484
+#: dolphinmainwindow.cpp:2502
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "패널 표시"
 
-#: dolphinmainwindow.cpp:2553
+#: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1237,20 +1237,20 @@ msgid ""
 msgstr ""
 "이름을 바꿀 수 없음: 이 폴더의 항목의 이름을 바꿀 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2556 dolphinmainwindow.cpp:2573
+#: dolphinmainwindow.cpp:2574 dolphinmainwindow.cpp:2591
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "삭제할 수 없음: 이 폴더의 항목을 삭제할 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2558
+#: dolphinmainwindow.cpp:2576
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "잘라낼 수 없음: 이 폴더의 항목을 이동할 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2563
+#: dolphinmainwindow.cpp:2581
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1258,31 +1258,31 @@ msgid ""
 "folder."
 msgstr "여기에 복제할 수 없음: 이 폴더에 항목을 만들 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2585
+#: dolphinmainwindow.cpp:2603
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "다른 보기로 복사할 수 없음: 선택한 파일이 없습니다."
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2605
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "다른 보기로 이동할 수 없음: 선택한 파일이 없습니다."
 
-#: dolphinmainwindow.cpp:2606
+#: dolphinmainwindow.cpp:2624
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "다른 보기로 복사할 수 없음: 다른 보기에 같은 항목이 이미 있습니다."
 
-#: dolphinmainwindow.cpp:2609
+#: dolphinmainwindow.cpp:2627
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "다른 보기로 이동할 수 없음: 다른 보기에 같은 항목이 이미 있습니다."
 
-#: dolphinmainwindow.cpp:2614
+#: dolphinmainwindow.cpp:2632
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1290,7 +1290,7 @@ msgid ""
 "destination folder."
 msgstr "다른 보기로 복사할 수 없음: 대상 폴더에 쓸 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2618
+#: dolphinmainwindow.cpp:2636
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1298,7 +1298,7 @@ msgid ""
 "destination folder."
 msgstr "다른 보기로 이동할 수 없음: 대상 폴더에 쓸 수 있는 권한이 없습니다."
 
-#: dolphinmainwindow.cpp:2624
+#: dolphinmainwindow.cpp:2642
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1308,7 +1308,7 @@ msgstr ""
 "다른 보기로 이동할 수 없음: 이 폴더에서 파일을 이동할 수 있는 권한이 없습니"
 "다."
 
-#: dolphinmainwindow.cpp:2648
+#: dolphinmainwindow.cpp:2666
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1323,85 +1323,85 @@ msgstr ""
 "관리됩니다. 계층 구조의 맨 꼭대기에는 이 컴퓨터에 연결된 모든 데이터가 들어 "
 "있는 <emphasis>루트 디렉터리</emphasis>가 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2736
+#: dolphinmainwindow.cpp:2754
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "닫기"
 
-#: dolphinmainwindow.cpp:2737
+#: dolphinmainwindow.cpp:2755
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "왼쪽 보기 닫기"
 
-#: dolphinmainwindow.cpp:2739
+#: dolphinmainwindow.cpp:2757
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "왼쪽 보기 닫기"
 
-#: dolphinmainwindow.cpp:2741
+#: dolphinmainwindow.cpp:2759
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "왼쪽 보기 떼내기"
 
-#: dolphinmainwindow.cpp:2742
+#: dolphinmainwindow.cpp:2760
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "왼쪽 보기를 새 창으로 떼내기"
 
-#: dolphinmainwindow.cpp:2744
+#: dolphinmainwindow.cpp:2762
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "닫기"
 
-#: dolphinmainwindow.cpp:2745
+#: dolphinmainwindow.cpp:2763
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "오른쪽 보기 닫기"
 
-#: dolphinmainwindow.cpp:2747
+#: dolphinmainwindow.cpp:2765
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "오른쪽 보기 닫기"
 
-#: dolphinmainwindow.cpp:2749
+#: dolphinmainwindow.cpp:2767
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "오른쪽 보기 떼내기"
 
-#: dolphinmainwindow.cpp:2750
+#: dolphinmainwindow.cpp:2768
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "오른쪽 나뉜 보기를 새 창으로 떼내기"
 
-#: dolphinmainwindow.cpp:2759
+#: dolphinmainwindow.cpp:2777
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "나누기"
 
-#: dolphinmainwindow.cpp:2761
+#: dolphinmainwindow.cpp:2779
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "탐색 창 나누어 보기"
 
-#: dolphinmainwindow.cpp:2763
+#: dolphinmainwindow.cpp:2781
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "떼내기"
 
-#: dolphinmainwindow.cpp:2823
+#: dolphinmainwindow.cpp:2841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1419,7 +1419,7 @@ msgstr ""
 "<emphasis>도구 모음</emphasis>의 <interface>메뉴</interface> 단추를 통해서 기"
 "능을 사용할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2830
+#: dolphinmainwindow.cpp:2848
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1441,7 +1441,7 @@ msgstr ""
 "에서 마우스 오른쪽 단추를 클릭하면 텍스트 표시 여부를 설정할 수 있습니다.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2842
+#: dolphinmainwindow.cpp:2860
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1467,7 +1467,7 @@ msgstr ""
 "dolphin/dolphin-view.html'>여기</link>를 클릭하십시오. 기본 기능을 설명하는 "
 "<emphasis>도움말</emphasis> 페이지를 표시합니다.</para>"
 
-#: dolphinmainwindow.cpp:2858
+#: dolphinmainwindow.cpp:2876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1480,7 +1480,7 @@ msgstr ""
 "<nl/>단축키를 눌렀을 때 특정한 동작을 실행시킬 수 있도록 설정할 수 있습니다. "
 "이 앱의 모든 명령에 단축키를 지정할 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2864
+#: dolphinmainwindow.cpp:2882
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1492,7 +1492,7 @@ msgstr ""
 "할 수 있는 창을 엽니다.</para><para><interface>메뉴</interface>에 나타난 모"
 "든 항목을 도구 모음에도 둘 수 있습니다.</para>"
 
-#: dolphinmainwindow.cpp:2868
+#: dolphinmainwindow.cpp:2886
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1510,7 +1510,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2906
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1525,7 +1525,7 @@ msgstr ""
 "면 <link url='https://userbase.kde.org/Dolphin/File_Management'>여기</link>"
 "를 클릭하십시오. KDE 사용자 센터 위키의 해당 페이지를 엽니다.</para>"
 
-#: dolphinmainwindow.cpp:2893
+#: dolphinmainwindow.cpp:2911
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1546,7 +1546,7 @@ msgstr ""
 "link> 위키를 참조할 수 있습니다.</para><para>다른 대부분 창에는 \"이것에 대"
 "한 설명\"을 제공하지 않으므로 이 방식에만 너무 의존하지는 마십시오.</para>"
 
-#: dolphinmainwindow.cpp:2904
+#: dolphinmainwindow.cpp:2922
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1561,7 +1561,7 @@ msgstr ""
 "버그 보고 방법을 알아 보려면 <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>여기</link>를 클릭하십시오.</para>"
 
-#: dolphinmainwindow.cpp:2913
+#: dolphinmainwindow.cpp:2931
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1581,7 +1581,7 @@ msgstr ""
 "을 지원하는 데에는 여러분의 도움이 필요합니다.</para><para><emphasis>KDE e.V."
 "</emphasis>는 KDE 커뮤니티를 돕는 비영리 단체입니다.</para>"
 
-#: dolphinmainwindow.cpp:2926
+#: dolphinmainwindow.cpp:2944
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1592,7 +1592,7 @@ msgstr ""
 "앱에서 사용하는 언어를 변경합니다.<nl/>첫 번째로 선호하는 언어로 메시지가 표"
 "시되지 않는 경우에 사용할 두 번째 언어를 지정할 수도 있습니다."
 
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2949
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1601,7 +1601,7 @@ msgid ""
 msgstr ""
 "이 앱의 버전 정보, 라이선스, 라이브러리, 관리자 정보를 표시하는 창을 엽니다."
 
-#: dolphinmainwindow.cpp:2936
+#: dolphinmainwindow.cpp:2954
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1614,19 +1614,19 @@ msgstr ""
 "를 개발한 사람들입니다.<nl/>앱을 사용해 왔으나 KDE를 몰랐다거나, 아니면 귀여"
 "운 용을 보고 싶으면 눌러 보세요!"
 
-#: dolphinmainwindow.cpp:2991 dolphinmainwindow.cpp:3002
+#: dolphinmainwindow.cpp:3009 dolphinmainwindow.cpp:3020
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "터미널 패널에 포커스 맞추지 않기"
 
-#: dolphinmainwindow.cpp:3009
+#: dolphinmainwindow.cpp:3027
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "터미널 패널에 포커스 맞추지 않기"
 
-#: dolphinmainwindow.cpp:3020
+#: dolphinmainwindow.cpp:3038
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
