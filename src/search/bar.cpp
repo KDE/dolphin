@@ -203,7 +203,9 @@ void Bar::setVisible(bool visible, Animated animated)
 
 void Bar::updateState(const std::shared_ptr<const DolphinQuery> &dolphinQuery)
 {
+    const int cursorPosition = m_searchTermEditor->cursorPosition();
     m_searchTermEditor->setText(dolphinQuery->searchTerm());
+    m_searchTermEditor->setCursorPosition(qMin(cursorPosition, dolphinQuery->searchTerm().length()));
     // When the Popup is closed users might not know whether they are searching in file names or contents. This can be problematic when users do not find a
     // file and then assume it doesn't exist. We consider searching for names matching the search term the default and only show a generic "Search…" text as
     // the placeholder then. But when names are not searched we change the placeholder message to make this clear.
