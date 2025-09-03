@@ -245,14 +245,14 @@ void ViewPropertiesTest::testExtendedAttributeFull()
 
     KFileMetaData::UserMetaData metadata(m_testDir->url().toLocalFile());
     if (!metadata.isSupported()) {
-        QSKIP("need extended attribute/filesystem metadata to be usefull");
+        QSKIP("need extended attribute/filesystem metadata to be useful");
     }
 
     QStorageInfo storageInfo(m_testDir->url().toLocalFile());
     auto blockSize = storageInfo.blockSize();
 
     KFileMetaData::UserMetaData::Error result;
-    // write a close to block size theorical maximum size for attributes in Linux for ext4
+    // write a close to block size theoretical maximum size for attributes in Linux for ext4
     // and btrfs (4Kib typically) when ReiserFS/XFS allow XATTR_SIZE_MAX (64Kib)
     result = metadata.setAttribute("data", QString(blockSize - 50, 'a'));
     if (result != KFileMetaData::UserMetaData::NoSpace) {
@@ -294,13 +294,13 @@ void ViewPropertiesTest::testUseAsDefaultViewSettings()
     });
     ViewProperties globalProps(globalPropertiesPath);
 
-    // Check that theres no .directory file and metadata is supported
+    // Check that there's no .directory file and metadata is supported
     QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
     KFileMetaData::UserMetaData testDirMetadata(m_testDir->url().toLocalFile());
     KFileMetaData::UserMetaData globalDirMetadata(globalPropertiesPath.toLocalFile());
     if (!testDirMetadata.isSupported()) {
-        QSKIP("need extended attribute/filesystem metadata to be usefull");
+        QSKIP("need extended attribute/filesystem metadata to be useful");
     }
 
     const auto newDefaultViewMode = DolphinView::Mode::DetailsView;
@@ -345,13 +345,13 @@ void ViewPropertiesTest::testUseAsCustomDefaultViewSettings()
     });
     ViewProperties globalProps(globalPropertiesPath);
 
-    // Check that theres no .directory file and metadata is supported
+    // Check that there's no .directory file and metadata is supported
     QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
     KFileMetaData::UserMetaData testDirMetadata(m_testDir->url().toLocalFile());
     KFileMetaData::UserMetaData globalDirMetadata(globalPropertiesPath.toLocalFile());
     if (!testDirMetadata.isSupported()) {
-        QSKIP("need extended attribute/filesystem metadata to be usefull");
+        QSKIP("need extended attribute/filesystem metadata to be useful");
     }
 
     // Equivalent of useAsDefault in ViewPropertiesDialog

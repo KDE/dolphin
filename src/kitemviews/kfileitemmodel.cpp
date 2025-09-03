@@ -830,7 +830,7 @@ void KFileItemModel::applyFilters()
             itemShownBelow = itemData;
         } else {
             // We hide this item for now, however, for expanded folders this is not final:
-            // if after the next "for" loop we discover that its children must now be shown with the newly applied fliter, we shall re-insert it
+            // if after the next "for" loop we discover that its children must now be shown with the newly applied filter, we shall re-insert it
             newFilteredIndexes.prepend(index);
             m_filteredItems.insert(itemData->item, itemData);
             // indexShownBelow doesn't get updated since this item will be hidden

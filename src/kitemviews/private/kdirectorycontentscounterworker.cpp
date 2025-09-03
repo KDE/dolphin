@@ -84,7 +84,7 @@ void KDirectoryContentsCounterWorker::walkDir(const QString &dirPath, bool count
 
         if (info == FTS_D) {
             if (node->fts_level == 0) {
-                // first read was sucessful, we can init counters
+                // first read was successful, we can init counters
                 totalSize = 0;
                 totalCount = 0;
             }

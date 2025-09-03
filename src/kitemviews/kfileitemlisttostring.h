@@ -18,7 +18,7 @@ enum ItemsState { None, Selected };
  * @brief Generates a textual representation of the given list of KFileItems.
  *
  * This method is especially useful to be very explicit about which items will be affected by an action.
- * For example can a label for a delete button be enriched to say "Permanantly Delete `picture1` and `picture2`"
+ * For example can a label for a delete button be enriched to say "Permanently Delete `picture1` and `picture2`"
  * but also "Permanently Delete 7 Selected Folders" without requiring a huge amount of new translations for this.
  *
  * Unfortunately this doesn't always work.

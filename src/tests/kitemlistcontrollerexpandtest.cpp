@@ -110,7 +110,7 @@ void KItemListControllerExpandTest::testDirExpand()
     QCOMPARE(m_view->itemLayout(), KFileItemListView::DetailsLayout);
     m_view->setSupportsItemExpanding(true);
 
-    // intial state
+    // initial state
     QCOMPARE(m_spyDirectoryLoadingCompleted->count(), 1);
     QCOMPARE(m_model->count(), 3);
     QCOMPARE(m_selectionManager->currentItem(), 0);

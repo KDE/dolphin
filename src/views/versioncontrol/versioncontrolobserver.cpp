@@ -177,7 +177,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     if (m_currentPlugin && rootItem.url().path().startsWith(m_localRepoRoot) && QFile::exists(m_localRepoRoot + '/' + m_currentPlugin->fileName())) {
-        // current directory is still versionned
+        // current directory is still versioned
         updateItemStates();
         return;
     }

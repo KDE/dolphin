@@ -317,7 +317,7 @@ void DolphinQuery::initializeFromBalooQuery(const Baloo::Query &balooQuery, cons
                                               // UI does not support searching for differing strings in content and file name.
                     m_searchTerm = value;
                 }
-                if (!requestedToSearchThrough.has_value()) { // If requested to search thorugh contents, searching file names is already implied.
+                if (!requestedToSearchThrough.has_value()) { // If requested to search through contents, searching file names is already implied.
                     requestedToSearchThrough = SearchThrough::FileNames;
                 }
             }

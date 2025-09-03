@@ -27,7 +27,7 @@ class KItemListSelectionManager;
  * interact with the view using accessibility tools. It implements various interfaces mostly to generally allow working with the view as a whole. However,
  * actually interacting with singular items within the view is implemented in KItemListDelegateAccessible.
  *
- * @note For documentation of most of the methods within this class, check out the documentation of the methods which are being overriden here.
+ * @note For documentation of most of the methods within this class, check out the documentation of the methods which are being overridden here.
  */
 class DOLPHIN_EXPORT KItemListViewAccessible : public QAccessibleObject,
                                                public QAccessibleSelectionInterface,

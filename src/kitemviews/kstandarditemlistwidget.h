@@ -61,7 +61,7 @@ protected:
      * @param role          The role the text is being requested for.
      * @param values        The data of the item. All the data is passed because the text might depend on multiple data points.
      * @param forUsageAs    Whether the roleText should be optimized for displaying (i.e. kept somewhat short) or optimized for speaking e.g. by screen readers
-     *                      or text-to-speech in general (i.e. by prefering announcing a month as July instead of as the number 7).
+     *                      or text-to-speech in general (i.e. by preferring announcing a month as July instead of as the number 7).
      * @return String representation of the role \a role. The representation of
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.

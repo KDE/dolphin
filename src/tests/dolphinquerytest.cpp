@@ -172,7 +172,7 @@ void DolphinQueryTest::testBalooSearchParsing()
 
     const Search::DolphinQuery query = Search::DolphinQuery{searchUrl, /** No backupSearchPath should be needed because searchUrl should be valid. */ QUrl{}};
 
-    // Checkt that the URL is supported
+    // Check that the URL is supported
     QVERIFY(Search::isSupportedSearchScheme(searchUrl.scheme()));
 
     // Check for parsed text (would be displayed on the input search bar)

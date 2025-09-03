@@ -1550,7 +1550,7 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
 QPixmap
 KStandardItemListWidget::addOverlays(const QPixmap &pixmap, const QHash<Qt::Corner, QString> &overlays, const QSize &size, qreal dpr, QIcon::Mode mode) const
 {
-    // similar to KIconUtils::addOverlays, keep in sync preferrably
+    // similar to KIconUtils::addOverlays, keep in sync preferably
     if (overlays.isEmpty()) {
         return pixmap;
     }

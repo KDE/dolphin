@@ -244,7 +244,7 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_pressedGrip) {
         // Emitting a column width change removes automatic column resizing, so we do not emit if only the padding is being changed.
-        // Eception: In mouseMoveEvent() we also resize the last column if the right padding is at zero but the user still quickly resizes beyond the screen
+        // Exception: In mouseMoveEvent() we also resize the last column if the right padding is at zero but the user still quickly resizes beyond the screen
         // boarder. Such a resize "of the right padding" is let through when automatic column resizing was disabled by that resize.
         if (m_pressedGrip->roleToTheLeft != "leftPadding" && (m_pressedGrip->roleToTheRight != "rightPadding" || !m_automaticColumnResizing)) {
             const qreal currentWidth = m_columnWidths.value(m_pressedGrip->roleToTheLeft);

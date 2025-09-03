@@ -177,12 +177,12 @@ QString KItemListDelegateAccessible::text(QAccessible::Text t) const
                 continue; // No need to announce roles which are empty for this item.
             }
             description +=
-                // i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
+                // i18n: The text starts with a comma because multiple occurrences of this text can follow after each others as an enumeration.
                 // Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
                 // clear, however this is accessible text that will be read out by screen readers. That's why there is only a space between the two here,
                 // because screen readers would read the colon literally as "colon", which is just a waste of time for users who might go through a list of
-                // hundreds of items. So, if you want to add any more punctation there to improve structure, try to make sure that it will not lead to annoying
-                // announcements when read out by a screen reader.
+                // hundreds of items. So, if you want to add any more punctuation there to improve structure, try to make sure that it will not lead to
+                // annoying announcements when read out by a screen reader.
                 i18nc("@info accessibility enumeration, %1 is property, %2 is value", ", %1 %2", model->roleDescription(roleInformation), roleText);
         }
         return description;

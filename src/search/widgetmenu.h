@@ -40,7 +40,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
     /**
-     * This unfortuantely needs to be explicitly called to resize the WidgetMenu because the size of a QMenu will not automatically change to fit the QWidgets
+     * This unfortunately needs to be explicitly called to resize the WidgetMenu because the size of a QMenu will not automatically change to fit the QWidgets
      * within.
      */
     void resizeToFitContents();
@@ -53,7 +53,7 @@ protected:
 private:
     /**
      * @return the widget which is contained in this WidgetMenu. This method is at most called once per WidgetMenu object when the WidgetMenu is about to be
-     *         shown for the first time. The ownership of the widget will be transfered to an internal QWidgetAction.
+     *         shown for the first time. The ownership of the widget will be transferred to an internal QWidgetAction.
      */
     virtual QWidget *init() = 0;
 };

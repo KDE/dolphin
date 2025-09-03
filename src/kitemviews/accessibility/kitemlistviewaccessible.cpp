@@ -261,7 +261,7 @@ QString KItemListViewAccessible::text(QAccessible::Text t) const
 
     /**
      * Always announce the path last because it might be very long.
-     * We do not need to announce the total count of items here because accessibility software like Orca alrady announces this automatically for lists.
+     * We do not need to announce the total count of items here because accessibility software like Orca already announces this automatically for lists.
      */
     if (!currentItem) {
         return i18nc("@info 1 states that the folder is empty and sometimes why, 2 is the full filesystem path",

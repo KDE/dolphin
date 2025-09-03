@@ -110,7 +110,7 @@ public:
     KNewFileMenu *newFileMenu() const;
 
     /**
-     * Augments Qt's build-in QMainWindow context menu to add
+     * Augments Qt's built-in QMainWindow context menu to add
      * Dolphin-specific actions, such as "unlock panels".
      */
     QMenu *createPopupMenu() override;

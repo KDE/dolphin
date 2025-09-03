@@ -137,7 +137,7 @@ private Q_SLOTS:
     /**
      * Is called when any component within this Bar emits a configurationChanged() signal.
      * This method is then responsible to communicate the changed search configuration to every other interested party by calling
-     * UpdatableStateInterface::updateStateToMatch() methods and commiting the new search configuration.
+     * UpdatableStateInterface::updateStateToMatch() methods and committing the new search configuration.
      * @see UpdatableStateInterface::updateStateToMatch().
      * @see commitCurrentConfiguration().
      */
@@ -145,7 +145,7 @@ private Q_SLOTS:
 
     /**
      * Changes the m_searchConfiguration in response to the user editing the search term. If no further changes to the search term happen within a time limit,
-     * the new search configuration will eventually be commited.
+     * the new search configuration will eventually be committed.
      * @see commitCurrentConfiguration.
      */
     void slotSearchTermEdited(const QString &text);

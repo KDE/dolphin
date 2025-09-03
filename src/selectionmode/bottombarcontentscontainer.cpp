@@ -599,7 +599,7 @@ void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& sel
         // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
         // and a fallback will be used.
         buttonText = i18ncp("@action", "Copy %2 to the Clipboard", "Copy %2 to the Clipboard", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
-        // All these long lines can not be broken up with line breaks becaue the i18n call should be completely
+        // All these long lines can not be broken up with line breaks because the i18n call should be completely
         // in the line following the "i18n:" comment without any line breaks within the i18n call
         // or the comment might not be correctly extracted. See: https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
         break;
