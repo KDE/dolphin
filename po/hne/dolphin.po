@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-02 00:46+0000\n"
+"POT-Creation-Date: 2025-09-04 00:45+0000\n"
 "PO-Revision-Date: 2009-02-14 14:05+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -613,7 +613,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "फिल्टर:"
 
-#: dolphinmainwindow.cpp:1904 search/bar.cpp:213
+#: dolphinmainwindow.cpp:1904 search/bar.cpp:215
 #, fuzzy, kde-format
 msgid "Search…"
 msgstr "मुख्य औजार पट्टी"
@@ -2123,12 +2123,12 @@ msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
 msgstr ""
 
-#. i18n: The text starts with a comma because multiple occurences of this text can follow after each others as an enumeration.
+#. i18n: The text starts with a comma because multiple occurrences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
 #. clear, however this is accessible text that will be read out by screen readers. That's why there is only a space between the two here,
 #. because screen readers would read the colon literally as "colon", which is just a waste of time for users who might go through a list of
-#. hundreds of items. So, if you want to add any more punctation there to improve structure, try to make sure that it will not lead to annoying
-#. announcements when read out by a screen reader.
+#. hundreds of items. So, if you want to add any more punctuation there to improve structure, try to make sure that it will not lead to
+#. annoying announcements when read out by a screen reader.
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:186
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
@@ -3388,13 +3388,13 @@ msgid ""
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
 
-#: search/bar.cpp:212
+#: search/bar.cpp:214
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr ""
 
-#: search/bar.cpp:226
+#: search/bar.cpp:228
 #, fuzzy, kde-kuit-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the item <filename>%1</filename> to:"
@@ -3407,7 +3407,7 @@ msgstr "चीज मन के नाम <filename>%1</filename> बदलक�
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:235
+#: search/bar.cpp:237
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3416,7 +3416,7 @@ msgstr ""
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:239
+#: search/bar.cpp:241
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
