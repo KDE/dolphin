@@ -314,6 +314,20 @@ private Q_SLOTS:
     /** Performs the current undo operation. */
     void undo();
 
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 17, 0)
+    /**
+     * Updates the state of the 'Redo' menu action dependent
+     * on the parameter \a available.
+     */
+    void slotRedoAvailable(bool available);
+
+    /** Sets the text of the 'Redo' menu action to \a text. */
+    void slotRedoTextChanged(const QString &text);
+
+    /** Performs the current redo operation. */
+    void redo();
+#endif
+
     /**
      * Copies all selected items to the clipboard and marks
      * the items as cut.

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="47">
+<gui name="dolphin" version="48">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -21,8 +21,6 @@
             <Action name="properties" />
         </Menu>
         <Menu name="edit">
-            <Action name="edit_undo" />
-            <Separator />
             <Action name="edit_cut" />
             <Action name="edit_copy" />
             <Action name="copy_location" />
