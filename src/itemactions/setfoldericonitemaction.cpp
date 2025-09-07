@@ -128,7 +128,9 @@ public:
 
         bool firstAction = false;
         for (const auto action : std::as_const(m_actions)) {
-            action->setParent(widget);
+            if (!action->parent()) {
+                action->setParent(widget);
+            }
 
             auto p = new QPushButton(widget);
 
