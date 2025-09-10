@@ -13,6 +13,7 @@
 #include <QPointer>
 #include <QUrl>
 #include <QWidget>
+#include <QTextEdit>
 
 class KFileItemList;
 class MediaWidget;
@@ -146,7 +147,7 @@ private:
 
     PixmapViewer *m_preview;
     MediaWidget *m_mediaWidget;
-    QLabel *m_nameLabel;
+    QTextEdit *m_nameLabel;
     Baloo::FileMetaDataWidget *m_metaDataWidget;
     QScrollArea *m_metaDataArea;
     QLabel *m_configureLabel;

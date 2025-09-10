@@ -81,14 +81,22 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     connect(m_mediaWidget, &MediaWidget::hasVideoChanged, this, &InformationPanelContent::slotHasVideoChanged);
 
     // name
-    m_nameLabel = new QLabel(parent);
+    m_nameLabel = new QTextEdit(parent);
     QFont font = m_nameLabel->font();
     font.setBold(true);
     m_nameLabel->setFont(font);
-    m_nameLabel->setTextFormat(Qt::PlainText);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     m_nameLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    m_nameLabel->setFrameShape(QFrame::NoFrame);
+    m_nameLabel->setStyleSheet("background-color: transparent; padding: 0px;");
+    m_nameLabel->setContentsMargins(0, 0, 0, 0); 
+    m_nameLabel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_nameLabel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QTextDocument *doc = m_nameLabel->document();
+    QTextOption option = doc->defaultTextOption();
+    option.setWrapMode(QTextOption::WrapAnywhere);
+    doc->setDefaultTextOption(option);
 
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
@@ -459,28 +467,9 @@ void InformationPanelContent::setNameLabelText(const QString &text)
 
     const QString processedText = Qt::mightBeRichText(text) ? text : KStringHandler::preProcessWrap(text);
 
-    QTextLayout textLayout(processedText);
-    textLayout.setFont(m_nameLabel->font());
-    textLayout.setTextOption(textOption);
-
-    QString wrappedText;
-    wrappedText.reserve(processedText.length());
-
-    // wrap the text to fit into the width of m_nameLabel
-    textLayout.beginLayout();
-    QTextLine line = textLayout.createLine();
-    while (line.isValid()) {
-        line.setLineWidth(m_nameLabel->width());
-        wrappedText += QStringView(processedText).mid(line.textStart(), line.textLength());
-
-        line = textLayout.createLine();
-        if (line.isValid()) {
-            wrappedText += QChar::LineSeparator;
-        }
-    }
-    textLayout.endLayout();
-
-    m_nameLabel->setText(wrappedText);
+    m_nameLabel->setText(processedText);
+    m_nameLabel->setFixedHeight(m_nameLabel->document()->size().height());
+    m_nameLabel->setAlignment(Qt::AlignHCenter);
 }
 
 void InformationPanelContent::adjustWidgetSizes(int width)
