@@ -1933,14 +1933,10 @@ void DolphinView::selectNextItem()
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
         }
-        auto nextItem = lastSelectedIndex + 1;
-        if (nextItem >= itemsCount()) {
-            nextItem = lastSelectedIndex - selectedItemsCount();
-        }
-        if (nextItem >= 0) {
-            selectionManager->setSelected(nextItem, 1);
-            selectionManager->beginAnchoredSelection(nextItem);
-        }
+        const auto nextItem = qMin(lastSelectedIndex + 1, itemsCount() - 1);
+        selectionManager->setCurrentItem(nextItem);
+        selectionManager->clearSelection();
+
         m_selectNextItem = false;
     }
 }
