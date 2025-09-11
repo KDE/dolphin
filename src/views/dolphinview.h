@@ -234,6 +234,18 @@ public:
     QList<QByteArray> visibleRoles() const;
 
     /**
+     * Returns the preferred sort order for a given role, taking into account
+     * user preferences and default sort orders.
+     */
+    Qt::SortOrder preferredSortOrder(const QByteArray &role) const;
+
+    /**
+     * Sets the preferred sort order for a given role. This remembers user
+     * preferences when switching between different sort roles.
+     */
+    void setPreferredSortOrder(const QByteArray &role, Qt::SortOrder order);
+
+    /**
      * Refreshes the view to get synchronized with the settings (e.g. icons size,
      * font, ...).
      */
@@ -335,6 +347,13 @@ public:
      * otherwise return an empty url.
      */
     static QUrl openItemAsFolderUrl(const KFileItem &item, const bool browseThroughArchives = true);
+
+    /**
+     * Set the default order for a given sort role.
+     * Time-based roles, size/dimension roles, and quality/quantity roles
+     * default to descending order. All other roles default to ascending order.
+     */
+    static Qt::SortOrder defaultSortOrderForRole(const QByteArray &role);
 
     /**
      * Hides tooltip displayed over element.
@@ -987,6 +1006,9 @@ private:
 
     /// Used for selection mode. @see setSelectionMode()
     std::unique_ptr<QProxyStyle> m_proxyStyle;
+
+    /// Hash table of user-preferred sort orders for each role
+    QHash<QByteArray, Qt::SortOrder> m_rolesSortOrder;
 
     // For unit tests
     friend class TestBase;

@@ -487,6 +487,13 @@ void DolphinView::setSortRole(const QByteArray &role)
         ViewProperties props(viewPropertiesUrl());
         props.setSortRole(role);
 
+        const Qt::SortOrder preferredOrder = preferredSortOrder(role);
+        if (sortOrder() != preferredOrder) {
+            props.setSortOrder(preferredOrder);
+            KItemModelBase *model = m_container->controller()->model();
+            model->setSortOrder(preferredOrder);
+        }
+
         KItemModelBase *model = m_container->controller()->model();
         model->setSortRole(role);
 
@@ -1734,6 +1741,31 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem &item, const bool browseTh
     return QUrl();
 }
 
+Qt::SortOrder DolphinView::defaultSortOrderForRole(const QByteArray &role)
+{
+    static const QSet<QByteArray> descendingRoles = {// Time-based roles
+                                                     "modificationtime",
+                                                     "creationtime",
+                                                     "accesstime",
+                                                     "deletiontime",
+                                                     "imageDateTime",
+                                                     "releaseYear",
+                                                     // Size/dimension roles
+                                                     "size",
+                                                     "width",
+                                                     "height",
+                                                     "pageCount",
+                                                     "wordCount",
+                                                     "lineCount",
+                                                     // Quality/Quantity roles
+                                                     "rating",
+                                                     "duration",
+                                                     "bitrate",
+                                                     "frameRate"};
+
+    return descendingRoles.contains(role) ? Qt::DescendingOrder : Qt::AscendingOrder;
+}
+
 void DolphinView::resetZoomLevel()
 {
     ViewModeSettings settings{m_mode};
@@ -1984,6 +2016,9 @@ void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOr
     Q_UNUSED(previous)
     Q_ASSERT(m_model->sortOrder() == current);
 
+    const QByteArray currentRole = m_model->sortRole();
+    m_rolesSortOrder[currentRole] = current;
+
     ViewProperties props(viewPropertiesUrl());
     props.setSortOrder(current);
 
@@ -1997,6 +2032,13 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray &current, const Q
 
     ViewProperties props(viewPropertiesUrl());
     props.setSortRole(current);
+
+    const Qt::SortOrder preferredOrder = preferredSortOrder(current);
+    if (m_model->sortOrder() != preferredOrder) {
+        props.setSortOrder(preferredOrder);
+        m_model->setSortOrder(preferredOrder);
+        Q_EMIT sortOrderChanged(preferredOrder);
+    }
 
     Q_EMIT sortRoleChanged(current);
 }
@@ -2559,6 +2601,20 @@ bool DolphinView::tryShowNameToolTip(QHelpEvent *event)
         }
     }
     return false;
+}
+
+Qt::SortOrder DolphinView::preferredSortOrder(const QByteArray &role) const
+{
+    if (m_rolesSortOrder.contains(role)) {
+        return m_rolesSortOrder.value(role);
+    } else {
+        return defaultSortOrderForRole(role);
+    }
+}
+
+void DolphinView::setPreferredSortOrder(const QByteArray &role, Qt::SortOrder order)
+{
+    m_rolesSortOrder[role] = order;
 }
 
 #include "moc_dolphinview.cpp"

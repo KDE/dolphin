@@ -261,17 +261,11 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             m_model->setSortOrder(current);
             Q_EMIT sortOrderChanged(current, previous);
         } else {
-            // Change the sort role and reset to the ascending order
+            // Change the sort role and use the appropriate default sort order
             const QByteArray previous = m_model->sortRole();
             const QByteArray current = m_columns[m_pressedRoleIndex];
-            const bool resetSortOrder = m_model->sortOrder() == Qt::DescendingOrder;
-            m_model->setSortRole(current, !resetSortOrder);
+            m_model->setSortRole(current, true);
             Q_EMIT sortRoleChanged(current, previous);
-
-            if (resetSortOrder) {
-                m_model->setSortOrder(Qt::AscendingOrder);
-                Q_EMIT sortOrderChanged(Qt::AscendingOrder, Qt::DescendingOrder);
-            }
         }
     }
 

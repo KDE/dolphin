@@ -594,6 +594,8 @@ void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
     const bool sortDescending = (order == Qt::DescendingOrder);
     descending->setChecked(sortDescending);
     ascending->setChecked(!sortDescending);
+    const QByteArray currentRole = m_currentView->sortRole();
+    m_currentView->setPreferredSortOrder(currentRole, order);
 }
 
 void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
@@ -723,13 +725,13 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray &role)
     if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
         descending->setText(i18nc("Sort descending", "Z-A"));
         ascending->setText(i18nc("Sort ascending", "A-Z"));
-    } else if (role == "size") {
+    } else if (role == "size" || role == "width" || role == "height" || role == "pageCount" || role == "wordCount" || role == "lineCount") {
         descending->setText(i18nc("Sort descending", "Largest First"));
         ascending->setText(i18nc("Sort ascending", "Smallest First"));
-    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
+    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime" || role == "imageDateTime" || role == "releaseYear") {
         descending->setText(i18nc("Sort descending", "Newest First"));
         ascending->setText(i18nc("Sort ascending", "Oldest First"));
-    } else if (role == "rating") {
+    } else if (role == "rating" || role == "bitrate" || role == "frameRate") {
         descending->setText(i18nc("Sort descending", "Highest First"));
         ascending->setText(i18nc("Sort ascending", "Lowest First"));
     } else {
