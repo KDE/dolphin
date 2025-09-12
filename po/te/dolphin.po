@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-08 00:47+0000\n"
+"POT-Creation-Date: 2025-09-12 00:45+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -297,7 +297,7 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2098
+#: views/dolphinview.cpp:2140
 #, kde-format
 msgid "Do not ask again"
 msgstr ""
@@ -6371,7 +6371,7 @@ msgstr "అప్రమేయ:"
 msgid "Reload"
 msgstr "తిరిగిలోడ్‌చేయి"
 
-#: views/dolphinview.cpp:667
+#: views/dolphinview.cpp:674
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6379,7 +6379,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "1 ఫోల్డరు ఎంపిక కాబడినది"
 msgstr[1] "1 ఫోల్డరు ఎంపిక కాబడినది"
 
-#: views/dolphinview.cpp:668
+#: views/dolphinview.cpp:675
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6387,7 +6387,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "1 ఫైలు ఎంపిక కాబడినది"
 msgstr[1] "1 ఫైలు ఎంపిక కాబడినది"
 
-#: views/dolphinview.cpp:670
+#: views/dolphinview.cpp:677
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Folder"
@@ -6397,7 +6397,7 @@ msgid_plural "%1 folders"
 msgstr[0] "ఫొల్డర్"
 msgstr[1] "ఫొల్డర్"
 
-#: views/dolphinview.cpp:671
+#: views/dolphinview.cpp:678
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -6407,19 +6407,19 @@ msgid_plural "%1 files"
 msgstr[0] "k.meetme@gmail.com,infyquest@gmail.com"
 msgstr[1] "k.meetme@gmail.com,infyquest@gmail.com"
 
-#: views/dolphinview.cpp:675
+#: views/dolphinview.cpp:682
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:677
+#: views/dolphinview.cpp:684
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:681
+#: views/dolphinview.cpp:688
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -6427,20 +6427,20 @@ msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinview.cpp:919 views/dolphinview.cpp:928
+#: views/dolphinview.cpp:926 views/dolphinview.cpp:935
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1115
+#: views/dolphinview.cpp:1122
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/dolphinview.cpp:1120
+#: views/dolphinview.cpp:1127
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -6450,13 +6450,13 @@ msgid_plural "Open %1 Items"
 msgstr[0] "అతికించుము"
 msgstr[1] "అతికించుము"
 
-#: views/dolphinview.cpp:1253
+#: views/dolphinview.cpp:1260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1257
+#: views/dolphinview.cpp:1264
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -6464,7 +6464,7 @@ msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "నిలువువరుస వెడల్పు"
 
-#: views/dolphinview.cpp:1262
+#: views/dolphinview.cpp:1269
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Column width"
@@ -6472,7 +6472,7 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "నిలువువరుస వెడల్పు"
 
-#: views/dolphinview.cpp:1875
+#: views/dolphinview.cpp:1907
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -6480,13 +6480,13 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ట్రాష్‌కు కదుల్చు కార్యము పుర్తైనది."
 
-#: views/dolphinview.cpp:1885
+#: views/dolphinview.cpp:1917
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "తొలగింపు కార్యము పూర్తైనది."
 
-#: views/dolphinview.cpp:2046
+#: views/dolphinview.cpp:2088
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rename inline"
@@ -6494,35 +6494,35 @@ msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "ఇన్‌లైన్‌ను పునఃనామకరణ చేయుము"
 
-#: views/dolphinview.cpp:2050
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2052
+#: views/dolphinview.cpp:2094
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2054
+#: views/dolphinview.cpp:2096
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "మరుగునవున్న ఫైళ్ళను చూపుము"
 
-#: views/dolphinview.cpp:2054
+#: views/dolphinview.cpp:2096
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "ఇంటి ఫొల్డర్"
 
-#: views/dolphinview.cpp:2075
+#: views/dolphinview.cpp:2117
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6530,7 +6530,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "పునఃనామకరణ..."
 
-#: views/dolphinview.cpp:2085
+#: views/dolphinview.cpp:2127
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6539,7 +6539,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2089
+#: views/dolphinview.cpp:2131
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6548,7 +6548,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2095
+#: views/dolphinview.cpp:2137
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6556,92 +6556,92 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "రకం:"
 
-#: views/dolphinview.cpp:2139
+#: views/dolphinview.cpp:2181
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "స్థానము ఖాళీగావుంది"
 
-#: views/dolphinview.cpp:2141
+#: views/dolphinview.cpp:2183
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "స్థానము '%1' సరైనదికాదు."
 
-#: views/dolphinview.cpp:2473
+#: views/dolphinview.cpp:2515
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
-#: views/dolphinview.cpp:2502
+#: views/dolphinview.cpp:2544
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "ఫోల్డరును లోడుచేస్తోంది..."
 
-#: views/dolphinview.cpp:2504
+#: views/dolphinview.cpp:2546
 #, kde-format
 msgid "No items matching the filter"
 msgstr ""
 
-#: views/dolphinview.cpp:2506
+#: views/dolphinview.cpp:2548
 #, kde-format
 msgid "No items matching the search"
 msgstr ""
 
-#: views/dolphinview.cpp:2508
+#: views/dolphinview.cpp:2550
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "స్థానము ఖాళీగావుంది"
 
-#: views/dolphinview.cpp:2511
+#: views/dolphinview.cpp:2553
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2514
+#: views/dolphinview.cpp:2556
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2518
+#: views/dolphinview.cpp:2560
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Close Tab"
 msgid "No recently used items"
 msgstr "టాబ్‌ను మూయుము"
 
-#: views/dolphinview.cpp:2520
+#: views/dolphinview.cpp:2562
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2522
+#: views/dolphinview.cpp:2564
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2524
+#: views/dolphinview.cpp:2566
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2526
+#: views/dolphinview.cpp:2568
 #, kde-format
 msgid "No Apple devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2528
+#: views/dolphinview.cpp:2570
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2530
+#: views/dolphinview.cpp:2572
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -6967,7 +6967,7 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:678
+#: views/dolphinviewactionhandler.cpp:680
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Icons"
@@ -6975,7 +6975,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "ప్రతిమలు"
 
-#: views/dolphinviewactionhandler.cpp:679
+#: views/dolphinviewactionhandler.cpp:681
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -6983,13 +6983,13 @@ msgctxt "@info"
 msgid "Icons view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:689
+#: views/dolphinviewactionhandler.cpp:691
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:690
+#: views/dolphinviewactionhandler.cpp:692
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -6997,7 +6997,7 @@ msgctxt "@info"
 msgid "Compact view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:702
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Details"
@@ -7005,7 +7005,7 @@ msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "వివరాలు"
 
-#: views/dolphinviewactionhandler.cpp:701
+#: views/dolphinviewactionhandler.cpp:703
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Split view mode"
@@ -7013,19 +7013,19 @@ msgctxt "@info"
 msgid "Details view mode"
 msgstr "వీక్షణ తీరును విభజించుము"
 
-#: views/dolphinviewactionhandler.cpp:724
+#: views/dolphinviewactionhandler.cpp:726
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:725
+#: views/dolphinviewactionhandler.cpp:727
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:727
+#: views/dolphinviewactionhandler.cpp:729
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7033,7 +7033,7 @@ msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:728
+#: views/dolphinviewactionhandler.cpp:730
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7041,7 +7041,7 @@ msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:730
+#: views/dolphinviewactionhandler.cpp:732
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7049,7 +7049,7 @@ msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:731
+#: views/dolphinviewactionhandler.cpp:733
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -7057,7 +7057,7 @@ msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:733
+#: views/dolphinviewactionhandler.cpp:735
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Folders"
@@ -7065,7 +7065,7 @@ msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ఫోల్డర్లు"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:736
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -7073,7 +7073,7 @@ msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
-#: views/dolphinviewactionhandler.cpp:736
+#: views/dolphinviewactionhandler.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Descending"
@@ -7081,7 +7081,7 @@ msgctxt "Sort descending"
 msgid "Descending"
 msgstr "అవరోహణ"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:739
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Ascending"
@@ -7089,7 +7089,7 @@ msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ఆరోహణ"
 
-#: views/dolphinviewactionhandler.cpp:835
+#: views/dolphinviewactionhandler.cpp:837
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -7102,12 +7102,12 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:844
+#: views/dolphinviewactionhandler.cpp:846
 #, kde-format
 msgid "Actions for %1"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:851
+#: views/dolphinviewactionhandler.cpp:853
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
