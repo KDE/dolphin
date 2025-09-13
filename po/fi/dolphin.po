@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-12 00:45+0000\n"
-"PO-Revision-Date: 2025-07-31 09:16+0300\n"
+"POT-Creation-Date: 2025-09-13 00:52+0000\n"
+"PO-Revision-Date: 2025-09-04 10:19+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1073,7 +1073,7 @@ msgstr "Avaa jaettuun näkymään"
 #: dolphinmainwindow.cpp:2323
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "Ikkunan &väriteema"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -2097,26 +2097,22 @@ msgid "Authorization required to enter this folder."
 msgstr "Kansioon siirtymiseksi vaaditaan tunnistautuminen."
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Kansio luotiin."
+msgstr "Luo puuttuva kansio"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Luo tähän sijaintiin kansio ja avaa se"
 
 #: dolphinviewcontainer.cpp:1017
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Ei voida liittää: sinulla ei ole kansioon kirjoitusoikeutta."
+msgstr "Sinulla ei ole käyttöoikeutta kansion luomiseksi"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
@@ -3321,13 +3317,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Tiivis päiväys"
 
-#: panels/information/informationpanelcontent.cpp:103
+#: panels/information/informationpanelcontent.cpp:111
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Valitse näytettävät tiedot:"
 
-#: panels/information/informationpanelcontent.cpp:284
+#: panels/information/informationpanelcontent.cpp:292
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -4747,10 +4743,9 @@ msgstr "Pyydä vahvistus useamman päätteen avaamiseen kerralla."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Pyydä vahvistus useamman kansion avaamiseen kerralla."
+msgstr "Pyydä vahvistus, kun tiedoston nimen muuttaminen muuttaa sen tyyppiä."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4887,7 +4882,7 @@ msgstr "Vaihdetaan toimimaan pääkäyttäjänä"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Tiedoston nimen muuttaminen muuttaa sen tyyppiä"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6229,12 +6224,10 @@ msgid "Hide this Folder?"
 msgstr "Piilotetaanko kansio?"
 
 #: views/dolphinview.cpp:2117
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Muuta nimeä…"
+msgstr "Muuta nimeä"
 
 #: views/dolphinview.cpp:2127
 #, kde-format
@@ -6244,6 +6237,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tämä tekee tiedoston tyypistä tuntemattoman.\n"
+"Tiedoston sisältö ei muutu, mutta sovellukset eivät enää tunnista sitä.\n"
+"Haluatko silti muuttaa nimeä?"
 
 #: views/dolphinview.cpp:2131
 #, kde-format
@@ -6253,14 +6249,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tämä muuttaa tiedoston tyypiksi ”%2” (nyt ”%1”).\n"
+"Tiedoston sisältö ei muutu, mutta sovellukset eivät enää tunnista sitä.\n"
+"Haluatko silti muuttaa nimeä?"
 
 #: views/dolphinview.cpp:2137
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Tiedostotyyppi:"
+msgstr "Muuta tiedostotyyppiä"
 
 #: views/dolphinview.cpp:2181
 #, kde-format

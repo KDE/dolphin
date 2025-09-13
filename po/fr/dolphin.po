@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-12 00:45+0000\n"
-"PO-Revision-Date: 2025-08-29 13:20+0200\n"
+"POT-Creation-Date: 2025-09-13 00:52+0000\n"
+"PO-Revision-Date: 2025-09-09 13:27+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -907,14 +907,7 @@ msgstr ""
 "pour les modifications ne pouvant être annulées."
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -923,12 +916,12 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"Ceci annule la dernière modification que vous avez faite sur les fichiers ou "
-"les dossiers.<nl/> De telles modifications concernent <interface>la "
-"création</interface>,<interface>le renommage</interface> et <interface>le "
-"déplacement</interface> de ceux-ci vers un emplacement différent ou vers la "
-"<filename>Corbeille</filename>. <nl/> Une confirmation vous sera demandée "
-"pour les modifications ne pouvant être annulées."
+"Cela refait la dernière modification que vous avez annulée.<nl/>De telles "
+"modifications concernent <interface>la création</interface>,<interface>le "
+"renommage</interface> et <interface>le déplacement</interface> de fichiers "
+"ou de dossiers vers un emplacement différent ou vers la <filename>Corbeille</"
+"filename>. <nl/>Une confirmation vous sera demandée pour toute modification "
+"ne pouvant être annulée."
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -3406,13 +3399,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Date au format court"
 
-#: panels/information/informationpanelcontent.cpp:103
+#: panels/information/informationpanelcontent.cpp:111
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Décidez quelles données doivent être affichées :"
 
-#: panels/information/informationpanelcontent.cpp:284
+#: panels/information/informationpanelcontent.cpp:292
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

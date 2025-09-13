@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-12 00:45+0000\n"
+"POT-Creation-Date: 2025-09-13 00:52+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -3437,13 +3437,13 @@ msgctxt "@action:inmenu"
 msgid "Condensed Date"
 msgstr "Скарочаная дата"
 
-#: panels/information/informationpanelcontent.cpp:103
+#: panels/information/informationpanelcontent.cpp:111
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Абраць даныя, якія будуць паказвацца:"
 
-#: panels/information/informationpanelcontent.cpp:284
+#: panels/information/informationpanelcontent.cpp:292
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
