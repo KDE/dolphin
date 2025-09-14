@@ -16,7 +16,6 @@
 #include <KCollapsibleGroupBox>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KWindowConfig>
 
 #include <kwidgetsaddons_version.h>
 
@@ -209,8 +208,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView *dolphinView)
         applyButton->setEnabled(isDirty);
     });
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), QStringLiteral("ViewPropertiesDialog"));
-    KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
+    // clean up old window geometry settings
+    KSharedConfig::openConfig(QStringLiteral("dolphinrc"))->deleteGroup(QStringLiteral("ViewPropertiesDialog"));
 
     loadSettings();
 }
@@ -220,9 +219,6 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     m_isDirty = false;
     delete m_viewProps;
     m_viewProps = nullptr;
-
-    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), QStringLiteral("ViewPropertiesDialog"));
-    KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
 void ViewPropertiesDialog::accept()
