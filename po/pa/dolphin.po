@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:52+0000\n"
-"PO-Revision-Date: 2025-02-28 11:00-0600\n"
-"Last-Translator: A S Alam <aman@punlinux.org>\n"
-"Language-Team: pa\n"
+"POT-Creation-Date: 2025-09-16 00:44+0000\n"
+"PO-Revision-Date: 2025-09-15 10:33-0500\n"
+"Last-Translator: A S Alam <aalam@punlinux.org>\n"
+"Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -161,17 +161,15 @@ msgid "Configure Trash…"
 msgstr "…ਰੱਦੀ ਦੀ ਸੰਰਚਨਾ"
 
 #: dolphincontextmenu.cpp:165
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Select Home Location"
+#, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
 "they lived at the moment they were trashed. Minimize the length of this "
 "string if possible."
 msgid "Restore to Former Location"
 msgid_plural "Restore to Former Locations"
-msgstr[0] "ਘਰ ਟਿਕਾਣਾ ਚੁਣੋ"
-msgstr[1] "ਘਰ ਟਿਕਾਣਾ ਚੁਣੋ"
+msgstr[0] "ਪੁਰਾਣੇ ਟਿਕਾਣੇ ਉੱਤੇ ਬਹਾਲ ਕਰੋ"
+msgstr[1] "ਪੁਰਾਣੇ ਟਿਕਾਣਿਆਂ ਉੱਤੇ ਬਹਾਲ ਕਰੋ"
 
 #: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1802
 #, kde-format
@@ -828,7 +826,7 @@ msgstr "ਫਾਇਲਾਂ ਦੀ ਤੁਲਨਾ"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "ਡਿਸਕ ਥਾਂ ਵਰਤੋਂ ਦਾ ਇੰਤਜ਼ਾਮ ਕਰੋ"
 
 #: dolphinmainwindow.cpp:2186
 #, kde-kuit-format
@@ -892,7 +890,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "%1 ਟੈਬ ਉੱਤੇ ਜਾਓ"
 
 #: dolphinmainwindow.cpp:2268
 #, kde-format
@@ -963,7 +961,7 @@ msgstr "ਵੰਡੀ ਗਈ ਝਲਕ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 #: dolphinmainwindow.cpp:2323
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "ਵਿੰਡੋ ਰੰਗ ਸਕੀਮ(&W)"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -1849,12 +1847,10 @@ msgid "Authorization required to enter this folder."
 msgstr ""
 
 #: dolphinviewcontainer.cpp:997
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "ਬਣਾਇਆ ਫੋਲਡਰ।"
+msgstr "ਨਾ-ਮੌਜੂਦ ਫੋਲਡਰ ਨੂੰ ਬਣਾਓ"
 
 #: dolphinviewcontainer.cpp:1014
 #, kde-format
@@ -1866,7 +1862,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr ""
+msgstr "ਤੁਹਾਡੇ ਕੋਲ ਫੋਲਡਰ ਬਣਾਉਣ ਲਈ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ"
 
 #: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
 #, kde-kuit-format
@@ -1898,123 +1894,109 @@ msgid "Move to New Folder…"
 msgstr "…ਨਵੇਂ ਫੋਲਡਰ ਵਿੱਚ ਭੇਜੋ"
 
 #: itemactions/setfoldericonitemaction.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "ਹੋਰ"
 
 #: itemactions/setfoldericonitemaction.cpp:156
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "ਡਰੈਗ ਕਰਨ ਦੇ ਦੌਰਾਨ ਫੋਲਡਰ ਖੋਲ੍ਹੋ"
+msgstr "ਹੋਰ ਫੋਲਡਰ ਆਈਕਾਨ ਚੋਣਾਂ"
 
 #: itemactions/setfoldericonitemaction.cpp:190
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "ਮੁੜ-ਲੋਡ"
+msgstr "ਲਾਲ"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "ਬਸੰਤੀ"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "ਸੰਤਰੀ"
 
 #: itemactions/setfoldericonitemaction.cpp:193
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "ਹਰਾ"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "ਨੀਲਾ-ਹਰਾ"
 
 #: itemactions/setfoldericonitemaction.cpp:196
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
-msgstr "ਡਿਫਾਲਟ-"
+msgstr "ਡਿਫਾਲਟ"
 
 #: itemactions/setfoldericonitemaction.cpp:198
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "ਨੀਲਾ"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "ਜਾਮਨੀ"
 
 #: itemactions/setfoldericonitemaction.cpp:200
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "ਬਰਾਊਜ਼ਿੰਗ: "
+msgstr "ਭੂਰਾ"
 
 #: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "ਸਲੇਟੀ"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "ਬੁੱਕਮਾਰਕ(&B)"
+msgstr "ਬੁੱਕਮਾਰਕ"
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "ਕਲਾਉਡ"
 
 #: itemactions/setfoldericonitemaction.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "ਡਿਵੈਲਪਰ"
+msgstr "ਡਿਵੈਲਪਮੈਂਟ"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "ਖੇਡਾਂ"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "ਮੇਲ"
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Music"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "ਸੰਗੀਤ"
@@ -2023,27 +2005,25 @@ msgstr "ਸੰਗੀਤ"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "ਪਰਿੰਟ"
 
 #: itemactions/setfoldericonitemaction.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "ਫਾਇਲਾਂ ਦੀ ਤੁਲਨਾ"
+msgstr "ਕੰਪਰੈਸਡ"
 
 #: itemactions/setfoldericonitemaction.cpp:212
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "ਆਰਜ਼ੀ"
 
 #: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "ਖਾਸ"
 
 #: itemactions/setfoldericonitemaction.cpp:235
 #, kde-format
@@ -2061,7 +2041,7 @@ msgstr "ਲੁਕਵਾਂ"
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", %2 ਉੱਤੇ %1 ਲਈ ਲਿੰਕ"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
@@ -2159,20 +2139,16 @@ msgstr[0] "ਚੁਣੀ ਆਈਟਮ '%1' ਦਾ ਨਾਂ ਬਦਲੋ:"
 msgstr[1] "ਚੁਣੀਆਂ ਆਈਟਮਾਂ '%1' ਦਾ ਨਾਂ ਬਦਲੋ:"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:519
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode enabled"
-msgstr "ਚੋਣ ਦਾ ਢੰਗ"
+msgstr "ਚੋਣ ਦਾ ਢੰਗ ਸਮਰੱਥ ਹੈ"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:520
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgctxt "accessibility announcement"
 msgid "Selection mode disabled"
-msgstr "ਚੋਣ ਦਾ ਢੰਗ"
+msgstr "ਚੋਣ ਦਾ ਢੰਗ ਅਸਮਰੱਥ ਹੈ"
 
 #: kitemviews/kfileitemlisttostring.cpp:22
 #, kde-format
@@ -2794,12 +2770,10 @@ msgid "File Manager"
 msgstr "ਫਾਇਲ ਮੈਨੇਜਰ"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
-msgstr "(C) ੨੦੦੬-੨੦੨੫ ਡਾਲਫਿਨ ਡਿਵੈਲਪਰ"
+msgstr "© ੨੦੦੬-੨੦੨੫ ਡਾਲਫਿਨ ਡਿਵੈਲਪਰ"
 
 #: main.cpp:101
 #, kde-format
@@ -3155,9 +3129,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "ਭਵਿੱਖ ਵਿੱਚ ਵਰਤਣ ਵਾਸਤੇ ਫੌਰੀ ਪਹੁੰਚ ਲਈ ਇਸ ਖੋਜ ਨੂੰ ਸੰਭਾਲੋ"
 
 #: search/bar.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "ਫਿਲਟਰ"
@@ -3169,17 +3141,13 @@ msgid "Quit searching"
 msgstr "ਖੋਜ ਕਰਨੀ ਬੰਦ"
 
 #: search/bar.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "ਇੱਥੋਂ ਤੋਂ"
+msgstr "ਇੱਥੋਂ"
 
 #: search/bar.cpp:118
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "ਹਰ ਥਾਂ"
@@ -3235,12 +3203,10 @@ msgid ""
 msgstr ""
 
 #: search/chip.cpp:22
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "ਫਿਲਟਰ"
+msgstr "ਫਿਲਟਰ ਨੂੰ ਹਟਾਓ"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3345,7 +3311,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "%1 ਖੋਜ ਨਤੀਜੇ"
 
 #: search/dolphinquery.cpp:445
 #, fuzzy, kde-format
@@ -3379,12 +3345,10 @@ msgid "Search in:"
 msgstr "ਖੋਜ:"
 
 #: search/popup.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Filenames"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "ਫਾਇਲ-ਨਾਂ"
+msgstr "ਫਾਇਲ ਦਾ ਨਾਂ"
 
 #: search/popup.cpp:113
 #, fuzzy, kde-format
@@ -3412,20 +3376,16 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:166
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "…ਸੰਰਚਨਾ"
+msgstr "… %1 ਦੀ ਸੰਰਚਨਾ"
 
 #: search/popup.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Type:"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "ਟਾਈਪ:"
+msgstr "ਫਾਇਲ ਦੀ ਕਿਸਮ:"
 
 #: search/popup.cpp:217
 #, fuzzy, kde-format
@@ -3436,17 +3396,13 @@ msgid "Modified since:"
 msgstr "ਸੋਧ:"
 
 #: search/popup.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating:"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "ਰੇਟਿੰਗ:"
 
 #: search/popup.cpp:234
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags:"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "ਟੈਗ:"
@@ -3476,12 +3432,10 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:293
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:296
 #, kde-kuit-format
@@ -3504,22 +3458,19 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "ਫਾਇਲ ਦਾ ਨਾਂ ਅਤੇ ਸਮੱਗਰੀ"
 
 #: search/popup.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "ਫਾਇਲ ਐਕਸ਼ਟੇਸ਼ਨ"
+msgstr "ਫਾਇਲ ਦੀ ਸਮੱਗਰੀ"
 
 #: search/popup.cpp:330
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
-msgstr "%1 ਖੋਲ੍ਹੋ"
+msgstr "%1 ਨੂੰ ਖੋਲ੍ਹੋ"
 
 #: search/popup.cpp:333
 #, fuzzy, kde-format
@@ -3598,7 +3549,7 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:182
 #, fuzzy, kde-format
@@ -5518,131 +5469,131 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "ਆਕਾਰ: ੧ ਪਿਕਸਲ"
 msgstr[1] "ਆਕਾਰ: %1 ਪਿਕਸਲ"
 
-#: settings/viewpropertiesdialog.cpp:60
+#: settings/viewpropertiesdialog.cpp:59
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "ਦਿਖਾਉਣ ਸਟਾਈਲ ਵੇਖੋ"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "ਆਈਕਾਨ"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "ਸੰਖੇਪ"
 
-#: settings/viewpropertiesdialog.cpp:74
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "ਵੇਰਵਾ"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "ਵੱਧਦਾ-ਕ੍ਰਮ"
 
-#: settings/viewpropertiesdialog.cpp:78
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "ਘੱਟਦਾ-ਕ੍ਰਮ"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "ਫੋਲਡਰ ਪਹਿਲਾਂ ਵੇਖੋ"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਆਖੀਰ ਵਿੱਚ ਵੇਖਾਓ"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "ਝਲਕ ਵੇਖੋ"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "ਗਰੁੱਪ ਵਿੱਚ ਵੇਖੋ"
 
-#: settings/viewpropertiesdialog.cpp:90
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਵੇਖੋ"
 
-#: settings/viewpropertiesdialog.cpp:93
+#: settings/viewpropertiesdialog.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "ਹੋਰ ਜਾਣਕਾਰੀ"
 
-#: settings/viewpropertiesdialog.cpp:132
+#: settings/viewpropertiesdialog.cpp:131
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "ਚੁਣੋ ਕਿ ਫ਼ਾਇਲ ਜਾਂ ਫੋਲਡਰ ਉੱਤੇ ਕੀ ਵੇਖਣਾ ਹੈ:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:141
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "ਵੇਖਣ ਮੋਡ:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "ਲੜੀਬੱਧ:"
 
-#: settings/viewpropertiesdialog.cpp:147
+#: settings/viewpropertiesdialog.cpp:146
 #, kde-format
 msgid "View options:"
 msgstr "ਵੇਖਣ ਚੋਣਾਂ:"
 
-#: settings/viewpropertiesdialog.cpp:166
+#: settings/viewpropertiesdialog.cpp:165
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:167
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ ਅਤੇ ਸਬ ਫੋਲਡਰ"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "ਸਭ ਫੋਲਡਰ"
 
-#: settings/viewpropertiesdialog.cpp:178
+#: settings/viewpropertiesdialog.cpp:177
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "ਲਾਗੂ ਕਰੋ:"
 
-#: settings/viewpropertiesdialog.cpp:183
+#: settings/viewpropertiesdialog.cpp:182
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "ਡਿਫਾਲਟ ਵੇਖਣ ਸੈਟਿੰਗਾਂ ਵਜੋਂ ਵਰਤੋਂ"
 
-#: settings/viewpropertiesdialog.cpp:335
+#: settings/viewpropertiesdialog.cpp:331
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -5650,7 +5601,7 @@ msgid ""
 "continue?"
 msgstr "ਸਭ ਸਬ-ਫੋਲਡਰਾਂ ਲਈ ਵੇਖਣ ਵਿਸ਼ੇਸ਼ਤਾ ਬਦਲੀ ਜਾਵੇਗੀ। ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: settings/viewpropertiesdialog.cpp:365
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -5679,13 +5630,13 @@ msgstr "ਫੋਲਡਰ: %1"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr "<application>ਫਾਇਲ-ਲਾਈਟ</application> ਨੂੰ ਕਾਮਯਾਬੀ ਨਾਲ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ।"
+msgstr "<application>ਫ਼ਾਇਲ-ਲਾਈਟ</application> ਨੂੰ ਕਾਮਯਾਬੀ ਨਾਲ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ।"
 
 #: statusbar/diskspaceusagemenu.cpp:55
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "…ਫ਼ਾਇਲ-ਲਾਈਟ (Filelight) ਨੂੰ ਇੰਸਟਾਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format

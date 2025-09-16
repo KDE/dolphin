@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:52+0000\n"
-"PO-Revision-Date: 2025-08-30 09:38+0400\n"
+"POT-Creation-Date: 2025-09-16 00:44+0000\n"
+"PO-Revision-Date: 2025-09-15 12:24+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -872,14 +872,7 @@ msgstr ""
 ">التغييرات التي لا يمكن التراجع عنها ستطلب منك التأكيد."
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -888,10 +881,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"يؤدي هذا إلى إلغاء آخر تغيير أجريته على الملفات أو المجلدات.<nl/>تتضمن هذه "
-"التغييرات<interface>إنشاء وإعادة تسمية</interface>و <interface>نقلها</"
-"interface>إلى موقع مختلف  أو إلى<filename>المهملات </filename>. <nl/"
-">التغييرات التي لا يمكن التراجع عنها ستطلب منك التأكيد."
+"يؤدي هذا إلى تكرار آخر تغيير أجريته.<nl/>وتشمل هذه التغييرات "
+"<interface>إنشاء</interface> و<interface>إعادة تسمية</interface> "
+"و<interface>نقل</interface> الملفات أو المجلدات إلى موقع مختلف أو إلى "
+"<filename>سلة المهملات</filename>.<nl/>التغييرات التي لا يمكن التراجع عنها "
+"ستطلب منك التأكيد."
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -5772,131 +5766,131 @@ msgstr[3] "الحجم: %1 بكسلات"
 msgstr[4] "الحجم: %1 بكسلًا"
 msgstr[5] "الحجم: %1 بكسل"
 
-#: settings/viewpropertiesdialog.cpp:60
+#: settings/viewpropertiesdialog.cpp:59
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "نمط مشاهدة العرض"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "أيقونات"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "مُدمج"
 
-#: settings/viewpropertiesdialog.cpp:74
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "تفاصيل"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "تصاعديًا"
 
-#: settings/viewpropertiesdialog.cpp:78
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "تنازليًا"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "أظهر المجلدات أولًا"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "أظهر الملفات المخفية في الأخير"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "أظهر معاينة"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "أظهر في مجموعات"
 
-#: settings/viewpropertiesdialog.cpp:90
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "أظهر الملفات المخفية"
 
-#: settings/viewpropertiesdialog.cpp:93
+#: settings/viewpropertiesdialog.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "معلومات إضافية"
 
-#: settings/viewpropertiesdialog.cpp:132
+#: settings/viewpropertiesdialog.cpp:131
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "اختر ما تريد رؤيته في كل ملف أو مجلد:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:141
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "وضع العرض:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "الفرز:"
 
-#: settings/viewpropertiesdialog.cpp:147
+#: settings/viewpropertiesdialog.cpp:146
 #, kde-format
 msgid "View options:"
 msgstr "خيارات العرض:"
 
-#: settings/viewpropertiesdialog.cpp:166
+#: settings/viewpropertiesdialog.cpp:165
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "المجلد الحالي"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:167
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "المجلد الحالي والمجلدات الفرعية"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "كلّ المجلدات"
 
-#: settings/viewpropertiesdialog.cpp:178
+#: settings/viewpropertiesdialog.cpp:177
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "طبّق على:"
 
-#: settings/viewpropertiesdialog.cpp:183
+#: settings/viewpropertiesdialog.cpp:182
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "استخدم كمبدئي لإعدادات العرض"
 
-#: settings/viewpropertiesdialog.cpp:335
+#: settings/viewpropertiesdialog.cpp:331
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -5904,7 +5898,7 @@ msgid ""
 "continue?"
 msgstr "ستُغيَّر خصائص عرض كلّ المجلدات الفرعية. أتريد المتابعة؟"
 
-#: settings/viewpropertiesdialog.cpp:365
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""

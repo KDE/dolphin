@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:52+0000\n"
+"POT-Creation-Date: 2025-09-16 00:44+0000\n"
 "PO-Revision-Date: 2025-07-20 00:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5616,131 +5616,131 @@ msgid "Size: 1 pixel"
 msgid_plural "Size: %1 pixels"
 msgstr[0] "크기: %1픽셀"
 
-#: settings/viewpropertiesdialog.cpp:60
+#: settings/viewpropertiesdialog.cpp:59
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "보기 표시 스타일"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "아이콘"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "축소됨"
 
-#: settings/viewpropertiesdialog.cpp:74
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "자세히"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "오름차순"
 
-#: settings/viewpropertiesdialog.cpp:78
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "내림차순"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "폴더 먼저 표시"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "숨김 파일을 마지막에 표시"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "미리 보기 표시"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "그룹으로 표시"
 
-#: settings/viewpropertiesdialog.cpp:90
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "숨김 파일 표시"
 
-#: settings/viewpropertiesdialog.cpp:93
+#: settings/viewpropertiesdialog.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "추가 정보"
 
-#: settings/viewpropertiesdialog.cpp:132
+#: settings/viewpropertiesdialog.cpp:131
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "각각 파일과 폴더에 대해서 볼 항목 선택:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:141
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "보기 모드:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "정렬:"
 
-#: settings/viewpropertiesdialog.cpp:147
+#: settings/viewpropertiesdialog.cpp:146
 #, kde-format
 msgid "View options:"
 msgstr "보기 옵션:"
 
-#: settings/viewpropertiesdialog.cpp:166
+#: settings/viewpropertiesdialog.cpp:165
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "현재 폴더"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:167
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "현재 폴더와 하위 폴더"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "모든 폴더"
 
-#: settings/viewpropertiesdialog.cpp:178
+#: settings/viewpropertiesdialog.cpp:177
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "적용:"
 
-#: settings/viewpropertiesdialog.cpp:183
+#: settings/viewpropertiesdialog.cpp:182
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "기본 보기 설정으로 사용"
 
-#: settings/viewpropertiesdialog.cpp:335
+#: settings/viewpropertiesdialog.cpp:331
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -5748,7 +5748,7 @@ msgid ""
 "continue?"
 msgstr "모든 하위 폴더의 보기 속성을 변경합니다. 계속하시겠습니까?"
 
-#: settings/viewpropertiesdialog.cpp:365
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""

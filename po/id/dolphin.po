@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:52+0000\n"
+"POT-Creation-Date: 2025-09-16 00:44+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -5994,131 +5994,131 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "Ukuran: 1 pixel"
 msgstr[1] "Ukuran: %1 pixel"
 
-#: settings/viewpropertiesdialog.cpp:60
+#: settings/viewpropertiesdialog.cpp:59
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "Lihat Gaya Tampilan"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "Ikon"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "Ringkas"
 
-#: settings/viewpropertiesdialog.cpp:74
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "Perincian"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "Menaik"
 
-#: settings/viewpropertiesdialog.cpp:78
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "Menurun"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "Tampilkan folder dulu"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "Tampilkan file tersembunyi terakhir"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "Tampilkan pratinjau"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "Tampilkan dalam kelompok"
 
-#: settings/viewpropertiesdialog.cpp:90
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "Tampilkan file tersembunyi"
 
-#: settings/viewpropertiesdialog.cpp:93
+#: settings/viewpropertiesdialog.cpp:92
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Informasi Tambahan"
 
-#: settings/viewpropertiesdialog.cpp:132
+#: settings/viewpropertiesdialog.cpp:131
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Pilihlah apa yang terlihat pada setiap file atau folder:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:141
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Mode tampilan:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Pengurutan:"
 
-#: settings/viewpropertiesdialog.cpp:147
+#: settings/viewpropertiesdialog.cpp:146
 #, kde-format
 msgid "View options:"
 msgstr "Opsi tampilan:"
 
-#: settings/viewpropertiesdialog.cpp:166
+#: settings/viewpropertiesdialog.cpp:165
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Folder Saat Ini"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:167
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Folder dan sub-folder saat ini"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Semua Folder"
 
-#: settings/viewpropertiesdialog.cpp:178
+#: settings/viewpropertiesdialog.cpp:177
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Terapkan untuk:"
 
-#: settings/viewpropertiesdialog.cpp:183
+#: settings/viewpropertiesdialog.cpp:182
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Gunakan sebagai pengaturan tampilan baku"
 
-#: settings/viewpropertiesdialog.cpp:335
+#: settings/viewpropertiesdialog.cpp:331
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6127,7 +6127,7 @@ msgid ""
 msgstr ""
 "Properti tampilan semua sub-folder akan diubah. Apa Anda ingin melanjutkan?"
 
-#: settings/viewpropertiesdialog.cpp:365
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""

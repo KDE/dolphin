@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-13 00:52+0000\n"
+"POT-Creation-Date: 2025-09-16 00:44+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -5803,49 +5803,49 @@ msgid "Size: 1 pixel"
 msgid_plural "Size: %1 pixels"
 msgstr[0] "چوڭلۇقى: %1 پىكسېل"
 
-#: settings/viewpropertiesdialog.cpp:60
+#: settings/viewpropertiesdialog.cpp:59
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:71
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "سىنبەلگىلەر"
 
-#: settings/viewpropertiesdialog.cpp:73
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "ئىخچام"
 
-#: settings/viewpropertiesdialog.cpp:74
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "تەپسىلاتلار"
 
-#: settings/viewpropertiesdialog.cpp:77
+#: settings/viewpropertiesdialog.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "ئۆسكۈچى"
 
-#: settings/viewpropertiesdialog.cpp:78
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "كېمەيگۈچى"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:85
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "تۇنجىسىدا قىسقۇچنى كۆرسەت"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:86
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show hidden files"
@@ -5853,25 +5853,25 @@ msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "يوشۇرۇن ھۆججەتلەرنى كۆرسەت"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "ئالدىن كۆزىتىشنى كۆرسەت"
 
-#: settings/viewpropertiesdialog.cpp:89
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "گۇرۇپپىدا كۆرسەت"
 
-#: settings/viewpropertiesdialog.cpp:90
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "يوشۇرۇن ھۆججەتلەرنى كۆرسەت"
 
-#: settings/viewpropertiesdialog.cpp:93
+#: settings/viewpropertiesdialog.cpp:92
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Additional Information"
@@ -5879,37 +5879,37 @@ msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "قوشۇمچە ئۇچۇر"
 
-#: settings/viewpropertiesdialog.cpp:132
+#: settings/viewpropertiesdialog.cpp:131
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:141
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "كۆرۈنۈش ھالىتى:"
 
-#: settings/viewpropertiesdialog.cpp:143
+#: settings/viewpropertiesdialog.cpp:142
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "تەرتىپلەش:"
 
-#: settings/viewpropertiesdialog.cpp:147
+#: settings/viewpropertiesdialog.cpp:146
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "View properties:"
 msgid "View options:"
 msgstr "كۆرۈنۈش خاسلىقى"
 
-#: settings/viewpropertiesdialog.cpp:166
+#: settings/viewpropertiesdialog.cpp:165
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "نۆۋەتتىكى قىسقۇچ"
 
-#: settings/viewpropertiesdialog.cpp:168
+#: settings/viewpropertiesdialog.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "@option:radio Apply View Properties To"
 #| msgid "Current folder including all sub-folders"
@@ -5917,25 +5917,25 @@ msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "نۆۋەتتىكى قىسقۇچ ھەممە تارماق قىسقۇچلارنى ئۆز ئىچىگە ئالىدۇ"
 
-#: settings/viewpropertiesdialog.cpp:169
+#: settings/viewpropertiesdialog.cpp:168
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "ھەممە قىسقۇچلار"
 
-#: settings/viewpropertiesdialog.cpp:178
+#: settings/viewpropertiesdialog.cpp:177
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:183
+#: settings/viewpropertiesdialog.cpp:182
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr ""
 
-#: settings/viewpropertiesdialog.cpp:335
+#: settings/viewpropertiesdialog.cpp:331
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -5943,7 +5943,7 @@ msgid ""
 "continue?"
 msgstr "ھەممە تارماق قىسقۇچنىڭ كۆرۈنۈش خاسلىقى ئۆزگىرىدۇ. داۋاملاشتۇرامسىز؟"
 
-#: settings/viewpropertiesdialog.cpp:365
+#: settings/viewpropertiesdialog.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid ""
