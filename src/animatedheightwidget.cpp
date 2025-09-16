@@ -7,7 +7,9 @@
 
 #include "animatedheightwidget.h"
 
+#include <QEvent>
 #include <QGridLayout>
+#include <QKeyEvent>
 #include <QPropertyAnimation>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -86,10 +88,24 @@ QWidget *AnimatedHeightWidget::prepareContentsContainer(QWidget *contentsContain
     contentsContainer->setParent(m_contentsContainerParent);
     m_contentsContainerParent->setWidget(contentsContainer);
     m_contentsContainerParent->setFocusProxy(contentsContainer);
+    contentsContainer->installEventFilter(this);
     return contentsContainer;
 }
 
 bool AnimatedHeightWidget::isAnimationRunning() const
 {
     return m_heightAnimation && m_heightAnimation->state() == QAbstractAnimation::Running;
+}
+
+bool AnimatedHeightWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        auto *keyEvent = static_cast<QKeyEvent *>(event);
+        // Ignore PageUp/PageDown to prevent QScrollArea (invisible scrollbar) from scrolling
+        if (keyEvent->key() == Qt::Key_PageUp || keyEvent->key() == Qt::Key_PageDown) {
+            keyEvent->accept();
+            return true;
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }

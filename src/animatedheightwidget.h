@@ -55,6 +55,13 @@ protected:
     /** @returns whether this object is currently animating a visibility change. */
     bool isAnimationRunning() const;
 
+protected:
+    /**
+     * Ignore PageUp/PageDown key events to prevent the internal QScrollArea
+     * (with an invisible scrollbar) from scrolling while editing inside child widgets.
+     */
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     using QWidget::hide; // Use QAbstractAnimation::setVisible() instead.
     using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't fully hide the one from QWidget so we can still use it privately.
