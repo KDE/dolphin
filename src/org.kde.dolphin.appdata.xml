@@ -96,6 +96,7 @@
   <summary xml:lang="lv">Pārvaldiet savas datnes</summary>
   <summary xml:lang="nl">Uw bestanden beheren</summary>
   <summary xml:lang="nn">Handsam filene dine</summary>
+  <summary xml:lang="pa">ਆਪਣੀਆਂ ਫ਼ਾਇਲਾਂ ਦਾ ਇੰਤਜ਼ਾਮ ਕਰੋ</summary>
   <summary xml:lang="pl">Zarządzaj swoimi plikami</summary>
   <summary xml:lang="pt-BR">Gerencie seus arquivos</summary>
   <summary xml:lang="ro">Gestionați-vă fișierele</summary>
@@ -490,6 +491,7 @@
       <caption xml:lang="nb">Dolphin lar deg sette opp filbehandleren akkurat slik du vil</caption>
       <caption xml:lang="nl">Dolphin laat u uw bestandsbeheerder exact configureren zoals u dat wilt</caption>
       <caption xml:lang="nn">Dolphin lèt deg tilpassa filhandsamaren akkurat slik du vil ha han</caption>
+      <caption xml:lang="pa">ਡਾਲਫਿਨ ਤੁਹਾਨੂੰ ਆਪਣੇ ਫਾਇਲ ਮੈਨੇਜਰ ਨੂੰ ਜਿਵੇਂ ਤੁਸੀਂ ਚਾਹੋ, ਉਸ ਤਰ੍ਹਾਂ ਬਣਾਉਣ ਲਈ ਮਦਦ ਕਰਦਾ ਹੈ</caption>
       <caption xml:lang="pl">Dolphin umożliwia ustawienie zarządzania plikami dokładnie tak, jak tego chcesz</caption>
       <caption xml:lang="pt">O Dolphin permite-lhe configurar o seu gestor de ficheiros exactamente como pretende</caption>
       <caption xml:lang="pt-BR">O Dolphin permite a você configurar seu gerenciador de arquivos exatamente como você quer</caption>
