@@ -210,6 +210,8 @@ private:
     DolphinViewContainer *m_expandingContainer;
     QPointer<QVariantAnimation> m_expandViewAnimation;
 
+    std::unique_ptr<QFrame> m_navigatorSeparator;
+
     bool m_primaryViewActive;
     bool m_splitViewEnabled;
     bool m_active;

@@ -3053,9 +3053,9 @@ void DolphinMainWindow::saveNewToolbarConfig()
                                            // because the rest of this method decides things
                                            // based on the new config.
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>(actionCollection()->action(QStringLiteral("url_navigators")));
-    if (!toolBar()->actions().contains(navigators)) {
-        m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
-    }
+
+    m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
+
     updateAllowedToolbarAreas();
     updateNavigatorsBackground();
     (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
