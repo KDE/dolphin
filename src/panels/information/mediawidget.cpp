@@ -151,7 +151,9 @@ void MediaWidget::setUrl(const QUrl &url, MediaKind kind)
     if (m_url != url) {
         m_url = url;
         m_isVideo = kind == MediaKind::Video;
-        m_seekSlider->setValue(0);
+        if (m_seekSlider) {
+            m_seekSlider->setValue(0);
+        }
     }
     if (m_autoPlay) {
         play();
@@ -220,7 +222,11 @@ void MediaWidget::showEvent(QShowEvent *event)
         QWidget::showEvent(event);
         return;
     }
+    initLayout();
+}
 
+void MediaWidget::initLayout()
+{
     if (!m_topLayout) {
         m_topLayout = new QVBoxLayout(this);
         m_topLayout->setContentsMargins(0, 0, 0, 0);
@@ -285,6 +291,7 @@ void MediaWidget::onStateChanged(QMediaPlayer::PlaybackState newState)
 void MediaWidget::initPlayer()
 {
     if (!m_player) {
+        initLayout();
         m_player = new QMediaPlayer;
         m_player->setAudioOutput(new QAudioOutput);
 
@@ -294,7 +301,6 @@ void MediaWidget::initPlayer()
         m_videoWidget->installEventFilter(this);
         m_player->setVideoOutput(m_videoWidget);
         m_topLayout->insertWidget(0, m_videoWidget);
-
         applyVideoSize();
 
         connect(m_player, &QMediaPlayer::playbackStateChanged, this, &MediaWidget::onStateChanged);
