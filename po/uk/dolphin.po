@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-08 03:17+0000\n"
+"POT-Creation-Date: 2025-09-20 02:39+0000\n"
 "PO-Revision-Date: 2025-06-28 13:06+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -3353,12 +3353,12 @@ msgstr[1] "Позначено %1 об’єкти"
 msgstr[2] "Позначено %1 об’єктів"
 msgstr[3] "Позначено один об’єкт"
 
-#: panels/information/mediawidget.cpp:248
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "play"
 msgstr "відтворити"
 
-#: panels/information/mediawidget.cpp:254
+#: panels/information/mediawidget.cpp:260
 #, kde-format
 msgid "pause"
 msgstr "призупинити"

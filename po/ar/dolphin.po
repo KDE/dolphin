@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-08 03:17+0000\n"
+"POT-Creation-Date: 2025-09-20 02:39+0000\n"
 "PO-Revision-Date: 2025-08-14 13:24+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3304,12 +3304,12 @@ msgstr[3] "%1 عناصر محدّدة"
 msgstr[4] "%1 عنصرًا محدّدًا"
 msgstr[5] "%1 عنصر محدّد"
 
-#: panels/information/mediawidget.cpp:248
+#: panels/information/mediawidget.cpp:254
 #, kde-format
 msgid "play"
 msgstr "شغّل"
 
-#: panels/information/mediawidget.cpp:254
+#: panels/information/mediawidget.cpp:260
 #, kde-format
 msgid "pause"
 msgstr "ألبث"
