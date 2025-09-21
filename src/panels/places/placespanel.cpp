@@ -67,15 +67,28 @@ PlacesPanel::PlacesPanel(QWidget *parent)
         settings->setIconSize(iconSize);
         settings->save();
     });
+
+    readSettings();
+
+    // Set the model here so that it's loaded in time for the sizeHint to properly apply (setting it upon showEvent is too late)
+    auto *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+    setModel(placesModel);
+
+    connect(placesModel, &KFilePlacesModel::errorMessage, this, &PlacesPanel::errorMessage);
+    connect(placesModel, &KFilePlacesModel::teardownDone, this, &PlacesPanel::slotTearDownDone);
+
+    connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
+    connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
+
+    for (int i = 0; i < model()->rowCount(); ++i) {
+        connectDeviceSignals(model()->index(i, 0, QModelIndex()));
+    }
 }
 
 PlacesPanel::~PlacesPanel() = default;
 
 void PlacesPanel::setUrl(const QUrl &url)
 {
-    // KFilePlacesView::setUrl no-ops when no model is set but we only set it in showEvent()
-    // Remember the URL and set it in showEvent
-    m_url = url;
     KFilePlacesView::setUrl(url);
 }
 
@@ -109,30 +122,6 @@ void PlacesPanel::readSettings()
 
     const int iconSize = qMax(0, PlacesPanelSettings::iconSize());
     setIconSize(QSize(iconSize, iconSize));
-}
-
-void PlacesPanel::showEvent(QShowEvent *event)
-{
-    if (!event->spontaneous() && !model()) {
-        readSettings();
-
-        auto *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
-        setModel(placesModel);
-
-        connect(placesModel, &KFilePlacesModel::errorMessage, this, &PlacesPanel::errorMessage);
-        connect(placesModel, &KFilePlacesModel::teardownDone, this, &PlacesPanel::slotTearDownDone);
-
-        connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
-        connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
-
-        for (int i = 0; i < model()->rowCount(); ++i) {
-            connectDeviceSignals(model()->index(i, 0, QModelIndex()));
-        }
-
-        setUrl(m_url);
-    }
-
-    KFilePlacesView::showEvent(event);
 }
 
 static bool isInternalDrag(const QMimeData *mimeData)

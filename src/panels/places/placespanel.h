@@ -54,7 +54,6 @@ Q_SIGNALS:
     void openInSplitViewRequested(const QUrl &url);
 
 protected:
-    void showEvent(QShowEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
 
 private Q_SLOTS:
@@ -70,7 +69,6 @@ private Q_SLOTS:
 private:
     void connectDeviceSignals(const QModelIndex &idx);
 
-    QUrl m_url; // only used for initial setUrl
     QList<QAction *> m_customContextMenuActions;
 
     QPersistentModelIndex m_indexToTearDown;
