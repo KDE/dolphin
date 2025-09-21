@@ -12,7 +12,6 @@
 #include "chip.h"
 #include "dolphin_searchsettings.h"
 #include "dolphinplacesmodelsingleton.h"
-#include "dolphinquery.h"
 #include "popup.h"
 #include "widgetmenu.h"
 

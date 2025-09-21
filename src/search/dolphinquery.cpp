@@ -7,7 +7,6 @@
 
 #include "dolphinquery.h"
 
-#include "config-dolphin.h"
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #include <Baloo/Query>

@@ -9,7 +9,6 @@
 
 #include "config-dolphin.h"
 #include "dolphinpackageinstaller.h"
-#include "dolphinquery.h"
 #include "global.h"
 #include "selectors/dateselector.h"
 #include "selectors/filetypeselector.h"

@@ -8,7 +8,6 @@
 
 #include "settings/viewmodes/viewsettingstab.h"
 
-#include <KCModule>
 #include <KLocalizedString>
 #include <KPluginFactory>
 

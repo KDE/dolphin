@@ -9,11 +9,9 @@
 #include <KLocalizedString>
 
 #include <QAudioOutput>
-#include <QMediaPlayer>
 #include <QVideoWidget>
 
 #include <QShowEvent>
-#include <QSlider>
 #include <QStyle>
 #include <QStyleOptionSlider>
 #include <QToolButton>

@@ -30,7 +30,6 @@
 #include <KIO/MkpathJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
-#include <KMessageWidget>
 #include <KProtocolManager>
 #include <KShell>
 #include <kio_version.h>

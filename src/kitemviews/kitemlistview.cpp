@@ -25,8 +25,6 @@
 #include "private/kitemlistsizehintresolver.h"
 #include "private/kitemlistviewlayouter.h"
 
-#include <optional>
-
 #include <QElapsedTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>

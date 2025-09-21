@@ -45,7 +45,6 @@
 #include <QTextDocument>
 
 #include <KPluginFactory>
-#include <QAction>
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinPart, "dolphinpart.json")
 

@@ -10,7 +10,6 @@
 #include <KLocalizedString>
 #include <QPaintEvent>
 #include <QStylePainter>
-#include <QToolButton>
 
 using namespace Search;
 

@@ -5,8 +5,6 @@
  */
 
 #include "contentdisplaytab.h"
-#include "dolphin_contentdisplaysettings.h"
-#include "dolphin_generalsettings.h"
 
 #include <KFormat>
 #include <KLocalizedString>
