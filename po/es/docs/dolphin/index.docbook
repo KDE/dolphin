@@ -176,7 +176,7 @@
 ><guimenu
 >Ayuda</guimenu
 > <guimenuitem
-> Informar de fallo... </guimenuitem
+> Informar de fallo… </guimenuitem
 ></menuchoice
 > si se muestra la barra de menús. </para>
 
@@ -218,17 +218,17 @@
 ><para
 >La barra de herramientas, que se puede usar para acceder de forma rápida a acciones frecuentes. Se puede personalizar haciendo clic con el &RMB; y seleccionando <menuchoice
 ><guimenuitem
->Configurar barras de herramientas... </guimenuitem
+>Configurar barras de herramientas… </guimenuitem
 ></menuchoice
 > del menú contextual, con <guimenuitem
-> Configurar barras de herramientas...</guimenuitem
+> Configurar barras de herramientas…</guimenuitem
 > desde el botón <guibutton
 > Controlar</guibutton
 > a la derecha de la barra de herramientas o mediante la opción <menuchoice
 ><guimenu
 >Preferencias</guimenu
 > <guimenuitem
->Configurar barras de herramientas...</guimenuitem
+>Configurar barras de herramientas…</guimenuitem
 > </menuchoice
 > desde el menú principal. </para>
 <screenshot>
@@ -482,7 +482,7 @@
 <para
 >En el menú de contexto de la línea de cabecera, se puede añadir o eliminar relleno lateral marcando o desmarcando el respectivo elemento del menú y elegir entre un ancho de columna personalizado o automático. El ancho automático ajusta la anchura de todas las columnas, de manera que se muestre completamente el elemento de mayor longitud que haya en la columna, excepto para la columna <guilabel
 >Nombre</guilabel
->, en la que la parte que no cabe se visualiza como «...» </para>
+>, en la que la parte que no cabe se visualiza como «…» </para>
 <para
 >El orden de las columnas se puede cambiar arrastrando y soltando las cabeceras de las columnas, excepto la cabecera <guilabel
 >Nombre</guilabel
@@ -922,7 +922,7 @@ context menu Icon Size? No different entries ?-->
 >Lugares </guilabel
 > es arrastrarla y soltarla en dicho panel. También se puede hacer clic sobre el panel con el &RMB; y seleccionar <menuchoice
 ><guimenuitem
-> Añadir entrada...</guimenuitem
+> Añadir entrada…</guimenuitem
 ></menuchoice
 > en el menú de contexto. El primer procedimiento crea un marcador en el sistema. El segundo procedimiento se puede usar para añadir la ruta actual de la barra de ubicación o cualquier carpeta o dispositivo que se desee. Se abre un diálogo en el que se puede editar la etiqueta, la ubicación y el icono y el uso de dicha entrada se puede restringir a &dolphin;. </para>
 
@@ -1017,7 +1017,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 > Editar</guimenu
 > <guimenuitem
->Filtrar...</guimenuitem
+>Filtrar…</guimenuitem
 > </menuchoice
 >. A continuación podrá introducir el texto a usar como filtro en la barra de texto. La barra de filtro se puede desactivar pulsando la tecla &Esc; o haciendo clic con el &LMB; en el icono <guiicon
 >Ocultar barra de filtro</guiicon
@@ -1039,7 +1039,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Editar</guimenu
 > <guimenuitem
->Buscar... </guimenuitem
+>Buscar… </guimenuitem
 > </menuchoice
 >, se abrirá la barra <guilabel
 >Buscar</guilabel
@@ -1190,7 +1190,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Archivo</guimenu
 > <guimenuitem
->Cambiar nombre...</guimenuitem
+>Cambiar nombre…</guimenuitem
 > </menuchoice
 > </para>
 
@@ -1268,7 +1268,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Preferencias </guimenu
 > <guimenuitem
->Configurar &dolphin;...</guimenuitem
+>Configurar &dolphin;…</guimenuitem
 > </menuchoice
 > en el menú de la ventana principal de &dolphin;. Las preferencias se dividen en varios grupos a los que se puede acceder pulsando el correspondiente icono a la izquierda del diálogo. </para>
 
@@ -2063,7 +2063,7 @@ context menu Icon Size? No different entries ?-->
 <note>
     <para
 >Puede crear sus propios elementos del submenú <guisubmenu
->Crear nuevo...</guisubmenu
+>Crear nuevo…</guisubmenu
 >. Use los archivos del <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
 >repositorio fuente de KIO</ulink
 > como referencia y ponga el archivo <filename role="extension"
@@ -2417,7 +2417,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Editar</guimenu
 > <guimenuitem
->Pegar  contenido del portapapeles...</guimenuitem
+>Pegar  contenido del portapapeles…</guimenuitem
 ></menuchoice
 > o <menuchoice
 ><guimenu
@@ -2504,7 +2504,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Edit</guimenu
 > <guimenuitem
->Filtrar...</guimenuitem
+>Filtrar…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2533,7 +2533,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Editar</guimenu
 > <guimenuitem
->Buscar...</guimenuitem
+>Buscar…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2978,7 +2978,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Ver</guimenu
 > <guimenuitem
->Ajustar el estilo de visualización...</guimenuitem
+>Ajustar el estilo de visualización…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
