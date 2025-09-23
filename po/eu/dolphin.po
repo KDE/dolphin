@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 00:44+0000\n"
+"POT-Creation-Date: 2025-09-23 00:46+0000\n"
 "PO-Revision-Date: 2025-09-08 21:22+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -312,7 +312,7 @@ msgid ""
 msgstr "Hainbat fitxa zabalik daude leihoan. Ziur zaude irtetzea nahi duzula?"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2140
+#: views/dolphinview.cpp:2136
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ez galdetu berriro"
@@ -2137,6 +2137,20 @@ msgstr "Iragazi…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Ezkutatu iragazki-barra"
+
+#: itemactions/hidefileitemaction.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu"
+#| msgid "Hide"
+msgctxt "@action:inmenu"
+msgid "Hide"
+msgstr "Ezkutatu"
+
+#: itemactions/hidefileitemaction.cpp:132
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Unhide"
+msgstr ""
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -6198,13 +6212,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Ezabatzea burutu da."
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2084
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Berrizendatu eta ezkutatu"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2088
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6214,7 +6228,7 @@ msgstr ""
 "egingo du.\n"
 "Oraindik berrizendatu nahi duzu?"
 
-#: views/dolphinview.cpp:2094
+#: views/dolphinview.cpp:2090
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6224,23 +6238,23 @@ msgstr ""
 "egingo du.\n"
 "Oraindik berrizendatu nahi duzu?"
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid "Hide this File?"
 msgstr "Fitxategi hau ezkutatu?"
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Karpeta hau ezkutatu?"
 
-#: views/dolphinview.cpp:2117
+#: views/dolphinview.cpp:2113
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Berrizendatu"
 
-#: views/dolphinview.cpp:2127
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6252,7 +6266,7 @@ msgstr ""
 "Fitxategiaren edukia ez da aldatuko baina aplikazioek ez dute ezagutuko.\n"
 "Hala ere berrizendatu nahi duzu?"
 
-#: views/dolphinview.cpp:2131
+#: views/dolphinview.cpp:2127
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6264,90 +6278,90 @@ msgstr ""
 "Fitxategiaren edukia ez da aldatuko baina aplikazioek ez dute ezagutuko.\n"
 "Hala ere berrizendatu nahi duzu?"
 
-#: views/dolphinview.cpp:2137
+#: views/dolphinview.cpp:2133
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Aldatu fitxategi-mota"
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2177
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Kokalekua hutsik dago."
 
-#: views/dolphinview.cpp:2183
+#: views/dolphinview.cpp:2179
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' kokalekua baliogabea da."
 
-#: views/dolphinview.cpp:2515
+#: views/dolphinview.cpp:2511
 #, kde-format
 msgid "Loading…"
 msgstr "Zamatzen…"
 
-#: views/dolphinview.cpp:2544
+#: views/dolphinview.cpp:2540
 #, kde-format
 msgid "Loading canceled"
 msgstr "Zamatzea utzi da"
 
-#: views/dolphinview.cpp:2546
+#: views/dolphinview.cpp:2542
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Ez dago iragazkiarekin bat datorren elementurik"
 
-#: views/dolphinview.cpp:2548
+#: views/dolphinview.cpp:2544
 #, kde-format
 msgid "No items matching the search"
 msgstr "Ez dago bilaketarekin bat datorren elementurik"
 
-#: views/dolphinview.cpp:2550
+#: views/dolphinview.cpp:2546
 #, kde-format
 msgid "Trash is empty"
 msgstr "Zakarrontzia hutsik dago"
 
-#: views/dolphinview.cpp:2553
+#: views/dolphinview.cpp:2549
 #, kde-format
 msgid "No tags"
 msgstr "Etiketarik ez"
 
-#: views/dolphinview.cpp:2556
+#: views/dolphinview.cpp:2552
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Ez dago «%1» etiketatutako fitxategirik"
 
-#: views/dolphinview.cpp:2560
+#: views/dolphinview.cpp:2556
 #, kde-format
 msgid "No recently used items"
 msgstr "Ez dago berriki erabilitako elementurik"
 
-#: views/dolphinview.cpp:2562
+#: views/dolphinview.cpp:2558
 #, kde-format
 msgid "No shared folders found"
 msgstr "Ez da karpeta partekaturik aurkitu"
 
-#: views/dolphinview.cpp:2564
+#: views/dolphinview.cpp:2560
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Ez da sareko baliabide egokirik aurkitu"
 
-#: views/dolphinview.cpp:2566
+#: views/dolphinview.cpp:2562
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Ez da MTP-bateragarria den gailurik aurkitu"
 
-#: views/dolphinview.cpp:2568
+#: views/dolphinview.cpp:2564
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Ez da Apple gailurik aurkitu"
 
-#: views/dolphinview.cpp:2570
+#: views/dolphinview.cpp:2566
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Ez da Bluetooth gailurik aurkitu"
 
-#: views/dolphinview.cpp:2572
+#: views/dolphinview.cpp:2568
 #, kde-format
 msgid "Folder is empty"
 msgstr "Karpetak hutsik dago"
@@ -7308,10 +7322,6 @@ msgstr "Zooma"
 #~ msgctxt "@item:inmenu"
 #~ msgid "Remove"
 #~ msgstr "Kendu"
-
-#~ msgctxt "@item:inmenu"
-#~ msgid "Hide"
-#~ msgstr "Ezkutatu"
 
 #~ msgctxt "@item:inmenu"
 #~ msgid "Add Entry..."

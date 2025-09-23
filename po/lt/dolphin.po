@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 00:44+0000\n"
+"POT-Creation-Date: 2025-09-23 00:46+0000\n"
 "PO-Revision-Date: 2025-09-01 16:24+0300\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -291,7 +291,7 @@ msgid ""
 msgstr "Šiame lange esate atvėrę kelias korteles, ar tikrai norite išeiti?"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2140
+#: views/dolphinview.cpp:2136
 #, kde-format
 msgid "Do not ask again"
 msgstr "Daugiau nebeklausti"
@@ -2028,6 +2028,20 @@ msgstr "Filtruoti…"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "Slėpti filtro juostą"
+
+#: itemactions/hidefileitemaction.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu"
+#| msgid "Hide"
+msgctxt "@action:inmenu"
+msgid "Hide"
+msgstr "Slėpti"
+
+#: itemactions/hidefileitemaction.cpp:132
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Unhide"
+msgstr ""
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -6093,13 +6107,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Ištrynimo operacija užbaigta."
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2084
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Pervadinti ir paslėpti"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2088
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6109,7 +6123,7 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2094
+#: views/dolphinview.cpp:2090
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6119,23 +6133,23 @@ msgstr ""
 "rodinio.\n"
 "Ar tikrai norite jį pervadinti?"
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid "Hide this File?"
 msgstr "Paslėpti šį failą?"
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Paslėpti šį aplanką?"
 
-#: views/dolphinview.cpp:2117
+#: views/dolphinview.cpp:2113
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: views/dolphinview.cpp:2127
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6144,7 +6158,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2131
+#: views/dolphinview.cpp:2127
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6153,7 +6167,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2137
+#: views/dolphinview.cpp:2133
 #, fuzzy, kde-format
 #| msgctxt "@title:group for filtering files based on their type"
 #| msgid "File Type:"
@@ -6161,84 +6175,84 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Failo tipas:"
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2177
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Vieta tuščia."
 
-#: views/dolphinview.cpp:2183
+#: views/dolphinview.cpp:2179
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Vieta „%1“ yra neteisinga."
 
-#: views/dolphinview.cpp:2515
+#: views/dolphinview.cpp:2511
 #, kde-format
 msgid "Loading…"
 msgstr "Įkeliama…"
 
-#: views/dolphinview.cpp:2544
+#: views/dolphinview.cpp:2540
 #, kde-format
 msgid "Loading canceled"
 msgstr "Įkėlimo atsisakyta"
 
-#: views/dolphinview.cpp:2546
+#: views/dolphinview.cpp:2542
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Nėra jokių filtrą atitinkančių elementų"
 
-#: views/dolphinview.cpp:2548
+#: views/dolphinview.cpp:2544
 #, kde-format
 msgid "No items matching the search"
 msgstr "Nėra jokių paiešką atitinkančių elementų"
 
-#: views/dolphinview.cpp:2550
+#: views/dolphinview.cpp:2546
 #, kde-format
 msgid "Trash is empty"
 msgstr "Šiukšlinė tuščia"
 
-#: views/dolphinview.cpp:2553
+#: views/dolphinview.cpp:2549
 #, kde-format
 msgid "No tags"
 msgstr "Nėra žymių"
 
-#: views/dolphinview.cpp:2556
+#: views/dolphinview.cpp:2552
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Nėra failų pažymėtų žyme „%1“"
 
-#: views/dolphinview.cpp:2560
+#: views/dolphinview.cpp:2556
 #, kde-format
 msgid "No recently used items"
 msgstr "Nėra jokių paskiausiai naudotų elementų"
 
-#: views/dolphinview.cpp:2562
+#: views/dolphinview.cpp:2558
 #, kde-format
 msgid "No shared folders found"
 msgstr "Nerasta jokių bendrinamų aplankų"
 
-#: views/dolphinview.cpp:2564
+#: views/dolphinview.cpp:2560
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Nerasta jokio susijusio tinklo ištekliaus"
 
-#: views/dolphinview.cpp:2566
+#: views/dolphinview.cpp:2562
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Nerasta jokių su MTP suderinamų įrenginių"
 
-#: views/dolphinview.cpp:2568
+#: views/dolphinview.cpp:2564
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Nerasta jokių „Apple“ įrenginių"
 
-#: views/dolphinview.cpp:2570
+#: views/dolphinview.cpp:2566
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nerasta jokių Bluetooth įrenginių"
 
-#: views/dolphinview.cpp:2572
+#: views/dolphinview.cpp:2568
 #, kde-format
 msgid "Folder is empty"
 msgstr "Aplankas tuščias"
@@ -7078,10 +7092,6 @@ msgstr "Mastelis"
 #~ msgctxt "@item:inmenu"
 #~ msgid "Remove"
 #~ msgstr "Šalinti"
-
-#~ msgctxt "@item:inmenu"
-#~ msgid "Hide"
-#~ msgstr "Slėpti"
 
 #~ msgctxt "@item:inmenu"
 #~ msgid "Add Entry..."
