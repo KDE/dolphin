@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 00:44+0000\n"
+"POT-Creation-Date: 2025-09-24 00:45+0000\n"
 "PO-Revision-Date: ۲۰۱۶-۰۸-۲۰ ۱۵:۴۴+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -287,7 +287,7 @@ msgstr ""
 "شما چندین تب را در این پنجره باز کرده‌اید، مطمئن هستید که می‌خواهید خارج شوید؟"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2140
+#: views/dolphinview.cpp:2136
 #, kde-format
 msgid "Do not ask again"
 msgstr "دوباره سؤال نکن"
@@ -614,7 +614,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "صافی:"
 
-#: dolphinmainwindow.cpp:1939 search/bar.cpp:215
+#: dolphinmainwindow.cpp:1939 search/bar.cpp:214
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
@@ -689,7 +689,7 @@ msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
@@ -1593,7 +1593,7 @@ msgid ""
 "installing <application>%1</application> manually instead."
 msgstr ""
 
-#: dolphinpart.cpp:150
+#: dolphinpart.cpp:149
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -1601,7 +1601,7 @@ msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "&ویرایش نوع پرونده..."
 
-#: dolphinpart.cpp:154
+#: dolphinpart.cpp:153
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Select Items Matching..."
@@ -1609,7 +1609,7 @@ msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "برگزیدن مواردی که مطابقت دارند..."
 
-#: dolphinpart.cpp:159
+#: dolphinpart.cpp:158
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Unselect Items Matching..."
@@ -1617,37 +1617,37 @@ msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "عدم گزینش مواردی که مطابقت دارند..."
 
-#: dolphinpart.cpp:165
+#: dolphinpart.cpp:164
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "عدم گزینش همه"
 
-#: dolphinpart.cpp:180
+#: dolphinpart.cpp:179
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "برنامه‌ها"
 
-#: dolphinpart.cpp:181
+#: dolphinpart.cpp:180
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "پوشه‌های شبکه"
 
-#: dolphinpart.cpp:182
+#: dolphinpart.cpp:181
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "زباله‌دان"
 
-#: dolphinpart.cpp:185
+#: dolphinpart.cpp:184
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "آغاز خودکار"
 
-#: dolphinpart.cpp:191
+#: dolphinpart.cpp:190
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Find File..."
@@ -1655,30 +1655,30 @@ msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "&یافتن پرونده...‌"
 
-#: dolphinpart.cpp:197
+#: dolphinpart.cpp:196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "باز کردن پایانه"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "انتخاب"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "برگزیدن همه مواردی که با این الگو مطابقت دارند:"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "عدم گزینش"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "عدم گزینش همه مواردی که با این الگو مطابقت دارند:"
@@ -1842,12 +1842,12 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:105
+#: dolphinviewcontainer.cpp:104
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:156
+#: dolphinviewcontainer.cpp:155
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
@@ -1855,7 +1855,7 @@ msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "بارگذاری پوشه..."
 
-#: dolphinviewcontainer.cpp:159
+#: dolphinviewcontainer.cpp:158
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Sorting:"
@@ -1863,7 +1863,7 @@ msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "مرتب کردن:"
 
-#: dolphinviewcontainer.cpp:685
+#: dolphinviewcontainer.cpp:684
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -1871,19 +1871,19 @@ msgctxt "@info"
 msgid "Searching…"
 msgstr "در حال جستجو..."
 
-#: dolphinviewcontainer.cpp:705
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "هیچ موردی پیدا نشد."
 
-#: dolphinviewcontainer.cpp:893
+#: dolphinviewcontainer.cpp:892
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "دلفین از صفحات وب پشتیبانی نمیکند، مرورگر وب به کار گرفته شد"
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:895
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
@@ -1892,7 +1892,7 @@ msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "دلفین این قرارداد را پشتیبانی نمیکند، کانکرر به کارگیری شد"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:902
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Invalid protocol"
@@ -1900,19 +1900,19 @@ msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "قرارداد نامعتبر"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:904
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "قرارداد نامعتبر"
 
-#: dolphinviewcontainer.cpp:992
+#: dolphinviewcontainer.cpp:991
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:997
+#: dolphinviewcontainer.cpp:996
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1920,19 +1920,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "پوشه ایجاد شد."
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1017
+#: dolphinviewcontainer.cpp:1016
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
+#: dolphinviewcontainer.cpp:1060 dolphinviewcontainer.cpp:1063
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -1956,6 +1956,20 @@ msgstr "صافی:"
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
 msgstr "مخفی کردن میله پالایش"
+
+#: itemactions/hidefileitemaction.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu"
+#| msgid "Hide '%1'"
+msgctxt "@action:inmenu"
+msgid "Hide"
+msgstr "مخفی کردن‌ '%1'"
+
+#: itemactions/hidefileitemaction.cpp:132
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Unhide"
+msgstr ""
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, fuzzy, kde-format
@@ -3246,12 +3260,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 مورد انتخاب شده"
 msgstr[1] ""
 
-#: panels/information/mediawidget.cpp:248
+#: panels/information/mediawidget.cpp:246
 #, kde-format
 msgid "play"
 msgstr "پخش"
 
-#: panels/information/mediawidget.cpp:254
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "pause"
 msgstr ""
@@ -3278,13 +3292,13 @@ msgstr ""
 msgid "Install Konsole"
 msgstr ""
 
-#: search/bar.cpp:64
+#: search/bar.cpp:63
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr ""
 
-#: search/bar.cpp:71
+#: search/bar.cpp:70
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
@@ -3292,13 +3306,13 @@ msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "صافی:"
 
-#: search/bar.cpp:89
+#: search/bar.cpp:88
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "خروج از جستجو"
 
-#: search/bar.cpp:103
+#: search/bar.cpp:102
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "From Here"
@@ -3306,7 +3320,7 @@ msgctxt "action:button search from here"
 msgid "Here"
 msgstr "از اینجا"
 
-#: search/bar.cpp:118
+#: search/bar.cpp:117
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Everywhere"
@@ -3314,7 +3328,7 @@ msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "همه‌جا"
 
-#: search/bar.cpp:153
+#: search/bar.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis search bar"
 msgid ""
@@ -3328,13 +3342,13 @@ msgid ""
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
 
-#: search/bar.cpp:214
+#: search/bar.cpp:213
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr ""
 
-#: search/bar.cpp:228
+#: search/bar.cpp:227
 #, fuzzy, kde-kuit-format
 #| msgctxt "@label:textbox"
 #| msgid "Rename the item <filename>%1</filename> to:"
@@ -3347,7 +3361,7 @@ msgstr "تغییر نام مورد <filename>%1</filename> به:"
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:237
+#: search/bar.cpp:236
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3356,7 +3370,7 @@ msgstr ""
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:241
+#: search/bar.cpp:240
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3364,7 +3378,7 @@ msgid ""
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
 
-#: search/chip.cpp:22
+#: search/chip.cpp:21
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
@@ -3392,7 +3406,7 @@ msgstr "چیست"
 msgid "SearchTool"
 msgstr "جستجو"
 
-#: search/dolphinquery.cpp:383
+#: search/dolphinquery.cpp:382
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3402,7 +3416,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "جستجو برای"
 
-#: search/dolphinquery.cpp:389
+#: search/dolphinquery.cpp:388
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3410,7 +3424,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr ""
 
-#: search/dolphinquery.cpp:396
+#: search/dolphinquery.cpp:395
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3420,7 +3434,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "جستجو برای"
 
-#: search/dolphinquery.cpp:401
+#: search/dolphinquery.cpp:400
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3428,7 +3442,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr ""
 
-#: search/dolphinquery.cpp:408
+#: search/dolphinquery.cpp:407
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3438,7 +3452,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "جستجو برای"
 
-#: search/dolphinquery.cpp:414
+#: search/dolphinquery.cpp:413
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3448,7 +3462,7 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "جستجو برای"
 
-#: search/dolphinquery.cpp:424
+#: search/dolphinquery.cpp:423
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3456,19 +3470,19 @@ msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "جستجو برای"
 
-#: search/dolphinquery.cpp:427
+#: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr ""
 
-#: search/dolphinquery.cpp:431
+#: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr ""
 
-#: search/dolphinquery.cpp:434
+#: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3477,13 +3491,13 @@ msgstr ""
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:442
+#: search/dolphinquery.cpp:441
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr ""
 
-#: search/dolphinquery.cpp:445
+#: search/dolphinquery.cpp:444
 #, fuzzy, kde-format
 #| msgctxt "@item"
 #| msgid "Search For"
@@ -3493,7 +3507,7 @@ msgid "Search results"
 msgstr "جستجو برای"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
-#: search/popup.cpp:48
+#: search/popup.cpp:47
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Empty Trash"
@@ -3501,12 +3515,12 @@ msgid "Simple search"
 msgstr "زباله‌دان را خالی کن"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
-#: search/popup.cpp:54
+#: search/popup.cpp:53
 #, kde-format
 msgid "File Indexing"
 msgstr ""
 
-#: search/popup.cpp:74
+#: search/popup.cpp:73
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Search"
@@ -3514,7 +3528,7 @@ msgctxt "@title:group"
 msgid "Search in:"
 msgstr "جستجو"
 
-#: search/popup.cpp:78
+#: search/popup.cpp:77
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Filename"
@@ -3522,7 +3536,7 @@ msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "نام پرونده"
 
-#: search/popup.cpp:113
+#: search/popup.cpp:112
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Searching..."
@@ -3530,7 +3544,7 @@ msgctxt "@title:group"
 msgid "Search using:"
 msgstr "در حال جستجو..."
 
-#: search/popup.cpp:132
+#: search/popup.cpp:131
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3547,7 +3561,7 @@ msgid ""
 "filename> to revert your changes.</para>"
 msgstr ""
 
-#: search/popup.cpp:166
+#: search/popup.cpp:165
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -3555,7 +3569,7 @@ msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
 msgstr "پیکربندی..."
 
-#: search/popup.cpp:209
+#: search/popup.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -3563,13 +3577,13 @@ msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
 msgstr "&ویرایش نوع پرونده..."
 
-#: search/popup.cpp:217
+#: search/popup.cpp:216
 #, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr ""
 
-#: search/popup.cpp:226
+#: search/popup.cpp:225
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Rating"
@@ -3577,7 +3591,7 @@ msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "رتبه‌بندی"
 
-#: search/popup.cpp:234
+#: search/popup.cpp:233
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Tags"
@@ -3585,13 +3599,13 @@ msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "برچسبها"
 
-#: search/popup.cpp:252
+#: search/popup.cpp:251
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
 msgstr ""
 
-#: search/popup.cpp:277
+#: search/popup.cpp:276
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3600,7 +3614,7 @@ msgid ""
 "is configured to never create a search index of that location.</para>"
 msgstr ""
 
-#: search/popup.cpp:284
+#: search/popup.cpp:283
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3609,13 +3623,13 @@ msgid ""
 "to never create a search index for file contents.</para>"
 msgstr ""
 
-#: search/popup.cpp:293
+#: search/popup.cpp:292
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
 msgstr ""
 
-#: search/popup.cpp:296
+#: search/popup.cpp:295
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3632,19 +3646,19 @@ msgid ""
 "%1</application> is configured.</item></list></para>"
 msgstr ""
 
-#: search/popup.cpp:308
+#: search/popup.cpp:307
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
 msgstr ""
 
-#: search/popup.cpp:315
+#: search/popup.cpp:314
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
 msgstr ""
 
-#: search/popup.cpp:330
+#: search/popup.cpp:329
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Open Path"
@@ -3652,19 +3666,19 @@ msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "باز کردن مسیر"
 
-#: search/popup.cpp:333
+#: search/popup.cpp:332
 #, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr ""
 
-#: search/popup.cpp:365
+#: search/popup.cpp:364
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr ""
 
-#: search/popup.cpp:369
+#: search/popup.cpp:368
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -5268,28 +5282,28 @@ msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "رفتار"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/kcm/kcmdolphinviewmodes.cpp:38
 #: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "شمایل‌ها"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/kcm/kcmdolphinviewmodes.cpp:43
 #: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "فشرده"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/kcm/kcmdolphinviewmodes.cpp:48
 #: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
 msgstr "جزئیات"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:38
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "Natural sorting"
@@ -5297,7 +5311,7 @@ msgctxt "option:radio"
 msgid "Natural"
 msgstr "مرتب کردن طبیعی"
 
-#: settings/viewmodes/contentdisplaytab.cpp:41
+#: settings/viewmodes/contentdisplaytab.cpp:39
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "Alphabetical sorting, case insensitive"
@@ -5305,7 +5319,7 @@ msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "مرتب سازی براساس الفبا، حالت ناحساس"
 
-#: settings/viewmodes/contentdisplaytab.cpp:42
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "Alphabetical sorting, case sensitive"
@@ -5313,7 +5327,7 @@ msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "مرتب سازی الفبایی، حالت حساس"
 
-#: settings/viewmodes/contentdisplaytab.cpp:48
+#: settings/viewmodes/contentdisplaytab.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Sorting Mode"
@@ -5321,7 +5335,7 @@ msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "طرز مرتب کردن"
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Number of lines:"
@@ -5329,13 +5343,13 @@ msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "تعداد خطوط:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:55
+#: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:56
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show zoom slider"
@@ -5343,14 +5357,14 @@ msgctxt "option:radio"
 msgid "Show no size"
 msgstr "نمایش لغزاننده‌ی بزرگنمایی"
 
-#: settings/viewmodes/contentdisplaytab.cpp:65
+#: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] ""
 msgstr[1] ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:72
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Folders"
@@ -5358,43 +5372,43 @@ msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "پوشه‌ها"
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:86
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:92
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:96
+#: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:99
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Permissions"
@@ -5402,19 +5416,19 @@ msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "مجوزها"
 
-#: settings/viewmodes/contentdisplaytab.cpp:108
+#: settings/viewmodes/contentdisplaytab.cpp:106
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:109
+#: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
 msgstr ""
 
-#: settings/viewmodes/contentdisplaytab.cpp:111
+#: settings/viewmodes/contentdisplaytab.cpp:109
 #, fuzzy, kde-format
 #| msgctxt "action:button"
 #| msgid "Filename"
@@ -6258,42 +6272,42 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "عملیات حذف انجام شد."
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "تغییر نام توکار"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2088
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2094
+#: views/dolphinview.cpp:2090
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Hidden Files"
 msgid "Hide this File?"
 msgstr "پرونده‌های مخفی"
 
-#: views/dolphinview.cpp:2096
+#: views/dolphinview.cpp:2092
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "پوشه آغازه"
 
-#: views/dolphinview.cpp:2117
+#: views/dolphinview.cpp:2113
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -6301,7 +6315,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "تغییر نام..."
 
-#: views/dolphinview.cpp:2127
+#: views/dolphinview.cpp:2123
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6310,7 +6324,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2131
+#: views/dolphinview.cpp:2127
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6319,7 +6333,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2137
+#: views/dolphinview.cpp:2133
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type..."
@@ -6327,95 +6341,95 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "&ویرایش نوع پرونده..."
 
-#: views/dolphinview.cpp:2181
+#: views/dolphinview.cpp:2177
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "مکان خالی است."
 
-#: views/dolphinview.cpp:2183
+#: views/dolphinview.cpp:2179
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "مکان '%1' نامعتبر است."
 
-#: views/dolphinview.cpp:2515
+#: views/dolphinview.cpp:2511
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading…"
 msgstr "بارگذاری پوشه..."
 
-#: views/dolphinview.cpp:2544
+#: views/dolphinview.cpp:2540
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "بارگذاری پوشه..."
 
-#: views/dolphinview.cpp:2546
+#: views/dolphinview.cpp:2542
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "برگزیدن همه مواردی که با این الگو مطابقت دارند:"
 
-#: views/dolphinview.cpp:2548
+#: views/dolphinview.cpp:2544
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "برگزیدن همه مواردی که با این الگو مطابقت دارند:"
 
-#: views/dolphinview.cpp:2550
+#: views/dolphinview.cpp:2546
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "مکان خالی است."
 
-#: views/dolphinview.cpp:2553
+#: views/dolphinview.cpp:2549
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2556
+#: views/dolphinview.cpp:2552
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2560
+#: views/dolphinview.cpp:2556
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "برگه‌های اخیرا بسته‌شده"
 
-#: views/dolphinview.cpp:2562
+#: views/dolphinview.cpp:2558
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2564
+#: views/dolphinview.cpp:2560
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2566
+#: views/dolphinview.cpp:2562
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2568
+#: views/dolphinview.cpp:2564
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "هیچ موردی پیدا نشد."
 
-#: views/dolphinview.cpp:2570
+#: views/dolphinview.cpp:2566
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2572
+#: views/dolphinview.cpp:2568
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -7286,13 +7300,6 @@ msgstr "بزرگ‌نمایی"
 #~ msgctxt "@item:inmenu"
 #~ msgid "Remove"
 #~ msgstr "حذف '%1'"
-
-#, fuzzy
-#~| msgctxt "@item:inmenu"
-#~| msgid "Hide '%1'"
-#~ msgctxt "@item:inmenu"
-#~ msgid "Hide"
-#~ msgstr "مخفی کردن‌ '%1'"
 
 #~ msgctxt "@item:inmenu"
 #~ msgid "Add Entry..."

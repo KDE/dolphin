@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-23 00:46+0000\n"
+"POT-Creation-Date: 2025-09-24 00:45+0000\n"
 "PO-Revision-Date: 2025-07-21 11:24+0200\n"
 "Last-Translator: Philipp Kiemle <l10n@prly.mozmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -651,7 +651,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filtern"
 
-#: dolphinmainwindow.cpp:1939 search/bar.cpp:215
+#: dolphinmainwindow.cpp:1939 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "Suchen …"
@@ -726,7 +726,7 @@ msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Dies wählt alle Dateien und Ordner in der aktuellen Ansicht aus."
 
-#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
@@ -1831,84 +1831,84 @@ msgstr ""
 "(%3)<nl/>Bitte versuchen Sie stattdessen das manuelle Installieren von "
 "<application>%1</application>."
 
-#: dolphinpart.cpp:150
+#: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "Datei&typ bearbeiten …"
 
-#: dolphinpart.cpp:154
+#: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "Passende Elemente auswählen …"
 
-#: dolphinpart.cpp:159
+#: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "Auswahl für passende Elemente aufheben …"
 
-#: dolphinpart.cpp:165
+#: dolphinpart.cpp:164
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "Gesamte Auswahl aufheben"
 
-#: dolphinpart.cpp:180
+#: dolphinpart.cpp:179
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "&Programme"
 
-#: dolphinpart.cpp:181
+#: dolphinpart.cpp:180
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "&Netzwerkordner"
 
-#: dolphinpart.cpp:182
+#: dolphinpart.cpp:181
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "Papierkorb"
 
-#: dolphinpart.cpp:185
+#: dolphinpart.cpp:184
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "Autostart"
 
-#: dolphinpart.cpp:191
+#: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "Datei suchen …"
 
-#: dolphinpart.cpp:197
+#: dolphinpart.cpp:196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "Terminal öff&nen"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "Auswählen"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "Elemente auswählen, die auf folgendes Muster passen:"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "Auswahl aufheben"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "Auswahl für Elemente aufheben, die auf folgendes Muster passen:"
@@ -2072,44 +2072,44 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "Der Ordner ist für Sie nicht beschreibbar."
 
-#: dolphinviewcontainer.cpp:105
+#: dolphinviewcontainer.cpp:104
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr ""
 "Die Ausführung von Dolphin als Administrator kann gefährlich sein. Bitte "
 "beachten Sie das."
 
-#: dolphinviewcontainer.cpp:156
+#: dolphinviewcontainer.cpp:155
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "Ordner wird geladen …"
 
-#: dolphinviewcontainer.cpp:159
+#: dolphinviewcontainer.cpp:158
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "Wird sortiert …"
 
-#: dolphinviewcontainer.cpp:685
+#: dolphinviewcontainer.cpp:684
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "Suchvorgang …"
 
-#: dolphinviewcontainer.cpp:705
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "Keine Elemente gefunden."
 
-#: dolphinviewcontainer.cpp:893
+#: dolphinviewcontainer.cpp:892
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin unterstützt keine Webseiten; der Webbrowser wurde gestartet."
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:895
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2118,25 +2118,25 @@ msgstr ""
 "Das Protokoll wird von Dolphin nicht unterstützt; die zugehörige "
 "Standardanwendung wurde gestartet."
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:902
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Ungültiges Protokoll „%1“"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:904
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Ungültiges Protokoll"
 
-#: dolphinviewcontainer.cpp:992
+#: dolphinviewcontainer.cpp:991
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Eine Authentifizierung ist für das Öffnen dieses Ordners erforderlich."
 
-#: dolphinviewcontainer.cpp:997
+#: dolphinviewcontainer.cpp:996
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2144,13 +2144,13 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Ordner erstellt"
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1017
+#: dolphinviewcontainer.cpp:1016
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Cannot paste: You do not have permission to write into this folder."
@@ -2158,7 +2158,7 @@ msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Einfügen nicht möglich: Sie haben kein Schreibrecht in dem Ordner."
 
-#: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
+#: dolphinviewcontainer.cpp:1060 dolphinviewcontainer.cpp:1063
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3404,12 +3404,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 Element ausgewählt"
 msgstr[1] "%1 Elemente ausgewählt"
 
-#: panels/information/mediawidget.cpp:248
+#: panels/information/mediawidget.cpp:246
 #, kde-format
 msgid "play"
 msgstr "Abspielen"
 
-#: panels/information/mediawidget.cpp:254
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "pause"
 msgstr "Anhalten"
@@ -3436,37 +3436,37 @@ msgstr ""
 msgid "Install Konsole"
 msgstr "Konsole installieren"
 
-#: search/bar.cpp:64
+#: search/bar.cpp:63
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "Diese Suche zur späteren Verwendung speichern"
 
-#: search/bar.cpp:71
+#: search/bar.cpp:70
 #, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Filtern"
 
-#: search/bar.cpp:89
+#: search/bar.cpp:88
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "Suche beenden"
 
-#: search/bar.cpp:103
+#: search/bar.cpp:102
 #, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "Ab hier"
 
-#: search/bar.cpp:118
+#: search/bar.cpp:117
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Überall"
 
-#: search/bar.cpp:153
+#: search/bar.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis search bar"
 msgid ""
@@ -3490,13 +3490,13 @@ msgstr ""
 "die aktuelle Sucheinstellung in die <emphasis>Orte-Seitenleiste</emphasis> "
 "aufzunehmen.</item></list></para>"
 
-#: search/bar.cpp:214
+#: search/bar.cpp:213
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr "In Dateiinhalten suchen …"
 
-#: search/bar.cpp:228
+#: search/bar.cpp:227
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
@@ -3507,7 +3507,7 @@ msgstr "Suche auf <filename>%1</filename> und dessen Unterordner beschränken."
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:237
+#: search/bar.cpp:236
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3516,7 +3516,7 @@ msgstr "Alle Ordner durchsuchen."
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:241
+#: search/bar.cpp:240
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3527,7 +3527,7 @@ msgstr ""
 "<interface>Systemeinstellungen|Arbeitsbereich|Suchen</interface> "
 "eingerichtet werden."
 
-#: search/chip.cpp:22
+#: search/chip.cpp:21
 #, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
@@ -3551,7 +3551,7 @@ msgstr "Was"
 msgid "SearchTool"
 msgstr "Suche"
 
-#: search/dolphinquery.cpp:383
+#: search/dolphinquery.cpp:382
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3559,7 +3559,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "Suche nach „%1“ in %2"
 
-#: search/dolphinquery.cpp:389
+#: search/dolphinquery.cpp:388
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3567,7 +3567,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr "Dateien mit „%1“ in %2"
 
-#: search/dolphinquery.cpp:396
+#: search/dolphinquery.cpp:395
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
@@ -3575,7 +3575,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "Suche nach Elementen mit Stichwort „%1“ in %2"
 
-#: search/dolphinquery.cpp:401
+#: search/dolphinquery.cpp:400
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3583,7 +3583,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr "Elemente mit Stichworten „%1“ und „%2“ in %3"
 
-#: search/dolphinquery.cpp:408
+#: search/dolphinquery.cpp:407
 #, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
@@ -3591,7 +3591,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "Suche nach Typ %1 in %2"
 
-#: search/dolphinquery.cpp:414
+#: search/dolphinquery.cpp:413
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
@@ -3599,25 +3599,25 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "Suche in %1"
 
-#: search/dolphinquery.cpp:424
+#: search/dolphinquery.cpp:423
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "Suche nach „%1“"
 
-#: search/dolphinquery.cpp:427
+#: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr "Dateien mit „%1“"
 
-#: search/dolphinquery.cpp:431
+#: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr "Suche nach Elementen mit Stichwort „%1“"
 
-#: search/dolphinquery.cpp:434
+#: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3626,13 +3626,13 @@ msgstr "Suche nach Elementen mit Stichworten „%1“ und „%2“"
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:442
+#: search/dolphinquery.cpp:441
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr "Suche nach Typ %1"
 
-#: search/dolphinquery.cpp:445
+#: search/dolphinquery.cpp:444
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
@@ -3640,36 +3640,36 @@ msgid "Search results"
 msgstr "Suchergebnisse"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
-#: search/popup.cpp:48
+#: search/popup.cpp:47
 #, kde-format
 msgid "Simple search"
 msgstr "Einfache Suche"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
-#: search/popup.cpp:54
+#: search/popup.cpp:53
 #, kde-format
 msgid "File Indexing"
 msgstr "Dateiindizierung"
 
-#: search/popup.cpp:74
+#: search/popup.cpp:73
 #, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
 msgstr "Suchen in:"
 
-#: search/popup.cpp:78
+#: search/popup.cpp:77
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "Dateinamen"
 
-#: search/popup.cpp:113
+#: search/popup.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
 msgstr "Suchen mittels:"
 
-#: search/popup.cpp:132
+#: search/popup.cpp:131
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3698,43 +3698,43 @@ msgstr ""
 "auftreten, löschen Sie Ihre Kopie <filename>%3</filename>, um Ihre "
 "Änderungen rückgängig zu machen.</para>"
 
-#: search/popup.cpp:166
+#: search/popup.cpp:165
 #, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
 msgstr "%1 einrichten …"
 
-#: search/popup.cpp:209
+#: search/popup.cpp:208
 #, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
 msgstr "Dateityp:"
 
-#: search/popup.cpp:217
+#: search/popup.cpp:216
 #, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr "Geändert seit:"
 
-#: search/popup.cpp:226
+#: search/popup.cpp:225
 #, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Bewertung:"
 
-#: search/popup.cpp:234
+#: search/popup.cpp:233
 #, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "Stichwörter:"
 
-#: search/popup.cpp:252
+#: search/popup.cpp:251
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
 msgstr "Für komplexere Suchen:"
 
-#: search/popup.cpp:277
+#: search/popup.cpp:276
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3747,7 +3747,7 @@ msgstr ""
 "so konfiguriert ist, dass es für diese Adresse keinen Suchindex anlegt.</"
 "para>"
 
-#: search/popup.cpp:284
+#: search/popup.cpp:283
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3759,13 +3759,13 @@ msgstr ""
 "zurzeit nicht möglich, weil <application>%1</application> so konfiguriert "
 "ist, dass es für Dateiinhalte keinen Suchindex anlegt.</para>"
 
-#: search/popup.cpp:293
+#: search/popup.cpp:292
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
 msgstr "<b>%1</b>"
 
-#: search/popup.cpp:296
+#: search/popup.cpp:295
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3794,37 +3794,37 @@ msgstr ""
 "Inhalt werden möglicherweise ebenfalls nicht durchsucht, je nachdem wie "
 "<application>%1</application> eingerichtet ist.</item></list></para>"
 
-#: search/popup.cpp:308
+#: search/popup.cpp:307
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
 msgstr "Dateinamen und -inhalt"
 
-#: search/popup.cpp:315
+#: search/popup.cpp:314
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
 msgstr "Dateiinhalt"
 
-#: search/popup.cpp:330
+#: search/popup.cpp:329
 #, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "%1 öffnen"
 
-#: search/popup.cpp:333
+#: search/popup.cpp:332
 #, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "KFind installieren …"
 
-#: search/popup.cpp:365
+#: search/popup.cpp:364
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "<application>KFind</application> wurde erfolgreich installiert."
 
-#: search/popup.cpp:369
+#: search/popup.cpp:368
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -5350,137 +5350,137 @@ msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "Verhalten"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/kcm/kcmdolphinviewmodes.cpp:38
 #: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "Symbole"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/kcm/kcmdolphinviewmodes.cpp:43
 #: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "Kompakt"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/kcm/kcmdolphinviewmodes.cpp:48
 #: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
 msgstr "Details"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:38
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "Natürlich"
 
-#: settings/viewmodes/contentdisplaytab.cpp:41
+#: settings/viewmodes/contentdisplaytab.cpp:39
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "Alphabetisch, Groß-/Kleinschreibung ignorieren"
 
-#: settings/viewmodes/contentdisplaytab.cpp:42
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "Alphabetisch, Groß-/Kleinschreibung beachten"
 
-#: settings/viewmodes/contentdisplaytab.cpp:48
+#: settings/viewmodes/contentdisplaytab.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "Sortiermodus:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "Anzahl der Elemente anzeigen"
 
-#: settings/viewmodes/contentdisplaytab.cpp:55
+#: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "Größe des Inhalts der Elemente, bis zu "
 
-#: settings/viewmodes/contentdisplaytab.cpp:56
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "Keine Größe anzeigen"
 
-#: settings/viewmodes/contentdisplaytab.cpp:65
+#: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " Ebene tief"
 msgstr[1] " Ebenen tief"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "Ordnergröße:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "Relativ (z.B. „%1“)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:86
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "Absolut (z.B. „%1“)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:92
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "Datumsstil:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "Symbolisch (z. B. 'drwxr-xr-x')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:96
+#: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "Numerisch (Oktal) (z. B. '755')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "Kombiniert (z. B. 'drwxr-xr-x (755)')"
 
-#: settings/viewmodes/contentdisplaytab.cpp:99
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "Berechtigungen-Stil:"
 
-#: settings/viewmodes/contentdisplaytab.cpp:108
+#: settings/viewmodes/contentdisplaytab.cpp:106
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
 msgstr "Auslassung in der Mitte (z. B. „Ein sehr l…ger Name.txt“)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:109
+#: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
 msgstr "Auslassung am Ende (z. B. „Ein sehr langer….txt“)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:111
+#: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"

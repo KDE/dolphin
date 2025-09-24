@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-23 00:46+0000\n"
+"POT-Creation-Date: 2025-09-24 00:45+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -618,7 +618,7 @@ msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "过滤"
 
-#: dolphinmainwindow.cpp:1939 search/bar.cpp:215
+#: dolphinmainwindow.cpp:1939 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "搜索…"
@@ -689,7 +689,7 @@ msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "选择当前位置的所有文件和文件夹。"
 
-#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:169
+#: dolphinmainwindow.cpp:2000 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
@@ -1699,84 +1699,84 @@ msgstr ""
 "安装 <application>%1</application> 失败：%2 (%3)<nl/>请尝试手动安装 "
 "<application>%1</application>。"
 
-#: dolphinpart.cpp:150
+#: dolphinpart.cpp:149
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
 msgstr "编辑文件类型(&E)…"
 
-#: dolphinpart.cpp:154
+#: dolphinpart.cpp:153
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching…"
 msgstr "选择匹配的项目…"
 
-#: dolphinpart.cpp:159
+#: dolphinpart.cpp:158
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching…"
 msgstr "取消选择匹配的项目…"
 
-#: dolphinpart.cpp:165
+#: dolphinpart.cpp:164
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect All"
 msgstr "全部不选"
 
-#: dolphinpart.cpp:180
+#: dolphinpart.cpp:179
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
 msgstr "应用程序(&L)"
 
-#: dolphinpart.cpp:181
+#: dolphinpart.cpp:180
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
 msgstr "网络文件夹(&N)"
 
-#: dolphinpart.cpp:182
+#: dolphinpart.cpp:181
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Trash"
 msgstr "回收站"
 
-#: dolphinpart.cpp:185
+#: dolphinpart.cpp:184
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "Autostart"
 msgstr "自动启动"
 
-#: dolphinpart.cpp:191
+#: dolphinpart.cpp:190
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
 msgstr "查找文件…"
 
-#: dolphinpart.cpp:197
+#: dolphinpart.cpp:196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open &Terminal"
 msgstr "打开终端(&T)"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgctxt "@title:window"
 msgid "Select"
 msgstr "选择"
 
-#: dolphinpart.cpp:449
+#: dolphinpart.cpp:448
 #, kde-format
 msgid "Select all items matching this pattern:"
 msgstr "选择与此模式匹配的全部项目："
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgctxt "@title:window"
 msgid "Unselect"
 msgstr "取消选择"
 
-#: dolphinpart.cpp:454
+#: dolphinpart.cpp:453
 #, kde-format
 msgid "Unselect all items matching this pattern:"
 msgstr "取消选择与此模式匹配的全部项目："
@@ -1937,85 +1937,85 @@ msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
 msgstr "您无法写入此文件夹。"
 
-#: dolphinviewcontainer.cpp:105
+#: dolphinviewcontainer.cpp:104
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
 msgstr "以 Root 用户身份运行 Dolphin 是十分危险的。请务必小心。"
 
-#: dolphinviewcontainer.cpp:156
+#: dolphinviewcontainer.cpp:155
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder…"
 msgstr "正在加载文件夹…"
 
-#: dolphinviewcontainer.cpp:159
+#: dolphinviewcontainer.cpp:158
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting…"
 msgstr "正在排序…"
 
-#: dolphinviewcontainer.cpp:685
+#: dolphinviewcontainer.cpp:684
 #, kde-format
 msgctxt "@info"
 msgid "Searching…"
 msgstr "正在搜索…"
 
-#: dolphinviewcontainer.cpp:705
+#: dolphinviewcontainer.cpp:704
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
 msgstr "未找到项目。"
 
-#: dolphinviewcontainer.cpp:893
+#: dolphinviewcontainer.cpp:892
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin 不支持显示网页，已启动网页浏览器"
 
-#: dolphinviewcontainer.cpp:896
+#: dolphinviewcontainer.cpp:895
 #, kde-format
 msgctxt "@info:status"
 msgid ""
 "Protocol not supported by Dolphin, default application has been launched"
 msgstr "Dolphin 不支持此协议，已启动默认应用程序"
 
-#: dolphinviewcontainer.cpp:903
+#: dolphinviewcontainer.cpp:902
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "无效的协议“%1”"
 
-#: dolphinviewcontainer.cpp:905
+#: dolphinviewcontainer.cpp:904
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:992
+#: dolphinviewcontainer.cpp:991
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "进入此文件夹需要身份验证。"
 
-#: dolphinviewcontainer.cpp:997
+#: dolphinviewcontainer.cpp:996
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "创建缺失的文件夹"
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "在此路径创建文件夹并打开"
 
-#: dolphinviewcontainer.cpp:1017
+#: dolphinviewcontainer.cpp:1016
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "您没有创建该文件夹的权限"
 
-#: dolphinviewcontainer.cpp:1061 dolphinviewcontainer.cpp:1064
+#: dolphinviewcontainer.cpp:1060 dolphinviewcontainer.cpp:1063
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -3223,12 +3223,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "已选中 %1 项"
 
-#: panels/information/mediawidget.cpp:248
+#: panels/information/mediawidget.cpp:246
 #, kde-format
 msgid "play"
 msgstr "播放"
 
-#: panels/information/mediawidget.cpp:254
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "pause"
 msgstr "暂停"
@@ -3251,37 +3251,37 @@ msgstr "由于未安装 Konsole，无法显示终端。请安装它, 然后重�
 msgid "Install Konsole"
 msgstr "安装 Konsole"
 
-#: search/bar.cpp:64
+#: search/bar.cpp:63
 #, kde-format
 msgctxt "action:button"
 msgid "Save this search to quickly access it again in the future"
 msgstr "保存搜索以便日后快速访问"
 
-#: search/bar.cpp:71
+#: search/bar.cpp:70
 #, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "过滤"
 
-#: search/bar.cpp:89
+#: search/bar.cpp:88
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Quit searching"
 msgstr "退出搜索"
 
-#: search/bar.cpp:103
+#: search/bar.cpp:102
 #, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
 msgstr "此位置"
 
-#: search/bar.cpp:118
+#: search/bar.cpp:117
 #, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "所有位置"
 
-#: search/bar.cpp:153
+#: search/bar.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis search bar"
 msgid ""
@@ -3301,13 +3301,13 @@ msgstr ""
 "果。</item><item>点击“保存”图标将当前搜索配置添加到<emphasis>位置面板</"
 "emphasis>中。</item></list></para>"
 
-#: search/bar.cpp:214
+#: search/bar.cpp:213
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
 msgstr "搜索文件内容…"
 
-#: search/bar.cpp:228
+#: search/bar.cpp:227
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
@@ -3318,7 +3318,7 @@ msgstr "限制搜索范围到 <filename>%1</filename> 及其子文件夹。"
 #. i18n: The "Everywhere" button makes Dolphin search all files in "/" recursively. "From the root up" is meant to
 #. communicate this colloquially while containing the technical term "root". It is fine to drop the technicalities here
 #. and only to communicate that everything in the file system is supposed to be searched here.
-#: search/bar.cpp:237
+#: search/bar.cpp:236
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
@@ -3327,7 +3327,7 @@ msgstr "从根目录开始搜索所有目录。"
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
 #. Please make sure your translation of the path to the Search settings page is identical to translation there.
-#: search/bar.cpp:241
+#: search/bar.cpp:240
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3337,7 +3337,7 @@ msgstr ""
 "搜索所有已索引的位置。 <nl/> <nl/> 在 <interface>系统设置 | 工作区 | 搜索</"
 "interface> 中配置要索引的位置。"
 
-#: search/chip.cpp:22
+#: search/chip.cpp:21
 #, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
@@ -3361,7 +3361,7 @@ msgstr "内容"
 msgid "SearchTool"
 msgstr "搜索工具"
 
-#: search/dolphinquery.cpp:383
+#: search/dolphinquery.cpp:382
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3369,7 +3369,7 @@ msgctxt ""
 msgid "Search results for “%1” in %2"
 msgstr "在 %2 中搜索“%1”的结果"
 
-#: search/dolphinquery.cpp:389
+#: search/dolphinquery.cpp:388
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
@@ -3377,7 +3377,7 @@ msgctxt ""
 msgid "Files containing “%1” in %2"
 msgstr "在 %2 中包含“%1”的文件"
 
-#: search/dolphinquery.cpp:396
+#: search/dolphinquery.cpp:395
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
@@ -3385,7 +3385,7 @@ msgctxt ""
 msgid "Search items tagged “%1” in %2"
 msgstr "搜索 %2 中标签为“%1”的项目"
 
-#: search/dolphinquery.cpp:401
+#: search/dolphinquery.cpp:400
 #, kde-format
 msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
@@ -3393,7 +3393,7 @@ msgctxt ""
 msgid "Search items tagged “%1” and “%2” in %3"
 msgstr "搜索 %3 中标签为“%1”和“%2”的项目"
 
-#: search/dolphinquery.cpp:408
+#: search/dolphinquery.cpp:407
 #, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
@@ -3401,7 +3401,7 @@ msgctxt ""
 msgid "%1 search results in %2"
 msgstr "%2 中的 %1 搜索结果"
 
-#: search/dolphinquery.cpp:414
+#: search/dolphinquery.cpp:413
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
@@ -3409,25 +3409,25 @@ msgctxt ""
 msgid "Search results in %1"
 msgstr "%1 中的搜索结果"
 
-#: search/dolphinquery.cpp:424
+#: search/dolphinquery.cpp:423
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
 msgstr "“%1”的搜索结果"
 
-#: search/dolphinquery.cpp:427
+#: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
 msgstr "包含“%1”的文件"
 
-#: search/dolphinquery.cpp:431
+#: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
 msgstr "搜索标签为“%1”的项目"
 
-#: search/dolphinquery.cpp:434
+#: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
@@ -3436,13 +3436,13 @@ msgstr "搜索标签为“%1”和“%2”的项目"
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
 #. something along the lines of 'Search items of type “%1”'.
-#: search/dolphinquery.cpp:442
+#: search/dolphinquery.cpp:441
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
 msgstr "%1 搜索结果"
 
-#: search/dolphinquery.cpp:445
+#: search/dolphinquery.cpp:444
 #, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
@@ -3450,36 +3450,36 @@ msgid "Search results"
 msgstr "搜索结果"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
-#: search/popup.cpp:48
+#: search/popup.cpp:47
 #, kde-format
 msgid "Simple search"
 msgstr "简单查询"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
-#: search/popup.cpp:54
+#: search/popup.cpp:53
 #, kde-format
 msgid "File Indexing"
 msgstr "文件索引"
 
-#: search/popup.cpp:74
+#: search/popup.cpp:73
 #, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
 msgstr "搜索范围："
 
-#: search/popup.cpp:78
+#: search/popup.cpp:77
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
 msgstr "文件名"
 
-#: search/popup.cpp:113
+#: search/popup.cpp:112
 #, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
 msgstr "搜索工具："
 
-#: search/popup.cpp:132
+#: search/popup.cpp:131
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3505,43 +3505,43 @@ msgstr ""
 "如果出现问题，只需删除您编辑过的副本 <filename>%3</filename> 即可撤销更改。</"
 "para>"
 
-#: search/popup.cpp:166
+#: search/popup.cpp:165
 #, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
 msgstr "配置 %1…"
 
-#: search/popup.cpp:209
+#: search/popup.cpp:208
 #, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
 msgstr "文件类型："
 
-#: search/popup.cpp:217
+#: search/popup.cpp:216
 #, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
 msgstr "修改时间不早于："
 
-#: search/popup.cpp:226
+#: search/popup.cpp:225
 #, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "评分不低于："
 
-#: search/popup.cpp:234
+#: search/popup.cpp:233
 #, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "标签："
 
-#: search/popup.cpp:252
+#: search/popup.cpp:251
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
 msgstr "更高级的搜索："
 
-#: search/popup.cpp:277
+#: search/popup.cpp:276
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3553,7 +3553,7 @@ msgstr ""
 "中进行搜索，因为 <application>%2</application> 已配置为不创建此位置的搜索索"
 "引。</para>"
 
-#: search/popup.cpp:284
+#: search/popup.cpp:283
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -3564,13 +3564,13 @@ msgstr ""
 "<para>当前无法使用 <application>%1</application> 搜索文件内容，因为 "
 "<application>%1</application> 已配置为不创建文件内容的搜索索引。</para>"
 
-#: search/popup.cpp:293
+#: search/popup.cpp:292
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
 msgstr "<b>%1</b>"
 
-#: search/popup.cpp:296
+#: search/popup.cpp:295
 #, kde-kuit-format
 msgctxt "@info about a search tool"
 msgid ""
@@ -3595,37 +3595,37 @@ msgstr ""
 "会被搜索或出现在搜索结果中。</item><item>根据 <application>%1</application> "
 "的配置，隐藏文件和文件夹及其内容可能也不会被搜索。</item></list></para>"
 
-#: search/popup.cpp:308
+#: search/popup.cpp:307
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
 msgstr "文件名和内容"
 
-#: search/popup.cpp:315
+#: search/popup.cpp:314
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
 msgstr "文件内容"
 
-#: search/popup.cpp:330
+#: search/popup.cpp:329
 #, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "打开 %1"
 
-#: search/popup.cpp:333
+#: search/popup.cpp:332
 #, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
 msgstr "安装 KFind…"
 
-#: search/popup.cpp:365
+#: search/popup.cpp:364
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
 msgstr "<application>KFind</application> 已成功安装。"
 
-#: search/popup.cpp:369
+#: search/popup.cpp:368
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
@@ -5085,136 +5085,136 @@ msgctxt "@title:tab Behavior settings"
 msgid "Behavior"
 msgstr "行为"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:39
+#: settings/kcm/kcmdolphinviewmodes.cpp:38
 #: settings/viewmodes/viewsettingspage.cpp:43
 #, kde-format
 msgctxt "@title:tab"
 msgid "Icons"
 msgstr "图标"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:44
+#: settings/kcm/kcmdolphinviewmodes.cpp:43
 #: settings/viewmodes/viewsettingspage.cpp:48
 #, kde-format
 msgctxt "@title:tab"
 msgid "Compact"
 msgstr "紧凑"
 
-#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/kcm/kcmdolphinviewmodes.cpp:48
 #: settings/viewmodes/viewsettingspage.cpp:53
 #, kde-format
 msgctxt "@title:tab"
 msgid "Details"
 msgstr "详情"
 
-#: settings/viewmodes/contentdisplaytab.cpp:40
+#: settings/viewmodes/contentdisplaytab.cpp:38
 #, kde-format
 msgctxt "option:radio"
 msgid "Natural"
 msgstr "按语言习惯"
 
-#: settings/viewmodes/contentdisplaytab.cpp:41
+#: settings/viewmodes/contentdisplaytab.cpp:39
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
 msgstr "按字母顺序，不区分大小写"
 
-#: settings/viewmodes/contentdisplaytab.cpp:42
+#: settings/viewmodes/contentdisplaytab.cpp:40
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
 msgstr "按字母顺序，区分大小写"
 
-#: settings/viewmodes/contentdisplaytab.cpp:48
+#: settings/viewmodes/contentdisplaytab.cpp:46
 #, kde-format
 msgctxt "@title:group"
 msgid "Sorting mode: "
 msgstr "排序方式："
 
-#: settings/viewmodes/contentdisplaytab.cpp:54
+#: settings/viewmodes/contentdisplaytab.cpp:52
 #, kde-format
 msgctxt "option:radio"
 msgid "Show number of items"
 msgstr "显示项目数量"
 
-#: settings/viewmodes/contentdisplaytab.cpp:55
+#: settings/viewmodes/contentdisplaytab.cpp:53
 #, kde-format
 msgctxt "option:radio"
 msgid "Show size of contents, up to "
 msgstr "显示内容大小，上限为 "
 
-#: settings/viewmodes/contentdisplaytab.cpp:56
+#: settings/viewmodes/contentdisplaytab.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
 msgstr "不显示大小"
 
-#: settings/viewmodes/contentdisplaytab.cpp:65
+#: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " 级深度"
 
-#: settings/viewmodes/contentdisplaytab.cpp:74
+#: settings/viewmodes/contentdisplaytab.cpp:72
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size:"
 msgstr "文件夹大小："
 
-#: settings/viewmodes/contentdisplaytab.cpp:84
+#: settings/viewmodes/contentdisplaytab.cpp:82
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "相对日期 (例如“%1”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:86
+#: settings/viewmodes/contentdisplaytab.cpp:84
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "绝对日期 (例如“%1”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:92
+#: settings/viewmodes/contentdisplaytab.cpp:90
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "日期样式："
 
-#: settings/viewmodes/contentdisplaytab.cpp:95
+#: settings/viewmodes/contentdisplaytab.cpp:93
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
 msgstr "符号式 (例如“drwxr-xr-x”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:96
+#: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
 msgstr "数字式 (例如“755”) (八进制)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:97
+#: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
 msgstr "组合式 (例如“drwxr-xr-x (755)”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:99
+#: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
 msgctxt "@title:group"
 msgid "Permissions style:"
 msgstr "权限格式："
 
-#: settings/viewmodes/contentdisplaytab.cpp:108
+#: settings/viewmodes/contentdisplaytab.cpp:106
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
 msgstr "省略中间部分 (例如：“文件名开头…末尾.txt”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:109
+#: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
 msgstr "省略末尾部分 (例如：“文件名开头….txt”)"
 
-#: settings/viewmodes/contentdisplaytab.cpp:111
+#: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
