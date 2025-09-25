@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-24 00:45+0000\n"
-"PO-Revision-Date: 2025-05-30 18:28+0200\n"
+"PO-Revision-Date: 2025-09-24 17:30+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -1065,7 +1065,7 @@ msgstr "Aperi in Vista scindite"
 #: dolphinmainwindow.cpp:2323
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "&Schema de Color de Fenestra"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -2105,18 +2105,16 @@ msgid "Authorization required to enter this folder."
 msgstr "Authorization requirite per entrar iste dossier."
 
 #: dolphinviewcontainer.cpp:996
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Creava dossier."
+msgstr "Creava dossier mancante"
 
 #: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Crea ledossier a iste percurso e aperi lo"
 
 #: dolphinviewcontainer.cpp:1016
 #, fuzzy, kde-format
@@ -2162,7 +2160,7 @@ msgstr "Cela"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Dis-cela"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -2171,51 +2169,46 @@ msgid "Move to New Folder…"
 msgstr "Move a nove dossier…"
 
 #: itemactions/setfoldericonitemaction.cpp:155
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Other"
+#, kde-format
 msgctxt "@action open a submenu with additional entries"
 msgid "Other"
 msgstr "Altere"
 
 #: itemactions/setfoldericonitemaction.cpp:156
-#, fuzzy, kde-format
-#| msgctxt "option:check"
-#| msgid "Open folders during drag operations"
+#, kde-format
 msgctxt "@label"
 msgid "Other folder icon options"
-msgstr "Aperi dossieres durante operationes de trainar"
+msgstr "Aperi optiones de icone de dossier"
 
 #: itemactions/setfoldericonitemaction.cpp:190
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "Recarga"
+msgstr "Rubie"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr ""
+msgstr "Jalne"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr ""
+msgstr "Orange"
 
 #: itemactions/setfoldericonitemaction.cpp:193
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr ""
+msgstr "Cyano"
 
 #: itemactions/setfoldericonitemaction.cpp:196
 #, fuzzy, kde-format
@@ -2228,41 +2221,37 @@ msgstr "Predefinite"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr ""
+msgstr "Violetto"
 
 #: itemactions/setfoldericonitemaction.cpp:200
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Browsing: "
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "Navigante: "
+msgstr "Brun"
 
 #: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Gris"
 
 #: itemactions/setfoldericonitemaction.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "&Bookmarks"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Bookmark"
-msgstr "Marcatores de li&bro"
+msgstr "Marcator de libro"
 
 #: itemactions/setfoldericonitemaction.cpp:205
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cloud"
-msgstr ""
+msgstr "Nube (Cloud)"
 
 #: itemactions/setfoldericonitemaction.cpp:206
 #, fuzzy, kde-format
@@ -2270,24 +2259,22 @@ msgstr ""
 #| msgid "Developer"
 msgctxt "@label as in default folder color"
 msgid "Development"
-msgstr "Developpator"
+msgstr "Developpamento"
 
 #: itemactions/setfoldericonitemaction.cpp:207
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Games"
-msgstr ""
+msgstr "Jocos"
 
 #: itemactions/setfoldericonitemaction.cpp:208
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Mail"
-msgstr ""
+msgstr "Posta"
 
 #: itemactions/setfoldericonitemaction.cpp:209
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Music"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
 msgstr "Musica"
@@ -2296,33 +2283,31 @@ msgstr "Musica"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Print"
-msgstr ""
+msgstr "Imprime"
 
 #: itemactions/setfoldericonitemaction.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Compare Files"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Compressed"
-msgstr "Compara files"
+msgstr "Comprimite"
 
 #: itemactions/setfoldericonitemaction.cpp:212
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Temporanee"
 
 #: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 #: itemactions/setfoldericonitemaction.cpp:235
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Assigna icone de dossier  a %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -3103,7 +3088,7 @@ msgstr "Elvis Angelaccio"
 #| msgid "Maintainer (2018-2021) and developer"
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Mantenitor (2018-2021) e disveloppator"
+msgstr "Mantenitor e disveloppator (2006-20012)"
 
 #: main.cpp:110
 #, kde-format
@@ -3117,7 +3102,7 @@ msgstr "Emmanuel Pescosta"
 #| msgid "Maintainer (2014-2018) and developer"
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Mantenitor e disveloppator (2006-20018)"
+msgstr "Mantenitor e disveloppator (2006-20012)"
 
 #: main.cpp:113
 #, kde-format
@@ -3131,7 +3116,7 @@ msgstr "Frank Reininghaus"
 #| msgid "Maintainer (2012-2014) and developer"
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Mantenitor (2012-2014) e disveloppator"
+msgstr "Mantenitor e disveloppator (2006-20012)"
 
 #: main.cpp:116
 #, kde-format
@@ -4291,11 +4276,9 @@ msgstr "Formto de stilo de Permissiones"
 
 #. i18n: ectx: label, entry (ElidingMode), group (ContentDisplay)
 #: settings/dolphin_contentdisplaysettings.kcfg:42
-#, fuzzy, kde-format
-#| msgctxt "@info label above the view explaining the state"
-#| msgid "Selection Mode"
+#, kde-format
 msgid "Eliding Mode"
-msgstr "Modo de Selection"
+msgstr "Modo de Elision"
 
 #. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:10
@@ -4943,7 +4926,7 @@ msgstr "Commutar per ager como un administrator"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Renominar un fila cambiara su typo"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -5435,21 +5418,19 @@ msgstr "Stilo de Permissiones:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Elide in le medio (p.ex. 'Alcun multe ...nomine.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Elide in le fin (pex. 'Alcun multe longe ....txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
-#, fuzzy, kde-format
-#| msgctxt "@option:radio Search in:"
-#| msgid "File names"
+#, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Nomines de file"
+msgstr "Nomines de file longe"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -6296,7 +6277,7 @@ msgstr "Cela iste dossier?"
 #| msgid "Rename…"
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Renomina…"
+msgstr "Renomina"
 
 #: views/dolphinview.cpp:2123
 #, kde-format
@@ -6861,15 +6842,13 @@ msgid "Updating version information…"
 msgstr "Il actualisa le information de version..."
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Zoom"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"

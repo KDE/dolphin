@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-24 00:45+0000\n"
-"PO-Revision-Date: 2025-08-29 09:02+0200\n"
+"PO-Revision-Date: 2025-09-23 14:17+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -870,14 +870,7 @@ msgstr ""
 "annullate richiederanno una conferma."
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -886,11 +879,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"Annulla l'ultima modifica apportata a file o cartelle.<nl/>Tali modifiche "
-"includono <interface>creazione</interface>, <interface>rinomina</interface> "
-"e <interface>spostamento</interface> degli elementi in una posizione diversa "
-"o nel <filename>Cestino</filename>.<nl/>Le modifiche che non possono essere "
-"annullate richiederanno una conferma."
+"Ripristina l'ultima modifica che hai annullato.<nl/>Tali modifiche includono "
+"<interface>creazione</interface>, <interface>rinomina</interface> e "
+"<interface>spostamento</interface> di file o cartelle in una posizione "
+"diversa o nel <filename>Cestino</filename>.<nl/>Le modifiche che non possono "
+"essere annullate richiederanno in anticipo la tua conferma."
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -2161,9 +2154,7 @@ msgid "Hide Filter Bar"
 msgstr "Nascondi barra del filtro"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Nascondi"
@@ -2172,7 +2163,7 @@ msgstr "Nascondi"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Mostra"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
