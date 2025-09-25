@@ -4,7 +4,20 @@
         "MimeTypes": [
             "application/octet-stream"
         ],
-        "Name": "Hide"
+        "Name": "Hide",
+        "Name[ar]": "أخفِ",
+        "Name[ca]": "Oculta",
+        "Name[es]": "Ocultar",
+        "Name[he]": "הסתרה",
+        "Name[ia]": "Cela",
+        "Name[it]": "Nascondi",
+        "Name[ka]": "დამალვა",
+        "Name[nl]": "Verbergen",
+        "Name[pt_BR]": "Ocultar",
+        "Name[sl]": "Skrij",
+        "Name[tr]": "Gizle",
+        "Name[uk]": "Приховати",
+        "Name[zh_TW]": "隱藏"
     },
     "X-KDE-Show-In-Submenu": true
 }
