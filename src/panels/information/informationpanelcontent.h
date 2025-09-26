@@ -154,6 +154,7 @@ private:
     QDialogButtonBox *m_configureButtons;
 
     bool m_isVideo;
+    QUrl m_disabledPreviewUrl;
 };
 
 #endif // INFORMATIONPANELCONTENT_H
