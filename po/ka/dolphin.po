@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-27 00:45+0000\n"
-"PO-Revision-Date: 2025-09-23 04:08+0200\n"
+"PO-Revision-Date: 2025-09-27 03:50+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6665,20 +6665,16 @@ msgstr ""
 "დაკავშირებულ ქმედებას შეიცავს."
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "დახარისხება"
+msgstr "დალაგების პირობა: %1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "ფილტრის ზოლის ჩვენება"
+msgstr "ველის ჩვენება: %1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
