@@ -938,6 +938,21 @@ void DolphinViewContainer::redirect(const QUrl &oldUrl, const QUrl &newUrl)
     setSearchBarVisible(isSearchUrl(newUrl));
 
     m_urlNavigator->blockSignals(block);
+
+    // Before emitting `urlChanged`, temporarily disconnect the `activated` signal to avoid activation of `DolphinViewContainer`.
+    bool blockActivation = m_urlNavigatorConnected && !isActive();
+    if (blockActivation) {
+        disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
+    }
+
+    Q_EMIT m_view->urlChanged(newUrl);
+
+    if (blockActivation) {
+        connect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated, this, &DolphinViewContainer::activate);
+
+        // Force inactivate `DolphinUrlNavigator`.
+        m_urlNavigatorConnected->setActive(false);
+    }
 }
 
 void DolphinViewContainer::requestFocus()

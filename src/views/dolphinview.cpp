@@ -1788,7 +1788,6 @@ void DolphinView::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUr
     if (oldUrl.matches(url(), QUrl::StripTrailingSlash)) {
         // Update the view's URL before emitting signals.
         m_url = newUrl; // #186947
-        Q_EMIT urlChanged(m_url);
 
         Q_EMIT redirection(oldUrl, newUrl);
     }
