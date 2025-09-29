@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 00:45+0000\n"
-"PO-Revision-Date: 2025-09-25 01:51+0900\n"
+"POT-Creation-Date: 2025-09-29 00:45+0000\n"
+"PO-Revision-Date: 2025-09-29 01:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -3215,7 +3215,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "選擇哪些資料要被顯示出來："
 
-#: panels/information/informationpanelcontent.cpp:292
+#: panels/information/informationpanelcontent.cpp:295
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -6460,20 +6460,16 @@ msgid ""
 msgstr "這會循環切換所有檢視模式。它的下拉式選單包含一些檢視模式相關的動作。"
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "排序依據"
+msgstr "排序依據：%1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "顯示過濾器列"
+msgstr "顯示欄位：%1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format

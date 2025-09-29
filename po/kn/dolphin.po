@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 00:45+0000\n"
+"POT-Creation-Date: 2025-09-29 00:45+0000\n"
 "PO-Revision-Date: 2011-01-12 15:09+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: kn_IN <kde-i18n-doc@kde.org>\n"
@@ -3351,7 +3351,7 @@ msgstr "ಯಾವ ದತ್ತಾಂಶವನ್ನು ತೋರಿಸಬೇಕ�
 # #: iconsviewsettingspage.cpp:104
 # msgid "Large"
 # msgstr "ದೊಡ್ಡದು "
-#: panels/information/informationpanelcontent.cpp:292
+#: panels/information/informationpanelcontent.cpp:295
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "%1 item selected"

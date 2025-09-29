@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 00:45+0000\n"
+"POT-Creation-Date: 2025-09-29 00:45+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -3672,7 +3672,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Abrać danyja, jakija buduć pakazvacca:"
 
-#: panels/information/informationpanelcontent.cpp:292
+#: panels/information/informationpanelcontent.cpp:295
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

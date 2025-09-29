@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 00:45+0000\n"
+"POT-Creation-Date: 2025-09-29 00:45+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -3484,7 +3484,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Järgmiste andmete näitamine:"
 
-#: panels/information/informationpanelcontent.cpp:292
+#: panels/information/informationpanelcontent.cpp:295
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"

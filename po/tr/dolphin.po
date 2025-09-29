@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 00:45+0000\n"
-"PO-Revision-Date: 2025-09-24 09:17+0300\n"
+"POT-Creation-Date: 2025-09-29 00:45+0000\n"
+"PO-Revision-Date: 2025-09-28 20:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3311,7 +3311,7 @@ msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
 msgstr "Hangi verilerin gösterileceğini seç:"
 
-#: panels/information/informationpanelcontent.cpp:292
+#: panels/information/informationpanelcontent.cpp:295
 #, kde-format
 msgctxt "@label"
 msgid "%1 item selected"
@@ -6657,20 +6657,16 @@ msgstr ""
 "görünümle ilgili eylemleri barındırır."
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Şuna Göre Sırala"
+msgstr "Şuna Göre Sırala: %1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Süzgeç Çubuğunu Göster"
+msgstr "Alanı Göster: %1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
