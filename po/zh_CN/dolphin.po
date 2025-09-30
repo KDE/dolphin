@@ -833,14 +833,7 @@ msgstr ""
 "前，程序将请求您确认操作。"
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -849,10 +842,10 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"这将撤销上一次对文件或文件夹进行的更改操作。<nl/>可撤销的操作包括<interface>"
-"创建</interface>、<interface>重命名</interface>、<interface>移动</interface>"
-"到其他位置或者<filename>移动到回收站</filename>。<nl/>在进行无法撤销的更改之"
-"前，程序将请求您确认操作。"
+"这将重做上一次撤销的更改操作。<nl/>可重做的操作包括对文件或文件夹进行的"
+"<interface>创建</interface>、<interface>重命名</interface>、<interface>移动</"
+"interface>到其他位置或者<filename>移动到回收站</filename>。<nl/>在进行无法撤"
+"销的更改之前，程序将请求您确认操作。"
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -2042,13 +2035,13 @@ msgstr "隐藏过滤栏"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
-msgstr ""
+msgstr "隐藏"
 
 #: itemactions/hidefileitemaction.cpp:132
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "取消隐藏"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -2072,31 +2065,31 @@ msgstr "其他文件夹图标选项"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Red"
-msgstr "红"
+msgstr "红色"
 
 #: itemactions/setfoldericonitemaction.cpp:191
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Yellow"
-msgstr "黄"
+msgstr "黄色"
 
 #: itemactions/setfoldericonitemaction.cpp:192
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Orange"
-msgstr "橙"
+msgstr "橙色"
 
 #: itemactions/setfoldericonitemaction.cpp:193
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr "绿"
+msgstr "绿色"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Cyan"
-msgstr "青"
+msgstr "青色"
 
 #: itemactions/setfoldericonitemaction.cpp:196
 #, kde-format
@@ -2108,25 +2101,25 @@ msgstr "默认"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Blue"
-msgstr "蓝"
+msgstr "蓝色"
 
 #: itemactions/setfoldericonitemaction.cpp:199
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Violet"
-msgstr "紫"
+msgstr "紫色"
 
 #: itemactions/setfoldericonitemaction.cpp:200
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Brown"
-msgstr "棕"
+msgstr "棕色"
 
 #: itemactions/setfoldericonitemaction.cpp:201
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr "灰"
+msgstr "灰色"
 
 #: itemactions/setfoldericonitemaction.cpp:204
 #, kde-format
@@ -2192,7 +2185,7 @@ msgstr "重要"
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr "设置文件夹图标为 %1"
+msgstr "文件夹图标设置为：%1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -4590,7 +4583,7 @@ msgstr "一次打开大量终端时请求确认。"
 #: settings/dolphin_generalsettings.kcfg:171
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr ""
+msgstr "通过重命名更改文件类型时请求确认。"
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4748,7 +4741,7 @@ msgstr "作为脚本运行"
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
-msgstr "上次关闭时的文件夹、标签页和窗口状态"
+msgstr "恢复之前的文件夹、标签页和窗口状态"
 
 #: settings/interface/folderstabssettingspage.cpp:54
 #, kde-format
@@ -4821,13 +4814,13 @@ msgstr "显示过滤栏"
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
-msgstr "在当前标签页右侧"
+msgstr "当前标签页右侧"
 
 #: settings/interface/folderstabssettingspage.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
-msgstr "在标签页栏最右侧"
+msgstr "标签页栏最右侧"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
@@ -4885,7 +4878,7 @@ msgstr "主文件夹位置无效或者不存在，无法应用。"
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr "文件夹、标签页"
+msgstr "文件夹与标签页"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -4911,7 +4904,7 @@ msgstr "面板"
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr "状态栏、位置栏"
+msgstr "状态栏与位置栏"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
@@ -5066,7 +5059,7 @@ msgstr "状态栏："
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr "位置栏处于可编辑状态"
+msgstr "位置栏默认在可编辑状态"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, kde-format
@@ -6460,20 +6453,16 @@ msgid ""
 msgstr "这将在全部视图模式之间循环切换。下拉菜单包含各种与视图相关的操作。"
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "排序方式"
+msgstr "排序方式：%1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "显示过滤栏"
+msgstr "显示字段：%1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
