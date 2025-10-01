@@ -23,6 +23,7 @@
         "Name[sv]": "Dölj",
         "Name[tr]": "Gizle",
         "Name[uk]": "Приховати",
+        "Name[zh_CN]": "隐藏",
         "Name[zh_TW]": "隱藏"
     },
     "X-KDE-Show-In-Submenu": true
