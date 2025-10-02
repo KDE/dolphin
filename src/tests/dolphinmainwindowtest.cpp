@@ -68,6 +68,7 @@ private Q_SLOTS:
     void testInlineRename();
     void testThumbnailAfterRename();
     void testViewModeAfterDynamicView();
+    void testActivationAndTabTitleAfterRenameOpeningFolder();
     void cleanupTestCase();
 
 private:
@@ -421,7 +422,7 @@ void DolphinMainWindowTest::testCreateFileAction()
     QCOMPARE(file.size(), 0);
 }
 
- void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
+void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
 {
     QScopedPointer<TestDir> testDir{new TestDir()};
     QString testDirUrl(QDir::cleanPath(testDir->url().toString()));
@@ -1143,6 +1144,85 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
     QCOMPARE(view->m_mode, DolphinView::DetailsView);
     QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+}
+
+void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a");
+    const QUrl parentDirUrl = QUrl::fromLocalFile(testDir->url().toLocalFile());
+    const QUrl childDirUrl = QUrl::fromLocalFile(testDir->url().toLocalFile() + "/a");
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget *>("tabWidget");
+    QVERIFY(tabWidget);
+
+    // Tab 0: Open childDirUrl
+    m_mainWindow->openDirectories({childDirUrl}, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    // Tab 0: Enable split view
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->setChecked(true);
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+
+    // Tab 1: Open childDirUrl
+    tabWidget->openNewActivatedTab(childDirUrl);
+
+    // Tab 1: Open parentDirUrl in right view
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->setChecked(true);
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+
+    DolphinView *view = m_mainWindow->activeViewContainer()->view();
+    view->m_model->loadDirectory(parentDirUrl);
+    view->setUrl(parentDirUrl);
+
+    // Check current view is right view
+    QVERIFY(tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
+
+    // Check all tab titles are correct
+    // Tab 0: (a) | a
+    // Tab 1: (a) | parentDir
+    const QString parentDirName = QFileInfo(parentDirUrl.toString()).fileName();
+    const QString childDirName = QFileInfo(childDirUrl.toString()).fileName();
+    const QString expectedTab0Title = QStringLiteral("(%1) | %2").arg(childDirName, childDirName);
+    const QString expectedTab1Title = QStringLiteral("(%1) | %2").arg(childDirName, parentDirName);
+    QCOMPARE(tabWidget->tabText(0), expectedTab0Title);
+    QCOMPARE(tabWidget->tabText(1), expectedTab1Title);
+
+    // Prepare signal spies
+    QSignalSpy viewDirectoryLoadingCompletedSpy(view, &DolphinView::directoryLoadingCompleted);
+    QSignalSpy itemsChangedSpy(view->m_model, &KFileItemModel::itemsChanged);
+
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QTest::qWait(0);
+
+    // Rename child dir to "b"
+    view->markUrlsAsSelected({childDirUrl});
+    view->updateViewState();
+    view->renameSelectedItems(); // Rename inline
+
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_B);
+    QTest::keyClick(QApplication::focusWidget(), Qt::Key_Enter);
+    QVERIFY(itemsChangedSpy.wait()); // Make sure that rename worked
+
+    // Check current view is right view
+    QVERIFY(tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
+
+    // Check navigator in left view is inactive
+    auto leftViewNavigator = tabWidget->currentTabPage()->primaryViewContainer()->urlNavigator();
+    QVERIFY(!leftViewNavigator->isActive());
+
+    // Check all tab titles are correct after rename
+    // Tab 0: (b) | b
+    // Tab 1: (b) | parentDir
+    const QString newChildDirName = QStringLiteral("b");
+    const QString expectedNewTab0Title = QStringLiteral("(%1) | %2").arg(newChildDirName, newChildDirName);
+    const QString expectedNewTab1Title = QStringLiteral("(%1) | %2").arg(newChildDirName, parentDirName);
+    QCOMPARE(tabWidget->tabText(0), expectedNewTab0Title);
+    QCOMPARE(tabWidget->tabText(1), expectedNewTab1Title);
 }
 
 void DolphinMainWindowTest::cleanupTestCase()
