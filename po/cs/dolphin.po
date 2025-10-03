@@ -6269,20 +6269,16 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Řadit dle"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Zobrazit panel pro filtrování"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
