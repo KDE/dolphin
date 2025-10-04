@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-29 00:45+0000\n"
+"POT-Creation-Date: 2025-10-04 00:45+0000\n"
 "PO-Revision-Date: 2025-09-21 12:47+0900\n"
 "Last-Translator: Yuma Kakei <yumasansansan@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -316,7 +316,7 @@ msgid ""
 msgstr "このウィンドウで複数のタブを開いています。本当に終了しますか？"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2136
+#: views/dolphinview.cpp:2138
 #, kde-format
 msgid "Do not ask again"
 msgstr "次回から確認しない"
@@ -2075,13 +2075,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "無効なプロトコル"
 
-#: dolphinviewcontainer.cpp:991
+#: dolphinviewcontainer.cpp:1006
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "このフォルダに入るには認証が必要です。"
 
-#: dolphinviewcontainer.cpp:996
+#: dolphinviewcontainer.cpp:1011
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -2089,19 +2089,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "フォルダを作成しました。"
 
-#: dolphinviewcontainer.cpp:1013
+#: dolphinviewcontainer.cpp:1028
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1016
+#: dolphinviewcontainer.cpp:1031
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "フォルダを作成する権限がありません。"
 
-#: dolphinviewcontainer.cpp:1060 dolphinviewcontainer.cpp:1063
+#: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
@@ -6123,25 +6123,25 @@ msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "列の幅をカスタムする"
 
-#: views/dolphinview.cpp:1907
+#: views/dolphinview.cpp:1909
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "ごみ箱への移動が完了しました。"
 
-#: views/dolphinview.cpp:1917
+#: views/dolphinview.cpp:1919
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "削除が完了しました。"
 
-#: views/dolphinview.cpp:2084
+#: views/dolphinview.cpp:2086
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "名前を変更して隠す"
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2090
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6151,7 +6151,7 @@ msgstr ""
 "す。\n"
 "本当に名前を変更しますか？"
 
-#: views/dolphinview.cpp:2090
+#: views/dolphinview.cpp:2092
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6161,17 +6161,17 @@ msgstr ""
 "す。\n"
 "本当に名前を変更しますか？"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2094
 #, kde-format
 msgid "Hide this File?"
 msgstr "このファイルを非表示にしますか？"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2094
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "このフォルダを非表示にしますか？"
 
-#: views/dolphinview.cpp:2113
+#: views/dolphinview.cpp:2115
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6179,7 +6179,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "名前を変更..."
 
-#: views/dolphinview.cpp:2123
+#: views/dolphinview.cpp:2125
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6188,7 +6188,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2127
+#: views/dolphinview.cpp:2129
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6197,7 +6197,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2133
+#: views/dolphinview.cpp:2135
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type…"
@@ -6205,84 +6205,84 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "ファイルタイプを編集(&E)..."
 
-#: views/dolphinview.cpp:2177
+#: views/dolphinview.cpp:2179
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "場所が空です。"
 
-#: views/dolphinview.cpp:2179
+#: views/dolphinview.cpp:2181
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "場所 ‘%1’ は無効です。"
 
-#: views/dolphinview.cpp:2511
+#: views/dolphinview.cpp:2513
 #, kde-format
 msgid "Loading…"
 msgstr "読み込んでいます..."
 
-#: views/dolphinview.cpp:2540
+#: views/dolphinview.cpp:2542
 #, kde-format
 msgid "Loading canceled"
 msgstr "読み込みがキャンセルされました"
 
-#: views/dolphinview.cpp:2542
+#: views/dolphinview.cpp:2544
 #, kde-format
 msgid "No items matching the filter"
 msgstr "フィルタにマッチするアイテムはありません"
 
-#: views/dolphinview.cpp:2544
+#: views/dolphinview.cpp:2546
 #, kde-format
 msgid "No items matching the search"
 msgstr "検索にマッチするアイテムはありません"
 
-#: views/dolphinview.cpp:2546
+#: views/dolphinview.cpp:2548
 #, kde-format
 msgid "Trash is empty"
 msgstr "ごみ箱は空です"
 
-#: views/dolphinview.cpp:2549
+#: views/dolphinview.cpp:2551
 #, kde-format
 msgid "No tags"
 msgstr "タグなし"
 
-#: views/dolphinview.cpp:2552
+#: views/dolphinview.cpp:2554
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "タグ \"%1\" がついたファイルはありません"
 
-#: views/dolphinview.cpp:2556
+#: views/dolphinview.cpp:2558
 #, kde-format
 msgid "No recently used items"
 msgstr "最近使用されたアイテムはありません"
 
-#: views/dolphinview.cpp:2558
+#: views/dolphinview.cpp:2560
 #, kde-format
 msgid "No shared folders found"
 msgstr "共有フォルダが見つかりません"
 
-#: views/dolphinview.cpp:2560
+#: views/dolphinview.cpp:2562
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "関連するネットワークリソースが見つかりません"
 
-#: views/dolphinview.cpp:2562
+#: views/dolphinview.cpp:2564
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP 対応デバイスが見つかりません"
 
-#: views/dolphinview.cpp:2564
+#: views/dolphinview.cpp:2566
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Apple デバイスが見つかりません"
 
-#: views/dolphinview.cpp:2566
+#: views/dolphinview.cpp:2568
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetooth デバイスが見つかりません"
 
-#: views/dolphinview.cpp:2568
+#: views/dolphinview.cpp:2570
 #, kde-format
 msgid "Folder is empty"
 msgstr "フォルダは空です"
