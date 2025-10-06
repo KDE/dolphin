@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 00:45+0000\n"
-"PO-Revision-Date: 2025-09-23 18:54+0400\n"
+"PO-Revision-Date: 2025-10-05 10:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6705,20 +6705,16 @@ msgstr ""
 "مُختلفة مُتعلقة بالعرض."
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "افرز حسب"
+msgstr "افرز حسب: %1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "أظهر شريط المرشّح"
+msgstr "أظهر حقل: %1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 00:45+0000\n"
-"PO-Revision-Date: 2025-09-27 10:37+0200\n"
+"PO-Revision-Date: 2025-10-05 20:08+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -145,12 +145,13 @@ msgstr ""
 "d'aquest sistema. Això inclou elements que són crítics perquè aquest sistema "
 "funcioni.</para><para>Podeu <emphasis>suprimir les dades de tots els "
 "usuaris</emphasis> en aquest ordinador i <emphasis>trencar aquesta "
-"instal·lació sense possibilitat de reparar</emphasis>. Afegir només una "
-"lletra en una carpeta o nom de fitxer o el seu contingut pot fer que un "
-"sistema <emphasis>no es pugui arrencar</emphasis>.</para><para>Probablement "
-"no hi haurà cap altre avís encara que estigueu a punt de fer malbé aquest "
-"sistema.</para><para>Potser voldreu <emphasis>copiar fitxers i carpetes</"
-"emphasis> abans de continuar.</para>"
+"instal·lació sense possibilitat de reparació</emphasis>. Afegir només una "
+"lletra en una carpeta o en un nom de fitxer o al seu contingut pot fer que "
+"un sistema <emphasis>no es pugui arrencar</emphasis>.</"
+"para><para>Probablement no hi haurà cap altre avís encara que estigueu a "
+"punt de fer malbé aquest sistema.</para><para>Potser voldreu <emphasis>fer "
+"còpies de seguretat de fitxers i carpetes</emphasis> abans de continuar.</"
+"para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
@@ -1252,7 +1253,8 @@ msgid ""
 "property."
 msgstr ""
 "Això mostra tots els llocs del plafó de llocs que s'han ocultat. Apareixeran "
-"com a semitransparents a menys que desmarqueu la seva propietat d'«ocult»."
+"com a semitransparents i permet que que desmarqueu la seva propietat "
+"d'«ocult»."
 
 #: dolphinmainwindow.cpp:2533
 #, kde-kuit-format
@@ -1791,7 +1793,7 @@ msgstr "No s'ha pogut trobar el paquet %1."
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr "La instal·lació ha sortit sense informar la correcció. (%1)"
+msgstr "La instal·lació ha sortit sense un resultat reeixit. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -3880,7 +3882,8 @@ msgstr ""
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Seleccioneu els fitxers i carpetes sobre els quals s'hauria de copiar."
+msgstr ""
+"Seleccioneu els fitxers i carpetes que s'haurien de copiar a l'altra vista."
 
 #: selectionmode/bottombarcontentscontainer.cpp:233
 #, kde-format
@@ -3937,7 +3940,9 @@ msgstr "Més"
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr "Seleccioneu els fitxers i carpetes sobre els quals s'hauria de moure."
+msgstr ""
+"Seleccioneu els fitxers i carpetes sobre els quals s'hauria de moure a "
+"l'altra vista."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:367
@@ -4506,7 +4511,7 @@ msgstr "Mostra primer les carpetes en ordenar fitxers i carpetes"
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
-msgstr "Mostra últims els fitxers i carpetes ocultes"
+msgstr "Mostra els fitxers i carpetes ocultes al final"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:66
@@ -4710,7 +4715,7 @@ msgstr "Tanca la vista amb el focus en desactivar la vista dividida"
 #: settings/dolphin_generalsettings.kcfg:106
 #, kde-format
 msgid "New tab will be open after last one"
-msgstr "Obre una pestanya nova després de l'última"
+msgstr "La pestanya nova s'obrirà després de l'última"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
 #: settings/dolphin_generalsettings.kcfg:110
@@ -4780,7 +4785,7 @@ msgstr "Activa la vista dinàmica"
 #: settings/dolphin_generalsettings.kcfg:163
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
-msgstr "Demana confirmació en obrir moltes pestanyes a la vegada."
+msgstr "Demana confirmació en obrir moltes carpetes a la vegada."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:167
@@ -5355,7 +5360,7 @@ msgstr "Mostra la mida del contingut, fins a "
 #, kde-format
 msgctxt "option:radio"
 msgid "Show no size"
-msgstr "Mostra sense mida"
+msgstr "No mostra la mida"
 
 #: settings/viewmodes/contentdisplaytab.cpp:63
 #, kde-format
@@ -5844,7 +5849,7 @@ msgstr "Mostra primer les carpetes"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
-msgstr "Mostra últims els fitxers ocults"
+msgstr "Mostra els fitxers ocults al final"
 
 #: settings/viewpropertiesdialog.cpp:87
 #, kde-format
@@ -6132,7 +6137,7 @@ msgstr "Selecciona el joc de caràcters remot"
 #: views/dolphinremoteencoding.cpp:91
 #, kde-format
 msgid "Default"
-msgstr "Omissió"
+msgstr "Predeterminat"
 
 #: views/dolphinremoteencoding.cpp:100
 #, kde-format
@@ -6633,7 +6638,7 @@ msgstr "Primer les carpetes"
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
-msgstr "Últims els fitxers ocults"
+msgstr "Fitxers ocults al final"
 
 #: views/dolphinviewactionhandler.cpp:283
 #, kde-format
@@ -6807,7 +6812,7 @@ msgstr "Primer el més antic"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
-msgstr "Primera la més elevada"
+msgstr "Primera la més alta"
 
 #: views/dolphinviewactionhandler.cpp:737
 #, kde-format
