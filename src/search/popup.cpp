@@ -351,7 +351,7 @@ void Popup::slotKFindButtonClicked()
 #else
     auto packageInstaller = new DolphinPackageInstaller(
         KFIND_PACKAGE_NAME,
-        QUrl("appstream://org.kde.kfind.desktop"),
+        QUrl("appstream://org.kde.kfind"),
         []() {
             return KService::serviceByDesktopName(kFindDesktopName);
         },
