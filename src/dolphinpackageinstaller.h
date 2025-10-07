@@ -29,7 +29,7 @@ public:
      * @param packageName                   A name that can be resolved to a package.
      * @param fallBackInstallationPageUrl   This url will be opened if Dolphin was installed without the PackageKit library. A good choice for this parameter
      *                                      is an appstream url that will be opened in a software store like Discover
-     *                                      e.g. "appstream://org.kde.filelight". The user is then expected to install the package themselves and
+     *                                      e.g. "appstream://org.kde.filelight.desktop". The user is then expected to install the package themselves and
      *                                      KJob::result() will be emitted when it is detected that the installation finished successfully.
      * @param isPackageInstalledCheck       A function that can be regularly checked to determine if the installation was already successful.
      */

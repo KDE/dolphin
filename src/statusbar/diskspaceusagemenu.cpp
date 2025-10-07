@@ -34,7 +34,7 @@ void DiskSpaceUsageMenu::slotInstallFilelightButtonClicked()
 #else
     auto packageInstaller = new DolphinPackageInstaller(
         FILELIGHT_PACKAGE_NAME,
-        QUrl("appstream://org.kde.filelight"),
+        QUrl("appstream://org.kde.filelight.desktop"),
         []() {
             return KService::serviceByDesktopName(QStringLiteral("org.kde.filelight"));
         },
