@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 00:45+0000\n"
-"PO-Revision-Date: 2025-10-04 10:21+0000\n"
+"PO-Revision-Date: 2025-10-08 09:55+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -1066,7 +1066,7 @@ msgstr "Opna í klofinni sýn"
 #: dolphinmainwindow.cpp:2323
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "&Litastef glugga"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -2112,7 +2112,7 @@ msgstr "Búa til möppu sem vantar"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Búa til möppu á þessari slóð og opna hana"
 
 #: dolphinviewcontainer.cpp:1031
 #, kde-format
@@ -2155,7 +2155,7 @@ msgstr "Fela"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Hætta að fela"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format

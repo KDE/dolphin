@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 00:45+0000\n"
-"PO-Revision-Date: 2025-07-20 00:53+0200\n"
+"PO-Revision-Date: 2025-10-09 00:14+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -830,19 +830,12 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "파일과 폴더의 마지막 변경 사항을 실행 취소합니다.<nl/><interface>새로 만들기"
-"</interface>, <interface>이름 변경</interface>, 다른 위치로 <interface>이동</"
-"interface>, <filename>휴지통으로 이동</filename> 작업을 취소할 수 있습니다."
+"</interface>, <interface>이름 바꾸기</interface>, 다른 위치로 <interface>이동"
+"</interface>, <filename>휴지통으로 이동</filename> 작업을 취소할 수 있습니다."
 "<nl/>실행 취소할 수 없는 작업은 실행 전에 물어봅니다."
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -851,10 +844,10 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"파일과 폴더의 마지막 변경 사항을 실행 취소합니다.<nl/><interface>새로 만들기"
-"</interface>, <interface>이름 변경</interface>, 다른 위치로 <interface>이동</"
-"interface>, <filename>휴지통으로 이동</filename> 작업을 취소할 수 있습니다."
-"<nl/>실행 취소할 수 없는 작업은 실행 전에 물어봅니다."
+"마지막으로 실행 취소한 사항을 다시 실행합니다.<nl/><interface>새로 만들기</"
+"interface>, <interface>이름 바꾸기</interface>, 다른 위치로 <interface>이동</"
+"interface>, <filename>휴지통으로 이동</filename> 작업을 다시 실행할 수 있습니"
+"다.<nl/>실행 취소할 수 없는 작업은 실행 전에 물어봅니다."
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -1027,7 +1020,7 @@ msgstr "분할 보기로 열기"
 #: dolphinmainwindow.cpp:2323
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "창 색 구성표(&W)"
 
 #: dolphinmainwindow.cpp:2336
 #, kde-format
@@ -2020,26 +2013,22 @@ msgid "Authorization required to enter this folder."
 msgstr "이 폴더에 들어가려면 인증이 필요합니다."
 
 #: dolphinviewcontainer.cpp:1011
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "폴더 생성됨."
+msgstr "빠진 폴더 만들기"
 
 #: dolphinviewcontainer.cpp:1028
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "이 경로에 폴더를 만들고 열기"
 
 #: dolphinviewcontainer.cpp:1031
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "붙여넣을 수 없음: 이 폴더에 쓸 수 있는 권한이 없습니다."
+msgstr "폴더를 만들 수 있는 권한이 없음"
 
 #: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
 #, kde-kuit-format
@@ -2065,9 +2054,7 @@ msgid "Hide Filter Bar"
 msgstr "필터 표시줄 숨기기"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "숨기기"
@@ -2076,7 +2063,7 @@ msgstr "숨기기"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "숨김 해제"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -4638,10 +4625,9 @@ msgstr "한 번에 여러 터미널을 열 때 사용자에게 물어 봅니다.
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "한 번에 여러 폴더를 열 때 사용자에게 물어 봅니다."
+msgstr "파일 이름을 바꿀 때 형식도 같이 바뀐다면 사용자에게 물어 봅니다."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -4773,7 +4759,7 @@ msgstr "관리자로 작업하기로 전환"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "파일 이름을 바꾸면 형식도 같이 변경됨"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -6096,12 +6082,10 @@ msgid "Hide this Folder?"
 msgstr "이 폴더를 숨기시겠습니까?"
 
 #: views/dolphinview.cpp:2115
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "이름 바꾸기…"
+msgstr "이름 바꾸기"
 
 #: views/dolphinview.cpp:2125
 #, kde-format
@@ -6111,6 +6095,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"이 작업은 파일 형식을 알 수 없음으로 변경합니다.\n"
+"파일의 내용은 변경되지 않지만 앱에서 올바르게 인식하지 못할 수도 있습니다.\n"
+"계속 진행하시겠습니까?"
 
 #: views/dolphinview.cpp:2129
 #, kde-format
@@ -6120,14 +6107,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"이 작업은 파일 형식을 \"%1\"에서 \"%2\"(으)로 변경합니다.\n"
+"파일의 내용은 변경되지 않지만 앱에서 올바르게 인식하지 못할 수도 있습니다.\n"
+"계속 진행하시겠습니까?"
 
 #: views/dolphinview.cpp:2135
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "파일 형식:"
+msgstr "파일 형식 바꾸기"
 
 #: views/dolphinview.cpp:2179
 #, kde-format
@@ -6525,20 +6513,16 @@ msgstr ""
 "수 있습니다."
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "정렬 순서"
+msgstr "정렬 순서: %1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "필터 표시줄 표시"
+msgstr "필드 표시: %1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
