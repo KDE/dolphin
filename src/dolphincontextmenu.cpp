@@ -128,8 +128,8 @@ void DolphinContextMenu::addTrashContextMenu()
     });
     emptyTrashAction->setEnabled(!Trash::isEmpty());
 
-    connect(&Trash::instance(), &Trash::emptinessChanged, this, [emptyTrashAction]() {
-        emptyTrashAction->setEnabled(!Trash::isEmpty());
+    connect(&Trash::instance(), &Trash::emptinessChanged, this, [emptyTrashAction](bool isEmpty) {
+        emptyTrashAction->setEnabled(!isEmpty);
     });
 
     // Insert 'Sort By' and 'View Mode'
