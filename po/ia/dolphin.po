@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-04 00:45+0000\n"
-"PO-Revision-Date: 2025-09-24 17:30+0200\n"
+"PO-Revision-Date: 2025-10-14 12:41+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -869,14 +869,7 @@ msgstr ""
 "que non pote esser annullate demandera tu confirmation anticipatemente."
 
 #: dolphinmainwindow.cpp:2135
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -885,11 +878,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"Isto annulla le ultime cambiamento que tu ha facite a files e dossieres.<nl/"
-">Tal cambiamentos include <interface>crear,</interface>,"
-"<interface>renominar</interface> e <interface>mover</interface> los a un "
-"location differente o al <filename>Corbe</filename>. <nl/>Ulle cambiamentos "
-"que non pote esser annullate demandera tu confirmation anticipatemente."
+"Isto reface le ultime cambiamento que tu ha annullate.<nl/>Tal cambiamentos "
+"include <interface>crear,</interface>,<interface>renominar</interface> e "
+"<interface>mover</interface> files o dossieres a un location differente o al "
+"<filename>Corbe</filename>. <nl/>Ulle cambiamentos que non pote esser "
+"annullate demandera tu confirmation anticipatemente."
 
 #: dolphinmainwindow.cpp:2165
 #, kde-kuit-format
@@ -2117,12 +2110,10 @@ msgid "Create the folder at this path and open it"
 msgstr "Crea ledossier a iste percurso e aperi lo"
 
 #: dolphinviewcontainer.cpp:1031
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr "Non pote collar: tu non ha le permission a scriber in iste dossier."
+msgstr "Tu non ha le permission a crear le dossier."
 
 #: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
 #, kde-kuit-format
@@ -2149,9 +2140,7 @@ msgid "Hide Filter Bar"
 msgstr "Cela barra de filtro"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Cela"
@@ -2211,8 +2200,7 @@ msgid "Cyan"
 msgstr "Cyano"
 
 #: itemactions/setfoldericonitemaction.cpp:196
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "@label: as in default folder icon"
 msgid "Default"
 msgstr "Predefinite"
@@ -2254,9 +2242,7 @@ msgid "Cloud"
 msgstr "Nube (Cloud)"
 
 #: itemactions/setfoldericonitemaction.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Developer"
+#, kde-format
 msgctxt "@label as in default folder color"
 msgid "Development"
 msgstr "Developpamento"
@@ -3045,9 +3031,7 @@ msgid "File Manager"
 msgstr "Gerente de file"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "(C) 2006-2025 The Dolphin Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "© 2006–2025 The Dolphin Developers"
 msgstr "(c)2006 -2025, Le disveloppatores de Dolphin"
@@ -3083,12 +3067,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2018-2021) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Mantenitor e disveloppator (2006-20012)"
+msgstr "Mantenitor (2018-2021) e disveloppator"
 
 #: main.cpp:110
 #, kde-format
@@ -3097,12 +3079,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Mantenitor e disveloppator (2006-20012)"
+msgstr "Mantenitor (2014-2018)  e disveloppator"
 
 #: main.cpp:113
 #, kde-format
@@ -3111,12 +3091,10 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
-msgstr "Mantenitor e disveloppator (2006-20012)"
+msgstr "Mantenitor (2012-2014) e disveloppator"
 
 #: main.cpp:116
 #, kde-format
@@ -3125,12 +3103,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer (2006-2012)"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Mantenitor e disveloppator (2006-20012)"
+msgstr "Mantenitor (2006-2012) e disveloppator"
 
 #: main.cpp:119
 #, kde-format
@@ -4789,10 +4765,9 @@ msgstr "Demanda un confirmation quando aperi multe terminales in un vice."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Demanda un confirmation quando on aperi multe dossieres in un vice."
+msgstr "Demanda un confirmation quando renominar file cambia su typo."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -6272,9 +6247,7 @@ msgid "Hide this Folder?"
 msgstr "Cela iste dossier?"
 
 #: views/dolphinview.cpp:2115
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
 msgstr "Renomina"
@@ -6287,6 +6260,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Isto marcara le typo de file  incognoscite.\n"
+"Le contento del file non cambiara ma le application non plus lo "
+"recognoscera.\n"
+"Tu ancore vole renominar lo?"
 
 #: views/dolphinview.cpp:2129
 #, kde-format
@@ -6296,14 +6273,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Isto cambiara le typo de file  ab \"%1\" a \"%2\".\n"
+"Le contento del file non cambiara ma le application non plus lo "
+"recognoscera.\n"
+"Tu ancore vole renominar lo?"
 
 #: views/dolphinview.cpp:2135
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Typo de file:"
+msgstr "Cambia Typo de file"
 
 #: views/dolphinview.cpp:2179
 #, kde-format
@@ -6712,20 +6691,16 @@ msgstr ""
 "actiones connexe a vista."
 
 #: views/dolphinviewactionhandler.cpp:434
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Ordinar per"
+msgstr "Ordinar per: %1"
 
 #: views/dolphinviewactionhandler.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Monstra barra de filtro"
+msgstr "Monstra Campo: %1"
 
 #: views/dolphinviewactionhandler.cpp:681
 #, kde-format
