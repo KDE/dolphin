@@ -2556,7 +2556,7 @@ void DolphinView::updatePlaceholderLabel()
 
     } else if (m_url.scheme() == QLatin1String("recentlyused")) {
         m_placeholderLabel->setText(i18n("No recently used items"));
-    } else if (m_url.scheme() == QLatin1String("smb")) {
+    } else if (m_url.scheme() == QLatin1String("smb") && (m_url.host().isEmpty() || m_url.path().isEmpty() || m_url.path() == QLatin1String("/"))) {
         m_placeholderLabel->setText(i18n("No shared folders found"));
     } else if (m_url.scheme() == QLatin1String("network")) {
         m_placeholderLabel->setText(i18n("No relevant network resources found"));
