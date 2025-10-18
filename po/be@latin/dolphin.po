@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 00:45+0000\n"
+"POT-Creation-Date: 2025-10-18 00:45+0000\n"
 "PO-Revision-Date: 2022-09-08 10:35\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -154,13 +154,13 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Ačyscić smietnicu"
 
-#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Naladžvannie smietnicy…"
 
-#: dolphincontextmenu.cpp:165
+#: dolphincontextmenu.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -175,31 +175,31 @@ msgstr[1] "Abrać chatniaje razmiaščennie"
 msgstr[2] "Abrać chatniaje razmiaščennie"
 msgstr[3] "Abrać chatniaje razmiaščennie"
 
-#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1802
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1802
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Stvaryć"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:241
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Adkryć šliach"
 
-#: dolphincontextmenu.cpp:245
+#: dolphincontextmenu.cpp:249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Adkryć šliach u novaj ukladcy"
 
-#: dolphincontextmenu.cpp:253
+#: dolphincontextmenu.cpp:257
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Adkryć šliach u novym aknie"
 
-#: dolphincontextmenu.cpp:503
+#: dolphincontextmenu.cpp:507
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

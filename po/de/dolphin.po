@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 00:45+0000\n"
+"POT-Creation-Date: 2025-10-18 00:45+0000\n"
 "PO-Revision-Date: 2025-07-21 11:24+0200\n"
 "Last-Translator: Philipp Kiemle <l10n@prly.mozmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -182,13 +182,13 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Papierkorb leeren"
 
-#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Papierkorb einrichten …"
 
-#: dolphincontextmenu.cpp:165
+#: dolphincontextmenu.cpp:169
 #, kde-format
 msgctxt ""
 "@action:inmenu Restore the selected files that are in the trash to the place "
@@ -199,31 +199,31 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "An ursprünglichem Ort wiederherstellen"
 msgstr[1] "An ursprünglichen Orten wiederherstellen"
 
-#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1802
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1802
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Neu erstellen"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:241
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Pfad öffnen"
 
-#: dolphincontextmenu.cpp:245
+#: dolphincontextmenu.cpp:249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Pfad in neuem Unterfenster öffnen"
 
-#: dolphincontextmenu.cpp:253
+#: dolphincontextmenu.cpp:257
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Pfad in neuem Fenster öffnen"
 
-#: dolphincontextmenu.cpp:503
+#: dolphincontextmenu.cpp:507
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

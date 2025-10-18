@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 00:45+0000\n"
+"POT-Creation-Date: 2025-10-18 00:45+0000\n"
 "PO-Revision-Date: 2010-10-26 21:40+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -152,7 +152,7 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો"
 
-#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -160,7 +160,7 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "રૂપરેખાંકિત કરો..."
 
-#: dolphincontextmenu.cpp:165
+#: dolphincontextmenu.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Navigation Bar"
 #| msgid "Replace Location"
@@ -173,13 +173,13 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "સ્થળ બદલો"
 msgstr[1] "સ્થળ બદલો"
 
-#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1802
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1802
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "નવું બનાવો"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:241
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Path"
@@ -187,19 +187,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "માર્ગ"
 
-#: dolphincontextmenu.cpp:245
+#: dolphincontextmenu.cpp:249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "માર્ગ નવી ટેબમાં ખોલો"
 
-#: dolphincontextmenu.cpp:253
+#: dolphincontextmenu.cpp:257
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "માર્ગ નવી વિન્ડોમાં ખોલો"
 
-#: dolphincontextmenu.cpp:503
+#: dolphincontextmenu.cpp:507
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"

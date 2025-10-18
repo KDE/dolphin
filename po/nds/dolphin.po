@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-04 00:45+0000\n"
+"POT-Creation-Date: 2025-10-18 00:45+0000\n"
 "PO-Revision-Date: 2014-09-18 23:13+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -152,7 +152,7 @@ msgctxt "@action:inmenu"
 msgid "Empty Trash"
 msgstr "Affalltünn leddig maken"
 
-#: dolphincontextmenu.cpp:144 panels/places/placespanel.cpp:53
+#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:53
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Configure..."
@@ -160,7 +160,7 @@ msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Instellen..."
 
-#: dolphincontextmenu.cpp:165
+#: dolphincontextmenu.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Select Home Location"
@@ -173,13 +173,13 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Tohuussteed utsöken"
 msgstr[1] "Tohuussteed utsöken"
 
-#: dolphincontextmenu.cpp:228 dolphinmainwindow.cpp:1802
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1802
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Nieg opstellen"
 
-#: dolphincontextmenu.cpp:237
+#: dolphincontextmenu.cpp:241
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -187,19 +187,19 @@ msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Opmaken"
 
-#: dolphincontextmenu.cpp:245
+#: dolphincontextmenu.cpp:249
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Padd as nieg Paneel opmaken"
 
-#: dolphincontextmenu.cpp:253
+#: dolphincontextmenu.cpp:257
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Padd as nieg Finster opmaken"
 
-#: dolphincontextmenu.cpp:503
+#: dolphincontextmenu.cpp:507
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
