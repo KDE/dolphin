@@ -54,7 +54,7 @@ private:
     /**
      * Adds a row to the model of m_listView.
      */
-    void addRow(const QString &icon, const QString &text, const QString &value, bool checked);
+    void addRow(const QString &icon, const QString &text, const QString &value, bool checked, const QString &fileName);
     bool entryVisible(const QString &id);
     void setEntryVisible(const QString &id, bool visible);
 

@@ -242,20 +242,29 @@ void ContextMenuSettingsPage::showEvent(QShowEvent *event)
         // Add "Show 'Delete' command" as service
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
         KConfigGroup configGroup(globalConfig, QStringLiteral("KDE"));
-        addRow(QStringLiteral("edit-delete"), i18nc("@option:check", "Delete"), DeleteService, configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
+        addRow(QStringLiteral("edit-delete"),
+               i18nc("@option:check", "Delete"),
+               DeleteService,
+               configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault),
+               i18nc("@item:tooltip", "Built-in dolphin"));
 
         // Add "Show 'Copy To' and 'Move To' commands" as service
         addRow(QStringLiteral("edit-copy"),
                i18nc("@option:check", "'Copy To' and 'Move To' commands"),
                CopyToMoveToService,
-               ContextMenuSettings::showCopyMoveMenu());
+               ContextMenuSettings::showCopyMoveMenu(),
+               i18nc("@item:tooltip", "Built-in dolphin"));
 
         if (m_actions) {
             // Add other built-in actions
             for (const QString &id : m_actionIds) {
                 const QAction *action = m_actions->action(id);
                 if (action) {
-                    addRow(action->icon().name(), KLocalizedString::removeAcceleratorMarker(action->text()), id, entryVisible(id));
+                    addRow(action->icon().name(),
+                           KLocalizedString::removeAcceleratorMarker(action->text()),
+                           id,
+                           entryVisible(id),
+                           i18nc("@item:tooltip", "Built-in dolphin"));
                 }
             }
         }
@@ -289,7 +298,7 @@ void ContextMenuSettingsPage::loadServices()
             if (addService) {
                 const QString itemName = subMenuName.isEmpty() ? action.text() : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
                 const bool checked = showGroup.readEntry(serviceName, true);
-                addRow(action.icon(), itemName, serviceName, checked);
+                addRow(action.icon(), itemName, serviceName, checked, file);
             }
         }
     }
@@ -304,7 +313,7 @@ void ContextMenuSettingsPage::loadServices()
             if (!showGroup.hasKey(desktopEntryName) && desktopEntryName == QStringLiteral("hidefileitemaction")) {
                 checked = false;
             }
-            addRow(jsonMetadata.iconName(), jsonMetadata.name(), desktopEntryName, checked);
+            addRow(jsonMetadata.iconName(), jsonMetadata.name(), desktopEntryName, checked, jsonMetadata.fileName());
         }
     }
 
@@ -321,7 +330,7 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
     const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
     for (const auto &plugin : plugins) {
         const QString pluginName = plugin.name();
-        addRow(QStringLiteral("code-class"), pluginName, VersionControlServicePrefix + pluginName, enabledPlugins.contains(pluginName));
+        addRow(QStringLiteral("code-class"), pluginName, VersionControlServicePrefix + pluginName, enabledPlugins.contains(pluginName), plugin.fileName());
         loadedPlugins += pluginName;
     }
 
@@ -339,7 +348,7 @@ bool ContextMenuSettingsPage::isInServicesList(const QString &service) const
     return false;
 }
 
-void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, const QString &value, bool checked)
+void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, const QString &value, bool checked, const QString &fileName)
 {
     m_serviceModel->insertRow(0);
 
@@ -348,6 +357,7 @@ void ContextMenuSettingsPage::addRow(const QString &icon, const QString &text, c
     m_serviceModel->setData(index, text, Qt::DisplayRole);
     m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
     m_serviceModel->setData(index, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+    m_serviceModel->setData(index, fileName, Qt::ToolTipRole);
 }
 
 #include "moc_contextmenusettingspage.cpp"
