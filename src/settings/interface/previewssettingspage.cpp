@@ -202,6 +202,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
         model->setData(index, show ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
         model->setData(index, plugin.name(), Qt::DisplayRole);
         model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
+        model->setData(index, plugin.fileName(), Qt::ToolTipRole);
     }
 
     model->sort(Qt::DisplayRole);
