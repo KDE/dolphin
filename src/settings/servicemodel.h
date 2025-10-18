@@ -17,6 +17,7 @@
  * - Qt::DisplayRole: Name of the service
  * - Qt::DecorationRole: Icon name of the service
  * - Qt::CheckStateRole: Specifies whether the service is enabled
+ * - Qt::Tooltip: a tooltip
  * - ServiceModel::DesktopEntryNameRole: Name of the desktop-entry of the service
  * - ServiceModel::Configurable: Specifies whether the service is configurable by the user
  */
@@ -43,6 +44,7 @@ private:
         QString icon;
         QString text;
         QString desktopEntryName;
+        QString tooltip;
     };
 
     QList<ServiceItem> m_items;

@@ -56,6 +56,9 @@ bool ServiceModel::setData(const QModelIndex &index, const QVariant &value, int 
     case Qt::DisplayRole:
         m_items[row].text = value.toString();
         break;
+    case Qt::ToolTipRole:
+        m_items[row].tooltip = value.toString();
+        break;
     case DesktopEntryNameRole:
         m_items[row].desktopEntryName = value.toString();
         break;
@@ -76,6 +79,8 @@ QVariant ServiceModel::data(const QModelIndex &index, int role) const
             return m_items[row].checked;
         case Qt::DecorationRole:
             return QIcon::fromTheme(m_items[row].icon);
+        case Qt::ToolTipRole:
+            return m_items[row].tooltip;
         case Qt::DisplayRole:
             return m_items[row].text;
         case DesktopEntryNameRole:
