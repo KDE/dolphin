@@ -171,7 +171,9 @@ void DolphinTabWidget::openNewActivatedTab()
 
 void DolphinTabWidget::openNewActivatedTab(const QUrl &primaryUrl, const QUrl &secondaryUrl)
 {
-    openNewTab(primaryUrl, secondaryUrl);
+    DolphinTabPage *tabPage = openNewTab(primaryUrl, secondaryUrl);
+    Q_EMIT activeViewChanged(tabPage->activeViewContainer());
+
     if (GeneralSettings::openNewTabAfterLastTab()) {
         setCurrentIndex(count() - 1);
     } else {
@@ -560,6 +562,7 @@ DolphinViewContainer *DolphinTabWidget::activateViewContainerAt(DolphinTabWidget
         return nullptr;
     }
     viewContainer->setActive(true);
+    Q_EMIT activeViewChanged(viewContainer);
     return viewContainer;
 }
 
