@@ -26,6 +26,7 @@
 #include <KProtocolManager>
 
 #include <QActionGroup>
+#include <QApplication>
 #include <QMenu>
 #include <QPointer>
 
@@ -374,6 +375,8 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     viewSettings->addAction(adjustViewProps);
     viewSettings->setPopupMode(QToolButton::ToolButtonPopupMode::MenuButtonPopup);
     connect(viewSettings, &KActionMenu::triggered, viewModeActions, &KSelectAction::triggered);
+    // HACK KActionMenu doesn't set a parent for its menu() causing accessibility traversal issues
+    viewSettings->menu()->setParent(QApplication::activeWindow());
 }
 
 QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QString &groupPrefix)
