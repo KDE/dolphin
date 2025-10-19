@@ -17,6 +17,7 @@
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #endif
+#include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KFileItemListProperties>
@@ -386,10 +387,13 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 
     QActionGroup *rolesActionGroup = new QActionGroup(m_actionCollection);
     rolesActionGroup->setExclusive(isSortGroup);
+    KActionCategory *category;
     if (isSortGroup) {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotSortTriggered);
+        category = new KActionCategory(i18nc("item:intable", "Sort By field"), m_actionCollection);
     } else {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::toggleVisibleRole);
+        category = new KActionCategory(i18nc("item:intable", "Show Field"), m_actionCollection);
     }
 
     QString groupName;
@@ -412,12 +416,12 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
         KToggleAction *action = nullptr;
         const QString name = groupPrefix + info.role;
         if (info.group.isEmpty()) {
-            action = m_actionCollection->add<KToggleAction>(name);
+            action = category->add<KToggleAction>(name);
             action->setActionGroup(rolesActionGroup);
         } else {
             if (!groupMenu || info.group != groupName) {
                 groupName = info.group;
-                groupMenu = m_actionCollection->add<KActionMenu>(groupName);
+                groupMenu = category->add<KActionMenu>(groupName);
                 groupMenu->setText(groupName);
                 groupMenu->setActionGroup(rolesActionGroup);
 
@@ -434,7 +438,8 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
             action->setActionGroup(groupMenuGroup);
             groupMenu->addAction(action);
         }
-        action->setText(info.translation);
+        action->setText(isSortGroup ? i18nc("@action:intoolbar as in sort by file attribute", "Sort By: %1", info.translation)
+                                    : i18nc("@action:intoolbar as in show field for file attribute", "Show Field: %1", info.translation));
         action->setData(info.role);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled);
