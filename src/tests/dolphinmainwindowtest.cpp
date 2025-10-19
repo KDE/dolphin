@@ -439,6 +439,8 @@ void DolphinMainWindowTest::testCreateFileActionRequiresWritePermission()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
+
     QCOMPARE(m_mainWindow->m_activeViewContainer->view()->items().count(), 0);
 
     auto createFileAction = m_mainWindow->actionCollection()->action(QStringLiteral("create_file"));
@@ -486,6 +488,7 @@ void DolphinMainWindowTest::testFocusLocationBar()
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QAction *replaceLocationAction = m_mainWindow->actionCollection()->action(QStringLiteral("replace_location"));
     replaceLocationAction->trigger();
@@ -515,6 +518,7 @@ void DolphinMainWindowTest::testFocusPlacesPanel()
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
     QVERIFY2(QTest::qWaitFor(
@@ -856,6 +860,7 @@ void DolphinMainWindowTest::testAccessibilityTree()
     m_mainWindow->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
+    QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QAccessibleInterface *accessibleInterfaceOfMainWindow = QAccessible::queryAccessibleInterface(m_mainWindow.get());
     Q_CHECK_PTR(accessibleInterfaceOfMainWindow);
@@ -1105,15 +1110,15 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     m_mainWindow->openFiles({testDirUrl + "/a"}, false);
     view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
     view->setUrl(QUrl(testDirUrl + "/a"));
-    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QCOMPARE(view->m_mode, DolphinView::IconsView);
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE_WITH_TIMEOUT(view->m_mode, DolphinView::IconsView, 200);
 
     // go back to parent folder and check that view mode reverted to details
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
     view->m_model->loadDirectory(testDir->url());
     view->setUrl(testDir->url());
-    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QCOMPARE(view->m_mode, DolphinView::DetailsView);
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE_WITH_TIMEOUT(view->m_mode, DolphinView::DetailsView, 200);
 
     // test for local views
     settings->setGlobalViewProps(false);
@@ -1123,10 +1128,9 @@ void DolphinMainWindowTest::testViewModeAfterDynamicView()
     m_mainWindow->openFiles({testDirUrl + "/a"}, false);
     view->m_model->loadDirectory(QUrl(testDirUrl + "/a"));
     view->setUrl(QUrl(testDirUrl + "/a"));
-    QVERIFY(modelDirectoryLoadingCompletedSpy.wait());
-    QCOMPARE(view->m_mode, DolphinView::IconsView);
-    QTest::qWait(100);
-    QVERIFY(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed());
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
+    QTRY_COMPARE_WITH_TIMEOUT(view->m_mode, DolphinView::IconsView, 100);
+    QTRY_VERIFY_WITH_TIMEOUT(ViewProperties(view->viewPropertiesUrl()).dynamicViewPassed(), 200);
 
     // change view mode of child folder to "Details"
     m_mainWindow->actionCollection()->action(QStringLiteral("details"))->trigger();
@@ -1200,7 +1204,6 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     QSignalSpy itemsChangedSpy(view->m_model, &KFileItemModel::itemsChanged);
 
     QVERIFY(viewDirectoryLoadingCompletedSpy.wait());
-    QTest::qWait(0);
 
     // Rename child dir to "b"
     view->markUrlsAsSelected({childDirUrl});
@@ -1210,6 +1213,7 @@ void DolphinMainWindowTest::testActivationAndTabTitleAfterRenameOpeningFolder()
     QTest::keyClick(QApplication::focusWidget(), Qt::Key_B);
     QTest::keyClick(QApplication::focusWidget(), Qt::Key_Enter);
     QVERIFY(itemsChangedSpy.wait()); // Make sure that rename worked
+    QVERIFY(viewDirectoryLoadingCompletedSpy.wait()); // and the directory has finished loading
 
     // Check current view is right view
     QVERIFY(tabWidget->currentTabPage()->secondaryViewContainer()->isActive());
