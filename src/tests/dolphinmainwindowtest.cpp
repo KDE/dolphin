@@ -83,6 +83,9 @@ void DolphinMainWindowTest::initTestCase()
     settings->setShowStatusBar(GeneralSettings::EnumShowStatusBar::FullWidth);
     settings->setShowZoomSlider(true);
     settings->save();
+
+    // to save us from kxmlgui / KLocalized warning
+    KLocalizedString::setApplicationDomain({"dolphin"});
 }
 
 void DolphinMainWindowTest::init()
