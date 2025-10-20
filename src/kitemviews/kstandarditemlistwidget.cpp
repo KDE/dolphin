@@ -867,8 +867,6 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
 
     Q_ASSERT(!m_roleEditor);
 
-    const TextInfo *textInfo = m_textInfo.value("text");
-
     m_roleEditor = new KItemListRoleEditor(parent);
     m_roleEditor->setRole(current);
     m_roleEditor->setAllowUpDownKeyChainEdit(m_layout != IconsLayout);
@@ -877,8 +875,11 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray &current, const
     const QString text = data().value(current).toString();
     m_roleEditor->setPlainText(text);
 
-    QTextOption textOption = textInfo->staticText.textOption();
-    m_roleEditor->document()->setDefaultTextOption(textOption);
+    const TextInfo *textInfo = m_textInfo.value("text");
+    if (textInfo) {
+        QTextOption textOption = textInfo->staticText.textOption();
+        m_roleEditor->document()->setDefaultTextOption(textOption);
+    }
 
     const int textSelectionLength = selectionLength(text);
 
