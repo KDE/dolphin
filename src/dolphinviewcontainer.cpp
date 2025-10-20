@@ -797,7 +797,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         auto service = services.at(indexOfAppToOpenFileWith);
 
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
-        job->setUrls({item.url()});
+        job->setUrls({item.targetUrl()});
 
         job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
