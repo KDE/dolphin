@@ -1985,14 +1985,14 @@ void DolphinView::slotDirectoryLoadingCompleted()
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, &DolphinView::updateViewState);
 
+    applyDynamicView();
+
     // Update the placeholder label in case we found that the folder was empty
     // after loading it
-
-    Q_EMIT directoryLoadingCompleted();
-
-    applyDynamicView();
     updatePlaceholderLabel();
     updateWritableState();
+
+    Q_EMIT directoryLoadingCompleted();
 }
 
 void DolphinView::slotDirectoryLoadingCanceled()
