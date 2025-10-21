@@ -102,13 +102,13 @@ void DolphinMainWindowTest::testSyncDesktopAndPhoneUi()
 
     QDomDocument desktopUi;
     QFile desktopUiXmlFile(":/kxmlgui5/dolphin/dolphinui.rc");
-    desktopUiXmlFile.open(QIODevice::ReadOnly);
+    QVERIFY2(desktopUiXmlFile.open(QIODevice::ReadOnly), qPrintable(QStringLiteral("couldn't open %1").arg(desktopUiXmlFile.fileName())));
     desktopUi.setContent(&desktopUiXmlFile);
     desktopUiXmlFile.close();
 
     QDomDocument phoneUi;
     QFile phoneUiXmlFile(":/kxmlgui5/dolphin/dolphinuiforphones.rc");
-    phoneUiXmlFile.open(QIODevice::ReadOnly);
+    QVERIFY2(phoneUiXmlFile.open(QIODevice::ReadOnly), qPrintable(QStringLiteral("couldn't open %1").arg(phoneUiXmlFile.fileName())));
     phoneUi.setContent(&phoneUiXmlFile);
     phoneUiXmlFile.close();
 

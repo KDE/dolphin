@@ -36,7 +36,7 @@ QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListPropertie
 
     QAction *createFolderFromSelected = new QAction(i18nc("@action:inmenu", "Move to New Folder…"), parentWidget);
     createFolderFromSelected->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
-    connect(createFolderFromSelected, &QAction::triggered, this, [=]() {
+    connect(createFolderFromSelected, &QAction::triggered, this, [=, this]() {
         const QUrl selectedFileDirPath = selectedItems.at(0).url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
         auto newFileMenu = new KNewFileMenu(parentWidget);
         newFileMenu->setWorkingDirectory(selectedFileDirPath);
