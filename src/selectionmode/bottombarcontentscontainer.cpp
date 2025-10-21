@@ -407,7 +407,7 @@ void BottomBarContentsContainer::addPasteContents()
     m_explanatoryLabel->setWordWrap(true);
     m_layout->addWidget(m_explanatoryLabel);
 
-    auto *vBoxLayout = new QVBoxLayout(this);
+    auto *vBoxLayout = new QVBoxLayout();
     m_layout->addLayout(vBoxLayout);
 
     /** We are in "PasteContents" mode which means hiding the bottom bar is impossible.
