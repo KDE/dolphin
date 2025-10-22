@@ -2,3 +2,5 @@ File=dolphin_iconsmodesettings.kcfg
 ClassName=IconsModeSettings
 Singleton=yes
 Mutators=true
+IncludeFiles=dolphin_export.h
+Visibility=DOLPHIN_EXPORT

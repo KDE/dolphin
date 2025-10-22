@@ -460,16 +460,7 @@ endif()
 kconfig_add_kcfg_files(dolphinstatic
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
-    settings/dolphin_compactmodesettings.kcfgc
-    settings/dolphin_detailsmodesettings.kcfgc
-    settings/dolphin_contextmenusettings.kcfgc
-    settings/dolphin_iconsmodesettings.kcfgc
-    settings/dolphin_contentdisplaysettings.kcfgc
     search/dolphin_searchsettings.kcfgc
-    settings/dolphin_versioncontrolsettings.kcfgc
-)
-kconfig_add_kcfg_files(dolphinstatic GENERATE_MOC
-    settings/dolphin_generalsettings.kcfgc
 )
 
 qt_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
@@ -603,22 +594,6 @@ if(NOT WIN32)
         global.h
     )
 
-    kconfig_add_kcfg_files(kcm_dolphinviewmodes
-        settings/dolphin_compactmodesettings.kcfgc
-        settings/dolphin_directoryviewpropertysettings.kcfgc
-        settings/dolphin_detailsmodesettings.kcfgc
-        settings/dolphin_iconsmodesettings.kcfgc
-        settings/dolphin_contentdisplaysettings.kcfgc
-        settings/dolphin_generalsettings.kcfgc
-        settings/dolphin_versioncontrolsettings.kcfgc
-        GENERATE_MOC
-    )
-
-    kconfig_add_kcfg_files(kcm_dolphingeneral
-        settings/dolphin_generalsettings.kcfgc
-        GENERATE_MOC
-    )
-
     target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
     target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
@@ -649,7 +624,6 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
                settings/dolphin_iconsmodesettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
-               settings/dolphin_contentdisplaysettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 

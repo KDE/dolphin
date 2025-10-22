@@ -166,6 +166,8 @@ void ContentDisplayTab::applySettings()
         settings->setElidingMode(ContentDisplaySettings::ElidingMode::Right);
     }
     settings->save();
+
+    GeneralSettings::self()->save();
 }
 
 void ContentDisplayTab::loadSettings()
