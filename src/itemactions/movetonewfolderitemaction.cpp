@@ -36,13 +36,13 @@ QList<QAction *> MoveToNewFolderItemAction::actions(const KFileItemListPropertie
 
     QAction *createFolderFromSelected = new QAction(i18nc("@action:inmenu", "Move to New Folder…"), parentWidget);
     createFolderFromSelected->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
-    connect(createFolderFromSelected, &QAction::triggered, this, [=]() {
+    connect(createFolderFromSelected, &QAction::triggered, this, [this, selectedItems, parentWidget]() {
         const QUrl selectedFileDirPath = selectedItems.at(0).url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
         auto newFileMenu = new KNewFileMenu(parentWidget);
         newFileMenu->setWorkingDirectory(selectedFileDirPath);
         newFileMenu->createDirectory();
 
-        connect(newFileMenu, &KNewFileMenu::directoryCreated, this, [=](const QUrl &createdUrl) {
+        connect(newFileMenu, &KNewFileMenu::directoryCreated, this, [selectedItems, newFileMenu, parentWidget](const QUrl &createdUrl) {
             KIO::CopyJob *job = KIO::move(selectedItems.urlList(), createdUrl);
             KJobWidgets::setWindow(job, parentWidget);
             KIO::FileUndoManager::self()->recordCopyJob(job);
