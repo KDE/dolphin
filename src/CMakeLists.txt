@@ -468,9 +468,6 @@ kconfig_add_kcfg_files(dolphinstatic
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
-kconfig_add_kcfg_files(dolphinstatic GENERATE_MOC
-    settings/dolphin_generalsettings.kcfgc
-)
 
 qt_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
 qt_add_dbus_adaptor(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
@@ -582,7 +579,6 @@ if(NOT WIN32)
         settings/interface/confirmationssettingspage.cpp
         settings/settingspagebase.cpp
         settings/servicemodel.cpp
-        dolphin_generalsettings.cpp
         dolphindebug.cpp
         dolphinmainwindowinterface.cpp
         views/viewproperties.cpp
@@ -595,7 +591,6 @@ if(NOT WIN32)
         settings/interface/confirmationssettingspage.h
         settings/settingspagebase.h
         settings/servicemodel.h
-        dolphin_generalsettings.h
         dolphindebug.h
         dolphinmainwindowinterface.h
         views/viewproperties.h
