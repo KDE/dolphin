@@ -133,25 +133,6 @@ void KItemListViewAnimation::start(QGraphicsWidget *widget, AnimationType type, 
         break;
     }
 
-    case ResizeAnimation: {
-        const QSizeF newSize = endValue.toSizeF();
-        if (newSize == widget->size()) {
-            return;
-        }
-
-        propertyAnim = new QPropertyAnimation(widget, "size");
-        propertyAnim->setDuration(animationDuration);
-        propertyAnim->setEndValue(newSize);
-        break;
-    }
-
-    case IconResizeAnimation: {
-        propertyAnim = new QPropertyAnimation(widget, QByteArrayLiteral("iconSize"));
-        propertyAnim->setDuration(animationDuration);
-        propertyAnim->setEndValue(endValue);
-        break;
-    }
-
     default:
         Q_UNREACHABLE();
         break;
@@ -178,8 +159,6 @@ void KItemListViewAnimation::stop(QGraphicsWidget *widget, AnimationType type)
             break;
         case DeleteAnimation:
             widget->setOpacity(0.0);
-            break;
-        case ResizeAnimation:
             break;
         default:
             break;

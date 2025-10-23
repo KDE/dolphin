@@ -28,7 +28,12 @@ class DOLPHIN_EXPORT KItemListViewAnimation : public QObject
     Q_OBJECT
 
 public:
-    enum AnimationType { MovingAnimation, CreateAnimation, DeleteAnimation, ResizeAnimation, IconResizeAnimation, AnimationTypeCount };
+    enum AnimationType {
+        MovingAnimation,
+        CreateAnimation,
+        DeleteAnimation,
+        AnimationTypeCount
+    };
 
     explicit KItemListViewAnimation(QObject *parent = nullptr);
     ~KItemListViewAnimation() override;
