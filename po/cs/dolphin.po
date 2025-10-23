@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-18 00:45+0000\n"
-"PO-Revision-Date: 2025-10-16 23:51+0200\n"
+"PO-Revision-Date: 2025-10-18 22:49+0200\n"
 "Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
 "Language-Team: Czech <kde-i18n-cs@kde.org>\n"
 "Language: cs\n"
@@ -4772,7 +4772,7 @@ msgstr "Umístění domovské složky je neplatné nebo neexistuje a nebude pou�
 #, kde-format
 msgctxt "@title:tab Folders & Tabs settings"
 msgid "Folders && Tabs"
-msgstr ""
+msgstr "Složky && karty"
 
 #: settings/interface/interfacesettingspage.cpp:42
 #: settings/kcm/kcmdolphingeneral.cpp:44
@@ -4798,7 +4798,7 @@ msgstr "Panely"
 #, kde-format
 msgctxt "@title:tab Status & Location bars settings"
 msgid "Status && Location bars"
-msgstr ""
+msgstr "Panely stavu && umístění"
 
 #: settings/interface/panelsettingspage.cpp:35
 #, kde-format
@@ -4822,13 +4822,13 @@ msgstr "Zobrazit položku při přejetí myší"
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &long date, for example '%1'"
-msgstr ""
+msgstr "Použít d&louhé datum, například '%1'"
 
 #: settings/interface/panelsettingspage.cpp:39
 #, kde-format
 msgctxt "@option:check"
 msgid "Use &condensed date, for example '%1'"
-msgstr ""
+msgstr "Použít z&krácené datum, například '%1'"
 
 #: settings/interface/panelsettingspage.cpp:45
 #, kde-format
@@ -4843,6 +4843,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Nastavení panelu jsou také dostupná přes jeho kontextovou nabídku. Otevřete "
+"ji stiskem pravého tlačítka myši na daném panelu."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -4867,7 +4869,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "soubory níže "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -4880,7 +4882,7 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "soubory jakékoliv velikosti"
 
 #: settings/interface/previewssettingspage.cpp:84
 #, kde-format
@@ -4892,7 +4894,7 @@ msgstr "žádný soubor"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show previews for folders"
-msgstr ""
+msgstr "Zobrazit náhledy složek"
 
 #: settings/interface/previewssettingspage.cpp:100
 #, kde-kuit-format
@@ -4920,13 +4922,13 @@ msgstr "Vzdálené úložiště:"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Small"
-msgstr ""
+msgstr "Malý"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
 #, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr ""
+msgstr "Plná šířka"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -4944,7 +4946,7 @@ msgstr "Zakázáno"
 #, kde-format
 msgctxt "@title:group"
 msgid "Status Bar:"
-msgstr ""
+msgstr "Stavový panel:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:68
 #, kde-format
@@ -5036,9 +5038,9 @@ msgstr "Nezobrazovat velikost"
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] " hloubka úrovně"
+msgstr[1] " hloubky úrovní"
+msgstr[2] " hloubek úrovní"
 
 #: settings/viewmodes/contentdisplaytab.cpp:72
 #, kde-format
@@ -5068,19 +5070,19 @@ msgstr "Styl data:"
 #, kde-format
 msgctxt "option:radio as symbolic style "
 msgid "Symbolic (e.g. 'drwxr-xr-x')"
-msgstr ""
+msgstr "Symbolický (např. 'drwxr-xr-x')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:94
 #, kde-format
 msgctxt "option:radio as numeric style"
 msgid "Numeric (Octal) (e.g. '755')"
-msgstr ""
+msgstr "Číselný (osmičkový) (např. '755')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:95
 #, kde-format
 msgctxt "option:radio as combined style"
 msgid "Combined (e.g. 'drwxr-xr-x (755)')"
-msgstr ""
+msgstr "Kombinovaný (např. 'drwxr-xr-x (755)')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:97
 #, kde-format
@@ -5092,19 +5094,19 @@ msgstr "Styl oprávnění:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Výpustek uprostřed (např. 'Nějaký dlouhý… název.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Výpustek na konci (např. 'Nějaký velmi dlouhý....txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr ""
+msgstr "Dlouhé názvy souborů:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -5139,6 +5141,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Některé zvláštní pohledy jako vyhledávání, nedávné soubory nebo koš stále "
+"budou používat vlastní styl zobrazení."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:42
 #, kde-format
@@ -5153,12 +5157,17 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin přidá ke složkám, jejichž vlastnosti se zobrazují, metadata "
+"souborového systému. Pokud to není možné, je místo toho vytvořen skrytý "
+"soubor .directory."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:50
 #, kde-format
 msgctxt "option:check"
 msgid "Use icons view mode for locations which mostly contain media files"
 msgstr ""
+"Použít pro umístění, která převážně obsahují mediální soubory, režim "
+"zobrazení ikon."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:55
 #, kde-format
@@ -5207,18 +5216,18 @@ msgstr "Zobrazit značkovač výběru"
 #, kde-format
 msgctxt "option:check"
 msgid "Rename single items inline"
-msgstr ""
+msgstr "Přejmenovat jednu položku v řádku"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:87
 #, kde-format
 msgid "Renaming multiple items is always done with a dialog window."
-msgstr ""
+msgstr "Přejmenování více položek je vždy prováděno pomocí dialogového okna."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:90
 #, kde-format
 msgctxt "option:check"
 msgid "Also hide backup files while hiding hidden files"
-msgstr ""
+msgstr "Skrýt také soubory záloh, když jsou skryté soubory skryté."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:94
 #, kde-format
@@ -5228,6 +5237,8 @@ msgid ""
 "Backup files are the files whose mime-type is application/x-trash, patterns: "
 "%1"
 msgstr ""
+"Soubory záloh jsou soubory, které mají mime-typ application/x-trash, dle "
+"vzorů: %1"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:127
 #, kde-format
@@ -5235,7 +5246,7 @@ msgctxt ""
 "Accessible description for combobox with actions of double click view "
 "background setting"
 msgid "Action to trigger when double clicking view background"
-msgstr ""
+msgstr "Akce ke spuštění při dvojkliku na pozadí pohledu"
 
 #. i18n: Completes the sentence "Double-click triggers [Nothing]".
 #: settings/viewmodes/generalviewsettingspage.cpp:129
@@ -5258,7 +5269,7 @@ msgstr "Vlastní příkaz"
 #, kde-format
 msgctxt "@info"
 msgid "Double-click triggers"
-msgstr ""
+msgstr "Spouštěč dvojkliknutím"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:162
 #, kde-format
@@ -5273,6 +5284,7 @@ msgctxt ""
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
 msgstr ""
+"Zadejte vlastní příkaz ke spuštění, jakmile dvojkliknete na pozadí pohledu"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
