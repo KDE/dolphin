@@ -13,24 +13,14 @@
 #include <QPainter>
 #include <QStyle>
 
-PixmapViewer::PixmapViewer(QWidget *parent, Transition transition)
+PixmapViewer::PixmapViewer(QWidget *parent)
     : QWidget(parent)
     , m_animatedImage(nullptr)
-    , m_transition(transition)
-    , m_animationStep(0)
     , m_sizeHint()
     , m_hasAnimatedImage(false)
 {
     setMinimumWidth(KIconLoader::SizeEnormous);
     setMinimumHeight(KIconLoader::SizeEnormous);
-
-    m_animation.setDuration(150);
-    m_animation.setEasingCurve(QEasingCurve::Linear);
-
-    if (m_transition != NoTransition) {
-        connect(&m_animation, &QTimeLine::valueChanged, this, QOverload<>::of(&PixmapViewer::update));
-        connect(&m_animation, &QTimeLine::finished, this, &PixmapViewer::checkPendingPixmaps);
-    }
 }
 
 PixmapViewer::~PixmapViewer()
@@ -43,16 +33,6 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
         return;
     }
 
-    if ((m_transition != NoTransition) && (m_animation.state() == QTimeLine::Running)) {
-        m_pendingPixmaps.enqueue(pixmap);
-        if (m_pendingPixmaps.count() > 5) {
-            // don't queue more than 5 pixmaps
-            m_pendingPixmaps.takeFirst();
-        }
-        return;
-    }
-
-    m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
     m_pixmap = pixmap;
 
     // Avoid flicker with static pixmap if an animated image is running
@@ -62,10 +42,7 @@ void PixmapViewer::setPixmap(const QPixmap &pixmap)
 
     update();
 
-    const bool animateTransition = (m_transition != NoTransition) && (m_pixmap.size() != m_oldPixmap.size());
-    if (animateTransition) {
-        m_animation.start();
-    } else if (m_hasAnimatedImage) {
+    if (m_hasAnimatedImage) {
         // If there is no transition animation but an animatedImage
         // and it is not already running, start animating now
         if (m_animatedImage->state() != QMovie::Running) {
@@ -117,37 +94,8 @@ void PixmapViewer::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
 
-    if (m_transition != NoTransition || (m_hasAnimatedImage && m_animatedImage->state() != QMovie::Running)) {
-        const float value = m_animation.currentValue();
-        const int scaledWidth = static_cast<int>((m_oldPixmap.width() * (1.0 - value)) + (m_pixmap.width() * value));
-        const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
-
-        const bool useOldPixmap = (m_transition == SizeTransition) && (m_oldPixmap.width() > m_pixmap.width());
-        const QPixmap &largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
-        if (!largePixmap.isNull()) {
-            QPixmap scaledPixmap = largePixmap.scaled(scaledWidth, scaledHeight, Qt::IgnoreAspectRatio, Qt::FastTransformation);
-            scaledPixmap.setDevicePixelRatio(devicePixelRatioF());
-
-            style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
-        }
-    } else if (!m_pixmap.isNull()) {
+    if (!m_pixmap.isNull()) {
         style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
-    }
-}
-
-void PixmapViewer::checkPendingPixmaps()
-{
-    if (!m_pendingPixmaps.isEmpty()) {
-        QPixmap pixmap = m_pendingPixmaps.dequeue();
-        m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
-        m_pixmap = pixmap;
-        update();
-        m_animation.start();
-    } else if (m_hasAnimatedImage) {
-        m_animatedImage->setScaledSize(m_pixmap.size());
-        m_animatedImage->start();
-    } else {
-        m_oldPixmap = m_pixmap;
     }
 }
 

@@ -26,27 +26,7 @@ class PixmapViewer : public QWidget
     Q_OBJECT
 
 public:
-    enum Transition {
-        /** No transition is done when the pixmap is changed. */
-        NoTransition,
-
-        /**
-         * The old pixmap is replaced by the new pixmap and the size is
-         * adjusted smoothly to the size of the new pixmap.
-         */
-        DefaultTransition,
-
-        /**
-         * If the old pixmap and the new pixmap have the same content, but
-         * a different size it is recommended to use Transition::SizeTransition
-         * instead of Transition::DefaultTransition. In this case it is assured
-         * that the larger pixmap is used for downscaling, which leads
-         * to an improved scaling output.
-         */
-        SizeTransition
-    };
-
-    explicit PixmapViewer(QWidget *parent, Transition transition = DefaultTransition);
+    explicit PixmapViewer(QWidget *parent);
 
     ~PixmapViewer() override;
     void setPixmap(const QPixmap &pixmap);
@@ -73,17 +53,11 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private Q_SLOTS:
-    void checkPendingPixmaps();
     void updateAnimatedImageFrame();
 
 private:
     QPixmap m_pixmap;
-    QPixmap m_oldPixmap;
     QMovie *m_animatedImage;
-    QQueue<QPixmap> m_pendingPixmaps;
-    QTimeLine m_animation;
-    Transition m_transition;
-    int m_animationStep;
     QSize m_sizeHint;
     bool m_hasAnimatedImage;
 };
