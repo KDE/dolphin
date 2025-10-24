@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-18 00:45+0000\n"
+"POT-Creation-Date: 2025-10-24 00:45+0000\n"
 "PO-Revision-Date: 2025-10-07 19:58+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1989,7 +1989,7 @@ msgstr "Vista de la ubicació"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:530
+#: dolphintabwidget.cpp:532
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1997,7 +1997,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:534
+#: dolphintabwidget.cpp:536
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -4181,19 +4181,27 @@ msgctxt "@info"
 msgid "Restart now?"
 msgstr "Reinicio ara?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:245
+#: settings/contextmenu/contextmenusettingspage.cpp:246
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Suprimeix"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:249
+#: settings/contextmenu/contextmenusettingspage.cpp:256
+#: settings/contextmenu/contextmenusettingspage.cpp:267
+#, kde-format
+msgctxt "@item:tooltip"
+msgid "Built-in dolphin"
+msgstr ""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Ordres «Copia a» i «Mou a»"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:290
+#: settings/contextmenu/contextmenusettingspage.cpp:299
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -6400,19 +6408,19 @@ msgstr "No s'ha trobat cap dispositiu Bluetooth"
 msgid "Folder is empty"
 msgstr "La carpeta està buida"
 
-#: views/dolphinviewactionhandler.cpp:82
+#: views/dolphinviewactionhandler.cpp:83
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Crea una carpeta…"
 
-#: views/dolphinviewactionhandler.cpp:89
+#: views/dolphinviewactionhandler.cpp:90
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Crea un fitxer…"
 
-#: views/dolphinviewactionhandler.cpp:98
+#: views/dolphinviewactionhandler.cpp:99
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6423,7 +6431,7 @@ msgstr ""
 "diversos elements a la vegada fa que els seus noms nous difereixin només en "
 "un número."
 
-#: views/dolphinviewactionhandler.cpp:110
+#: views/dolphinviewactionhandler.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6435,7 +6443,7 @@ msgstr ""
 "filename>. <nl/>La paperera és una ubicació emmagatzematge temporal a on els "
 "elements es poden suprimir més tard si es necessita espai al disc."
 
-#: views/dolphinviewactionhandler.cpp:123
+#: views/dolphinviewactionhandler.cpp:124
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6445,25 +6453,25 @@ msgstr ""
 "Això suprimeix permanentment els elements de la selecció actual. No es poden "
 "recuperar amb mitjans normals."
 
-#: views/dolphinviewactionhandler.cpp:133
+#: views/dolphinviewactionhandler.cpp:134
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Suprimeix (usant una drecera per a la paperera)"
 
-#: views/dolphinviewactionhandler.cpp:139
+#: views/dolphinviewactionhandler.cpp:140
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Duplica aquí"
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:148
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Propietats"
 
-#: views/dolphinviewactionhandler.cpp:149
+#: views/dolphinviewactionhandler.cpp:150
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6477,43 +6485,43 @@ msgstr ""
 "finestra mostrarà la carpeta visualitzada actualment. <nl/>Podeu configurar "
 "opcions avançades com gestionar els permisos de lectura i escriptura."
 
-#: views/dolphinviewactionhandler.cpp:159
+#: views/dolphinviewactionhandler.cpp:160
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Copia la ubicació"
 
-#: views/dolphinviewactionhandler.cpp:160
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Això copiarà el camí del primer element seleccionat al porta-retalls."
 
-#: views/dolphinviewactionhandler.cpp:168
+#: views/dolphinviewactionhandler.cpp:169
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Mou a la paperera…"
 
-#: views/dolphinviewactionhandler.cpp:169
+#: views/dolphinviewactionhandler.cpp:170
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Suprimeix…"
 
-#: views/dolphinviewactionhandler.cpp:170
+#: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Duplica aquí…"
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Copia la ubicació…"
 
-#: views/dolphinviewactionhandler.cpp:200
+#: views/dolphinviewactionhandler.cpp:201
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6529,7 +6537,7 @@ msgstr ""
 "diferents.</para><para> Aquest mode és pràctic per a navegar per les imatges "
 "quan s'ha activat l'opció de <interface>Vista prèvia</interface>.</para>"
 
-#: views/dolphinviewactionhandler.cpp:207
+#: views/dolphinviewactionhandler.cpp:208
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6541,7 +6549,7 @@ msgstr ""
 "fitxers en columnes amb els noms al costat de les icones.</para><para>Això "
 "us dona una visió global en les carpetes amb molts elements.</para>"
 
-#: views/dolphinviewactionhandler.cpp:211
+#: views/dolphinviewactionhandler.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6562,60 +6570,60 @@ msgstr ""
 "actual fent-hi clic a la regió de la seva esquerra. D'aquesta manera podeu "
 "veure el contingut de múltiples carpetes a la mateixa llista.</para>"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:222
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Canvia el mode de vista"
 
-#: views/dolphinviewactionhandler.cpp:222
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr "Això circula entre tots els modes de vista."
 
-#: views/dolphinviewactionhandler.cpp:242
+#: views/dolphinviewactionhandler.cpp:243
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Això augmenta la mida de les icones."
 
-#: views/dolphinviewactionhandler.cpp:245
+#: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Reinici del nivell de zoom"
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:247
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Zoom al valor predeterminat"
 
-#: views/dolphinviewactionhandler.cpp:247
+#: views/dolphinviewactionhandler.cpp:248
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Això reinicia la mida de les icones al valor predeterminat."
 
-#: views/dolphinviewactionhandler.cpp:253
+#: views/dolphinviewactionhandler.cpp:254
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Això redueix la mida de les icones."
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:260
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Mostra les vistes prèvies"
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:261
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Mostra la vista prèvia de fitxers i carpetes"
 
-#: views/dolphinviewactionhandler.cpp:262
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6627,49 +6635,49 @@ msgstr ""
 "de la carpeta. <nl/>Per exemple, les icones de les imatges esdevindran una "
 "versió a escala reduïda de les imatges."
 
-#: views/dolphinviewactionhandler.cpp:271
+#: views/dolphinviewactionhandler.cpp:272
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Primer les carpetes"
 
-#: views/dolphinviewactionhandler.cpp:275
+#: views/dolphinviewactionhandler.cpp:276
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Fitxers ocults al final"
 
-#: views/dolphinviewactionhandler.cpp:283
+#: views/dolphinviewactionhandler.cpp:284
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Ordena per"
 
-#: views/dolphinviewactionhandler.cpp:318
+#: views/dolphinviewactionhandler.cpp:319
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Mostra la informació addicional"
 
-#: views/dolphinviewactionhandler.cpp:329
+#: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Mostra en grups"
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:331
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Això agrupa els fitxers i carpetes per la seva primera lletra."
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:336
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Mostra els fitxers ocults"
 
-#: views/dolphinviewactionhandler.cpp:337
+#: views/dolphinviewactionhandler.cpp:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6692,13 +6700,13 @@ msgstr ""
 "trash», com els fitxers de còpia de seguretat, també es poden ocultar "
 "activant aquesta opció a Configura el Dolphin > Visualitza > General.</para>"
 
-#: views/dolphinviewactionhandler.cpp:351
+#: views/dolphinviewactionhandler.cpp:352
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Ajusta l'estil de presentació de la vista…"
 
-#: views/dolphinviewactionhandler.cpp:354
+#: views/dolphinviewactionhandler.cpp:355
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6707,13 +6715,13 @@ msgstr ""
 "Això obre una finestra en la qual es poden ajustar totes les propietats de "
 "la vista de les carpetes."
 
-#: views/dolphinviewactionhandler.cpp:360
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Configuració de la visualització"
 
-#: views/dolphinviewactionhandler.cpp:362
+#: views/dolphinviewactionhandler.cpp:363
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6723,115 +6731,115 @@ msgstr ""
 "Això circula entre tots els modes de visualització. El menú desplegable "
 "conté diverses accions relacionades amb la visualització."
 
-#: views/dolphinviewactionhandler.cpp:434
+#: views/dolphinviewactionhandler.cpp:437
 #, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
 msgstr "Ordena per: %1"
 
-#: views/dolphinviewactionhandler.cpp:435
+#: views/dolphinviewactionhandler.cpp:438
 #, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
 msgstr "Mostra el camp: %1"
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:684
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Icones"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:685
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Mode de vista d'icones"
 
-#: views/dolphinviewactionhandler.cpp:692
+#: views/dolphinviewactionhandler.cpp:695
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compacte"
 
-#: views/dolphinviewactionhandler.cpp:693
+#: views/dolphinviewactionhandler.cpp:696
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Mode de vista compacte"
 
-#: views/dolphinviewactionhandler.cpp:703
+#: views/dolphinviewactionhandler.cpp:706
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detalls"
 
-#: views/dolphinviewactionhandler.cpp:704
+#: views/dolphinviewactionhandler.cpp:707
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Mode de vista de detalls"
 
-#: views/dolphinviewactionhandler.cpp:727
+#: views/dolphinviewactionhandler.cpp:730
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:728
+#: views/dolphinviewactionhandler.cpp:731
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:730
+#: views/dolphinviewactionhandler.cpp:733
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Primer el més gran"
 
-#: views/dolphinviewactionhandler.cpp:731
+#: views/dolphinviewactionhandler.cpp:734
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Primer el més petit"
 
-#: views/dolphinviewactionhandler.cpp:733
+#: views/dolphinviewactionhandler.cpp:736
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Primer el més nou"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:737
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Primer el més antic"
 
-#: views/dolphinviewactionhandler.cpp:736
+#: views/dolphinviewactionhandler.cpp:739
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Primera la més alta"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:740
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Primera la més baixa"
 
-#: views/dolphinviewactionhandler.cpp:739
+#: views/dolphinviewactionhandler.cpp:742
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Descendent"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:743
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Ascendent"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6844,12 +6852,12 @@ msgstr "Accions per a la vista actual"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:847
+#: views/dolphinviewactionhandler.cpp:850
 #, kde-format
 msgid "Actions for %1"
 msgstr "Accions per a %1"
 
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:857
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "

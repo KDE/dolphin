@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-18 00:45+0000\n"
+"POT-Creation-Date: 2025-10-24 00:45+0000\n"
 "PO-Revision-Date: 2025-09-27 07:45+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1976,7 +1976,7 @@ msgstr "Pogled mesta"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:530
+#: dolphintabwidget.cpp:532
 #, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
@@ -1984,7 +1984,7 @@ msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
-#: dolphintabwidget.cpp:534
+#: dolphintabwidget.cpp:536
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
@@ -4187,19 +4187,27 @@ msgctxt "@info"
 msgid "Restart now?"
 msgstr "Ponovni zagon zdaj?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:245
+#: settings/contextmenu/contextmenusettingspage.cpp:246
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Izbriši"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:249
+#: settings/contextmenu/contextmenusettingspage.cpp:256
+#: settings/contextmenu/contextmenusettingspage.cpp:267
+#, kde-format
+msgctxt "@item:tooltip"
+msgid "Built-in dolphin"
+msgstr ""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Pokaži ukaza »Kopiraj v« in »Premakni v«"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:290
+#: settings/contextmenu/contextmenusettingspage.cpp:299
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -6405,19 +6413,19 @@ msgstr "Ni najdene nobene Bluetooth naprave"
 msgid "Folder is empty"
 msgstr "Mapa je prazna"
 
-#: views/dolphinviewactionhandler.cpp:82
+#: views/dolphinviewactionhandler.cpp:83
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "Ustvari mapo …"
 
-#: views/dolphinviewactionhandler.cpp:89
+#: views/dolphinviewactionhandler.cpp:90
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
 msgstr "Ustvari datoteko…"
 
-#: views/dolphinviewactionhandler.cpp:98
+#: views/dolphinviewactionhandler.cpp:99
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6428,7 +6436,7 @@ msgstr ""
 "predmetov naenkrat ima za posledico, da se nova imena razlikujejo le v "
 "številki."
 
-#: views/dolphinviewactionhandler.cpp:110
+#: views/dolphinviewactionhandler.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6440,7 +6448,7 @@ msgstr ""
 "<nl />Smeti so začasna shramba, v kateri se predmeti lahko brišejo, če je "
 "potreben prostor na disku."
 
-#: views/dolphinviewactionhandler.cpp:123
+#: views/dolphinviewactionhandler.cpp:124
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6450,25 +6458,25 @@ msgstr ""
 "S tem za stalno izbriše predmete v vašem trenutnem izboru. Nikakor jih ne "
 "morete več obnoviti z običajnimi sredstvi."
 
-#: views/dolphinviewactionhandler.cpp:133
+#: views/dolphinviewactionhandler.cpp:134
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Izbriši (uporabi bližnjico za Smeti)"
 
-#: views/dolphinviewactionhandler.cpp:139
+#: views/dolphinviewactionhandler.cpp:140
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Podvoji sem"
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:148
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: views/dolphinviewactionhandler.cpp:149
+#: views/dolphinviewactionhandler.cpp:150
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6482,43 +6490,43 @@ msgstr ""
 "prikazane mape.<nl/>Tam lahko nastavite napredne možnosti kot je npr. "
 "upravljanje dovoljenj za branje in pisanje."
 
-#: views/dolphinviewactionhandler.cpp:159
+#: views/dolphinviewactionhandler.cpp:160
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Kopiraj mesto"
 
-#: views/dolphinviewactionhandler.cpp:160
+#: views/dolphinviewactionhandler.cpp:161
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "To bo kopiralo pot prvega izbranega predmeta na odložišču."
 
-#: views/dolphinviewactionhandler.cpp:168
+#: views/dolphinviewactionhandler.cpp:169
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Premakni v Smeti …"
 
-#: views/dolphinviewactionhandler.cpp:169
+#: views/dolphinviewactionhandler.cpp:170
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Izbriši …"
 
-#: views/dolphinviewactionhandler.cpp:170
+#: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Podvoji sem …"
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Kopiraj mesto …"
 
-#: views/dolphinviewactionhandler.cpp:200
+#: views/dolphinviewactionhandler.cpp:201
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6533,7 +6541,7 @@ msgstr ""
 "<emphasis>zvrsti datotek</emphasis>.</para><para>Ta način je priročen za "
 "brskanje po slikah, ko je omogočen<interface>Predogled</interface>.</para>"
 
-#: views/dolphinviewactionhandler.cpp:207
+#: views/dolphinviewactionhandler.cpp:208
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6545,7 +6553,7 @@ msgstr ""
 "datoteke v stolpcih z imeni poleg ikon.</para> <para>To pomaga obdržati "
 "pregled v mapah z veliko predmeti.</para>"
 
-#: views/dolphinviewactionhandler.cpp:211
+#: views/dolphinviewactionhandler.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6565,60 +6573,60 @@ msgstr ""
 "zapustili trenutno lokacijo tako, da kliknete regijo levo od nje. Na ta "
 "način si lahko ogledatevsebino več map na istem seznamu.</para>"
 
-#: views/dolphinviewactionhandler.cpp:221
+#: views/dolphinviewactionhandler.cpp:222
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "Spremeni način prikaza"
 
-#: views/dolphinviewactionhandler.cpp:222
+#: views/dolphinviewactionhandler.cpp:223
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr "To kroži skozi vse načine pogleda."
 
-#: views/dolphinviewactionhandler.cpp:242
+#: views/dolphinviewactionhandler.cpp:243
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "To poveča velikost ikone."
 
-#: views/dolphinviewactionhandler.cpp:245
+#: views/dolphinviewactionhandler.cpp:246
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Ponastavi raven približanja"
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:247
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Približaj na privzeto"
 
-#: views/dolphinviewactionhandler.cpp:247
+#: views/dolphinviewactionhandler.cpp:248
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "To bo ponastavilo velikost ikone na privzeto velikost."
 
-#: views/dolphinviewactionhandler.cpp:253
+#: views/dolphinviewactionhandler.cpp:254
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "To zmanjša velikost ikone."
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:260
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Pokaži predoglede"
 
-#: views/dolphinviewactionhandler.cpp:260
+#: views/dolphinviewactionhandler.cpp:261
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Pokaži predogled datotek in map"
 
-#: views/dolphinviewactionhandler.cpp:262
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6629,49 +6637,49 @@ msgstr ""
 "Kadar je aktivirano, ikone prikazujejo dejanske vsebine datotek ali map.<nl/"
 ">Na primer: ikone slik prikazujejo pomanjšane vsebine slik."
 
-#: views/dolphinviewactionhandler.cpp:271
+#: views/dolphinviewactionhandler.cpp:272
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Najprej mape"
 
-#: views/dolphinviewactionhandler.cpp:275
+#: views/dolphinviewactionhandler.cpp:276
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Skrite datoteke kot zadnje"
 
-#: views/dolphinviewactionhandler.cpp:283
+#: views/dolphinviewactionhandler.cpp:284
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Razvrsti po"
 
-#: views/dolphinviewactionhandler.cpp:318
+#: views/dolphinviewactionhandler.cpp:319
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Prikaži dodatne informacije"
 
-#: views/dolphinviewactionhandler.cpp:329
+#: views/dolphinviewactionhandler.cpp:330
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Pokaži po skupinah"
 
-#: views/dolphinviewactionhandler.cpp:330
+#: views/dolphinviewactionhandler.cpp:331
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "To grupira datoteke in mape po njihovih začetnih črkah."
 
-#: views/dolphinviewactionhandler.cpp:335
+#: views/dolphinviewactionhandler.cpp:336
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Pokaži skrite datoteke"
 
-#: views/dolphinviewactionhandler.cpp:337
+#: views/dolphinviewactionhandler.cpp:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6693,13 +6701,13 @@ msgstr ""
 "x-trash\", kot so varnostne kopije datotek, je mogoče skriti tudi tako, da "
 "omogočite to nastavitev v Konfiguriraj Dolphin > Pogled > Splošno.</para>"
 
-#: views/dolphinviewactionhandler.cpp:351
+#: views/dolphinviewactionhandler.cpp:352
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "Prilagodi slog prikaza …"
 
-#: views/dolphinviewactionhandler.cpp:354
+#: views/dolphinviewactionhandler.cpp:355
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6707,13 +6715,13 @@ msgid ""
 msgstr ""
 "To odpre okno, v katerem je mogoče prilagoditi vse lastnosti pogleda mape."
 
-#: views/dolphinviewactionhandler.cpp:360
+#: views/dolphinviewactionhandler.cpp:361
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "Poglej nastavitve"
 
-#: views/dolphinviewactionhandler.cpp:362
+#: views/dolphinviewactionhandler.cpp:363
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6723,115 +6731,115 @@ msgstr ""
 "To kroži skozi vse načine pogleda. Spustni meni vsebuje različna dejanja, "
 "povezana s pogledom."
 
-#: views/dolphinviewactionhandler.cpp:434
+#: views/dolphinviewactionhandler.cpp:437
 #, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
 msgstr "Razvrsti po: %1"
 
-#: views/dolphinviewactionhandler.cpp:435
+#: views/dolphinviewactionhandler.cpp:438
 #, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
 msgstr "Pokaži polje: %1"
 
-#: views/dolphinviewactionhandler.cpp:681
+#: views/dolphinviewactionhandler.cpp:684
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Ikone"
 
-#: views/dolphinviewactionhandler.cpp:682
+#: views/dolphinviewactionhandler.cpp:685
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Način prikaza ikon"
 
-#: views/dolphinviewactionhandler.cpp:692
+#: views/dolphinviewactionhandler.cpp:695
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Strnjeno"
 
-#: views/dolphinviewactionhandler.cpp:693
+#: views/dolphinviewactionhandler.cpp:696
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Način strnjenega prikaza"
 
-#: views/dolphinviewactionhandler.cpp:703
+#: views/dolphinviewactionhandler.cpp:706
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: views/dolphinviewactionhandler.cpp:704
+#: views/dolphinviewactionhandler.cpp:707
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Način prikaza podrobnosti"
 
-#: views/dolphinviewactionhandler.cpp:727
+#: views/dolphinviewactionhandler.cpp:730
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:728
+#: views/dolphinviewactionhandler.cpp:731
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:730
+#: views/dolphinviewactionhandler.cpp:733
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Najprej največje"
 
-#: views/dolphinviewactionhandler.cpp:731
+#: views/dolphinviewactionhandler.cpp:734
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Najprej najmanjše"
 
-#: views/dolphinviewactionhandler.cpp:733
+#: views/dolphinviewactionhandler.cpp:736
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Najprej najnovejše"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:737
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Najprej najstarejše"
 
-#: views/dolphinviewactionhandler.cpp:736
+#: views/dolphinviewactionhandler.cpp:739
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Najprej najvišje ocenjene"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:740
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Najprej najslabše ocenjene"
 
-#: views/dolphinviewactionhandler.cpp:739
+#: views/dolphinviewactionhandler.cpp:742
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Padajoče"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:743
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Naraščajoče"
 
-#: views/dolphinviewactionhandler.cpp:838
+#: views/dolphinviewactionhandler.cpp:841
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6844,12 +6852,12 @@ msgstr "Dejanja za trenutni pogled"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:847
+#: views/dolphinviewactionhandler.cpp:850
 #, kde-format
 msgid "Actions for %1"
 msgstr "Dejanja za %1"
 
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:857
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
