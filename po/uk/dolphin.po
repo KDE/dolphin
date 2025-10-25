@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:45+0000\n"
-"PO-Revision-Date: 2025-09-27 16:36+0300\n"
+"PO-Revision-Date: 2025-10-24 13:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4245,7 +4245,7 @@ msgstr "Вилучити"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Вбудований dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format

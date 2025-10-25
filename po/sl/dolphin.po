@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-24 00:45+0000\n"
-"PO-Revision-Date: 2025-09-27 07:45+0200\n"
+"PO-Revision-Date: 2025-10-24 07:26+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4199,7 +4199,7 @@ msgstr "Izbriši"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Vgrajen Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
