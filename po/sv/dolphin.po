@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 00:44+0000\n"
-"PO-Revision-Date: 2025-10-05 08:34+0200\n"
+"PO-Revision-Date: 2025-10-26 20:47+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4142,7 +4142,7 @@ msgstr "Ta bort"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Inbyggd dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -6669,20 +6669,16 @@ msgstr ""
 "visningsrelaterade alternativ."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Sortera enligt"
+msgstr "Sortera enligt fält"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Visa fält: %1"
+msgstr "Visa fält"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 00:44+0000\n"
-"PO-Revision-Date: 2025-10-24 08:03+0300\n"
+"PO-Revision-Date: 2025-10-26 08:42+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -6620,20 +6620,16 @@ msgstr ""
 "פעולות שקשורות בתצוגה."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "מיון לפי"
+msgstr "מיון לפי שדה"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "הצגת שדה: %1"
+msgstr "הצגת שדה"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format
