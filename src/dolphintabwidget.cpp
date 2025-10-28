@@ -516,6 +516,7 @@ void DolphinTabWidget::tabRemoved(int index)
     QTabWidget::tabRemoved(index);
 
     Q_EMIT tabCountChanged(count());
+    m_lastViewedTab->setActive(true);
 }
 
 QString DolphinTabWidget::tabName(DolphinTabPage *tabPage) const
