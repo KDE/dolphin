@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 00:44+0000\n"
-"PO-Revision-Date: 2025-10-14 12:41+0200\n"
+"PO-Revision-Date: 2025-10-27 16:03+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -4166,7 +4166,7 @@ msgstr "Dele"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Dolphin incorporate"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -6699,20 +6699,16 @@ msgstr ""
 "actiones connexe a vista."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Ordinar per"
+msgstr "Ordinar per campo"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Monstra Campo: %1"
+msgstr "Monstra Campo"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format

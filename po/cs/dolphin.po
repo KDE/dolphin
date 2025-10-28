@@ -6338,20 +6338,16 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Řadit dle"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Show Panels"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Zobrazit panely"
+msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format
