@@ -228,8 +228,6 @@ protected:
     bool event(QEvent *event) override;
 
 private:
-    void resetSplitterSizes();
-
     // Sometimes QSplitterHandle doesn't receive MouseButtonDblClick event.
     // We can detect that MouseButtonDblClick event should have been
     // received if we receive two MouseButtonRelease events in a row.

@@ -14,6 +14,14 @@
 #include <QStyle>
 #include <QVariantAnimation>
 
+namespace
+{
+void resetSplitterSizes(QSplitter *splitter)
+{
+    splitter->setSizes({0, 0});
+}
+}
+
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
     , m_expandingContainer{nullptr}
@@ -65,90 +73,92 @@ bool DolphinTabPage::splitViewEnabled() const
 
 void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const QUrl &secondaryUrl)
 {
-    if (m_splitViewEnabled != enabled) {
-        m_splitViewEnabled = enabled;
-        if (animated == WithAnimation
-            && (style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) < 1 || GlobalConfig::animationDurationFactor() <= 0.0)) {
-            animated = WithoutAnimation;
+    if (m_splitViewEnabled == enabled) {
+        return;
+    }
+
+    m_splitViewEnabled = enabled;
+    if (animated == WithAnimation
+        && (style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) < 1 || GlobalConfig::animationDurationFactor() <= 0.0)) {
+        animated = WithoutAnimation;
+    }
+    if (m_expandViewAnimation) {
+        m_expandViewAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
+        if (animated == WithoutAnimation) {
+            slotAnimationFinished();
         }
-        if (m_expandViewAnimation) {
-            m_expandViewAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
-            if (animated == WithoutAnimation) {
-                slotAnimationFinished();
-            }
+    }
+
+    if (enabled) {
+        QList<int> splitterSizes = m_splitter->sizes();
+        const QUrl &url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
+        m_secondaryViewContainer = createViewContainer(url);
+
+        auto secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
+        if (!secondaryNavigator) {
+            m_navigatorsWidget->createSecondaryUrlNavigator();
+            secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
         }
+        m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
+        connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
+        m_navigatorsWidget->setSecondaryNavigatorVisible(true);
+        m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, m_secondaryViewContainer);
 
-        if (enabled) {
-            QList<int> splitterSizes = m_splitter->sizes();
-            const QUrl &url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
-            m_secondaryViewContainer = createViewContainer(url);
+        m_splitter->addWidget(m_secondaryViewContainer);
+        m_secondaryViewContainer->setActive(true);
 
-            auto secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
-            if (!secondaryNavigator) {
-                m_navigatorsWidget->createSecondaryUrlNavigator();
-                secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
-            }
-            m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
-            connect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
-            m_navigatorsWidget->setSecondaryNavigatorVisible(true);
-            m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, m_secondaryViewContainer);
-
-            m_splitter->addWidget(m_secondaryViewContainer);
-            m_secondaryViewContainer->setActive(true);
-
-            if (animated == WithAnimation) {
-                m_secondaryViewContainer->setMinimumWidth(1);
-                splitterSizes.append(1);
-                m_splitter->setSizes(splitterSizes);
-                startExpandViewAnimation(m_secondaryViewContainer);
-            }
-            m_secondaryViewContainer->show();
+        if (animated == WithAnimation) {
+            m_secondaryViewContainer->setMinimumWidth(1);
+            splitterSizes.append(1);
+            m_splitter->setSizes(splitterSizes);
+            startExpandViewAnimation(m_secondaryViewContainer);
         } else {
-            m_navigatorsWidget->setSecondaryNavigatorVisible(false);
-            m_secondaryViewContainer->disconnectUrlNavigator();
-            disconnect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
-
-            DolphinViewContainer *view;
-            if (GeneralSettings::closeActiveSplitView()) {
-                view = activeViewContainer();
-                if (m_primaryViewActive) {
-                    m_primaryViewContainer->disconnectUrlNavigator();
-                    m_secondaryViewContainer->connectUrlNavigator(m_navigatorsWidget->primaryUrlNavigator());
-
-                    // If the primary view is active, we have to swap the pointers
-                    // because the secondary view will be the new primary view.
-                    std::swap(m_primaryViewContainer, m_secondaryViewContainer);
-                    m_primaryViewActive = false;
-                }
-            } else {
-                view = m_primaryViewActive ? m_secondaryViewContainer : m_primaryViewContainer;
-                if (!m_primaryViewActive) {
-                    m_primaryViewContainer->disconnectUrlNavigator();
-                    m_secondaryViewContainer->connectUrlNavigator(m_navigatorsWidget->primaryUrlNavigator());
-
-                    // If the secondary view is active, we have to swap the pointers
-                    // because the secondary view will be the new primary view.
-                    std::swap(m_primaryViewContainer, m_secondaryViewContainer);
-                    m_primaryViewActive = true;
-                }
-            }
-            m_primaryViewContainer->setActive(true);
-            m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, nullptr);
-
-            if (animated == WithoutAnimation) {
-                view->close();
-                view->deleteLater();
-            } else {
-                // Kill it but keep it as a zombie for the closing animation.
-                m_secondaryViewContainer = nullptr;
-                view->blockSignals(true);
-                view->view()->blockSignals(true);
-                view->setDisabled(true);
-                startExpandViewAnimation(m_primaryViewContainer);
-            }
-
-            m_primaryViewContainer->slotSplitTabDisabled();
+            resetSplitterSizes(m_splitter);
         }
+        m_secondaryViewContainer->show();
+    } else {
+        m_navigatorsWidget->setSecondaryNavigatorVisible(false);
+        m_secondaryViewContainer->disconnectUrlNavigator();
+        disconnect(m_secondaryViewContainer->view(), &DolphinView::redirection, this, &DolphinTabPage::slotViewUrlRedirection);
+
+        DolphinViewContainer *view;
+
+        auto swapActiveView = [this]() {
+            m_primaryViewContainer->disconnectUrlNavigator();
+            m_secondaryViewContainer->connectUrlNavigator(m_navigatorsWidget->primaryUrlNavigator());
+
+            // If the primary view is active, we have to swap the pointers
+            // because the secondary view will be the new primary view.
+            std::swap(m_primaryViewContainer, m_secondaryViewContainer);
+            m_primaryViewActive = !m_primaryViewActive;
+        };
+        if (GeneralSettings::closeActiveSplitView()) {
+            view = activeViewContainer();
+            if (m_primaryViewActive) {
+                swapActiveView();
+            }
+        } else {
+            view = m_primaryViewActive ? m_secondaryViewContainer : m_primaryViewContainer;
+            if (!m_primaryViewActive) {
+                swapActiveView();
+            }
+        }
+        m_primaryViewContainer->setActive(true);
+        m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, nullptr);
+
+        if (animated == WithoutAnimation) {
+            view->close();
+            view->deleteLater();
+        } else {
+            // Kill it but keep it as a zombie for the closing animation.
+            m_secondaryViewContainer = nullptr;
+            view->blockSignals(true);
+            view->view()->blockSignals(true);
+            view->setDisabled(true);
+            startExpandViewAnimation(m_primaryViewContainer);
+        }
+
+        m_primaryViewContainer->slotSplitTabDisabled();
     }
 }
 
@@ -535,26 +545,19 @@ bool DolphinTabPageSplitterHandle::event(QEvent *event)
         break;
     case QEvent::MouseButtonRelease:
         if (m_mouseReleaseWasReceived) {
-            resetSplitterSizes();
+            resetSplitterSizes(splitter());
         }
         m_mouseReleaseWasReceived = !m_mouseReleaseWasReceived;
         break;
     case QEvent::MouseButtonDblClick:
         m_mouseReleaseWasReceived = false;
-        resetSplitterSizes();
+        resetSplitterSizes(splitter());
         break;
     default:
         break;
     }
 
     return QSplitterHandle::event(event);
-}
-
-void DolphinTabPageSplitterHandle::resetSplitterSizes()
-{
-    QList<int> splitterSizes = splitter()->sizes();
-    std::fill(splitterSizes.begin(), splitterSizes.end(), 0);
-    splitter()->setSizes(splitterSizes);
 }
 
 DolphinTabPageSplitter::DolphinTabPageSplitter(Qt::Orientation orientation, QWidget *parent)
