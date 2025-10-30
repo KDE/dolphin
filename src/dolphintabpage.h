@@ -155,9 +155,13 @@ public:
 Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer *viewContainer);
     void activeViewUrlChanged(const QUrl &url);
-    void splitterMoved(int pos, int index);
 
 private Q_SLOTS:
+    /**
+     * Saves splitter position to be able to restore it on split mode OFF->ON
+     */
+    void splitterMoved(int pos);
+
     /**
      * Deletes all zombie viewContainers that were used for the animation
      * and resets the minimum size of the others to a sane value.
@@ -217,6 +221,7 @@ private:
     bool m_active;
     /** @see setCustomLabel(). */
     QString m_customLabel;
+    int m_splitterLastPosition = 0;
 };
 
 class DolphinTabPageSplitterHandle : public QSplitterHandle

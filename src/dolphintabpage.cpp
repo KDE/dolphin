@@ -25,6 +25,7 @@ void resetSplitterSizes(QSplitter *splitter)
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
+    , m_splitterLastPosition(0)
     , m_expandingContainer{nullptr}
     , m_primaryViewActive(true)
     , m_splitViewEnabled(false)
@@ -70,6 +71,11 @@ bool DolphinTabPage::primaryViewActive() const
 bool DolphinTabPage::splitViewEnabled() const
 {
     return m_splitViewEnabled;
+}
+
+void DolphinTabPage::splitterMoved(int pos)
+{
+    m_splitterLastPosition = pos;
 }
 
 void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const QUrl &secondaryUrl)
@@ -281,7 +287,7 @@ QByteArray DolphinTabPage::saveState() const
     QByteArray state;
     QDataStream stream(&state, QIODevice::WriteOnly);
 
-    stream << quint32(2); // Tab state version
+    stream << quint32(3); // Tab state version
 
     stream << m_splitViewEnabled;
 
@@ -297,6 +303,7 @@ QByteArray DolphinTabPage::saveState() const
 
     stream << m_primaryViewActive;
     stream << m_splitter->saveState();
+    stream << m_splitterLastPosition;
 
     if (!m_customLabel.isEmpty()) {
         stream << m_customLabel;
@@ -317,7 +324,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     // Read the version number of the tab state and check if the version is supported.
     quint32 version = 0;
     stream >> version;
-    if (version != 2) {
+    if (version != 3) {
         // The version of the tab state isn't supported, we can't restore it.
         return;
     }
@@ -355,6 +362,7 @@ void DolphinTabPage::restoreState(const QByteArray &state)
     QByteArray splitterState;
     stream >> splitterState;
     m_splitter->restoreState(splitterState);
+    stream >> m_splitterLastPosition;
 
     if (!stream.atEnd()) {
         QString tabTitle;
@@ -525,7 +533,7 @@ void DolphinTabPage::startExpandViewAnimation(DolphinViewContainer *expandingCon
 
     m_expandViewAnimation->setStartValue(expandingContainer->width());
     if (m_splitViewEnabled) { // A new viewContainer is being opened.
-        m_expandViewAnimation->setEndValue(m_splitter->width() / 2);
+        m_expandViewAnimation->setEndValue(m_splitterLastPosition ? (m_splitter->width() - m_splitterLastPosition) : (m_splitter->width() / 2));
         m_expandViewAnimation->setEasingCurve(QEasingCurve::OutCubic);
     } else { // A viewContainer is being closed.
         m_expandViewAnimation->setEndValue(m_splitter->width());
