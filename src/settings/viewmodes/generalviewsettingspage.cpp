@@ -61,7 +61,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Browsing
-    m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"));
+    m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Browse compressed files as folders"));
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"));
     topLayout->addRow(i18nc("@title:group", "Browsing: "), m_openArchivesAsFolder);
     topLayout->addRow(QString(), m_autoExpandFolders);

@@ -803,7 +803,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
         job->start();
     } else {
-        // If no 2nd service available, try to open archives in new tabs, regardless of the "Open archives as folder" setting.
+        // If no 2nd service available, try to open archives in new tabs, regardless of the "Browse compressed files as folders" setting.
         const QUrl &url = DolphinView::openItemAsFolderUrl(item);
         const auto modifiers = QGuiApplication::keyboardModifiers();
         if (!url.isEmpty()) {
