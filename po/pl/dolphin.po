@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2025-09-27 08:33+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -5496,10 +5496,12 @@ msgid "Display style: "
 msgstr "Sposoby wyświetlania: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Otwieraj archiwa tak jak katalogi"
+msgid "Browse compressed files as folders"
+msgstr "Pokaż podgląd plików i katalogów"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6888,6 +6890,10 @@ msgstr "Powiększenie"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Powiększenie"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Otwieraj archiwa tak jak katalogi"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

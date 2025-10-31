@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2025-08-30 16:23+0300\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -5475,10 +5475,12 @@ msgid "Display style: "
 msgstr "Parādīšanas stils: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Atvērt arhīvus kā mapes"
+msgid "Browse compressed files as folders"
+msgstr "Rādīt priekšskatījumus mapēm un datnēm"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6862,6 +6864,10 @@ msgstr "Tālummaiņa"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Tālummaiņa"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Atvērt arhīvus kā mapes"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

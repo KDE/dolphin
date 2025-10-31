@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -5710,10 +5710,12 @@ msgid "Display style: "
 msgstr "Vaatestiil"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Arhiivide avamine kataloogina"
+msgid "Browse compressed files as folders"
+msgstr "Failide ja kataloogide eelvaatluse näitamine"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -7155,6 +7157,10 @@ msgstr "Suurendus"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Suurendus"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Arhiivide avamine kataloogina"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

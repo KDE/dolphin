@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2010-01-28 23:53+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -5660,10 +5660,12 @@ msgid "Display style: "
 msgstr "Датум:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Отвори архиви како папки"
+msgid "Browse compressed files as folders"
+msgstr "Прикажи преглед на папките и датотеките"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -7135,6 +7137,10 @@ msgstr ""
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr ""
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Отвори архиви како папки"
 
 #, fuzzy
 #~| msgctxt "@title:window"

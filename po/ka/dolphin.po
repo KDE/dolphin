@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2025-10-26 04:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -5461,10 +5461,12 @@ msgid "Display style: "
 msgstr "ჩვენების სტილი: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "არქივების, როგორც საქაღალდის გახსნა"
+msgid "Browse compressed files as folders"
+msgstr "ფაილებსა და საქაღალდეების მინიატურების ჩვენება"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6837,6 +6839,10 @@ msgstr "მასშტაბი"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "მასშტაბი"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "არქივების, როგორც საქაღალდის გახსნა"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

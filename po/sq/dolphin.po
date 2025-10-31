@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2025-09-04 23:15-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -5398,10 +5398,12 @@ msgid "Display style: "
 msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@option:check Mouse Settings"
+#| msgid "Double-click to open files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Hapi arkivat si skedarë"
+msgid "Browse compressed files as folders"
+msgstr "Kërko skedarë dhe dosje"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6787,6 +6789,10 @@ msgstr "Zmadhimi"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zmadhimi"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Hapi arkivat si skedarë"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

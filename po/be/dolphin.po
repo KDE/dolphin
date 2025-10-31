@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -5634,10 +5634,12 @@ msgid "Display style: "
 msgstr "Стыль паказу: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Адкрываць архівы як каталогі"
+msgid "Browse compressed files as folders"
+msgstr "Паказваць мініяцюры файлаў і каталогаў"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -7040,6 +7042,10 @@ msgstr "Маштаб"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Маштаб"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Адкрываць архівы як каталогі"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"

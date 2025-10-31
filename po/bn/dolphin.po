@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -5599,10 +5599,12 @@ msgid "Display style: "
 msgstr "তারিখ:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "আর্কাইভ ফোল্ডার হিসেবে খোলো"
+msgid "Browse compressed files as folders"
+msgstr "ফাইল এবল ফোল্ডারের প্রাকদর্শন দেখাও"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -7046,6 +7048,10 @@ msgstr ""
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr ""
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "আর্কাইভ ফোল্ডার হিসেবে খোলো"
 
 #, fuzzy
 #~| msgctxt "@title:window"

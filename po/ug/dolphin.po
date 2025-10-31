@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -5503,10 +5503,12 @@ msgid "Display style: "
 msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "ئارخىپنى قىسقۇچ سۈپىتىدە ئاچ"
+msgid "Browse compressed files as folders"
+msgstr "ھۆججەت ۋە قىسقۇچنىڭ ئالدىن كۆزىتىشىنى كۆرسەت"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6936,6 +6938,10 @@ msgstr "كېڭەيت-تارايت"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "كېڭەيت-تارايت"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "ئارخىپنى قىسقۇچ سۈپىتىدە ئاچ"
 
 #, fuzzy
 #~| msgid "Zoom"

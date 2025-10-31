@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2021-10-15 10:46+0200\n"
 "Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
 "Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
@@ -5565,10 +5565,12 @@ msgid "Display style: "
 msgstr "Datum"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Show preview"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr ""
+msgid "Browse compressed files as folders"
+msgstr "Přehladku pokazać"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format

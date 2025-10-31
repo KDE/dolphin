@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -5575,10 +5575,12 @@ msgid "Display style: "
 msgstr "തിയ്യതി:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "ആര്‍ക്കൈവുകള്‍ അറകളായി കാണിക്കുക"
+msgid "Browse compressed files as folders"
+msgstr "അറകളുടേയും ഫയലുകളുടേയും തിരനോട്ടങ്ങള്‍ കാണിക്കുക"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6946,6 +6948,10 @@ msgstr "വലുതാക്കുക"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "വലുതാക്കുക"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "ആര്‍ക്കൈവുകള്‍ അറകളായി കാണിക്കുക"
 
 #, fuzzy
 #~| msgid "Zoom"

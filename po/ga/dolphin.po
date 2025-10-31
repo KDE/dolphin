@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5642,10 +5642,12 @@ msgid "Display style: "
 msgstr "Dáta:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "Oscail cartlanna mar fhillteáin"
+msgid "Browse compressed files as folders"
+msgstr "Taispeáin réamhamharc ar chomhaid agus ar fhillteáin"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -7109,6 +7111,10 @@ msgstr "Súmáil"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Súmáil"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "Oscail cartlanna mar fhillteáin"
 
 #, fuzzy
 #~| msgid "Zoom"

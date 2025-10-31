@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 00:45+0000\n"
-"PO-Revision-Date: 2025-10-25 16:53+0400\n"
+"POT-Creation-Date: 2025-10-31 00:45+0000\n"
+"PO-Revision-Date: 2025-10-30 10:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5488,10 +5488,12 @@ msgid "Display style: "
 msgstr "نمط العرض: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
 msgctxt "@option:check"
-msgid "Open archives as folder"
-msgstr "افتح الأرشيفات كمجلدات"
+msgid "Browse compressed files as folders"
+msgstr "أظهر معاينة للملفات والمجلدات"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6713,20 +6715,16 @@ msgstr ""
 "مُختلفة مُتعلقة بالعرض."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "افرز حسب"
+msgstr "افرز حسب الحقل"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "أظهر حقل: %1"
+msgstr "أظهر الحقل"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format
@@ -6885,6 +6883,10 @@ msgstr "تكبير"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "تكبير"
+
+#~ msgctxt "@option:check"
+#~ msgid "Open archives as folder"
+#~ msgstr "افتح الأرشيفات كمجلدات"
 
 #~ msgctxt "@action:inmenu menu of zoom actions"
 #~ msgid "Zoom"
