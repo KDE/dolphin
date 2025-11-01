@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 00:45+0000\n"
-"PO-Revision-Date: 2025-10-26 07:15+0100\n"
+"PO-Revision-Date: 2025-10-31 06:32+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5510,12 +5510,10 @@ msgid "Display style: "
 msgstr "Način prikaza: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Pokaži predogled datotek in map"
+msgstr "Brskaj po stisnjenih datotekah kot po mapah"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format

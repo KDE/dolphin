@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 00:45+0000\n"
-"PO-Revision-Date: 2025-10-26 19:52+0300\n"
+"PO-Revision-Date: 2025-10-31 17:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5452,12 +5452,10 @@ msgid "Display style: "
 msgstr "Görüntüleme biçemi: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Dosyaların ve klasörlerin önizlemelerini göster"
+msgstr "Sıkıştırılmış dosyalara klasörmüş gibi göz at"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
