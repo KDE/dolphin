@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 00:45+0000\n"
-"PO-Revision-Date: 2025-09-27 08:33+0200\n"
+"PO-Revision-Date: 2025-11-01 09:41+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1292,7 +1292,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
-msgstr "Wejdź do paska miejsc"
+msgstr "Przejdź do paska miejsc"
 
 #: dolphinmainwindow.cpp:2555
 #, kde-format
@@ -5414,19 +5414,19 @@ msgstr "Zapis uprawnień:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr "Pomiń w środku (e.g. ’Jakiś naprawdę… nazwa.txt')"
+msgstr "Skróć w środku (e.g. ’Jakiś naprawdę… nazwa.txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr "Pomiń na końcu (np. ’Jakiś naprawdę długa….txt')"
+msgstr "Skróć na końcu (np. ’Jakiś naprawdę długa….txt')"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Długi nazwy plików:"
+msgstr "Długie nazwy plików:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format

@@ -6788,7 +6788,3 @@ msgstr "Skalering"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Skalering"
-
-#~ msgctxt "@option:check"
-#~ msgid "Open archives as folder"
-#~ msgstr "Åpne arkiver som mappe"
