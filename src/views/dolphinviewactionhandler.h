@@ -85,14 +85,14 @@ Q_SIGNALS:
      * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
      * the method createDirectory of their KNewFileMenu instance.
      */
-    void createDirectoryTriggered();
+    void createDirectoryTriggered(const QUrl &workingDirectory = QUrl());
 
     /**
      * Emitted if the user requested creating a new file.
      * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
      * the method createFile of their KNewFileMenu instance.
      */
-    void createFileTriggered();
+    void createFileTriggered(const QUrl &workingDirectory = QUrl());
 
     /** Used to request either entering or leaving of selection mode */
     void selectionModeChangeTriggered(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);

@@ -823,23 +823,31 @@ void DolphinMainWindow::updateNewMenu()
     m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
 }
 
-void DolphinMainWindow::createDirectory()
+void DolphinMainWindow::createDirectory(const QUrl &workingDirectory)
 {
     // When creating directory, namejob is being run. In network folders,
     // this job can take long time, so instead of starting multiple namejobs,
     // just check if we are already running one. This prevents opening multiple
     // dialogs. BUG:481401
     if (!m_newFileMenu->isCreateDirectoryRunning()) {
-        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+        QUrl targetDirectory = workingDirectory;
+        if (workingDirectory.isEmpty()) {
+            targetDirectory = activeViewContainer()->url();
+        }
+        m_newFileMenu->setWorkingDirectory(targetDirectory);
         m_newFileMenu->createDirectory();
     }
 }
 
-void DolphinMainWindow::createFile()
+void DolphinMainWindow::createFile(const QUrl &workingDirectory)
 {
     // Use the same logic as in createDirectory()
     if (!m_newFileMenu->isCreateFileRunning()) {
-        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+        QUrl targetDirectory = workingDirectory;
+        if (workingDirectory.isEmpty()) {
+            targetDirectory = activeViewContainer()->url();
+        }
+        m_newFileMenu->setWorkingDirectory(targetDirectory);
         m_newFileMenu->createFile();
     }
 }

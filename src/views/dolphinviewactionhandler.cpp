@@ -85,13 +85,17 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     m_actionCollection->setDefaultShortcuts(newDirAction, KStandardShortcut::createFolder());
     newDirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     newDirAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
-    connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectoryTriggered);
+    connect(newDirAction, &QAction::triggered, this, [this]() {
+        Q_EMIT DolphinViewActionHandler::createDirectoryTriggered(m_currentView->selectedItems().first().url());
+    });
 
     QAction *newFileAction = m_actionCollection->addAction(QStringLiteral("create_file"));
     newFileAction->setText(i18nc("@action", "Create File…"));
     newFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
     newFileAction->setEnabled(false); // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
-    connect(newFileAction, &QAction::triggered, this, &DolphinViewActionHandler::createFileTriggered);
+    connect(newFileAction, &QAction::triggered, this, [this]() {
+        Q_EMIT DolphinViewActionHandler::createFileTriggered(m_currentView->selectedItems().first().url());
+    });
 
     // File menu
 
