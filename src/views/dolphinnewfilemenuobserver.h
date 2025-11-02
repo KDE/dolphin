@@ -31,6 +31,7 @@ public:
 
 Q_SIGNALS:
     void itemCreated(const QUrl &url);
+    void directoryCreated(const QUrl &url);
     void errorMessage(const QString &error);
 
 private:

@@ -167,6 +167,11 @@ public:
     int selectedItemsCount() const;
 
     /**
+     * Returns the selected kfileitem if one is selected and only one
+     */
+    std::optional<KFileItem> firstSelectedItem() const;
+
+    /**
      * Marks the items indicated by \p urls to get selected after the
      * directory DolphinView::url() has been loaded. Note that nothing
      * gets selected if no loading of a directory has been triggered
@@ -854,6 +859,8 @@ private Q_SLOTS:
      */
     void observeCreatedItem(const QUrl &url);
 
+    void observeCreatedDirectory(const QUrl &url);
+
     /**
      * Selects the next item after prev selection deleted/trashed
      */
@@ -952,6 +959,8 @@ private:
     void updatePlaceholderLabel();
 
     bool tryShowNameToolTip(QHelpEvent *event);
+
+    void selectFileOnceAvailable(const QUrl &url, std::function<bool()> condition);
 
 private:
     void updatePalette();
