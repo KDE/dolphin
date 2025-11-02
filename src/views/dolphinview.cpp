@@ -1735,11 +1735,9 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem &item, const bool browseTh
 void DolphinView::resetZoomLevel()
 {
     ViewModeSettings settings{m_mode};
-    settings.useDefaults(true);
-    const int defaultIconSize = settings.iconSize();
-    settings.useDefaults(false);
+    const int userDefaultIconSize = settings.iconSize();
 
-    setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(defaultIconSize, defaultIconSize)));
+    setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize)));
 }
 
 void DolphinView::observeCreatedItem(const QUrl &url)
