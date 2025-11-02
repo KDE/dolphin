@@ -830,16 +830,7 @@ void DolphinMainWindow::createDirectory()
     // just check if we are already running one. This prevents opening multiple
     // dialogs. BUG:481401
     if (!m_newFileMenu->isCreateDirectoryRunning()) {
-        QUrl targetDirectory = activeViewContainer()->url();
-        
-        // Check if there's a single selected directory to create the new folder inside
-        // This makes Ctrl+Shift+N behavior consistent with right-click context menu
-        const KFileItemList selectedItems = m_activeViewContainer->view()->selectedItems();
-        if (selectedItems.count() == 1 && selectedItems.first().isDir()) {
-            targetDirectory = selectedItems.first().url();
-        }
-        
-        m_newFileMenu->setWorkingDirectory(targetDirectory);
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
         m_newFileMenu->createDirectory();
     }
 }
@@ -848,16 +839,7 @@ void DolphinMainWindow::createFile()
 {
     // Use the same logic as in createDirectory()
     if (!m_newFileMenu->isCreateFileRunning()) {
-        QUrl targetDirectory = activeViewContainer()->url();
-        
-        // Check if there's a single selected directory to create the new file inside
-        // This makes the create file action consistent with create directory
-        const KFileItemList selectedItems = m_activeViewContainer->view()->selectedItems();
-        if (selectedItems.count() == 1 && selectedItems.first().isDir()) {
-            targetDirectory = selectedItems.first().url();
-        }
-        
-        m_newFileMenu->setWorkingDirectory(targetDirectory);
+        m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
         m_newFileMenu->createFile();
     }
 }
