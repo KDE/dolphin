@@ -311,7 +311,7 @@
                 </device>
                     <!-- Mass Storage Interface -->
                     <device udi="/org/kde/solid/fakehw/usb_device_4e8_5041_if0">
-                        <property key="name">USB Mass Storage Inferface</property>
+                        <property key="name">USB Mass Storage Interface</property>
                         <property key="parent">/org/kde/solid/fakehw/usb_device_4e8_5041</property>
                     </device>
                         <!-- SCSI Adapter -->

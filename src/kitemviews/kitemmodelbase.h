@@ -222,7 +222,7 @@ Q_SIGNALS:
     void itemsRemoved(const KItemRangeList &itemRanges);
 
     /**
-     * Is emitted if one ore more items get moved.
+     * Is emitted if one or more items get moved.
      * @param itemRange      Item-range that gets moved to a new position.
      * @param movedToIndexes New positions for each element of the item-range.
      *

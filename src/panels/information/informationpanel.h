@@ -18,7 +18,7 @@ class Job;
 }
 
 /**
- * @brief Panel for showing meta information of one ore more selected items.
+ * @brief Panel for showing meta information of one or more selected items.
  */
 class InformationPanel : public Panel
 {

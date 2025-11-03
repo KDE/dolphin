@@ -65,7 +65,7 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget *parent, const QUrl &dir, c
     connect(m_dirSizeJob, &KIO::DirectorySizeJob::result, this, &ViewPropsProgressInfo::applyViewProperties);
 
     // The directory size job cannot emit any progress signal, as it is not aware
-    // about the total number of directories. Therefor a timer is triggered, which
+    // about the total number of directories. Therefore a timer is triggered, which
     // periodically updates the current directory count.
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &ViewPropsProgressInfo::updateProgress);
