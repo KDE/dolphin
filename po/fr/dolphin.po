@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-03 02:33+0000\n"
-"PO-Revision-Date: 2025-06-29 09:30+0200\n"
+"PO-Revision-Date: 2025-11-01 13:15+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -1264,7 +1264,7 @@ msgid ""
 "property."
 msgstr ""
 "Ceci affiche tous les emplacements qui ont été masqués, dans le panneau des "
-"emplacements. Ils ré-apparaîtront de façon semi-transparente et vous "
+"emplacements. Ils ré-apparaitront de façon semi-transparente et vous "
 "permettront de décochez leurs propriété « Masquer »."
 
 #: dolphinmainwindow.cpp:2456
@@ -1463,7 +1463,7 @@ msgstr "Fermer la vue de gauche"
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "Faire apparaître la vue de gauche"
+msgstr "Faire apparaitre la vue de gauche"
 
 #: dolphinmainwindow.cpp:2742
 #, kde-format
@@ -1493,7 +1493,7 @@ msgstr "Fermer la vue de droite"
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "Faire apparaître la vue de droite"
+msgstr "Faire apparaitre la vue de droite"
 
 #: dolphinmainwindow.cpp:2750
 #, kde-format
@@ -1517,7 +1517,7 @@ msgstr "Scinder la vue"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr "Faire apparaître"
+msgstr "Faire apparaitre"
 
 #: dolphinmainwindow.cpp:2823
 #, kde-kuit-format
@@ -1617,7 +1617,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 "<para>Ceci ouvre une fenêtre dans laquelle vous pouvez modifier les boutons "
-"devant apparaître dans la <emphasis>barre d'outils</emphasis>. </"
+"devant apparaitre dans la <emphasis>barre d'outils</emphasis>. </"
 "para><para>Tous les éléments que vous voyez dans le <interface>menu</"
 "interface> peuvent aussi être placés dans la barre d'outils.</para>"
 
@@ -2061,7 +2061,7 @@ msgstr ""
 "ci-dessous.</para><para>Le nom du dossier actuellement affiché peut être lu "
 "en partant de la droite. A sa gauche, il y a le nom du dossier qui le "
 "contient. La ligne complète est appelé l'<emphasis>emplacement</emphasis> "
-"courant car l'enchaînement des dossiers de la gauche vers la droite permet "
+"courant car l'enchainement des dossiers de la gauche vers la droite permet "
 "d'arriver ici. </para> <para> Cet emplacement interactif est plus puissant "
 "que vous pourriez vous le penser. Pour en apprendre plus sur les "
 "fonctionnalités basiques et avancées de la barre d'emplacement, veuillez "
@@ -5223,7 +5223,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr "Fichiers ci-dessous"
+msgstr "Fichiers en dessous de "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
