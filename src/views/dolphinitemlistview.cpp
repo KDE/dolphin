@@ -146,18 +146,17 @@ void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray> &current
 void DolphinItemListView::updateFont()
 {
     const ViewModeSettings settings(itemLayout());
+    KItemListStyleOption option = styleOption();
 
     if (settings.useSystemFont()) {
         KItemListView::updateFont();
+        option.font = font();
     } else {
-        QFont font(settings.viewFont());
-
-        KItemListStyleOption option = styleOption();
-        option.font = font;
-        option.fontMetrics = QFontMetrics(font);
-
-        setStyleOption(option);
+        option.font = settings.viewFont();
     }
+
+    option.fontMetrics = QFontMetrics(option.font);
+    setStyleOption(option);
 }
 
 void DolphinItemListView::updateGridSize()
