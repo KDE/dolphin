@@ -1336,7 +1336,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                     const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                     nameTextInfo->staticText.setText(elidedText);
 
-                    lastLineWidth = m_customizedFontMetrics.boundingRect(lastTextLine).width();
+                    lastLineWidth = m_customizedFontMetrics.size(0, lastTextLine).width();
 
                     // We do the text eliding in a loop with decreasing width (1 px / iteration)
                     // to avoid problems related to different width calculation code paths
