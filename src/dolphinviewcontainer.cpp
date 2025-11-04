@@ -777,8 +777,12 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
 void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
 {
     KService::List services = KApplicationTrader::queryByMimeType(item.mimetype());
+    const auto modifiers = QGuiApplication::keyboardModifiers();
 
     int indexOfAppToOpenFileWith = 1;
+    if (modifiers & Qt::ShiftModifier) {
+        indexOfAppToOpenFileWith = 2;
+    }
 
     // executable scripts
     auto mimeType = item.currentMimeType();
@@ -803,9 +807,8 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
         connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
         job->start();
     } else {
-        // If no 2nd service available, try to open archives in new tabs, regardless of the "Browse compressed files as folders" setting.
+        // If no 2nd or 3rd service available, try to open archives in new tabs, regardless of the "Browse compressed files as folders" setting.
         const QUrl &url = DolphinView::openItemAsFolderUrl(item);
-        const auto modifiers = QGuiApplication::keyboardModifiers();
         if (!url.isEmpty()) {
             // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
             if (modifiers & Qt::ShiftModifier) {

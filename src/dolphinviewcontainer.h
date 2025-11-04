@@ -351,7 +351,9 @@ private Q_SLOTS:
     void slotItemsActivated(const KFileItemList &items);
 
     /**
-     * Handles middle click of file. It opens the file passed using the second application associated with the file's mimetype.
+     * Handles middle click of file. It opens the file passed using
+     * the second application associated with the file's mimetype, or
+     * the third if shift modifier is pressed.
      */
     void slotfileMiddleClickActivated(const KFileItem &item);
 
