@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-03 02:33+0000\n"
-"PO-Revision-Date: 2025-10-30 13:56+0100\n"
+"PO-Revision-Date: 2025-11-04 10:56+0100\n"
 "Last-Translator: Rasmus Rosendahl-Kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
@@ -852,7 +852,7 @@ msgstr "Sammenlign filer"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr "Hånder diskpladsforbrug"
+msgstr "Administrér diskpladsforbrug"
 
 #: dolphinmainwindow.cpp:2118
 #, kde-kuit-format
