@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-03 00:45+0000\n"
+"POT-Creation-Date: 2025-11-05 00:47+0000\n"
 "PO-Revision-Date: 2025-10-27 16:03+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -2064,13 +2064,13 @@ msgctxt "@info:status"
 msgid "No items found."
 msgstr "Trovava nulle elementos."
 
-#: dolphinviewcontainer.cpp:892
+#: dolphinviewcontainer.cpp:895
 #, kde-format
 msgctxt "@info:status"
 msgid "Dolphin does not support web pages, the web browser has been launched"
 msgstr "Dolphin non supporta paginas web, le navigator web ha essite lanceate"
 
-#: dolphinviewcontainer.cpp:895
+#: dolphinviewcontainer.cpp:898
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -2079,43 +2079,43 @@ msgstr ""
 "Protocollo non supportate per Dolphin, application predefinite ha essite "
 "lanceate"
 
-#: dolphinviewcontainer.cpp:902
+#: dolphinviewcontainer.cpp:905
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol '%1'"
 msgstr "Protocollo invalide '%1'"
 
-#: dolphinviewcontainer.cpp:904
+#: dolphinviewcontainer.cpp:907
 #, kde-format
 msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Protocollo invalide"
 
-#: dolphinviewcontainer.cpp:1006
+#: dolphinviewcontainer.cpp:1009
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Authorization requirite per entrar iste dossier."
 
-#: dolphinviewcontainer.cpp:1011
+#: dolphinviewcontainer.cpp:1014
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Creava dossier mancante"
 
-#: dolphinviewcontainer.cpp:1028
+#: dolphinviewcontainer.cpp:1031
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Crea ledossier a iste percurso e aperi lo"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1034
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Tu non ha le permission a crear le dossier."
 
-#: dolphinviewcontainer.cpp:1075 dolphinviewcontainer.cpp:1078
+#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
