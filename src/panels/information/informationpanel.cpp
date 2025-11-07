@@ -60,11 +60,13 @@ void InformationPanel::setSelection(const KFileItemList &selection)
             m_shownUrl = url();
             showItemInfo();
         }
+        m_isSelectionActive = false;
         m_infoTimer->stop();
     } else {
         if ((count == 1) && !selection.first().url().isEmpty()) {
             m_urlCandidate = selection.first().url();
         }
+        m_isSelectionActive = true;
         showItemInfo();
     }
 }
@@ -87,6 +89,8 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem &item)
     }
 
     cancelRequest();
+
+    m_isSelectionActive = false;
 
     m_hoveredItem = item;
     m_infoTimer->start();
@@ -231,9 +235,10 @@ void InformationPanel::showItemInfo()
     } else {
         // The information for exactly one item should be shown
         KFileItem item;
-        if (!m_hoveredItem.isNull() && InformationPanelSettings::showHovered()) {
+
+        if (!m_isSelectionActive && !m_hoveredItem.isNull() && InformationPanelSettings::showHovered()) {
             item = m_hoveredItem;
-        } else if (!m_selection.isEmpty()) {
+        } else if (m_isSelectionActive && !m_selection.isEmpty()) {
             Q_ASSERT(m_selection.count() == 1);
             item = m_selection.first();
         }

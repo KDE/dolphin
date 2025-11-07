@@ -147,6 +147,8 @@ private:
     KFileItem m_hoveredItem;
     KFileItemList m_selection;
 
+    bool m_isSelectionActive = false;
+
     KIO::Job *m_folderStatJob;
 
     InformationPanelContent *m_content;
