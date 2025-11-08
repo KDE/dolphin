@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-05 00:47+0000\n"
+"POT-Creation-Date: 2025-11-08 00:44+0000\n"
 "PO-Revision-Date: 2009-02-14 14:05+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -3284,19 +3284,19 @@ msgstr "फिल्टर पट्टी देखाव "
 msgid "Date display format"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:156
+#: panels/information/informationpanel.cpp:160
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "प्रिव्यू"
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr ""
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:170
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -3304,7 +3304,7 @@ msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "फिल्टर पट्टी देखाव "
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:175
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Change Tags..."
@@ -3312,7 +3312,7 @@ msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "टैग बदलव..."
 
-#: panels/information/informationpanel.cpp:177
+#: panels/information/informationpanel.cpp:181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

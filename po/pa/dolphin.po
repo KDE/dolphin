@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-05 00:47+0000\n"
+"POT-Creation-Date: 2025-11-08 00:44+0000\n"
 "PO-Revision-Date: 2025-09-15 10:33-0500\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -3062,31 +3062,31 @@ msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
 msgid "Date display format"
 msgstr "ਤਾਰੀਖ ਵੇਖਾਉਣ ਦਾ ਫਾਰਮੈਟ"
 
-#: panels/information/informationpanel.cpp:156
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "ਝਲਕ"
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "ਮੀਡਿਆ ਫਾਇਲਾਂ ਨੂੰ ਆਪੇ-ਚਲਾਓ"
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "ਉੱਤੇ ਲੈ ਜਾਣ ਨਾਲ ਆਈਟਮ ਵੇਖਾਓ"
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:175
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "…ਸੰਰਚਨਾ"
 
-#: panels/information/informationpanel.cpp:177
+#: panels/information/informationpanel.cpp:181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"

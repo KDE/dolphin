@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-05 00:47+0000\n"
+"POT-Creation-Date: 2025-11-08 00:44+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -3419,31 +3419,31 @@ msgstr "Паказваць элемент пры навядзенні"
 msgid "Date display format"
 msgstr "Фармат даты"
 
-#: panels/information/informationpanel.cpp:156
+#: panels/information/informationpanel.cpp:160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Preview"
 msgstr "Папярэдні прагляд"
 
-#: panels/information/informationpanel.cpp:161
+#: panels/information/informationpanel.cpp:165
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
 msgstr "Аўтапрайграванне медыяфайлаў"
 
-#: panels/information/informationpanel.cpp:166
+#: panels/information/informationpanel.cpp:170
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show item on hover"
 msgstr "Паказваць элемент пры навядзенні"
 
-#: panels/information/informationpanel.cpp:171
+#: panels/information/informationpanel.cpp:175
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure…"
 msgstr "Наладжванне…"
 
-#: panels/information/informationpanel.cpp:177
+#: panels/information/informationpanel.cpp:181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
