@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/dolphin/dolphin.pot\n"
-"X-Crowdin-File-ID: 48282\n"
+"X-Crowdin-File: /kf6-stable/messages/dolphin/dolphin.pot\n"
+"X-Crowdin-File-ID: 52538\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4004,7 +4004,7 @@ msgstr "删除"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Dolphin 内建"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -5284,12 +5284,10 @@ msgid "Display style: "
 msgstr "显示样式："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "显示文件和文件夹的预览图"
+msgstr "将压缩文件作为文件夹浏览"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6463,20 +6461,16 @@ msgid ""
 msgstr "这将在全部视图模式之间循环切换。下拉菜单包含各种与视图相关的操作。"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "排序方式"
+msgstr "按字段排序"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "显示字段：%1"
+msgstr "显示字段"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format
@@ -6630,7 +6624,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@option:check"
-#~ msgid "Open archives as folder"
-#~ msgstr "将压缩包视作文件夹打开"
