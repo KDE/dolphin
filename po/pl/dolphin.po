@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-08 00:44+0000\n"
-"PO-Revision-Date: 2025-11-01 09:41+0100\n"
+"PO-Revision-Date: 2025-11-08 09:35+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -4181,7 +4181,7 @@ msgstr "Usuń"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Wbudowany w Dolphina"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -5496,12 +5496,10 @@ msgid "Display style: "
 msgstr "Sposoby wyświetlania: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Pokaż podgląd plików i katalogów"
+msgstr "Przeglądaj spakowane pliki i katalogi"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6717,36 +6715,28 @@ msgstr ""
 "działania związane z widokiem."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Uszereguj według"
+msgstr "Uszereguj według pola"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Pokaż pasek filtru"
+msgstr "Pokaż pole"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Uszereguj według"
+msgstr "Uszereguj według: %1"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Pokaż pasek filtru"
+msgstr "Pokaż pole: %1"
 
 #: views/dolphinviewactionhandler.cpp:688
 #, kde-format
