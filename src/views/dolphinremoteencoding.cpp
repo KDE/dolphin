@@ -114,8 +114,9 @@ void DolphinRemoteEncoding::updateMenu()
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
 
-    const QString charset = KCharsets::charsets()->descriptionForEncoding(KProtocolManager::charsetFor(m_currentURL));
-    if (!charset.isEmpty()) {
+    const QString charsetFor = KProtocolManager::charsetFor(m_currentURL);
+    if (!charsetFor.isEmpty()) {
+        const QString charset = KCharsets::charsets()->descriptionForEncoding(charsetFor);
         int id = 0;
         bool isFound = false;
         for (int i = 0; i < m_encodingDescriptions.size(); i++) {
