@@ -58,7 +58,7 @@ KItemListController::KItemListController(KItemModelBase *model, KItemListView *v
     , m_keyboardAnchorIndex(-1)
     , m_keyboardAnchorPos(0)
 {
-    connect(m_keyboardManager, &KItemListKeyboardSearchManager::changeCurrentItem, this, &KItemListController::slotChangeCurrentItem);
+    connect(m_keyboardManager, &KItemListKeyboardSearchManager::changeCurrentItem, this, &KItemListController::slotChangeCurrentItem, Qt::DirectConnection);
     connect(m_selectionManager, &KItemListSelectionManager::currentChanged, m_keyboardManager, &KItemListKeyboardSearchManager::slotCurrentChanged);
     connect(m_selectionManager, &KItemListSelectionManager::selectionChanged, m_keyboardManager, &KItemListKeyboardSearchManager::slotSelectionChanged);
 
@@ -515,8 +515,9 @@ bool KItemListController::keyPressEvent(QKeyEvent *event)
     return true;
 }
 
-void KItemListController::slotChangeCurrentItem(const QString &text, bool searchFromNextItem)
+void KItemListController::slotChangeCurrentItem(const QString &text, bool searchFromNextItem, bool *found)
 {
+    *found = false;
     if (!m_model || m_model->count() == 0) {
         return;
     }
@@ -542,6 +543,7 @@ void KItemListController::slotChangeCurrentItem(const QString &text, bool search
         }
 
         m_view->scrollToItem(index, KItemListView::ViewItemPosition::Beginning);
+        *found = true;
     }
 }
 

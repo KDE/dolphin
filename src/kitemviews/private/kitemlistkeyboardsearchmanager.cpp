@@ -35,6 +35,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
 {
     if (shouldClearSearchIfInputTimeReached()) {
         m_searchedString.clear();
+        m_lastSuccessfulSearch.clear();
     }
 
     const bool newSearch = m_searchedString.isEmpty();
@@ -48,17 +49,32 @@ void KItemListKeyboardSearchManager::addKeys(const QString &keys)
     if (!keys.isEmpty()) {
         m_searchedString.append(keys);
 
-        // Special case:
-        // If the same key is pressed repeatedly, the next item matching that key should be highlighted
-        const QChar firstKey = m_searchedString.length() > 0 ? m_searchedString.at(0) : QChar();
-        const bool sameKey = m_searchedString.length() > 1 && m_searchedString.count(firstKey) == m_searchedString.length();
+        const QChar firstChar = m_searchedString.at(0);
+        const bool allSameChars = m_searchedString.length() > 1 &&
+                                 m_searchedString.count(firstChar) == m_searchedString.length();
 
-        // Searching for a matching item should start from the next item if either
-        // 1. a new search is started, or
-        // 2. a 'repeated key' search is done.
-        const bool searchFromNextItem = newSearch || sameKey;
+        // Overall strategy:
+        // 1. First attempt full string matching for exact file names
+        // 2. If full match fails and user is typing repeating characters,
+        //    fall back to rapid navigation using either:
+        //    - Last successful search string (for extended searches like "444" -> "4444")
+        //    - First character only (original rapid navigation behavior)
+        bool found = false;
+        Q_EMIT changeCurrentItem(m_searchedString, newSearch, &found);
 
-        Q_EMIT changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
+        if (found) {
+            m_lastSuccessfulSearch = m_searchedString;
+        } else if (allSameChars && !newSearch) {
+            QString rapidSearchString;
+
+            if (!m_lastSuccessfulSearch.isEmpty() && m_searchedString.startsWith(m_lastSuccessfulSearch)) {
+                rapidSearchString = m_lastSuccessfulSearch;
+            } else {
+                rapidSearchString = QString(firstChar);
+            }
+
+            Q_EMIT changeCurrentItem(rapidSearchString, true, &found);
+        }
     }
     m_keyboardInputTime.start();
 }

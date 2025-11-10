@@ -66,7 +66,7 @@ Q_SIGNALS:
      */
     // TODO: Think about getting rid of the bool parameter
     // (see https://doc.qt.io/archives/qq/qq13-apis.html#thebooleanparametertrap)
-    void changeCurrentItem(const QString &string, bool searchFromNextItem);
+    void changeCurrentItem(const QString &string, bool searchFromNextItem, bool *found);
 
 private:
     bool shouldClearSearchIfInputTimeReached();
@@ -76,6 +76,7 @@ private:
     QElapsedTimer m_keyboardInputTime;
     /** Time in milliseconds in which a key press is considered as a continuation of the previous search input. */
     qint64 m_timeout;
+    QString m_lastSuccessfulSearch;
 };
 
 #endif

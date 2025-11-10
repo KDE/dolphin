@@ -233,7 +233,7 @@ private Q_SLOTS:
      */
     void slotRubberBandChanged();
 
-    void slotChangeCurrentItem(const QString &text, bool searchFromNextItem);
+    void slotChangeCurrentItem(const QString &text, bool searchFromNextItem, bool *found);
 
     void slotAutoActivationTimeout();
 
