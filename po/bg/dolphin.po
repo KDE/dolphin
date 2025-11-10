@@ -6880,11 +6880,3 @@ msgstr "Мащабиране"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Мащабиране"
-
-#~ msgctxt "@option:check"
-#~ msgid "Open archives as folder"
-#~ msgstr "Отваряне на архивите като папка"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Мащаб"
