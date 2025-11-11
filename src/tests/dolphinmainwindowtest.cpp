@@ -672,7 +672,7 @@ void DolphinMainWindowTest::testGoActions()
     };
 
     QCOMPARE(currentItemUrl(), childDirUrl); // The item we just emerged from should now have keyboard focus.
-    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // The item we just emerged from should not be selected. BUG: 424723
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1); // …and it should be selected, too.
     // Pressing arrow keys should not only move the keyboard focus but also select the item.
     // We press "Down" to select "c" below and then "Up" so the folder "b" we just emerged from is selected for the first time.
     m_mainWindow->actionCollection()->action(QStringLiteral("compact"))->trigger();

@@ -912,8 +912,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl &url)
 
 void DolphinViewContainer::slotUrlSelectionRequested(const QUrl &url)
 {
-    // We do not want to select any item here because there is no reason to assume that the user wants to edit the folder we are emerging from. BUG: 424723
-
+    m_view->markUrlsAsSelected({url});
     m_view->markUrlAsCurrent(url); // makes the item scroll into view
 }
 
