@@ -5184,12 +5184,10 @@ msgid "Display style: "
 msgstr "Styl zobrazení: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Zobrazit náhledy souborů a složek"
+msgstr ""
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6505,7 +6503,3 @@ msgstr "Zvětšení"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Přiblížení"
-
-#~ msgctxt "@option:check"
-#~ msgid "Open archives as folder"
-#~ msgstr "Otevírat archivy jako složky"

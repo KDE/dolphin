@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-08 00:44+0000\n"
-"PO-Revision-Date: 2025-08-30 16:23+0300\n"
+"PO-Revision-Date: 2025-11-09 11:07+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -868,14 +868,7 @@ msgstr ""
 "būs jāapstiprina."
 
 #: dolphinmainwindow.cpp:2117
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating</interface>, <interface>renaming</"
-#| "interface> and <interface>moving</interface> them to a different location "
-#| "or to the <filename>Trash</filename>. <nl/>Any changes that cannot be "
-#| "undone will ask for your confirmation beforehand."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This redoes the last change you undid.<nl/>Such changes include "
@@ -884,11 +877,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
-"Šī darbība atsauc pēdējās veiktās datņu vai mapju izmaiņas.<nl/>Starp šādām "
-"izmaiņām ir to <interface>izveidošana</interface>, <interface>pārdēvēšana</"
-"interface> un <interface>pārvietošana</interface> uz citu vietu vai uz "
-"<filename>Atkritni</filename>. <nl/>Mēģinot veikt neatsaucamas izmaiņas, tās "
-"būs jāapstiprina."
+"Šī darbība no jauna izdara pēdējo atsaukto darbību.<nl/>Starp šādām izmaiņām "
+"ir datņu un mapju <interface>izveidošana</interface>, "
+"<interface>pārdēvēšana</interface> un <interface>pārvietošana</interface> uz "
+"citu vietu vai uz <filename>Atkritni</filename>. <nl/>Mēģinot veikt "
+"neatsaucamas izmaiņas, tās būs jāapstiprina."
 
 #: dolphinmainwindow.cpp:2147
 #, kde-kuit-format
@@ -2126,9 +2119,7 @@ msgid "Hide Filter Bar"
 msgstr "Slēpt filtra joslu"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Slēpt"
@@ -2137,7 +2128,7 @@ msgstr "Slēpt"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Rādīt"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -4165,7 +4156,7 @@ msgstr "Dzēst"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Iebūvētais „Dolphin“"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -5475,12 +5466,10 @@ msgid "Display style: "
 msgstr "Parādīšanas stils: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Rādīt priekšskatījumus mapēm un datnēm"
+msgstr "Pārlūkot saspiestas datnes kā mapes"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6691,36 +6680,28 @@ msgstr ""
 "satur dažādas ar skatu saistītas darbības."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Kārtot pēc"
+msgstr "„Kārtot pēc“ lauks"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Parādīt filtra joslu"
+msgstr "Rādīt lauku"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Kārtot pēc"
+msgstr "Kārtot pēc: %1"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Parādīt filtra joslu"
+msgstr "Rādīt lauku: %1"
 
 #: views/dolphinviewactionhandler.cpp:688
 #, kde-format
