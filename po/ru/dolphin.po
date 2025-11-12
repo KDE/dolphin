@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-08 00:44+0000\n"
-"PO-Revision-Date: 2025-10-30 18:20+0300\n"
+"PO-Revision-Date: 2025-11-11 17:46+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -5552,7 +5552,7 @@ msgstr "Сокращать в середине (пример: «Файл с оч
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr "Сокращать в середине (пример: «Файл с очень длинным….txt»)"
+msgstr "Сокращать в конце (пример: «Файл с очень длинным….txt»)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, kde-format
