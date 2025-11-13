@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 00:44+0000\n"
+"POT-Creation-Date: 2025-11-13 00:45+0000\n"
 "PO-Revision-Date: 2025-10-31 17:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2069,31 +2069,31 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Geçersiz protokol"
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1008
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Bu klasöre girebilmek için yetkilendirme gerekiyor."
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Eksik Klasörü Oluştur"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1030
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Klasörü bu yolda oluştur ve onu aç"
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1033
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Klasörü oluşturmak için gerekli izniniz yok"
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1077 dolphinviewcontainer.cpp:1080
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

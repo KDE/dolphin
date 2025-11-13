@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 00:44+0000\n"
+"POT-Creation-Date: 2025-11-13 00:45+0000\n"
 "PO-Revision-Date: 2010-01-28 12:50+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
@@ -1925,13 +1925,13 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1008
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Created folder."
@@ -1939,19 +1939,19 @@ msgctxt "@action"
 msgid "Create missing folder"
 msgstr "फोल्डर बनाएल गेल"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1030
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1033
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr ""
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1077 dolphinviewcontainer.cpp:1080
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

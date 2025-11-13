@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 00:44+0000\n"
+"POT-Creation-Date: 2025-11-13 00:45+0000\n"
 "PO-Revision-Date: 2025-10-26 20:47+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2077,31 +2077,31 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "Felaktigt protokoll"
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1008
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "Behörighet krävs för att gå in i katalogen."
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "Skapa saknad katalog"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1030
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "Skapa katalogen i den här sökvägen och öppna den"
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1033
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "Du har inte rättighet att skapa katalogen"
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1077 dolphinviewcontainer.cpp:1080
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."

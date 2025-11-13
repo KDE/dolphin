@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 00:44+0000\n"
+"POT-Creation-Date: 2025-11-13 00:45+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1984,31 +1984,31 @@ msgctxt "@info:status"
 msgid "Invalid protocol"
 msgstr "无效的协议"
 
-#: dolphinviewcontainer.cpp:1009
+#: dolphinviewcontainer.cpp:1008
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
 msgstr "进入此文件夹需要身份验证。"
 
-#: dolphinviewcontainer.cpp:1014
+#: dolphinviewcontainer.cpp:1013
 #, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
 msgstr "创建缺失的文件夹"
 
-#: dolphinviewcontainer.cpp:1031
+#: dolphinviewcontainer.cpp:1030
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
 msgstr "在此路径创建文件夹并打开"
 
-#: dolphinviewcontainer.cpp:1034
+#: dolphinviewcontainer.cpp:1033
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
 msgstr "您没有创建该文件夹的权限"
 
-#: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
+#: dolphinviewcontainer.cpp:1077 dolphinviewcontainer.cpp:1080
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
