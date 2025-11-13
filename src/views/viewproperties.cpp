@@ -42,18 +42,20 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         return new ViewPropertySettings(KSharedConfig::openConfig(settingsFile, KConfig::SimpleConfig));
     }
 
-    std::unique_ptr<QTemporaryFile> tempFile(new QTemporaryFile());
-    tempFile->setAutoRemove(false);
-    if (!tempFile->open()) {
+    if (!m_tempFile->open()) {
         qCWarning(DolphinDebug) << "Could not open temp file";
         return nullptr;
     }
     if (QFile::exists(settingsFile)) {
         // copy settings to tempfile to load them separately
-        QFile::remove(tempFile->fileName());
-        QFile::copy(settingsFile, tempFile->fileName());
+        QFile settings(settingsFile);
+        if (m_tempFile->open() && settings.open(QFile::ReadOnly)) {
+            m_tempFile->resize(0);
+            m_tempFile->write(settings.readAll());
+            m_tempFile->close();
+        }
 
-        auto config = KConfig(tempFile->fileName(), KConfig::SimpleConfig);
+        auto config = KConfig(m_tempFile->fileName(), KConfig::SimpleConfig);
         // ignore settings that are outside of dolphin scope
         if (config.hasGroup("Dolphin") || config.hasGroup("Settings")) {
             const auto groupList = config.groupList();
@@ -62,11 +64,11 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
                     config.deleteGroup(group);
                 }
             }
-            return new ViewPropertySettings(KSharedConfig::openConfig(tempFile->fileName(), KConfig::SimpleConfig));
+            return new ViewPropertySettings(KSharedConfig::openConfig(m_tempFile->fileName(), KConfig::SimpleConfig));
 
         } else if (!config.groupList().isEmpty()) {
             // clear temp file content
-            QFile::remove(tempFile->fileName());
+            m_tempFile->remove();
         }
     }
 
@@ -76,11 +78,14 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
         return nullptr;
     }
     // load view properties from xattr to temp file then loads into ViewPropertySettings
-    QFile outputFile(tempFile->fileName());
-    outputFile.open(QIODevice::WriteOnly);
-    outputFile.write(viewPropertiesString.toUtf8());
-    outputFile.close();
-    return new ViewPropertySettings(KSharedConfig::openConfig(tempFile->fileName(), KConfig::SimpleConfig));
+    if (m_tempFile->open()) {
+        m_tempFile->resize(0);
+        m_tempFile->write(viewPropertiesString.toLatin1());
+        m_tempFile->close();
+        return new ViewPropertySettings(KSharedConfig::openConfig(m_tempFile->fileName(), KConfig::SimpleConfig));
+    } else {
+        return new ViewPropertySettings();
+    }
 }
 
 ViewPropertySettings *ViewProperties::defaultProperties() const
@@ -88,13 +93,12 @@ ViewPropertySettings *ViewProperties::defaultProperties() const
     auto props = loadProperties(destinationDir(QStringLiteral("global")));
     if (props == nullptr) {
         qCWarning(DolphinDebug) << "Could not load default global viewproperties";
-        QTemporaryFile tempFile;
-        tempFile.setAutoRemove(false);
-        if (!tempFile.open()) {
+        if (!m_tempFile->open()) {
             qCWarning(DolphinDebug) << "Could not open temp file";
-            props = new ViewPropertySettings;
+            m_tempFile->remove();
+            props = new ViewPropertySettings();
         } else {
-            props = new ViewPropertySettings(KSharedConfig::openConfig(tempFile.fileName(), KConfig::SimpleConfig));
+            props = new ViewPropertySettings(KSharedConfig::openConfig(m_tempFile->fileName(), KConfig::SimpleConfig));
         }
     }
 
@@ -105,6 +109,7 @@ ViewProperties::ViewProperties(const QUrl &url)
     : m_changedProps(false)
     , m_autoSave(true)
     , m_node(nullptr)
+    , m_tempFile(new QTemporaryFile)
 {
     GeneralSettings *settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
@@ -112,6 +117,7 @@ ViewProperties::ViewProperties(const QUrl &url)
     bool useTrashView = false;
     bool useRecentDocumentsView = false;
     bool useDownloadsView = false;
+    m_tempFile->setAutoRemove(false);
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,

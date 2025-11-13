@@ -168,6 +168,7 @@ private:
     bool m_autoSave;
     QString m_filePath;
     ViewPropertySettings *m_node;
+    std::unique_ptr<QTemporaryFile> m_tempFile;
 };
 
 #endif
