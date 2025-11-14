@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-05 00:47+0000\n"
-"PO-Revision-Date: 2025-11-11 17:46+0300\n"
+"PO-Revision-Date: 2025-11-13 15:51+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -1098,7 +1098,7 @@ msgstr "Открыть в разделённом окне"
 #: dolphinmainwindow.cpp:2305
 #, kde-format
 msgid "&Window Color Scheme"
-msgstr ""
+msgstr "&Цветовое оформление окна"
 
 #: dolphinmainwindow.cpp:2318
 #, kde-format
@@ -2145,27 +2145,22 @@ msgid "Authorization required to enter this folder."
 msgstr "Для входа в эту папку требуется авторизация."
 
 #: dolphinviewcontainer.cpp:1014
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Папка создана."
+msgstr "Создать отсутствующую папку"
 
 #: dolphinviewcontainer.cpp:1031
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Создать и открыть папку в этом расположении"
 
 #: dolphinviewcontainer.cpp:1034
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Cannot paste: You do not have permission to write into this folder."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr ""
-"Не удалось вставить: у вас недостаточно прав доступа для записи в эту папку"
+msgstr "У вас недостаточно прав доступа для создания этой папки"
 
 #: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
 #, kde-kuit-format
@@ -2193,9 +2188,7 @@ msgid "Hide Filter Bar"
 msgstr "Скрыть панель фильтра"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Скрыть"
@@ -2204,7 +2197,7 @@ msgstr "Скрыть"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Вернуть"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -4918,10 +4911,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Запрашивать подтверждение при одновременном открытии множества папок."
+msgstr ""
+"Запрашивать подтверждение, если при переименование файла ведёт к изменению "
+"его типа."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -5053,7 +5047,7 @@ msgstr "При начале или завершении выполнения д�
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "При переименовании, изменяющем тип файла"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -5629,12 +5623,10 @@ msgid "Display style: "
 msgstr "Режим просмотра:"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Показывать миниатюры файлов и папок"
+msgstr "Просмотр архивов в виде папок"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -5733,7 +5725,7 @@ msgstr "Действия при двойном щелчке"
 #, kde-format
 msgctxt "@title:group"
 msgid "Background: "
-msgstr "Задний план области файлов"
+msgstr "Задний план области файлов: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:167
 #, kde-format
@@ -6423,12 +6415,10 @@ msgid "Hide this Folder?"
 msgstr "Скрыть папку?"
 
 #: views/dolphinview.cpp:2113
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Переименовать…"
+msgstr "Переименовать"
 
 #: views/dolphinview.cpp:2123
 #, kde-format
@@ -6438,6 +6428,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Это действие изменит тип файла на неизвестный.\n"
+"Содержимое файла при этом не изменится, но приложения могут перестать "
+"определять его.\n"
+"Переименовать файл?"
 
 #: views/dolphinview.cpp:2127
 #, kde-format
@@ -6447,14 +6441,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Это действие изменит тип файла с «%1» на «%2».\n"
+"Содержимое файла при этом не изменится, но приложения могут перестать "
+"определять его.\n"
+"Переименовать файл?"
 
 #: views/dolphinview.cpp:2133
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Тип файла:"
+msgstr "Изменение типа файла"
 
 #: views/dolphinview.cpp:2177
 #, kde-format

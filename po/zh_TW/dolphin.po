@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-05 00:47+0000\n"
-"PO-Revision-Date: 2025-09-29 01:25+0900\n"
+"PO-Revision-Date: 2025-11-13 22:37+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -4009,7 +4009,7 @@ msgstr "刪除"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "內建於 Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -5289,12 +5289,10 @@ msgid "Display style: "
 msgstr "顯示方式："
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "顯示檔案與資料夾的預覽"
+msgstr "將壓縮檔作為資料夾瀏覽"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6470,20 +6468,16 @@ msgid ""
 msgstr "這會循環切換所有檢視模式。它的下拉式選單包含一些檢視模式相關的動作。"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "排序依據"
+msgstr "排序依據欄位"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "顯示欄位：%1"
+msgstr "顯示欄位"
 
 #: views/dolphinviewactionhandler.cpp:441
 #, kde-format
