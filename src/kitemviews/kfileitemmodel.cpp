@@ -750,15 +750,41 @@ void KFileItemModel::expandParentDirectories(const QUrl &url)
         m_urlsToExpand.insert(urlToExpand);
     }
 
+    auto expandUrlAfterInserted = [this](const QUrl &url) {
+        // need to wait for the item to be added to the model
+        QMetaObject::Connection *connection = new QMetaObject::Connection;
+        *connection = connect(this, &KFileItemModel::itemsInserted, this, [this, url, connection](const KItemRangeList &ranges) {
+            int idx = -1;
+            for (const KItemRange &it : ranges) {
+                for (int i = 0; i < it.count; ++i) {
+                    if (fileItem(it.index + i).url() == url) {
+                        idx = it.index + i;
+                        break;
+                    }
+                }
+                if (idx != -1) {
+                    break;
+                }
+            }
+
+            if (idx != -1) {
+                setExpanded(idx, true);
+                disconnect(*connection);
+                delete connection;
+            }
+        });
+    };
+
     // KDirLister::open() must called at least once to trigger an initial
     // loading. The pending URLs that must be restored are handled
     // in slotCompleted().
-    QSetIterator<QUrl> it2(m_urlsToExpand);
-    while (it2.hasNext()) {
-        const int idx = index(it2.next());
-        if (idx >= 0 && !isExpanded(idx)) {
+    for (const auto &url : std::as_const(m_urlsToExpand)) {
+        const int idx = index(url);
+        if (idx >= 0) {
             setExpanded(idx, true);
-            break;
+        } else {
+            // expand to url asynchronously
+            expandUrlAfterInserted(url);
         }
     }
 }
