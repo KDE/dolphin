@@ -492,8 +492,9 @@ void DolphinContextMenu::addOpenWithActions()
     // insert 'Open With...' action or sub menu
     m_fileItemActions->insertOpenWithActionsTo(nullptr, this, QStringList{qApp->desktopFileName()});
 
-    // For a single file, hint in "Open with" menu that middle-clicking would open it in the secondary app.
-    // (Unless middle-clicking would open it as a folder in a new tab (e.g. archives).)
+    // For a single file, hint in "Open with" menu that middle-clicking would open it in the secondary app,
+    // and shift + middle-clicking would open it in the third associated app.
+    // (Unless those actions would open it as a folder in a new tab (e.g. archives).)
     const QUrl &url = DolphinView::openItemAsFolderUrl(m_fileInfo, GeneralSettings::browseThroughArchives());
     if (m_selectedItems.count() == 1 && url.isEmpty()) {
         if (QAction *openWithSubMenu = findChild<QAction *>(QStringLiteral("openWith_submenu"))) {
@@ -505,6 +506,18 @@ void DolphinContextMenu::addOpenWithActions()
             if (!secondaryApp->text().contains(QLatin1Char('\t'))) {
                 secondaryApp->setText(secondaryApp->text() + QLatin1Char('\t')
                                       + i18nc("@action:inmenu Shortcut, middle click to trigger menu item, keep short", "Middle Click"));
+            }
+
+            // To add a hint for the third app, check if it is defined.
+            // Note: Apart from apps, the submenu contains an empty action (separator) and "Other application" action (in this order).
+            // Thus, add the hint only when there are four actions - two apps + two of the above.
+            if (openWithSubMenu->menu()->actions().size() >= 4) {
+                auto *thirdApp = *(openWithSubMenu->menu()->actions().begin() + 1);
+                Q_ASSERT(!thirdApp->isSeparator());
+                if (!thirdApp->text().contains(QLatin1Char('\t'))) {
+                    thirdApp->setText(thirdApp->text() + QLatin1Char('\t')
+                                      + i18nc("@action:inmenu Shortcut, shift + middle click to trigger menu item, keep short", "Shift+Middle Click"));
+                }
             }
         }
     }
