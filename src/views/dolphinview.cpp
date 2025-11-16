@@ -2725,4 +2725,11 @@ void DolphinView::setPreferredSortOrder(const QByteArray &role, Qt::SortOrder or
     m_rolesSortOrder[role] = order;
 }
 
+void DolphinView::expandToUrl(const QUrl &directory)
+{
+    if (viewMode() == Mode::DetailsView && DetailsModeSettings::expandableFolders()) {
+        m_model->expandParentDirectories(directory);
+    }
+}
+
 #include "moc_dolphinview.cpp"

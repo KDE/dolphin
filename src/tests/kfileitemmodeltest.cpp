@@ -696,6 +696,9 @@ void KFileItemModelTest::testExpandParentItems()
 
     // Expand the parents of "a2/b2/c2".
     m_model->expandParentDirectories(QUrl::fromLocalFile(m_testDir->path() + "a2/b2/c2"));
+    // a first load is occuring for a2/b2/
+    QVERIFY(loadingCompletedSpy.wait());
+    // a second load for a2/b2/c2/ expansion
     QVERIFY(loadingCompletedSpy.wait());
 
     // The model should now contain "a 1/", "a2/", "a2/b2/", and "a2/b2/c2/".

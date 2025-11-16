@@ -1821,6 +1821,9 @@ void DolphinMainWindow::setupActions()
     menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_newFileMenu->setPopupMode(QToolButton::InstantPopup);
     connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateNewMenu);
+    connect(m_newFileMenu, &KNewFileMenu::directoryCreated, this, [this](const QUrl &createdDirectory) {
+        activeViewContainer()->view()->expandToUrl(createdDirectory);
+    });
 
     QAction *newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));

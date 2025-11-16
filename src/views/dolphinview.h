@@ -393,6 +393,11 @@ public:
      */
     void setStatusBarOffset(int offset);
 
+    /**
+     * Expands to directory if in detail mode
+     */
+    void expandToUrl(const QUrl &directory);
+
 public Q_SLOTS:
 
     void reload();
