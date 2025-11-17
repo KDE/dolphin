@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 00:45+0000\n"
+"POT-Creation-Date: 2025-11-17 00:45+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -229,11 +229,22 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Άνοιγμα διαδρομής σε νέο παράθυρο"
 
-#: dolphincontextmenu.cpp:507
+#: dolphincontextmenu.cpp:508
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
+msgstr "Μεσαίο κλικ"
+
+#: dolphincontextmenu.cpp:519
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+#| msgid "Middle Click"
+msgctxt ""
+"@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
+"short"
+msgid "Shift+Middle Click"
 msgstr "Μεσαίο κλικ"
 
 #: dolphinmainwindow.cpp:359

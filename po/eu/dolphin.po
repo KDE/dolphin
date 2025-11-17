@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 00:45+0000\n"
+"POT-Creation-Date: 2025-11-17 00:45+0000\n"
 "PO-Revision-Date: 2025-09-27 13:26+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -221,11 +221,22 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Ireki bide-izena leiho berrian"
 
-#: dolphincontextmenu.cpp:507
+#: dolphincontextmenu.cpp:508
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
+msgstr "Erdiko klik"
+
+#: dolphincontextmenu.cpp:519
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
+#| msgid "Middle Click"
+msgctxt ""
+"@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
+"short"
+msgid "Shift+Middle Click"
 msgstr "Erdiko klik"
 
 #: dolphinmainwindow.cpp:359
