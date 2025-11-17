@@ -256,6 +256,10 @@ int main(int argc, char **argv)
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
             }
         }
+    } else if (splitView) {
+        // if split mode is set by default and we do not restore last session view
+        // we need to call it to properly activate dolphin view
+        mainWindow->openDirectories(urls, splitView);
     }
 
     mainWindow->setSessionAutoSaveEnabled(GeneralSettings::rememberOpenedTabs());
