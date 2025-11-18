@@ -390,10 +390,10 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     KActionCategory *category;
     if (isSortGroup) {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::slotSortTriggered);
-        category = new KActionCategory(i18nc("item:intable", "Sort By field"), m_actionCollection);
+        category = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Sort by Field"), m_actionCollection);
     } else {
         connect(rolesActionGroup, &QActionGroup::triggered, this, &DolphinViewActionHandler::toggleVisibleRole);
-        category = new KActionCategory(i18nc("item:intable", "Show Field"), m_actionCollection);
+        category = new KActionCategory(i18nc("@item:intable, Heading of a list of fields", "Show Field"), m_actionCollection);
     }
 
     QString groupName;
@@ -438,7 +438,7 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
             action->setActionGroup(groupMenuGroup);
             groupMenu->addAction(action);
         }
-        action->setText(isSortGroup ? i18nc("@action:intoolbar as in sort by file attribute", "Sort By: %1", info.translation)
+        action->setText(isSortGroup ? i18nc("@action:intoolbar as in sort by file attribute", "Sort by: %1", info.translation)
                                     : i18nc("@action:intoolbar as in show field for file attribute", "Show Field: %1", info.translation));
         action->setData(info.role);
 
