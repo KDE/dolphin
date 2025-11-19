@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2025-11-17 06:10-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -6726,21 +6726,27 @@ msgstr ""
 "várias ações relacionadas à visualização."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, kde-format
-msgctxt "item:intable"
-msgid "Sort By field"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "Ordenar por campo"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, kde-format
-msgctxt "item:intable"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Show Field"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Mostrar campo"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar as in sort by file attribute"
+#| msgid "Sort By: %1"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Ordenar por: %1"
 
 #: views/dolphinviewactionhandler.cpp:442

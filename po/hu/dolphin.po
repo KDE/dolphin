@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2025-11-10 22:41+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -6788,21 +6788,27 @@ msgstr ""
 "nézetekkelkapcsolatos műveleteket tartalmaz."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, kde-format
-msgctxt "item:intable"
-msgid "Sort By field"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "Rendezés mező szerint"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, kde-format
-msgctxt "item:intable"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Show Field"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Mező megjelenítése"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar as in sort by file attribute"
+#| msgid "Sort By: %1"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Rendezés: %1"
 
 #: views/dolphinviewactionhandler.cpp:442

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -6783,15 +6783,15 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
-msgctxt "item:intable"
-msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "വിന്യാസരീതി"
 
 #: views/dolphinviewactionhandler.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
-msgctxt "item:intable"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "അരിപ്പയുടെ പട്ട കാണിയ്ക്കുക"
 
@@ -6800,7 +6800,7 @@ msgstr "അരിപ്പയുടെ പട്ട കാണിയ്ക്ക�
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "വിന്യാസരീതി"
 
 #: views/dolphinviewactionhandler.cpp:442

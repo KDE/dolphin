@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2025-10-15 21:01+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -6691,23 +6691,25 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
-msgctxt "item:intable"
-msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "Lajitteluperuste"
 
 #: views/dolphinviewactionhandler.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar as in show field for file attribute"
 #| msgid "Show Field: %1"
-msgctxt "item:intable"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Näytä kenttä: %1"
 
 # Tämän alakohdat ovat nominatiivissa (Nimi, Koko jne.), joten tämä sopii paremmin alavalikon nimeksi
 #: views/dolphinviewactionhandler.cpp:441
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar as in sort by file attribute"
+#| msgid "Sort By: %1"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Lajitteluperuste: %1"
 
 #: views/dolphinviewactionhandler.cpp:442

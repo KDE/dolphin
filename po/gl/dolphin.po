@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2025-06-21 12:28+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -6759,15 +6759,15 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
-msgctxt "item:intable"
-msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "Ordenar segundo"
 
 #: views/dolphinviewactionhandler.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
-msgctxt "item:intable"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Amosar a barra de filtro."
 
@@ -6776,7 +6776,7 @@ msgstr "Amosar a barra de filtro."
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Ordenar segundo"
 
 #: views/dolphinviewactionhandler.cpp:442

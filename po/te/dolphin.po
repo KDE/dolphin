@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2020-03-27 00:52+0530\n"
 "Last-Translator: Sripath Roy Koganti <sripathroy@swecha.net>\n"
 "Language-Team: Telugu <kde-i18n-doc@kde.org>\n"
@@ -7001,15 +7001,15 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Sort By"
-msgctxt "item:intable"
-msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "దీనిద్వారా వరుసక్రమము"
 
 #: views/dolphinviewactionhandler.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
-msgctxt "item:intable"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 
@@ -7018,7 +7018,7 @@ msgstr "ఫిల్టర్ బార్‌ను చూపుము"
 #| msgctxt "@title:menu"
 #| msgid "Sort By"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "దీనిద్వారా వరుసక్రమము"
 
 #: views/dolphinviewactionhandler.cpp:442

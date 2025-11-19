@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
 "PO-Revision-Date: 2025-11-09 11:07+0200\n"
 "Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -6691,21 +6691,27 @@ msgstr ""
 "satur dažādas ar skatu saistītas darbības."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, kde-format
-msgctxt "item:intable"
-msgid "Sort By field"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "„Kārtot pēc“ lauks"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, kde-format
-msgctxt "item:intable"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Show Field"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Rādīt lauku"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar as in sort by file attribute"
+#| msgid "Sort By: %1"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Kārtot pēc: %1"
 
 #: views/dolphinviewactionhandler.cpp:442

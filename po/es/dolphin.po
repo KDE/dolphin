@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: 2025-11-01 01:49+0100\n"
+"POT-Creation-Date: 2025-11-19 00:45+0000\n"
+"PO-Revision-Date: 2025-11-17 02:47+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -229,15 +229,12 @@ msgid "Middle Click"
 msgstr "Clic central"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Clic central"
+msgstr "Mayúsculas+Clic central"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -6745,21 +6742,27 @@ msgstr ""
 "acciones relacionadas con las vistas."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, kde-format
-msgctxt "item:intable"
-msgid "Sort By field"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Sort By field"
+msgctxt "@item:intable, Heading of a list of fields"
+msgid "Sort by Field"
 msgstr "Ordenar por campo"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, kde-format
-msgctxt "item:intable"
+#, fuzzy, kde-format
+#| msgctxt "item:intable"
+#| msgid "Show Field"
+msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Mostrar campo"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar as in sort by file attribute"
+#| msgid "Sort By: %1"
 msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort By: %1"
+msgid "Sort by: %1"
 msgstr "Ordenar por: %1"
 
 #: views/dolphinviewactionhandler.cpp:442
