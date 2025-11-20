@@ -501,10 +501,8 @@ void InformationPanelContent::adjustWidgetSizes(int width)
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
 
-    if (m_mediaWidget->isVisible()) {
-        // assure that the size of the video player is the same as the preview size
-        m_mediaWidget->setVideoSize(QSize(maxWidth, maxWidth));
-    }
+    // assure that the size of the video player is the same as the preview size
+    m_mediaWidget->setVideoSize(QSize(maxWidth, maxWidth));
 }
 
 #include "moc_informationpanelcontent.cpp"

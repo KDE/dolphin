@@ -70,6 +70,7 @@ private:
     void applyVideoSize();
     void togglePlayback();
     void initPlayer();
+    void initLayout();
 
     QUrl m_url;
     QSize m_videoSize;
