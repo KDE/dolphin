@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 00:45+0000\n"
-"PO-Revision-Date: 2025-10-31 17:18+0300\n"
+"PO-Revision-Date: 2025-11-19 20:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -228,15 +228,12 @@ msgid "Middle Click"
 msgstr "Orta Tık"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Orta Tık"
+msgstr "Üst Karakter+Orta Tık"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -6676,25 +6673,19 @@ msgstr ""
 "görünümle ilgili eylemleri barındırır."
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Sort By field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Alana göre sırala"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Show Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Alanı göster"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in sort by file attribute"
-#| msgid "Sort By: %1"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
 msgstr "Şuna Göre Sırala: %1"
