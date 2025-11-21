@@ -23,14 +23,14 @@ DolphinNewFileMenuObserver &DolphinNewFileMenuObserver::instance()
 void DolphinNewFileMenuObserver::attach(const DolphinNewFileMenu *menu)
 {
     connect(menu, &DolphinNewFileMenu::fileCreated, this, &DolphinNewFileMenuObserver::itemCreated);
-    connect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    connect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::directoryCreated);
     connect(menu, &DolphinNewFileMenu::errorMessage, this, &DolphinNewFileMenuObserver::errorMessage);
 }
 
 void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu *menu)
 {
     disconnect(menu, &DolphinNewFileMenu::fileCreated, this, &DolphinNewFileMenuObserver::itemCreated);
-    disconnect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::itemCreated);
+    disconnect(menu, &DolphinNewFileMenu::directoryCreated, this, &DolphinNewFileMenuObserver::directoryCreated);
     disconnect(menu, &DolphinNewFileMenu::errorMessage, this, &DolphinNewFileMenuObserver::errorMessage);
 }
 

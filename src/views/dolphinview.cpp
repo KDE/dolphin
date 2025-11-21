@@ -113,6 +113,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::itemCreated, this, &DolphinView::observeCreatedItem);
+    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::directoryCreated, this, &DolphinView::observeCreatedDirectory);
 
     m_selectionChangedTimer = new QTimer(this);
     m_selectionChangedTimer->setSingleShot(true);
@@ -429,6 +430,15 @@ KFileItemList DolphinView::selectedItems() const
         selectedItems.append(m_model->fileItem(index));
     }
     return selectedItems;
+}
+
+std::optional<KFileItem> DolphinView::firstSelectedItem() const
+{
+    const KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
+    if (selectionManager->selectedItems().count() == 1) {
+        return {m_model->fileItem(selectionManager->selectedItems().first())};
+    }
+    return std::nullopt;
 }
 
 int DolphinView::selectedItemsCount() const
@@ -1780,11 +1790,80 @@ void DolphinView::resetZoomLevel()
     setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize)));
 }
 
+void DolphinView::selectFileOnceAvailable(const QUrl &url, std::function<bool()> condition)
+{
+    // need to wait for the item to be added to the model
+    QMetaObject::Connection *connection = new QMetaObject::Connection;
+    *connection = connect(m_model, &KFileItemModel::itemsInserted, this, [this, url, connection, condition](const KItemRangeList &ranges) {
+        bool found = false;
+        for (const KItemRange &it : ranges) {
+            for (int i = 0; i < it.count; ++i) {
+                if (m_model->fileItem(it.index + i).url() == url) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+        // check whether the selection should be changed
+        if (condition()) {
+            forceUrlsSelection(url, {url});
+        }
+        if (found) {
+            disconnect(*connection);
+            delete connection;
+        }
+    });
+}
+
+void DolphinView::observeCreatedDirectory(const QUrl &url)
+{
+    if (!m_active) {
+        return;
+    }
+
+    // if there was no selection but a new directory was created
+    if (m_container->controller()->selectionManager()->hasSelection()) {
+        return;
+    }
+
+    // select the new directory
+    if (!m_model->fileItem(url).isNull()) {
+        forceUrlsSelection(url, {url});
+        return;
+    }
+
+    // since this is async make sure the selection state hasn't change in the meantime
+    std::function<bool()> condition([this]() {
+        return !m_container->controller()->selectionManager()->hasSelection();
+    });
+
+    // need to wait for the item to be added to the model
+    selectFileOnceAvailable(url, condition);
+}
+
 void DolphinView::observeCreatedItem(const QUrl &url)
 {
-    if (m_active) {
-        forceUrlsSelection(url, {url});
+    if (!m_active) {
+        return;
     }
+
+    // select the new file
+    if (!m_model->fileItem(url).isNull()) {
+        forceUrlsSelection(url, {url});
+        return;
+    }
+
+    // since this is async make sure the selection state hasn't change in the meantime
+    auto selection = m_container->controller()->selectionManager()->selectedItems();
+    std::function<bool()> condition([this, selection]() {
+        return selection == m_container->controller()->selectionManager()->selectedItems();
+    });
+
+    // need to wait for the item to be added to the model
+    selectFileOnceAvailable(url, condition);
 }
 
 void DolphinView::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl)
