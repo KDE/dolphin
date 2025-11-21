@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 14:42+0000\n"
-"PO-Revision-Date: 2025-11-13 22:37+0900\n"
+"POT-Creation-Date: 2025-11-21 02:40+0000\n"
+"PO-Revision-Date: 2025-11-20 21:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 25.11.70\n"
+"X-Generator: Lokalize 26.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3222,12 +3222,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "已選擇 %1 個項目"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "播放"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "暫停"
@@ -6579,13 +6579,13 @@ msgstr "從低到高"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
-msgstr "降冪"
+msgstr "遞減"
 
 #: views/dolphinviewactionhandler.cpp:747
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
-msgstr "升冪"
+msgstr "遞增"
 
 #: views/dolphinviewactionhandler.cpp:845
 #, kde-format
