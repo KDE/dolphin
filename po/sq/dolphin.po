@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:45+0000\n"
+"POT-Creation-Date: 2025-11-21 00:45+0000\n"
 "PO-Revision-Date: 2025-09-04 23:15-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -3253,12 +3253,12 @@ msgid_plural "%1 items selected"
 msgstr[0] "%1 temë u përzgjodh"
 msgstr[1] "%1 tema u përzgjodhën"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "luaj"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "pusho"

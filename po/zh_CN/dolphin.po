@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:45+0000\n"
+"POT-Creation-Date: 2025-11-21 00:45+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3227,12 +3227,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "已选中 %1 项"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "播放"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "暂停"

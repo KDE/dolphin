@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:45+0000\n"
-"PO-Revision-Date: 2025-11-13 22:37+0900\n"
+"POT-Creation-Date: 2025-11-21 00:45+0000\n"
+"PO-Revision-Date: 2025-11-20 21:33+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 25.11.70\n"
+"X-Generator: Lokalize 26.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -228,15 +228,12 @@ msgid "Middle Click"
 msgstr "滑鼠中鍵"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "滑鼠中鍵"
+msgstr "Shift+滑鼠中鍵"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -3233,12 +3230,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "已選擇 %1 個項目"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "播放"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "暫停"
@@ -6479,25 +6476,19 @@ msgid ""
 msgstr "這會循環切換所有檢視模式。它的下拉式選單包含一些檢視模式相關的動作。"
 
 #: views/dolphinviewactionhandler.cpp:393
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Sort By field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "排序依據欄位"
 
 #: views/dolphinviewactionhandler.cpp:396
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Show Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "顯示欄位"
 
 #: views/dolphinviewactionhandler.cpp:441
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in sort by file attribute"
-#| msgid "Sort By: %1"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
 msgstr "排序依據：%1"
@@ -6596,13 +6587,13 @@ msgstr "從低到高"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
-msgstr "降冪"
+msgstr "遞減"
 
 #: views/dolphinviewactionhandler.cpp:747
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
-msgstr "升冪"
+msgstr "遞增"
 
 #: views/dolphinviewactionhandler.cpp:845
 #, kde-format

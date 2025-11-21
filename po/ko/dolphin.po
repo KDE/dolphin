@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:45+0000\n"
+"POT-Creation-Date: 2025-11-21 00:45+0000\n"
 "PO-Revision-Date: 2025-10-09 00:14+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3251,12 +3251,12 @@ msgid "%1 item selected"
 msgid_plural "%1 items selected"
 msgstr[0] "항목 %1개 선택됨"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "재생"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "일시 정지"

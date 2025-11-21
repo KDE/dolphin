@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 00:45+0000\n"
+"POT-Creation-Date: 2025-11-21 00:45+0000\n"
 "PO-Revision-Date: 2024-10-28 19:13\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -3476,12 +3476,12 @@ msgstr[1] "Абрана %1 элементы"
 msgstr[2] "Абрана %1 элементаў"
 msgstr[3] "Абрана %1 элементы"
 
-#: panels/information/mediawidget.cpp:246
+#: panels/information/mediawidget.cpp:252
 #, kde-format
 msgid "play"
 msgstr "прайграць"
 
-#: panels/information/mediawidget.cpp:252
+#: panels/information/mediawidget.cpp:258
 #, kde-format
 msgid "pause"
 msgstr "прыпыніць"
