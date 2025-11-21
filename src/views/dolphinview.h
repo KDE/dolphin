@@ -497,6 +497,11 @@ Q_SIGNALS:
     void itemActivated(const KFileItem &item);
 
     /**
+     * request the property dialog
+     */
+    void requestPropertyDialog();
+
+    /**
      * Is emitted when clicking on a file with the middle mouse button.
      * @note: This will not be emitted for folders or file archives that will/can be opened like folders.
      */
