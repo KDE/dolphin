@@ -1481,7 +1481,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     }
 
     qreal x = firstColumnInc;
-    const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
+    const qreal standardY = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2.0);
 
     for (const QByteArray &role : std::as_const(m_sortedVisibleRoles)) {
         QString text = roleText(role, values);
@@ -1508,6 +1508,16 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         TextInfo *textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
+        qreal y = standardY;
+        if (isTextRole) {
+            QTextLayout layout(text, m_customizedFont);
+            layout.beginLayout();
+            QTextLine line = layout.createLine();
+            layout.endLayout();
+            if (line.isValid()) {
+                y = standardY + (m_customizedFontMetrics.ascent() - line.ascent());
+            }
+        }
         textInfo->pos = QPointF(isLeftToRight ? (x + columnWidthInc / 2) : (size().width() - (x + columnWidthInc / 2) - requiredWidth), y);
         x += roleWidth;
 
