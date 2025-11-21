@@ -1104,6 +1104,12 @@ void DolphinView::slotItemActivated(int index)
 {
     abortTwoClicksRenaming();
 
+    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+    if (modifier & Qt::ALT) {
+        Q_EMIT requestPropertyDialog();
+        return;
+    }
+
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
         Q_EMIT itemActivated(item);
