@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-21 00:45+0000\n"
+"POT-Creation-Date: 2025-11-22 00:45+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -189,7 +189,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "गृहस्थानं चिनोतु"
 msgstr[1] "गृहस्थानं चिनोतु"
 
-#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1784
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1798
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -317,7 +317,7 @@ msgstr ""
 "इच्छन्ति?"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2136
+#: views/dolphinview.cpp:2221
 #, kde-format
 msgid "Do not ask again"
 msgstr "पुनः मा पृच्छतु"
@@ -336,38 +336,38 @@ msgstr ""
 "'%1' इति कार्यक्रमः अद्यापि Terminal panel मध्ये चालितः अस्ति । किं त्वं निश्चयेन त्यक्तुम् "
 "इच्छसि ?"
 
-#: dolphinmainwindow.cpp:949
+#: dolphinmainwindow.cpp:963
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "पेस्ट् कर्तुं न शक्यते: क्लिप्बोर्ड् रिक्तम् अस्ति।"
 
-#: dolphinmainwindow.cpp:950
+#: dolphinmainwindow.cpp:964
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "पेस्ट् कर्तुं न शक्यते: अस्मिन् पुटे लेखनस्य अनुमतिः भवतः नास्ति ।"
 
-#: dolphinmainwindow.cpp:1353
+#: dolphinmainwindow.cpp:1367
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1 उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:1362 dolphinmainwindow.cpp:2166
+#: dolphinmainwindow.cpp:1376 dolphinmainwindow.cpp:2180
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "प्राधान्यं अन्वेषणसाधनं उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:1402
+#: dolphinmainwindow.cpp:1416
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "किं भवान् निश्चयेन 1 टर्मिनल् विण्डो उद्घाटयितुम् इच्छति?"
 msgstr[1] "किं भवान् निश्चितः यत् भवान् %1 टर्मिनल् विण्डोस् उद्घाटयितुम् इच्छति?"
 
-#: dolphinmainwindow.cpp:1407
+#: dolphinmainwindow.cpp:1421
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -375,7 +375,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "%1 टर्मिनल् उद्घाटयन्तु"
 msgstr[1] "%1 टर्मिनल् उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:1508
+#: dolphinmainwindow.cpp:1522
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid ""
@@ -387,7 +387,7 @@ msgid ""
 "folder."
 msgstr "नूतनपुटं निर्मातुं न शक्यते : अस्मिन् पुटे वस्तूनि निर्मातुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:1510
+#: dolphinmainwindow.cpp:1524
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -395,25 +395,25 @@ msgid ""
 "folder."
 msgstr "नूतनपुटं निर्मातुं न शक्यते : अस्मिन् पुटे वस्तूनि निर्मातुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:1615
+#: dolphinmainwindow.cpp:1629
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "विन्यस्तं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:1790
+#: dolphinmainwindow.cpp:1804
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "नवीन &विण्डो"
 
-#: dolphinmainwindow.cpp:1791
+#: dolphinmainwindow.cpp:1805
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "नूतनं Dolphin विण्डो उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:1793
+#: dolphinmainwindow.cpp:1807
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -423,13 +423,13 @@ msgstr ""
 "एतेन वर्तमानस्थानसहितं एतत् इव नूतनं विण्डो उद्घाट्यते ।<nl/>भवन्तः विण्डोमध्ये वस्तूनि कर्षितुं "
 "पातयितुं च शक्नुवन्ति ।"
 
-#: dolphinmainwindow.cpp:1800
+#: dolphinmainwindow.cpp:1814
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "नवीन ट्याब्"
 
-#: dolphinmainwindow.cpp:1802
+#: dolphinmainwindow.cpp:1816
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -441,31 +441,31 @@ msgstr ""
 "विण्डोमध्ये बहुस्थानानां दृश्यानां च मध्ये शीघ्रं स्विच् कर्तुं शक्यते । ट्याब्स् मध्ये वस्तूनि कर्षितुं "
 "पातयितुं च शक्नुवन्ति ।"
 
-#: dolphinmainwindow.cpp:1811
+#: dolphinmainwindow.cpp:1825
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "स्थानेषु योजयतु"
 
-#: dolphinmainwindow.cpp:1813
+#: dolphinmainwindow.cpp:1827
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "एतेन चयनितं पुटं Places फलकस्य मध्ये योजितं भवति ।"
 
-#: dolphinmainwindow.cpp:1818
+#: dolphinmainwindow.cpp:1832
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "ट्याब् बन्दं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:1819
+#: dolphinmainwindow.cpp:1833
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "ट्याब् बन्दं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:1821
+#: dolphinmainwindow.cpp:1835
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -475,13 +475,13 @@ msgstr ""
 "एतेन सम्प्रति दृष्टं ट्याब् बन्दं भवति । यदि अधिकानि ट्याब्स् न अवशिष्टानि सन्ति तर्हि एतेन "
 "तस्य स्थाने सम्पूर्णं विण्डो पिधायते ।"
 
-#: dolphinmainwindow.cpp:1826
+#: dolphinmainwindow.cpp:1840
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "एतेन एतत् विण्डो पिधायते ।"
 
-#: dolphinmainwindow.cpp:1837
+#: dolphinmainwindow.cpp:1851
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -497,13 +497,13 @@ msgstr ""
 "स्थापिताः सन्ति : <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</shortcut> तथा "
 "<shortcut>Ctrl +V</shortcut>.</para> इति"
 
-#: dolphinmainwindow.cpp:1844
+#: dolphinmainwindow.cpp:1858
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "छिन्न…"
 
-#: dolphinmainwindow.cpp:1846
+#: dolphinmainwindow.cpp:1860
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -516,13 +516,13 @@ msgstr ""
 "<nl/>क्लिप्बोर्डतः नूतनस्थानं प्रति प्रतिलिपिं कर्तुं पश्चात् <emphasis>Paste</emphasis> "
 "क्रियायाः उपयोगं कुर्वन्तु वस्तूनि प्रारम्भिकस्थानात् निष्कासितानि भविष्यन्ति।"
 
-#: dolphinmainwindow.cpp:1853
+#: dolphinmainwindow.cpp:1867
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "प्रतिलिपि…"
 
-#: dolphinmainwindow.cpp:1855
+#: dolphinmainwindow.cpp:1869
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -534,13 +534,13 @@ msgstr ""
 "<nl/>क्लिप्बोर्डतः नूतनस्थानं प्रति प्रतिलिपिं कर्तुं पश्चात् <emphasis>Paste</emphasis> "
 "क्रियायाः उपयोगं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:1864
+#: dolphinmainwindow.cpp:1878
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "चिनोतु"
 
-#: dolphinmainwindow.cpp:1866
+#: dolphinmainwindow.cpp:1880
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -552,19 +552,19 @@ msgstr ""
 "भवन्ति ।<nl/>यदि <emphasis>Cut</emphasis> क्रियाद्वारा वस्तूनि क्लिप्बोर्ड् मध्ये "
 "योजिताः आसन् तर्हि ते स्वस्य पुरातनस्थानात् निष्कासिताः भवन्ति ."
 
-#: dolphinmainwindow.cpp:1873
+#: dolphinmainwindow.cpp:1887
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "अन्यदृश्यं प्रति प्रतिलिख्यताम्"
 
-#: dolphinmainwindow.cpp:1874
+#: dolphinmainwindow.cpp:1888
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "अन्यदृश्यं प्रति प्रतिलिख्यताम्…"
 
-#: dolphinmainwindow.cpp:1876
+#: dolphinmainwindow.cpp:1890
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -574,25 +574,25 @@ msgstr ""
 "एतेन चयनितवस्तूनि फोकस मध्ये दृश्यात् अन्यदृश्ये प्रतिलिप्यन्ते । (केवलं Split View मोड् मध्ये "
 "स्थित्वा एव उपलब्धम् ।)"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1894
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "अन्यदृश्यं प्रति प्रतिलिख्यताम्"
 
-#: dolphinmainwindow.cpp:1885
+#: dolphinmainwindow.cpp:1899
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "अन्यदृश्यं प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:1886
+#: dolphinmainwindow.cpp:1900
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "अन्यदृश्यं प्रति गच्छन्तु…"
 
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1902
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -602,25 +602,25 @@ msgstr ""
 "एतेन चयनितवस्तूनि फोकस इन दृश्यात् अन्यदृश्यं प्रति स्थानान्तरयन्ति । (केवलं Split View मोड् "
 "मध्ये स्थित्वा एव उपलब्धम् ।)"
 
-#: dolphinmainwindow.cpp:1892
+#: dolphinmainwindow.cpp:1906
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "अन्यदृश्यं प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:1897
+#: dolphinmainwindow.cpp:1911
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "फ़िल्टर…"
 
-#: dolphinmainwindow.cpp:1898
+#: dolphinmainwindow.cpp:1912
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Filter Bar दर्शयतु"
 
-#: dolphinmainwindow.cpp:1900
+#: dolphinmainwindow.cpp:1914
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -633,30 +633,30 @@ msgstr ""
 "वर्तमानं प्रदर्शितानि सञ्चिकाः, पुटं च छानयितुं पाठं प्रविष्टुं शक्नुवन्ति । येषु नाम्नि पाठः "
 "अस्ति ते एव दृष्टिगोचराः भविष्यन्ति ।"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1926
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Toggle Filter Bar इति"
 
-#: dolphinmainwindow.cpp:1913
+#: dolphinmainwindow.cpp:1927
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "फ़िल्टर"
 
-#: dolphinmainwindow.cpp:1921 search/bar.cpp:214
+#: dolphinmainwindow.cpp:1935 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "अन्वेषण…"
 
-#: dolphinmainwindow.cpp:1922
+#: dolphinmainwindow.cpp:1936
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "सञ्चिकाः, पुटं च अन्वेष्टुम्"
 
-#: dolphinmainwindow.cpp:1924
+#: dolphinmainwindow.cpp:1938
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -676,20 +676,20 @@ msgstr ""
 "निर्दिष्टुं शक्नुवन्ति ।</para><para>अन्वेषणपट्टिकायां पुनः एतस्य सहायतायाः उपयोगं कुर्वन्तु "
 "येन सेटिङ्ग्स् व्याख्यायन्ते सति वयं तत् अवलोकयितुं शक्नुमः ।</para >"
 
-#: dolphinmainwindow.cpp:1933
+#: dolphinmainwindow.cpp:1947
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "अन्वेषणपट्टिकां टॉगलं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:1934
+#: dolphinmainwindow.cpp:1948
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "अन्वेषण"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1949
+#: dolphinmainwindow.cpp:1963
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -697,13 +697,13 @@ msgstr "Files and Folders इति चिनोतु"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1952
+#: dolphinmainwindow.cpp:1966
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "विचि"
 
-#: dolphinmainwindow.cpp:1955
+#: dolphinmainwindow.cpp:1969
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -720,19 +720,19 @@ msgstr ""
 "para><para>अस्मिन् मोड् मध्ये स्थित्वा अधः द्रुतप्रवेशपट्टिका तस्य कृते उपलब्धानि क्रियाणि "
 "दर्शयति सम्प्रति चयनितवस्तूनि।</para>"
 
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1992
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "एतेन वर्तमानस्थाने सर्वाणि सञ्चिकाः, पुटं च चिनोति ।"
 
-#: dolphinmainwindow.cpp:1982 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1996 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "चयनं विपर्यययतु"
 
-#: dolphinmainwindow.cpp:1984
+#: dolphinmainwindow.cpp:1998
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -742,7 +742,7 @@ msgstr ""
 "एतेन सर्वाणि वस्तूनि चिनोति येषां स्थाने भवता सम्प्रति <emphasis>not</emphasis> "
 "चयनितानि सन्ति ।"
 
-#: dolphinmainwindow.cpp:2004
+#: dolphinmainwindow.cpp:2018
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -754,7 +754,7 @@ msgstr ""
 "<para>focus\" इति मन्दं भविष्यति।</para>\n"
 "<para>एकं दृश्यं पिधातुं पुनः एतत् बटन् नुदन्तु।</para>"
 
-#: dolphinmainwindow.cpp:2019
+#: dolphinmainwindow.cpp:2033
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -763,25 +763,25 @@ msgid ""
 msgstr ""
 "यदि दृश्यं विभक्तम् अस्ति तर्हि एतेन दृश्यं फोकस मध्ये नूतने विण्डो मध्ये बहिः पोप् भविष्यति ।"
 
-#: dolphinmainwindow.cpp:2027
+#: dolphinmainwindow.cpp:2041
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "स्तश"
 
-#: dolphinmainwindow.cpp:2028
+#: dolphinmainwindow.cpp:2042
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "विभक्तविण्डो मध्ये stash virtual निर्देशिका उद्घाटयति"
 
-#: dolphinmainwindow.cpp:2036
+#: dolphinmainwindow.cpp:2050
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "दृश्यं ताजगीं कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:2038
+#: dolphinmainwindow.cpp:2052
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -795,31 +795,31 @@ msgstr ""
 "अत्र समाविष्टानां सञ्चिकानां पुटस्य च नवीनं अद्यतनं दृश्यं दर्शयिष्यति।</para>\n"
 "<para>यदि दृश्यं विभक्तं भवति तर्हि एतेन वर्तमानं केन्द्रितं ताजगीकृतं भवति।</para>"
 
-#: dolphinmainwindow.cpp:2045
+#: dolphinmainwindow.cpp:2059
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "विरमतु"
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2060
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "लोडिंग् त्यजतु"
 
-#: dolphinmainwindow.cpp:2047
+#: dolphinmainwindow.cpp:2061
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "एतेन वर्तमानपुटस्य सामग्रीयाः लोडिंग् स्थगितम् अस्ति ।"
 
-#: dolphinmainwindow.cpp:2052
+#: dolphinmainwindow.cpp:2066
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "सम्पादनीयं स्थानम्"
 
-#: dolphinmainwindow.cpp:2054
+#: dolphinmainwindow.cpp:2068
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -832,13 +832,13 @@ msgstr ""
 "प्रत्यक्षतया गन्तुं इच्छति स्थानं प्रविष्टुं शक्नोति ।<nl/>भवन्तः स्थानस्य दक्षिणभागे क्लिक् कृत्वा "
 "सम्पादनं प्रति अपि स्विच् कर्तुं शक्नुवन्ति सम्पादितस्थानस्य पुष्टिं कुर्वन्।"
 
-#: dolphinmainwindow.cpp:2062
+#: dolphinmainwindow.cpp:2076
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "स्थानं प्रतिस्थापयतु"
 
-#: dolphinmainwindow.cpp:2067
+#: dolphinmainwindow.cpp:2081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -847,19 +847,19 @@ msgid ""
 msgstr ""
 "एतेन स्थानं सम्पादनं कृत्वा तत् चयनं भवति येन भवान् शीघ्रं भिन्नं स्थानं प्रविष्टुं शक्नोति ।"
 
-#: dolphinmainwindow.cpp:2097
+#: dolphinmainwindow.cpp:2111
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "पूर्ववतं कुर्वन्तु close tab"
 
-#: dolphinmainwindow.cpp:2098
+#: dolphinmainwindow.cpp:2112
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "एतेन भवन्तः पूर्वं पिहितं ट्याब् प्रति प्रत्यागच्छन्ति ।"
 
-#: dolphinmainwindow.cpp:2106
+#: dolphinmainwindow.cpp:2120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -875,7 +875,7 @@ msgstr ""
 "<filename>Trash</filename> प्रति । <nl/>यत्किमपि परिवर्तनं अकृतं कर्तुं न शक्यते तत् "
 "पूर्वमेव भवतः पुष्टिं याचयिष्यति ।"
 
-#: dolphinmainwindow.cpp:2117
+#: dolphinmainwindow.cpp:2131
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -898,7 +898,7 @@ msgstr ""
 "<filename>Trash</filename> प्रति । <nl/>यत्किमपि परिवर्तनं अकृतं कर्तुं न शक्यते तत् "
 "पूर्वमेव भवतः पुष्टिं याचयिष्यति ।"
 
-#: dolphinmainwindow.cpp:2147
+#: dolphinmainwindow.cpp:2161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -910,19 +910,19 @@ msgstr ""
 "<filename>Home</filename> भवति यस्मिन् तेषां व्यक्तिगतसञ्चिकाः सन्ति, तथैव तेषां "
 "अनुप्रयोगानाम् आँकडानां विन्याससञ्चिकानां च गुप्तपुटाः सन्ति ."
 
-#: dolphinmainwindow.cpp:2154
+#: dolphinmainwindow.cpp:2168
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "सञ्चिकानां तुलनां कुर्वन्तु"
 
-#: dolphinmainwindow.cpp:2160
+#: dolphinmainwindow.cpp:2174
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2182
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -933,13 +933,13 @@ msgstr ""
 "<para>एतेन दृष्टस्थानस्य कृते एकं प्राधान्यं अन्वेषणसाधनं उद्घाट्यते ।</para><para>तत् विन्यस्तुं "
 "<emphasis>अधिकं अन्वेषणसाधनं</emphasis> मेन्यू उपयुज्यताम् ।</para>"
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2196
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "टर्मिनल् उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2184
+#: dolphinmainwindow.cpp:2198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -952,13 +952,13 @@ msgstr ""
 "</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2192
+#: dolphinmainwindow.cpp:2206
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "अत्र टर्मिनल् उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2194
+#: dolphinmainwindow.cpp:2208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -970,13 +970,13 @@ msgstr ""
 "उद्घाटिताः भवन्ति ।</para><para>टर्मिनल् विषये अधिकं ज्ञातुं टर्मिनल् अनुप्रयोगे "
 "सहायताविशेषतानां उपयोगं कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2202
+#: dolphinmainwindow.cpp:2216
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&पुस्तकचिह्न"
 
-#: dolphinmainwindow.cpp:2212
+#: dolphinmainwindow.cpp:2226
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -993,96 +993,96 @@ msgstr ""
 "क्रियाणां द्रुतं संगठितं च प्रवेशं अनुमन्यते ।</para><para>%1 बटनम् सरलतरं लघु च भवति यत् "
 "उन्नतक्रियाणां प्रवर्तनं अधिकं समयग्राहकं करोति।</para>"
 
-#: dolphinmainwindow.cpp:2237
+#: dolphinmainwindow.cpp:2251
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "%1 ट्याब् प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2250
+#: dolphinmainwindow.cpp:2264
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "अन्तिमः ट्याब्"
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2265
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Last Tab इत्यत्र गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2257
+#: dolphinmainwindow.cpp:2271
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "अग्रिमः ट्याब्"
 
-#: dolphinmainwindow.cpp:2258
+#: dolphinmainwindow.cpp:2272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Next Tab इत्यत्र गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2264
+#: dolphinmainwindow.cpp:2278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "पूर्व ट्याब्"
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Previous Tab इत्यत्र गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2272
+#: dolphinmainwindow.cpp:2286
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "लक्ष्यं दर्शयतु"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2292
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "New Tab इत्यत्र उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2283
+#: dolphinmainwindow.cpp:2297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "New Tabs इत्यत्र उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2288
+#: dolphinmainwindow.cpp:2302
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "New Window इत्यत्र उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2293 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2307 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Split View इत्यत्र उद्घाटयन्तु"
 
-#: dolphinmainwindow.cpp:2305
+#: dolphinmainwindow.cpp:2319
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2318
+#: dolphinmainwindow.cpp:2332
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Panels अनलॉक करें"
 
-#: dolphinmainwindow.cpp:2320
+#: dolphinmainwindow.cpp:2334
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "ताला फलकम्"
 
-#: dolphinmainwindow.cpp:2323
+#: dolphinmainwindow.cpp:2337
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1095,13 +1095,13 @@ msgstr ""
 "इति मध्ये स्विच् भवति ।<nl/>अनलॉक्ड् panels विण्डो इत्यस्य परे पार्श्वे कर्षितुं शक्यते तथा च "
 "close button भवति ।<nl/>Locked पटलाः अधिकं स्वच्छतया निहिताः भवन्ति।"
 
-#: dolphinmainwindow.cpp:2332
+#: dolphinmainwindow.cpp:2346
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "सूचना"
 
-#: dolphinmainwindow.cpp:2355
+#: dolphinmainwindow.cpp:2369
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1111,7 +1111,7 @@ msgstr ""
 "<para>एवं फलकं दर्शयितुं गोपयितुं वा <interface>Menu|Panels</interface> अथवा "
 "<interface>View|Panels</interface> इत्यत्र गच्छन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2362
+#: dolphinmainwindow.cpp:2376
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1126,7 +1126,7 @@ msgstr ""
 "विषये गहनसूचनाः प्रदाति . अन्यथा सम्प्रति दृष्टस्य पुटस्य विषये सूचयति ।<nl/>एकवस्तूनाम् कृते "
 "तेषां सामग्रीयाः पूर्वावलोकनं प्रदत्तम् अस्ति ।</para>"
 
-#: dolphinmainwindow.cpp:2370
+#: dolphinmainwindow.cpp:2384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1141,13 +1141,13 @@ msgstr ""
 "सामग्रीनां पूर्वावलोकनं प्रदत्तम् अस्ति।</para><para>भवन्तः दक्षिण-क्लिक् कृत्वा अत्र काः कथं "
 "च विवरणाः दत्ताः इति विन्यस्तुं शक्नुवन्ति।</para >"
 
-#: dolphinmainwindow.cpp:2379
+#: dolphinmainwindow.cpp:2393
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "पुटम्"
 
-#: dolphinmainwindow.cpp:2399
+#: dolphinmainwindow.cpp:2413
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1159,7 +1159,7 @@ msgstr ""
 "><nl/>इदं <emphasis>सञ्चिकातन्त्रस्य</emphasis> इत्यस्य पुटं <emphasis>वृक्षदृश्ये दर्शयति "
 "</emphasis> इति ।"
 
-#: dolphinmainwindow.cpp:2404
+#: dolphinmainwindow.cpp:2418
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1172,13 +1172,13 @@ msgstr ""
 "emphasis> मध्ये दर्शयति ।</para><para>तत्र गन्तुं पुटं नुदन्तु । कस्यचित् पुटस्य वामभागे स्थितं "
 "बाणं नुदन्तु तस्य उपपुटं द्रष्टुं । एतेन कस्यापि पुटस्य मध्ये शीघ्रं परिवर्तनं भवति ।</para>"
 
-#: dolphinmainwindow.cpp:2414
+#: dolphinmainwindow.cpp:2428
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "टर्मिनल्"
 
-#: dolphinmainwindow.cpp:2439
+#: dolphinmainwindow.cpp:2453
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1195,7 +1195,7 @@ msgstr ""
 "किन्तु उन्नतकार्यस्य कृते उपयोगी भवितुम् अर्हति । टर्मिनल् विषये अधिकं ज्ञातुं Konsole "
 "इत्यादिषु स्वतन्त्रेषु टर्मिनल् अनुप्रयोगे सहायताविशेषतानां उपयोगं कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2447
+#: dolphinmainwindow.cpp:2461
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1212,31 +1212,31 @@ msgstr ""
 "किन्तु उन्नतकार्यस्य कृते उपयोगी भवितुम् अर्हति टर्मिनल् विषये अधिकं ज्ञातुं Konsole इत्यादिषु "
 "स्वतन्त्रेषु टर्मिनल् अनुप्रयोगे सहायताविशेषतानां उपयोगं कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2457 dolphinmainwindow.cpp:3056
+#: dolphinmainwindow.cpp:2471 dolphinmainwindow.cpp:3070
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "फोकस टर्मिनल पैनल"
 
-#: dolphinmainwindow.cpp:2458
+#: dolphinmainwindow.cpp:2472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "कीबोर्ड फोकस टर्मिनल् पैनल प्रति गन्तुं च स्थानान्तरयन्तु ।"
 
-#: dolphinmainwindow.cpp:2471
+#: dolphinmainwindow.cpp:2485
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "स्थानाः"
 
-#: dolphinmainwindow.cpp:2499
+#: dolphinmainwindow.cpp:2513
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "गुप्तस्थानानि दर्शयतु"
 
-#: dolphinmainwindow.cpp:2503
+#: dolphinmainwindow.cpp:2517
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1247,7 +1247,7 @@ msgstr ""
 "एतेन places फलकस्य सर्वाणि स्थानानि प्रदर्श्यन्ते ये निगूढाः सन्ति । ते अर्धपारदर्शकाः "
 "दृश्यन्ते तथा च तेषां \"Hide\" गुणं अनचेक् कर्तुं शक्नुवन्ति ।"
 
-#: dolphinmainwindow.cpp:2515
+#: dolphinmainwindow.cpp:2529
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1262,7 +1262,7 @@ msgstr ""
 "शक्नोति जालं प्रति वा । अस्मिन् सद्यः रक्षितानि सञ्चिकाः अथवा कस्यचित् प्रकारस्य सञ्चिकाः "
 "अन्वेष्टुं विभागाः अपि सन्ति ।</para>"
 
-#: dolphinmainwindow.cpp:2522
+#: dolphinmainwindow.cpp:2536
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1285,45 +1285,45 @@ msgstr ""
 "अस्मिन् पटले रिक्तस्थानं राइट्-क्लिक् कृत्वा पुनः प्रदर्शयितुं <interface>Show Hidden "
 "Places</interface> इति चिनोतु ।</para>"
 
-#: dolphinmainwindow.cpp:2536 dolphinmainwindow.cpp:3074
+#: dolphinmainwindow.cpp:2550 dolphinmainwindow.cpp:3088
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "फोकस स्थान पटल"
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2551
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "कीबोर्ड-केन्द्रीकरणं Places-पटलं प्रति ततः च स्थानान्तरयन्तु ।"
 
-#: dolphinmainwindow.cpp:2543
+#: dolphinmainwindow.cpp:2557
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Panels दर्शयतु"
 
-#: dolphinmainwindow.cpp:2612
+#: dolphinmainwindow.cpp:2626
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr "पुनर्नामकरणं कर्तुं न शक्यते: अस्मिन् पुटे वस्तूनि नामान्तरयितुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2615 dolphinmainwindow.cpp:2632
+#: dolphinmainwindow.cpp:2629 dolphinmainwindow.cpp:2646
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "विलोपयितुं न शक्यते: अस्मात् पुटे वस्तूनि निष्कासयितुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2617
+#: dolphinmainwindow.cpp:2631
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "कटयितुं न शक्यते: अस्मात् पुटे वस्तूनि स्थानान्तरयितुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2622
+#: dolphinmainwindow.cpp:2636
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1331,31 +1331,31 @@ msgid ""
 "folder."
 msgstr "अत्र द्वितीयकं कर्तुं न शक्यते: अस्मिन् पुटे वस्तूनि निर्मातुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2644
+#: dolphinmainwindow.cpp:2658
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "अन्यदृश्ये प्रतिलिपिं कर्तुं न शक्यते: कोऽपि सञ्चिकाः न चयनिताः।"
 
-#: dolphinmainwindow.cpp:2646
+#: dolphinmainwindow.cpp:2660
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "अन्यदृश्यं प्रति गन्तुं न शक्यते: कोऽपि सञ्चिकाः न चयनिताः।"
 
-#: dolphinmainwindow.cpp:2665
+#: dolphinmainwindow.cpp:2679
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "अन्यदृश्ये प्रतिलिपिं कर्तुं न शक्यते: अन्यदृश्ये पूर्वमेव एतानि वस्तूनि सन्ति ।"
 
-#: dolphinmainwindow.cpp:2668
+#: dolphinmainwindow.cpp:2682
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "अन्यदृश्यं प्रति गन्तुं न शक्यते : अन्यदृश्ये पूर्वमेव एतानि वस्तूनि सन्ति ।"
 
-#: dolphinmainwindow.cpp:2673
+#: dolphinmainwindow.cpp:2687
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1363,7 +1363,7 @@ msgid ""
 "destination folder."
 msgstr "अन्यदृश्ये प्रतिलिपिं कर्तुं न शक्यते: गन्तव्यपुटे लेखनस्य अनुमतिः भवतः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2677
+#: dolphinmainwindow.cpp:2691
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1371,7 +1371,7 @@ msgid ""
 "destination folder."
 msgstr "अन्यदृश्यं प्रति गन्तुं न शक्यते : गन्तव्यपुटे लेखनस्य अनुमतिः भवतः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2683
+#: dolphinmainwindow.cpp:2697
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1379,7 +1379,7 @@ msgid ""
 "this folder."
 msgstr "अन्यदृश्यं प्रति गन्तुं न शक्यते: अस्मात् पुटे वस्तूनि स्थानान्तरयितुं भवतः अनुमतिः नास्ति ।"
 
-#: dolphinmainwindow.cpp:2707
+#: dolphinmainwindow.cpp:2721
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1394,19 +1394,19 @@ msgstr ""
 "उपरि एकः निर्देशिका अस्ति यस्मिन् अस्मिन् सङ्गणके सम्बद्धाः सर्वे दत्तांशाः सन्ति—"
 "<emphasis>मूलनिर्देशिका</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2795
+#: dolphinmainwindow.cpp:2809
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "पिधानं करोतु"
 
-#: dolphinmainwindow.cpp:2796
+#: dolphinmainwindow.cpp:2810
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "वामदृश्यं पिधाय"
 
-#: dolphinmainwindow.cpp:2798
+#: dolphinmainwindow.cpp:2812
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -1414,31 +1414,31 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "वामदृश्यं पिधाय"
 
-#: dolphinmainwindow.cpp:2800
+#: dolphinmainwindow.cpp:2814
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Pop out Left View इति"
 
-#: dolphinmainwindow.cpp:2801
+#: dolphinmainwindow.cpp:2815
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "वामदृश्यं नूतनविण्डो प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2803
+#: dolphinmainwindow.cpp:2817
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "पिधानं करोतु"
 
-#: dolphinmainwindow.cpp:2804
+#: dolphinmainwindow.cpp:2818
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "दक्षिणदृश्यं पिधाय"
 
-#: dolphinmainwindow.cpp:2806
+#: dolphinmainwindow.cpp:2820
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1446,37 +1446,37 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "दक्षिणदृश्यं पिधाय"
 
-#: dolphinmainwindow.cpp:2808
+#: dolphinmainwindow.cpp:2822
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Pop out Right View इति"
 
-#: dolphinmainwindow.cpp:2809
+#: dolphinmainwindow.cpp:2823
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "दक्षिणदृश्यं नूतनविण्डो प्रति गच्छन्तु"
 
-#: dolphinmainwindow.cpp:2818
+#: dolphinmainwindow.cpp:2832
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "भंज"
 
-#: dolphinmainwindow.cpp:2820
+#: dolphinmainwindow.cpp:2834
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "विभक्त दृश्य"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2836
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "पॉप आउट्"
 
-#: dolphinmainwindow.cpp:2882
+#: dolphinmainwindow.cpp:2896
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1493,7 +1493,7 @@ msgstr ""
 "कृत्वा Menubar गोपयितुं शक्यते । ततः तस्य अधिकांशः सामग्रीः <emphasis>Toolbar</"
 "emphasis> इत्यत्र <interface>Menu</interface> इति बटन् मार्गेण उपलभ्यते ।</para>"
 
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2903
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1515,7 +1515,7 @@ msgstr ""
 "राइट्-क्लिक् मेन्यू मध्ये बटन् अपि परिवर्तयितुं शक्यते । यदि भवान् तस्य पाठं दर्शयितुम् अथवा "
 "गोपयितुम् इच्छति तर्हि बटन् राइट्-क्लिक् कुर्वन्तु ।</para>"
 
-#: dolphinmainwindow.cpp:2901
+#: dolphinmainwindow.cpp:2915
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1542,7 +1542,7 @@ msgstr ""
 "तत्स्थाने। एतेन तः एकं पृष्ठं उद्घाट्यते<emphasis> हस्तपुस्तिका</emphasis> यत् मूलभूतं "
 "आच्छादयति।</para>"
 
-#: dolphinmainwindow.cpp:2917
+#: dolphinmainwindow.cpp:2931
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1555,7 +1555,7 @@ msgstr ""
 "करोति ।<nl/>तत्र भवन्तः युगपत् निपीडितानां क्रियायाः प्रवर्तनार्थं कीलसंयोजनानि स्थापयितुं "
 "शक्नुवन्ति । अस्मिन् अनुप्रयोगे सर्वे आदेशाः एवं प्रवर्तयितुं शक्यन्ते ।</para>"
 
-#: dolphinmainwindow.cpp:2923
+#: dolphinmainwindow.cpp:2937
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1567,7 +1567,7 @@ msgstr ""
 "बटन् दृश्यन्ते इति परिवर्तयितुं शक्नुवन्ति।</para><para><interface>Menu</interface> "
 "इत्यत्र भवन्तः सर्वाणि वस्तूनि अपि भवितुम् अर्हन्ति Toolbar इत्यत्र स्थापितं।</para>"
 
-#: dolphinmainwindow.cpp:2927
+#: dolphinmainwindow.cpp:2941
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1585,7 +1585,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2947
+#: dolphinmainwindow.cpp:2961
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1601,7 +1601,7 @@ msgstr ""
 "url='https://userbase.kde.org/Dolphin/File_Management'> अत्र क्लिक् कुर्वन्तु</"
 "link> . एतत् KDE UserBase Wiki इत्यस्मिन् समर्पितं पृष्ठं उद्घाटयिष्यति ।</para>"
 
-#: dolphinmainwindow.cpp:2952
+#: dolphinmainwindow.cpp:2966
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1623,7 +1623,7 @@ msgstr ""
 "link> .</para><para> &quot;किम् एतत्?&quot; अन्येषु अधिकांशेषु विण्डोषु सहायता अनुपलब्धा "
 "अस्ति अतः एतस्य अत्यधिकं अभ्यस्तं मा भवतु।</para>"
 
-#: dolphinmainwindow.cpp:2963
+#: dolphinmainwindow.cpp:2977
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1639,7 +1639,7 @@ msgstr ""
 "इति ज्ञातुं<link url='https://community.kde.org/Get_Involved/Bug_Reporting'> "
 "अत्र क्लिक् कुर्वन्तु</link> .</para>"
 
-#: dolphinmainwindow.cpp:2972
+#: dolphinmainwindow.cpp:2986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1660,7 +1660,7 @@ msgstr ""
 "आच्छादयितुं</para><para><emphasis>KDE e.V.</emphasis> KDE इत्यस्य पृष्ठतः अलाभकारी "
 "संस्था अस्ति समुदायः ।</para>"
 
-#: dolphinmainwindow.cpp:2985
+#: dolphinmainwindow.cpp:2999
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1672,7 +1672,7 @@ msgstr ""
 "अपि सेट् कर्तुं शक्नुवन्ति येषां उपयोगः भविष्यति यदि भवतः इष्टभाषायां पाठाः उपलब्धाः न "
 "सन्ति।"
 
-#: dolphinmainwindow.cpp:2990
+#: dolphinmainwindow.cpp:3004
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1682,7 +1682,7 @@ msgstr ""
 "एतेन एकं विण्डो उद्घाट्यते यत् अस्य अनुप्रयोगस्य संस्करणस्य, अनुज्ञापत्रस्य, प्रयुक्तानां "
 "पुस्तकालयानाम्, परिपालकानां च विषये सूचयति ।"
 
-#: dolphinmainwindow.cpp:2995
+#: dolphinmainwindow.cpp:3009
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1695,19 +1695,19 @@ msgstr ""
 "मुक्तसॉफ्टवेयरस्य पृष्ठतः जनाः सन्ति।<nl/>यदि भवान् अस्य अनुप्रयोगस्य उपयोगं रोचते परन्तु KDE "
 "विषये न जानाति अथवा एकं प्रियं अजगरं द्रष्टुम् इच्छति तर्हि एकवारं पश्यन्तु!"
 
-#: dolphinmainwindow.cpp:3050 dolphinmainwindow.cpp:3061
+#: dolphinmainwindow.cpp:3064 dolphinmainwindow.cpp:3075
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "डिफोकस टर्मिनल पैनल"
 
-#: dolphinmainwindow.cpp:3068
+#: dolphinmainwindow.cpp:3082
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "डिफोकस टर्मिनल पैनल"
 
-#: dolphinmainwindow.cpp:3079
+#: dolphinmainwindow.cpp:3093
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -6119,7 +6119,7 @@ msgstr "मूलभूतम्‌"
 msgid "Reload"
 msgstr "पुनः लोड करें"
 
-#: views/dolphinview.cpp:674
+#: views/dolphinview.cpp:684
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder selected"
@@ -6127,7 +6127,7 @@ msgid_plural "%1 folders selected"
 msgstr[0] "१ पुटं चयनितम्"
 msgstr[1] "%1 पुटं चयनितम्"
 
-#: views/dolphinview.cpp:675
+#: views/dolphinview.cpp:685
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file selected"
@@ -6135,7 +6135,7 @@ msgid_plural "%1 files selected"
 msgstr[0] "१ सञ्चिका चयनिता"
 msgstr[1] "%1 सञ्चिकाः चयनिताः"
 
-#: views/dolphinview.cpp:677
+#: views/dolphinview.cpp:687
 #, kde-format
 msgctxt "@info:status"
 msgid "1 folder"
@@ -6143,7 +6143,7 @@ msgid_plural "%1 folders"
 msgstr[0] "१ पुटे"
 msgstr[1] "%1 पुटम्"
 
-#: views/dolphinview.cpp:678
+#: views/dolphinview.cpp:688
 #, kde-format
 msgctxt "@info:status"
 msgid "1 file"
@@ -6151,38 +6151,38 @@ msgid_plural "%1 files"
 msgstr[0] "१ सञ्चिका"
 msgstr[1] "%1 सञ्चिकाः"
 
-#: views/dolphinview.cpp:682
+#: views/dolphinview.cpp:692
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:684
+#: views/dolphinview.cpp:694
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:688
+#: views/dolphinview.cpp:698
 #, kde-format
 msgctxt "@info:status"
 msgid "0 folders, 0 files"
 msgstr "० पुटम्, ० सञ्चिकाः"
 
-#: views/dolphinview.cpp:926 views/dolphinview.cpp:935
+#: views/dolphinview.cpp:936 views/dolphinview.cpp:945
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 प्रतिलिपिः"
 
-#: views/dolphinview.cpp:1122
+#: views/dolphinview.cpp:1138
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "किं भवन्तः निश्चयेन १ द्रव्यं उद्घाटयितुम् इच्छन्ति?"
 msgstr[1] "किं भवान् निश्चितः अस्ति यत् भवान् %1 वस्तूनि उद्घाटयितुम् इच्छति?"
 
-#: views/dolphinview.cpp:1127
+#: views/dolphinview.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -6190,43 +6190,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "%1 मदं उद्घाटयन्तु"
 msgstr[1] "%1 वस्तूनि उद्घाटयन्तु"
 
-#: views/dolphinview.cpp:1260
+#: views/dolphinview.cpp:1276
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "पार्श्व गद्दी"
 
-#: views/dolphinview.cpp:1264
+#: views/dolphinview.cpp:1280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "स्वचालित स्तम्भ चौड़ाई"
 
-#: views/dolphinview.cpp:1269
+#: views/dolphinview.cpp:1285
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "कस्टम स्तम्भ चौड़ाई"
 
-#: views/dolphinview.cpp:1907
+#: views/dolphinview.cpp:1992
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "कचरा संचालन सम्पन्न।"
 
-#: views/dolphinview.cpp:1917
+#: views/dolphinview.cpp:2002
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "डिलीट ऑपरेशन सम्पन्न।"
 
-#: views/dolphinview.cpp:2084
+#: views/dolphinview.cpp:2169
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "नाम परिवर्तनं कृत्वा गोपनं कुर्वन्तु"
 
-#: views/dolphinview.cpp:2088
+#: views/dolphinview.cpp:2173
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6235,7 +6235,7 @@ msgstr ""
 "अस्याः सञ्चिकायाः नामस्य आरम्भे बिन्दुं योजयित्वा तत् दृश्यात् गोपनीयं भविष्यति ।\n"
 "किं भवन्तः अद्यापि तस्य नाम परिवर्तयितुम् इच्छन्ति ?"
 
-#: views/dolphinview.cpp:2090
+#: views/dolphinview.cpp:2175
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6244,17 +6244,17 @@ msgstr ""
 "अस्य पुटस्य नाम आरम्भे बिन्दुं योजयित्वा तत् दृश्यात् गोपनीयं भविष्यति ।\n"
 "किं भवन्तः अद्यापि तस्य नाम परिवर्तयितुम् इच्छन्ति ?"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2177
 #, kde-format
 msgid "Hide this File?"
 msgstr "एतत् सञ्चिकां गोपयन्तु?"
 
-#: views/dolphinview.cpp:2092
+#: views/dolphinview.cpp:2177
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "एतत् पुटं गोपयन्तु?"
 
-#: views/dolphinview.cpp:2113
+#: views/dolphinview.cpp:2198
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6262,7 +6262,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "पुनर्नामकरणं…"
 
-#: views/dolphinview.cpp:2123
+#: views/dolphinview.cpp:2208
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6271,7 +6271,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2127
+#: views/dolphinview.cpp:2212
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6280,7 +6280,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2133
+#: views/dolphinview.cpp:2218
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Edit"
 #| msgid "&Edit File Type…"
@@ -6288,95 +6288,95 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "&सञ्चिकाप्रकारं सम्पादयतु…"
 
-#: views/dolphinview.cpp:2177
+#: views/dolphinview.cpp:2262
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "स्थानं शून्यम् अस्ति।"
 
-#: views/dolphinview.cpp:2179
+#: views/dolphinview.cpp:2264
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "'%1' इति स्थानम् अमान्यम् अस्ति ।"
 
-#: views/dolphinview.cpp:2511
+#: views/dolphinview.cpp:2596
 #, kde-format
 msgid "Loading…"
 msgstr "लोडिंग…"
 
-#: views/dolphinview.cpp:2540
+#: views/dolphinview.cpp:2625
 #, kde-format
 msgid "Loading canceled"
 msgstr "लोडिंग् रद्दम्"
 
-#: views/dolphinview.cpp:2542
+#: views/dolphinview.cpp:2627
 #, kde-format
 msgid "No items matching the filter"
 msgstr "फ़िल्टरेन सह मेलनं कुर्वन्तः वस्तूनि न सन्ति"
 
-#: views/dolphinview.cpp:2544
+#: views/dolphinview.cpp:2629
 #, kde-format
 msgid "No items matching the search"
 msgstr "अन्वेषणेन सह मेलनं कुर्वन्तः वस्तूनि न सन्ति"
 
-#: views/dolphinview.cpp:2546
+#: views/dolphinview.cpp:2631
 #, kde-format
 msgid "Trash is empty"
 msgstr "कचरा रिक्तः अस्ति"
 
-#: views/dolphinview.cpp:2549
+#: views/dolphinview.cpp:2634
 #, kde-format
 msgid "No tags"
 msgstr "न टैग्स्"
 
-#: views/dolphinview.cpp:2552
+#: views/dolphinview.cpp:2637
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "\"%1\" इत्यनेन टैग् कृताः सञ्चिकाः नास्ति ।"
 
-#: views/dolphinview.cpp:2556
+#: views/dolphinview.cpp:2641
 #, kde-format
 msgid "No recently used items"
 msgstr "अद्यतनप्रयुक्तानि वस्तूनि नास्ति"
 
-#: views/dolphinview.cpp:2558
+#: views/dolphinview.cpp:2643
 #, kde-format
 msgid "No shared folders found"
 msgstr "साझापुटं न प्राप्तम्"
 
-#: views/dolphinview.cpp:2560
+#: views/dolphinview.cpp:2645
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "कोऽपि प्रासंगिकः जालसंसाधनः न लब्धः"
 
-#: views/dolphinview.cpp:2562
+#: views/dolphinview.cpp:2647
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-सङ्गतयन्त्राणि न प्राप्यन्ते"
 
-#: views/dolphinview.cpp:2564
+#: views/dolphinview.cpp:2649
 #, kde-format
 msgid "No Apple devices found"
 msgstr "एप्पल्-यन्त्राणि न प्राप्तानि"
 
-#: views/dolphinview.cpp:2566
+#: views/dolphinview.cpp:2651
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "ब्लूटूथ-यन्त्राणि न प्राप्तानि"
 
-#: views/dolphinview.cpp:2568
+#: views/dolphinview.cpp:2653
 #, kde-format
 msgid "Folder is empty"
 msgstr "पुटं रिक्तम् अस्ति"
 
-#: views/dolphinviewactionhandler.cpp:84
+#: views/dolphinviewactionhandler.cpp:85
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder…"
 msgstr "समुच्चय रचयन्तु…"
 
-#: views/dolphinviewactionhandler.cpp:91
+#: views/dolphinviewactionhandler.cpp:92
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Create Folder…"
@@ -6384,7 +6384,7 @@ msgctxt "@action"
 msgid "Create File…"
 msgstr "समुच्चय रचयन्तु…"
 
-#: views/dolphinviewactionhandler.cpp:100
+#: views/dolphinviewactionhandler.cpp:101
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6394,7 +6394,7 @@ msgstr ""
 "एतेन भवतः वर्तमानचयनस्य द्रव्याणां नामकरणं भवति ।<nl/>एकदा बहुवस्तूनाम् पुनर्नामकरणेन तेषां "
 "नूतननामानि केवलं संख्यायां भिन्नानि भवन्ति ।"
 
-#: views/dolphinviewactionhandler.cpp:112
+#: views/dolphinviewactionhandler.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6406,7 +6406,7 @@ msgstr ""
 "<nl/>कचरा अस्थायी भण्डारणस्थानम् अस्ति यत्र डिस्कस्थानस्य आवश्यकता अस्ति चेत् पश्चात् वस्तूनि "
 "विलोपयितुं शक्यन्ते ।"
 
-#: views/dolphinviewactionhandler.cpp:125
+#: views/dolphinviewactionhandler.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6416,25 +6416,25 @@ msgstr ""
 "एतेन भवतः वर्तमानचयनस्य वस्तूनि स्थायिरूपेण विलोप्यन्ते । ते सामान्यसाधनेन पुनः प्राप्तुं न "
 "शक्यन्ते।"
 
-#: views/dolphinviewactionhandler.cpp:135
+#: views/dolphinviewactionhandler.cpp:136
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Delete (Trash कृते शॉर्टकट् इत्यस्य उपयोगेन)"
 
-#: views/dolphinviewactionhandler.cpp:141
+#: views/dolphinviewactionhandler.cpp:142
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "अत्र द्वितीयकं कुरुत"
 
-#: views/dolphinviewactionhandler.cpp:149
+#: views/dolphinviewactionhandler.cpp:150
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "गुणाः"
 
-#: views/dolphinviewactionhandler.cpp:151
+#: views/dolphinviewactionhandler.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -6447,43 +6447,43 @@ msgstr ""
 "चयनितं तर्हि विण्डो तस्य स्थाने वर्तमानं दृष्टस्य पुटस्य विषये भविष्यति।<nl/>भवन्तः तत्र "
 "उन्नतविकल्पान् विन्यस्तुं शक्नुवन्ति यथा read- तथा लेखन-अनुमति।"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:162
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "प्रतिलिपि स्थानम्"
 
-#: views/dolphinviewactionhandler.cpp:162
+#: views/dolphinviewactionhandler.cpp:163
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "एतेन प्रथमस्य चयनितस्य द्रव्यस्य मार्गः क्लिप्बोर्ड् मध्ये प्रतिलिपितः भविष्यति ।"
 
-#: views/dolphinviewactionhandler.cpp:170
+#: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "कचरा मध्ये गच्छन्तु…"
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:172
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "लुप्…"
 
-#: views/dolphinviewactionhandler.cpp:172
+#: views/dolphinviewactionhandler.cpp:173
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "अत्र डुप्लिकेट्…"
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:174
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "प्रतिलिपि स्थानम्…"
 
-#: views/dolphinviewactionhandler.cpp:202
+#: views/dolphinviewactionhandler.cpp:203
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -6498,7 +6498,7 @@ msgstr ""
 "वस्तूनि अन्वेष्टुं च सुलभं भवति।</para><para>एषः मोडः <interface>पूर्वावलोकन</"
 "interface>-इत्यत्र विकल्पः सक्षमः सति चित्राणि ब्राउज् कर्तुं सुलभः भवति।</para>"
 
-#: views/dolphinviewactionhandler.cpp:209
+#: views/dolphinviewactionhandler.cpp:210
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -6510,7 +6510,7 @@ msgstr ""
 "सञ्चिकां च सूचीबद्धं करोति ।</para><para>एतत् भवन्तं बहुवस्तूनि युक्तेषु पुटेषु अवलोकनं दातुं "
 "साहाय्यं करोति ।</para>"
 
-#: views/dolphinviewactionhandler.cpp:213
+#: views/dolphinviewactionhandler.cpp:214
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -6528,7 +6528,7 @@ msgstr ""
 "para><para>भवन्तः वर्तमानस्थानं न त्यक्त्वा तस्य वामभागे स्थितं प्रदेशं नुत्वा पुटस्य सामग्रीं "
 "द्रष्टुं शक्नुवन्ति एवं भवन्तः एकस्मिन् सूचौ बहुपुटस्य सामग्रीं द्रष्टुं शक्नुवन्ति ।</para>"
 
-#: views/dolphinviewactionhandler.cpp:223
+#: views/dolphinviewactionhandler.cpp:224
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "View Mode"
@@ -6536,54 +6536,54 @@ msgctxt "@action:intoolbar"
 msgid "Change View Mode"
 msgstr "दृश्यविधिः"
 
-#: views/dolphinviewactionhandler.cpp:224
+#: views/dolphinviewactionhandler.cpp:225
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:244
+#: views/dolphinviewactionhandler.cpp:245
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "एतेन चिह्नस्य आकारः वर्धते ।"
 
-#: views/dolphinviewactionhandler.cpp:247
+#: views/dolphinviewactionhandler.cpp:248
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "जूम स्तर पुनः सेट् करें"
 
-#: views/dolphinviewactionhandler.cpp:248
+#: views/dolphinviewactionhandler.cpp:249
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Zoom To Default इति"
 
-#: views/dolphinviewactionhandler.cpp:249
+#: views/dolphinviewactionhandler.cpp:250
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "एतेन चिह्नस्य आकारः पूर्वनिर्धारितरूपेण पुनः सेट् भवति ।"
 
-#: views/dolphinviewactionhandler.cpp:255
+#: views/dolphinviewactionhandler.cpp:256
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "एतेन चिह्नस्य आकारः न्यूनीकरोति ।"
 
-#: views/dolphinviewactionhandler.cpp:261
+#: views/dolphinviewactionhandler.cpp:262
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "पूर्वावलोकनानि दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:262
+#: views/dolphinviewactionhandler.cpp:263
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "सञ्चिकानां, पुटस्य च पूर्वावलोकनं दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:264
+#: views/dolphinviewactionhandler.cpp:265
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6594,49 +6594,49 @@ msgstr ""
 "यदा एतत् सक्षमं भवति तदा चिह्नानि वास्तविकसञ्चिकायाः अथवा पुटस्य सामग्रीयाः आधारेण "
 "भवन्ति ।<nl/>उदाहरणार्थं चित्राणां चिह्नानि चित्राणां स्केल डाउन संस्करणं भवन्ति ।"
 
-#: views/dolphinviewactionhandler.cpp:273
+#: views/dolphinviewactionhandler.cpp:274
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "पुटं प्रथमं"
 
-#: views/dolphinviewactionhandler.cpp:277
+#: views/dolphinviewactionhandler.cpp:278
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "गुप्तसञ्चिकाः अन्तिमः"
 
-#: views/dolphinviewactionhandler.cpp:285
+#: views/dolphinviewactionhandler.cpp:286
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sort By"
 
-#: views/dolphinviewactionhandler.cpp:320
+#: views/dolphinviewactionhandler.cpp:321
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "अतिरिक्तसूचना दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:331
+#: views/dolphinviewactionhandler.cpp:332
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "समूहेषु दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:333
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "एतेन सञ्चिकाः, पुटकानि च प्रथमाक्षरेण समूहीकृतानि भवन्ति ।"
 
-#: views/dolphinviewactionhandler.cpp:337
+#: views/dolphinviewactionhandler.cpp:338
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "गुप्तसञ्चिकाः दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:339
+#: views/dolphinviewactionhandler.cpp:340
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6657,20 +6657,20 @@ msgstr ""
 "\"application/x-trash\" MIME प्रकारस्य सञ्चिकाः, यथा बैकअप सञ्चिकाः, Configure "
 "Dolphin > View > General.</para> इत्यत्र तत् सेटिङ्ग् सक्षमं कृत्वा अपि गोपयितुं शक्यन्ते"
 
-#: views/dolphinviewactionhandler.cpp:353
+#: views/dolphinviewactionhandler.cpp:354
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style…"
 msgstr "दृश्यप्रदर्शनशैलीं समायोजयन्तु…"
 
-#: views/dolphinviewactionhandler.cpp:356
+#: views/dolphinviewactionhandler.cpp:357
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr "एतेन एकं विण्डो उद्घाट्यते यस्मिन् सर्वे समुच्चय दृश्यगुणाः समायोजितुं शक्यन्ते ।"
 
-#: views/dolphinviewactionhandler.cpp:362
+#: views/dolphinviewactionhandler.cpp:363
 #, fuzzy, kde-format
 #| msgctxt "name of kuserfeedback data source provided by dolphin"
 #| msgid "Settings"
@@ -6678,7 +6678,7 @@ msgctxt "@action:intoolbar"
 msgid "View Settings"
 msgstr "सेटिंग्स्"
 
-#: views/dolphinviewactionhandler.cpp:364
+#: views/dolphinviewactionhandler.cpp:365
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Settings Toolbutton"
 msgid ""
@@ -6686,7 +6686,7 @@ msgid ""
 "related actions."
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:393
+#: views/dolphinviewactionhandler.cpp:394
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
@@ -6694,7 +6694,7 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Sort By"
 
-#: views/dolphinviewactionhandler.cpp:396
+#: views/dolphinviewactionhandler.cpp:397
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -6702,7 +6702,7 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Filter Bar दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:441
+#: views/dolphinviewactionhandler.cpp:442
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Sort By"
@@ -6710,7 +6710,7 @@ msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
 msgstr "Sort By"
 
-#: views/dolphinviewactionhandler.cpp:442
+#: views/dolphinviewactionhandler.cpp:443
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Show Filter Bar"
@@ -6718,103 +6718,103 @@ msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
 msgstr "Filter Bar दर्शयतु"
 
-#: views/dolphinviewactionhandler.cpp:688
+#: views/dolphinviewactionhandler.cpp:689
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "चिह्नानि"
 
-#: views/dolphinviewactionhandler.cpp:689
+#: views/dolphinviewactionhandler.cpp:690
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "चिह्नदृश्यविधिः"
 
-#: views/dolphinviewactionhandler.cpp:699
+#: views/dolphinviewactionhandler.cpp:700
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "संकुचित"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:701
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "संकुचितदृश्यविधिः"
 
-#: views/dolphinviewactionhandler.cpp:710
+#: views/dolphinviewactionhandler.cpp:711
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "वर्णन"
 
-#: views/dolphinviewactionhandler.cpp:711
+#: views/dolphinviewactionhandler.cpp:712
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "विवरणदृश्यविधिः"
 
-#: views/dolphinviewactionhandler.cpp:734
+#: views/dolphinviewactionhandler.cpp:735
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:735
+#: views/dolphinviewactionhandler.cpp:736
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "अ-झ"
 
-#: views/dolphinviewactionhandler.cpp:737
+#: views/dolphinviewactionhandler.cpp:738
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "बृहत्तमः प्रथमः"
 
-#: views/dolphinviewactionhandler.cpp:738
+#: views/dolphinviewactionhandler.cpp:739
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "लघुतम प्रथम"
 
-#: views/dolphinviewactionhandler.cpp:740
+#: views/dolphinviewactionhandler.cpp:741
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "नवीनतम प्रथम"
 
-#: views/dolphinviewactionhandler.cpp:741
+#: views/dolphinviewactionhandler.cpp:742
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "प्राचीनतम प्रथम"
 
-#: views/dolphinviewactionhandler.cpp:743
+#: views/dolphinviewactionhandler.cpp:744
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "उच्चतम प्रथम"
 
-#: views/dolphinviewactionhandler.cpp:744
+#: views/dolphinviewactionhandler.cpp:745
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "निम्नतम प्रथम"
 
-#: views/dolphinviewactionhandler.cpp:746
+#: views/dolphinviewactionhandler.cpp:747
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "अवतरन्"
 
-#: views/dolphinviewactionhandler.cpp:747
+#: views/dolphinviewactionhandler.cpp:748
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "आरोहणम्"
 
-#: views/dolphinviewactionhandler.cpp:845
+#: views/dolphinviewactionhandler.cpp:846
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6827,12 +6827,12 @@ msgstr "वर्तमानदृश्यस्य कृते क्रि�
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:854
+#: views/dolphinviewactionhandler.cpp:855
 #, kde-format
 msgid "Actions for %1"
 msgstr "%1 कृते क्रियाः"
 
-#: views/dolphinviewactionhandler.cpp:861
+#: views/dolphinviewactionhandler.cpp:862
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
