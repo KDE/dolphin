@@ -1818,7 +1818,7 @@ void DolphinView::selectFileOnceAvailable(const QUrl &url, std::function<bool()>
     });
 }
 
-void DolphinView::observeCreatedDirectory(const QUrl &url)
+void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
 {
     if (!m_active) {
         return;
@@ -1830,8 +1830,8 @@ void DolphinView::observeCreatedDirectory(const QUrl &url)
     }
 
     // select the new directory
-    if (!m_model->fileItem(url).isNull()) {
-        forceUrlsSelection(url, {url});
+    if (!m_model->fileItem(newDirectoryUrl).isNull()) {
+        forceUrlsSelection(newDirectoryUrl, {newDirectoryUrl});
         return;
     }
 
@@ -1840,8 +1840,16 @@ void DolphinView::observeCreatedDirectory(const QUrl &url)
         return !m_container->controller()->selectionManager()->hasSelection();
     });
 
+    // in case, a new hiercachy was created, select the first folder in its parent path
+    auto targetUrl = newDirectoryUrl;
+    auto parentUrl = targetUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+    while (parentUrl != m_url) {
+        targetUrl = parentUrl;
+        parentUrl = targetUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+    }
+
     // need to wait for the item to be added to the model
-    selectFileOnceAvailable(url, condition);
+    selectFileOnceAvailable(targetUrl, condition);
 }
 
 void DolphinView::observeCreatedItem(const QUrl &url)
