@@ -646,6 +646,20 @@ install(
     DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin
 )
 
+add_executable(
+    dolphin_update_splitviewsettings
+    "settings/dolphin_update_splitviewsettings.cpp"
+)
+target_link_libraries(dolphin_update_splitviewsettings
+    KF6::ConfigCore
+    KF6::XmlGui
+)
+install(
+    TARGETS
+        dolphin_update_splitviewsettings
+    DESTINATION ${KDE_INSTALL_LIBDIR}/kconf_update_bin
+)
+
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()

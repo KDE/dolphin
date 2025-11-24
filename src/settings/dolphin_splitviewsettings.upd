@@ -1,0 +1,6 @@
+#Configuration update for Dolphin
+Version=6
+
+#Convert bool CloseActiveSplitView to enum CloseSplitViewChoice
+Id=24.11.2025-convert-closeactivesplitview-bool-to-closesplitviewchoice-enum
+Script=dolphin_update_splitviewsettings
