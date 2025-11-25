@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-23 00:45+0000\n"
-"PO-Revision-Date: 2025-11-18 12:29+0100\n"
+"PO-Revision-Date: 2025-11-22 18:10+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -6849,25 +6849,19 @@ msgstr ""
 "déroulante contient diverses actions liées à l'affichage."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Sort By field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Trier par champ"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "item:intable"
-#| msgid "Show Field"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "Afficher le champ"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in sort by file attribute"
-#| msgid "Sort By: %1"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
 msgstr "Trier par : %1"
