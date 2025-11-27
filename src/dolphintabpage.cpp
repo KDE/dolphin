@@ -25,11 +25,11 @@ void resetSplitterSizes(QSplitter *splitter)
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget *parent)
     : QWidget(parent)
-    , m_splitterLastPosition(0)
     , m_expandingContainer{nullptr}
     , m_primaryViewActive(true)
     , m_splitViewEnabled(false)
     , m_active(true)
+    , m_splitterLastPosition(0)
 {
     QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(0);

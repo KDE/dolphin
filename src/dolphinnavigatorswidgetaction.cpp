@@ -22,8 +22,6 @@
 #include <QStyle>
 #include <QToolBar>
 
-#include <limits>
-
 DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent)
     : QWidgetAction{parent}
     , m_splitter{new QSplitter(Qt::Horizontal)}
@@ -149,6 +147,12 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
         // Fix an unlikely event of wrong trash button visibility.
         emptyTrashButton(Secondary)->setVisible(false);
     }
+#if KIO_VERSION >= QT_VERSION_CHECK(6, 21, 0)
+    primaryUrlNavigator()->setHighlightFocusIndicator(visible);
+    if (secondaryUrlNavigator()) {
+        secondaryUrlNavigator()->setHighlightFocusIndicator(visible);
+    }
+#endif
     updateText();
 }
 
@@ -329,7 +333,7 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper(QWidge
 bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Resize) {
-        if (qobject_cast<QWidget*>(m_navigatorsWidgetAction->parent())->window()->width() != m_navigatorsWidgetAction->m_previousWindowWidth) {
+        if (qobject_cast<QWidget *>(m_navigatorsWidgetAction->parent())->window()->width() != m_navigatorsWidgetAction->m_previousWindowWidth) {
             // The window is being resized which means not all widgets have gotten their new sizes yet.
             // Let's wait a bit so the sizes of the navigatorsWidget and the viewContainers have all
             // had a chance to be updated.
