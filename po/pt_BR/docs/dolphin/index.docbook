@@ -107,6 +107,20 @@
 ><contrib
 >Tradução</contrib
 ></othercredit
+><othercredit role="translator"
+><firstname
+>Geraldo</firstname
+><surname
+>Simião</surname
+><affiliation
+><address
+><email
+>geraldosimiao@fedoraproject.org</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
 > 
 </authorgroup>
 
@@ -135,9 +149,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->30/09/2019</date>
+>17-01-2022</date>
 <releaseinfo
->Applications 19.12</releaseinfo>
+>KDE Gear 22.04</releaseinfo>
 
 <abstract>
 <para
@@ -353,7 +367,7 @@
 <listitem
 ><para
 >Arquivos e pastas podem ser abertos clicando sobre eles com o &LMB; (ou com um clique duplo, caso a opção <guilabel
->Clique duplo para abrir arquivos e pastas</guilabel
+>Clique duplo para abrir</guilabel
 > esteja habilitada nas &systemsettings;, através do módulo <menuchoice
 ><guimenu
 >Dispositivos de entrada</guimenu
@@ -400,7 +414,7 @@
 </screenshot>
 
 <para
->Se você clicar com o &MMB; o item no histórico será aberto em uma nova guia além de manter a guia atual com seu conteúdo. </para>
+>Se você clicar com o &MMB; o item no histórico será aberto em uma nova aba além de manter a aba atual com seu conteúdo. </para>
 </sect2>
 
 <sect2 id="dolphin-view-appearance">
@@ -432,7 +446,7 @@
 >Todas as configurações discutidas abaixo e as outras opções relacionadas, &eg;, à ordenação dos arquivos na pasta atual, também podem ser modificadas no menu <guimenu
 >Exibir</guimenu
 > e na <link linkend="view-properties-dialog"
->caixa de diálogo de propriedades de exibição</link
+>caixa de diálogo de estilo de exibição</link
 >. Por padrão, essas opções serão definidas separadamente para cada pasta. Esse comportamento pode ser alterado na seção <link linkend="preferences-dialog-general"
 ><quote
 >Geral</quote
@@ -480,7 +494,7 @@
 >Detalhes</guibutton
 >, o conteúdo da pasta é apresentado como uma lista detalhada, que contém o nome, o tamanho e a data de modificação de cada item. Você pode adicionar novas colunas, clicando no cabeçalho de uma coluna existente com o &RMB;. </para>
 <para
->No menu de contexto da linha do cabeçalho, você poderá escolher se a largura das colunas será automática ou personalizada. A largura automática ajusta a largura de todas as colunas de uma vez, de modo a mostrar o item mais longo na coluna por completo, exceto a coluna <guilabel
+>No menu de contexto da linha do cabeçalho, você poderá adicionar ou remover o preenchimento lateral marcando ou desmarcando o respectivo item de menu e escolher se a largura das colunas será automática ou personalizada. A largura automática ajusta a largura de todas as colunas de uma vez, de modo a mostrar o item mais longo na coluna por completo, exceto a coluna <guilabel
 >Nome</guilabel
 >, onde a extensão é substituída por <quote
 >...</quote
@@ -600,12 +614,12 @@
 
 <sect3 id="preview">
 <title
->Visualizar</title>
+>Prévia</title>
 
 <para
 >Se a opção <guibutton
 >Visualizar</guibutton
-> estiver ativa, os ícones serão baseados no arquivo atual ou no conteúdo da pasta. Por exemplo, para as imagens será apresentada uma visualização reduzida. </para>
+> estiver ativa, os ícones serão baseados no arquivo atual ou no conteúdo da pasta. Por exemplo, para as imagens será apresentada uma prévia reduzida. </para>
 
 </sect3>
 
@@ -834,10 +848,10 @@ has all features from dolphin ?-->
 >SSH</acronym
 >. Para isso, você deve digitar <userinput
 >fish://usuário@servidor</userinput
-> na barra de localização. Pode ser feito um gerenciamento de arquivos remotos semelhantes em máquinas que estejam acessíveis pelos protocolos &FTP;, NFS, SFTP, SMB (CIFS) ou WebDAV.</para>
+> na barra de localização. Pode ser feito um gerenciamento de arquivos remotos semelhantes em máquinas que estejam acessíveis pelos protocolos  &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) ou WebDAV.</para>
 
 <para
->Também é possível usar a lista de kioslaves para acessar as &systemsettings;, fontes, Lixeira e outros programas e dispositivos conectados ao seu computador. Veja a lista a seguir para conhecer todos os recursos disponíveis pelos kioslaves no seu sistema. </para>
+>Também é possível usar o menu suspenso de kioslaves para acessar as &systemsettings;, fontes, Lixeira e outros programas e dispositivos conectados ao seu computador. Veja o menu suspenso a seguir para conhecer todos os recursos disponíveis pelos kioslaves no seu sistema. </para>
 <screenshot>
 <screeninfo
 >Imagem da lista de kioslaves</screeninfo>
@@ -953,7 +967,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >O painel <guilabel
 >Informações</guilabel
-> mostra dados estendidos sobre os itens selecionados, sobre a pasta atual ou sobre o arquivo onde o ponteiro do mouse se encontra, incluindo o seu tamanho, tipo e data da última modificação. A informação também inclui uma previsão ampliada do arquivo selecionado. Você também poderá atribuir a ele uma avaliação, etiquetas de identificação e comentários. </para>
+> mostra dados estendidos sobre os itens selecionados, sobre a pasta atual ou sobre o arquivo onde o ponteiro do mouse se encontra, incluindo o seu tamanho, tipo e data da última modificação. A informação também inclui uma prévia ampliada do arquivo selecionado. Você também poderá atribuir a ele uma avaliação, etiquetas de identificação e comentários. </para>
 <!--FIXME panel context menu-->
 </sect2>
 
@@ -1004,6 +1018,41 @@ context menu Icon Size? No different entries ?-->
 ></menuchoice
 > no menu de contexto. </para>
 
+<note>
+    <para
+>A visibilidade do item de menu correspondente pode ser alternada através do <link linkend="preferences-dialog-context-menu"
+>&dolphin; configurações do menu de contexto</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Filtragem de arquivos</title>
+
+<para
+>O &dolphin; consegue filtrar uma seleção de arquivos, &ie;, mostrar somente esses itens na área de exibição, cujo nome contém um determinado texto. Por exemplo, se quiser mostrar apenas os arquivos <acronym
+>MP3</acronym
+> que existem em determinada pasta, poderá filtrar com o texto <quote
+>.mp3</quote
+>. </para>
+
+<para
+>Para filtrar arquivos, primeiro ative a barra de filtros pressionando <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> ou através do menu: <menuchoice
+> <guimenu
+>Editar</guimenu
+><guimenuitem
+>Filtrar...</guimenuitem
+> </menuchoice
+>. Você pode então inserir o texto a ser filtrado na barra de filtragem. A barra de  filtragem pode ser desativada pressionando &Esc; ou clicando com o botão esquerdo do mouse no ícone <guiicon
+>Ocultar a barra de filtragem</guiicon
+>. </para>
+
 </sect2>
 
 <sect2 id="finding-searching-in-file">
@@ -1029,7 +1078,7 @@ context menu Icon Size? No different entries ?-->
 >Pesquisar por nome dos arquivos e pelo seu conteúdo</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="nepomuk-search.png" format="PNG"/>
+<imagedata fileref="baloo-search.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -1065,7 +1114,7 @@ context menu Icon Size? No different entries ?-->
 >Pesquisa com mais opções</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -1093,7 +1142,16 @@ context menu Icon Size? No different entries ?-->
 >Vídeo</guilabel
 >, <guilabel
 >Imagens</guilabel
->), um período de tempo e a avaliação.</para>
+>), um período de tempo, classificação e tag, se você tiver definido alguma via <userinput
+>tag:<replaceable
+>foo</replaceable
+></userinput
+> na caixa de entrada.</para>
+ 
+ <para
+>É possível limpar a seleção usando o botão <guibutton
+>Limpar seleção</guibutton
+>.</para>
 
 <para
 >Alternativamente, você poderá usar estas opções no painel <guilabel
@@ -1104,15 +1162,15 @@ context menu Icon Size? No different entries ?-->
 
 <para
 >Use o ícone Salvar para salvar uma busca da seção <guilabel
->Pesquisar Por</guilabel
+>Pesquisar por</guilabel
 > no painel <guilabel
 >Locais</guilabel
 > para acessá-la rapidamente no futuro. </para>
-<!--FIXME 16.12
-https://git.reviewboard.kde.org/r/123883/
-Add prototype of a "More search tools..." button
--->
 
+<para
+>Use a lista suspensa <guilabel
+>Mais ferramentas de pesquisa</guilabel
+> para selecionar outras ferramentas de pesquisa além do Baloo. </para>
 </sect2>
 
 <sect2 id="mounting-storage-media">
@@ -1195,34 +1253,6 @@ Add prototype of a "More search tools..." button
 
 </sect2>
 
-<sect2 id="filter-files">
-<title
->Filtragem de arquivos</title>
-
-<para
->O &dolphin; consegue filtrar uma seleção de arquivos, &ie;, mostrar somente esses itens na área de exibição, cujo nome contém um determinado texto. Por exemplo, se quiser mostrar apenas os arquivos <acronym
->MP3</acronym
-> que existem em determinada pasta, poderá filtrar com o texto <quote
->.mp3</quote
->. </para>
-
-<para
->Para filtrar os arquivos, ative primeiro a barra do filtro, seja pressionando a tecla <keycombo action="simul"
->&Ctrl;<keycap
->I</keycap
-></keycombo
-> ou através da opção <menuchoice
-> <guimenu
->Ferramentas</guimenu
-> <guimenuitem
->Mostrar a barra de filtragem</guimenuitem
-> </menuchoice
->. Você poderá então inserir o texto a ser filtrado na barra de filtragem. A barra de filtragem pode ser desativada pressionando &Esc; ou clicando com o &LMB; no ícone <guiicon
->Ocultar a barra de filtragem</guiicon
->. </para>
-
-</sect2>
-
 </sect1>
 
 </chapter>
@@ -1244,12 +1274,12 @@ Add prototype of a "More search tools..." button
 <listitem
 ><para
 >A configuração que define como deve ser apresentado o conteúdo de uma pasta no &dolphin;. Essa configuração é chamada de <link linkend="view-properties"
->Propriedades de exibição</link
+>Estilo de exibição</link
 > e pode ser controlada com os botões da barra de ferramentas, através do menu <guimenu
 >Exibir</guimenu
 > e com a <link linkend="view-properties-dialog"
->caixa de diálogo das propriedades de exibição</link
->. Na configuração padrão, as propriedades de exibição serão definidas para cada pasta, mas o &dolphin; também pode ser configurado para usar as propriedades comuns em todas as pastas, na seção <link linkend="preferences-dialog-general-behavior"
+>caixa de diálogo do estilo de exibição</link
+>. Na configuração padrão, todas as pastas usam o mesmo estilo de exibição, mas o &dolphin; também pode ser configurado para lembrar o estilo de exibição de cada pastas separadamente na seção <link linkend="preferences-dialog-general-behavior"
 ><quote
 >Geral</quote
 ></link
@@ -1318,9 +1348,9 @@ Add prototype of a "More search tools..." button
 ><para
 >Na seção <guilabel
 >Exibir</guilabel
->, você poderá configurar se as <link linkend="view-properties"
->propriedades da área de exibição</link
-> são armazenadas em cada pasta ou se deve-se usar propriedades de exibição comuns para todas as pastas. </para
+>, você poderá configurar se os mesmos <link linkend="view-properties"
+>estilos de exibição</link
+> são compartilhados entre todas as pastas ou as pastas se lembram de seus estilos de exibição individuais. </para
 ></listitem>
 
 <listitem
@@ -1409,10 +1439,10 @@ Add prototype of a "More search tools..." button
 
 <sect3 id="preferences-dialog-general-previews">
 <title
->Aba Visualizações</title>
+>Aba de Prévias</title>
 
 <para
->Nesta aba, você poderá configurar para quais tipos de arquivo as miniaturas serão apresentadas. Além disso, poderá também definir o tamanho máximo dos arquivos remotos para geração de miniaturas. </para>
+>Nesta aba, você poderá configurar para quais tipos de arquivo as miniaturas serão apresentadas. Além disso, poderá também definir o tamanho máximo dos arquivos locais e remotos para geração de miniaturas. </para>
 <para
 >Se a opção de geração de miniaturas para pastas estiver assinalada, os ícones das pastas mostrarão pequenas imagens que representam as miniaturas de alguns de seus arquivos. </para>
 </sect3>
@@ -1423,12 +1453,12 @@ Add prototype of a "More search tools..." button
 <para
 >Na seção para confirmar as solicitações, você poderá ativar as caixas de diálogo de aviso que aparecem antes de efetuar determinadas ações que possam ser consideradas perigosas. </para>
 <para
->Isto também permite escolhar uma ação padrão para <guilabel
+>Isto também permite escolher uma ação padrão para <guilabel
 >Ao abrir um arquivo executável</guilabel
 >. Há três opções denominadas, respectivamente, <guimenuitem
 >Perguntar sempre</guimenuitem
 >, <guimenuitem
->Abrir com a aplicação</guimenuitem
+>Abrir no aplicativo</guimenuitem
 > e <guimenuitem
 >Executar script</guimenuitem
 >. </para>
@@ -1438,9 +1468,7 @@ Add prototype of a "More search tools..." button
 >Mover arquivos ou pastas para a Lixeira</guilabel
 > e <guilabel
 >Excluir arquivos ou pastas</guilabel
-> afetam as operações com arquivos no &dolphin;, &konqueror;, <application
->Gwenview</application
-> e todos os outros aplicativos do &kde; que usam a caixa de diálogo de arquivos padrão do &kde;, enquanto que <guilabel
+> afetam as operações com arquivos no &dolphin;, &konqueror;, &gwenview; e todos os outros aplicativos do &kde; que usam a caixa de diálogo de arquivos padrão do &kde;, enquanto que <guilabel
 >Fechar janelas do Dolphin com várias abas</guilabel
 > é uma opção exclusiva do &dolphin;.</para
 ></warning>
@@ -1455,14 +1483,23 @@ Add prototype of a "More search tools..." button
 
 <listitem
 ><para
->Uma <guilabel
->barra de zoom</guilabel
->, que poderá ser usada para alterar rapidamente o tamanho dos ícones. </para
+>O item <guilabel
+>Mostrar barra de status</guilabel
+> pode ser usado para alternar a visibilidade da barra de status. </para
 ></listitem>
 
 <listitem
 ><para
->Uma barra que mostra quanto espaço livre existe na unidade atual. </para
+>O item <guilabel
+>Mostrar barra de zoom</guilabel
+> permite alternar a visibilidade do widget de tamanho do ícone. </para
+></listitem>
+
+<listitem
+><para
+>O item <guilabel 
+>Mostrar informação de espaço</guilabel 
+> pode ser usado para ativar e desativar uma barra que mostra quanto espaço está livre no drive atual. </para
 ></listitem>
 
 </itemizedlist>
@@ -1500,9 +1537,33 @@ Add prototype of a "More search tools..." button
 
 <listitem
 ><para
->A pasta <guilabel
->Iniciar em</guilabel
-> é aquela que será aberta ao iniciar o programa. A localização da pasta pode ser inserida diretamente ou escolhida na caixa de diálogo que é aberta ao clicar no botão com ícone em forma de <quote
+>A opção <guilabel 
+>Mostrar ao iniciar</guilabel 
+> permite escolher a pasta que é aberta ao iniciar. </para>
+<para
+>Se o item <guimenuitem
+>Pastas, abas e estado da janela usados da última vez</guimenuitem
+> estiver selecionado, então </para>
+<itemizedlist>
+    <listitem>
+        <para
+>Quando iniciado a partir do &GUI; ou CLI sem nenhum &URL;s, &dolphin; restaura a sessão</para>
+    </listitem>
+    <listitem>
+        <para
+>Ao reiniciar com o &dolphin; aberto, ele restaura a sessão normalmente depois que o sistema volta</para>
+    </listitem>
+    <listitem>
+        <para
+>Quando iniciado com &URL;s, &dolphin; é aberta uma janela que mostra esses &URL;s em vez de restaurar a sessão</para>
+    </listitem>
+    <listitem>
+        <para
+>Quando o &dolphin; já está em execução e uma nova janela é aberta, essa nova janela mostra uma única aba com o mesmo &URL; como era visível na instância &dolphin; previamente aberta</para>
+    </listitem>
+</itemizedlist>
+<para
+>A localização da pasta também pode ser inserida diretamente ou escolhida na caixa de diálogo que é aberta ao clicar no botão com ícone em forma de <quote
 >pasta</quote
 >. Além disso, a localização atual ou a localização padrão (que é a pasta do usuário) poderá ser usada como a pasta de inicialização ao clicar no botão correspondente. </para
 ></listitem>
@@ -1510,28 +1571,10 @@ Add prototype of a "More search tools..." button
 <listitem
 ><para
 >O <guilabel
->Modo de exibição dividida</guilabel
+>Iniciar no modo de exibição dividida</guilabel
 > controla se a <link linkend="dolphin-view"
 > área de exibição do &dolphin;</link
-> ficará ou não dividida ao iniciar. </para
-></listitem>
-
-<listitem
-><para
->A <guilabel
->barra de localização editável</guilabel
-> controla se a barra de localização ficará no modo de edição ao iniciar. Caso contrário, será utilizado o modo de navegação da barra de localização. Consulte a <link linkend="location-bar"
->seção sobre a barra de localização</link
-> para aprender mais sobre os dois modos. </para
-></listitem>
-
-<listitem
-><para
->Se a opção <guilabel
->Mostrar o caminho completo na barra de localização</guilabel
-> estiver selecionada, o caminho completo será exibido no modo de navegação da barra de localização. Caso contrário, uma versão reduzida do caminho será exibida, se ele iniciar com o caminho de um dos itens do painel <guilabel
->Locais</guilabel
->. </para
+> ficará ou não dividida ao iniciar para novas janelas. </para
 ></listitem>
 
 <listitem
@@ -1546,16 +1589,35 @@ Add prototype of a "More search tools..." button
 <listitem
 ><para
 ><guilabel
->Exibir caminho completo na barra de título</guilabel
-> torna mais fácil a distinção entre arquivos ou pastas com o mesmo nome em diferentes diretórios. </para
+>Tornar a barra de localização editável</guilabel
+> controla se a barra de localização ficará no modo de edição ao iniciar. Caso contrário, será utilizado o modo de navegação da barra de localização. Consulte a <link linkend="location-bar"
+>seção sobre a barra de localização</link
+> para aprender mais sobre os dois modos. </para
 ></listitem>
 
 <listitem
 ><para
 ><guilabel
 >Abrir pastas em novas abas</guilabel
-> controla se o &dolphin; deve abrir uma nova pasta em uma nova guia da instância atual quando chamada externamente. Se esta opção estiver desabilitada, as novas pastas serão abertas em novas instâncias do &dolphin;. Por padrão, esta opção está habilitada. </para
+> controla se o &dolphin; deve abrir uma nova pasta em uma nova aba da instância atual quando chamada externamente. Se esta opção estiver desabilitada, as novas pastas serão abertas em novas instâncias do &dolphin;. Por padrão, esta opção está habilitada. </para
 ></listitem>
+
+<listitem
+><para
+>Se a opção <guilabel
+>Mostrar o caminho completo na barra de localização</guilabel
+> estiver selecionada, o caminho completo será exibido no modo de navegação da barra de localização. Caso contrário, uma versão reduzida do caminho será exibida, se ele iniciar com o caminho de um dos itens do painel <guilabel
+>Locais</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Exibir caminho completo na barra de título</guilabel
+> torna mais fácil a distinção entre arquivos ou pastas com o mesmo nome em diferentes diretórios. </para
+></listitem>
+
 </itemizedlist>
 
 </para>
@@ -1600,8 +1662,8 @@ Add prototype of a "More search tools..." button
 >Barras que controlam o tamanho dos ícones. Os tamanhos <guilabel
 >Padrão</guilabel
 > ou <guilabel
->Visualização</guilabel
-> são usados se as visualizações estiverem desativadas ou ativadas, respectivamente. Lembre-se de que o tamanho dos ícones poderá ser facilmente alterado com a barra deslizante, localizada na barra de status, caso a opção correspondente estiver ativada na seção <link linkend="preferences-dialog-general-statusbar"
+>Prévia</guilabel
+> são usados se as prévias estiverem desativadas ou ativadas, respectivamente. Lembre-se de que o tamanho dos ícones poderá ser facilmente alterado com a barra deslizante, localizada na barra de status, caso a opção correspondente estiver ativada na seção <link linkend="preferences-dialog-general-statusbar"
 ><quote
 >Geral</quote
 ></link
@@ -1670,8 +1732,30 @@ Add prototype of a "More search tools..." button
 >&gt;</guiicon
 > e fechados ao clicar no ícone <guiicon
 >v</guiicon
->. </para
-></listitem>
+>. </para>
+<para
+><guilabel
+>Tamanho da pasta</guilabel
+> permite definir a propriedade a ser usada para classificar pastas por tamanho. É possível classificar pastas pelo número de itens, escolhendo <guilabel
+>Mostrar número de itens</guilabel
+>, ou pelo tamanho do conteúdo, escolhendo <guilabel
+>Mostrar tamanho do conteúdo</guilabel
+>. O nível de recursão pode ser limitado, o que pode ser útil para restringir iterações desnecessárias em estruturas de pastas complexas ou em sistemas de arquivos lentos. Também é possível desativar a exibição do tamanho da pasta, escolhendo <guilabel
+>Não mostrar tamanho</guilabel
+> (o que pode melhorar o desempenho em casos raros, porém afeta outros recursos, como a classificação). </para>
+<para
+>A opção <guilabel
+>Estilo de data</guilabel
+> pode ser usada para configurar o modo de exibição de datas no &dolphin;. É possível escolher entre <guilabel
+>Relativo</guilabel
+> (&eg;, <quote
+>Ontem, 15:00</quote
+>) ou <guilabel
+>Absoluto</guilabel
+> (&eg;, <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
 </itemizedlist>
 </para>
 </sect3>
@@ -1705,11 +1789,11 @@ Add prototype of a "More search tools..." button
 
 <listitem
 ><para
->A opção para abrir itens com clique único ou clique duplo no mouse é uma definição a nível de sistema e pode ser alterada nas &systemsettings;, no módulo <menuchoice
+>A opção de abrir itens com um clique simples ou duplo do mouse é uma configuração de todo o sistema e pode ser alterada em &systemsettings; no módulo <menuchoice
 ><guimenu
->Dispositivos de entrada</guimenu
+>Espaço de trabalho</guimenu
 > <guimenuitem
->Mouse</guimenuitem
+>Comportamento geral</guimenuitem
 ></menuchoice
 >.</para>
 </listitem>
@@ -1734,7 +1818,7 @@ Add prototype of a "More search tools..." button
 
 </sect2>
 
-<sect2 id="preferences-dialog-services">
+<sect2 id="preferences-dialog-context-menu">
 <title
 >Serviços</title>
 
@@ -1745,10 +1829,10 @@ Add prototype of a "More search tools..." button
 
 <screenshot>
 <screeninfo
->Imagem das configurações da página Serviços, na caixa de diálogo de preferências do &dolphin;</screeninfo>
+>Imagem das configurações do menu de Serviços, na caixa de diálogo de preferências do &dolphin;</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="preferences-services.png" format="PNG"/>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
@@ -1776,13 +1860,25 @@ Add prototype of a "More search tools..." button
 >Subversion</guilabel
 > do módulo kdesdk, esses serviços também serão exibidos na lista. Se estes plugins forem ativados e você inserir uma pasta que esteja sob controle de versões, o estado da versão (modificada localmente, atualizada, &etc;) será indicado através de ícones e alguns itens adicionais serão adicionados ao menu de contexto, como o enviar, atualizar, adicionar, remover, &etc; </para>
 <para
->Na lista de serviços, você poderá escolher se os comandos <guimenuitem
->Excluir</guimenuitem
->, <guimenuitem
+>Na lista de serviços, você também pode escolher se os comandos <guimenuitem
 >Copiar para</guimenuitem
-> e <guimenuitem
+>, <guimenuitem
 >Mover para</guimenuitem
-> devem aparecer no menu contexto. </para>
+>, <guimenuitem
+>Adicionar a locais</guimenuitem
+>, <guimenuitem
+>Ordenar por</guimenuitem
+>, <guimenuitem
+>Modo de visualização</guimenuitem
+>, <guimenuitem
+>Abrir em nova guia</guimenuitem
+>, <guimenuitem
+>Abrir em nova janela</guimenuitem
+>, <guimenuitem
+>Copiar local</guimenuitem
+> e <guimenuitem
+>Duplicar aqui</guimenuitem
+> serão exibidos no menu de contexto. </para>
 <para
 >O &dolphin; deverá ser reiniciado para ativar as algumas das alterações nesta configuração. </para>
 
@@ -1829,11 +1925,47 @@ Add prototype of a "More search tools..." button
 
 </sect2>
 
+<sect2 id="preferences-user-feedback">
+<title
+>Feedback do usuário</title>
+
+<para
+>Este grupo contém configurações que controlam suas informações de contribuição sobre o uso do &dolphin; para seus desenvolvedores. <screenshot>
+<screeninfo
+>Captura de tela das configurações de feedback do usuário na caixa de diálogo de preferências do &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configurações de feedback do usuário.</phrase>
+</textobject>
+<caption
+><para
+>Configurações de feedback do usuário na caixa de diálogo Preferências do &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Você pode contribuir com algum feedback sobre o &dolphin; se você desejar. Use os controles deslizantes para configurar seu nível de participação. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
 </sect1>
 <!-- begin copy to konqueror filemanager.docbook -->
 <sect1 id="view-properties">
 <title
->Propriedades de exibição das pastas</title>
+>Estilo de exibição das pastas</title>
 
 <para
 >As seguintes opções controlam como o conteúdo de uma pasta é apresentado na área de exibição do &dolphin;, sendo armazenadas em cada pasta por padrão: </para>
@@ -1856,9 +1988,9 @@ Add prototype of a "More search tools..." button
 
 <listitem
 ><para
->Visualizações &ndash; são apresentadas em vez dos ícones (com base nas opções escolhidas na aba <link linkend="preferences-dialog-general-previews"
+>Prévias &ndash; são apresentadas em vez dos ícones (com base nas opções escolhidas na aba <link linkend="preferences-dialog-general-previews"
 ><guilabel
->Visualizações</guilabel
+>Prévias</guilabel
 > das configurações gerais do &dolphin;</link
 >) ou não? </para
 ></listitem>
@@ -1880,7 +2012,7 @@ Add prototype of a "More search tools..." button
 
 </itemizedlist>
 <para
->As propriedades de exibição podem ser configuradas a partir do menu <menuchoice
+>Os estilos de exibição podem ser configuradas a partir do menu <menuchoice
 ><guimenu
 >Exibir</guimenu
 ></menuchoice
@@ -1888,31 +2020,31 @@ Add prototype of a "More search tools..." button
 
 <sect2 id="view-properties-dialog">
 <title
->Caixa de diálogo Propriedades de exibição</title>
+>Caixa de diálogo de estilos de exibição.</title>
 
 <para>
 
 <screenshot>
 <screeninfo
->Imagem da caixa de diálogo Propriedades de exibição</screeninfo>
+>Imagem da caixa de diálogo de estilos de exibição</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="viewproperties-dialog.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->Caixa de diálogo Propriedades de exibição.</phrase>
+>Caixa de diálogo de estilos de exibição.</phrase>
 </textobject>
 <caption
 ><para
->Caixa de diálogo Propriedades de exibição.</para
+>Caixa de diálogo de estilos de exibição.</para
 ></caption>
 </mediaobject>
 </screenshot
->A caixa de diálogo <guilabel
->Propriedades de exibição</guilabel
-> poderá ser usada para modificar rapidamente diversas propriedades de exibição de uma só vez. Isso é feito para a pasta atual, para esta e todas as subpastas ou mesmo para todas as pastas em conjunto, dependendo da escolha feita na seção <guilabel
->Aplicar em</guilabel
+>A janela <guilabel
+>Exibir estilo de visualização</guilabel
+> pode ser usada para modificar rapidamente os estilos de exibição de várias pastas de uma só vez. Isso pode ser feito para a pasta atual, para a pasta atual incluindo todas as subpastas ou até mesmo para todas as pastas, dependendo da opção selecionada na seção <guilabel
+>Aplicar a</guilabel
 >. </para>
 
 <para
@@ -1962,6 +2094,20 @@ Add prototype of a "More search tools..." button
 >Você pode encontrar uma explicação sobre todos os objetos disponíveis no Manual do &konqueror;, no capítulo <ulink url="help:/konqueror/making.html"
 >Criar novo</ulink
 >.</para>
+<note>
+    <para
+>É possível criar seus próprios itens do submenu <guisubmenu
+>Criar Novo...</guisubmenu
+>. Use os arquivos do <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>repositório fonte KIO</ulink
+> como referência e coloque o arquivo<filename role="extension"
+>.desktop</filename
+>resultante no <filename role="directory"
+>.local/share/templates</filename
+> em seu diretório home (o endereço pode ser determinado usando o comando<userinput
+>kf5-config --path templates</userinput
+> no &konsole;), depois reinicie o &dolphin;. </para>
+</note>
 </listitem>
 </varlistentry>
 
@@ -2148,6 +2294,31 @@ Add prototype of a "More search tools..." button
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arquivo</guimenu
+> <guimenuitem
+>Duplicar aqui</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cria duplicatas dos itens selecionados anexando <replaceable
+> cópia</replaceable
+> ao final de seus nomes.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
 >&Alt;<keycap
 >Return</keycap
 ></keycombo
@@ -2306,6 +2477,81 @@ Add prototype of a "More search tools..." button
 ><action
 >Cola os itens copiados/recortados para a pasta atual. Se a área de transferência não tiver nenhum arquivo ou pasta, o seu conteúdo (se for texto ou dados de uma imagem, por exemplo) será colado como um novo arquivo. O nome deste arquivo deve ser informado em uma caixa de diálogo. </action
 ></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Copiar para visualização dividida inativa</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia o(s) item(ns) atualmente selecionado(s) da visualização dividida ativa para a visualização dividida inativa.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Move para visualização dividia inativa</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Move os itens atualmente selecionados da visualização dividida ativa para a visualização dividida inativa. Está desativado se o usuário atual não tiver permissão de gravação nos itens selecionados.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Filtrar..</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ativa ou desativa a <link linkend="filter-files"
+>barra de filtragem</link
+>.</action
+> Você também pode utilizar o atalho alternativo <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+> para esta ação.</para
 ></listitem>
 </varlistentry>
 
@@ -2543,13 +2789,13 @@ Add prototype of a "More search tools..." button
 ><guimenu
 >Exibir</guimenu
 > <guimenuitem
->Mostrar visualizações</guimenuitem
+>Exibir prévias</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
 ><action
->Mostra uma previsão simbólica do conteúdo do arquivo</action
+>Mostra uma prévia simbólica do conteúdo do arquivo</action
 > nos diferentes modos de exibição.</para
 ></listitem>
 </varlistentry>
@@ -2762,14 +3008,14 @@ Add prototype of a "More search tools..." button
 ><guimenu
 >Exibir</guimenu
 > <guimenuitem
->Ajustar as propriedades de exibição...</guimenuitem
+>Ajustar os estilos de exibição...</guimenuitem
 > </menuchoice
 ></term>
 <listitem
 ><para
 ><action
 >Abre a <link linkend="view-properties-dialog"
->caixa de diálogo de propriedades de exibição</link
+>caixa de diálogo de estilos de exibição</link
 >.</action
 ></para
 ></listitem>
@@ -2910,35 +3156,6 @@ Add prototype of a "More search tools..." button
 ><menuchoice
 ><shortcut
 > <keycombo action="simul"
->&Ctrl;<keycap
->I</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Ferramentas</guimenu
-> <guimenuitem
->Mostrar a barra de filtragem</guimenuitem
-> </menuchoice
-></term>
-<listitem
-><para
-><action
->Ativa ou desativa a <link linkend="filter-files"
->barra de filtragem</link
->.</action
-> Você também pode utilizar o atalho alternativo <keycombo action="simul"
->&Shift;<keycap
->/</keycap
-></keycombo
-> para esta ação.</para
-></listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><shortcut
-> <keycombo action="simul"
 >&Shift;<keycap
 >F4</keycap
 ></keycombo
@@ -3026,9 +3243,9 @@ Add prototype of a "More search tools..." button
 >Configurações</guimenu
 > e <guimenu
 >Ajuda</guimenu
->. Para obter mais informações, leia as seções sobre o <ulink url="help:/fundamentals/ui.html#menus-settings"
+>. Para obter mais informações, leia as seções sobre o <ulink url="help:/fundamentals/menus.html#menus-settings"
 >Menu Configurações</ulink
-> e o <ulink url="help:/fundamentals/ui.html#menus-help"
+> e o <ulink url="help:/fundamentals/menus.html#menus-help"
 >Menu Ajuda</ulink
 > dos Fundamentos do &kde;. </para>
 </sect2>
@@ -3074,8 +3291,8 @@ Add prototype of a "More search tools..." button
 </question>
 <answer>
 <para
->O canal oficial para envio de relatórios de erros é através do sistema de gerenciamento de erros do &kde;, que pode ser encontrado em <ulink url="http://bugs.kde.org"
->http://bugs.kde.org</ulink
+>O canal oficial para envio de relatórios de erros é através do sistema de gerenciamento de erros do &kde;, que pode ser encontrado em <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
 >. </para>
 </answer>
 </qandaentry>
@@ -3087,8 +3304,8 @@ Add prototype of a "More search tools..." button
 </question>
 <answer>
 <para
->O canal oficial para envio de solicitações de novas funcionalidades é através do sistema de gerenciamento de erros do &kde;, que pode ser encontrado em <ulink url="http://bugs.kde.org"
->http://bugs.kde.org</ulink
+>O canal oficial para envio de solicitações de novas funcionalidades é através do sistema de gerenciamento de erros do &kde;, que pode ser encontrado em <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
 >. </para>
 
 </answer>
@@ -3163,6 +3380,10 @@ Add prototype of a "More search tools..." button
 > <para
 >André Marcelo Alvarenga <email
 >alvarenga@kde.org</email
+></para
+><para
+>Antonio Henrique L. Rodrigues<email
+>ahlr_2000@yahoo.com</email
 ></para
 > &underFDL; &underGPL; </chapter>
 
