@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-23 00:45+0000\n"
+"POT-Creation-Date: 2025-11-28 00:45+0000\n"
 "PO-Revision-Date: 2023-06-16 19:25+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1837,29 +1837,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Panel Terminal Defokus"
 
-#: dolphinnavigatorswidgetaction.cpp:225
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Masukkan URL server (misal smb://[alamat ip])"
 
-#: dolphinnavigatorswidgetaction.cpp:252
+#: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Kosongkan Tong Sampah"
 
-#: dolphinnavigatorswidgetaction.cpp:253
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Kosongkan Tong Sampah untuk membebaskan penyimpanan"
 
-#: dolphinnavigatorswidgetaction.cpp:279
+#: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Tambahkan Folder Jaringan"
 
-#: dolphinnavigatorswidgetaction.cpp:318
+#: dolphinnavigatorswidgetaction.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

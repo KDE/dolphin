@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-23 00:45+0000\n"
+"POT-Creation-Date: 2025-11-28 00:45+0000\n"
 "PO-Revision-Date: 2025-11-19 20:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1727,29 +1727,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Yerler Paneli Odağını Kaldır"
 
-#: dolphinnavigatorswidgetaction.cpp:225
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Sunucu URL’sini girin (ör. smb://[ip adresi])"
 
-#: dolphinnavigatorswidgetaction.cpp:252
+#: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Çöp Kutusunu Boşalt"
 
-#: dolphinnavigatorswidgetaction.cpp:253
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Boş alan yaratmak için Çöp Kutusu’nu boşaltır"
 
-#: dolphinnavigatorswidgetaction.cpp:279
+#: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Ağ Klasörü Ekle"
 
-#: dolphinnavigatorswidgetaction.cpp:318
+#: dolphinnavigatorswidgetaction.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"

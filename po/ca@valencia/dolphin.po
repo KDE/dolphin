@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-23 00:45+0000\n"
+"POT-Creation-Date: 2025-11-28 00:45+0000\n"
 "PO-Revision-Date: 2025-11-19 10:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1757,29 +1757,29 @@ msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
 msgstr "Trau el focus del quadro de Llocs"
 
-#: dolphinnavigatorswidgetaction.cpp:225
+#: dolphinnavigatorswidgetaction.cpp:229
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
 msgstr "Introduïu l'URL del servidor (p. ex., smb://[adreça IP])"
 
-#: dolphinnavigatorswidgetaction.cpp:252
+#: dolphinnavigatorswidgetaction.cpp:256
 #, kde-format
 msgctxt "@action:button"
 msgid "Empty Trash"
 msgstr "Buida la paperera"
 
-#: dolphinnavigatorswidgetaction.cpp:253
+#: dolphinnavigatorswidgetaction.cpp:257
 #, kde-format
 msgid "Empties Trash to create free space"
 msgstr "Buida la paperera per a crear espai lliure"
 
-#: dolphinnavigatorswidgetaction.cpp:279
+#: dolphinnavigatorswidgetaction.cpp:283
 #, kde-format
 msgctxt "@action:button"
 msgid "Add Network Folder"
 msgstr "Afig una carpeta de xarxa"
 
-#: dolphinnavigatorswidgetaction.cpp:318
+#: dolphinnavigatorswidgetaction.cpp:322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Location Bar"
