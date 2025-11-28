@@ -503,7 +503,7 @@ void DolphinTabWidget::tabInserted(int index)
                 tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(pathUrl)));
             }
             if (tabBar()->tabToolTip(i).isEmpty()) {
-                tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
+                tabBar()->setTabToolTip(i, url.toDisplayString(QUrl::PreferLocalFile));
             }
         }
     }
