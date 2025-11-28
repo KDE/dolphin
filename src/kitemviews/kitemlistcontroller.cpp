@@ -534,6 +534,8 @@ void KItemListController::slotChangeCurrentItem(const QString &text, bool search
         }
 
         m_selectionManager->setCurrentItem(index);
+        m_keyboardAnchorIndex = index;
+        m_keyboardAnchorPos = keyboardAnchorPos(index);
 
         if (m_selectionBehavior != NoSelection) {
             if (!m_selectionMode) { // Don't clear the selection in selection mode.
@@ -654,6 +656,8 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent *event, const 
                 m_selectionManager->endAnchoredSelection();
                 m_selectionManager->setCurrentItem(newCurrent.value());
                 m_selectionManager->beginAnchoredSelection(newCurrent.value());
+                m_keyboardAnchorIndex = newCurrent.value();
+                m_keyboardAnchorPos = keyboardAnchorPos(newCurrent.value());
             }
 
             if (m_view->scrollOrientation() == Qt::Vertical) {
@@ -1625,6 +1629,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         m_selectionManager->endAnchoredSelection();
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
         m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+        m_keyboardAnchorIndex = m_pressedIndex.value();
+        m_keyboardAnchorPos = keyboardAnchorPos(m_pressedIndex.value());
         return true;
     }
 
@@ -1636,6 +1642,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         // the current item and start a new anchored selection now.
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
         m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+        m_keyboardAnchorIndex = m_pressedIndex.value();
+        m_keyboardAnchorPos = keyboardAnchorPos(m_pressedIndex.value());
         return true;
     }
 
@@ -1675,6 +1683,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
                         m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
                         m_selectionManager->setCurrentItem(m_pressedIndex.value());
                         m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+                        m_keyboardAnchorIndex = m_pressedIndex.value();
+                        m_keyboardAnchorPos = keyboardAnchorPos(m_pressedIndex.value());
                     }
                     if (leftClick) {
                         row->setPressed(true);
@@ -1743,6 +1753,8 @@ bool KItemListController::onPress(const QPointF &pos, const Qt::KeyboardModifier
         }
 
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
+        m_keyboardAnchorIndex = m_pressedIndex.value();
+        m_keyboardAnchorPos = keyboardAnchorPos(m_pressedIndex.value());
 
         switch (m_selectionBehavior) {
         case NoSelection:

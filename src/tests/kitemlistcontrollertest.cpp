@@ -78,6 +78,7 @@ private Q_SLOTS:
     void testKeyboardNavigationSingleSelectionNoSelection_data();
     void testKeyboardNavigationSingleSelectionNoSelection();
     void testMouseClickActivation();
+    void testKeyboardNavigationAfterMouseSelection();
 
 private:
     /**
@@ -85,6 +86,7 @@ private:
      * by changing the geometry of the container.
      */
     void adjustGeometryForColumnCount(int count);
+    void simulateMouseClickOnItem(int index);
 
 private:
     KFileItemListView *m_view;
@@ -1149,6 +1151,76 @@ void KItemListControllerTest::testMouseClickActivation()
     // Restore previous settings.
     m_controller->setSingleClickActivationEnforced(true);
     m_testStyle->setActivateItemOnSingleClick(restoreSettingsSingleClick);
+}
+
+/**
+ * This function simulates a mouse click on an item under a given index.
+ */
+void KItemListControllerTest::simulateMouseClickOnItem(int index)
+{
+    const QPointF pos = m_view->itemContextRect(index).center();
+    QGraphicsSceneMouseEvent mousePressEvent(QEvent::GraphicsSceneMousePress);
+    mousePressEvent.setPos(pos);
+    mousePressEvent.setButton(Qt::LeftButton);
+    mousePressEvent.setButtons(Qt::LeftButton);
+
+    QGraphicsSceneMouseEvent mouseReleaseEvent(QEvent::GraphicsSceneMouseRelease);
+    mouseReleaseEvent.setPos(pos);
+    mouseReleaseEvent.setButton(Qt::LeftButton);
+    mouseReleaseEvent.setButtons(Qt::NoButton);
+
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+}
+
+void KItemListControllerTest::testKeyboardNavigationAfterMouseSelection()
+{
+    QApplication::setLayoutDirection(Qt::LeftToRight);
+    m_view->setLayoutDirection(Qt::LeftToRight);
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+    m_model->setGroupedSorting(false);
+
+    adjustGeometryForColumnCount(3);
+    QCOMPARE(m_view->m_layouter->m_columnCount, 3);
+
+    m_view->setScrollOffset(0);
+    QCOMPARE(m_view->firstVisibleIndex(), 0);
+
+    simulateMouseClickOnItem(0);
+    QCOMPARE(m_selectionManager->currentItem(), 0);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 3);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 6);
+
+    simulateMouseClickOnItem(1);
+    QCOMPARE(m_selectionManager->currentItem(), 1);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 4);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 7);
+
+    simulateMouseClickOnItem(2);
+    QCOMPARE(m_selectionManager->currentItem(), 2);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 5);
+
+    QTest::keyClick(m_container, Qt::Key_Down);
+    QCOMPARE(m_selectionManager->currentItem(), 8);
+
+    simulateMouseClickOnItem(10);
+    QCOMPARE(m_selectionManager->currentItem(), 10);
+
+    QTest::keyClick(m_container, Qt::Key_Up);
+    QCOMPARE(m_selectionManager->currentItem(), 7);
+
+    QTest::keyClick(m_container, Qt::Key_Up);
+    QCOMPARE(m_selectionManager->currentItem(), 4);
 }
 
 void KItemListControllerTest::adjustGeometryForColumnCount(int count)
