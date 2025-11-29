@@ -1117,7 +1117,21 @@ void DolphinMainWindow::popoutSplitView()
     DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (!tabPage->splitViewEnabled())
         return;
-    openNewWindow((GeneralSettings::closeActiveSplitView() ? tabPage->activeViewContainer() : tabPage->inactiveViewContainer())->url());
+    using Choice = GeneralSettings::EnumCloseSplitViewChoice;
+    switch (GeneralSettings::closeSplitViewChoice()) {
+    case Choice::ActiveView:
+        openNewWindow(tabPage->activeViewContainer()->url());
+        break;
+    case Choice::InactiveView:
+        openNewWindow(tabPage->inactiveViewContainer()->url());
+        break;
+    case Choice::RightView:
+        openNewWindow(tabPage->secondaryViewContainer()->url());
+        break;
+    default:
+        Q_UNREACHABLE();
+    }
+
     tabPage->setSplitViewEnabled(false, WithAnimation);
     updateSplitActions();
 }
@@ -2805,22 +2819,57 @@ void DolphinMainWindow::updateSplitActions()
 
     const DolphinTabPage *tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
-        if (GeneralSettings::closeActiveSplitView() ? tabPage->primaryViewActive() : !tabPage->primaryViewActive()) {
-            m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
-            m_splitViewAction->setToolTip(i18nc("@info", "Close left view"));
-            m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
-            m_splitViewMenuAction->setText(i18nc("@action:inmenu Close left view", "Close Left View"));
+        using Choice = GeneralSettings::EnumCloseSplitViewChoice;
+        switch (GeneralSettings::closeSplitViewChoice()) {
+        case Choice::ActiveView:
+            if (tabPage->primaryViewActive()) {
+                m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Left View"));
+                m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
+                m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Left View"));
 
-            popoutSplitAction->setText(i18nc("@action:intoolbar Move left view to a new window", "Pop out Left View"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Move left view to a new window"));
-        } else {
+                popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out Left View"));
+                popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move left split view to a new window"));
+            } else {
+                m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
+                m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+                m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
+
+                popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out Right View"));
+                popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move right split view to a new window"));
+            }
+            break;
+        case Choice::InactiveView:
+            if (!tabPage->primaryViewActive()) {
+                m_splitViewAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+                m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Left View"));
+                m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-left-close")));
+                m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Left View"));
+
+                popoutSplitAction->setText(i18nc("@action:intoolbar Move left split view to a new window", "Pop out Left View"));
+                popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move left split view to a new window"));
+            } else {
+                m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+                m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
+                m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
+                m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
+
+                popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out Right View"));
+                popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move right split view to a new window"));
+            }
+            break;
+        case Choice::RightView:
             m_splitViewAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
-            m_splitViewAction->setToolTip(i18nc("@info", "Close right view"));
+            m_splitViewAction->setToolTip(i18nc("@info View refer here to split view", "Close Right View"));
             m_splitViewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
-            m_splitViewMenuAction->setText(i18nc("@action:inmenu Close left view", "Close Right View"));
+            m_splitViewMenuAction->setText(i18nc("@action:inmenu View refer here to split view", "Close Right View"));
 
-            popoutSplitAction->setText(i18nc("@action:intoolbar Move right view to a new window", "Pop out Right View"));
-            popoutSplitAction->setToolTip(i18nc("@info", "Move right view to a new window"));
+            popoutSplitAction->setText(i18nc("@action:intoolbar Move right split view to a new window", "Pop out Right View"));
+            popoutSplitAction->setToolTip(i18nc("@info View refer here to split view", "Move right split view to a new window"));
+            break;
+        default:
+            Q_UNREACHABLE();
         }
         popoutSplitAction->setEnabled(true);
         if (!m_splitViewAction->menu()) {

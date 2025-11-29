@@ -13,6 +13,7 @@
 #include <qobject.h>
 
 class QCheckBox;
+class QComboBox;
 class QLineEdit;
 class QLabel;
 class QRadioButton;
@@ -63,7 +64,8 @@ private:
     QCheckBox *m_showFullPathInTitlebar;
     QCheckBox *m_openExternallyCalledFolderInNewTab;
     QCheckBox *m_useTabForSplitViewSwitch;
-    QCheckBox *m_closeActiveSplitView;
+
+    QComboBox *m_closeSplitComboBox;
 };
 
 #endif

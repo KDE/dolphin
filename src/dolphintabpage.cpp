@@ -139,16 +139,28 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
             std::swap(m_primaryViewContainer, m_secondaryViewContainer);
             m_primaryViewActive = !m_primaryViewActive;
         };
-        if (GeneralSettings::closeActiveSplitView()) {
+        using Choice = GeneralSettings::EnumCloseSplitViewChoice;
+        switch (GeneralSettings::closeSplitViewChoice()) {
+        case Choice::ActiveView:
             view = activeViewContainer();
             if (m_primaryViewActive) {
                 swapActiveView();
             }
-        } else {
+            break;
+        case Choice::InactiveView:
             view = m_primaryViewActive ? m_secondaryViewContainer : m_primaryViewContainer;
             if (!m_primaryViewActive) {
                 swapActiveView();
             }
+            break;
+        case Choice::RightView:
+            view = m_secondaryViewContainer;
+            if (!m_primaryViewActive) {
+                swapActiveView();
+            }
+            break;
+        default:
+            Q_UNREACHABLE();
         }
         m_primaryViewContainer->setActive(true);
         m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, nullptr);

@@ -98,9 +98,14 @@
             <label>Use tab for switching between right and left view</label>
             <default>false</default>
         </entry>
-        <entry name="CloseActiveSplitView" type="Bool">
-            <label>Close the view in focus when turning off split view</label>
-            <default>true</default>
+        <entry name="CloseSplitViewChoice" type="Enum">
+            <choices>
+                <choice name="ActiveView" />
+                <choice name="InactiveView" />
+                <choice name="RightView" />
+            </choices>
+            <label>Close split view</label>
+            <default code="true">EnumCloseSplitViewChoice::ActiveView</default>
         </entry>
         <entry name="OpenNewTabAfterLastTab" type="Bool">
             <label>New tab will be open after last one</label>

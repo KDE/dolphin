@@ -18,6 +18,7 @@
 #endif
 #include <QButtonGroup>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QFileDialog>
 #include <QFormLayout>
 #include <QGridLayout>
@@ -42,6 +43,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     , m_showFullPathInTitlebar(nullptr)
     , m_openExternallyCalledFolderInNewTab(nullptr)
     , m_useTabForSplitViewSwitch(nullptr)
+    , m_closeSplitComboBox(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
@@ -123,26 +125,27 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     topLayout->addRow(i18nc("@title:group", "Open new tabs: "), m_openNewTabAfterCurrentTab);
     topLayout->addRow(QString(), m_openNewTabAfterLastTab);
 
-    // Split Views
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    // 'Switch between panes of split views with tab key'
-    auto *splitViewLabel = new QLabel{i18nc("@title:group", "Split view: ")};
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between views with Tab key"));
-    splitViewLabel->setAccessibleName(m_useTabForSplitViewSwitch->text());
-    topLayout->addRow(splitViewLabel, m_useTabForSplitViewSwitch);
+    // Close split view properties
+    QLabel *closeSplitViewLabel{new QLabel(i18nc("@info", "When closing a split view"))};
+    m_closeSplitComboBox = new QComboBox(this);
+    m_closeSplitComboBox->addItems({i18n("Close the active pane"), i18n("Close the inactive pane"), i18n("Close the right pane")});
+    QHBoxLayout *closeSplitViewHLayout{new QHBoxLayout()};
+    QWidget *closeSplitViewWidget{new QWidget()};
+    closeSplitViewWidget->setLayout(closeSplitViewHLayout);
+    closeSplitViewHLayout->addWidget(closeSplitViewLabel);
+    closeSplitViewHLayout->setContentsMargins(0, 0, 0, 0);
+    closeSplitViewHLayout->addWidget(m_closeSplitComboBox);
+    topLayout->addRow(i18nc("@title:group", "Split view: "), closeSplitViewWidget);
 
-    // 'Close active pane when turning off split view'
-    m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes the view in focus"));
-    topLayout->addRow(QString(), m_closeActiveSplitView);
-    m_closeActiveSplitView->setToolTip(
-        i18n("When unchecked, the opposite view will be closed. The Close icon always illustrates which view (left or right) will be closed."));
+    // 'Switch between panes of split views with tab key'
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check split view panes", "Switch between views with Tab key"));
+    topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
 
     // 'Begin in split view mode'
-    auto *newWindowsLabel = new QLabel{i18n("New windows:")};
-    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Begin in split view mode"));
-    newWindowsLabel->setAccessibleName(m_splitView->text());
-    topLayout->addRow(newWindowsLabel, m_splitView);
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Open new window in split view mode"));
+    topLayout->addRow(QString(), m_splitView);
 
     loadSettings();
 
@@ -159,7 +162,8 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::slotSettingsChanged);
 
     connect(m_useTabForSplitViewSwitch, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
-    connect(m_closeActiveSplitView, &QCheckBox::toggled, this, &FoldersTabsSettingsPage::changed);
+
+    connect(m_closeSplitComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &FoldersTabsSettingsPage::changed);
 
     connect(m_openNewTabAfterCurrentTab, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::changed);
     connect(m_openNewTabAfterLastTab, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::changed);
@@ -174,7 +178,9 @@ void FoldersTabsSettingsPage::applySettings()
     GeneralSettings *settings = GeneralSettings::self();
 
     settings->setUseTabForSwitchingSplitView(m_useTabForSplitViewSwitch->isChecked());
-    settings->setCloseActiveSplitView(m_closeActiveSplitView->isChecked());
+
+    settings->setCloseSplitViewChoice(m_closeSplitComboBox->currentIndex());
+
     const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
     if (url.isValid() && KProtocolManager::supportsListing(url)) {
         KIO::StatJob *job = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
@@ -280,7 +286,8 @@ void FoldersTabsSettingsPage::loadSettings()
     m_openExternallyCalledFolderInNewTab->setChecked(GeneralSettings::openExternallyCalledFolderInNewTab());
 
     m_useTabForSplitViewSwitch->setChecked(GeneralSettings::useTabForSwitchingSplitView());
-    m_closeActiveSplitView->setChecked(GeneralSettings::closeActiveSplitView());
+
+    m_closeSplitComboBox->setCurrentIndex(GeneralSettings::closeSplitViewChoice());
 
     m_openNewTabAfterLastTab->setChecked(GeneralSettings::openNewTabAfterLastTab());
     m_openNewTabAfterCurrentTab->setChecked(!m_openNewTabAfterLastTab->isChecked());
