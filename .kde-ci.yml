@@ -11,7 +11,7 @@ Dependencies:
     'frameworks/ki18n': '@latest-kf6'
     'frameworks/kdbusaddons': '@latest-kf6'
     'frameworks/kbookmarks': '@latest-kf6'
-    'frameworks/kconfig': '@latest-kf6'
+    'frameworks/kconfig': 'work/sitter/deviceinterface'
     'frameworks/kio': '@latest-kf6'
     'frameworks/kparts': '@latest-kf6'
     'frameworks/solid': '@latest-kf6'
