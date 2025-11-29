@@ -107,7 +107,6 @@ void ViewPropertiesTest::testReadOnlyDirectory()
     props->setSortRole("someNewSortRole");
     props.reset();
 
-    qDebug() << destinationDir;
     QVERIFY(QDir(destinationDir).exists());
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
