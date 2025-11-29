@@ -5,3 +5,4 @@ Mutators=true
 GlobalEnums=true
 IncludeFiles=views/dolphinview.h,qnamespace.h,dolphin_export.h
 Visibility=DOLPHIN_EXPORT
+KConfigConstructor=true
