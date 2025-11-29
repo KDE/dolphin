@@ -11,6 +11,7 @@
 #include "dolphin_export.h"
 #include "views/dolphinview.h"
 
+#include <QBuffer>
 #include <QUrl>
 
 class ViewPropertySettings;
@@ -157,7 +158,7 @@ private:
     static QString directoryHashForUrl(const QUrl &url);
 
     /** @returns a ViewPropertySettings object with properties loaded for the directory at @param filePath. Ownership is returned to the caller. */
-    ViewPropertySettings *loadProperties(const QString &folderPath) const;
+    std::optional<ViewPropertySettings *> loadProperties(const QString &folderPath) const;
     /** @returns a ViewPropertySettings object with the globally configured default values. Ownership is returned to the caller. */
     ViewPropertySettings *defaultProperties() const;
 
