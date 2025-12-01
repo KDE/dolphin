@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-28 00:45+0000\n"
-"PO-Revision-Date: 2025-11-02 14:07+0530\n"
+"PO-Revision-Date: 2025-11-30 11:39+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4021,7 +4021,7 @@ msgstr "நீக்குதல்"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "உள்ளமை டால்பின்"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -4380,7 +4380,7 @@ msgstr "கடைசியாக இப்பண்புகளை பயனர�
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "மாறக்கூடிய காட்சிமுறையால் காட்சிமுறை மாற்றப்பட்டுள்ளது"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -5322,12 +5322,10 @@ msgid "Display style: "
 msgstr "காட்சிமுறை: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "கோப்புகள் மற்றும் அடைவுகளுக்கு முன்தோற்றங்களைக் காட்டு"
+msgstr "காப்பக கோப்புகளில் அடைவுகளைப் போல உலாவவிடு"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6496,36 +6494,28 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "இவ்வாறு வரிசைப்படுத்து"
+msgstr "புலம்படி வரிசைப்படுத்து"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
-msgstr "வடிகட்டிப் பட்டையைக் காட்டும்"
+msgstr "காட்டப்படும் புலங்கள்"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
-msgstr "இவ்வாறு வரிசைப்படுத்து"
+msgstr "வரிசைப்படுத்துவது: %1"
 
 #: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "வடிகட்டிப் பட்டையைக் காட்டும்"
+msgstr "புலத்தைக் காட்டு: %1"
 
 #: views/dolphinviewactionhandler.cpp:689
 #, kde-format
