@@ -6896,11 +6896,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgctxt "@option:check"
-#~ msgid "Open archives as folder"
-#~ msgstr "Obre els arxius com a carpetes"
-
-#~ msgctxt "@action:inmenu menu of zoom actions"
-#~ msgid "Zoom"
-#~ msgstr "Zoom"
