@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-28 00:45+0000\n"
-"PO-Revision-Date: 2025-09-04 23:15-0400\n"
+"PO-Revision-Date: 2025-12-02 02:13-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
 "Language: sq\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2011-04-22 14:24+0000\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -587,12 +587,10 @@ msgid "Move to Other View"
 msgstr "Hidhe në kosh"
 
 #: dolphinmainwindow.cpp:1911
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
-msgstr "Filtri"
+msgstr "Filtri…"
 
 #: dolphinmainwindow.cpp:1912
 #, kde-format
@@ -1003,11 +1001,10 @@ msgid "Open in New Window"
 msgstr "Hape në Një Dritare të Re"
 
 #: dolphinmainwindow.cpp:2307 panels/places/placespanel.cpp:45
-#, fuzzy, kde-format
-#| msgid "Open in application"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
-msgstr "Hap në program"
+msgstr "Hap në pamje të ndarë"
 
 #: dolphinmainwindow.cpp:2319
 #, kde-format
@@ -1653,7 +1650,7 @@ msgstr "Autofillues"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File…"
-msgstr ""
+msgstr "Gjeje Skedën…"
 
 #: dolphinpart.cpp:196
 #, kde-format
@@ -1951,11 +1948,9 @@ msgid "Keep Filter When Changing Folders"
 msgstr ""
 
 #: filterbar/filterbar.cpp:36
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgid "Filter…"
-msgstr "Filtri"
+msgstr "Filtri…"
 
 #: filterbar/filterbar.cpp:44
 #, kde-format
@@ -1964,12 +1959,10 @@ msgid "Hide Filter Bar"
 msgstr "Fshihe Shiritin e Filtrit"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
-msgstr "Fshih"
+msgstr "Fshihe"
 
 #: itemactions/hidefileitemaction.cpp:132
 #, kde-format
@@ -2024,7 +2017,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Green"
-msgstr ""
+msgstr "Gjelbër"
 
 #: itemactions/setfoldericonitemaction.cpp:194
 #, kde-format
@@ -2061,7 +2054,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Grey"
-msgstr ""
+msgstr "Hiri"
 
 #: itemactions/setfoldericonitemaction.cpp:204
 #, fuzzy, kde-format
@@ -3109,7 +3102,7 @@ msgstr "Dokumenti që duhet hapur"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:10
 #, kde-format
 msgid "Hidden files shown"
-msgstr "Skedat e fshehura janë të shfaqur"
+msgstr "Skedat e fshehura të shfaqura"
 
 #. i18n: ectx: label, entry (LimitFoldersPanelToHome), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
@@ -3290,9 +3283,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Ruajeni këtë kërkim që ti qaseni shpejt në të ardhmen"
 
 #: search/bar.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Filtri"
@@ -3304,12 +3295,10 @@ msgid "Quit searching"
 msgstr "Ndal kërkimin"
 
 #: search/bar.cpp:102
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "Nga këtu"
+msgstr "Këtu"
 
 #: search/bar.cpp:117
 #, kde-format
@@ -3510,12 +3499,10 @@ msgid "Search in:"
 msgstr "Kërko"
 
 #: search/popup.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Filename"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Emri i skedës"
+msgstr "Emrat e skedave"
 
 #: search/popup.cpp:112
 #, fuzzy, kde-format
@@ -3556,7 +3543,7 @@ msgstr "Konfiguro"
 #| msgid "&Edit File Type..."
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "&Modifiko Llojin e Skedarit..."
+msgstr "Lloji i Skedarit:"
 
 #: search/popup.cpp:216
 #, fuzzy, kde-format
@@ -3633,15 +3620,13 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "Emrat e skedave dhe përmbajtja"
 
 #: search/popup.cpp:314
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Mbiemri i skedave"
+msgstr "Përmbajtja e skedës"
 
 #: search/popup.cpp:329
 #, fuzzy, kde-format
@@ -6526,11 +6511,10 @@ msgid "Folders First"
 msgstr "Skedarët së pari"
 
 #: views/dolphinviewactionhandler.cpp:278
-#, fuzzy, kde-format
-#| msgid "Show hidden files"
+#, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
-msgstr "Skedarët e fshehur janë të shfaqur"
+msgstr "Skedat e fshehura në fund"
 
 #: views/dolphinviewactionhandler.cpp:286
 #, kde-format

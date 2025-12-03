@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-28 00:45+0000\n"
-"PO-Revision-Date: 2025-11-19 20:40+0000\n"
+"PO-Revision-Date: 2025-12-02 13:22+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -153,7 +153,7 @@ msgstr ""
 "tölvunni sem er. Þar með talin atriði sem eru nauðsynleg til að stýrikerfið "
 "virki.</para><para>Þú getur <emphasis>eytt gögnum allra notenda</emphasis> í "
 "tölvunni og <emphasis>skemmt uppsetninguna þannig að hún verði ónothæf.</"
-"emphasis> Ef bara einum staf er bætt við möppu- eða skrárheiti eða innihald "
+"emphasis> Ef bara einum staf er bætt við möppu- eða skráarheiti eða innihald "
 "þeirra getur það valdið því að stýrikerfið <emphasis>ræsist ekki.</"
 "emphasis></para><para>Þú færð líklega ekki aðra viðvörun en þessa, jafnvel "
 "þótt þú sért um það bil að fara að skemma stýrikerfið.</para><para>Það er "
@@ -1810,7 +1810,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type…"
-msgstr "Br&eyta skrárgerð…"
+msgstr "Br&eyta skráartegund…"
 
 #: dolphinpart.cpp:153
 #, kde-format
@@ -3606,7 +3606,7 @@ msgstr "Leita í:"
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Skrárheiti"
+msgstr "Skráaheiti"
 
 #: search/popup.cpp:112
 #, kde-format
@@ -3631,11 +3631,11 @@ msgid ""
 "filename> to revert your changes.</para>"
 msgstr ""
 "<para><application>%1</application> reynir að nota leitarverkfæri frá "
-"þriðjuaðilum til að leita í innihaldi skrá ef þau eru til staðar í tölvunni "
-"og búist er við að þau skili betri eða fljótlegri niðurstöðum. "
+"utanaðkomandi aðilum til að leita í efni skráa ef þau eru til staðar í "
+"tölvunni og búist sé við að þau skili betri eða fljótlegri niðurstöðum. "
 "<application>ripgrep</application> og <application>ripgrep-all</application> "
 "gætu bætt leitarupplifun þína ef þau eru uppsett. <application>ripgrep-all</"
-"application> býður t.d. upp á leit í fleiri skrárgerðum (t.d. pdf, docx, "
+"application> býður t.d. upp á leit í fleiri skráagerðum (t.d. pdf, docx, "
 "sqlite, jpg, skjátitlum myndbanda (mkv, mp4)).</para><para>Hægt er að stilla "
 "hvernig þessi leitarverkfæri eru virkjuð með því að breyta skriftuskrá. "
 "Afritaðu hana úr <filename>%2</filename> í <filename>%3</filename> áður en "
@@ -3652,7 +3652,7 @@ msgstr "Grunnstilla %1…"
 #, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "Skrárgerð:"
+msgstr "Skráartegund:"
 
 #: search/popup.cpp:216
 #, kde-format
@@ -3728,7 +3728,7 @@ msgstr ""
 "Gagnagrunnurinn er útbúinn með því að skrá skrárnar þínar í bakgrunni út frá "
 "stillingum fyrir <application>%1</application>.<list><item><application>%1</"
 "application> skilar niðurstöðum mjög hratt.</item><item>Hægt að leita eftir "
-"skrárgerðum, dagsetningum, merkjum o.s.frv.</item><item>Leitar einungis í "
+"skráagerðum, dagsetningum, merkjum o.s.frv.</item><item>Leitar einungis í "
 "skráðum möppum. Veldu hvaða möppur á að skrá í "
 "<application>Kerfisstillingum</application>.</item><item>Þegar "
 "leitarstaðurinn inniheldur tengla í aðrar skrár eða möppur er ekki leitað í "
@@ -3740,7 +3740,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr "Skrárheiti og innihald"
+msgstr "Skráaheiti og innihald"
 
 #: search/popup.cpp:314
 #, kde-format
@@ -5403,7 +5403,7 @@ msgstr "Fella úr endanum (t.d. 'Eitthvað mjög langt....txt')"
 #, kde-format
 msgctxt "@title:group"
 msgid "Long file names:"
-msgstr "Löng skrárheiti:"
+msgstr "Löng skráaheiti:"
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
@@ -6484,7 +6484,7 @@ msgid ""
 msgstr ""
 "<para>Með þessu er skipt í yfirlitssnið þar sem tákn eru notuð til að sýna "
 "möppur og skrár. Með þessu sniði er auðvelt að þekkja möppur frá skrám og "
-"greina atriði með ólíkar <emphasis>skrárgerðir</emphasis>.</para><para> "
+"greina atriði með ólíkar <emphasis>skráagerðir</emphasis>.</para><para> "
 "Þetta snið er þægilegt þegar flett er í myndum og valkosturinn "
 "<interface>Forskoðun</interface> er virkur.</para>"
 
