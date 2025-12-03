@@ -29,12 +29,12 @@ msgstr "No s'ha pogut instal·lar el menú de servei de Dolphin"
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr "No s'ha pogut instal·lar «%1», ha eixit amb l'estat «%2»"
+msgstr "Ha fallat mentre s'instal·lava «%1», ha eixit amb l'estat «%2»"
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr "No s'ha pogut desinstal·lar «%1», ha eixit amb l'estat «%2»"
+msgstr "Ha fallat mentre es desinstal·lava «%1», ha eixit amb l'estat «%2»"
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
@@ -54,7 +54,7 @@ msgstr "Tipus d'arxiu %1 no acceptat: %2"
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr "No s'ha pogut executar l'ordre de descompressió per a %1"
+msgstr "Ha fallat mentre s'executava l'ordre de descompressió per a %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format
@@ -69,12 +69,12 @@ msgstr "No s'ha pogut descomprimir %1"
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr "No s'ha pogut executar l'script %1 de l'instal·lador"
+msgstr "Ha fallat mentre s'executava l'script %1 de l'instal·lador"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr "No s'han pogut establir els permisos a %1: %2"
+msgstr "Ha fallat mentre s'establien els permisos a %1: %2"
 
 #: servicemenuinstaller.cpp:273
 #, kde-format
@@ -93,37 +93,37 @@ msgstr "\", \""
 #: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
-msgstr "No s'ha pogut crear el camí %1"
+msgstr "Ha fallat mentre es creava el camí %1"
 
 #: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr "No s'ha pogut copiar el fitxer «.desktop» %1 a %2: %3"
+msgstr "Ha fallat mentre es copiava el fitxer «.desktop» %1 a %2: %3"
 
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr "No s'ha pogut eliminar el directori %1"
+msgstr "Ha fallat mentre s'eliminava el directori %1"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr "No s'ha pogut crear el directori %1"
+msgstr "Ha fallat mentre es creava el directori %1"
 
 #: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr "No s'ha pogut trobar un script d'instal·lació a %1"
+msgstr "Ha fallat mentre es trobava un script d'instal·lació a %1"
 
 #: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr "No s'ha pogut eliminar el fitxer «.desktop» %1: %2"
+msgstr "Ha fallat mentre s'eliminava el fitxer «.desktop» %1: %2"
 
 #: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr "No s'ha pogut trobar un script de desinstal·lació a %1"
+msgstr "Ha fallat mentre es trobava un script de desinstal·lació a %1"
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
