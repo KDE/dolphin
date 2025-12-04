@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-28 00:45+0000\n"
+"POT-Creation-Date: 2025-12-04 00:46+0000\n"
 "PO-Revision-Date: 2025-11-30 11:39+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -188,7 +188,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "முந்தைய இடத்தில் மீட்டமை"
 msgstr[1] "முந்தைய இடங்களில் மீட்டமை"
 
-#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1798
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1812
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -345,26 +345,26 @@ msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "ஒட்ட முடியாது: இந்த அடைவில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:1367
+#: dolphinmainwindow.cpp:1381
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "%1-ஐ திற"
 
-#: dolphinmainwindow.cpp:1376 dolphinmainwindow.cpp:2180
+#: dolphinmainwindow.cpp:1390 dolphinmainwindow.cpp:2194
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "முதன்மையான தேடுதல் கருவியைத் திற"
 
-#: dolphinmainwindow.cpp:1416
+#: dolphinmainwindow.cpp:1430
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "உறுதியாக 1 முனைய சாளரத்தைத் திறக்க வேண்டுமா?"
 msgstr[1] "உறுதியாக %1 முனையச்சாளரங்களைத் திறக்க வேண்டுமா?"
 
-#: dolphinmainwindow.cpp:1421
+#: dolphinmainwindow.cpp:1435
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -372,7 +372,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "%1 முனையத்தைத் திற"
 msgstr[1] "%1 முனையங்களைத் திற"
 
-#: dolphinmainwindow.cpp:1522
+#: dolphinmainwindow.cpp:1536
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -382,7 +382,7 @@ msgstr ""
 "புதிய கோப்பை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
 "உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:1524
+#: dolphinmainwindow.cpp:1538
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -392,25 +392,25 @@ msgstr ""
 "புதிய அடைவை உருவாக்க முடியவில்லை: தற்போதைய அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி "
 "உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1643
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "அமை"
 
-#: dolphinmainwindow.cpp:1804
+#: dolphinmainwindow.cpp:1818
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "புதிய &சாளரம்"
 
-#: dolphinmainwindow.cpp:1805
+#: dolphinmainwindow.cpp:1819
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "புதிய டால்பின் சாளரத்தைத் திற"
 
-#: dolphinmainwindow.cpp:1807
+#: dolphinmainwindow.cpp:1821
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -420,13 +420,13 @@ msgstr ""
 "இது இதே இடத்தைக் காட்டும் இன்னொரு சாளரத்தைத் திறக்கும்.<nl/>நீங்கள் சாளரங்களுக்கு இடையே "
 "பொருட்களை இழுத்துப் போடலாம்."
 
-#: dolphinmainwindow.cpp:1814
+#: dolphinmainwindow.cpp:1828
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "புதிய கீற்று"
 
-#: dolphinmainwindow.cpp:1816
+#: dolphinmainwindow.cpp:1830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -438,31 +438,31 @@ msgstr ""
 "சாளரத்தில் பல்வேறு இடங்களுக்கிடையே தாவ கீற்றுகள் உதவும். கீற்றுகளுக்கிடையே நீங்கள் "
 "உருப்படிகளை இழுத்து போடலாம்."
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1839
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "இடங்களுக்கு சேர்"
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "இது தேர்வு செய்யப்பட்ட அடைவை 'இடங்கள்' பலகைக்கு சேர்க்கும்."
 
-#: dolphinmainwindow.cpp:1832
+#: dolphinmainwindow.cpp:1846
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "கீற்றை மூடு"
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1847
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "கீற்றை மூடு"
 
-#: dolphinmainwindow.cpp:1835
+#: dolphinmainwindow.cpp:1849
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -470,13 +470,13 @@ msgid ""
 "the whole window instead."
 msgstr "தற்போதைய கீற்றை இது மூடும். வேறு கீற்றுகள் இல்லையேல் இந்த சாளரமே மூடப்படும்."
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1854
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "இது இந்த சாளரத்தை மூடும்."
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1865
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -492,13 +492,13 @@ msgstr ""
 "பிரதானமாக ஒன்றுக்கொன்று பக்கத்தில் உள்ளன: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> மற்றும் <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1872
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "வெட்டு…"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1874
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -511,13 +511,13 @@ msgstr ""
 ">நகலெடுத்தவற்றை வேறு இடத்தில் ஓட்ட <emphasis>ஒட்டு</emphasis> என்ற செயலை "
 "பயன்படுத்துங்கள். அவற்றின் முந்தைய இருப்பிடத்திலிருந்து இவ்வுருப்படிகள் நீக்கப்படும்."
 
-#: dolphinmainwindow.cpp:1867
+#: dolphinmainwindow.cpp:1881
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "நகலெடு…"
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1883
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -529,13 +529,13 @@ msgstr ""
 ">நகலெடுத்தவற்றை வேறு இடத்தில் ஓட்ட <emphasis>ஒட்டு</emphasis> என்ற செயலை "
 "பயன்படுத்துங்கள்."
 
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "ஒட்டு"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -547,19 +547,19 @@ msgstr ""
 "நகலெடுக்கும்.<nl/><emphasis>வெட்டு</emphasis> என்ற செயலை கொண்டு உருப்படிகள் "
 "பிடிப்புப்பலகைக்கு சேர்க்கப்பட்டிருந்தால் அவை தத்தம் பழைய இருப்பிடங்களிலிருந்து நீக்கப்படும்."
 
-#: dolphinmainwindow.cpp:1887
+#: dolphinmainwindow.cpp:1901
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடு"
 
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1902
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடு…"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1904
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -570,25 +570,25 @@ msgstr ""
 "காட்சிப்பகுதிக்கு நகலெடுக்கும். (துண்டாக்கப்பட்ட காட்சிமுறையில் இருக்கும்போது மட்டும் இதைப் "
 "பயன்படுத்தலாம்.)"
 
-#: dolphinmainwindow.cpp:1894
+#: dolphinmainwindow.cpp:1908
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடு"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்து"
 
-#: dolphinmainwindow.cpp:1900
+#: dolphinmainwindow.cpp:1914
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்து…"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1916
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -599,25 +599,25 @@ msgstr ""
 "காட்சிப்பகுதிக்கு நகர்த்தும். (துண்டாக்கப்பட்ட காட்சிமுறையில் இருக்கும்போது மட்டும் இதைப் "
 "பயன்படுத்தலாம்.)"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1920
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்து"
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1925
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "வடிகட்டு…"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1926
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "வடிகட்டிப் பட்டையைக் காட்டும்"
 
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1928
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -630,30 +630,30 @@ msgstr ""
 ">காட்டப்படும் கோப்புகளையும் அடைவுகளையும் வடிகட்ட அப்பட்டையில் உரையை உள்ளிடலாம். தன் "
 "பெயரில் அவ்வுரையை கொண்ட உருப்படிகளே காட்டப்படும்."
 
-#: dolphinmainwindow.cpp:1926
+#: dolphinmainwindow.cpp:1940
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "வடிகட்டிப் பட்டையை நிலைமாற்று"
 
-#: dolphinmainwindow.cpp:1927
+#: dolphinmainwindow.cpp:1941
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "வடிகட்டி"
 
-#: dolphinmainwindow.cpp:1935 search/bar.cpp:214
+#: dolphinmainwindow.cpp:1949 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "தேடு…"
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1950
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "அடைவுகள் மற்றும் கோப்புகளுக்காக தேடு"
 
-#: dolphinmainwindow.cpp:1938
+#: dolphinmainwindow.cpp:1952
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -665,20 +665,20 @@ msgstr ""
 "emphasis> இது திறக்கும். அப்பட்டையில் தேடல் சரங்களை உள்ளிட்டுவதுடன், தேடல் "
 "விருப்பங்களையும் நீங்கள் அமைக்கலாம்.</para>"
 
-#: dolphinmainwindow.cpp:1947
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "தேடல் பட்டையை நிலைமாற்று"
 
-#: dolphinmainwindow.cpp:1948
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "தேடு"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1977
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -686,13 +686,13 @@ msgstr "அடைவுகளையும் கோப்புகளையு�
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1980
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "தேர்வு"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1983
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -704,19 +704,19 @@ msgid ""
 "items.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1992
+#: dolphinmainwindow.cpp:2006
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "இது இந்த இடத்தில் உள்ள அனைத்து கோப்புகள் மற்றும் அடைவுகளை தேர்வு செய்யும்."
 
-#: dolphinmainwindow.cpp:1996 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:2010 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "தேர்வு நிலையைப் புரட்டு"
 
-#: dolphinmainwindow.cpp:1998
+#: dolphinmainwindow.cpp:2012
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -726,7 +726,7 @@ msgstr ""
 "இப்போது உள்ள தேர்வுகளை நிராகரித்து நீங்கள் தேர்வு <emphasis>செய்யாத</emphasis> "
 "உருப்படிகளைத் தேர்வு செய்யும்."
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2032
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -736,7 +736,7 @@ msgid ""
 "para>Click this button again to close one of the views."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2033
+#: dolphinmainwindow.cpp:2047
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -746,25 +746,25 @@ msgstr ""
 "காட்சிப்பகுதி பிரிக்கப்பட்டிருக்கும் பட்சத்தில், குவியத்திலுள்ள காட்சிப்பகுதியை புதிய "
 "சாளரத்திற்கு இது நகர்த்தும்."
 
-#: dolphinmainwindow.cpp:2041
+#: dolphinmainwindow.cpp:2055
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "தற்காலிக பிடிப்பு"
 
-#: dolphinmainwindow.cpp:2042
+#: dolphinmainwindow.cpp:2056
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "தற்காலிக பிடிப்பு (stash) மெய்நிகர் அடைவைத் திறக்கும்"
 
-#: dolphinmainwindow.cpp:2050
+#: dolphinmainwindow.cpp:2064
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "காட்சியைப் புதுப்பி"
 
-#: dolphinmainwindow.cpp:2052
+#: dolphinmainwindow.cpp:2066
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -774,31 +774,31 @@ msgid ""
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:2073
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "நிறுத்து"
 
-#: dolphinmainwindow.cpp:2060
+#: dolphinmainwindow.cpp:2074
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "ஏற்றலை நிறுத்து"
 
-#: dolphinmainwindow.cpp:2061
+#: dolphinmainwindow.cpp:2075
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "இது தற்போதைய அடைவின் ஏற்றலை நிறுத்தும்."
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2080
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "திருத்தக்கூடிய இடப்பட்டை"
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2082
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -812,13 +812,13 @@ msgstr ""
 "முகவரியின் வலதில் க்ளிக் செய்து, அப்பயன்முறையிலிருந்து வெளியேற உள்ளிட்ட முகவரியை உறுதி "
 "செய்யலாம்."
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2090
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "இடத்தை மாற்று"
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2095
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -828,19 +828,19 @@ msgstr ""
 "முகவரியை எளிதில் மாற்ற உதவும் வித‍மாக, திருத்தும் பயன்முறையில் நுழைந்து முகவரியை "
 "தேர்ந்தெடுக்கும்."
 
-#: dolphinmainwindow.cpp:2111
+#: dolphinmainwindow.cpp:2125
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "கீற்றை மூடியதை செயல்நீக்கு"
 
-#: dolphinmainwindow.cpp:2112
+#: dolphinmainwindow.cpp:2126
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "இதற்கு முன்பு முடிய கீற்றுக்கு இது உங்களை கொண்டு செல்லும்."
 
-#: dolphinmainwindow.cpp:2120
+#: dolphinmainwindow.cpp:2134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -856,7 +856,7 @@ msgstr ""
 "<interface>நகரத்தல்</interface> போன்ற செயல்களை இவ்வாறு திரும்ப‍ப் பெறலாம். <nl/>திரும்ப‍"
 "ப் பெற முடியாத செயல்கள், உறுதிப்படுத்திய பின்பே மேற்கொள்ளப்படும்."
 
-#: dolphinmainwindow.cpp:2131
+#: dolphinmainwindow.cpp:2145
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -879,7 +879,7 @@ msgstr ""
 "<interface>நகரத்தல்</interface> போன்ற செயல்களை இவ்வாறு திரும்ப‍ப் பெறலாம். <nl/>திரும்ப‍"
 "ப் பெற முடியாத செயல்கள், உறுதிப்படுத்திய பின்பே மேற்கொள்ளப்படும்."
 
-#: dolphinmainwindow.cpp:2161
+#: dolphinmainwindow.cpp:2175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -892,19 +892,19 @@ msgstr ""
 "தரவுகள் (செயலித் தரவுகளுக்கும் அமைப்புகளுக்குமான மறைக்கப்பட்டுள்ள அடைவுகள் உட்பட) இதில் "
 "இருக்கும்."
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2182
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "கோப்புகளை ஒப்பிடு"
 
-#: dolphinmainwindow.cpp:2174
+#: dolphinmainwindow.cpp:2188
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "வட்டு பயன்பாட்டை கையாள்"
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -916,13 +916,13 @@ msgstr ""
 "para><para>இதனை அமைக்க <emphasis>இன்னும் தேடல் கருவிகள்</emphasis> பட்டியை "
 "பயன்படுத்துங்கள்.</para>"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2210
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "முனையத்தைத் திற"
 
-#: dolphinmainwindow.cpp:2198
+#: dolphinmainwindow.cpp:2212
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -935,13 +935,13 @@ msgstr ""
 "பயன்படுத்துங்கள்.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2206
+#: dolphinmainwindow.cpp:2220
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "முனையத்தை இங்கு திற"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -953,13 +953,13 @@ msgstr ""
 "சாளரங்களை இது திறக்கும்.</para><para>முனையங்களை பற்றி மேலும் அறிய, "
 "முனையச்செயலியிலுள்ள உதவிப்பட்டியை பயன்படுத்துங்கள்.</para>"
 
-#: dolphinmainwindow.cpp:2216
+#: dolphinmainwindow.cpp:2230
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&நினைவுக்குறிகள்"
 
-#: dolphinmainwindow.cpp:2226
+#: dolphinmainwindow.cpp:2240
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -971,96 +971,96 @@ msgid ""
 "advanced actions more time consuming.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2265
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "%1வது கீற்றுக்கு செல்"
 
-#: dolphinmainwindow.cpp:2264
+#: dolphinmainwindow.cpp:2278
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "கடைசிக் கீற்று"
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "முந்தைய கீற்றுக்கு செல்லும்"
 
-#: dolphinmainwindow.cpp:2271
+#: dolphinmainwindow.cpp:2285
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "அடுத்த கீற்று"
 
-#: dolphinmainwindow.cpp:2272
+#: dolphinmainwindow.cpp:2286
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "அடுத்த கீற்றுக்கு செல்லும்"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2292
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "முந்தைய கீற்று"
 
-#: dolphinmainwindow.cpp:2279
+#: dolphinmainwindow.cpp:2293
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "முந்தைய கீற்றுக்கு செல்லும்"
 
-#: dolphinmainwindow.cpp:2286
+#: dolphinmainwindow.cpp:2300
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "இலக்கைக் காட்டு"
 
-#: dolphinmainwindow.cpp:2292
+#: dolphinmainwindow.cpp:2306
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "புதிய கீற்றில் திற"
 
-#: dolphinmainwindow.cpp:2297
+#: dolphinmainwindow.cpp:2311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "புதிய கீற்றுகளில் திற"
 
-#: dolphinmainwindow.cpp:2302
+#: dolphinmainwindow.cpp:2316
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "புதிய சாளரத்தில் திற"
 
-#: dolphinmainwindow.cpp:2307 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2321 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "துண்டாக்கப்பட்ட காட்சிப்பகுதியில் திற"
 
-#: dolphinmainwindow.cpp:2319
+#: dolphinmainwindow.cpp:2333
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "சாளரத்தின் நிறத்திட்டம்"
 
-#: dolphinmainwindow.cpp:2332
+#: dolphinmainwindow.cpp:2346
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "பலகைகளைத் திருத்த விடு"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2348
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "பலகைகளைப் பூட்டு"
 
-#: dolphinmainwindow.cpp:2337
+#: dolphinmainwindow.cpp:2351
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1074,13 +1074,13 @@ msgstr ""
 "மூடுவதற்கான பட்டனை கொண்டிருக்கும்.<nl/> பூட்டிய பலகைகளை அவ்வாறு செய்ய முடியாது, ஆனால் "
 "பார்ப்பதற்கு நன்றாக இருக்கும்."
 
-#: dolphinmainwindow.cpp:2346
+#: dolphinmainwindow.cpp:2360
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "விவரங்கள்"
 
-#: dolphinmainwindow.cpp:2369
+#: dolphinmainwindow.cpp:2383
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1091,7 +1091,7 @@ msgstr ""
 "interface> அல்லது <interface>பார்வை|பலகைகளைக் காட்டு</interface>. என்பவற்றிற்கு "
 "செல்லுங்கள்</para>"
 
-#: dolphinmainwindow.cpp:2376
+#: dolphinmainwindow.cpp:2390
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1107,7 +1107,7 @@ msgstr ""
 "விவரங்களைக் காட்டும்.<nl/>ஒற்றை உருப்படி தேர்ந்தெடுக்கப்படின், அதன் உள்ளடக்கத்தின் "
 "முன்னோட்டமும் காட்டப்படும்.</para>"
 
-#: dolphinmainwindow.cpp:2384
+#: dolphinmainwindow.cpp:2398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1122,13 +1122,13 @@ msgstr ""
 "தேர்ந்தெடுக்கப்படின், அதன் உள்ளடக்கத்தின் முன்னோட்டமும் காட்டப்படும்.</para><para>எந்தெந்த "
 "விவரங்கள் இங்கு எவ்வாறு காட்டப்படும் என்பதை வலது-கிளிக் செய்து நீங்கள் அமைக்கலாம்.</para>"
 
-#: dolphinmainwindow.cpp:2393
+#: dolphinmainwindow.cpp:2407
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "அடைவுகள்"
 
-#: dolphinmainwindow.cpp:2413
+#: dolphinmainwindow.cpp:2427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1140,7 +1140,7 @@ msgstr ""
 "மறைக்கும்.<nl/><nl/><emphasis>கோப்பு முறைமையிலுள்ள</emphasis> அடைவுகளை "
 "<emphasis>கிளைப்படமாக</emphasis> அப்பலகை காட்டும்."
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2432
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1154,13 +1154,13 @@ msgstr ""
 "செய்யுங்கள். ஓர் அடைவில் சார்ந்துள்ள அடைவுகளைக் காண அதன் இடதிலுள்ள அம்புக்குறியை கிளிக் "
 "செய்யுங்கள். இப்பலகையின் மூலம் விரைவாக கோப்புகளுக்கிடையே தாவலாம்.</para>"
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2442
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "முனையம்"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1178,7 +1178,7 @@ msgstr ""
 "முனையங்களைப்பற்றி மேலும் அறிய, கான்சோல் போன்ற ஏதாவதொரு தனிப்பட்ட முனையச்செயலியிலுள்ள "
 "உதவியை அணுகுங்கள்.</para>"
 
-#: dolphinmainwindow.cpp:2461
+#: dolphinmainwindow.cpp:2475
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1196,13 +1196,13 @@ msgstr ""
 "முனையங்களைப்பற்றி மேலும் அறிய, கான்சோல் போன்ற ஏதாவதொரு தனிப்பட்ட முனையச்செயலியிலுள்ள "
 "உதவியை அணுகுங்கள்.</para>"
 
-#: dolphinmainwindow.cpp:2471 dolphinmainwindow.cpp:3070
+#: dolphinmainwindow.cpp:2485 dolphinmainwindow.cpp:3119
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "முனையப் பலகையில் குவியத்தை வை"
 
-#: dolphinmainwindow.cpp:2472
+#: dolphinmainwindow.cpp:2486
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
@@ -1210,19 +1210,19 @@ msgstr ""
 "முனையப்பலகைக்கு குவியத்தை நகர்த்தும், அல்லது அதிலிருந்து பிரதான காட்சிப்பகுதிக்கு "
 "நகர்த்தும்."
 
-#: dolphinmainwindow.cpp:2485
+#: dolphinmainwindow.cpp:2499
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "இடங்கள்"
 
-#: dolphinmainwindow.cpp:2513
+#: dolphinmainwindow.cpp:2527
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "மறைந்துள்ள இடங்களை காட்டு"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2531
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1233,7 +1233,7 @@ msgstr ""
 "இடங்கள் பலகையில் நீங்கள் மறைத்துள்ள அனைத்து இடங்களையும் இது காட்டும். அவற்றின் 'மறைந்தது' "
 "என்ற பண்பை மாற்ற உதவும் வித‍த்தில் அவை பாதியளவு ஒளிபுகுபவையாய் தெரியும்."
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2543
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1248,7 +1248,7 @@ msgstr ""
 "அடைவுகளையும் வட்டுகளையும் அணுக விடும். சமீபத்தில் சேமிக்கப்பட்ட கோப்புகளையோ குறிப்பிட்ட "
 "வகையான கோப்புகளையோ அணுக உதவும் பகுதிகளையும் இது கொண்டிருக்கும்.</para>"
 
-#: dolphinmainwindow.cpp:2536
+#: dolphinmainwindow.cpp:2550
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1272,13 +1272,13 @@ msgstr ""
 "மறுபடியும் காட்ட, இப்பலகையிலுள்ள காலியிடத்தை வலது-கிளிக் செய்து <interface>மறைந்துள்ள "
 "இடங்களை காட்டு</interface> என்பதை தேர்ந்தெடுங்கள்.</para>"
 
-#: dolphinmainwindow.cpp:2550 dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:2564 dolphinmainwindow.cpp:3137
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "இடங்கள் பலகையை குவியப்படுத்து"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2565
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
@@ -1286,13 +1286,13 @@ msgstr ""
 "இடங்கள் பலகைக்கு குவியத்தை நகர்த்தும், அல்லது அதிலிருந்து பிரதான காட்சிப்பகுதிக்கு "
 "நகர்த்தும்."
 
-#: dolphinmainwindow.cpp:2557
+#: dolphinmainwindow.cpp:2571
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "பலகைகளைக் காட்டு"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2640
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1300,21 +1300,21 @@ msgid ""
 msgstr ""
 "மறுபெயரிட முடியாது: இந்த அடைவிலுள்ளவற்றின் பெயர்களை மாற்றும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2629 dolphinmainwindow.cpp:2646
+#: dolphinmainwindow.cpp:2643 dolphinmainwindow.cpp:2660
 #, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "நீக்க முடியாது: இந்த அடைவிலுள்ளவற்றை நீக்கும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2631
+#: dolphinmainwindow.cpp:2645
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "வெட்ட முடியாது: இந்த அடைவிலிருந்து உருப்படிகளை நகர்த்தும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2636
+#: dolphinmainwindow.cpp:2650
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1323,19 +1323,19 @@ msgid ""
 msgstr ""
 "நகலெடுக்க முடியாது: இந்த அடைவில் உருப்படிகளை உருவாக்கும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2658
+#: dolphinmainwindow.cpp:2672
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: எந்த கோப்பும் தேர்ந்தெடுக்கப்படவில்லை."
 
-#: dolphinmainwindow.cpp:2660
+#: dolphinmainwindow.cpp:2674
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: எந்த கோப்பும் தேர்ந்தெடுக்கப்படவில்லை."
 
-#: dolphinmainwindow.cpp:2679
+#: dolphinmainwindow.cpp:2693
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1343,7 +1343,7 @@ msgstr ""
 "மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: மாற்று காட்சிப்பகுதியில் இந்த உருப்படிகள் "
 "ஏற்கனவே உள்ளன."
 
-#: dolphinmainwindow.cpp:2682
+#: dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1351,7 +1351,7 @@ msgstr ""
 "மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: மாற்று காட்சிப்பகுதியில் இந்த உருப்படிகள் "
 "ஏற்கனவே உள்ளன."
 
-#: dolphinmainwindow.cpp:2687
+#: dolphinmainwindow.cpp:2701
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1361,7 +1361,7 @@ msgstr ""
 "மாற்று காட்சிப்பகுதிக்கு நகலெடுக்க முடியாது: சேருமிடத்தில் எழுதும் அனுமதி உங்களுக்கு "
 "இல்லை."
 
-#: dolphinmainwindow.cpp:2691
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1370,7 +1370,7 @@ msgid ""
 msgstr ""
 "மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: சேருமிடத்தில் எழுதும் அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2711
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1380,7 +1380,7 @@ msgstr ""
 "மாற்று காட்சிப்பகுதிக்கு நகர்த்த முடியாது: இந்த அடைவிலிருந்து உருப்படிகளை நகர்த்தும் "
 "அனுமதி உங்களுக்கு இல்லை."
 
-#: dolphinmainwindow.cpp:2721
+#: dolphinmainwindow.cpp:2735
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1395,85 +1395,106 @@ msgstr ""
 "சேமிக்கப்பட்டிருக்கும். இக்கணினியிலுள்ள அனைத்து தரவுகளையும் கொள்ளும் அடைவு, "
 "<emphasis>ரூட் அடைவாகும்</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2809
+#: dolphinmainwindow.cpp:2826 dolphinmainwindow.cpp:2845
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "மூடு"
 
-#: dolphinmainwindow.cpp:2810
-#, kde-format
-msgctxt "@info"
-msgid "Close left view"
-msgstr "இடது காட்சியை மூடு"
-
-#: dolphinmainwindow.cpp:2812
-#, kde-format
-msgctxt "@action:inmenu Close left view"
+#: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Close left view"
+#| msgid "Close Left View"
+msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "இடது காட்சிப்பகுதியை மூடு"
 
-#: dolphinmainwindow.cpp:2814
-#, kde-format
-msgctxt "@action:intoolbar Move left view to a new window"
+#: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Close left view"
+#| msgid "Close Left View"
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Left View"
+msgstr "இடது காட்சிப்பகுதியை மூடு"
+
+#: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar Move left view to a new window"
+#| msgid "Pop out Left View"
+msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "இடது காட்சிப்பகுதியை பிரித்தெடு"
 
-#: dolphinmainwindow.cpp:2815
-#, kde-format
-msgctxt "@info"
-msgid "Move left view to a new window"
+#: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Move left view to a new window"
+msgctxt "@info View refer here to split view"
+msgid "Move left split view to a new window"
 msgstr "இடது காட்சிப்பகுதியை புதிய சாளரமாக பிரித்தெடுக்கும்"
 
-#: dolphinmainwindow.cpp:2817
+#: dolphinmainwindow.cpp:2834 dolphinmainwindow.cpp:2853
+#: dolphinmainwindow.cpp:2863
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "மூடு"
 
-#: dolphinmainwindow.cpp:2818
-#, kde-format
-msgctxt "@info"
-msgid "Close right view"
-msgstr "வலது காட்சியை மூடு"
-
-#: dolphinmainwindow.cpp:2820
-#, kde-format
-msgctxt "@action:inmenu Close left view"
+#: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
+#: dolphinmainwindow.cpp:2864
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Close left view"
+#| msgid "Close Right View"
+msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "வலது காட்சிப்பகுதியை மூடு"
 
-#: dolphinmainwindow.cpp:2822
-#, kde-format
-msgctxt "@action:intoolbar Move right view to a new window"
+#: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
+#: dolphinmainwindow.cpp:2866
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Close left view"
+#| msgid "Close Right View"
+msgctxt "@action:inmenu View refer here to split view"
+msgid "Close Right View"
+msgstr "வலது காட்சிப்பகுதியை மூடு"
+
+#: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
+#: dolphinmainwindow.cpp:2868
+#, fuzzy, kde-format
+#| msgctxt "@action:intoolbar Move right view to a new window"
+#| msgid "Pop out Right View"
+msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "வலது காட்சிப்பகுதியை பிரித்தெடு"
 
-#: dolphinmainwindow.cpp:2823
-#, kde-format
-msgctxt "@info"
-msgid "Move right view to a new window"
+#: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
+#: dolphinmainwindow.cpp:2869
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Move right view to a new window"
+msgctxt "@info View refer here to split view"
+msgid "Move right split view to a new window"
 msgstr "வலது காட்சிப்பகுதியை புதிய சாளரமாக பிரித்தெடுக்கும்"
 
-#: dolphinmainwindow.cpp:2832
+#: dolphinmainwindow.cpp:2881
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "துண்டாக்கு"
 
-#: dolphinmainwindow.cpp:2834
+#: dolphinmainwindow.cpp:2883
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறை"
 
-#: dolphinmainwindow.cpp:2836
+#: dolphinmainwindow.cpp:2885
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "பிரித்தேடு"
 
-#: dolphinmainwindow.cpp:2896
+#: dolphinmainwindow.cpp:2945
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1491,7 +1512,7 @@ msgstr ""
 "மறைக்கலாம். அந்த பட்சத்தில், அதிலுள்ள பெரும்பாலானவற்றை <emphasis>கருவிப்பட்டையிலுள்ள</"
 "emphasis> <interface>பட்டி</interface> பட்டனின் மூலம் அணுகலாம்.</para>"
 
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2952
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1505,7 +1526,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2915
+#: dolphinmainwindow.cpp:2964
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1522,7 +1543,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2980
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1532,7 +1553,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2937
+#: dolphinmainwindow.cpp:2986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1541,7 +1562,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2941
+#: dolphinmainwindow.cpp:2990
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1556,7 +1577,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2961
+#: dolphinmainwindow.cpp:3010
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1567,7 +1588,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:3015
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1581,7 +1602,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:3026
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1592,7 +1613,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2986
+#: dolphinmainwindow.cpp:3035
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1606,7 +1627,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2999
+#: dolphinmainwindow.cpp:3048
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1618,7 +1639,7 @@ msgstr ""
 "மொழியில் தேவையான மொழிபெயர்ப்புகள் இல்லையேல் பயன்படுத்த வேண்டிய இரண்டாம்பட்ச மொழிகளையும் "
 "நீங்கள் அமைக்கலாம்."
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3053
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1628,7 +1649,7 @@ msgstr ""
 "இச்செயலியின் பதிப்பு, நிரலாளர்கள், நிரலகங்கள், மற்றும் பராமரிப்பாளர்கள் குறித்த விவரங்களை "
 "கொண்ட சாளரத்தை இது திறக்கும்."
 
-#: dolphinmainwindow.cpp:3009
+#: dolphinmainwindow.cpp:3058
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1638,19 +1659,19 @@ msgid ""
 "a look!"
 msgstr ""
 
-#: dolphinmainwindow.cpp:3064 dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3113 dolphinmainwindow.cpp:3124
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "முனையப் பலகையிலிருந்து குவியத்தை எடு"
 
-#: dolphinmainwindow.cpp:3082
+#: dolphinmainwindow.cpp:3131
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "முனையப் பலகையிலிருந்து குவியத்தை எடு"
 
-#: dolphinmainwindow.cpp:3093
+#: dolphinmainwindow.cpp:3142
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -4533,62 +4554,64 @@ msgstr ""
 msgid "Use tab for switching between right and left view"
 msgstr "வலது மற்றும் இடது காட்சிகுளுக்கிடையே தாவ தத்தல் (tab) விசையை பயன்படுத்து"
 
-#. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:102
-#, kde-format
-msgid "Close the view in focus when turning off split view"
-msgstr "துண்டாக்கப்பட்ட காட்சிமுறையை முடக்கும்போது குவியத்திலுள்ள காட்சிப்பகுதியை மூடு"
+#. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
+#: settings/dolphin_generalsettings.kcfg:107
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close left view"
+msgid "Close split view"
+msgstr "இடது காட்சியை மூடு"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
-#: settings/dolphin_generalsettings.kcfg:106
+#: settings/dolphin_generalsettings.kcfg:111
 #, kde-format
 msgid "New tab will be open after last one"
 msgstr "கடைசி கீற்றை மூடும்போது புதிய கீற்று திறக்கப்படும்"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
-#: settings/dolphin_generalsettings.kcfg:110
+#: settings/dolphin_generalsettings.kcfg:115
 #, kde-format
 msgid "Show item information on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே விவரங்களைக் காட்டு"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
-#: settings/dolphin_generalsettings.kcfg:114
+#: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
 msgstr "இந்த நேரமுத்திரைக்கு பிறகு காட்சிப் பண்புகள் செல்லுபடியாகும்"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
-#: settings/dolphin_generalsettings.kcfg:117
+#: settings/dolphin_generalsettings.kcfg:122
 #, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr "அனைத்துக் காட்சிமுறைகளுக்கும் தானாக விரியும் அடைவுகளைப் பயன்படுத்து"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:126
+#: settings/dolphin_generalsettings.kcfg:131
 #, kde-format
 msgid "Statusbar"
 msgstr "நிலைப்பட்டை"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:131
+#: settings/dolphin_generalsettings.kcfg:136
 #, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "நிலைப்பட்டையில் உருப்பெருக்க நழுவியைக் காட்டு"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:135
+#: settings/dolphin_generalsettings.kcfg:140
 #, kde-format
 msgid "Lock the layout of the panels"
 msgstr "பலகைகளின் அமைப்பைப் பூட்டு"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:139
+#: settings/dolphin_generalsettings.kcfg:144
 #, kde-format
 msgid "Enlarge Small Previews"
 msgstr "சிறிய முன்தோற்றங்களைப் பெரிதாக்கு"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:148
+#: settings/dolphin_generalsettings.kcfg:153
 #, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4596,31 +4619,31 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:153
+#: settings/dolphin_generalsettings.kcfg:158
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "Application/x-trash எனும் மைம்வகையையுடைய கோப்புகளையும் மறை"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
-#: settings/dolphin_generalsettings.kcfg:157
+#: settings/dolphin_generalsettings.kcfg:162
 #, kde-format
 msgid "Enable dynamic view"
 msgstr "மாறக்கூடிய காட்சிமுறையை இயக்கு"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:163
+#: settings/dolphin_generalsettings.kcfg:168
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "பல அடைவுகளை ஒரே நேரத்தில் திறக்கும்போது உறுதிப்படுத்து."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:167
+#: settings/dolphin_generalsettings.kcfg:172
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "பல முனையங்களை ஒரே நேரத்தில் திறக்கும்போது உறுதிப்படுத்து."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:171
+#: settings/dolphin_generalsettings.kcfg:176
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr "கொப்புக்கு மறுபெயரிடுவது அதன் வகையை மாற்றும் பட்சத்தில் உறுதிப்படுத்து."
@@ -4779,137 +4802,143 @@ msgstr "செயலியில் திற"
 msgid "Run script"
 msgstr "சிறுநிரலை இயக்கு"
 
-#: settings/interface/folderstabssettingspage.cpp:49
+#: settings/interface/folderstabssettingspage.cpp:51
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "போன முறை திறந்திருந்த அடைவுகள், கீற்றுகள், மற்றும் சாளர நிலை"
 
-#: settings/interface/folderstabssettingspage.cpp:54
+#: settings/interface/folderstabssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "துவங்கும்போது முகப்பு அடைவை காட்டு"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:61
+#: settings/interface/folderstabssettingspage.cpp:63
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "முகப்பு அடைவின் இருப்பிடத்தை உள்ளிடவும்"
 
-#: settings/interface/folderstabssettingspage.cpp:68
+#: settings/interface/folderstabssettingspage.cpp:70
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "முகப்பு இடத்தை தேர்வு செய்"
 
-#: settings/interface/folderstabssettingspage.cpp:78
+#: settings/interface/folderstabssettingspage.cpp:80
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "தற்போதைய இடத்தினைப் பயன்படுத்து"
 
-#: settings/interface/folderstabssettingspage.cpp:82
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "இயல்பிருப்பு இடத்தினைப் பயன்படுத்து"
 
-#: settings/interface/folderstabssettingspage.cpp:90
+#: settings/interface/folderstabssettingspage.cpp:92
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "துவங்கும்போது காட்டு:"
 
-#: settings/interface/folderstabssettingspage.cpp:103
+#: settings/interface/folderstabssettingspage.cpp:105
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "அடைவுகளைத் திறப்பது:"
 
-#: settings/interface/folderstabssettingspage.cpp:104
+#: settings/interface/folderstabssettingspage.cpp:106
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "புதிய அடைவுகளை கீற்றுகளில் திற (புதிய சாளரத்திற்கு பதிலாக)"
 
-#: settings/interface/folderstabssettingspage.cpp:108
+#: settings/interface/folderstabssettingspage.cpp:110
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "சாளரம்:"
 
-#: settings/interface/folderstabssettingspage.cpp:109
+#: settings/interface/folderstabssettingspage.cpp:111
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "தலைப்புப் பட்டையில் முழுப் பாதையைக் காட்டு"
 
-#: settings/interface/folderstabssettingspage.cpp:112
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "வடிகட்டிப் பட்டையைக் காட்டு"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:120
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "தற்போதைய கீற்றுக்குப் பிறகு"
 
-#: settings/interface/folderstabssettingspage.cpp:119
+#: settings/interface/folderstabssettingspage.cpp:121
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "கீற்றுப் பட்டையின் கடைசியில்"
 
-#: settings/interface/folderstabssettingspage.cpp:123
+#: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "புதிய கீற்றுகளை இங்கே திற:"
 
-#: settings/interface/folderstabssettingspage.cpp:130
+#: settings/interface/folderstabssettingspage.cpp:131
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Begin in split view mode"
+msgctxt "@info"
+msgid "When closing a split view"
+msgstr "துண்டாக்கப்பட்ட காட்சிமுறையில் துவக்கு"
+
+#: settings/interface/folderstabssettingspage.cpp:133
+#, kde-format
+msgid "Close the active pane"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:133
+#, kde-format
+msgid "Close the inactive pane"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:133
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Close right view"
+msgid "Close the right pane"
+msgstr "வலது காட்சியை மூடு"
+
+#: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறை:"
 
-#: settings/interface/folderstabssettingspage.cpp:131
+#: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "தத்தல் விசையைக் கொண்டு காட்சிப்பகுதிகளுக்கிடையே தாவு"
 
-#: settings/interface/folderstabssettingspage.cpp:136
-#, kde-format
-msgctxt "option:check"
-msgid "Turning off split view closes the view in focus"
-msgstr "துண்டாக்கப்பட்ட காட்சிமுறையை முடக்குதல் குவியத்தில் உள்ள பாகத்தை மூடும்"
-
-#: settings/interface/folderstabssettingspage.cpp:139
-#, kde-format
-msgid ""
-"When unchecked, the opposite view will be closed. The Close icon always "
-"illustrates which view (left or right) will be closed."
-msgstr ""
-"இத்தேர்வு குறிக்கப்படா பட்சத்தில், குவியத்திலில்லா காட்சிப்பகுதி மூடப்படும். எந்த "
-"காட்சிப்பகுதி (இடது/வலது) மூடப்படப் போகிறது என்பதைக் குறிக்குமாறு 'மூடு' சின்னம் "
-"அமைந்திருக்கும்."
-
-#: settings/interface/folderstabssettingspage.cpp:142
-#, kde-format
-msgid "New windows:"
-msgstr "புதிய சாளரங்களில்:"
-
-#: settings/interface/folderstabssettingspage.cpp:143
-#, kde-format
+#: settings/interface/folderstabssettingspage.cpp:147
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Begin in split view mode"
 msgctxt "@option:check Startup Settings"
-msgid "Begin in split view mode"
+msgid "Open new window in split view mode"
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறையில் துவக்கு"
 
-#: settings/interface/folderstabssettingspage.cpp:291
+#: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6658,6 +6687,24 @@ msgstr "உருப்பெருக்கு"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "உருப்பெருக்கு"
+
+#~ msgid "Close the view in focus when turning off split view"
+#~ msgstr "துண்டாக்கப்பட்ட காட்சிமுறையை முடக்கும்போது குவியத்திலுள்ள காட்சிப்பகுதியை மூடு"
+
+#~ msgctxt "option:check"
+#~ msgid "Turning off split view closes the view in focus"
+#~ msgstr "துண்டாக்கப்பட்ட காட்சிமுறையை முடக்குதல் குவியத்தில் உள்ள பாகத்தை மூடும்"
+
+#~ msgid ""
+#~ "When unchecked, the opposite view will be closed. The Close icon always "
+#~ "illustrates which view (left or right) will be closed."
+#~ msgstr ""
+#~ "இத்தேர்வு குறிக்கப்படா பட்சத்தில், குவியத்திலில்லா காட்சிப்பகுதி மூடப்படும். எந்த "
+#~ "காட்சிப்பகுதி (இடது/வலது) மூடப்படப் போகிறது என்பதைக் குறிக்குமாறு 'மூடு' சின்னம் "
+#~ "அமைந்திருக்கும்."
+
+#~ msgid "New windows:"
+#~ msgstr "புதிய சாளரங்களில்:"
 
 #~ msgctxt "@option:check"
 #~ msgid "Open archives as folder"
