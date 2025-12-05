@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-04 00:46+0000\n"
-"PO-Revision-Date: 2025-11-19 10:38+0100\n"
+"PO-Revision-Date: 2025-12-04 12:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1438,33 +1438,25 @@ msgid "Close"
 msgstr "Tanca"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Tanca la vista de l'esquerra"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
-msgstr "Tanca la vista de l'esquerra"
+msgstr "Tanca la vista esquerra"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Mou cap a fora la vista esquerra"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Mou la vista esquerra a una finestra nova"
@@ -1478,36 +1470,28 @@ msgstr "Tanca"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Tanca la vista de la dreta"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
-msgstr "Tanca la vista de la dreta"
+msgstr "Tanca la vista dreta"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Mou cap a fora la vista dreta"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Mou la vista dreta a una finestra nova"
@@ -4736,11 +4720,9 @@ msgstr "Utilitzeu el tabulador per a canviar entre la vista dreta i l'esquerra"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Tanca la vista de l'esquerra"
+msgstr "Tanca la vista dividida"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5078,29 +5060,25 @@ msgid "Open new tabs: "
 msgstr "Obri en pestanyes noves: "
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Comença en el mode de vista dividida"
+msgstr "En tancar una vista dividida"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Tanca la subfinestra activa"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Tanca la subfinestra inactiva"
 
 #: settings/interface/folderstabssettingspage.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Tanca la vista de la dreta"
+msgstr "Tanca la subfinestra de la dreta"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5115,12 +5093,10 @@ msgid "Switch between views with Tab key"
 msgstr "Canvia entre les vistes amb la tecla de tabulació"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new window in split view mode"
-msgstr "Comença en el mode de vista dividida"
+msgstr "Obri una finestra nova en el mode de vista dividida"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
@@ -6929,20 +6905,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgid "Close the view in focus when turning off split view"
-#~ msgstr "Tanca la vista amb el focus en traure la vista dividida"
-
-#~ msgctxt "option:check"
-#~ msgid "Turning off split view closes the view in focus"
-#~ msgstr "En traure la vista dividida es tancarà la vista amb el focus"
-
-#~ msgid ""
-#~ "When unchecked, the opposite view will be closed. The Close icon always "
-#~ "illustrates which view (left or right) will be closed."
-#~ msgstr ""
-#~ "Si està desmarcada, es tancarà la vista oposada. La icona Tanca sempre "
-#~ "il·lustra quina vista (esquerra o dreta) es tancarà."
-
-#~ msgid "New windows:"
-#~ msgstr "Finestres noves:"
