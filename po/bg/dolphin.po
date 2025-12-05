@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-23 02:39+0000\n"
-"PO-Revision-Date: 2025-11-07 18:02+0100\n"
+"PO-Revision-Date: 2025-12-04 18:26+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -1495,7 +1495,7 @@ msgstr "Разделен изглед"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr "Извеждане в нов прозорец"
+msgstr "Извеждане в изскачащ прозорец"
 
 #: dolphinmainwindow.cpp:2896
 #, kde-kuit-format
