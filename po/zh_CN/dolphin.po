@@ -1350,13 +1350,13 @@ msgstr "关闭左侧视图"
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
-msgstr "关闭左侧视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2814
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
-msgstr "弹出左视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2815
 #, kde-format
@@ -1380,13 +1380,13 @@ msgstr "关闭右侧视图"
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
-msgstr "关闭右侧视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2822
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
-msgstr "弹出右视图"
+msgstr ""
 
 #: dolphinmainwindow.cpp:2823
 #, kde-format
