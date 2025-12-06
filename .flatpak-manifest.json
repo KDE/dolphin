@@ -129,8 +129,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.kde.org/stable/release-service/25.08.1/src/ark-25.08.1.tar.xz",
-                    "sha256": "2febbab11881e3d32f44c4107041d53b1d5353c8c95c4d6536ab57de0958f96f",
+                    "url": "https://download.kde.org/stable/release-service/25.08.3/src/ark-25.08.3.tar.xz",
+                    "sha256": "ca4fb7295f090280df02d24b64f113e10c6f618138b387bc1fd7a2c561de554f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 8763,
@@ -248,8 +248,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://get.videolan.org/vlc/3.0.21/vlc-3.0.21.tar.xz",
-                            "sha256": "24dbbe1d7dfaeea0994d5def0bbde200177347136dbfe573f5b6a4cee25afbb0",
+                            "url": "https://get.videolan.org/vlc/3.0.22/vlc-3.0.22.tar.xz",
+                            "sha256": "e2cc1cf0ae0902a09da5a37c249a8a4e4b5ec4dc095443b8e1493c6a7cc138ea",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 6504,
