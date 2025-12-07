@@ -260,10 +260,6 @@
                         {
                             "type": "patch",
                             "path": ".flatpak-vlc-ignore-time-for-cache.patch"
-                        },
-                        {
-                            "type": "patch",
-                            "path": ".flatpak-vlc-taglib-2.patch"
                         }
                     ],
                     "modules": [
