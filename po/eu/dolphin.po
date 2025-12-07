@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-04 00:46+0000\n"
-"PO-Revision-Date: 2025-09-27 13:26+0200\n"
+"PO-Revision-Date: 2025-12-06 13:33+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -229,15 +229,12 @@ msgid "Middle Click"
 msgstr "Erdiko klik"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Erdiko klik"
+msgstr "Maius+Erdiko klik"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -1432,36 +1429,28 @@ msgid "Close"
 msgstr "Itxi"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Itxi ezkerreko ikuspegia"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Itxi ezkerreko ikuspegia"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Atera ezkerreko ikuspegia"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Eraman ezkerreko ikuspegia leiho berri batera"
+msgstr "Eraman ezkerreko ikuspegi zatitua leiho berri batera"
 
 #: dolphinmainwindow.cpp:2834 dolphinmainwindow.cpp:2853
 #: dolphinmainwindow.cpp:2863
@@ -1472,39 +1461,31 @@ msgstr "Itxi"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Itxi eskuineko ikuspegia"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Itxi eskuineko ikuspegia"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Atera eskuineko ikuspegia"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Eraman eskuineko ikuspegia leiho berri batera"
+msgstr "Eraman eskuineko ikuspegi zatitua leiho berri batera"
 
 #: dolphinmainwindow.cpp:2881
 #, kde-format
@@ -4191,7 +4172,7 @@ msgstr "Ezabatu"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Dolphin barruan eraikia"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -4711,11 +4692,9 @@ msgstr "Erabili tab eskuineko eta ezkerreko ikuspegien artean aldatzeko"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Itxi ezkerreko ikuspegia"
+msgstr "Itxi ikuspegi zatitua"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5052,29 +5031,25 @@ msgid "Open new tabs: "
 msgstr "Ireki fitxa berriak: "
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Hasi Ikuspegi-zatitu moduan"
+msgstr "Ikuspegi zatitu bat ixtean"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Itxi beirate aktiboa"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Itxi beirate ez aktiboa"
 
 #: settings/interface/folderstabssettingspage.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Itxi eskuineko ikuspegia"
+msgstr "Itxi eskuineko beiratea"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5089,12 +5064,10 @@ msgid "Switch between views with Tab key"
 msgstr "Aldatu ikuspegien artean Tab tekla erabiliz"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new window in split view mode"
-msgstr "Hasi Ikuspegi-zatitu moduan"
+msgstr "Ireki leiho berria ikuspegi zatitu moduan"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
@@ -5518,12 +5491,10 @@ msgid "Display style: "
 msgstr "Azalpen estiloa: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Erakutsi fitxategi eta karpeten aurreikuspegia"
+msgstr "Arakatu fitxategi konprimatuak karpetak bezala"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6743,25 +6714,19 @@ msgstr ""
 "ikuspegiekin lotutako hainbat ekintza ditu."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
-msgstr "Sailkatu honen arabera"
+msgstr "Sailkatu eremuaren arabera"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
-msgstr "Erakutsi eremua: %1"
+msgstr "Erakutsi eremua"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in sort by file attribute"
-#| msgid "Sort By: %1"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort by: %1"
 msgstr "Sailkatu honen arabera: %1"

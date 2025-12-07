@@ -1352,25 +1352,25 @@ msgstr "关闭"
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
-msgstr ""
+msgstr "关闭左侧视图"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
-msgstr ""
+msgstr "关闭左侧视图"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
-msgstr ""
+msgstr "弹出左侧视图"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr ""
+msgstr "移动左侧的拆分视图到新窗口"
 
 #: dolphinmainwindow.cpp:2834 dolphinmainwindow.cpp:2853
 #: dolphinmainwindow.cpp:2863
@@ -1384,28 +1384,28 @@ msgstr "关闭"
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
-msgstr ""
+msgstr "关闭右侧视图"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
-msgstr ""
+msgstr "关闭右侧视图"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
-msgstr ""
+msgstr "弹出右侧视图"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr ""
+msgstr "移动右侧的拆分视图到新窗口"
 
 #: dolphinmainwindow.cpp:2881
 #, kde-format
@@ -4518,7 +4518,7 @@ msgstr "按 Tab 键切换左、右视图"
 #: settings/dolphin_generalsettings.kcfg:107
 #, kde-format
 msgid "Close split view"
-msgstr ""
+msgstr "关闭拆分视图"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -4853,22 +4853,22 @@ msgstr "新标签页位置："
 #, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr ""
+msgstr "关闭拆分视图时"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "关闭活动窗格"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "关闭非活动窗格"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the right pane"
-msgstr ""
+msgstr "关闭右侧窗格"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -4886,7 +4886,7 @@ msgstr "按 Tab 键切换视图"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new window in split view mode"
-msgstr ""
+msgstr "在拆分视图模式中打开新窗口"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format

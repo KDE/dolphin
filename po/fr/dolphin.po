@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-04 00:46+0000\n"
-"PO-Revision-Date: 2025-11-22 18:10+0100\n"
+"PO-Revision-Date: 2025-12-05 09:51+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.11.80\n"
+"X-Generator: Lokalize 25.11.90\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -1485,36 +1485,28 @@ msgid "Close"
 msgstr "Fermer"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Fermer la vue de gauche"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Fermer la vue de gauche"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Faire apparaitre la vue de gauche"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Déplacer la vue de gauche vers une nouvelle fenêtre"
+msgstr "Déplacer la vue scindé de gauche vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2834 dolphinmainwindow.cpp:2853
 #: dolphinmainwindow.cpp:2863
@@ -1525,39 +1517,31 @@ msgstr "Fermer"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Fermer la vue de droite"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Fermer la vue de droite"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Faire apparaitre la vue de droite"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Déplacer la vue de droite vers une nouvelle fenêtre"
+msgstr "Déplacer la vue scindée de droite vers une nouvelle fenêtre"
 
 #: dolphinmainwindow.cpp:2881
 #, kde-format
@@ -4823,11 +4807,9 @@ msgstr "Utiliser « Tab » pour basculer entre les affichages droit et gauche"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Fermer la vue de gauche"
+msgstr "Fermer l'affichage scindé"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5177,29 +5159,25 @@ msgid "Open new tabs: "
 msgstr "Ouvrir de nouveaux onglets :"
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Débuter en mode d'affichage scindé"
+msgstr "Lors de la fermeture d'un affichage scindé"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Fermer le volet actif"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Fermer le volet inactif"
 
 #: settings/interface/folderstabssettingspage.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Fermer la vue de droite"
+msgstr "Fermer la volet de droite"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5214,12 +5192,10 @@ msgid "Switch between views with Tab key"
 msgstr "Basculer entre les vues avec la touche « Tab »"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new window in split view mode"
-msgstr "Débuter en mode d'affichage scindé"
+msgstr "Ouvrir une nouvelle fenêtre en mode d'affichage scindé"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-04 00:46+0000\n"
-"PO-Revision-Date: 2025-11-19 20:37+0400\n"
+"PO-Revision-Date: 2025-12-06 17:00+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1406,33 +1406,25 @@ msgid "Close"
 msgstr "أغلق"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "أغلق العرض الأيسر"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "أغلق العرض الأيسر"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "انسخ إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "انقل العرض المقسوم الأيسر إلى نافذة جديدة"
@@ -1446,36 +1438,28 @@ msgstr "أغلق"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "أغلق العرض الأيمن"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "أغلق العرض الأيمن"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "انسخ إلى العرض الآخر"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "انقل العرض المقسوم الأيمن إلى نافذة جديدة"
@@ -4726,11 +4710,9 @@ msgstr "استخدم tab للتّبديل بين قسمي المنظور الأ�
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "أغلق العرض الأيسر"
+msgstr "أغلق العرض المقسم"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5063,29 +5045,25 @@ msgid "Open new tabs: "
 msgstr "افتح ألسنة جديدة: "
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "ابدأ في نمط تقسيم العرض"
+msgstr "عند غلق العرض المقسم"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "أغلق اللوحة النشطة"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "أغلقة اللوحة خاملة"
 
 #: settings/interface/folderstabssettingspage.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "أغلق العرض الأيمن"
+msgstr "أغلق اللوحة اليمنى"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5100,12 +5078,10 @@ msgid "Switch between views with Tab key"
 msgstr "انتقل بين العروض المنقسمة بواسطة مفتاح الجدولة"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new window in split view mode"
-msgstr "ابدأ في نمط تقسيم العرض"
+msgstr "افتح نافذة جديدة بنمط العرض مقسم"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
