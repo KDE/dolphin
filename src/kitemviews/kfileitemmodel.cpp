@@ -15,6 +15,7 @@
 #include "views/draganddrophelper.h"
 
 #include <KDirLister>
+#include <KFileMetaData/UserMetaData>
 #include <KIO/Job>
 #include <KIO/ListJob>
 #include <KLocalizedString>
@@ -2005,6 +2006,14 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     } else if (m_requestRole[TypeRole] && isDir) {
         static const QString folderMimeType = item.mimeComment();
         data.insert(sharedValue("type"), folderMimeType);
+    }
+
+    if (m_requestRole[RatingRole] && item.isLocalFile()) {
+        KFileMetaData::UserMetaData md(item.localPath());
+        const int rating = md.rating();
+        if (rating > 0) {
+            data.insert(sharedValue("rating"), rating);
+        }
     }
 
     return data;
