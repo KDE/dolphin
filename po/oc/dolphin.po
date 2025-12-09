@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-04 00:46+0000\n"
+"POT-Creation-Date: 2025-12-09 00:45+0000\n"
 "PO-Revision-Date: 2008-08-05 22:26+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -2399,13 +2399,13 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2356
+#: kitemviews/kfileitemmodel.cpp:2365
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2358
+#: kitemviews/kfileitemmodel.cpp:2367
 #, fuzzy, kde-format
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2413,80 +2413,80 @@ msgctxt "@title:group"
 msgid "Others"
 msgstr "Autres"
 
-#: kitemviews/kfileitemmodel.cpp:2390
+#: kitemviews/kfileitemmodel.cpp:2399
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Repertòris"
 
-#: kitemviews/kfileitemmodel.cpp:2398
+#: kitemviews/kfileitemmodel.cpp:2407
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Pichon"
 
-#: kitemviews/kfileitemmodel.cpp:2400
+#: kitemviews/kfileitemmodel.cpp:2409
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Mejan"
 
-#: kitemviews/kfileitemmodel.cpp:2402
+#: kitemviews/kfileitemmodel.cpp:2411
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2448
+#: kitemviews/kfileitemmodel.cpp:2457
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Uèi"
 
-#: kitemviews/kfileitemmodel.cpp:2451
+#: kitemviews/kfileitemmodel.cpp:2460
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2454
+#: kitemviews/kfileitemmodel.cpp:2463
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2458
+#: kitemviews/kfileitemmodel.cpp:2467
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2463
+#: kitemviews/kfileitemmodel.cpp:2472
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2466
+#: kitemviews/kfileitemmodel.cpp:2475
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2469
+#: kitemviews/kfileitemmodel.cpp:2478
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2473
+#: kitemviews/kfileitemmodel.cpp:2482
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2487
+#: kitemviews/kfileitemmodel.cpp:2496
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2498,7 +2498,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2494
+#: kitemviews/kfileitemmodel.cpp:2503
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2506,7 +2506,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2507
+#: kitemviews/kfileitemmodel.cpp:2516
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2516,7 +2516,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2511
+#: kitemviews/kfileitemmodel.cpp:2520
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2524,7 +2524,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2519
+#: kitemviews/kfileitemmodel.cpp:2528
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2536,7 +2536,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2526
+#: kitemviews/kfileitemmodel.cpp:2535
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2544,7 +2544,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2540
+#: kitemviews/kfileitemmodel.cpp:2549
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2556,7 +2556,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2547
+#: kitemviews/kfileitemmodel.cpp:2556
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2564,7 +2564,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2561
+#: kitemviews/kfileitemmodel.cpp:2570
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2576,7 +2576,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2568
+#: kitemviews/kfileitemmodel.cpp:2577
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2584,7 +2584,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2582
+#: kitemviews/kfileitemmodel.cpp:2591
 #, fuzzy, kde-format
 #| msgctxt "@title:group Date"
 #| msgid "Yesterday"
@@ -2596,7 +2596,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "Ièr"
 
-#: kitemviews/kfileitemmodel.cpp:2589
+#: kitemviews/kfileitemmodel.cpp:2598
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2604,7 +2604,7 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2603
+#: kitemviews/kfileitemmodel.cpp:2612
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2612,7 +2612,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2607
+#: kitemviews/kfileitemmodel.cpp:2616
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2620,8 +2620,8 @@ msgctxt ""
 msgid "%1"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2647 kitemviews/kfileitemmodel.cpp:2660
-#: kitemviews/kfileitemmodel.cpp:2673
+#: kitemviews/kfileitemmodel.cpp:2656 kitemviews/kfileitemmodel.cpp:2669
+#: kitemviews/kfileitemmodel.cpp:2682
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Reload"
@@ -2629,34 +2629,34 @@ msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Tornar cargar"
 
-#: kitemviews/kfileitemmodel.cpp:2650 kitemviews/kfileitemmodel.cpp:2663
-#: kitemviews/kfileitemmodel.cpp:2676
+#: kitemviews/kfileitemmodel.cpp:2659 kitemviews/kfileitemmodel.cpp:2672
+#: kitemviews/kfileitemmodel.cpp:2685
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2653 kitemviews/kfileitemmodel.cpp:2666
-#: kitemviews/kfileitemmodel.cpp:2679
+#: kitemviews/kfileitemmodel.cpp:2662 kitemviews/kfileitemmodel.cpp:2675
+#: kitemviews/kfileitemmodel.cpp:2688
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2655 kitemviews/kfileitemmodel.cpp:2668
-#: kitemviews/kfileitemmodel.cpp:2681
+#: kitemviews/kfileitemmodel.cpp:2664 kitemviews/kfileitemmodel.cpp:2677
+#: kitemviews/kfileitemmodel.cpp:2690
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2683
+#: kitemviews/kfileitemmodel.cpp:2692
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2773
+#: kitemviews/kfileitemmodel.cpp:2782
 #, fuzzy
 #| msgctxt "@action:inmenu Sort By"
 #| msgid "Name"
@@ -2664,7 +2664,7 @@ msgctxt "@label"
 msgid "Name"
 msgstr "Nom"
 
-#: kitemviews/kfileitemmodel.cpp:2774
+#: kitemviews/kfileitemmodel.cpp:2783
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Size"
@@ -2672,7 +2672,7 @@ msgctxt "@label"
 msgid "Size"
 msgstr "Talha"
 
-#: kitemviews/kfileitemmodel.cpp:2775
+#: kitemviews/kfileitemmodel.cpp:2784
 #, fuzzy
 #| msgctxt "@label"
 #| msgid "Modified:"
@@ -2680,25 +2680,25 @@ msgctxt "@label"
 msgid "Modified"
 msgstr "Modificat :"
 
-#: kitemviews/kfileitemmodel.cpp:2775 kitemviews/kfileitemmodel.cpp:2776
-#: kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2784 kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2776
+#: kitemviews/kfileitemmodel.cpp:2785
 #, fuzzy
 #| msgid "Create Folder..."
 msgctxt "@label"
 msgid "Created"
 msgstr "Crear un repertòri..."
 
-#: kitemviews/kfileitemmodel.cpp:2777
+#: kitemviews/kfileitemmodel.cpp:2786
 msgctxt "@label"
 msgid "Accessed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2778
+#: kitemviews/kfileitemmodel.cpp:2787
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Type"
@@ -2706,7 +2706,7 @@ msgctxt "@label"
 msgid "Type"
 msgstr "Tipe"
 
-#: kitemviews/kfileitemmodel.cpp:2779
+#: kitemviews/kfileitemmodel.cpp:2788
 #, fuzzy
 #| msgctxt "@label:textbox"
 #| msgid "Location:"
@@ -2714,14 +2714,14 @@ msgctxt "@label"
 msgid "Rating"
 msgstr "Emplaçament :"
 
-#: kitemviews/kfileitemmodel.cpp:2780
+#: kitemviews/kfileitemmodel.cpp:2789
 #, fuzzy
 #| msgid "Trash"
 msgctxt "@label"
 msgid "Tags"
 msgstr "Banasta"
 
-#: kitemviews/kfileitemmodel.cpp:2781
+#: kitemviews/kfileitemmodel.cpp:2790
 #, fuzzy
 #| msgctxt "@title:tab"
 #| msgid "Column"
@@ -2729,7 +2729,7 @@ msgctxt "@label"
 msgid "Comment"
 msgstr "Colomna"
 
-#: kitemviews/kfileitemmodel.cpp:2782
+#: kitemviews/kfileitemmodel.cpp:2791
 #, fuzzy
 #| msgctxt "@label:textbox"
 #| msgid "Filter:"
@@ -2737,9 +2737,9 @@ msgctxt "@label"
 msgid "Title"
 msgstr "Filtre :"
 
-#: kitemviews/kfileitemmodel.cpp:2782 kitemviews/kfileitemmodel.cpp:2783
-#: kitemviews/kfileitemmodel.cpp:2784 kitemviews/kfileitemmodel.cpp:2785
-#: kitemviews/kfileitemmodel.cpp:2786 kitemviews/kfileitemmodel.cpp:2787
+#: kitemviews/kfileitemmodel.cpp:2791 kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2793 kitemviews/kfileitemmodel.cpp:2794
+#: kitemviews/kfileitemmodel.cpp:2795 kitemviews/kfileitemmodel.cpp:2796
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2747,17 +2747,17 @@ msgctxt "@label"
 msgid "Document"
 msgstr "Documentacion"
 
-#: kitemviews/kfileitemmodel.cpp:2783
+#: kitemviews/kfileitemmodel.cpp:2792
 msgctxt "@label"
 msgid "Author"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2784
+#: kitemviews/kfileitemmodel.cpp:2793
 msgctxt "@label"
 msgid "Publisher"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2794
 #, fuzzy
 #| msgctxt "@title:tab"
 #| msgid "Column"
@@ -2765,44 +2765,44 @@ msgctxt "@label"
 msgid "Page Count"
 msgstr "Colomna"
 
-#: kitemviews/kfileitemmodel.cpp:2786
+#: kitemviews/kfileitemmodel.cpp:2795
 msgctxt "@label"
 msgid "Word Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2787
+#: kitemviews/kfileitemmodel.cpp:2796
 msgctxt "@label"
 msgid "Line Count"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2788
+#: kitemviews/kfileitemmodel.cpp:2797
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2788 kitemviews/kfileitemmodel.cpp:2789
-#: kitemviews/kfileitemmodel.cpp:2790 kitemviews/kfileitemmodel.cpp:2791
-#: kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2797 kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2799 kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:2801
 msgctxt "@label"
 msgid "Image"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2789
+#: kitemviews/kfileitemmodel.cpp:2798
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2790
+#: kitemviews/kfileitemmodel.cpp:2799
 msgctxt "@label"
 msgid "Width"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2791
+#: kitemviews/kfileitemmodel.cpp:2800
 msgctxt "@label"
 msgid "Height"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2801
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2810,20 +2810,20 @@ msgctxt "@label"
 msgid "Orientation"
 msgstr "Documentacion"
 
-#: kitemviews/kfileitemmodel.cpp:2793
+#: kitemviews/kfileitemmodel.cpp:2802
 msgctxt "@label"
 msgid "Artist"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2793 kitemviews/kfileitemmodel.cpp:2794
-#: kitemviews/kfileitemmodel.cpp:2795 kitemviews/kfileitemmodel.cpp:2796
-#: kitemviews/kfileitemmodel.cpp:2797 kitemviews/kfileitemmodel.cpp:2798
-#: kitemviews/kfileitemmodel.cpp:2799
+#: kitemviews/kfileitemmodel.cpp:2802 kitemviews/kfileitemmodel.cpp:2803
+#: kitemviews/kfileitemmodel.cpp:2804 kitemviews/kfileitemmodel.cpp:2805
+#: kitemviews/kfileitemmodel.cpp:2806 kitemviews/kfileitemmodel.cpp:2807
+#: kitemviews/kfileitemmodel.cpp:2808
 msgctxt "@label"
 msgid "Audio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2794
+#: kitemviews/kfileitemmodel.cpp:2803
 #, fuzzy
 #| msgctxt "@title:group"
 #| msgid "General"
@@ -2831,12 +2831,12 @@ msgctxt "@label"
 msgid "Genre"
 msgstr "General"
 
-#: kitemviews/kfileitemmodel.cpp:2795
+#: kitemviews/kfileitemmodel.cpp:2804
 msgctxt "@label"
 msgid "Album"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2796 kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2805 kitemviews/kfileitemmodel.cpp:2811
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2844,17 +2844,17 @@ msgctxt "@label"
 msgid "Duration"
 msgstr "Documentacion"
 
-#: kitemviews/kfileitemmodel.cpp:2797
+#: kitemviews/kfileitemmodel.cpp:2806
 msgctxt "@label"
 msgid "Bitrate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2807
 msgctxt "@label"
 msgid "Track"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2799
+#: kitemviews/kfileitemmodel.cpp:2808
 #, fuzzy
 #| msgctxt "@action:inmenu View"
 #| msgid "Reload"
@@ -2862,23 +2862,23 @@ msgctxt "@label"
 msgid "Release Year"
 msgstr "Tornar cargar"
 
-#: kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:2809
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2800 kitemviews/kfileitemmodel.cpp:2801
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2809 kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2811
 msgctxt "@label"
 msgid "Video"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2801
+#: kitemviews/kfileitemmodel.cpp:2810
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2803
+#: kitemviews/kfileitemmodel.cpp:2812
 #, fuzzy
 #| msgctxt "@action:inmenu"
 #| msgid "Paste"
@@ -2886,10 +2886,10 @@ msgctxt "@label"
 msgid "Path"
 msgstr "Pegar"
 
-#: kitemviews/kfileitemmodel.cpp:2803 kitemviews/kfileitemmodel.cpp:2804
-#: kitemviews/kfileitemmodel.cpp:2805 kitemviews/kfileitemmodel.cpp:2806
-#: kitemviews/kfileitemmodel.cpp:2807 kitemviews/kfileitemmodel.cpp:2808
-#: kitemviews/kfileitemmodel.cpp:2809 kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2812 kitemviews/kfileitemmodel.cpp:2813
+#: kitemviews/kfileitemmodel.cpp:2814 kitemviews/kfileitemmodel.cpp:2815
+#: kitemviews/kfileitemmodel.cpp:2816 kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2818 kitemviews/kfileitemmodel.cpp:2819
 #, fuzzy
 #| msgctxt "@title:group Name"
 #| msgid "Others"
@@ -2897,12 +2897,12 @@ msgctxt "@label"
 msgid "Other"
 msgstr "Autres"
 
-#: kitemviews/kfileitemmodel.cpp:2804
+#: kitemviews/kfileitemmodel.cpp:2813
 msgctxt "@label"
 msgid "File Extension"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2805
+#: kitemviews/kfileitemmodel.cpp:2814
 #, fuzzy
 #| msgctxt "@action:inmenu Edit"
 #| msgid "Select All"
@@ -2910,7 +2910,7 @@ msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Tot seleccionar"
 
-#: kitemviews/kfileitemmodel.cpp:2806
+#: kitemviews/kfileitemmodel.cpp:2815
 #, fuzzy
 #| msgctxt "@info:credit"
 #| msgid "Documentation"
@@ -2918,12 +2918,12 @@ msgctxt "@label"
 msgid "Link Destination"
 msgstr "Documentacion"
 
-#: kitemviews/kfileitemmodel.cpp:2807
+#: kitemviews/kfileitemmodel.cpp:2816
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2808
+#: kitemviews/kfileitemmodel.cpp:2817
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Permissions"
@@ -2931,14 +2931,14 @@ msgctxt "@label"
 msgid "Permissions"
 msgstr "Permissions"
 
-#: kitemviews/kfileitemmodel.cpp:2808
+#: kitemviews/kfileitemmodel.cpp:2817
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
 
-#: kitemviews/kfileitemmodel.cpp:2809
+#: kitemviews/kfileitemmodel.cpp:2818
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Owner"
@@ -2946,7 +2946,7 @@ msgctxt "@label"
 msgid "Owner"
 msgstr "Propietari"
 
-#: kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2819
 #, fuzzy
 #| msgctxt "@option:check Additional Information"
 #| msgid "Group"
@@ -2954,7 +2954,7 @@ msgctxt "@label"
 msgid "User Group"
 msgstr "Grop"
 
-#: kitemviews/kfileitemmodel.cpp:2911
+#: kitemviews/kfileitemmodel.cpp:2920
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Font size"
