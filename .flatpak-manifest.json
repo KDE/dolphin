@@ -85,6 +85,9 @@
         {
             "name": "libzip",
             "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+            ],
             "sources": [
                 {
                     "type": "archive",
