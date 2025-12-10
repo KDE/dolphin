@@ -144,7 +144,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
 
     // 'Begin in split view mode'
-    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Open new window in split view mode"));
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Open new windows in split view mode"));
     topLayout->addRow(QString(), m_splitView);
 
     loadSettings();
