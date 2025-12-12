@@ -10,3 +10,4 @@ include:
 
       - /gitlab-templates/xml-lint.yml
       - /gitlab-templates/yaml-lint.yml
+      - /gitlab-templates/documentation.yml
