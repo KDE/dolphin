@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 00:45+0000\n"
+"POT-Creation-Date: 2025-12-13 00:47+0000\n"
 "PO-Revision-Date: 2025-12-04 06:48+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -5098,9 +5098,11 @@ msgid "Switch between views with Tab key"
 msgstr "Preklapljaj med pogledoma s tipko tab"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Open new window in split view mode"
 msgctxt "@option:check Startup Settings"
-msgid "Open new window in split view mode"
+msgid "Open new windows in split view mode"
 msgstr "Odpri novo okno v načinu deljenega pogleda"
 
 #: settings/interface/folderstabssettingspage.cpp:298

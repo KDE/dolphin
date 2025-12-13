@@ -19,15 +19,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 00:45+0000\n"
-"PO-Revision-Date: 2025-11-13 15:51+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
+"POT-Creation-Date: 2025-12-13 00:47+0000\n"
+"PO-Revision-Date: 2025-12-12 14:07+0200\n"
+"Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -245,15 +245,12 @@ msgid "Middle Click"
 msgstr "Щелчок средней кнопкой мыши"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Щелчок средней кнопкой мыши"
+msgstr "Shift+щелчок средней кнопкой мыши"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -1473,33 +1470,25 @@ msgid "Close"
 msgstr "Закрыть панель"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Закрыть левую панель"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Закрыть левую панель"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Открыть левую панель в новом окне"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Переместить левую панель в новое окно"
@@ -1513,36 +1502,28 @@ msgstr "Закрыть панель"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Закрыть правую панель"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Закрыть правую панель"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Открыть правую панель в новое окно"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Переместить правую панель в новое окно"
@@ -4854,11 +4835,9 @@ msgstr "Клавиша Tab переключает между двумя пане
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Закрыть левую панель"
+msgstr "Перейти в однопанельный режим"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5196,12 +5175,10 @@ msgid "Open new tabs: "
 msgstr "Открывать новые вкладки:"
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Двухпанельный режим"
+msgstr "При переходе в однопанельный режим"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
@@ -5235,10 +5212,10 @@ msgstr "Переключать активную панель клавишей Ta
 #: settings/interface/folderstabssettingspage.cpp:147
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#| msgid "Open new window in split view mode"
 msgctxt "@option:check Startup Settings"
-msgid "Open new window in split view mode"
-msgstr "Двухпанельный режим"
+msgid "Open new windows in split view mode"
+msgstr "Открывать новые окна в двухпанельном режиме"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format

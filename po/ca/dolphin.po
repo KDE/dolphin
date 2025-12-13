@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 00:45+0000\n"
+"POT-Creation-Date: 2025-12-13 00:47+0000\n"
 "PO-Revision-Date: 2025-12-04 12:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5098,9 +5098,11 @@ msgid "Switch between views with Tab key"
 msgstr "Commuta entre les vistes amb la tecla de tabulació"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Open new window in split view mode"
 msgctxt "@option:check Startup Settings"
-msgid "Open new window in split view mode"
+msgid "Open new windows in split view mode"
 msgstr "Obre una finestra nova en el mode de vista dividida"
 
 #: settings/interface/folderstabssettingspage.cpp:298

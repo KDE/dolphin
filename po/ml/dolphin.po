@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 00:45+0000\n"
+"POT-Creation-Date: 2025-12-13 00:47+0000\n"
 "PO-Revision-Date: 2021-09-09 12:59+0000\n"
 "Last-Translator: Subin Siby <subins2000@gmail.com>\n"
 "Language-Team: Malayalam <https://kde.smc.org.in/projects/dolphin/dolphin/ml/"
@@ -5148,7 +5148,7 @@ msgstr ""
 #: settings/interface/folderstabssettingspage.cpp:147
 #, fuzzy, kde-format
 msgctxt "@option:check Startup Settings"
-msgid "Open new window in split view mode"
+msgid "Open new windows in split view mode"
 msgstr "വിഭജിച്ച പ്രദര്‍ശനരീതി"
 
 #: settings/interface/folderstabssettingspage.cpp:298

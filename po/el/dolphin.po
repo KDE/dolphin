@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-09 00:45+0000\n"
+"POT-Creation-Date: 2025-12-13 00:47+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5247,7 +5247,7 @@ msgstr "Εναλλαγή μεταξύ των προβολών με το πλήκ
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Begin in split view mode"
 msgctxt "@option:check Startup Settings"
-msgid "Open new window in split view mode"
+msgid "Open new windows in split view mode"
 msgstr "Εκκίνηση σε λειτουργία διαιρεμένης προβολής"
 
 #: settings/interface/folderstabssettingspage.cpp:298
