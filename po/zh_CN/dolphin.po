@@ -4883,12 +4883,10 @@ msgid "Switch between views with Tab key"
 msgstr "按 Tab 键切换视图"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Open new window in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "在拆分视图模式中打开新窗口"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
