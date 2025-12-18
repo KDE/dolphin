@@ -2035,6 +2035,7 @@ void DolphinView::selectNextItem()
         const auto nextItem = qMin(lastSelectedIndex + 1, itemsCount() - 1);
         selectionManager->setCurrentItem(nextItem);
         selectionManager->clearSelection();
+        selectionManager->setSelected(nextItem, 1, KItemListSelectionManager::Select);
 
         m_selectNextItem = false;
     }
