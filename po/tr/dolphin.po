@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-13 00:47+0000\n"
-"PO-Revision-Date: 2025-11-19 20:26+0300\n"
+"PO-Revision-Date: 2025-12-18 15:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1410,36 +1410,28 @@ msgid "Close"
 msgstr "Kapat"
 
 #: dolphinmainwindow.cpp:2827 dolphinmainwindow.cpp:2846
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
-msgstr "Sol Görünümü Kapat"
+msgstr "Sol görünümü kapat"
 
 #: dolphinmainwindow.cpp:2829 dolphinmainwindow.cpp:2848
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Sol Görünümü Kapat"
 
 #: dolphinmainwindow.cpp:2831 dolphinmainwindow.cpp:2850
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Sol Görünümü Çıkar"
 
 #: dolphinmainwindow.cpp:2832 dolphinmainwindow.cpp:2851
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Sol görünümü yeni bir pencereye taşı"
+msgstr "Sol bölünmüş görünümü yeni bir pencereye taşı"
 
 #: dolphinmainwindow.cpp:2834 dolphinmainwindow.cpp:2853
 #: dolphinmainwindow.cpp:2863
@@ -1450,39 +1442,31 @@ msgstr "Kapat"
 
 #: dolphinmainwindow.cpp:2835 dolphinmainwindow.cpp:2854
 #: dolphinmainwindow.cpp:2864
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
-msgstr "Sağ Görünümü Kapat"
+msgstr "Sağ görünümü kapat"
 
 #: dolphinmainwindow.cpp:2837 dolphinmainwindow.cpp:2856
 #: dolphinmainwindow.cpp:2866
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Sağ Görünümü Kapat"
 
 #: dolphinmainwindow.cpp:2839 dolphinmainwindow.cpp:2858
 #: dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Sağ Görünümü Çıkar"
 
 #: dolphinmainwindow.cpp:2840 dolphinmainwindow.cpp:2859
 #: dolphinmainwindow.cpp:2869
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Sağ görünümü yeni bir pencereye taşı"
+msgstr "Sağ bölünmüş görünümü yeni bir pencereye taşı"
 
 #: dolphinmainwindow.cpp:2881
 #, kde-format
@@ -4686,11 +4670,9 @@ msgstr "Sol ve sağ görünüm arasında geçiş yapmak için Sekme düğmesini 
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:107
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Sol görünümü kapat"
+msgstr "Bölünmüş görünümü kapat"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:111
@@ -5028,29 +5010,25 @@ msgid "Open new tabs: "
 msgstr "Yeni sekmeleri aç: "
 
 #: settings/interface/folderstabssettingspage.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Bölünmüş görünüm kipinde başla"
+msgstr "Bölünmüş görünümü kapatırken"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Etkin bölmeyi kapat"
 
 #: settings/interface/folderstabssettingspage.cpp:133
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Etkin olmayan bölmeyi kapat"
 
 #: settings/interface/folderstabssettingspage.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Sağ görünümü kapat"
+msgstr "Sağ bölmeyi kapat"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
@@ -5065,12 +5043,10 @@ msgid "Switch between views with Tab key"
 msgstr "Görünümler arasında Sekme düğmesiyle geçiş yap"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Bölünmüş görünüm kipinde başla"
+msgstr "Yeni pencereleri bölünmüş görünüm kipinde aç"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format

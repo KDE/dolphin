@@ -6797,15 +6797,3 @@ msgstr "Forstørr"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Forstørr"
-
-#, fuzzy
-#~ msgid "Close the view in focus when turning off split view"
-#~ msgstr "Lukk gjeldande rute ved stenging av delt vising"
-
-#, fuzzy
-#~ msgctxt "option:check"
-#~ msgid "Turning off split view closes the view in focus"
-#~ msgstr "Lukk gjeldande rute ved stenging av delt vising"
-
-#~ msgid "New windows:"
-#~ msgstr "Nye vindauge:"

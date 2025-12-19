@@ -6812,15 +6812,3 @@ msgstr "Skalering"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Skalering"
-
-#, fuzzy
-#~ msgid "Close the view in focus when turning off split view"
-#~ msgstr "Lukk aktiv rute"
-
-#, fuzzy
-#~ msgctxt "option:check"
-#~ msgid "Turning off split view closes the view in focus"
-#~ msgstr "Avslutting av delt visning lukker aktivt felt"
-
-#~ msgid "New windows:"
-#~ msgstr "Nye vinduer:"
