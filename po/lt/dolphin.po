@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-23 02:39+0000\n"
-"PO-Revision-Date: 2025-09-01 16:24+0300\n"
+"PO-Revision-Date: 2025-12-20 22:52+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1986,12 +1986,10 @@ msgid "Authorization required to enter this folder."
 msgstr ""
 
 #: dolphinviewcontainer.cpp:1014
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Created folder."
+#, kde-format
 msgctxt "@action"
 msgid "Create missing folder"
-msgstr "Sukurtas aplankas."
+msgstr "Sukurti trūkstamą aplanką"
 
 #: dolphinviewcontainer.cpp:1031
 #, kde-format
@@ -2030,9 +2028,7 @@ msgid "Hide Filter Bar"
 msgstr "Slėpti filtro juostą"
 
 #: itemactions/hidefileitemaction.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@item:inmenu"
-#| msgid "Hide"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Hide"
 msgstr "Slėpti"
@@ -3581,12 +3577,10 @@ msgid "Rating:"
 msgstr "Įvertinimas:"
 
 #: search/popup.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
-msgstr "Žymės"
+msgstr "Žymės:"
 
 #: search/popup.cpp:251
 #, kde-format
@@ -3613,12 +3607,10 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:292
-#, fuzzy, kde-format
-#| msgctxt "tag-format-pattern <numberedlist> rich"
-#| msgid "<ol>%1</ol>"
+#, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr "<ol>%1</ol>"
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:295
 #, kde-kuit-format
@@ -5372,12 +5364,10 @@ msgid "Display style: "
 msgstr "Atvaizdavimo stilius: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Rodyti failų ir aplankų peržiūrą"
+msgstr "Naršyti glaudintus failus kaip aplankus"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6178,12 +6168,10 @@ msgid ""
 msgstr ""
 
 #: views/dolphinview.cpp:2226
-#, fuzzy, kde-format
-#| msgctxt "@title:group for filtering files based on their type"
-#| msgid "File Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Failo tipas:"
+msgstr "Keisti failo tipą"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
@@ -6551,12 +6539,10 @@ msgstr ""
 "Tai atveria langą, kuriame gali būti derinamos visos aplanko rodinio savybės."
 
 #: views/dolphinviewactionhandler.cpp:363
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Nuostatos"
+msgstr "Rodyti nuostatas"
 
 #: views/dolphinviewactionhandler.cpp:365
 #, kde-kuit-format
@@ -6567,36 +6553,28 @@ msgid ""
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Rikiuoti pagal"
+msgstr "Rikiuoti pagal lauką"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Rodyti filtro juostą"
+msgstr "Rodyti lauką"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Rikiuoti pagal"
+msgstr "Rikiuoti pagal: %1"
 
 #: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Rodyti filtro juostą"
+msgstr "Rodyti lauką: %1"
 
 #: views/dolphinviewactionhandler.cpp:689
 #, kde-format
@@ -6731,15 +6709,13 @@ msgid "Updating version information…"
 msgstr "Atnaujinama versijos informacija…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Mastelis"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Mastelis"
