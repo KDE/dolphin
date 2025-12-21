@@ -4886,7 +4886,7 @@ msgstr "按 Tab 键切换视图"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr ""
+msgstr "在拆分视图模式中打开新窗口"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format
