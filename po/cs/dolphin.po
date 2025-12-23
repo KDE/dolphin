@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2023, 2024 Vít Pelčák <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2023, 2024, 2025 Vít Pelčák <vit@pelcak.org>
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
 # Jan Holíček <jan.holicek@gmail.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
@@ -12,28 +12,29 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-23 02:39+0000\n"
-"PO-Revision-Date: 2025-10-18 22:49+0200\n"
-"Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
-"Language-Team: Czech <kde-i18n-cs@kde.org>\n"
+"PO-Revision-Date: 2025-12-17 11:25+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"Klára Cihlářová,Lukáš Tinkl,David Kolibáč,Vít Pelčák,Marián Kyral,Jan Papež"
+"Klára Cihlářová,Lukáš Tinkl,David Kolibáč,Vít Pelčák,Marián Kyral,Jan Papež,"
+"Libor Filípek"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "koty@seznam.cz,lukas@kde.org,david@kolibac.cz,vit@pelcak.org,mkyral@email.cz,"
-"honyczek@centrum.cz"
+"honyczek@centrum.cz,filipek.libor@protonmail.com"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -143,6 +144,16 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Chystáte se použít oprávnění správce. Jako správce můžete měnit nebo "
+"nahrazovat libovolné soubory nebo složky v tomto systému. To zahrnuje i "
+"položky, které jsou pro fungování systému kritické.</para> <para>Můžete "
+"<emphasis>smazat data všech uživatelů</emphasis> v tomto počítači a "
+"<emphasis>neopravitelně poškodit tuto instalaci.</emphasis> Přidání jediného "
+"písmene do názvu složky nebo souboru nebo do jejich obsahu může způsobit, že "
+"systém <emphasis>nebude možné spustit.</emphasis></para> <para>Pravděpodobně "
+"se již neobjeví žádné další varování, i když se chystáte tento systém "
+"poškodit.</para><para>Než budete pokračovat, možná budete chtít  "
+"<emphasis>zálohovat soubory a složky</emphasis>.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
@@ -473,6 +484,11 @@ msgid ""
 "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr ""
+"<para><emphasis>Vyjmout, Kopírovat</emphasis> a <emphasis>Vložit</emphasis> "
+"fungují mezi mnoha aplikacemi a patří mezi nejčastěji používané příkazy. "
+"Proto jsou jejich <emphasis>klávesové zkratky</emphasis> umístěny na "
+"klávesnici hned vedle sebe: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C </"
+"shortcut> a <shortcut>Ctrl+V</shortcut>.</para>"
 
 #: dolphinmainwindow.cpp:1858
 #, kde-format
@@ -489,6 +505,10 @@ msgid ""
 "them from the clipboard to a new location. The items will be removed from "
 "their initial location."
 msgstr ""
+"Tímto se položky z aktuálního výběru zkopírují do <emphasis>schránky </"
+"emphasis>. <nl/>Poté použijte akci <emphasis>Vložit</emphasis> k jejich "
+"zkopírování ze schránky na nové místo. Položky budou odstraněny ze svého "
+"původního umístění."
 
 #: dolphinmainwindow.cpp:1867
 #, kde-format
@@ -504,6 +524,9 @@ msgid ""
 "emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
 "them from the clipboard to a new location."
 msgstr ""
+"Tímto se položky z aktuálního výběru zkopírují do <emphasis>schránky </"
+"emphasis>. <nl/>Poté použijte akci <emphasis>Vložit</emphasis> k jejich "
+"zkopírování ze schránky na nové místo."
 
 #: dolphinmainwindow.cpp:1878
 #, kde-format
@@ -519,6 +542,10 @@ msgid ""
 "currently viewed folder.<nl/>If the items were added to the clipboard by the "
 "<emphasis>Cut</emphasis> action they are removed from their old location."
 msgstr ""
+"Tím se položky zkopírují z vaší <emphasis>schránky</emphasis> do aktuálně "
+"zobrazené složky.<nl/>Pokud byly položky přidány do schránky pomocí "
+"akce<emphasis>Vyjmout</emphasis>, budou ze svého původního umístění "
+"odstraněny."
 
 #: dolphinmainwindow.cpp:1887
 #, kde-format
@@ -539,6 +566,8 @@ msgid ""
 "This copies the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
+"Toto zkopíruje vybrané položky z aktivního zobrazení do druhého zobrazení.(K "
+"dispozici pouze v režimu rozděleného zobrazení.)"
 
 #: dolphinmainwindow.cpp:1894
 #, kde-format
@@ -565,6 +594,8 @@ msgid ""
 "This moves the selected items from the view in focus to the other view. "
 "(Only available while in Split View mode.)"
 msgstr ""
+"Toto přesune vybrané položky z aktivního zobrazení do druhého zobrazení.(K "
+"dispozici pouze v režimu rozděleného zobrazení.)"
 
 #: dolphinmainwindow.cpp:1906
 #, kde-format
@@ -593,6 +624,10 @@ msgid ""
 "displayed. Only those that contain the text in their name will be kept in "
 "view."
 msgstr ""
+"Tímto se otevře <emphasis>panel pro filtrování</emphasis> v dolní části "
+"okna. <nl/> Zde můžete zadat text pro filtrování aktuálně zobrazených "
+"souborů a složek. V zobrazení zůstanou pouze ty, které obsahují daný text v "
+"názvu."
 
 #: dolphinmainwindow.cpp:1926
 #, kde-format
@@ -625,6 +660,9 @@ msgid ""
 "bar</emphasis>. There you can enter search terms and specify settings to "
 "find the items you are looking for.</para>"
 msgstr ""
+"<para>Toto vám pomůže najít soubory a složky otevřením <emphasis> panelu "
+"vyhledávání</emphasis>. Zde můžete zadat hledané výrazy a upravit nastavení "
+"pro nalezení hledaných položek.</para>"
 
 #: dolphinmainwindow.cpp:1947
 #, kde-format
@@ -664,12 +702,18 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Tato aplikace ví, se kterými soubory nebo složkami má být provedena "
+"akce, pouze pokud jsou nejprve <emphasis>vybrány</emphasis>. Stisknutím "
+"tohoto tlačítka přepnete do<emphasis>režimu výběru</emphasis>, který "
+"umožňuje snadný výběr a zrušení výběru jedním stisknutím položky.</para> "
+"<para>V tomto režimu panel rychlého přístupu v dolní části zobrazuje "
+"dostupné akce pro aktuálně vybrané položky.</para>"
 
 #: dolphinmainwindow.cpp:1992
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
-msgstr ""
+msgstr "Tímto se vyberou všechny soubory a složky v aktuálním umístění."
 
 #: dolphinmainwindow.cpp:1996 dolphinpart.cpp:168
 #, kde-format
@@ -684,6 +728,8 @@ msgid ""
 "This selects all items that you have currently <emphasis>not</emphasis> "
 "selected instead."
 msgstr ""
+"Tímto se vyberou všechny položky, které jste aktuálně <emphasis>nevybrali </"
+"emphasis>."
 
 #: dolphinmainwindow.cpp:2018
 #, kde-kuit-format
@@ -694,6 +740,10 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Tímto se vedle aktuálního zobrazení zobrazí druhý pohled, takže můžete "
+"vidět obsah dvou složek najednou a snadno mezi nimi přesouvat položky.</"
+"para><para>Pohled, na který nejste \"přepnuti\", bude ztlumený. </"
+"para>Opětovným kliknutím na toto tlačítko jeden z pohledů zavřete."
 
 #: dolphinmainwindow.cpp:2033
 #, kde-kuit-format
@@ -701,7 +751,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
-msgstr ""
+msgstr "Pokud byl pohled rozdělen, zobrazí se zaostřený pohled v novém okně."
 
 #: dolphinmainwindow.cpp:2041
 #, kde-format
@@ -730,6 +780,11 @@ msgid ""
 "newly-updated view of the files and folders contained here.</para><para>If "
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr ""
+"<para>Tímto se obnoví zobrazení složky.</para><para>Pokud se obsah této "
+"složky změnil, obnovením se složka znovu prohledá a zobrazí se vám nově "
+"aktualizované zobrazení souborů a složek, které se zde nacházejí.</"
+"para><para>Pokud je zobrazení rozděleno, obnoví se zobrazení, které je "
+"aktuálně aktivní.</para>"
 
 #: dolphinmainwindow.cpp:2059
 #, kde-format
@@ -764,6 +819,9 @@ msgid ""
 "editing by clicking to the right of the location and switch back by "
 "confirming the edited location."
 msgstr ""
+"Tímto se <emphasis>Panel umístění</emphasis> přepne do režimu úprav, abyste "
+"mohli přímo zadat místo, kam chcete jít.<nl/>Můžete také přepnout na úpravy "
+"kliknutím napravo od umístění a přepnout zpět potvrzením upraveného místa."
 
 #: dolphinmainwindow.cpp:2076
 #, kde-format
@@ -778,6 +836,8 @@ msgid ""
 "This switches to editing the location and selects it so you can quickly "
 "enter a different location."
 msgstr ""
+"Tímto se přepnete na úpravu umístění a jeho výběr, abyste mohli rychle zadat "
+"jiné umístění."
 
 #: dolphinmainwindow.cpp:2111
 #, kde-format
@@ -789,7 +849,7 @@ msgstr "Vrátit zpět zavření karty"
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
-msgstr ""
+msgstr "Tímto se vrátíte na dříve zavřenou kartu."
 
 #: dolphinmainwindow.cpp:2120
 #, kde-kuit-format
@@ -801,6 +861,11 @@ msgid ""
 "<filename>Trash</filename>. <nl/>Any changes that cannot be undone will ask "
 "for your confirmation beforehand."
 msgstr ""
+"Tímto se vrátí zpět poslední provedená změna souborů nebo složek.<nl/> Mezi "
+"takové změny patří <interface>vytvoření</interface>, "
+"<interface>přejmenování</interface> a <interface>přesunutí</interface> na "
+"jiné místo nebo do <filename>Koše</filename>. <nl/> Všechny změny, které "
+"nelze vrátit zpět, budou vyžadovat vaše předchozí potvrzení."
 
 #: dolphinmainwindow.cpp:2131
 #, kde-kuit-format
@@ -812,6 +877,11 @@ msgid ""
 "the <filename>Trash</filename>.<nl/>Any changes that cannot be undone will "
 "ask for your confirmation beforehand."
 msgstr ""
+"Tím se zopakuje poslední zrušená změna.<nl/>Mezi takové změny patří "
+"<interface>vytváření</interface>, <interface>přejmenování</interface> a "
+"<interface>přesun</interface> souborů nebo složek na jiné místo nebo do "
+"<filename>Koše</filename>.<nl/>Všechny změny, které nelze vrátit zpět, budou "
+"vyžadovat vaše předchozí potvrzení."
 
 #: dolphinmainwindow.cpp:2161
 #, kde-kuit-format
@@ -821,6 +891,9 @@ msgid ""
 "their own <filename>Home</filename> that contains their personal files, as "
 "well as hidden folders for their applications' data and configuration files."
 msgstr ""
+"Přejděte do složky <filename>Domů</filename>.<nl/>Každý uživatelský účet má "
+"svou vlastní složku <filename>Domů</filename>, která obsahuje jeho osobní "
+"soubory, a také skryté složky pro data a soubory nastavení jeho aplikací."
 
 #: dolphinmainwindow.cpp:2168
 #, kde-format
@@ -842,6 +915,9 @@ msgid ""
 "para><para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</"
 "para>"
 msgstr ""
+"<para>Tímto se otevře preferovaný vyhledávací nástroj pro zobrazené místo. </"
+"para><para>K jeho nastavení použijte nabídku <emphasis>Další vyhledávací "
+"nástroje</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2196
 #, kde-format
@@ -857,6 +933,9 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
+"<para>Tímto se otevře aplikace <emphasis>Terminál</emphasis> pro zobrazené "
+"umístění.</para><para>Chcete-li se dozvědět více o terminálech, použijte "
+"funkce nápovědy v terminálové aplikaci.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:2206
@@ -873,6 +952,9 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
+"<para>Tímto se otevře aplikace <emphasis>Terminál</emphasis> pro vybrané "
+"umístění.</para><para>Chcete-li se dozvědět více o terminálech, použijte "
+"funkce nápovědy v terminálové aplikaci.</para>"
 
 #: dolphinmainwindow.cpp:2216
 #, kde-format
@@ -891,6 +973,12 @@ msgid ""
 "offer.</para><para>The %1 button is simpler and small which makes triggering "
 "advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Tímto se přepíná mezi <emphasis>Panelem nabídek</emphasis> a tlačítkem "
+"<interface>%1</interface>. Obě možnosti obsahují většinou stejné akce a "
+"možnosti nastavení.</para><para>Panel menu zabírá více místa, ale umožňuje "
+"rychlý a organizovaný přístup ke všem akcím, které aplikace nabízí.</"
+"para><para>Tlačítko %1 je jednodušší a menší, což spouští pokročilým "
+"způsobem časově náročnější akce.</para>"
 
 #: dolphinmainwindow.cpp:2251
 #, kde-format
@@ -990,6 +1078,9 @@ msgid ""
 "other side of the window and have a close button.<nl/>Locked panels are "
 "embedded more cleanly."
 msgstr ""
+"Toto přepíná mezi <emphasis>uzamčenými</emphasis> a <emphasis>odemčenými</"
+"emphasis> panely.<nl/>Odemčené panely lze přetáhnout na druhou stranu okna a "
+"mají tlačítko pro zavření.<nl/> Uzamčené panely jsou vloženy čistěji."
 
 #: dolphinmainwindow.cpp:2346
 #, kde-format
@@ -1004,6 +1095,9 @@ msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
+"<para>Chcete-li zobrazit nebo skrýt panely, jako je tento, přejděte do "
+"<interface>Nabídka|Panely</interface> nebo <interface>Zobrazit|Panely</"
+"interface>.</para>"
 
 #: dolphinmainwindow.cpp:2376
 #, kde-kuit-format
@@ -1015,6 +1109,11 @@ msgid ""
 "Otherwise it informs you about the currently viewed folder.<nl/>For single "
 "items a preview of their contents is provided.</para>"
 msgstr ""
+"<para> Toto přepíná panel <emphasis>informací</emphasis> na pravé straně "
+"okna.</para><para>Panel poskytuje podrobné informace o položkách, nad "
+"kterými se nachází kurzor myši, nebo o vybraných položkách. V opačném "
+"případě vás informuje o aktuálně zobrazené složce.<nl/> U jednotlivých "
+"položek je k dispozici náhled jejich obsahu.</para>"
 
 #: dolphinmainwindow.cpp:2384
 #, kde-kuit-format
@@ -1026,6 +1125,11 @@ msgid ""
 "contents is provided.</para><para>You can configure which and how details "
 "are given here by right-clicking.</para>"
 msgstr ""
+"<para>Tento panel poskytuje podrobné informace o položkách, nad kterými se "
+"nachází kurzor myši, nebo o vybraných položkách. V opačném případě vás "
+"informuje o aktuálně zobrazené složce.<nl/>U jednotlivých položek je k "
+"dispozici náhled jejich obsahu.</para><para>Kliknutím pravým tlačítkem myši "
+"můžete nastavit, které podrobnosti a jak se zde zobrazí.</para>"
 
 #: dolphinmainwindow.cpp:2393
 #, kde-format
@@ -1041,6 +1145,9 @@ msgid ""
 "window.<nl/><nl/>It shows the folders of the <emphasis>file system</"
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr ""
+"Toto přepíná panel <emphasis>složek</emphasis> na levé straně okna. <nl/><nl/"
+">Zobrazuje složky <emphasis>souborového systému</emphasis> ve "
+"<emphasis>stromovém zobrazení</emphasis>."
 
 #: dolphinmainwindow.cpp:2418
 #, kde-kuit-format
@@ -1051,6 +1158,10 @@ msgid ""
 "Click the arrow to the left of a folder to see its subfolders. This allows "
 "quick switching between any folders.</para>"
 msgstr ""
+"<para>Tento panel zobrazuje složky <emphasis>souborového systému</emphasis> "
+"ve <emphasis>stromovém zobrazení</emphasis>.</para> <para>Kliknutím na "
+"složku se na ni dostanete. Kliknutím na šipku vlevo od složky zobrazíte její "
+"podsložky. To umožňuje rychlé přepínání mezi libovolnými složkami.</para>"
 
 #: dolphinmainwindow.cpp:2428
 #, kde-format
@@ -1069,6 +1180,12 @@ msgid ""
 "learn more about terminals use the help features in a standalone terminal "
 "application like Konsole.</para>"
 msgstr ""
+"<para>Tímto se přepne panel <emphasis>terminálu</emphasis> ve spodní části "
+"okna.<nl/>Umístění v terminálu bude vždy odpovídat zobrazení složky, takže "
+"se můžete pohybovat pomocí obou.</para><para>Panel terminálu není potřebný "
+"pro základní používání počítače, ale může být užitečný pro pokročilé úkoly. "
+"Chcete-li se dozvědět více o terminálech, použijte funkce nápovědy v "
+"samostatné terminálové aplikaci, jako je Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2461
 #, kde-kuit-format
@@ -1081,6 +1198,12 @@ msgid ""
 "about terminals use the help features in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
+"<para>Toto je panel <emphasis>terminálu</emphasis>. Chová se jako normální "
+"terminál, ale bude odpovídat umístění zobrazení složek, takže se můžete "
+"procházet pomocí obou.</para><para>Panel terminálu není potřeba pro základní "
+"používání počítače, ale může být užitečný pro pokročilé úkoly. Chcete-li se "
+"dozvědět více o terminálech, použijte funkce nápovědy v samostatné "
+"terminálové aplikaci, například Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2471 dolphinmainwindow.cpp:3070
 #, kde-format
@@ -1127,6 +1250,11 @@ msgid ""
 "also contains sections to find recently saved files or files of a certain "
 "type.</para>"
 msgstr ""
+"<para>Tímto přepínáte panel <emphasis>Místa</emphasis> na levé straně okna.</"
+"para><para>Umožňuje vám přejít na umístění, která jste si uložili do záložek "
+"a přistupovat k disku nebo médiím připojeným k počítači nebo k síti. "
+"Obsahuje také sekce pro nalezení nedávno uložených souborů nebo souborů "
+"určitého typu.</para>"
 
 #: dolphinmainwindow.cpp:2536
 #, kde-kuit-format
@@ -1142,6 +1270,16 @@ msgid ""
 "empty space on this panel and select <interface>Show Hidden Places</"
 "interface> to display it again.</para>"
 msgstr ""
+"<para>Toto je panel <emphasis>Místa</emphasis>. Umožňuje vám přejít na "
+"umístění, která jste si uložili do záložek, a přistupovat k disku nebo "
+"médiím připojeným k počítači nebo k síti. Obsahuje také sekce pro nalezení "
+"nedávno uložených souborů nebo souborů určitého typu.</para><para>Kliknutím "
+"na položku se tam dostanete. Kliknutím pravým tlačítkem myši otevřete "
+"libovolnou položku na nové kartě nebo v novém okně.</para><para>Nové položky "
+"lze přidat přetažením složek na tento panel. Kliknutím pravým tlačítkem myši "
+"na libovolnou sekci nebo položku ji skryjete. Kliknutím pravým tlačítkem "
+"myši na prázdné místo na tomto panelu a výběrem možnosti <interface>Zobrazit "
+"skrytá místa</interface> je znovu zobrazíte.</para>"
 
 #: dolphinmainwindow.cpp:2550 dolphinmainwindow.cpp:3088
 #, kde-format
@@ -1256,6 +1394,11 @@ msgid ""
 "directory that contains all data connected to this computer—the "
 "<emphasis>root directory</emphasis>.</para>"
 msgstr ""
+"<para>Přejděte do složky, která obsahuje aktuálně zobrazený soubor. </"
+"para><para>Všechny soubory a složky jsou uspořádány v hierarchickém "
+"<emphasis>souborovém systému</emphasis>. Na vrcholu této hierarchie je "
+"adresář, který obsahuje všechna data připojená k tomuto počítači – "
+"<emphasis>kořenový adresář</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2809
 #, kde-format
@@ -1346,6 +1489,13 @@ msgid ""
 "become available through a <interface>Menu</interface> button on the "
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
+"<para>Toto je <emphasis>Panel nabídek</emphasis>. Poskytuje přístup k "
+"příkazům a možnostem nastavení. Kliknutím levým tlačítkem myši na libovolnou "
+"z nabídek na tomto panelu zobrazíte její obsah.</para> <para>Panel nabídek "
+"lze skrýt zrušením zaškrtnutí políčka <interface>Nastavení|Zobrazit panel "
+"nabídek</interface>. Většina jeho obsahu se pak zpřístupní prostřednictvím "
+"tlačítka <interface>Nabídka </interface> na <emphasis>Panelu nástrojů</"
+"emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2903
 #, kde-kuit-format
@@ -1360,6 +1510,15 @@ msgid ""
 "style of its buttons can also be changed in the right-click menu. Right-"
 "click a button if you want to show or hide its text.</para>"
 msgstr ""
+"<para>Toto je <emphasis>Panel nástrojů</emphasis>. Umožňuje rychlý přístup k "
+"často používaným činnostem.</para><para>Je vysoce přizpůsobitelný. Všechny "
+"položky, které vidíte v <interface>Nabídce</interface> nebo v "
+"<interface>Panelu nabídek </interface>, lze umístit na Panel nástrojů. Stačí "
+"na něj kliknout pravým tlačítkem myši a vybrat <interface>Nastavit panely "
+"nástrojů… </interface> nebo tuto akci najít v <interface>nabídce</interface>."
+"</para> <para>Umístění panelu a styl jeho tlačítek lze také změnit v "
+"kontextové nabídce. Klikněte pravým tlačítkem myši na tlačítko, pokud chcete "
+"zobrazit nebo skrýt jeho text.</para>"
 
 #: dolphinmainwindow.cpp:2915
 #, kde-kuit-format
@@ -1377,6 +1536,16 @@ msgid ""
 "here</link> instead. This will open a page from the <emphasis>Handbook</"
 "emphasis> that covers the basics.</para>"
 msgstr ""
+"<para>Zde vidíte <emphasis>složky</emphasis> a <emphasis>soubory</emphasis>, "
+"které se nacházejí na místě popsaném v <interface>Panelu umístění</"
+"interface> výše. Tato oblast je ústřední částí této aplikace, kde se "
+"nacházíte v souborech, které chcete použít.</para><para>Pro podrobný a "
+"obecný úvod do této aplikace <link url='https://userbase.kde.org/Dolphin/"
+"File_Management#Introduction_to_Dolphin'> klikněte sem</link>. Tím se otevře "
+"úvodní článek z <emphasis>KDE UserBase Wiki </emphasis>.</para> <para>Pro "
+"stručné vysvětlení všech funkcí tohoto <emphasis> zobrazení</emphasis> <link "
+"url='help:/dolphin/dolphin-view.html'> klikněte sem</link>. Tím se otevře "
+"stránka z <emphasis>Příručky</emphasis>, která se zabývá základy.</para>"
 
 #: dolphinmainwindow.cpp:2931
 #, kde-kuit-format
@@ -1387,6 +1556,10 @@ msgid ""
 "when they are pressed simultaneously. All commands in this application can "
 "be triggered this way.</para>"
 msgstr ""
+"<para>Tímto se otevře okno se seznamem <emphasis>klávesových zkratek </"
+"emphasis>. <nl/>Zde můžete nastavit kombinace kláves, které spustí činnost, "
+"při jejich současném stisknutí. Všechny příkazy v této aplikaci lze spustit "
+"tímto způsobem.</para>"
 
 #: dolphinmainwindow.cpp:2937
 #, kde-kuit-format
@@ -1396,6 +1569,10 @@ msgid ""
 "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr ""
+"<para>Tímto se otevře okno, ve kterém můžete změnit, která tlačítka se "
+"zobrazují na <emphasis>Panelu nástrojů</emphasis>.</para> <para>Všechny "
+"položky, které vidíte v<interface>Nabídce</interface>, lze také umístit na "
+"Panel nástrojů.</para>"
 
 #: dolphinmainwindow.cpp:2941
 #, kde-kuit-format
@@ -1406,6 +1583,10 @@ msgid ""
 "<emphasis>Configuring Dolphin</emphasis> in <interface>Help|Dolphin "
 "Handbook</interface>."
 msgstr ""
+"Tímto se otevře okno, kde můžete změnit řadu nastavení pro tuto aplikaci. "
+"Vysvětlení různých nastavení naleznete v kapitole <emphasis>Nastavení "
+"Dolphinu</emphasis> v <interface>Nápověda|Příručka aplikace Dolphin </"
+"interface>."
 
 #. i18n: If the external link isn't available in your language it might make
 #. sense to state the external link's language in brackets to not
@@ -1422,6 +1603,11 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
+"<para>Tímto se otevře Příručka k této aplikaci. Poskytuje vysvětlení pro "
+"každou část aplikace <emphasis>Dolphin</emphasis>.</para> <para>Pokud chcete "
+"podrobnější úvody k různým funkcím aplikace <emphasis>Dolphin</emphasis>, "
+"<link url='https://userbase.kde.org/Dolphin/File_Management'>klikněte sem</"
+"link>. Otevře se příslušná stránka v KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2966
 #, kde-kuit-format
@@ -1436,6 +1622,14 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
+"<para>Toto je tlačítko, které vyvolá funkci nápovědy, kterou právě "
+"používáte! Klikněte na něj a poté klikněte na libovolnou součást této "
+"aplikace a zeptejte se „Co je to?“. Kurzor myši se změní, pokud pro dané "
+"místo není k dispozici žádná nápověda.</para><para>Existují dva další "
+"způsoby, jak získat nápovědu: <link url='help:/dolphin/index.html'>Příručka "
+"Dolphin</link> a <link url='https://userbase.kde.org/Dolphin/"
+"File_Management'> KDE UserBase Wiki</link>.</para><para>Nápověda „Co je to?“ "
+"ve většině ostatních oken chybí, takže si na ni příliš nezvykejte.</para>"
 
 #: dolphinmainwindow.cpp:2977
 #, kde-kuit-format
@@ -1447,6 +1641,11 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
+"<para>Tímto se otevře okno, které vás provede hlášením chyb nebo nedostatků "
+"v této aplikaci nebo v jiném softwaru KDE.</para> <para>Vysoce kvalitní "
+"hlášení chyb jsou velmi ceněna.Chcete-li se dozvědět, jak vaše hlášení chyb "
+"co nejvíce zefektivnit, <link url='https://community.kde.org/Get_Involved/"
+"Bug_Reporting'> klikněte zde</link>.</para>"
 
 #: dolphinmainwindow.cpp:2986
 #, kde-kuit-format
@@ -1461,6 +1660,14 @@ msgid ""
 "para><para><emphasis>KDE e.V.</emphasis> is the non-profit organization "
 "behind the KDE community.</para>"
 msgstr ""
+"<para>Tímto se otevře <emphasis>webová stránka</emphasis>, kde můžete "
+"darovat peníze na podporu pokračující práce na této aplikaci a mnoha dalších "
+"projektech komunity <emphasis>KDE</emphasis>.</para><para>Darování je "
+"nejjednodušší a nejrychlejší způsob, jak efektivně podpořit KDE a jeho "
+"projekty. Projekty KDE jsou k dispozici zdarma, proto je váš dar nutný k "
+"pokrytí věcí, které vyžadují peníze, jako jsou servery, schůzky přispěvatelů "
+"atd.</para> <para><emphasis>KDE e.V.</emphasis> je nezisková organizace "
+"stojící za komunitou KDE.</para>"
 
 #: dolphinmainwindow.cpp:2999
 #, kde-kuit-format
@@ -1470,6 +1677,9 @@ msgid ""
 "even set secondary languages which will be used if texts are not available "
 "in your preferred language."
 msgstr ""
+"Pomocí tohoto můžete změnit jazyk, který tato aplikace používá.<nl/> Můžete "
+"dokonce nastavit sekundární jazyky, které se použijí, pokud texty nejsou k "
+"dispozici ve vašem preferovaném jazyce."
 
 #: dolphinmainwindow.cpp:3004
 #, kde-kuit-format
@@ -1478,6 +1688,8 @@ msgid ""
 "This opens a window that informs you about the version, license, used "
 "libraries and maintainers of this application."
 msgstr ""
+"Tímto se otevře okno s informacemi o verzi, licenci, použitých knihovnách a "
+"správcích této aplikace."
 
 #: dolphinmainwindow.cpp:3009
 #, kde-kuit-format
@@ -1488,6 +1700,10 @@ msgid ""
 "this application but don't know about KDE or want to see a cute dragon have "
 "a look!"
 msgstr ""
+"Tímto se otevře okno s informacemi o <emphasis>KDE</emphasis>. Za tímto "
+"bezplatným softwarem stojí komunita KDE.<nl/>Pokud rádi používáte tuto "
+"aplikaci, ale nic nevíte o KDE nebo chcete vidět roztomilého draka, "
+"podívejte se!"
 
 #: dolphinmainwindow.cpp:3064 dolphinmainwindow.cpp:3075
 #, kde-format
@@ -1559,6 +1775,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Instalace aplikace <application>%1</application> selhala: %2 (%3)<nl/> "
+"Zkuste prosím nainstalovat aplikaci <application>%1</application> ručně."
 
 #: dolphinpart.cpp:149
 #, kde-format
@@ -1785,6 +2003,14 @@ msgid ""
 "url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
 "dedicated page in the Handbook.</para>"
 msgstr ""
+"<para>Toto popisuje umístění souborů a složek zobrazených níže.</para> "
+"<para>Název aktuálně zobrazené složky lze přečíst úplně vpravo. Nalevo od ní "
+"je název složky, která ji obsahuje. Celý řádek se nazývá <emphasis>cesta</"
+"emphasis> k aktuálnímu umístění, protože sledování těchto složek zleva "
+"doprava vede sem.</para><para>Tato interaktivní cesta je výkonnější, než by "
+"se dalo očekávat. Chcete-li se dozvědět více o základních a pokročilých "
+"funkcích adresního řádku, <link url='help:/dolphin/location-bar."
+"html'>klikněte sem</link>. Tím se otevře speciální stránka v příručce.</para>"
 
 #: dolphinurlnavigator.cpp:57
 #, kde-format
@@ -2737,6 +2963,8 @@ msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
 "Numeric (Octal) or Combined formats"
 msgstr ""
+"Formát oprávnění lze změnit v nastavení. Možnosti jsou symbolický, číselný "
+"(oktální) nebo kombinovaný formát."
 
 #: kitemviews/kfileitemmodel.cpp:2809
 msgctxt "@label"
@@ -2779,6 +3007,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Spouštění <application>Dolphin</application> s příkazem <command>sudo </"
+"command> se nedoporučuje. Spusťte raději <icode>%1</icode>."
 
 #: main.cpp:95
 #, kde-format
@@ -3180,6 +3410,15 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>To vám pomůže najít soubory a složky.<list><item>Zadejte "
+"<emphasis>hledaný výraz</emphasis> do vstupního pole.</item> "
+"<item>Rozhodněte se, kde chcete hledat, stisknutím tlačítek umístění pod "
+"vyhledávacím polem. „Zde“ označuje umístění, které bylo otevřené před "
+"zahájením vyhledávání, takže nejprve přechod na jiné umístění může "
+"vyhledávání zúžit.</item><item>Stiskněte tlačítko „%1“ pro další upřesnění "
+"způsobu vyhledávání nebo výsledků.</item><item>Stiskněte ikonu „Uložit“ pro "
+"přidání aktuálního nastavení vyhledávání do <emphasis>panelu Místa</"
+"emphasis>.</item></list></para>"
 
 #: search/bar.cpp:213
 #, kde-format
@@ -3214,6 +3453,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Prohledejte všechna indexovaná umístění.<nl/><nl/>Nastavte, která umístění "
+"budou indexována v <interface>Nastavení systému|Pracovní plocha|Hledání</"
+"interface>."
 
 #: search/chip.cpp:21
 #, kde-format
@@ -3373,6 +3615,18 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>Pro vyhledávání v obsahu souborů se <application>%1</application> "
+"pokouší použít vyhledávací nástroje třetích stran, pokud jsou v tomto "
+"systému k dispozici a očekává se, že povedou k lepším nebo rychlejším "
+"výsledkům. <application>ripgrep</application> a <application>ripgrep-all</"
+"application> mohou zlepšit váš zážitek z vyhledávání, pokud jsou "
+"nainstalovány. <application>ripgrep-all</application> umožňuje vyhledávání "
+"zejména ve více typech souborů (např. pdf, docx, sqlite, jpg, titulky k "
+"filmům (mkv, mp4)). </para> <para>Způsob, jakým se tyto vyhledávací nástroje "
+"spouštějí, lze nastavit úpravou souboru skriptu. Před úpravou kopie jej "
+"zkopírujte z <filename>%2</filename> do <filename>%3</filename>. Pokud se "
+"vyskytnou nějaké problémy, smažte kopii <filename>%3</filename>, abyste "
+"vrátili změny.</para>"
 
 #: search/popup.cpp:165
 #, kde-format
@@ -3418,6 +3672,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Vyhledávání v <filename>%1</filename> pomocí aplikace <application>%2</"
+"application> momentálně není možné, protože aplikace <application>%2</"
+"application> je nastavena tak, aby nikdy nevytvářela index vyhledávání pro "
+"dané umístění.</para>"
 
 #: search/popup.cpp:283
 #, kde-kuit-format
@@ -3427,6 +3685,10 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Prohledávání obsahu souborů pomocí aplikace <application>%1</"
+"application> aktuálně není možné, protože aplikace <application>%1</"
+"application> je nastavena tak, aby nikdy nevytvářela index vyhledávání pro "
+"obsah souborů.</para>"
 
 #: search/popup.cpp:292
 #, kde-format
@@ -3450,6 +3712,17 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> používá k vyhledávání databázi. Databáze "
+"se vytváří indexováním souborů na pozadí na základě nastavení aplikace "
+"<application>%1</application>. <list> <item><application>%1</application> "
+"poskytuje výsledky extrémně rychle. </item><item>Umožňuje vyhledávání typů "
+"souborů, dat, štítků atd. </item><item>Prohledává pouze indexované složky. "
+"Složky, které mají být indexovány, nastavte v <application>Nastavení systému "
+"</application>.</item><item>Pokud prohledávaná umístění obsahují odkazy na "
+"jiné soubory nebo složky, nebudou prohledávány ani se nezobrazují ve "
+"výsledcích vyhledávání.</item><item>Skryté soubory a složky a jejich obsah "
+"se také nemusí prohledávat v závislosti na nastavení aplikace <application>"
+"%1</application>.</item></list></para>"
 
 #: search/popup.cpp:307
 #, kde-format
@@ -3659,6 +3932,10 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Vybrané soubory a složky byly přidány do schránky. Nyní lze akci "
+"<emphasis>Vložit</emphasis> použít k jejich přenosu ze schránky na jakékoli "
+"jiné místo. Lze je dokonce přenést do jiných aplikací pomocí příslušných "
+"činností <emphasis>Vložit</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:422
 #, kde-format
@@ -3824,6 +4101,17 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Režim výběru</title><para>Vyberte soubory nebo složky, které chcete "
+"spravovat nebo manipulovat s nimi.<list><item>Stisknutím souboru nebo složky "
+"jej vyberete.</item><item>Stisknutím již vybraného souboru nebo složky "
+"zrušíte jeho výběr.</item><item>Stisknutím prázdné oblasti se výběr "
+"<emphasis>neodstraní</emphasis>.</item><item>Obdélníky výběru (vytvořené "
+"přetažením z prázdné oblasti) invertují stav výběru položek uvnitř.</item> "
+"<item>Přesun pomocí <shortcut>kláves se šipkami</shortcut> "
+"<emphasis>nezmění</emphasis> výběr.</item><item>Stisknutím <shortcut>%1</"
+"shortcut>, <shortcut>%2</shortcut> nebo <shortcut>%3 </shortcut> se výběr "
+"přepne.</item></list></para><para>Dostupná tlačítka dole se mění v "
+"závislosti na aktuálním výběru.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -3877,7 +4165,7 @@ msgstr "Smazat"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Vestavěný v Dolphinu"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -4913,6 +5201,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>Vytváření <emphasis>náhledů</emphasis> pro vzdálené složky je velmi "
+"náročné z hlediska využití síťových prostředků.</para> <para>Tuto možnost "
+"vypněte, pokud je procházení vzdálených složek v Dolphinu pomalé nebo máte "
+"přístup k úložišti přes měřená připojení.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5184,12 +5476,10 @@ msgid "Display style: "
 msgstr "Styl zobrazení: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Zobrazit náhledy souborů a složek"
+msgstr "Otevírat archivy jako složky"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -5308,6 +5598,7 @@ msgctxt "@label"
 msgid ""
 "Use {path} to get the path of the current folder. Example: dolphin {path}"
 msgstr ""
+"Pro získání cesty k aktuální složce použijte {path}. Příklad: dolphin {path}"
 
 #: settings/viewmodes/viewsettingspage.cpp:31
 #, kde-format
@@ -5486,7 +5777,7 @@ msgstr[2] "Velikost: %1 pixelů"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr ""
+msgstr "Styl zobrazení"
 
 #: settings/viewpropertiesdialog.cpp:71
 #, kde-format
@@ -5686,6 +5977,8 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Nainstalujte si další software pro zobrazení statistik využití "
+"disku<nl/>a identifikaci velkých souborů a složek.</para>"
 
 #: statusbar/diskspaceusagemenu.cpp:174
 #, kde-format
@@ -5733,6 +6026,13 @@ msgid ""
 "item><item><emphasis>Space information</emphasis> about the current storage "
 "device.</item></list></para>"
 msgstr ""
+"<para>Toto je <emphasis>Stavový řádek</emphasis>. Ve výchozím nastavení "
+"obsahuje tři prvky (zleva doprava): <list><item><emphasis>Textové pole</"
+"emphasis>, které zobrazuje velikost vybraných položek. Pokud je vybrána "
+"pouze jedna položka, zobrazí se také její název a typ.</item> "
+"<item><emphasis>Posuvník přiblížení</emphasis>, který umožňuje upravit "
+"velikost ikon v zobrazení.</item> <item><emphasis>Informace o místě</"
+"emphasis> v aktuálním úložném zařízení.</item></list></para>"
 
 #: statusbar/dolphinstatusbar.cpp:352
 #, kde-format
@@ -5794,7 +6094,7 @@ msgstr "Nastavení"
 #, kde-format
 msgctxt "description of kuserfeedback data source provided by dolphin"
 msgid "A subset of Dolphin settings."
-msgstr ""
+msgstr "Podmnožina nastavení Dolphinu."
 
 #: views/dolphinremoteencoding.cpp:39
 #, kde-format
@@ -5892,7 +6192,7 @@ msgstr[2] "Otevřít %1 položek"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Boční odsazení"
 
 #: views/dolphinview.cpp:1280
 #, kde-format
@@ -5930,6 +6230,8 @@ msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Přidáním tečky na začátek názvu tohoto souboru jej skryjete.\n"
+"Stále ho chcete přejmenovat?"
 
 #: views/dolphinview.cpp:2183
 #, kde-format
@@ -5937,6 +6239,8 @@ msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Přidáním tečky na začátek názvu této složky ji skryjete.\n"
+"Stále ji chcete přejmenovat?"
 
 #: views/dolphinview.cpp:2185
 #, kde-format
@@ -5962,6 +6266,9 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tímto se typ souboru stane neznámým.\n"
+"Obsah souboru se nezmění, ale aplikace jej již nemusí rozpoznat.\n"
+"Stále jej chcete přejmenovat?"
 
 #: views/dolphinview.cpp:2220
 #, kde-format
@@ -5971,12 +6278,15 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Tím se změní typ souboru z „%1“ na „%2“.\n"
+"Obsah souboru se nezmění, ale aplikace jej již nemusí rozpoznat.\n"
+"Chcete jej stále přejmenovat?"
 
 #: views/dolphinview.cpp:2226
 #, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr ""
+msgstr "Změnit typ souboru"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
@@ -6038,7 +6348,7 @@ msgstr "Nebyly nalezeny žádné sdílené složky"
 #: views/dolphinview.cpp:2653
 #, kde-format
 msgid "No relevant network resources found"
-msgstr ""
+msgstr "Nenalezeny žádné relevantní síťové zdroje"
 
 #: views/dolphinview.cpp:2655
 #, kde-format
@@ -6070,7 +6380,7 @@ msgstr "Vytvořit složku..."
 #, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr ""
+msgstr "Vytvořit soubor..."
 
 #: views/dolphinviewactionhandler.cpp:101
 #, kde-kuit-format
@@ -6079,6 +6389,9 @@ msgid ""
 "This renames the items in your current selection.<nl/>Renaming multiple "
 "items at once results in their new names differing only in a number."
 msgstr ""
+"Tím se přejmenují položky ve vašem aktuálním výběru.<nl/> Přejmenování více "
+"položek najednou má za následek, že se jejich nové názvy budou lišit pouze "
+"číslem."
 
 #: views/dolphinviewactionhandler.cpp:113
 #, kde-kuit-format
@@ -6088,6 +6401,9 @@ msgid ""
 "filename>.<nl/>The trash is a temporary storage location where items can be "
 "deleted later if disk space is needed."
 msgstr ""
+"Tím se položky z aktuálního výběru přesunou do <filename>Koše</filename>. "
+"<nl/>Koš je dočasné úložiště, kde lze položky později smazat, pokud je "
+"potřeba místo na disku."
 
 #: views/dolphinviewactionhandler.cpp:126
 #, kde-kuit-format
@@ -6096,6 +6412,8 @@ msgid ""
 "This deletes the items in your current selection permanently. They cannot be "
 "recovered by normal means."
 msgstr ""
+"Tímto se položky ve vašem aktuálním výběru trvale smažou. Nelze je obnovit "
+"běžnými prostředky."
 
 #: views/dolphinviewactionhandler.cpp:136
 #, kde-format
@@ -6124,6 +6442,10 @@ msgid ""
 "currently viewed folder instead.<nl/>You can configure advanced options "
 "there like managing read- and write-permissions."
 msgstr ""
+"Toto zobrazí kompletní seznam vlastností aktuálně vybraných položek v novém "
+"okně.<nl/>Pokud nic není vybráno, okno se bude týkat aktuálně zobrazené "
+"složky.<nl/>Můžete zde nakonfigurovat pokročilé možnosti, například správu "
+"oprávnění pro čtení a zápis."
 
 #: views/dolphinviewactionhandler.cpp:162
 #, kde-format
@@ -6171,6 +6493,11 @@ msgid ""
 "This mode is handy to browse through pictures when the <interface>Preview</"
 "interface> option is enabled.</para>"
 msgstr ""
+"<para>Tímto se přepne do režimu zobrazení, který se zaměřuje na ikony složek "
+"a souborů. Tento režim usnadňuje rozlišení složek od souborů a detekci "
+"položek s odlišnými <emphasis>typy souborů</emphasis>. </para><para>Tento "
+"režim je užitečný pro procházení obrázků, pokud je povolena možnost "
+"<interface>Náhled</interface>.</para>"
 
 #: views/dolphinviewactionhandler.cpp:210
 #, kde-kuit-format
@@ -6180,6 +6507,9 @@ msgid ""
 "in columns with the names beside the icons.</para><para>This helps to give "
 "you an overview in folders with many items.</para>"
 msgstr ""
+"<para>Tímto se přepne do kompaktního režimu zobrazení, který zobrazuje "
+"složky a soubory ve sloupcích s názvy vedle ikon.</para><para>To vám pomůže "
+"získat přehled ve složkách s mnoha položkami.</para>"
 
 #: views/dolphinviewactionhandler.cpp:214
 #, kde-kuit-format
@@ -6193,18 +6523,26 @@ msgid ""
 "location by clicking the region to the left of it. This way you can view the "
 "contents of multiple folders in the same list.</para>"
 msgstr ""
+"<para>Tímto se přepne do režimu zobrazení seznamu, který se zaměřuje na "
+"podrobnosti o složkách a souborech.</para><para>Kliknutím na detail v "
+"záhlaví sloupce seřadíte položky podle něj. Dalším kliknutím seřadíte "
+"naopak. Chcete-li vybrat, které podrobnosti se mají zobrazit, klikněte "
+"pravým tlačítkem myši na záhlaví.</para><para>Obsah složky si můžete "
+"zobrazit, aniž byste museli opustit aktuální umístění, kliknutím na oblast "
+"nalevo od ní. Tímto způsobem si můžete zobrazit obsah více složek ve stejném "
+"seznamu.</para>"
 
 #: views/dolphinviewactionhandler.cpp:224
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr ""
+msgstr "Změnit režim zobrazení"
 
 #: views/dolphinviewactionhandler.cpp:225
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Tímto se opakuje procházení všech režimů zobrazení."
 
 #: views/dolphinviewactionhandler.cpp:245
 #, kde-format
@@ -6255,6 +6593,9 @@ msgid ""
 "contents.<nl/>For example the icons of images become scaled down versions of "
 "the images."
 msgstr ""
+"Pokud je tato možnost povolena, ikony se zobrazují podle skutečného obsahu "
+"souboru nebo složky.<nl/>Například ikony obrázků se stanou zmenšenými "
+"verzemi těchto obrázků."
 
 #: views/dolphinviewactionhandler.cpp:274
 #, kde-format
@@ -6290,7 +6631,7 @@ msgstr "Zobrazovat ve skupinách"
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
-msgstr ""
+msgstr "Toto seskupuje soubory a složky podle jejich prvního písmene."
 
 #: views/dolphinviewactionhandler.cpp:338
 #, kde-format
@@ -6311,6 +6652,14 @@ msgid ""
 "MIME type, such as backup files, can also be hidden by enabling that setting "
 "in Configure Dolphin > View > General.</para>"
 msgstr ""
+"<para>Když je tato možnost povolena, <emphasis>skryté</emphasis> soubory a "
+"složky jsou viditelné. Budou zobrazeny poloprůhledně.</para> <para>Skryté "
+"položky se od běžných liší pouze tím, že jejich název začíná tečkou („“.“). "
+"Obvykle k nim uživatelé nemusí přistupovat, a proto jsou skryté.</"
+"para><para>Položky lze také skrýt, pokud jsou jejich názvy uvedeny v "
+"textovém souboru s názvem „.hidden“. Soubory s typem MIME „application/x-"
+"trash“, například záložní soubory, lze také skrýt povolením tohoto nastavení "
+"v nabídce Nastavit Dolphin > Pohled > Obecné.</para>"
 
 #: views/dolphinviewactionhandler.cpp:354
 #, kde-format
@@ -6324,12 +6673,14 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This opens a window in which all folder view properties can be adjusted."
 msgstr ""
+"Tím se otevře okno, ve kterém lze upravit všechny vlastnosti zobrazení "
+"složek."
 
 #: views/dolphinviewactionhandler.cpp:363
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr ""
+msgstr "Nastavení zobrazení"
 
 #: views/dolphinviewactionhandler.cpp:365
 #, kde-kuit-format
@@ -6338,30 +6689,32 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Toto cyklicky prochází všemi režimy zobrazení. Rozbalovací nabídka obsahuje "
+"různé akce související se zobrazením."
 
 #: views/dolphinviewactionhandler.cpp:394
 #, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr ""
+msgstr "Řadit podle pole"
 
 #: views/dolphinviewactionhandler.cpp:397
 #, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr ""
+msgstr "Zobrazit pole"
 
 #: views/dolphinviewactionhandler.cpp:442
 #, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr ""
+msgstr "Řadit podle: %1"
 
 #: views/dolphinviewactionhandler.cpp:443
 #, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr ""
+msgstr "Zobrazit pole: %1"
 
 #: views/dolphinviewactionhandler.cpp:689
 #, kde-format
