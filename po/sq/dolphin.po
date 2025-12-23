@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-13 00:47+0000\n"
-"PO-Revision-Date: 2025-12-02 02:13-0500\n"
+"PO-Revision-Date: 2025-12-22 16:19-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
 "Language: sq\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2011-04-22 14:24+0000\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -860,7 +860,7 @@ msgstr "Krahaso Skedarët"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Menaxho Përdorimin e Hapësirës së Diskut"
 
 #: dolphinmainwindow.cpp:2196
 #, kde-kuit-format
@@ -2937,12 +2937,10 @@ msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
 #: main.cpp:102
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Mirëmbajtësi (që nga 2018) dhe zhvilluesi"
+msgstr "Mirëmbajtësi (që nga 2021) dhe programeri"
 
 #: main.cpp:104
 #, kde-format
@@ -2951,12 +2949,10 @@ msgid "Méven Car"
 msgstr "Méven Car"
 
 #: main.cpp:105
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Mirëmbajtësi (që nga 2018) dhe zhvilluesi"
+msgstr "Mirëmbajtësi (që nga 2021) dhe programeri (që nga 2019)"
 
 #: main.cpp:107
 #, kde-format
@@ -2965,12 +2961,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018–2021) and developer"
-msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
+msgstr "Mirëmbajtësi (2018-2021) dhe programeri"
 
 #: main.cpp:110
 #, kde-format
@@ -2979,12 +2973,10 @@ msgid "Emmanuel Pescosta"
 msgstr "Emmanuel Pescosta"
 
 #: main.cpp:111
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014–2018) and developer"
-msgstr "Mirëmbajtësi (2014-2018) dhe zhvilluesi"
+msgstr "Mirëmbajtësi (2014-2018) dhe programeri"
 
 #: main.cpp:113
 #, kde-format
@@ -2993,9 +2985,7 @@ msgid "Frank Reininghaus"
 msgstr "Frank Reininghaus"
 
 #: main.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2012-2014) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012–2014) and developer"
 msgstr "Mirëmbajtësi (2012-2014) dhe programeri"
@@ -3007,12 +2997,10 @@ msgid "Peter Penz"
 msgstr "Peter Penz"
 
 #: main.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006–2012)"
-msgstr "Mirëmbajtësi dhe zhvilluesi (2006-2012)"
+msgstr "Mirëmbajtësi dhe programeri (2006–2012)"
 
 #: main.cpp:119
 #, kde-format
@@ -5186,7 +5174,7 @@ msgstr "Paneli i gjendjes"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr ""
+msgstr "Bëj shiritin e vendndodhjes të redaktueshëm"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:69
 #, fuzzy, kde-format

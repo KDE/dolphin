@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-13 00:47+0000\n"
-"PO-Revision-Date: 2025-12-04 18:13+0100\n"
+"PO-Revision-Date: 2025-12-14 08:32+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5098,12 +5098,10 @@ msgid "Switch between views with Tab key"
 msgstr "Passare da una vista all'altra con il tasto Tab"
 
 #: settings/interface/folderstabssettingspage.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Open new window in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Apri una nuova finestra in modalità di visualizzazione divisa"
+msgstr "Apri nuove finestre in modalità di visualizzazione divisa"
 
 #: settings/interface/folderstabssettingspage.cpp:298
 #, kde-format

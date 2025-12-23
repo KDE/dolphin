@@ -149,7 +149,7 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2022-01-17</date>
+>2022‒01‒17</date>
 <releaseinfo
 >KDE Gear 22.04</releaseinfo>
 
@@ -178,7 +178,7 @@
 >Giriş</title>
 
 <para
->&dolphin;, &plasma;'nın öntanımlı dosya yöneticisidir ve kullanıcı arayüzünde kullanışlılığı geliştirmeyi amaçlar. &dolphin;, &kde; 3 sürümündeki &konqueror; gibi bir dosya yöneticisi olmaya odaklanmıştır. Konqueror, hâlâ bir dosya yöneticisi olarak ve birçok dosya türü için genel bir görüntüleyici olarak kullanılmaktadır. </para>
+>&dolphin;, &plasma;’nın öntanımlı dosya yöneticisidir ve kullanıcı arayüzünde kullanışlılığı geliştirmeyi amaçlar. &dolphin;, &kde; 3 sürümündeki &konqueror; gibi bir dosya yöneticisi olmaya odaklanmıştır. Konqueror, hâlâ bir dosya yöneticisi olarak ve birçok dosya türü için genel bir görüntüleyici olarak kullanılmaktadır. </para>
 
 <para
 >Bu tasarım yaklaşımı, geliştiricilerin dosya yönetiminin özel görevi için kullanıcı arabirimini en iyi duruma getirmeye odaklanmalarına olanak tanır. </para>
@@ -190,7 +190,7 @@
 ><guimenu
 >Yardım</guimenu
 ><guimenuitem
->Hata Bildir...</guimenuitem
+>Hata Bildir…</guimenuitem
 ></menuchoice
 > ögesinden erişilebilir. </para>
 
@@ -205,22 +205,22 @@
 >&dolphin; Kullanıcı Arayüzü</title>
 
 <para
->Aşağıdaki ekran görüntüleri, &dolphin;'in öntanımlı görünümünü gösterir. </para>
+>Aşağıdaki ekran görüntüleri, &dolphin;’in öntanımlı görünümünü gösterir. </para>
 
 <screenshot>
 <screeninfo
->&dolphin;'in öntanımlı kullanıcı arayüzü</screeninfo>
+>&dolphin;’in öntanımlı kullanıcı arayüzü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="default-ui.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase
->&dolphin;'in öntanımlı kullanıcı arayüzü.</phrase>
+>&dolphin;’in öntanımlı kullanıcı arayüzü.</phrase>
 </textobject>
 <caption
 ><para
->&dolphin;'in öntanımlı kullanıcı arayüzü.</para
+>&dolphin;’in öntanımlı kullanıcı arayüzü.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -232,22 +232,22 @@
 ><para
 >Araç çubuğu, sık kullanılan eylemlere tez erişim için kullanılır. Araç çubuğu, üzerinde &RMB; ile sağ tıklanarak ve bağlam menüsünden <menuchoice
 ><guimenuitem
->Araç Çubuklarını Yapılandır...</guimenuitem
+>Araç Çubuklarını Yapılandır…</guimenuitem
 ></menuchoice
 > seçeneğiyle, <guimenuitem
->Araç Çubuklarını Yapılandır...</guimenuitem
+>Araç Çubuklarını Yapılandır…</guimenuitem
 > (araç çubuğunun sağındaki <guibutton
 >Denetle</guibutton
 > üzerinden) ile veya ana menüden <menuchoice
 ><guimenu
 >Ayarlar</guimenu
 > <guimenuitem
->Araç Çubuklarını Yapılandır...</guimenuitem
+>Araç Çubuklarını Yapılandır…</guimenuitem
 ></menuchoice
 > ile özelleştirilebilir. </para>
 <screenshot>
 <screeninfo
->&dolphin;'in araç çubuğunun ekran görüntüsü</screeninfo>
+>&dolphin;’in araç çubuğunun ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="toolbar.png" format="PNG"/>
@@ -290,9 +290,9 @@
 > paneli</link
 >, yer imlerine eklenmiş konumlara, disklere ve diğer ortamlara tez erişim sağlar. </para>
 <para
->Masaüstü arama ve dosya indeksleme, &systemsettings;'nın <guilabel
+>Masaüstü arama ve dosya indeksleme, &systemsettings;’nın <guilabel
 >Dosya Arama</guilabel
-> modülünde etkinleştirilmişse panel,  <guilabel
+> modülünde etkinleştirilmişse panel, <guilabel
 >Son Kullanılan</guilabel
 > ögeleri gösterir ve <guilabel
 >Belgeleri</guilabel
@@ -366,7 +366,7 @@
 
 <listitem
 ><para
->Bir dosya veya klasör, üzerine &LMB; ile tıklanarak açılabilir (veya &systemsettings;'nın <menuchoice
+>Bir dosya veya klasör, üzerine &LMB; ile tıklanarak açılabilir (veya &systemsettings;’nın <menuchoice
 ><guimenu
 >Çalışma Alanı</guimenu
 > <guimenuitem
@@ -393,7 +393,7 @@
 
 <screenshot>
 <screeninfo
->&dolphin;'in araç çubuğunun ekran görüntüsü</screeninfo>
+>&dolphin;’in araç çubuğunun ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="toolbar-navigation.png" format="PNG"/>
@@ -426,7 +426,7 @@
 
 <screenshot>
 <screeninfo
->&dolphin;'in araç çubuğunun ekran görüntüsü</screeninfo>
+>&dolphin;’in araç çubuğunun ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
@@ -458,7 +458,7 @@
 >Görünüm Kipleri</title>
 
 <para
->Yukarıdaki ekran görüntüsünde bulunan ilk üç düğme &dolphin;'in görünüm kipini değiştirir. <itemizedlist>
+>Yukarıdaki ekran görüntüsünde bulunan ilk üç düğme &dolphin;’in görünüm kipini değiştirir. <itemizedlist>
 
 <listitem
 ><para
@@ -483,9 +483,9 @@
 ><guisubmenu
 >Ek Bilgileri Göster</guisubmenu
 ></menuchoice
-> içinde etkinleştirilen ögeleri simgeler olarak gösterir. Öğeler, &kde; dosya iletişim kutusundaki <guilabel
+> içinde etkinleştirilen ögeleri simgeler olarak gösterir. Ögeler, &kde; dosya iletişim kutusundaki <guilabel
 >Kısa Görünüm</guilabel
-> 'e benzer sütunlarda gruplanır. </para
+>’e benzer sütunlarda gruplanır. </para
 ></listitem>
 
 <listitem
@@ -495,7 +495,7 @@
 > görünümünde, klasör içerikleri ad, boyut ve son değiştirilme zamanını da içerecek şeklide oluşturulan ayrıntılı bir liste biçiminde gösterilir. Sütun başlığına &RMB; ile tıklanarak ek sütunlar eklenebilir. </para>
 <para
 >Başlık satırının bağlam menüsünde, ilgili menü ögesini işaretleyerek veya işaretini kaldırarak yan dolgu ekleyebilir veya kaldırabilir ve özel veya otomatik sütun genişliği arasında seçim yapabilirsiniz. Otomatik genişlik, uzantının <quote
->...</quote
+>…</quote
 > ile değiştirildiği <guilabel
 >Ad</guilabel
 > sütunu dışında, sütundaki en uzun ögeyi tamamen görüntülemek için tüm sütunların genişliğini bir kez ayarlar. </para>
@@ -564,7 +564,7 @@
 >, <guimenuitem
 >Derecelendirme</guimenuitem
 >, <guimenuitem
->Etiketler</guimenuitem
+>Künyeler</guimenuitem
 > veya <guimenuitem
 >Açıklama</guimenuitem
 >. </para>
@@ -661,7 +661,7 @@
 
 <listitem
 ><para
->Bir ögeye &LMB; ile tıklarken, &Ctrl;'e basıldığında, bu ögenin seçim durumu değiştirilir. &Ctrl; düğmesine basılırken yukarıda açıklandığı gibi bir grup öge etrafında bir dikdörtgen çizilirse dikdörtgenin içindeki tüm ögelerin seçim durumu değiştirilir. </para
+>Bir ögeye &LMB; ile tıklarken, &Ctrl;’e basıldığında, bu ögenin seçim durumu değiştirilir. &Ctrl; düğmesine basılırken yukarıda açıklandığı gibi bir grup öge etrafında bir dikdörtgen çizilirse dikdörtgenin içindeki tüm ögelerin seçim durumu değiştirilir. </para
 ></listitem>
 
 <listitem
@@ -748,7 +748,7 @@
 
 <listitem
 ><para
->Adının ilk birkaç harfini yazarak bir dosya veya klasör seçin ve bunun sonucunda eşleşen ilk öge seçilir. Seçimi temizlemek ve klavye aramasını iptal etmek için &Esc;'ye basın veya 1 saniyelik zaman aşımından daha uzun bir süre bekleyin. </para
+>Adının ilk birkaç harfini yazarak bir dosya veya klasör seçin ve bunun sonucunda eşleşen ilk öge seçilir. Seçimi temizlemek ve klavye aramasını iptal etmek için &Esc;’e basın veya 1 saniyelik zaman aşımından daha uzun bir süre bekleyin. </para
 ></listitem>
 </itemizedlist>
 <!-- END copy to konqueror filemanager.docbook -->
@@ -962,7 +962,7 @@ context menu Icon Size? No different entries ?-->
 <para
 ><guilabel
 >Bilgiler</guilabel
-> paneli, seçilen ögelerle ilgili, geçerli klasör veya şu anda fareyle üzerine getirilen dosya hakkında, son değişikliklerin boyutu, türü ve tarihi dahil olmak üzere genişletilmiş bilgileri gösterir. Ayrıca, seçilen ögenin büyük bir önizlemesine sahiptir ve ona bir derecelendirme, etiket ve yorum atamanıza izin verir. </para>
+> paneli, seçilen ögelerle ilgili, geçerli klasör veya şu anda fareyle üzerine getirilen dosya hakkında, son değişikliklerin boyutu, türü ve tarihi içerilmek üzere genişletilmiş bilgileri gösterir. Ayrıca, seçilen ögenin büyük bir önizlemesine sahiptir ve ona bir derecelendirme, künye ve açıklama atamanıza olanak tanır. </para>
 <!--FIXME panel context menu-->
 </sect2>
 
@@ -973,13 +973,13 @@ context menu Icon Size? No different entries ?-->
 <para
 ><guilabel
 >Klasörler</guilabel
-> paneli, dosya sisteminin ağaç görünümü yapısını gösterir. Yalnızca klasörleri gösterir. &LMB; ile bir klasöre tıklayarak; bu klasörü &dolphin;'in görünümünde açar. </para>
+> paneli, dosya sisteminin ağaç görünümü yapısını gösterir. Yalnızca klasörleri gösterir. &LMB; ile bir klasöre tıklayarak; bu klasörü &dolphin;’in görünümünde açar. </para>
 <para
 ><guilabel
 >Ana Dizine Sınırla</guilabel
 > seçeneğiyle, <guilabel
 >Ana Klasör</guilabel
->'ünüz dışındaki tüm klasörleri, ağaç görünümünde gizleyebilirsiniz. </para>
+>’ünüz dışındaki tüm klasörleri, ağaç görünümünde gizleyebilirsiniz. </para>
 </sect2>
 
 <sect2 id="terminal-panel">
@@ -1036,7 +1036,7 @@ context menu Icon Size? No different entries ?-->
 > olmayan tüm diğer dosyaları gizleyecektir. </para>
 
 <para
->Dosyaları süzmek için, öncelikle <keycombo action="simul"
+>Dosyaları süzmek için öncelikle <keycombo action="simul"
 >&Ctrl;<keycap
 >I</keycap
 ></keycombo
@@ -1044,9 +1044,9 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Düzen</guimenu
 > <guimenuitem
->Süz...</guimenuitem
+>Süz…</guimenuitem
 > </menuchoice
->. Sonrasında süzülecek metni süzgeç çubuğuna girebilirsiniz. Süzgeç çubuğunu gizlemek için &Esc;'e basın veya <guiicon
+>. Sonrasında süzülecek metni süzgeç çubuğuna girebilirsiniz. Süzgeç çubuğunu gizlemek için &Esc;’e basın veya <guiicon
 >Süzgeç Çubuğunu Gizle</guiicon
 > seçeneğine &LMB; ile tıklayın. </para>
 
@@ -1066,7 +1066,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Düzen</guimenu
 > <guimenuitem
->Ara...</guimenuitem
+>Ara…</guimenuitem
 > </menuchoice
 > seçeneği kullanıldığında, <guilabel
 >Arama</guilabel
@@ -1105,7 +1105,7 @@ context menu Icon Size? No different entries ?-->
 >Her Yerde</guilabel
 > seçeneği tüm indekslenmiş klasörlerde arama yapar, Baloo olmadan bu seçenek aramayı kullanıcının <replaceable
 >Ana Klasör</replaceable
->'ünden başlatır.</para>
+>’ünden başlatır.</para>
 <screenshot>
 <screeninfo
 >Daha Fazla Seçenek ile Ara</screeninfo>
@@ -1119,7 +1119,7 @@ context menu Icon Size? No different entries ?-->
 </textobject>
 <caption
 ><para
->Daha Fazla Seçenek ile &dolphin;'de arama</para
+>Daha Fazla Seçenek ile &dolphin;’de arama</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -1209,16 +1209,16 @@ context menu Icon Size? No different entries ?-->
 >&dolphin;, aynı anda birkaç dosyayı yeniden adlandırma yeteneğine sahiptir. Her dosya; örneğin, Görsel1.jpg, Görsel2.jpg, Görsel3.jpg gibi bir sayı dahil olmak üzere belirtilen dosya adına sahip olacaktır. Bu, örneğin bir sayısal fotoğraf makinesiyle çekilen resimler için yararlı olabilir. </para>
 <!--double click-->
 <para
->Bir grup dosyayı yeniden adlandırmak istiyorsanız önce yeniden adlandırılacak dosyaları seçin. Bu, &LMB;'ne basılı tutup yeniden adlandırmak istediğiniz dosyaları seçmek için bir dörtgen çizerek veya &Ctrl; ve yeniden adlandırılacak her dosyaya tıklayarak yapılabilir (öge seçimi hakkında daha fazla ayrıntı için bkz. <link linkend="selection"
+>Bir grup dosyayı yeniden adlandırmak istiyorsanız önce yeniden adlandırılacak dosyaları seçin. Bu, &LMB;’ne basılı tutup yeniden adlandırmak istediğiniz dosyaları seçmek için bir dörtgen çizerek veya &Ctrl; ve yeniden adlandırılacak her dosyaya tıklayarak yapılabilir (öge seçimi hakkında daha fazla ayrıntı için bkz. <link linkend="selection"
 >Görünümdeki Ögeleri Seçme</link
 >). Ardından <keycap
 >F2</keycap
->'e basarak veya Dosya menüsü aracılığıyla toplu yeniden adlandırma iletişim kutusunu açın: <menuchoice
+>’e basarak veya Dosya menüsü aracılığıyla toplu yeniden adlandırma iletişim kutusunu açın: <menuchoice
 > <guimenu
 >Dosya</guimenu
 > <guimenuitem
->Yeniden Adlandır...</guimenuitem
-> </menuchoice
+>Yeniden Adlandır…</guimenuitem
+></menuchoice
 > </para>
 
 <para
@@ -1259,13 +1259,13 @@ context menu Icon Size? No different entries ?-->
 >&dolphin; Yapılandırması</title>
 
 <para
->&dolphin;'in iki çeşit ayarı vardır: <itemizedlist>
+>&dolphin;’in iki çeşit ayarı vardır: <itemizedlist>
 
 <listitem
 ><para
->&dolphin;'in genel davranışlarını düzenleyen ayarlar. Bu ayarlar, <link linkend="preferences-dialog"
->Tercihler Penceresinden</link
-> yapılandırılabilir. </para
+>&dolphin;’in genel davranışlarını düzenleyen ayarlar. Bu ayarlar, <link linkend="preferences-dialog"
+>Tercihler</link
+> iletişim kutusundan yapılandırılabilir. </para
 ></listitem>
 
 <listitem
@@ -1291,11 +1291,11 @@ context menu Icon Size? No different entries ?-->
 <title
 >&dolphin; Tercihleri Penceresi</title>
 <para
->Tercihler penceresine, &dolphin;'in ana penceresindeki <menuchoice
+>Tercihler iletişim kutusuna, &dolphin;’in ana penceresindeki <menuchoice
 ><guimenu
 >Ayarlar</guimenu
 > <guimenuitem
->&dolphin; Uygulamasını Yapılandır...</guimenuitem
+>&dolphin; Uygulamasını Yapılandır…</guimenuitem
 ></menuchoice
 >menü ögesinden erişilebilir. Ayarlar, pencerenin sol tarafındaki ilgili simgeye tıklanarak erişilebilen birden çok bölüme ayrılmıştır. </para>
 
@@ -1306,14 +1306,14 @@ context menu Icon Size? No different entries ?-->
 >Başlangıç</guilabel
 > sayfası ve <guilabel
 >Durum Çubuğu</guilabel
-> sekmesi dışındaki tüm ayarlar, &konqueror;'ın dosya yöneticisi kipi ile paylaşılır. </para>
+> sekmesi dışındaki tüm ayarlar, &konqueror;’ın dosya yöneticisi kipi ile paylaşılır. </para>
 
 <sect2 id="preferences-dialog-general">
 <title
 >Genel</title>
 
 <para
->Bu grup, &dolphin;'in genel davranışını denetleyen ayarları içerir. Grup daha üstte sekme çubuğunu kullanarak erişilebilen dört alt gruba ayrılmıştır. <screenshot>
+>Bu grup, &dolphin;’in genel davranışını denetleyen ayarları içerir. Grup daha üstte sekme çubuğunu kullanarak erişilebilen dört alt gruba ayrılmıştır. <screenshot>
 <screeninfo
 >&dolphin; tercihleri penceresindeki Genel ayarların ekran görüntüsü</screeninfo>
 <mediaobject>
@@ -1425,7 +1425,7 @@ context menu Icon Size? No different entries ?-->
 >Bölünmüş görünümü kapatmak etkin bölmeyi kapatır</guilabel
 > seçeneğini devre dışı bırakın; örneğin, <keycap
 >F3</keycap
->'e basarak. </para
+>’e basarak. </para
 ></listitem>
 
 </itemizedlist>
@@ -1467,7 +1467,7 @@ context menu Icon Size? No different entries ?-->
 >Dosyaları veya klasörleri silme</guilabel
 > için olan onay ayarları, &dolphin;, &konqueror;, &gwenview; ve öntanımlı &kde; dosya iletişim kutusunu kullanan tüm &kde; uygulamalarını etkilerken, <guilabel
 >Birden çok sekmeli Dolphin pencerelerini kapatma</guilabel
->&dolphin;'e özel bir ayardır.</para
+>, &dolphin;’e özel bir ayardır.</para
 ></warning>
 </sect3>
 
@@ -1488,7 +1488,7 @@ context menu Icon Size? No different entries ?-->
 <listitem
 ><para
 ><guilabel
->Yakınlaştırma kaydırıcısını göster</guilabel
+>Yakınlaştırma sürgüsünü göster</guilabel
 > ögesi, simge boyutu araç takımının görünürlüğünü değiştirmeye izin verir. </para
 ></listitem>
 
@@ -1512,7 +1512,7 @@ context menu Icon Size? No different entries ?-->
 >Başlangıç</title>
 
 <para
->Bu grup, &dolphin;'in başlangıç görünümünü belirleyen ayarları içerir. <screenshot>
+>Bu grup, &dolphin;’in başlangıç görünümünü belirleyen ayarları içerir. <screenshot>
 <screeninfo
 >&dolphin; tercihleri penceresindeki Başlangıç ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
@@ -1544,7 +1544,7 @@ context menu Icon Size? No different entries ?-->
 <itemizedlist>
     <listitem>
         <para
->&GUI;'den veya komut satırından herhangi bir &URL; olmadan başlatıldıysa &dolphin; oturumu geri yükler</para>
+>&GUI;’den veya komut satırından herhangi bir &URL; olmadan başlatıldıysa &dolphin; oturumu geri yükler</para>
     </listitem>
     <listitem>
         <para
@@ -1552,11 +1552,11 @@ context menu Icon Size? No different entries ?-->
     </listitem>
     <listitem>
         <para
->&URL;'ler ile başlatıldığında &dolphin;,oturumu geri yüklemek yerine o &URL;'leri gösteren pencereler açılır</para>
+>&URL;’ler ile başlatıldığında &dolphin;,oturumu geri yüklemek yerine o &URL;’leri gösteren pencereler açılır</para>
     </listitem>
     <listitem>
         <para
->&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;'yi gösteren tek bir sekme ile açılır</para>
+>&dolphin; halihazırda çalışıyor ve yeni bir pencere açılmışsa o yeni pencere bir önceki açık olan &dolphin; örneğindeki &URL;’yi gösteren tek bir sekme ile açılır</para>
     </listitem>
 </itemizedlist>
 <para
@@ -1626,7 +1626,7 @@ context menu Icon Size? No different entries ?-->
 >Görünüm Kipleri</title>
 
 <para
->Bu grup, &dolphin;'in görüntüleme kiplerinin davranışını denetleyen ayarları içerir. Üç görünüm kipine (Simgeler, Sıkışık ve Ayrıntılar) üstteki sekme çubuğundan erişilebilir. <screenshot>
+>Bu grup, &dolphin;’in görüntüleme kiplerinin davranışını denetleyen ayarları içerir. Üç görünüm kipine (Simgeler, Sıkışık ve Ayrıntılar) üstteki sekme çubuğundan erişilebilir. <screenshot>
 <screeninfo
 >&dolphin; tercihleri penceresindeki Simge Görünümü ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
@@ -1656,7 +1656,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Simgelerin boyutlarını denetleyen kaydırıcılar. <guilabel
+>Simgelerin boyutlarını denetleyen sürgüler. <guilabel
 >Öntanımlı</guilabel
 > veya <guilabel
 >Önizleme</guilabel
@@ -1664,7 +1664,7 @@ context menu Icon Size? No different entries ?-->
 >ayarların <quote
 >Genel</quote
 > bölümündeki</link
-> ilgili seçenek etkinleştirildiğinde durum çubuğundaki yakınlaştırma kaydırıcısıyla kolayca değiştirilebileceğini unutmayın. </para
+> ilgili seçenek etkinleştirildiğinde durum çubuğundaki yakınlaştırma sürgüsüyle kolayca değiştirilebileceğini unutmayın. </para
 ></listitem>
 
 <listitem
@@ -1743,14 +1743,14 @@ context menu Icon Size? No different entries ?-->
 <para
 ><guilabel
 >Tarih biçemi</guilabel
-> seçeneği, &dolphin;'de tarihleri gösterme biçimi kipini yapılandırmak için kullanılabilir. <guilabel
+> seçeneği, &dolphin;’de tarihleri gösterme biçimi kipini yapılandırmak için kullanılabilir. <guilabel
 >Göreceli</guilabel
 > (&eg;, <quote
 >Dün, 15:00</quote
 >) veya <guilabel
 >Mutlak</guilabel
 > (&eg;, <quote
->2020-12) arasında seçim yapmak olanaklıdır. -23 15:00</quote
+>2020-12-23 15:00) arasında seçim yapmak olanaklıdır.</quote
 >). </para>
 </listitem>
 </itemizedlist>
@@ -1820,13 +1820,13 @@ context menu Icon Size? No different entries ?-->
 >Hizmetler</title>
 
 <para
->Bu grup, &dolphin;'in &RMB; ile bir dosya veya klasöre tıklandığında görünen bağlam menüsünün <guisubmenu
+>Bu grup, &dolphin;’in &RMB; ile bir dosya veya klasöre tıklandığında görünen bağlam menüsünün <guisubmenu
 >Eylemler</guisubmenu
 > alt menüsünde gösterilebilen çeşitli hizmetler sunar. </para>
 
 <screenshot>
 <screeninfo
->&dolphin;'in tercihler iletişim kutusundaki Hizmetler Menüsü ayarlarının ekran görüntüsü</screeninfo>
+>&dolphin;’in tercihler iletişim kutusundaki Hizmetler Menüsü ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-context-menu.png" format="PNG"/>
@@ -1847,7 +1847,7 @@ context menu Icon Size? No different entries ?-->
 >Yeni Hizmetler İndir</guibutton
 > düğmesini kullanarak bağlam menüsü için ek hizmetler indirebilirsiniz. </para>
 <para
->&dolphin;'in <guilabel
+>&dolphin;’in <guilabel
 >Bazaar</guilabel
 >, <guilabel
 >Mercurial</guilabel
@@ -1877,7 +1877,7 @@ context menu Icon Size? No different entries ?-->
 >Burada Çoğalt</guimenuitem
 > komutlarının bağlam menüsünde gösterilip gösterilmeyeceğini seçebilirsiniz. </para>
 <para
->Bu ayarların etkinleştirilebilmesi için &dolphin;'in yeniden başlatılması gerekir. </para>
+>Bu ayarların etkinleştirilebilmesi için &dolphin;’in yeniden başlatılması gerekir. </para>
 
 </sect2>
 
@@ -1888,7 +1888,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Bu grup, çöp kutusunun davranışlarını denetleyen ayarları içerir. <screenshot>
 <screeninfo
->&dolphin;'nin tercihler iletişim kutusundaki Çöp Kutusu ayarlarının ekran görüntüsü</screeninfo>
+>&dolphin;’in tercihler iletişim kutusundaki Çöp Kutusu ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-trash.png" format="PNG"/>
@@ -1899,7 +1899,7 @@ context menu Icon Size? No different entries ?-->
 </textobject>
 <caption
 ><para
->&dolphin;'in Tercihler İletişim Kutusundaki Çöp Kutusu Ayarları.</para
+>&dolphin;’in Tercihler iletişim kutusundaki Çöp Kutusu ayarları.</para
 ></caption>
 </mediaobject>
 </screenshot>
@@ -1929,7 +1929,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Bu grup, &dolphin; kullanımı hakkında hangi istatistiklerin geliştiricilere iletileceğini denetleyen ayarları içerir. <screenshot>
 <screeninfo
->&dolphin;'nin tercihler iletişim kutusundaki Kullanıcı Geri Bildirimi ayarlarının ekran görüntüsü</screeninfo>
+>&dolphin;’in tercihler iletişim kutusundaki Kullanıcı Geri Bildirimi ayarlarının ekran görüntüsü</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-user-feedback.png" format="PNG"/>
@@ -1949,7 +1949,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->İsterseniz &dolphin; kullanımı hakkındaki geri bildirimlerinizi buradan iletebilirsiniz. Katılma düzeyinizi ayarlamak için kaydırıcıları kullanın. </para
+>İsterseniz &dolphin; kullanımı hakkındaki geri bildirimlerinizi buradan iletebilirsiniz. Katılma düzeyinizi ayarlamak için sürgüleri kullanın. </para
 ></listitem>
 
 </itemizedlist>
@@ -1965,7 +1965,7 @@ context menu Icon Size? No different entries ?-->
 >Klasör Görünümü Gösterim Biçemi</title>
 
 <para
->Aşağıdaki ayarlar, bir klasörün içeriğinin &dolphin;'de nasıl görüntüleneceğini denetler ve öntanımlı olarak klasör bazında saklanır: </para>
+>Aşağıdaki ayarlar, bir klasörün içeriğinin &dolphin;’de nasıl görüntüleneceğini denetler ve öntanımlı olarak klasör bazında saklanır: </para>
 <itemizedlist>
 
 <listitem
@@ -1975,7 +1975,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Ögelerin sıralandığı sıralama düzeni (artan, azalan) ve özniteliği (ad, boyut,... gibi) tarafından belirlenen ögelerin sıralaması </para
+>Ögelerin sıralandığı sıralama düzeni (artan, azalan) ve özniteliği (ad, boyut, … gibi) tarafından belirlenen ögelerin sıralaması </para
 ></listitem>
 
 <listitem
@@ -1985,7 +1985,7 @@ context menu Icon Size? No different entries ?-->
 
 <listitem
 ><para
->Önizlemeler &ndash; simgelerin yerine mi gösteriliyorlar (&dolphin;'in <link linkend="preferences-dialog-general-previews"
+>Önizlemeler &mdash; simgelerin yerine mi gösteriliyorlar (&dolphin;’in <link linkend="preferences-dialog-general-previews"
 ><guilabel
 >Önizlemeler</guilabel
 > sekmesindeki ayarlara göre</link
@@ -2065,7 +2065,7 @@ context menu Icon Size? No different entries ?-->
 
 <sect1 id="commands-menubar">
 <title
->&dolphin;'in Ana Penceresindeki Menü Çubuğu</title>
+>&dolphin;’in ana penceresindeki Menü Çubuğu</title>
 
 <sect2>
 <title
@@ -2088,22 +2088,22 @@ context menu Icon Size? No different entries ?-->
 >Geçerli klasörde yeni bir nesne (klasör veya metin dosyası gibi) oluşturur.</action
 ></para>
 <para
->Kullanılabilir tüm nesnelerin açıklamasını &konqueror;'ın el kitabında <ulink url="help:/konqueror/making.html"
+>Kullanılabilir tüm nesnelerin açıklamasını &konqueror;’ın el kitabında <ulink url="help:/konqueror/making.html"
 >Yeni Oluştur</ulink
 > bölümünde bulabilirsiniz.</para>
 <note>
     <para
 >Kendi <guisubmenu
->Yeni Oluştur.. </guisubmenu
+>Yeni Oluştur…</guisubmenu
 > alt menü ögelerinizi oluşturmanız olanaklıdır. Başvuru olarak <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
 >KIO kaynak deposu</ulink
 > dosyalarını kullanın ve sonuçta ortaya çıkan <filename role="extension"
 >.desktop</filename
 > dosyasını ana dizininizdeki <filename role="directory"
 >.local/share/templates</filename
-> içine kopyalayın (adres, &konsole;'da <userinput
+> içine kopyalayın (adres, &konsole;’de <userinput
 >kf5-config kullanılarak belirlenebilir) --path templates</userinput
-> kullanılarak belirlenebilir), ardından &dolphin;'i yeniden başlatın. </para>
+> kullanılarak belirlenebilir), ardından &dolphin;’i yeniden başlatın. </para>
 </note>
 </listitem>
 </varlistentry>
@@ -2448,7 +2448,7 @@ context menu Icon Size? No different entries ?-->
 > <guimenu
 >Düzen</guimenu
 > <guimenuitem
->Pano İçeriğini Yapıştır...</guimenuitem
+>Pano İçeriğini Yapıştır…</guimenuitem
 ></menuchoice
 > veya <menuchoice
 ><guimenu
@@ -2510,7 +2510,7 @@ context menu Icon Size? No different entries ?-->
 ></keycombo
 > </shortcut
 > <guimenu
->Edit</guimenu
+>Düzen</guimenu
 > <guimenuitem
 >Etkin Olmayan Bölünmüş Görünüme Taşı</guimenuitem
 > </menuchoice
@@ -2533,9 +2533,9 @@ context menu Icon Size? No different entries ?-->
 ></keycombo
 > </shortcut
 > <guimenu
->Edit</guimenu
+>Düzen</guimenu
 > <guimenuitem
->Süz...</guimenuitem
+>Süz…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -2562,9 +2562,9 @@ context menu Icon Size? No different entries ?-->
 ></keycombo
 > </shortcut
 > <guimenu
->Edit</guimenu
+>Düzen</guimenu
 > <guimenuitem
->Ara...</guimenuitem
+>Ara…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -3005,7 +3005,7 @@ context menu Icon Size? No different entries ?-->
 ><guimenu
 >Görünüm</guimenu
 > <guimenuitem
->Görünüm Özelliklerini Ayarla...</guimenuitem
+>Görünüm Özelliklerini Ayarla…</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -3258,11 +3258,11 @@ context menu Icon Size? No different entries ?-->
 <qandaentry>
 <question>
 <para
->&dolphin;, &konqueror;'un yerini mi aldı?</para>
+>&dolphin;, &konqueror;’un yerini mi aldı?</para>
 </question>
 <answer>
 <para
->&dolphin;'in &konqueror;'a rakip olması amaçlanmamıştır: &konqueror; &HTML;, sayfalar, metin belgeleri, klasörler ve çok daha fazlasını görüntüleyebilen evrensel bir görüntüleyici görevi görür. &dolphin; yalnızca bir dosya yöneticisi olmaya odaklanır. Bu yaklaşım, dosya yönetimi görevi için kullanıcı arayüzünün eniyilenmesine izin verir. </para>
+>&dolphin;’in &konqueror;’a rakip olması amaçlanmamıştır: &konqueror; &HTML;, sayfalar, metin belgeleri, klasörler ve çok daha fazlasını görüntüleyebilen evrensel bir görüntüleyici görevi görür. &dolphin; yalnızca bir dosya yöneticisi olmaya odaklanır. Bu yaklaşım, dosya yönetimi görevi için kullanıcı arayüzünün eniyilenmesine izin verir. </para>
 </answer>
 </qandaentry>
 
