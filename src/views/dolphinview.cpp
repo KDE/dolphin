@@ -1835,6 +1835,11 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
         return;
     }
 
+    if (!m_url.isParentOf(newDirectoryUrl)) {
+        // the view has moved
+        return;
+    }
+
     // since this is async make sure the selection state hasn't change in the meantime
     std::function<bool()> condition([this]() {
         return !m_container->controller()->selectionManager()->hasSelection();
@@ -1843,7 +1848,8 @@ void DolphinView::observeCreatedDirectory(const QUrl &newDirectoryUrl)
     // in case, a new hiercachy was created, select the first folder in its parent path
     auto targetUrl = newDirectoryUrl;
     auto parentUrl = targetUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
-    while (parentUrl != m_url) {
+    const auto containingUrl = m_url.adjusted(QUrl::StripTrailingSlash);
+    while (parentUrl != containingUrl) {
         targetUrl = parentUrl;
         parentUrl = targetUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
     }
