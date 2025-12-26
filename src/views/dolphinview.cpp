@@ -2414,13 +2414,17 @@ void DolphinView::applyModeToView()
 
 void DolphinView::applyDynamicView()
 {
-    ViewProperties props(viewPropertiesUrl());
     /* return early if:
      * - dynamic view is not enabled
      * - the current view mode is already Icon View
      * - dynamic view has previously changed the view mode
      */
-    if (!GeneralSettings::dynamicView() || m_mode == IconsView || props.dynamicViewPassed()) {
+    if (!GeneralSettings::dynamicView() || m_mode == IconsView) {
+        return;
+    }
+
+    ViewProperties props(viewPropertiesUrl());
+    if (props.dynamicViewPassed()) {
         return;
     }
 
