@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-27 02:33+0000\n"
-"PO-Revision-Date: 2025-10-27 16:03+0100\n"
+"PO-Revision-Date: 2025-12-29 17:11+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -5482,12 +5482,10 @@ msgid "Display style: "
 msgstr "Stilo de monstrator: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Monstra vista preliminar de files e dossieres"
+msgstr "Naviga files comprimite como dossieres"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
