@@ -7,6 +7,7 @@
 #include "middleclickactioneventfilter.h"
 
 #include <QAction>
+#include <QActionEvent>
 #include <QEvent>
 #include <QMenu>
 #include <QMouseEvent>
@@ -52,6 +53,23 @@ bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
                         }
                         m_lastMiddlePressedAction = nullptr;
                     }
+                }
+            }
+        }
+
+    } else if (event->type() == QEvent::ActionChanged) {
+        // KXmlGui adds delayed popup menu's actions to its own context menu.
+        // In order for middle click to work, we need to somehow detect when the action is added
+        // on this menu and install the event filter on it.
+        // Visibility of the action changes when the menu shows in the menu for the first time,
+        // so we'll receive an ActionChanged event and use that.
+        auto *actionEvent = static_cast<QActionEvent *>(event);
+
+        const auto items = actionEvent->action()->associatedObjects();
+        for (auto *item : items) {
+            if (auto *menu = qobject_cast<QMenu *>(item)) {
+                if (menu != actionEvent->action()->parent()) { // Parent is the regular menu.
+                    menu->installEventFilter(this);
                 }
             }
         }
