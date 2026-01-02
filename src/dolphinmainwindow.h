@@ -39,10 +39,10 @@ class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class DolphinTabWidget;
+class DolphinNewFileMenu;
 class KFileItem;
 class KFileItemList;
 class KJob;
-class KNewFileMenu;
 class KRecentFilesAction;
 class KToolBarPopupAction;
 class QToolButton;
@@ -107,7 +107,7 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewFileMenu *newFileMenu() const;
+    DolphinNewFileMenu *newFileMenu() const;
 
     /**
      * Augments Qt's built-in QMainWindow context menu to add
@@ -766,7 +766,7 @@ private:
         void jobError(KIO::Job *job) override;
     };
 
-    KNewFileMenu *m_newFileMenu;
+    DolphinNewFileMenu *m_newFileMenu;
     DolphinTabWidget *m_tabWidget;
     DolphinViewContainer *m_activeViewContainer;
 
@@ -808,7 +808,7 @@ inline DolphinViewContainer *DolphinMainWindow::activeViewContainer() const
     return m_activeViewContainer;
 }
 
-inline KNewFileMenu *DolphinMainWindow::newFileMenu() const
+inline DolphinNewFileMenu *DolphinMainWindow::newFileMenu() const
 {
     return m_newFileMenu;
 }

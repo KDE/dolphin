@@ -838,7 +838,19 @@ void DolphinMainWindow::createDirectory()
         }
 
         m_newFileMenu->setWorkingDirectory(targetDirectory);
+
+        // prevents post-creation selection
+        m_newFileMenu->detachObserver();
+
         m_newFileMenu->createDirectory();
+
+        // Reattach afterwards
+        connect(m_newFileMenu, &KNewFileMenu::directoryCreated, this, [this]() {
+            m_newFileMenu->attachObserver();
+        });
+        connect(m_newFileMenu, &KNewFileMenu::directoryCreationRejected, this, [this]() {
+            m_newFileMenu->attachObserver();
+        });
     }
 }
 

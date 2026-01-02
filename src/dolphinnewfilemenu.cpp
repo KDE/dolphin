@@ -17,12 +17,22 @@ DolphinNewFileMenu::DolphinNewFileMenu(QAction *createDirAction, QAction *create
 {
     setNewFolderShortcutAction(createDirAction);
     setNewFileShortcutAction(createFileAction);
+    attachObserver();
+}
+
+void DolphinNewFileMenu::detachObserver()
+{
+    DolphinNewFileMenuObserver::instance().detach(this);
+}
+
+void DolphinNewFileMenu::attachObserver()
+{
     DolphinNewFileMenuObserver::instance().attach(this);
 }
 
 DolphinNewFileMenu::~DolphinNewFileMenu()
 {
-    DolphinNewFileMenuObserver::instance().detach(this);
+    detachObserver();
 }
 
 void DolphinNewFileMenu::slotResult(KJob *job)

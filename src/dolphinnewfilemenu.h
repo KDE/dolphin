@@ -28,6 +28,9 @@ public:
     DolphinNewFileMenu(QAction *createDirAction, QAction *createFileAction, QObject *parent);
     ~DolphinNewFileMenu() override;
 
+    void detachObserver();
+    void attachObserver();
+
 Q_SIGNALS:
     void errorMessage(const QString &error);
 
