@@ -2,7 +2,7 @@
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the dolphin package.
 # Laurenţiu Buzdugan <lbuz@rolix.org>, 2008, 2009.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023, 2024, 2026 Sergiu Bivol <sergiu@cip.md>
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
 # Ovidiu-Florin BOGDAN <ovidiu.b13@gmail.com>, 2015.
 # Tatiana Țurcanu <turcanu DOT tatiana91 AT gmail DOT com>, 2015.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-27 02:33+0000\n"
-"PO-Revision-Date: 2024-06-08 16:45+0100\n"
+"PO-Revision-Date: 2026-01-03 19:27+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3477,9 +3477,7 @@ msgid "Save this search to quickly access it again in the future"
 msgstr "Salvează această căutare pentru acces rapid în viitor"
 
 #: search/bar.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button for changing search options"
 msgid "Filter"
 msgstr "Filtrează"
@@ -3491,17 +3489,13 @@ msgid "Quit searching"
 msgstr "Oprește căutarea"
 
 #: search/bar.cpp:102
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "From Here"
+#, kde-format
 msgctxt "action:button search from here"
 msgid "Here"
-msgstr "De aici"
+msgstr "Aici"
 
 #: search/bar.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
 msgstr "Peste tot"
@@ -3524,15 +3518,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Caută în conținutul fișierelor…"
 
 #: search/bar.cpp:227
-#, fuzzy, kde-kuit-format
-#| msgctxt "action:button"
-#| msgid "Limit search to '%1' and its subfolders"
+#, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid "Limit the search to <filename>%1</filename> and its subfolders."
-msgstr "Limitează căutarea la „%1” și subdosarele sale"
+msgstr "Limitează căutarea la <filename>%1</filename> și subdosarele sale."
 
 #. i18n call is in a single row or the i18n comment above will not be extracted.
 #. See https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
@@ -3543,7 +3535,7 @@ msgstr "Limitează căutarea la „%1” și subdosarele sale"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Caută toate directoarele de la rădăcină în sus."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3557,12 +3549,10 @@ msgid ""
 msgstr ""
 
 #: search/chip.cpp:21
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "Filter"
+#, kde-format
 msgctxt "@action:button"
 msgid "Remove Filter"
-msgstr "Filtrează"
+msgstr "Elimină filtrul"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10
@@ -3578,19 +3568,17 @@ msgstr "Ce"
 
 #. i18n: ectx: label, entry (SearchTool), group (Search)
 #: search/dolphin_searchsettings.kcfg:18
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "SearchTool"
-msgstr "Caută"
+msgstr "Unealtă de căutare"
 
 #: search/dolphinquery.cpp:382
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "Caută %1 în %2"
+msgstr "Rezultatele căutării „%1” în %2"
 
 #: search/dolphinquery.cpp:388
 #, kde-format
@@ -3598,16 +3586,15 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Fișiere ce conțin „%1” în %2"
 
 #: search/dolphinquery.cpp:395
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "Caută %1 în %2"
+msgstr "Caută elemente marcate cu „%1” în %2"
 
 #: search/dolphinquery.cpp:400
 #, kde-format
@@ -3615,50 +3602,47 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "Caută elemente marcate cu „%1” și „%2” în %3"
 
 #: search/dolphinquery.cpp:407
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page for items of a specified type. %1 is a file "
 "type e.g. 'Document', 'Folder'. %2 is a folder name"
 msgid "%1 search results in %2"
-msgstr "Caută %1 în %2"
+msgstr "Rezultate de tip %1 găsite în %2"
 
 #: search/dolphinquery.cpp:413
-#, fuzzy, kde-format
-#| msgid "Search for %1 in %2"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions. "
 "%1 is a folder name"
 msgid "Search results in %1"
-msgstr "Caută %1 în %2"
+msgstr "Rezultatele căutării în %1"
 
 #: search/dolphinquery.cpp:423
-#, fuzzy, kde-format
-#| msgid "Search for %1"
+#, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "Caută %1"
+msgstr "Rezultatele căutării pentru „%1”"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Fișiere ce conțin „%1”"
 
 #: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "Caută elemente marcate cu „%1”"
 
 #: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "Caută elemente marcate cu „%1” și „%2”"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3667,54 +3651,44 @@ msgstr ""
 #, kde-format
 msgctxt "@title of a search. %1 is file type"
 msgid "%1 search results"
-msgstr ""
+msgstr "Rezultate de tip %1"
 
 #: search/dolphinquery.cpp:444
-#, fuzzy, kde-format
-#| msgctxt "@item"
-#| msgid "Search For"
+#, kde-format
 msgctxt ""
 "@title of a search results page with items matching pre-defined conditions"
 msgid "Search results"
-msgstr "Caută după"
+msgstr "Rezultatele căutării"
 
 #. i18n: Localized name for the Filenamesearch search tool for use in user interfaces.
 #: search/popup.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Empty Trash"
+#, kde-format
 msgid "Simple search"
-msgstr "Golește gunoiul"
+msgstr "Căutare simplă"
 
 #. i18n: Localized name for the Baloo search tool for use in user interfaces.
 #: search/popup.cpp:53
 #, kde-format
 msgid "File Indexing"
-msgstr ""
+msgstr "Indexarea fișierelor"
 
 #: search/popup.cpp:73
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Search:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search in:"
-msgstr "Caută:"
+msgstr "Caută în:"
 
 #: search/popup.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Filenames"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names"
-msgstr "Denumiri fișiere"
+msgstr "Denumiri de fișiere"
 
 #: search/popup.cpp:112
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Searching…"
+#, kde-format
 msgctxt "@title:group"
 msgid "Search using:"
-msgstr "Se caută…"
+msgstr "Caută folosind:"
 
 #: search/popup.cpp:131
 #, kde-kuit-format
@@ -3734,41 +3708,31 @@ msgid ""
 msgstr ""
 
 #: search/popup.cpp:165
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure…"
+#, kde-format
 msgctxt "@action:button %1 is software name"
 msgid "Configure %1…"
-msgstr "Configurează…"
+msgstr "Configurează %1…"
 
 #: search/popup.cpp:208
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Type:"
+#, kde-format
 msgctxt "@title:group for filtering files based on their type"
 msgid "File Type:"
-msgstr "Tip:"
+msgstr "Tipul fișierului:"
 
 #: search/popup.cpp:216
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Modified:"
+#, kde-format
 msgctxt "@title:group for filtering files by modified date"
 msgid "Modified since:"
-msgstr "Modificat:"
+msgstr "Modificat începând cu:"
 
 #: search/popup.cpp:225
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Rating:"
+#, kde-format
 msgctxt "@title:group for selecting a minimum rating of search results"
 msgid "Rating:"
 msgstr "Evaluare:"
 
 #: search/popup.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Tags:"
+#, kde-format
 msgctxt "@title:group for selecting required tags for search results"
 msgid "Tags:"
 msgstr "Marcaje:"
@@ -3777,7 +3741,7 @@ msgstr "Marcaje:"
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "Pentru căutări mai avansate:"
 
 #: search/popup.cpp:276
 #, kde-kuit-format
@@ -3801,7 +3765,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr ""
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:295
 #, kde-kuit-format
@@ -3824,42 +3788,37 @@ msgstr ""
 #, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File names and contents"
-msgstr ""
+msgstr "Denumiri și conținuturi de fișiere"
 
 #: search/popup.cpp:314
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "File Extension"
+#, kde-format
 msgctxt "@option:radio Search in:"
 msgid "File contents"
-msgstr "Extensie de fișier"
+msgstr "Conținut fișier"
 
 #: search/popup.cpp:329
-#, fuzzy, kde-format
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button 1 is KFind app name"
 msgid "Open %1"
 msgstr "Deschide %1"
 
 #: search/popup.cpp:332
-#, fuzzy, kde-format
-#| msgid "Install Konsole"
+#, kde-format
 msgctxt "@action:button"
 msgid "Install KFind…"
-msgstr "Instalează Konsolă"
+msgstr "Instalează KFind…"
 
 #: search/popup.cpp:364
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr ""
+msgstr "<application>KFind</application> a fost instalat cu succes."
 
 #: search/popup.cpp:368
-#, fuzzy, kde-format
-#| msgid "Install Konsole"
+#, kde-format
 msgctxt "@info:status"
 msgid "Installing KFind"
-msgstr "Instalează Konsolă"
+msgstr "Se instalează KFind"
 
 #: search/selectors/dateselector.cpp:54
 #, kde-format
@@ -3904,9 +3863,7 @@ msgid "4 or more"
 msgstr "4 sau mai mult"
 
 #: search/selectors/minimumratingselector.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Maximum lines"
-#| msgid "5"
+#, kde-format
 msgctxt "@item:inlistbox 5 star rating, has a star icon in front"
 msgid "5"
 msgstr "5"
@@ -3916,15 +3873,13 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " și "
 
 #: search/selectors/tagsselector.cpp:182
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Grid spacing"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button Required tags for search results: None"
 msgid "None"
-msgstr "Niciuna"
+msgstr "Niciunul"
 
 #: selectionmode/bottombarcontentscontainer.cpp:155
 #, kde-format
@@ -4827,11 +4782,9 @@ msgstr "Utilizează dosare autoexpandabile pentru toate tipurile de vizualizări
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:126
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Status Bar: "
+#, kde-format
 msgid "Statusbar"
-msgstr "Bară de stare: "
+msgstr "Bară de stare"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4871,7 +4824,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Activează vizualizarea dinamică"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -4887,10 +4840,9 @@ msgstr "Cere confirmare la deschiderea multor terminale odată."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:171
-#, fuzzy, kde-format
-#| msgid "Ask for confirmation when opening many folders at once."
+#, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
-msgstr "Cere confirmare la deschiderea multor dosare odată."
+msgstr "Cere confirmare când redenumirea fișierului îi schimbă tipul."
 
 #. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
 #: settings/dolphin_iconsmodesettings.kcfg:27
@@ -5021,7 +4973,7 @@ msgstr "Se schimbă la operarea ca administrator"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Redenumirea unui fișier îi va schimba tipul"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -5051,21 +5003,17 @@ msgid "Folders, tabs, and window state from last time"
 msgstr "Dosare, file, și starea ferestrei de data trecută"
 
 #: settings/interface/folderstabssettingspage.cpp:54
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Show on startup:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
-msgstr "Arată la pornire:"
+msgstr "Arată amplasarea de acasă la pornire"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
 #: settings/interface/folderstabssettingspage.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "The location is empty."
+#, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
-msgstr "Amplasarea este goală."
+msgstr "Introduceți calea amplasării de acasă"
 
 #: settings/interface/folderstabssettingspage.cpp:68
 #, kde-format
@@ -5334,20 +5282,16 @@ msgid "Remote storage:"
 msgstr "Stocare distantă:"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:42
-#, fuzzy, kde-format
-#| msgctxt "@title:group Size"
-#| msgid "Small"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Small"
 msgstr "Mică"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@label:listbox"
-#| msgid "Label width:"
+#, kde-format
 msgctxt "@option:radio"
 msgid "Full width"
-msgstr "Lățime etichete:"
+msgstr "Lățime deplină"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:44
 #, kde-format
@@ -5359,7 +5303,7 @@ msgstr "Arată glisorul de apropiere"
 #, kde-format
 msgctxt "@option:check"
 msgid "Disabled"
-msgstr ""
+msgstr "Dezactivat"
 
 #: settings/interface/statusandlocationbarssettingspage.cpp:51
 #, fuzzy, kde-format
@@ -5592,12 +5536,10 @@ msgid "Display style: "
 msgstr "Stilul afișării: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Arată previzualizarea fișierelor și dosarelor"
+msgstr "Răsfoiește fișierele comprimate ca dosare"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6368,12 +6310,10 @@ msgid "Hide this Folder?"
 msgstr "Ascundeți acest dosar?"
 
 #: views/dolphinview.cpp:2212
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Rename"
-msgstr "Redenumește…"
+msgstr "Redenumește"
 
 #: views/dolphinview.cpp:2222
 #, kde-format
@@ -6383,6 +6323,10 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Aceasta va face ca tipul fișierului să fie necunoscut.\n"
+"Conținutul fișierului nu se va schimba, dar aplicațiile ar putea să nu-l mai "
+"recunoască.\n"
+"Doriți să-l redenumiți oricum?"
 
 #: views/dolphinview.cpp:2226
 #, kde-format
@@ -6392,14 +6336,16 @@ msgid ""
 "it.\n"
 "Do you still want to rename it?"
 msgstr ""
+"Aceasta va schimba tipul fișierului din „%1” în „%2”\n"
+"Conținutul fișierului nu se va schimba, dar aplicațiile ar putea să nu-l mai "
+"recunoască.\n"
+"Doriți să-l redenumiți oricum?"
 
 #: views/dolphinview.cpp:2232
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Type:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Change File Type"
-msgstr "Tip:"
+msgstr "Schimbă tipul fișierului"
 
 #: views/dolphinview.cpp:2276
 #, kde-format
@@ -6490,12 +6436,10 @@ msgid "Create Folder…"
 msgstr "Creează dosar…"
 
 #: views/dolphinviewactionhandler.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Create Folder…"
+#, kde-format
 msgctxt "@action"
 msgid "Create File…"
-msgstr "Creează dosar…"
+msgstr "Creează fișier…"
 
 #: views/dolphinviewactionhandler.cpp:101
 #, kde-kuit-format
@@ -6648,18 +6592,16 @@ msgstr ""
 "puteți vedea conținuturile mai multor dosare în aceeași listă.</para>"
 
 #: views/dolphinviewactionhandler.cpp:224
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar"
-#| msgid "View Mode"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Change View Mode"
-msgstr "Regim de vizualizare"
+msgstr "Schimbă regimul de vizualizare"
 
 #: views/dolphinviewactionhandler.cpp:225
 #, kde-kuit-format
 msgctxt "@info:whatsthis View Mode Toolbutton"
 msgid "This cycles through all view modes."
-msgstr ""
+msgstr "Aceasta ciclează printre toate regimurile de vizualizare."
 
 #: views/dolphinviewactionhandler.cpp:245
 #, kde-format
@@ -6798,12 +6740,10 @@ msgstr ""
 "vizualizărilor de dosare."
 
 #: views/dolphinviewactionhandler.cpp:363
-#, fuzzy, kde-format
-#| msgctxt "name of kuserfeedback data source provided by dolphin"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Settings"
-msgstr "Configurări"
+msgstr "Configurări vizualizare"
 
 #: views/dolphinviewactionhandler.cpp:365
 #, kde-kuit-format
@@ -6812,38 +6752,32 @@ msgid ""
 "This cycles through all view modes. The dropdown menu contains various view-"
 "related actions."
 msgstr ""
+"Aceasta ciclează printre toate regimurile de vizualizare. Meniul "
+"desfășurabil conține diverse acțiuni legate de vizualizări."
 
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
-msgstr "Sortare după"
+msgstr "Sortează după câmp"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Arată bara de filtrare"
+msgstr "Arată câmpul"
 
 #: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@action:intoolbar as in sort by file attribute"
 msgid "Sort By: %1"
-msgstr "Sortare după"
+msgstr "Sortează după: %1"
 
 #: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@action:intoolbar as in show field for file attribute"
 msgid "Show Field: %1"
-msgstr "Arată bara de filtrare"
+msgstr "Arată câmpul: %1"
 
 #: views/dolphinviewactionhandler.cpp:689
 #, kde-format
@@ -6977,15 +6911,13 @@ msgid "Updating version information…"
 msgstr "Se actualizează informațiile de versiune…"
 
 #: views/zoomwidgetaction.cpp:39
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Zoom"
 msgstr "Apropiere"
 
 #: views/zoomwidgetaction.cpp:57
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Apropiere"

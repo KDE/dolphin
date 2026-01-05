@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # ஆமாச்சு <amachu@ubuntu.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Kishore G <kishore96@gmail.com>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-27 02:33+0000\n"
-"PO-Revision-Date: 2025-11-02 14:07+0530\n"
+"PO-Revision-Date: 2026-01-04 15:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4863,7 +4863,7 @@ msgstr "புதிய கீற்றுகளை இங்கே திற:"
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
-msgstr "துண்டாக்கப்பட்ட காட்சிமுறை:"
+msgstr "துண்டாக்கப்பட்ட காட்சிமுறை: "
 
 #: settings/interface/folderstabssettingspage.cpp:131
 #, kde-format
