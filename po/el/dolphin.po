@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-27 00:45+0000\n"
+"POT-Creation-Date: 2026-01-05 00:45+0000\n"
 "PO-Revision-Date: 2024-09-19 14:38+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -334,7 +334,7 @@ msgstr ""
 "κλείσιμό του;"
 
 #: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
-#: views/dolphinview.cpp:2235
+#: views/dolphinview.cpp:2236
 #, kde-format
 msgid "Do not ask again"
 msgstr "Να μην ξαναγίνει η ερώτηση"
@@ -6421,13 +6421,13 @@ msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Η διαδικασία διαγραφής ολοκληρώθηκε."
 
-#: views/dolphinview.cpp:2183
+#: views/dolphinview.cpp:2184
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Μετονομασία και απόκρυψη"
 
-#: views/dolphinview.cpp:2187
+#: views/dolphinview.cpp:2188
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -6437,7 +6437,7 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να το μετονομάσετε;"
 
-#: views/dolphinview.cpp:2189
+#: views/dolphinview.cpp:2190
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -6447,17 +6447,17 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να τον μετονομάσετε;"
 
-#: views/dolphinview.cpp:2191
+#: views/dolphinview.cpp:2192
 #, kde-format
 msgid "Hide this File?"
 msgstr "Να γίνει απόκρυψη αυτού του αρχείου;"
 
-#: views/dolphinview.cpp:2191
+#: views/dolphinview.cpp:2192
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Να γίνει απόκρυψη αυτού του φακέλου;"
 
-#: views/dolphinview.cpp:2212
+#: views/dolphinview.cpp:2213
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename…"
@@ -6465,7 +6465,7 @@ msgctxt "@action:button"
 msgid "Rename"
 msgstr "Μετονομασία…"
 
-#: views/dolphinview.cpp:2222
+#: views/dolphinview.cpp:2223
 #, kde-format
 msgid ""
 "This will make the file type unknown.\n"
@@ -6474,7 +6474,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2226
+#: views/dolphinview.cpp:2227
 #, kde-format
 msgid ""
 "This will change the file type from \"%1\" to \"%2\".\n"
@@ -6483,7 +6483,7 @@ msgid ""
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:2232
+#: views/dolphinview.cpp:2233
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Type:"
@@ -6491,84 +6491,84 @@ msgctxt "@title:window"
 msgid "Change File Type"
 msgstr "Τύπος:"
 
-#: views/dolphinview.cpp:2276
+#: views/dolphinview.cpp:2277
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Η τοποθεσία είναι κενή."
 
-#: views/dolphinview.cpp:2278
+#: views/dolphinview.cpp:2279
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Η τοποθεσία «%1» δεν είναι έγκυρη."
 
-#: views/dolphinview.cpp:2614
+#: views/dolphinview.cpp:2615
 #, kde-format
 msgid "Loading…"
 msgstr "Φόρτωση…"
 
-#: views/dolphinview.cpp:2643
+#: views/dolphinview.cpp:2644
 #, kde-format
 msgid "Loading canceled"
 msgstr "Η φόρτωση ακυρώθηκε"
 
-#: views/dolphinview.cpp:2645
+#: views/dolphinview.cpp:2646
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με το φίλτρο"
 
-#: views/dolphinview.cpp:2647
+#: views/dolphinview.cpp:2648
 #, kde-format
 msgid "No items matching the search"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με την αναζήτηση"
 
-#: views/dolphinview.cpp:2649
+#: views/dolphinview.cpp:2650
 #, kde-format
 msgid "Trash is empty"
 msgstr "Ο κάδος απορριμμάτων είναι άδειος"
 
-#: views/dolphinview.cpp:2652
+#: views/dolphinview.cpp:2653
 #, kde-format
 msgid "No tags"
 msgstr "Χωρίς ετικέτες"
 
-#: views/dolphinview.cpp:2655
+#: views/dolphinview.cpp:2656
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Κανένα αρχείο με ετικέτα «%1»"
 
-#: views/dolphinview.cpp:2659
+#: views/dolphinview.cpp:2660
 #, kde-format
 msgid "No recently used items"
 msgstr "Χωρίς πρόσφατα αντικείμενα σε χρήση"
 
-#: views/dolphinview.cpp:2661
+#: views/dolphinview.cpp:2662
 #, kde-format
 msgid "No shared folders found"
 msgstr "Δεν βρέθηκαν κοινόχρηστοι φάκελοι"
 
-#: views/dolphinview.cpp:2663
+#: views/dolphinview.cpp:2664
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Δεν βρέθηκαν σχετικοί δικτυακοί πόροι"
 
-#: views/dolphinview.cpp:2665
+#: views/dolphinview.cpp:2666
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Δεν βρέθηκαν MTP-συμβατές συσκευές"
 
-#: views/dolphinview.cpp:2667
+#: views/dolphinview.cpp:2668
 #, kde-format
 msgid "No Apple devices found"
 msgstr "Δεν βρέθηκαν συσκευές Apple"
 
-#: views/dolphinview.cpp:2669
+#: views/dolphinview.cpp:2670
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Δεν βρέθηκαν συσκευές bluetooth"
 
-#: views/dolphinview.cpp:2671
+#: views/dolphinview.cpp:2672
 #, kde-format
 msgid "Folder is empty"
 msgstr "Ο φάκελος είναι άδειος"
