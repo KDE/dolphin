@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-27 02:33+0000\n"
-"PO-Revision-Date: 2025-12-21 11:54+0100\n"
+"PO-Revision-Date: 2025-12-27 15:16+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -6127,7 +6127,7 @@ msgid ""
 "Press to manage disk space usage."
 msgstr ""
 "%1 von %2 frei (%3 % belegt)\n"
-"Zum Verwalten der Festplattenbelegung bitte drücken."
+"Klicken, um die Festplattenbelegung zu verwalten."
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
