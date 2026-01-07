@@ -439,8 +439,7 @@ QActionGroup *DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
             action->setActionGroup(groupMenuGroup);
             groupMenu->addAction(action);
         }
-        action->setText(isSortGroup ? i18nc("@action:intoolbar as in sort by file attribute", "Sort by: %1", info.translation)
-                                    : i18nc("@action:intoolbar as in show field for file attribute", "Show Field: %1", info.translation));
+        action->setText(info.translation);
         action->setData(info.role);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled);
