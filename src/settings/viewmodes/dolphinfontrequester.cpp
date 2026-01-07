@@ -72,7 +72,8 @@ QFont DolphinFontRequester::customFont() const
 void DolphinFontRequester::openFontDialog()
 {
     bool ok = false;
-    const QFont font = QFontDialog::getFont(&ok, this);
+    const QFont initialFont = currentFont();
+    const QFont font = QFontDialog::getFont(&ok, initialFont, this);
     if (ok) {
         m_customFont = font;
         m_modeCombo->setFont(m_customFont);
