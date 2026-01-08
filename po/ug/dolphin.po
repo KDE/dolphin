@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:45+0000\n"
+"POT-Creation-Date: 2026-01-08 00:46+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -6790,71 +6790,55 @@ msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
 msgstr "سۈزگۈچ بالداقنى كۆرسەت"
 
-#: views/dolphinviewactionhandler.cpp:442
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
-msgctxt "@action:intoolbar as in sort by file attribute"
-msgid "Sort by: %1"
-msgstr "تەرتىپى"
-
-#: views/dolphinviewactionhandler.cpp:443
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
-msgctxt "@action:intoolbar as in show field for file attribute"
-msgid "Show Field: %1"
-msgstr "سۈزگۈچ بالداقنى كۆرسەت"
-
-#: views/dolphinviewactionhandler.cpp:689
+#: views/dolphinviewactionhandler.cpp:688
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "سىنبەلگىلەر"
 
-#: views/dolphinviewactionhandler.cpp:690
+#: views/dolphinviewactionhandler.cpp:689
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "سىنبەلگە كۆرۈنۈش ھالىتى"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:699
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "ئىخچام"
 
-#: views/dolphinviewactionhandler.cpp:701
+#: views/dolphinviewactionhandler.cpp:700
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "ئىخچام كۆرۈنۈش ھالىتى"
 
-#: views/dolphinviewactionhandler.cpp:711
+#: views/dolphinviewactionhandler.cpp:710
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "تەپسىلاتلار"
 
-#: views/dolphinviewactionhandler.cpp:712
+#: views/dolphinviewactionhandler.cpp:711
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "تەپسىلىي كۆرۈنۈش ھالىتى"
 
-#: views/dolphinviewactionhandler.cpp:735
+#: views/dolphinviewactionhandler.cpp:734
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:736
+#: views/dolphinviewactionhandler.cpp:735
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:738
+#: views/dolphinviewactionhandler.cpp:737
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -6862,7 +6846,7 @@ msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "تۇنجىسىدا قىسقۇچنى كۆرسەت"
 
-#: views/dolphinviewactionhandler.cpp:739
+#: views/dolphinviewactionhandler.cpp:738
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -6870,7 +6854,7 @@ msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "تۇنجىسىدا قىسقۇچنى كۆرسەت"
 
-#: views/dolphinviewactionhandler.cpp:741
+#: views/dolphinviewactionhandler.cpp:740
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -6878,7 +6862,7 @@ msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "تۇنجىسىدا قىسقۇچنى كۆرسەت"
 
-#: views/dolphinviewactionhandler.cpp:742
+#: views/dolphinviewactionhandler.cpp:741
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
@@ -6886,7 +6870,7 @@ msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "قىسقۇچ ئالدىدا"
 
-#: views/dolphinviewactionhandler.cpp:744
+#: views/dolphinviewactionhandler.cpp:743
 #, fuzzy, kde-format
 #| msgctxt "@option:option"
 #| msgid "Highest Rating"
@@ -6894,7 +6878,7 @@ msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "ئەڭ يۇقىرى باھا"
 
-#: views/dolphinviewactionhandler.cpp:745
+#: views/dolphinviewactionhandler.cpp:744
 #, fuzzy, kde-format
 #| msgctxt "@option:check"
 #| msgid "Show folders first"
@@ -6902,7 +6886,7 @@ msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "تۇنجىسىدا قىسقۇچنى كۆرسەت"
 
-#: views/dolphinviewactionhandler.cpp:747
+#: views/dolphinviewactionhandler.cpp:746
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Descending"
@@ -6910,7 +6894,7 @@ msgctxt "Sort descending"
 msgid "Descending"
 msgstr "كېمەيگۈچى"
 
-#: views/dolphinviewactionhandler.cpp:748
+#: views/dolphinviewactionhandler.cpp:747
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Sort"
 #| msgid "Ascending"
@@ -6918,7 +6902,7 @@ msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "ئۆسكۈچى"
 
-#: views/dolphinviewactionhandler.cpp:846
+#: views/dolphinviewactionhandler.cpp:845
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -6931,12 +6915,12 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:855
+#: views/dolphinviewactionhandler.cpp:854
 #, kde-format
 msgid "Actions for %1"
 msgstr ""
 
-#: views/dolphinviewactionhandler.cpp:862
+#: views/dolphinviewactionhandler.cpp:861
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
@@ -6966,6 +6950,20 @@ msgstr "كېڭەيت-تارايت"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "كېڭەيت-تارايت"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu View"
+#~| msgid "Sort By"
+#~ msgctxt "@action:intoolbar as in sort by file attribute"
+#~ msgid "Sort by: %1"
+#~ msgstr "تەرتىپى"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu Tools"
+#~| msgid "Show Filter Bar"
+#~ msgctxt "@action:intoolbar as in show field for file attribute"
+#~ msgid "Show Field: %1"
+#~ msgstr "سۈزگۈچ بالداقنى كۆرسەت"
 
 #, fuzzy
 #~| msgctxt "@action:inmenu File"
