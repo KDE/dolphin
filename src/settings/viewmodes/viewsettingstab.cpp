@@ -16,14 +16,17 @@
 
 #include <KLocalizedString>
 
+#include <KColorScheme>
 #include <QApplication>
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QHelpEvent>
+#include <QLabel>
 #include <QRadioButton>
 #include <QSpinBox>
+#include <qfont.h>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     : SettingsPageBase(parent)
@@ -60,6 +63,17 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     // Create "Label" section
     m_fontRequester = new DolphinFontRequester(this);
     topLayout->addRow(i18nc("@label:listbox", "Label font:"), m_fontRequester);
+
+    // Reserved font style warning
+    m_fontWarningLabel = new QLabel(this);
+    m_fontWarningLabel->setWordWrap(true);
+    m_fontWarningLabel->setVisible(false);
+    m_fontWarningLabel->setText(i18nc("@info", "Some font styles are reserved by Dolphin and may be overridden."));
+    topLayout->addRow(QString(), m_fontWarningLabel);
+    KColorScheme scheme(QPalette::Normal);
+    QPalette palette = m_fontWarningLabel->palette();
+    palette.setColor(QPalette::WindowText, scheme.foreground(KColorScheme::InactiveText).color());
+    m_fontWarningLabel->setPalette(palette);
 
     switch (m_mode) {
     case IconsMode: {
@@ -114,6 +128,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     connect(m_defaultSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::changed);
     connect(m_previewSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::changed);
     connect(m_fontRequester, &DolphinFontRequester::changed, this, &ViewSettingsTab::changed);
+    connect(m_fontRequester, &DolphinFontRequester::changed, this, &ViewSettingsTab::checkFontStyle);
 
     switch (m_mode) {
     case IconsMode:
@@ -134,6 +149,23 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
 
 ViewSettingsTab::~ViewSettingsTab()
 {
+}
+
+void ViewSettingsTab::checkFontStyle()
+{
+    const QFont font = m_fontRequester->currentFont();
+    const bool wantsReservedStyle = font.italic() || font.underline() || font.strikeOut();
+
+    // Disabled warning for System Font
+    if (m_fontRequester->mode() != DolphinFontRequester::CustomFont) {
+        m_fontWarningLabel->setVisible(false);
+        return;
+    }
+
+    if (wantsReservedStyle) {
+        m_fontWarningLabel->setVisible(true);
+        return;
+    }
 }
 
 void ViewSettingsTab::applySettings()
@@ -187,7 +219,6 @@ void ViewSettingsTab::applySettings()
 
     settings.setUseSystemFont(useSystemFont);
     settings.setViewFont(font);
-
     settings.save();
 }
 

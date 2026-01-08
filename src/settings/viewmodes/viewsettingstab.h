@@ -15,6 +15,7 @@ class QCheckBox;
 class QSlider;
 class QSpinBox;
 class QRadioButton;
+class QLabel;
 
 /**
  * @brief Represents one tab of the view-settings page.
@@ -36,6 +37,7 @@ private Q_SLOTS:
 
     void slotDefaultSliderMoved(int value);
     void slotPreviewSliderMoved(int value);
+    void checkFontStyle();
 
 private:
     void loadSettings();
@@ -52,6 +54,7 @@ private:
     QRadioButton *m_entireRow;
     QRadioButton *m_iconAndNameOnly;
     QCheckBox *m_expandableFolders;
+    QLabel *m_fontWarningLabel;
 };
 
 #endif
