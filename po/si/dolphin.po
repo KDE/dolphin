@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-08 00:46+0000\n"
+"POT-Creation-Date: 2026-01-09 00:45+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -5769,7 +5769,7 @@ msgctxt "@title:tab how file items columns are displayed"
 msgid "Content Display"
 msgstr "අන්තර්ගතය"
 
-#: settings/viewmodes/viewsettingstab.cpp:49
+#: settings/viewmodes/viewsettingstab.cpp:52
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Default:"
@@ -5777,20 +5777,26 @@ msgctxt "@label:listbox"
 msgid "Default icon size:"
 msgstr "පෙරනිමිය:"
 
-#: settings/viewmodes/viewsettingstab.cpp:56
+#: settings/viewmodes/viewsettingstab.cpp:59
 #, fuzzy, kde-format
 #| msgid "Preview size"
 msgctxt "@label:listbox"
 msgid "Preview icon size:"
 msgstr "පූර්‍වදසුන ප්‍රමාණය"
 
-#: settings/viewmodes/viewsettingstab.cpp:62
+#: settings/viewmodes/viewsettingstab.cpp:65
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Label font:"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:67
+#: settings/viewmodes/viewsettingstab.cpp:71
+#, kde-format
+msgctxt "@info"
+msgid "Some font styles are reserved by Dolphin and may be overridden."
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:81
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Small"
@@ -5798,7 +5804,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Small"
 msgstr "කුඩා"
 
-#: settings/viewmodes/viewsettingstab.cpp:68
+#: settings/viewmodes/viewsettingstab.cpp:82
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Medium"
@@ -5806,7 +5812,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Medium"
 msgstr "මධ්‍යම"
 
-#: settings/viewmodes/viewsettingstab.cpp:69
+#: settings/viewmodes/viewsettingstab.cpp:83
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Text width"
 #| msgid "Large"
@@ -5814,7 +5820,7 @@ msgctxt "@item:inlistbox Label width"
 msgid "Large"
 msgstr "විශාල"
 
-#: settings/viewmodes/viewsettingstab.cpp:70
+#: settings/viewmodes/viewsettingstab.cpp:84
 #, fuzzy, kde-format
 #| msgctxt "@item:inlistbox Text width"
 #| msgid "Huge"
@@ -5822,50 +5828,50 @@ msgctxt "@item:inlistbox Label width"
 msgid "Huge"
 msgstr "විශාල"
 
-#: settings/viewmodes/viewsettingstab.cpp:71
+#: settings/viewmodes/viewsettingstab.cpp:85
 #, fuzzy, kde-format
 #| msgid "Item width"
 msgctxt "@label:listbox"
 msgid "Label width:"
 msgstr "අයිතමයේ පළල"
 
-#: settings/viewmodes/viewsettingstab.cpp:74
+#: settings/viewmodes/viewsettingstab.cpp:88
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:75
+#: settings/viewmodes/viewsettingstab.cpp:89
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "1"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:76
+#: settings/viewmodes/viewsettingstab.cpp:90
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "2"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:77
+#: settings/viewmodes/viewsettingstab.cpp:91
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "3"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:78
+#: settings/viewmodes/viewsettingstab.cpp:92
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "4"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:79
+#: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "5"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:80
+#: settings/viewmodes/viewsettingstab.cpp:94
 #, fuzzy, kde-format
 #| msgctxt "@label:slider"
 #| msgid "Maximum file size:"
@@ -5873,13 +5879,13 @@ msgctxt "@label:listbox"
 msgid "Maximum lines:"
 msgstr "උපරිම ගොනු ප්‍රමාණය:"
 
-#: settings/viewmodes/viewsettingstab.cpp:85
+#: settings/viewmodes/viewsettingstab.cpp:99
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:86
+#: settings/viewmodes/viewsettingstab.cpp:100
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Small"
@@ -5887,7 +5893,7 @@ msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
 msgstr "කුඩා"
 
-#: settings/viewmodes/viewsettingstab.cpp:87
+#: settings/viewmodes/viewsettingstab.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@title:group Size"
 #| msgid "Medium"
@@ -5895,7 +5901,7 @@ msgctxt "@item:inlistbox Maximum width"
 msgid "Medium"
 msgstr "මධ්‍යම"
 
-#: settings/viewmodes/viewsettingstab.cpp:88
+#: settings/viewmodes/viewsettingstab.cpp:102
 #, fuzzy, kde-format
 #| msgctxt "option:check Refers to a filter on image size"
 #| msgid "Large"
@@ -5903,7 +5909,7 @@ msgctxt "@item:inlistbox Maximum width"
 msgid "Large"
 msgstr "විශාල"
 
-#: settings/viewmodes/viewsettingstab.cpp:89
+#: settings/viewmodes/viewsettingstab.cpp:103
 #, fuzzy, kde-format
 #| msgctxt "@label:listbox"
 #| msgid "Text width:"
@@ -5911,14 +5917,14 @@ msgctxt "@label:listbox"
 msgid "Maximum width:"
 msgstr "පෙළ පළල:"
 
-#: settings/viewmodes/viewsettingstab.cpp:93
+#: settings/viewmodes/viewsettingstab.cpp:107
 #, fuzzy, kde-format
 #| msgid "Expandable folders"
 msgctxt "@option:check"
 msgid "Expandable"
 msgstr "විදහිය හැකි බහලුම්"
 
-#: settings/viewmodes/viewsettingstab.cpp:94
+#: settings/viewmodes/viewsettingstab.cpp:108
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Folders"
@@ -5926,20 +5932,20 @@ msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "බහලුම්"
 
-#: settings/viewmodes/viewsettingstab.cpp:97
+#: settings/viewmodes/viewsettingstab.cpp:111
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
 msgstr ""
 
-#: settings/viewmodes/viewsettingstab.cpp:98
+#: settings/viewmodes/viewsettingstab.cpp:112
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
 msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
-#: settings/viewmodes/viewsettingstab.cpp:106
+#: settings/viewmodes/viewsettingstab.cpp:120
 #, fuzzy, kde-format
 #| msgctxt "@label"
 #| msgid "Show folders first when sorting files and folders"
@@ -5947,7 +5953,7 @@ msgctxt "@title:group"
 msgid "Open files and folders:"
 msgstr "ගොණු හා බහාළුම් පෙළ ගැස්වීමේදී බහාළුම් ප්‍රථමයෙන් පෙන්වන්න"
 
-#: settings/viewmodes/viewsettingstab.cpp:248
+#: settings/viewmodes/viewsettingstab.cpp:279
 #: statusbar/dolphinstatusbar.cpp:404
 #, kde-format
 msgctxt "@info:tooltip"
