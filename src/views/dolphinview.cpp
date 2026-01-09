@@ -2435,6 +2435,14 @@ void DolphinView::applyDynamicView()
     const KFileItemList itemList = items();
     bool applyDynamicView = false;
 
+    // If any of the files are expanded, we do not want to interrupt
+    // the user workflow with dynamic changes
+    for (const auto &item : itemList) {
+        if (item.isDir() && isExpanded(item)) {
+            return;
+        }
+    }
+
     for (const auto &file : itemList) {
         ++checkedItems;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
