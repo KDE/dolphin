@@ -256,11 +256,12 @@ DolphinMainWindow::DolphinMainWindow()
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
-    m_fileItemActions.setParentWidget(this);
-    connect(&m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
-        showErrorMessage(errorMessage);
-    });
+    setupFileItemActions();
 
+    m_serviceMenuConfigWatcher = KConfigWatcher::create(KSharedConfig::openConfig(QStringLiteral("kservicemenurc")));
+    connect(m_serviceMenuConfigWatcher.data(), &KConfigWatcher::configChanged, this, [this](const KConfigGroup & /*group*/, const QByteArrayList & /*names*/) {
+        setupFileItemActions();
+    });
     connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged, this, &DolphinMainWindow::slotSplitViewChanged);
 }
 
@@ -1541,7 +1542,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::openContextMenu(const QPoint &pos, const KFileItem &item, const KFileItemList &selectedItems, const QUrl &url)
 {
-    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, &m_fileItemActions);
+    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, m_fileItemActions);
     contextMenu->exec(pos);
 
     // Delete the menu, unless it has been deleted in its own nested event loop already.
@@ -2591,6 +2592,19 @@ void DolphinMainWindow::setupDockWidgets()
     });
 }
 
+void DolphinMainWindow::setupFileItemActions()
+{
+    if (m_fileItemActions) {
+        delete m_fileItemActions;
+    }
+
+    m_fileItemActions = new KFileItemActions(this);
+    m_fileItemActions->setParentWidget(this);
+    connect(m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
+        showErrorMessage(errorMessage);
+    });
+}
+
 void DolphinMainWindow::updateFileAndEditActions()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
@@ -2743,6 +2757,7 @@ void DolphinMainWindow::updateGoActions()
 
 void DolphinMainWindow::refreshViews()
 {
+    setupFileItemActions();
     m_tabWidget->refreshViews();
 
     if (GeneralSettings::modifiedStartupSettings()) {

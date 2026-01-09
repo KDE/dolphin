@@ -39,8 +39,6 @@ const bool ShowDeleteDefault = false;
 const char VersionControlServicePrefix[] = "_version_control_";
 const char DeleteService[] = "_delete";
 const char CopyToMoveToService[] = "_copy_to_move_to";
-
-bool laterSelected = false;
 }
 
 ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionCollection *actions, const QStringList &actionIds)
@@ -200,23 +198,6 @@ void ContextMenuSettingsPage::applySettings()
     if (m_enabledVcsPlugins != enabledPlugins) {
         VersionControlSettings::setEnabledPlugins(enabledPlugins);
         VersionControlSettings::self()->save();
-
-        if (!laterSelected) {
-            KMessageBox::ButtonCode promptRestart =
-                KMessageBox::questionTwoActions(window(),
-                                                i18nc("@info",
-                                                      "Dolphin must be restarted to apply the "
-                                                      "updated version control system settings."),
-                                                i18nc("@info", "Restart now?"),
-                                                KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
-                                                KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later")));
-            if (promptRestart == KMessageBox::ButtonCode::PrimaryAction) {
-                Dolphin::openNewWindow();
-                qApp->quit();
-            } else {
-                laterSelected = true;
-            }
-        }
     }
 }
 
