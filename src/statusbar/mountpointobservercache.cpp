@@ -10,6 +10,9 @@
 
 #include <KMountPoint>
 
+#include <Solid/Device>
+#include <Solid/StorageAccess>
+
 #include <QTimer>
 
 class MountPointObserverCacheSingleton
@@ -40,9 +43,11 @@ MountPointObserver *MountPointObserverCache::observerForUrl(const QUrl &url)
     // If the url is a local path we can extract the root dir by checking the mount points.
     if (url.isLocalFile()) {
         // Try to share the observer with other paths that have the same mount point.
-        KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(url.toLocalFile());
-        if (mountPoint) {
-            cachedObserverUrl = QUrl::fromLocalFile(mountPoint->mountPoint());
+        // Use Solid (rather than KMountPoint) which will likely already have the info from KFilePlacesModel.
+        const auto device = Solid::Device::storageAccessFromPath(url.toLocalFile());
+        const auto *deviceAccess = device.as<Solid::StorageAccess>();
+        if (deviceAccess) {
+            cachedObserverUrl = QUrl::fromLocalFile(deviceAccess->filePath());
         } else {
             // Even if determining the mount point failed, the observer might still
             // be able to retrieve information about the url.
