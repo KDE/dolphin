@@ -6612,11 +6612,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@action:intoolbar as in sort by file attribute"
-#~ msgid "Sort By: %1"
-#~ msgstr "排序方式：%1"
-
-#~ msgctxt "@action:intoolbar as in show field for file attribute"
-#~ msgid "Show Field: %1"
-#~ msgstr "显示字段：%1"
