@@ -112,8 +112,8 @@ WorkerIntegration::WorkerIntegration(DolphinMainWindow *parent, QAction *actAsAd
     : QObject{parent}
     , m_actAsAdminAction{actAsAdminAction}
 {
-    Q_CHECK_PTR(parent);
-    Q_CHECK_PTR(actAsAdminAction);
+    Q_ASSERT(parent);
+    Q_ASSERT(actAsAdminAction);
 
     connect(parent, &DolphinMainWindow::urlChanged, this, &WorkerIntegration::updateActAsAdminAction);
 

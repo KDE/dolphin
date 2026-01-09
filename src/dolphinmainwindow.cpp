@@ -189,11 +189,11 @@ DolphinMainWindow::DolphinMainWindow()
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
     QAction *newDirAction = actionCollection()->action(QStringLiteral("create_dir"));
-    Q_CHECK_PTR(newDirAction);
+    Q_ASSERT(newDirAction);
     m_newFileMenu->setNewFolderShortcutAction(newDirAction);
 
     QAction *newFileAction = actionCollection()->action(QStringLiteral("create_file"));
-    Q_CHECK_PTR(newFileAction);
+    Q_ASSERT(newFileAction);
     m_newFileMenu->setNewFileShortcutAction(newFileAction);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
@@ -271,7 +271,7 @@ DolphinMainWindow::~DolphinMainWindow()
     disconnect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &DolphinMainWindow::updatePasteAction);
 
     // This fixes a crash in dolphinmainwindowtest where the connection below fires even though the KMainWindow destructor of this object is already running.
-    Q_CHECK_PTR(qobject_cast<DolphinDockWidget *>(m_placesPanel->parent()));
+    Q_ASSERT(qobject_cast<DolphinDockWidget *>(m_placesPanel->parent()));
     disconnect(static_cast<DolphinDockWidget *>(m_placesPanel->parent()),
                &DolphinDockWidget::visibilityChanged,
                this,

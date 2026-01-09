@@ -28,7 +28,7 @@ ActionWithWidget::ActionWithWidget(QAction *action, QAbstractButton *button)
 
 QWidget *ActionWithWidget::newWidget(QWidget *parent)
 {
-    Q_CHECK_PTR(m_action);
+    Q_ASSERT(m_action);
     Q_ASSERT(!m_widget);
 
     if (m_action->isSeparator()) {
@@ -45,7 +45,7 @@ QWidget *ActionWithWidget::newWidget(QWidget *parent)
 
 QAbstractButton *SelectionMode::newButtonForAction(QAction *action, QWidget *parent)
 {
-    Q_CHECK_PTR(action);
+    Q_ASSERT(action);
     Q_ASSERT(!action->isSeparator());
 
     if (action->priority() == QAction::LowPriority) {

@@ -47,7 +47,7 @@ int KItemListContainerAccessible::indexOfChild(const QAccessibleInterface *child
 QAccessibleInterface *KItemListContainerAccessible::child(int index) const
 {
     if (index == 0) {
-        Q_CHECK_PTR(static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(container()->controller()->view())));
+        Q_ASSERT(static_cast<KItemListViewAccessible *>(QAccessible::queryAccessibleInterface(container()->controller()->view())));
         return QAccessible::queryAccessibleInterface(container()->controller()->view());
     }
     qWarning("Calling KItemListContainerAccessible::child(index) with index != 0 is always pointless.");
@@ -70,7 +70,7 @@ QAccessible::State KItemListContainerAccessible::state() const
 void KItemListContainerAccessible::doAction(const QString &actionName)
 {
     auto view = static_cast<KItemListViewAccessible *>(child(0));
-    Q_CHECK_PTR(view); // A container should always have a view. Otherwise it has no reason to exist.
+    Q_ASSERT(view); // A container should always have a view. Otherwise it has no reason to exist.
     if (actionName == setFocusAction() && view) {
         view->doAction(actionName);
         return;
@@ -80,6 +80,6 @@ void KItemListContainerAccessible::doAction(const QString &actionName)
 
 const KItemListContainer *KItemListContainerAccessible::container() const
 {
-    Q_CHECK_PTR(qobject_cast<KItemListContainer *>(object()));
+    Q_ASSERT(qobject_cast<KItemListContainer *>(object()));
     return static_cast<KItemListContainer *>(object());
 }

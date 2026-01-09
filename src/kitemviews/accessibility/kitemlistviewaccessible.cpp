@@ -33,7 +33,7 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView *view_, KItemList
     , m_parent(parent)
 {
     Q_ASSERT(view());
-    Q_CHECK_PTR(parent);
+    Q_ASSERT(parent);
     m_accessibleDelegates.resize(childCount());
 
     m_announceCurrentItemTimer = new QTimer{view_};
@@ -362,7 +362,7 @@ bool KItemListViewAccessible::clear()
 
 bool KItemListViewAccessible::isSelected(QAccessibleInterface *childItem) const
 {
-    Q_CHECK_PTR(childItem);
+    Q_ASSERT(childItem);
     return static_cast<KItemListDelegateAccessible *>(childItem)->isSelected();
 }
 
@@ -435,7 +435,7 @@ QStringList KItemListViewAccessible::keyBindingsForAction(const QString &actionN
 
 KItemListView *KItemListViewAccessible::view() const
 {
-    Q_CHECK_PTR(qobject_cast<KItemListView *>(object()));
+    Q_ASSERT(qobject_cast<KItemListView *>(object()));
     return static_cast<KItemListView *>(object());
 }
 

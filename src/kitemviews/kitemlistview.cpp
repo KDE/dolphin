@@ -355,7 +355,7 @@ void KItemListView::setAccessibleParentsObject(KItemListContainer *accessiblePar
 }
 KItemListContainerAccessible *KItemListView::accessibleParent()
 {
-    Q_CHECK_PTR(m_accessibleParent); // We always want the accessibility tree/hierarchy to be complete.
+    Q_ASSERT(m_accessibleParent); // We always want the accessibility tree/hierarchy to be complete.
     return m_accessibleParent;
 }
 #endif

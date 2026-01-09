@@ -863,7 +863,7 @@ void DolphinMainWindowTest::testAccessibilityTree()
     QTRY_VERIFY_WITH_TIMEOUT(QApplication::activeWindow() != nullptr, 100);
 
     QAccessibleInterface *accessibleInterfaceOfMainWindow = QAccessible::queryAccessibleInterface(m_mainWindow.get());
-    Q_CHECK_PTR(accessibleInterfaceOfMainWindow);
+    Q_ASSERT(accessibleInterfaceOfMainWindow);
 
     /// Test the accessibility of objects while traversing forwards (Tab key) and backwards (Shift+Tab).
     int testedObjectsSizeAfterTraversingForwards = 0;

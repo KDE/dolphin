@@ -44,7 +44,7 @@ public:
     /** @returns the action of this object. */
     inline QAction *action()
     {
-        Q_CHECK_PTR(m_action);
+        Q_ASSERT(m_action);
         return m_action;
     };
 

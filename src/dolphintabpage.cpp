@@ -425,7 +425,7 @@ void DolphinTabPage::slotAnimationFinished()
 
 void DolphinTabPage::slotAnimationValueChanged(const QVariant &value)
 {
-    Q_CHECK_PTR(m_expandingContainer);
+    Q_ASSERT(m_expandingContainer);
     const int indexOfExpandingContainer = m_splitter->indexOf(m_expandingContainer);
     int indexOfNonExpandingContainer = -1;
     if (m_expandingContainer == m_primaryViewContainer) {
@@ -533,7 +533,7 @@ DolphinViewContainer *DolphinTabPage::createViewContainer(const QUrl &url) const
 
 void DolphinTabPage::startExpandViewAnimation(DolphinViewContainer *expandingContainer)
 {
-    Q_CHECK_PTR(expandingContainer);
+    Q_ASSERT(expandingContainer);
     Q_ASSERT(expandingContainer == m_primaryViewContainer || expandingContainer == m_secondaryViewContainer);
     m_expandingContainer = expandingContainer;
 

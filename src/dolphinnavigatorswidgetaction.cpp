@@ -326,8 +326,8 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper(QWidge
     : m_navigatorsWidget{navigatorsWidget}
     , m_navigatorsWidgetAction{navigatorsWidgetAction}
 {
-    Q_CHECK_PTR(navigatorsWidget);
-    Q_CHECK_PTR(navigatorsWidgetAction);
+    Q_ASSERT(navigatorsWidget);
+    Q_ASSERT(navigatorsWidgetAction);
 }
 
 bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *watched, QEvent *event)
@@ -351,7 +351,7 @@ bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *w
 
 void DolphinNavigatorsWidgetAction::ViewGeometriesHelper::setViewContainers(QWidget *primaryViewContainer, QWidget *secondaryViewContainer)
 {
-    Q_CHECK_PTR(primaryViewContainer);
+    Q_ASSERT(primaryViewContainer);
     if (m_primaryViewContainer) {
         m_primaryViewContainer->removeEventFilter(this);
     }

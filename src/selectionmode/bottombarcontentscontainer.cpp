@@ -42,7 +42,7 @@ void BottomBarContentsContainer::resetContents(BottomBar::Contents contents)
         updateExplanatoryLabelVisibility();
     });
 
-    Q_CHECK_PTR(m_actionCollection);
+    Q_ASSERT(m_actionCollection);
     m_contents = contents;
     switch (contents) {
     case BottomBar::CopyContents:
@@ -499,7 +499,7 @@ std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFile
 
     // We are going to add the actions from the right-click context menu for the selected items.
     auto *dolphinMainWindow = qobject_cast<DolphinMainWindow *>(window());
-    Q_CHECK_PTR(dolphinMainWindow);
+    Q_ASSERT(dolphinMainWindow);
     if (!m_fileItemActions) {
         m_fileItemActions = new KFileItemActions(this);
         m_fileItemActions->setParentWidget(dolphinMainWindow);
