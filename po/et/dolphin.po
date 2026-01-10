@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-08 02:41+0000\n"
+"POT-Creation-Date: 2026-01-10 03:00+0000\n"
 "PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -6546,76 +6546,76 @@ msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Asukoht '%1' on vigane."
 
-#: views/dolphinview.cpp:2614
+#: views/dolphinview.cpp:2622
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Loading…"
 msgstr "Laadimine ..."
 
-#: views/dolphinview.cpp:2643
+#: views/dolphinview.cpp:2651
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Kataloogi laadimine..."
 
-#: views/dolphinview.cpp:2645
+#: views/dolphinview.cpp:2653
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Filtrile ei vasta ükski element"
 
-#: views/dolphinview.cpp:2647
+#: views/dolphinview.cpp:2655
 #, kde-format
 msgid "No items matching the search"
 msgstr "Otsingule ei vasta ükski element"
 
-#: views/dolphinview.cpp:2649
+#: views/dolphinview.cpp:2657
 #, kde-format
 msgid "Trash is empty"
 msgstr "Prügikast on tühi"
 
-#: views/dolphinview.cpp:2652
+#: views/dolphinview.cpp:2660
 #, kde-format
 msgid "No tags"
 msgstr "Silte pole"
 
-#: views/dolphinview.cpp:2655
+#: views/dolphinview.cpp:2663
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2659
+#: views/dolphinview.cpp:2667
 #, kde-format
 msgid "No recently used items"
 msgstr "Viimati kasutatud elemente pole"
 
-#: views/dolphinview.cpp:2661
+#: views/dolphinview.cpp:2669
 #, kde-format
 msgid "No shared folders found"
 msgstr "Jagatud katalooge ei leitud"
 
-#: views/dolphinview.cpp:2663
+#: views/dolphinview.cpp:2671
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Asjakohaseid võrguressursse ei leitud"
 
-#: views/dolphinview.cpp:2665
+#: views/dolphinview.cpp:2673
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "MTP-ga ühilduvaid seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2667
+#: views/dolphinview.cpp:2675
 #, fuzzy, kde-format
 #| msgid "No Bluetooth devices found"
 msgid "No Apple devices found"
 msgstr "Bluetoothi-seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2669
+#: views/dolphinview.cpp:2677
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Bluetoothi-seadmeid ei leitud"
 
-#: views/dolphinview.cpp:2671
+#: views/dolphinview.cpp:2679
 #, kde-format
 msgid "Folder is empty"
 msgstr "Kataloog on tühi"
