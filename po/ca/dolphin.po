@@ -6884,11 +6884,3 @@ msgstr "Zoom"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zoom"
-
-#~ msgctxt "@action:intoolbar as in sort by file attribute"
-#~ msgid "Sort By: %1"
-#~ msgstr "Ordena per: %1"
-
-#~ msgctxt "@action:intoolbar as in show field for file attribute"
-#~ msgid "Show Field: %1"
-#~ msgstr "Mostra el camp: %1"
