@@ -5438,7 +5438,7 @@ msgstr "标签字体："
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "一些字体样式由 Dolphin 保留且可能被覆盖。"
 
 #: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
@@ -6618,13 +6618,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr "更新了版本控制系统的设置后，必须重启 Dolphin 才能使其生效。"
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "现在重新启动吗？"

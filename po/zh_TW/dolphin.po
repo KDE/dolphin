@@ -3,7 +3,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2023, 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2025, 2026 Kisaragi Hiu <mail@kisaragi-hiu.com>
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2007, 2008, 2009, 2010.
 # Frank Weng (a.k.a. Franklin) <franklin@mail.everfocus.com.tw>, 2007.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-10 00:45+0000\n"
-"PO-Revision-Date: 2025-12-16 21:48+0900\n"
+"PO-Revision-Date: 2026-01-13 01:38+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -5394,7 +5394,7 @@ msgctxt ""
 "Accessible description for custom command text field of double click view "
 "background setting"
 msgid "Enter custom command to trigger when double clicking view background"
-msgstr "輸入雙擊檢視背景時要觸發的自訂命令"
+msgstr "輸入對檢視背景點兩下時要觸發的自訂命令"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:168
 #, kde-format
