@@ -73,6 +73,7 @@ ViewPropertySettings *ViewProperties::loadProperties(const QString &folderPath) 
     // load from metadata
     const QString viewPropertiesString = metadata.attribute(QStringLiteral("kde.fm.viewproperties#1"));
     if (viewPropertiesString.isEmpty()) {
+        QFile::remove(tempFile->fileName());
         return nullptr;
     }
     // load view properties from xattr to temp file then loads into ViewPropertySettings
@@ -532,6 +533,16 @@ void ViewProperties::save()
 
         const auto items = m_node->items();
         const auto defaultConfig = defaultProperties();
+
+        auto cleanupDefaultConfig = qScopeGuard([defaultConfig] {
+            // Usually it should be a temporary file, but it can be '.directory', 
+            // if we read this file from the 'global' directory .directory file it means it did not support attributes,
+            // then keep the '.directory' file from 'global' here, otherwise we can remove it.
+            if (!defaultConfig->config()->name().endsWith(ViewPropertiesFileName)) {
+                QFile::remove(defaultConfig->config()->name());
+            }
+        });
+
         bool allDefault = true;
         for (const auto item : items) {
             if (item->name() == "Timestamp") {

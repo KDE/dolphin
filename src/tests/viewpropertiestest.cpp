@@ -27,6 +27,7 @@ private Q_SLOTS:
     void testAutoSave();
     void testParamMigrationToFileAttr();
     void testParamMigrationToFileAttrKeepDirectory();
+    void testGlobalDefaultConfigFromDirectory();
     void testExtendedAttributeFull();
     void testUseAsDefaultViewSettings();
     void testUseAsCustomDefaultViewSettings();
@@ -64,6 +65,10 @@ void ViewPropertiesTest::cleanup()
 
     GeneralSettings::self()->setGlobalViewProps(m_globalViewProps);
     GeneralSettings::self()->save();
+
+    // Check that we do not have temp files left after test case.
+    QDir tempDir(QDir::tempPath());
+    QVERIFY(tempDir.entryList(QStringList() << QCoreApplication::applicationName() + "*", QDir::Files).length() == 0);
 }
 
 /**
@@ -233,6 +238,55 @@ ThoseShouldBeKept=true
     QCOMPARE(props.viewMode(), DolphinView::Mode::DetailsView);
 
     QVERIFY(QFile::exists(dotDirectoryFilePath));
+}
+
+void ViewPropertiesTest::testGlobalDefaultConfigFromDirectory()
+{
+    QUrl globalPropertiesPath =
+        QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).append("/view_properties/").append(QStringLiteral("global")));
+    QVERIFY(QDir().mkpath(globalPropertiesPath.toLocalFile()));
+    
+    QString dotDirectoryFilePath = globalPropertiesPath.toLocalFile() + "/.directory";
+    QVERIFY(!QFile::exists(dotDirectoryFilePath));
+
+    auto cleanupGlobalDir = qScopeGuard([globalPropertiesPath, dotDirectoryFilePath] {
+        QFile::remove(dotDirectoryFilePath);
+        QDir().rmdir(globalPropertiesPath.toLocalFile());
+    });
+
+    const char *settingsContent = R"SETTINGS("
+[Dolphin]
+Version=4
+ViewMode=1
+Timestamp=2023,12,29,10,44,15.793
+VisibleRoles=text,CustomizedDetails,Details_text,Details_modificationtime,Details_type
+
+[Settings]
+HiddenFilesShown=true
+
+[Other]
+ThoseShouldBeKept=true
+)SETTINGS";
+    auto dotDirectoryFile = QFile(dotDirectoryFilePath);
+    QVERIFY(dotDirectoryFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate));
+    QTextStream out(&dotDirectoryFile);
+    out << settingsContent;
+    dotDirectoryFile.close();
+
+    ViewProperties props(m_testDir->url());
+    props.save();
+
+    // We delete a temporary file in 'ViewProperties::save()' after reading the default config, 
+    // and that temp file is created as copy from '.directory' if we have metadata enabled.
+    //
+    // But it can be original '.directory' instead of temp file, 
+    // if we read default config from 'global' directory, which does not support attributes.
+    // So we make sure that it is not deleted here, 
+    // because we do not want to delete '.directory' file.
+    QVERIFY(QFile::exists(dotDirectoryFilePath));
+
+    QVERIFY(props.hiddenFilesShown());
+    QCOMPARE(props.viewMode(), DolphinView::Mode::DetailsView);
 }
 
 void ViewPropertiesTest::testExtendedAttributeFull()
