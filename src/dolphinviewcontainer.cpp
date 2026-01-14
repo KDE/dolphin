@@ -793,7 +793,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
 
         // in case KIO::WidgetsOpenOrExecuteFileHandler::promptUserOpenOrExecute would not open the file
         if (value != QLatin1String("open")) {
-            indexOfAppToOpenFileWith = 0;
+            --indexOfAppToOpenFileWith;
         }
     }
 
