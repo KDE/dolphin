@@ -6850,23 +6850,3 @@ msgstr "Zvětšení"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Přiblížení"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr ""
-#~ "Je třeba restartovat Dolphin kvůli aktualizaci nastavení systému pro "
-#~ "správu verzí."
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "Restartovat nyní?"
-
-#~ msgctxt "@action:intoolbar as in sort by file attribute"
-#~ msgid "Sort by: %1"
-#~ msgstr "Řadit podle: %1"
-
-#~ msgctxt "@action:intoolbar as in show field for file attribute"
-#~ msgid "Show Field: %1"
-#~ msgstr "Zobrazit pole: %1"
