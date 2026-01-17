@@ -263,6 +263,7 @@ DolphinMainWindow::DolphinMainWindow()
         setupFileItemActions();
     });
     connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged, this, &DolphinMainWindow::slotSplitViewChanged);
+    connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinMainWindow::slotTabBarChanged);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -526,6 +527,12 @@ void DolphinMainWindow::slotSplitViewChanged()
 {
     m_tabWidget->currentTabPage()->setSplitViewEnabled(GeneralSettings::splitView(), WithAnimation);
     updateSplitActions();
+}
+
+void DolphinMainWindow::slotTabBarChanged()
+{
+    m_tabWidget->setTabBarAutoHide(!GeneralSettings::alwaysShowTabBar());
+    m_tabWidget->tabBar()->setTabsClosable(GeneralSettings::showCloseButtonOnTabs());
 }
 
 void DolphinMainWindow::openInNewTab()

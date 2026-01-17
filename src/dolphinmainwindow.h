@@ -228,6 +228,9 @@ public Q_SLOTS:
     /** @see GeneralSettings::splitViewChanged() */
     void slotSplitViewChanged();
 
+    /** @see GeneralSettings::tabBarChanged() */
+    void slotTabBarChanged();
+
 Q_SIGNALS:
     /**
      * Is sent if the selection of the currently active view has

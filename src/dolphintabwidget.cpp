@@ -44,7 +44,8 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
     setDocumentMode(true);
     setElideMode(Qt::ElideRight);
     setUsesScrollButtons(true);
-    setTabBarAutoHide(true);
+    setTabBarAutoHide(!GeneralSettings::alwaysShowTabBar());
+    tabBar->setTabsClosable(GeneralSettings::showCloseButtonOnTabs());
 
     auto stackWidget{findChild<QStackedWidget *>()};
     // i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
