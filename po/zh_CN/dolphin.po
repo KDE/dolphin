@@ -2651,7 +2651,7 @@ msgstr "日期格式可以在设置中更改。"
 #: kitemviews/kfileitemmodel.cpp:2776
 msgctxt "@label"
 msgid "Created"
-msgstr "创建日期"
+msgstr "创建时间"
 
 #: kitemviews/kfileitemmodel.cpp:2777
 msgctxt "@label"

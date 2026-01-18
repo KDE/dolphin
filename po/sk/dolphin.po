@@ -8,20 +8,20 @@
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020, 2021, 2022.
 # Dušan Kazik <prescott66@gmail.com>, 2020.
 # Ferdinand Galko <galko.ferdinand@gmail.com>, 2023.
-# SPDX-FileCopyrightText: 2025 Lucia Mrenica <lucia.mrenica@gmail.com>
+# SPDX-FileCopyrightText: 2025, 2026 Lucia Mrenica <lucia.mrenica@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-10 03:00+0000\n"
-"PO-Revision-Date: 2025-11-16 15:28+0100\n"
+"PO-Revision-Date: 2026-01-17 18:18+0100\n"
 "Last-Translator: Lucia Mrenica <lucia.mrenica@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.11.80\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -39,13 +39,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Acting as an Administrator — Be careful!"
-msgstr ""
+msgstr "Konanie ako správca — buďte opatrní!"
 
 #: admin/bar.cpp:46
 #, kde-format
 msgctxt "@info label above the view explaining the state, keep short"
 msgid "Acting as Admin"
-msgstr ""
+msgstr "Konanie ako Admin"
 
 #: admin/bar.cpp:55
 #, kde-format
@@ -57,25 +57,25 @@ msgstr "Dokončiť"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Finish acting as an administrator"
-msgstr ""
+msgstr "Ukončiť konanie správcu"
 
 #: admin/bar.cpp:140
 #, kde-format
 msgctxt "@action:button shown after acting as admin ended"
 msgid "Act as Administrator Again"
-msgstr ""
+msgstr "Znovu konať ako správca"
 
 #: admin/bar.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "Administrator authorization has expired."
-msgstr ""
+msgstr "Oprávnenie správcu vypršalo."
 
 #: admin/workerintegration.cpp:33
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Act as Administrator"
-msgstr ""
+msgstr "Konať ako správca"
 
 #: admin/workerintegration.cpp:54
 #, kde-kuit-format
@@ -85,18 +85,21 @@ msgid ""
 "manage system-controlled files, but it is not installed.<nl/>Press %2 to "
 "install <application>%1</application> or %3 to cancel."
 msgstr ""
+"<application>Dolphin</application> vyžaduje <application>%1</application> na "
+"správu súborov kontrolovaných systémom, ale nie je nainštalovaný.<nl/"
+">Stlačte %2 na inštaláciu <application>%1</application> alebo %3 na zrušenie."
 
 #: admin/workerintegration.cpp:76
 #, kde-format
 msgctxt "tag-format-pattern <numberedlist> rich"
 msgid "<ol>%1</ol>"
-msgstr ""
+msgstr "<ol>%1</ol>"
 
 #: admin/workerintegration.cpp:77
 #, kde-format
 msgctxt "tag-format-pattern <numbereditem> rich"
 msgid "<li>%1</li>"
-msgstr ""
+msgstr "<li>%1</li>"
 
 #: admin/workerintegration.cpp:82
 #, kde-kuit-format
@@ -110,12 +113,19 @@ msgid ""
 "numbereditem><numbereditem>After authorization you can manage files as an "
 "administrator.</numbereditem></numberedlist></para>"
 msgstr ""
+"<para>Využite svoje práva správcu v programe Dolphin:"
+"<numberedlist><numbereditem>Prejdite k súboru alebo priečinku, ktorý chcete "
+"zmeniť.</numbereditem><numbereditem>Aktivujte akciu „%1“ buď v "
+"<interface>Otvor menu|Viac|Zobraziť</interface> alebo <interface>Lišta menu|"
+"Zobraziť</interface>.<nl/>Predvolená skratka: <shortcut>%2</shortcut></"
+"numbereditem><numbereditem>Po autorizácii môžete spravovať súbory ako "
+"správca.</numbereditem></numberedlist></para>"
 
 #: admin/workerintegration.cpp:89
 #, kde-format
 msgctxt "@title:window"
 msgid "How to Administrate"
-msgstr ""
+msgstr "Ako spravovať"
 
 #: admin/workerintegration.cpp:98
 #, kde-kuit-format
@@ -132,24 +142,34 @@ msgid ""
 "system.</para><para>You might want to <emphasis>backup files and folders</"
 "emphasis> before proceeding.</para>"
 msgstr ""
+"<para>Chystáte sa použiť oprávnenia správcu. Ako správca môžete zmeniť alebo "
+"nahradiť akýkoľvek súbor alebo priečinok v tomto systéme. To zahŕňa aj "
+"položky, ktoré sú kritické pre fungovanie tohto systému.</para><para>Môžete "
+"<emphasis>vymazať všetky údaje používateľov</emphasis> v tomto počítači a "
+"<emphasis>neopraviteľne poškodiť túto inštaláciu.</emphasis> Pridaním "
+"jediného písmena do názvu priečinka alebo súboru alebo do ich obsahu môžete "
+"spôsobiť, že systém <emphasis>nebude možné spustiť.</emphasis></"
+"para><para>Pravdepodobne už nebude ďalšie varovanie, aj keby ste sa chystali "
+"poškodiť tento systém.</para><para>Pred pokračovaním by ste mali "
+"<emphasis>zálohovať súbory a priečinky</emphasis>.</para>"
 
 #: admin/workerintegration.cpp:161
 #, kde-format
 msgctxt "@title:window"
 msgid "Risks of Acting as an Administrator"
-msgstr ""
+msgstr "Riziká spojené s vykonávaním funkcie správcu"
 
 #: admin/workerintegration.cpp:163
 #, kde-format
 msgctxt "@action:button"
 msgid "I Understand and Accept These Risks"
-msgstr ""
+msgstr "Rozumiem týmto rizikám a akceptujem ich."
 
 #: admin/workerintegration.cpp:165
 #, kde-format
 msgctxt "@option:check"
 msgid "Do not warn me about these risks again"
-msgstr ""
+msgstr "Už ma viac neupozorňujte na tieto riziká"
 
 #: dolphincontextmenu.cpp:126
 #, kde-format
@@ -357,6 +377,8 @@ msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Nie je možné vytvoriť nový súbor: Nemáte oprávnenie vytvárať položky v tejto "
+"zložke."
 
 #: dolphinmainwindow.cpp:1524
 #, kde-format
@@ -757,6 +779,10 @@ msgid ""
 "them.</para><para>The view that is not \"in focus\" will be dimmed. </"
 "para>Click this button again to close one of the views."
 msgstr ""
+"<para>Týmto sa vedľa aktuálneho zobrazenia zobrazí druhé zobrazenie, takže "
+"môžete vidieť obsah dvoch priečinkov naraz a ľahko presúvať položky medzi "
+"nimi. </para><para>Zobrazenie, ktoré nie je „zaostrené“, bude stmavené. </"
+"para>Kliknutím na toto tlačidlo znovu zatvoríte jedno zo zobrazení."
 
 #: dolphinmainwindow.cpp:2033
 #, kde-kuit-format
@@ -765,6 +791,8 @@ msgid ""
 "If the view has been split, this will pop the view in focus out into a new "
 "window."
 msgstr ""
+"Ak je zobrazenie rozdelené, toto otvorí zobrazenie v centre pozornosti v "
+"novom okne."
 
 #: dolphinmainwindow.cpp:2041
 #, kde-format
@@ -938,7 +966,7 @@ msgstr "Porovnať súbory"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Správa využitia miesta na disku"
 
 #: dolphinmainwindow.cpp:2182
 #, kde-kuit-format
@@ -1284,7 +1312,7 @@ msgstr "Zamerať panel terminálu"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
-msgstr ""
+msgstr "Presuňte fokus klávesnice na panel Terminál a späť."
 
 #: dolphinmainwindow.cpp:2485
 #, kde-format
@@ -1571,7 +1599,7 @@ msgstr "Rozdelené zobrazenie"
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
-msgstr ""
+msgstr "Vyskočiť"
 
 #: dolphinmainwindow.cpp:2896
 #, kde-kuit-format
@@ -1852,13 +1880,13 @@ msgstr[2] "Panely umiestnenia"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Nenašiel sa balík %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Inštalácia bola ukončená bez oznámenia úspešného dokončenia. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -1869,6 +1897,8 @@ msgid ""
 "Installing <application>%1</application> failed: %2 (%3)<nl/>Please try "
 "installing <application>%1</application> manually instead."
 msgstr ""
+"Inštalácia <application>%1</application> sa nepodarila: %2 (%3)<nl/>Skúste "
+"namiesto toho nainštalovať <application>%1</application> ručne."
 
 #: dolphinpart.cpp:149
 #, kde-format
@@ -2112,7 +2142,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Táto zložka nie je pre vás zapisovateľná."
 
 #: dolphinviewcontainer.cpp:104
 #, kde-format
@@ -2174,7 +2204,7 @@ msgstr "Neplatný protokol"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Na vstup do tejto zložky je potrebné povolenie."
 
 #: dolphinviewcontainer.cpp:1014
 #, fuzzy, kde-format
@@ -2188,13 +2218,13 @@ msgstr "Priečinok vytvorený."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Create the folder at this path and open it"
-msgstr ""
+msgstr "Vytvorte priečinok v tejto ceste a otvorte ho."
 
 #: dolphinviewcontainer.cpp:1034
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "You do not have permission to create the folder"
-msgstr ""
+msgstr "Nemáte oprávnenie na vytvorenie priečinka."
 
 #: dolphinviewcontainer.cpp:1078 dolphinviewcontainer.cpp:1081
 #, kde-kuit-format
@@ -2230,7 +2260,7 @@ msgstr "Skryť"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Unhide"
-msgstr ""
+msgstr "Odkryť"
 
 #: itemactions/movetonewfolderitemaction.cpp:37
 #, kde-format
@@ -2346,7 +2376,7 @@ msgstr "Pošta"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Music"
-msgstr ""
+msgstr "Hudba"
 
 #: itemactions/setfoldericonitemaction.cpp:210
 #, kde-format
@@ -2364,7 +2394,7 @@ msgstr "Komprimované"
 #, kde-format
 msgctxt "@label as in default folder color"
 msgid "Temporary"
-msgstr ""
+msgstr "Dočasný súbor"
 
 #: itemactions/setfoldericonitemaction.cpp:213
 #, kde-format
@@ -2376,7 +2406,7 @@ msgstr "Dôležité"
 #, kde-format
 msgctxt "@label %1 is a folder icon name (Red, Music...) etc"
 msgid "Set folder icon to %1"
-msgstr ""
+msgstr "Nastaviť ikonu priečinka na %1"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:142
 #, kde-format
@@ -2388,13 +2418,13 @@ msgstr "skryté"
 #, kde-format
 msgctxt "@info enumeration saying this is a link to $1, %1 is mimeType"
 msgid ", link to %1 at %2"
-msgstr ""
+msgstr ", odkaz na %1 na %2"
 
 #: kitemviews/accessibility/kitemlistdelegateaccessible.cpp:166
 #, kde-format
 msgctxt "@info enumeration, %1 is mimeType"
 msgid ", %1"
-msgstr ""
+msgstr ", %1"
 
 #. i18n: The text starts with a comma because multiple occurrences of this text can follow after each others as an enumeration.
 #. Normally it would make sense to have a colon between property and value to make the relation between the property and its property value
@@ -2406,7 +2436,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info accessibility enumeration, %1 is property, %2 is value"
 msgid ", %1 %2"
-msgstr ""
+msgstr ", %1 %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:268
 #, kde-format
@@ -2414,19 +2444,19 @@ msgctxt ""
 "@info 1 states that the folder is empty and sometimes why, 2 is the full "
 "filesystem path"
 msgid "%1 at location %2"
-msgstr ""
+msgstr "%1 na umiestnení %2"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:284
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in selection mode in location %1"
-msgstr ""
+msgstr "v mriežkovom rozložení v režime výberu v umiestnení %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:286
 #, kde-format
 msgctxt "@info accessibility, 1 is path"
 msgid "in a grid layout in location %1"
-msgstr ""
+msgstr "v mriežkovom rozložení v umiestnení %1"
 
 #: kitemviews/accessibility/kitemlistviewaccessible.cpp:290
 #, fuzzy, kde-format
@@ -3121,6 +3151,8 @@ msgid ""
 "Running <application>Dolphin</application> with <command>sudo</command> is "
 "discouraged. Please run <icode>%1</icode> instead."
 msgstr ""
+"Spúšťanie <application>Dolphin</application> pomocou <command>sudo</command> "
+"sa odporúča. Namiesto toho spustite <icode>%1</icode>."
 
 #: main.cpp:95
 #, kde-format
@@ -3294,7 +3326,7 @@ msgstr "Dolphin sa otvorí v novom okne."
 #, kde-format
 msgctxt "@info:shell"
 msgid "Set up Dolphin for administrative tasks."
-msgstr ""
+msgstr "Nastavte Dolphin pre administratívne úlohy."
 
 #: main.cpp:144
 #, kde-format
@@ -3526,12 +3558,21 @@ msgid ""
 "or the results.</item><item>Press the “Save” icon to add the current search "
 "configuration to the <emphasis>Places panel</emphasis>.</item></list></para>"
 msgstr ""
+"<para>Toto vám pomôže nájsť súbory a priečinky.<list><item>Do vstupného poľa "
+"zadajte <emphasis>hľadaný výraz</emphasis>.</item><item>Rozhodnite sa, kde "
+"chcete hľadať, stlačením tlačidiel umiestnenia pod vyhľadávacím poľom. „Tu“ "
+"sa vzťahuje na umiestnenie, ktoré bolo otvorené pred začatím vyhľadávania, "
+"takže prechodom na iné umiestnenie môžete vyhľadávanie zúžiť.</"
+"item><item>Stlačením tlačidla „%1“ môžete ďalej spresniť spôsob vyhľadávania "
+"alebo výsledky. </item><item>Stlačením ikony „Uložiť“ pridáte aktuálnu "
+"konfiguráciu vyhľadávania do <emphasis>panela Miesta</emphasis>. </item></"
+"list></para>"
 
 #: search/bar.cpp:213
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Search in file contents…"
-msgstr ""
+msgstr "Hľadať v obsahu súboru…"
 
 #: search/bar.cpp:227
 #, fuzzy, kde-kuit-format
@@ -3550,7 +3591,7 @@ msgstr "Obmedziť hľadanie na '%1' a podpriečinky"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search all directories from the root up."
-msgstr ""
+msgstr "Vyhľadajte všetky adresáre od koreňa nahor."
 
 #. i18n: Tooltip for "Everywhere" button as opposed to searching for files in specific folders. The search tool uses
 #. file indexing and will therefore only be able to search through directories which have been put into a data base.
@@ -3562,6 +3603,9 @@ msgid ""
 "Search all indexed locations.<nl/><nl/>Configure which locations are indexed "
 "in <interface>System Settings|Workspace|Search</interface>."
 msgstr ""
+"Vyhľadávanie vo všetkých indexovaných lokalitách.<nl/><nl/>Nastavte, ktoré "
+"lokality sa majú indexovať v <interface>Nastavenia systému|Pracovný priestor|"
+"Vyhľadávanie</interface>."
 
 #: search/chip.cpp:21
 #, kde-format
@@ -3602,7 +3646,7 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr ""
+msgstr "Súbory obsahujúce „%1“ v %2"
 
 #: search/dolphinquery.cpp:395
 #, fuzzy, kde-format
@@ -3619,7 +3663,7 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr ""
+msgstr "Vyhľadaj položky označené „%1“ a „%2“ v %3"
 
 #: search/dolphinquery.cpp:407
 #, fuzzy, kde-format
@@ -3649,19 +3693,19 @@ msgstr "Výsledky hľadania pre \"%1\""
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr ""
+msgstr "Súbory obsahujúce „%1“"
 
 #: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr ""
+msgstr "Vyhľadávanie položiek označených „%1“"
 
 #: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr ""
+msgstr "Vyhľadaj položky označené „%1“ a „%2“"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
@@ -3731,6 +3775,18 @@ msgid ""
 "modifying your copy. If any issues arise, delete your copy <filename>%3</"
 "filename> to revert your changes.</para>"
 msgstr ""
+"<para>Pri vyhľadávaní v obsahu súborov sa <application>%1</application> "
+"pokúsi použiť vyhľadávacie nástroje tretích strán, ak sú v tomto systéme k "
+"dispozícii a očakáva sa, že prinesú lepšie alebo rýchlejšie výsledky. "
+"<application>ripgrep</application> a <application>ripgrep-all</application> "
+"môžu zlepšiť vaše vyhľadávanie, ak sú nainštalované. <application>ripgrep-"
+"all</application> konkrétne umožňuje vyhľadávanie vo viacerých typoch "
+"súborov (napr. pdf, docx, sqlite, jpg, titulky k filmom (mkv, mp4)). </"
+"para><para>Spôsob, akým sa tieto vyhľadávacie nástroje vyvolávajú, je možné "
+"nakonfigurovať úpravou skriptového súboru. Pred úpravou svojej kópie ho "
+"skopírujte z <filename>%2</filename> do <filename>%3</filename>. Ak nastanú "
+"akékoľvek problémy, odstráňte svoju kópiu <filename>%3</filename>, aby ste "
+"vrátili svoje zmeny späť.</para>"
 
 #: search/popup.cpp:165
 #, kde-format
@@ -3770,7 +3826,7 @@ msgstr "Značky:"
 #, kde-format
 msgctxt "@label above 'Install KFind'/'Open KFind' button"
 msgid "For more advanced searches:"
-msgstr ""
+msgstr "Pre pokročilejšie vyhľadávanie:"
 
 #: search/popup.cpp:276
 #, kde-kuit-format
@@ -3780,6 +3836,10 @@ msgid ""
 "application> is currently not possible because <application>%2</application> "
 "is configured to never create a search index of that location.</para>"
 msgstr ""
+"<para>Vyhľadávanie v <filename>%1</filename> pomocou <application>%2</"
+"application> nie je momentálne možné, pretože <application>%2</application> "
+"je nakonfigurované tak, aby nikdy nevytváralo vyhľadávací index tejto "
+"lokality.</para>"
 
 #: search/popup.cpp:283
 #, kde-kuit-format
@@ -3789,12 +3849,16 @@ msgid ""
 "currently not possible because <application>%1</application> is configured "
 "to never create a search index for file contents.</para>"
 msgstr ""
+"<para>Vyhľadávanie v obsahu súborov pomocou <application>%1</application> "
+"nie je momentálne možné, pretože <application>%1</application> je "
+"nakonfigurované tak, aby nikdy nevytváralo vyhľadávací index pre obsah "
+"súborov.</para>"
 
 #: search/popup.cpp:292
 #, kde-format
 msgctxt "@info make a warning paragraph bold before other paragraphs"
 msgid "<b>%1</b>"
-msgstr ""
+msgstr "<b>%1</b>"
 
 #: search/popup.cpp:295
 #, kde-kuit-format
@@ -3812,6 +3876,18 @@ msgid ""
 "and their contents might also not be searched depending on how <application>"
 "%1</application> is configured.</item></list></para>"
 msgstr ""
+"<para><application>%1</application> používa na vyhľadávanie databázu. "
+"Databáza sa vytvára indexovaním vašich súborov na pozadí na základe toho, "
+"ako je <application>%1</application> nakonfigurovaný."
+"<list><item><application>%1</application> poskytuje výsledky extrémne rýchlo."
+"</item><item>Umožňuje vyhľadávať typy súborov, dátumy, tagy atď.</"
+"item><item>Vyhľadáva iba v indexovaných priečinkoch. Nastavte, ktoré "
+"priečinky sa majú indexovať v <application>Nastaveniach systému</"
+"application>.</item><item>Ak vyhľadávané miesta obsahujú odkazy na iné "
+"súbory alebo priečinky, tie sa nebudú vyhľadávať ani zobrazovať vo "
+"výsledkoch vyhľadávania.</item><item>Skryté súbory a priečinky a ich obsah "
+"sa tiež nemusia vyhľadávať v závislosti od toho, ako je <application>%1</"
+"application> nakonfigurovaná.</item></list></para>"
 
 #: search/popup.cpp:307
 #, kde-format
@@ -3842,7 +3918,7 @@ msgstr "Inštalovať Konsole"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>KFind</application> installed successfully."
-msgstr ""
+msgstr "<application>KFind</application> bola úspešne nainštalovaná."
 
 #: search/popup.cpp:368
 #, fuzzy, kde-format
@@ -3906,7 +3982,7 @@ msgstr "5"
 msgctxt ""
 "list separator for file tags e.g. all images tagged 'family & party & 2025'"
 msgid " && "
-msgstr ""
+msgstr " && "
 
 #: search/selectors/tagsselector.cpp:182
 #, kde-format
@@ -4262,7 +4338,7 @@ msgstr "Odstrániť"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Vstavaný dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -4624,7 +4700,7 @@ msgstr "Kedy naposledy zmenil užívateľ vlastnosti."
 #, kde-format
 msgctxt "@label"
 msgid "View mode changed once by dynamic view"
-msgstr ""
+msgstr "Režim zobrazenia sa raz zmenil dynamickým zobrazením"
 
 #. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:87
@@ -4853,13 +4929,13 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:153
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
-msgstr ""
+msgstr "Skryť aj súbory s typom MIME application/x-trash"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
 #: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Enable dynamic view"
-msgstr ""
+msgstr "Povoliť dynamický pohľad"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:163
@@ -5003,13 +5079,13 @@ msgstr "Otváranie viacerých terminálov naraz"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Switching to act as an administrator"
-msgstr ""
+msgstr "Prechod do režimu správcu"
 
 #: settings/interface/confirmationssettingspage.cpp:69
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Renaming a file will change its type"
-msgstr ""
+msgstr "Pomenovanie súboru zmení jeho typ"
 
 #: settings/interface/confirmationssettingspage.cpp:71
 #, kde-format
@@ -5151,6 +5227,8 @@ msgid ""
 "When unchecked, the opposite view will be closed. The Close icon always "
 "illustrates which view (left or right) will be closed."
 msgstr ""
+"Ak nie je zaškrtnuté, uzavrie sa opačný pohľad. Ikona Zatvoriť vždy "
+"znázorňuje, ktorý pohľad (ľavý alebo pravý) sa uzavrie."
 
 #: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
@@ -5248,6 +5326,8 @@ msgid ""
 "Panel settings are also available through their context menu. Open it by "
 "pressing the right mouse button on a panel."
 msgstr ""
+"Nastavenia panela sú dostupné aj prostredníctvom kontextového menu. Otvoríte "
+"ho kliknutím pravým tlačidlom myši na panel."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
@@ -5274,7 +5354,7 @@ msgctxt ""
 "used as a prefix in a spinbox showing e.g. 'Show previews for [files below 3 "
 "MiB]'"
 msgid "files below "
-msgstr ""
+msgstr "súbory nižšie "
 
 #: settings/interface/previewssettingspage.cpp:69
 #: settings/interface/previewssettingspage.cpp:82
@@ -5287,7 +5367,7 @@ msgstr " MiB"
 #, kde-format
 msgctxt "e.g. 'Show previews for [files of any size]'"
 msgid "files of any size"
-msgstr ""
+msgstr "súbory ľubovoľnej veľkosti"
 
 #: settings/interface/previewssettingspage.cpp:84
 #, kde-format
@@ -5312,6 +5392,10 @@ msgid ""
 "navigating remote folders in Dolphin is slow or when accessing storage over "
 "metered connections.</para>"
 msgstr ""
+"<para>Vytváranie <emphasis>náhľadov</emphasis> pre vzdialené priečinky je "
+"veľmi náročné z hľadiska využitia sieťových zdrojov.</para><para>Túto "
+"funkciu deaktivujte, ak je prechádzanie vzdialených priečinkov v Dolphine "
+"pomalé alebo ak pristupujete k úložisku cez merané pripojenia.</para>"
 
 #: settings/interface/previewssettingspage.cpp:112
 #, kde-format
@@ -5505,13 +5589,13 @@ msgstr "Štýl oprávnení:"
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide in the middle (e.g. ’Some very… name.txt')"
-msgstr ""
+msgstr "Elide uprostred (napr. „Some very… name.txt”)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:107
 #, kde-format
 msgctxt "@option:radio Long file names"
 msgid "Elide at the end (e.g. ’Some very long….txt')"
-msgstr ""
+msgstr "Elide na konci (napr. „Some very long….txt“)"
 
 #: settings/viewmodes/contentdisplaytab.cpp:109
 #, fuzzy, kde-format
@@ -5554,6 +5638,8 @@ msgid ""
 "Some special views like search, recent files, or trash will still use a "
 "custom display style."
 msgstr ""
+"Niektoré špeciálne zobrazenia, ako napríklad vyhľadávanie, nedávne súbory "
+"alebo koš, budú naďalej používať vlastný štýl zobrazenia."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:42
 #, kde-format
@@ -5568,6 +5654,9 @@ msgid ""
 "Dolphin will add file system metadata to folders you change view properties "
 "for. If that is not possible, a hidden .directory file is created instead."
 msgstr ""
+"Dolphin pridá metadáta súborového systému do priečinkov, pre ktoré zmeníte "
+"vlastnosti zobrazenia . Ak to nie je možné, namiesto toho sa vytvorí skrytý "
+"súbor .directory."
 
 #: settings/viewmodes/generalviewsettingspage.cpp:50
 #, kde-format
