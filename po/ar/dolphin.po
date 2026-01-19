@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2026-01-10 10:26+0400\n"
+"PO-Revision-Date: 2026-01-18 18:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4598,16 +4598,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "أيجب أن يُعرض كامل المسار في شريط العنوان"
+msgstr "أيجب أن يظهر شريط الألسنة دائمًا، حتى عندما تكون هناك لسان واحد فقط؟"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "أيجب على الألسنة أن تحوي أزرار الإغلاق"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
@@ -5025,26 +5024,22 @@ msgid "Show filter bar"
 msgstr "أظهر شريط المرشّح"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "عند نهاية شريط الألسنة"
+msgstr "أظهر شريط الألسنة دائمًا"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "شريط الألسنة:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "أظهر موقع المنزل عند البدء"
+msgstr "أظهر زر الإغلاق في الألسنة"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format

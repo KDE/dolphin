@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2026-01-09 11:20+0100\n"
+"PO-Revision-Date: 2026-01-18 14:23+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4589,16 +4589,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Of het volledige pad zal worden weergegeven in de titelbalk"
+msgstr ""
+"Of de tabbladbalk altijd zal worden getoond, zelfs wanneer er één tabblad is"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Moeten tabbladen sluitknoppen hebben"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
@@ -5028,26 +5028,22 @@ msgid "Show filter bar"
 msgstr "Filterbalk tonen"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Aan eind van de tabbladbalk"
+msgstr "Tabbladbalk altijd tonen"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Tabbladbalk:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Basislocatie tonen bij opstarten"
+msgstr "Toon sluitknop op de tabblad"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2026-01-09 17:08+0300\n"
+"PO-Revision-Date: 2026-01-18 16:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4552,16 +4552,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Başlık çubuğunda tam yol gösterilmeli mi"
+msgstr "Bir tane sekme olsa bile sekme çubuğu her zaman gösterilmeli mi?"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Sekmelerde kapat düğmesi olmalı mı?"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
@@ -4989,26 +4988,22 @@ msgid "Show filter bar"
 msgstr "Süzgeç çubuğunu göster"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Sekme çubuğunun sonunda"
+msgstr "Sekme çubuğunu her zaman göster"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Sekme çubuğu:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Başlangıçta ana klasörü göster"
+msgstr "Sekmelerde kapat düğmesini göster"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format

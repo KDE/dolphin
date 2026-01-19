@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2026-01-09 06:53+0100\n"
+"PO-Revision-Date: 2026-01-18 09:05+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4609,16 +4609,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Ali naj bo v nazivni vrstici prikazana polna pot"
+msgstr ""
+"Ali naj bo vrstica z zavihki vedno prikazana, tudi če je tam samo en zavihek"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Ali naj imajo zavihki gumbe za zapiranje"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
@@ -5044,26 +5044,22 @@ msgid "Show filter bar"
 msgstr "Pokaži filtrirno vrstico"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Ob koncu vrstice zavihkov"
+msgstr "Vedno prikazuj vrstico z zavihki"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Vrstica z zavihki:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Pokaži domačo lokacijo ob zagonu"
+msgstr "Prikazuj gumb za zapiranje na zavihkih"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format

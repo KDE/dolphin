@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2026-01-09 16:45+0100\n"
+"PO-Revision-Date: 2026-01-18 12:37+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4574,7 +4574,7 @@ msgstr "Acción personalizada"
 #: settings/dolphin_generalsettings.kcfg:26
 #, kde-format
 msgid "Should the URL be editable for the user"
-msgstr "Si el usuario podrá editar el URL"
+msgstr "Indica si el usuario podrá editar el URL"
 
 #. i18n: ectx: label, entry (UrlCompletionMode), group (General)
 #: settings/dolphin_generalsettings.kcfg:30
@@ -4586,13 +4586,14 @@ msgstr "Modo de completado de texto de la URL del navegador"
 #: settings/dolphin_generalsettings.kcfg:34
 #, kde-format
 msgid "Should the full path be shown inside the location bar"
-msgstr "Si la ruta completa debería mostrarse en la barra de direcciones"
+msgstr ""
+"Indica si la ruta completa debería mostrarse en la barra de direcciones"
 
 #. i18n: ectx: label, entry (ShowFullPathInTitlebar), group (General)
 #: settings/dolphin_generalsettings.kcfg:38
 #, kde-format
 msgid "Should the full path be shown in the title bar"
-msgstr "Si la ruta completa debería mostrarse en la barra de título"
+msgstr "Indica si la ruta completa debería mostrarse en la barra de título"
 
 #. i18n: ectx: label, entry (OpenExternallyCalledFolderInNewTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -4601,21 +4602,22 @@ msgid ""
 "Should an externally called folder open in a new tab in an existing Dolphin "
 "instance"
 msgstr ""
-"Si una carpeta llamada externamente se debe abrir en una nueva pestaña de "
-"una ventana de Dolphin existente"
+"Indica si una carpeta llamada externamente se debe abrir en una nueva "
+"pestaña de una ventana de Dolphin existente"
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Si la ruta completa debería mostrarse en la barra de título"
+msgstr ""
+"Indica si la barra de pestañas debería mostrarse siempre, incluso cuando "
+"solo hay una pestaña"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Indica si las pestañas deben tener botones de cierre"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
@@ -4662,13 +4664,14 @@ msgstr "Poner dos vistas una junto a la otra"
 #: settings/dolphin_generalsettings.kcfg:77
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr "Si se debe mostrar la barra de filtros"
+msgstr "Indica si se debe mostrar la barra de filtros"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:81
 #, kde-format
 msgid "Should the view properties be used for all folders"
-msgstr "Si se deben usar las propiedades de vista para todas las carpetas"
+msgstr ""
+"Indica si se deben usar las propiedades de vista para todas las carpetas"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
 #: settings/dolphin_generalsettings.kcfg:85
@@ -5043,26 +5046,22 @@ msgid "Show filter bar"
 msgstr "Mostrar la barra de filtro"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Al final de la barra de pestañas"
+msgstr "Mostrar siempre la barra de pestañas"
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Barra de pestañas:"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Mostrar la carpeta personal al iniciar"
+msgstr "Mostrar botones de cierre en las pestañas"
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
@@ -6926,15 +6925,3 @@ msgstr "Ampliar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Ampliar"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr ""
-#~ "Debe reiniciar Dolphin para que se apliquen las preferencias actualizadas "
-#~ "del sistema de control de versiones."
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "¿Reiniciar ahora?"
