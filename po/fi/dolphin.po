@@ -1,7 +1,7 @@
 # Translation of dolphin.po to Finnish
 # Copyright © 2007 Teemu Rytilahti
 # This file is distributed under the same license as the kde-baseapps package.
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Tommi Nieminen <translator@legisign.org>
 # Teemu Rytilahti <tpr@d5k.net>, 2007, 2008.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2007, 2012.
 # Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>, 2008.
@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-10 03:00+0000\n"
-"PO-Revision-Date: 2025-10-15 21:01+0300\n"
+"PO-Revision-Date: 2026-01-02 11:47+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -4148,7 +4148,7 @@ msgstr "Poista"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Sisään rakennettu Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
@@ -5470,12 +5470,10 @@ msgid "Display style: "
 msgstr "Näkymätyyli: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Näytä tiedostojen ja kansioiden esikatselu"
+msgstr "Selaa pakattuja tiedostoja kansioina"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6677,20 +6675,16 @@ msgstr ""
 
 # Tämän alakohdat ovat nominatiivissa (Nimi, Koko jne.), joten tämä sopii paremmin alavalikon nimeksi
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "item:intable"
 msgid "Sort By field"
 msgstr "Lajitteluperuste"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "item:intable"
 msgid "Show Field"
-msgstr "Näytä kenttä: %1"
+msgstr "Näytä kenttä"
 
 #: views/dolphinviewactionhandler.cpp:688
 #, kde-format
