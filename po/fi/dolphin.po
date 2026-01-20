@@ -1,7 +1,7 @@
 # Translation of dolphin.po to Finnish
 # Copyright © 2007 Teemu Rytilahti
 # This file is distributed under the same license as the kde-baseapps package.
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Tommi Nieminen <translator@legisign.org>
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Tommi Nieminen <translator@legisign.org>
 # Teemu Rytilahti <tpr@d5k.net>, 2007, 2008.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2007, 2012.
 # Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>, 2008.
@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-18 00:45+0000\n"
-"PO-Revision-Date: 2025-10-15 21:01+0300\n"
+"PO-Revision-Date: 2026-01-02 11:47+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -239,15 +239,12 @@ msgid "Middle Click"
 msgstr "Keskinapsautus"
 
 #: dolphincontextmenu.cpp:519
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
-#| msgid "Middle Click"
+#, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
 "short"
 msgid "Shift+Middle Click"
-msgstr "Keskinapsautus"
+msgstr "Vaihto+keskinapsautus"
 
 #: dolphinmainwindow.cpp:361
 #, kde-format
@@ -1429,36 +1426,28 @@ msgid "Close"
 msgstr "Sulje"
 
 #: dolphinmainwindow.cpp:2849 dolphinmainwindow.cpp:2868
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Sulje vasemmanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Sulje vasemmanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2853 dolphinmainwindow.cpp:2872
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
-msgstr "Ponnauta vasen näkymä"
+msgstr "Ponnauta vasemmanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2854 dolphinmainwindow.cpp:2873
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Siirrä vasen näkymä uuteen ikkunaan"
+msgstr "Siirrä vasemmanpuoleinen näkymä uuteen ikkunaan"
 
 #: dolphinmainwindow.cpp:2856 dolphinmainwindow.cpp:2875
 #: dolphinmainwindow.cpp:2885
@@ -1469,39 +1458,31 @@ msgstr "Sulje"
 
 #: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
 #: dolphinmainwindow.cpp:2886
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Sulje oikeanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2859 dolphinmainwindow.cpp:2878
 #: dolphinmainwindow.cpp:2888
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Sulje oikeanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2861 dolphinmainwindow.cpp:2880
 #: dolphinmainwindow.cpp:2890
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
-msgstr "Ponnauta oikea näkymä"
+msgstr "Ponnauta oikeanpuoleinen näkymä"
 
 #: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
 #: dolphinmainwindow.cpp:2891
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Siirrä oikea näkymä uuteen ikkunaan"
+msgstr "Siirrä oikeanpuoleinen näkymä uuteen ikkunaan"
 
 #: dolphinmainwindow.cpp:2903
 #, kde-format
@@ -4163,7 +4144,7 @@ msgstr "Poista"
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
-msgstr ""
+msgstr "Sisään rakennettu Dolphin"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
@@ -4696,11 +4677,9 @@ msgstr "Vaihda oikean ja vasemman näkymän välillä sarkainnäppäimellä"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:118
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Sulje vasemmanpuoleinen näkymä"
+msgstr "Sulje jakonäkymä"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:122
@@ -5062,29 +5041,25 @@ msgid "Open new tabs: "
 msgstr "Avaa uusiin välilehtiin:"
 
 #: settings/interface/folderstabssettingspage.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Aloita jaetussa näkymässä"
+msgstr "Jakonäkymää suljettaessa"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Sulje aktiivinen paneeli"
 
 #: settings/interface/folderstabssettingspage.cpp:140
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Sulje passiivinen paneeli"
 
 #: settings/interface/folderstabssettingspage.cpp:140
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Sulje oikeanpuoleinen näkymä"
+msgstr "Sulje oikeanpuoleinen paneeli"
 
 #: settings/interface/folderstabssettingspage.cpp:147
 #, kde-format
@@ -5099,12 +5074,10 @@ msgid "Switch between views with Tab key"
 msgstr "Vaihda näkymästä toiseen sarkainnäppäimellä"
 
 #: settings/interface/folderstabssettingspage.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Aloita jaetussa näkymässä"
+msgstr "Avaa uudet ikkunat jaettuun näkymään"
 
 #: settings/interface/folderstabssettingspage.cpp:314
 #, kde-format
@@ -5529,12 +5502,10 @@ msgid "Display style: "
 msgstr "Näkymätyyli: "
 
 #: settings/viewmodes/generalviewsettingspage.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Show preview of files and folders"
+#, kde-format
 msgctxt "@option:check"
 msgid "Browse compressed files as folders"
-msgstr "Näytä tiedostojen ja kansioiden esikatselu"
+msgstr "Selaa pakattuja tiedostoja kansioina"
 
 #: settings/viewmodes/generalviewsettingspage.cpp:65
 #, kde-format
@@ -6742,20 +6713,16 @@ msgstr ""
 
 # Tämän alakohdat ovat nominatiivissa (Nimi, Koko jne.), joten tämä sopii paremmin alavalikon nimeksi
 #: views/dolphinviewactionhandler.cpp:394
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu View"
-#| msgid "Sort By"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Sort by Field"
 msgstr "Lajitteluperuste"
 
 #: views/dolphinviewactionhandler.cpp:397
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar as in show field for file attribute"
-#| msgid "Show Field: %1"
+#, kde-format
 msgctxt "@item:intable, Heading of a list of fields"
 msgid "Show Field"
-msgstr "Näytä kenttä: %1"
+msgstr "Näytä kenttä"
 
 #: views/dolphinviewactionhandler.cpp:688
 #, kde-format

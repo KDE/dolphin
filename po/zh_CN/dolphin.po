@@ -4407,10 +4407,9 @@ msgstr "外部程序发起打开文件夹操作时，是否在当前 Dolphin 实
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "标题栏是否显示完整路径"
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
@@ -4831,12 +4830,10 @@ msgid "Show filter bar"
 msgstr "显示过滤栏"
 
 #: settings/interface/folderstabssettingspage.cpp:122
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "标签页栏最右侧"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:123
 #, kde-format
@@ -4845,12 +4842,10 @@ msgid "Tab bar:"
 msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "启动时显示主文件夹位置"
+msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:127
 #, kde-format
