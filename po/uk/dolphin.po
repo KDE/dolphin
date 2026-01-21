@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-18 00:45+0000\n"
+"POT-Creation-Date: 2026-01-21 00:48+0000\n"
 "PO-Revision-Date: 2026-01-18 15:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -197,38 +197,38 @@ msgstr[1] "Відновити попередні місця"
 msgstr[2] "Відновити попередні місця"
 msgstr[3] "Відновити попереднє місце"
 
-#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1820
+#: dolphincontextmenu.cpp:235 dolphinmainwindow.cpp:1820
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
 msgstr "Створити"
 
-#: dolphincontextmenu.cpp:241
+#: dolphincontextmenu.cpp:244
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
 msgstr "Перейти за адресою"
 
-#: dolphincontextmenu.cpp:249
+#: dolphincontextmenu.cpp:252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Відкрити адресу у новій вкладці"
 
-#: dolphincontextmenu.cpp:257
+#: dolphincontextmenu.cpp:260
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
 msgstr "Відкрити адресу у новому вікні"
 
-#: dolphincontextmenu.cpp:508
+#: dolphincontextmenu.cpp:511
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
 msgstr "Клацання середньою"
 
-#: dolphincontextmenu.cpp:519
+#: dolphincontextmenu.cpp:522
 #, kde-format
 msgctxt ""
 "@action:inmenu Shortcut, shift + middle click to trigger menu item, keep "
@@ -358,7 +358,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Відкрити %1"
 
-#: dolphinmainwindow.cpp:1398 dolphinmainwindow.cpp:2202
+#: dolphinmainwindow.cpp:1398 dolphinmainwindow.cpp:2205
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
@@ -409,19 +409,19 @@ msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Налаштувати"
 
-#: dolphinmainwindow.cpp:1826
+#: dolphinmainwindow.cpp:1829
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Нове &вікно"
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1830
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Відкрити нове вікно Dolphin"
 
-#: dolphinmainwindow.cpp:1829
+#: dolphinmainwindow.cpp:1832
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -432,13 +432,13 @@ msgstr ""
 ">Ви можете перетягувати елементи тек між вікнами і скидати їх з одного вікна "
 "до іншого."
 
-#: dolphinmainwindow.cpp:1836
+#: dolphinmainwindow.cpp:1839
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Нова вкладка"
 
-#: dolphinmainwindow.cpp:1838
+#: dolphinmainwindow.cpp:1841
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -451,32 +451,32 @@ msgstr ""
 "панелями перегляду у цьому вікні. Ви можете перетягувати елементи тек з "
 "однієї вкладки до іншої і скидати їх."
 
-#: dolphinmainwindow.cpp:1847
+#: dolphinmainwindow.cpp:1850
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Додати до Місць"
 
-#: dolphinmainwindow.cpp:1849
+#: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr ""
 "У результаті виконання цієї дії позначену теку буде додано на панель «Місця»"
 
-#: dolphinmainwindow.cpp:1854
+#: dolphinmainwindow.cpp:1857
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Закрити вкладку"
 
-#: dolphinmainwindow.cpp:1855
+#: dolphinmainwindow.cpp:1858
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Закрити вкладку"
 
-#: dolphinmainwindow.cpp:1857
+#: dolphinmainwindow.cpp:1860
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -486,13 +486,13 @@ msgstr ""
 "Закриває поточну вкладку. Якщо у вікні відкрито лише одну вкладку, буде "
 "закрито саме вікно."
 
-#: dolphinmainwindow.cpp:1862
+#: dolphinmainwindow.cpp:1865
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Закриває це вікно."
 
-#: dolphinmainwindow.cpp:1873
+#: dolphinmainwindow.cpp:1876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -508,13 +508,13 @@ msgstr ""
 "розташовано на найзручніших клавішах, поряд одне із одним: <shortcut>Ctrl+X</"
 "shortcut>, <shortcut>Ctrl+C</shortcut> та <shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1883
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Вирізати…"
 
-#: dolphinmainwindow.cpp:1882
+#: dolphinmainwindow.cpp:1885
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -528,13 +528,13 @@ msgstr ""
 "скопіювати вміст буфера обміну даними до іншої теки. Після такого копіювання "
 "елементи буде вилучено з початкової теки."
 
-#: dolphinmainwindow.cpp:1889
+#: dolphinmainwindow.cpp:1892
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Копіювати…"
 
-#: dolphinmainwindow.cpp:1891
+#: dolphinmainwindow.cpp:1894
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -546,13 +546,13 @@ msgstr ""
 ">Ви можете скористатися пунктом <emphasis>Вставити</emphasis>, щоб "
 "скопіювати вміст буфера обміну даними до іншої теки."
 
-#: dolphinmainwindow.cpp:1900
+#: dolphinmainwindow.cpp:1903
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Вставити"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1905
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -565,19 +565,19 @@ msgstr ""
 "обміну за допомогою пункту <emphasis>Вирізати</emphasis>, їх буде вилучено "
 "із попереднього місця розташування."
 
-#: dolphinmainwindow.cpp:1909
+#: dolphinmainwindow.cpp:1912
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Копіювати на іншу панель перегляду"
 
-#: dolphinmainwindow.cpp:1910
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Копіювати на іншу панель перегляду…"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1915
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -587,25 +587,25 @@ msgstr ""
 "Копіює позначені об'єкти з фокусованої панелі перегляду до іншої панелі. "
 "(Можна скористатися лише у режимі розділеного перегляду.)"
 
-#: dolphinmainwindow.cpp:1916
+#: dolphinmainwindow.cpp:1919
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Копіювати на іншу панель перегляду"
 
-#: dolphinmainwindow.cpp:1921
+#: dolphinmainwindow.cpp:1924
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Пересунути на іншу панель перегляду"
 
-#: dolphinmainwindow.cpp:1922
+#: dolphinmainwindow.cpp:1925
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Пересунути на іншу панель перегляду…"
 
-#: dolphinmainwindow.cpp:1924
+#: dolphinmainwindow.cpp:1927
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -615,25 +615,25 @@ msgstr ""
 "Пересуває позначені об'єкти з фокусованої панелі перегляду до іншої панелі. "
 "(Можна скористатися лише у режимі розділеного перегляду.)"
 
-#: dolphinmainwindow.cpp:1928
+#: dolphinmainwindow.cpp:1931
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Пересунути на іншу панель перегляду"
 
-#: dolphinmainwindow.cpp:1933
+#: dolphinmainwindow.cpp:1936
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Фільтрувати…"
 
-#: dolphinmainwindow.cpp:1934
+#: dolphinmainwindow.cpp:1937
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Показувати панель фільтра"
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1939
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -647,30 +647,30 @@ msgstr ""
 "показаного списку файлів і тек. У результаті фільтрування програма покаже "
 "лише ті файли і теки, у назвах яких міститься введений текст."
 
-#: dolphinmainwindow.cpp:1948
+#: dolphinmainwindow.cpp:1951
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Увімкнути або вимкнути панель фільтрування"
 
-#: dolphinmainwindow.cpp:1949
+#: dolphinmainwindow.cpp:1952
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Фільтрувати"
 
-#: dolphinmainwindow.cpp:1957 search/bar.cpp:214
+#: dolphinmainwindow.cpp:1960 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "Шукати…"
 
-#: dolphinmainwindow.cpp:1958
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Шукати файли і теки"
 
-#: dolphinmainwindow.cpp:1960
+#: dolphinmainwindow.cpp:1963
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -682,20 +682,20 @@ msgstr ""
 "пошуку</emphasis>. На панелі пошуку ви можете ввести ключові слова для "
 "пошуку і вказати параметри пошуку об'єктів, які ви шукаєте.</para>"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1972
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Увімкнути або вимкнути панель пошуку"
 
-#: dolphinmainwindow.cpp:1970
+#: dolphinmainwindow.cpp:1973
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Пошук"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1985
+#: dolphinmainwindow.cpp:1988
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -703,13 +703,13 @@ msgstr "Вибір файлів і тек"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1988
+#: dolphinmainwindow.cpp:1991
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Вибір"
 
-#: dolphinmainwindow.cpp:1991
+#: dolphinmainwindow.cpp:1994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -728,19 +728,19 @@ msgstr ""
 "частині вікна буде показано пункти доступних дій для поточних позначених "
 "пунктів.</para>"
 
-#: dolphinmainwindow.cpp:2014
+#: dolphinmainwindow.cpp:2017
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Позначає усі файли і теки у поточній теці."
 
-#: dolphinmainwindow.cpp:2018 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:2021 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Інвертувати вибір"
 
-#: dolphinmainwindow.cpp:2020
+#: dolphinmainwindow.cpp:2023
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -748,7 +748,7 @@ msgid ""
 "selected instead."
 msgstr "Позначає усі об'єкти, які ще <emphasis>не</emphasis> було позначено."
 
-#: dolphinmainwindow.cpp:2040
+#: dolphinmainwindow.cpp:2043
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -763,7 +763,7 @@ msgstr ""
 "перебуває у фокусі, буде притлумлене. </para>Натисніть цю кнопку знову, щоб "
 "закрити одну з панелей перегляду."
 
-#: dolphinmainwindow.cpp:2055
+#: dolphinmainwindow.cpp:2058
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -773,25 +773,25 @@ msgstr ""
 "Якщо панель перегляду було поділено, панель фокусованої теки буде розгорнуто "
 "до нового вікна."
 
-#: dolphinmainwindow.cpp:2063
+#: dolphinmainwindow.cpp:2066
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Стос"
 
-#: dolphinmainwindow.cpp:2064
+#: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Відкриває віртуальний каталог стосу у частині розділеного вікна"
 
-#: dolphinmainwindow.cpp:2072
+#: dolphinmainwindow.cpp:2075
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Освіжити перегляд"
 
-#: dolphinmainwindow.cpp:2074
+#: dolphinmainwindow.cpp:2077
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -806,31 +806,31 @@ msgstr ""
 "para><para>Якщо панель перегляду розділено, буде оновлено ту панель, яка "
 "перебуває у фокусі.</para>"
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2084
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Зупинити"
 
-#: dolphinmainwindow.cpp:2082
+#: dolphinmainwindow.cpp:2085
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Зупинити завантаження"
 
-#: dolphinmainwindow.cpp:2083
+#: dolphinmainwindow.cpp:2086
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Припиняє завантаження вмісту поточної теки."
 
-#: dolphinmainwindow.cpp:2088
+#: dolphinmainwindow.cpp:2091
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Змінна адреса"
 
-#: dolphinmainwindow.cpp:2090
+#: dolphinmainwindow.cpp:2093
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -844,13 +844,13 @@ msgstr ""
 "редагування можна перейти клацанням на правій частині смужки адреси. "
 "Повернутися до початкового режиму можна підтвердженням редагованої адреси."
 
-#: dolphinmainwindow.cpp:2098
+#: dolphinmainwindow.cpp:2101
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Замінити адресу"
 
-#: dolphinmainwindow.cpp:2103
+#: dolphinmainwindow.cpp:2106
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -860,19 +860,19 @@ msgstr ""
 "Перемикає програму у режим редагування адреси теки і позначає поточну адресу "
 "так, щоб вам було простіше вводити іншу."
 
-#: dolphinmainwindow.cpp:2133
+#: dolphinmainwindow.cpp:2136
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Скасувати закриття вкладки"
 
-#: dolphinmainwindow.cpp:2134
+#: dolphinmainwindow.cpp:2137
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Повертає вас до попередньої раніше закритої вкладки."
 
-#: dolphinmainwindow.cpp:2142
+#: dolphinmainwindow.cpp:2145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -888,7 +888,7 @@ msgstr ""
 "або <filename>Смітника</filename>.<nl/>Якщо дію не можна скасувати, програма "
 "проситиме вас її підтвердити перед виконанням."
 
-#: dolphinmainwindow.cpp:2153
+#: dolphinmainwindow.cpp:2156
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -904,7 +904,7 @@ msgstr ""
 "файлів і тек до іншого місця або <filename>Смітника</filename>.<nl/>Якщо дію "
 "не можна скасувати, програма проситиме вас її підтвердити перед виконанням."
 
-#: dolphinmainwindow.cpp:2183
+#: dolphinmainwindow.cpp:2186
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -917,19 +917,19 @@ msgstr ""
 "якій містяться особисті файли, а також приховані теки для даних програм та "
 "файлів налаштувань."
 
-#: dolphinmainwindow.cpp:2190
+#: dolphinmainwindow.cpp:2193
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Порівняти файли"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2199
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr "Керування використанням місця на диску"
 
-#: dolphinmainwindow.cpp:2204
+#: dolphinmainwindow.cpp:2207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -941,13 +941,13 @@ msgstr ""
 "</para><para>Скористайтеся меню <emphasis>Інші засоби для пошуку</emphasis>, "
 "щоб налаштувати цей засіб для пошуку.</para>"
 
-#: dolphinmainwindow.cpp:2218
+#: dolphinmainwindow.cpp:2221
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Відкрити термінал"
 
-#: dolphinmainwindow.cpp:2220
+#: dolphinmainwindow.cpp:2223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -960,13 +960,13 @@ msgstr ""
 "документацією до програми-термінала вашої системи.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2228
+#: dolphinmainwindow.cpp:2231
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Викликати термінал тут"
 
-#: dolphinmainwindow.cpp:2230
+#: dolphinmainwindow.cpp:2233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -978,13 +978,13 @@ msgstr ""
 "тек.</para><para>Щоб дізнатися більше про термінали, ознайомтеся із "
 "документацією до програми-термінала вашої системи.</para>"
 
-#: dolphinmainwindow.cpp:2238
+#: dolphinmainwindow.cpp:2241
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Закладки"
 
-#: dolphinmainwindow.cpp:2248
+#: dolphinmainwindow.cpp:2251
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1002,96 +1002,96 @@ msgstr ""
 "програмі.</para><para>Кнопка %1 є простішою і маленькою, хоча і дещо "
 "ускладнює робить доступ до пунктів дій.</para>"
 
-#: dolphinmainwindow.cpp:2273
+#: dolphinmainwindow.cpp:2276
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Перейти до вкладки %1"
 
-#: dolphinmainwindow.cpp:2286
+#: dolphinmainwindow.cpp:2289
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Остання вкладка"
 
-#: dolphinmainwindow.cpp:2287
+#: dolphinmainwindow.cpp:2290
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Перейти до останньої вкладки"
 
-#: dolphinmainwindow.cpp:2293
+#: dolphinmainwindow.cpp:2296
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Наступна вкладка"
 
-#: dolphinmainwindow.cpp:2294
+#: dolphinmainwindow.cpp:2297
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Перейти до наступної вкладки"
 
-#: dolphinmainwindow.cpp:2300
+#: dolphinmainwindow.cpp:2303
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Попередня вкладка"
 
-#: dolphinmainwindow.cpp:2301
+#: dolphinmainwindow.cpp:2304
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Перейти до попередньої вкладки"
 
-#: dolphinmainwindow.cpp:2308
+#: dolphinmainwindow.cpp:2311
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Показати призначення"
 
-#: dolphinmainwindow.cpp:2314
+#: dolphinmainwindow.cpp:2317
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Відкрити у новій вкладці"
 
-#: dolphinmainwindow.cpp:2319
+#: dolphinmainwindow.cpp:2322
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Відкрити у нових вкладках"
 
-#: dolphinmainwindow.cpp:2324
+#: dolphinmainwindow.cpp:2327
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Відкрити у новому вікні"
 
-#: dolphinmainwindow.cpp:2329 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2332 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Відкрити у розділеному перегляді"
 
-#: dolphinmainwindow.cpp:2341
+#: dolphinmainwindow.cpp:2344
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr "Схема кольорів в&ікна"
 
-#: dolphinmainwindow.cpp:2354
+#: dolphinmainwindow.cpp:2357
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Розблокувати панелі"
 
-#: dolphinmainwindow.cpp:2356
+#: dolphinmainwindow.cpp:2359
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Заблокувати панелі"
 
-#: dolphinmainwindow.cpp:2359
+#: dolphinmainwindow.cpp:2362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1105,13 +1105,13 @@ msgstr ""
 "перетягувати на інший бік вікна. На них передбачено кнопку закриття.<nl/"
 ">Заблоковані панелі вбудовуються до інтерфейсу основного вікна."
 
-#: dolphinmainwindow.cpp:2368
+#: dolphinmainwindow.cpp:2371
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Інформація"
 
-#: dolphinmainwindow.cpp:2391
+#: dolphinmainwindow.cpp:2394
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1122,7 +1122,7 @@ msgstr ""
 "цієї, скористайтеся пунктом <interface>Меню|Панелі</interface> або "
 "<interface>Перегляд|Панелі</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2398
+#: dolphinmainwindow.cpp:2401
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,7 +1139,7 @@ msgstr ""
 "показано дані щодо поточної теки.<nl/>Для окремих елементів передбачено "
 "показ попереднього перегляду їхнього вмісту.</para>"
 
-#: dolphinmainwindow.cpp:2406
+#: dolphinmainwindow.cpp:2409
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1156,13 +1156,13 @@ msgstr ""
 "їхнього вмісту.</para><para>Налаштувати перелік та формат показу подробиць "
 "можна за допомогою клацання правою кнопкою миші.</para>"
 
-#: dolphinmainwindow.cpp:2415
+#: dolphinmainwindow.cpp:2418
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Теки"
 
-#: dolphinmainwindow.cpp:2435
+#: dolphinmainwindow.cpp:2438
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1174,7 +1174,7 @@ msgstr ""
 "вікна.<nl/><nl/>Теки <emphasis>файлової системи</emphasis> буде показано у "
 "форматі <emphasis>деревоподібного списку</emphasis>."
 
-#: dolphinmainwindow.cpp:2440
+#: dolphinmainwindow.cpp:2443
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1189,13 +1189,13 @@ msgstr ""
 "ліворуч від пункту теки, щоб відкрити список її підтек. За допомогою цієї "
 "панелі можна швидко пересуватися деревом тек.</para>"
 
-#: dolphinmainwindow.cpp:2450
+#: dolphinmainwindow.cpp:2453
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Термінал"
 
-#: dolphinmainwindow.cpp:2475
+#: dolphinmainwindow.cpp:2478
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1214,7 +1214,7 @@ msgstr ""
 "розширення можливостей. Щоб дізнатися більше про користування терміналами, "
 "скористайтеся документацією до програми-термінала, наприклад Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2483
+#: dolphinmainwindow.cpp:2486
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1233,31 +1233,31 @@ msgstr ""
 "можливостей. Щоб дізнатися більше про користування терміналами, "
 "скористайтеся документацією до програми-термінала, наприклад Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2493 dolphinmainwindow.cpp:3141
+#: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3144
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Фокусувати панель термінала"
 
-#: dolphinmainwindow.cpp:2494
+#: dolphinmainwindow.cpp:2497
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Перенести фокус клавіатури на панель термінала та з неї."
 
-#: dolphinmainwindow.cpp:2507
+#: dolphinmainwindow.cpp:2510
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Місця"
 
-#: dolphinmainwindow.cpp:2535
+#: dolphinmainwindow.cpp:2538
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Показати приховані місця"
 
-#: dolphinmainwindow.cpp:2539
+#: dolphinmainwindow.cpp:2542
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1269,7 +1269,7 @@ msgstr ""
 "буде показано напівпрозорими, і ви зможете знімати позначку з їхньої "
 "властивості «Приховати»."
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2554
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1286,7 +1286,7 @@ msgstr ""
 "розділи для пошуку нещодавно збережених файлів або файлів певного типу.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2558
+#: dolphinmainwindow.cpp:2561
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1313,25 +1313,25 @@ msgstr ""
 "порожньому місці на панелі правою кнопкою миші і виберіть пункт "
 "<interface>Показати приховані місця</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2572 dolphinmainwindow.cpp:3159
+#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3162
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Фокусувати панель місць"
 
-#: dolphinmainwindow.cpp:2573
+#: dolphinmainwindow.cpp:2576
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Перенести фокус клавіатури на панель місць та з неї."
 
-#: dolphinmainwindow.cpp:2579
+#: dolphinmainwindow.cpp:2582
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Показувати панелі"
 
-#: dolphinmainwindow.cpp:2661
+#: dolphinmainwindow.cpp:2664
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1340,7 +1340,7 @@ msgstr ""
 "Не вдалося перейменувати: у вас немає прав доступу для перейменування "
 "записів у цій теці."
 
-#: dolphinmainwindow.cpp:2664 dolphinmainwindow.cpp:2681
+#: dolphinmainwindow.cpp:2667 dolphinmainwindow.cpp:2684
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1349,7 +1349,7 @@ msgstr ""
 "Не вдалося вилучити: у вас немає прав доступу для вилучення записів з цієї "
 "теки."
 
-#: dolphinmainwindow.cpp:2666
+#: dolphinmainwindow.cpp:2669
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
@@ -1357,7 +1357,7 @@ msgstr ""
 "Не вдалося вирізати: у вас немає прав доступу для пересування записів з цієї "
 "теки."
 
-#: dolphinmainwindow.cpp:2671
+#: dolphinmainwindow.cpp:2674
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1367,19 +1367,19 @@ msgstr ""
 "Не вдалося здублювати сюди: у вас немає прав доступу для створення записів у "
 "цій теці."
 
-#: dolphinmainwindow.cpp:2693
+#: dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Не вдалося скопіювати на іншу панель перегляду: не позначено файлів."
 
-#: dolphinmainwindow.cpp:2695
+#: dolphinmainwindow.cpp:2698
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Не вдалося пересунути на іншу панель перегляду: не позначено файлів."
 
-#: dolphinmainwindow.cpp:2714
+#: dolphinmainwindow.cpp:2717
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1387,7 +1387,7 @@ msgstr ""
 "Не вдалося скопіювати на іншу панель перегляду: на іншій панелі перегляду "
 "вже містяться ці записи."
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2720
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1395,7 +1395,7 @@ msgstr ""
 "Не вдалося пересунути на іншу панель перегляду: на іншій панелі перегляду "
 "вже містяться ці записи."
 
-#: dolphinmainwindow.cpp:2722
+#: dolphinmainwindow.cpp:2725
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1405,7 +1405,7 @@ msgstr ""
 "Не вдалося скопіювати на іншу панель перегляду: у вас немає прав доступу для "
 "запису до теки призначення."
 
-#: dolphinmainwindow.cpp:2726
+#: dolphinmainwindow.cpp:2729
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1415,7 +1415,7 @@ msgstr ""
 "Не вдалося пересунути на іншу панель перегляду: у вас немає прав доступу для "
 "запису до теки призначення."
 
-#: dolphinmainwindow.cpp:2732
+#: dolphinmainwindow.cpp:2735
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1425,7 +1425,7 @@ msgstr ""
 "Не вдалося пересунути на іншу панель перегляду: у вас немає прав доступу для "
 "пересування записів з цієї теки."
 
-#: dolphinmainwindow.cpp:2756
+#: dolphinmainwindow.cpp:2759
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1440,90 +1440,90 @@ msgstr ""
 "вершині цієї ієрархії перебуває каталог, який містить усі дані, які з'єднано "
 "з цим комп'ютером — <emphasis>кореневий каталог</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2848 dolphinmainwindow.cpp:2867
+#: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Закрити"
 
-#: dolphinmainwindow.cpp:2849 dolphinmainwindow.cpp:2868
+#: dolphinmainwindow.cpp:2852 dolphinmainwindow.cpp:2871
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Закрити ліву панель перегляду"
 
-#: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
+#: dolphinmainwindow.cpp:2854 dolphinmainwindow.cpp:2873
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Закрити ліву панель перегляду"
 
-#: dolphinmainwindow.cpp:2853 dolphinmainwindow.cpp:2872
+#: dolphinmainwindow.cpp:2856 dolphinmainwindow.cpp:2875
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Виокремити ліву панель перегляду"
 
-#: dolphinmainwindow.cpp:2854 dolphinmainwindow.cpp:2873
+#: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Пересунути ліву панель розділеного перегляду до нового вікна"
 
-#: dolphinmainwindow.cpp:2856 dolphinmainwindow.cpp:2875
-#: dolphinmainwindow.cpp:2885
+#: dolphinmainwindow.cpp:2859 dolphinmainwindow.cpp:2878
+#: dolphinmainwindow.cpp:2888
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Закрити"
 
-#: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
-#: dolphinmainwindow.cpp:2886
+#: dolphinmainwindow.cpp:2860 dolphinmainwindow.cpp:2879
+#: dolphinmainwindow.cpp:2889
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Закрити праву панель перегляду"
 
-#: dolphinmainwindow.cpp:2859 dolphinmainwindow.cpp:2878
-#: dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
+#: dolphinmainwindow.cpp:2891
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Закрити праву панель перегляду"
 
-#: dolphinmainwindow.cpp:2861 dolphinmainwindow.cpp:2880
-#: dolphinmainwindow.cpp:2890
+#: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2883
+#: dolphinmainwindow.cpp:2893
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Виокремити праву панель перегляду"
 
-#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
-#: dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
+#: dolphinmainwindow.cpp:2894
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Пересунути праву панель розділеного перегляду до нового вікна"
 
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2906
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Розділити"
 
-#: dolphinmainwindow.cpp:2905
+#: dolphinmainwindow.cpp:2908
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Розділений перегляд"
 
-#: dolphinmainwindow.cpp:2907
+#: dolphinmainwindow.cpp:2910
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Виокремити"
 
-#: dolphinmainwindow.cpp:2967
+#: dolphinmainwindow.cpp:2970
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1543,7 +1543,7 @@ msgstr ""
 "<interface>Меню</interface> на <emphasis>панелі інструментів</emphasis>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2974
+#: dolphinmainwindow.cpp:2977
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1569,7 +1569,7 @@ msgstr ""
 "правою кнопкою миші на кнопці, якщо ви хочете, щоб програма показала або "
 "приховала її текст.</para>"
 
-#: dolphinmainwindow.cpp:2986
+#: dolphinmainwindow.cpp:2989
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1599,7 +1599,7 @@ msgstr ""
 "відповідь буде відкрито сторінку <emphasis>підручника</emphasis>, де "
 "наведено опис базових можливостей панелі.</para>"
 
-#: dolphinmainwindow.cpp:3002
+#: dolphinmainwindow.cpp:3005
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1614,7 +1614,7 @@ msgstr ""
 "одночасно. За допомогою клавіатурних скорочень можна викликати усі команди, "
 "які може виконувати ця програма.</para>"
 
-#: dolphinmainwindow.cpp:3008
+#: dolphinmainwindow.cpp:3011
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1627,7 +1627,7 @@ msgstr ""
 "панелі інструментів можна створити кнопки для усіх пунктів <interface>Меню</"
 "interface>.</para>"
 
-#: dolphinmainwindow.cpp:3012
+#: dolphinmainwindow.cpp:3015
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1647,7 +1647,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3032
+#: dolphinmainwindow.cpp:3035
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1664,7 +1664,7 @@ msgstr ""
 "uk'>клацніть тут</link>. У відповідь буде відкрито відповдіну сторінку вікі "
 "UserBase KDE.</para>"
 
-#: dolphinmainwindow.cpp:3037
+#: dolphinmainwindow.cpp:3040
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1688,7 +1688,7 @@ msgstr ""
 "інформація «Що це?» недоступна у більшості інших вікон, тому вам не слід "
 "надто звикати до цього інструмента вивчення інтерфейсу програм.</para>"
 
-#: dolphinmainwindow.cpp:3048
+#: dolphinmainwindow.cpp:3051
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1705,7 +1705,7 @@ msgstr ""
 "щодо вади якомога ефективнішим,  <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>натисніть тут</link>.</para>"
 
-#: dolphinmainwindow.cpp:3057
+#: dolphinmainwindow.cpp:3060
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1728,7 +1728,7 @@ msgstr ""
 "неприбутковою організацією, яка є офіційним представником спільноти KDE.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3070
+#: dolphinmainwindow.cpp:3073
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1740,7 +1740,7 @@ msgstr ""
 "інтерфейсі цієї програми.<nl/>Ви можете встановити вторинні мови, які буде "
 "використано, якщо переклад інтерфейсу бажаною мовою є недоступним."
 
-#: dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3078
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1750,7 +1750,7 @@ msgstr ""
 "Відкриває вікно із даними щодо версії, умов ліцензування, використаних "
 "бібліотек та супровідників цієї програми."
 
-#: dolphinmainwindow.cpp:3080
+#: dolphinmainwindow.cpp:3083
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1764,19 +1764,19 @@ msgstr ""
 "вам подобається програма, і ви хочете дізнатися більше про KDE або ви хочете "
 "побачити милого дракончика, вам слід ознайомитися із вмістом цього вікна!"
 
-#: dolphinmainwindow.cpp:3135 dolphinmainwindow.cpp:3146
+#: dolphinmainwindow.cpp:3138 dolphinmainwindow.cpp:3149
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Зняти фокус із панелі термінала"
 
-#: dolphinmainwindow.cpp:3153
+#: dolphinmainwindow.cpp:3156
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Зняти фокус із панелі термінала"
 
-#: dolphinmainwindow.cpp:3164
+#: dolphinmainwindow.cpp:3167
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -2580,92 +2580,92 @@ msgctxt "width × height"
 msgid "%1 × %2"
 msgstr "%1 × %2"
 
-#: kitemviews/kfileitemmodel.cpp:2365
+#: kitemviews/kfileitemmodel.cpp:2391
 #, kde-format
 msgctxt "@title:group Groups that start with a digit"
 msgid "0 - 9"
 msgstr "0–9"
 
-#: kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2393
 #, kde-format
 msgctxt "@title:group"
 msgid "Others"
 msgstr "Інше"
 
-#: kitemviews/kfileitemmodel.cpp:2399
+#: kitemviews/kfileitemmodel.cpp:2425
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Folders"
 msgstr "Теки"
 
-#: kitemviews/kfileitemmodel.cpp:2407
+#: kitemviews/kfileitemmodel.cpp:2433
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Small"
 msgstr "Малий"
 
-#: kitemviews/kfileitemmodel.cpp:2409
+#: kitemviews/kfileitemmodel.cpp:2435
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Medium"
 msgstr "Середній"
 
-#: kitemviews/kfileitemmodel.cpp:2411
+#: kitemviews/kfileitemmodel.cpp:2437
 #, kde-format
 msgctxt "@title:group Size"
 msgid "Big"
 msgstr "Великий"
 
-#: kitemviews/kfileitemmodel.cpp:2457
+#: kitemviews/kfileitemmodel.cpp:2483
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Today"
 msgstr "Сьогодні"
 
-#: kitemviews/kfileitemmodel.cpp:2460
+#: kitemviews/kfileitemmodel.cpp:2486
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Yesterday"
 msgstr "Вчора"
 
-#: kitemviews/kfileitemmodel.cpp:2463
+#: kitemviews/kfileitemmodel.cpp:2489
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
 msgstr "dddd"
 
-#: kitemviews/kfileitemmodel.cpp:2467
+#: kitemviews/kfileitemmodel.cpp:2493
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd\"with context @title:group Date"
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2472
+#: kitemviews/kfileitemmodel.cpp:2498
 #, kde-format
 msgctxt "@title:group Date"
 msgid "One Week Ago"
 msgstr "Тиждень тому"
 
-#: kitemviews/kfileitemmodel.cpp:2475
+#: kitemviews/kfileitemmodel.cpp:2501
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Two Weeks Ago"
 msgstr "Два тижні тому"
 
-#: kitemviews/kfileitemmodel.cpp:2478
+#: kitemviews/kfileitemmodel.cpp:2504
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Three Weeks Ago"
 msgstr "Три тижні тому"
 
-#: kitemviews/kfileitemmodel.cpp:2482
+#: kitemviews/kfileitemmodel.cpp:2508
 #, kde-format
 msgctxt "@title:group Date"
 msgid "Earlier this Month"
 msgstr "Цього місяця"
 
-#: kitemviews/kfileitemmodel.cpp:2496
+#: kitemviews/kfileitemmodel.cpp:2522
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2675,7 +2675,7 @@ msgctxt ""
 msgid "'Yesterday' (MMMM, yyyy)"
 msgstr "'Вчора' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2503
+#: kitemviews/kfileitemmodel.cpp:2529
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
@@ -2683,7 +2683,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2516
+#: kitemviews/kfileitemmodel.cpp:2542
 #, kde-format
 msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
@@ -2691,7 +2691,7 @@ msgctxt ""
 msgid "dddd (MMMM, yyyy)"
 msgstr "dddd (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2520
+#: kitemviews/kfileitemmodel.cpp:2546
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
@@ -2699,7 +2699,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2528
+#: kitemviews/kfileitemmodel.cpp:2554
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2709,7 +2709,7 @@ msgctxt ""
 msgid "'One Week Ago' (MMMM, yyyy)"
 msgstr "'Тиждень тому' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2535
+#: kitemviews/kfileitemmodel.cpp:2561
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
@@ -2717,7 +2717,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2549
+#: kitemviews/kfileitemmodel.cpp:2575
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2727,7 +2727,7 @@ msgctxt ""
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
 msgstr "'Два тижні тому' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2556
+#: kitemviews/kfileitemmodel.cpp:2582
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
@@ -2735,7 +2735,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2570
+#: kitemviews/kfileitemmodel.cpp:2596
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2745,7 +2745,7 @@ msgctxt ""
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
 msgstr "'Три тижні тому' (MMMM, yyyy)"
 
-#: kitemviews/kfileitemmodel.cpp:2577
+#: kitemviews/kfileitemmodel.cpp:2603
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
@@ -2753,7 +2753,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2591
+#: kitemviews/kfileitemmodel.cpp:2617
 #, kde-format
 msgctxt ""
 "@title:group Date: MMMM is full month name in current locale, and yyyy is "
@@ -2763,7 +2763,7 @@ msgctxt ""
 msgid "'Earlier on' MMMM, yyyy"
 msgstr "'Раніше,' MMMM, yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2598
+#: kitemviews/kfileitemmodel.cpp:2624
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
@@ -2771,7 +2771,7 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2612
+#: kitemviews/kfileitemmodel.cpp:2638
 #, kde-format
 msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
@@ -2779,7 +2779,7 @@ msgctxt ""
 msgid "MMMM, yyyy"
 msgstr "MMMM yyyy"
 
-#: kitemviews/kfileitemmodel.cpp:2616
+#: kitemviews/kfileitemmodel.cpp:2642
 #, kde-format
 msgctxt ""
 "Can be used to script translation of \"MMMM, yyyy\" with context @title:"
@@ -2787,258 +2787,258 @@ msgctxt ""
 msgid "%1"
 msgstr "%1"
 
-#: kitemviews/kfileitemmodel.cpp:2656 kitemviews/kfileitemmodel.cpp:2669
-#: kitemviews/kfileitemmodel.cpp:2682
+#: kitemviews/kfileitemmodel.cpp:2682 kitemviews/kfileitemmodel.cpp:2695
+#: kitemviews/kfileitemmodel.cpp:2708
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Read, "
 msgstr "Читання, "
 
-#: kitemviews/kfileitemmodel.cpp:2659 kitemviews/kfileitemmodel.cpp:2672
-#: kitemviews/kfileitemmodel.cpp:2685
+#: kitemviews/kfileitemmodel.cpp:2685 kitemviews/kfileitemmodel.cpp:2698
+#: kitemviews/kfileitemmodel.cpp:2711
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Write, "
 msgstr "Запис, "
 
-#: kitemviews/kfileitemmodel.cpp:2662 kitemviews/kfileitemmodel.cpp:2675
-#: kitemviews/kfileitemmodel.cpp:2688
+#: kitemviews/kfileitemmodel.cpp:2688 kitemviews/kfileitemmodel.cpp:2701
+#: kitemviews/kfileitemmodel.cpp:2714
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
 msgstr "Виконання, "
 
-#: kitemviews/kfileitemmodel.cpp:2664 kitemviews/kfileitemmodel.cpp:2677
-#: kitemviews/kfileitemmodel.cpp:2690
+#: kitemviews/kfileitemmodel.cpp:2690 kitemviews/kfileitemmodel.cpp:2703
+#: kitemviews/kfileitemmodel.cpp:2716
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Forbidden"
 msgstr "Заборонено"
 
-#: kitemviews/kfileitemmodel.cpp:2692
+#: kitemviews/kfileitemmodel.cpp:2718
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
 msgstr "Користувач: %1 | Група: %2 | Інші: %3"
 
-#: kitemviews/kfileitemmodel.cpp:2782
+#: kitemviews/kfileitemmodel.cpp:2808
 msgctxt "@label"
 msgid "Name"
 msgstr "Назва"
 
-#: kitemviews/kfileitemmodel.cpp:2783
+#: kitemviews/kfileitemmodel.cpp:2809
 msgctxt "@label"
 msgid "Size"
 msgstr "Розмір"
 
-#: kitemviews/kfileitemmodel.cpp:2784
+#: kitemviews/kfileitemmodel.cpp:2810
 msgctxt "@label"
 msgid "Modified"
 msgstr "Змінено"
 
-#: kitemviews/kfileitemmodel.cpp:2784 kitemviews/kfileitemmodel.cpp:2785
-#: kitemviews/kfileitemmodel.cpp:2786
+#: kitemviews/kfileitemmodel.cpp:2810 kitemviews/kfileitemmodel.cpp:2811
+#: kitemviews/kfileitemmodel.cpp:2812
 msgctxt "@tooltip"
 msgid "The date format can be selected in settings."
 msgstr "Формат дати можна вибрати у параметрах програми."
 
-#: kitemviews/kfileitemmodel.cpp:2785
+#: kitemviews/kfileitemmodel.cpp:2811
 msgctxt "@label"
 msgid "Created"
 msgstr "Дата створення"
 
-#: kitemviews/kfileitemmodel.cpp:2786
+#: kitemviews/kfileitemmodel.cpp:2812
 msgctxt "@label"
 msgid "Accessed"
 msgstr "Доступ"
 
-#: kitemviews/kfileitemmodel.cpp:2787
+#: kitemviews/kfileitemmodel.cpp:2813
 msgctxt "@label"
 msgid "Type"
 msgstr "Тип"
 
-#: kitemviews/kfileitemmodel.cpp:2788
+#: kitemviews/kfileitemmodel.cpp:2814
 msgctxt "@label"
 msgid "Rating"
 msgstr "Оцінка"
 
-#: kitemviews/kfileitemmodel.cpp:2789
+#: kitemviews/kfileitemmodel.cpp:2815
 msgctxt "@label"
 msgid "Tags"
 msgstr "Мітки"
 
-#: kitemviews/kfileitemmodel.cpp:2790
+#: kitemviews/kfileitemmodel.cpp:2816
 msgctxt "@label"
 msgid "Comment"
 msgstr "Коментар"
 
-#: kitemviews/kfileitemmodel.cpp:2791
+#: kitemviews/kfileitemmodel.cpp:2817
 msgctxt "@label"
 msgid "Title"
 msgstr "Заголовок"
 
-#: kitemviews/kfileitemmodel.cpp:2791 kitemviews/kfileitemmodel.cpp:2792
-#: kitemviews/kfileitemmodel.cpp:2793 kitemviews/kfileitemmodel.cpp:2794
-#: kitemviews/kfileitemmodel.cpp:2795 kitemviews/kfileitemmodel.cpp:2796
+#: kitemviews/kfileitemmodel.cpp:2817 kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2819 kitemviews/kfileitemmodel.cpp:2820
+#: kitemviews/kfileitemmodel.cpp:2821 kitemviews/kfileitemmodel.cpp:2822
 msgctxt "@label"
 msgid "Document"
 msgstr "Документ"
 
-#: kitemviews/kfileitemmodel.cpp:2792
+#: kitemviews/kfileitemmodel.cpp:2818
 msgctxt "@label"
 msgid "Author"
 msgstr "Автор"
 
-#: kitemviews/kfileitemmodel.cpp:2793
+#: kitemviews/kfileitemmodel.cpp:2819
 msgctxt "@label"
 msgid "Publisher"
 msgstr "Видавець"
 
-#: kitemviews/kfileitemmodel.cpp:2794
+#: kitemviews/kfileitemmodel.cpp:2820
 msgctxt "@label"
 msgid "Page Count"
 msgstr "Кількість сторінок"
 
-#: kitemviews/kfileitemmodel.cpp:2795
+#: kitemviews/kfileitemmodel.cpp:2821
 msgctxt "@label"
 msgid "Word Count"
 msgstr "Кількість слів"
 
-#: kitemviews/kfileitemmodel.cpp:2796
+#: kitemviews/kfileitemmodel.cpp:2822
 msgctxt "@label"
 msgid "Line Count"
 msgstr "Кількість рядків"
 
-#: kitemviews/kfileitemmodel.cpp:2797
+#: kitemviews/kfileitemmodel.cpp:2823
 msgctxt "@label"
 msgid "Date Photographed"
 msgstr "Дата зйомки"
 
-#: kitemviews/kfileitemmodel.cpp:2797 kitemviews/kfileitemmodel.cpp:2798
-#: kitemviews/kfileitemmodel.cpp:2799 kitemviews/kfileitemmodel.cpp:2800
-#: kitemviews/kfileitemmodel.cpp:2801
+#: kitemviews/kfileitemmodel.cpp:2823 kitemviews/kfileitemmodel.cpp:2824
+#: kitemviews/kfileitemmodel.cpp:2825 kitemviews/kfileitemmodel.cpp:2826
+#: kitemviews/kfileitemmodel.cpp:2827
 msgctxt "@label"
 msgid "Image"
 msgstr "Зображення"
 
-#: kitemviews/kfileitemmodel.cpp:2798
+#: kitemviews/kfileitemmodel.cpp:2824
 msgctxt "@label width x height"
 msgid "Dimensions"
 msgstr "Розміри"
 
-#: kitemviews/kfileitemmodel.cpp:2799
+#: kitemviews/kfileitemmodel.cpp:2825
 msgctxt "@label"
 msgid "Width"
 msgstr "Ширина"
 
-#: kitemviews/kfileitemmodel.cpp:2800
+#: kitemviews/kfileitemmodel.cpp:2826
 msgctxt "@label"
 msgid "Height"
 msgstr "Висота"
 
-#: kitemviews/kfileitemmodel.cpp:2801
+#: kitemviews/kfileitemmodel.cpp:2827
 msgctxt "@label"
 msgid "Orientation"
 msgstr "Орієнтація"
 
-#: kitemviews/kfileitemmodel.cpp:2802
+#: kitemviews/kfileitemmodel.cpp:2828
 msgctxt "@label"
 msgid "Artist"
 msgstr "Виконавець"
 
-#: kitemviews/kfileitemmodel.cpp:2802 kitemviews/kfileitemmodel.cpp:2803
-#: kitemviews/kfileitemmodel.cpp:2804 kitemviews/kfileitemmodel.cpp:2805
-#: kitemviews/kfileitemmodel.cpp:2806 kitemviews/kfileitemmodel.cpp:2807
-#: kitemviews/kfileitemmodel.cpp:2808
+#: kitemviews/kfileitemmodel.cpp:2828 kitemviews/kfileitemmodel.cpp:2829
+#: kitemviews/kfileitemmodel.cpp:2830 kitemviews/kfileitemmodel.cpp:2831
+#: kitemviews/kfileitemmodel.cpp:2832 kitemviews/kfileitemmodel.cpp:2833
+#: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
 msgid "Audio"
 msgstr "Звук"
 
-#: kitemviews/kfileitemmodel.cpp:2803
+#: kitemviews/kfileitemmodel.cpp:2829
 msgctxt "@label"
 msgid "Genre"
 msgstr "Жанр"
 
-#: kitemviews/kfileitemmodel.cpp:2804
+#: kitemviews/kfileitemmodel.cpp:2830
 msgctxt "@label"
 msgid "Album"
 msgstr "Альбом"
 
-#: kitemviews/kfileitemmodel.cpp:2805 kitemviews/kfileitemmodel.cpp:2811
+#: kitemviews/kfileitemmodel.cpp:2831 kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Duration"
 msgstr "Тривалість"
 
-#: kitemviews/kfileitemmodel.cpp:2806
+#: kitemviews/kfileitemmodel.cpp:2832
 msgctxt "@label"
 msgid "Bitrate"
 msgstr "Бітова швидкість"
 
-#: kitemviews/kfileitemmodel.cpp:2807
+#: kitemviews/kfileitemmodel.cpp:2833
 msgctxt "@label"
 msgid "Track"
 msgstr "Композиція"
 
-#: kitemviews/kfileitemmodel.cpp:2808
+#: kitemviews/kfileitemmodel.cpp:2834
 msgctxt "@label"
 msgid "Release Year"
 msgstr "Рік випуску"
 
-#: kitemviews/kfileitemmodel.cpp:2809
+#: kitemviews/kfileitemmodel.cpp:2835
 msgctxt "@label"
 msgid "Aspect Ratio"
 msgstr "Співвідношення розмірів"
 
-#: kitemviews/kfileitemmodel.cpp:2809 kitemviews/kfileitemmodel.cpp:2810
-#: kitemviews/kfileitemmodel.cpp:2811
+#: kitemviews/kfileitemmodel.cpp:2835 kitemviews/kfileitemmodel.cpp:2836
+#: kitemviews/kfileitemmodel.cpp:2837
 msgctxt "@label"
 msgid "Video"
 msgstr "Відео"
 
-#: kitemviews/kfileitemmodel.cpp:2810
+#: kitemviews/kfileitemmodel.cpp:2836
 msgctxt "@label"
 msgid "Frame Rate"
 msgstr "Частота кадрів"
 
-#: kitemviews/kfileitemmodel.cpp:2812
+#: kitemviews/kfileitemmodel.cpp:2838
 msgctxt "@label"
 msgid "Path"
 msgstr "Шлях"
 
-#: kitemviews/kfileitemmodel.cpp:2812 kitemviews/kfileitemmodel.cpp:2813
-#: kitemviews/kfileitemmodel.cpp:2814 kitemviews/kfileitemmodel.cpp:2815
-#: kitemviews/kfileitemmodel.cpp:2816 kitemviews/kfileitemmodel.cpp:2817
-#: kitemviews/kfileitemmodel.cpp:2818 kitemviews/kfileitemmodel.cpp:2819
+#: kitemviews/kfileitemmodel.cpp:2838 kitemviews/kfileitemmodel.cpp:2839
+#: kitemviews/kfileitemmodel.cpp:2840 kitemviews/kfileitemmodel.cpp:2841
+#: kitemviews/kfileitemmodel.cpp:2842 kitemviews/kfileitemmodel.cpp:2843
+#: kitemviews/kfileitemmodel.cpp:2844 kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "Other"
 msgstr "Інше"
 
-#: kitemviews/kfileitemmodel.cpp:2813
+#: kitemviews/kfileitemmodel.cpp:2839
 msgctxt "@label"
 msgid "File Extension"
 msgstr "Суфікс назви файла"
 
-#: kitemviews/kfileitemmodel.cpp:2814
+#: kitemviews/kfileitemmodel.cpp:2840
 msgctxt "@label"
 msgid "Deletion Time"
 msgstr "Час вилучення"
 
-#: kitemviews/kfileitemmodel.cpp:2815
+#: kitemviews/kfileitemmodel.cpp:2841
 msgctxt "@label"
 msgid "Link Destination"
 msgstr "Призначення посилання"
 
-#: kitemviews/kfileitemmodel.cpp:2816
+#: kitemviews/kfileitemmodel.cpp:2842
 msgctxt "@label"
 msgid "Downloaded From"
 msgstr "Джерело отримання"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@label"
 msgid "Permissions"
 msgstr "Права доступу"
 
-#: kitemviews/kfileitemmodel.cpp:2817
+#: kitemviews/kfileitemmodel.cpp:2843
 msgctxt "@tooltip"
 msgid ""
 "The permission format can be changed in settings. Options are Symbolic, "
@@ -3047,17 +3047,17 @@ msgstr ""
 "Формат запису прав доступу можна змінити у параметрах. Можна вибрати "
 "«символічний», «числовий (вісімковий)» або «комбінований» формат."
 
-#: kitemviews/kfileitemmodel.cpp:2818
+#: kitemviews/kfileitemmodel.cpp:2844
 msgctxt "@label"
 msgid "Owner"
 msgstr "Власник"
 
-#: kitemviews/kfileitemmodel.cpp:2819
+#: kitemviews/kfileitemmodel.cpp:2845
 msgctxt "@label"
 msgid "User Group"
 msgstr "Група користувачів"
 
-#: kitemviews/kfileitemmodel.cpp:2920
+#: kitemviews/kfileitemmodel.cpp:2946
 #, kde-format
 msgctxt "@info:status"
 msgid "Unknown error."
