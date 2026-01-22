@@ -60,7 +60,7 @@ int main(int argc, char **argv)
                     "@info:shell %1 is a terminal command",
                     "Running <application>Dolphin</application> with <command>sudo</command> is discouraged. Please run <icode>%1</icode> instead.",
                     QStringLiteral("dolphin --sudo")))
-                  << std::endl;
+                  << '\n';
         // We could perform a privilege de-escalation here and continue as normal. It is a bit safer though to simply let the user restart without sudo.
         return EXIT_FAILURE;
     }
