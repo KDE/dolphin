@@ -102,7 +102,7 @@ bool Bar::event(QEvent *event)
 void Bar::resizeEvent(QResizeEvent *resizeEvent)
 {
     updateLabelString();
-    return QWidget::resizeEvent(resizeEvent);
+    QWidget::resizeEvent(resizeEvent);
 }
 
 void Bar::hideTheNextTimeAuthorizationExpires()

@@ -36,7 +36,7 @@ bool WidgetMenu::focusNextPrevChild(bool next)
 
 void WidgetMenu::mouseReleaseEvent(QMouseEvent *event)
 {
-    return QWidget::mouseReleaseEvent(event);
+    QWidget::mouseReleaseEvent(event);
 }
 
 void WidgetMenu::resizeToFitContents()

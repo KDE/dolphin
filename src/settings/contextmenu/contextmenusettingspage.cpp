@@ -141,7 +141,8 @@ void ContextMenuSettingsPage::setEntryVisible(const QString &id, bool visible)
     } else if (id == "open_in_new_window") {
         ContextMenuSettings::setShowOpenInNewWindow(visible);
     } else if (id == "open_in_split_view") {
-        return ContextMenuSettings::setShowOpenInSplitView(visible);
+        ContextMenuSettings::setShowOpenInSplitView(visible);
+        return;
     } else if (id == "copy_location") {
         ContextMenuSettings::setShowCopyLocation(visible);
     } else if (id == "duplicate") {

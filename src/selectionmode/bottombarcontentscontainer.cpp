@@ -47,27 +47,38 @@ void BottomBarContentsContainer::resetContents(BottomBar::Contents contents)
     m_contents = contents;
     switch (contents) {
     case BottomBar::CopyContents:
-        return addCopyContents();
+        addCopyContents();
+        break;
     case BottomBar::CopyLocationContents:
-        return addCopyLocationContents();
+        addCopyLocationContents();
+        break;
     case BottomBar::CopyToOtherViewContents:
-        return addCopyToOtherViewContents();
+        addCopyToOtherViewContents();
+        break;
     case BottomBar::CutContents:
-        return addCutContents();
+        addCutContents();
+        break;
     case BottomBar::DeleteContents:
-        return addDeleteContents();
+        addDeleteContents();
+        break;
     case BottomBar::DuplicateContents:
-        return addDuplicateContents();
+        addDuplicateContents();
+        break;
     case BottomBar::GeneralContents:
-        return addGeneralContents();
+        addGeneralContents();
+        break;
     case BottomBar::PasteContents:
-        return addPasteContents();
+        addPasteContents();
+        break;
     case BottomBar::MoveToOtherViewContents:
-        return addMoveToOtherViewContents();
+        addMoveToOtherViewContents();
+        break;
     case BottomBar::MoveToTrashContents:
-        return addMoveToTrashContents();
+        addMoveToTrashContents();
+        break;
     case BottomBar::RenameContents:
-        return addRenameContents();
+        addRenameContents();
+        break;
     }
 }
 

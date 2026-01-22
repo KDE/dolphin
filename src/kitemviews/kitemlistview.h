@@ -904,7 +904,7 @@ void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<std::pair<qreal, 
                                                        qreal &logicalWidthHint,
                                                        const KItemListView *view) const
 {
-    return m_informant->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, view);
+    m_informant->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, view);
 }
 
 template<class T>

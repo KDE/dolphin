@@ -70,7 +70,7 @@ TopBar::TopBar(QWidget *parent)
 void TopBar::resizeEvent(QResizeEvent *resizeEvent)
 {
     updateLabelString();
-    return AnimatedHeightWidget::resizeEvent(resizeEvent);
+    AnimatedHeightWidget::resizeEvent(resizeEvent);
 }
 
 void TopBar::updateLabelString()

@@ -108,12 +108,13 @@ void BottomBar::resizeEvent(QResizeEvent *resizeEvent)
 {
     if (resizeEvent->oldSize().width() == resizeEvent->size().width()) {
         // The width() didn't change so our custom override isn't needed.
-        return AnimatedHeightWidget::resizeEvent(resizeEvent);
+        AnimatedHeightWidget::resizeEvent(resizeEvent);
+        return;
     }
 
     m_contentsContainer->adaptToNewBarWidth(width());
 
-    return AnimatedHeightWidget::resizeEvent(resizeEvent);
+    AnimatedHeightWidget::resizeEvent(resizeEvent);
 }
 
 int BottomBar::preferredHeight() const
