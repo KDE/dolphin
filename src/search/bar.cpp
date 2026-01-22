@@ -110,7 +110,7 @@ Bar::Bar(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent)
         SearchSettings::self()->save();
         DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
         searchConfigurationCopy.setSearchLocations(SearchLocations::FromHere);
-        slotConfigurationChanged(std::move(searchConfigurationCopy));
+        slotConfigurationChanged(searchConfigurationCopy);
     });
 
     m_everywhereButton = new QToolButton(contentsContainer);
@@ -126,7 +126,7 @@ Bar::Bar(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent)
         SearchSettings::self()->save();
         DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
         searchConfigurationCopy.setSearchLocations(SearchLocations::Everywhere);
-        slotConfigurationChanged(std::move(searchConfigurationCopy));
+        slotConfigurationChanged(searchConfigurationCopy);
     });
 
     // Apply layout for the location buttons and chips row

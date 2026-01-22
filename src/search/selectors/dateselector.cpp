@@ -31,7 +31,7 @@ Search::DateSelector::DateSelector(std::shared_ptr<const DolphinQuery> dolphinQu
         }
         DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
         searchConfigurationCopy.setModifiedSinceDate(activatedDate);
-        Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+        Q_EMIT configurationChanged(searchConfigurationCopy);
     });
     setMenu(m_datePickerPopup);
 
@@ -43,7 +43,7 @@ void DateSelector::removeRestriction()
     Q_ASSERT(m_searchConfiguration->modifiedSinceDate().isValid());
     DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
     searchConfigurationCopy.setModifiedSinceDate(QDate{});
-    Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+    Q_EMIT configurationChanged(searchConfigurationCopy);
 }
 
 void DateSelector::updateState(const std::shared_ptr<const DolphinQuery> &dolphinQuery)

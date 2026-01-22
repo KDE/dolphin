@@ -120,7 +120,7 @@ void TagsSelector::removeRestriction()
     Q_ASSERT(!m_searchConfiguration->requiredTags().isEmpty());
     DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
     searchConfigurationCopy.setRequiredTags({});
-    Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+    Q_EMIT configurationChanged(searchConfigurationCopy);
 }
 
 void TagsSelector::updateMenu(const std::shared_ptr<const DolphinQuery> &dolphinQuery)
@@ -158,7 +158,7 @@ void TagsSelector::updateMenu(const std::shared_ptr<const DolphinQuery> &dolphin
             }
             DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
             searchConfigurationCopy.setRequiredTags(requiredTags);
-            Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+            Q_EMIT configurationChanged(searchConfigurationCopy);
 
             if (!onlyOneTagExists) {
                 // Keep the menu open to allow easier tag multi-selection.

@@ -31,7 +31,7 @@ MinimumRatingSelector::MinimumRatingSelector(std::shared_ptr<const DolphinQuery>
         }
         DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
         searchConfigurationCopy.setMinimumRating(activatedMinimumRating);
-        Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+        Q_EMIT configurationChanged(searchConfigurationCopy);
     });
 
     updateStateToMatch(std::move(dolphinQuery));
@@ -42,7 +42,7 @@ void MinimumRatingSelector::removeRestriction()
     Q_ASSERT(m_searchConfiguration->minimumRating() > 0);
     DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
     searchConfigurationCopy.setMinimumRating(0);
-    Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+    Q_EMIT configurationChanged(searchConfigurationCopy);
 }
 
 void MinimumRatingSelector::updateState(const std::shared_ptr<const DolphinQuery> &dolphinQuery)

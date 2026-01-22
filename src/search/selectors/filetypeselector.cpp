@@ -61,7 +61,7 @@ FileTypeSelector::FileTypeSelector(std::shared_ptr<const DolphinQuery> dolphinQu
         }
         DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
         searchConfigurationCopy.setFileType(activatedType);
-        Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+        Q_EMIT configurationChanged(searchConfigurationCopy);
     });
 
     updateStateToMatch(std::move(dolphinQuery));
@@ -72,7 +72,7 @@ void Search::FileTypeSelector::removeRestriction()
     Q_ASSERT(m_searchConfiguration->fileType() != KFileMetaData::Type::Empty);
     DolphinQuery searchConfigurationCopy = *m_searchConfiguration;
     searchConfigurationCopy.setFileType(KFileMetaData::Type::Empty);
-    Q_EMIT configurationChanged(std::move(searchConfigurationCopy));
+    Q_EMIT configurationChanged(searchConfigurationCopy);
 }
 
 void FileTypeSelector::updateState(const std::shared_ptr<const DolphinQuery> &dolphinQuery)
