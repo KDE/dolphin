@@ -23,7 +23,7 @@ BackgroundColorHelper *BackgroundColorHelper::instance()
     return s_instance;
 }
 
-void setBackgroundColorForWidget(QWidget *widget, QColor color)
+static void setBackgroundColorForWidget(QWidget *widget, QColor color)
 {
     QPalette palette;
     palette.setBrush(QPalette::Active, QPalette::Window, color);

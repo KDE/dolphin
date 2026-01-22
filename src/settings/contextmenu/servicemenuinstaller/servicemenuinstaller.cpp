@@ -37,7 +37,7 @@ enum PackageOperation { Install, Uninstall };
 #endif
 
 // @param msg Error that gets logged to CLI
-Q_NORETURN void fail(const QString &str)
+Q_NORETURN static void fail(const QString &str)
 {
     qCritical() << str;
     const QStringList args = {"--detailederror", i18n("Dolphin service menu installation failed"), str};
@@ -46,14 +46,14 @@ Q_NORETURN void fail(const QString &str)
     exit(1);
 }
 
-QString getServiceMenusDir()
+static QString getServiceMenusDir()
 {
     const QString dataLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     return QDir(dataLocation).absoluteFilePath("kio/servicemenus");
 }
 
 #if HAVE_PACKAGEKIT
-void packageKitInstall(const QString &fileName)
+static void packageKitInstall(const QString &fileName)
 {
     PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName, PackageKit::Transaction::TransactionFlagNone);
 
@@ -73,7 +73,7 @@ void packageKitInstall(const QString &fileName)
     QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
 }
 
-void packageKitUninstall(const QString &fileName)
+static void packageKitUninstall(const QString &fileName)
 {
     const auto exitWithError = [=](PackageKit::Transaction::Error, const QString &details) {
         fail(details);
@@ -103,7 +103,7 @@ void packageKitUninstall(const QString &fileName)
 }
 #endif
 
-Q_NORETURN void packageKit(PackageOperation operation, const QString &fileName)
+Q_NORETURN static void packageKit(PackageOperation operation, const QString &fileName)
 {
 #if HAVE_PACKAGEKIT
     QFileInfo fileInfo(fileName);
@@ -133,7 +133,7 @@ struct UncompressCommand {
 
 enum ScriptExecution { Process, Konsole };
 
-void runUncompress(const QString &inputPath, const QString &outputPath)
+static void runUncompress(const QString &inputPath, const QString &outputPath)
 {
     QVector<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
     mimeTypeToCommand.append({{"application/x-tar", "application/tar", "application/x-gtar", "multipart/x-tar"}, UncompressCommand({"tar", {"-xf"}, {"-C"}})});
@@ -198,7 +198,7 @@ void runUncompress(const QString &inputPath, const QString &outputPath)
     }
 }
 
-QString findRecursive(const QString &dir, const QString &basename)
+static QString findRecursive(const QString &dir, const QString &basename)
 {
     QDirIterator it(dir, QStringList{basename}, QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
@@ -208,7 +208,7 @@ QString findRecursive(const QString &dir, const QString &basename)
     return QString();
 }
 
-bool runScriptOnce(const QString &path, const QStringList &args, ScriptExecution execution)
+static bool runScriptOnce(const QString &path, const QStringList &args, ScriptExecution execution)
 {
     QProcess process;
     process.setWorkingDirectory(QFileInfo(path).absolutePath());
@@ -250,7 +250,7 @@ bool runScriptOnce(const QString &path, const QStringList &args, ScriptExecution
 
 // If hasArgVariants is true, run "path".
 // If hasArgVariants is false, run "path argVariants[i]" until successful.
-bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringList &argVariants, QString &errorText)
+static bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringList &argVariants, QString &errorText)
 {
     QFile file(path);
     if (!file.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner)) {
@@ -276,12 +276,12 @@ bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringLi
     return false;
 }
 
-QString generateDirPath(const QString &archive)
+static QString generateDirPath(const QString &archive)
 {
     return QStringLiteral("%1-dir").arg(archive);
 }
 
-bool cmdInstall(const QString &archive, QString &errorText)
+static bool cmdInstall(const QString &archive, QString &errorText)
 {
     const auto serviceDir = getServiceMenusDir();
     if (!QDir().mkpath(serviceDir)) {
@@ -363,7 +363,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
     return true;
 }
 
-bool cmdUninstall(const QString &archive, QString &errorText)
+static bool cmdUninstall(const QString &archive, QString &errorText)
 {
     const auto serviceDir = getServiceMenusDir();
     if (archive.endsWith(QLatin1String(".desktop"))) {

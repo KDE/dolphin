@@ -46,7 +46,6 @@ const int RepeatingAutoScrollDelay = 1000 / 60;
 const int RubberFadeSpeed = 150;
 
 const char *RubberPropertyName = "_kitemviews_rubberBandPosition";
-}
 
 #ifndef QT_NO_ACCESSIBILITY
 QAccessibleInterface *accessibleInterfaceFactory(const QString &key, QObject *object)
@@ -67,6 +66,7 @@ QAccessibleInterface *accessibleInterfaceFactory(const QString &key, QObject *ob
     return nullptr;
 }
 #endif
+}
 
 KItemListView::KItemListView(QGraphicsWidget *parent)
     : QGraphicsWidget(parent)
