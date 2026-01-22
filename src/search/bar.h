@@ -54,7 +54,7 @@ public:
     /**
      * @brief Constructs a Search::Bar with an initial state matching @p dolphinQuery and with parent @p parent.
      */
-    explicit Bar(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent = nullptr);
+    explicit Bar(const std::shared_ptr<const DolphinQuery> &dolphinQuery, QWidget *parent = nullptr);
 
     /**
      * Returns the text that should be used as input

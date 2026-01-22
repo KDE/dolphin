@@ -200,7 +200,7 @@ DolphinMainWindow::DolphinMainWindow()
     connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
 
     m_disabledActionNotifier = new DisabledActionNotifier(this);
-    connect(m_disabledActionNotifier, &DisabledActionNotifier::disabledActionTriggered, this, [this](const QAction *, QString reason) {
+    connect(m_disabledActionNotifier, &DisabledActionNotifier::disabledActionTriggered, this, [this](const QAction *, const QString &reason) {
         m_activeViewContainer->showMessage(reason, KMessageWidget::Warning);
     });
 

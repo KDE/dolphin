@@ -1790,7 +1790,7 @@ void DolphinView::resetZoomLevel()
     setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(userDefaultIconSize, userDefaultIconSize)));
 }
 
-void DolphinView::selectFileOnceAvailable(const QUrl &url, std::function<bool()> condition)
+void DolphinView::selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition)
 {
     // need to wait for the item to be added to the model
     QMetaObject::Connection *connection = new QMetaObject::Connection;

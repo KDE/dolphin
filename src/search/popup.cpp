@@ -55,7 +55,7 @@ QString Search::balooUiName()
 
 Popup::Popup(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent)
     : WidgetMenu{parent}
-    , UpdatableStateInterface{dolphinQuery}
+    , UpdatableStateInterface{std::move(dolphinQuery)}
 {
 }
 

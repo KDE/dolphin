@@ -44,7 +44,7 @@ bool isSearchConfigured(const std::shared_ptr<const DolphinQuery> &searchConfigu
 };
 }
 
-Bar::Bar(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent)
+Bar::Bar(const std::shared_ptr<const DolphinQuery> &dolphinQuery, QWidget *parent)
     : AnimatedHeightWidget(parent)
     , UpdatableStateInterface{dolphinQuery}
 {

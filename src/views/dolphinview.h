@@ -965,7 +965,7 @@ private:
 
     bool tryShowNameToolTip(QHelpEvent *event);
 
-    void selectFileOnceAvailable(const QUrl &url, std::function<bool()> condition);
+    void selectFileOnceAvailable(const QUrl &url, const std::function<bool()> &condition);
 
 private:
     void updatePalette();
