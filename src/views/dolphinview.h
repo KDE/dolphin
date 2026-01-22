@@ -25,7 +25,7 @@
 
 #include <memory>
 
-typedef KIO::FileUndoManager::CommandType CommandType;
+using CommandType = KIO::FileUndoManager::CommandType;
 class QVBoxLayout;
 class DolphinItemListView;
 class KFileItemModel;

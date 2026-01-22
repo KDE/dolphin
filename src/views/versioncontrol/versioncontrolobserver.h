@@ -100,7 +100,7 @@ private Q_SLOTS:
     void slotThreadFinished();
 
 private:
-    typedef QPair<KFileItem, KVersionControlPlugin::ItemVersion> ItemState;
+    using ItemState = QPair<KFileItem, KVersionControlPlugin::ItemVersion>;
 
     void updateItemStates();
 

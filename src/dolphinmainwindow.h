@@ -31,7 +31,7 @@
 #include <QUrl>
 #include <QVector>
 
-typedef KIO::FileUndoManager::CommandType CommandType;
+using CommandType = KIO::FileUndoManager::CommandType;
 
 class DiskSpaceUsageMenu;
 class DolphinBookmarkHandler;
