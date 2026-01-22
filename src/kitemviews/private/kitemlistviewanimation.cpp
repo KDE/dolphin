@@ -19,8 +19,8 @@ KItemListViewAnimation::KItemListViewAnimation(QObject *parent)
 
 KItemListViewAnimation::~KItemListViewAnimation()
 {
-    for (int type = 0; type < AnimationTypeCount; ++type) {
-        qDeleteAll(m_animation[type]);
+    for (const auto &type : m_animation) {
+        qDeleteAll(type);
     }
 }
 

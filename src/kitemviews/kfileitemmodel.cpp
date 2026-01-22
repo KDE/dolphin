@@ -1838,8 +1838,8 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList &i
 
 void KFileItemModel::resetRoles()
 {
-    for (int i = 0; i < RolesCount; ++i) {
-        m_requestRole[i] = false;
+    for (bool &i : m_requestRole) {
+        i = false;
     }
 }
 
