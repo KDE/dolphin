@@ -796,7 +796,7 @@ void DolphinViewContainer::slotfileMiddleClickActivated(const KFileItem &item)
     }
 
     if (services.length() >= indexOfAppToOpenFileWith + 1) {
-        auto service = services.at(indexOfAppToOpenFileWith);
+        const auto &service = services.at(indexOfAppToOpenFileWith);
 
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service, this);
         job->setUrls({item.targetUrl()});

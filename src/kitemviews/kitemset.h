@@ -287,7 +287,7 @@ public:
     iterator find(int i);
     const_iterator constFind(int i) const;
     bool remove(int i);
-    iterator erase(iterator it);
+    iterator erase(const iterator &it);
 
     /**
      * Returns a new set which contains all items that are contained in this

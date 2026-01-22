@@ -342,7 +342,7 @@ private:
 
     void resetSizeData(const int index, const int size = 0);
 
-    void recountDirectoryItems(const QList<QUrl> directories);
+    void recountDirectoryItems(const QList<QUrl> &directories);
 
 private:
     QSize cacheSize();

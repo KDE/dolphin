@@ -14,7 +14,7 @@ ActionTextHelper::ActionTextHelper(QObject *parent)
 {
 }
 
-void ActionTextHelper::registerTextWhenNothingIsSelected(QAction *action, QString registeredText)
+void ActionTextHelper::registerTextWhenNothingIsSelected(QAction *action, const QString &registeredText)
 {
     Q_ASSERT(action);
     m_registeredActionTextChanges.emplace_back(action, registeredText, TextWhenNothingIsSelected);

@@ -78,7 +78,7 @@ public:
     {
     }
 
-    void setActions(const QList<QAction *> actions)
+    void setActions(const QList<QAction *> &actions)
     {
         m_actions = actions;
     }

@@ -35,7 +35,7 @@ bool Search::isSupportedSearchScheme(const QString &urlScheme)
 
 bool g_testMode = false;
 
-bool Search::isIndexingEnabledIn(QUrl directory)
+bool Search::isIndexingEnabledIn(const QUrl &directory)
 {
     if (g_testMode) {
         return true; // For unit-testing, let's pretend everything is indexed correctly.

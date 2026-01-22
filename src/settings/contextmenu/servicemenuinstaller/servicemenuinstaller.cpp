@@ -445,8 +445,8 @@ int main(int argc, char *argv[])
         fail(i18n("Path to archive is required."));
     }
 
-    const QString cmd = args[0];
-    const QString archive = args[1];
+    const QString &cmd = args[0];
+    const QString &archive = args[1];
 
     QString errorText;
     if (cmd == QLatin1String("install")) {

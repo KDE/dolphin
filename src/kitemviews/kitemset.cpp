@@ -94,7 +94,7 @@ KItemSet::iterator KItemSet::insert(int i)
     }
 }
 
-KItemSet::iterator KItemSet::erase(iterator it)
+KItemSet::iterator KItemSet::erase(const iterator &it)
 {
     KItemRangeList::iterator rangeIt = it.m_rangeIt;
 

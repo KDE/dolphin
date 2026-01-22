@@ -560,7 +560,7 @@ bool DolphinView::sortHiddenLast() const
 
 void DolphinView::setVisibleRoles(const QList<QByteArray> &roles)
 {
-    const QList<QByteArray> previousRoles = roles;
+    const QList<QByteArray> &previousRoles = roles;
 
     ViewProperties props(viewPropertiesUrl());
     props.setVisibleRoles(roles);
@@ -2169,7 +2169,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
     }
 
     if (role == "text") {
-        const KFileItem oldItem = items.first();
+        const KFileItem &oldItem = items.first();
         const EditResult retVal = value.value<EditResult>();
         const QString newName = retVal.newName;
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1Char('.') && newName != QLatin1String("..")) {

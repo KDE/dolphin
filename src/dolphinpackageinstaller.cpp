@@ -25,7 +25,7 @@ DolphinPackageInstaller::DolphinPackageInstaller(const QString &packageName,
     : KJob(parent)
     , m_packageName{packageName}
     , m_fallBackInstallationPageUrl{fallBackInstallationPageUrl}
-    , m_isPackageInstalledCheck{isPackageInstalledCheck}
+    , m_isPackageInstalledCheck{std::move(isPackageInstalledCheck)}
 {
 }
 

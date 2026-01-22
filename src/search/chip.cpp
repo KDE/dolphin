@@ -15,7 +15,7 @@ using namespace Search;
 
 ChipBase::ChipBase(std::shared_ptr<const DolphinQuery> dolphinQuery, QWidget *parent)
     : QWidget{parent}
-    , UpdatableStateInterface{dolphinQuery}
+    , UpdatableStateInterface{std::move(dolphinQuery)}
 {
     m_removeButton = new QToolButton{this};
     m_removeButton->setText(i18nc("@action:button", "Remove Filter"));

@@ -33,7 +33,7 @@ public:
      * The texts can be changed back by calling textsWhenNothingIsSelectedEnabled(false).
      * @see textsWhenNothingIsSelectedEnabled()
      */
-    void registerTextWhenNothingIsSelected(QAction *action, QString registeredText);
+    void registerTextWhenNothingIsSelected(QAction *action, const QString &registeredText);
 
     /**
      * Changes all texts that were registered previously using registerTextWhenNothingIsSelected() to those
@@ -57,8 +57,8 @@ private:
 
         RegisteredActionTextChange(QAction *action, QString registeredText, TextState state)
             : action{action}
-            , registeredText{registeredText}
-            , textStateOfRegisteredText{state} {};
+            , registeredText{std::move(std::move(registeredText))}
+            , textStateOfRegisteredText{state} { };
     };
 
     /**

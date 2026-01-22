@@ -1526,7 +1526,7 @@ void KFileItemModelRolesUpdater::resetSizeData(const int index, const int size)
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 }
 
-void KFileItemModelRolesUpdater::recountDirectoryItems(const QList<QUrl> directories)
+void KFileItemModelRolesUpdater::recountDirectoryItems(const QList<QUrl> &directories)
 {
     for (const auto &dir : directories) {
         auto index = m_model->index(dir);

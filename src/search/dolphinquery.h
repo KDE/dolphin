@@ -50,7 +50,7 @@ enum class SearchTool {
 };
 
 /** @returns whether Baloo is configured to have indexed the @p directory. */
-bool isIndexingEnabledIn(QUrl directory);
+bool isIndexingEnabledIn(const QUrl &directory);
 
 /** @returns whether Baloo is configured to index file contents. */
 bool isContentIndexingEnabled();
