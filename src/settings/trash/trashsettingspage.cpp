@@ -26,9 +26,7 @@ TrashSettingsPage::TrashSettingsPage(QWidget *parent)
     connect(m_kcm, &KCModule::needsSaveChanged, this, &TrashSettingsPage::changed);
 }
 
-TrashSettingsPage::~TrashSettingsPage()
-{
-}
+TrashSettingsPage::~TrashSettingsPage() = default;
 
 void TrashSettingsPage::applySettings()
 {

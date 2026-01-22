@@ -72,9 +72,7 @@ InterfaceSettingsPage::InterfaceSettingsPage(QWidget *parent)
     topLayout->addWidget(tabWidget, 0, {});
 }
 
-InterfaceSettingsPage::~InterfaceSettingsPage()
-{
-}
+InterfaceSettingsPage::~InterfaceSettingsPage() = default;
 
 void InterfaceSettingsPage::applySettings()
 {

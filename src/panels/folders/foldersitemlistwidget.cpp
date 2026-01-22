@@ -11,9 +11,7 @@ FoldersItemListWidget::FoldersItemListWidget(KItemListWidgetInformant *informant
 {
 }
 
-FoldersItemListWidget::~FoldersItemListWidget()
-{
-}
+FoldersItemListWidget::~FoldersItemListWidget() = default;
 
 QPalette::ColorRole FoldersItemListWidget::normalTextColorRole() const
 {

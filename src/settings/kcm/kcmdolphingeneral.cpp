@@ -55,9 +55,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QObject *parent, const KP
     topLayout->addWidget(tabWidget, 0, {});
 }
 
-DolphinGeneralConfigModule::~DolphinGeneralConfigModule()
-{
-}
+DolphinGeneralConfigModule::~DolphinGeneralConfigModule() = default;
 
 void DolphinGeneralConfigModule::save()
 {

@@ -57,18 +57,9 @@ public:
         }
 
     public:
-        iterator(const iterator &other)
-            : m_rangeIt(other.m_rangeIt)
-            , m_offset(other.m_offset)
-        {
-        }
+        iterator(const iterator &other) = default;
 
-        iterator &operator=(const iterator &other)
-        {
-            m_rangeIt = other.m_rangeIt;
-            m_offset = other.m_offset;
-            return *this;
-        }
+        iterator &operator=(const iterator &other) = default;
 
         ~iterator() = default;
 
@@ -142,11 +133,7 @@ public:
         }
 
     public:
-        const_iterator(const const_iterator &other)
-            : m_rangeIt(other.m_rangeIt)
-            , m_offset(other.m_offset)
-        {
-        }
+        const_iterator(const const_iterator &other) = default;
 
         explicit const_iterator(const iterator &other)
             : m_rangeIt(other.m_rangeIt)
@@ -154,12 +141,7 @@ public:
         {
         }
 
-        const_iterator &operator=(const const_iterator &other)
-        {
-            m_rangeIt = other.m_rangeIt;
-            m_offset = other.m_offset;
-            return *this;
-        }
+        const_iterator &operator=(const const_iterator &other) = default;
 
         ~const_iterator() = default;
 
@@ -352,18 +334,11 @@ inline KItemSet::KItemSet()
 {
 }
 
-inline KItemSet::KItemSet(const KItemSet &other)
-    : m_itemRanges(other.m_itemRanges)
-{
-}
+inline KItemSet::KItemSet(const KItemSet &other) = default;
 
 inline KItemSet::~KItemSet() = default;
 
-inline KItemSet &KItemSet::operator=(const KItemSet &other)
-{
-    m_itemRanges = other.m_itemRanges;
-    return *this;
-}
+inline KItemSet &KItemSet::operator=(const KItemSet &other) = default;
 
 inline int KItemSet::count() const
 {

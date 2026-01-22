@@ -18,9 +18,7 @@ KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem *parent)
 {
 }
 
-KItemListSelectionToggle::~KItemListSelectionToggle()
-{
-}
+KItemListSelectionToggle::~KItemListSelectionToggle() = default;
 
 void KItemListSelectionToggle::setChecked(bool checked)
 {

@@ -83,9 +83,7 @@ StatusAndLocationBarsSettingsPage::StatusAndLocationBarsSettingsPage(QWidget *pa
     connect(m_showZoomSlider, &QCheckBox::toggled, this, &StatusAndLocationBarsSettingsPage::changed);
 }
 
-StatusAndLocationBarsSettingsPage::~StatusAndLocationBarsSettingsPage()
-{
-}
+StatusAndLocationBarsSettingsPage::~StatusAndLocationBarsSettingsPage() = default;
 
 void StatusAndLocationBarsSettingsPage::applySettings()
 {

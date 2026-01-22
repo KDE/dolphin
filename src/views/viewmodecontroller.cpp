@@ -16,9 +16,7 @@ ViewModeController::ViewModeController(QObject *parent)
 {
 }
 
-ViewModeController::~ViewModeController()
-{
-}
+ViewModeController::~ViewModeController() = default;
 
 QUrl ViewModeController::url() const
 {

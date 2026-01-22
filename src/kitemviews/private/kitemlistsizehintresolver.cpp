@@ -16,9 +16,7 @@ KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView *itemLi
 {
 }
 
-KItemListSizeHintResolver::~KItemListSizeHintResolver()
-{
-}
+KItemListSizeHintResolver::~KItemListSizeHintResolver() = default;
 
 QSizeF KItemListSizeHintResolver::minSizeHint()
 {

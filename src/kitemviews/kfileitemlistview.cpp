@@ -60,9 +60,7 @@ KFileItemListView::KFileItemListView(QGraphicsWidget *parent)
     setVisibleRoles({"text"});
 }
 
-KFileItemListView::~KFileItemListView()
-{
-}
+KFileItemListView::~KFileItemListView() = default;
 
 void KFileItemListView::setPreviewsShown(bool show)
 {

@@ -41,9 +41,7 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget *parent)
     layout->addWidget(m_textInfoButton);
 }
 
-StatusBarSpaceInfo::~StatusBarSpaceInfo()
-{
-}
+StatusBarSpaceInfo::~StatusBarSpaceInfo() = default;
 
 void StatusBarSpaceInfo::setShown(bool shown)
 {

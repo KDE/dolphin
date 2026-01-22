@@ -55,9 +55,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QObject *parent, cons
     topLayout->addWidget(tabWidget, 0, {});
 }
 
-DolphinViewModesConfigModule::~DolphinViewModesConfigModule()
-{
-}
+DolphinViewModesConfigModule::~DolphinViewModesConfigModule() = default;
 
 void DolphinViewModesConfigModule::save()
 {

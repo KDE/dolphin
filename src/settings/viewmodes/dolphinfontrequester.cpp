@@ -38,9 +38,7 @@ DolphinFontRequester::DolphinFontRequester(QWidget *parent)
     topLayout->addWidget(m_chooseFontButton);
 }
 
-DolphinFontRequester::~DolphinFontRequester()
-{
-}
+DolphinFontRequester::~DolphinFontRequester() = default;
 
 void DolphinFontRequester::setMode(Mode mode)
 {

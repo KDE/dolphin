@@ -36,9 +36,7 @@ DolphinBookmarkHandler::DolphinBookmarkHandler(DolphinMainWindow *mainWindow, KA
     collection->addAction(QStringLiteral("add_bookmarks_list"), m_bookmarkMenu->bookmarkTabsAsFolderAction());
 }
 
-DolphinBookmarkHandler::~DolphinBookmarkHandler()
-{
-}
+DolphinBookmarkHandler::~DolphinBookmarkHandler() = default;
 
 QString DolphinBookmarkHandler::currentTitle() const
 {

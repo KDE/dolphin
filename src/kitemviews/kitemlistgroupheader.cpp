@@ -28,9 +28,7 @@ KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget *parent)
 {
 }
 
-KItemListGroupHeader::~KItemListGroupHeader()
-{
-}
+KItemListGroupHeader::~KItemListGroupHeader() = default;
 
 void KItemListGroupHeader::setRole(const QByteArray &role)
 {

@@ -26,9 +26,7 @@ UserFeedbackSettingsPage::UserFeedbackSettingsPage(QWidget *parent)
     connect(m_feedbackWidget, &KUserFeedback::FeedbackConfigWidget::configurationChanged, this, &UserFeedbackSettingsPage::changed);
 }
 
-UserFeedbackSettingsPage::~UserFeedbackSettingsPage()
-{
-}
+UserFeedbackSettingsPage::~UserFeedbackSettingsPage() = default;
 
 void UserFeedbackSettingsPage::applySettings()
 {

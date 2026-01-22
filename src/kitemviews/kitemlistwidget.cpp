@@ -19,13 +19,9 @@
 #include <QPropertyAnimation>
 #include <QStyleOption>
 
-KItemListWidgetInformant::KItemListWidgetInformant()
-{
-}
+KItemListWidgetInformant::KItemListWidgetInformant() = default;
 
-KItemListWidgetInformant::~KItemListWidgetInformant()
-{
-}
+KItemListWidgetInformant::~KItemListWidgetInformant() = default;
 
 KItemListWidget::KItemListWidget(KItemListWidgetInformant *informant, QGraphicsItem *parent)
     : QGraphicsWidget(parent)

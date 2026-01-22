@@ -179,9 +179,7 @@ FoldersTabsSettingsPage::FoldersTabsSettingsPage(QWidget *parent)
     connect(m_openNewTabAfterLastTab, &QRadioButton::toggled, this, &FoldersTabsSettingsPage::changed);
 }
 
-FoldersTabsSettingsPage::~FoldersTabsSettingsPage()
-{
-}
+FoldersTabsSettingsPage::~FoldersTabsSettingsPage() = default;
 
 void FoldersTabsSettingsPage::applySettings()
 {

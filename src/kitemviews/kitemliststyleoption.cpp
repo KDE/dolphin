@@ -21,9 +21,7 @@ KItemListStyleOption::KItemListStyleOption()
 {
 }
 
-KItemListStyleOption::~KItemListStyleOption()
-{
-}
+KItemListStyleOption::~KItemListStyleOption() = default;
 
 bool KItemListStyleOption::operator==(const KItemListStyleOption &other) const
 {

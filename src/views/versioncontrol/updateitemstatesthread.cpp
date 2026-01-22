@@ -19,9 +19,7 @@ UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin *plugin, co
     m_globalPluginMutex = &globalMutex;
 }
 
-UpdateItemStatesThread::~UpdateItemStatesThread()
-{
-}
+UpdateItemStatesThread::~UpdateItemStatesThread() = default;
 
 void UpdateItemStatesThread::run()
 {

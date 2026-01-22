@@ -200,9 +200,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const QUrl &url, QWidget *paren
     connect(m_doubleClickViewComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &GeneralViewSettingsPage::updateCustomActionVisibility);
 }
 
-GeneralViewSettingsPage::~GeneralViewSettingsPage()
-{
-}
+GeneralViewSettingsPage::~GeneralViewSettingsPage() = default;
 
 void GeneralViewSettingsPage::applySettings()
 {

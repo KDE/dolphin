@@ -22,9 +22,7 @@ KStandardItemListView::KStandardItemListView(QGraphicsWidget *parent)
     setAlternateBackgrounds(true);
 }
 
-KStandardItemListView::~KStandardItemListView()
-{
-}
+KStandardItemListView::~KStandardItemListView() = default;
 
 void KStandardItemListView::setItemLayout(ItemLayout layout)
 {

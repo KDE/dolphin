@@ -938,9 +938,7 @@ public:
 };
 
 template<class T>
-KItemListGroupHeaderCreator<T>::~KItemListGroupHeaderCreator()
-{
-}
+KItemListGroupHeaderCreator<T>::~KItemListGroupHeaderCreator() = default;
 
 template<class T>
 KItemListGroupHeader *KItemListGroupHeaderCreator<T>::create(KItemListView *view)

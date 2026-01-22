@@ -116,9 +116,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget *parent)
 #endif
 }
 
-ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
-{
-}
+ConfirmationsSettingsPage::~ConfirmationsSettingsPage() = default;
 
 void ConfirmationsSettingsPage::applySettings()
 {

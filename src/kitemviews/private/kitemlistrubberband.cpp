@@ -14,9 +14,7 @@ KItemListRubberBand::KItemListRubberBand(QObject *parent)
 {
 }
 
-KItemListRubberBand::~KItemListRubberBand()
-{
-}
+KItemListRubberBand::~KItemListRubberBand() = default;
 
 void KItemListRubberBand::setStartPosition(const QPointF &pos)
 {

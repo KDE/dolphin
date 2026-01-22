@@ -8,9 +8,7 @@
 #include "kitemlistview.h"
 #include "private/kitemlistheaderwidget.h"
 
-KItemListHeader::~KItemListHeader()
-{
-}
+KItemListHeader::~KItemListHeader() = default;
 
 void KItemListHeader::setAutomaticColumnResizing(bool automatic)
 {

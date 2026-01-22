@@ -27,9 +27,7 @@ MountPointObserverCache::MountPointObserverCache()
     m_updateTimer = new QTimer(this);
 }
 
-MountPointObserverCache::~MountPointObserverCache()
-{
-}
+MountPointObserverCache::~MountPointObserverCache() = default;
 
 MountPointObserverCache *MountPointObserverCache::instance()
 {

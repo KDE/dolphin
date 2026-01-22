@@ -15,9 +15,7 @@ KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject *parent)
     m_keyboardInputTime.invalidate();
 }
 
-KItemListKeyboardSearchManager::~KItemListKeyboardSearchManager()
-{
-}
+KItemListKeyboardSearchManager::~KItemListKeyboardSearchManager() = default;
 
 bool KItemListKeyboardSearchManager::shouldClearSearchIfInputTimeReached()
 {

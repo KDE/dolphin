@@ -210,9 +210,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl &url, QWidget *parent)
     QApplication::instance()->installEventFilter(this);
 }
 
-DolphinViewContainer::~DolphinViewContainer()
-{
-}
+DolphinViewContainer::~DolphinViewContainer() = default;
 
 QUrl DolphinViewContainer::url() const
 {

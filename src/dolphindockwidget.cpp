@@ -28,9 +28,7 @@ public:
         : QWidget(parent)
     {
     }
-    ~DolphinDockTitleBar() override
-    {
-    }
+    ~DolphinDockTitleBar() override = default;
 
     QSize minimumSizeHint() const override
     {
@@ -51,9 +49,7 @@ DolphinDockWidget::DolphinDockWidget(const QString &title, QWidget *parent, Qt::
     setFeatures(DefaultDockWidgetFeatures);
 }
 
-DolphinDockWidget::~DolphinDockWidget()
-{
-}
+DolphinDockWidget::~DolphinDockWidget() = default;
 
 void DolphinDockWidget::setLocked(bool lock)
 {

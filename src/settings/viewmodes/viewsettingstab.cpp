@@ -147,9 +147,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     }
 }
 
-ViewSettingsTab::~ViewSettingsTab()
-{
-}
+ViewSettingsTab::~ViewSettingsTab() = default;
 
 void ViewSettingsTab::checkFontStyle()
 {

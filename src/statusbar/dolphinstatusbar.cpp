@@ -151,9 +151,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget *parent)
                         "current storage device.</item></list></para>"));
 }
 
-DolphinStatusBar::~DolphinStatusBar()
-{
-}
+DolphinStatusBar::~DolphinStatusBar() = default;
 
 void DolphinStatusBar::setText(const QString &text)
 {

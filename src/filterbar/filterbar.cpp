@@ -55,9 +55,7 @@ FilterBar::FilterBar(QWidget *parent)
     setTabOrder(closeButton, m_filterInput);
 }
 
-FilterBar::~FilterBar()
-{
-}
+FilterBar::~FilterBar() = default;
 
 void FilterBar::closeFilterBar()
 {

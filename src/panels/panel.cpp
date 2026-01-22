@@ -14,9 +14,7 @@ Panel::Panel(QWidget *parent)
 {
 }
 
-Panel::~Panel()
-{
-}
+Panel::~Panel() = default;
 
 QUrl Panel::url() const
 {

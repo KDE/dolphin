@@ -27,9 +27,7 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent)
     connect(this, &KItemListRoleEditor::textChanged, this, &KItemListRoleEditor::autoAdjustSize);
 }
 
-KItemListRoleEditor::~KItemListRoleEditor()
-{
-}
+KItemListRoleEditor::~KItemListRoleEditor() = default;
 
 void KItemListRoleEditor::setRole(const QByteArray &role)
 {

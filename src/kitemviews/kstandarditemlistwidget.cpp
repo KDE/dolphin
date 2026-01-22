@@ -36,9 +36,7 @@ KStandardItemListWidgetInformant::KStandardItemListWidgetInformant()
 {
 }
 
-KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
-{
-}
+KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant() = default;
 
 void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<std::pair<qreal, bool>> &logicalHeightHints,
                                                               qreal &logicalWidthHint,

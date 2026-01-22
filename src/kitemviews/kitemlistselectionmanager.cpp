@@ -19,9 +19,7 @@ KItemListSelectionManager::KItemListSelectionManager(QObject *parent)
 {
 }
 
-KItemListSelectionManager::~KItemListSelectionManager()
-{
-}
+KItemListSelectionManager::~KItemListSelectionManager() = default;
 
 void KItemListSelectionManager::setCurrentItem(int current)
 {

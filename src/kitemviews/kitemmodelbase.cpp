@@ -24,9 +24,7 @@ KItemModelBase::KItemModelBase(const QByteArray &sortRole, QObject *parent)
 {
 }
 
-KItemModelBase::~KItemModelBase()
-{
-}
+KItemModelBase::~KItemModelBase() = default;
 
 bool KItemModelBase::setData(int index, const QHash<QByteArray, QVariant> &values)
 {

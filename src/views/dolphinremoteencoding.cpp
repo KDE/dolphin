@@ -44,9 +44,7 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject *parent, DolphinViewActionH
     m_menu->setPopupMode(QToolButton::InstantPopup);
 }
 
-DolphinRemoteEncoding::~DolphinRemoteEncoding()
-{
-}
+DolphinRemoteEncoding::~DolphinRemoteEncoding() = default;
 
 void DolphinRemoteEncoding::slotReload()
 {

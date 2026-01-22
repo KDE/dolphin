@@ -23,9 +23,7 @@ KFileItemListWidgetInformant::KFileItemListWidgetInformant()
 {
 }
 
-KFileItemListWidgetInformant::~KFileItemListWidgetInformant()
-{
-}
+KFileItemListWidgetInformant::~KFileItemListWidgetInformant() = default;
 
 QString KFileItemListWidgetInformant::itemText(int index, const KItemListView *view) const
 {
@@ -135,9 +133,7 @@ KFileItemListWidget::KFileItemListWidget(KItemListWidgetInformant *informant, QG
 {
 }
 
-KFileItemListWidget::~KFileItemListWidget()
-{
-}
+KFileItemListWidget::~KFileItemListWidget() = default;
 
 KItemListWidgetInformant *KFileItemListWidget::createInformant()
 {

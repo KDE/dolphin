@@ -3172,9 +3172,7 @@ DolphinMainWindow::UndoUiInterface::UndoUiInterface()
 {
 }
 
-DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
-{
-}
+DolphinMainWindow::UndoUiInterface::~UndoUiInterface() = default;
 
 void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job *job)
 {

@@ -135,9 +135,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget *parent)
     connect(m_enableRemoteFolderThumbnail, &QCheckBox::toggled, this, &PreviewsSettingsPage::changed);
 }
 
-PreviewsSettingsPage::~PreviewsSettingsPage()
-{
-}
+PreviewsSettingsPage::~PreviewsSettingsPage() = default;
 
 void PreviewsSettingsPage::applySettings()
 {

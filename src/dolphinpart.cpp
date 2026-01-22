@@ -132,9 +132,7 @@ DolphinPart::DolphinPart(QWidget *parentWidget, QObject *parent, const KPluginMe
     // (sort of spacial navigation)
 }
 
-DolphinPart::~DolphinPart()
-{
-}
+DolphinPart::~DolphinPart() = default;
 
 void DolphinPart::createActions()
 {

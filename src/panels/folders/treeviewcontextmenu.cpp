@@ -35,9 +35,7 @@ TreeViewContextMenu::TreeViewContextMenu(FoldersPanel *parent, const KFileItem &
 {
 }
 
-TreeViewContextMenu::~TreeViewContextMenu()
-{
-}
+TreeViewContextMenu::~TreeViewContextMenu() = default;
 
 void TreeViewContextMenu::open(const QPoint &pos)
 {

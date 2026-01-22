@@ -62,9 +62,7 @@ ViewSettingsPage::ViewSettingsPage(const QUrl &url, QWidget *parent)
     topLayout->addWidget(tabWidget, 0);
 }
 
-ViewSettingsPage::~ViewSettingsPage()
-{
-}
+ViewSettingsPage::~ViewSettingsPage() = default;
 
 void ViewSettingsPage::applySettings()
 {

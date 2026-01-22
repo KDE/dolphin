@@ -98,9 +98,7 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget *parent, const KActionC
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
-ContextMenuSettingsPage::~ContextMenuSettingsPage()
-{
-}
+ContextMenuSettingsPage::~ContextMenuSettingsPage() = default;
 
 bool ContextMenuSettingsPage::entryVisible(const QString &id)
 {

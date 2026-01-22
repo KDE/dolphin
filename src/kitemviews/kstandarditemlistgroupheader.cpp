@@ -19,9 +19,7 @@ KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget *pare
 {
 }
 
-KStandardItemListGroupHeader::~KStandardItemListGroupHeader()
-{
-}
+KStandardItemListGroupHeader::~KStandardItemListGroupHeader() = default;
 
 void KStandardItemListGroupHeader::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

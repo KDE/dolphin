@@ -16,9 +16,7 @@ DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant *i
 {
 }
 
-DolphinFileItemListWidget::~DolphinFileItemListWidget()
-{
-}
+DolphinFileItemListWidget::~DolphinFileItemListWidget() = default;
 
 void DolphinFileItemListWidget::refreshCache()
 {

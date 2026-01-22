@@ -40,9 +40,7 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar *scrollBar, QObject 
     m_scrollBar->installEventFilter(this);
 }
 
-KItemListSmoothScroller::~KItemListSmoothScroller()
-{
-}
+KItemListSmoothScroller::~KItemListSmoothScroller() = default;
 
 void KItemListSmoothScroller::setScrollBar(QScrollBar *scrollBar)
 {

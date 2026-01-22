@@ -21,9 +21,7 @@ KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer *c
 {
 }
 
-KItemListContainerAccessible::~KItemListContainerAccessible()
-{
-}
+KItemListContainerAccessible::~KItemListContainerAccessible() = default;
 
 QString KItemListContainerAccessible::text(QAccessible::Text t) const
 {

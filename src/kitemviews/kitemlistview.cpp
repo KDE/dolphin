@@ -2881,9 +2881,7 @@ QGraphicsWidget *KItemListCreatorBase::popRecycleableWidget()
     return widget;
 }
 
-KItemListWidgetCreatorBase::~KItemListWidgetCreatorBase()
-{
-}
+KItemListWidgetCreatorBase::~KItemListWidgetCreatorBase() = default;
 
 void KItemListWidgetCreatorBase::recycle(KItemListWidget *widget)
 {
@@ -2892,9 +2890,7 @@ void KItemListWidgetCreatorBase::recycle(KItemListWidget *widget)
     pushRecycleableWidget(widget);
 }
 
-KItemListGroupHeaderCreatorBase::~KItemListGroupHeaderCreatorBase()
-{
-}
+KItemListGroupHeaderCreatorBase::~KItemListGroupHeaderCreatorBase() = default;
 
 void KItemListGroupHeaderCreatorBase::recycle(KItemListGroupHeader *header)
 {

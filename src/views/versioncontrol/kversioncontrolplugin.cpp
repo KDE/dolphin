@@ -12,9 +12,7 @@ KVersionControlPlugin::KVersionControlPlugin(QObject *parent)
 {
 }
 
-KVersionControlPlugin::~KVersionControlPlugin()
-{
-}
+KVersionControlPlugin::~KVersionControlPlugin() = default;
 
 QString KVersionControlPlugin::localRepositoryRoot(const QString & /*directory*/) const
 {

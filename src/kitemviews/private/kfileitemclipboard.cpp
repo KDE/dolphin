@@ -34,9 +34,7 @@ QList<QUrl> KFileItemClipboard::cutItems() const
     return m_cutItems.values();
 }
 
-KFileItemClipboard::~KFileItemClipboard()
-{
-}
+KFileItemClipboard::~KFileItemClipboard() = default;
 
 void KFileItemClipboard::updateCutItems()
 {

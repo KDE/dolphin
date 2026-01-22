@@ -41,9 +41,7 @@ class MountPointObserver : public QObject
     Q_OBJECT
 
     explicit MountPointObserver(const QUrl &url, QObject *parent = nullptr);
-    ~MountPointObserver() override
-    {
-    }
+    ~MountPointObserver() override = default;
 
 public:
     /**

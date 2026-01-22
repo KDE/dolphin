@@ -45,9 +45,7 @@ KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver *sizeHint
     Q_ASSERT(m_sizeHintResolver);
 }
 
-KItemListViewLayouter::~KItemListViewLayouter()
-{
-}
+KItemListViewLayouter::~KItemListViewLayouter() = default;
 
 void KItemListViewLayouter::setScrollOrientation(Qt::Orientation orientation)
 {

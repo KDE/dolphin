@@ -63,9 +63,7 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget *parent)
     setFont(QApplication::font("QHeaderView"));
 }
 
-KItemListHeaderWidget::~KItemListHeaderWidget()
-{
-}
+KItemListHeaderWidget::~KItemListHeaderWidget() = default;
 
 void KItemListHeaderWidget::setModel(KItemModelBase *model)
 {

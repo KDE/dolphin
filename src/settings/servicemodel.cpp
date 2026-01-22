@@ -14,9 +14,7 @@ ServiceModel::ServiceModel(QObject *parent)
 {
 }
 
-ServiceModel::~ServiceModel()
-{
-}
+ServiceModel::~ServiceModel() = default;
 
 bool ServiceModel::insertRows(int row, int count, const QModelIndex &parent)
 {
