@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-10 03:00+0000\n"
-"PO-Revision-Date: 2026-01-05 10:09+0100\n"
+"PO-Revision-Date: 2026-01-25 14:11+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3420,10 +3420,10 @@ msgstr ""
 "<para>Honek, fitxategiak eta karpetak bilatzen laguntzen dizu."
 "<list><item>Sartu <emphasis>bilatzeko termino</emphasis> bat sarrera-eremuan."
 "</item><item>Non bilatu erabaki, bilaketa eremuaren azpiko kokaleku botoiak "
-"sakatuz. \"Hemen\", bilaketa bat hasi aurretik irekita zegoen kokalekuari "
+"sakatuz. “Hemen”, bilaketa bat hasi aurretik irekita zegoen kokalekuari "
 "dagokio, beraz, aurrena beste kokaleku batera nabigatzeak bilaketa murriztu "
-"dezake.</item><item>Sakatu \"%1\" botoia emaitzak bilatzeko era gehiago "
-"fintzeko.</item><item>Sakatu \"Gorde\" ikonoa uneko bilaketa konfigurazioa "
+"dezake.</item><item>Sakatu “%1” botoia emaitzak bilatzeko era gehiago "
+"fintzeko.</item><item>Sakatu “Gorde” ikonoa uneko bilaketa konfigurazioa "
 "<emphasis>Lekuak panelera</emphasis> gehitzeko.</item></list></para>"
 
 #: search/bar.cpp:213
@@ -3492,7 +3492,7 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Search results for “%1” in %2"
-msgstr "\"%1\" bilaketaren emaitzak %2(e)an"
+msgstr "“%1” bilaketaren emaitzak %2(e)an"
 
 #: search/dolphinquery.cpp:388
 #, kde-format
@@ -3500,7 +3500,7 @@ msgctxt ""
 "@title of a search results page. %1 is the search term a user entered, %2 is "
 "a folder name"
 msgid "Files containing “%1” in %2"
-msgstr "\"%1\" duten fitxategiak %2(e)an"
+msgstr "“%1” duten fitxategiak %2(e)an"
 
 #: search/dolphinquery.cpp:395
 #, kde-format
@@ -3508,7 +3508,7 @@ msgctxt ""
 "@title of a search results page. %1 is a tag e.g. 'important'. %2 is a "
 "folder name"
 msgid "Search items tagged “%1” in %2"
-msgstr "Bilatu \"%1\" etiketatutako elementuak %2(e)an"
+msgstr "Bilatu “%1” etiketatutako elementuak %2(e)an"
 
 #: search/dolphinquery.cpp:400
 #, kde-format
@@ -3516,7 +3516,7 @@ msgctxt ""
 "@title of a search results page. %1 and %2 are tags e.g. 'important'. %3 is "
 "a folder name"
 msgid "Search items tagged “%1” and “%2” in %3"
-msgstr "Bilatu \"%1\" eta \"%2\" etiketatutako elementuak %3(e)an"
+msgstr "Bilatu “%1” eta “%2” etiketatutako elementuak %3(e)an"
 
 #: search/dolphinquery.cpp:407
 #, kde-format
@@ -3538,25 +3538,25 @@ msgstr "Bilaketa emaitzak %1(e)an"
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Search results for “%1”"
-msgstr "“%1\" bilaketaren emaitzak"
+msgstr "“%1” bilaketaren emaitzak"
 
 #: search/dolphinquery.cpp:426
 #, kde-format
 msgctxt "@title of a search results page. %1 is the search term a user entered"
 msgid "Files containing “%1”"
-msgstr "\"%1\" duten fitxategiak"
+msgstr "“%1” duten fitxategiak"
 
 #: search/dolphinquery.cpp:430
 #, kde-format
 msgctxt "@title of a search results page. %1 is a tag e.g. 'important'"
 msgid "Search items tagged “%1”"
-msgstr "Bilatu \"%1\" etiketatutako elementuak"
+msgstr "Bilatu “%1” etiketatutako elementuak"
 
 #: search/dolphinquery.cpp:433
 #, kde-format
 msgctxt "@title of a search results page. %1 and %2 are tags e.g. 'important'"
 msgid "Search items tagged “%1” and “%2”"
-msgstr "Bilatu \"%1\" eta \"%2\" etiketatutako elementuak"
+msgstr "Bilatu “%1” eta “%2” etiketatutako elementuak"
 
 #. i18n: Results page for items of a specified type. %1 is a file type e.g. 'Audio', 'Document', 'Folder', 'Archive'. 'Presentation'.
 #. If putting such a file type at the start does not work in your language in this context, you might want to translate this liberally with
