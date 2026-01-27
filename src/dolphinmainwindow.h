@@ -14,6 +14,7 @@
 #include "dolphintabwidget.h"
 #include "selectionmode/bottombar.h"
 #include <KActionMenu>
+#include <KConfigWatcher>
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
@@ -694,6 +695,11 @@ private:
      */
     void setupDockWidgets();
 
+    /**
+     * Initializes or re-initializes the KFileItemActions instance.
+     */
+    void setupFileItemActions();
+
     void updateFileAndEditActions();
     void updateViewActions();
     void updateGoActions();
@@ -790,7 +796,8 @@ private:
     DiskSpaceUsageMenu *m_diskSpaceUsageMenu;
 
     QMenu m_searchTools;
-    KFileItemActions m_fileItemActions;
+    KConfigWatcher::Ptr m_serviceMenuConfigWatcher;
+    KFileItemActions *m_fileItemActions = nullptr;
 
     QTimer *m_sessionSaveTimer;
     QFutureWatcher<void> *m_sessionSaveWatcher;
