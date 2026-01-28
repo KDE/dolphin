@@ -31,6 +31,7 @@
 TerminalPanel::TerminalPanel(QWidget *parent)
     : Panel(parent)
     , m_clearTerminal(true)
+    , m_syncUrl(true)
     , m_mostLocalUrlJob(nullptr)
     , m_layout(nullptr)
     , m_terminal(nullptr)
@@ -40,6 +41,7 @@ TerminalPanel::TerminalPanel(QWidget *parent)
     , m_konsolePartCurrentDirectory()
     , m_sendCdToTerminalHistory()
     , m_kiofuseInterface(QStringLiteral("org.kde.KIOFuse"), QStringLiteral("/org/kde/KIOFuse"), QDBusConnection::sessionBus())
+    , m_switchTerminalUrlSyncAction(nullptr)
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -102,6 +104,16 @@ void TerminalPanel::dockVisibilityChanged()
     }
 }
 
+void TerminalPanel::switchSync(bool syncUrl)
+{
+    m_syncUrl = syncUrl;
+}
+
+void TerminalPanel::setSwitchTerminalUrlSyncAction(QAction *urlToggle)
+{
+    m_switchTerminalUrlSyncAction = urlToggle;
+}
+
 QString TerminalPanel::runningProgramName() const
 {
     return m_terminal ? m_terminal->foregroundProcessName() : QString();
@@ -133,7 +145,7 @@ bool TerminalPanel::urlChanged()
         return false;
     }
 
-    const bool sendInput = m_terminal && !hasProgramRunning() && isVisible();
+    const bool sendInput = m_terminal && !hasProgramRunning() && isVisible() && m_syncUrl;
     if (sendInput) {
         changeDir(url());
     }
@@ -177,6 +189,10 @@ void TerminalPanel::showEvent(QShowEvent *event)
                     factory->removeClient(m_konsolePart);
                 });
             }
+
+            const QList<QAction *> additional = {m_switchTerminalUrlSyncAction};
+
+            QMetaObject::invokeMethod(m_konsolePart, "setContextMenuAdditionalActions", Q_ARG(QList<QAction *>, additional));
 
         } else {
             if (!m_konsolePartMissingMessage) {
@@ -240,6 +256,13 @@ void TerminalPanel::changeDir(const QUrl &url)
 
     // Last chance, try KIOFuse
     sendCdToTerminalKIOFuse(url);
+}
+
+void TerminalPanel::emitUrlChanged(const QUrl &url)
+{
+    if (m_syncUrl) {
+        Q_EMIT changeUrl(url);
+    }
 }
 
 void TerminalPanel::sendCdToTerminal(const QString &dir, HistoryPolicy addToHistory)
@@ -320,7 +343,7 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString &dir)
     KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(m_konsolePartCurrentDirectory);
     if (mountPoint && mountPoint->mountType() != QStringLiteral("fuse.kio-fuse")) {
         // Not in KIOFUse mount, so just switch to the corresponding URL.
-        Q_EMIT changeUrl(url);
+        emitUrlChanged(url);
         return;
     }
 
@@ -330,11 +353,11 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString &dir)
         watcher->deleteLater();
         if (reply.isError()) {
             // KIOFuse errored out... just show the normal URL
-            Q_EMIT changeUrl(url);
+            emitUrlChanged(url);
         } else {
             // Our location happens to be in a KIOFuse mount and is mounted.
             // Let's change the DolphinView to point to the remote URL equivalent.
-            Q_EMIT changeUrl(QUrl::fromUserInput(reply.value()));
+            emitUrlChanged(QUrl::fromUserInput(reply.value()));
         }
     });
 }

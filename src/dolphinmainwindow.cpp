@@ -2498,6 +2498,17 @@ void DolphinMainWindow::setupDockWidgets()
         focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
         actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL | Qt::SHIFT | Qt::Key_F4);
         connect(focusTerminalPanel, &QAction::triggered, this, &DolphinMainWindow::toggleTerminalPanelFocus);
+
+        QAction *switchTerminalUrlSync = actionCollection()->addAction(QStringLiteral("switch_terminal_url_sync"));
+        switchTerminalUrlSync->setText(i18nc("@action:inmenu", "Follow Directory Switch"));
+        switchTerminalUrlSync->setToolTip(
+            i18nc("@info:tooltip", "Determines if current working directory must be kept in sync with terminal whenever directory is changed."));
+        switchTerminalUrlSync->setCheckable(true);
+        connect(switchTerminalUrlSync, &QAction::toggled, m_terminalPanel, &TerminalPanel::switchSync);
+        switchTerminalUrlSync->setChecked(true);
+
+        m_terminalPanel->setSwitchTerminalUrlSyncAction(switchTerminalUrlSync);
+
     } // endif "shell_access" allowed
 #endif // HAVE_TERMINAL
 

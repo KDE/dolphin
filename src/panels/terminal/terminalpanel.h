@@ -55,6 +55,8 @@ public:
 public Q_SLOTS:
     void terminalExited();
     void dockVisibilityChanged();
+    void switchSync(bool syncUrl);
+    void setSwitchTerminalUrlSyncAction(QAction *urlToggle);
 
 Q_SIGNALS:
     void hideTerminalPanel();
@@ -77,11 +79,13 @@ private:
     enum class HistoryPolicy { AddToHistory, SkipHistory };
 
     void changeDir(const QUrl &url);
+    void emitUrlChanged(const QUrl &url);
     void sendCdToTerminal(const QString &path, HistoryPolicy addToHistory = HistoryPolicy::AddToHistory);
     void sendCdToTerminalKIOFuse(const QUrl &url);
 
 private:
     bool m_clearTerminal;
+    bool m_syncUrl;
     KIO::StatJob *m_mostLocalUrlJob;
 
     QVBoxLayout *m_layout;
@@ -92,6 +96,7 @@ private:
     QString m_konsolePartCurrentDirectory;
     QQueue<QString> m_sendCdToTerminalHistory;
     org::kde::KIOFuse::VFS m_kiofuseInterface;
+    QAction *m_switchTerminalUrlSyncAction;
 };
 
 #endif // TERMINALPANEL_H
