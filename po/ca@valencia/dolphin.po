@@ -5170,7 +5170,7 @@ msgid ""
 "pressing the right mouse button on a panel."
 msgstr ""
 "La configuració del quadro també està disponible a través del seu menú "
-"contextual. Obriu-lo prement el botó dret del ratolí sobre un quadro."
+"contextual. Obriu-lo prement el botó dret del ratolí damunt d'un quadro."
 
 #: settings/interface/previewssettingspage.cpp:46
 #, kde-format
