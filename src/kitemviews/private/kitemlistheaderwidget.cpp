@@ -355,6 +355,10 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         // synchronized on each further mouse-move-event with the mouse-position.
         const int roleIndex = roleIndexAt(m_pressedMousePos);
         m_movingRole.index = roleIndex;
+        if (roleIndex < 0) {
+            // Trying to drag side padding
+            return;
+        }
         if (roleIndex == nameColumnIndex(this)) {
             // TODO: It should be configurable whether moving the first role is allowed.
             // In the context of Dolphin this is not required, however this should be
