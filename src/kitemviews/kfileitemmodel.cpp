@@ -387,7 +387,7 @@ bool KFileItemModel::canEnterOnHover(int index) const
     } else {
         item = fileItem(index);
     }
-    return !item.isNull() && (item.isDir() || item.isDesktopFile());
+    return !item.isNull() && (item.isDir() || item.isDesktopFile() || (item.isFile() && item.isLocalFile() && item.isExecutable()));
 }
 
 QString KFileItemModel::roleDescription(const QByteArray &role) const

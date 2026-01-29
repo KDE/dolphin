@@ -70,7 +70,7 @@ KIO::DropJob *DragAndDropHelper::dropUrls(const QUrl &destUrl, QDropEvent *event
 
 bool DragAndDropHelper::supportsDropping(const KFileItem &destItem)
 {
-    return (destItem.isDir() && destItem.isWritable()) || destItem.isDesktopFile();
+    return (destItem.isDir() && destItem.isWritable()) || destItem.isDesktopFile() || (destItem.isFile() && destItem.isLocalFile() && destItem.isExecutable());
 }
 
 void DragAndDropHelper::updateDropAction(QDropEvent *event, const QUrl &destUrl)

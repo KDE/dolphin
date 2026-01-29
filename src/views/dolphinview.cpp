@@ -1404,7 +1404,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent *even
 {
     QUrl destUrl;
     KFileItem destItem = m_model->fileItem(index);
-    if (destItem.isNull() || (!destItem.isDir() && !destItem.isDesktopFile())) {
+    if (destItem.isNull() || (!destItem.isDir() && !destItem.isDesktopFile() && !destItem.isExecutable())) {
         // Use the URL of the view as drop target if the item is no directory
         // or desktop-file
         destItem = m_model->rootItem();
