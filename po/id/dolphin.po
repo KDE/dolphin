@@ -4,15 +4,15 @@
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
 # Arif Budiman <arif@kangarif.com>, 2014.
 # Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
-# Linerly <linerly@protonmail.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2025 Linerly <linerly@protonmail.com>
 # Aziz Adam Adrian <4.adam.adrian@gmail.com>, 2022.
-#
+# Neiji Akami <neiji.akami@proton.me>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-10 03:00+0000\n"
-"PO-Revision-Date: 2023-06-16 19:25+0700\n"
+"PO-Revision-Date: 2025-09-15 16:33+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -20,19 +20,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Adam Adrian,Andhika Padmawan,Arif Budiman,Wantoyo,Linerly"
+msgstr "Andhika Padmawan,Arif Budiman,Wantoyo,Linerly,Neiji Akami"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"4.adam.adrian@gmail.com,andhika.padmawan@gmail.com,arifpedia@gmail.com,"
-"wantoyek@gmail.com,linerly@protonmail.com"
+"andhika.padmawan@gmail.com,arifpedia@gmail.com,wantoyek@gmail.com,"
+"linerly@protonmail.com,neiji.akami@proton.me"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -179,7 +179,7 @@ msgstr[1] "Pilih Lokasi Beranda"
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
-msgstr "Buat Baru"
+msgstr "Ciptakan Baru"
 
 #: dolphincontextmenu.cpp:241
 #, kde-format
@@ -204,7 +204,7 @@ msgstr "Buka Alur di jendela Baru"
 msgctxt ""
 "@action:inmenu Shortcut, middle click to trigger menu item, keep short"
 msgid "Middle Click"
-msgstr ""
+msgstr "Klik Tengah"
 
 #: dolphinmainwindow.cpp:359
 #, kde-format
@@ -315,13 +315,15 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
-msgstr ""
+msgstr "Tidak dapat menempel: Papan klip kosong."
 
 #: dolphinmainwindow.cpp:964
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr ""
+"Tidak dapat menempel: Kamu tidak memiliki perizinan untuk menulis dalam "
+"folder ini."
 
 #: dolphinmainwindow.cpp:1367
 #, kde-format
@@ -357,6 +359,8 @@ msgid ""
 "Cannot create new file: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Tidak dapat membuat file baru: Kamu tidak memiliki perizinan untuk "
+"menciptakan item di folder ini."
 
 #: dolphinmainwindow.cpp:1524
 #, kde-format
@@ -874,14 +878,7 @@ msgid "This returns you to the previously closed tab."
 msgstr "Ini akan mengembalikanmu ke tab yang sebelumnya ditutup."
 
 #: dolphinmainwindow.cpp:2120
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This undoes the last change you made to files or folders.<nl/>Such "
-#| "changes include <interface>creating, renaming</interface> and "
-#| "<interface>moving</interface> them to a different location or to the "
-#| "<filename>Trash</filename>. <nl/>Changes that can't be undone will ask "
-#| "for your confirmation."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This undoes the last change you made to files or folders.<nl/>Such changes "
@@ -891,10 +888,11 @@ msgid ""
 "for your confirmation beforehand."
 msgstr ""
 "Ini akan mengurungkan perubahan terakhir yang Anda buat pada file atau "
-"folder.<nl/>Perubahan tersebut termasuk <interface>membuat, mengganti nama</"
-"interface> dan <interface>memindahkan</interface> ke lokasi yang berbeda "
-"atau ke <filename>Tong Sampah</filename>. <nl/>Perubahan yang tidak dapat "
-"diurungkan akan meminta konfirmasi Anda."
+"folder.<nl/>Perubahan tersebut termasuk <interface>membuat</interface>, "
+"<interface>mengganti nama</interface> dan <interface>memindahkan</interface> "
+"ke lokasi yang berbeda atau ke <filename>Tong Sampah</filename>. <nl/"
+">Perubahan yang tidak dapat diurungkan akan meminta konfirmasi Anda "
+"sebelumnya."
 
 #: dolphinmainwindow.cpp:2131
 #, fuzzy, kde-kuit-format
@@ -946,7 +944,7 @@ msgstr "Bandingkan File"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
-msgstr ""
+msgstr "Kelola Penggunaan Ruang Disk"
 
 #: dolphinmainwindow.cpp:2182
 #, kde-kuit-format
@@ -1045,7 +1043,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
-msgstr ""
+msgstr "Menuju Ke Tab %1"
 
 #: dolphinmainwindow.cpp:2264
 #, fuzzy, kde-format
@@ -1404,6 +1402,8 @@ msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr ""
+"Tidak dapat mengganti nama: Kamu tidak memiliki izin untuk mengganti nama "
+"item di folder ini."
 
 #: dolphinmainwindow.cpp:2629 dolphinmainwindow.cpp:2646
 #, kde-format
@@ -1411,12 +1411,16 @@ msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr ""
+"Tidak dapat menghapus: Kamu tidak memiliki perizinan untuk menghapus item di "
+"folder ini."
 
 #: dolphinmainwindow.cpp:2631
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
+"Tidak dapat memotong: Kamu tidak memiliki perizinan untuk memindahkan item "
+"di folder ini."
 
 #: dolphinmainwindow.cpp:2636
 #, kde-format
@@ -1425,30 +1429,37 @@ msgid ""
 "Cannot duplicate here: You do not have permission to create items in this "
 "folder."
 msgstr ""
+"Tidak dapat menduplikasi disini: Kamu tidak memiliki perizinan untuk "
+"menciptakan item di folder ini."
 
 #: dolphinmainwindow.cpp:2658
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
-msgstr ""
+msgstr "Tidak dapat menyalin ke tampilan lainnya: Tidak ada file yang dipilih."
 
 #: dolphinmainwindow.cpp:2660
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
+"Tidak dapat memindahkan ke tampilan lainnya: Tidak ada file yang dipilih."
 
 #: dolphinmainwindow.cpp:2679
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr ""
+"Tidak dapat menyalin ke tampilan lainnya: Tampilan lain sudah berisi item-"
+"item ini."
 
 #: dolphinmainwindow.cpp:2682
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr ""
+"Tidak dapat memindahkan ke tampilan lainnya: Tampilan lain sudah berisi item-"
+"item ini."
 
 #: dolphinmainwindow.cpp:2687
 #, kde-format
@@ -1457,6 +1468,8 @@ msgid ""
 "Cannot copy to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Tidak dapat menyalin ke tampilan lainnya: Kamu tidak memiliki perizinan "
+"untuk menulis ke folder tujuan."
 
 #: dolphinmainwindow.cpp:2691
 #, kde-format
@@ -1465,6 +1478,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to write into the "
 "destination folder."
 msgstr ""
+"Tidak dapat memindahkan ke tampilan lainnya: Kamu tidak memiliki perizinan "
+"untuk menulis ke folder tujuan."
 
 #: dolphinmainwindow.cpp:2697
 #, kde-format
@@ -1473,6 +1488,8 @@ msgid ""
 "Cannot move to other view: You do not have permission to move items from "
 "this folder."
 msgstr ""
+"Tidak dapat memindahkan ke tampilan lainnya: Kamu tidak memiliki perizinan "
+"untuk memindahkan item di folder ini."
 
 #: dolphinmainwindow.cpp:2721
 #, kde-kuit-format
@@ -1863,13 +1880,13 @@ msgstr[1] "Bilah Lokasi"
 #, kde-format
 msgctxt "@info:shell about system packages"
 msgid "Could not find package %1."
-msgstr ""
+msgstr "Tidak bisa menemukan paket %1."
 
 #: dolphinpackageinstaller.cpp:89
 #, kde-format
 msgctxt "@info %1 is error code"
 msgid "Installation exited without reporting success. (%1)"
-msgstr ""
+msgstr "Instalasi keluar tanpa melaporkan keberhasilan. (%1)"
 
 #: dolphinpackageinstaller.cpp:108
 #, kde-kuit-format
@@ -2063,11 +2080,9 @@ msgid "Rename Tab"
 msgstr "Ganti Nama %2"
 
 #: dolphintabbar.cpp:180
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "New name #"
+#, kde-format
 msgid "New tab name:"
-msgstr "Nama baru #"
+msgstr "Nama tab baru:"
 
 #. i18n: This accessible name will be announced any time the user moves keyboard focus e.g. from the toolbar or the places panel towards the main working
 #. area of Dolphin. It gives structure. This container does not only contain the main view but also the status bar, the search panel, filter, and selection
@@ -2137,7 +2152,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of a 'locked' symbol in url navigator"
 msgid "This folder is not writable for you."
-msgstr ""
+msgstr "Folder ini tidak dapat ditulis bagimu."
 
 #: dolphinviewcontainer.cpp:104
 #, kde-format
@@ -2205,7 +2220,7 @@ msgstr "Protokol tidak absah"
 #, kde-format
 msgctxt "@info"
 msgid "Authorization required to enter this folder."
-msgstr ""
+msgstr "Diperlukan otorisasi untuk memasuki folder ini."
 
 #: dolphinviewcontainer.cpp:1014
 #, fuzzy, kde-format
@@ -3564,12 +3579,10 @@ msgid "Here"
 msgstr "Dari Sini"
 
 #: search/bar.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "action:button"
-#| msgid "Everywhere"
+#, kde-format
 msgctxt "action:button search everywhere"
 msgid "Everywhere"
-msgstr "Di Mana-mana"
+msgstr "Di Mana Saja"
 
 #: search/bar.cpp:152
 #, kde-kuit-format
@@ -4243,17 +4256,7 @@ msgid "Selection Mode"
 msgstr "Mode Pemilihan"
 
 #: selectionmode/topbar.cpp:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<title>Selection Mode</title><para>Select files or folders to manage or "
-#| "manipulate them.<list><item>Press on a file or folder to select it.</"
-#| "item><item>Press on an already selected file or folder to deselect it.</"
-#| "item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
-#| "selection.</item><item>Selection rectangles (created by dragging from an "
-#| "empty area) invert the selection status of items within.</item></list></"
-#| "para><para>The available action buttons at the bottom change depending on "
-#| "the current selection.</para>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<title>Selection Mode</title><para>Select files or folders to manage or "
@@ -4273,9 +4276,12 @@ msgstr ""
 "item><item>Tekan file atau folder yang sudah dipilih untuk membatalkan "
 "pilihan.</item><item>Menekan area kosong <emphasis>tidak</emphasis> "
 "menghapus pemilihan.</item><item>Pemilihan persegi panjang (dibuat dengan "
-"menyeret dari area kosong) kebalikan status pemilihan pada item.</item></"
-"list></para><para>Tombol tindakan yang tersedia di bagian bawah berubah "
-"tergantung pada pemilihan saat ini.</para>"
+"menyeret dari area kosong) kebalikan status pemilihan pada item.</item> "
+"<item>Bergerak dengan <shortcut>tombol panah</shortcut> <emphasis>tidak</"
+"emphasis> mengubah pilihan.</item><item>Menekan <shortcut>%1</shortcut>, "
+"<shortcut>%2</shortcut>, atau <shortcut>%3</shortcut> akan mengubah pilihan."
+"</item></list></para><para>Tombol tindakan yang tersedia di bagian bawah "
+"berubah tergantung pada pemilihan saat ini.</para>"
 
 #: selectionmode/topbar.cpp:53
 #, kde-format
@@ -6181,39 +6187,39 @@ msgstr "Folder: %1"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<application>Filelight</application> installed successfully."
-msgstr ""
+msgstr "<application>Filelight</application> berhasil di-instal."
 
 #: statusbar/diskspaceusagemenu.cpp:55
 #, kde-format
 msgctxt "@info:status"
 msgid "Installing Filelight…"
-msgstr ""
+msgstr "Menginstal Filelight..."
 
 #: statusbar/diskspaceusagemenu.cpp:86
 #, kde-format
 msgid "Disk Usage Statistics - current folder"
-msgstr ""
+msgstr "Statistik Penggunaan Disk - folder saat ini"
 
 #: statusbar/diskspaceusagemenu.cpp:96
 #, kde-format
 msgid "Disk Usage Statistics - current device"
-msgstr ""
+msgstr "Statistik Penggunaan Disk - perangkat saat ini"
 
 #: statusbar/diskspaceusagemenu.cpp:109
 #, kde-format
 msgid "Disk Usage Statistics - all devices"
-msgstr ""
+msgstr "Statistik Penggunaan Disk - semua perangkat"
 
 #: statusbar/diskspaceusagemenu.cpp:122
 #, kde-format
 msgid "KDiskFree"
-msgstr ""
+msgstr "KDiskFree"
 
 #: statusbar/diskspaceusagemenu.cpp:153
 #, kde-format
 msgctxt "@title"
 msgid "Free Up Disk Space"
-msgstr ""
+msgstr "Bebaskan Ruang Disk"
 
 #. i18n: The new line ("<nl/>") tag is only there to format this text visually pleasing, i.e. to avoid having one very long line.
 #: statusbar/diskspaceusagemenu.cpp:165
@@ -6223,12 +6229,14 @@ msgid ""
 "<para>Install additional software to view disk usage statistics<nl/>and "
 "identify big files and folders.</para>"
 msgstr ""
+"<para>Instal software tambahan untuk melihat statistik<nl/>penggunaan disk "
+"dan mengidentifikasi file dan folder besar.</para>"
 
 #: statusbar/diskspaceusagemenu.cpp:174
 #, kde-format
 msgctxt "@action:button"
 msgid "Install Filelight…"
-msgstr ""
+msgstr "Instal Filelight..."
 
 #: statusbar/dolphinstatusbar.cpp:61
 #, kde-format
@@ -6297,14 +6305,14 @@ msgid "%1 free out of %2 (%3% used)"
 msgstr "%1 Bebas dari %2 (%3% terpakai)"
 
 #: statusbar/statusbarspaceinfo.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "tooltip:status Free disk space"
-#| msgid "%1 free out of %2 (%3% used)"
+#, kde-format
 msgctxt "@info:tooltip for the free disk space button"
 msgid ""
 "%1 free out of %2 (%3% used)\n"
 "Press to manage disk space usage."
-msgstr "%1 Bebas dari %2 (%3% terpakai)"
+msgstr ""
+"%1 Bebas dari %2 (%3% terpakai)\n"
+"Tekan untuk mengelola penggunaan ruang disk."
 
 #: trash/dolphintrash.cpp:73
 #, kde-format
@@ -6654,12 +6662,7 @@ msgstr ""
 "dibedakan dengan nomor."
 
 #: views/dolphinviewactionhandler.cpp:113
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "This moves the items in your current selection to the <filename>Trash</"
-#| "filename>.<nl/>The trash is a temporary storage where items can be "
-#| "deleted from if disk space is needed."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "This moves the items in your current selection to the <filename>Trash</"
