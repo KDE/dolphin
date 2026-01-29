@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 00:46+0000\n"
+"POT-Creation-Date: 2026-01-29 00:47+0000\n"
 "PO-Revision-Date: 2026-01-18 14:23+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1219,7 +1219,7 @@ msgstr ""
 "geavanceerde taken. Om meer te leren over terminals gebruik de helpfunctie "
 "in een alleenstaande terminaltoepassing zoals Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3144
+#: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3155
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
@@ -1231,19 +1231,33 @@ msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Verplaats focus op toetsenbord naar en van het terminalpaneel."
 
-#: dolphinmainwindow.cpp:2510
+#: dolphinmainwindow.cpp:2503
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Follow Directory Switch"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2505
+#, kde-format
+msgctxt "@info:tooltip"
+msgid ""
+"Determines if current working directory must be kept in sync with terminal "
+"whenever directory is changed."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2521
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Locaties"
 
-#: dolphinmainwindow.cpp:2538
+#: dolphinmainwindow.cpp:2549
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Verborgen locaties tonen"
 
-#: dolphinmainwindow.cpp:2542
+#: dolphinmainwindow.cpp:2553
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1255,7 +1269,7 @@ msgstr ""
 "half doorzichtig zijn biedt u het uitschakelen van hun eigenschap \"Verbergen"
 "\"."
 
-#: dolphinmainwindow.cpp:2554
+#: dolphinmainwindow.cpp:2565
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1271,7 +1285,7 @@ msgstr ""
 "aan de computer of aan het netwerk. Het bevat ook secties om recent "
 "opgeslagen bestanden of bestanden van een bepaald type te vinden.</para>"
 
-#: dolphinmainwindow.cpp:2561
+#: dolphinmainwindow.cpp:2572
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1297,25 +1311,25 @@ msgstr ""
 "ruimte in dit paneel en selecteer <interface>Verborgen locaties tonen</"
 "interface> om ze opnieuw te tonen.</para>"
 
-#: dolphinmainwindow.cpp:2575 dolphinmainwindow.cpp:3162
+#: dolphinmainwindow.cpp:2586 dolphinmainwindow.cpp:3173
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Focus plaatst paneel"
 
-#: dolphinmainwindow.cpp:2576
+#: dolphinmainwindow.cpp:2587
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Verplaats focus op toetsenbord naar en van het plaatsenpaneel."
 
-#: dolphinmainwindow.cpp:2582
+#: dolphinmainwindow.cpp:2593
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Panelen tonen"
 
-#: dolphinmainwindow.cpp:2664
+#: dolphinmainwindow.cpp:2675
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1323,7 +1337,7 @@ msgid ""
 msgstr ""
 "Kan niet hernoemen: u hebt geen rechten om items in deze map te hernoemen."
 
-#: dolphinmainwindow.cpp:2667 dolphinmainwindow.cpp:2684
+#: dolphinmainwindow.cpp:2678 dolphinmainwindow.cpp:2695
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1332,14 +1346,14 @@ msgstr ""
 "Kan niet verwijderen: u hebt geen rechten om items in deze map te "
 "verwijderen."
 
-#: dolphinmainwindow.cpp:2669
+#: dolphinmainwindow.cpp:2680
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr ""
 "Kan niet knippen: u hebt geen rechten om items uit deze map te verplaatsen."
 
-#: dolphinmainwindow.cpp:2674
+#: dolphinmainwindow.cpp:2685
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1349,20 +1363,20 @@ msgstr ""
 "Kan niet dupliceren: u hebt geen rechten om items in deze map te aan te "
 "maken."
 
-#: dolphinmainwindow.cpp:2696
+#: dolphinmainwindow.cpp:2707
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Kan niet kopiëren naar andere weergave: geen bestanden geselecteerd."
 
-#: dolphinmainwindow.cpp:2698
+#: dolphinmainwindow.cpp:2709
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr ""
 "Kan niet verplaatsen naar andere weergave: geen bestanden geselecteerd."
 
-#: dolphinmainwindow.cpp:2717
+#: dolphinmainwindow.cpp:2728
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
@@ -1370,7 +1384,7 @@ msgstr ""
 "Kan niet kopiëren naar andere weergave: de andere weergave bevat deze items "
 "al."
 
-#: dolphinmainwindow.cpp:2720
+#: dolphinmainwindow.cpp:2731
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
@@ -1378,7 +1392,7 @@ msgstr ""
 "Kan niet verplaatsen naar andere weergave: de andere weergave bevat deze "
 "items al."
 
-#: dolphinmainwindow.cpp:2725
+#: dolphinmainwindow.cpp:2736
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1388,7 +1402,7 @@ msgstr ""
 "Kan niet kopiëren naar andere weergave: u hebt geen rechten om in de "
 "bestemmingsmap te schrijven."
 
-#: dolphinmainwindow.cpp:2729
+#: dolphinmainwindow.cpp:2740
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1398,7 +1412,7 @@ msgstr ""
 "Kan niet verplaatsen naar andere weergave: u hebt geen rechten om in de "
 "bestemmingsmap te schrijven."
 
-#: dolphinmainwindow.cpp:2735
+#: dolphinmainwindow.cpp:2746
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1408,7 +1422,7 @@ msgstr ""
 "Kan niet verplaatsen naar andere weergave: u hebt geen rechten om items uit "
 "deze map te verplaatsen."
 
-#: dolphinmainwindow.cpp:2759
+#: dolphinmainwindow.cpp:2770
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1423,90 +1437,90 @@ msgstr ""
 "emphasis>. Bovenaan deze hiërarchie is een map die alle gegevens bevat "
 "verbonden met deze computer — de <emphasis>rootmap</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2851 dolphinmainwindow.cpp:2870
+#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Sluiten"
 
-#: dolphinmainwindow.cpp:2852 dolphinmainwindow.cpp:2871
+#: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2882
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Weergave links sluiten"
 
-#: dolphinmainwindow.cpp:2854 dolphinmainwindow.cpp:2873
+#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Weergave links sluiten"
 
-#: dolphinmainwindow.cpp:2856 dolphinmainwindow.cpp:2875
+#: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
 #, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Linker weergave naar eigen venster verplaatsen"
 
-#: dolphinmainwindow.cpp:2857 dolphinmainwindow.cpp:2876
+#: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
 msgstr "Linker gesplitst weergave naar een nieuw venster verplaatsen"
 
-#: dolphinmainwindow.cpp:2859 dolphinmainwindow.cpp:2878
-#: dolphinmainwindow.cpp:2888
+#: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2899
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Sluiten"
 
-#: dolphinmainwindow.cpp:2860 dolphinmainwindow.cpp:2879
-#: dolphinmainwindow.cpp:2889
+#: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
+#: dolphinmainwindow.cpp:2900
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Weergave rechts sluiten"
 
-#: dolphinmainwindow.cpp:2862 dolphinmainwindow.cpp:2881
-#: dolphinmainwindow.cpp:2891
+#: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
+#: dolphinmainwindow.cpp:2902
 #, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Weergave rechts sluiten"
 
-#: dolphinmainwindow.cpp:2864 dolphinmainwindow.cpp:2883
-#: dolphinmainwindow.cpp:2893
+#: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2904
 #, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Rechter weergave naar eigen venster verplaatsen"
 
-#: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
-#: dolphinmainwindow.cpp:2894
+#: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
+#: dolphinmainwindow.cpp:2905
 #, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
 msgstr "Rechter gesplitste weergave naar een nieuw venster verplaatsen"
 
-#: dolphinmainwindow.cpp:2906
+#: dolphinmainwindow.cpp:2917
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Splitsen"
 
-#: dolphinmainwindow.cpp:2908
+#: dolphinmainwindow.cpp:2919
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Weergave splitsen"
 
-#: dolphinmainwindow.cpp:2910
+#: dolphinmainwindow.cpp:2921
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Verschijnt"
 
-#: dolphinmainwindow.cpp:2970
+#: dolphinmainwindow.cpp:2981
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1524,7 +1538,7 @@ msgstr ""
 "interface>. Daarna zal het meeste van zijn inhoud beschikbaar worden via een "
 "knop <interface>Menu</interface> op de <emphasis>Werkbalk</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2988
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1547,7 +1561,7 @@ msgstr ""
 "gewijzigd worden in het menu na rechts klikken. Klik rechts op een knop als "
 "u zijn tekst wilt tonen of verbergen.</para>"
 
-#: dolphinmainwindow.cpp:2989
+#: dolphinmainwindow.cpp:3000
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1576,7 +1590,7 @@ msgstr ""
 "html'>klik hier</link>. Dit opent een pagina uit het <emphasis>Handboek</"
 "emphasis> dat de basics dekt.</para>"
 
-#: dolphinmainwindow.cpp:3005
+#: dolphinmainwindow.cpp:3016
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1590,7 +1604,7 @@ msgstr ""
 "starten wanneer ze tegelijk worden ingedrukt. Alle commando's in deze "
 "toepassing kunnen op deze manier gestart worden.</para>"
 
-#: dolphinmainwindow.cpp:3011
+#: dolphinmainwindow.cpp:3022
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1603,7 +1617,7 @@ msgstr ""
 "in het <interface>menu</interface> kunnen ook geplaatst worden op de "
 "Werkbalk.</para>"
 
-#: dolphinmainwindow.cpp:3015
+#: dolphinmainwindow.cpp:3026
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1622,7 +1636,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:3035
+#: dolphinmainwindow.cpp:3046
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1639,7 +1653,7 @@ msgstr ""
 "File_Management'>klik hier</link>. Het zal de toepasselijke pagina in de KDE "
 "UserBase Wiki openen.</para>"
 
-#: dolphinmainwindow.cpp:3040
+#: dolphinmainwindow.cpp:3051
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1662,7 +1676,7 @@ msgstr ""
 "is dit?\" ontbreekt in de meeste andere vensters, gebruik het dus met mate.</"
 "para>"
 
-#: dolphinmainwindow.cpp:3051
+#: dolphinmainwindow.cpp:3062
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1678,7 +1692,7 @@ msgstr ""
 "te leren deze zo effectief mogelijk te maken <link url='https://community."
 "kde.org/Get_Involved/Bug_Reporting'>klik hier</link>.</para>"
 
-#: dolphinmainwindow.cpp:3060
+#: dolphinmainwindow.cpp:3071
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1700,7 +1714,7 @@ msgstr ""
 "deelnemers, etc.</para><para><emphasis>KDE e.V.</emphasis> is de non-profit "
 "organisatie achter de KDE gemeenschap.</para>"
 
-#: dolphinmainwindow.cpp:3073
+#: dolphinmainwindow.cpp:3084
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1712,7 +1726,7 @@ msgstr ""
 "zelfs een tweede taal instellen die gebruikt zak worden als teksten niet "
 "beschikbaar zijn in uw taal met voorkeur."
 
-#: dolphinmainwindow.cpp:3078
+#: dolphinmainwindow.cpp:3089
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1722,7 +1736,7 @@ msgstr ""
 "Dit opent een venster dat u informeert over de versie, licentie, gebruikte "
 "bibliotheken en onderhouders van deze toepassing."
 
-#: dolphinmainwindow.cpp:3083
+#: dolphinmainwindow.cpp:3094
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1736,19 +1750,19 @@ msgstr ""
 "van deze toepassing plezierig vindt maar niets weet over KDE of een grappige "
 "draak wilt zien neem dan een kijkje!"
 
-#: dolphinmainwindow.cpp:3138 dolphinmainwindow.cpp:3149
+#: dolphinmainwindow.cpp:3149 dolphinmainwindow.cpp:3160
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Focus van terminalpaneel weghalen"
 
-#: dolphinmainwindow.cpp:3156
+#: dolphinmainwindow.cpp:3167
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Focus van terminalpaneel weghalen"
 
-#: dolphinmainwindow.cpp:3167
+#: dolphinmainwindow.cpp:3178
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -3378,7 +3392,7 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 "Grootte van pictogrammen in het paneel Locaties (-1 betekent \"automatisch\")"
 
-#: panels/terminal/terminalpanel.cpp:185
+#: panels/terminal/terminalpanel.cpp:201
 #, kde-format
 msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
@@ -3387,7 +3401,7 @@ msgstr ""
 "Terminal kan niet worden getoond omdat Konsole niet is geïnstalleerd. "
 "Installeer het en open het paneel daarna opnieuw."
 
-#: panels/terminal/terminalpanel.cpp:192
+#: panels/terminal/terminalpanel.cpp:208
 #, kde-format
 msgid "Install Konsole"
 msgstr "Konsole installeren"
