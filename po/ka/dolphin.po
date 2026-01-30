@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-29 00:47+0000\n"
-"PO-Revision-Date: 2026-01-18 02:49+0100\n"
+"PO-Revision-Date: 2026-01-29 03:48+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1229,7 +1229,7 @@ msgstr "კლავიატურის ფოკუსის გადატ�
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "საქაღალდის შეცვლაზე მიყოლა"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1238,6 +1238,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"განსაზღვრავს, მოხდება თუ არა მიმდინარე სამუშაო საქაღალდის სინქრონიზაცია "
+"ტერმინალთან, როცა საქაღალდე იცვლება."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format

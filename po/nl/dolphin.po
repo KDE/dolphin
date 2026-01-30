@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-29 00:47+0000\n"
-"PO-Revision-Date: 2026-01-18 14:23+0100\n"
+"PO-Revision-Date: 2026-01-29 15:14+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1235,7 +1235,7 @@ msgstr "Verplaats focus op toetsenbord naar en van het terminalpaneel."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Omschakeling van map volgen"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1244,6 +1244,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Bepaalt of de huidige werkmap gesynchroniseerd moet blijven met de terminal "
+"wanneer de map wordt gewijzigd."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format

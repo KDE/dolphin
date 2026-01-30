@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-29 00:47+0000\n"
-"PO-Revision-Date: 2026-01-18 12:37+0100\n"
+"PO-Revision-Date: 2026-01-29 17:46+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1246,7 +1246,7 @@ msgstr "Mover el foco del teclado al panel del terminal."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Seguir el cambio de directorio"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1255,6 +1255,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Determina si el directorio de trabajo actual se debe sincronizar con el del "
+"terminal cada vez que cambie."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
