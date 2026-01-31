@@ -1915,7 +1915,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[IsHiddenRole]) {
-        data.insert(sharedValue("isHidden"), item.isHidden() || item.mimetype() == QStringLiteral("application/x-trash"));
+        // all "temporary" file types are identified by glob, currentMimeType is therefore enough.
+        data.insert(sharedValue("isHidden"), item.isHidden() || item.currentMimeType().name() == QStringLiteral("application/x-trash"));
     }
 
     if (m_requestRole[NameRole]) {

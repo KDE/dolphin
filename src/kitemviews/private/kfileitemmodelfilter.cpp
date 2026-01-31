@@ -108,7 +108,9 @@ bool KFileItemModelFilter::matchesPattern(const KFileItem &item) const
 bool KFileItemModelFilter::matchesType(const KFileItem &item) const
 {
     bool excluded = std::any_of(m_excludeMimeTypes.constBegin(), m_excludeMimeTypes.constEnd(), [item](const QString &excludeMimetype) {
-        return item.mimetype() == excludeMimetype;
+        // Currently only really used for "temporary" files which are all idenfied by glob.
+        // If you use the filter for anything else, this must be revisited.
+        return item.currentMimeType().name() == excludeMimetype;
     });
     if (excluded) {
         return false;
