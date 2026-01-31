@@ -325,7 +325,7 @@ private:
     void applySortProgressToModel();
 
     enum ResolveHint { ResolveFast, ResolveAll };
-    bool applyResolvedRoles(int index, ResolveHint hint);
+    bool applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem = KFileItem());
     QHash<QByteArray, QVariant> rolesData(const KFileItem &item, int index);
 
     /**

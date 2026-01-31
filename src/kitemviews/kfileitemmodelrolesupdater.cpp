@@ -577,6 +577,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem &item, const QPi
     connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     Q_EMIT previewJobFinished(); // For unit testing
 
+    applyResolvedRoles(index, ResolveAll, item);
     m_finishedItems.insert(item);
 }
 
@@ -597,7 +598,7 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem &item)
         m_model->setData(index, data);
         connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
-        applyResolvedRoles(index, ResolveAll);
+        applyResolvedRoles(index, ResolveAll, item);
         m_finishedItems.insert(item);
     }
 }
@@ -1222,13 +1223,13 @@ void KFileItemModelRolesUpdater::applySortProgressToModel()
     m_model->emitSortProgress(resolvedCount);
 }
 
-bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
+bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint, const KFileItem &referenceItem)
 {
-    const KFileItem item = m_model->fileItem(index);
+    const KFileItem item = !referenceItem.isNull() && referenceItem.isMimeTypeKnown() ? referenceItem : m_model->fileItem(index);
     const bool resolveAll = (hint == ResolveAll);
 
     bool iconChanged = false;
-    if (!item.isMimeTypeKnown() || !item.isFinalIconKnown()) {
+    if (resolveAll && (!item.isMimeTypeKnown() || !item.isFinalIconKnown())) {
         item.determineMimeType();
         iconChanged = true;
     } else if (!m_model->data(index).contains("iconName")) {
