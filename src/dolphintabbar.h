@@ -24,6 +24,8 @@ Q_SIGNALS:
     void tabRenamed(int index, const QString &label);
 
 protected:
+    QSize tabSizeHint(int index) const override;
+    QSize minimumSizeHint() const override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -39,6 +41,7 @@ protected:
 
 private Q_SLOTS:
     void slotAutoActivationTimeout();
+    void slotTabBarChanged();
 
 private:
     /**

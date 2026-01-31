@@ -5,7 +5,7 @@
  */
 
 #include "dolphintabbar.h"
-
+#include "dolphin_generalsettings.h"
 #include <KLocalizedString>
 
 #include <QDragEnterEvent>
@@ -53,6 +53,34 @@ DolphinTabBar::DolphinTabBar(QWidget *parent)
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(800);
     connect(m_autoActivationTimer, &QTimer::timeout, this, &DolphinTabBar::slotAutoActivationTimeout);
+    connect(GeneralSettings::self(), &GeneralSettings::tabBarChanged, this, &DolphinTabBar::slotTabBarChanged);
+
+    QTimer::singleShot(0, this, &DolphinTabBar::slotTabBarChanged);
+}
+
+QSize DolphinTabBar::tabSizeHint(int index) const
+{
+    if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FixedSize) {
+        QSize defaultSize = QTabBar::tabSizeHint(index);
+        defaultSize.setWidth(225);
+        return defaultSize;
+    } else if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth && count() > 0) {
+        QSize defaultSize = QTabBar::tabSizeHint(index);
+        defaultSize.setWidth(qMax(25, width() / count()));
+        return defaultSize;
+    }
+    return QTabBar::tabSizeHint(index);
+}
+
+QSize DolphinTabBar::minimumSizeHint() const
+{
+    QSize s = QTabBar::minimumSizeHint();
+
+    if (GeneralSettings::tabStyle() != GeneralSettings::EnumTabStyle::FixedSize) {
+        s.setWidth(0); // allow shrinking
+    }
+
+    return s;
 }
 
 void DolphinTabBar::dragEnterEvent(QDragEnterEvent *event)
@@ -188,6 +216,18 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent *event)
     }
 
     QTabBar::contextMenuEvent(event);
+}
+
+void DolphinTabBar::slotTabBarChanged()
+{
+    if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FixedSize) {
+        setExpanding(false);
+        setUsesScrollButtons(true);
+    } else if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth) {
+        setExpanding(true);
+        setUsesScrollButtons(false);
+    }
+    updateGeometry();
 }
 
 void DolphinTabBar::slotAutoActivationTimeout()

@@ -52,6 +52,15 @@
             <default>true</default>
             <emit signal="tabBarChanged" />
         </entry>
+        <entry name="TabStyle" type="Enum">
+            <label>Tab style</label>
+            <choices>
+                <choice name="FullWidth" />
+                <choice name="FixedSize" />
+            </choices>
+            <default>0</default> <!--FullWidth -->
+            <emit signal="tabBarChanged" />
+        </entry>
         <entry name="Version" type="Int">
             <label>Internal config version of Dolphin, mainly Used to determine whether an updated version of Dolphin is running, so as to migrate config entries that were removed/renamed ...etc</label>
             <default>0</default>
