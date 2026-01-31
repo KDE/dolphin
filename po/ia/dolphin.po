@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-29 00:47+0000\n"
-"PO-Revision-Date: 2026-01-19 12:25+0100\n"
+"PO-Revision-Date: 2026-01-30 09:27+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -1235,7 +1235,7 @@ msgstr "Move foco de claviero a e ab le pannello de terminal."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Seque commutar de directorio"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1244,6 +1244,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Determina si lecurrente directorio de labor debe esser mantenite "
+"synchronisate con le terminal  quandocunque le directorio es modificate."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
