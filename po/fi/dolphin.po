@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 00:47+0000\n"
+"POT-Creation-Date: 2026-02-01 00:46+0000\n"
 "PO-Revision-Date: 2026-01-02 11:47+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1945,43 +1945,43 @@ msgstr "Viimeksi suljetut välilehdet"
 msgid "Empty Recently Closed Tabs"
 msgstr "Tyhjennä viimeksi suljettujen välilehtien historia"
 
-#: dolphintabbar.cpp:156
+#: dolphintabbar.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Uusi välilehti"
 
-#: dolphintabbar.cpp:157
+#: dolphintabbar.cpp:185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Irrota välilehti"
 
-#: dolphintabbar.cpp:158
+#: dolphintabbar.cpp:186
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Sulje muut välilehdet"
 
-#: dolphintabbar.cpp:159
+#: dolphintabbar.cpp:187
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Sulje välilehti"
 
-#: dolphintabbar.cpp:161
+#: dolphintabbar.cpp:189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Muuta välilehden nimeä"
 
-#: dolphintabbar.cpp:180
+#: dolphintabbar.cpp:208
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Muuta välilehden nimeä"
 
-#: dolphintabbar.cpp:180
+#: dolphintabbar.cpp:208
 #, kde-format
 msgid "New tab name:"
 msgstr "Välilehden uusi nimi:"
@@ -4586,8 +4586,16 @@ msgstr "Näytetäänkö koko polku otsikkopalkissa"
 msgid "Should tabs have close buttons"
 msgstr ""
 
-#. i18n: ectx: label, entry (Version), group (General)
+#. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Date style:"
+msgid "Tab style"
+msgstr "Päiväystapa:"
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: settings/dolphin_generalsettings.kcfg:65
 #, kde-format
 msgid ""
 "Internal config version of Dolphin, mainly Used to determine whether an "
@@ -4599,7 +4607,7 @@ msgstr ""
 "asetustietueet voisi siirtää… jne."
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
-#: settings/dolphin_generalsettings.kcfg:60
+#: settings/dolphin_generalsettings.kcfg:69
 #, kde-format
 msgid ""
 "Have the startup settings been modified (internal setting not shown in the "
@@ -4609,49 +4617,49 @@ msgstr ""
 "käyttöliittymässä)"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
-#: settings/dolphin_generalsettings.kcfg:64
+#: settings/dolphin_generalsettings.kcfg:73
 #, kde-format
 msgid "Home URL"
 msgstr "Kotiosoite"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:68
+#: settings/dolphin_generalsettings.kcfg:77
 #, kde-format
 msgid "Remember open folders and tabs"
 msgstr "Muista avoimet kansiot ja välilehdet"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:72
+#: settings/dolphin_generalsettings.kcfg:81
 #, kde-format
 msgid "Place two views side by side"
 msgstr "Sijoita kaksi näkymää rinnakkain"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:77
+#: settings/dolphin_generalsettings.kcfg:86
 #, kde-format
 msgid "Should the filter bar be shown"
 msgstr "Näytetäänkö suodatusrivi"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
-#: settings/dolphin_generalsettings.kcfg:81
+#: settings/dolphin_generalsettings.kcfg:90
 #, kde-format
 msgid "Should the view properties be used for all folders"
 msgstr "Käytetäänkö näkymäasetuksia kaikille kansioille"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
-#: settings/dolphin_generalsettings.kcfg:85
+#: settings/dolphin_generalsettings.kcfg:94
 #, kde-format
 msgid "Browse through archives"
 msgstr "Salli pakettien sisällön selaaminen"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:89
+#: settings/dolphin_generalsettings.kcfg:98
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
 msgstr "Vahvista sulkeminen, kun ikkunassa on auki useita välilehtiä."
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
-#: settings/dolphin_generalsettings.kcfg:93
+#: settings/dolphin_generalsettings.kcfg:102
 #, kde-format
 msgid ""
 "Ask for confirmation when closing windows with a program that is still "
@@ -4661,19 +4669,19 @@ msgstr ""
 "ohjelma"
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
-#: settings/dolphin_generalsettings.kcfg:97
+#: settings/dolphin_generalsettings.kcfg:106
 #, kde-format
 msgid "Rename single items inline"
 msgstr "Muuta yksittäisen kohteen nimeä suoraan"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
-#: settings/dolphin_generalsettings.kcfg:101
+#: settings/dolphin_generalsettings.kcfg:110
 #, kde-format
 msgid "Show selection toggle"
 msgstr "Näytä valintavuorottelu"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
-#: settings/dolphin_generalsettings.kcfg:105
+#: settings/dolphin_generalsettings.kcfg:114
 #, kde-format
 msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
@@ -4684,67 +4692,67 @@ msgstr ""
 
 # *** TARKISTA: Onko tab sarkain vai välilehti, onko tässä kyse jaetun näkymän puolten välillä vaihtamisesta? (Id on myös muodossa, jossa ”view” puuttuu lopusta)
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:109
+#: settings/dolphin_generalsettings.kcfg:118
 #, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "Vaihda oikean ja vasemman näkymän välillä sarkainnäppäimellä"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:118
+#: settings/dolphin_generalsettings.kcfg:127
 #, kde-format
 msgid "Close split view"
 msgstr "Sulje jakonäkymä"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
-#: settings/dolphin_generalsettings.kcfg:122
+#: settings/dolphin_generalsettings.kcfg:131
 #, kde-format
 msgid "New tab will be open after last one"
 msgstr "Uusi välilehti avataan viimeisimmän perään"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
-#: settings/dolphin_generalsettings.kcfg:126
+#: settings/dolphin_generalsettings.kcfg:135
 #, kde-format
 msgid "Show item information on hover"
 msgstr "Näytä kohteen tiedot leijuttaessa sen yllä"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
-#: settings/dolphin_generalsettings.kcfg:130
+#: settings/dolphin_generalsettings.kcfg:139
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
 msgstr "Aika, josta lähtien näkymäasetukset ovat voimassa"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
-#: settings/dolphin_generalsettings.kcfg:133
+#: settings/dolphin_generalsettings.kcfg:142
 #, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr "Käytä automaattisesti laajentuvia kansioita kaikille näkymätyypeille"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:142
+#: settings/dolphin_generalsettings.kcfg:151
 #, kde-format
 msgid "Statusbar"
 msgstr "Tilarivi"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:147
+#: settings/dolphin_generalsettings.kcfg:156
 #, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "Näytä suurennusliukusäädin tilarivillä"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:151
+#: settings/dolphin_generalsettings.kcfg:160
 #, kde-format
 msgid "Lock the layout of the panels"
 msgstr "Lukitse paneelien asettelu"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:155
+#: settings/dolphin_generalsettings.kcfg:164
 #, kde-format
 msgid "Enlarge Small Previews"
 msgstr "Suurenna pienet esikatselukuvat"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:164
+#: settings/dolphin_generalsettings.kcfg:173
 #, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4754,31 +4762,31 @@ msgstr ""
 "erottamaton lajittelu"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:169
+#: settings/dolphin_generalsettings.kcfg:178
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "Piilota myös application/x-trash-MIME-tyypin tiedostot"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
-#: settings/dolphin_generalsettings.kcfg:173
+#: settings/dolphin_generalsettings.kcfg:182
 #, kde-format
 msgid "Enable dynamic view"
 msgstr "Käytä dynaamista näkymää"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:179
+#: settings/dolphin_generalsettings.kcfg:188
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "Pyydä vahvistus useamman kansion avaamiseen kerralla."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:183
+#: settings/dolphin_generalsettings.kcfg:192
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "Pyydä vahvistus useamman päätteen avaamiseen kerralla."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:187
+#: settings/dolphin_generalsettings.kcfg:196
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr "Pyydä vahvistus, kun tiedoston nimen muuttaminen muuttaa sen tyyppiä."
@@ -4941,80 +4949,80 @@ msgstr "Avaa sovellukseen"
 msgid "Run script"
 msgstr "Suorita skripti"
 
-#: settings/interface/folderstabssettingspage.cpp:53
+#: settings/interface/folderstabssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Viimekertaiset kansiot, välilehdet ja ikkunoiden tila"
 
-#: settings/interface/folderstabssettingspage.cpp:58
+#: settings/interface/folderstabssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "Näytä käynnistettäessä kotikansio"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Anna kotikansion sijainti"
 
-#: settings/interface/folderstabssettingspage.cpp:72
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Aseta kotisijainti"
 
-#: settings/interface/folderstabssettingspage.cpp:82
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Käytä nykyistä sijaintia"
 
-#: settings/interface/folderstabssettingspage.cpp:86
+#: settings/interface/folderstabssettingspage.cpp:88
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Käytä oletussijaintia"
 
-#: settings/interface/folderstabssettingspage.cpp:94
+#: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Näytä käynnistettäessä:"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:109
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Avataan kansiot:"
 
-#: settings/interface/folderstabssettingspage.cpp:108
+#: settings/interface/folderstabssettingspage.cpp:110
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "Käytä yhtä Dolphin-ikkunaa ja avaa uuden kansiot välilehtiin"
 
-#: settings/interface/folderstabssettingspage.cpp:112
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Ikkuna:"
 
-#: settings/interface/folderstabssettingspage.cpp:113
+#: settings/interface/folderstabssettingspage.cpp:115
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Näytä koko polku otsikkopalkissa"
 
-#: settings/interface/folderstabssettingspage.cpp:116
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Näytä suodatusrivi"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:124
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "At end of tab bar"
@@ -5022,13 +5030,13 @@ msgctxt "@option:check"
 msgid "Always show tab bar"
 msgstr "Välilehtirivin loppuun"
 
-#: settings/interface/folderstabssettingspage.cpp:123
+#: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:124
+#: settings/interface/folderstabssettingspage.cpp:126
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Show home location on startup"
@@ -5036,64 +5044,84 @@ msgctxt "@option:check"
 msgid "Show close button on tabs"
 msgstr "Näytä käynnistettäessä kotikansio"
 
-#: settings/interface/folderstabssettingspage.cpp:127
+#: settings/interface/folderstabssettingspage.cpp:129
+#, kde-format
+msgctxt "@option:radio width as in tab width"
+msgid "Tabs span the available width"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:130
+#, kde-format
+msgctxt "@option:radio size as in tab size"
+msgid "Tabs have all the same fixed size"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:134
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Date style:"
+msgctxt "@title:group"
+msgid "Tab style: "
+msgstr "Päiväystapa:"
+
+#: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Nykyisen välilehden jälkeen"
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Välilehtirivin loppuun"
 
-#: settings/interface/folderstabssettingspage.cpp:132
+#: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Avaa uusiin välilehtiin:"
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
 msgstr "Jakonäkymää suljettaessa"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the active pane"
 msgstr "Sulje aktiivinen paneeli"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the inactive pane"
 msgstr "Sulje passiivinen paneeli"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the right pane"
 msgstr "Sulje oikeanpuoleinen paneeli"
 
-#: settings/interface/folderstabssettingspage.cpp:147
+#: settings/interface/folderstabssettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Jaettu näkymä: "
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:160
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Vaihda näkymästä toiseen sarkainnäppäimellä"
 
-#: settings/interface/folderstabssettingspage.cpp:154
+#: settings/interface/folderstabssettingspage.cpp:164
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
 msgstr "Avaa uudet ikkunat jaettuun näkymään"
 
-#: settings/interface/folderstabssettingspage.cpp:312
+#: settings/interface/folderstabssettingspage.cpp:330
 #, kde-format
 msgctxt "@info"
 msgid ""

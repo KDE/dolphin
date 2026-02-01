@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 00:47+0000\n"
+"POT-Creation-Date: 2026-02-01 00:46+0000\n"
 "PO-Revision-Date: 2026-01-25 14:11+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1951,43 +1951,43 @@ msgstr "Oraintsu itxitako fitxak"
 msgid "Empty Recently Closed Tabs"
 msgstr "Hustu oraintsu itxitako fitxak"
 
-#: dolphintabbar.cpp:156
+#: dolphintabbar.cpp:184
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Fitxa berria"
 
-#: dolphintabbar.cpp:157
+#: dolphintabbar.cpp:185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Bereizi fitxa"
 
-#: dolphintabbar.cpp:158
+#: dolphintabbar.cpp:186
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Itxi beste fitxak"
 
-#: dolphintabbar.cpp:159
+#: dolphintabbar.cpp:187
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Itxi fitxa"
 
-#: dolphintabbar.cpp:161
+#: dolphintabbar.cpp:189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename Tab"
 msgstr "Berrizendatu fitxa"
 
-#: dolphintabbar.cpp:180
+#: dolphintabbar.cpp:208
 #, kde-format
 msgctxt "@title:window for text input"
 msgid "Rename Tab"
 msgstr "Berrizendatu fitxa"
 
-#: dolphintabbar.cpp:180
+#: dolphintabbar.cpp:208
 #, kde-format
 msgid "New tab name:"
 msgstr "Fitxaren izen berria:"
@@ -4599,8 +4599,16 @@ msgstr "Bide-izen osoa helbide-barran erakutsi behar den"
 msgid "Should tabs have close buttons"
 msgstr ""
 
-#. i18n: ectx: label, entry (Version), group (General)
+#. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Date style:"
+msgid "Tab style"
+msgstr "Data estiloa:"
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: settings/dolphin_generalsettings.kcfg:65
 #, kde-format
 msgid ""
 "Internal config version of Dolphin, mainly Used to determine whether an "
@@ -4612,7 +4620,7 @@ msgstr ""
 "diren konfigurazio-sarrerak migratzeko … eta abar"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
-#: settings/dolphin_generalsettings.kcfg:60
+#: settings/dolphin_generalsettings.kcfg:69
 #, kde-format
 msgid ""
 "Have the startup settings been modified (internal setting not shown in the "
@@ -4622,49 +4630,49 @@ msgstr ""
 "erabiltzailearen interfazean)"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
-#: settings/dolphin_generalsettings.kcfg:64
+#: settings/dolphin_generalsettings.kcfg:73
 #, kde-format
 msgid "Home URL"
 msgstr "Hasierako URLa"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:68
+#: settings/dolphin_generalsettings.kcfg:77
 #, kde-format
 msgid "Remember open folders and tabs"
 msgstr "Gogoratu irekitako karpetak eta fitxak"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:72
+#: settings/dolphin_generalsettings.kcfg:81
 #, kde-format
 msgid "Place two views side by side"
 msgstr "Kokatu bi ikuspegi aurrez-aurre"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:77
+#: settings/dolphin_generalsettings.kcfg:86
 #, kde-format
 msgid "Should the filter bar be shown"
 msgstr "Iragazki-barra erakutsi behar den"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
-#: settings/dolphin_generalsettings.kcfg:81
+#: settings/dolphin_generalsettings.kcfg:90
 #, kde-format
 msgid "Should the view properties be used for all folders"
 msgstr "Ikuspegi-propietateak karpeta guztietarako erabili behar den"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
-#: settings/dolphin_generalsettings.kcfg:85
+#: settings/dolphin_generalsettings.kcfg:94
 #, kde-format
 msgid "Browse through archives"
 msgstr "Arakatu fitxategien artean"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:89
+#: settings/dolphin_generalsettings.kcfg:98
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
 msgstr "Eskatu baieztapena fitxa anitzeko leihoak ixterakoan."
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
-#: settings/dolphin_generalsettings.kcfg:93
+#: settings/dolphin_generalsettings.kcfg:102
 #, kde-format
 msgid ""
 "Ask for confirmation when closing windows with a program that is still "
@@ -4674,19 +4682,19 @@ msgstr ""
 "itxi aurretik."
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
-#: settings/dolphin_generalsettings.kcfg:97
+#: settings/dolphin_generalsettings.kcfg:106
 #, kde-format
 msgid "Rename single items inline"
 msgstr "Berrizendatu banakako elementuak lerroan"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
-#: settings/dolphin_generalsettings.kcfg:101
+#: settings/dolphin_generalsettings.kcfg:110
 #, kde-format
 msgid "Show selection toggle"
 msgstr "Erakutsi hautapenaren txandakatzailea"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
-#: settings/dolphin_generalsettings.kcfg:105
+#: settings/dolphin_generalsettings.kcfg:114
 #, kde-format
 msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
@@ -4696,67 +4704,67 @@ msgstr ""
 "ebaki edo kopiatu ondoren."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:109
+#: settings/dolphin_generalsettings.kcfg:118
 #, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "Erabili tab eskuineko eta ezkerreko ikuspegien artean aldatzeko"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:118
+#: settings/dolphin_generalsettings.kcfg:127
 #, kde-format
 msgid "Close split view"
 msgstr "Itxi ikuspegi zatitua"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
-#: settings/dolphin_generalsettings.kcfg:122
+#: settings/dolphin_generalsettings.kcfg:131
 #, kde-format
 msgid "New tab will be open after last one"
 msgstr "Fitxa berria azkenekoaren ondoren irekiko da"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
-#: settings/dolphin_generalsettings.kcfg:126
+#: settings/dolphin_generalsettings.kcfg:135
 #, kde-format
 msgid "Show item information on hover"
 msgstr "Erakutsi elementuaren informazioa gainetik igarotzean"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
-#: settings/dolphin_generalsettings.kcfg:130
+#: settings/dolphin_generalsettings.kcfg:139
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
 msgstr "Ordu-zigilua (ikuspegiaren propietateak baliozkoak direnetik)"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
-#: settings/dolphin_generalsettings.kcfg:133
+#: settings/dolphin_generalsettings.kcfg:142
 #, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr "Erabili zabaltze automatikodun karpetak ikuspegi mota guztietan"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:142
+#: settings/dolphin_generalsettings.kcfg:151
 #, kde-format
 msgid "Statusbar"
 msgstr "Egoera-barra"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:147
+#: settings/dolphin_generalsettings.kcfg:156
 #, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "Erakutsi zoomaren graduatzailea egoera-barran"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:151
+#: settings/dolphin_generalsettings.kcfg:160
 #, kde-format
 msgid "Lock the layout of the panels"
 msgstr "Blokeatu panelen diseinua"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:155
+#: settings/dolphin_generalsettings.kcfg:164
 #, kde-format
 msgid "Enlarge Small Previews"
 msgstr "Handitu aurreikuspegi txikiak"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:164
+#: settings/dolphin_generalsettings.kcfg:173
 #, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4766,31 +4774,31 @@ msgstr ""
 "bereizi maiuskulak"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:169
+#: settings/dolphin_generalsettings.kcfg:178
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "Ezkutatu ere application/x-trash mime-motako fitxategiak"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
-#: settings/dolphin_generalsettings.kcfg:173
+#: settings/dolphin_generalsettings.kcfg:182
 #, kde-format
 msgid "Enable dynamic view"
 msgstr "Gaitu ikuspegi dinamikoa"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:179
+#: settings/dolphin_generalsettings.kcfg:188
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "Eskatu baieztapena karpeta asko batera irekitzean."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:183
+#: settings/dolphin_generalsettings.kcfg:192
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "Eskatu baieztapena terminal asko batera irekitzean."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:187
+#: settings/dolphin_generalsettings.kcfg:196
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr ""
@@ -4950,80 +4958,80 @@ msgstr "Ireki aplikazioan"
 msgid "Run script"
 msgstr "Exekutatu «script»a"
 
-#: settings/interface/folderstabssettingspage.cpp:53
+#: settings/interface/folderstabssettingspage.cpp:55
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Azken aldiko karpetak, fitxak, eta leihoaren egoera"
 
-#: settings/interface/folderstabssettingspage.cpp:58
+#: settings/interface/folderstabssettingspage.cpp:60
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "Abiatzean erakutsi etxeko kokalekua"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:65
+#: settings/interface/folderstabssettingspage.cpp:67
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Sartu etxeko kokalekuaren bide-izena"
 
-#: settings/interface/folderstabssettingspage.cpp:72
+#: settings/interface/folderstabssettingspage.cpp:74
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Hautatu Etxeko kokalekua"
 
-#: settings/interface/folderstabssettingspage.cpp:82
+#: settings/interface/folderstabssettingspage.cpp:84
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Erabili uneko kokalekua"
 
-#: settings/interface/folderstabssettingspage.cpp:86
+#: settings/interface/folderstabssettingspage.cpp:88
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Erabili kokaleku lehenetsia"
 
-#: settings/interface/folderstabssettingspage.cpp:94
+#: settings/interface/folderstabssettingspage.cpp:96
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Erakutsi abiatzean:"
 
-#: settings/interface/folderstabssettingspage.cpp:107
+#: settings/interface/folderstabssettingspage.cpp:109
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Irekitzen diren karpetak:"
 
-#: settings/interface/folderstabssettingspage.cpp:108
+#: settings/interface/folderstabssettingspage.cpp:110
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "Eduki «Dolphin»en leiho bakarra, karpeta berriak fitxetan irekiz"
 
-#: settings/interface/folderstabssettingspage.cpp:112
+#: settings/interface/folderstabssettingspage.cpp:114
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Leihoa:"
 
-#: settings/interface/folderstabssettingspage.cpp:113
+#: settings/interface/folderstabssettingspage.cpp:115
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Erakutsi bide-izen osoa helbide-barran"
 
-#: settings/interface/folderstabssettingspage.cpp:116
+#: settings/interface/folderstabssettingspage.cpp:118
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Erakutsi iragazki-barra"
 
-#: settings/interface/folderstabssettingspage.cpp:122
+#: settings/interface/folderstabssettingspage.cpp:124
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "At end of tab bar"
@@ -5031,13 +5039,13 @@ msgctxt "@option:check"
 msgid "Always show tab bar"
 msgstr "Fitxa-barraren amaieran"
 
-#: settings/interface/folderstabssettingspage.cpp:123
+#: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:124
+#: settings/interface/folderstabssettingspage.cpp:126
 #, fuzzy, kde-format
 #| msgctxt "@option:radio"
 #| msgid "Show home location on startup"
@@ -5045,64 +5053,84 @@ msgctxt "@option:check"
 msgid "Show close button on tabs"
 msgstr "Abiatzean erakutsi etxeko kokalekua"
 
-#: settings/interface/folderstabssettingspage.cpp:127
+#: settings/interface/folderstabssettingspage.cpp:129
+#, kde-format
+msgctxt "@option:radio width as in tab width"
+msgid "Tabs span the available width"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:130
+#, kde-format
+msgctxt "@option:radio size as in tab size"
+msgid "Tabs have all the same fixed size"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:134
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Date style:"
+msgctxt "@title:group"
+msgid "Tab style: "
+msgstr "Data estiloa:"
+
+#: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Uneko fitxaren ondoren"
 
-#: settings/interface/folderstabssettingspage.cpp:128
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Fitxa-barraren amaieran"
 
-#: settings/interface/folderstabssettingspage.cpp:132
+#: settings/interface/folderstabssettingspage.cpp:142
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Ireki fitxa berriak: "
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:148
 #, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
 msgstr "Ikuspegi zatitu bat ixtean"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the active pane"
 msgstr "Itxi beirate aktiboa"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the inactive pane"
 msgstr "Itxi beirate ez aktiboa"
 
-#: settings/interface/folderstabssettingspage.cpp:140
+#: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the right pane"
 msgstr "Itxi eskuineko beiratea"
 
-#: settings/interface/folderstabssettingspage.cpp:147
+#: settings/interface/folderstabssettingspage.cpp:157
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Ikuspegi zatitua: "
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:160
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Aldatu ikuspegien artean Tab tekla erabiliz"
 
-#: settings/interface/folderstabssettingspage.cpp:154
+#: settings/interface/folderstabssettingspage.cpp:164
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
 msgstr "Ireki leiho berriak ikuspegi zatitu moduan"
 
-#: settings/interface/folderstabssettingspage.cpp:312
+#: settings/interface/folderstabssettingspage.cpp:330
 #, kde-format
 msgctxt "@info"
 msgid ""
