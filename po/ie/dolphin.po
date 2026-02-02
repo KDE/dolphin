@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-10 03:00+0000\n"
+"POT-Creation-Date: 2026-02-02 02:41+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -167,7 +167,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Usar un predefinit localisation"
 msgstr[1] "Usar un predefinit localisation"
 
-#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1798
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1799
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -198,139 +198,139 @@ msgctxt ""
 msgid "Middle Click"
 msgstr "Medial clic"
 
-#: dolphinmainwindow.cpp:359
+#: dolphinmainwindow.cpp:360
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Copiat successosimen."
 
-#: dolphinmainwindow.cpp:362
+#: dolphinmainwindow.cpp:363
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Movet successosimen."
 
-#: dolphinmainwindow.cpp:365
+#: dolphinmainwindow.cpp:366
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Copiat successosimen."
 
-#: dolphinmainwindow.cpp:368
+#: dolphinmainwindow.cpp:369
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Movet successosimen."
 
-#: dolphinmainwindow.cpp:371
+#: dolphinmainwindow.cpp:372
 #, fuzzy, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Copiat successosimen."
 
-#: dolphinmainwindow.cpp:375
+#: dolphinmainwindow.cpp:376
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Creat un fólder."
 
-#: dolphinmainwindow.cpp:451
+#: dolphinmainwindow.cpp:452
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Ear retro"
 
-#: dolphinmainwindow.cpp:452
+#: dolphinmainwindow.cpp:453
 #, fuzzy, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Fólder es vacui"
 
-#: dolphinmainwindow.cpp:458
+#: dolphinmainwindow.cpp:459
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Ear avan"
 
-#: dolphinmainwindow.cpp:459
+#: dolphinmainwindow.cpp:460
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Ear retro"
 
-#: dolphinmainwindow.cpp:649 dolphinmainwindow.cpp:695
+#: dolphinmainwindow.cpp:650 dolphinmainwindow.cpp:696
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Confirmation"
 
-#: dolphinmainwindow.cpp:653
+#: dolphinmainwindow.cpp:654
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "S&urtir %1"
 
-#: dolphinmainwindow.cpp:655
+#: dolphinmainwindow.cpp:656
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "C&luder li actual carte"
 
-#: dolphinmainwindow.cpp:664
+#: dolphinmainwindow.cpp:665
 #, fuzzy, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
+#: dolphinmainwindow.cpp:667 dolphinmainwindow.cpp:717
 #: views/dolphinview.cpp:2235
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ne questionar denov"
 
-#: dolphinmainwindow.cpp:704
+#: dolphinmainwindow.cpp:705
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Monstrar li panel de &terminal"
 
-#: dolphinmainwindow.cpp:714
+#: dolphinmainwindow.cpp:715
 #, fuzzy, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:963
+#: dolphinmainwindow.cpp:964
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Collar"
 
-#: dolphinmainwindow.cpp:964
+#: dolphinmainwindow.cpp:965
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Collar"
 
-#: dolphinmainwindow.cpp:1367
+#: dolphinmainwindow.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Aperter %1"
 
-#: dolphinmainwindow.cpp:1376 dolphinmainwindow.cpp:2180
+#: dolphinmainwindow.cpp:1377 dolphinmainwindow.cpp:2181
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Aperter %1"
 
-#: dolphinmainwindow.cpp:1416
+#: dolphinmainwindow.cpp:1417
 #, fuzzy, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Aperter li Terminal ci"
 msgstr[1] "Aperter %1 terminales"
 
-#: dolphinmainwindow.cpp:1421
+#: dolphinmainwindow.cpp:1422
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -338,7 +338,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Aperter un terminal"
 msgstr[1] "Aperter %1 terminales"
 
-#: dolphinmainwindow.cpp:1522
+#: dolphinmainwindow.cpp:1523
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -346,7 +346,7 @@ msgid ""
 "folder."
 msgstr "%1 elementes"
 
-#: dolphinmainwindow.cpp:1524
+#: dolphinmainwindow.cpp:1525
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -354,25 +354,25 @@ msgid ""
 "folder."
 msgstr "%1 elementes"
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1630
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Configurar"
 
-#: dolphinmainwindow.cpp:1804
+#: dolphinmainwindow.cpp:1805
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Nov &fenestre"
 
-#: dolphinmainwindow.cpp:1805
+#: dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Aperter un nov fenestre de Dolphin"
 
-#: dolphinmainwindow.cpp:1807
+#: dolphinmainwindow.cpp:1808
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -380,13 +380,13 @@ msgid ""
 ">You can drag and drop items between windows."
 msgstr "Nov &fenestre"
 
-#: dolphinmainwindow.cpp:1814
+#: dolphinmainwindow.cpp:1815
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nov carte"
 
-#: dolphinmainwindow.cpp:1816
+#: dolphinmainwindow.cpp:1817
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -395,25 +395,25 @@ msgid ""
 "within this window. You can drag and drop items between tabs."
 msgstr "%1 elementes"
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1826
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Adjunter al Locs"
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1828
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Locs"
 
-#: dolphinmainwindow.cpp:1832
+#: dolphinmainwindow.cpp:1833
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1834
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Close Tab"
@@ -421,7 +421,7 @@ msgctxt "@info"
 msgid "Close Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:1835
+#: dolphinmainwindow.cpp:1836
 #, fuzzy, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -429,13 +429,13 @@ msgid ""
 "the whole window instead."
 msgstr "Nov &fenestre"
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1841
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "To clude ti fenestre."
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1852
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -446,13 +446,13 @@ msgid ""
 "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
 msgstr "Copiar"
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1859
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Exciser..."
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1861
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -462,13 +462,13 @@ msgid ""
 "their initial location."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:1867
+#: dolphinmainwindow.cpp:1868
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Copiar..."
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1870
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -477,13 +477,13 @@ msgid ""
 "them from the clipboard to a new location."
 msgstr "OIS"
 
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1879
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Collar"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1881
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -492,7 +492,7 @@ msgid ""
 "<emphasis>Cut</emphasis> action they are removed from their old location."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:1887
+#: dolphinmainwindow.cpp:1888
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -500,7 +500,7 @@ msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Copiar"
 
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1889
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View…"
@@ -508,7 +508,7 @@ msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Copiar"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1891
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -516,7 +516,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:1894
+#: dolphinmainwindow.cpp:1895
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -524,7 +524,7 @@ msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Copiar"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1900
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Inactive Split View"
@@ -532,7 +532,7 @@ msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Mover al Paper-corb"
 
-#: dolphinmainwindow.cpp:1900
+#: dolphinmainwindow.cpp:1901
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Inactive Split View…"
@@ -540,7 +540,7 @@ msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Mover al Paper-corb"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1903
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -548,7 +548,7 @@ msgid ""
 "(Only available while in Split View mode.)"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1907
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Inactive Split View"
@@ -556,7 +556,7 @@ msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1912
 #, fuzzy, kde-format
 #| msgctxt "@action:intoolbar"
 #| msgid "Filter"
@@ -564,13 +564,13 @@ msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Filtre"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1913
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Celar li panel de filtre"
 
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1915
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -580,31 +580,31 @@ msgid ""
 "view."
 msgstr "Nómine"
 
-#: dolphinmainwindow.cpp:1926
+#: dolphinmainwindow.cpp:1927
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Panel de localisation"
 
-#: dolphinmainwindow.cpp:1927
+#: dolphinmainwindow.cpp:1928
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filtre"
 
-#: dolphinmainwindow.cpp:1935 search/bar.cpp:214
+#: dolphinmainwindow.cpp:1936 search/bar.cpp:214
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "Sercha..."
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1937
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:1938
+#: dolphinmainwindow.cpp:1939
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -613,20 +613,20 @@ msgid ""
 "find the items you are looking for.</para>"
 msgstr "Parametres"
 
-#: dolphinmainwindow.cpp:1947
+#: dolphinmainwindow.cpp:1948
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Panel de localisation"
 
-#: dolphinmainwindow.cpp:1948
+#: dolphinmainwindow.cpp:1949
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Serchar"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1964
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -634,13 +634,13 @@ msgstr "Selecter files e fólderes"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1967
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Selecter"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1970
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -652,19 +652,19 @@ msgid ""
 "items.</para>"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:1992
+#: dolphinmainwindow.cpp:1993
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:1996 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1997 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Inverter li selection"
 
-#: dolphinmainwindow.cpp:1998
+#: dolphinmainwindow.cpp:1999
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -672,7 +672,7 @@ msgid ""
 "selected instead."
 msgstr "%1 elementes"
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2019
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -682,7 +682,7 @@ msgid ""
 "para>Click this button again to close one of the views."
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2033
+#: dolphinmainwindow.cpp:2034
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -690,19 +690,19 @@ msgid ""
 "window."
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2041
+#: dolphinmainwindow.cpp:2042
 #, fuzzy, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Conservar"
 
-#: dolphinmainwindow.cpp:2042
+#: dolphinmainwindow.cpp:2043
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Fender li vise"
 
-#: dolphinmainwindow.cpp:2050
+#: dolphinmainwindow.cpp:2051
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Preview"
@@ -710,7 +710,7 @@ msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2052
+#: dolphinmainwindow.cpp:2053
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -720,31 +720,31 @@ msgid ""
 "the view is split, this refreshes the one that is currently in focus.</para>"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:2060
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Stoppar"
 
-#: dolphinmainwindow.cpp:2060
+#: dolphinmainwindow.cpp:2061
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Stoppar"
 
-#: dolphinmainwindow.cpp:2061
+#: dolphinmainwindow.cpp:2062
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Actual fólder e sub-fólderes"
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2067
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Copiar li localisation"
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2069
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -754,13 +754,13 @@ msgid ""
 "confirming the edited location."
 msgstr "Panel de localisation"
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2077
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Panel de localisation"
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2082
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -768,19 +768,19 @@ msgid ""
 "enter a different location."
 msgstr "Copiar li localisation"
 
-#: dolphinmainwindow.cpp:2111
+#: dolphinmainwindow.cpp:2112
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Defar clusion del carte"
 
-#: dolphinmainwindow.cpp:2112
+#: dolphinmainwindow.cpp:2113
 #, fuzzy, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Recentmen cludet cartes"
 
-#: dolphinmainwindow.cpp:2120
+#: dolphinmainwindow.cpp:2121
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -791,7 +791,7 @@ msgid ""
 "for your confirmation beforehand."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:2131
+#: dolphinmainwindow.cpp:2132
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -802,7 +802,7 @@ msgid ""
 "ask for your confirmation beforehand."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:2161
+#: dolphinmainwindow.cpp:2162
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -811,19 +811,19 @@ msgid ""
 "well as hidden folders for their applications' data and configuration files."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2169
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Comparar files"
 
-#: dolphinmainwindow.cpp:2174
+#: dolphinmainwindow.cpp:2175
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2183
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -832,13 +832,13 @@ msgid ""
 "para>"
 msgstr "Configurar"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2197
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Aperter li terminal"
 
-#: dolphinmainwindow.cpp:2198
+#: dolphinmainwindow.cpp:2199
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -848,13 +848,13 @@ msgid ""
 msgstr "Aperter li Terminal ci"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2206
+#: dolphinmainwindow.cpp:2207
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2209
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -863,13 +863,13 @@ msgid ""
 "features in the terminal application.</para>"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2216
+#: dolphinmainwindow.cpp:2217
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Marca-págines"
 
-#: dolphinmainwindow.cpp:2226
+#: dolphinmainwindow.cpp:2227
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -881,13 +881,13 @@ msgid ""
 "advanced actions more time consuming.</para>"
 msgstr "Micri"
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Ear al carte %1"
 
-#: dolphinmainwindow.cpp:2264
+#: dolphinmainwindow.cpp:2265
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -895,7 +895,7 @@ msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2266
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Activate Last Tab"
@@ -903,13 +903,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:2271
+#: dolphinmainwindow.cpp:2272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Sequent carte"
 
-#: dolphinmainwindow.cpp:2272
+#: dolphinmainwindow.cpp:2273
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Next Tab"
@@ -917,13 +917,13 @@ msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Precedent carte"
 
-#: dolphinmainwindow.cpp:2279
+#: dolphinmainwindow.cpp:2280
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Previous Tab"
@@ -931,55 +931,55 @@ msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:2286
+#: dolphinmainwindow.cpp:2287
 #, fuzzy, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Revelar celat files"
 
-#: dolphinmainwindow.cpp:2292
+#: dolphinmainwindow.cpp:2293
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Aperter in un nov carte"
 
-#: dolphinmainwindow.cpp:2297
+#: dolphinmainwindow.cpp:2298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Aperter in nov cartes"
 
-#: dolphinmainwindow.cpp:2302
+#: dolphinmainwindow.cpp:2303
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Aperter in un nov fenestre"
 
-#: dolphinmainwindow.cpp:2307 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2308 panels/places/placespanel.cpp:45
 #, fuzzy, kde-format
 #| msgid "Open in application"
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Aperter in un fendet vise"
 
-#: dolphinmainwindow.cpp:2319
+#: dolphinmainwindow.cpp:2320
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2332
+#: dolphinmainwindow.cpp:2333
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Monstrar paneles"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2335
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Monstrar paneles"
 
-#: dolphinmainwindow.cpp:2337
+#: dolphinmainwindow.cpp:2338
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -989,13 +989,13 @@ msgid ""
 "embedded more cleanly."
 msgstr "Cluder li carte"
 
-#: dolphinmainwindow.cpp:2346
+#: dolphinmainwindow.cpp:2347
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Information"
 
-#: dolphinmainwindow.cpp:2369
+#: dolphinmainwindow.cpp:2370
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1003,7 +1003,7 @@ msgid ""
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2376
+#: dolphinmainwindow.cpp:2377
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1014,7 +1014,7 @@ msgid ""
 "items a preview of their contents is provided.</para>"
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:2384
+#: dolphinmainwindow.cpp:2385
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1025,13 +1025,13 @@ msgid ""
 "are given here by right-clicking.</para>"
 msgstr "OIS"
 
-#: dolphinmainwindow.cpp:2393
+#: dolphinmainwindow.cpp:2394
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2413
+#: dolphinmainwindow.cpp:2414
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1040,7 +1040,7 @@ msgid ""
 "emphasis> in a <emphasis>tree view</emphasis>."
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2419
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1050,13 +1050,13 @@ msgid ""
 "quick switching between any folders.</para>"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2429
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2454
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1068,7 +1068,7 @@ msgid ""
 "application like Konsole.</para>"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2461
+#: dolphinmainwindow.cpp:2462
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1080,31 +1080,31 @@ msgid ""
 "like Konsole.</para>"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2471 dolphinmainwindow.cpp:3070
+#: dolphinmainwindow.cpp:2472 dolphinmainwindow.cpp:3085
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2472
+#: dolphinmainwindow.cpp:2473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr ""
 
-#: dolphinmainwindow.cpp:2485
+#: dolphinmainwindow.cpp:2486
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Locs"
 
-#: dolphinmainwindow.cpp:2513
+#: dolphinmainwindow.cpp:2514
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Monstrar celat Locs"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2518
 #, fuzzy, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1113,7 +1113,7 @@ msgid ""
 "property."
 msgstr "Locs"
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2530
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1124,7 +1124,7 @@ msgid ""
 "type.</para>"
 msgstr "%1 files"
 
-#: dolphinmainwindow.cpp:2536
+#: dolphinmainwindow.cpp:2537
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1139,45 +1139,45 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr "Locs"
 
-#: dolphinmainwindow.cpp:2550 dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:3103
 #, fuzzy, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2552
 #, fuzzy, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Locs"
 
-#: dolphinmainwindow.cpp:2557
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Monstrar paneles"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2640
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot rename: You do not have permission to rename items in this folder."
 msgstr "%1 elementes"
 
-#: dolphinmainwindow.cpp:2629 dolphinmainwindow.cpp:2646
+#: dolphinmainwindow.cpp:2643 dolphinmainwindow.cpp:2660
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
 "Cannot delete: You do not have permission to remove items from this folder."
 msgstr "Remover"
 
-#: dolphinmainwindow.cpp:2631
+#: dolphinmainwindow.cpp:2645
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "Mover al Paper-corb"
 
-#: dolphinmainwindow.cpp:2636
+#: dolphinmainwindow.cpp:2650
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -1185,31 +1185,31 @@ msgid ""
 "folder."
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2658
+#: dolphinmainwindow.cpp:2672
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Copiar"
 
-#: dolphinmainwindow.cpp:2660
+#: dolphinmainwindow.cpp:2674
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "%1 files"
 
-#: dolphinmainwindow.cpp:2679
+#: dolphinmainwindow.cpp:2693
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2682
+#: dolphinmainwindow.cpp:2696
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2687
+#: dolphinmainwindow.cpp:2701
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -1217,7 +1217,7 @@ msgid ""
 "destination folder."
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2691
+#: dolphinmainwindow.cpp:2705
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -1225,7 +1225,7 @@ msgid ""
 "destination folder."
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2711
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
@@ -1233,7 +1233,7 @@ msgid ""
 "this folder."
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2721
+#: dolphinmainwindow.cpp:2735
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1244,19 +1244,19 @@ msgid ""
 "<emphasis>root directory</emphasis>.</para>"
 msgstr "Fólderes"
 
-#: dolphinmainwindow.cpp:2809
+#: dolphinmainwindow.cpp:2824
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Cluder"
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2825
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2812
+#: dolphinmainwindow.cpp:2827
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -1264,7 +1264,7 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2814
+#: dolphinmainwindow.cpp:2829
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -1272,25 +1272,25 @@ msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2815
+#: dolphinmainwindow.cpp:2830
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Cluder li levul vise"
 
-#: dolphinmainwindow.cpp:2817
+#: dolphinmainwindow.cpp:2832
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Cluder"
 
-#: dolphinmainwindow.cpp:2818
+#: dolphinmainwindow.cpp:2833
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Cluder li dextri vise"
 
-#: dolphinmainwindow.cpp:2820
+#: dolphinmainwindow.cpp:2835
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
@@ -1298,7 +1298,7 @@ msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Cluder li dextri vise"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2837
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -1306,31 +1306,31 @@ msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Vise"
 
-#: dolphinmainwindow.cpp:2823
+#: dolphinmainwindow.cpp:2838
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Cluder li dextri vise"
 
-#: dolphinmainwindow.cpp:2832
+#: dolphinmainwindow.cpp:2847
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Fender"
 
-#: dolphinmainwindow.cpp:2834
+#: dolphinmainwindow.cpp:2849
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Fender li vise"
 
-#: dolphinmainwindow.cpp:2836
+#: dolphinmainwindow.cpp:2851
 #, fuzzy, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "%1 líber ex %2 (%3% usat)"
 
-#: dolphinmainwindow.cpp:2896
+#: dolphinmainwindow.cpp:2911
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1342,7 +1342,7 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr "Parametres"
 
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2918
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1356,7 +1356,7 @@ msgid ""
 "click a button if you want to show or hide its text.</para>"
 msgstr "Panel de instrumentarium"
 
-#: dolphinmainwindow.cpp:2915
+#: dolphinmainwindow.cpp:2930
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1373,7 +1373,7 @@ msgid ""
 "emphasis> that covers the basics.</para>"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2946
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1383,7 +1383,7 @@ msgid ""
 "be triggered this way.</para>"
 msgstr "Nov &fenestre"
 
-#: dolphinmainwindow.cpp:2937
+#: dolphinmainwindow.cpp:2952
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1392,7 +1392,7 @@ msgid ""
 "<interface>Menu</interface> can also be placed on the Toolbar.</para>"
 msgstr "Panel de instrumentarium"
 
-#: dolphinmainwindow.cpp:2941
+#: dolphinmainwindow.cpp:2956
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1407,7 +1407,7 @@ msgstr "Parametres"
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2961
+#: dolphinmainwindow.cpp:2976
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1418,7 +1418,7 @@ msgid ""
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2981
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1432,7 +1432,7 @@ msgid ""
 "windows so don't get too used to this.</para>"
 msgstr "Dolphin"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2992
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1443,7 +1443,7 @@ msgid ""
 "Bug_Reporting'>click here</link>.</para>"
 msgstr "OIS"
 
-#: dolphinmainwindow.cpp:2986
+#: dolphinmainwindow.cpp:3001
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1457,7 +1457,7 @@ msgid ""
 "behind the KDE community.</para>"
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:2999
+#: dolphinmainwindow.cpp:3014
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1466,7 +1466,7 @@ msgid ""
 "in your preferred language."
 msgstr "mistresssilvara@hotmail.com"
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3019
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1474,7 +1474,7 @@ msgid ""
 "libraries and maintainers of this application."
 msgstr "Version"
 
-#: dolphinmainwindow.cpp:3009
+#: dolphinmainwindow.cpp:3024
 #, fuzzy, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1484,19 +1484,19 @@ msgid ""
 "a look!"
 msgstr "Aperter in un nov fenestre"
 
-#: dolphinmainwindow.cpp:3064 dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3079 dolphinmainwindow.cpp:3090
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:3082
+#: dolphinmainwindow.cpp:3097
 #, fuzzy, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Aperter li Terminal ci"
 
-#: dolphinmainwindow.cpp:3093
+#: dolphinmainwindow.cpp:3108
 #, fuzzy, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -3883,59 +3883,45 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Selection"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:59
+#: settings/contextmenu/contextmenusettingspage.cpp:57
 #, fuzzy, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Selecter"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:62
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
 msgstr "Sercha..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:89
+#: settings/contextmenu/contextmenusettingspage.cpp:87
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Nov carte"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:208
-#, fuzzy, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin must be restarted to apply the updated version control system "
-"settings."
-msgstr "Aperter un nov fenestre de Dolphin"
-
-#: settings/contextmenu/contextmenusettingspage.cpp:210
-#, fuzzy, kde-format
-msgctxt "@info"
-msgid "Restart now?"
-msgstr "Reiniciar"
-
-#: settings/contextmenu/contextmenusettingspage.cpp:246
+#: settings/contextmenu/contextmenusettingspage.cpp:227
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Remover"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:249
-#: settings/contextmenu/contextmenusettingspage.cpp:256
-#: settings/contextmenu/contextmenusettingspage.cpp:267
+#: settings/contextmenu/contextmenusettingspage.cpp:230
+#: settings/contextmenu/contextmenusettingspage.cpp:237
+#: settings/contextmenu/contextmenusettingspage.cpp:248
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Comandes «Mover/Copiar a»"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:299
+#: settings/contextmenu/contextmenusettingspage.cpp:280
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -6580,6 +6566,18 @@ msgstr "Scalar"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Scalar"
+
+#, fuzzy
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin must be restarted to apply the updated version control system "
+#~ "settings."
+#~ msgstr "Aperter un nov fenestre de Dolphin"
+
+#, fuzzy
+#~ msgctxt "@info"
+#~ msgid "Restart now?"
+#~ msgstr "Reiniciar"
 
 #, fuzzy
 #~| msgctxt "@action:inmenu View"

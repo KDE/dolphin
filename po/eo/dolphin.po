@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-10 03:00+0000\n"
+"POT-Creation-Date: 2026-02-02 02:41+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -190,7 +190,7 @@ msgid_plural "Restore to Former Locations"
 msgstr[0] "Restaŭri al Antaŭa Loko"
 msgstr[1] "Restaŭri al Antaŭaj Lokoj"
 
-#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1798
+#: dolphincontextmenu.cpp:232 dolphinmainwindow.cpp:1799
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -221,84 +221,84 @@ msgctxt ""
 msgid "Middle Click"
 msgstr "Mezklako"
 
-#: dolphinmainwindow.cpp:359
+#: dolphinmainwindow.cpp:360
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Sukcese kopiita."
 
-#: dolphinmainwindow.cpp:362
+#: dolphinmainwindow.cpp:363
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Sukcese movita."
 
-#: dolphinmainwindow.cpp:365
+#: dolphinmainwindow.cpp:366
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Sukcese ligita."
 
-#: dolphinmainwindow.cpp:368
+#: dolphinmainwindow.cpp:369
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Suksese rubujiĝita."
 
-#: dolphinmainwindow.cpp:371
+#: dolphinmainwindow.cpp:372
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Sukcese renomita."
 
-#: dolphinmainwindow.cpp:375
+#: dolphinmainwindow.cpp:376
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Kreis dosierujon."
 
-#: dolphinmainwindow.cpp:451
+#: dolphinmainwindow.cpp:452
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Reiri"
 
-#: dolphinmainwindow.cpp:452
+#: dolphinmainwindow.cpp:453
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Reiri al la antaŭe vidita dosierujo."
 
-#: dolphinmainwindow.cpp:458
+#: dolphinmainwindow.cpp:459
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Iri antaŭen"
 
-#: dolphinmainwindow.cpp:459
+#: dolphinmainwindow.cpp:460
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Ĉi tio malfaras agon <interface>Iri|Reen</interface>."
 
-#: dolphinmainwindow.cpp:649 dolphinmainwindow.cpp:695
+#: dolphinmainwindow.cpp:650 dolphinmainwindow.cpp:696
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Konfirmo"
 
-#: dolphinmainwindow.cpp:653
+#: dolphinmainwindow.cpp:654
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Forlasi %1"
 
-#: dolphinmainwindow.cpp:655
+#: dolphinmainwindow.cpp:656
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Fermi la &langeton"
 
-#: dolphinmainwindow.cpp:664
+#: dolphinmainwindow.cpp:665
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
@@ -306,18 +306,18 @@ msgstr ""
 "Vi havas plurajn malfermitajn langetoj en tiu fenestro, ĉu vi certas deziri "
 "forlasi ?"
 
-#: dolphinmainwindow.cpp:666 dolphinmainwindow.cpp:716
+#: dolphinmainwindow.cpp:667 dolphinmainwindow.cpp:717
 #: views/dolphinview.cpp:2235
 #, kde-format
 msgid "Do not ask again"
 msgstr "Ne plu demandi"
 
-#: dolphinmainwindow.cpp:704
+#: dolphinmainwindow.cpp:705
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Montri &Terminalpanelon"
 
-#: dolphinmainwindow.cpp:714
+#: dolphinmainwindow.cpp:715
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -326,38 +326,38 @@ msgstr ""
 "La programo '%1' ankoraŭ funkcias en la Terminal-panelo. Ĉu vi certas, ke vi "
 "volas ĉesi?"
 
-#: dolphinmainwindow.cpp:963
+#: dolphinmainwindow.cpp:964
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: The clipboard is empty."
 msgstr "Ne eblas alglui: La tondujo estas malplena."
 
-#: dolphinmainwindow.cpp:964
+#: dolphinmainwindow.cpp:965
 #, kde-format
 msgctxt "@info"
 msgid "Cannot paste: You do not have permission to write into this folder."
 msgstr "Ne eblas alglui: Vi ne havas permeson skribi en ĉi tiun dosierujon."
 
-#: dolphinmainwindow.cpp:1367
+#: dolphinmainwindow.cpp:1368
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Malfermi %1"
 
-#: dolphinmainwindow.cpp:1376 dolphinmainwindow.cpp:2180
+#: dolphinmainwindow.cpp:1377 dolphinmainwindow.cpp:2181
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Malfermi Preferatan Serĉilon"
 
-#: dolphinmainwindow.cpp:1416
+#: dolphinmainwindow.cpp:1417
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Ĉu vi certas, ke vi volas malfermi 1 terminalfenestron?"
 msgstr[1] "Ĉu vi certas, ke vi volas malfermi %1 terminalfenestrojn?"
 
-#: dolphinmainwindow.cpp:1421
+#: dolphinmainwindow.cpp:1422
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -365,7 +365,7 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Malfermi %1 Terminalon"
 msgstr[1] "Malfermi %1 Terminalojn"
 
-#: dolphinmainwindow.cpp:1522
+#: dolphinmainwindow.cpp:1523
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -375,7 +375,7 @@ msgstr ""
 "Ne eblas krei novan dosieron: Vi ne havas permeson skribi en ĉi tiun "
 "dosierujon."
 
-#: dolphinmainwindow.cpp:1524
+#: dolphinmainwindow.cpp:1525
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -385,25 +385,25 @@ msgstr ""
 "Ne eblas krei novan dosierujon: Vi ne havas permeson skribi en ĉi tiun "
 "dosierujon."
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1630
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Agordi"
 
-#: dolphinmainwindow.cpp:1804
+#: dolphinmainwindow.cpp:1805
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Nova &Fenestro"
 
-#: dolphinmainwindow.cpp:1805
+#: dolphinmainwindow.cpp:1806
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Malfermi novan Dolfin-fenestron"
 
-#: dolphinmainwindow.cpp:1807
+#: dolphinmainwindow.cpp:1808
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -413,13 +413,13 @@ msgstr ""
 "Ĉi tio malfermas novan fenestron same kiel ĉi tiu kun la aktuala loko.<nl/"
 ">Vi povas treni kaj faligi erojn inter fenestroj."
 
-#: dolphinmainwindow.cpp:1814
+#: dolphinmainwindow.cpp:1815
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Nova Langeto"
 
-#: dolphinmainwindow.cpp:1816
+#: dolphinmainwindow.cpp:1817
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -431,31 +431,31 @@ msgstr ""
 ">Langetoj permesas rapide ŝanĝi inter pluraj lokoj kaj vidoj ene de ĉi tiu "
 "fenestro. Vi povas treni kaj faligi erojn inter langetoj."
 
-#: dolphinmainwindow.cpp:1825
+#: dolphinmainwindow.cpp:1826
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Aldoni al lokoj"
 
-#: dolphinmainwindow.cpp:1827
+#: dolphinmainwindow.cpp:1828
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Ĉi tio aldonas la elektitan dosierujon al la panelo Lokoj."
 
-#: dolphinmainwindow.cpp:1832
+#: dolphinmainwindow.cpp:1833
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Fermi Langeton"
 
-#: dolphinmainwindow.cpp:1833
+#: dolphinmainwindow.cpp:1834
 #, kde-format
 msgctxt "@info"
 msgid "Close Tab"
 msgstr "Fermi Langeton"
 
-#: dolphinmainwindow.cpp:1835
+#: dolphinmainwindow.cpp:1836
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -465,13 +465,13 @@ msgstr ""
 "Ĉi tio fermas la aktuale viditan langeton. Se ne restas pliaj langetoj, ĉi "
 "tio fermas la tutan fenestron anstataŭe."
 
-#: dolphinmainwindow.cpp:1840
+#: dolphinmainwindow.cpp:1841
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
 msgstr "Tio fermas ĉi fenestron."
 
-#: dolphinmainwindow.cpp:1851
+#: dolphinmainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -487,13 +487,13 @@ msgstr ""
 "apud la alia sur la klavaro: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</"
 "shortcut> kaj <shortcut>Ctrl +V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1859
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Tondi…"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1861
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -506,13 +506,13 @@ msgstr ""
 "emphasis>. <nl/>Uzu la agon <emphasis>Alglui</emphasis> poste por kopii ilin "
 "de la tondujo al nova loko. La aĵoj estos forigitaj de sia komenca loko."
 
-#: dolphinmainwindow.cpp:1867
+#: dolphinmainwindow.cpp:1868
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Kopii…"
 
-#: dolphinmainwindow.cpp:1869
+#: dolphinmainwindow.cpp:1870
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -524,13 +524,13 @@ msgstr ""
 "emphasis>. <nl/>Uzu la agon <emphasis>Alglui</emphasis> poste por kopii ilin "
 "de la tondujo al nova loko."
 
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1879
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Alglui"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1881
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -542,19 +542,19 @@ msgstr ""
 "vidita dosierujo. <nl/>Se la eroj estis aldonitaj al la tondujo per la ago "
 "<emphasis>Tranĉi</emphasis> ili estas forigitaj de sia malnova loko. ."
 
-#: dolphinmainwindow.cpp:1887
+#: dolphinmainwindow.cpp:1888
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View"
 msgstr "Kopii al Alia Vido"
 
-#: dolphinmainwindow.cpp:1888
+#: dolphinmainwindow.cpp:1889
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Other View…"
 msgstr "Kopii al Alia Vido…"
 
-#: dolphinmainwindow.cpp:1890
+#: dolphinmainwindow.cpp:1891
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -564,25 +564,25 @@ msgstr ""
 "Ĉi tio kopias la elektitajn erojn de la enfokusa vido al la alia vido. (Nur "
 "disponebla dum en reĝimo Dividita Vido.)"
 
-#: dolphinmainwindow.cpp:1894
+#: dolphinmainwindow.cpp:1895
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Other View"
 msgstr "Kopii al Alia Vido"
 
-#: dolphinmainwindow.cpp:1899
+#: dolphinmainwindow.cpp:1900
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View"
 msgstr "Movi al Alia Vido"
 
-#: dolphinmainwindow.cpp:1900
+#: dolphinmainwindow.cpp:1901
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Other View…"
 msgstr "Movi al Alia Vido…"
 
-#: dolphinmainwindow.cpp:1902
+#: dolphinmainwindow.cpp:1903
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -592,25 +592,25 @@ msgstr ""
 "Ĉi tio movas la elektitajn erojn de la enfokusa vido al la alia vido. (Nur "
 "disponebla dum en reĝimo Dividita Vido.)"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1907
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Other View"
 msgstr "Movi al Alia Vido"
 
-#: dolphinmainwindow.cpp:1911
+#: dolphinmainwindow.cpp:1912
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter…"
 msgstr "Filtri…"
 
-#: dolphinmainwindow.cpp:1912
+#: dolphinmainwindow.cpp:1913
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Montri la filtrilobreton"
 
-#: dolphinmainwindow.cpp:1914
+#: dolphinmainwindow.cpp:1915
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -624,30 +624,30 @@ msgstr ""
 "dosierujojn aktuale montratajn. Nur tiuj, kiuj enhavas la tekston en sia "
 "nomo, estos tenataj en vido."
 
-#: dolphinmainwindow.cpp:1926
+#: dolphinmainwindow.cpp:1927
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Baskuligi Filtrilon"
 
-#: dolphinmainwindow.cpp:1927
+#: dolphinmainwindow.cpp:1928
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Filtrilo"
 
-#: dolphinmainwindow.cpp:1935 search/bar.cpp:214
+#: dolphinmainwindow.cpp:1936 search/bar.cpp:214
 #, kde-format
 msgid "Search…"
 msgstr "Serĉi…"
 
-#: dolphinmainwindow.cpp:1936
+#: dolphinmainwindow.cpp:1937
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Serĉi dosierojn kaj dosierujojn"
 
-#: dolphinmainwindow.cpp:1938
+#: dolphinmainwindow.cpp:1939
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis find"
 #| msgid ""
@@ -668,20 +668,20 @@ msgstr ""
 "tiun helpon denove sur la serĉbreto por ke ni povu rigardi ĝin dum la "
 "klarigo de la agordoj.</para>"
 
-#: dolphinmainwindow.cpp:1947
+#: dolphinmainwindow.cpp:1948
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Baskuligi Serĉbreton"
 
-#: dolphinmainwindow.cpp:1948
+#: dolphinmainwindow.cpp:1949
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Serĉi"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1963
+#: dolphinmainwindow.cpp:1964
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -689,13 +689,13 @@ msgstr "Elekti Dosierojn kaj Dosierujojn"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1966
+#: dolphinmainwindow.cpp:1967
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Elekti"
 
-#: dolphinmainwindow.cpp:1969
+#: dolphinmainwindow.cpp:1970
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -712,19 +712,19 @@ msgstr ""
 "kiel unufoje premi eron.</para><para>Dum en ĉi tiu reĝimo, rapida alirbreto "
 "malsupre montras disponeblajn agojn por la aktuale elektitaj eroj.</para>"
 
-#: dolphinmainwindow.cpp:1992
+#: dolphinmainwindow.cpp:1993
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Ĉi tio elektas ĉiujn dosierojn kaj dosierujojn en la nuna loko."
 
-#: dolphinmainwindow.cpp:1996 dolphinpart.cpp:168
+#: dolphinmainwindow.cpp:1997 dolphinpart.cpp:168
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Inversigi la elektaĵon"
 
-#: dolphinmainwindow.cpp:1998
+#: dolphinmainwindow.cpp:1999
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -734,7 +734,7 @@ msgstr ""
 "Ĉi tio elektas ĉiujn objektojn, kiujn vi nun <emphasis>ne</emphasis> elektis "
 "anstataŭe."
 
-#: dolphinmainwindow.cpp:2018
+#: dolphinmainwindow.cpp:2019
 #, kde-kuit-format
 msgctxt "@info:whatsthis split"
 msgid ""
@@ -748,7 +748,7 @@ msgstr ""
 "inter ili.</para><para>La vido kiu ne estas \"en fokuso\" estos malklarigita."
 "</para>Alklaku ĉi tiun butonon denove por fermi unu el la vidoj."
 
-#: dolphinmainwindow.cpp:2033
+#: dolphinmainwindow.cpp:2034
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -758,25 +758,25 @@ msgstr ""
 "Se la dosieruja vido estis dividita, ĉi tio elŝprucigos la enfokusan vidon "
 "en novan fenestron."
 
-#: dolphinmainwindow.cpp:2041
+#: dolphinmainwindow.cpp:2042
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Stash"
 
-#: dolphinmainwindow.cpp:2042
+#: dolphinmainwindow.cpp:2043
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Malfermas la stash virtuala dosierujo en dividita fenestro"
 
-#: dolphinmainwindow.cpp:2050
+#: dolphinmainwindow.cpp:2051
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Refresh view"
 msgstr "Refreŝigi vidon"
 
-#: dolphinmainwindow.cpp:2052
+#: dolphinmainwindow.cpp:2053
 #, kde-kuit-format
 msgctxt "@info:whatsthis refresh"
 msgid ""
@@ -791,31 +791,31 @@ msgstr ""
 "para><para>Se la vido estas partigita, tio refreŝigos tiun kiu aktuale estas "
 "en fokuso.</para>"
 
-#: dolphinmainwindow.cpp:2059
+#: dolphinmainwindow.cpp:2060
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Halti"
 
-#: dolphinmainwindow.cpp:2060
+#: dolphinmainwindow.cpp:2061
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Ĉesi ŝargadon"
 
-#: dolphinmainwindow.cpp:2061
+#: dolphinmainwindow.cpp:2062
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Ĉi tio ĉesigas la ŝargon de la enhavo de la nuna dosierujo."
 
-#: dolphinmainwindow.cpp:2066
+#: dolphinmainwindow.cpp:2067
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Redaktebla Loko"
 
-#: dolphinmainwindow.cpp:2068
+#: dolphinmainwindow.cpp:2069
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -829,13 +829,13 @@ msgstr ""
 "redaktado klakante dekstre de la loko kaj ŝanĝi reen per konfirmante la "
 "redaktitan lokon."
 
-#: dolphinmainwindow.cpp:2076
+#: dolphinmainwindow.cpp:2077
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Anstataŭigi Lokon"
 
-#: dolphinmainwindow.cpp:2081
+#: dolphinmainwindow.cpp:2082
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -845,19 +845,19 @@ msgstr ""
 "Ĉi tio ŝanĝas al redaktado de la loko kaj elektas ĝin por ke vi povu rapide "
 "enigi alian lokon."
 
-#: dolphinmainwindow.cpp:2111
+#: dolphinmainwindow.cpp:2112
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Malfari fermi langeton"
 
-#: dolphinmainwindow.cpp:2112
+#: dolphinmainwindow.cpp:2113
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Ĉi tio reportas vin al la antaŭe fermita langeto."
 
-#: dolphinmainwindow.cpp:2120
+#: dolphinmainwindow.cpp:2121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -873,7 +873,7 @@ msgstr ""
 "loko aŭ al la <filename>Rubujo.</filename>. <nl/>Ajn ŝanĝoj, kiuj ne povas "
 "esti malfarataj, petos vian antaŭan konfirmon."
 
-#: dolphinmainwindow.cpp:2131
+#: dolphinmainwindow.cpp:2132
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -896,7 +896,7 @@ msgstr ""
 "loko aŭ al la <filename>Rubujo.</filename>. <nl/>Ajn ŝanĝoj, kiuj ne povas "
 "esti malfarataj, petos vian antaŭan konfirmon."
 
-#: dolphinmainwindow.cpp:2161
+#: dolphinmainwindow.cpp:2162
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -909,19 +909,19 @@ msgstr ""
 "dosierojn samkiel kaŝitajn dosierujojn por iliaj aplikaĵaj datumoj kaj "
 "agorddosieroj."
 
-#: dolphinmainwindow.cpp:2168
+#: dolphinmainwindow.cpp:2169
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Kompari Dosierojn"
 
-#: dolphinmainwindow.cpp:2174
+#: dolphinmainwindow.cpp:2175
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Manage Disk Space Usage"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2182
+#: dolphinmainwindow.cpp:2183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -932,13 +932,13 @@ msgstr ""
 "<para>Ĉi tio malfermas preferatan serĉilon por la vidita loko.</para><para "
 ">Uzu la menuon <emphasis>Pliaj Serĉiloj</emphasis> por agordi ĝin.</para>"
 
-#: dolphinmainwindow.cpp:2196
+#: dolphinmainwindow.cpp:2197
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Malfermi Terminalon"
 
-#: dolphinmainwindow.cpp:2198
+#: dolphinmainwindow.cpp:2199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -951,13 +951,13 @@ msgstr ""
 "en la terminal-aplikaĵo.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:2206
+#: dolphinmainwindow.cpp:2207
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Malfermi Terminalon Ĉi tie"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2209
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -969,13 +969,13 @@ msgstr ""
 "de la elektitaj eroj.</para><para>Por ekscii pli pri terminaloj, uzu la "
 "helpkapablojn en la terminal-aplikaĵo.</para>"
 
-#: dolphinmainwindow.cpp:2216
+#: dolphinmainwindow.cpp:2217
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Legosignoj"
 
-#: dolphinmainwindow.cpp:2226
+#: dolphinmainwindow.cpp:2227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -993,96 +993,96 @@ msgstr ""
 "</para><para>La butono %1 estas pli simpla kaj malgranda, kio faras ekigi "
 "altnivelajn agojn pli temporaba.</para>"
 
-#: dolphinmainwindow.cpp:2251
+#: dolphinmainwindow.cpp:2252
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Tab %1"
 msgstr "Iri al Langeto %1"
 
-#: dolphinmainwindow.cpp:2264
+#: dolphinmainwindow.cpp:2265
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Last Tab"
 msgstr "Lasta Langeto"
 
-#: dolphinmainwindow.cpp:2265
+#: dolphinmainwindow.cpp:2266
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Last Tab"
 msgstr "Iri al Lasta Langeto"
 
-#: dolphinmainwindow.cpp:2271
+#: dolphinmainwindow.cpp:2272
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Sekva Langeto"
 
-#: dolphinmainwindow.cpp:2272
+#: dolphinmainwindow.cpp:2273
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Next Tab"
 msgstr "Iri al Sekva Langeto"
 
-#: dolphinmainwindow.cpp:2278
+#: dolphinmainwindow.cpp:2279
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Antaŭa Langeto"
 
-#: dolphinmainwindow.cpp:2279
+#: dolphinmainwindow.cpp:2280
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Go to Previous Tab"
 msgstr "Iri al Antaŭa Langeto"
 
-#: dolphinmainwindow.cpp:2286
+#: dolphinmainwindow.cpp:2287
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Montri Celon"
 
-#: dolphinmainwindow.cpp:2292
+#: dolphinmainwindow.cpp:2293
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Malfermi en Nova Langeto"
 
-#: dolphinmainwindow.cpp:2297
+#: dolphinmainwindow.cpp:2298
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Malfermi en Novaj Langetoj"
 
-#: dolphinmainwindow.cpp:2302
+#: dolphinmainwindow.cpp:2303
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Malfermi en Nova Fenestro"
 
-#: dolphinmainwindow.cpp:2307 panels/places/placespanel.cpp:45
+#: dolphinmainwindow.cpp:2308 panels/places/placespanel.cpp:45
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in Split View"
 msgstr "Malfermi en Dividita Vido"
 
-#: dolphinmainwindow.cpp:2319
+#: dolphinmainwindow.cpp:2320
 #, kde-format
 msgid "&Window Color Scheme"
 msgstr ""
 
-#: dolphinmainwindow.cpp:2332
+#: dolphinmainwindow.cpp:2333
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Malŝlosi Panelojn"
 
-#: dolphinmainwindow.cpp:2334
+#: dolphinmainwindow.cpp:2335
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Ŝlosi Panelojn"
 
-#: dolphinmainwindow.cpp:2337
+#: dolphinmainwindow.cpp:2338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1096,13 +1096,13 @@ msgstr ""
 "trenitaj al la alia flanko de la fenestro kaj havi fermbutonon.<nl/"
 ">Ŝlositaj. paneloj estas enigitaj pli pure."
 
-#: dolphinmainwindow.cpp:2346
+#: dolphinmainwindow.cpp:2347
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Informoj"
 
-#: dolphinmainwindow.cpp:2369
+#: dolphinmainwindow.cpp:2370
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1112,7 +1112,7 @@ msgstr ""
 "<para>Por montri aŭ kaŝi panelojn kiel ĉi iru al <interface>Menuo|Paneloj</"
 "interface> aŭ <interface>Vidi|Paneloj</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2376
+#: dolphinmainwindow.cpp:2377
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1128,7 +1128,7 @@ msgstr ""
 "informas vin pri la nuntempe rigardata dosierujo.<nl/>Por unuopaj eroj estas "
 "provizita antaŭrigardo de ilia enhavo.</para>"
 
-#: dolphinmainwindow.cpp:2384
+#: dolphinmainwindow.cpp:2385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1144,13 +1144,13 @@ msgstr ""
 "provizita.</para><para>Vi povas agordi kiuj kaj kiel detaloj estas donitaj "
 "ĉi tie per dekstra klako.</para>>"
 
-#: dolphinmainwindow.cpp:2393
+#: dolphinmainwindow.cpp:2394
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Dosierujoj"
 
-#: dolphinmainwindow.cpp:2413
+#: dolphinmainwindow.cpp:2414
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1162,7 +1162,7 @@ msgstr ""
 "flanko de la fenestro. <nl/><nl/>Ĝi montras la dosierujojn de la "
 "<emphasis>dosiersistemo</emphasis> en <emphasis>arba vido.</emphasis>."
 
-#: dolphinmainwindow.cpp:2418
+#: dolphinmainwindow.cpp:2419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1176,13 +1176,13 @@ msgstr ""
 "por iri tien. Alklaku la sagon maldekstre de dosierujo por vidi ĝiajn "
 "subdosierujojn. Ĉi tio ebligas rapidan ŝanĝi inter iuj dosierujoj.</para>"
 
-#: dolphinmainwindow.cpp:2428
+#: dolphinmainwindow.cpp:2429
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Terminalo"
 
-#: dolphinmainwindow.cpp:2453
+#: dolphinmainwindow.cpp:2454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1200,7 +1200,7 @@ msgstr ""
 "altnivelaj taskoj. Por ekscii pli pri terminaloj, uzu la helpkapablojn en "
 "memstara terminal-aplikaĵo kiel Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2461
+#: dolphinmainwindow.cpp:2462
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1218,31 +1218,31 @@ msgstr ""
 "taskoj. Por ekscii pli pri terminaloj, uzu la helpkapablojn en memstara "
 "terminal-aplikaĵo kiel Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2471 dolphinmainwindow.cpp:3070
+#: dolphinmainwindow.cpp:2472 dolphinmainwindow.cpp:3085
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Fokusi Terminalpanelon"
 
-#: dolphinmainwindow.cpp:2472
+#: dolphinmainwindow.cpp:2473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Terminal panel."
 msgstr "Movu klavaran fokuson al kaj el la Terminal-panelo."
 
-#: dolphinmainwindow.cpp:2485
+#: dolphinmainwindow.cpp:2486
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Lokoj"
 
-#: dolphinmainwindow.cpp:2513
+#: dolphinmainwindow.cpp:2514
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Montri Kaŝitajn Lokojn"
 
-#: dolphinmainwindow.cpp:2517
+#: dolphinmainwindow.cpp:2518
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1253,7 +1253,7 @@ msgstr ""
 "Ĉi tio montras ĉiujn lokojn en la panelo de lokoj kiuj estis kaŝitaj. Ili "
 "aperos duontravideblaj kaj permesos al vi malmarki ilian \"Kaŝi\"-proprecon."
 
-#: dolphinmainwindow.cpp:2529
+#: dolphinmainwindow.cpp:2530
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1269,7 +1269,7 @@ msgstr ""
 "reto. Ĝi ankaŭ enhavas sekciojn por trovi lastatempe konservitajn dosierojn "
 "aŭ dosierojn de certa tipo.</para>"
 
-#: dolphinmainwindow.cpp:2536
+#: dolphinmainwindow.cpp:2537
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1294,25 +1294,25 @@ msgstr ""
 "malplenan spacon sur ĉi tiu panelo kaj elektu <interface>Montri Kaŝitajn "
 "Lokojn</interface> por montri ĝin denove.</para>"
 
-#: dolphinmainwindow.cpp:2550 dolphinmainwindow.cpp:3088
+#: dolphinmainwindow.cpp:2551 dolphinmainwindow.cpp:3103
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Focus Places Panel"
 msgstr "Fokusi Panelon de Lokoj"
 
-#: dolphinmainwindow.cpp:2551
+#: dolphinmainwindow.cpp:2552
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Move keyboard focus to and from the Places panel."
 msgstr "Movi klavaran fokuson al kaj de la panelo Lokoj."
 
-#: dolphinmainwindow.cpp:2557
+#: dolphinmainwindow.cpp:2558
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Montri Panelojn"
 
-#: dolphinmainwindow.cpp:2626
+#: dolphinmainwindow.cpp:2640
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1320,7 +1320,7 @@ msgid ""
 msgstr ""
 "Ne eblas alinomi: Vi ne havas permeson alinomi erojn en ĉi tiu dosierujo."
 
-#: dolphinmainwindow.cpp:2629 dolphinmainwindow.cpp:2646
+#: dolphinmainwindow.cpp:2643 dolphinmainwindow.cpp:2660
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1328,13 +1328,13 @@ msgid ""
 msgstr ""
 "Ne eblas forigi: Vi ne havas permeson forigi erojn el ĉi tiu dosierujon."
 
-#: dolphinmainwindow.cpp:2631
+#: dolphinmainwindow.cpp:2645
 #, kde-format
 msgctxt "@info"
 msgid "Cannot cut: You do not have permission to move items from this folder."
 msgstr "Ne eblas tondi: Vi ne havas permeson movi erojn en ĉi tiu dosierujo."
 
-#: dolphinmainwindow.cpp:2636
+#: dolphinmainwindow.cpp:2650
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1344,31 +1344,31 @@ msgstr ""
 "Ne eblas duobligi tien ĉi: Vi ne havas permeson krei erojn en ĉi tiu "
 "dosierujo."
 
-#: dolphinmainwindow.cpp:2658
+#: dolphinmainwindow.cpp:2672
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: No files selected."
 msgstr "Ne eblas kopii al alia vido: Neniuj dosiero elektiĝis."
 
-#: dolphinmainwindow.cpp:2660
+#: dolphinmainwindow.cpp:2674
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: No files selected."
 msgstr "Ne eblas movi al alia vido: Neniuj dosiero elektiĝis."
 
-#: dolphinmainwindow.cpp:2679
+#: dolphinmainwindow.cpp:2693
 #, kde-format
 msgctxt "@info"
 msgid "Cannot copy to other view: The other view already contains these items."
 msgstr "Ne eblas kopii al alia vido: La alia vido jam enhavas tiujn erojn."
 
-#: dolphinmainwindow.cpp:2682
+#: dolphinmainwindow.cpp:2696
 #, kde-format
 msgctxt "@info"
 msgid "Cannot move to other view: The other view already contains these items."
 msgstr "Ne eblas movi al alia vido: La alia vido jam enhavas tiujn erojn."
 
-#: dolphinmainwindow.cpp:2687
+#: dolphinmainwindow.cpp:2701
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1377,7 +1377,7 @@ msgid ""
 msgstr ""
 "Ne eblas kopii al alia vido: Vi ne havas permeson skribi en la celdosierujon."
 
-#: dolphinmainwindow.cpp:2691
+#: dolphinmainwindow.cpp:2705
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1386,7 +1386,7 @@ msgid ""
 msgstr ""
 "Ne eblas movi al alia vido: Vi ne havas permeson skribi en la celdosierujon."
 
-#: dolphinmainwindow.cpp:2697
+#: dolphinmainwindow.cpp:2711
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -1395,7 +1395,7 @@ msgid ""
 msgstr ""
 "Ne eblas movi al alia vido: Vi ne havas permeson movi erojn el ĉi dosierujo."
 
-#: dolphinmainwindow.cpp:2721
+#: dolphinmainwindow.cpp:2735
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1411,85 +1411,85 @@ msgstr ""
 "dosierujo kiu enhavas ĉiujn datumojn ligitajn al ĉi tiu komputilo—la "
 "<emphasis>radika dosierujo</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2809
+#: dolphinmainwindow.cpp:2824
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Fermi"
 
-#: dolphinmainwindow.cpp:2810
+#: dolphinmainwindow.cpp:2825
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Fermi maldekstran vidon"
 
-#: dolphinmainwindow.cpp:2812
+#: dolphinmainwindow.cpp:2827
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Left View"
 msgstr "Fermi Maldekstran Vidon"
 
-#: dolphinmainwindow.cpp:2814
+#: dolphinmainwindow.cpp:2829
 #, kde-format
 msgctxt "@action:intoolbar Move left view to a new window"
 msgid "Pop out Left View"
 msgstr "Elŝprucigi Maldesktran Vidon"
 
-#: dolphinmainwindow.cpp:2815
+#: dolphinmainwindow.cpp:2830
 #, kde-format
 msgctxt "@info"
 msgid "Move left view to a new window"
 msgstr "Movi maldekstran vidon al nova fenestro"
 
-#: dolphinmainwindow.cpp:2817
+#: dolphinmainwindow.cpp:2832
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Fermi"
 
-#: dolphinmainwindow.cpp:2818
+#: dolphinmainwindow.cpp:2833
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Fermi dekstran vidon"
 
-#: dolphinmainwindow.cpp:2820
+#: dolphinmainwindow.cpp:2835
 #, kde-format
 msgctxt "@action:inmenu Close left view"
 msgid "Close Right View"
 msgstr "Fermi Dekstran Vidon"
 
-#: dolphinmainwindow.cpp:2822
+#: dolphinmainwindow.cpp:2837
 #, kde-format
 msgctxt "@action:intoolbar Move right view to a new window"
 msgid "Pop out Right View"
 msgstr "Elŝprucigi Desktran Vidon"
 
-#: dolphinmainwindow.cpp:2823
+#: dolphinmainwindow.cpp:2838
 #, kde-format
 msgctxt "@info"
 msgid "Move right view to a new window"
 msgstr "Movi dekstran vidon al nova fenestro"
 
-#: dolphinmainwindow.cpp:2832
+#: dolphinmainwindow.cpp:2847
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Dividi"
 
-#: dolphinmainwindow.cpp:2834
+#: dolphinmainwindow.cpp:2849
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Dividita vido"
 
-#: dolphinmainwindow.cpp:2836
+#: dolphinmainwindow.cpp:2851
 #, kde-format
 msgctxt "@action:intoolbar Move view in focus to a new window"
 msgid "Pop out"
 msgstr "Elŝprucigi"
 
-#: dolphinmainwindow.cpp:2896
+#: dolphinmainwindow.cpp:2911
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1507,7 +1507,7 @@ msgstr ""
 "de ĝia enhavo fariĝas disponebla per butono <interface>Menuo</interface> sur "
 "la <emphasis>Ilobreto</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2903
+#: dolphinmainwindow.cpp:2918
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1530,7 +1530,7 @@ msgstr ""
 "dekstra klaka menuo. Dekstre alklaku butonon se vi volas montri aŭ kaŝi ĝian "
 "tekston.</para>"
 
-#: dolphinmainwindow.cpp:2915
+#: dolphinmainwindow.cpp:2930
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1558,7 +1558,7 @@ msgstr ""
 "dolphin-view.html'>alklaku ĉi tie</link> anstataŭe. Ĉi tio malfermos paĝon "
 "el la <emphasis>Manlibro</emphasis> kiu kovras la bazaĵojn.</para>"
 
-#: dolphinmainwindow.cpp:2931
+#: dolphinmainwindow.cpp:2946
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1572,7 +1572,7 @@ msgstr ""
 "estas premataj samtempe. Ĉiuj komandoj en ĉi tiu aplikaĵo povas esti "
 "ekigitaj tiel.</para>"
 
-#: dolphinmainwindow.cpp:2937
+#: dolphinmainwindow.cpp:2952
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1585,7 +1585,7 @@ msgstr ""
 "en la <interface>Menuo</interface> ankaŭ povas esti metita sur la Ilobreton."
 "</para>"
 
-#: dolphinmainwindow.cpp:2941
+#: dolphinmainwindow.cpp:2956
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1604,7 +1604,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2961
+#: dolphinmainwindow.cpp:2976
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1621,7 +1621,7 @@ msgstr ""
 "File_Management'>klaku ĉi tie</link>. Ĝi malfermos la dediĉitan paĝon en la "
 "Uzantbazo de KDE-Vikio.</para>"
 
-#: dolphinmainwindow.cpp:2966
+#: dolphinmainwindow.cpp:2981
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1643,7 +1643,7 @@ msgstr ""
 "UserBase-Vikio</link>.</para><para>La helpo \"Kio ĉi tio estas?\" mankas en "
 "la plej multaj aliaj fenestroj do ne tro kutimiĝu al tio.</para>"
 
-#: dolphinmainwindow.cpp:2977
+#: dolphinmainwindow.cpp:2992
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1659,7 +1659,7 @@ msgstr ""
 "cimraporton kiel eble plej efika <link url='https://community.kde.org/"
 "Get_Involved/Bug_Reporting'>klaku ĉi tie</link>.</para>"
 
-#: dolphinmainwindow.cpp:2986
+#: dolphinmainwindow.cpp:3001
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1681,7 +1681,7 @@ msgstr ""
 "para><para><emphasis>KDE e.V.</emphasis> estas la neprofita organizaĵo "
 "malantaŭ la KDE-komunumo.</para>"
 
-#: dolphinmainwindow.cpp:2999
+#: dolphinmainwindow.cpp:3014
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1693,7 +1693,7 @@ msgstr ""
 "povas agordi malĉefajn lingvojn, kiuj estos uzataj se tekstoj ne disponeblas "
 "en via preferata lingvo."
 
-#: dolphinmainwindow.cpp:3004
+#: dolphinmainwindow.cpp:3019
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1703,7 +1703,7 @@ msgstr ""
 "Ĉi tio malfermas fenestron, kiu informas vin pri la versio, permesilo, "
 "uzitaj bibliotekoj kaj prizorgantoj de ĉi tiu aplikaĵo."
 
-#: dolphinmainwindow.cpp:3009
+#: dolphinmainwindow.cpp:3024
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1717,19 +1717,19 @@ msgstr ""
 "uzi ĉi tiun aplikaĵon sed ne scias pri KDE aŭ volas vidi belan drakon, "
 "rigardu!"
 
-#: dolphinmainwindow.cpp:3064 dolphinmainwindow.cpp:3075
+#: dolphinmainwindow.cpp:3079 dolphinmainwindow.cpp:3090
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
 msgstr "Malfokusi Terminalpanelon"
 
-#: dolphinmainwindow.cpp:3082
+#: dolphinmainwindow.cpp:3097
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
 msgstr "Malfokusi Terminalpanelon"
 
-#: dolphinmainwindow.cpp:3093
+#: dolphinmainwindow.cpp:3108
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Places Panel"
@@ -4134,61 +4134,45 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Eliri Elektan Reĝimon"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:59
+#: settings/contextmenu/contextmenusettingspage.cpp:57
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Elektu kiujn servojn montru en la kunteksta menuo:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:64
+#: settings/contextmenu/contextmenusettingspage.cpp:62
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search…"
 msgstr "Serĉi…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:89
+#: settings/contextmenu/contextmenusettingspage.cpp:87
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services…"
 msgstr "Elŝuti Novajn Servojn…"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:208
-#, kde-format
-msgctxt "@info"
-msgid ""
-"Dolphin must be restarted to apply the updated version control system "
-"settings."
-msgstr ""
-"Dolfin devas esti rekomencita por apliki la ĝisdatigitajn versio-"
-"kontrolsistemajn agordojn."
-
-#: settings/contextmenu/contextmenusettingspage.cpp:210
-#, kde-format
-msgctxt "@info"
-msgid "Restart now?"
-msgstr "Ĉu rekomenci nun?"
-
-#: settings/contextmenu/contextmenusettingspage.cpp:246
+#: settings/contextmenu/contextmenusettingspage.cpp:227
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Forigi"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:249
-#: settings/contextmenu/contextmenusettingspage.cpp:256
-#: settings/contextmenu/contextmenusettingspage.cpp:267
+#: settings/contextmenu/contextmenusettingspage.cpp:230
+#: settings/contextmenu/contextmenusettingspage.cpp:237
+#: settings/contextmenu/contextmenusettingspage.cpp:248
 #, kde-format
 msgctxt "@item:tooltip"
 msgid "Built-in dolphin"
 msgstr ""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:253
+#: settings/contextmenu/contextmenusettingspage.cpp:234
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'Kopii Al' kaj 'Movi Al' komandoj"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:299
+#: settings/contextmenu/contextmenusettingspage.cpp:280
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -6863,6 +6847,18 @@ msgstr "Zomi"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "Zomi"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Dolphin must be restarted to apply the updated version control system "
+#~ "settings."
+#~ msgstr ""
+#~ "Dolfin devas esti rekomencita por apliki la ĝisdatigitajn versio-"
+#~ "kontrolsistemajn agordojn."
+
+#~ msgctxt "@info"
+#~ msgid "Restart now?"
+#~ msgstr "Ĉu rekomenci nun?"
 
 #, fuzzy
 #~| msgctxt "@action:inmenu View"
