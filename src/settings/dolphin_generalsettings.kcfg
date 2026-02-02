@@ -58,7 +58,7 @@
                 <choice name="FullWidth" />
                 <choice name="FixedSize" />
             </choices>
-            <default>0</default> <!--FullWidth -->
+            <default>1</default><!-- FixedSize -->
             <emit signal="tabBarChanged" />
         </entry>
         <entry name="Version" type="Int">
