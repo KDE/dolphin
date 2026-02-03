@@ -6598,13 +6598,3 @@ msgstr "缩放"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "缩放"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "Dolphin must be restarted to apply the updated version control system "
-#~ "settings."
-#~ msgstr "更新了版本控制系统的设置后，必须重启 Dolphin 才能使其生效。"
-
-#~ msgctxt "@info"
-#~ msgid "Restart now?"
-#~ msgstr "现在重新启动吗？"
