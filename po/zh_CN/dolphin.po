@@ -4435,7 +4435,7 @@ msgstr "标签页是否显示关闭按钮"
 #: settings/dolphin_generalsettings.kcfg:56
 #, kde-format
 msgid "Tab style"
-msgstr ""
+msgstr "标签页样式"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -4871,19 +4871,19 @@ msgstr "显示标签页的关闭按钮"
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "标签页占满可用宽度"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "标签页使用相同的固定宽度"
 
 #: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr ""
+msgstr "标签页样式："
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format

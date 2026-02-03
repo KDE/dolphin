@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 00:46+0000\n"
-"PO-Revision-Date: 2026-01-08 09:16+0000\n"
+"PO-Revision-Date: 2026-02-02 13:21+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -1242,7 +1242,7 @@ msgstr "Færa virkni lyklaborðs af og á spjaldið Skjáhermir."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Fylgjast með breytingum á vinnumöppu"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1251,6 +1251,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Ákvarðar hvort vinnumöppu verður haldið samstilltri við skelina (terminal) "
+"þegar skipt eru um möppu."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -4580,24 +4582,23 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Hvort öll slóðin eigi að sjást í titilstiku"
+msgstr ""
+"Hvort fliparstikan eigi alltaf að sjást, jafnvel þegar aðeins einn flipi er "
+"opinn"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Hvort flipar eigi að vera með lokunarhnappa"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Stíll dagsetninga:"
+msgstr "Stíll flipa"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -5021,46 +5022,40 @@ msgid "Show filter bar"
 msgstr "Birta síustiku"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Við enda flipastiku"
+msgstr "Alltaf sýna flipastikuna"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Flipastika:"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Sýna heimastaðsetningu við ræsingu"
+msgstr "Sýna lokunarhnappa á flipum"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Flipar spanna tiltæka breidd"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "Flipar eru allir með sömu föstu breidd"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Stíll dagsetninga:"
+msgstr "Stíll flipa: "
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
@@ -5698,7 +5693,7 @@ msgstr "Letur í textalínu tákna:"
 #, kde-format
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
-msgstr ""
+msgstr "Sumir leturstílar eru fráteknir af Dolphin og er hægt að yfirtaka."
 
 #: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format

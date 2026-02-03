@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 00:46+0000\n"
-"PO-Revision-Date: 2026-01-18 15:05+0200\n"
+"PO-Revision-Date: 2026-02-02 17:09+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1249,7 +1249,7 @@ msgstr "Перенести фокус клавіатури на панель т�
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Слідувати за перемиканням каталогів"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1258,6 +1258,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Визначає, чи слід підтримувати синхронізацію поточного робочого каталогу з "
+"терміналом при кожній змін каталогу."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -4692,11 +4694,9 @@ msgstr "Чи слід показувати кнопки закриття на в
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Стиль дат:"
+msgstr "Стиль вкладок"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -5143,21 +5143,19 @@ msgstr "Показувати кнопки закриття на вкладках
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Вкладки заповнюють усі доступну ширину"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "Усі вкладки мають однаковий сталий розмір"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Стиль дат:"
+msgstr "Стиль вкладок: "
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format

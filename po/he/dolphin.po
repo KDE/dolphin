@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 00:46+0000\n"
-"PO-Revision-Date: 2026-01-30 08:05+0200\n"
+"PO-Revision-Date: 2026-02-02 20:29+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4552,11 +4552,9 @@ msgstr "האם ללשוניות אמורים להיות כפתורי סגירה"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "סגנון תאריך:"
+msgstr "סגנון לשונית"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -4993,21 +4991,19 @@ msgstr "להציג כפתור סגירה על הלשוניות"
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "לשוניות מתפרסות על הרוחב הפנוי"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "כל הלשוניות בגודל קבוע ואחיד"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "סגנון תאריך:"
+msgstr "סגנון לשונית: "
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
