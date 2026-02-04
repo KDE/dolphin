@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 00:46+0000\n"
-"PO-Revision-Date: 2026-01-30 07:38+0100\n"
+"PO-Revision-Date: 2026-02-02 09:09+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4713,11 +4713,9 @@ msgstr "Définir si les onglets doivent avoir des boutons de fermeture"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Style de date :"
+msgstr "Style d'onglets"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -5182,21 +5180,19 @@ msgstr "Afficher un bouton de fermeture dans les onglets"
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Les onglets se répartissent sur la largeur disponible"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "Les onglets ont tous la même taille fixe"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Style de date :"
+msgstr "Style d'onglets: "
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
