@@ -3,145 +3,148 @@
 # This file is distributed under the same license as the dolphin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-02-02 13:39+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@yahoo.com>\n"
+"Language-Team: Irish Gaelic <kde-i18n-doc@kde.org>\n"
+"Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
+"3 : 4;\n"
+"X-Generator: Poedit 3.8\n"
 
 #: servicemenuinstaller.cpp:43
 #, kde-format
 msgid "Dolphin service menu installation failed"
-msgstr ""
+msgstr "Theip ar shuiteáil roghchlár seirbhíse Dolphin"
 
 #: servicemenuinstaller.cpp:70
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "Theip ar \"%1\" a shuiteáil, scoir le stádas \"%2\""
 
 #: servicemenuinstaller.cpp:99
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "Theip ar dhíshuiteáil \"%1\", scoir le stádas \"%2\""
 
 #: servicemenuinstaller.cpp:111
 #, kde-format
 msgid "The file does not exist!"
-msgstr ""
+msgstr "Níl an comhad ann!"
 
 #: servicemenuinstaller.cpp:120
 #, kde-format
 msgid "Unknown error when installing package"
-msgstr ""
+msgstr "Earráid anaithnid agus pacáiste á shuiteáil"
 
 #: servicemenuinstaller.cpp:183
 #, kde-format
 msgid "Unsupported archive type %1: %2"
-msgstr ""
+msgstr "Cineál cartlainne nach dtacaítear leis %1: %2"
 
 #: servicemenuinstaller.cpp:189
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr ""
+msgstr "Theip ar an ordú dí-chomhbhrúiteora a rith le haghaidh %1"
 
 #: servicemenuinstaller.cpp:193
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
-msgstr ""
+msgstr "Níor chríochnaigh an próiseas laistigh d'am réasúnta: %1 %2"
 
 #: servicemenuinstaller.cpp:197
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr ""
+msgstr "Theip ar dhí-chomhbhrú %1"
 
 #: servicemenuinstaller.cpp:234
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr ""
+msgstr "Theip ar an script suiteálaí %1 a rith"
 
 #: servicemenuinstaller.cpp:257
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr ""
+msgstr "Theip ar cheadanna a shocrú ar %1: %2"
 
 #: servicemenuinstaller.cpp:273
 #, kde-format
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr ""
+"Theip ar script suiteálaí %1, rinneadh iarracht argóintí \"%2\" a úsáid."
 
 #: servicemenuinstaller.cpp:275
 #, kde-format
 msgctxt "Separator between arguments"
 msgid "\", \""
-msgstr ""
+msgstr "\", \""
 
 #: servicemenuinstaller.cpp:289
 #, kde-format
 msgid "Failed to create path %1"
-msgstr ""
+msgstr "Theip ar chruthú cosáin %1"
 
 #: servicemenuinstaller.cpp:303
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr ""
+msgstr "Theip ar chomhad .desktop %1 a chóipeáil go %2: %3"
 
 #: servicemenuinstaller.cpp:315 servicemenuinstaller.cpp:423
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr ""
+msgstr "Theip ar an eolaire %1 a bhaint"
 
 #: servicemenuinstaller.cpp:321
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr ""
+msgstr "Theip ar chruthú eolaire %1"
 
 #: servicemenuinstaller.cpp:360
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr ""
+msgstr "Theip ar script suiteála a aimsiú i %1"
 
 #: servicemenuinstaller.cpp:374
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr ""
+msgstr "Theip ar an gcomhad .desktop a bhaint %1: %2"
 
 #: servicemenuinstaller.cpp:417
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr ""
+msgstr "Theip ar script díshuiteála a aimsiú i %1"
 
 #: servicemenuinstaller.cpp:436
 #, kde-format
 msgctxt "@info:shell"
 msgid "Command to execute: install or uninstall."
-msgstr ""
+msgstr "Ordú le forghníomhú: suiteáil nó díshuiteáil."
 
 #: servicemenuinstaller.cpp:437
 #, kde-format
 msgctxt "@info:shell"
 msgid "Path to archive."
-msgstr ""
+msgstr "Cosán chuig an gcartlann."
 
 #: servicemenuinstaller.cpp:442
 #, kde-format
 msgid "Command is required."
-msgstr ""
+msgstr "Tá ordú ag teastáil."
 
 #: servicemenuinstaller.cpp:445
 #, kde-format
 msgid "Path to archive is required."
-msgstr ""
+msgstr "Tá cosán chuig an gcartlann ag teastáil."
 
 #: servicemenuinstaller.cpp:461
 #, kde-format
 msgid "Unsupported command %1"
-msgstr ""
+msgstr "Ordú gan tacaíocht %1"

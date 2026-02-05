@@ -8,25 +8,26 @@ msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-02 00:46+0000\n"
-"PO-Revision-Date: 2025-11-27 16:20+0000\n"
-"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
+"PO-Revision-Date: 2026-02-02 13:38+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@yahoo.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
-"3 : 4\n"
+"3 : 4;\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kevin Scannell"
+msgstr "Kevin Scannell, Aindriú Mac Giolla Eoin"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kscanne@gmail.com"
+msgstr "kscanne@gmail.com,aindriu80@yahoo.com"
 
 #: admin/bar.cpp:45
 #, kde-format
@@ -334,7 +335,7 @@ msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
 "want to quit?"
 msgstr ""
-"Tá an clár '%1' fós ag rith sa phainéal Críochfoirt. An bhfuil tú cinnte gur "
+"Tá an clár '%1' fós ag rith sa phainéal Teirminéal. An bhfuil tú cinnte gur "
 "mhaith leat scor?"
 
 #: dolphinmainwindow.cpp:971
@@ -966,7 +967,7 @@ msgid ""
 "location.</para><para>To learn more about terminals use the help features in "
 "the terminal application.</para>"
 msgstr ""
-"<para>Osclaíonn sé seo feidhmchlár <emphasis>críochfoirt</emphasis> don "
+"<para>Osclaíonn sé seo feidhmchlár <emphasis>teirminéal</emphasis> don "
 "suíomh a breathnaíodh.</para><para>Chun tuilleadh eolais a fháil faoi "
 "chríochfoirt, bain úsáid as na gnéithe cabhrach san fheidhmchlár críochfoirt."
 "</para>"
@@ -986,10 +987,10 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help "
 "features in the terminal application.</para>"
 msgstr ""
-"<para>Osclaíonn sé seo feidhmchláir <emphasis>críochfoirt</emphasis> do "
+"<para>Osclaíonn sé seo feidhmchláir <emphasis>teirminéal</emphasis> do "
 "shuíomhanna na míreanna roghnaithe.</para><para>Chun tuilleadh eolais a "
-"fháil faoi chríochfoirt, bain úsáid as na gnéithe cabhrach san fheidhmchlár "
-"críochfoirt.</para>"
+"fháil faoi teirminéal, bain úsáid as na gnéithe cabhrach san fheidhmchlár "
+"teirminéal.</para>"
 
 #: dolphinmainwindow.cpp:2241
 #, kde-format
@@ -1220,13 +1221,13 @@ msgid ""
 "learn more about terminals use the help features in a standalone terminal "
 "application like Konsole.</para>"
 msgstr ""
-"<para>Cuireann sé seo an painéal <emphasis>críochfoirt</emphasis> ag bun na "
-"fuinneoige ar siúl.<nl/>Beidh an suíomh sa chríochfort i gcónaí ag teacht "
+"<para>Cuireann sé seo an painéal <emphasis>teirminéal</emphasis> ag bun na "
+"fuinneoige ar siúl.<nl/>Beidh an suíomh sa teirminéal i gcónaí ag teacht "
 "leis an radharc fillteáin ionas gur féidir leat nascleanúint a dhéanamh ag "
-"baint úsáide as ceachtar acu.</para><para>Níl an painéal críochfoirt ag "
+"baint úsáide as ceachtar acu.</para><para>Níl an painéal teirminéal ag "
 "teastáil le haghaidh úsáid bhunúsach ríomhaire ach is féidir go mbeadh sé "
 "úsáideach le haghaidh tascanna ardleibhéil. Chun tuilleadh a fhoghlaim faoi "
-"chríochfoirt, bain úsáid as na gnéithe cabhrach in fheidhmchlár críochfoirt "
+"teirminéal, bain úsáid as na gnéithe cabhrach in fheidhmchlár teirminéal "
 "neamhspleách cosúil le Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2486
@@ -1240,14 +1241,14 @@ msgid ""
 "about terminals use the help features in a standalone terminal application "
 "like Konsole.</para>"
 msgstr ""
-"<para>Seo é an painéal <emphasis>críochfoirt</emphasis>. Feidhmíonn sé "
-"cosúil le críochfort gnáth ach comhoiriúnóidh sé le suíomh an radhairc "
-"fillteáin ionas gur féidir leat nascleanúint a dhéanamh ag baint úsáide as "
-"ceachtar acu.</para><para>Níl an painéal críochfoirt ag teastáil le haghaidh "
-"úsáide bunúsach ríomhaire ach is féidir leis a bheith úsáideach le haghaidh "
-"tascanna ardleibhéil. Chun tuilleadh a fhoghlaim faoi chríochfoirt bain "
-"úsáid as na gnéithe cabhrach i bhfeidhmchlár críochfoirt neamhspleách cosúil "
-"le Konsole.</para>"
+"<para>Seo é an painéal <emphasis>teirminéal</emphasis>. Feidhmíonn sé cosúil "
+"le teirminéal gnáth ach comhoiriúnóidh sé le suíomh an radhairc fillteáin "
+"ionas gur féidir leat nascleanúint a dhéanamh ag baint úsáide as ceachtar "
+"acu.</para><para>Níl an painéal críochfoirt ag teastáil le haghaidh úsáide "
+"bunúsach ríomhaire ach is féidir leis a bheith úsáideach le haghaidh "
+"tascanna ardleibhéil. Chun tuilleadh a fhoghlaim faoi teirminéal bain úsáid "
+"as na gnéithe cabhrach i bhfeidhmchlár teirminéal neamhspleách cosúil le "
+"Konsole.</para>"
 
 #: dolphinmainwindow.cpp:2496 dolphinmainwindow.cpp:3155
 #, kde-format
@@ -1265,7 +1266,7 @@ msgstr "Bog fócas an mhéarchláir chuig agus ón bpainéal Teirminéal."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Follow Directory Switch"
-msgstr ""
+msgstr "Lean Athraigh Eolaire"
 
 #: dolphinmainwindow.cpp:2505
 #, kde-format
@@ -1274,6 +1275,8 @@ msgid ""
 "Determines if current working directory must be kept in sync with terminal "
 "whenever directory is changed."
 msgstr ""
+"Cinneann sé seo an gcaithfear an t-eolaire oibre reatha a choinneáil "
+"sioncrónaithe leis an teirminéal aon uair a athraítear an t-eolaire."
 
 #: dolphinmainwindow.cpp:2521
 #, kde-format
@@ -1474,36 +1477,28 @@ msgid "Close"
 msgstr "Dún"
 
 #: dolphinmainwindow.cpp:2863 dolphinmainwindow.cpp:2882
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Left View"
 msgstr "Dún an Radharc Clé"
 
 #: dolphinmainwindow.cpp:2865 dolphinmainwindow.cpp:2884
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Left View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Left View"
 msgstr "Dún an Radharc Clé"
 
 #: dolphinmainwindow.cpp:2867 dolphinmainwindow.cpp:2886
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move left view to a new window"
-#| msgid "Pop out Left View"
+#, kde-format
 msgctxt "@action:intoolbar Move left split view to a new window"
 msgid "Pop out Left View"
 msgstr "Amharc Clé a Phreabadh Amach"
 
 #: dolphinmainwindow.cpp:2868 dolphinmainwindow.cpp:2887
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move left view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move left split view to a new window"
-msgstr "Bog an radharc clé go fuinneog nua"
+msgstr "Bog an radharc scoilte ar chlé go fuinneog nua"
 
 #: dolphinmainwindow.cpp:2870 dolphinmainwindow.cpp:2889
 #: dolphinmainwindow.cpp:2899
@@ -1514,39 +1509,31 @@ msgstr "Dún"
 
 #: dolphinmainwindow.cpp:2871 dolphinmainwindow.cpp:2890
 #: dolphinmainwindow.cpp:2900
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Close Right View"
 msgstr "Dún an Radharc Deas"
 
 #: dolphinmainwindow.cpp:2873 dolphinmainwindow.cpp:2892
 #: dolphinmainwindow.cpp:2902
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Close left view"
-#| msgid "Close Right View"
+#, kde-format
 msgctxt "@action:inmenu View refer here to split view"
 msgid "Close Right View"
 msgstr "Dún an Radharc Deas"
 
 #: dolphinmainwindow.cpp:2875 dolphinmainwindow.cpp:2894
 #: dolphinmainwindow.cpp:2904
-#, fuzzy, kde-format
-#| msgctxt "@action:intoolbar Move right view to a new window"
-#| msgid "Pop out Right View"
+#, kde-format
 msgctxt "@action:intoolbar Move right split view to a new window"
 msgid "Pop out Right View"
 msgstr "Amharc Deas a Phobáil Amach"
 
 #: dolphinmainwindow.cpp:2876 dolphinmainwindow.cpp:2895
 #: dolphinmainwindow.cpp:2905
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Move right view to a new window"
+#, kde-format
 msgctxt "@info View refer here to split view"
 msgid "Move right split view to a new window"
-msgstr "Bog an radharc ar dheis go fuinneog nua"
+msgstr "Bog an radharc scoilte ar dheis go fuinneog nua"
 
 #: dolphinmainwindow.cpp:2917
 #, kde-format
@@ -1805,13 +1792,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr "Painéal Críochfocus Dífhócais"
+msgstr "Painéal Teirminéal Dífhócais"
 
 #: dolphinmainwindow.cpp:3167
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Defocus Terminal Panel"
-msgstr "Painéal Críochfocus Dífhócais"
+msgstr "Painéal Teirminéal Dífhócais"
 
 #: dolphinmainwindow.cpp:3178
 #, kde-format
@@ -3502,7 +3489,7 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
-"Ní féidir an críochfort a thaispeáint mar nach bhfuil Konsole suiteáilte. "
+"Ní féidir an teirminéal a thaispeáint mar nach bhfuil Konsole suiteáilte. "
 "Suiteáil é agus athoscail an painéal ansin."
 
 #: panels/terminal/terminalpanel.cpp:208
@@ -4730,24 +4717,23 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysShowTabBar), group (General)
 #: settings/dolphin_generalsettings.kcfg:46
-#, fuzzy, kde-format
-#| msgid "Should the full path be shown in the title bar"
+#, kde-format
 msgid "Should the tab bar always be shown, even when there is only one tab"
-msgstr "Ar cheart an cosán iomlán a thaispeáint sa bharra teidil"
+msgstr ""
+"Ar cheart an barra cluaisíní a thaispeáint i gcónaí, fiú nuair nach bhfuil "
+"ach cluaisín amháin ann"
 
 #. i18n: ectx: label, entry (ShowCloseButtonOnTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:51
 #, kde-format
 msgid "Should tabs have close buttons"
-msgstr ""
+msgstr "Ar cheart go mbeadh cnaipí dúnta ar chluaisíní"
 
 #. i18n: ectx: label, entry (TabStyle), group (General)
 #: settings/dolphin_generalsettings.kcfg:56
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgid "Tab style"
-msgstr "Stíl dáta:"
+msgstr "Stíl cluaisín"
 
 #. i18n: ectx: label, entry (Version), group (General)
 #: settings/dolphin_generalsettings.kcfg:65
@@ -4853,11 +4839,9 @@ msgstr "Úsáid an cluaisín chun aistriú idir an radharc ar dheis agus ar chl�
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:127
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close left view"
+#, kde-format
 msgid "Close split view"
-msgstr "Dún an t-amharc ar chlé"
+msgstr "Dún radharc scoilte"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
@@ -4941,7 +4925,7 @@ msgstr "Iarr deimhniú nuair a osclaítear go leor fillteán ag an am céanna."
 #: settings/dolphin_generalsettings.kcfg:192
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
-msgstr "Iarr deimhniú nuair a osclaítear go leor críochfort ag an am céanna."
+msgstr "Iarr deimhniú nuair a osclaítear go leor teirminéal ag an am céanna."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
 #: settings/dolphin_generalsettings.kcfg:196
@@ -5056,7 +5040,7 @@ msgstr "Fuinneoga a dhúnadh le cluaisíní iolracha"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
-msgstr "Fuinneoga á ndúnadh agus clár ag rith sa phainéal Críochfoirt"
+msgstr "Fuinneoga á ndúnadh agus clár ag rith sa phainéal Teirminéal"
 
 #: settings/interface/confirmationssettingspage.cpp:66
 #, kde-format
@@ -5068,7 +5052,7 @@ msgstr "Ag oscailt go leor fillteán ag an am céanna"
 #, kde-format
 msgctxt "@option:check Ask for confirmation in Dolphin when"
 msgid "Opening many terminals at once"
-msgstr "Oscailt go leor críochfort ag an am céanna"
+msgstr "Oscailt go leor teirminéal ag an am céanna"
 
 #: settings/interface/confirmationssettingspage.cpp:68
 #, kde-format
@@ -5178,46 +5162,40 @@ msgid "Show filter bar"
 msgstr "Taispeáin barra scagaire"
 
 #: settings/interface/folderstabssettingspage.cpp:124
-#, fuzzy, kde-format
-#| msgctxt "option:radio"
-#| msgid "At end of tab bar"
+#, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
-msgstr "Ag deireadh an bharra cluaisíní"
+msgstr "Taispeáin barra na gcluaisíní i gcónaí"
 
 #: settings/interface/folderstabssettingspage.cpp:125
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Tab bar:"
-msgstr ""
+msgstr "Barra cluaisíní:"
 
 #: settings/interface/folderstabssettingspage.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@option:radio"
-#| msgid "Show home location on startup"
+#, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
-msgstr "Taispeáin suíomh baile ag am tosaithe"
+msgstr "Taispeáin an cnaipe dúnta ar chluaisíní"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
+msgstr "Clúdaíonn cluaisíní an leithead atá ar fáil"
 
 #: settings/interface/folderstabssettingspage.cpp:130
 #, kde-format
 msgctxt "@option:radio size as in tab size"
 msgid "Tabs have all the same fixed size"
-msgstr ""
+msgstr "Tá an méid socraithe céanna ag na cluaisíní go léir"
 
 #: settings/interface/folderstabssettingspage.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "@title:group"
-#| msgid "Date style:"
+#, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
-msgstr "Stíl dáta:"
+msgstr "Stíl cluaisín: "
 
 #: settings/interface/folderstabssettingspage.cpp:137
 #, kde-format
@@ -5238,29 +5216,25 @@ msgid "Open new tabs: "
 msgstr "Oscail cluaisíní nua: "
 
 #: settings/interface/folderstabssettingspage.cpp:148
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
-msgstr "Tosaigh i mód radhairc scoilte"
+msgstr "Agus radharc scoilte á dhúnadh"
 
 #: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the active pane"
-msgstr ""
+msgstr "Dún an painéal gníomhach"
 
 #: settings/interface/folderstabssettingspage.cpp:150
 #, kde-format
 msgid "Close the inactive pane"
-msgstr ""
+msgstr "Dún an painéal neamhghníomhach"
 
 #: settings/interface/folderstabssettingspage.cpp:150
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Close right view"
+#, kde-format
 msgid "Close the right pane"
-msgstr "Dún an t-amharc ar dheis"
+msgstr "Dún an phainéal ar dheis"
 
 #: settings/interface/folderstabssettingspage.cpp:157
 #, kde-format
@@ -5275,12 +5249,10 @@ msgid "Switch between views with Tab key"
 msgstr "Athraigh idir radhairc leis an eochair Tab"
 
 #: settings/interface/folderstabssettingspage.cpp:164
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Begin in split view mode"
+#, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
-msgstr "Tosaigh i mód radhairc scoilte"
+msgstr "Oscail fuinneoga nua i mód radhairc scoilte"
 
 #: settings/interface/folderstabssettingspage.cpp:330
 #, kde-format
@@ -5868,6 +5840,8 @@ msgstr "Cló lipéid:"
 msgctxt "@info"
 msgid "Some font styles are reserved by Dolphin and may be overridden."
 msgstr ""
+"Tá roinnt stíleanna cló curtha in áirithe ag Dolphin agus féadfar iad a "
+"shárú."
 
 #: settings/viewmodes/viewsettingstab.cpp:81
 #, kde-format
@@ -6112,7 +6086,7 @@ msgstr "Roghanna féachana:"
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
-msgstr "an bhfillteán reatha"
+msgstr "Fillteán reatha"
 
 #: settings/viewpropertiesdialog.cpp:167
 #, kde-format
@@ -6124,7 +6098,7 @@ msgstr "Fillteán agus fo-fhillteáin reatha"
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
-msgstr "gach fillteán"
+msgstr "Gach fillteán"
 
 #: settings/viewpropertiesdialog.cpp:177
 #, kde-format
