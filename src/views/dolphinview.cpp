@@ -2431,6 +2431,8 @@ void DolphinView::applyDynamicView()
 
     uint imageAndVideoCount = 0;
     uint checkedItems = 0;
+    uint checkedItemDir = 0;
+    constexpr float folderWeight = 1.00/3;
     const uint totalItems = itemsCount();
     const KFileItemList itemList = items();
     bool applyDynamicView = false;
@@ -2444,23 +2446,27 @@ void DolphinView::applyDynamicView()
     }
 
     for (const auto &file : itemList) {
-        ++checkedItems;
+        if (file.isFile()) {
+            ++checkedItems;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
-        const QString type = file.mimetype().slice(0, 5);
+            const QString type = file.mimetype().slice(0, 5);
 #else
-        const QString type = file.mimetype().sliced(0, 5);
+            const QString type = file.mimetype().sliced(0, 5);
 #endif
 
-        if (type == "image" || type == "video") {
-            ++imageAndVideoCount;
-            // if 2/3 or more of the items are images/videos, dynamic view should be applied
-            applyDynamicView = imageAndVideoCount >= (totalItems * 2 / 3);
-            if (applyDynamicView) {
-                break;
+            if (type == "image" || type == "video") {
+                ++imageAndVideoCount;
+                // if 2/3 or more of the items are images/videos, dynamic view should be applied
+                applyDynamicView = imageAndVideoCount >= ((totalItems - (checkedItemDir * (1 - folderWeight))) * 2 / 3);
+                if (applyDynamicView) {
+                    break;
+                }
+            } else if (checkedItems - imageAndVideoCount > (totalItems - (checkedItemDir * (1 - folderWeight))) / 3) {
+                // if more than a third of the checked files are not media files, return
+                return;
             }
-        } else if (checkedItems - imageAndVideoCount > totalItems / 3) {
-            // if more than a third of the checked files are not media files, return
-            return;
+        } else {
+            ++checkedItemDir;
         }
     }
 
