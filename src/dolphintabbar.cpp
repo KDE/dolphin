@@ -76,7 +76,7 @@ QSize DolphinTabBar::minimumSizeHint() const
 {
     QSize s = QTabBar::minimumSizeHint();
 
-    if (GeneralSettings::tabStyle() != GeneralSettings::EnumTabStyle::FixedSize) {
+    if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth) {
         s.setWidth(0); // allow shrinking
     }
 
@@ -226,7 +226,11 @@ void DolphinTabBar::slotTabBarChanged()
     } else if (GeneralSettings::tabStyle() == GeneralSettings::EnumTabStyle::FullWidth) {
         setExpanding(true);
         setUsesScrollButtons(false);
+    } else {
+        setExpanding(false);
+        setUsesScrollButtons(true);
     }
+
     updateGeometry();
 }
 

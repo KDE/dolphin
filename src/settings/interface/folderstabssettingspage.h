@@ -59,8 +59,9 @@ private:
     QCheckBox* m_alwaysShowTabBar;
     QCheckBox* m_showCloseButtonOnTabs;
 
-    QRadioButton *m_tabStyleFullWidth;
-    QRadioButton *m_tabStyleFixed;
+    QRadioButton *m_tabStyleAutoWidth = nullptr;
+    QRadioButton *m_tabStyleFixed = nullptr;
+    QRadioButton *m_tabStyleFullWidth = nullptr;
 
     QRadioButton *m_openNewTabAfterLastTab;
     QRadioButton *m_openNewTabAfterCurrentTab;

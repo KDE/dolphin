@@ -55,10 +55,11 @@
         <entry name="TabStyle" type="Enum">
             <label>Tab style</label>
             <choices>
+                <choice name="AutoSize" />
                 <choice name="FullWidth" />
                 <choice name="FixedSize" />
             </choices>
-            <default>0</default> <!--FullWidth -->
+            <default code="true">EnumTabStyle::AutoSize</default>
             <emit signal="tabBarChanged" />
         </entry>
         <entry name="Version" type="Int">
