@@ -76,7 +76,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
     , m_roles()
     , m_resolvableRoles()
     , m_enabledPlugins()
-    , m_localFileSizePreviewLimit(0)
     , m_pendingSortRoleItems()
     , m_pendingIndexes()
     , m_pendingPreviewItems()
@@ -97,7 +96,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel *model, QO
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
     m_enabledPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
-    m_localFileSizePreviewLimit = static_cast<qulonglong>(globalConfig.readEntry("MaximumSize", 0));
 
     connect(m_model, &KFileItemModel::itemsInserted, this, &KFileItemModelRolesUpdater::slotItemsInserted);
     connect(m_model, &KFileItemModel::itemsRemoved, this, &KFileItemModelRolesUpdater::slotItemsRemoved);
@@ -331,16 +329,6 @@ bool KFileItemModelRolesUpdater::isPaused() const
 QStringList KFileItemModelRolesUpdater::enabledPlugins() const
 {
     return m_enabledPlugins;
-}
-
-void KFileItemModelRolesUpdater::setLocalFileSizePreviewLimit(const qlonglong size)
-{
-    m_localFileSizePreviewLimit = size;
-}
-
-qlonglong KFileItemModelRolesUpdater::localFileSizePreviewLimit() const
-{
-    return m_localFileSizePreviewLimit;
 }
 
 void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl &itemUrl, int seqIdx)
@@ -985,7 +973,6 @@ void KFileItemModelRolesUpdater::startPreviewJob()
 
     KIO::PreviewJob *job = new KIO::PreviewJob(items, cacheSize(), &m_enabledPlugins);
     job->setDevicePixelRatio(m_devicePixelRatio);
-    job->setIgnoreMaximumSize(referenceItem.isLocalFile() && !referenceItem.isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
@@ -1094,7 +1081,6 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     KIO::PreviewJob *job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize(), &m_enabledPlugins);
 
     job->setSequenceIndex(loadSeqIdx);
-    job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && !m_hoverSequenceItem.isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
