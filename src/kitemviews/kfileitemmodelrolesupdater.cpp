@@ -627,7 +627,9 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
     }
     if (wap >= 0.0f) {
         data["hoverSequenceWraparoundPoint"] = wap;
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     }
 
     // For hover sequence previews we never load index 0, because that's just the regular preview
@@ -642,7 +644,9 @@ void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem &it
         pixmaps.append(scaledPixmap);
         data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
 
+        disconnect(m_model, &KFileItemModel::itemsMoved, this, &KFileItemModelRolesUpdater::slotItemsMoved);
         m_model->setData(index, data);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
 
         const auto loadedIt = std::find(m_hoverSequenceLoadedItems.begin(), m_hoverSequenceLoadedItems.end(), item);
         if (loadedIt == m_hoverSequenceLoadedItems.end()) {
@@ -1057,7 +1061,9 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     if (!data.contains("hoverSequencePixmaps")) {
         // The pixmap at index 0 isn't used ("iconPixmap" will be used instead)
         data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>() << QPixmap()));
+        disconnect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
+        connect(m_model, &KFileItemModel::itemsChanged, this, &KFileItemModelRolesUpdater::slotItemsChanged);
     }
 
     const QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
