@@ -40,7 +40,7 @@
 #include <KIO/CopyJob>
 #include <KIO/DeleteOrTrashJob>
 #include <KIO/DropJob>
-#include <KIO/JobUiDelegate>
+#include <KIO/JobUiDelegateFactory>
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/RenameFileDialog>
@@ -819,6 +819,8 @@ void DolphinView::trashSelectedItems()
 
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Trash, Iface::DefaultConfirmation, this);
+    // Auto*Warning*Handling, errors are put in a KMessageWidget by us in slotTrashFileFinished.
+    trashJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, this));
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
     m_selectNextItem = true;
     trashJob->start();
@@ -830,6 +832,8 @@ void DolphinView::deleteSelectedItems()
 
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
+    // Auto*Warning*Handling, errors are put in a KMessageWidget by us in slotDeleteFileFinished.
+    trashJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, this));
     connect(trashJob, &KJob::result, this, &DolphinView::slotDeleteFileFinished);
     m_selectNextItem = true;
     trashJob->start();
