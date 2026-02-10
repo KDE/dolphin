@@ -730,15 +730,7 @@ void DolphinViewContainer::slotUrlIsFileError(const QUrl &url)
 {
     const KFileItem item(url);
 
-    // Find out if the file can be opened in the view (for example, this is the
-    // case if the file is an archive). The mime type must be known for that.
-    item.determineMimeType();
-    const QUrl &folderUrl = DolphinView::openItemAsFolderUrl(item, true);
-    if (!folderUrl.isEmpty()) {
-        setUrl(folderUrl);
-    } else {
-        slotItemActivated(item);
-    }
+    setUrl(KIO::upUrl(item.url()));
 }
 
 void DolphinViewContainer::slotItemActivated(const KFileItem &item)
