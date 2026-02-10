@@ -731,6 +731,27 @@ void DolphinViewContainer::slotUrlIsFileError(const QUrl &url)
     const KFileItem item(url);
 
     setUrl(KIO::upUrl(item.url()));
+
+    if (!m_openAsFile) {
+        m_openAsFile = [this, item] {
+            auto action = new QAction(i18nc("@action", "Open as File"), this);
+            connect(action, &QAction::triggered, this, [this, item]() {
+                m_messageWidget->animatedHide();
+
+                // Find out if the file can be opened in the view (for example, this is the
+                // case if the file is an archive). The mime type must be known for that.
+                item.determineMimeType();
+                const QUrl &folderUrl = DolphinView::openItemAsFolderUrl(item, true);
+                if (!folderUrl.isEmpty()) {
+                    setUrl(folderUrl);
+                } else {
+                    slotItemActivated(item);
+                }
+            });
+            return action;
+        }();
+    }
+    showMessage(xi18nc("@info", "Trying to open a file as a folder: <filename>%1</filename>", item.url().toString()), KMessageWidget::Error, {m_openAsFile});
 }
 
 void DolphinViewContainer::slotItemActivated(const KFileItem &item)

@@ -497,6 +497,8 @@ private:
     QAction *m_authorizeToEnterFolderAction;
     /// An action to create new folder in case user enters a nonexistent URL in the location bar.
     QAction *m_createFolderAction;
+    /// An action to open the url as file instead of as directory. Lazily initialized.
+    QAction *m_openAsFile = nullptr;
 
     KMessageWidget *m_messageWidget;
 
