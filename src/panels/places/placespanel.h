@@ -73,8 +73,8 @@ private:
 
     QPersistentModelIndex m_indexToTearDown;
 
-    QAction *m_configureTrashAction;
-    QAction *m_openInSplitView;
+    std::unique_ptr<QAction> m_configureTrashAction;
+    std::unique_ptr<QAction> m_openInSplitView;
     QAction *m_lockPanelsAction;
 };
 

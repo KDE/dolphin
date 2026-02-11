@@ -42,18 +42,18 @@ PlacesPanel::PlacesPanel(QWidget *parent)
         slotTearDownRequested(index);
     });
 
-    m_openInSplitView = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18nc("@action:inmenu", "Open in Split View"));
+    m_openInSplitView = std::make_unique<QAction>(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18nc("@action:inmenu", "Open in Split View"));
     m_openInSplitView->setPriority(QAction::HighPriority);
-    connect(m_openInSplitView, &QAction::triggered, this, [this]() {
+    connect(m_openInSplitView.get(), &QAction::triggered, this, [this]() {
         const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
         Q_EMIT openInSplitViewRequested(url);
     });
-    addAction(m_openInSplitView);
+    addAction(m_openInSplitView.get());
 
-    m_configureTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash…"));
+    m_configureTrashAction = std::make_unique<QAction>(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash…"));
     m_configureTrashAction->setPriority(QAction::HighPriority);
-    connect(m_configureTrashAction, &QAction::triggered, this, &PlacesPanel::slotConfigureTrash);
-    addAction(m_configureTrashAction);
+    connect(m_configureTrashAction.get(), &QAction::triggered, this, &PlacesPanel::slotConfigureTrash);
+    addAction(m_configureTrashAction.get());
 
     connect(this, &PlacesPanel::contextMenuAboutToShow, this, &PlacesPanel::slotContextMenuAboutToShow);
 
