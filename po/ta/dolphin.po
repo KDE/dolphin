@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-06 00:47+0000\n"
+"POT-Creation-Date: 2026-02-11 00:48+0000\n"
 "PO-Revision-Date: 2026-02-01 15:50+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -4457,7 +4457,7 @@ msgid "Tab style"
 msgstr "கீற்று தோற்றம்"
 
 #. i18n: ectx: label, entry (Version), group (General)
-#: settings/dolphin_generalsettings.kcfg:65
+#: settings/dolphin_generalsettings.kcfg:66
 #, kde-format
 msgid ""
 "Internal config version of Dolphin, mainly Used to determine whether an "
@@ -4468,7 +4468,7 @@ msgstr ""
 "புதுப்பிக்க வேண்டுமா என்பதைத் தீர்மானிக்க இது உதவும்"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
-#: settings/dolphin_generalsettings.kcfg:69
+#: settings/dolphin_generalsettings.kcfg:70
 #, kde-format
 msgid ""
 "Have the startup settings been modified (internal setting not shown in the "
@@ -4476,49 +4476,49 @@ msgid ""
 msgstr "துவக்க அமைப்புகள் மாற்றப்பட்டுள்ளனவா (இடைமுகப்பில் காட்டப்படாத உள்ளக அமைப்பு)"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
-#: settings/dolphin_generalsettings.kcfg:73
+#: settings/dolphin_generalsettings.kcfg:74
 #, kde-format
 msgid "Home URL"
 msgstr "முகப்பு முகவரி"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:77
+#: settings/dolphin_generalsettings.kcfg:78
 #, kde-format
 msgid "Remember open folders and tabs"
 msgstr "திறந்துள்ள அடைவுகள் மற்றும் கீற்றுகளை நினைவில் கொள்"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:81
+#: settings/dolphin_generalsettings.kcfg:82
 #, kde-format
 msgid "Place two views side by side"
 msgstr "இரண்டு காட்சிப்பகுதிகளை பக்கத்துப்பக்கத்தில் காட்டு"
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:86
+#: settings/dolphin_generalsettings.kcfg:87
 #, kde-format
 msgid "Should the filter bar be shown"
 msgstr "வடிகட்டிப் பட்டையைக் காட்ட வேண்டுமா"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
-#: settings/dolphin_generalsettings.kcfg:90
+#: settings/dolphin_generalsettings.kcfg:91
 #, kde-format
 msgid "Should the view properties be used for all folders"
 msgstr "அனைத்து அடைவுகளுக்கும் காட்சிப் பண்புகள் பயன்படுத்தப்பட வேண்டுமா"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
-#: settings/dolphin_generalsettings.kcfg:94
+#: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Browse through archives"
 msgstr "பெட்டகங்களுக்குள் உலாவு"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:98
+#: settings/dolphin_generalsettings.kcfg:99
 #, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
 msgstr "பல கீற்றுகளைக் கொண்ட சாளரத்தை மூடும்போது உறுதிப்படுத்து"
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
-#: settings/dolphin_generalsettings.kcfg:102
+#: settings/dolphin_generalsettings.kcfg:103
 #, kde-format
 msgid ""
 "Ask for confirmation when closing windows with a program that is still "
@@ -4527,19 +4527,19 @@ msgstr ""
 "முனையப் பலகையில் ஒரு நிரல் ஓடிக்கொண்டிருக்கும்போது சாளரத்தை மூடினால் உறுதிப்படுத்து."
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
-#: settings/dolphin_generalsettings.kcfg:106
+#: settings/dolphin_generalsettings.kcfg:107
 #, kde-format
 msgid "Rename single items inline"
 msgstr "ஒற்றை உருப்படிக்கு மறுபெயரிடுவதற்கு தனியாக ஒரு சாளரத்தைக் காட்டாதே"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
-#: settings/dolphin_generalsettings.kcfg:110
+#: settings/dolphin_generalsettings.kcfg:111
 #, kde-format
 msgid "Show selection toggle"
 msgstr "தேர்வு நிலைமாற்றியைக் காட்டு"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
-#: settings/dolphin_generalsettings.kcfg:114
+#: settings/dolphin_generalsettings.kcfg:115
 #, kde-format
 msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
@@ -4549,67 +4549,67 @@ msgstr ""
 "உதவும் பட்டையைக் காட்டு."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:118
+#: settings/dolphin_generalsettings.kcfg:119
 #, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "வலது மற்றும் இடது காட்சிகுளுக்கிடையே தாவ தத்தல் (tab) விசையை பயன்படுத்து"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:127
+#: settings/dolphin_generalsettings.kcfg:128
 #, kde-format
 msgid "Close split view"
 msgstr "துண்டாக்கப்பட்ட காட்சிப்பகுதியை மூடு"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
-#: settings/dolphin_generalsettings.kcfg:131
+#: settings/dolphin_generalsettings.kcfg:132
 #, kde-format
 msgid "New tab will be open after last one"
 msgstr "கடைசி கீற்றை மூடும்போது புதிய கீற்று திறக்கப்படும்"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
-#: settings/dolphin_generalsettings.kcfg:135
+#: settings/dolphin_generalsettings.kcfg:136
 #, kde-format
 msgid "Show item information on hover"
 msgstr "சுட்டியை மேல்வைக்கும்போதே விவரங்களைக் காட்டு"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
-#: settings/dolphin_generalsettings.kcfg:139
+#: settings/dolphin_generalsettings.kcfg:140
 #, kde-format
 msgid "Timestamp since when the view properties are valid"
 msgstr "இந்த நேரமுத்திரைக்கு பிறகு காட்சிப் பண்புகள் செல்லுபடியாகும்"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
-#: settings/dolphin_generalsettings.kcfg:142
+#: settings/dolphin_generalsettings.kcfg:143
 #, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr "அனைத்துக் காட்சிமுறைகளுக்கும் தானாக விரியும் அடைவுகளைப் பயன்படுத்து"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:151
+#: settings/dolphin_generalsettings.kcfg:152
 #, kde-format
 msgid "Statusbar"
 msgstr "நிலைப்பட்டை"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:156
+#: settings/dolphin_generalsettings.kcfg:157
 #, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "நிலைப்பட்டையில் உருப்பெருக்க நழுவியைக் காட்டு"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:160
+#: settings/dolphin_generalsettings.kcfg:161
 #, kde-format
 msgid "Lock the layout of the panels"
 msgstr "பலகைகளின் அமைப்பைப் பூட்டு"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:164
+#: settings/dolphin_generalsettings.kcfg:165
 #, kde-format
 msgid "Enlarge Small Previews"
 msgstr "சிறிய முன்தோற்றங்களைப் பெரிதாக்கு"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:173
+#: settings/dolphin_generalsettings.kcfg:174
 #, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4617,31 +4617,31 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:178
+#: settings/dolphin_generalsettings.kcfg:179
 #, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "Application/x-trash எனும் மைம்வகையையுடைய கோப்புகளையும் மறை"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
-#: settings/dolphin_generalsettings.kcfg:182
+#: settings/dolphin_generalsettings.kcfg:183
 #, kde-format
 msgid "Enable dynamic view"
 msgstr "மாறக்கூடிய காட்சிமுறையை இயக்கு"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:188
+#: settings/dolphin_generalsettings.kcfg:189
 #, kde-format
 msgid "Ask for confirmation when opening many folders at once."
 msgstr "பல அடைவுகளை ஒரே நேரத்தில் திறக்கும்போது உறுதிப்படுத்து."
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:192
+#: settings/dolphin_generalsettings.kcfg:193
 #, kde-format
 msgid "Ask for confirmation when opening many terminals at once."
 msgstr "பல முனையங்களை ஒரே நேரத்தில் திறக்கும்போது உறுதிப்படுத்து."
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:196
+#: settings/dolphin_generalsettings.kcfg:197
 #, kde-format
 msgid "Ask for confirmation when renaming file changes its type."
 msgstr "கொப்புக்கு மறுபெயரிடுவது அதன் வகையை மாற்றும் பட்சத்தில் உறுதிப்படுத்து."
@@ -4800,96 +4800,112 @@ msgstr "செயலியில் திற"
 msgid "Run script"
 msgstr "சிறுநிரலை இயக்கு"
 
-#: settings/interface/folderstabssettingspage.cpp:55
+#: settings/interface/folderstabssettingspage.cpp:53
 #, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "போன முறை திறந்திருந்த அடைவுகள், கீற்றுகள், மற்றும் சாளர நிலை"
 
-#: settings/interface/folderstabssettingspage.cpp:60
+#: settings/interface/folderstabssettingspage.cpp:58
 #, kde-format
 msgctxt "@option:radio"
 msgid "Show home location on startup"
 msgstr "துவங்கும்போது முகப்பு அடைவை காட்டு"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:65
 #, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "முகப்பு அடைவின் இருப்பிடத்தை உள்ளிடவும்"
 
-#: settings/interface/folderstabssettingspage.cpp:74
+#: settings/interface/folderstabssettingspage.cpp:72
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "முகப்பு இடத்தை தேர்வு செய்"
 
-#: settings/interface/folderstabssettingspage.cpp:84
+#: settings/interface/folderstabssettingspage.cpp:82
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "தற்போதைய இடத்தினைப் பயன்படுத்து"
 
-#: settings/interface/folderstabssettingspage.cpp:88
+#: settings/interface/folderstabssettingspage.cpp:86
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "இயல்பிருப்பு இடத்தினைப் பயன்படுத்து"
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:94
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "துவங்கும்போது காட்டு:"
 
-#: settings/interface/folderstabssettingspage.cpp:109
+#: settings/interface/folderstabssettingspage.cpp:107
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "அடைவுகளைத் திறப்பது:"
 
-#: settings/interface/folderstabssettingspage.cpp:110
+#: settings/interface/folderstabssettingspage.cpp:108
 #, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "புதிய அடைவுகளை கீற்றுகளில் திற (புதிய சாளரத்திற்கு பதிலாக)"
 
-#: settings/interface/folderstabssettingspage.cpp:114
+#: settings/interface/folderstabssettingspage.cpp:112
 #, kde-format
 msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "சாளரம்:"
 
-#: settings/interface/folderstabssettingspage.cpp:115
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "தலைப்புப் பட்டையில் முழுப் பாதையைக் காட்டு"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:116
 #, kde-format
 msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "வடிகட்டிப் பட்டையைக் காட்டு"
 
-#: settings/interface/folderstabssettingspage.cpp:124
+#: settings/interface/folderstabssettingspage.cpp:122
 #, kde-format
 msgctxt "@option:check"
 msgid "Always show tab bar"
 msgstr "கீற்றுப் பட்டையை எப்போதும் காட்டு"
 
-#: settings/interface/folderstabssettingspage.cpp:125
-#, kde-format
+#: settings/interface/folderstabssettingspage.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Label width:"
 msgctxt "@label:checkbox"
-msgid "Tab bar:"
-msgstr "கீற்றுப்பட்டை:"
+msgid "Tab width:"
+msgstr "பெயர்களின் அகலம்:"
 
-#: settings/interface/folderstabssettingspage.cpp:126
+#: settings/interface/folderstabssettingspage.cpp:124
 #, kde-format
 msgctxt "@option:check"
 msgid "Show close button on tabs"
 msgstr "கீற்றுகளை மூடும் பட்டன்களைக் காட்டு"
+
+#: settings/interface/folderstabssettingspage.cpp:127
+#, kde-format
+msgctxt "@option:radio size as in tab width"
+msgid "Tab width adapts to folder name"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:128
+#, fuzzy, kde-format
+#| msgctxt "@option:radio size as in tab size"
+#| msgid "Tabs have all the same fixed size"
+msgctxt "@option:radio size as in tab width"
+msgid "Tabs all have the same fixed width"
+msgstr "கீற்றுகளுக்கு நிலையான அகலத்தையே பயன்படுத்து"
 
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
@@ -4897,76 +4913,70 @@ msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
 msgstr "கீற்றுகள் கீற்றுப்பட்டையின் அகலத்தை நிரப்பும்"
 
-#: settings/interface/folderstabssettingspage.cpp:130
-#, kde-format
-msgctxt "@option:radio size as in tab size"
-msgid "Tabs have all the same fixed size"
-msgstr "கீற்றுகளுக்கு நிலையான அகலத்தையே பயன்படுத்து"
-
 #: settings/interface/folderstabssettingspage.cpp:134
 #, kde-format
 msgctxt "@title:group"
 msgid "Tab style: "
 msgstr "கீற்று தோற்றம்: "
 
-#: settings/interface/folderstabssettingspage.cpp:137
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "தற்போதைய கீற்றுக்குப் பிறகு"
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:139
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "கீற்றுப் பட்டையின் கடைசியில்"
 
-#: settings/interface/folderstabssettingspage.cpp:142
+#: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "புதிய கீற்றுகளை இங்கே திற:"
 
-#: settings/interface/folderstabssettingspage.cpp:148
+#: settings/interface/folderstabssettingspage.cpp:149
 #, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
 msgstr "துண்டாக்கப்பட்ட காட்சிப்பகுதியை மூடும்போது"
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgid "Close the active pane"
 msgstr "செயலிலுள்ள பகுதியை மூடு"
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgid "Close the inactive pane"
 msgstr "செயலிலில்லாத பகுதியை மூடு"
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgid "Close the right pane"
 msgstr "வலது பகுதியை மூடு"
 
-#: settings/interface/folderstabssettingspage.cpp:157
+#: settings/interface/folderstabssettingspage.cpp:158
 #, kde-format
 msgctxt "@title:group"
 msgid "Split view: "
 msgstr "துண்டாக்கப்பட்ட காட்சிமுறை: "
 
-#: settings/interface/folderstabssettingspage.cpp:160
+#: settings/interface/folderstabssettingspage.cpp:161
 #, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "தத்தல் விசையைக் கொண்டு காட்சிப்பகுதிகளுக்கிடையே தாவு"
 
-#: settings/interface/folderstabssettingspage.cpp:164
+#: settings/interface/folderstabssettingspage.cpp:165
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
 msgstr "புதிய சாளரங்களை துண்டாக்கப்பட்ட காட்சிமுறையில் துவக்கு"
 
-#: settings/interface/folderstabssettingspage.cpp:330
+#: settings/interface/folderstabssettingspage.cpp:339
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -6710,6 +6720,10 @@ msgstr "உருப்பெருக்கு"
 msgctxt "@action:intoolbar"
 msgid "Zoom"
 msgstr "உருப்பெருக்கு"
+
+#~ msgctxt "@label:checkbox"
+#~ msgid "Tab bar:"
+#~ msgstr "கீற்றுப்பட்டை:"
 
 #~ msgctxt "@info"
 #~ msgid ""

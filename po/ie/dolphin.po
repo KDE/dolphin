@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-06 00:47+0000\n"
+"POT-Creation-Date: 2026-02-11 00:48+0000\n"
 "PO-Revision-Date: 2024-08-02 15:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -4374,7 +4374,7 @@ msgid "Tab style"
 msgstr "Stil de date:"
 
 #. i18n: ectx: label, entry (Version), group (General)
-#: settings/dolphin_generalsettings.kcfg:65
+#: settings/dolphin_generalsettings.kcfg:66
 #, fuzzy, kde-format
 msgid ""
 "Internal config version of Dolphin, mainly Used to determine whether an "
@@ -4383,7 +4383,7 @@ msgid ""
 msgstr "Version"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
-#: settings/dolphin_generalsettings.kcfg:69
+#: settings/dolphin_generalsettings.kcfg:70
 #, fuzzy, kde-format
 msgid ""
 "Have the startup settings been modified (internal setting not shown in the "
@@ -4391,49 +4391,49 @@ msgid ""
 msgstr "Parametres"
 
 #. i18n: ectx: label, entry (HomeUrl), group (General)
-#: settings/dolphin_generalsettings.kcfg:73
+#: settings/dolphin_generalsettings.kcfg:74
 #, fuzzy, kde-format
 msgid "Home URL"
 msgstr "Copiar li ad&resse del ligament"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:77
+#: settings/dolphin_generalsettings.kcfg:78
 #, fuzzy, kde-format
 msgid "Remember open folders and tabs"
 msgstr "Fólderes"
 
 #. i18n: ectx: label, entry (SplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:81
+#: settings/dolphin_generalsettings.kcfg:82
 #, kde-format
 msgid "Place two views side by side"
 msgstr ""
 
 #. i18n: ectx: label, entry (FilterBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:86
+#: settings/dolphin_generalsettings.kcfg:87
 #, fuzzy, kde-format
 msgid "Should the filter bar be shown"
 msgstr "Filtre"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
-#: settings/dolphin_generalsettings.kcfg:90
+#: settings/dolphin_generalsettings.kcfg:91
 #, fuzzy, kde-format
 msgid "Should the view properties be used for all folders"
 msgstr "Fólderes"
 
 #. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
-#: settings/dolphin_generalsettings.kcfg:94
+#: settings/dolphin_generalsettings.kcfg:95
 #, kde-format
 msgid "Browse through archives"
 msgstr "Navigar intra archives"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
-#: settings/dolphin_generalsettings.kcfg:98
+#: settings/dolphin_generalsettings.kcfg:99
 #, fuzzy, kde-format
 msgid "Ask for confirmation when closing windows with multiple tabs."
 msgstr "Nov fenestres:"
 
 #. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
-#: settings/dolphin_generalsettings.kcfg:102
+#: settings/dolphin_generalsettings.kcfg:103
 #, fuzzy, kde-format
 msgid ""
 "Ask for confirmation when closing windows with a program that is still "
@@ -4441,19 +4441,19 @@ msgid ""
 msgstr "Aperter li Terminal ci"
 
 #. i18n: ectx: label, entry (RenameInline), group (General)
-#: settings/dolphin_generalsettings.kcfg:106
+#: settings/dolphin_generalsettings.kcfg:107
 #, fuzzy, kde-format
 msgid "Rename single items inline"
 msgstr "%1 elementes"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
-#: settings/dolphin_generalsettings.kcfg:110
+#: settings/dolphin_generalsettings.kcfg:111
 #, fuzzy, kde-format
 msgid "Show selection toggle"
 msgstr "Revelar celat files"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
-#: settings/dolphin_generalsettings.kcfg:114
+#: settings/dolphin_generalsettings.kcfg:115
 #, fuzzy, kde-format
 msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
@@ -4461,13 +4461,13 @@ msgid ""
 msgstr "Copiar"
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
-#: settings/dolphin_generalsettings.kcfg:118
+#: settings/dolphin_generalsettings.kcfg:119
 #, fuzzy, kde-format
 msgid "Use tab for switching between right and left view"
 msgstr "Vise"
 
 #. i18n: ectx: label, entry (CloseSplitViewChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:127
+#: settings/dolphin_generalsettings.kcfg:128
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close left view"
@@ -4475,31 +4475,31 @@ msgid "Close split view"
 msgstr "Cluder li levul vise"
 
 #. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
-#: settings/dolphin_generalsettings.kcfg:131
+#: settings/dolphin_generalsettings.kcfg:132
 #, fuzzy, kde-format
 msgid "New tab will be open after last one"
 msgstr "Aperter %1"
 
 #. i18n: ectx: label, entry (ShowToolTips), group (General)
-#: settings/dolphin_generalsettings.kcfg:135
+#: settings/dolphin_generalsettings.kcfg:136
 #, fuzzy, kde-format
 msgid "Show item information on hover"
 msgstr "%1 element"
 
 #. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
-#: settings/dolphin_generalsettings.kcfg:139
+#: settings/dolphin_generalsettings.kcfg:140
 #, fuzzy, kde-format
 msgid "Timestamp since when the view properties are valid"
 msgstr "Proprietás"
 
 #. i18n: ectx: label, entry (AutoExpandFolders), group (General)
-#: settings/dolphin_generalsettings.kcfg:142
+#: settings/dolphin_generalsettings.kcfg:143
 #, fuzzy, kde-format
 msgid "Use auto-expanding folders for all view types"
 msgstr "Fólderes"
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (General)
-#: settings/dolphin_generalsettings.kcfg:151
+#: settings/dolphin_generalsettings.kcfg:152
 #, fuzzy, kde-format
 #| msgctxt "@title:tab Status Bar settings"
 #| msgid "Status Bar"
@@ -4507,25 +4507,25 @@ msgid "Statusbar"
 msgstr "Panel de localisation"
 
 #. i18n: ectx: label, entry (ShowZoomSlider), group (General)
-#: settings/dolphin_generalsettings.kcfg:156
+#: settings/dolphin_generalsettings.kcfg:157
 #, fuzzy, kde-format
 msgid "Show zoom slider in the statusbar"
 msgstr "Scalar"
 
 #. i18n: ectx: label, entry (LockPanels), group (General)
-#: settings/dolphin_generalsettings.kcfg:160
+#: settings/dolphin_generalsettings.kcfg:161
 #, fuzzy, kde-format
 msgid "Lock the layout of the panels"
 msgstr "Monstrar paneles"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
-#: settings/dolphin_generalsettings.kcfg:164
+#: settings/dolphin_generalsettings.kcfg:165
 #, fuzzy, kde-format
 msgid "Enlarge Small Previews"
 msgstr "Micri"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
-#: settings/dolphin_generalsettings.kcfg:173
+#: settings/dolphin_generalsettings.kcfg:174
 #, fuzzy, kde-format
 msgid ""
 "Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
@@ -4533,19 +4533,19 @@ msgid ""
 msgstr "%1 elementes"
 
 #. i18n: ectx: label, entry (HideXTrashFile), group (General)
-#: settings/dolphin_generalsettings.kcfg:178
+#: settings/dolphin_generalsettings.kcfg:179
 #, fuzzy, kde-format
 msgid "Also hide files with application/x-trash mimetype"
 msgstr "%1 files"
 
 #. i18n: ectx: label, entry (DynamicView), group (General)
-#: settings/dolphin_generalsettings.kcfg:182
+#: settings/dolphin_generalsettings.kcfg:183
 #, kde-format
 msgid "Enable dynamic view"
 msgstr ""
 
 #. i18n: ectx: label, entry (ConfirmOpenManyFolders), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:188
+#: settings/dolphin_generalsettings.kcfg:189
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4553,7 +4553,7 @@ msgid "Ask for confirmation when opening many folders at once."
 msgstr "Fólderes"
 
 #. i18n: ectx: label, entry (ConfirmOpenManyTerminals), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:192
+#: settings/dolphin_generalsettings.kcfg:193
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4561,7 +4561,7 @@ msgid "Ask for confirmation when opening many terminals at once."
 msgstr "Petir confirmation in Dolphin quande on:"
 
 #. i18n: ectx: label, entry (ConfirmRenameFileType), group (Notification Messages)
-#: settings/dolphin_generalsettings.kcfg:196
+#: settings/dolphin_generalsettings.kcfg:197
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Ask for confirmation in Dolphin when:"
@@ -4722,13 +4722,13 @@ msgstr "Aperter in un application"
 msgid "Run script"
 msgstr "Lansar li scripte"
 
-#: settings/interface/folderstabssettingspage.cpp:55
+#: settings/interface/folderstabssettingspage.cpp:53
 #, fuzzy, kde-format
 msgctxt "@option:radio Show on startup"
 msgid "Folders, tabs, and window state from last time"
 msgstr "Fólderes"
 
-#: settings/interface/folderstabssettingspage.cpp:60
+#: settings/interface/folderstabssettingspage.cpp:58
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Show on startup:"
@@ -4737,37 +4737,37 @@ msgid "Show home location on startup"
 msgstr "Monstrar al inicie:"
 
 #. i18n: For entering the absolute path to a user-specified home folder. Default: /home/userName/
-#: settings/interface/folderstabssettingspage.cpp:67
+#: settings/interface/folderstabssettingspage.cpp:65
 #, fuzzy, kde-format
 msgctxt "@info:placeholder"
 msgid "Enter home location path"
 msgstr "Panel de localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:74
+#: settings/interface/folderstabssettingspage.cpp:72
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
 msgstr "Usar un predefinit localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:84
+#: settings/interface/folderstabssettingspage.cpp:82
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Current Location"
 msgstr "Usar li actual localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:88
+#: settings/interface/folderstabssettingspage.cpp:86
 #, kde-format
 msgctxt "@action:button"
 msgid "Use Default Location"
 msgstr "Usar un predefinit localisation"
 
-#: settings/interface/folderstabssettingspage.cpp:96
+#: settings/interface/folderstabssettingspage.cpp:94
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Show on startup:"
 msgstr "Monstrar al inicie:"
 
-#: settings/interface/folderstabssettingspage.cpp:109
+#: settings/interface/folderstabssettingspage.cpp:107
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Open files and folders:"
@@ -4775,13 +4775,13 @@ msgctxt "@label:checkbox"
 msgid "Opening Folders:"
 msgstr "Fólderes:"
 
-#: settings/interface/folderstabssettingspage.cpp:110
+#: settings/interface/folderstabssettingspage.cpp:108
 #, fuzzy, kde-format
 msgctxt "@option:check Opening Folders"
 msgid "Keep a single Dolphin window, opening new folders in tabs"
 msgstr "Fólderes"
 
-#: settings/interface/folderstabssettingspage.cpp:114
+#: settings/interface/folderstabssettingspage.cpp:112
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "New &Window"
@@ -4789,13 +4789,13 @@ msgctxt "@label:checkbox"
 msgid "Window:"
 msgstr "Fenestre:"
 
-#: settings/interface/folderstabssettingspage.cpp:115
+#: settings/interface/folderstabssettingspage.cpp:113
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
 msgstr "Monstrar li complet rute in li titul"
 
-#: settings/interface/folderstabssettingspage.cpp:118
+#: settings/interface/folderstabssettingspage.cpp:116
 #, fuzzy, kde-format
 #| msgctxt "@option:check Startup Settings"
 #| msgid "Show filter bar"
@@ -4803,7 +4803,7 @@ msgctxt "@option:check Window Startup Settings"
 msgid "Show filter bar"
 msgstr "Revelar celat files"
 
-#: settings/interface/folderstabssettingspage.cpp:124
+#: settings/interface/folderstabssettingspage.cpp:122
 #, fuzzy, kde-format
 #| msgctxt "option:radio"
 #| msgid "At end of tab bar"
@@ -4811,13 +4811,15 @@ msgctxt "@option:check"
 msgid "Always show tab bar"
 msgstr "Al fin del barra de cartes"
 
-#: settings/interface/folderstabssettingspage.cpp:125
-#, kde-format
+#: settings/interface/folderstabssettingspage.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Label width:"
 msgctxt "@label:checkbox"
-msgid "Tab bar:"
-msgstr ""
+msgid "Tab width:"
+msgstr "Largore de etiquette:"
 
-#: settings/interface/folderstabssettingspage.cpp:126
+#: settings/interface/folderstabssettingspage.cpp:124
 #, fuzzy, kde-format
 #| msgctxt "@label:textbox"
 #| msgid "Show on startup:"
@@ -4825,16 +4827,22 @@ msgctxt "@option:check"
 msgid "Show close button on tabs"
 msgstr "Monstrar al inicie:"
 
+#: settings/interface/folderstabssettingspage.cpp:127
+#, kde-format
+msgctxt "@option:radio size as in tab width"
+msgid "Tab width adapts to folder name"
+msgstr ""
+
+#: settings/interface/folderstabssettingspage.cpp:128
+#, kde-format
+msgctxt "@option:radio size as in tab width"
+msgid "Tabs all have the same fixed width"
+msgstr ""
+
 #: settings/interface/folderstabssettingspage.cpp:129
 #, kde-format
 msgctxt "@option:radio width as in tab width"
 msgid "Tabs span the available width"
-msgstr ""
-
-#: settings/interface/folderstabssettingspage.cpp:130
-#, kde-format
-msgctxt "@option:radio size as in tab size"
-msgid "Tabs have all the same fixed size"
 msgstr ""
 
 #: settings/interface/folderstabssettingspage.cpp:134
@@ -4845,48 +4853,48 @@ msgctxt "@title:group"
 msgid "Tab style: "
 msgstr "Stil de date:"
 
-#: settings/interface/folderstabssettingspage.cpp:137
+#: settings/interface/folderstabssettingspage.cpp:138
 #, kde-format
 msgctxt "option:radio"
 msgid "After current tab"
 msgstr "Pos li actual carte"
 
-#: settings/interface/folderstabssettingspage.cpp:138
+#: settings/interface/folderstabssettingspage.cpp:139
 #, kde-format
 msgctxt "option:radio"
 msgid "At end of tab bar"
 msgstr "Al fin del barra de cartes"
 
-#: settings/interface/folderstabssettingspage.cpp:142
+#: settings/interface/folderstabssettingspage.cpp:143
 #, kde-format
 msgctxt "@title:group"
 msgid "Open new tabs: "
 msgstr "Aperter nov cartes: "
 
-#: settings/interface/folderstabssettingspage.cpp:148
+#: settings/interface/folderstabssettingspage.cpp:149
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "When closing a split view"
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgid "Close the active pane"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, kde-format
 msgid "Close the inactive pane"
 msgstr ""
 
-#: settings/interface/folderstabssettingspage.cpp:150
+#: settings/interface/folderstabssettingspage.cpp:151
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Close right view"
 msgid "Close the right pane"
 msgstr "Cluder li dextri vise"
 
-#: settings/interface/folderstabssettingspage.cpp:157
+#: settings/interface/folderstabssettingspage.cpp:158
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Split view"
@@ -4894,19 +4902,19 @@ msgctxt "@title:group"
 msgid "Split view: "
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:160
+#: settings/interface/folderstabssettingspage.cpp:161
 #, fuzzy, kde-format
 msgctxt "option:check split view panes"
 msgid "Switch between views with Tab key"
 msgstr "Clude fenestres con multiplic cartes"
 
-#: settings/interface/folderstabssettingspage.cpp:164
+#: settings/interface/folderstabssettingspage.cpp:165
 #, fuzzy, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Open new windows in split view mode"
 msgstr "Vise"
 
-#: settings/interface/folderstabssettingspage.cpp:330
+#: settings/interface/folderstabssettingspage.cpp:339
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid ""
