@@ -10,6 +10,7 @@
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>
 #include <KFileMetaData/UserMetaData>
+#include <kfilemetadata_version.h>
 
 #include <QCollator>
 #include <QSize>
@@ -34,28 +35,34 @@ QString tagsFromValues(const QStringList &values)
     using Property = KFileMetaData::Property::Property;
     // Mapping from the KFM::Property to the KFileItemModel roles.
     const QHash<Property, QByteArray> propertyRoleMap() {
-        static const auto map = QHash<Property, QByteArray> {
-            { Property::Rating,            QByteArrayLiteral("rating") },
-            { Property::Comment,           QByteArrayLiteral("comment") },
-            { Property::Title,             QByteArrayLiteral("title") },
-            { Property::Author,            QByteArrayLiteral("author") },
-            { Property::Publisher,         QByteArrayLiteral("publisher") },
-            { Property::PageCount,         QByteArrayLiteral("pageCount") },
-            { Property::WordCount,         QByteArrayLiteral("wordCount") },
-            { Property::LineCount,         QByteArrayLiteral("lineCount") },
-            { Property::Width,             QByteArrayLiteral("width") },
-            { Property::Height,            QByteArrayLiteral("height") },
-            { Property::ImageDateTime,     QByteArrayLiteral("imageDateTime") },
-            { Property::ImageOrientation,  QByteArrayLiteral("orientation") },
-            { Property::Artist,            QByteArrayLiteral("artist") },
-            { Property::Genre,             QByteArrayLiteral("genre")  },
-            { Property::Album,             QByteArrayLiteral("album") },
-            { Property::Duration,          QByteArrayLiteral("duration") },
-            { Property::BitRate,           QByteArrayLiteral("bitrate") },
-            { Property::AspectRatio,       QByteArrayLiteral("aspectRatio") },
-            { Property::FrameRate,         QByteArrayLiteral("frameRate") },
-            { Property::ReleaseYear,       QByteArrayLiteral("releaseYear") },
-            { Property::TrackNumber,       QByteArrayLiteral("track") }
+        static const auto map = QHash<Property, QByteArray>{
+            {Property::Rating, QByteArrayLiteral("rating")},
+            {Property::Comment, QByteArrayLiteral("comment")},
+            {Property::Title, QByteArrayLiteral("title")},
+            {Property::Author, QByteArrayLiteral("author")},
+            {Property::Publisher, QByteArrayLiteral("publisher")},
+            {Property::PageCount, QByteArrayLiteral("pageCount")},
+            {Property::WordCount, QByteArrayLiteral("wordCount")},
+            {Property::LineCount, QByteArrayLiteral("lineCount")},
+            {Property::Width, QByteArrayLiteral("width")},
+            {Property::Height, QByteArrayLiteral("height")},
+            {Property::ImageDateTime, QByteArrayLiteral("imageDateTime")},
+            {Property::ImageOrientation, QByteArrayLiteral("orientation")},
+            {Property::Artist, QByteArrayLiteral("artist")},
+            {Property::Genre, QByteArrayLiteral("genre")},
+            {Property::Album, QByteArrayLiteral("album")},
+            {Property::Duration, QByteArrayLiteral("duration")},
+            {Property::BitRate, QByteArrayLiteral("bitrate")},
+            {Property::AspectRatio, QByteArrayLiteral("aspectRatio")},
+            {Property::FrameRate, QByteArrayLiteral("frameRate")},
+            {Property::ReleaseYear, QByteArrayLiteral("releaseYear")},
+            {Property::TrackNumber, QByteArrayLiteral("track")},
+#if KFILEMETADATA_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+            {Property::AudioCodec, QByteArrayLiteral("audioCodec")},
+            {Property::VideoCodec, QByteArrayLiteral("videoCodec")},
+            {Property::PixelFormat, QByteArrayLiteral("pixelFormat")},
+            {Property::ColorSpace, QByteArrayLiteral("colorSpace")},
+#endif
         };
         return map;
     }
